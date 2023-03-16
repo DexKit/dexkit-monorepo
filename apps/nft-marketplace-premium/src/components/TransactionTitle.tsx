@@ -112,7 +112,7 @@ export function TransactionTitle({ metadata, type }: Props) {
                   )}
                 </b>
               ),
-              sellSymbol: meta.sellToken.symbol,
+              sellSymbol: meta.sellToken.symbol.toUpperCase(),
               buyAmount: (
                 <b>
                   {ethers.utils.formatUnits(
@@ -121,7 +121,7 @@ export function TransactionTitle({ metadata, type }: Props) {
                   )}
                 </b>
               ),
-              buySymbol: meta.buyToken.symbol,
+              buySymbol: meta.buyToken.symbol.toUpperCase(),
             }}
           />
         );
@@ -135,8 +135,7 @@ export function TransactionTitle({ metadata, type }: Props) {
             defaultMessage="Approve {name} ({symbol}) to trade"
             description="Approve collection for listing"
             values={{
-              amount: <b>{ethers.utils.formatUnits(amount, decimals)}</b>,
-              symbol: <b>{symbol}</b>,
+              symbol: <b>{symbol.toUpperCase()}</b>,
               name: <b>{name}</b>,
             }}
           />

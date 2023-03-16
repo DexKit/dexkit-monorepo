@@ -36,17 +36,23 @@ import { Token } from "../../types";
 import { isAddressEqual, switchNetwork } from "../../utils";
 import { ExecType, NotificationCallbackParams, SwapSide } from "./types";
 
-export function useErc20ApproveMutation(
-  options?: Omit<UseMutationOptions, any>
-) {
+export function useErc20ApproveMutation({
+  options,
+  onNotification,
+}: {
+  options?: Omit<UseMutationOptions, any>;
+  onNotification: (params: NotificationCallbackParams) => void;
+}) {
   const mutation = useMutation(
     async ({
       spender,
       amount,
       tokenAddress,
       provider,
+      token,
     }: {
       spender: string;
+      token: Token;
       amount: ethers.BigNumber;
       tokenAddress?: string;
       provider?: ethers.providers.Web3Provider;
@@ -62,6 +68,18 @@ export function useErc20ApproveMutation(
       );
 
       const tx = await contract.approve(spender, amount);
+
+      const chainId = (await provider.getNetwork()).chainId;
+
+      onNotification({
+        chainId,
+        title: "Approve token",
+        hash: tx.hash,
+        params: {
+          type: "approve",
+          token,
+        },
+      });
 
       return await tx.wait();
     },
@@ -193,6 +211,8 @@ export interface SwapExecParams {
   quote: ZeroExQuoteResponse;
   provider?: ethers.providers.Web3Provider;
   onHash: (hash: string) => void;
+  sellToken: Token;
+  buyToken: Token;
 }
 
 export function useSwapExec({
@@ -202,44 +222,59 @@ export function useSwapExec({
 }) {
   const { formatMessage } = useIntl();
 
-  return useMutation(async ({ quote, provider, onHash }: SwapExecParams) => {
-    if (!provider) {
-      throw new Error("no provider");
+  return useMutation(
+    async ({
+      quote,
+      provider,
+      onHash,
+      sellToken,
+      buyToken,
+    }: SwapExecParams) => {
+      if (!provider) {
+        throw new Error("no provider");
+      }
+
+      const maxFeePerGas = (await provider.getFeeData()).maxFeePerGas;
+      const maxPriorityFeePerGas = (await provider.getFeeData())
+        .maxPriorityFeePerGas;
+
+      if (!maxFeePerGas || !maxPriorityFeePerGas) {
+        throw new Error("no max fee per gas");
+      }
+
+      const chainId = (await provider.getNetwork()).chainId;
+
+      try {
+        const tx = await provider.getSigner().sendTransaction({
+          data: quote?.data,
+          value: ethers.BigNumber.from(quote?.value),
+          to: quote?.to,
+        });
+
+        onNotification({
+          chainId,
+          title: formatMessage({
+            id: "swap.tokens",
+            defaultMessage: "Swap Tokens", // TODO: add token symbols and amounts
+          }),
+          hash: tx.hash,
+          params: {
+            type: "swap",
+            sellAmount: quote.sellAmount,
+            buyAmount: quote.buyAmount,
+            sellToken,
+            buyToken,
+          },
+        });
+
+        onHash(tx.hash);
+
+        return await tx.wait();
+      } catch (err) {
+        throw err;
+      }
     }
-
-    const maxFeePerGas = (await provider.getFeeData()).maxFeePerGas;
-    const maxPriorityFeePerGas = (await provider.getFeeData())
-      .maxPriorityFeePerGas;
-
-    if (!maxFeePerGas || !maxPriorityFeePerGas) {
-      throw new Error("no max fee per gas");
-    }
-
-    const chainId = (await provider.getNetwork()).chainId;
-
-    try {
-      const tx = await provider.getSigner().sendTransaction({
-        data: quote?.data,
-        value: ethers.BigNumber.from(quote?.value),
-        to: quote?.to,
-      });
-
-      onNotification({
-        chainId,
-        title: formatMessage({
-          id: "swap.tokens",
-          defaultMessage: "Swap Tokens", // TODO: add token symbols and amounts
-        }),
-        hash: tx.hash,
-      });
-
-      onHash(tx.hash);
-
-      return await tx.wait();
-    } catch (err) {
-      throw err;
-    }
-  });
+  );
 }
 
 export function useSwapState({
@@ -278,6 +313,7 @@ export function useSwapState({
       amount: BigNumber;
       tokenAddress?: string;
       provider?: ethers.providers.Web3Provider;
+      token: Token;
     },
     unknown
   >;
@@ -640,12 +676,14 @@ export function useSwapState({
 
       try {
         const [, data] = quoteQuery.data;
-        if (data) {
+        if (data && sellToken && buyToken) {
           await execMutation.mutateAsync(
             {
               quote: data,
               provider: connectorProvider as providers.Web3Provider,
               onHash: (hash: string) => {},
+              sellToken,
+              buyToken,
             },
             {
               onSuccess: (receipt: ethers.providers.TransactionReceipt) => {},
@@ -684,13 +722,14 @@ export function useSwapState({
     } else if (execType === "approve" && quoteQuery.data) {
       const [, data] = quoteQuery.data;
 
-      if (data) {
+      if (data && sellToken) {
         await approveMutation.mutateAsync(
           {
             spender: data.allowanceTarget,
             provider: connectorProvider as providers.Web3Provider,
             tokenAddress: data.sellTokenAddress,
             amount: ethers.constants.MaxUint256,
+            token: sellToken,
           },
           {
             onSuccess: () => {},
@@ -717,6 +756,7 @@ export function useSwapState({
     quoteQuery.data,
     execType,
     lazySellAmount,
+    sellToken,
     chainId,
     connector,
     connectorProvider,

@@ -6,12 +6,17 @@ import { useCallback, useContext } from 'react';
 import { AppConfigContext } from '../contexts';
 import {
   transactionDialogErrorAtom,
-  transactionDialogHashAtom, transactionDialogMetadataAtom, transactionDialogOpenAtom, transactionDialogRedirectUrlAtom, transactionDialogTypeAtom, transactionsAtom
+  transactionDialogHashAtom,
+  transactionDialogMetadataAtom,
+  transactionDialogOpenAtom,
+  transactionDialogRedirectUrlAtom,
+  transactionDialogTypeAtom,
+  transactionsAtom,
 } from '../state/atoms';
 import {
   TransactionMetadata,
   TransactionStatus,
-  TransactionType
+  TransactionType,
 } from '../types/blockchain';
 
 export function useTransactions() {
@@ -54,6 +59,8 @@ export function useTransactions() {
     (hash: string, type: TransactionType, metadata?: TransactionMetadata) => {
       if (chainId !== undefined) {
         setHash(hash);
+
+        console.log('chama nego');
 
         updateTransactions((txs) => ({
           ...txs,
@@ -124,8 +131,7 @@ export function useConnectWalletDialog() {
   };
 }
 
-
-// App config context is passed on _app.tsx, in each page we need to pass 
+// App config context is passed on _app.tsx, in each page we need to pass
 // app config in static props to context be initialized
 export function useAppConfig() {
   return useContext(AppConfigContext);

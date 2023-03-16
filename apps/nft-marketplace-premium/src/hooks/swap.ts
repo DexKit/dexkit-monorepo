@@ -3,7 +3,7 @@ import {
   UseMutationOptions,
   useQuery,
 } from '@tanstack/react-query';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 import { NotificationCallbackParams } from '@dexkit/widgets/src/widgets/swap/types';
 import { useWeb3React } from '@web3-react/core';
@@ -17,14 +17,16 @@ import {
   maxSlippageAtom,
   tokensAtom,
 } from '../state/atoms';
-import { Quote, Token } from '../types/blockchain';
-import { useAppConfig, useConnectWalletDialog } from './app';
+import { Quote, Token, TransactionType } from '../types/blockchain';
+import { useAppConfig, useConnectWalletDialog, useTransactions } from './app';
 
 export function useSwapState() {
   const [isAutoSlippage, setIsAutoSlippage] = useAtom(isAutoSlippageAtom);
   const [maxSlippage, setMaxSlippage] = useAtom(maxSlippageAtom);
 
   const appConfig = useAppConfig();
+
+  const { addTransaction } = useTransactions();
 
   const onChangeSlippage = useCallback((value: number) => {
     setMaxSlippage(value);
@@ -36,8 +38,38 @@ export function useSwapState() {
   );
 
   const onNotification = useCallback(
-    ({ title, hash, chainId }: NotificationCallbackParams) => {},
-    []
+    ({ title, hash, chainId, params }: NotificationCallbackParams) => {
+      if (params.type === 'swap') {
+        addTransaction(hash, TransactionType.SWAP, {
+          buyToken: {
+            address: params.buyToken.contractAddress,
+            chainId: params.buyToken.chainId as number,
+            decimals: params.buyToken.decimals,
+            logoURI: params.buyToken.logoURI || '',
+            name: params.buyToken.name,
+            symbol: params.buyToken.symbol,
+          },
+          sellToken: {
+            address: params.sellToken.contractAddress,
+            chainId: params.sellToken.chainId as number,
+            decimals: params.sellToken.decimals,
+            logoURI: params.sellToken.logoURI || '',
+            name: params.sellToken.name,
+            symbol: params.sellToken.symbol,
+          },
+          sellAmount: BigNumber.from(params.sellAmount),
+          buyAmount: BigNumber.from(params.buyAmount),
+        });
+      } else if (params.type === 'approve') {
+        addTransaction(hash, TransactionType.APPROVE, {
+          name: params.token.name,
+          symbol: params.token.symbol,
+          decimals: params.token.decimals,
+          amount: '0',
+        });
+      }
+    },
+    [addTransaction]
   );
 
   const connectWalletDialog = useConnectWalletDialog();

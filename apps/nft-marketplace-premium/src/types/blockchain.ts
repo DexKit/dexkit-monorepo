@@ -1,4 +1,3 @@
-import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
 import { BigNumber } from 'ethers';
 import { ChainId } from '../constants/enum';
 import { Asset, SwapApiOrder } from './nft';
@@ -31,7 +30,7 @@ export interface ApproveTransactionMetadata {
   amount: string;
   symbol: string;
   name?: string;
-  decimals: string;
+  decimals?: number;
 }
 
 export interface ApproveForAllTransactionMetadata {

@@ -39,6 +39,7 @@ const WidgetComponent = () => {
         configsByChain: {},
         currency: 'usd',
         defaultChainId: ChainId.Polygon,
+        zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
         transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
       }}
       {...swapState}

@@ -133,6 +133,7 @@ export default function SwapWizardContainer({
               defaultChainId: swapFormData?.defaultChainId || ChainId.Ethereum,
               featuredTokens: featuredTokens,
               currency: 'usd',
+              zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
               transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
             }}
             {...swapState}

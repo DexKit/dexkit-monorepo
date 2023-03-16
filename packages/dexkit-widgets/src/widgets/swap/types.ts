@@ -82,8 +82,26 @@ export type RenderOptions = {
   currency: string;
 };
 
+export type SwapNotificationParams = {
+  type: "swap";
+  sellToken: Token;
+  buyToken: Token;
+  sellAmount: string;
+  buyAmount: string;
+};
+
+export type ApproveNotificationParams = {
+  type: "approve";
+  token: Token;
+};
+
+export type BaseNotificationParams =
+  | ApproveNotificationParams
+  | SwapNotificationParams;
+
 export type NotificationCallbackParams = {
   title: string;
   hash: string;
   chainId: ChainId;
+  params: BaseNotificationParams;
 };
