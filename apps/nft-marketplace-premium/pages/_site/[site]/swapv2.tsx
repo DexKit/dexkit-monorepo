@@ -1,50 +1,19 @@
-import { ChainId } from '@dexkit/core';
 import { SwapWidget } from '@dexkit/widgets';
 import { NoSsr } from '@mui/material';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { useAtom } from 'jotai';
-import { useUpdateAtom } from 'jotai/utils';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { PageHeader } from 'src/components/PageHeader';
-import { useConnectWalletDialog, useTransactions } from 'src/hooks/app';
 import { useSwapState } from 'src/hooks/swap';
 import { getAppConfig } from 'src/services/app';
-import {
-  isAutoSlippageAtom,
-  maxSlippageAtom,
-  showAppTransactionsAtom,
-} from 'src/state/atoms';
 
 const WidgetComponent = () => {
-  const { setOpen } = useConnectWalletDialog();
-
-  const [maxSlippage, setMaxSlippage] = useAtom(maxSlippageAtom);
-  const [isAutoSlippage, setIsAutoSlippage] = useAtom(isAutoSlippageAtom);
-
-  const { addTransaction } = useTransactions();
-
-  const setShowAppTransactions = useUpdateAtom(showAppTransactionsAtom);
-
   const swapState = useSwapState();
 
-  return (
-    <SwapWidget
-      renderOptions={{
-        disableFooter: true,
-        disableNotificationsButton: true,
-        configsByChain: {},
-        currency: 'usd',
-        defaultChainId: ChainId.Polygon,
-        zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
-        transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
-      }}
-      {...swapState}
-    />
-  );
+  return <SwapWidget {...swapState} />;
 };
 
 const SwapV2Page: NextPage = () => {

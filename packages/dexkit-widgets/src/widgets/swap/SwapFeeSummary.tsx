@@ -8,18 +8,23 @@ import { ChainId } from "../../constants/enum";
 import { NETWORK_SYMBOL } from "../../constants/networks";
 import { useCoinPrices } from "../../hooks";
 import { ZeroExQuoteResponse } from "../../services/zeroex/types";
+import { Token } from "../../types";
 import { formatBigNumber } from "../../utils";
 
 export interface SwapFeeSummaryProps {
   quote?: ZeroExQuoteResponse | null;
   chainId?: ChainId;
   currency: string;
+  sellToken?: Token;
+  buyToken?: Token;
 }
 
 export default function SwapFeeSummary({
   quote,
   chainId,
   currency,
+  sellToken,
+  buyToken,
 }: SwapFeeSummaryProps) {
   const coinPrices = useCoinPrices({
     currency,
@@ -71,6 +76,23 @@ export default function SwapFeeSummary({
     return 0;
   }, [quote]);
 
+  const sellTokenByBuyToken = useMemo(() => {
+    if (buyToken && sellToken && quote) {
+      const sellAmount = parseFloat(
+        formatBigNumber(BigNumber.from(quote.sellAmount), sellToken.decimals)
+      );
+      const buyAmount = parseFloat(
+        formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals)
+      );
+
+      return sellAmount / buyAmount;
+    }
+
+    return 0.0;
+  }, [sellToken, buyToken, quote]);
+
+  const total = useMemo(() => {}, [sellTokenByBuyToken]);
+
   return (
     <Box>
       <Stack spacing={1}>
@@ -84,6 +106,14 @@ export default function SwapFeeSummary({
             </>
           </Typography>
         </Stack> */}
+
+        <Stack spacing={2} direction="row" justifyContent="space-between">
+          <Typography>
+            1 {buyToken?.symbol.toUpperCase()} = {sellTokenByBuyToken}{" "}
+            {sellToken?.symbol.toUpperCase()}
+          </Typography>
+          <Typography color="text.secondary"></Typography>
+        </Stack>
 
         <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>

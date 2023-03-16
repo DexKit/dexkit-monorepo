@@ -5,13 +5,17 @@ import {
 } from '@tanstack/react-query';
 import { BigNumber, ethers } from 'ethers';
 
-import { NotificationCallbackParams } from '@dexkit/widgets/src/widgets/swap/types';
+import {
+  NotificationCallbackParams,
+  RenderOptions,
+} from '@dexkit/widgets/src/widgets/swap/types';
 import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ZERO_EX_QUOTE_ENDPOINT } from '../constants';
-import { ChainId } from '../constants/enum';
+
+import { ChainId } from '@dexkit/core';
 import {
   isAutoSlippageAtom,
   maxSlippageAtom,
@@ -32,10 +36,40 @@ export function useSwapState() {
     setMaxSlippage(value);
   }, []);
 
-  const onAutoSlippage = useCallback(
-    (value: boolean) => setIsAutoSlippage(!value),
-    []
-  );
+  const onAutoSlippage = useCallback((value: boolean) => {
+    setIsAutoSlippage((value) => !value);
+  }, []);
+
+  const config = useAppConfig();
+
+  const featuredTokens = useMemo(() => {
+    return config.tokens
+      ?.map((t) => t.tokens)
+      .flat()
+      .map((t) => {
+        return {
+          chainId: t.chainId as number,
+          contractAddress: t.address,
+          decimals: t.decimals,
+          name: t.name,
+          symbol: t.symbol,
+          logoURI: t.logoURI,
+        };
+      });
+  }, [config]);
+
+  const renderOptions = useMemo(() => {
+    return {
+      disableFooter: true,
+      disableNotificationsButton: true,
+      configsByChain: {},
+      featuredTokens,
+      currency: 'usd',
+      defaultChainId: ChainId.Polygon,
+      zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
+      transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
+    } as RenderOptions;
+  }, [featuredTokens]);
 
   const onNotification = useCallback(
     ({ title, hash, chainId, params }: NotificationCallbackParams) => {
@@ -83,11 +117,12 @@ export function useSwapState() {
   }, []);
 
   return {
+    renderOptions,
+    maxSlippage,
     isAutoSlippage,
     onChangeSlippage,
     onAutoSlippage,
     onNotification,
-    maxSlippage,
     onConnectWallet,
     onShowTransactions,
     swapFees: appConfig.swapFees,
@@ -116,7 +151,7 @@ export function useSwapTokens(chainId?: ChainId) {
     if (!chainId || !tokens) {
       return [];
     }
-    return tokens.filter((t) => t.chainId === chainId);
+    return tokens.filter((t) => t.chainId === (chainId as number));
   }, [tokens, chainId]);
 }
 

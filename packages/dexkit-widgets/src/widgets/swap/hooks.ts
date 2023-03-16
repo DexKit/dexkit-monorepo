@@ -28,7 +28,6 @@ import { hasSufficientAllowance } from "../../services";
 import { ZeroExApiClient } from "../../services/zeroex";
 import {
   ZEROEX_AFFILIATE_ADDRESS,
-  ZEROEX_FEE_RECIPIENT,
   ZEROEX_NATIVE_TOKEN_ADDRESS,
 } from "../../services/zeroex/constants";
 import { ZeroExQuote, ZeroExQuoteResponse } from "../../services/zeroex/types";
@@ -120,10 +119,15 @@ export function useSwapQuote({
   onSuccess,
   maxSlippage,
   zeroExApiKey,
+  swapFees,
 }: {
   onSuccess: (data?: [string, ZeroExQuoteResponse | null]) => void;
   maxSlippage?: number;
   zeroExApiKey?: string;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }): UseQuoteSwap {
   const [params, setParams] = useState<SwapQuoteParams>();
   const [enabled, setEnabled] = useState(true);
@@ -138,6 +142,7 @@ export function useSwapQuote({
       zeroExApiKey,
       skipValidation,
       intentOnFilling,
+      swapFees,
     ],
     async ({ signal }) => {
       if (!params) {
@@ -162,7 +167,10 @@ export function useSwapQuote({
           buyToken: buyToken?.contractAddress,
           sellToken: sellToken?.contractAddress,
           affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-          feeRecipient: ZEROEX_FEE_RECIPIENT,
+          feeRecipient: swapFees?.recipient,
+          buyTokenPercentageFee: swapFees
+            ? swapFees.amount_percentage / 100
+            : undefined,
           skipValidation: canSkipValitaion,
         };
 
@@ -286,6 +294,7 @@ export function useSwapState({
   connector,
   connectorProvider,
   account,
+  swapFees,
   isActive,
   isActivating,
   disableFooter,
@@ -317,6 +326,10 @@ export function useSwapState({
     },
     unknown
   >;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
   disableFooter?: boolean;
   enableBuyCryptoButton?: boolean;
   provider?: ethers.providers.BaseProvider;
@@ -432,6 +445,7 @@ export function useSwapState({
     onSuccess: handleQuoteSuccess,
     maxSlippage: !isAutoSlippage ? maxSlippage : undefined,
     zeroExApiKey,
+    swapFees,
   });
 
   const { quoteQuery } = quote;

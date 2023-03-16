@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useCurrency } from 'src/hooks/currency';
 import { Token } from 'src/types/blockchain';
 import { useSwapState } from '../../../../hooks/swap';
 import { AppConfig, SwapPageSection } from '../../../../types/config';
@@ -102,6 +103,8 @@ export default function SwapWizardContainer({
 
   const swapState = useSwapState();
 
+  const currency = useCurrency();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -126,17 +129,17 @@ export default function SwapWizardContainer({
       <Grid item xs={6}>
         <ThemeProvider theme={swapTheme}>
           <SwapWidget
+            {...swapState}
             renderOptions={{
               configsByChain: swapFormData?.configByChain
                 ? swapFormData?.configByChain
                 : {},
               defaultChainId: swapFormData?.defaultChainId || ChainId.Ethereum,
               featuredTokens: featuredTokens,
-              currency: 'usd',
+              currency,
               zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
               transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
             }}
-            {...swapState}
           />
         </ThemeProvider>
       </Grid>

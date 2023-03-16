@@ -11,9 +11,9 @@ import {
 import { useWeb3React } from '@web3-react/core';
 import { useAtomValue } from 'jotai';
 import { useCallback, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { isBalancesVisibleAtom } from '../state/atoms';
 import { getWalletIcon, truncateAddress } from '../utils/blockchain';
-import { FormattedMessage } from 'react-intl';
 
 interface Props {
   align?: 'center' | 'left';
@@ -38,6 +38,8 @@ export function WalletButton(props: Props) {
   const handleLogoutWallet = useCallback(() => {
     if (connector?.deactivate) {
       connector.deactivate();
+    } else {
+      connector.resetState();
     }
   }, [connector]);
 

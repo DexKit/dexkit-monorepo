@@ -19,6 +19,7 @@ export function SwapSection({ section }: Props) {
     <Box py={8}>
       <Container maxWidth="sm">
         <SwapWidget
+          {...swapState}
           renderOptions={{
             configsByChain: section.config?.configByChain
               ? section.config?.configByChain
@@ -28,7 +29,6 @@ export function SwapSection({ section }: Props) {
             zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
             transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
           }}
-          {...swapState}
         />
       </Container>
     </Box>

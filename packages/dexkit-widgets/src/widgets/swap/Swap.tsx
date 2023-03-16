@@ -252,6 +252,8 @@ export default function Swap({
               quote={quote}
               chainId={chainId}
               currency={currency}
+              sellToken={sellToken}
+              buyToken={buyToken}
             />
           )}
           {insufficientBalance && isActive && (

@@ -39,11 +39,15 @@ export interface SwapWidgetProps {
   isAutoSlippage: boolean;
   onChangeSlippage: (value: number) => void;
   onAutoSlippage: (value: boolean) => void;
-  swapFees?: {};
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export function SwapWidget({
   disableWallet,
+  swapFees,
   renderOptions: options,
   onNotification,
   onConnectWallet,
@@ -136,6 +140,7 @@ export function SwapWidget({
     onShowTransactions,
     connector,
     account,
+    swapFees,
     isActive: isActive && !disableWallet,
     isActivating,
     maxSlippage,

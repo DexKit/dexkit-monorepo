@@ -105,7 +105,13 @@ export default function SwapConfirmDialog({
             </Stack>
           )}
           <Divider />
-          <SwapFeeSummary quote={quote} chainId={chainId} currency={currency} />
+          <SwapFeeSummary
+            quote={quote}
+            chainId={chainId}
+            currency={currency}
+            sellToken={sellToken}
+            buyToken={buyToken}
+          />
         </Stack>
       </DialogContent>
       <Divider />
