@@ -1,20 +1,9 @@
-import {
-  ChainConfig,
-  RenderOptions,
-} from '@dexkit/widgets/src/widgets/swap/types';
+import { RenderOptions } from '@dexkit/widgets/src/widgets/swap/types';
 
 import { Container } from '@mui/material';
 import type { CellPlugin } from '@react-page/editor';
 import { SwapConfigForm } from '../../forms/SwapConfigForm';
 import SwapWidget from '../components/SwapWidget';
-
-type Render = {
-  defaultChainId?: number;
-  defaultEditChainId?: number;
-  configByChain?: {
-    [chain: number]: ChainConfig;
-  };
-};
 
 // you can pass the shape of the data as the generic type argument
 const Swap2Plugin: CellPlugin<RenderOptions> = {

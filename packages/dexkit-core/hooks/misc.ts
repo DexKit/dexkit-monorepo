@@ -1,3 +1,5 @@
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 
@@ -21,4 +23,10 @@ export function useBlockNumber() {
   }, [provider]);
 
   return blockNumber;
+}
+
+export function useIsMobile() {
+  const theme = useTheme();
+
+  return useMediaQuery(theme.breakpoints.down("sm"));
 }

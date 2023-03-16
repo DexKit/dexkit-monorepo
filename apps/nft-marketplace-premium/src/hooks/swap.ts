@@ -1,14 +1,66 @@
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from '@tanstack/react-query';
 import { ethers } from 'ethers';
-import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 
+import { NotificationCallbackParams } from '@dexkit/widgets/src/widgets/swap/types';
 import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
 import { useAtom } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ZERO_EX_QUOTE_ENDPOINT } from '../constants';
 import { ChainId } from '../constants/enum';
-import { tokensAtom } from '../state/atoms';
+import {
+  isAutoSlippageAtom,
+  maxSlippageAtom,
+  tokensAtom,
+} from '../state/atoms';
 import { Quote, Token } from '../types/blockchain';
+import { useAppConfig, useConnectWalletDialog } from './app';
+
+export function useSwapState() {
+  const [isAutoSlippage, setIsAutoSlippage] = useAtom(isAutoSlippageAtom);
+  const [maxSlippage, setMaxSlippage] = useAtom(maxSlippageAtom);
+
+  const appConfig = useAppConfig();
+
+  const onChangeSlippage = useCallback((value: number) => {
+    setMaxSlippage(value);
+  }, []);
+
+  const onAutoSlippage = useCallback(
+    (value: boolean) => setIsAutoSlippage(!value),
+    []
+  );
+
+  const onNotification = useCallback(
+    ({ title, hash, chainId }: NotificationCallbackParams) => {},
+    []
+  );
+
+  const connectWalletDialog = useConnectWalletDialog();
+
+  const onConnectWallet = useCallback(() => {
+    connectWalletDialog.setOpen(true);
+  }, []);
+
+  const onShowTransactions = useCallback(() => {
+    // do nothing
+  }, []);
+
+  return {
+    isAutoSlippage,
+    onChangeSlippage,
+    onAutoSlippage,
+    onNotification,
+    maxSlippage,
+    onConnectWallet,
+    onShowTransactions,
+    swapFees: appConfig.swapFees,
+  };
+}
 
 export function useDebounce<T>(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -81,14 +133,14 @@ export function useSwapQuote({
             buyAmount:
               buyAmount !== ''
                 ? ethers.utils
-                  .parseUnits(buyAmount, buyToken?.decimals)
-                  .toString()
+                    .parseUnits(buyAmount, buyToken?.decimals)
+                    .toString()
                 : undefined,
             sellAmount:
               sellAmount !== ''
                 ? ethers.utils
-                  .parseUnits(sellAmount, sellToken?.decimals)
-                  .toString()
+                    .parseUnits(sellAmount, sellToken?.decimals)
+                    .toString()
                 : undefined,
             takerAddress,
             skipValidation,

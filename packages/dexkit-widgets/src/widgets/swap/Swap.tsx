@@ -1,5 +1,6 @@
 import {
   Alert,
+  Avatar,
   Box,
   Button,
   Card,
@@ -18,6 +19,8 @@ import SwapTokenField from "./SwapCurrencyField";
 import SwapSwitchTokensButton from "./SwapSwitchTokensButton";
 import { ExecType, SwapSide } from "./types";
 
+import { NETWORKS } from "@dexkit/core/constants/networks";
+import { useIsMobile } from "@dexkit/core/hooks";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -62,6 +65,7 @@ export interface SwapProps {
   onChangeBuyAmount: (value: BigNumber) => void;
   onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
+  onToggleChangeNetwork: () => void;
   onShowSettings: () => void;
   onShowTransactions: () => void;
   onExec: () => void;
@@ -99,6 +103,7 @@ export default function Swap({
   onShowTransactions,
   onExec,
   onShowTransak,
+  onToggleChangeNetwork,
 }: SwapProps) {
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
@@ -114,7 +119,7 @@ export default function Swap({
         <FormattedMessage
           id="insufficient.symbol.balance"
           defaultMessage="Insufficient {symbol} balance"
-          values={{ symbol: sellToken?.symbol }}
+          values={{ symbol: sellToken?.symbol.toUpperCase() }}
         />
       );
     }
@@ -132,6 +137,8 @@ export default function Swap({
     );
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <Card>
       <Box sx={{ p: 2 }}>
@@ -142,13 +149,34 @@ export default function Swap({
           spacing={2}
         >
           <Box>
-            {isProviderReady && (
-              <SwitchNetworkSelect
-                chainId={chainId}
-                onChangeNetwork={onChangeNetwork}
-                SelectProps={{ size: "small" }}
-              />
-            )}
+            {isProviderReady &&
+              chainId &&
+              (isMobile ? (
+                <Button
+                  sx={{
+                    color: (theme) => theme.palette.text.primary,
+                    borderColor: (theme) => theme.palette.divider,
+                  }}
+                  onClick={onToggleChangeNetwork}
+                  startIcon={
+                    NETWORKS[chainId] ? (
+                      <Avatar
+                        sx={{ width: "1rem", height: "1rem" }}
+                        src={NETWORKS[chainId].imageUrl}
+                      />
+                    ) : undefined
+                  }
+                  variant="outlined"
+                >
+                  {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
+                </Button>
+              ) : (
+                <SwitchNetworkSelect
+                  chainId={chainId}
+                  onChangeNetwork={onChangeNetwork}
+                  SelectProps={{ size: "small" }}
+                />
+              ))}
           </Box>
 
           <Stack
@@ -231,7 +259,7 @@ export default function Swap({
               <FormattedMessage
                 id="insufficient.symbol.balance"
                 defaultMessage="Insufficient {symbol} balance"
-                values={{ symbol: sellToken?.symbol }}
+                values={{ symbol: sellToken?.symbol.toUpperCase() }}
               />
             </Alert>
           )}

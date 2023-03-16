@@ -11,6 +11,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { PageHeader } from 'src/components/PageHeader';
 import { useConnectWalletDialog, useTransactions } from 'src/hooks/app';
+import { useSwapState } from 'src/hooks/swap';
 import { getAppConfig } from 'src/services/app';
 import {
   isAutoSlippageAtom,
@@ -28,6 +29,8 @@ const WidgetComponent = () => {
 
   const setShowAppTransactions = useUpdateAtom(showAppTransactionsAtom);
 
+  const swapState = useSwapState();
+
   return (
     <SwapWidget
       renderOptions={{
@@ -36,21 +39,9 @@ const WidgetComponent = () => {
         configsByChain: {},
         currency: 'usd',
         defaultChainId: ChainId.Polygon,
-        transakApiKey:
-          process.env.NEXT_PUBLIC_TRANSAK_API_KEY ||
-          `4cf44cc4-69d7-4f4d-8237-05cc9076aa41`,
+        transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
       }}
-      onConnectWallet={() => {
-        setOpen(true);
-      }}
-      onNotification={({ title, hash, chainId }) => {}}
-      onShowTransactions={() => {
-        setShowAppTransactions(true);
-      }}
-      isAutoSlippage={isAutoSlippage}
-      maxSlippage={maxSlippage}
-      onAutoSlippage={(value: boolean) => setIsAutoSlippage(value)}
-      onChangeSlippage={(value: number) => setMaxSlippage(value)}
+      {...swapState}
     />
   );
 };

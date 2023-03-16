@@ -37,13 +37,15 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
-import { useAppConfig, useConnectWalletDialog } from '../hooks/app';
+import { AppConfig } from 'src/types/config';
+import { useConnectWalletDialog } from '../hooks/app';
 import { useSelectNetworkDialog } from '../hooks/misc';
 import {
   currencyAtom,
   drawerIsOpenAtom,
   hasPendingTransactionsAtom,
   localeAtom,
+  showAppTransactionsAtom,
   showSelectCurrencyAtom,
   showSelectLocaleAtom,
   uncheckedTransactionsAtom,
@@ -54,7 +56,6 @@ import Notification from './icons/Notification';
 import Wallet from './icons/Wallet';
 import NavbarMenu from './Menu';
 import { WalletButton } from './WalletButton';
-import { AppConfig } from 'src/types/config';
 
 interface Props {
   appConfig: AppConfig;
@@ -104,7 +105,9 @@ function Navbar({ appConfig, isPreview }: Props) {
     return uncheckedTransactions.filter((tx) => tx.chainId === chainId);
   }, [chainId, uncheckedTransactions]);
 
-  const [showTransactions, setShowTransactions] = useState(false);
+  const [showTransactions, setShowTransactions] = useAtom(
+    showAppTransactionsAtom
+  );
 
   const handleOpenTransactions = () => setShowTransactions(true);
   const handleCloseNotifications = () => setShowTransactions(false);

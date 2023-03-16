@@ -345,13 +345,8 @@ export function useSwapState({
   const [buyToken, setBuyToken] = useState<Token | undefined>();
 
   useEffect(() => {
-    if (defaultSellToken) {
-      setSellToken(defaultSellToken);
-    }
-
-    if (defaultBuyToken) {
-      setBuyToken(defaultBuyToken);
-    }
+    setSellToken(defaultSellToken);
+    setBuyToken(defaultBuyToken);
   }, [defaultBuyToken, defaultSellToken]);
 
   const [sellAmount, setSellAmount] = useState<BigNumber>(BigNumber.from(0));

@@ -1,3 +1,4 @@
+import { useIsMobile } from "@dexkit/core/hooks";
 import Search from "@mui/icons-material/Search";
 
 import {
@@ -68,8 +69,10 @@ export default function SwapSelectCoinDialog({
     [provider]
   );
 
+  const isMobile = useIsMobile();
+
   return (
-    <Dialog {...DialogProps} onClose={handleClose}>
+    <Dialog {...DialogProps} onClose={handleClose} fullScreen={isMobile}>
       <AppDialogTitle
         title={
           <FormattedMessage id="select.token" defaultMessage="Select token" />
@@ -116,7 +119,6 @@ export default function SwapSelectCoinDialog({
                   <Box
                     sx={{
                       px: 2,
-                      background: (theme) => theme.palette.grey[200],
                     }}
                   >
                     <Stack

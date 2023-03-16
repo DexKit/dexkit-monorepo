@@ -1,5 +1,6 @@
 import type { CellPlugin } from '@react-page/editor';
 import SwapWidget from '../components/SwapWidget';
+
 const SwapPlugin: CellPlugin = {
   Renderer: () => <SwapWidget />,
 

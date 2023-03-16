@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.whitelabel-nft.dexkit.com
+Host: https://whitelabel-nft.dexkit.com
 
 # Sitemaps
-Sitemap: https://www.whitelabel-nft.dexkit.com/sitemap.xml
+Sitemap: https://whitelabel-nft.dexkit.com/sitemap.xml

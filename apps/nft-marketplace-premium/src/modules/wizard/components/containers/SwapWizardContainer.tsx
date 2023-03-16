@@ -2,8 +2,8 @@ import { SwapConfig } from '@/modules/swap/types';
 import { SwapWidget } from '@dexkit/widgets';
 import { Token as WidgetToken } from '@dexkit/widgets/src/types';
 
-import { ThemeProvider } from '@emotion/react';
-import { Theme } from '@mui/material';
+import { ChainId } from '@dexkit/core/constants';
+import { Theme, ThemeProvider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -12,11 +12,11 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Token } from 'src/types/blockchain';
+import { useSwapState } from '../../../../hooks/swap';
 import { AppConfig, SwapPageSection } from '../../../../types/config';
 import { StepperButtonProps } from '../../types';
 import { SwapConfigForm } from '../forms/SwapConfigForm';
 import { StepperButtons } from '../steppers/StepperButtons';
-
 interface Props {
   config: AppConfig;
   swapTheme: Theme;
@@ -90,13 +90,17 @@ export default function SwapWizardContainer({
   const handleSave = () => {
     onSave(changeConfig(config, swapFormData));
   };
+
   const handleOnChange = (form: SwapConfig) => {
     setSwapFormData(form);
     onChange(changeConfig(config, swapFormData));
   };
+
   useEffect(() => {
     onChange(changeConfig(config, swapFormData));
   }, [swapFormData]);
+
+  const swapState = useSwapState();
 
   return (
     <Grid container spacing={2}>
@@ -122,22 +126,16 @@ export default function SwapWizardContainer({
       <Grid item xs={6}>
         <ThemeProvider theme={swapTheme}>
           <SwapWidget
-            onAutoSlippage={() => {}}
-            isAutoSlippage
-            onChangeSlippage={() => {}}
-            onConnectWallet={() => {}}
-            maxSlippage={0}
-            onNotification={() => {}}
             renderOptions={{
               configsByChain: swapFormData?.configByChain
                 ? swapFormData?.configByChain
                 : {},
-              defaultChainId: swapFormData?.defaultChainId,
+              defaultChainId: swapFormData?.defaultChainId || ChainId.Ethereum,
               featuredTokens: featuredTokens,
               currency: 'usd',
+              transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
             }}
-            disableWallet={true}
-            onShowTransactions={() => {}}
+            {...swapState}
           />
         </ThemeProvider>
       </Grid>
