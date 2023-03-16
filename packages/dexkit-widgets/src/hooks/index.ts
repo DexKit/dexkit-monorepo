@@ -20,7 +20,6 @@ import { MagicLoginType } from "../connectors/magic";
 import { CONNECTORS, WRAPED_TOKEN_ADDRESS } from "../constants";
 import { ERC20Abi, WETHAbi } from "../constants/abis";
 import { ChainId } from "../constants/enum";
-import { NETWORKS } from "../constants/networks";
 import { getPricesByChain, getTokensBalance } from "../services";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "../services/zeroex/constants";
 import { Token, Transaction } from "../types";
@@ -210,14 +209,15 @@ export function useWrapToken({
 
       const tx = await contract.deposit({ value: amount });
 
-      onNotification({
-        chainId,
-        title: formatMessage(
-          { id: "wrap.symbol", defaultMessage: "Wrap {symbol}" },
-          { symbol: NETWORKS[chainId].symbol }
-        ),
-        hash: tx.hash,
-      });
+      // onNotification({
+      //   chainId,
+      //   title: formatMessage(
+      //     { id: "wrap.symbol", defaultMessage: "Wrap {symbol}" },
+      //     { symbol: NETWORKS[chainId].symbol }
+      //   ),
+      //   hash: tx.hash,
+      //   params: {},
+      // });
 
       onHash(tx.hash);
 
@@ -250,14 +250,14 @@ export function useWrapToken({
 
       const tx = await contract.withdraw(amount);
 
-      onNotification({
-        chainId,
-        title: formatMessage(
-          { id: "wrap.symbol", defaultMessage: "Unwrap {symbol}" },
-          { symbol: NETWORKS[chainId].symbol }
-        ),
-        hash: tx.hash,
-      });
+      // onNotification({
+      //   chainId,
+      //   title: formatMessage(
+      //     { id: "wrap.symbol", defaultMessage: "Unwrap {symbol}" },
+      //     { symbol: NETWORKS[chainId].symbol }
+      //   ),
+      //   hash: tx.hash,
+      // });
 
       onHash(tx.hash);
 
