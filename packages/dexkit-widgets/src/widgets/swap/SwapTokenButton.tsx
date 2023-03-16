@@ -38,9 +38,9 @@ function SwapTokenButton({ token, ButtonBaseProps }: SwapTokenButtonProps) {
               width: theme.spacing(4),
             })}
             src={
-              token?.contractAddress
-                ? TOKEN_ICON_URL(token?.contractAddress, token.chainId)
-                : token?.logoURI
+              token.logoURI
+                ? token.logoURI
+                : TOKEN_ICON_URL(token.contractAddress, token.chainId)
             }
           />
 
