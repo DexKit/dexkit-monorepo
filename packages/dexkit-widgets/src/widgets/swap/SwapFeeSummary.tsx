@@ -1,4 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Info } from "@mui/icons-material";
+import { Box, Stack, Tooltip, Typography } from "@mui/material";
 import { BigNumber, ethers } from "ethers";
 import { useMemo } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
@@ -73,7 +74,7 @@ export default function SwapFeeSummary({
   return (
     <Box>
       <Stack spacing={1}>
-        <Stack spacing={2} direction="row" justifyContent="space-between">
+        {/* <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>
             <FormattedMessage id="gas.price" defaultMessage="Gas Price" />
           </Typography>
@@ -82,28 +83,51 @@ export default function SwapFeeSummary({
               {formatBigNumber(maxFee, 18)} {NETWORK_SYMBOL(chainId)}
             </>
           </Typography>
-        </Stack>
+        </Stack> */}
+
         <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>
-            <FormattedMessage id="gas.price" defaultMessage="Amount" />
+            <FormattedMessage id="price.impact" defaultMessage="Price impact" />
+          </Typography>
+          <Typography
+            color="text.secondary"
+            sx={(theme) => ({
+              color:
+                priceImpact > 10
+                  ? theme.palette.error.main
+                  : theme.palette.text.secondary,
+            })}
+          >
+            {priceImpact}%{" "}
+            <Tooltip
+              title={
+                <FormattedMessage
+                  id="you.will.lose.a.large.portion.of.your.money.to.complete.the.transaction"
+                  defaultMessage="You will lose a large portion of your money to complete the transaction"
+                />
+              }
+            >
+              <Info fontSize="inherit" />
+            </Tooltip>
+          </Typography>
+        </Stack>
+        {/* <Stack spacing={2} direction="row" justifyContent="space-between">
+          <Typography>
+            <FormattedMessage id="amount" defaultMessage="Amount" />
           </Typography>
           <Typography color="text.secondary">
             <>
               {formatBigNumber(amount, 18)} {NETWORK_SYMBOL(chainId)}{" "}
             </>
           </Typography>
-        </Stack>
+        </Stack> */}
 
         <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>
-            <FormattedMessage id="price.impact" defaultMessage="Price impact" />
-          </Typography>
-          <Typography color="text.secondary">{priceImpact}%</Typography>
-        </Stack>
-
-        <Stack spacing={2} direction="row" justifyContent="space-between">
-          <Typography>
-            <FormattedMessage id="total" defaultMessage="Total" />
+            <FormattedMessage
+              id="transaction.cost"
+              defaultMessage="Transaction cost"
+            />
           </Typography>
           <Typography color="text.secondary">
             <>
