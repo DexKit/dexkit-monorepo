@@ -240,6 +240,8 @@ export function SwapWidget({
         onConfirm={handleConfirmExecSwap}
         chainId={chainId}
         currency={currency || "usd"}
+        sellToken={sellToken}
+        buyToken={buyToken}
       />
       <SwapSettingsDialog
         DialogProps={{
