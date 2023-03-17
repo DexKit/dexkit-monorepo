@@ -1,3 +1,4 @@
+import { useIsMobile } from "@dexkit/core/hooks";
 import {
   Button,
   Dialog,
@@ -48,8 +49,10 @@ export default function SwapConfirmDialog({
     }
   };
 
+  const isMobile = useIsMobile();
+
   return (
-    <Dialog {...DialogProps} onClose={handleClose}>
+    <Dialog {...DialogProps} onClose={handleClose} fullScreen={isMobile}>
       <AppDialogTitle
         title={
           <FormattedMessage id="confirm.swap" defaultMessage="Confirm swap" />

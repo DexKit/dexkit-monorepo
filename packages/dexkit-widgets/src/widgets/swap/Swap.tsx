@@ -38,7 +38,7 @@ export interface SwapProps {
   currency: string;
   disabled?: boolean;
   quoteFor?: SwapSide;
-  provider?: providers.Web3Provider;
+  provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
   isActivating?: boolean;
   isActive?: boolean;
@@ -86,6 +86,7 @@ export default function Swap({
   sellToken,
   buyToken,
   currency,
+  provider,
   isExecuting,
   disableFooter,
   quote,
@@ -260,6 +261,7 @@ export default function Swap({
               currency={currency}
               sellToken={sellToken}
               buyToken={buyToken}
+              provider={provider}
             />
           )}
           {insufficientBalance && isActive && (

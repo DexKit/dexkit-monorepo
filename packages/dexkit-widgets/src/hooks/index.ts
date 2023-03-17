@@ -428,3 +428,23 @@ export function useRecentTokens() {
     clear,
   };
 }
+
+export const GAS_PRICE_QUERY = "";
+
+export function useGasPrice({
+  provider,
+}: {
+  provider?: ethers.providers.BaseProvider;
+}) {
+  return useQuery(
+    [GAS_PRICE_QUERY],
+    async () => {
+      if (provider) {
+        return await provider.getGasPrice();
+      }
+
+      return BigNumber.from(0);
+    },
+    { refetchInterval: 20000 }
+  );
+}

@@ -105,6 +105,8 @@ export default function SwapWizardContainer({
 
   const currency = useCurrency();
 
+  console.log();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -131,6 +133,7 @@ export default function SwapWizardContainer({
           <SwapWidget
             {...swapState}
             renderOptions={{
+              ...swapState.renderOptions,
               configsByChain: swapFormData?.configByChain
                 ? swapFormData?.configByChain
                 : {},

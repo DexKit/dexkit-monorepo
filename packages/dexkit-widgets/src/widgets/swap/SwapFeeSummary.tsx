@@ -1,12 +1,12 @@
-import { Info } from "@mui/icons-material";
-import { Box, Stack, Tooltip, Typography } from "@mui/material";
+import { Info, Sync } from "@mui/icons-material";
+import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { BigNumber, ethers } from "ethers";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import { GET_NATIVE_TOKEN } from "../../constants";
 import { ChainId } from "../../constants/enum";
 import { NETWORK_SYMBOL } from "../../constants/networks";
-import { useCoinPrices } from "../../hooks";
+import { useCoinPrices, useGasPrice } from "../../hooks";
 import { ZeroExQuoteResponse } from "../../services/zeroex/types";
 import { Token } from "../../types";
 import { formatBigNumber } from "../../utils";
@@ -17,6 +17,7 @@ export interface SwapFeeSummaryProps {
   currency: string;
   sellToken?: Token;
   buyToken?: Token;
+  provider?: ethers.providers.BaseProvider;
 }
 
 export default function SwapFeeSummary({
@@ -25,6 +26,7 @@ export default function SwapFeeSummary({
   currency,
   sellToken,
   buyToken,
+  provider,
 }: SwapFeeSummaryProps) {
   const coinPrices = useCoinPrices({
     currency,
@@ -76,6 +78,12 @@ export default function SwapFeeSummary({
     return 0;
   }, [quote]);
 
+  const [toggleSide, setToggleSide] = useState(false);
+
+  const gasPriceQuery = useGasPrice({ provider });
+
+  const handelToggle = () => setToggleSide((value) => !value);
+
   const sellTokenByBuyToken = useMemo(() => {
     if (buyToken && sellToken && quote) {
       const sellAmount = parseFloat(
@@ -85,13 +93,11 @@ export default function SwapFeeSummary({
         formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals)
       );
 
-      return sellAmount / buyAmount;
+      return toggleSide ? buyAmount / sellAmount : sellAmount / buyAmount;
     }
 
     return 0.0;
-  }, [sellToken, buyToken, quote]);
-
-  const total = useMemo(() => {}, [sellTokenByBuyToken]);
+  }, [sellToken, buyToken, quote, toggleSide]);
 
   return (
     <Box>
@@ -106,29 +112,51 @@ export default function SwapFeeSummary({
             </>
           </Typography>
         </Stack> */}
+        {sellToken && buyToken && sellTokenByBuyToken > 0 && (
+          <Stack spacing={1} direction="row" alignItems="center">
+            {toggleSide ? (
+              <Typography>
+                1 {sellToken?.symbol.toUpperCase()} = {sellTokenByBuyToken}{" "}
+                {buyToken?.symbol.toUpperCase()}
+              </Typography>
+            ) : (
+              <Typography>
+                1 {buyToken?.symbol.toUpperCase()} = {sellTokenByBuyToken}{" "}
+                {sellToken?.symbol.toUpperCase()}
+              </Typography>
+            )}
+            <IconButton onClick={handelToggle} size="small">
+              <Sync fontSize="inherit" />
+            </IconButton>
+          </Stack>
+        )}
 
-        <Stack spacing={2} direction="row" justifyContent="space-between">
-          <Typography>
-            1 {buyToken?.symbol.toUpperCase()} = {sellTokenByBuyToken}{" "}
-            {sellToken?.symbol.toUpperCase()}
-          </Typography>
-          <Typography color="text.secondary"></Typography>
-        </Stack>
-
-        <Stack spacing={2} direction="row" justifyContent="space-between">
+        <Stack
+          spacing={1}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography>
             <FormattedMessage id="price.impact" defaultMessage="Price impact" />
           </Typography>
-          <Typography
-            color="text.secondary"
-            sx={(theme) => ({
-              color:
-                priceImpact > 10
-                  ? theme.palette.error.main
-                  : theme.palette.text.secondary,
-            })}
+          <Stack
+            spacing={1}
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            {priceImpact}%{" "}
+            <Typography
+              color="text.secondary"
+              sx={(theme) => ({
+                color:
+                  priceImpact > 10
+                    ? theme.palette.error.main
+                    : theme.palette.text.secondary,
+              })}
+            >
+              {priceImpact}%{" "}
+            </Typography>
             <Tooltip
               title={
                 <FormattedMessage
@@ -139,7 +167,7 @@ export default function SwapFeeSummary({
             >
               <Info fontSize="inherit" />
             </Tooltip>
-          </Typography>
+          </Stack>
         </Stack>
         {/* <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>
@@ -152,24 +180,54 @@ export default function SwapFeeSummary({
           </Typography>
         </Stack> */}
 
-        <Stack spacing={2} direction="row" justifyContent="space-between">
+        <Stack
+          spacing={1}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography>
             <FormattedMessage
               id="transaction.cost"
               defaultMessage="Transaction cost"
             />
           </Typography>
-          <Typography color="text.secondary">
-            <>
-              <FormattedNumber
-                currencyDisplay="narrowSymbol"
-                style="currency"
-                value={totalFiat}
-                currency={currency}
-              />{" "}
-              ({formatBigNumber(totalFee, 18)} {NETWORK_SYMBOL(chainId)})
-            </>
-          </Typography>
+
+          <Stack
+            spacing={1}
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography color="text.secondary">
+              <>
+                <FormattedNumber
+                  currencyDisplay="narrowSymbol"
+                  style="currency"
+                  value={totalFiat}
+                  currency={currency}
+                />{" "}
+                ({formatBigNumber(totalFee, 18)} {NETWORK_SYMBOL(chainId)})
+              </>
+            </Typography>
+            <Tooltip
+              title={
+                <>
+                  <FormattedMessage
+                    id="gas.gas"
+                    defaultMessage="Gas: {gas}"
+                    values={{
+                      gas: gasPriceQuery.data
+                        ? formatBigNumber(gasPriceQuery.data, 9)
+                        : "0.0",
+                    }}
+                  />
+                </>
+              }
+            >
+              <Info fontSize="inherit" />
+            </Tooltip>
+          </Stack>
         </Stack>
       </Stack>
     </Box>

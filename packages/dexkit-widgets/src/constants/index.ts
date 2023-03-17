@@ -1,6 +1,7 @@
 import { Web3ReactHooks } from "@web3-react/core";
 import { Connector } from "@web3-react/types";
 import { ethers } from "ethers";
+import { isAddress } from "ethers/lib/utils";
 import { metaMask } from "../connectors";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "../services/zeroex/constants";
 import { Token } from "../types";
@@ -19,6 +20,10 @@ export const WRAPED_TOKEN_ADDRESS: { [key: number]: string } = {
 };
 
 export function TOKEN_ICON_URL(addr: string, chainId?: ChainId) {
+  if (!isAddress(addr)) {
+    return;
+  }
+
   const address = ethers.utils.getAddress(addr);
 
   if (isAddressEqual(address, ZEROEX_NATIVE_TOKEN_ADDRESS)) {

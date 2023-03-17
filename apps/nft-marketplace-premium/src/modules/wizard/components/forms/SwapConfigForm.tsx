@@ -143,7 +143,14 @@ export function SwapConfigForm({ onChange, data }: Props) {
                     ...formData?.configByChain,
                     [selectedChainId]: {
                       ...oldFormData,
-                      sellToken: tk,
+                      sellToken: {
+                        chainId: tk.chainId as number,
+                        contractAddress: tk.address,
+                        decimals: tk.decimals,
+                        name: tk.name,
+                        symbol: tk.symbol,
+                        logoURI: tk.logoURI,
+                      },
                     },
                   },
                 }));
@@ -182,7 +189,14 @@ export function SwapConfigForm({ onChange, data }: Props) {
                         ...formData.configByChain,
                         [selectedChainId]: {
                           ...oldFormData,
-                          buyToken: tk,
+                          buyToken: {
+                            chainId: tk.chainId as number,
+                            contractAddress: tk.address,
+                            decimals: tk.decimals,
+                            name: tk.name,
+                            symbol: tk.symbol,
+                            logoURI: tk.logoURI,
+                          },
                         },
                       },
                     };

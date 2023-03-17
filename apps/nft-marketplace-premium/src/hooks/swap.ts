@@ -25,6 +25,7 @@ import { Quote, Token, TransactionType } from '../types/blockchain';
 import { useAppConfig, useConnectWalletDialog, useTransactions } from './app';
 
 export function useSwapState() {
+  const { chainId } = useWeb3React();
   const [isAutoSlippage, setIsAutoSlippage] = useAtom(isAutoSlippageAtom);
   const [maxSlippage, setMaxSlippage] = useAtom(maxSlippageAtom);
 
@@ -65,11 +66,11 @@ export function useSwapState() {
       configsByChain: {},
       featuredTokens,
       currency: 'usd',
-      defaultChainId: ChainId.Polygon,
+      defaultChainId: chainId || ChainId.Ethereum,
       zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
       transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
     } as RenderOptions;
-  }, [featuredTokens]);
+  }, [featuredTokens, chainId]);
 
   const onNotification = useCallback(
     ({ title, hash, chainId, params }: NotificationCallbackParams) => {

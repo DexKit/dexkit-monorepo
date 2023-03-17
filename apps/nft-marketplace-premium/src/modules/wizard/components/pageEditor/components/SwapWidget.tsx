@@ -13,20 +13,15 @@ interface Props {
 function SwapWidget(props: Props) {
   const { isEditMode, formData } = props;
   const defaultChainId = formData?.defaultChainId;
-  const defaultEditChainId = formData?.defaultEditChainId;
   const configByChain = formData?.configByChain;
 
-  const [chainId, setChainId] = useState(
-    isEditMode ? defaultEditChainId : defaultChainId
-  );
+  const [chainId, setChainId] = useState<number>();
 
   useEffect(() => {
     if (isEditMode) {
-      setChainId(defaultEditChainId);
-    } else {
       setChainId(defaultChainId);
     }
-  }, [defaultChainId, isEditMode, defaultEditChainId]);
+  }, [defaultChainId, isEditMode]);
 
   const currency = useCurrency();
 
@@ -36,6 +31,7 @@ function SwapWidget(props: Props) {
     <Swap
       {...swapState}
       renderOptions={{
+        ...swapState.renderOptions,
         configsByChain: configByChain ? configByChain : {},
         defaultChainId: chainId || ChainId.Ethereum,
         currency,
