@@ -59,6 +59,7 @@ export interface SwapProps {
   disableNotificationsButton?: boolean;
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
+  networkName?: string;
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber) => void;
@@ -74,6 +75,7 @@ export interface SwapProps {
 
 export default function Swap({
   chainId,
+  networkName,
   disabled,
   quoteFor,
   isActive,
@@ -129,7 +131,11 @@ export default function Swap({
     ) : execType === "unwrap" ? (
       <FormattedMessage id="Unwrap" defaultMessage="Unwrap" />
     ) : execType === "switch" ? (
-      <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
+      <FormattedMessage
+        id="switch.network"
+        defaultMessage="Switch to {networkName}"
+        values={{ networkName }}
+      />
     ) : execType === "approve" ? (
       <FormattedMessage id="approve" defaultMessage="Approve" />
     ) : (

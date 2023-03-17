@@ -64,47 +64,49 @@ export default function SwapConfirmDialog({
       <DialogContent>
         <Stack spacing={2}>
           {quote && sellToken && buyToken && (
-            <Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography variant="body1">
-                  <FormattedMessage id="you.send" defaultMessage="You send" />
-                </Typography>
+            <>
+              <Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography variant="body1">
+                    <FormattedMessage id="you.send" defaultMessage="You send" />
+                  </Typography>
 
-                <Typography variant="body1" color="text.secondary">
-                  {formatBigNumber(
-                    BigNumber.from(quote.sellAmount),
-                    sellToken.decimals
-                  )}{" "}
-                  {sellToken?.symbol?.toUpperCase()}
-                </Typography>
-              </Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography variant="body1">
-                  <FormattedMessage
-                    id="you.receive"
-                    defaultMessage="You receive"
-                  />
-                </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {formatBigNumber(
+                      BigNumber.from(quote.sellAmount),
+                      sellToken.decimals
+                    )}{" "}
+                    {sellToken?.symbol?.toUpperCase()}
+                  </Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography variant="body1">
+                    <FormattedMessage
+                      id="you.receive"
+                      defaultMessage="You receive"
+                    />
+                  </Typography>
 
-                <Typography variant="body1" color="text.secondary">
-                  {formatBigNumber(
-                    BigNumber.from(quote.buyAmount),
-                    buyToken.decimals
-                  )}{" "}
-                  {buyToken?.symbol?.toUpperCase()}
-                </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {formatBigNumber(
+                      BigNumber.from(quote.buyAmount),
+                      buyToken.decimals
+                    )}{" "}
+                    {buyToken?.symbol?.toUpperCase()}
+                  </Typography>
+                </Stack>
               </Stack>
-            </Stack>
+              <Divider />
+            </>
           )}
-          <Divider />
           <SwapFeeSummary
             quote={quote}
             chainId={chainId}

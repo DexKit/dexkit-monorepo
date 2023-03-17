@@ -132,8 +132,8 @@ export default function SwapFeeSummary({
             <Tooltip
               title={
                 <FormattedMessage
-                  id="you.will.lose.a.large.portion.of.your.money.to.complete.the.transaction"
-                  defaultMessage="You will lose a large portion of your money to complete the transaction"
+                  id="if.price.impact.is.too.high.you.will.lose.a.large.portion.of.your.money.to.complete.the.transaction"
+                  defaultMessage="if price impact is too high, you will lose a large portion of your money to complete the transaction"
                 />
               }
             >

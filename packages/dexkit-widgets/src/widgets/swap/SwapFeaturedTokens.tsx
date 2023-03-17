@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Stack } from "@mui/material";
+import { Avatar, Box, Chip, Grid } from "@mui/material";
 import { memo } from "react";
 import { TOKEN_ICON_URL } from "../../constants";
 import { ChainId } from "../../constants/enum";
@@ -21,29 +21,30 @@ function SwapFeaturedTokens({
 
   return (
     <Box px={2}>
-      <Stack direction="row" spacing={1}>
+      <Grid container spacing={1}>
         {tokens?.map((token, index) => (
-          <Chip
-            key={index}
-            icon={
-              <Avatar
-                sx={(theme) => ({
-                  height: theme.spacing(2.5),
-                  width: theme.spacing(2.5),
-                })}
-                src={
-                  token.logoURI
-                    ? token.logoURI
-                    : TOKEN_ICON_URL(token.contractAddress, token.chainId)
-                }
-              />
-            }
-            onClick={() => onSelect(token)}
-            clickable
-            label={token.symbol.toUpperCase()}
-          />
+          <Grid item key={index} wrap="wrap">
+            <Chip
+              icon={
+                <Avatar
+                  sx={(theme) => ({
+                    height: theme.spacing(2.5),
+                    width: theme.spacing(2.5),
+                  })}
+                  src={
+                    token.logoURI
+                      ? token.logoURI
+                      : TOKEN_ICON_URL(token.contractAddress, token.chainId)
+                  }
+                />
+              }
+              onClick={() => onSelect(token)}
+              clickable
+              label={token.symbol.toUpperCase()}
+            />
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
     </Box>
   );
 }

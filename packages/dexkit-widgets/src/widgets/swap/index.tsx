@@ -273,6 +273,9 @@ export function SwapWidget({
         onConnectWallet={handleConnectWallet}
         sellAmount={sellAmount}
         buyAmount={buyAmount}
+        networkName={
+          chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
+        }
         onToggleChangeNetwork={handleToggleSwitchNetwork}
         onChangeBuyAmount={handleChangeBuyAmount}
         onChangeSellAmount={handleChangeSellAmount}
