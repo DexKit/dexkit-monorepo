@@ -1,10 +1,9 @@
-# @dexkit/ui
+# @dexkit/widgets
 
-## 0.2.0
+## 0.1.0
 
 ### Minor Changes
 
-- 0453a0d: Added QrCode receiver to page editor.
 - 0453a0d: Added nft, token and receive functionalities to wallet and where is needed to do a transfer.
   Added a send page where users can send directly from a link. Created widgets for these featues.
   Fix footer issue where the footer was misplaced.
@@ -15,11 +14,3 @@
   Wallet container no longer uses suspense, as it was causing errors breaking the whole page
   add copy to clipboard on wallet page.
   Now on wallet page if there is no wallet all buttons are disabled.
-- 0453a0d: Added magic network select to UI
-
-## 0.1.0
-
-### Minor Changes
-
-- e873b81: Moved connectors to core. Add additional logic to check if connectors are on mobile and display accordingly
-- 76f5bc6: Allow locale to be from app config, if user has a locale already defined it uses it
