@@ -1,5 +1,13 @@
 # nft-marketplace
 
+## 0.3.0
+
+### Minor Changes
+
+- f59e7d6: Added logo size option
+- f59e7d6: Added more socials to footer menu, and also the option to add custom link icons
+- f59e7d6: Added option to choose between dark and light mode. Added these additional configs to the builder
+
 ## 0.2.0
 
 ### Minor Changes
