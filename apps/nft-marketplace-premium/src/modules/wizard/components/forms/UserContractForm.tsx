@@ -1,6 +1,9 @@
 import { useListFormsQuery } from '@/modules/forms/hooks';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
-import { Info } from '@mui/icons-material';
+import InfoIcon from '@mui/icons-material/Info';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+
+import AddIcon from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
 import {
   Box,
@@ -19,6 +22,7 @@ import {
 import { useWeb3React } from '@web3-react/core';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'src/components/Link';
 import UserContractFormCard from '../UserContractFormCard';
 
 interface Props {
@@ -133,6 +137,42 @@ export function UserContractForm({
                   </Card>
                 </Grid>
               ))}
+            {listFormsQuery.data && listFormsQuery.data?.length === 0 && (
+              <Grid item xs={12}>
+                <Box py={2}>
+                  <Stack spacing={2} alignItems="center">
+                    <TipsAndUpdatesIcon fontSize="large" />
+                    <Box>
+                      <Typography align="center" variant="h5">
+                        <FormattedMessage
+                          id="you.dont.have.any.forms"
+                          defaultMessage="You don't have any forms yet"
+                        />
+                      </Typography>
+                      <Typography align="center" variant="body1">
+                        <FormattedMessage
+                          id="please.create.a.form.to.start.using.it.here"
+                          defaultMessage="Please, create a form to start using it here"
+                        />
+                      </Typography>
+                    </Box>
+                    <Button
+                      LinkComponent={Link}
+                      href="/forms/create"
+                      variant="contained"
+                      color="primary"
+                      target="_blank"
+                      startIcon={<AddIcon />}
+                    >
+                      <FormattedMessage
+                        id="create.form"
+                        defaultMessage="Create form"
+                      />
+                    </Button>
+                  </Stack>
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={12}>
@@ -156,7 +196,7 @@ export function UserContractForm({
                 />
               }
             >
-              <Info />
+              <InfoIcon />
             </Tooltip>
           </Stack>
         </Grid>
