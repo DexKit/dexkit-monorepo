@@ -1,5 +1,16 @@
 # @dexkit/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 00933b3: Moving UI components from dexappbuilder for packages to be published on npm, fixed bugs related to vars, added dexappbuilder viewer package to render DexAppBuilder externally
+
+### Patch Changes
+
+- Updated dependencies [00933b3]
+  - @dexkit/core@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

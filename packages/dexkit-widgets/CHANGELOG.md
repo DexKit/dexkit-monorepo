@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.2.0
+
+### Minor Changes
+
+- 00933b3: Moving UI components from dexappbuilder for packages to be published on npm, fixed bugs related to vars, added dexappbuilder viewer package to render DexAppBuilder externally
+
 ## 0.1.0
 
 ### Minor Changes
