@@ -1,5 +1,11 @@
 # @dexkit/ui
 
+## 0.4.0
+
+### Minor Changes
+
+- 4d173f0: Fix image fill error
+
 ## 0.3.0
 
 ### Minor Changes
