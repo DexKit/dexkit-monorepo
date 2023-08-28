@@ -1,5 +1,13 @@
 # @dexkit/widgets
 
+## 0.3.0
+
+### Minor Changes
+
+- 7b52be8: Added Base Network
+  Enable testnets on wizard collection
+- d6fb0d6: Add warning for when swap interface not support network
+
 ## 0.2.0
 
 ### Minor Changes

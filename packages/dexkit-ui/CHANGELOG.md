@@ -1,5 +1,13 @@
 # @dexkit/ui
 
+## 0.4.1
+
+### Patch Changes
+
+- b93071c: Add transaction watcher dialog
+- Updated dependencies [7b52be8]
+  - @dexkit/core@0.4.0
+
 ## 0.4.0
 
 ### Minor Changes

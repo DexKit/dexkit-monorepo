@@ -1,5 +1,12 @@
 # @dexkit/core
 
+## 0.4.0
+
+### Minor Changes
+
+- 7b52be8: Added Base Network
+  Enable testnets on wizard collection
+
 ## 0.3.0
 
 ### Minor Changes

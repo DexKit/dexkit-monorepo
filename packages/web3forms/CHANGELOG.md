@@ -1,5 +1,19 @@
 # @dexkit/web3forms
 
+## 0.2.0
+
+### Minor Changes
+
+- 7b52be8: Added Base Network
+  Enable testnets on wizard collection
+
+### Patch Changes
+
+- Updated dependencies [b93071c]
+- Updated dependencies [7b52be8]
+  - @dexkit/ui@0.4.1
+  - @dexkit/core@0.4.0
+
 ## 0.1.0
 
 ### Minor Changes

@@ -1,5 +1,23 @@
 # nft-marketplace
 
+## 0.5.0
+
+### Minor Changes
+
+- 7b52be8: Added Base Network
+  Enable testnets on wizard collection
+- d6fb0d6: Add warning for when swap interface not support network
+
+### Patch Changes
+
+- Updated dependencies [b93071c]
+- Updated dependencies [7b52be8]
+- Updated dependencies [d6fb0d6]
+  - @dexkit/ui@0.4.1
+  - @dexkit/widgets@0.3.0
+  - @dexkit/core@0.4.0
+  - @dexkit/web3forms@0.2.0
+
 ## 0.4.0
 
 ### Minor Changes
