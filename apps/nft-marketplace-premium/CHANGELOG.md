@@ -1,5 +1,17 @@
 # nft-marketplace
 
+## 0.6.0
+
+### Minor Changes
+
+- b7c959a: Add quantity option to ERC1155
+- cd0f21a: Fix slate giving error on react page editor
+
+### Patch Changes
+
+- Updated dependencies [f18d0a1]
+  - @dexkit/widgets@0.4.0
+
 ## 0.5.0
 
 ### Minor Changes

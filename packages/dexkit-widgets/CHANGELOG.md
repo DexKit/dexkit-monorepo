@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.4.0
+
+### Minor Changes
+
+- f18d0a1: Fix click on max button not resolve to input value
+
 ## 0.3.0
 
 ### Minor Changes
