@@ -1,5 +1,16 @@
 # @dexkit/ui
 
+## 0.5.0
+
+### Minor Changes
+
+- 6373154: Remove wallet connect v1 and use v2. Fix on loading wallet dialog
+
+### Patch Changes
+
+- Updated dependencies [6373154]
+  - @dexkit/core@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes
