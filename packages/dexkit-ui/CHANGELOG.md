@@ -1,5 +1,16 @@
 # @dexkit/ui
 
+## 0.6.0
+
+### Minor Changes
+
+- 2e9a359: Added edition drop feature to enable users to create drops and manage them, added image url from server to web3 forms, added pages for edition and collection drops. Added contract page for generic contracts
+
+### Patch Changes
+
+- Updated dependencies [2e9a359]
+  - @dexkit/core@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
