@@ -1,5 +1,11 @@
 # @dexkit/core
 
+## 0.7.0
+
+### Minor Changes
+
+- 9f8ac92: Update MUI dependency
+
 ## 0.6.0
 
 ### Minor Changes

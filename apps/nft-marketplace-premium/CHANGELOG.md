@@ -1,5 +1,20 @@
 # nft-marketplace
 
+## 0.9.0
+
+### Minor Changes
+
+- 9f8ac92: Update MUI dependency
+
+### Patch Changes
+
+- a762215: Add complete exchange feature
+- Updated dependencies [9f8ac92]
+- Updated dependencies [a762215]
+  - @dexkit/core@0.7.0
+  - @dexkit/ui@0.7.0
+  - @dexkit/web3forms@0.4.0
+
 ## 0.8.0
 
 ### Minor Changes

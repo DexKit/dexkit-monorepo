@@ -1,5 +1,17 @@
 # @dexkit/ui
 
+## 0.7.0
+
+### Minor Changes
+
+- 9f8ac92: Update MUI dependency
+
+### Patch Changes
+
+- a762215: Add transaction watcher dialog
+- Updated dependencies [9f8ac92]
+  - @dexkit/core@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes
