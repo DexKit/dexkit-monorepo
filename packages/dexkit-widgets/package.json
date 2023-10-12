@@ -1,6 +1,6 @@
 {
   "name": "@dexkit/widgets",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",

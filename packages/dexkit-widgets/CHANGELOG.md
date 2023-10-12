@@ -1,5 +1,12 @@
 # @dexkit/widgets
 
+## 0.5.0
+
+### Minor Changes
+
+- 25e0bd1: Add feature to track user events done onchain
+- def3b5d: refactor token interface, add slippage for market buy and sell, add in form, add notifications where needed
+
 ## 0.4.0
 
 ### Minor Changes
