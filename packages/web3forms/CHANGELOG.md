@@ -1,5 +1,11 @@
 # @dexkit/web3forms
 
+## 0.5.0
+
+### Minor Changes
+
+- 051a75e: Improving way to interact with contracts metadata. Add server file option to web3 forms
+
 ## 0.4.0
 
 ### Minor Changes

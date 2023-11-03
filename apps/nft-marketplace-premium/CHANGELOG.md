@@ -1,5 +1,17 @@
 # nft-marketplace
 
+## 0.11.0
+
+### Minor Changes
+
+- 7044ea4: Improve contract list data grid
+- 051a75e: Improving way to interact with contracts metadata. Add server file option to web3 forms
+
+### Patch Changes
+
+- Updated dependencies [051a75e]
+  - @dexkit/web3forms@0.5.0
+
 ## 0.10.0
 
 ### Minor Changes
