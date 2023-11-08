@@ -1,5 +1,20 @@
 # nft-marketplace
 
+## 0.13.0
+
+### Minor Changes
+
+- e793f4f: UX improvement on DexAppBuilder admin section
+- 71f1e01: Added page reload when conditions are meet
+
+### Patch Changes
+
+- Updated dependencies [e793f4f]
+  - @dexkit/wallet-connectors@0.1.0
+  - @dexkit/widgets@0.6.0
+  - @dexkit/core@0.10.0
+  - @dexkit/ui@0.10.0
+
 ## 0.12.0
 
 ### Minor Changes

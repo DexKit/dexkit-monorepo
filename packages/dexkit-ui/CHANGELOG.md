@@ -1,5 +1,17 @@
 # @dexkit/ui
 
+## 0.10.0
+
+### Minor Changes
+
+- e793f4f: UX improvement on DexAppBuilder admin section
+
+### Patch Changes
+
+- Updated dependencies [e793f4f]
+  - @dexkit/wallet-connectors@0.1.0
+  - @dexkit/core@0.10.0
+
 ## 0.9.0
 
 ### Minor Changes

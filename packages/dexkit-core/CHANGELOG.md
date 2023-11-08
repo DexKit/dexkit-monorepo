@@ -1,5 +1,11 @@
 # @dexkit/core
 
+## 0.10.0
+
+### Minor Changes
+
+- e793f4f: UX improvement on DexAppBuilder admin section
+
 ## 0.9.0
 
 ### Minor Changes

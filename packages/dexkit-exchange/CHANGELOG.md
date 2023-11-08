@@ -1,5 +1,17 @@
 # @dexkit/ui
 
+## 0.6.0
+
+### Minor Changes
+
+- e793f4f: UX improvement on DexAppBuilder admin section
+
+### Patch Changes
+
+- Updated dependencies [e793f4f]
+  - @dexkit/core@0.10.0
+  - @dexkit/ui@0.10.0
+
 ## 0.5.0
 
 ### Minor Changes

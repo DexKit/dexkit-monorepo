@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.6.0
+
+### Minor Changes
+
+- e793f4f: UX improvement on DexAppBuilder admin section
+
 ## 0.5.0
 
 ### Minor Changes
