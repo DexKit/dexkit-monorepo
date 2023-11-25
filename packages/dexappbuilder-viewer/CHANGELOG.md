@@ -1,5 +1,22 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.3.0
+
+### Minor Changes
+
+- e0bf0fd: Added open in new page option on call to action and put subtitle not required
+
+### Patch Changes
+
+- Updated dependencies [e0bf0fd]
+- Updated dependencies [1d1863b]
+- Updated dependencies [5adc45b]
+- Updated dependencies [5adc45b]
+  - @dexkit/ui@0.11.0
+  - @dexkit/exchange@0.7.0
+  - @dexkit/core@0.11.0
+  - @dexkit/web3forms@0.7.0
+
 ## 0.2.0
 
 ### Minor Changes

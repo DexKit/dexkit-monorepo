@@ -1,5 +1,24 @@
 # nft-marketplace
 
+## 0.14.0
+
+### Minor Changes
+
+- e0bf0fd: Added open in new page option on call to action and put subtitle not required
+- 5adc45b: Added support for token and collection drops. Added support for staking on token, collection and edition. Added manage admin for token, edition, and collection and respective drops. Added admin for stake
+- 5adc45b: Added airdrop contracts and respective admin and public pages. Improve wallet button popover
+- 1b2fb6f: Add code section
+
+### Patch Changes
+
+- Updated dependencies [e0bf0fd]
+- Updated dependencies [1d1863b]
+- Updated dependencies [5adc45b]
+- Updated dependencies [5adc45b]
+  - @dexkit/ui@0.11.0
+  - @dexkit/core@0.11.0
+  - @dexkit/web3forms@0.7.0
+
 ## 0.13.0
 
 ### Minor Changes

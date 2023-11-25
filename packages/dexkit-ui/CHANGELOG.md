@@ -1,5 +1,20 @@
 # @dexkit/ui
 
+## 0.11.0
+
+### Minor Changes
+
+- e0bf0fd: Added open in new page option on call to action and put subtitle not required
+- 1d1863b: Improve API handling
+- 5adc45b: Added support for token and collection drops. Added support for staking on token, collection and edition. Added manage admin for token, edition, and collection and respective drops. Added admin for stake
+- 5adc45b: Added airdrop contracts and respective admin and public pages. Improve wallet button popover
+
+### Patch Changes
+
+- Updated dependencies [5adc45b]
+- Updated dependencies [5adc45b]
+  - @dexkit/core@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes
