@@ -1,5 +1,27 @@
 # nft-marketplace
 
+## 0.15.0
+
+### Minor Changes
+
+- 970d5c4: Add DexGenerator section
+- fff22a8: Add versions to app admin
+- dcec1a9: Add mint to functionality to Token page
+- b0ad3ba: add page to enable iframes
+- 98fe3bc: Added team management, and trigger when changes are not saved
+- 0e10533: improve loading changing from server paths to static paths on custom pages, adding more custom options on gated content, now only can see apps the owner of the app.
+- 3be52a5: Added user events container with support for referral field
+
+### Patch Changes
+
+- Updated dependencies [fff22a8]
+- Updated dependencies [dcec1a9]
+- Updated dependencies [98fe3bc]
+- Updated dependencies [3be52a5]
+  - @dexkit/web3forms@0.8.0
+  - @dexkit/ui@0.12.0
+  - @dexkit/core@0.12.0
+
 ## 0.14.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @dexkit/core
 
+## 0.12.0
+
+### Minor Changes
+
+- 3be52a5: Added user events container with support for referral field
+
 ## 0.11.0
 
 ### Minor Changes

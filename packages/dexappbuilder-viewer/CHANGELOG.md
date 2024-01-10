@@ -1,5 +1,23 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.4.0
+
+### Minor Changes
+
+- fff22a8: Add versions to app admin
+
+### Patch Changes
+
+- Updated dependencies [fff22a8]
+- Updated dependencies [dcec1a9]
+- Updated dependencies [98fe3bc]
+- Updated dependencies [3be52a5]
+- Updated dependencies [042308c]
+  - @dexkit/web3forms@0.8.0
+  - @dexkit/ui@0.12.0
+  - @dexkit/core@0.12.0
+  - @dexkit/exchange@0.8.0
+
 ## 0.3.0
 
 ### Minor Changes

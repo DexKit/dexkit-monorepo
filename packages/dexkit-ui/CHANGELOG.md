@@ -1,5 +1,18 @@
 # @dexkit/ui
 
+## 0.12.0
+
+### Minor Changes
+
+- dcec1a9: Add mint to functionality to Token page
+- 98fe3bc: Added team management, and trigger when changes are not saved
+- 3be52a5: Added user events container with support for referral field
+
+### Patch Changes
+
+- Updated dependencies [3be52a5]
+  - @dexkit/core@0.12.0
+
 ## 0.11.0
 
 ### Minor Changes
