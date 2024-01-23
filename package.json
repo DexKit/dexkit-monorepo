@@ -7,11 +7,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "clean-daemon": "turbo daemon clean",
+    "build": "turbo run build ",
     "release": "turbo run release --filter=@dexkit/ui,@dexkit/web3forms,@dexkit/web3forms,@dexkit/widgets,@dexkit/dexappbuilder-viewer,@dexkit/core",
     "dev": "turbo run dev --parallel",
     "publish-packages": "changeset publish",
-    "dev:whitelabel": "turbo run dev --parallel --filter=nft-marketplace",
+    "dev:whitelabel": "turbo run dev --parallel --filter=dexappbuilder",
     "dev:storyview": "turbo run dev --parallel --filter=dexkit-storyview",
     "storybook": "turbo run storybook",
     "storybook:ui": "turbo run storybook --filter=@dexkit/ui",
@@ -19,8 +20,8 @@
     "storybook:widget": "turbo run storybook --filter=@dexkit/widgets",
     "storybook:exchange": "turbo run storybook --filter=@dexkit/exchange",
     "bundle:widgets": "turbo run bundle:widgets",
-    "build:whitelabel": "turbo run build --parallel --filter=nft-marketplace",
-    "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=nft-marketplace",
+    "build:whitelabel": "turbo run build --parallel --filter=dexappbuilder",
+    "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",
     "build:ui": "turbo run build --parallel --filter=@dexkit/ui",
     "build:dexviewer": "turbo run build --parallel --filter=@dexkit/dexappbuilder-viewer",
@@ -32,7 +33,7 @@
     "eslint-config-custom": "*",
     "next-transpile-modules": "^10.0.0",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "^1.11.3"
   },
   "engines": {
     "node": ">=18.0.0"

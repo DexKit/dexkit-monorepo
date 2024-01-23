@@ -1,12 +1,15 @@
 import { ChainId } from "@dexkit/core/constants/enums";
-import { NETWORKS, WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
-import { useTrackUserEventsMutation } from '@dexkit/ui/hooks/userEvents';
+import {
+  NETWORKS,
+  WRAPPED_TOKEN_ADDRESS,
+} from "@dexkit/core/constants/networks";
+import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
   UseMutationOptions,
   UseMutationResult,
   UseQueryResult,
   useMutation,
-  useQuery
+  useQuery,
 } from "@tanstack/react-query";
 
 import transakSDK from "@transak/transak-sdk";
@@ -14,7 +17,7 @@ import transakSDK from "@transak/transak-sdk";
 import { Connector } from "@web3-react/types";
 import { BigNumber, ethers, providers } from "ethers";
 import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
 
 import { ERC20Abi } from "../../constants/abis";
@@ -24,13 +27,13 @@ import {
   useDebounce,
   useRecentTokens,
   useTokenBalance,
-  useWrapToken
+  useWrapToken,
 } from "../../hooks";
 import { hasSufficientAllowance } from "../../services";
 import { ZeroExApiClient } from "../../services/zeroex";
 import {
   ZEROEX_AFFILIATE_ADDRESS,
-  ZEROEX_NATIVE_TOKEN_ADDRESS
+  ZEROEX_NATIVE_TOKEN_ADDRESS,
 } from "../../services/zeroex/constants";
 import { ZeroExQuote, ZeroExQuoteResponse } from "../../services/zeroex/types";
 
@@ -38,6 +41,8 @@ import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { Token } from "@dexkit/core/types";
 import { isAddressEqual, switchNetwork } from "../../utils";
 import { ExecType, NotificationCallbackParams, SwapSide } from "./types";
+
+import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 
 export function useErc20ApproveMutation({
   options,
@@ -141,15 +146,17 @@ export function useSwapQuote({
   const refetchParams =
     params.quoteFor === "buy"
       ? {
-        sellToken: params.sellToken,
-        buyToken: params.buyToken,
-        buyTokenAmount: params.buyTokenAmount,
-      }
+          sellToken: params.sellToken,
+          buyToken: params.buyToken,
+          buyTokenAmount: params.buyTokenAmount,
+        }
       : {
-        sellToken: params.sellToken,
-        sellTokenAmount: params.sellTokenAmount,
-        buyToken: params.buyToken,
-      };
+          sellToken: params.sellToken,
+          sellTokenAmount: params.sellTokenAmount,
+          buyToken: params.buyToken,
+        };
+
+  const { siteId } = useContext(SiteContext);
 
   const quoteQuery = useQuery(
     [
@@ -179,7 +186,7 @@ export function useSwapQuote({
         quoteFor,
       } = { ...params, skipValidation };
 
-      const client = new ZeroExApiClient(chainId, zeroExApiKey);
+      const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
 
       if (buyToken && sellToken && quoteFor) {
         const quoteParam: ZeroExQuote = {
@@ -246,7 +253,7 @@ export function useSwapExec({
   onNotification: (params: NotificationCallbackParams) => void;
 }) {
   const { formatMessage } = useIntl();
-  const trackUserEvent = useTrackUserEventsMutation()
+  const trackUserEvent = useTrackUserEventsMutation();
 
   return useMutation(
     async ({
@@ -286,12 +293,15 @@ export function useSwapExec({
         });
 
         trackUserEvent.mutate({
-          event: UserEvents.swap, hash: tx.hash, chainId, metadata: JSON.stringify({
+          event: UserEvents.swap,
+          hash: tx.hash,
+          chainId,
+          metadata: JSON.stringify({
             quote: quote,
             sellToken,
-            buyToken
-          })
-        })
+            buyToken,
+          }),
+        });
         onHash(tx.hash);
 
         return await tx.wait();
@@ -381,7 +391,7 @@ export function useSwapState({
 
   useEffect(() => {
     if (transak) {
-      let allEventsCallback = transak.on(transak.ALL_EVENTS, (data: any) => { });
+      let allEventsCallback = transak.on(transak.ALL_EVENTS, (data: any) => {});
 
       // This will trigger when the user closed the widget
       let widgetCloseCallback = transak.on(
@@ -551,9 +561,9 @@ export function useSwapState({
       setQuoteFor("buy");
       if (buyToken) {
         if (clickMax) {
-          setClickOnMax(true)
+          setClickOnMax(true);
         } else {
-          setClickOnMax(false)
+          setClickOnMax(false);
         }
         setBuyAmount(value);
       }
@@ -561,15 +571,14 @@ export function useSwapState({
     [buyToken]
   );
 
-
   const handleChangeSellAmount = useCallback(
     (value: BigNumber, clickMax?: boolean) => {
       setQuoteFor("sell");
       if (sellToken) {
         if (clickMax) {
-          setClickOnMax(true)
+          setClickOnMax(true);
         } else {
-          setClickOnMax(false)
+          setClickOnMax(false);
         }
         setSellAmount(value);
       }
@@ -628,18 +637,12 @@ export function useSwapState({
       const isBuyTokenWrapped =
         lazyBuyToken &&
         chainId &&
-        isAddressEqual(
-          WRAPPED_TOKEN_ADDRESS(chainId),
-          lazyBuyToken.address
-        );
+        isAddressEqual(WRAPPED_TOKEN_ADDRESS(chainId), lazyBuyToken.address);
 
       const isSellTokenWrapped =
         lazySellToken &&
         chainId &&
-        isAddressEqual(
-          WRAPPED_TOKEN_ADDRESS(chainId),
-          lazySellToken.address
-        );
+        isAddressEqual(WRAPPED_TOKEN_ADDRESS(chainId), lazySellToken.address);
 
       if (lazyBuyToken && lazySellToken && quoteQuery.data) {
         if (!isBuyTokenWrapped && !isSellTokenWrapped) {
@@ -666,18 +669,12 @@ export function useSwapState({
 
       result =
         isBuyTokenWrapped &&
-          isAddressEqual(
-            lazySellToken?.address,
-            ZEROEX_NATIVE_TOKEN_ADDRESS
-          )
+        isAddressEqual(lazySellToken?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
           ? "wrap"
           : isSellTokenWrapped &&
-            isAddressEqual(
-              lazyBuyToken?.address,
-              ZEROEX_NATIVE_TOKEN_ADDRESS
-            )
-            ? "unwrap"
-            : "swap";
+            isAddressEqual(lazyBuyToken?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+          ? "unwrap"
+          : "swap";
 
       return result;
     },
@@ -719,17 +716,17 @@ export function useSwapState({
             {
               quote: data,
               provider: connectorProvider as providers.Web3Provider,
-              onHash: (hash: string) => { },
+              onHash: (hash: string) => {},
               sellToken,
               buyToken,
             },
             {
-              onSuccess: (receipt: ethers.providers.TransactionReceipt) => { },
+              onSuccess: (receipt: ethers.providers.TransactionReceipt) => {},
               onError,
             }
           );
         }
-      } catch (err: unknown) { }
+      } catch (err: unknown) {}
     }
   };
 
@@ -751,10 +748,10 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (hash: string) => {},
         },
         {
-          onSuccess: (receipt: ethers.providers.TransactionReceipt) => { },
+          onSuccess: (receipt: ethers.providers.TransactionReceipt) => {},
         }
       );
     } else if (execType === "approve" && quoteQuery.data) {
@@ -770,7 +767,7 @@ export function useSwapState({
             token: sellToken,
           },
           {
-            onSuccess: () => { },
+            onSuccess: () => {},
           }
         );
       }
@@ -779,7 +776,7 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (hash: string) => {},
         },
         {
           onSuccess: (receipt: ethers.providers.TransactionReceipt) => {

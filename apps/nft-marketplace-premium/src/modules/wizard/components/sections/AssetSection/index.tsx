@@ -4,14 +4,15 @@ import AssetRightSection from '@/modules/nft/components/AssetRightSection';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { hexToString } from '@dexkit/ui/utils';
 import { useAsyncMemo } from '@dexkit/widgets/src/hooks';
-import { Alert, Box, Grid, Typography } from '@mui/material';
+import { Alert, Box, Grid, NoSsr, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { ThirdwebSDKProvider, useContract } from '@thirdweb-dev/react';
 import { useWeb3React } from '@web3-react/core';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { fetchAssetForQueryClient } from 'src/services/nft';
 import { AssetPageSection } from '../../../types/section';
+import DarkblockWrapper from '../../DarkblockWrapper';
 import EditionDropSection from '../EditionDropSection';
 
 interface DropWrapperProps {
@@ -74,7 +75,8 @@ export interface AssetSectionProps {
 }
 
 export default function AssetSection({ section }: AssetSectionProps) {
-  const { address, tokenId, network, enableDrops } = section.config;
+  const { address, tokenId, network, enableDrops, enableDarkblock } =
+    section.config;
 
   const queryClient = useQueryClient();
 
@@ -102,6 +104,17 @@ export default function AssetSection({ section }: AssetSectionProps) {
         </Grid>
         <Grid item xs={12} sm={8}>
           <AssetRightSection address={address} id={tokenId} />
+          {enableDarkblock && (
+            <NoSsr>
+              <Suspense>
+                <DarkblockWrapper
+                  address={address as string}
+                  tokenId={tokenId}
+                  network={network}
+                />
+              </Suspense>
+            </NoSsr>
+          )}
         </Grid>
         {enableDrops && (
           <Grid item xs={12}>

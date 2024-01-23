@@ -1,0 +1,30 @@
+{
+  "name": "@dexkit/darkblock-evm-widget",
+  "private": false,
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "lint": "TIMING=1 eslint \"**/*.ts*\"",
+    "build": "yarn tsc -b",
+    "release": "yarn build && changeset publish"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "tsconfig": "*",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@darkblock.io/shared-components": "^0.2.57",
+    "@xstate/react": "^4.0.2",
+    "xstate": "^5.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

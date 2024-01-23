@@ -13,6 +13,7 @@ const withTM = require('next-transpile-modules')([
   '@dexkit/wallet-connectors',
   '@dexkit/dexappbuilder-viewer',
   '@dexkit/exchange',
+  '@dexkit/darkblock-evm-widget',
 ]); // pass the modules you would like to see transpiled
 
 module.exports = withBundleAnalyzer(

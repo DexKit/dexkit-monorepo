@@ -3,10 +3,8 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, NoSsr, Skeleton } from '@mui/material';
 import MainLayout from '../../../../../../src/components/layouts/main';
-
-import { fetchAssetForQueryClient } from '../../../../../../src/services/nft';
 
 import {
   BEST_SELL_ORDER_RARIBLE,
@@ -15,12 +13,19 @@ import {
 } from '../../../../../../src/hooks/nft';
 import AssetLeftSection from '../../../../../../src/modules/nft/components/AssetLeftSection';
 import AssetRightSection from '../../../../../../src/modules/nft/components/AssetRightSection';
+import { fetchAssetForQueryClient } from '../../../../../../src/services/nft';
 
 import AssetHead from '../../../../../../src/modules/nft/components/AssetHead';
 
-import { ChainId } from '@dexkit/core/constants';
+import DarkblockWrapper from '@/modules/wizard/components/DarkblockWrapper';
+import { DARKBLOCK_SUPPORTED_CHAIN_IDS } from '@/modules/wizard/constants';
+import { getIntegrationData } from '@/modules/wizard/services/integrations';
+import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core/constants';
+import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { truncateAddress } from '@dexkit/core/utils';
+import axios from 'axios';
 import { NextSeo } from 'next-seo';
+import { Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { PageHeader } from '../../../../../../src/components/PageHeader';
 import { NETWORK_ID } from '../../../../../../src/constants/enum';
@@ -34,7 +39,11 @@ import {
 import { ipfsUriToUrl } from '../../../../../../src/utils/ipfs';
 import { truncateErc1155TokenId } from '../../../../../../src/utils/nfts';
 
-const AssetDetailPage: NextPage = () => {
+const AssetDetailPage: NextPage<any> = ({
+  enableDarkblock,
+}: {
+  enableDarkblock: boolean;
+}) => {
   const router = useRouter();
 
   const { address, id } = router.query;
@@ -101,6 +110,17 @@ const AssetDetailPage: NextPage = () => {
           </Grid>
           <Grid item xs={12} sm={8}>
             <AssetRightSection address={address as string} id={id as string} />
+            {true && (
+              <NoSsr>
+                <Suspense>
+                  <DarkblockWrapper
+                    address={address as string}
+                    tokenId={id as string}
+                    network={getNetworkSlugFromChainId(asset?.chainId) || ''}
+                  />
+                </Suspense>
+              </NoSsr>
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -146,9 +166,36 @@ export const getStaticProps: GetStaticProps = async ({
     } catch (e) {
       console.log(e);
     }
+    let enableDarkblock = false;
+
+    try {
+      if (
+        DARKBLOCK_SUPPORTED_CHAIN_IDS.includes(
+          NETWORK_FROM_SLUG(network)?.chainId as ChainId,
+        )
+      ) {
+        const darkBlock = await getIntegrationData({
+          siteId: configResponse.siteId, //
+          type: 'darkblock',
+          instance: axios.create({
+            baseURL: MY_APPS_ENDPOINT,
+            headers: {
+              'DexKit-Api-Key': process.env.MARKETPLACE_API_KEY as string,
+            },
+          }),
+        });
+        if (darkBlock?.settings?.enableDarkblock) {
+          enableDarkblock = true;
+        }
+      }
+    } catch {}
 
     return {
-      props: { dehydratedState: dehydrate(queryClient), ...configResponse },
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        ...configResponse,
+        enableDarkblock: enableDarkblock,
+      },
       revalidate: 5,
     };
   }

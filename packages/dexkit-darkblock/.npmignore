@@ -1,0 +1,6 @@
+# Blacklist all files
+.*
+*
+# Whitelist dist
+!dist/**/*
+

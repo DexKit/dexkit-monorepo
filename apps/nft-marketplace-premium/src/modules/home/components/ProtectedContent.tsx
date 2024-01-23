@@ -12,11 +12,13 @@ export default function ProtectedContent({
   site,
   page,
   layout,
+  slug,
 }: {
   isProtected: boolean;
   layout?: GatedPageLayout;
   conditions?: GatedCondition[];
   site: string;
+  slug?: string;
   page: string;
 }) {
   const { account } = useWeb3React();
@@ -28,6 +30,7 @@ export default function ProtectedContent({
   const { data } = useProtectedAppConfig({
     isProtected,
     domain: site,
+    slug,
     page,
     result: conditionsData?.result,
   });

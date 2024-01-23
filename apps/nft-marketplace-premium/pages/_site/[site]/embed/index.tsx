@@ -31,6 +31,7 @@ const EmbedPage: NextPage<{
   hideLayout: boolean;
   partialResults: { [key: number]: boolean };
   balances: { [key: number]: string };
+  slug?: string;
 }> = ({
   sections,
   isProtected,
@@ -39,6 +40,7 @@ const EmbedPage: NextPage<{
   conditions,
   hideLayout,
   gatedLayout,
+  slug,
 }) => {
   if (isProtected) {
     if (hideLayout) {
@@ -52,6 +54,7 @@ const EmbedPage: NextPage<{
               isProtected={isProtected}
               conditions={conditions}
               layout={gatedLayout}
+              slug={slug}
             />
           </AuthProvider>
         </SessionProvider>
@@ -67,6 +70,7 @@ const EmbedPage: NextPage<{
             isProtected={isProtected}
             conditions={conditions}
             layout={gatedLayout}
+            slug={slug}
           />
         </AuthMainLayout>
       </SessionProvider>

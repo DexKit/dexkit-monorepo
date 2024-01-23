@@ -4,19 +4,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import {
   Box,
-  Card,
-  IconButton,
-  Paper,
-  Stack,
-  CardContent,
-  CardActions,
   Button,
-  Grid,
-  Typography,
+  Card,
   Chip,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
-import Image from 'next/image';
-import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Img from '../../../../components/AppImage';
 import { AppCollection } from '../../../../types/config';

@@ -1,4 +1,5 @@
 {
+
   "name": "nft-marketplace",
   "version": "0.15.0",
   "private": true,
@@ -38,6 +39,7 @@
     "@dexkit/wallet-connectors": "*",
     "@dexkit/web3forms": "*",
     "@dexkit/widgets": "*",
+    "@dexkit/darkblock-evm-widget": "*",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
     "@emotion/server": "^11.4.0",

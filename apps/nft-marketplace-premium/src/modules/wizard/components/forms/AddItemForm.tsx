@@ -30,12 +30,13 @@ import {
 
 import { ethers } from 'ethers';
 import * as Yup from 'yup';
-import { NETWORKS } from '../../../../constants/chain';
-import { Network } from '../../../../types/chains';
-import { ipfsUriToUrl } from '../../../../utils/ipfs';
-import MediaDialog from '../../../../components/mediaDialog';
+
+import { NETWORKS } from '@dexkit/core/constants/networks';
 import ImageIcon from '@mui/icons-material/Image';
 import { getNetworks } from 'src/utils/blockchain';
+import MediaDialog from '../../../../components/mediaDialog';
+import { Network } from '../../../../types/chains';
+import { ipfsUriToUrl } from '../../../../utils/ipfs';
 import { CollectionItemAutocomplete } from './CollectionItemAutocomplete';
 
 function a11yProps(index: number) {
@@ -110,7 +111,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
 
   const handleSubmitAsset = (
     values: AssetItemType,
-    helpers: FormikHelpers<AssetItemType>
+    helpers: FormikHelpers<AssetItemType>,
   ) => {
     onSubmit(values);
   };
@@ -121,7 +122,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
 
   const handleSubmitCollection = (
     values: CollectionItemType,
-    helpers: FormikHelpers<CollectionItemType>
+    helpers: FormikHelpers<CollectionItemType>,
   ) => {
     onSubmit(values);
   };
@@ -197,7 +198,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
 
   const handleChangeFeatured = (
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     collectionForm.setFieldValue('featured', checked);
   };
@@ -270,12 +271,12 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                       >
                         <Avatar
                           src={ipfsUriToUrl(
-                            NETWORKS[assetForm.values.chainId].imageUrl || ''
+                            NETWORKS[assetForm.values.chainId]?.imageUrl || '',
                           )}
                           style={{ width: 'auto', height: '1rem' }}
                         />
                         <Typography variant="body1">
-                          {NETWORKS[assetForm.values.chainId].name}
+                          {NETWORKS[assetForm.values.chainId]?.name}
                         </Typography>
                       </Stack>
                     );
@@ -283,7 +284,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                 >
                   {getNetworks({ includeTestnet: false }).map(
                     (network: Network, index: number) => (
-                      <MenuItem key={index} value={network.slug}>
+                      <MenuItem key={index} value={network?.chainId}>
                         <ListItemIcon>
                           <Box
                             sx={{
@@ -303,9 +304,9 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                             />
                           </Box>
                         </ListItemIcon>
-                        <ListItemText primary={network.name} />
+                        <ListItemText primary={network?.name} />
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </Select>
               </FormControl>
@@ -420,13 +421,13 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                       >
                         <Avatar
                           src={ipfsUriToUrl(
-                            NETWORKS[collectionForm.values.chainId].imageUrl ||
-                              ''
+                            NETWORKS[collectionForm.values.chainId]?.imageUrl ||
+                              '',
                           )}
                           style={{ width: 'auto', height: '1rem' }}
                         />
                         <Typography variant="body1">
-                          {NETWORKS[collectionForm.values.chainId].name}
+                          {NETWORKS[collectionForm.values.chainId]?.name}
                         </Typography>
                       </Stack>
                     );
@@ -434,7 +435,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                 >
                   {getNetworks({ includeTestnet: false }).map(
                     (network: Network, index: number) => (
-                      <MenuItem key={index} value={network.slug}>
+                      <MenuItem key={index} value={network.chainId}>
                         <ListItemIcon>
                           <Box
                             sx={{
@@ -456,7 +457,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                         </ListItemIcon>
                         <ListItemText primary={network.name} />
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </Select>
               </FormControl>

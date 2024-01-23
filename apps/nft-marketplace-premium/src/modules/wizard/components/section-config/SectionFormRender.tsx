@@ -1,6 +1,10 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
-import { Box } from '@mui/material';
+import { Alert, Box, Button, Container, Grid } from '@mui/material';
+import dynamic from 'next/dynamic';
+import { useContext, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { myAppsApi } from 'src/services/whitelabel';
+import { SiteContext } from '../../providers/SiteWizardProvider';
 import { AppPageSection, SectionType } from '../../types/section';
 import AssetSectionForm from '../forms/AssetSectionForm';
 import { AssetStoreSectionForm } from '../forms/AssetStoreSectionForm';
@@ -18,6 +22,10 @@ import { UserContractForm } from '../forms/UserContractForm';
 import VideoSectionForm from '../forms/VideoSectionForm';
 import WalletSectionForm from '../forms/WalletSectionForm';
 
+const ApiKeyIntegrationDialog = dynamic(
+  () => import('../dialogs/ApiKeyIntegrationDialog')
+);
+
 interface Props {
   sectionType: SectionType | undefined;
   section: AppPageSection | undefined;
@@ -33,6 +41,18 @@ export function SectionFormRender({
   onChange,
   onClose,
 }: Props) {
+  const { siteId } = useContext(SiteContext);
+
+  const [showSetApiKey, setShowSetApiKey] = useState(false);
+
+  const handleCloseApiKey = () => {
+    setShowSetApiKey(false);
+  };
+
+  const handleSetZrxApiKey = () => {
+    setShowSetApiKey(true);
+  };
+
   if (sectionType === 'video') {
     return (
       <VideoSectionForm
@@ -71,12 +91,52 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'swap') {
     return (
-      <SwapConfigSectionForm
-        onCancel={onClose}
-        onSave={onSave}
-        onChange={onChange}
-        section={section?.type === sectionType ? section : undefined}
-      />
+      <>
+        {showSetApiKey && (
+          <ApiKeyIntegrationDialog
+            DialogProps={{
+              open: showSetApiKey,
+              onClose: handleCloseApiKey,
+              fullWidth: true,
+              maxWidth: 'sm',
+            }}
+            siteId={siteId}
+          />
+        )}
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Container>
+                <Alert
+                  severity="info"
+                  action={
+                    <Button
+                      onClick={handleSetZrxApiKey}
+                      variant="outlined"
+                      size="small"
+                    >
+                      <FormattedMessage id="set.up" defaultMessage="Set up" />
+                    </Button>
+                  }
+                >
+                  <FormattedMessage
+                    id="setup.your.zrx.configure.0x.text"
+                    defaultMessage="Setup your 0x API key for access to our services."
+                  />
+                </Alert>
+              </Container>
+            </Grid>
+            <Grid item xs={12}>
+              <SwapConfigSectionForm
+                onCancel={onClose}
+                onSave={onSave}
+                onChange={onChange}
+                section={section?.type === sectionType ? section : undefined}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </>
     );
   } else if (sectionType === 'asset-store') {
     return (
@@ -191,13 +251,15 @@ export function SectionFormRender({
   } else if (sectionType === 'asset-section') {
     return (
       <Box p={2}>
-        <AssetSectionForm
-          onCancel={onClose}
-          onSave={onSave}
-          onChange={onChange}
-          section={section?.type === 'asset-section' ? section : undefined}
-          showSaveButton
-        />
+        <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
+          <AssetSectionForm
+            onCancel={onClose}
+            onSave={onSave}
+            onChange={onChange}
+            section={section?.type === 'asset-section' ? section : undefined}
+            showSaveButton
+          />
+        </DexkitApiProvider.Provider>
       </Box>
     );
   }

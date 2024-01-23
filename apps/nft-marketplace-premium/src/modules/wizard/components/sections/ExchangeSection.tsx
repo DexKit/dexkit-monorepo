@@ -66,7 +66,7 @@ function ExchangeSection() {
 
   const selectedPool = useMemo(() => {
     return pools.find((pool) =>
-      isAddressEqual(pool.attributes.address, selectedAddress),
+      isAddressEqual(pool.attributes.address, selectedAddress)
     );
   }, [selectedAddress, pools]);
 

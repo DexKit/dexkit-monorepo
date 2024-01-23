@@ -23,7 +23,11 @@ export function getZeroExApiClient(chainId: ChainId) {
 export class ZeroExApiClient {
   private axiosInstance: AxiosInstance;
 
-  constructor(chainId: ChainId, zeroExApiKey?: string) {
+  constructor(
+    private chainId: ChainId,
+    zeroExApiKey?: string,
+    private siteId?: number
+  ) {
     const headers: AxiosRequestHeaders = {};
 
     if (zeroExApiKey) {
@@ -31,7 +35,6 @@ export class ZeroExApiClient {
     }
 
     this.axiosInstance = axios.create({
-      baseURL: ZERO_EX_URL(chainId),
       headers,
     });
   }
@@ -40,21 +43,26 @@ export class ZeroExApiClient {
     quote: ZeroExQuote,
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExQuoteResponse> {
-    const resp = await this.axiosInstance.get(ZEROEX_QUOTE_ENDPOINT, {
-      params: quote,
-      signal,
-    });
+    const resp = await this.axiosInstance.get(
+      ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_QUOTE_ENDPOINT,
+      {
+        params: quote,
+        signal,
+      }
+    );
 
     return resp.data;
   }
 
   async tokens(): Promise<any> {
-    return this.axiosInstance.get(ZEROEX_TOKENS_ENDPOINT);
+    return this.axiosInstance.get(
+      ZERO_EX_URL(this.chainId) + ZEROEX_TOKENS_ENDPOINT
+    );
   }
 
   async order(hash: string): Promise<ZrxOrderRecord> {
     const resp = await this.axiosInstance.get(
-      `${ZEROEX_ORDERBOOK_ENDPOINT}/${hash}`
+      `${ZERO_EX_URL(this.chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}/${hash}`
     );
 
     return resp.data;
@@ -68,7 +76,7 @@ export class ZeroExApiClient {
     signal?: AbortSignal;
   }): Promise<ZrxOrderbookResponse> {
     const resp = await this.axiosInstance.get<ZrxOrderbookResponse>(
-      ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
+      ZERO_EX_URL(this.chainId) + ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
       {
         signal,
         params: { trader },

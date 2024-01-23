@@ -12,17 +12,25 @@ import { getZrxExchangeAddress } from "../utils";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { ZrxOrder } from "@dexkit/core/services/zrx/types";
 import { Contract, ethers } from "ethers";
+import { useContext } from "react";
 import { ZRX_EXCHANGE_ABI } from "../constants/zrx";
 
+import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
+
 export function useZrxQuoteMutation({ chainId }: { chainId?: ChainId }) {
+  const { siteId } = useContext(SiteContext);
+
   return useMutation(async (params: ZeroExQuote) => {
     if (!chainId) {
       return null;
     }
 
+    console.log("siteId", siteId);
+
     const zrxClient = new ZeroExApiClient(
       chainId,
-      process.env.NEXT_PUBLIC_ZRX_API_KEY
+      process.env.NEXT_PUBLIC_ZRX_API_KEY,
+      siteId
     );
 
     return zrxClient.quote(params, {});

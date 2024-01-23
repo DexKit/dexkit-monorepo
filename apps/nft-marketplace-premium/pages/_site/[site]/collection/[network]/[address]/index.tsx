@@ -11,8 +11,12 @@ import CollectionPageHeader from '@/modules/nft/components/CollectionPageHeader'
 import { CollectionStats } from '@/modules/nft/components/CollectionStats';
 import { CollectionTraits } from '@/modules/nft/components/CollectionTraits';
 import TableSkeleton from '@/modules/nft/components/tables/TableSkeleton';
+import DarkblockWrapper from '@/modules/wizard/components/DarkblockWrapper';
 import { DropEditionListSection } from '@/modules/wizard/components/sections/DropEditionListSection';
 import NftDropSection from '@/modules/wizard/components/sections/NftDropSection';
+import { DARKBLOCK_SUPPORTED_CHAIN_IDS } from '@/modules/wizard/constants';
+import { getIntegrationData } from '@/modules/wizard/services/integrations';
+import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { Asset } from '@dexkit/core/types';
 import { omitNull } from '@dexkit/core/utils';
@@ -42,6 +46,7 @@ import {
   useContractType,
 } from '@thirdweb-dev/react';
 import { useWeb3React } from '@web3-react/core';
+import axios from 'axios';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { Suspense, SyntheticEvent, useMemo, useState } from 'react';
@@ -76,7 +81,11 @@ import {
 import { getProviderBySlug } from 'src/services/providers';
 import { getRariCollectionStats } from 'src/services/rarible';
 
-const CollectionPage: NextPage = () => {
+const CollectionPage: NextPage<{ enableDarkblock: boolean }> = ({
+  enableDarkblock,
+}: {
+  enableDarkblock: boolean;
+}) => {
   const router = useRouter();
   const { formatMessage } = useIntl();
   const { address, network } = router.query;
@@ -358,6 +367,23 @@ const CollectionPage: NextPage = () => {
                         </Grid>
                       </>
                     )}
+                    {enableDarkblock && (
+                      <>
+                        <Grid item xs={12}>
+                          <Divider />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <NoSsr>
+                            <Suspense>
+                              <DarkblockWrapper
+                                address={address as string}
+                                network={network as string}
+                              />
+                            </Suspense>
+                          </NoSsr>
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -369,7 +395,7 @@ const CollectionPage: NextPage = () => {
   );
 };
 
-function Wrapper() {
+function Wrapper(props: any) {
   const { chainId, provider } = useWeb3React();
 
   return (
@@ -378,7 +404,7 @@ function Wrapper() {
       clientId={THIRDWEB_CLIENT_ID}
       signer={provider?.getSigner()}
     >
-      <CollectionPage />
+      <CollectionPage {...props} />
     </ThirdwebSDKProvider>
   );
 }
@@ -523,8 +549,36 @@ export const getStaticProps: GetStaticProps = async ({
     );
   } catch {}
 
+  let enableDarkblock = false;
+
+  try {
+    if (
+      DARKBLOCK_SUPPORTED_CHAIN_IDS.includes(
+        NETWORK_FROM_SLUG(network)?.chainId as ChainId,
+      )
+    ) {
+      const darkBlock = await getIntegrationData({
+        siteId: configResponse.siteId, //
+        type: 'darkblock',
+        instance: axios.create({
+          baseURL: MY_APPS_ENDPOINT,
+          headers: {
+            'DexKit-Api-Key': process.env.MARKETPLACE_API_KEY as string,
+          },
+        }),
+      });
+      if (darkBlock?.settings?.enableDarkblockCollection) {
+        enableDarkblock = true;
+      }
+    }
+  } catch {}
+
   return {
-    props: { dehydratedState: dehydrate(queryClient), ...configResponse },
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      ...configResponse,
+      enableDarkblock,
+    },
     revalidate: 60,
   };
 };

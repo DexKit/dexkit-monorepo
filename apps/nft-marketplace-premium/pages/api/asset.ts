@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getAssetData, getAssetDexKitApi, getAssetMetadata } from '../../src/services/nft';
+import {
+  getAssetData,
+  getAssetDexKitApi,
+  getAssetMetadata,
+} from '../../src/services/nft';
 import { Asset } from '../../src/types/nft';
 import { getChainSlug, getProviderByChainId } from '../../src/utils/blockchain';
 
@@ -7,7 +11,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   let asset: Asset | undefined;
   const { chainId, contractAddress, tokenId } = req.query;
   try {
@@ -25,7 +28,11 @@ export default async function handler(
     return res.status(404).end();
   }
   try {
-    const assetAPI = await getAssetDexKitApi({ networkId: getChainSlug(parseInt(chainId as string)) as string, contractAddress: contractAddress as string, tokenId: tokenId as string })
+    const assetAPI = await getAssetDexKitApi({
+      networkId: getChainSlug(parseInt(chainId as string)) as string,
+      contractAddress: contractAddress as string,
+      tokenId: tokenId as string,
+    });
     if (assetAPI) {
       if (assetAPI.rawData) {
         const metadata = JSON.parse(assetAPI.rawData);
@@ -34,13 +41,13 @@ export default async function handler(
           metadata: {
             ...metadata,
             image: assetAPI.imageUrl,
-          }
-        })
+          },
+        });
       }
     }
   } catch (e) {
     console.log(e);
-    console.log('failed fetching from api')
+    console.log('failed fetching from api');
   }
 
   const metadata = await getAssetMetadata(asset?.tokenURI, {
@@ -49,5 +56,4 @@ export default async function handler(
   });
 
   return res.json({ ...asset, metadata });
-
 }

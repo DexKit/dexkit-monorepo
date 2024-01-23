@@ -34,7 +34,8 @@ const CustomPage: NextPage<{
   page: string;
   partialResults: { [key: number]: boolean };
   balances: { [key: number]: string };
-}> = ({ sections, isProtected, conditions, site, page, gatedLayout }) => {
+  slug?: string;
+}> = ({ sections, isProtected, conditions, site, page, gatedLayout, slug }) => {
   if (isProtected) {
     return (
       <SessionProvider>
@@ -45,6 +46,7 @@ const CustomPage: NextPage<{
             isProtected={isProtected}
             conditions={conditions}
             layout={gatedLayout}
+            slug={slug}
           />
         </AuthMainLayout>
       </SessionProvider>

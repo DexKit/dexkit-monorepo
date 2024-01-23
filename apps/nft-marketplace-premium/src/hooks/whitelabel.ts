@@ -185,6 +185,9 @@ export const useAdminWhitelabelConfigQuery = ({
   domain?: string;
   slug?: string;
 }) => {
+  const { setIsLoggedIn } = useAuth();
+
+
   return useQuery(
     [QUERY_ADMIN_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
     async () => {
@@ -192,7 +195,14 @@ export const useAdminWhitelabelConfigQuery = ({
         return null;
       }
 
-      return (await getAdminConfig({ domain, slug })).data;
+      const response = (await getAdminConfig({ domain, slug }));
+
+      if (response.status === 401 && setIsLoggedIn) {
+        setIsLoggedIn(false);
+      }
+      return response.data
+
+
     },
     { refetchOnWindowFocus: false, refetchOnReconnect: false }
   );

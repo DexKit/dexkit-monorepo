@@ -55,7 +55,7 @@ export function ListingsTableRow({
   });
 
   const token = tokens.find((t) =>
-    isAddressEqual(t.address, order?.erc20Token)
+    isAddressEqual(t.address, order?.erc20Token),
   );
 
   const elRef = useRef<HTMLElement | null>(null);
@@ -78,11 +78,15 @@ export function ListingsTableRow({
           ratio = tokenData[currency];
         }
 
-        if (ratio && order?.erc20TokenAmount !== undefined) {
+        if (
+          ratio &&
+          order?.erc20TokenAmount !== undefined &&
+          token.decimals !== undefined
+        ) {
           return (
             ratio *
             parseFloat(
-              ethers.utils.formatUnits(order?.erc20TokenAmount, token.decimals)
+              ethers.utils.formatUnits(order?.erc20TokenAmount, token.decimals),
             )
           );
         } else {
@@ -111,7 +115,7 @@ export function ListingsTableRow({
             {order.erc20TokenAmount !== undefined &&
               ethers.utils.formatUnits(
                 order.erc20TokenAmount,
-                token?.decimals || 18
+                token?.decimals || 18,
               )}{' '}
             {token?.symbol.toUpperCase()}
           </Typography>

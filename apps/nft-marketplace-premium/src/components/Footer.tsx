@@ -66,7 +66,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
   };
 
   const showAppSignature = useMemo(() => {
-    if (appNFT && appConfig?.hide_powered_by === true) {
+    if (appConfig?.hide_powered_by === true) {
       return false;
     }
     return true;

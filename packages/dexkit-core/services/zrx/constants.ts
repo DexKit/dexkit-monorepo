@@ -1,4 +1,5 @@
 import { ChainId } from "../../constants/enums";
+import { NETWORK_SLUG } from "../../constants/networks";
 
 export const ZEROEX_NATIVE_TOKEN_ADDRESS =
   "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
@@ -30,8 +31,13 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
   }
 };
 
-export const ZERO_EX_URL = (chainId?: number) =>
-  `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;
+export const ZERO_EX_URL = (chainId?: number, siteId?: number) => {
+  if (siteId !== undefined) {
+    return `/api/zrx/${siteId}/${NETWORK_SLUG(chainId)}`;
+  }
+
+  return `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;
+};
 
 export const ZEROEX_QUOTE_ENDPOINT = "/swap/v1/quote";
 

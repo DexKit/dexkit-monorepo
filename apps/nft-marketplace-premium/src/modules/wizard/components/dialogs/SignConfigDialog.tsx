@@ -58,8 +58,6 @@ function SignConfigDialog({
     }
   };
 
-  console.log(error);
-
   const handleToggleDetails = () => {
     setShowDetails((value) => !value);
   };

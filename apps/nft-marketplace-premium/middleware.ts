@@ -54,7 +54,7 @@ function isBasePath(path: string) {
   }
 
   for (const p of basePaths) {
-    isPath = isPath || path.startsWith(p);
+    isPath = isPath || path === p || path.startsWith(`${p}/`);
   }
   return isPath;
 }
@@ -82,7 +82,8 @@ export default function middleware(req: NextRequest) {
   if (
     hostname === 'whitelabel-nft.dexkit.com' ||
     hostname === 'dexappbuilder.dexkit.com' ||
-    hostname === 'dexappbuilder-dev.dexkit.com'
+    hostname === 'dexappbuilder-dev.dexkit.com' ||
+    hostname === 'dexappbuilder.com'
   ) {
     // we pass here the search param to be used on get config
     const search = url.searchParams.get('mid');

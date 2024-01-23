@@ -131,11 +131,13 @@ export async function getAccessTokenAndRefresh() {
     return access_token;
   }
 
+
   if (!access_token && !refreshedWasCalled) {
     try {
       const response = await axios.get('/api/dex-auth/refresh-token', {
         withCredentials: true,
       });
+
       refreshedWasCalled = false;
       access_token = response.data.access_token;
       return access_token;

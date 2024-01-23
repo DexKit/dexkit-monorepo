@@ -46,7 +46,7 @@ export default function EditSectionDialog({
   const { onClose } = dialogProps;
   const { formatMessage } = useIntl();
   const [sectionType, setSectionType] = useState<SectionType | undefined>(
-    section?.type,
+    section?.type
   );
 
   const [sectionMetadata, setSectionMetadata] = useState<
@@ -78,13 +78,15 @@ export default function EditSectionDialog({
   };
 
   const renderSectionType = (sectionType?: SectionType) => {
-    return SectionFormRender({
-      section,
-      sectionType,
-      onSave: handleSave,
-      onClose: handleClose,
-      onChange: handleChange,
-    });
+    return (
+      <SectionFormRender
+        section={section}
+        sectionType={sectionType}
+        onSave={handleSave}
+        onClose={handleClose}
+        onChange={handleChange}
+      />
+    );
   };
 
   useEffect(() => {

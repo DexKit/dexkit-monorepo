@@ -45,6 +45,8 @@ export function AuthProvider(props: Props) {
           if (accessToken) {
             setUser(jwt_decode(accessToken));
             setIsLoggedIn(true);
+          } else {
+            setIsLoggedIn(false);
           }
         })
         .finally(() => setTriedLogin(true));

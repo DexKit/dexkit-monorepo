@@ -94,4 +94,5 @@ export type AssetFormType = {
   tokenId: string;
   enableFiat?: boolean;
   enableDrops?: boolean; // only on edition
+  enableDarkblock?: boolean;
 };
