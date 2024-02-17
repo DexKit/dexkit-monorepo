@@ -1,5 +1,38 @@
 # dexappbuilder
 
+## 0.16.0
+
+### Minor Changes
+
+- b7d4d61: add revalidate time to all pages from whitelabel
+- cd21537: Added improvements on fetching nfts
+- d4113b2: Add dynamic sitemaps
+- 8982d0a: add blast testnet
+- 8ff3c78: Add Darkblock on collection page. Remove the requirement to have KIT and NFT to hide the footer, now just holding KIT is enough
+- 637aecf: Add support for media dialog sorting images and add gif support
+- 3734d95: Add new darblock integration and make adjustments to 0x integration
+- 85d086c: Added missing darkblock dependency
+- 6f2e89c: Allows builder to active or deactivate networks
+- 18e39ed: Improve Darkblock integration and fix bugs
+- c88850d: Add option to buy now from listings on collection pages
+- 8a856e6: Improve token buy flow
+
+### Patch Changes
+
+- Updated dependencies [571516a]
+- Updated dependencies [cd21537]
+- Updated dependencies [8982d0a]
+- Updated dependencies [85d086c]
+- Updated dependencies [6f2e89c]
+- Updated dependencies [18e39ed]
+- Updated dependencies [c88850d]
+- Updated dependencies [8a856e6]
+  - @dexkit/darkblock-evm-widget@0.1.0
+  - @dexkit/core@0.13.0
+  - @dexkit/web3forms@0.9.0
+  - @dexkit/widgets@0.7.0
+  - @dexkit/ui@0.13.0
+
 ## 0.15.0
 
 ### Minor Changes

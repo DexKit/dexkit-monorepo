@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.7.0
+
+### Minor Changes
+
+- 6f2e89c: Allows builder to active or deactivate networks
+
 ## 0.6.0
 
 ### Minor Changes

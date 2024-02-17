@@ -1,5 +1,15 @@
 # @dexkit/core
 
+## 0.13.0
+
+### Minor Changes
+
+- cd21537: Added improvements on fetching nfts
+- 8982d0a: add blast testnet
+- 6f2e89c: Allows builder to active or deactivate networks
+- c88850d: Add option to buy now from listings on collection pages
+- 8a856e6: Improve token buy flow
+
 ## 0.12.0
 
 ### Minor Changes
