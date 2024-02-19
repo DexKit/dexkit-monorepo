@@ -1,5 +1,17 @@
 # dexappbuilder
 
+## 0.17.0
+
+### Minor Changes
+
+- 6f22c6a: Starting adding support for templates made by DexKit to be easily cloned
+- 86181b2: Add option to add global search and easy way to check changelog for builders.
+
+### Patch Changes
+
+- Updated dependencies [86181b2]
+  - @dexkit/ui@0.14.0
+
 ## 0.16.0
 
 ### Minor Changes

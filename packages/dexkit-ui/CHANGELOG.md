@@ -1,5 +1,11 @@
 # @dexkit/ui
 
+## 0.14.0
+
+### Minor Changes
+
+- 86181b2: Add option to add global search and easy way to check changelog for builders.
+
 ## 0.13.0
 
 ### Minor Changes
