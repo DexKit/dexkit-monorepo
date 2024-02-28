@@ -1,5 +1,23 @@
 # dexappbuilder
 
+## 0.18.0
+
+### Minor Changes
+
+- 7ee615d: Add unlock widget
+- 7ee615d: Add aidrop claimable erc20 feature. This allows users to reward communities without spending gas, and it was added as well option to add merkle tree.
+- 7ee615d: Add transak widget in wallet and token market buy
+
+### Patch Changes
+
+- Updated dependencies [7ee615d]
+- Updated dependencies [7ee615d]
+- Updated dependencies [7ee615d]
+  - @dexkit/unlock-widget@0.1.0
+  - @dexkit/core@0.14.0
+  - @dexkit/ui@0.15.0
+  - @dexkit/web3forms@0.10.0
+
 ## 0.17.0
 
 ### Minor Changes
