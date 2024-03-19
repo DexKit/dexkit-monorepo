@@ -1,5 +1,20 @@
 # @dexkit/ui
 
+## 0.10.0
+
+### Minor Changes
+
+- 664c6ab: Improve translations scripts
+
+### Patch Changes
+
+- Updated dependencies [664c6ab]
+- Updated dependencies [f242a33]
+- Updated dependencies [ab238f4]
+- Updated dependencies [388431f]
+  - @dexkit/ui@0.16.0
+  - @dexkit/core@0.15.0
+
 ## 0.9.0
 
 ### Minor Changes

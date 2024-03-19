@@ -1,5 +1,31 @@
 # dexappbuilder
 
+## 0.19.0
+
+### Minor Changes
+
+- f15a3bd: Added languages FR, IT, German and Norwegian. Optimizing loading of languages. Adding scripts to handle all internalization automatically
+- f174b6d: Add option to disable secondary sales showing on collection page
+- e4bdcd8: Added token trade section, add easy access for token buy links, improve display of dexgenerator components on custom section
+- 664c6ab: Improve translations scripts
+- f242a33: Add Blast and Pulse networks
+- ab238f4: Improve wallet handling and connection on mobile
+- 1e637b4: Add countdowns and more detailed info when there is more than one phase on all drop types
+- 388431f: Add AI features to create and edit images, create and improve text, add billing system to add credits
+
+### Patch Changes
+
+- Updated dependencies [664c6ab]
+- Updated dependencies [f242a33]
+- Updated dependencies [ab238f4]
+- Updated dependencies [388431f]
+  - @dexkit/widgets@0.8.0
+  - @dexkit/unlock-widget@0.2.0
+  - @dexkit/ui@0.16.0
+  - @dexkit/web3forms@0.11.0
+  - @dexkit/core@0.15.0
+  - @dexkit/wallet-connectors@0.2.0
+
 ## 0.18.0
 
 ### Minor Changes

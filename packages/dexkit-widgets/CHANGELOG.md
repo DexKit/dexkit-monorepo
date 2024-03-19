@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.8.0
+
+### Minor Changes
+
+- 664c6ab: Improve translations scripts
+
 ## 0.7.0
 
 ### Minor Changes

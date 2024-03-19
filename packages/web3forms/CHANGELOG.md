@@ -1,5 +1,21 @@
 # @dexkit/web3forms
 
+## 0.11.0
+
+### Minor Changes
+
+- 664c6ab: Improve translations scripts
+- 388431f: Add AI features to create and edit images, create and improve text, add billing system to add credits
+
+### Patch Changes
+
+- Updated dependencies [664c6ab]
+- Updated dependencies [f242a33]
+- Updated dependencies [ab238f4]
+- Updated dependencies [388431f]
+  - @dexkit/ui@0.16.0
+  - @dexkit/core@0.15.0
+
 ## 0.10.0
 
 ### Minor Changes

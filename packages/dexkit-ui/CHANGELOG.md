@@ -1,5 +1,22 @@
 # @dexkit/ui
 
+## 0.16.0
+
+### Minor Changes
+
+- 664c6ab: Improve translations scripts
+- f242a33: Add Blast and Pulse networks
+- ab238f4: Improve wallet handling and connection on mobile
+- 388431f: Add AI features to create and edit images, create and improve text, add billing system to add credits
+
+### Patch Changes
+
+- Updated dependencies [f242a33]
+- Updated dependencies [ab238f4]
+- Updated dependencies [388431f]
+  - @dexkit/core@0.15.0
+  - @dexkit/wallet-connectors@0.2.0
+
 ## 0.15.0
 
 ### Minor Changes

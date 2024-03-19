@@ -1,5 +1,12 @@
 # @dexkit/core
 
+## 0.15.0
+
+### Minor Changes
+
+- f242a33: Add Blast and Pulse networks
+- 388431f: Add AI features to create and edit images, create and improve text, add billing system to add credits
+
 ## 0.14.0
 
 ### Minor Changes

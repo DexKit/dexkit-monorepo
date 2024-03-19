@@ -1,6 +1,6 @@
 {
   "name": "@dexkit/web3forms",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": false,
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
