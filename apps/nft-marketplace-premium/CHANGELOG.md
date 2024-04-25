@@ -1,5 +1,46 @@
 # dexappbuilder
 
+## 0.20.0
+
+### Minor Changes
+
+- 95faa89: Add Czech language and translations for other languages
+- b909e38: Add border radius on image plugin on custom section, add option to add font size on text editor on custom section
+- 75691c0: Add carousel section to pages
+- 4446f4b: Add AI completation to markdown editor on page sections
+- 165d0bd: Add Token Drop allowance
+- 04db6a2: Upgrade app to use Next 14
+- 75691c0: Add showcase gallery section
+- a0a65d0: Internal: remove duplicated code to prepare for update next version
+- 3deed54: Add site metadata to be displayed on templates page
+- 09ffcbe: add bsc testnet
+- ffb59ed: Add tables specific for each onchain user events
+- 8d6efa9: Add support for dexkit publisher and added first iteration of DropAllowanceERC20 contract.
+- 2d6a0ac: Add extend key functionality and countdown for Unlock with renew functionality
+- cc656de: Add new sidebar menu variant
+
+### Patch Changes
+
+- Updated dependencies [95faa89]
+- Updated dependencies [165d0bd]
+- Updated dependencies [04db6a2]
+- Updated dependencies [9cdde53]
+- Updated dependencies [a0a65d0]
+- Updated dependencies [3deed54]
+- Updated dependencies [09ffcbe]
+- Updated dependencies [ffb59ed]
+- Updated dependencies [8d6efa9]
+- Updated dependencies [2d6a0ac]
+  - @dexkit/ui@0.17.0
+  - @dexkit/wallet-connectors@0.3.0
+  - @dexkit/dexappbuilder-viewer@0.5.0
+  - eslint-config-custom@0.1.0
+  - @dexkit/darkblock-evm-widget@0.2.0
+  - @dexkit/widgets@0.9.0
+  - @dexkit/unlock-widget@0.3.0
+  - @dexkit/core@0.16.0
+  - @dexkit/web3forms@0.12.0
+
 ## 0.19.0
 
 ### Minor Changes

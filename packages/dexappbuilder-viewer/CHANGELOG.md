@@ -1,5 +1,32 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.5.0
+
+### Minor Changes
+
+- 04db6a2: Upgrade app to use Next 14
+- 9cdde53: Add line height option for text component on page editor
+- a0a65d0: Internal: remove duplicated code to prepare for update next version
+- 3deed54: Add site metadata to be displayed on templates page
+
+### Patch Changes
+
+- Updated dependencies [95faa89]
+- Updated dependencies [165d0bd]
+- Updated dependencies [04db6a2]
+- Updated dependencies [a0a65d0]
+- Updated dependencies [3deed54]
+- Updated dependencies [09ffcbe]
+- Updated dependencies [ffb59ed]
+- Updated dependencies [8d6efa9]
+- Updated dependencies [2d6a0ac]
+  - @dexkit/ui@0.17.0
+  - @dexkit/wallet-connectors@0.3.0
+  - @dexkit/exchange@0.11.0
+  - @dexkit/widgets@0.9.0
+  - @dexkit/core@0.16.0
+  - @dexkit/web3forms@0.12.0
+
 ## 0.4.0
 
 ### Minor Changes

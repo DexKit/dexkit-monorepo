@@ -1,5 +1,29 @@
 # @dexkit/ui
 
+## 0.17.0
+
+### Minor Changes
+
+- 95faa89: Add Czech language and translations for other languages
+- 165d0bd: Add Token Drop allowance
+- 04db6a2: Upgrade app to use Next 14
+- a0a65d0: Internal: remove duplicated code to prepare for update next version
+- 09ffcbe: add bsc testnet
+- ffb59ed: Add tables specific for each onchain user events
+- 8d6efa9: Add support for dexkit publisher and added first iteration of DropAllowanceERC20 contract.
+- 2d6a0ac: Add extend key functionality and countdown for Unlock with renew functionality
+
+### Patch Changes
+
+- Updated dependencies [04db6a2]
+- Updated dependencies [a0a65d0]
+- Updated dependencies [3deed54]
+- Updated dependencies [09ffcbe]
+- Updated dependencies [ffb59ed]
+- Updated dependencies [2d6a0ac]
+  - @dexkit/wallet-connectors@0.3.0
+  - @dexkit/core@0.16.0
+
 ## 0.16.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.9.0
+
+### Minor Changes
+
+- 04db6a2: Upgrade app to use Next 14
+
 ## 0.8.0
 
 ### Minor Changes

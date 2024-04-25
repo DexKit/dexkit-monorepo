@@ -1,5 +1,24 @@
 # @dexkit/ui
 
+## 0.11.0
+
+### Minor Changes
+
+- 04db6a2: Upgrade app to use Next 14
+
+### Patch Changes
+
+- Updated dependencies [95faa89]
+- Updated dependencies [165d0bd]
+- Updated dependencies [04db6a2]
+- Updated dependencies [a0a65d0]
+- Updated dependencies [09ffcbe]
+- Updated dependencies [ffb59ed]
+- Updated dependencies [8d6efa9]
+- Updated dependencies [2d6a0ac]
+  - @dexkit/ui@0.17.0
+  - @dexkit/core@0.16.0
+
 ## 0.10.0
 
 ### Minor Changes

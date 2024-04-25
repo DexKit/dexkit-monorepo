@@ -1,5 +1,15 @@
 # @dexkit/core
 
+## 0.16.0
+
+### Minor Changes
+
+- 04db6a2: Upgrade app to use Next 14
+- a0a65d0: Internal: remove duplicated code to prepare for update next version
+- 09ffcbe: add bsc testnet
+- ffb59ed: Add tables specific for each onchain user events
+- 2d6a0ac: Add extend key functionality and countdown for Unlock with renew functionality
+
 ## 0.15.0
 
 ### Minor Changes

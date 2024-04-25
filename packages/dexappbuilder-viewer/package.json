@@ -1,7 +1,7 @@
 {
   "name": "@dexkit/dexappbuilder-viewer",
   "private": false,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
