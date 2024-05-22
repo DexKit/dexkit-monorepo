@@ -1,5 +1,11 @@
 # @dexkit/wallet-connectors
 
+## 0.4.0
+
+### Minor Changes
+
+- 46656c4: Improve wallet connection. Add support for injected wallets
+
 ## 0.3.0
 
 ### Minor Changes

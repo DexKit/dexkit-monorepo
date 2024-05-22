@@ -1,5 +1,17 @@
 # @dexkit/ui
 
+## 0.18.0
+
+### Minor Changes
+
+- 46656c4: Improve wallet connection. Add support for injected wallets
+- 3596cad: Use prices from DexKit api for wallet balances
+
+### Patch Changes
+
+- Updated dependencies [46656c4]
+  - @dexkit/wallet-connectors@0.4.0
+
 ## 0.17.0
 
 ### Minor Changes

@@ -1,5 +1,21 @@
 # dexappbuilder
 
+## 0.21.0
+
+### Minor Changes
+
+- e648d26: Add various types of aggregators and improve the display screen of the application's events.
+- 46656c4: Improve wallet connection. Add support for injected wallets
+- 0b2ac90: Add new website to dexappbuilder
+- 4262e38: Add user activity tab on wallet page
+
+### Patch Changes
+
+- Updated dependencies [46656c4]
+- Updated dependencies [3596cad]
+  - @dexkit/wallet-connectors@0.4.0
+  - @dexkit/ui@0.18.0
+
 ## 0.20.0
 
 ### Minor Changes
