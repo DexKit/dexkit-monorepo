@@ -1,5 +1,19 @@
 # dexappbuilder
 
+## 0.22.0
+
+### Minor Changes
+
+- 3d477c0: add swap layout variants and option to import tokens
+
+### Patch Changes
+
+- Updated dependencies [a73f89e]
+- Updated dependencies [3d477c0]
+  - @dexkit/widgets@0.10.0
+  - @dexkit/ui@0.19.0
+  - @dexkit/dexappbuilder-viewer@0.6.0
+
 ## 0.21.0
 
 ### Minor Changes

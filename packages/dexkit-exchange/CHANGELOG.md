@@ -1,5 +1,14 @@
 # @dexkit/ui
 
+## 0.11.1
+
+### Patch Changes
+
+- a73f89e: Several improvements on swap and token trade components. Add gasless setting on global dialog
+- Updated dependencies [a73f89e]
+- Updated dependencies [3d477c0]
+  - @dexkit/ui@0.19.0
+
 ## 0.11.0
 
 ### Minor Changes
