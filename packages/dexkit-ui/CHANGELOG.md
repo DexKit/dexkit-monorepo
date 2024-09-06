@@ -1,5 +1,13 @@
 # @dexkit/ui
 
+## 0.20.0
+
+### Minor Changes
+
+- b28966e: add new endpoint for nft trading
+- 2cb58e5: Add rarible orders on base network
+- 6b468e1: Add Wallet QR Code Scanner
+
 ## 0.19.0
 
 ### Minor Changes

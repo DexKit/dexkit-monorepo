@@ -1,5 +1,22 @@
 # dexappbuilder
 
+## 0.23.0
+
+### Minor Changes
+
+- 146e53c: Add new tokens menu
+- b28966e: add new endpoint for nft trading
+- bd67f26: Add tabs layout to pages
+- 2cb58e5: Add rarible orders on base network
+- 6b468e1: Add Wallet QR Code Scanner
+
+### Patch Changes
+
+- Updated dependencies [b28966e]
+- Updated dependencies [2cb58e5]
+- Updated dependencies [6b468e1]
+  - @dexkit/ui@0.20.0
+
 ## 0.22.0
 
 ### Minor Changes
