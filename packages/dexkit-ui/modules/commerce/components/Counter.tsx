@@ -7,7 +7,7 @@ export interface CounterProps {
   value: number;
   onIncrement: () => void;
   onDecrement: () => void;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
 export default function Counter({
@@ -37,7 +37,7 @@ export default function Counter({
           </IconButton>
         </Stack>
       </Box>
-      {value > 0 && (
+      {value > 0 && onDelete && (
         <IconButton size="small" onClick={onDelete}>
           <Delete />
         </IconButton>

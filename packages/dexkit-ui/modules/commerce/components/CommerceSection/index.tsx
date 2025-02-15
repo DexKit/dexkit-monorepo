@@ -54,6 +54,10 @@ function CommerceSectionComponent({ section }: CommerceSectionProps) {
 
       return <CollectionContent id={section.settings.content.id} />;
     } else if (section.settings.content.type === "single-product") {
+
+      console.log('product', section.settings.content );
+
+      
       return (
         <Container>
           <ProductContent

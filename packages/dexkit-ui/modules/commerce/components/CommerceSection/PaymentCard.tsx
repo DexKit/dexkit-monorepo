@@ -3,6 +3,7 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
 import {
   convertTokenToEvmCoin,
+  getBlockExplorerUrl,
   ipfsUriToUrl,
   parseChainId,
 } from "@dexkit/core/utils";
@@ -19,6 +20,7 @@ import {
   Divider,
   FormControl,
   InputLabel,
+  Link,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -43,7 +45,6 @@ import {
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import { z } from "zod";
 import {
-  useActiveChainIds,
   useConnectWalletDialog,
   useSwitchNetworkMutation,
 } from "../../../../hooks";
@@ -69,8 +70,6 @@ export default function PaymentCard() {
   const { data: receiverData } = useSiteReceiver({ siteId: siteId });
 
   const { cartItems, clearCart, requireEmail } = useCommerce();
-
-  const { activeChainIds } = useActiveChainIds();
 
   const [chainId, setChainId] = useState<ChainId>();
 
@@ -101,11 +100,17 @@ export default function PaymentCard() {
       .map((key: string) => NETWORKS[parseChainId(key)])
       .filter((n) => availNetworks?.includes(n.chainId))
       .filter((n) => {
+        if (n.chainId === 81457) {
+          let token = CHECKOUT_TOKENS.find((t) => t.chainId === n.chainId);
+
+          console.log("TEM BLAST", token);
+        }
+
         let token = CHECKOUT_TOKENS.find((t) => t.chainId === n.chainId);
 
         return Boolean(token);
       });
-  }, [availNetworks]);
+  }, [JSON.stringify(availNetworks)]);
 
   const [items, setItems] = useState<{
     [key: string]: { quantity: number; price: string };
@@ -446,19 +451,17 @@ export default function PaymentCard() {
                     );
                   }}
                 >
-                  {networks
-                    .filter((n) => activeChainIds.includes(n.chainId))
-                    .map((n) => (
-                      <MenuItem key={n.chainId} value={n.chainId}>
-                        <ListItemIcon>
-                          <Avatar
-                            src={ipfsUriToUrl(n?.imageUrl || "")}
-                            style={{ width: "1rem", height: "1rem" }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText primary={n.name} />
-                      </MenuItem>
-                    ))}
+                  {networks.map((n) => (
+                    <MenuItem key={n.chainId} value={n.chainId}>
+                      <ListItemIcon>
+                        <Avatar
+                          src={ipfsUriToUrl(n?.imageUrl || "")}
+                          style={{ width: "1rem", height: "1rem" }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={n.name} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             )}
@@ -479,6 +482,23 @@ export default function PaymentCard() {
                 />
               </Alert>
             )}
+            {token && (
+              <Typography variant="caption" color="text.secondary">
+                <FormattedMessage
+                  id="token.on.explorer"
+                  defaultMessage="Token on explorer:"
+                />{" "}
+                <Link
+                  target="_blank"
+                  href={`${getBlockExplorerUrl(
+                    token?.chainId
+                  )}/address/${token?.address}`}
+                >
+                  <FormattedMessage id="view" defaultMessage="view" />
+                </Link>
+              </Typography>
+            )}
+
             {token && (
               <Stack
                 direction="row"
@@ -569,13 +589,15 @@ export default function PaymentCard() {
         )}
         <Divider />
         <CardContent>
-          <Alert severity="error">
-            <FormattedMessage
-              id="checkout.is.currently.unavailable"
-              defaultMessage="Checkout is currently unavailable. Please try again later."
-            />
-          </Alert>
-          {renderPayButton()}
+          <Stack spacing={2}>
+            <Alert severity="error">
+              <FormattedMessage
+                id="checkout.is.currently.unavailable"
+                defaultMessage="Checkout is currently unavailable. Please try again later."
+              />
+            </Alert>
+            {renderPayButton()}
+          </Stack>
         </CardContent>
       </Card>
     </>

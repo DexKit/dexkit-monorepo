@@ -28,7 +28,7 @@ export default function CheckoutItemsTableRow({
   return (
     <TableRow>
       <TableCell>
-        <ProductAutocomplete name={name} />
+        <ProductAutocomplete name={`${name}.productId`} />
       </TableCell>
       <TableCell>
         <Field

@@ -20,9 +20,9 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import Delete from "@mui/icons-material/Delete";
-import Share from "@mui/icons-material/Share";
 import { MouseEvent } from "react";
 
+import Share from "@mui/icons-material/Share";
 import { useRouter } from "next/router";
 
 export interface ProductCardProps {
@@ -86,6 +86,7 @@ export default function ProductCard({
       imageUrl: product.imageUrl ?? "",
     });
   };
+
   return (
     <Box>
       <Stack spacing={1}>

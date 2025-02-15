@@ -21,6 +21,19 @@ import { AssetShow } from './shows/asset';
 import { CoinShow } from './shows/coin';
 import { CoinPlatformShow } from './shows/coinPlatform';
 import { CollectionShow } from './shows/collection';
+import { OrdersList } from './lists/orders';
+import { OrderShow } from './shows/order';
+import { ProductShow } from './shows/product';
+import { ProductCategoryShow } from './shows/productCategory';
+
+import {CheckoutShow} from './shows/checkout';
+
+
+import { ProductList } from './lists/products';
+import { CheckoutList } from './lists/checkouts';
+import { ProductCategoryList } from './lists/productCategories';
+import { NotificationsList } from './lists/notifications';
+import { NotificationShow } from './shows/notifications';
 
 const App = () => (
   <Admin
@@ -38,6 +51,12 @@ const App = () => (
     <Resource name="user-events" list={UserEventList} />
     <Resource name="site" list={SiteList} show={ShowGuesser} edit={SiteEdit} />
     <Resource name="coin" list={CoinList} show={CoinShow} />
+    <Resource name="orders" list={OrdersList} show={OrderShow} />
+    <Resource name="products" list={ProductList} show={ProductShow} />
+    <Resource name="product-category" list={ProductCategoryList} show={ProductCategoryShow} />
+    <Resource name="checkouts" list={CheckoutList} show={CheckoutShow} />
+    <Resource name="notifications" list={NotificationsList} show={NotificationShow} />
+
     <Resource
       name="coin-platform"
       list={CoinPlatformList}

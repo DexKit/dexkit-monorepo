@@ -7,21 +7,20 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import { useField } from "formik";
 import { ChangeEvent, useState } from "react";
 
-import useProduct from "../hooks/useProduct";
 import useProductList from "../hooks/useProductList";
+import { ProductFormType } from "../types";
 
-export interface ProductAutocompleteProps {
-  name: string;
+export interface ProductsAutocompleteProps {
+  product: ProductFormType | null;
+  onChange: (product: ProductFormType | null) => void;
 }
 
-export default function ProductAutocomplete({
-  name,
-}: ProductAutocompleteProps) {
-  const [props, meta, helpers] = useField<string>(`${name}`);
-
+export default function ProductsAutocomplete({
+  product,
+  onChange,
+}: ProductsAutocompleteProps) {
   const [query, setQuery] = useState("");
 
   const lazyQuery = useDebounce<string>(query, 500);
@@ -31,8 +30,6 @@ export default function ProductAutocomplete({
     page: 0,
     q: lazyQuery,
   });
-
-  const { data: product, refetch } = useProduct({ id: props.value });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -46,7 +43,7 @@ export default function ProductAutocomplete({
       getOptionLabel={(t) => t.name}
       isOptionEqualToValue={(opt, value) => opt.id === value.id}
       onChange={(e, value, reason) => {
-        helpers.setValue(value?.id ?? "");
+        onChange(value);
       }}
       fullWidth
       renderOption={(params, opt) => (
@@ -64,10 +61,7 @@ export default function ProductAutocomplete({
       renderInput={(params) => (
         <TextField
           {...params}
-          size="small"
           fullWidth
-          error={Boolean(meta.error)}
-          helperText={meta.error?.toString() ?? undefined}
           value={query}
           onChange={handleChange}
         />

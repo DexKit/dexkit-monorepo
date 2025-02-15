@@ -8,6 +8,7 @@ import { DexkitApiProvider } from '@dexkit/core/providers';
 import { Token, TokenWhitelabelApp } from '@dexkit/core/types';
 import {
   convertTokenToEvmCoin,
+  getBlockExplorerUrl,
   ipfsUriToUrl,
   parseChainId,
 } from '@dexkit/core/utils';
@@ -34,6 +35,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Link,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -600,19 +602,17 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                           );
                         }}
                       >
-                        {networks
-                          .filter((n) => activeChainIds.includes(n.chainId))
-                          .map((n) => (
-                            <MenuItem key={n.chainId} value={n.chainId}>
-                              <ListItemIcon>
-                                <Avatar
-                                  src={ipfsUriToUrl(n?.imageUrl || '')}
-                                  style={{ width: '1rem', height: '1rem' }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText primary={n.name} />
-                            </MenuItem>
-                          ))}
+                        {networks.map((n) => (
+                          <MenuItem key={n.chainId} value={n.chainId}>
+                            <ListItemIcon>
+                              <Avatar
+                                src={ipfsUriToUrl(n?.imageUrl || '')}
+                                style={{ width: '1rem', height: '1rem' }}
+                              />
+                            </ListItemIcon>
+                            <ListItemText primary={n.name} />
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   )}
@@ -633,6 +633,22 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                         defaultMessage="Select a token to pay"
                       />
                     </Alert>
+                  )}
+                  {token && (
+                    <Typography variant="caption" color="text.secondary">
+                      <FormattedMessage
+                        id="token.on.explorer"
+                        defaultMessage="Token on explorer:"
+                      />{' '}
+                      <Link
+                        target="_blank"
+                        href={`${getBlockExplorerUrl(
+                          token?.chainId,
+                        )}/address/${token?.address}`}
+                      >
+                        <FormattedMessage id="view" defaultMessage="view" />
+                      </Link>
+                    </Typography>
                   )}
                   {userCheckout.data?.requireEmail && (
                     <Stack spacing={2}>

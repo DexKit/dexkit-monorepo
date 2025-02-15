@@ -10,3 +10,12 @@ export interface CommerceContainerState {
   get: (key: string) => string;
   goBack: () => void;
 }
+
+export type ShareType =
+  | "telegram"
+  | "whatsapp"
+  | "pinterest"
+  | "email"
+  | "link"
+  | "facebook"
+  | "x";
