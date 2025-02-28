@@ -54,7 +54,7 @@ export default function AppConfirmDialog({
         titleBox={{ px: 2 }}
       />
       <DialogContent dividers sx={{ p: 4 }}>
-        {children}
+        <>{children}</>
       </DialogContent>
       <DialogActions sx={{ px: 4, py: 2 }}>
         <Button disabled={isConfirming} onClick={handleClose}>

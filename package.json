@@ -58,6 +58,7 @@
     "@stripe/stripe-js": "^2.4.0",
     "@tanstack/react-query": "^4.23.0",
     "@transak/transak-sdk": "^3.0.1",
+    "@web3-react/core": "^8.2.3",
     "decimal.js": "^10.4.3",
     "ethers": "^5.7.2",
     "jotai": "1.6.5",
@@ -67,7 +68,7 @@
     "optics-ts": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^5.24.8",
+    "react-intl": "^7.1.6",
     "uint8arrays": "3.1.1"
   },
   "packageManager": "yarn@4.6.0",

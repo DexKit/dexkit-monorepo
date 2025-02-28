@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@dexkit/ui": "*",
-    "@unlock-protocol/unlock-js": "^0.45.1"
+    "@unlock-protocol/unlock-js": "^0.45.1",
+    "react-intl": "^5.24.8"
   }
 }

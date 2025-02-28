@@ -56,7 +56,7 @@ export default function BuyLockSkeleton() {
             <Box display={"flex"} justifyContent={"center"}>
               <Skeleton>
                 <Button variant={"contained"} startIcon={<KeyIcon />}>
-                  <FormattedMessage id={"buy.key"} defaultMessage={"Buy key"} />
+                  <FormattedMessage id="buy.key" defaultMessage="Buy key" />
                 </Button>
               </Skeleton>
             </Box>
