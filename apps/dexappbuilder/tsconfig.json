@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -9,38 +9,15 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "downlevelIteration": true,
     "jsx": "preserve",
-    "jsxImportSource": "@emotion/react",
     "incremental": true,
-    "typeRoots": [
-      "../../node_modules/@0x/typescript-typings/types",
-      "../../node_modules/@types"
-    ],
-    "baseUrl": ".",
     "paths": {
-      "@/modules/*": ["src/modules/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next-sitemap.config.js",
-    "scripts/local-diff.js",
-    "../../packages/dexkit-ui/components/NavbarMenuAlt.tsx",
-    "../../packages/dexkit-ui/components/NavbarAlt.tsx",
-    "../../packages/dexkit-ui/components/AppDefaultMenuList.tsx",
-    "../../packages/dexkit-ui/hooks/useColumns.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
