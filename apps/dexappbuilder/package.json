@@ -3,9 +3,6 @@
   "version": "0.23.0",
   "private": true,
   "type": "module",
-  "engines": {
-     "node": "21.7.1"
-  },
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/update-version-json.js",
