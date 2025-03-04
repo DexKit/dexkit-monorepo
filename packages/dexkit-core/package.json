@@ -1,6 +1,5 @@
 {
   "name": "@dexkit/core",
-  "private": false,
   "version": "0.16.0",
   "license": "MIT",
   "engines": {
@@ -18,9 +17,9 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "@dexkit/evm-chains": "^1.14",
     "eth-url-parser": "^1.0.4",
-    "ua-parser-js": "^1.0.35",
-    "@dexkit/evm-chains": "^1.14"
+    "ua-parser-js": "^1.0.35"
   },
   "publishConfig": {
     "access": "public"

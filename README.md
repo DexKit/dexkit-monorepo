@@ -1,73 +1,71 @@
-# Turborepo starter
+# DexAppBuilder
 
-This is an official Yarn v1 starter turborepo.
+Tap into the potential of Web3 with DexAppBuilder. Easily create decentralized applications (DApps) without the coding headaches. Join us now to revolutionize your DApp development journey on Web3!
 
-## What's inside?
+## Getting Started
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/) as a package manager. It includes the following packages/apps:
+Follow these steps to set up and run DexApp Builder locally:
 
-### Apps and Packages
+### Installation
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+Note: Yarn is the preferred package manager for this project.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+#### Clone the repository:
 
 ```
-cd my-turborepo
-yarn run build
+git clone https://github.com/DexKit/dexkit-monorepo.git
+cd dexapp-builder
 ```
 
-### Develop
+If you plan to colaborate fork the repository instead
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+#### Install dependencies:
 
 ```
-cd my-turborepo
-npx turbo login
+yarn install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+#### Set up environment variables:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
+Inside the apps/dexappbuilder directory, copy the example environment file and create a new .env file:
 
 ```
-npx turbo link
+cp apps/dexappbuilder/.env.example apps/dexappbuilder/.env
 ```
 
-## Useful Links
+#### Start the development server:
 
-Learn more about the power of Turborepo:
+```
+yarn dev
+```
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+The project should now be live at:
+(Be sure that project is running on port 3000, in case port 3000 is already ocuppied kill the process that is runnin on it)
+
+```
+http://localhost:3000/
+```
+
+## Contributing
+
+We welcome contributions from the community! You can contribute in the following ways:
+
+### Reporting Issues
+
+If you encounter any bugs, have feature requests, or see areas for improvement, please open an issue on GitHub.
+
+### Submitting a Pull Request (PR)
+
+Fork the repository and create a new branch.
+
+Make your changes and ensure the code follows the project's guidelines.
+
+Test your changes locally.
+
+Submit a pull request with a clear description of the changes made.
+
+Thank you for helping improve DexApp Builder!
+
+### License
+
+This project is licensed under the MIT License.

@@ -1,20 +1,20 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import { useCallback, useEffect } from "react";
@@ -45,7 +45,7 @@ interface Form {
   decimals: number;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   chainId: Yup.number().required(),
   contractAddress: Yup.string()
     .test("address", (value) => {

@@ -68,7 +68,7 @@ export default function RankingMetadataForm({
           } catch (err) {
             enqueueSnackbar(String(err), { variant: 'error' });
           }
-          
+
           onSave();
         }}
       >

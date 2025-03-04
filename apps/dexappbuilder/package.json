@@ -3,8 +3,11 @@
   "version": "0.23.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "dev": "NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
+    "dev": "next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -24,12 +27,12 @@
   ],
   "browser": {
     "child_process": false,
-    "fs": false,
-    "path": false,
-    "os": false,
-    "net": false,
     "dgram": false,
-    "module": false
+    "fs": false,
+    "module": false,
+    "net": false,
+    "os": false,
+    "path": false
   },
   "dependencies": {
     "@0x/contract-addresses": "^8.13.0",

@@ -1,6 +1,5 @@
 {
   "name": "@dexkit/ui",
-  "private": false,
   "version": "0.20.0",
   "license": "MIT",
   "scripts": {
@@ -22,6 +21,7 @@
     "@storybook/react": "^7.0.26",
     "@storybook/react-vite": "^7.0.26",
     "@storybook/testing-library": "^0.2.0",
+    "@types/eth-url-parser": "^1.0.3",
     "@types/papaparse": "^5.3.9",
     "babel-loader": "^8.3.0",
     "eslint": "^7.32.0",
@@ -38,11 +38,14 @@
     "@dexkit/evm-chains": "^1.14",
     "@dexkit/wallet-connectors": "*",
     "@mui/x-data-grid": "^6.16.1",
+    "@mycrypto/gas-estimation": "^1.1.1",
     "@transak/transak-sdk": "^3.0.1",
     "decimal.js": "^10.4.3",
+    "eth-url-parser": "^1.0.4",
     "papaparse": "^5.4.1",
     "qr-scanner": "^1.4.2",
     "react-mask-editor": "^0.0.2",
+    "react-qr-code": "^2.0.15",
     "react-window": "^1.8.10",
     "zod": "^3.22.4"
   },

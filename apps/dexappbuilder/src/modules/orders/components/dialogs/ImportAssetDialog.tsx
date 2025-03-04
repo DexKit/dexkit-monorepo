@@ -1,29 +1,29 @@
 import {
-    getBlockExplorerUrl,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils/blockchain';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Launch from '@mui/icons-material/Launch';
 import {
-    Alert,
-    Autocomplete,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import Image from 'next/image';
@@ -42,13 +42,13 @@ import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
 import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
 import Link from '@dexkit/ui/components/AppLink';
 import {
-    useAsset,
-    useAssetMetadata,
-    useFavoriteAssets,
+  useAsset,
+  useAssetMetadata,
+  useFavoriteAssets,
 } from '@dexkit/ui/modules/nft/hooks';
 import {
-    getAssetData,
-    getAssetMetadata,
+  getAssetData,
+  getAssetMetadata,
 } from '@dexkit/ui/modules/nft/services';
 import { AppCollection } from '@dexkit/ui/modules/wizard/types/config';
 

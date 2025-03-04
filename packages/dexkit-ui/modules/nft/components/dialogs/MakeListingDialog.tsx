@@ -1,24 +1,24 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
@@ -54,16 +54,16 @@ interface Form {
   taker?: string;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   price: Yup.string().required(),
-  quantity: Yup.string(),
+  quantity: Yup.string().optional(),
   tokenAddress: Yup.string().required(),
   expiry: Yup.date().required(),
   taker: Yup.string()
     .test("address", (value) => {
       return value !== undefined ? isAddress(value) : true;
     })
-    .notRequired(),
+    .optional(),
 });
 
 interface Props {
@@ -104,8 +104,9 @@ export default function MakeListingDialog({
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     if (form.isValid) {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-        ?.decimals;
+      const decimals = tokenList.find(
+        (t) => t.address === values.tokenAddress
+      )?.decimals;
 
       if (!isValidDecimal(values.price, decimals || 0)) {
         formikHelpers.setFieldError(

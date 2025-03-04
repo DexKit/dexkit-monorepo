@@ -33,11 +33,15 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@playwright/test": "^1.32.2",
+    "eslint": "^9.21.0",
     "eslint-config-custom": "*",
+    "globals": "^16.0.0",
     "next-transpile-modules": "^10.0.0",
     "prettier": "latest",
-    "turbo": "^1.11.3"
+    "turbo": "^1.11.3",
+    "typescript-eslint": "^8.24.1"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -66,7 +70,7 @@
     "react-intl": "^5.24.8",
     "uint8arrays": "3.1.1"
   },
-  "packageManager": "yarn@1.22.18",
+  "packageManager": "yarn@4.6.0",
   "main": "index.js",
   "repository": "https://github.com/DexKit/dexkit-monorepo.git",
   "author": "JoaoCampos89 <jcampos893@gmail.com>",
