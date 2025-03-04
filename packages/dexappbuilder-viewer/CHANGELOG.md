@@ -1,5 +1,17 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.7.0
+
+### Minor Changes
+
+- f9c52d8: Add priority option on image custom section
+
+### Patch Changes
+
+- Updated dependencies [ecbf91f]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/ui@0.21.0
+
 ## 0.6.0
 
 ### Minor Changes
