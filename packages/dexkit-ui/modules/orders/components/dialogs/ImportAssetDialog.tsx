@@ -1,24 +1,24 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import Launch from "@mui/icons-material/Launch";
 import {
-    Alert,
-    Autocomplete,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import Image from "next/image";
@@ -38,9 +38,9 @@ import { ipfsUriToUrl } from "@dexkit/core/utils/ipfs";
 import { useSnackbar } from "notistack";
 import * as Yup from "yup";
 import {
-    useAsset,
-    useAssetMetadata,
-    useFavoriteAssets,
+  useAsset,
+  useAssetMetadata,
+  useFavoriteAssets,
 } from "../../../nft/hooks";
 import { useCollections } from "../../../nft/hooks/collection";
 import { getAssetData, getAssetMetadata } from "../../../nft/services";
@@ -50,7 +50,7 @@ interface Form {
   tokenId: string;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   contractAddress: Yup.string()
     .test("address", (value) => {
       return value !== undefined ? isAddress(value) : true;

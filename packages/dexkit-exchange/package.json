@@ -1,7 +1,6 @@
 {
   "name": "@dexkit/exchange",
   "version": "0.11.1",
-  "private": false,
   "license": "MIT",
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
