@@ -24,12 +24,12 @@
   ],
   "browser": {
     "child_process": false,
-    "fs": false,
-    "path": false,
-    "os": false,
-    "net": false,
     "dgram": false,
-    "module": false
+    "fs": false,
+    "module": false,
+    "net": false,
+    "os": false,
+    "path": false
   },
   "dependencies": {
     "@0x/contract-addresses": "^8.13.0",

@@ -1,7 +1,6 @@
 {
   "name": "@dexkit/widgets",
   "version": "0.10.0",
-  "private": false,
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "start-storybook -p 6006 --quiet",
@@ -12,10 +11,10 @@
     "generate-lang-files": "yarn extract 'src/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
     "@dexkit/core": "*",
     "@dexkit/ui": "*",
     "@dexkit/wallet-connectors": "*",
-    "@babel/core": "^7.20.12",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-json": "^6.0.0",
