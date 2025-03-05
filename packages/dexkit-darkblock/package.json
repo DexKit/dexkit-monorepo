@@ -1,6 +1,5 @@
 {
   "name": "@dexkit/darkblock-evm-widget",
-  "private": false,
   "version": "0.2.0",
   "license": "MIT",
   "main": "dist/src/index.js",

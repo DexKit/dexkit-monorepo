@@ -14,7 +14,7 @@ Note: Yarn is the preferred package manager for this project.
 
 ```
 git clone https://github.com/DexKit/dexkit-monorepo.git
-cd dexapp-builder
+cd dexkit-monorepo
 ```
 
 If you plan to colaborate fork the repository instead
@@ -34,6 +34,20 @@ cp apps/dexappbuilder/.env.example apps/dexappbuilder/.env
 ```
 
 #### Start the development server:
+
+Untill [this issue](https://github.com/DexKit/dexkit-monorepo/issues/395) is fixed to run the application locally the file: `./package.json` must be changed to:
+
+```
+...
+  "workspaces": [
+    "apps/dexappbuilder",
+    "packages/*"
+  ],
+...
+
+```
+
+Then execute:
 
 ```
 yarn dev
