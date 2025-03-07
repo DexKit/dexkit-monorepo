@@ -104,8 +104,8 @@ export async function getAppConfig(
   }
 
   if (site?.includes('localhost:')) {
-    const [slug] = site?.split('.') || [];
-    // const slug = 'cybercows';
+    // const [slug] = site?.split('.') || [];
+    const slug = 'tiago-swap';
 
     if (slug) {
       const configResponse = (await getConfig({ slug, appPage })).data;

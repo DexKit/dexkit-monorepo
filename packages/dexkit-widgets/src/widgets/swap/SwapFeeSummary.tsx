@@ -37,8 +37,11 @@ export default function SwapFeeSummary({
   });
 
   const maxFee = useMemo(() => {
-    if (quote && quote?.gas && quote?.gasPrice) {
-      return BigNumber.from(quote.gas).mul(quote.gasPrice);
+    const gas = quote?.transaction.gas;
+    const gasPrice = quote?.transaction.gasPrice;
+
+    if (gas && gasPrice) {
+      return BigNumber.from(gas).mul(gasPrice);
     }
 
     return BigNumber.from(0);
@@ -74,7 +77,7 @@ export default function SwapFeeSummary({
 
   const priceImpact = useMemo(() => {
     if (quote) {
-      return parseFloat(quote.estimatedPriceImpact);
+      return parseFloat(quote.estimatedPriceImpact || 0);
     }
 
     return 0;

@@ -1,4 +1,13 @@
 export type ZeroExQuote = {
+  chainId: string;
+  taker: string;
+  swapFeeBps?: string;
+  swapFeeRecipient?: string;
+  swapFeeToken?: string;
+  tradeSurplusRecipient?: string;
+  slippageBps?: number;
+  txOrigin?: string;
+
   // Ethereum Address
   sellToken?: string;
 
@@ -16,25 +25,6 @@ export type ZeroExQuote = {
 
   // bigNumber
   gasPrice?: string;
-
-  // Ethereum Address
-  takerAddress?: string;
-
-  skipValidation?: boolean;
-
-  // Ethereum Address
-  feeRecipient?: string;
-
-  buyTokenPercentageFee?: number;
-
-  // Ethereum Address
-  affiliateAddress: string;
-
-  enableSlippageProtection?: boolean;
-
-  priceImpactProtectionPercentage?: boolean;
-
-  intentOnFilling?: boolean;
 };
 
 export type ZeroExQuoteResponse = {
@@ -59,8 +49,8 @@ export type ZeroExQuoteResponse = {
   sellTokenToEthRate: string;
   buyTokenToEthRate: string;
   expectedSlippage: any;
+  transaction: any;
 };
-
 
 export type ZrxOrder = {
   chainId: number;
@@ -101,7 +91,6 @@ export type ZrxOrderbookResponse = {
   records: ZrxOrderRecord[];
 };
 
-
 export type ZeroExGaslessQuoteResponse = {
   price: string;
   guaranteedPrice: any;
@@ -125,30 +114,39 @@ export type ZeroExGaslessQuoteResponse = {
   buyTokenToEthRate: any;
   expectedSlippage: any;
   trade: {
-    type: string,
-    hash: string,
+    type: string;
+    hash: string;
     eip712: {
-      types: any,
-      primaryType: any,
-      domain: any,
-      message: any,
-    }
-  }
+      types: any;
+      primaryType: any;
+      domain: any;
+      message: any;
+    };
+  };
   approval: {
-    isRequired: boolean,
-    isGasslessAvailable: boolean,
-    type: string,
-    hash: string,
+    isRequired: boolean;
+    isGasslessAvailable: boolean;
+    type: string;
+    hash: string;
     eip712: {
-      types: any,
-      primaryType: any,
-      domain: any,
-      message: any,
-    }
-  }
+      types: any;
+      primaryType: any;
+      domain: any;
+      message: any;
+    };
+  };
 };
 
 export type ZeroExQuoteGasless = {
+  chainId: string;
+  taker: string;
+  swapFeeRecipient: string;
+  swapFeeBps?: number;
+  swapFeeToken?: string;
+  tradeSurplusRecipient?: string;
+  slippageBps?: number;
+  excludedSources?: string;
+
   // Ethereum Address
   sellToken?: string;
 
@@ -160,215 +158,182 @@ export type ZeroExQuoteGasless = {
 
   // bigNumber
   buyAmount?: string;
-
-  // 0.03 = 3%
-  slippagePercentage?: number;
-
-  // bigNumber
-  gasPrice?: string;
-
-  // Ethereum Address
-  takerAddress?: string;
-
-  skipValidation?: boolean;
-
-  feeType?: 'volume';
-
-  acceptedTypes?: 'metatransaction_v2' | 'otc';
-
-  // Ethereum Address
-  feeRecipient?: string;
-
-  feeSellTokenPercentage?: number;
-
-  enableSlippageProtection?: boolean;
-
-  priceImpactProtectionPercentage?: boolean;
-
-  checkApproval?: boolean;
-
-  intentOnFilling?: boolean;
-
-  affiliateAddress?: string;
-
-
 };
 
-export type ZeroExQuoteMetaTransactionResponse =
-  {
-    "liquidityAvailable": boolean;
-    "buyAmount": string;
-    "buyTokenAddress": string;
-    "estimatedPriceImpact": string;
-    "price": string;
-    "sellAmount": string;
-    "sellTokenAddress": string;
-    "grossBuyAmount": string;
-    "grossSellAmount": string;
-    "grossPrice": string;
-    "grossEstimatedPriceImpact": string;
-    "allowanceTarget": string;
-    "sources": any
+export type ZeroExQuoteMetaTransactionResponse = {
+  liquidityAvailable: boolean;
+  buyAmount: string;
+  buyTokenAddress: string;
+  estimatedPriceImpact: string;
+  price: string;
+  sellAmount: string;
+  sellTokenAddress: string;
+  grossBuyAmount: string;
+  grossSellAmount: string;
+  grossPrice: string;
+  grossEstimatedPriceImpact: string;
+  allowanceTarget: string;
+  sources: any;
 
-    "fees": any
-    "trade": {
-      "type": "metatransaction_v2",
-      "hash": string,
-      "eip712": {
-        "types": {
-          "EIP712Domain": [
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "version",
-              "type": "string"
-            },
-            {
-              "name": "chainId",
-              "type": "uint256"
-            },
-            {
-              "name": "verifyingContract",
-              "type": "address"
-            }
-          ],
+  fees: any;
+  trade: {
+    type: "metatransaction_v2";
+    hash: string;
+    eip712: {
+      types: {
+        EIP712Domain: [
+          {
+            name: "name";
+            type: "string";
+          },
+          {
+            name: "version";
+            type: "string";
+          },
+          {
+            name: "chainId";
+            type: "uint256";
+          },
+          {
+            name: "verifyingContract";
+            type: "address";
+          },
+        ];
 
-          "MetaTransactionDataV2": [
-            {
-              "name": "signer",
-              "type": "address"
-            },
-            {
-              "name": "sender",
-              "type": "address"
-            },
-            {
-              "name": "expirationTimeSeconds",
-              "type": "uint256"
-            },
-            {
-              "name": "salt",
-              "type": "uint256"
-            },
-            {
-              "name": "callData",
-              "type": "bytes"
-            },
-            {
-              "name": "feeToken",
-              "type": "address"
-            },
-            {
-              "name": "fees",
-              "type": "MetaTransactionFeeData[]"
-            }
-          ],
+        MetaTransactionDataV2: [
+          {
+            name: "signer";
+            type: "address";
+          },
+          {
+            name: "sender";
+            type: "address";
+          },
+          {
+            name: "expirationTimeSeconds";
+            type: "uint256";
+          },
+          {
+            name: "salt";
+            type: "uint256";
+          },
+          {
+            name: "callData";
+            type: "bytes";
+          },
+          {
+            name: "feeToken";
+            type: "address";
+          },
+          {
+            name: "fees";
+            type: "MetaTransactionFeeData[]";
+          },
+        ];
 
-          "MetaTransactionFeeData": [
-            {
-              "name": "recipient",
-              "type": "address"
-            },
-            {
-              "name": "amount",
-              "type": "uint256"
-            }
-          ]
-        },
+        MetaTransactionFeeData: [
+          {
+            name: "recipient";
+            type: "address";
+          },
+          {
+            name: "amount";
+            type: "uint256";
+          },
+        ];
+      };
 
-        "primaryType": "MetaTransactionDataV2",
-        "domain": {
-          "name": string;
-          "version": string;
-          "chainId": number
-          "verifyingContract": string;
-        },
+      primaryType: "MetaTransactionDataV2";
+      domain: {
+        name: string;
+        version: string;
+        chainId: number;
+        verifyingContract: string;
+      };
 
-        "message": {
-          "signer": string;
-          "sender": string;
-          "expirationTimeSeconds": string;
-          "salt": string;
-          "callData": string;
-          "feeToken": string;
-          "fees": [
-            {
-              "recipient": string;
-              "amount": string;
-            },
-            {
-              "recipient": string;
-              "amount": string;
-            }
-          ]
-        }
-      }
-    },
+      message: {
+        signer: string;
+        sender: string;
+        expirationTimeSeconds: string;
+        salt: string;
+        callData: string;
+        feeToken: string;
+        fees: [
+          {
+            recipient: string;
+            amount: string;
+          },
+          {
+            recipient: string;
+            amount: string;
+          },
+        ];
+      };
+    };
+  };
 
-    "approval": {
-      "isRequired": boolean
-      "isGaslessAvailable": boolean
-      "type": "permit",
-      "hash": string;
-      "eip712": {
-        "types": {
-          "EIP712Domain": [
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "version",
-              "type": "string"
-            },
-            {
-              "name": "verifyingContract",
-              "type": "address"
-            },
-            {
-              "name": "salt",
-              "type": "bytes32"
-            }
-          ],
-          "Permit": [
-            {
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "name": "value",
-              "type": "uint256"
-            },
-            {
-              "name": "nonce",
-              "type": "uint256"
-            },
-            {
-              "name": "deadline",
-              "type": "uint256"
-            }
-          ]
-        },
-        "primaryType": "Permit",
-        "domain": {
-          "name": string;
-          "version": string;
-          "verifyingContract": string;
-          "salt": string;
-        },
-        "message": {
-          "owner": string;
-          "spender": string;
-          "value": string;
-          "nonce": number,
-          "deadline": string;
-        }
-      }
-    }
-  }
+  approval: {
+    isRequired: boolean;
+    isGaslessAvailable: boolean;
+    type: "permit";
+    hash: string;
+    eip712: {
+      types: {
+        EIP712Domain: [
+          {
+            name: "name";
+            type: "string";
+          },
+          {
+            name: "version";
+            type: "string";
+          },
+          {
+            name: "verifyingContract";
+            type: "address";
+          },
+          {
+            name: "salt";
+            type: "bytes32";
+          },
+        ];
+        Permit: [
+          {
+            name: "owner";
+            type: "address";
+          },
+          {
+            name: "spender";
+            type: "address";
+          },
+          {
+            name: "value";
+            type: "uint256";
+          },
+          {
+            name: "nonce";
+            type: "uint256";
+          },
+          {
+            name: "deadline";
+            type: "uint256";
+          },
+        ];
+      };
+      primaryType: "Permit";
+      domain: {
+        name: string;
+        version: string;
+        verifyingContract: string;
+        salt: string;
+      };
+      message: {
+        owner: string;
+        spender: string;
+        value: string;
+        nonce: number;
+        deadline: string;
+      };
+    };
+  };
+};

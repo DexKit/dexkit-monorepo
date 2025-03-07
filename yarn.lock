@@ -5693,6 +5693,8 @@ __metadata:
     tsconfig: "npm:*"
     tsup: "npm:^6.5.0"
     typescript: "npm:^5.4.4"
+    viem: "npm:2.x"
+    wagmi: "npm:^2.9.8"
   languageName: unknown
   linkType: soft
 
