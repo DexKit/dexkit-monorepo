@@ -52,8 +52,6 @@ export default async function handler(
       return res.status(err?.status).json(err);
     }*/
 
-    console.error('ERROR : ', err.response?.data);
-
     return res.status(err.response?.status).json(err.response?.data);
   }
   return res.status(500).json({ message: 'method not supported' });

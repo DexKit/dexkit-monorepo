@@ -18,16 +18,10 @@ export function useExecButtonMessage({
     return () => {
       if (quoteQuery?.isError) {
         if (quoteQuery?.error) {
-          if (
-            quoteQuery?.error?.response?.data.validationErrors &&
-            Array.isArray(quoteQuery?.error?.response?.data.validationErrors)
-          ) {
-            const validationError =
-              quoteQuery?.error?.response?.data.validationErrors[0];
-
-            if (validationError?.reason) {
-              return validationError?.reason.split("_").join(" ");
-            }
+          if (quoteQuery?.error?.response?.data.details) {
+            return quoteQuery?.error?.response?.data.details[0].reason;
+          } else if (quoteQuery?.error?.response?.data.name) {
+            return quoteQuery?.error?.response?.data.name.split("_").join(" ");
           }
         }
       }
