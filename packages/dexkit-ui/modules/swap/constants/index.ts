@@ -45,7 +45,7 @@ export const ZERO_EX_URL = (chainId?: number, siteId?: number) => {
 };
 
 export const ZEROEX_QUOTE_ENDPOINT = "/swap/permit2/quote";
-export const ZEROEX_PRICE_ENDPOINT = "/swap/v1/price";
+export const ZEROEX_PRICE_ENDPOINT = "/swap/permit2/price";
 
 export const ZEROEX_TOKENS_ENDPOINT = "/swap/v1/tokens";
 export const ZEROEX_ORDERBOOK_ENDPOINT = "/orderbook/v1/order";

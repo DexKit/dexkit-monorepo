@@ -37,12 +37,13 @@ export function useSwapExec({
       }
 
       const chainId = (await provider.getNetwork()).chainId;
+      const { data, value, to } = quote.transaction;
 
       try {
         const tx = await provider.getSigner().sendTransaction({
-          data: quote?.data,
-          value: BigNumber.from(quote?.value),
-          to: quote?.to,
+          data: data,
+          value: BigNumber.from(value),
+          to,
         });
 
         onNotification({
