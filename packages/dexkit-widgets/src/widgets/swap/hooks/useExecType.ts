@@ -99,8 +99,10 @@ export function useExecType({
 
               if (data) {
                 const sufficientAllowance = await hasSufficientAllowance({
-                  spender: data.allowanceTarget,
-                  tokenAddress: data.sellTokenAddress,
+                  spender:
+                    data.allowanceTarget ||
+                    "0x0000000000000000000000000000000000000000",
+                  tokenAddress: data.sellToken,
                   amount: BigNumber.from(data.sellAmount),
                   provider,
                   account,
