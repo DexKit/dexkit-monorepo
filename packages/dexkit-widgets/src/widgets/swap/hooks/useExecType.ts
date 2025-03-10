@@ -1,5 +1,5 @@
 import type { providers } from "ethers";
-import { BigNumber } from "ethers";
+import { BigNumber, constants } from "ethers";
 import { useAsyncMemo } from "../../../hooks";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
 import { ExecType, SwapSide } from "../types";
@@ -99,9 +99,7 @@ export function useExecType({
 
               if (data) {
                 const sufficientAllowance = await hasSufficientAllowance({
-                  spender:
-                    data.allowanceTarget ||
-                    "0x0000000000000000000000000000000000000000",
+                  spender: data.allowanceTarget || constants.AddressZero,
                   tokenAddress: data.sellToken,
                   amount: BigNumber.from(data.sellAmount),
                   provider,

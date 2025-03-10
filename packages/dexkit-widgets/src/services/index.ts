@@ -40,7 +40,6 @@ export const hasSufficientAllowance = async ({
   amount: BigNumber;
   provider?: providers.BaseProvider;
 }) => {
-  debugger;
   if (!provider || !account) {
     throw new Error("no provider or account");
   }
