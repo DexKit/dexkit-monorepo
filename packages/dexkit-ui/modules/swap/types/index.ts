@@ -49,7 +49,7 @@ export type ZeroExQuoteResponse = {
   sellTokenToEthRate: string;
   buyTokenToEthRate: string;
   expectedSlippage: any;
-  transaction: any;
+  transaction?: any;
 };
 
 export type ZrxOrder = {

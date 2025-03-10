@@ -1,6 +1,6 @@
 import type { TokenBalances } from "@indexed-finance/multicall";
 import MultiCall from "@indexed-finance/multicall";
-import type { providers } from 'ethers';
+import type { providers } from "ethers";
 import { BigNumber, Contract, constants } from "ethers";
 
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
@@ -8,7 +8,10 @@ import { ERC20Abi } from "../constants/abis";
 import { TokenPrices } from "../types";
 import { isAddressEqual } from "../utils";
 
-import { COINGECKO_ENDPOIT, COINGECKO_PLATFORM_ID } from "@dexkit/core/constants";
+import {
+  COINGECKO_ENDPOIT,
+  COINGECKO_PLATFORM_ID,
+} from "@dexkit/core/constants";
 import { ChainId } from "@dexkit/core/constants/enums";
 import { Token } from "@dexkit/core/types";
 import axios from "axios";
@@ -37,6 +40,7 @@ export const hasSufficientAllowance = async ({
   amount: BigNumber;
   provider?: providers.BaseProvider;
 }) => {
+  debugger;
   if (!provider || !account) {
     throw new Error("no provider or account");
   }
@@ -66,7 +70,11 @@ export async function getTokensBalance(
 
   const [, balances] = await multicall.getBalances(
     tokens.map((t) => {
-      if (t.address && ZEROEX_NATIVE_TOKEN_ADDRESS && t.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+      if (
+        t.address &&
+        ZEROEX_NATIVE_TOKEN_ADDRESS &&
+        t.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
+      ) {
         return constants.AddressZero;
       }
 
