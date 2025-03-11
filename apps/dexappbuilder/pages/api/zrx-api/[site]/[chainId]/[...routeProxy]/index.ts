@@ -34,6 +34,11 @@ export default async function handler(
         signal,
       });
 
+      console.log(
+        `ZERO_EX RESPONSE FOR ${GET_ZRX_URL + proxiedRoute} : `,
+        response.data,
+      );
+
       return res.status(200).json(response.data);
     }
     if (req.method === 'POST') {
