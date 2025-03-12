@@ -1,5 +1,21 @@
 # dexappbuilder
 
+## 0.24.0
+
+### Minor Changes
+
+- 54d1187: Add E-commerce feature
+- c32b91d: Fix error when setting empty color on theme section
+- f9c52d8: Add priority option on image custom section
+
+### Patch Changes
+
+- Updated dependencies [ecbf91f]
+- Updated dependencies [f9c52d8]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/ui@0.21.0
+  - @dexkit/dexappbuilder-viewer@0.7.0
+
 ## 0.23.0
 
 ### Minor Changes
