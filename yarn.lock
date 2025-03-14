@@ -5736,6 +5736,8 @@ __metadata:
     tsconfig: "npm:*"
     tsup: "npm:^6.5.0"
     typescript: "npm:^5.4.4"
+    viem: "npm:2.x"
+    wagmi: "npm:^2.9.8"
   languageName: unknown
   linkType: soft
 
@@ -24803,6 +24805,7 @@ __metadata:
     "@mui/material": "npm:5.14.11"
     "@mui/x-data-grid": "npm:^6.16.2"
     "@mui/x-date-pickers": "npm:^5.0.0-alpha.2"
+    "@mycrypto/gas-estimation": "npm:^1.1.1"
     "@next/bundle-analyzer": "npm:^13.5.4"
     "@react-page/editor": "npm:5.4.4"
     "@react-page/plugins-background": "npm:^5.4.4"
@@ -24857,6 +24860,7 @@ __metadata:
     react-error-boundary: "npm:^3.1.4"
     react-intersection-observer: "npm:^9.8.0"
     react-markdown: "npm:^8.0.3"
+    react-qr-code: "npm:^2.0.15"
     react-query: "npm:^3.34.19"
     react-resizable: "npm:^3.0.4"
     react-syntax-highlighter: "npm:^15.5.0"
@@ -42422,6 +42426,18 @@ __metadata:
   version: 2.0.0
   resolution: "react-property@npm:2.0.0"
   checksum: d783292999b8bcfc45c457ab00d60faed66a15ada2cd8a9e00db8573b04a7102e81f38fec724a052698b4d2a305e3bbaf49913fc733035674496b1eb40174d55
+  languageName: node
+  linkType: hard
+
+"react-qr-code@npm:^2.0.15":
+  version: 2.0.15
+  resolution: "react-qr-code@npm:2.0.15"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+    qr.js: "npm:0.0.0"
+  peerDependencies:
+    react: "*"
+  checksum: 6a9d73918623eecbf6204da02bae1851b584f22f0724b2e5cf529a7eee991a757a211822146f670db63c21860ccb2d245b9288f48cd58ca2bff16de0dcdbdb25
   languageName: node
   linkType: hard
 

@@ -25,6 +25,12 @@ export type ZeroExQuote = {
 
   // bigNumber
   gasPrice?: string;
+
+  affiliateAddress?: string;
+
+  feeRecipient?: string;
+
+  buyTokenPercentageFee?: number;
 };
 
 export type ZeroExQuoteResponse = {
@@ -53,6 +59,7 @@ export type ZeroExQuoteResponse = {
   fees?: any;
   issues?: any;
   permit2?: any;
+  trade?: any;
 };
 
 export type ZrxOrder = {
@@ -161,6 +168,12 @@ export type ZeroExQuoteGasless = {
 
   // bigNumber
   buyAmount?: string;
+
+  issues?: any;
+
+  approval?: any;
+
+  trade?: any;
 };
 
 export type ZeroExQuoteMetaTransactionResponse = {
@@ -340,3 +353,10 @@ export type ZeroExQuoteMetaTransactionResponse = {
     };
   };
 };
+
+export enum SignatureType {
+  Illegal = 0,
+  Invalid = 1,
+  EIP712 = 2,
+  EthSign = 3,
+}

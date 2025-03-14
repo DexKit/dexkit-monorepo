@@ -39,9 +39,9 @@ export default function SwapFeeSummary({
   const maxFee = useMemo(() => {
     const { fees } = quote || {};
     if (fees) {
-      return BigNumber.from(fees.gasFee || 0)
-        .add(BigNumber.from(fees.integratorFee || 0))
-        .add(BigNumber.from(fees.zeroExFee.amount || 0));
+      return BigNumber.from(fees.gasFee ? fees.gasFee.amount : 0)
+        .add(BigNumber.from(fees.integratorFee ? fees.integratorFee.amount : 0))
+        .add(BigNumber.from(fees.zeroExFee ? fees.zeroExFee.amount : 0));
     }
 
     return BigNumber.from(0);

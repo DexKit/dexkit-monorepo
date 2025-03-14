@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import type { providers } from "ethers";
 import { BigNumber } from "ethers";
 import { useIntl } from "react-intl";
+import { concat, Hex, numberToHex, size } from "viem";
+import { useAccount, useChainId, useSignTypedData } from "wagmi";
 import { NotificationCallbackParams } from "../types";
 
 export interface SwapExecParams {
@@ -23,6 +25,9 @@ export function useSwapExec({
 }) {
   const { formatMessage } = useIntl();
   const trackUserEvent = useTrackUserEventsMutation();
+  const account = useAccount();
+  const chainId = useChainId();
+  const { signTypedDataAsync } = useSignTypedData();
 
   return useMutation(
     async ({
@@ -35,44 +40,38 @@ export function useSwapExec({
       if (!provider) {
         throw new Error("no provider");
       }
-      const chainId = (await provider.getNetwork()).chainId;
-      debugger;
-      const { data, value, to } = quote.transaction;
+
+      const { value, to } = quote.transaction;
       const signer = provider.getSigner();
       const address = await signer.getAddress();
 
       try {
         if (quote.permit2?.eip712) {
-          const { domain, types, message } = quote.permit2.eip712;
-          debugger;
-          const signature = await signer._signTypedData(domain, types, message);
-          debugger;
-          console.log("Signed permit2 message from quote response");
+          const { domain, types, message, primaryType } = quote.permit2.eip712;
 
-          // 5. append sig length and sig data to transaction.data
-          // if (signature && quote?.transaction?.data) {
-          //   const signatureLengthInHex = numberToHex(size(signature), {
-          //     signed: false,
-          //     size: 32,
-          //   });
+          const signature = await signTypedDataAsync({
+            domain,
+            types,
+            message,
+            primaryType,
+            account: account.address,
+          });
 
-          //   const transactionData = quote.transaction.data as Hex;
-          //   const sigLengthHex = signatureLengthInHex as Hex;
-          //   const sig = signature as Hex;
+          const signatureLengthInHex = numberToHex(size(signature), {
+            signed: false,
+            size: 32,
+          });
 
-          //   quote.transaction.data = concat([
-          //     transactionData,
-          //     sigLengthHex,
-          //     sig,
-          //   ]);
-          // } else {
-          //   throw new Error("Failed to obtain signature or transaction data");
-          // }
+          const transactionData = quote.transaction.data as Hex;
+          const sigLengthHex = signatureLengthInHex as Hex;
+          const sig = signature as Hex;
+
+          quote.transaction.data = concat([transactionData, sigLengthHex, sig]);
         }
 
         const nonce = await provider.getTransactionCount(address);
         const tx = await provider.getSigner().sendTransaction({
-          data: data,
+          data: quote.transaction.data,
           value: BigNumber.from(value),
           to,
           nonce,
@@ -116,7 +115,6 @@ export function useSwapExec({
 
         return await tx.wait();
       } catch (err) {
-        debugger;
         throw err;
       }
     }

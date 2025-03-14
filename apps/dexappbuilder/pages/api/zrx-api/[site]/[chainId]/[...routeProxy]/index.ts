@@ -34,18 +34,17 @@ export default async function handler(
         signal,
       });
 
-      console.log(
-        `ZERO_EX RESPONSE FOR ${GET_ZRX_URL + proxiedRoute} : `,
-        response.data,
-      );
-
       return res.status(200).json(response.data);
     }
     if (req.method === 'POST') {
       const response = await axios.post(GET_ZRX_URL + proxiedRoute, req.body, {
         params: req.query,
         headers: {
-          '0x-api-key': process.env.ZRX_API_KEY_PRO || '',
+          '0x-api-key':
+            process.env.ZRX_API_KEY_PRO ??
+            process.env.NEXT_PUBLIC_ZRX_API_KEY ??
+            '',
+          '0x-version': 'v2',
         },
         signal,
       });

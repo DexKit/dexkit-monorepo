@@ -120,15 +120,16 @@ export class ZeroExApiClient {
   async submitGasless({
     trade,
     approval,
+    chainId,
   }: {
     approval: any;
     trade: any;
+    chainId: string;
   }): Promise<{ type: "metatransaction_v2"; tradeHash: string }> {
     const resp = await this.axiosInstance.post(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_SUBMIT_ENDPOINT,
-      { trade, approval }
+      { trade, approval, chainId }
     );
-
     return resp.data;
   }
 

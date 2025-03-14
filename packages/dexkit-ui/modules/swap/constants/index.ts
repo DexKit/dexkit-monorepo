@@ -59,13 +59,13 @@ export const ZEROEX_FEE_RECIPIENT =
 
 // TX relay endpoints
 
-export const ZEROEX_GASLESS_PRICE_ENDPOINT = "/tx-relay/v1/swap/price";
+export const ZEROEX_GASLESS_PRICE_ENDPOINT = "/gasless/price";
 
 export const ZEROEX_GASLESS_QUOTE_ENDPOINT = "/gasless/quote";
 
-export const ZEROEX_GASLESS_SUBMIT_ENDPOINT = "/tx-relay/v1/swap/submit";
+export const ZEROEX_GASLESS_SUBMIT_ENDPOINT = "/gasless/submit";
 
-export const ZEROEX_GASLESS_STATUS_ENDPOINT = "/tx-relay/v1/swap/status";
+export const ZEROEX_GASLESS_STATUS_ENDPOINT = "/gasless/status";
 
 export const ZEROEX_SUPPORTS_GASLESS_ENDPOINT =
   "/tx-relay/v1/swap/supported-tokens";
