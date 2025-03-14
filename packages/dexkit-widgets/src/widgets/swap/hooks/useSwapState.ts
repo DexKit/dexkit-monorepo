@@ -576,6 +576,7 @@ export function useSwapState({
 
   const handleExecSwap = useCallback(async () => {
     if (execType === "swap" && quoteQuery.data) {
+      debugger;
       setShowConfirmSwap(true);
       quote.setSkipValidation(false);
       quote.setIntentOnFilling(true);
@@ -609,9 +610,9 @@ export function useSwapState({
       if (data && sellToken) {
         await approveMutation.mutateAsync(
           {
-            spender: data.allowanceTarget,
+            spender: data.issues.allowance.spender || data.allowanceTarget,
             provider: connectorProvider as providers.Web3Provider,
-            tokenAddress: data.sellTokenAddress,
+            tokenAddress: sellToken.address || data.sellTokenAddress,
             amount: constants.MaxUint256,
             token: sellToken,
           },

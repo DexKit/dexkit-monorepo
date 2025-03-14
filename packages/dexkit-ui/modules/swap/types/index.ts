@@ -51,6 +51,8 @@ export type ZeroExQuoteResponse = {
   expectedSlippage: any;
   transaction?: any;
   fees?: any;
+  issues?: any;
+  permit2?: any;
 };
 
 export type ZrxOrder = {

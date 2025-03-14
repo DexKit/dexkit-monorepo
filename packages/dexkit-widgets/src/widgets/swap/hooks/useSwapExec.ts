@@ -35,16 +35,54 @@ export function useSwapExec({
       if (!provider) {
         throw new Error("no provider");
       }
-
       const chainId = (await provider.getNetwork()).chainId;
-      const { sellAmount } = quote;
+      debugger;
       const { data, value, to } = quote.transaction;
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
 
       try {
+        if (quote.permit2?.eip712) {
+          const { domain, types, message } = quote.permit2.eip712;
+          debugger;
+          const signature = await signer._signTypedData(domain, types, message);
+          debugger;
+          console.log("Signed permit2 message from quote response");
+
+          // 5. append sig length and sig data to transaction.data
+          // if (signature && quote?.transaction?.data) {
+          //   const signatureLengthInHex = numberToHex(size(signature), {
+          //     signed: false,
+          //     size: 32,
+          //   });
+
+          //   const transactionData = quote.transaction.data as Hex;
+          //   const sigLengthHex = signatureLengthInHex as Hex;
+          //   const sig = signature as Hex;
+
+          //   quote.transaction.data = concat([
+          //     transactionData,
+          //     sigLengthHex,
+          //     sig,
+          //   ]);
+          // } else {
+          //   throw new Error("Failed to obtain signature or transaction data");
+          // }
+        }
+
+        const nonce = await provider.getTransactionCount(address);
         const tx = await provider.getSigner().sendTransaction({
           data: data,
-          value: BigNumber.from(sellAmount),
+          value: BigNumber.from(value),
           to,
+          nonce,
+          chainId,
+          gasLimit: !!quote?.transaction.gas
+            ? BigInt(quote?.transaction.gas)
+            : undefined,
+          gasPrice: !!quote?.transaction.gasPrice
+            ? BigInt(quote?.transaction.gasPrice)
+            : undefined,
         });
 
         onNotification({
@@ -78,6 +116,7 @@ export function useSwapExec({
 
         return await tx.wait();
       } catch (err) {
+        debugger;
         throw err;
       }
     }

@@ -97,9 +97,12 @@ export function useExecType({
             } else {
               const [, data] = quoteQuery.data;
 
-              if (data) {
+              if (data?.issues?.allowance) {
                 const sufficientAllowance = await hasSufficientAllowance({
-                  spender: data.allowanceTarget || constants.AddressZero,
+                  spender:
+                    data.issues.allowance.spender ||
+                    data.allowanceTarget ||
+                    constants.AddressZero,
                   tokenAddress: data.sellToken,
                   amount: BigNumber.from(data.sellAmount),
                   provider,
