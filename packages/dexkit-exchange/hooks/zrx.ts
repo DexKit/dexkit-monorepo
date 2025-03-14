@@ -79,6 +79,7 @@ export function useZrxOrderbook({
   chainId?: ChainId;
   account?: string;
 }) {
+  const { siteId } = useContext(SiteContext);
   return useQuery<ZrxOrderbookResponse | null>(
     [ZRX_ORDERBOOK_QUERY, account, chainId],
     async () => {
@@ -86,11 +87,7 @@ export function useZrxOrderbook({
         return null;
       }
 
-      const zrxClient = new ZeroExApiClient(
-        chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
-      );
-
+      const zrxClient = new ZeroExApiClient(chainId, siteId);
       return await zrxClient.orderbook({ trader: account });
     }
   );
@@ -105,6 +102,7 @@ export function useZrxOrderbookOrder({
   hash?: string;
   chainId?: ChainId;
 }) {
+  const { siteId } = useContext(SiteContext);
   return useQuery<ZrxOrderRecord | null>(
     [ZRX_ORDERBOOK_ORDER_QUERY, hash],
     async () => {
@@ -112,10 +110,7 @@ export function useZrxOrderbookOrder({
         return null;
       }
 
-      const zrxClient = new ZeroExApiClient(
-        chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
-      );
+      const zrxClient = new ZeroExApiClient(chainId, siteId);
 
       return await zrxClient.order(hash);
     }
