@@ -5,6 +5,7 @@
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "esnext",
     "lib": [
       "DOM",
       "ES6",
