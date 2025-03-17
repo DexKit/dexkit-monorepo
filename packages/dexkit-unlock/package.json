@@ -25,7 +25,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@dexkit/ui": "*",
     "@unlock-protocol/unlock-js": "^0.45.1"
   }
 }
