@@ -27,7 +27,7 @@ interface DropCollectionFilter {
   amountNFT?: number;
 }
 
-const DropCollectionFilterSchema: Yup.SchemaOf<DropCollectionFilter> =
+const DropCollectionFilterSchema: Yup.Schema<DropCollectionFilter> =
   Yup.object().shape({
     chainId: Yup.number(),
 

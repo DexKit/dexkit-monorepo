@@ -47,7 +47,7 @@ const CustomImage = styled('img')(({ theme }) => ({
   width: theme.spacing(40),
 }));
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   chainId: Yup.number().required(),
   contractAddress: Yup.string()
     .test('address', (value) => {
@@ -57,9 +57,9 @@ const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
   backgroundUrl: Yup.string().required(),
   imageUrl: Yup.string().required(),
   name: Yup.string().required(),
-  description: Yup.string().notRequired(),
-  uri: Yup.string().notRequired(),
-  disableSecondarySells: Yup.boolean(),
+  description: Yup.string().optional(),
+  uri: Yup.string().optional(),
+  disableSecondarySells: Yup.boolean().optional(),
 });
 
 interface Props {

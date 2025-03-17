@@ -18,7 +18,7 @@ import { SeoForm } from '../../types';
 
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 
-const FormSchema: Yup.SchemaOf<SeoForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<SeoForm> = Yup.object().shape({
   title: Yup.string().required(),
   description: Yup.string().required(),
   shareImageUrl: Yup.string().url().required(),

@@ -12,7 +12,7 @@ interface PageOptions {
   uri: string;
 }
 
-const PageOptionsSchema: Yup.SchemaOf<PageOptions> = Yup.object().shape({
+const PageOptionsSchema: Yup.Schema<PageOptions> = Yup.object().shape({
   title: Yup.string().required(),
   uri: Yup.string().required(),
 });

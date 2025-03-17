@@ -1,6 +1,5 @@
 {
   "name": "@dexkit/ui",
-  "private": false,
   "version": "0.20.0",
   "license": "MIT",
   "scripts": {

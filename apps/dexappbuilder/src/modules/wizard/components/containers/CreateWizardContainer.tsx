@@ -55,7 +55,7 @@ interface CreateMarketplace {
   email: string;
 }
 
-const FormSchema: Yup.SchemaOf<CreateMarketplace> = Yup.object().shape({
+const FormSchema: Yup.Schema<CreateMarketplace> = Yup.object().shape({
   email: Yup.string().email().required(),
   name: Yup.string().required(),
 });

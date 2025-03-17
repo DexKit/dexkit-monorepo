@@ -4,7 +4,12 @@ import { BigNumber } from "ethers";
 
 import { formatUnits } from "@ethersproject/units";
 import { EventEmitter } from "events";
-import { ChainId, CoinTypes, IPFS_GATEWAY, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
+import {
+  ChainId,
+  CoinTypes,
+  IPFS_GATEWAY,
+  ZEROEX_NATIVE_TOKEN_ADDRESS,
+} from "../constants";
 import { NETWORKS } from "../constants/networks";
 import { EvmCoin, TokenWhitelabelApp } from "../types";
 

@@ -20,7 +20,7 @@ interface HideOptions {
   hide_powered_by?: boolean;
 }
 
-const SocialOptionsSchema: Yup.SchemaOf<HideOptions> = Yup.object().shape({
+const SocialOptionsSchema: Yup.Schema<HideOptions> = Yup.object().shape({
   hide_powered_by: Yup.boolean(),
 });
 

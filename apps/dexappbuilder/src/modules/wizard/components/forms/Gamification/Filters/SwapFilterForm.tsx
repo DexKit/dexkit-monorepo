@@ -27,7 +27,7 @@ interface SwapFilter {
   conditionOut?: string;
 }
 
-const SwapFilterSchema: Yup.SchemaOf<SwapFilter> = Yup.object().shape({
+const SwapFilterSchema: Yup.Schema<SwapFilter> = Yup.object().shape({
   chainId: Yup.number(),
   tokenInAddress: Yup.string(),
   conditionIn: Yup.string(),

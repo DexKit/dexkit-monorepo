@@ -23,7 +23,7 @@ interface PageOptions {
   title: string;
 }
 
-const PageOptionsSchema: Yup.SchemaOf<PageOptions> = Yup.object().shape({
+const PageOptionsSchema: Yup.Schema<PageOptions> = Yup.object().shape({
   title: Yup.string().required(),
 });
 
@@ -75,7 +75,7 @@ export default function AddPageDialog({
               formatMessage({
                 id: 'use.home.as.title.not.allowed',
                 defaultMessage: 'Use Home as title is not allowed for pages',
-              })
+              }),
             );
             return;
           }

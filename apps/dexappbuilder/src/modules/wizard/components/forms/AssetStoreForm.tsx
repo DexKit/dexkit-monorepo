@@ -24,7 +24,7 @@ interface AssetStoreOptions {
   storeAccount?: string;
 }
 
-const AssetStoreOptionsSchema: Yup.SchemaOf<AssetStoreOptions> =
+const AssetStoreOptionsSchema: Yup.Schema<AssetStoreOptions> =
   Yup.object().shape({
     title: Yup.string(),
     name: Yup.string(),

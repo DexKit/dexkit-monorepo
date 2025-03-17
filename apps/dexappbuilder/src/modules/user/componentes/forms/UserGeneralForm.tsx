@@ -25,7 +25,7 @@ export interface UserForm {
   shortBio?: string;
 }
 
-const FormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<UserForm> = Yup.object().shape({
   username: Yup.string()
     .required()
     .test(
@@ -47,7 +47,7 @@ const FormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
   shortBio: Yup.string(),
 });
 
-const EditFormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
+const EditFormSchema: Yup.Schema<UserForm> = Yup.object().shape({
   username: Yup.string().required(),
 
   profileImageURL: Yup.string().url(),

@@ -1,22 +1,22 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { BigNumber } from "ethers";
@@ -56,7 +56,7 @@ interface Form {
   quantity?: number;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   price: Yup.string().required(),
   tokenAddress: Yup.string().required(),
   expiry: Yup.date().required(),

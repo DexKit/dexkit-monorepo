@@ -32,8 +32,8 @@ interface CollectionFilter {
   condition?: string;
 }
 
-const CollectionFilterSchema: Yup.SchemaOf<CollectionFilter> =
-  Yup.object().shape({
+const CollectionFilterSchema: Yup.Schema<CollectionFilter> = Yup.object().shape(
+  {
     chainId: Yup.number(),
     tokenAddress: Yup.string(),
     amountNFT: Yup.number(),
@@ -43,7 +43,8 @@ const CollectionFilterSchema: Yup.SchemaOf<CollectionFilter> =
     amount: Yup.number(),
     collectionAddress: Yup.string(),
     mode: Yup.number().optional(),
-  });
+  },
+);
 
 interface Props {
   onCancel?: () => void;

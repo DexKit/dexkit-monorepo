@@ -1,7 +1,6 @@
 {
   "name": "@dexkit/web3forms",
   "version": "0.12.0",
-  "private": false,
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "start-storybook -p 6006",
@@ -34,18 +33,18 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
+    "@dexkit/core": "*",
+    "@dexkit/ui": "*",
     "@helia/strings": "^1.0.0",
     "@helia/unixfs": "^1.3.0",
     "@libp2p/webrtc-star": "^7.0.0",
-    "@dexkit/core": "*",
-    "@dexkit/ui": "*",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
     "formik-mui-x-date-pickers": "^0.0.1",
     "helia": "^1.3.2",
     "libp2p": "^0.45.6",
     "multiformats": "^11.0.2",
-    "yup": "^1.0.2"
+    "yup": "1.2.0"
   },
   "publishConfig": {
     "access": "public"

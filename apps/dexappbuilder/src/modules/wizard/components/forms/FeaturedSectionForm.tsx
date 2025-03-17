@@ -17,7 +17,7 @@ interface Form {
   title: string;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   title: Yup.string().required(),
 });
 

@@ -53,7 +53,7 @@ interface Form {
   tokens?: Token[];
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   type: Yup.string().required(),
   chainId: Yup.number().required(),
   tokens: Yup.array()
@@ -68,7 +68,8 @@ const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
         name: Yup.string().required(),
         symbol: Yup.string().required(),
         decimals: Yup.number().required(),
-        logoURI: Yup.string(),
+        logoURI: Yup.string().required(),
+        chainId: Yup.number().required(),
       }),
     )
     .optional(),

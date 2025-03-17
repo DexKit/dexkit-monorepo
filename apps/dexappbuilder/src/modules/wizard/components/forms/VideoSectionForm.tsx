@@ -27,7 +27,7 @@ interface Form {
   title: string;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   videoType: Yup.string().required(),
   videoUrl: Yup.string().required(),
   title: Yup.string().required(),

@@ -21,10 +21,9 @@ interface AnalyticsOptions {
   googleAnalytics?: string;
 }
 
-const AnalyticOptionsSchema: Yup.SchemaOf<AnalyticsOptions> =
-  Yup.object().shape({
-    googleAnalytics: Yup.string(),
-  });
+const AnalyticOptionsSchema: Yup.Schema<AnalyticsOptions> = Yup.object().shape({
+  googleAnalytics: Yup.string(),
+});
 
 function ListenDirty({
   dirty,

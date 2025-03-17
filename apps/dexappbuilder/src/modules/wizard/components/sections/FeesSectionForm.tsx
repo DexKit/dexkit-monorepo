@@ -11,7 +11,7 @@ export interface FeeForm {
   amountPercentage: number;
 }
 
-const FormSchema: Yup.SchemaOf<FeeForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<FeeForm> = Yup.object().shape({
   amountPercentage: Yup.number().min(0).max(10).required(),
   recipient: Yup.string()
     .test('recipient', (value) => {

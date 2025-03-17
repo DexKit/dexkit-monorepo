@@ -64,7 +64,7 @@ function TabPanel(props: TabPanelProps) {
   }
 }
 
-const AssetFormSchema: Yup.SchemaOf<Omit<AssetItemType, 'type'>> =
+const AssetFormSchema: Yup.Schema<Omit<AssetItemType, 'type'>> =
   Yup.object().shape({
     chainId: Yup.number().required(),
     contractAddress: Yup.string()
@@ -76,7 +76,7 @@ const AssetFormSchema: Yup.SchemaOf<Omit<AssetItemType, 'type'>> =
     tokenId: Yup.string().required(),
   });
 
-const CollectionFormSchema: Yup.SchemaOf<Omit<CollectionItemType, 'type'>> =
+const CollectionFormSchema: Yup.Schema<Omit<CollectionItemType, 'type'>> =
   Yup.object().shape({
     chainId: Yup.number().required(),
     contractAddress: Yup.string()
@@ -88,7 +88,7 @@ const CollectionFormSchema: Yup.SchemaOf<Omit<CollectionItemType, 'type'>> =
     featured: Yup.bool().required(),
     subtitle: Yup.string().required(),
     title: Yup.string().required(),
-    variant: Yup.mixed().required(),
+    variant: Yup.string().oneOf(['default', 'simple']).required(),
   });
 
 const CustomImage = styled('img')(({ theme }) => ({

@@ -10,7 +10,7 @@ export interface DomainSectionForm {
   domain: string;
 }
 
-const FormSchema: Yup.SchemaOf<DomainSectionForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<DomainSectionForm> = Yup.object().shape({
   domain: Yup.string().url().required(),
 });
 
@@ -32,14 +32,14 @@ export default function DomainSection({
   const handleSubmit = useCallback(
     (
       values: DomainSectionForm,
-      formikHelpers: FormikHelpers<DomainSectionForm>
+      formikHelpers: FormikHelpers<DomainSectionForm>,
     ) => {
       if (onSubmit) {
         onSubmit(values);
         setIsEditing(false);
       }
     },
-    [onSubmit]
+    [onSubmit],
   );
 
   const formik = useFormik<DomainSectionForm>({

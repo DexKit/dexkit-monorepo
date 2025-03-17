@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import * as Yup from 'yup';
 import { SwapFeeForm } from '../../types';
 
-const FormSchema: Yup.SchemaOf<SwapFeeForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<SwapFeeForm> = Yup.object().shape({
   amountPercentage: Yup.number().min(0).max(10).required(),
   recipient: Yup.string()
     .test('recipient', (value) => {

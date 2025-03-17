@@ -9,7 +9,7 @@ import { PageTemplateFormData } from '../../../../../types/whitelabel';
 import PageEditor from '../../pageEditor/PageEditor';
 import UpsertPageTemplateDialog from '../dialogs/UpsertPageTemplateDialog';
 
-const FormSchema: Yup.SchemaOf<PageTemplateFormData> = Yup.object().shape({
+const FormSchema: Yup.Schema<PageTemplateFormData> = Yup.object().shape({
   title: Yup.string().required(),
   description: Yup.string().required(),
   config: Yup.string().required(),

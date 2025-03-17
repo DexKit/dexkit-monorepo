@@ -72,14 +72,10 @@ const GamificationPointSchema = Yup.array(
   }),
 );
 
-const RankingPointsScheme: Yup.SchemaOf<{
-  from?: Date;
-  to?: Date;
-  settings: GamificationPoint[];
-}> = Yup.object().shape({
+const RankingPointsScheme = Yup.object().shape({
   from: Yup.date(),
   to: Yup.date(),
-  settings: GamificationPointSchema,
+  settings: GamificationPointSchema.default([]),
 });
 
 interface Props {

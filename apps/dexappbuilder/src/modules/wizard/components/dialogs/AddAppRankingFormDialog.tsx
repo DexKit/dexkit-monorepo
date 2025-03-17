@@ -34,7 +34,7 @@ interface AddRanking {
   description?: string;
 }
 
-const AddRankingSchema: Yup.SchemaOf<AddRanking> = Yup.object().shape({
+const AddRankingSchema: Yup.Schema<AddRanking> = Yup.object().shape({
   title: Yup.string().required(),
   description: Yup.string(),
 });

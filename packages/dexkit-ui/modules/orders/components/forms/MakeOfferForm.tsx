@@ -1,17 +1,17 @@
 import {
-    Alert,
-    Avatar,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { BigNumber } from "ethers";
@@ -45,7 +45,7 @@ interface Form {
   expiry: Date;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema: Yup.Schema<Form> = Yup.object().shape({
   price: Yup.string().required(),
   tokenAddress: Yup.string().required(),
   expiry: Yup.date().required(),
@@ -74,8 +74,9 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   const { formatMessage } = useIntl();
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
-    const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-      ?.decimals;
+    const decimals = tokenList.find(
+      (t) => t.address === values.tokenAddress
+    )?.decimals;
 
     if (!isValidDecimal(values.price, decimals || 1)) {
       formikHelpers.setFieldError(
@@ -103,8 +104,9 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
       tokenAddress: tokenList.length > 0 ? tokenList[0].address : "",
     },
     validate: async (values) => {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-        ?.decimals;
+      const decimals = tokenList.find(
+        (t) => t.address === values.tokenAddress
+      )?.decimals;
 
       if (values.price !== "" && isValidDecimal(values.price, decimals || 1)) {
         const priceValue = parseUnits(values.price);

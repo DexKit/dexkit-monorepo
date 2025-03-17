@@ -39,7 +39,7 @@ export interface GeneralSectionForm {
   logoHeightMobile?: number;
 }
 
-const FormSchema: Yup.SchemaOf<GeneralSectionForm> = Yup.object().shape({
+const FormSchema: Yup.Schema<GeneralSectionForm> = Yup.object().shape({
   email: Yup.string().email().required(),
   name: Yup.string().required(),
   locale: Yup.string().required(),

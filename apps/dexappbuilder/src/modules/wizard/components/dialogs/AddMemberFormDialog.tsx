@@ -27,7 +27,7 @@ interface AddMember {
   account?: string;
 }
 
-const AddMemberSchema: Yup.SchemaOf<AddMember> = Yup.object().shape({
+const AddMemberSchema: Yup.Schema<AddMember> = Yup.object().shape({
   account: Yup.string().test('is-address', 'Address not valid', (value) => {
     if (value) {
       return value.match('^(0x)[0-9a-fA-F]{40}$') ? true : false;

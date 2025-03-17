@@ -30,7 +30,7 @@ interface AddVersion {
   description?: string;
 }
 
-const AddVersionSchema: Yup.SchemaOf<AddVersion> = Yup.object().shape({
+const AddVersionSchema: Yup.Schema<AddVersion> = Yup.object().shape({
   version: Yup.string().required(),
   description: Yup.string(),
 });

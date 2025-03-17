@@ -48,7 +48,7 @@ const EmptyImageProfile = styled(ImageIcon)(({ theme }) => ({
   width: theme.spacing(4),
 }));
 
-const SocialOptionsSchema: Yup.SchemaOf<SocialOptions> = Yup.object().shape({
+const SocialOptionsSchema: Yup.Schema<SocialOptions> = Yup.object().shape({
   twitter: Yup.string(),
   instagram: Yup.string(),
   facebook: Yup.string(),
