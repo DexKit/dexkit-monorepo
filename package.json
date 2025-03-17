@@ -35,7 +35,7 @@
   "devDependencies": {
     "@playwright/test": "^1.32.2",
     "@types/eth-url-parser": "1.0.0",
-    "@types/react": "18.2.0",
+    "@types/react": "18.2.15",
     "eslint-config-custom": "*",
     "next-transpile-modules": "^10.0.0",
     "prettier": "latest",

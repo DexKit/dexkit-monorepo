@@ -43,6 +43,7 @@
     "@dexkit/wallet-connectors": "*",
     "@dexkit/web3forms": "*",
     "@dexkit/widgets": "*",
+    "@types/react-syntax-highlighter": "^15.5.5",
     "html-react-parser": "^4.0.0",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
