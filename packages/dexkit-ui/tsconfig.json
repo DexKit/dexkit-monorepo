@@ -8,6 +8,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "moduleResolution": "Bundler",
+    "target": "es2020",
     "lib": ["es2021"]
   },
   "exclude": ["dist", "build", "node_modules"]
