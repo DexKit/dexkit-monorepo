@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "eslint": "8.46.0",
-    "eslint-config-next": "12.3.0",
-    "next": "12.3.0",
     "@dexkit/core": "*",
     "@dexkit/exchange": "*",
-    "@dexkit/ui": "*"
+    "@dexkit/ui": "*",
+    "eslint": "8.46.0",
+    "eslint-config-next": "12.3.0",
+    "next": "12.3.0"
   },
   "devDependencies": {
-    "typescript": "5.1.6",
-    "react": "18.2.0"
+    "react": "18.2.0",
+    "typescript": "5.1.6"
   }
 }

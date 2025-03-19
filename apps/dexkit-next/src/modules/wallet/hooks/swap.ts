@@ -42,7 +42,7 @@ export function useSwapTokens(chainId?: ChainId) {
       return [];
     }
     return tokens.filter((c) =>
-      EVM_NETWORKS.includes(c.network.id as Networks)
+      EVM_NETWORKS.includes(c.network.id as Networks),
     );
   }, [tokens, chainId]);
 }
@@ -82,7 +82,6 @@ export function useSwapQuote({
       ) {
         return null;
       }
-      console.log(chainId);
 
       return await axios
         .get(ZERO_EX_QUOTE_ENDPOINT(chainId), {
@@ -93,14 +92,14 @@ export function useSwapQuote({
             buyAmount:
               buyAmount !== ''
                 ? ethers.utils
-                  .parseUnits(buyAmount, buyToken?.decimals)
-                  .toString()
+                    .parseUnits(buyAmount, buyToken?.decimals)
+                    .toString()
                 : undefined,
             sellAmount:
               sellAmount !== ''
                 ? ethers.utils
-                  .parseUnits(sellAmount, sellToken?.decimals)
-                  .toString()
+                    .parseUnits(sellAmount, sellToken?.decimals)
+                    .toString()
                 : undefined,
             takerAddress,
             skipValidation,
@@ -132,13 +131,13 @@ export function useSwapQuote({
         sellToken !== undefined &&
         (sellAmount !== '' || buyAmount !== ''),
       refetchInterval: 5000,
-    }
+    },
   );
 }
 
 export function useExecSwap(
   onSuccess?: (hash: string) => void,
-  options?: Omit<UseMutationOptions, any>
+  options?: Omit<UseMutationOptions, any>,
 ) {
   const { provider } = useWeb3React();
 
@@ -176,12 +175,12 @@ export function usePlatformCoinSearch({
     async ({ signal }) => {
       const req = await axios.get<DkApiPlatformCoin[]>(
         `${NEXT_PUBLIC_DEXKIT_API_URL}/coin/search-platforms`,
-        { signal, params: { keyword, network } }
+        { signal, params: { keyword, network } },
       );
 
       return req.data;
     },
-    { suspense: true }
+    { suspense: true },
   );
 }
 
@@ -197,7 +196,7 @@ export function useCoinSearch({
   return useQuery([COIN_SEARCH_QUERY, keyword, network], async ({ signal }) => {
     const req = await axios.get<DkApiCoin[]>(
       `${NEXT_PUBLIC_DEXKIT_API_URL}/coin/search`,
-      { signal, params: { keyword, network } }
+      { signal, params: { keyword, network } },
     );
 
     return req.data;

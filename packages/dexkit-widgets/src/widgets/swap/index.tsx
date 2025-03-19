@@ -104,9 +104,7 @@ export function SwapWidget({
 
   const execSwapMutation = useSwapExec({ onNotification });
 
-  const execSwapGaslessMutation = useSwapGaslessExec({
-    zeroExApiKey,
-  });
+  const execSwapGaslessMutation = useSwapGaslessExec();
 
   const [selectedChainId, setSelectedChainId] = useState<ChainId>();
 

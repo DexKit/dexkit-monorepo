@@ -50,8 +50,11 @@ export default function SwapFeeSummaryMatcha({
   });
 
   const maxFee = useMemo(() => {
-    if (quote && quote?.gas && quote?.gasPrice) {
-      return BigNumber.from(quote.gas).mul(quote.gasPrice);
+    const { fees } = quote || {};
+    if (fees) {
+      return BigNumber.from(fees.gasFee || 0)
+        .add(BigNumber.from(fees.integratorFee || 0))
+        .add(BigNumber.from(fees.zeroExFee.amount || 0));
     }
 
     return BigNumber.from(0);
@@ -84,14 +87,6 @@ export default function SwapFeeSummaryMatcha({
 
     return 0;
   }, [totalFee, coinPrices.data, chainId, currency]);
-
-  const priceImpact = useMemo(() => {
-    if (quote) {
-      return parseFloat(quote.estimatedPriceImpact);
-    }
-
-    return 0;
-  }, [quote]);
 
   const [toggleSide, setToggleSide] = useState(false);
 
@@ -224,34 +219,6 @@ export default function SwapFeeSummaryMatcha({
                   defaultMessage="Price impact"
                 />
               </Typography>
-              <Stack
-                spacing={1}
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography
-                  variant="body2"
-                  sx={(theme) => ({
-                    color:
-                      priceImpact > 10
-                        ? theme.palette.error.main
-                        : theme.palette.text.primary,
-                  })}
-                >
-                  {priceImpact}%{" "}
-                </Typography>
-                <Tooltip
-                  title={
-                    <FormattedMessage
-                      id="price.impact.swap.message.info"
-                      defaultMessage="Price impact refers to the fluctuation in the price of a coin that happens when a trade takes place. When the price impact is high, it can sometimes lead to buying coins at a price lower than what was initially expected."
-                    />
-                  }
-                >
-                  <Info fontSize="inherit" />
-                </Tooltip>
-              </Stack>
             </Stack>
 
             <Stack

@@ -141,15 +141,16 @@ export default function SellForm({
   const handleQuotePrice = async () => {
     const quote = await quoteMutation.mutateAsync({
       buyToken: baseToken.address,
+      chainId: chainId?.toString() || "",
       sellToken: quoteToken.address,
       affiliateAddress: affiliateAddress || "",
       buyAmount: parseUnits("1.0", baseToken.decimals).toString(),
-      skipValidation: true,
       slippagePercentage: slippage ? slippage / 100 : 0.01,
       feeRecipient,
       buyTokenPercentageFee: buyTokenPercentageFee
         ? buyTokenPercentageFee / 100
         : undefined,
+      taker: maker || "",
     });
 
     const sellAmount = BigNumber.from(quote?.sellAmount || "0");
