@@ -35,3 +35,5 @@ yarn-error.log*
 dist/
 
 sitemap-0.xml
+.vercel
+.yarn
