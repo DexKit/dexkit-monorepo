@@ -49,6 +49,9 @@
     "react-swipeable-views-utils": "^0.14.0",
     "react-syntax-highlighter": "^15.5.0"
   },
+  "engines": {
+    "node": "22.14.0"
+  },
   "publishConfig": {
     "access": "public"
   },

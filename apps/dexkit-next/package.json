@@ -13,6 +13,9 @@
   "pre-push": [
     "build"
   ],
+  "engines": {
+    "node": "22.14.0"
+  },
   "dependencies": {
     "eslint-config-custom": "*",
     "@dexkit/widgets": "*",

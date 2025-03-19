@@ -6,7 +6,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": "22.14.0"
   },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",

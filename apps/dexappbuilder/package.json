@@ -22,6 +22,9 @@
   "pre-push": [
     "build"
   ],
+  "engines": {
+    "node": "22.14.0"
+  },
   "browser": {
     "child_process": false,
     "fs": false,

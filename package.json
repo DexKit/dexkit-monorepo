@@ -21,7 +21,7 @@
     "storybook:widget": "turbo run storybook --filter=@dexkit/widgets",
     "storybook:exchange": "turbo run storybook --filter=@dexkit/exchange",
     "bundle:widgets": "turbo run bundle:widgets",
-    "build:packages": "turbo run build --parallel --filter=@dexkit/darkblock-evm-widget,@dexkit/unlock-widget",
+    "build:packages": "turbo run build --parallel",
     "build:whitelabel": "turbo run build --parallel --filter=dexappbuilder",
     "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",
@@ -40,7 +40,7 @@
     "turbo": "^1.11.3"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "22.14.0"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",
