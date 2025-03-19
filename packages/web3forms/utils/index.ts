@@ -22,7 +22,7 @@ export function getSchemaForInputs(inputs: FunctionInput[]) {
 }
 export async function dkGetTrustedForwarders(
   provider?: providers.Provider,
-  clientId?: string
+  clientId?: string,
 ) {
   if (!provider) {
     return null;

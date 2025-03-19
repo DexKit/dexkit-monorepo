@@ -4,9 +4,9 @@ import {
   AccordionSummary,
   Divider,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface Props {
   title: React.ReactNode | React.ReactNode[];

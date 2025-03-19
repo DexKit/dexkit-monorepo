@@ -275,7 +275,7 @@ export default function TokenWizardContainer({
   const handleConfirmCancel = () => {
     setOpenHasChangesConfirm(false);
     setHasChanged(false);
-    setTokens(config?.tokens?.length ? config?.tokens[0].tokens ?? [] : []);
+    setTokens(config?.tokens?.length ? (config?.tokens[0].tokens ?? []) : []);
   };
   return (
     <Container>

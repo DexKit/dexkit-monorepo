@@ -63,14 +63,14 @@ export function generateTheme({
         : customTheme?.colorSchemes?.light;
     return fontFamily
       ? createTheme({
-        typography: {
-          fontFamily,
-        },
-        ...paletteTheme,
-      })
+          typography: {
+            fontFamily,
+          },
+          ...paletteTheme,
+        })
       : createTheme({
-        ...paletteTheme,
-      });
+          ...paletteTheme,
+        });
   }
   const theme = getTheme({ name: selectedThemeId }).theme;
   let paletteTheme =
@@ -79,17 +79,17 @@ export function generateTheme({
       : theme.colorSchemes.light;
   return fontFamily
     ? createTheme({
-      typography: {
-        fontFamily,
-      },
-      ...paletteTheme,
-    })
+        typography: {
+          fontFamily,
+        },
+        ...paletteTheme,
+      })
     : createTheme({
-      typography: {
-        fontFamily,
-      },
-      ...paletteTheme,
-    });
+        typography: {
+          fontFamily,
+        },
+        ...paletteTheme,
+      });
 }
 
 export function generateCSSVarsTheme({
@@ -109,16 +109,15 @@ export function generateCSSVarsTheme({
     fontFamily = `'${selectedFont.family}', ${selectedFont.category}`;
   }
 
-
   if (selectedThemeId === 'custom') {
     return fontFamily
       ? extendTheme({
-        ...customTheme,
-        cssVarPrefix: cssVarPrefix,
-        typography: {
-          fontFamily,
-        },
-      })
+          ...customTheme,
+          cssVarPrefix: cssVarPrefix,
+          typography: {
+            fontFamily,
+          },
+        })
       : extendTheme({ ...customTheme, cssVarPrefix });
   }
 
@@ -126,16 +125,16 @@ export function generateCSSVarsTheme({
 
   return fontFamily
     ? extendTheme({
-      cssVarPrefix: cssVarPrefix,
-      typography: {
-        fontFamily,
-      },
-      colorSchemes: theme.colorSchemes,
-    })
+        cssVarPrefix: cssVarPrefix,
+        typography: {
+          fontFamily,
+        },
+        colorSchemes: theme.colorSchemes,
+      })
     : extendTheme({
-      cssVarPrefix: cssVarPrefix,
-      colorSchemes: theme.colorSchemes,
-    });
+        cssVarPrefix: cssVarPrefix,
+        colorSchemes: theme.colorSchemes,
+      });
 }
 
 export function inputMapping(abi: AbiFragment[]) {
@@ -184,7 +183,7 @@ export function requiredField(message: string) {
 export function mapObject(
   obj: any,
   other: any,
-  keys: { [key: string]: string }
+  keys: { [key: string]: string },
 ) {
   for (const key of Object.keys(keys)) {
     set(obj, key, get(other, keys[key]));
@@ -192,14 +191,14 @@ export function mapObject(
 }
 /**
  * If value is undefined it not maps the value
- * @param obj 
- * @param other 
- * @param keys 
+ * @param obj
+ * @param other
+ * @param keys
  */
 export function mapNotNullObject(
   obj: any,
   other: any,
-  keys: { [key: string]: string }
+  keys: { [key: string]: string },
 ) {
   for (const key of Object.keys(keys)) {
     if (get(other, keys[key])) {

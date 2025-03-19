@@ -10,14 +10,20 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getZrxExchangeAddress } from "../utils";
 
 import { ZrxOrder } from "@dexkit/ui/modules/swap/types";
-import type { providers } from 'ethers';
+import type { providers } from "ethers";
 import { BigNumber, Contract } from "ethers";
 import { useContext } from "react";
 import { ZRX_EXCHANGE_ABI } from "../constants/zrx";
 
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 
-export function useZrxQuoteMutation({ chainId, useGasless }: { chainId?: ChainId, useGasless?: boolean }) {
+export function useZrxQuoteMutation({
+  chainId,
+  useGasless,
+}: {
+  chainId?: ChainId;
+  useGasless?: boolean;
+}) {
   const { siteId } = useContext(SiteContext);
 
   return useMutation(async (params: ZeroExQuote | ZeroExQuoteGasless) => {
@@ -28,7 +34,7 @@ export function useZrxQuoteMutation({ chainId, useGasless }: { chainId?: ChainId
     const zrxClient = new ZeroExApiClient(
       chainId,
       process.env.NEXT_PUBLIC_ZRX_API_KEY,
-      siteId
+      siteId,
     );
 
     if (useGasless) {
@@ -38,39 +44,48 @@ export function useZrxQuoteMutation({ chainId, useGasless }: { chainId?: ChainId
       } else {
         return zrxClient.priceGasless(gaslessParams, {});
       }
-
     } else {
       return zrxClient.quote(params as ZeroExQuote, {});
     }
   });
 }
 
-
-export function useZrxQuoteQuery({ chainId, params, useGasless }: { chainId?: ChainId, params: ZeroExQuote | ZeroExQuoteGasless, useGasless?: boolean }) {
+export function useZrxQuoteQuery({
+  chainId,
+  params,
+  useGasless,
+}: {
+  chainId?: ChainId;
+  params: ZeroExQuote | ZeroExQuoteGasless;
+  useGasless?: boolean;
+}) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([chainId, params, params.skipValidation, useGasless], async () => {
-    if (!chainId || !(params.buyAmount || params.sellAmount)) {
-      return null;
-    }
-
-    const zrxClient = new ZeroExApiClient(
-      chainId,
-      process.env.NEXT_PUBLIC_ZRX_API_KEY,
-      siteId
-    );
-
-    if (useGasless) {
-      let gaslessParams = params as ZeroExQuoteGasless;
-      if (params.skipValidation === false) {
-        return zrxClient.quoteGasless(gaslessParams, {});
-      } else {
-        return zrxClient.priceGasless(gaslessParams, {});
+  return useQuery(
+    [chainId, params, params.skipValidation, useGasless],
+    async () => {
+      if (!chainId || !(params.buyAmount || params.sellAmount)) {
+        return null;
       }
-    } else {
-      return zrxClient.quote(params as ZeroExQuote, {});
-    }
-  });
+
+      const zrxClient = new ZeroExApiClient(
+        chainId,
+        process.env.NEXT_PUBLIC_ZRX_API_KEY,
+        siteId,
+      );
+
+      if (useGasless) {
+        let gaslessParams = params as ZeroExQuoteGasless;
+        if (params.skipValidation === false) {
+          return zrxClient.quoteGasless(gaslessParams, {});
+        } else {
+          return zrxClient.priceGasless(gaslessParams, {});
+        }
+      } else {
+        return zrxClient.quote(params as ZeroExQuote, {});
+      }
+    },
+  );
 }
 
 export const ZRX_ORDERBOOK_QUERY = "ZRX_ORDERBOOK_QUERY";
@@ -91,11 +106,11 @@ export function useZrxOrderbook({
 
       const zrxClient = new ZeroExApiClient(
         chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
+        process.env.NEXT_PUBLIC_ZRX_API_KEY,
       );
 
       return await zrxClient.orderbook({ trader: account });
-    }
+    },
   );
 }
 
@@ -117,15 +132,13 @@ export function useZrxOrderbookOrder({
 
       const zrxClient = new ZeroExApiClient(
         chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
+        process.env.NEXT_PUBLIC_ZRX_API_KEY,
       );
 
       return await zrxClient.order(hash);
-    }
+    },
   );
 }
-
-
 
 export function useZrxFillOrderMutation() {
   // const trackUserEvent = useTrackUserEventsMutation();
@@ -143,7 +156,6 @@ export function useZrxFillOrderMutation() {
     }) => {
       const contractAddress = getZrxExchangeAddress(chainId);
 
-
       if (!contractAddress || !provider || !chainId) {
         throw new Error("no provider or contract address");
       }
@@ -151,7 +163,7 @@ export function useZrxFillOrderMutation() {
       const contract = new Contract(
         contractAddress,
         ZRX_EXCHANGE_ABI,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       // let newOrder = new LimitOrder({
@@ -171,11 +183,10 @@ export function useZrxFillOrderMutation() {
       //   takerTokenFeeAmount: new BigNumber(order.takerTokenFeeAmount),
       // });
 
-
       const tx = await contract.fillLimitOrder(
         order,
         order.signature,
-        fillAmount?.toString()
+        fillAmount?.toString(),
       );
 
       // trackUserEvent.mutate({
@@ -188,6 +199,6 @@ export function useZrxFillOrderMutation() {
       // });
 
       return tx.hash;
-    }
+    },
   );
 }

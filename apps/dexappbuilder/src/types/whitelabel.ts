@@ -2,7 +2,6 @@ import { AssetAPI } from '@dexkit/ui/modules/nft/types';
 import { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
 import { AppWhitelabelType } from '../constants/enum';
 
-
 export interface WhitelabelFormData {
   signature?: string;
   type: AppWhitelabelType.MARKETPLACE;
@@ -33,7 +32,7 @@ export interface ConfigResponse {
   type: AppWhitelabelType;
   active?: boolean;
   previewUrl?: string;
-  nft?: AssetAPI
+  nft?: AssetAPI;
 }
 
 export interface SiteResponse {
@@ -44,26 +43,24 @@ export interface SiteResponse {
   cname?: string;
   owner?: string;
   clonable?: string;
-  metadata: SiteMetadata,
+  metadata: SiteMetadata;
   domainStatus?: string;
   emailVerified?: boolean;
   type: AppWhitelabelType;
   active?: boolean;
   previewUrl?: string;
-  nft?: AssetAPI
+  nft?: AssetAPI;
   lastVersionSet?: {
     version: string;
-  }
+  };
   verifyDomainRawData?: string;
   permissions?: {
     accountId: string;
     permissions: {
-      [key: string]: boolean
-    }
-
-  }[]
+      [key: string]: boolean;
+    };
+  }[];
 }
-
 
 export interface PageTemplateResponse {
   id: number;

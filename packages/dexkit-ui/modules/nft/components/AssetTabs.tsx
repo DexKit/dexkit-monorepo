@@ -1,13 +1,13 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Button,
-    Grid,
-    NoSsr,
-    Paper,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
+  Button,
+  Grid,
+  NoSsr,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { Suspense, useCallback, useState } from "react";
@@ -17,40 +17,40 @@ import { FormattedMessage } from "react-intl";
 import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
 
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useAsset,
-    useAssetMetadata,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetMetadata,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import TableSkeleton from "./tables/TableSkeleton";
 
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import {
-    useDexKitContext,
-    useSwitchNetwork,
-    useTokenList,
+  useDexKitContext,
+  useSwitchNetwork,
+  useTokenList,
 } from "@dexkit/ui/hooks";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
-    SignedNftOrderV4,
-    SwappableAssetV4,
-    TradeDirection,
+  SignedNftOrderV4,
+  SwappableAssetV4,
+  TradeDirection,
 } from "@traderxyz/nft-swap-sdk";
 import { BigNumber } from "ethers";
 
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Name,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Name,
+  getERC20Symbol,
 } from "@dexkit/core/services";
 import { SwapApiOrder } from "@dexkit/core/types/nft";
 import { getWindowUrl } from "@dexkit/core/utils/browser";
@@ -87,7 +87,7 @@ export function AssetTabs({ address, id }: Props) {
   const { data: metadata } = useAssetMetadata(asset);
 
   const [selectedTab, setSelectedTab] = useState<AssetTabsOptions>(
-    AssetTabsOptions.Listings
+    AssetTabsOptions.Listings,
   );
 
   const { createNotification, watchTransactionDialog } = useDexKitContext();
@@ -128,7 +128,7 @@ export function AssetTabs({ address, id }: Props) {
         watchTransactionDialog.watch(hash);
       }
     },
-    [watchTransactionDialog, provider, asset, chainId]
+    [watchTransactionDialog, provider, asset, chainId],
   );
 
   const approveAsset = useApproveAssetMutation(
@@ -152,7 +152,7 @@ export function AssetTabs({ address, id }: Props) {
           } else {
             const symbol = await getERC20Symbol(
               asset.contractAddress,
-              provider
+              provider,
             );
 
             const name = await getERC20Name(asset.contractAddress, provider);
@@ -163,7 +163,7 @@ export function AssetTabs({ address, id }: Props) {
           }
         }
       },
-    }
+    },
   );
 
   const handleBuyOrderSuccess = useCallback(
@@ -212,11 +212,11 @@ export function AssetTabs({ address, id }: Props) {
               .mul(
                 BigNumber.from(quantity)
                   .mul(100000)
-                  .div(order.erc1155TokenAmount)
+                  .div(order.erc1155TokenAmount),
               )
               .div(100000),
 
-            decimals
+            decimals,
           );
         }
         trackUserEvent.mutate({
@@ -232,7 +232,7 @@ export function AssetTabs({ address, id }: Props) {
 
       queryClient.invalidateQueries([GET_NFT_ORDERS]);
     },
-    [watchTransactionDialog, provider, asset]
+    [watchTransactionDialog, provider, asset],
   );
 
   const handleHashFillSignedOrder = useCallback(
@@ -285,11 +285,11 @@ export function AssetTabs({ address, id }: Props) {
               .mul(
                 BigNumber.from(quantity)
                   .mul(100000)
-                  .div(order.erc1155TokenAmount)
+                  .div(order.erc1155TokenAmount),
               )
               .div(100000),
 
-            decimals
+            decimals,
           );
         }
 
@@ -302,12 +302,12 @@ export function AssetTabs({ address, id }: Props) {
       }
       watchTransactionDialog.watch(hash);
     },
-    [watchTransactionDialog, provider, asset]
+    [watchTransactionDialog, provider, asset],
   );
 
   const handleFillSignedOrderError = useCallback(
     (error: any) => watchTransactionDialog.setDialogError(error),
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const handleMutateSignedOrder = useCallback(
@@ -353,18 +353,18 @@ export function AssetTabs({ address, id }: Props) {
               .mul(
                 BigNumber.from(quantity)
                   .mul(100000)
-                  .div(order.erc1155TokenAmount)
+                  .div(order.erc1155TokenAmount),
               )
               .div(100000),
 
-            decimals
+            decimals,
           );
         }
 
         watchTransactionDialog.open("buyNft", values);
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const fillSignedOrder = useFillSignedOrderMutation(
@@ -375,12 +375,12 @@ export function AssetTabs({ address, id }: Props) {
       onError: handleFillSignedOrderError,
       onMutate: handleMutateSignedOrder,
     },
-    handleHashFillSignedOrder
+    handleHashFillSignedOrder,
   );
 
   const handleChangeTab = (
     event: React.SyntheticEvent,
-    newValue: AssetTabsOptions
+    newValue: AssetTabsOptions,
   ) => {
     setSelectedTab(newValue);
   };
@@ -431,12 +431,12 @@ export function AssetTabs({ address, id }: Props) {
         watchTransactionDialog.watch(hash);
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const handleCancelSignedOrderError = useCallback(
     (error: any) => watchTransactionDialog.setDialogError(error),
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const handleCancelSignedOrderMutate = useCallback(
@@ -455,7 +455,7 @@ export function AssetTabs({ address, id }: Props) {
         }
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const cancelSignedOrder = useCancelSignedOrderMutation(
@@ -465,7 +465,7 @@ export function AssetTabs({ address, id }: Props) {
     {
       onError: handleCancelSignedOrderError,
       onMutate: handleCancelSignedOrderMutate,
-    }
+    },
   );
 
   const switchNetwork = useSwitchNetwork();
@@ -481,7 +481,7 @@ export function AssetTabs({ address, id }: Props) {
         }
       }
     },
-    [asset, chainId, switchNetwork]
+    [asset, chainId, switchNetwork],
   );
 
   const handleConfirmBuy = useCallback(
@@ -524,7 +524,7 @@ export function AssetTabs({ address, id }: Props) {
       account,
       selectedOrder,
       approveAsset,
-    ]
+    ],
   );
 
   const handleCancelOrder = useCallback(
@@ -542,7 +542,7 @@ export function AssetTabs({ address, id }: Props) {
         }
       }
     },
-    [cancelSignedOrder, switchNetwork, chainId, asset]
+    [cancelSignedOrder, switchNetwork, chainId, asset],
   );
 
   const handleAcceptOffer = useCallback(
@@ -570,7 +570,7 @@ export function AssetTabs({ address, id }: Props) {
         accept: true,
       });
     },
-    [fillSignedOrder, nftSwapSdk, address, id, account, approveAsset, asset]
+    [fillSignedOrder, nftSwapSdk, address, id, account, approveAsset, asset],
   );
 
   const handleCloseShareDialog = () => {
@@ -583,8 +583,8 @@ export function AssetTabs({ address, id }: Props) {
       setOpenShare(true);
       setShareUrl(
         `${getWindowUrl()}/order/${getNetworkSlugFromChainId(
-          asset.chainId
-        )}/${nonce}`
+          asset.chainId,
+        )}/${nonce}`,
       );
     }
   };

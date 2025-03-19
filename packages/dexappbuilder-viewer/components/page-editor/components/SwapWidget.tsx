@@ -37,7 +37,7 @@ function SwapWidget(props: Props) {
       buyToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 
@@ -45,7 +45,7 @@ function SwapWidget(props: Props) {
       sellToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 
@@ -113,8 +113,8 @@ function SwapWidget(props: Props) {
           enableUrlParams && configParams?.configByChainParams
             ? configParams.configByChainParams
             : configByChain
-            ? configByChain
-            : {},
+              ? configByChain
+              : {},
         defaultChainId: selectedChainId || chainId || ChainId.Ethereum,
         currency: currency.currency,
         zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",

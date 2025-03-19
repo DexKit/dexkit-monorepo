@@ -72,11 +72,11 @@ import { useIsMobile } from "@dexkit/core";
 import LoginAppButton from "@dexkit/ui/components/LoginAppButton";
 
 const EvmReceiveDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
+  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog"),
 );
 
 const ScanWalletQrCodeDialog = dynamic(
-  async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
+  async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog"),
 );
 
 enum WalletTabs {
@@ -111,12 +111,12 @@ const EvmWalletContainer = () => {
   const [search, setSearch] = useState("");
 
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(
-    isBalancesVisibleAtom
+    isBalancesVisibleAtom,
   );
 
   const handleChangeTab = (
     event: React.SyntheticEvent<Element, Event>,
-    value: WalletTabs
+    value: WalletTabs,
   ) => {
     setSelectedTab(value);
   };

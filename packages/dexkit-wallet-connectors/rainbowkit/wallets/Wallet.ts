@@ -1,14 +1,14 @@
-import { Connector, CreateConnectorFn } from 'wagmi';
-import { WalletConnectParameters } from 'wagmi/connectors';
-import { CoinbaseWalletOptions } from './walletConnectors/coinbaseWallet/coinbaseWallet';
-import { WalletConnectWalletOptions } from './walletConnectors/walletConnectWallet/walletConnectWallet';
+import { Connector, CreateConnectorFn } from "wagmi";
+import { WalletConnectParameters } from "wagmi/connectors";
+import { CoinbaseWalletOptions } from "./walletConnectors/coinbaseWallet/coinbaseWallet";
+import { WalletConnectWalletOptions } from "./walletConnectors/walletConnectWallet/walletConnectWallet";
 
 export type InstructionStepName =
-  | 'install'
-  | 'create'
-  | 'scan'
-  | 'connect'
-  | 'refresh';
+  | "install"
+  | "create"
+  | "scan"
+  | "connect"
+  | "refresh";
 
 type RainbowKitConnector = {
   mobile?: {
@@ -86,7 +86,7 @@ export type CreateWalletFn = (
   // These parameters will be used when creating a wallet. If injected
   // wallet doesn't have parameters it will just ignore these passed in parameters
   createWalletParams: CoinbaseWalletOptions &
-    Omit<WalletConnectWalletOptions, 'projectId'> &
+    Omit<WalletConnectWalletOptions, "projectId"> &
     DefaultWalletOptions,
 ) => Wallet;
 
@@ -100,10 +100,10 @@ export type WalletList = {
 // parameters can be passed with no issue
 export type RainbowKitWalletConnectParameters = Omit<
   WalletConnectParameters,
-  'showQrModal' | 'projectId'
+  "showQrModal" | "projectId"
 >;
 
-export type RainbowKitDetails = Omit<Wallet, 'createConnector' | 'hidden'> & {
+export type RainbowKitDetails = Omit<Wallet, "createConnector" | "hidden"> & {
   index: number;
   groupIndex: number;
   groupName: string;

@@ -46,6 +46,6 @@ export default function useCategoryList(params: {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       staleTime: 1000,
-    }
+    },
   );
 }

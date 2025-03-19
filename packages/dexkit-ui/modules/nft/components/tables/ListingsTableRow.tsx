@@ -56,7 +56,7 @@ export function ListingsTableRow({
   });
 
   const token = tokens.find((t) =>
-    isAddressEqual(t.address, order?.erc20Token)
+    isAddressEqual(t.address, order?.erc20Token),
   );
 
   const elRef = useRef<HTMLElement | null>(null);

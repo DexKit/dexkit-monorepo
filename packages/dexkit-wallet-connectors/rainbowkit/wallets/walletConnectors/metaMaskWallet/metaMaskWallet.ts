@@ -1,15 +1,15 @@
-import { WindowProvider } from '../../../types/utils';
-import { isAndroid, isIOS } from '../../../utils/isMobile';
-import { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { WindowProvider } from "../../../types/utils";
+import { isAndroid, isIOS } from "../../../utils/isMobile";
+import { DefaultWalletOptions, Wallet } from "../../Wallet";
 import {
   getInjectedConnector,
   hasInjectedProvider,
-} from '../../getInjectedConnector';
-import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+} from "../../getInjectedConnector";
+import { getWalletConnectConnector } from "../../getWalletConnectConnector";
 
 export type MetaMaskWalletOptions = DefaultWalletOptions;
 
-function isMetaMask(ethereum?: WindowProvider['ethereum']): boolean {
+function isMetaMask(ethereum?: WindowProvider["ethereum"]): boolean {
   // Logic borrowed from wagmi's MetaMaskConnector
   // https://github.com/wagmi-dev/references/blob/main/packages/connectors/src/metaMask.ts
   if (!ethereum?.isMetaMask) return false;
@@ -65,7 +65,7 @@ export const metaMaskWallet = ({
   // to interact with wallets compatible with window.ethereum.
   // The connector's getProvider will instead favor the real MetaMask
   // in window.providers scenarios with multiple wallets injected.
-  const isMetaMaskInjected = hasInjectedProvider({ flag: 'isMetaMask' });
+  const isMetaMaskInjected = hasInjectedProvider({ flag: "isMetaMask" });
   const shouldUseWalletConnect = !isMetaMaskInjected;
 
   const getUri = (uri: string) => {
@@ -78,24 +78,24 @@ export const metaMaskWallet = ({
   };
 
   return {
-    id: 'metaMask',
-    name: 'MetaMask',
-    rdns: 'io.metamask',
-    iconUrl: async () => (await import('./metaMaskWallet.svg')).default,
-    iconAccent: '#f6851a',
-    iconBackground: '#fff',
+    id: "metaMask",
+    name: "MetaMask",
+    rdns: "io.metamask",
+    iconUrl: async () => (await import("./metaMaskWallet.svg")).default,
+    iconAccent: "#f6851a",
+    iconBackground: "#fff",
     installed: !shouldUseWalletConnect ? isMetaMaskInjected : undefined,
     downloadUrls: {
-      android: 'https://play.google.com/store/apps/details?id=io.metamask',
-      ios: 'https://apps.apple.com/us/app/metamask/id1438144202',
-      mobile: 'https://metamask.io/download',
-      qrCode: 'https://metamask.io/download',
+      android: "https://play.google.com/store/apps/details?id=io.metamask",
+      ios: "https://apps.apple.com/us/app/metamask/id1438144202",
+      mobile: "https://metamask.io/download",
+      qrCode: "https://metamask.io/download",
       chrome:
-        'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn',
-      edge: 'https://microsoftedge.microsoft.com/addons/detail/metamask/ejbalbakoplchlghecdalmeeeajnimhm',
-      firefox: 'https://addons.mozilla.org/firefox/addon/ether-metamask',
-      opera: 'https://addons.opera.com/extensions/details/metamask-10',
-      browserExtension: 'https://metamask.io/download',
+        "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+      edge: "https://microsoftedge.microsoft.com/addons/detail/metamask/ejbalbakoplchlghecdalmeeeajnimhm",
+      firefox: "https://addons.mozilla.org/firefox/addon/ether-metamask",
+      opera: "https://addons.opera.com/extensions/details/metamask-10",
+      browserExtension: "https://metamask.io/download",
     },
 
     mobile: {
@@ -105,25 +105,25 @@ export const metaMaskWallet = ({
       ? {
           getUri,
           instructions: {
-            learnMoreUrl: 'https://metamask.io/faqs/',
+            learnMoreUrl: "https://metamask.io/faqs/",
             steps: [
               {
                 description:
-                  'wallet_connectors.metamask.qr_code.step1.description',
-                step: 'install',
-                title: 'wallet_connectors.metamask.qr_code.step1.title',
+                  "wallet_connectors.metamask.qr_code.step1.description",
+                step: "install",
+                title: "wallet_connectors.metamask.qr_code.step1.title",
               },
               {
                 description:
-                  'wallet_connectors.metamask.qr_code.step2.description',
-                step: 'create',
-                title: 'wallet_connectors.metamask.qr_code.step2.title',
+                  "wallet_connectors.metamask.qr_code.step2.description",
+                step: "create",
+                title: "wallet_connectors.metamask.qr_code.step2.title",
               },
               {
                 description:
-                  'wallet_connectors.metamask.qr_code.step3.description',
-                step: 'refresh',
-                title: 'wallet_connectors.metamask.qr_code.step3.title',
+                  "wallet_connectors.metamask.qr_code.step3.description",
+                step: "refresh",
+                title: "wallet_connectors.metamask.qr_code.step3.title",
               },
             ],
           },
@@ -131,25 +131,25 @@ export const metaMaskWallet = ({
       : undefined,
     extension: {
       instructions: {
-        learnMoreUrl: 'https://metamask.io/faqs/',
+        learnMoreUrl: "https://metamask.io/faqs/",
         steps: [
           {
             description:
-              'wallet_connectors.metamask.extension.step1.description',
-            step: 'install',
-            title: 'wallet_connectors.metamask.extension.step1.title',
+              "wallet_connectors.metamask.extension.step1.description",
+            step: "install",
+            title: "wallet_connectors.metamask.extension.step1.title",
           },
           {
             description:
-              'wallet_connectors.metamask.extension.step2.description',
-            step: 'create',
-            title: 'wallet_connectors.metamask.extension.step2.title',
+              "wallet_connectors.metamask.extension.step2.description",
+            step: "create",
+            title: "wallet_connectors.metamask.extension.step2.title",
           },
           {
             description:
-              'wallet_connectors.metamask.extension.step3.description',
-            step: 'refresh',
-            title: 'wallet_connectors.metamask.extension.step3.title',
+              "wallet_connectors.metamask.extension.step3.description",
+            step: "refresh",
+            title: "wallet_connectors.metamask.extension.step3.title",
           },
         ],
       },
@@ -161,10 +161,10 @@ export const metaMaskWallet = ({
         })
       : getInjectedConnector({
           target:
-            typeof window !== 'undefined'
-              ? (window as WindowProvider).ethereum?.providers?.find(
+            typeof window !== "undefined"
+              ? ((window as WindowProvider).ethereum?.providers?.find(
                   isMetaMask,
-                ) ?? window.ethereum
+                ) ?? window.ethereum)
               : undefined,
         }),
   };

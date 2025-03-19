@@ -1,6 +1,6 @@
-import { Skeleton } from '@mui/material';
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
+import { Skeleton } from "@mui/material";
+import React from "react";
+import { useInView } from "react-intersection-observer";
 
 interface Props {
   children: React.ReactNode;

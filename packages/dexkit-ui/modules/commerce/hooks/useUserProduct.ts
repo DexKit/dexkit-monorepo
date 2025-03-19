@@ -18,6 +18,6 @@ export default function useUserProduct(params: { id?: string }) {
       return (await instance?.get<Product>(`/products/user/${params.id}`))
         ?.data;
     },
-    { enabled: Boolean(params.id) }
+    { enabled: Boolean(params.id) },
   );
 }

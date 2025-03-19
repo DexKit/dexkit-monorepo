@@ -20,7 +20,7 @@ function SectionTypeAutocomplete({
     .sort((a, b) => {
       if (a.obj.title && b.obj.title) {
         return a.obj.title.defaultMessage.localeCompare(
-          b.obj.title.defaultMessage
+          b.obj.title.defaultMessage,
         );
       }
 

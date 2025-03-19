@@ -1,6 +1,6 @@
 import AirdropTokenPageContainer from '@/modules/token/components/AirdropTokenPageContainer';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Container from '@mui/material/Container';
 import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { GetStaticProps, GetStaticPropsContext } from 'next';

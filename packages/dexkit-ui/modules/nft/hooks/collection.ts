@@ -92,7 +92,7 @@ export const useAssetListFromCollection = (params: Props) => {
         take,
         total,
       };
-    }
+    },
   );
 };
 
@@ -111,7 +111,7 @@ export const useCollectionStats = (params: CollectionStatsProps) => {
     async () => {
       return undefined;
     },
-    { enabled: false }
+    { enabled: false },
   );
 };
 
@@ -120,7 +120,7 @@ export const GET_COLLECTION_DATA = "GET_COLLECTION_DATA";
 export function useCollection(
   contractAddress?: string,
   chainId?: ChainId,
-  lazy?: boolean
+  lazy?: boolean,
 ) {
   const { provider, chainId: chainProvider } = useWeb3React();
   const appConfig = useAppConfig();
@@ -144,7 +144,7 @@ export function useCollection(
       collectionFromConfig = appConfig.collections?.find(
         (c) =>
           isAddressEqual(c.contractAddress, contractAddress) &&
-          c.chainId === chainId
+          c.chainId === chainId,
       );
 
       if (isTw) {
@@ -152,7 +152,7 @@ export function useCollection(
         let metadata = await contract.metadata.get();
 
         const contractType: string = hexToString(
-          await twContract.call("contractType")
+          await twContract.call("contractType"),
         );
 
         let type = contractType?.toLowerCase()?.startsWith("edition")
@@ -174,7 +174,7 @@ export function useCollection(
 
       const collection = await getApiCollectionData(
         getNetworkSlugFromChainId(chainId),
-        contractAddress
+        contractAddress,
       );
 
       if (collection) {
@@ -196,7 +196,7 @@ export function useCollection(
 
       const onChainCollection = await getCollectionData(
         provider,
-        contractAddress
+        contractAddress,
       );
 
       return {
@@ -210,7 +210,7 @@ export function useCollection(
         (provider !== undefined && chainId === chainProvider) || Boolean(lazy),
       refetchOnMount: Boolean(lazy),
       refetchOnWindowFocus: Boolean(lazy),
-    }
+    },
   );
 }
 
@@ -219,7 +219,7 @@ export const COLLECTION_ASSETS_FROM_ORDERBOOK =
 
 export function useCollectionAssetsFromOrderbook(
   filters: TraderOrderFilter,
-  networkChainId?: ChainId
+  networkChainId?: ChainId,
 ) {
   const { provider, chainId: injectedChainId } = useWeb3React();
   const chainId = networkChainId || injectedChainId;
@@ -238,7 +238,7 @@ export function useCollectionAssetsFromOrderbook(
 
       return getCollectionAssetsFromOrderbook(provider, filters);
     },
-    { enabled: isProviderEnabled }
+    { enabled: isProviderEnabled },
   );
 }
 
@@ -268,11 +268,11 @@ export function useContractCollection(networkId?: string, address?: string) {
       }
       const contractData = await getApiContractCollectionData(
         networkId,
-        address
+        address,
       );
       if (contractData) {
         return contractData;
       }
-    }
+    },
   );
 }

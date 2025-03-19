@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material';
-import type { CellPlugin } from '@react-page/editor';
+import { Grid } from "@mui/material";
+import type { CellPlugin } from "@react-page/editor";
 
 type Data = {
   width: number;
@@ -12,25 +12,25 @@ const ColumnPlugin: CellPlugin<Data> = {
       {children}
     </Grid>
   ),
-  id: 'column',
-  title: 'Column',
-  description: 'Build your columns inside the grid container',
+  id: "column",
+  title: "Column",
+  description: "Build your columns inside the grid container",
   version: 1,
   controls: {
-    type: 'autoform',
+    type: "autoform",
     schema: {
       // this JSONschema is type checked against the generic type argument
       // the autocompletion of your IDE helps to create this schema
       properties: {
         width: {
-          type: 'number',
+          type: "number",
           default: 4,
           minimum: 1,
           maximum: 12,
           multipleOf: 1,
         },
       },
-      required: ['width'],
+      required: ["width"],
     },
   },
 };

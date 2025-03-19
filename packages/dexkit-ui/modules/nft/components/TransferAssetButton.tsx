@@ -11,7 +11,7 @@ const EvmTransferNftDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-nft/components/dialogs/EvmTransferNftDialog"
-    )
+    ),
 );
 
 interface Props {

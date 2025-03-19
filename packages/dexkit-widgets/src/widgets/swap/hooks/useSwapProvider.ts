@@ -12,7 +12,7 @@ export function useSwapProvider({
   return useMemo(() => {
     if (defaultChainId && NETWORKS[defaultChainId]?.providerRpcUrl) {
       return new providers.JsonRpcProvider(
-        NETWORKS[defaultChainId].providerRpcUrl
+        NETWORKS[defaultChainId].providerRpcUrl,
       );
     }
   }, [defaultChainId]);

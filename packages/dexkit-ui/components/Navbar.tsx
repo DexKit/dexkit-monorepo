@@ -44,7 +44,7 @@ import { WalletButton } from "@dexkit/ui/components/WalletButton";
 import Wallet from "./icons/Wallet";
 
 const SelectNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
+  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog"),
 );
 
 import Link from "@dexkit/ui/components/AppLink";
@@ -126,7 +126,7 @@ function Navbar({ appConfig, isPreview }: Props) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSettingsMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setMenuAnchorEl(event.currentTarget);
   };
@@ -174,7 +174,7 @@ function Navbar({ appConfig, isPreview }: Props) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleShowProfileMenu = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setShowProfileMenu(true);
     setProfileMenuAnchorEl(event.currentTarget);
@@ -349,7 +349,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                     : Number(
                         appConfig?.logoDark?.height ||
                           appConfig?.logo?.height ||
-                          theme.spacing(6)
+                          theme.spacing(6),
                       )
                 }
                 width={
@@ -358,7 +358,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                     : Number(
                         appConfig?.logoDark?.width ||
                           appConfig?.logo?.width ||
-                          theme.spacing(6)
+                          theme.spacing(6),
                       )
                 }
               />
@@ -476,7 +476,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                     >
                       {m.name}
                     </Button>
-                  )
+                  ),
                 )}
               </Stack>
             ) : (

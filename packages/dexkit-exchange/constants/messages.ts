@@ -1,7 +1,8 @@
 import type { AppNotificationType } from "@dexkit/ui/types";
 
-export const EXCHANGE_NOTIFICATION_TYPES: { [key: string]: AppNotificationType } = {
-
+export const EXCHANGE_NOTIFICATION_TYPES: {
+  [key: string]: AppNotificationType;
+} = {
   marketBuy: {
     type: "marketBuy",
     color: "primary.light",
@@ -27,7 +28,4 @@ export const EXCHANGE_NOTIFICATION_TYPES: { [key: string]: AppNotificationType }
     id: "ordercancelled.sellamount.symbol.for.buyamount.symbol",
     icon: "receipt",
   },
-
-
-
-}
+};

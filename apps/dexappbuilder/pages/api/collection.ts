@@ -3,10 +3,9 @@ import { getCollectionData } from '@dexkit/ui/modules/nft/services/collection';
 import { Collection } from '@dexkit/ui/modules/nft/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { chainId, contractAddress } = req.query;
 
@@ -14,7 +13,7 @@ export default async function handler(
 
   const collection: Collection | undefined = await getCollectionData(
     provider,
-    contractAddress as string
+    contractAddress as string,
   );
 
   if (!collection) {

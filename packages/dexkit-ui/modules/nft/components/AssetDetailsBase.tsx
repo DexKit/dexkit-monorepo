@@ -92,7 +92,7 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
                             value={attr.value}
                           />
                         </Grid>
-                      )
+                      ),
                   )}
                 </Grid>
               </AccordionDetails>

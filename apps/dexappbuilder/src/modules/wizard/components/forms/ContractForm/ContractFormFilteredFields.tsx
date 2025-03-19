@@ -32,7 +32,7 @@ export default function ContractFormFilteredFields({
         result = result.filter(
           (f) =>
             f.stateMutability === 'nonpayable' ||
-            f.stateMutability === 'payable'
+            f.stateMutability === 'payable',
         );
       } else if (selectedTab === 'read') {
         result = result.filter((f) => f.stateMutability === 'view');

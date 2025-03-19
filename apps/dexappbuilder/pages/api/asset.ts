@@ -1,13 +1,19 @@
-import { getChainSlug, getProviderByChainId } from '@dexkit/core/utils/blockchain';
+import {
+  getChainSlug,
+  getProviderByChainId,
+} from '@dexkit/core/utils/blockchain';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { Asset } from '@dexkit/core/types/nft';
-import { getAssetData, getAssetDexKitApi, getAssetMetadata } from '@dexkit/ui/modules/nft/services';
-
+import {
+  getAssetData,
+  getAssetDexKitApi,
+  getAssetMetadata,
+} from '@dexkit/ui/modules/nft/services';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   let asset: Asset | undefined;
   const { chainId, contractAddress, tokenId } = req.query;
@@ -17,9 +23,8 @@ export default async function handler(
     asset = await getAssetData(
       provider,
       contractAddress as string,
-      tokenId as string
+      tokenId as string,
     );
-
   } catch (e) {
     console.log(e);
   }

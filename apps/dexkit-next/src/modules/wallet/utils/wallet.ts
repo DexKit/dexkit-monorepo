@@ -6,7 +6,7 @@ export class WalletManager {
 
   generateEvmPrivateKey(index: number) {
     return HDNode.fromMnemonic(this.mnemonic).derivePath(
-      `m/44'/60'/0'/0/${index}`
+      `m/44'/60'/0'/0/${index}`,
     ).privateKey;
   }
 

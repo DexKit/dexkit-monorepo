@@ -87,9 +87,9 @@ export default function ImportCoinsDialog({ DialogProps }: Props) {
                 id: 'coin.coinName.imported.successfully',
                 defaultMessage: 'Coin "{coinName}" imported successfully',
               },
-              { coinName: coin.name }
+              { coinName: coin.name },
             ),
-            { variant: 'success' }
+            { variant: 'success' },
           );
         } else {
           enqueueSnackbar(
@@ -98,9 +98,9 @@ export default function ImportCoinsDialog({ DialogProps }: Props) {
                 id: 'coin.coinName.is.already.imported',
                 defaultMessage: 'Coin "{coinName}" is already imported',
               },
-              { coinName: coin.name }
+              { coinName: coin.name },
             ),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         }
 
@@ -121,7 +121,7 @@ export default function ImportCoinsDialog({ DialogProps }: Props) {
 
       handleClose();
     },
-    [recentCoins]
+    [recentCoins],
   );
 
   const handleChangeChainId = (e: SelectChangeEvent) => {
@@ -141,7 +141,7 @@ export default function ImportCoinsDialog({ DialogProps }: Props) {
           c.network.id === coin.network.id &&
           c.decimals === coin.decimals &&
           c.coingeckoId === coin.coingeckoId &&
-          coin.name === coin.name
+          coin.name === coin.name,
       );
 
       if (index > -1) {

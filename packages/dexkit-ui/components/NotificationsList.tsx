@@ -35,7 +35,7 @@ export default function NotificationsList({
 }: NotificationsListProps) {
   const renderSecondaryAction = (
     transactions: { [key: string]: AppTransaction },
-    notification: AppNotification
+    notification: AppNotification,
   ) => {
     if (notification.metadata) {
       const notificationType = notification.type;
@@ -62,7 +62,7 @@ export default function NotificationsList({
 
   const getNotificationUrl = (
     transactions: { [key: string]: AppTransaction },
-    notification: AppNotification
+    notification: AppNotification,
   ) => {
     if (notification.url) {
       return notification.url;
@@ -90,7 +90,7 @@ export default function NotificationsList({
 
       return "primary.light";
     },
-    [notificationTypes]
+    [notificationTypes],
   );
 
   const renderIcon = useCallback((notification: AppNotification) => {

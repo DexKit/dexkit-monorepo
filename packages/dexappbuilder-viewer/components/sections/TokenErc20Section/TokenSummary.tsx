@@ -22,7 +22,7 @@ export default function TokenSummary({ address }: TokenSummaryProps) {
       ];
     },
     [],
-    []
+    [],
   );
 
   return (

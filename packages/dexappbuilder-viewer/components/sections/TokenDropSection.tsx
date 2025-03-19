@@ -41,7 +41,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 export function parseIneligibility(
   reasons: ClaimEligibility[],
-  quantity = 0
+  quantity = 0,
 ): string {
   if (!reasons.length) {
     return "";
@@ -91,7 +91,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   const activeClaimCondition = useActiveClaimConditionForWallet(
     contract,
-    account
+    account,
   );
 
   const [count, setCount] = useState<number>(0);
@@ -102,7 +102,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     if (active && data) {
       const total = data?.length;
       const currentIndex = data.findIndex(
-        (a) => a?.startTime?.getTime() === active?.startTime?.getTime()
+        (a) => a?.startTime?.getTime() === active?.startTime?.getTime(),
       );
 
       if (currentIndex === -1) {
@@ -145,7 +145,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
       setCount(count + 1);
     },
     // Delay in milliseconds or null to stop it
-    countDown === undefined || countDown === "Expired" ? null : 1000
+    countDown === undefined || countDown === "Expired" ? null : 1000,
   );
 
   const claimerProofs = useClaimerProofs(contract, account || "");
@@ -196,7 +196,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
       return `${formatUnits(
         bnPrice.mul(lazyQuantity).toString(),
-        activeClaimCondition.data?.currencyMetadata.decimals || 18
+        activeClaimCondition.data?.currencyMetadata.decimals || 18,
       )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
     }
   }, [
@@ -219,7 +219,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     let perTransactionClaimable;
     try {
       perTransactionClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimablePerWallet || 0
+        activeClaimCondition.data?.maxClaimablePerWallet || 0,
       );
     } catch (e) {
       perTransactionClaimable = BigNumber.from(1_000_000_000);
@@ -315,7 +315,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
     if (canClaim) {
       const pricePerToken = BigNumber.from(
-        activeClaimCondition.data?.currencyMetadata.value || 0
+        activeClaimCondition.data?.currencyMetadata.value || 0,
       );
       if (pricePerToken.eq(0)) {
         return <FormattedMessage id="mint.free" defaultMessage="Mint (Free)" />;
@@ -379,7 +379,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     if (account) {
       let tx = await contract?.erc20.claimTo.prepare(
         account,
-        lazyQuantity.toString()
+        lazyQuantity.toString(),
       );
 
       const values = {
@@ -447,7 +447,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             id="error.while.minting"
             defaultMessage="Error while minting"
           />,
-          { variant: "error" }
+          { variant: "error" },
         );
       }
     }
@@ -486,7 +486,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
         {claimConditions.data?.length === 0 ||
           (claimConditions.data?.every(
-            (cc) => cc.maxClaimableSupply === "0"
+            (cc) => cc.maxClaimableSupply === "0",
           ) && (
             <Alert severity="info">
               <FormattedMessage

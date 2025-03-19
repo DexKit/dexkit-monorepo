@@ -44,10 +44,10 @@ import SidebarListItem from './sidebar/SidebarListItem';
 import SidebarListSubheader from './sidebar/SidebarListSubheader';
 
 const AppConnectWalletDialog = dynamic(
-  () => import('../dialogs/AppConnectWalletDialog')
+  () => import('../dialogs/AppConnectWalletDialog'),
 );
 const AppNotificationsDialog = dynamic(
-  () => import('../dialogs/AppNotificationsDialog')
+  () => import('../dialogs/AppNotificationsDialog'),
 );
 const WelcomeDialog = dynamic(() => import('../dialogs/WelcomeDialog'));
 
@@ -140,11 +140,11 @@ export default function MainLayout({
   };
 
   const [showNotifications, setShowNotifications] = useAtom(
-    showNotificationsAtom
+    showNotificationsAtom,
   );
 
   const [showConnectWallet, setShowConnectWallet] = useAtom(
-    showConnectWalletAtom
+    showConnectWalletAtom,
   );
 
   const handleCloseNotifications = () =>
@@ -186,7 +186,7 @@ export default function MainLayout({
               type: AccountType.EVM,
               connector: WalletConnectType.MetaMask,
             },
-            true
+            true,
           );
         }
       } else if (connector instanceof MagicConnector) {
@@ -200,7 +200,7 @@ export default function MainLayout({
               connector: WalletConnectType.Magic,
               loginType: connector?.loginType,
             },
-            true
+            true,
           );
         }
       }

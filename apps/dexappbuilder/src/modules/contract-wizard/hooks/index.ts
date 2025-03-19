@@ -8,7 +8,6 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { myAppsApi } from 'src/services/whitelabel';
 import { holdsKitDialogAtom } from 'src/state/atoms';
 
-
 import { isIpfsUri } from '@dexkit/core/utils/ipfs';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
 import { getMultipleAssetDexKitApi } from '@dexkit/ui/modules/nft/services';
@@ -232,7 +231,7 @@ export function useCreateAIImageMutation() {
   // const isHoldingKit = useAccountHoldDexkitMutation();
   const setIsHoldingKitDialog = useSetAtom(holdsKitDialogAtom);
   return useMutation(async ({ description }: { description: string }) => {
-    return
+    return;
     try {
       //   await isHoldingKit.mutateAsync();
     } catch {
@@ -381,11 +380,7 @@ export function useCollectionMetadataQuery(address?: string) {
       return;
     }
 
-    const contract = new Contract(
-      address,
-      ERC721Abi,
-      provider.getSigner(),
-    );
+    const contract = new Contract(address, ERC721Abi, provider.getSigner());
 
     let contractURI: string = await contract.contractURI();
 

@@ -146,7 +146,7 @@ export default function ProductContent({
             <Typography fontWeight="500" variant="h5">
               <FormattedNumber
                 value={new Decimal(
-                  product?.price?.toString() ?? "0"
+                  product?.price?.toString() ?? "0",
                 ).toNumber()}
                 maximumFractionDigits={18}
                 minimumFractionDigits={2}

@@ -75,7 +75,7 @@ export interface CoinLeagueGamesParams extends GamesFilterParams {
 
 export const useCoinLeagueGames = (
   params: CoinLeagueGamesParams,
-  isNFT = false
+  isNFT = false,
 ) => {
   const { chainId } = useLeaguesChainInfo();
 
@@ -107,14 +107,14 @@ export const useCoinLeagueGames = (
 
   if (filters?.duration !== GameDuration.ALL) {
     variables.duration = GET_DURATION_FROM_FILTER(
-      filters?.duration || GameDuration.ALL
+      filters?.duration || GameDuration.ALL,
     );
   }
 
   if (filters?.gameLevel !== GameLevel.All) {
     let entryAmount = GET_GAME_LEVEL_AMOUNTS(
       filters?.gameLevel || GameLevel.All,
-      chainId
+      chainId,
     ).toString();
 
     variables.entry = entryAmount;
@@ -150,10 +150,10 @@ export const useCoinLeagueGames = (
       const { games } = await request(
         getGraphEndpoint(isNFTGame, chainId),
         gqlQuery,
-        variables
+        variables,
       );
       return games;
-    }
+    },
   );
 };
 
@@ -177,7 +177,7 @@ export function useCoinLeagueGameQuery({
 
       return await getCoinLeagueGame(chainId, id);
     },
-    { refetchOnMount: false, ...options }
+    { refetchOnMount: false, ...options },
   );
 }
 
@@ -187,7 +187,7 @@ export const useCoinToPlay = (chainId?: ChainId, address?: string) => {
   }
 
   return CoinToPlay[chainId]?.find((c) =>
-    isAddressEqual(c.address.toLowerCase(), address.toLowerCase())
+    isAddressEqual(c.address.toLowerCase(), address.toLowerCase()),
   );
 };
 
@@ -249,10 +249,10 @@ export function useGamesFilters({
 }): GameFiltersState {
   const [orderByGame, setOrderByGame] = useState(GameOrderBy.HighLevel);
   const [numberOfPlayers, setNumberOfPlayers] = useState<NumberOfPLayers>(
-    NumberOfPLayers.ALL
+    NumberOfPLayers.ALL,
   );
   const [stakeAmount, setStakeAmount] = useState<GameStakeAmount>(
-    GameStakeAmount.ALL
+    GameStakeAmount.ALL,
   );
   const [gameLevel, setGameLevel] = useState<GameLevel>(GameLevel.All);
   const [gameType, setGameType] = useState<GameType>(GameType.ALL);
@@ -343,7 +343,7 @@ export function useCoinLeagueGameOnChainQuery({
       }
 
       return await getCoinLeagueGameOnChain(provider, factoryAddress, id);
-    }
+    },
   );
 }
 
@@ -393,7 +393,7 @@ export function useJoinGameMutation({
       captainCoinFeed,
       provider,
       gameId,
-      affiliate
+      affiliate,
     );
 
     if (onSubmit) {
@@ -445,7 +445,7 @@ export function useStartGameMutation({
 const GAME_PROFILES_STATE = 'GAME_PROFILES_STATE';
 
 export function useGameProfilesState(
-  addresses?: string[]
+  addresses?: string[],
 ): ProfileContextState {
   const query = useQuery([GAME_PROFILES_STATE, String(addresses)], async () => {
     if (!addresses) {
@@ -542,7 +542,7 @@ export function useWinner({
       }
 
       return await getWinner(factoryAddress, account, id, provider);
-    }
+    },
   );
 }
 
@@ -610,7 +610,7 @@ const GET_MY_CHAMPIONS = gql`
 export function useMyChampions(
   params: { chainId?: number; limit?: number; account?: string } = {
     limit: 100,
-  }
+  },
 ) {
   const { chainId, limit, account } = params;
 
@@ -643,7 +643,7 @@ export function useMyChampions(
             for (let t of tokens) {
               let metadata: ChampionMetadata = await getChampionMetadata(
                 t.id,
-                chainId
+                chainId,
               );
 
               let champ: CoinLeaguesChampion = {
@@ -656,7 +656,7 @@ export function useMyChampions(
                 run: parseInt(t.run),
                 rarity: getRarityFromBodyType(
                   metadata.attributes.find((att) => att.trait_type === 'body')
-                    ?.value
+                    ?.value,
                 ),
               };
               champions.push(champ);

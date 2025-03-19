@@ -18,7 +18,7 @@ const SwapPage: NextPage = () => {
   const appConfig = useAppConfig();
   const swapSection = useMemo(() => {
     const swapSectionPageIndex = appConfig.pages['home']?.sections.findIndex(
-      (s) => s.type === 'swap'
+      (s) => s.type === 'swap',
     );
     if (swapSectionPageIndex !== -1) {
       return (

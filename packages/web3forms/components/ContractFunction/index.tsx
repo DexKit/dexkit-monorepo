@@ -6,24 +6,24 @@ import { FormattedMessage } from "react-intl";
 import { Formik } from "formik";
 
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Card,
-    CircularProgress,
-    Divider,
-    Skeleton,
-    Stack,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Card,
+  CircularProgress,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import {
-    CallParams,
-    ContractFormParams,
-    FunctionInput,
-    OutputType,
+  CallParams,
+  ContractFormParams,
+  FunctionInput,
+  OutputType,
 } from "../../types";
 import { getSchemaForInputs } from "../../utils";
 
@@ -111,7 +111,7 @@ export default function ContractFunction({
 
       return obj;
     },
-    [account, name]
+    [account, name],
   );
 
   const handleSubmit = useCallback(
@@ -152,7 +152,7 @@ export default function ContractFunction({
         payable: stateMutability === "payable",
       });
     },
-    [name, stateMutability, onCall, params.fields]
+    [name, stateMutability, onCall, params.fields],
   );
 
   const submitMessage = useMemo(() => {

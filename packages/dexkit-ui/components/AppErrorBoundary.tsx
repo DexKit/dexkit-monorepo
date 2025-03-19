@@ -4,7 +4,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 interface Props {
   fallbackRender: (
-    props: FallbackProps
+    props: FallbackProps,
   ) => React.ReactElement<
     unknown,
     string | typeof React.Component | React.FunctionComponent<{}>

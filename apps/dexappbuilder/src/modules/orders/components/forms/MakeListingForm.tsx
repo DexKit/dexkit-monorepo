@@ -1,19 +1,19 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from '@mui/material';
 
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
@@ -79,8 +79,9 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     if (form.isValid) {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-        ?.decimals;
+      const decimals = tokenList.find(
+        (t) => t.address === values.tokenAddress,
+      )?.decimals;
 
       if (!isValidDecimal(values.price, decimals || 0)) {
         formikHelpers.setFieldError(

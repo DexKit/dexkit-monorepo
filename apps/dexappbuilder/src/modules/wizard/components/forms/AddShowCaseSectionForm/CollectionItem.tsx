@@ -48,8 +48,8 @@ export default function CollectionItem({ item }: CollectionItemProps) {
             contractMetadata.data?.image
               ? contractMetadata.data?.image
               : nftQuery.data?.metadata?.image
-              ? ipfsUriToUrl(nftQuery.data?.metadata?.image)
-              : undefined
+                ? ipfsUriToUrl(nftQuery.data?.metadata?.image)
+                : undefined
           }
         />
       )}

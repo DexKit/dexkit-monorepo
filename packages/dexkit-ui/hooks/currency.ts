@@ -10,7 +10,10 @@ import { getCoinPrices } from "../services/currency";
 import { currencyUserAtom } from "../state";
 import { useTokenList } from "./blockchain";
 
-export function useCurrency(): { currency: string, setCurrency: (currency: string) => void } {
+export function useCurrency(): {
+  currency: string;
+  setCurrency: (currency: string) => void;
+} {
   const appConfig = useAppConfig();
 
   const [currUser, setCurrUser] = useAtom(currencyUserAtom);
@@ -20,36 +23,32 @@ export function useCurrency(): { currency: string, setCurrency: (currency: strin
       return currUser;
     }
     if (appConfig.currency) {
-      return appConfig.currency
+      return appConfig.currency;
     }
-    return 'usd' as string;
-  }, [appConfig.locale, currUser])
+    return "usd" as string;
+  }, [appConfig.locale, currUser]);
 
-  return { currency: currency || 'usd', setCurrency: setCurrUser };
+  return { currency: currency || "usd", setCurrency: setCurrUser };
 }
 
-
-export const GET_COIN_PRICES = 'GET_COIN_PRICES';
+export const GET_COIN_PRICES = "GET_COIN_PRICES";
 
 export const useCoinPricesQuery = ({
   includeNative,
   chainId,
 }: {
   includeNative: boolean;
-  chainId?: number
+  chainId?: number;
 }) => {
   const { chainId: walletChainId } = useWeb3React();
-  const chain = chainId || walletChainId
+  const chain = chainId || walletChainId;
 
   const tokens = useTokenList({ chainId: chain });
   const { currency } = useCurrency();
   return useQuery(
     [GET_COIN_PRICES, chain, tokens, currency],
     async () => {
-      if (
-        chain === undefined ||
-        (tokens === undefined && !includeNative)
-      ) {
+      if (chain === undefined || (tokens === undefined && !includeNative)) {
         return;
       }
       const prices: { [key: string]: { [key: string]: number } } = {};
@@ -79,6 +78,6 @@ export const useCoinPricesQuery = ({
       });
       return { ...prices, ...tokenPrices };
     },
-    { enabled: chain !== undefined, suspense: false }
+    { enabled: chain !== undefined, suspense: false },
   );
 };

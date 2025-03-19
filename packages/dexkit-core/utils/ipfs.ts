@@ -1,9 +1,9 @@
 export const isIpfsUri = (uri?: string) => {
   if (uri === undefined) {
-    return '';
+    return "";
   }
 
-  return uri?.startsWith('ipfs://');
+  return uri?.startsWith("ipfs://");
 };
 
 export const ipfsUriToUrl = (uri: string) => {
@@ -11,13 +11,12 @@ export const ipfsUriToUrl = (uri: string) => {
     return uri;
   }
 
-  if (uri === '' || uri === undefined || uri === null) {
-    return '';
+  if (uri === "" || uri === undefined || uri === null) {
+    return "";
   }
-  if (uri?.startsWith('ipfs://ipfs/')) {
-    return uri.replace('ipfs://ipfs/', 'https://dweb.link/ipfs/');
+  if (uri?.startsWith("ipfs://ipfs/")) {
+    return uri.replace("ipfs://ipfs/", "https://dweb.link/ipfs/");
   }
 
-
-  return uri.replace('ipfs://', 'https://dweb.link/ipfs/');
+  return uri.replace("ipfs://", "https://dweb.link/ipfs/");
 };

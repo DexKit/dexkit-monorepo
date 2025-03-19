@@ -1,11 +1,11 @@
 import { AppDialogTitle } from '@dexkit/ui';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Dialog,
-    DialogContent,
-    DialogProps,
-    Divider,
-    List,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  Divider,
+  List,
 } from '@mui/material';
 import { useContract, useNFTs } from '@thirdweb-dev/react';
 import { FormattedMessage } from 'react-intl';

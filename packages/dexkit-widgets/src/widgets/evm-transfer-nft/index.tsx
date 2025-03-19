@@ -40,7 +40,7 @@ function EvmTransferNftContainer(params: EvmTransferNftWidgetProps) {
 }
 
 export default function EvmTransferNftWidget(
-  params: EvmTransferNftWidgetProps
+  params: EvmTransferNftWidgetProps,
 ) {
   return (
     <WidgetLayout>

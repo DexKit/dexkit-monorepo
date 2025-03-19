@@ -29,7 +29,7 @@ export const getProviderByChainId = (chainId?: ChainId) => {
     if (NETWORKS[chainId].providerRpcUrl) {
       return new ethers.providers.JsonRpcProvider(
         NETWORKS[chainId].providerRpcUrl,
-        chainId
+        chainId,
       );
     }
   }

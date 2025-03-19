@@ -44,7 +44,7 @@ export function useErc20BalanceQuery({
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       enabled: Boolean(provider),
-    }
+    },
   );
 }
 
@@ -86,7 +86,7 @@ export function useErc20BalanceQueryV2({
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       enabled: Boolean(provider),
-    }
+    },
   );
 }
 
@@ -113,7 +113,7 @@ export const GET_ERC20_BALANCE = "GET_ERC20_BALANCE";
 export function useErc20Balance(
   provider?: providers.BaseProvider,
   contractAddress?: string,
-  account?: string
+  account?: string,
 ) {
   return useQuery<BigNumber | undefined>(
     [GET_ERC20_BALANCE, contractAddress, account],
@@ -126,7 +126,7 @@ export function useErc20Balance(
     },
     {
       enabled: contractAddress !== undefined && account !== undefined,
-    }
+    },
   );
 }
 
@@ -154,10 +154,10 @@ export function useTokenAllowanceQuery({
         provider,
         tokenAddress,
         account,
-        spender
+        spender,
       );
     },
-    { retry: 2 }
+    { retry: 2 },
   );
 }
 
@@ -190,6 +190,6 @@ export function useApproveToken() {
       onSubmited(tx.hash);
 
       return await tx.wait();
-    }
+    },
   );
 }

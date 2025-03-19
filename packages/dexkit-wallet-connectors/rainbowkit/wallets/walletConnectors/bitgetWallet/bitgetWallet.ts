@@ -1,10 +1,10 @@
-import { isAndroid } from '../../../utils/isMobile';
-import { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { isAndroid } from "../../../utils/isMobile";
+import { DefaultWalletOptions, Wallet } from "../../Wallet";
 import {
   getInjectedConnector,
   hasInjectedProvider,
-} from '../../getInjectedConnector';
-import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+} from "../../getInjectedConnector";
+import { getWalletConnectConnector } from "../../getWalletConnectConnector";
 
 export type BitgetWalletOptions = DefaultWalletOptions;
 
@@ -13,46 +13,46 @@ export const bitgetWallet = ({
   walletConnectParameters,
 }: BitgetWalletOptions): Wallet => {
   const isBitKeepInjected = hasInjectedProvider({
-    namespace: 'bitkeep.ethereum',
-    flag: 'isBitKeep',
+    namespace: "bitkeep.ethereum",
+    flag: "isBitKeep",
   });
   const shouldUseWalletConnect = !isBitKeepInjected;
 
   return {
-    id: 'bitget',
-    name: 'Bitget Wallet',
-    iconUrl: async () => (await import('./bitgetWallet.svg')).default,
-    iconAccent: '#f6851a',
-    iconBackground: '#fff',
+    id: "bitget",
+    name: "Bitget Wallet",
+    iconUrl: async () => (await import("./bitgetWallet.svg")).default,
+    iconAccent: "#f6851a",
+    iconBackground: "#fff",
     installed: !shouldUseWalletConnect ? isBitKeepInjected : undefined,
     downloadUrls: {
-      android: 'https://web3.bitget.com/en/wallet-download?type=0',
-      ios: 'https://apps.apple.com/app/bitkeep/id1395301115',
-      mobile: 'https://web3.bitget.com/en/wallet-download?type=2',
-      qrCode: 'https://web3.bitget.com/en/wallet-download',
+      android: "https://web3.bitget.com/en/wallet-download?type=0",
+      ios: "https://apps.apple.com/app/bitkeep/id1395301115",
+      mobile: "https://web3.bitget.com/en/wallet-download?type=2",
+      qrCode: "https://web3.bitget.com/en/wallet-download",
       chrome:
-        'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
-      browserExtension: 'https://web3.bitget.com/en/wallet-download',
+        "https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak",
+      browserExtension: "https://web3.bitget.com/en/wallet-download",
     },
 
     extension: {
       instructions: {
-        learnMoreUrl: 'https://web3.bitget.com/en/academy',
+        learnMoreUrl: "https://web3.bitget.com/en/academy",
         steps: [
           {
-            description: 'wallet_connectors.bitget.extension.step1.description',
-            step: 'install',
-            title: 'wallet_connectors.bitget.extension.step1.title',
+            description: "wallet_connectors.bitget.extension.step1.description",
+            step: "install",
+            title: "wallet_connectors.bitget.extension.step1.title",
           },
           {
-            description: 'wallet_connectors.bitget.extension.step2.description',
-            step: 'create',
-            title: 'wallet_connectors.bitget.extension.step2.title',
+            description: "wallet_connectors.bitget.extension.step2.description",
+            step: "create",
+            title: "wallet_connectors.bitget.extension.step2.title",
           },
           {
-            description: 'wallet_connectors.bitget.extension.step3.description',
-            step: 'refresh',
-            title: 'wallet_connectors.bitget.extension.step3.description',
+            description: "wallet_connectors.bitget.extension.step3.description",
+            step: "refresh",
+            title: "wallet_connectors.bitget.extension.step3.description",
           },
         ],
       },
@@ -70,26 +70,26 @@ export const bitgetWallet = ({
       ? {
           getUri: (uri: string) => uri,
           instructions: {
-            learnMoreUrl: 'https://web3.bitget.com/en/academy',
+            learnMoreUrl: "https://web3.bitget.com/en/academy",
             steps: [
               {
                 description:
-                  'wallet_connectors.bitget.qr_code.step1.description',
-                step: 'install',
-                title: 'wallet_connectors.bitget.qr_code.step1.title',
+                  "wallet_connectors.bitget.qr_code.step1.description",
+                step: "install",
+                title: "wallet_connectors.bitget.qr_code.step1.title",
               },
               {
                 description:
-                  'wallet_connectors.bitget.qr_code.step2.description',
+                  "wallet_connectors.bitget.qr_code.step2.description",
 
-                step: 'create',
-                title: 'wallet_connectors.bitget.qr_code.step2.title',
+                step: "create",
+                title: "wallet_connectors.bitget.qr_code.step2.title",
               },
               {
                 description:
-                  'wallet_connectors.bitget.qr_code.step3.description',
-                step: 'scan',
-                title: 'wallet_connectors.bitget.qr_code.step3.title',
+                  "wallet_connectors.bitget.qr_code.step3.description",
+                step: "scan",
+                title: "wallet_connectors.bitget.qr_code.step3.title",
               },
             ],
           },
@@ -102,8 +102,8 @@ export const bitgetWallet = ({
           walletConnectParameters,
         })
       : getInjectedConnector({
-          namespace: 'bitkeep.ethereum',
-          flag: 'isBitKeep',
+          namespace: "bitkeep.ethereum",
+          flag: "isBitKeep",
         }),
   };
 };

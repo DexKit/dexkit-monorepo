@@ -88,7 +88,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
         setSelectedAsset(asset);
       }
     },
-    [selectedAsset]
+    [selectedAsset],
   );
 
   const renderChampions = useCallback(() => {
@@ -160,7 +160,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
               contractAddress={GET_CHAMPIONS_CONTRACT_ADDR(chainId)}
             />
           </Grid>
-        )
+        ),
       );
     }
     // eslint-disable-next-line
@@ -215,7 +215,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
               contractAddress={GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}
             />
           </Grid>
-        )
+        ),
       );
     }
     // eslint-disable-next-line

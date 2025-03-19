@@ -2,11 +2,11 @@ import CollectionItemsCard from '@/modules/contract-wizard/components/Collection
 import CreateAssetDialog from '@/modules/contract-wizard/components/dialogs/CreateAssetDialog';
 import { CollectionItemsSchema } from '@/modules/contract-wizard/constants/schemas';
 import {
-    useCreateAssetsMetadataMutation,
-    useCreateCollectionMetadataMutation,
-    useCreateItems,
-    useFetchAssetsMutation,
-    useLazyMintMutation,
+  useCreateAssetsMetadataMutation,
+  useCreateCollectionMetadataMutation,
+  useCreateItems,
+  useFetchAssetsMutation,
+  useLazyMintMutation,
 } from '@/modules/contract-wizard/hooks';
 import { CollectionItemsForm } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
@@ -16,18 +16,18 @@ import { Formik } from 'formik';
 import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
-    DEXKIT_DISCORD_SUPPORT_CHANNEL,
-    DEXKIT_NFT_METADATA_URI,
-    MIN_KIT_HOLDING_AI_GENERATION,
+  DEXKIT_DISCORD_SUPPORT_CHANNEL,
+  DEXKIT_NFT_METADATA_URI,
+  MIN_KIT_HOLDING_AI_GENERATION,
 } from 'src/constants';
 
 import { useContractCollection } from '@dexkit/ui/modules/nft/hooks/collection';
 import { useContractCreation } from '@dexkit/web3forms/hooks';
 import {
-    useContract,
-    useContractMetadata,
-    useMintNFT,
-    useTotalCount,
+  useContract,
+  useContractMetadata,
+  useMintNFT,
+  useTotalCount,
 } from '@thirdweb-dev/react';
 
 interface Props {

@@ -1,5 +1,5 @@
-import { styled } from '@mui/material';
+import { styled } from "@mui/material";
 
-const Img = styled('img')({});
+const Img = styled("img")({});
 
 export default Img;

@@ -2,21 +2,21 @@ import { useDexKitContext } from '@dexkit/ui';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Delete from '@mui/icons-material/Delete';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Grid,
-    IconButton,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Typography,
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {
-    useAllRoleMembers,
-    useContract,
-    useContractMetadata,
-    useSetAllRoleMembers,
+  useAllRoleMembers,
+  useContract,
+  useContractMetadata,
+  useSetAllRoleMembers,
 } from '@thirdweb-dev/react';
 import { Field, FieldArray, Formik } from 'formik';
 import { TextField } from 'formik-mui';

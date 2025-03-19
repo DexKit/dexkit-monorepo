@@ -1,29 +1,29 @@
 import {
-    useCoinPricesQuery,
-    useCurrency,
-    useDexKitContext,
-    useSwitchNetwork,
-    useTokenList,
+  useCoinPricesQuery,
+  useCurrency,
+  useDexKitContext,
+  useSwitchNetwork,
+  useTokenList,
 } from '@dexkit/ui/hooks';
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    NoSsr,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  NoSsr,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import {
-    getBlockExplorerUrl,
-    getNetworkSlugFromChainId,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils/blockchain';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
@@ -37,19 +37,19 @@ import Calendar from '../../../components/icons/Calendar';
 
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '@dexkit/core/constants/zrx';
 import {
-    getERC20Decimals,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Symbol,
 } from '@dexkit/core/services/balances';
 import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
 import AppFeePercentageSpan from '@dexkit/ui/components/AppFeePercentageSpan';
 import Link from '@dexkit/ui/components/AppLink';
 import {
-    useApproveAssetMutation,
-    useAsset,
-    useAssetMetadata,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetMetadata,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from '@dexkit/ui/modules/nft/hooks';
 import { OrderBookItem, SwapApiOrder } from '@dexkit/ui/modules/nft/types';
 import { getAssetProtocol } from '@dexkit/ui/modules/nft/utils';
@@ -576,8 +576,9 @@ function OrderRightSection({ order }: Props) {
           </Typography>
 
           <Link
-            href={`${getBlockExplorerUrl(asset?.chainId)}/address/${order?.order
-              .maker}`}
+            href={`${getBlockExplorerUrl(asset?.chainId)}/address/${
+              order?.order.maker
+            }`}
             variant="body2"
             target="_blank"
           >

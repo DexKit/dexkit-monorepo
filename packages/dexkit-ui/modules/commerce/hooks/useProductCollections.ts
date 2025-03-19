@@ -17,7 +17,7 @@ export default function useProductCollections(params: { id?: string }) {
 
       return (
         await instance.get<ProductCollectionType[]>(
-          `/product/${params.id}/collections`
+          `/product/${params.id}/collections`,
         )
       ).data;
     },
@@ -25,7 +25,7 @@ export default function useProductCollections(params: { id?: string }) {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       staleTime: 1000,
-      enabled: Boolean(params.id)
-    }
+      enabled: Boolean(params.id),
+    },
   );
 }

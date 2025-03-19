@@ -82,7 +82,7 @@ export function useAllTokenList({
     if (chainId) {
       tokenList = [
         ...tokens.filter(
-          (token: TokenWhitelabelApp) => token.chainId === chainId
+          (token: TokenWhitelabelApp) => token.chainId === chainId,
         ),
       ];
     }
@@ -92,7 +92,7 @@ export function useAllTokenList({
       const isNoWrappedTokenInList =
         tokenList &&
         tokenList.findIndex(
-          (t) => t.address.toLowerCase() === wrappedAddress
+          (t) => t.address.toLowerCase() === wrappedAddress,
         ) === -1;
       // Wrapped Token is not on the list, we will add it here
       if (wrappedAddress && isNoWrappedTokenInList) {
@@ -118,7 +118,7 @@ export function useAllTokenList({
           tokenList.findIndex(
             (t) =>
               t.address.toLowerCase() === wrappedAddress?.toLowerCase() &&
-              t.chainId === chain
+              t.chainId === chain,
           ) === -1;
         // Wrapped Token is not on the list, we will add it here
         if (wrappedAddress && isNoWrappedTokenInList) {
@@ -221,7 +221,7 @@ export function useTokenList({
 
     let tokenList: TokenWhitelabelApp[] = [
       ...tokens.filter(
-        (token: TokenWhitelabelApp) => token.chainId === chainId
+        (token: TokenWhitelabelApp) => token.chainId === chainId,
       ),
     ];
 
@@ -229,7 +229,7 @@ export function useTokenList({
     const isNoWrappedTokenInList =
       tokenList &&
       tokenList.findIndex(
-        (t) => t.address.toLowerCase() === wrappedAddress?.toLowerCase()
+        (t) => t.address.toLowerCase() === wrappedAddress?.toLowerCase(),
       ) === -1;
     // Wrapped Token is not on the list, we will add it here
     if (wrappedAddress && isNoWrappedTokenInList) {
@@ -315,7 +315,7 @@ export default function useContractMetadata(params?: {
       const contract = new Contract(
         params.contractAddress,
         abi,
-        params.provider
+        params.provider,
       );
 
       const result: string = await contract.contractURI();
@@ -326,7 +326,7 @@ export default function useContractMetadata(params?: {
       }
 
       return null;
-    }
+    },
   );
 }
 
@@ -335,7 +335,7 @@ export function useTokenData(options?: Omit<UseMutationOptions, any>) {
     async ({ chainId, address }: { chainId: number; address: string }) => {
       return await getTokenData(chainId, address);
     },
-    options
+    options,
   );
 }
 
@@ -353,6 +353,6 @@ export function useTokenDataQuery({
     async () => {
       return await getTokenData(chainId, address);
     },
-    { refetchOnMount: true, refetchOnWindowFocus: true }
+    { refetchOnMount: true, refetchOnWindowFocus: true },
   );
 }

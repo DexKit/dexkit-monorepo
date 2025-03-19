@@ -45,7 +45,7 @@ export function CurrencyField({
         });
       }
     },
-    0
+    0,
   );
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +63,7 @@ export function CurrencyField({
         onChange(BigNumber.from(0));
       }
     },
-    0
+    0,
   );
 
   return (

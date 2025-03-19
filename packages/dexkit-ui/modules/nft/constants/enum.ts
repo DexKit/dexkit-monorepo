@@ -1,20 +1,20 @@
 export enum NFTType {
-  ERC1155 = 'ERC1155',
-  ERC721 = 'ERC721',
+  ERC1155 = "ERC1155",
+  ERC721 = "ERC721",
 }
 
 export enum TraderOrderStatus {
-  Open = 'open',
-  Filled = 'filled',
-  Expired = 'expired',
-  Cancelled = 'cancelled',
-  All = 'all',
+  Open = "open",
+  Filled = "filled",
+  Expired = "expired",
+  Cancelled = "cancelled",
+  All = "all",
 }
 
 export enum SellOrBuy {
-  All = 'all',
-  Sell = 'sell',
-  Buy = 'buy',
+  All = "all",
+  Sell = "sell",
+  Buy = "buy",
 }
 
 export enum OrderDirection {
@@ -23,8 +23,8 @@ export enum OrderDirection {
 }
 
 export enum CollectionSyncStatus {
-  NotSynced = 'NotSynced',
-  Syncing = 'Syncing',
-  Synced = 'Synced',
-  NotSyncable = 'NotSyncable'
+  NotSynced = "NotSynced",
+  Syncing = "Syncing",
+  Synced = "Synced",
+  NotSyncable = "NotSyncable",
 }

@@ -118,7 +118,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
           id="transaction.created"
           defaultMessage="Transaction created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
 
       if (chainId && token && userCheckout.data && account) {
@@ -138,7 +138,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
               id="order.created.alt"
               defaultMessage="Order created"
             />,
-            { variant: "success" }
+            { variant: "success" },
           );
         } catch (err) {
           enqueueSnackbar(
@@ -146,7 +146,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
               id="error.while.creating.order"
               defaultMessage="Error while creating order"
             />,
-            { variant: "error" }
+            { variant: "error" },
           );
         }
       }
@@ -163,7 +163,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
 
         return prev;
       },
-      {} as { [key: string]: { quantity: number; price: string } }
+      {} as { [key: string]: { quantity: number; price: string } },
     );
 
     return result;
@@ -177,14 +177,16 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
     if (Object.keys(items).length > 0 && userCheckout.data?.editable) {
       return Object.keys(items).reduce((prev, curr) => {
         return prev.add(
-          new Decimal(items[curr].price).mul(items[curr].quantity)
+          new Decimal(items[curr].price).mul(items[curr].quantity),
         );
       }, new Decimal(0));
     }
 
     if (userCheckout.data) {
       return sumItems(
-        userCheckout.data.items.map((c) => new Decimal(c.price).mul(c.quantity))
+        userCheckout.data.items.map((c) =>
+          new Decimal(c.price).mul(c.quantity),
+        ),
       );
     }
 
@@ -204,7 +206,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
     }
 
     return new Decimal(
-      ethers.utils.formatUnits(balanceQuery.data, token?.decimals)
+      ethers.utils.formatUnits(balanceQuery.data, token?.decimals),
     );
   }, [balanceQuery.data, token]);
 
@@ -243,7 +245,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
 
   const handleChangeNetwork = (
     e: SelectChangeEvent<number>,
-    child: ReactNode
+    child: ReactNode,
   ) => {
     const newChainId = e.target.value as number;
 
@@ -339,7 +341,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
     if (providerChainId) {
       setChainId(providerChainId);
       setToken(
-        CHECKOUT_TOKENS.find((t) => t.chainId === providerChainId) ?? null
+        CHECKOUT_TOKENS.find((t) => t.chainId === providerChainId) ?? null,
       );
     }
   }, [providerChainId]);
@@ -450,7 +452,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                   items: initialValues,
                 }}
                 validationSchema={toFormikValidationSchema(
-                  UserCheckoutItemsFormSchema
+                  UserCheckoutItemsFormSchema,
                 )}
                 onSubmit={async ({
                   items,
@@ -552,7 +554,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                               <Avatar
                                 src={ipfsUriToUrl(
                                   networks.find((n) => n.chainId === chainId)
-                                    ?.imageUrl || ""
+                                    ?.imageUrl || "",
                                 )}
                                 style={{ width: "1rem", height: "1rem" }}
                               />

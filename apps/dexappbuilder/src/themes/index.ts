@@ -1,6 +1,5 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 
-
 export default extendTheme({
   typography: {
     fontFamily: "'Sora', sans-serif",
@@ -89,9 +88,7 @@ export default extendTheme({
         success: {
           main: '#36AB47',
         },
-      }
-    }
-  }
-
-
+      },
+    },
+  },
 });

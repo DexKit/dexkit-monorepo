@@ -35,7 +35,7 @@ export function useWalletActivate() {
           email,
         });
       }
-    }
+    },
   );
 }
 

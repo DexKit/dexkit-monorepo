@@ -40,7 +40,7 @@ export function ListingsTableRowRarible({ asset, account }: Props) {
   const { data } = useBestSellOrderAssetRari(
     network,
     asset?.contractAddress,
-    asset?.id
+    asset?.id,
   );
   if (!data) {
     return null;
@@ -87,7 +87,7 @@ export function ListingsTableRowRarible({ asset, account }: Props) {
           href={
             asset?.chainId !== undefined
               ? `${getBlockExplorerUrl(
-                  parseInt(String(asset?.chainId))
+                  parseInt(String(asset?.chainId)),
                 )}/address/${maker}`
               : "/"
           }
@@ -128,7 +128,7 @@ export function ListingsTableRowRarible({ asset, account }: Props) {
           onClick={() => {
             window.open(
               getMarketplaceForAssetURL(data.bestSellOrder.platform, asset),
-              "_blank"
+              "_blank",
             );
           }}
         >

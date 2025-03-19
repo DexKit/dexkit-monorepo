@@ -38,7 +38,7 @@ export function CollectionsSection({ section, disabled }: Props) {
 
   const renderFeatured = () => {
     const featuredItem = section.items.find(
-      (item) => item.type === "collection" && item.featured
+      (item) => item.type === "collection" && item.featured,
     );
 
     if (featuredItem && featuredItem.type === "collection") {

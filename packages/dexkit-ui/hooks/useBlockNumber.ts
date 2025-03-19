@@ -1,4 +1,3 @@
-
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useEffect, useState } from "react";
 export function useBlockNumber() {

@@ -3,22 +3,22 @@ import { AppDialogTitle } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { NFT, useContract, useContractRead } from "@thirdweb-dev/react";
@@ -46,7 +46,7 @@ export default function SelectNFTEditionClaimDialog({
 
   const { data: stakingContract } = useContract(
     stakingContractAddress,
-    "custom"
+    "custom",
   );
 
   const {
@@ -76,7 +76,7 @@ export default function SelectNFTEditionClaimDialog({
       }
     },
     [],
-    [infoNfts, stakingNFTContract]
+    [infoNfts, stakingNFTContract],
   );
 
   const [tokenId, setTokenId] = useState<string>();
@@ -89,7 +89,7 @@ export default function SelectNFTEditionClaimDialog({
     async ({ tokenId }: { tokenId: string }) => {
       await onClaim(tokenId);
       await refetch();
-    }
+    },
   );
 
   const handleConfirm = async () => {
@@ -125,7 +125,7 @@ export default function SelectNFTEditionClaimDialog({
       return 0;
     },
     0,
-    [tokenId, infoNfts]
+    [tokenId, infoNfts],
   );
 
   const renderCard = (nft: NFT) => {

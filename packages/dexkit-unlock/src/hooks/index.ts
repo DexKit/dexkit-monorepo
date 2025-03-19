@@ -48,14 +48,14 @@ export function usePurchaseLockKeysMutation() {
           userBalance = await web3Service.getTokenBalance(
             currency,
             account,
-            chainId
+            chainId,
           );
         } else {
           userBalance = await web3Service.getAddressBalance(account, chainId);
         }
         if (parseFloat(userBalance) < parseFloat(keyPrice)) {
           throw new Error(
-            `You don't have enough funds to complete this purchase.`
+            `You don't have enough funds to complete this purchase.`,
           );
         }
 
@@ -89,13 +89,13 @@ export function usePurchaseLockKeysMutation() {
             if (error) {
               watchTransactionDialog.setError(error);
             }
-          }
+          },
         );
       } catch (e: any) {
         if ("code" in e) {
           if (e.code === "ACTION_REJECTED") {
             watchTransactionDialog.setError(
-              new Error("User rejected transaction")
+              new Error("User rejected transaction"),
             );
           } else {
             watchTransactionDialog.setError(e);
@@ -110,7 +110,7 @@ export function usePurchaseLockKeysMutation() {
         GET_LOCK_BALANCE_QUERY,
         GET_LOCK_KEY_BY_OWNER_QUERY,
       ]);
-    }
+    },
   );
 }
 
@@ -159,14 +159,14 @@ export function useRenewLockKeysMutation() {
           userBalance = await web3Service.getTokenBalance(
             currency,
             account,
-            chainId
+            chainId,
           );
         } else {
           userBalance = await web3Service.getAddressBalance(account, chainId);
         }
         if (parseFloat(userBalance) < parseFloat(keyPrice)) {
           throw new Error(
-            `You don't have enough funds to complete this purchase.`
+            `You don't have enough funds to complete this purchase.`,
           );
         }
 
@@ -202,13 +202,13 @@ export function useRenewLockKeysMutation() {
             if (error) {
               watchTransactionDialog.setError(error);
             }
-          }
+          },
         );
       } catch (e: any) {
         if ("code" in e) {
           if (e.code === "ACTION_REJECTED") {
             watchTransactionDialog.setError(
-              new Error("User rejected transaction")
+              new Error("User rejected transaction"),
             );
           } else {
             watchTransactionDialog.setError(e);
@@ -223,7 +223,7 @@ export function useRenewLockKeysMutation() {
         GET_LOCK_BALANCE_QUERY,
         GET_LOCK_KEY_BY_OWNER_QUERY,
       ]);
-    }
+    },
   );
 }
 
@@ -244,7 +244,7 @@ export function useLockQuery({
       }
       const web3Service = new Web3Service(networks);
       return await web3Service.getLock(lockAddress, lockChainId);
-    }
+    },
   );
 }
 
@@ -267,7 +267,7 @@ export function useLockBalanceQuery({
       }
       const web3Service = new Web3Service(networks);
       return await web3Service.balanceOf(lockAddress, account, lockChainId);
-    }
+    },
   );
 }
 
@@ -297,8 +297,8 @@ export function useLockKeybyOwnerQuery({
       return await web3Service.getKeyByLockForOwner(
         lockAddress,
         account,
-        lockChainId
+        lockChainId,
       );
-    }
+    },
   );
 }

@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from "tsup";
 
 /*const replaceNodeBuiltIns = () => {
   const replace = {
@@ -20,10 +20,10 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: {
-    'index': 'index.ts',
-    'types': 'types/index.ts',
-    'components/ContractFormView': 'components/ContractFormView.tsx',
-    'hooks': 'hooks/index.ts',
-    'services': 'services/index.ts'
-  }
-})
+    index: "index.ts",
+    types: "types/index.ts",
+    "components/ContractFormView": "components/ContractFormView.tsx",
+    hooks: "hooks/index.ts",
+    services: "services/index.ts",
+  },
+});

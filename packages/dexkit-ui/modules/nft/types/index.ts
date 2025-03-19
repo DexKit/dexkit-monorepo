@@ -1,8 +1,8 @@
-import type { Token } from '@dexkit/core/types';
+import type { Token } from "@dexkit/core/types";
 
-import type { DkApiPlatformCoin } from '@dexkit/widgets/src/types/api';
-import type { UseQueryOptions } from '@tanstack/react-query';
-import type { BigNumber } from 'ethers';
+import type { DkApiPlatformCoin } from "@dexkit/widgets/src/types/api";
+import type { UseQueryOptions } from "@tanstack/react-query";
+import type { BigNumber } from "ethers";
 import type { NFTType, SellOrBuy, TraderOrderStatus } from "../constants/enum";
 
 export interface AssetMetadata {
@@ -17,7 +17,6 @@ export interface AssetMetadata {
   }[];
 }
 
-
 export interface Asset {
   id: string;
   chainId: number;
@@ -29,7 +28,7 @@ export interface Asset {
   type?: string;
   metadata?: AssetMetadata;
   balance?: BigNumber;
-  protocol?: 'ERC1155' | 'ERC721';
+  protocol?: "ERC1155" | "ERC721";
 }
 
 export interface Collection {
@@ -46,7 +45,6 @@ export interface Collection {
   totalSupply?: number;
 }
 
-
 export interface ContractURIMetadata {
   name: string;
   image?: string;
@@ -55,7 +53,6 @@ export interface ContractURIMetadata {
   external_link?: string;
 }
 
-
 export type AssetStoreOptions = {
   name?: string;
   title?: string;
@@ -63,9 +60,7 @@ export type AssetStoreOptions = {
   backgroundImageURL?: string;
   description?: string;
   storeAccount?: string;
-}
-
-
+};
 
 export interface TraderOrderFilter {
   nftToken?: string;
@@ -83,35 +78,34 @@ export interface TraderOrderFilter {
 }
 
 export type AssetAPI = {
-  id: number
-  createdAt: Date
-  updatedAt: Date
-  tokenId: string
-  name: string | null
-  collectionName: string | null
-  symbol: string | null
-  address: string
-  networkId: string
-  chainId: number | null
-  imageUrl: string | null
-  tokenURI: string | null
-  rawData: string | null
-  description: string | null
-  protocol?: 'ERC1155' | 'ERC721';
-  spamInfo?: any
-}
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  tokenId: string;
+  name: string | null;
+  collectionName: string | null;
+  symbol: string | null;
+  address: string;
+  networkId: string;
+  chainId: number | null;
+  imageUrl: string | null;
+  tokenURI: string | null;
+  rawData: string | null;
+  description: string | null;
+  protocol?: "ERC1155" | "ERC721";
+  spamInfo?: any;
+};
 
 export type OrderbookAPI = {
   data: {
-    asset?: AssetAPI,
-    order?: OrderBookItem,
-    token?: DkApiPlatformCoin
-  }[]
-  total: number,
-  take: number,
+    asset?: AssetAPI;
+    order?: OrderBookItem;
+    token?: DkApiPlatformCoin;
+  }[];
+  total: number;
+  take: number;
   skip: number;
-}
-
+};
 
 export interface OrderBookItem {
   erc20Token: string;
@@ -132,7 +126,6 @@ export interface OrderbookResponse {
   orders: OrderBookItem[];
 }
 
-
 export interface HiddenAsset {
   id: string;
   chainId: number;
@@ -148,7 +141,6 @@ export type AssetOptions = {
   options?: Omit<UseQueryOptions<Asset>, any>;
 };
 
-
 export interface CollectionAPI {
   chainId: number;
   networkId: string;
@@ -163,7 +155,6 @@ export interface CollectionAPI {
   traitCounts?: string;
   totalSupply?: number;
 }
-
 
 export type CollectionUniformItem = {
   name: string;

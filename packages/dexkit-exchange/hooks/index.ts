@@ -70,7 +70,7 @@ export function useSendLimitOrderMutation() {
         signedOrder,
         context.zrxApiKey
           ? { headers: { "0x-api-key": context.zrxApiKey } }
-          : undefined
+          : undefined,
       );
 
       await trackUserEvent.mutateAsync({
@@ -81,7 +81,7 @@ export function useSendLimitOrderMutation() {
       });
 
       return resp.data;
-    }
+    },
   );
 }
 
@@ -109,7 +109,7 @@ export function useGeckoTerminalTopPools({
       refetchOnMount: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-    }
+    },
   );
 }
 

@@ -6,5 +6,5 @@ export type UserOptions = {
   backgroundImageURL?: string;
   discordVerified?: boolean;
   twitterVerified?: boolean;
-  createdOnSiteId?: number
-}
+  createdOnSiteId?: number;
+};

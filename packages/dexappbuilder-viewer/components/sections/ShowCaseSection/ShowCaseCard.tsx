@@ -55,7 +55,7 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
           contractAddress: item.contractAddress,
           provider: providerQuery.data,
         }
-      : undefined
+      : undefined,
   );
 
   if (item.type === "image") {
@@ -67,8 +67,8 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
             item.actionType && item?.actionType === "link" && item?.url
               ? item.url
               : item.actionType && item.actionType === "page" && item?.page
-              ? item?.page
-              : ""
+                ? item?.page
+                : ""
           }
         >
           {item.imageUrl ? (

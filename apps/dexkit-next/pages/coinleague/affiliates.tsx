@@ -142,7 +142,7 @@ const AffiliatesPage: NextPage = () => {
                             {ethers.utils.formatUnits(
                               queryPlayer.data?.player
                                 ?.estimatedAffiliateEarnings || '0',
-                              coinToPlay?.decimals
+                              coinToPlay?.decimals,
                             )}{' '}
                             {coinToPlay?.symbol.toUpperCase()}
                           </>

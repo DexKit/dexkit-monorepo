@@ -21,25 +21,24 @@ export function loadLocaleData(locale: string) {
   return COMPILED_LANGS[locale];
 }*/
 
-
 export function loadLocaleMessages(locale: string) {
   switch (locale) {
-    case "en-US":
+    case 'en-US':
       return import('../../compiled-lang/en-US.json');
-    case "pt-BR":
+    case 'pt-BR':
       return import('../../compiled-lang/pt-BR.json');
-    case "es-ES":
+    case 'es-ES':
       return import('../../compiled-lang/es-ES.json');
-    case "de-DE":
+    case 'de-DE':
       return import('../../compiled-lang/de-DE.json');
-    case "nn-NO":
+    case 'nn-NO':
       return import('../../compiled-lang/nn-NO.json');
-    case "fr-FR":
+    case 'fr-FR':
       return import('../../compiled-lang/fr-FR.json');
-    case "it-IT":
+    case 'it-IT':
       return import('../../compiled-lang/it-IT.json');
-    case "cs-CZ":
-        return import('../../compiled-lang/cs-CZ.json');
+    case 'cs-CZ':
+      return import('../../compiled-lang/cs-CZ.json');
     default:
       return import('../../compiled-lang/en-US.json');
   }

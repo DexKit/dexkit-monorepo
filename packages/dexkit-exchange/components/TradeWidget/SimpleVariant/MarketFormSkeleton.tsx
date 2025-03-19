@@ -20,7 +20,8 @@ export default function MarketFormSkeleton() {
           <Grid item xs={12}>
             <Skeleton>
               <Typography variant="body2">
-                <FormattedMessage id="available" defaultMessage="Available" />:{" "}
+                <FormattedMessage id="available" defaultMessage="Available" />
+                :{" "}
               </Typography>
             </Skeleton>
           </Grid>

@@ -9,23 +9,23 @@ import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Name,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Name,
+  getERC20Symbol,
 } from "@dexkit/core/services/balances";
 import { Asset, SwapApiOrder } from "@dexkit/core/types/nft";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSwitchNetwork,
+  useConnectWalletDialog,
+  useDexKitContext,
+  useSwitchNetwork,
 } from "@dexkit/ui";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
-    SignedNftOrderV4,
-    SwappableAssetV4,
-    TradeDirection,
+  SignedNftOrderV4,
+  SwappableAssetV4,
+  TradeDirection,
 } from "@traderxyz/nft-swap-sdk";
 import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
@@ -34,11 +34,11 @@ import { useTokenList } from "../../../hooks/blockchain";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
 import { OrderDirection } from "../constants/enum";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { OrderBookItem } from "../types";
 import { getAssetProtocol } from "../utils";
@@ -90,7 +90,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         }
       }
     },
-    [watchTransactionDialog, provider, asset, createNotification, chainId]
+    [watchTransactionDialog, provider, asset, createNotification, chainId],
   );
 
   const approveAsset = useApproveAssetMutation(
@@ -111,7 +111,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
           } else {
             const symbol = await getERC20Symbol(
               asset.contractAddress,
-              provider
+              provider,
             );
 
             const name = await getERC20Name(asset.contractAddress, provider);
@@ -122,7 +122,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
           }
         }
       },
-    }
+    },
   );
 
   const handleBuyOrderSuccess = useCallback(
@@ -161,11 +161,13 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         values.amount = formatUnits(
           BigNumber.from(order.erc20TokenAmount)
             .mul(
-              BigNumber.from(quantity).mul(100000).div(order.erc1155TokenAmount)
+              BigNumber.from(quantity)
+                .mul(100000)
+                .div(order.erc1155TokenAmount),
             )
             .div(100000),
 
-          decimals
+          decimals,
         );
       }
 
@@ -213,12 +215,12 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
 
       queryClient.invalidateQueries([GET_NFT_ORDERS]);
     },
-    [watchTransactionDialog, provider, asset]
+    [watchTransactionDialog, provider, asset],
   );
 
   const handleFillSignedOrderError = useCallback(
     (error: any) => watchTransactionDialog.setDialogError(error),
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const handleMutateSignedOrder = useCallback(
@@ -257,18 +259,18 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
               .mul(
                 BigNumber.from(quantity)
                   .mul(100000)
-                  .div(order.erc1155TokenAmount)
+                  .div(order.erc1155TokenAmount),
               )
               .div(100000),
 
-            decimals
+            decimals,
           );
         }
 
         watchTransactionDialog.open("buyNft", values);
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const fillSignedOrder = useFillSignedOrderMutation(nftSwapSdk, account, {
@@ -333,12 +335,12 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         watchTransactionDialog.watch(hash);
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const handleCancelSignedOrderError = useCallback(
     (error: any) => watchTransactionDialog.setDialogError(error),
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const handleCancelSignedOrderMutate = useCallback(
@@ -355,7 +357,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         }
       }
     },
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const cancelSignedOrder = useCancelSignedOrderMutation(
@@ -365,7 +367,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
     {
       onError: handleCancelSignedOrderError,
       onMutate: handleCancelSignedOrderMutate,
-    }
+    },
   );
 
   const switchNetwork = useSwitchNetwork();
@@ -420,7 +422,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
       account,
       orderBookItem,
       approveAsset,
-    ]
+    ],
   );
 
   const handleCancelOrder = useCallback(
@@ -438,7 +440,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         }
       }
     },
-    [cancelSignedOrder, switchNetwork, chainId, asset]
+    [cancelSignedOrder, switchNetwork, chainId, asset],
   );
 
   const handleCloseShareDialog = () => {

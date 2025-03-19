@@ -64,7 +64,7 @@ const ProfileEditPage: NextPage = () => {
         setUsername('');
       }
     },
-    []
+    [],
   );
 
   const renderUsernameCheck = useCallback(() => {
@@ -96,14 +96,14 @@ const ProfileEditPage: NextPage = () => {
               formatMessage({
                 id: 'profile.update',
                 defaultMessage: 'Profile updated',
-              })
+              }),
             );
           } else {
             setSuccessMessage(
               formatMessage({
                 id: 'profile.created',
                 defaultMessage: 'Profile created',
-              })
+              }),
             );
           }
         },

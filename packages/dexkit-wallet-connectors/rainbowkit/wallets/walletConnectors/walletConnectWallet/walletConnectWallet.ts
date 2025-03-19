@@ -1,5 +1,5 @@
-import { RainbowKitWalletConnectParameters, Wallet } from '../../Wallet';
-import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+import { RainbowKitWalletConnectParameters, Wallet } from "../../Wallet";
+import { getWalletConnectConnector } from "../../getWalletConnectConnector";
 
 export interface WalletConnectWalletOptions {
   projectId: string;
@@ -13,11 +13,11 @@ export const walletConnectWallet = ({
   const getUri = (uri: string) => uri;
 
   return {
-    id: 'walletConnect',
-    name: 'WalletConnect',
+    id: "walletConnect",
+    name: "WalletConnect",
     installed: undefined,
-    iconUrl: async () => (await import('./walletConnectWallet.svg')).default,
-    iconBackground: '#3b99fc',
+    iconUrl: async () => (await import("./walletConnectWallet.svg")).default,
+    iconBackground: "#3b99fc",
     qrCode: { getUri },
     createConnector: getWalletConnectConnector({
       projectId,

@@ -1,4 +1,4 @@
-import { WalletInstance } from './Wallet';
+import { WalletInstance } from "./Wallet";
 
 export const groupedWallets = (
   recentWallets: WalletInstance[],
@@ -27,7 +27,7 @@ export const isRainbowKitConnector = (wallet: WalletInstance) => {
 export const isEIP6963Connector = (wallet: WalletInstance) => {
   return !!(
     !wallet.isRainbowKitConnector &&
-    wallet.icon?.startsWith('data:image') &&
+    wallet.icon?.startsWith("data:image") &&
     wallet.uid &&
     wallet.name
   );
@@ -39,7 +39,7 @@ export const rainbowKitConnectorWithWalletConnect = (
 ) => {
   // Check if we should use the walletConnectModalConnector for this instance
   const shouldUseWalletConnectModal =
-    wallet.id === 'walletConnect' && walletConnectModalConnector;
+    wallet.id === "walletConnect" && walletConnectModalConnector;
 
   // Include the walletConnectModalConnector in the result
   return shouldUseWalletConnectModal

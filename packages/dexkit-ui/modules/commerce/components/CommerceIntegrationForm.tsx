@@ -67,7 +67,7 @@ export default function CommerceIntegrationForm({
               disabled={
                 !isValid ||
                 Object.keys(touched).filter((key) =>
-                  Boolean((touched as any)?.[key])
+                  Boolean((touched as any)?.[key]),
                 ).length === 0
               }
               onClick={submitForm}

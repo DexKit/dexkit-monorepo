@@ -30,7 +30,7 @@ export default function MarketTradeSection({
   const baseToken = useMemo(() => {
     if (tokens && baseTokenConfig && tokens.length) {
       return tokens.find((tk) =>
-        isAddressEqual(baseTokenConfig.address, tk.address)
+        isAddressEqual(baseTokenConfig.address, tk.address),
       );
     }
   }, [tokens, baseTokenConfig]);
@@ -39,11 +39,11 @@ export default function MarketTradeSection({
     if (tokens) {
       if (baseTokenConfig?.address !== ZEROEX_NATIVE_TOKEN_ADDRESS) {
         return tokens.find((tk) =>
-          isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address)
+          isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address),
         );
       } else {
         return tokens.find(
-          (tk) => !isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address)
+          (tk) => !isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address),
         );
       }
     }

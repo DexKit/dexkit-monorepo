@@ -1,4 +1,3 @@
-
 export interface Network {
   symbol: string;
   name: string;

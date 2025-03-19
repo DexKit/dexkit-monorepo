@@ -1,4 +1,4 @@
-import { SvgIcon, SvgIconProps } from '@mui/material';
+import { SvgIcon, SvgIconProps } from "@mui/material";
 
 const RotateRight = (props: SvgIconProps) => (
   <SvgIcon {...props}>

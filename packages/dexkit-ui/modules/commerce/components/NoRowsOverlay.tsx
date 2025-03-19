@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 export function noRowsOverlay(
   title: React.ReactNode,
   subtitle: React.ReactNode,
-  icon?: React.ReactNode
+  icon?: React.ReactNode,
 ) {
   return function Component() {
     return (

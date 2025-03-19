@@ -7,7 +7,7 @@ const GET_ZRX_URL = (chainId?: number) =>
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { routeProxy, chainId } = req.query;
   let proxiedRoute = '';
@@ -35,7 +35,7 @@ export default async function handler(
               '',
           },
           signal,
-        }
+        },
       );
 
       return res.status(200).json(response.data);
@@ -50,7 +50,7 @@ export default async function handler(
             '0x-api-key': process.env.ZRX_API_KEY_PRO || '',
           },
           signal,
-        }
+        },
       );
 
       return res.status(200).json(response.data);

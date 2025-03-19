@@ -31,7 +31,7 @@ export default function TransactionsTab() {
 
   const notificationsTransaction = useMemo(() => {
     return notifications.filter(
-      (n) => n.type === AppNotificationType.Transaction
+      (n) => n.type === AppNotificationType.Transaction,
     );
   }, [notifications]);
 
@@ -93,7 +93,7 @@ export default function TransactionsTab() {
                     <Button
                       LinkComponent={Link}
                       href={`${getBlockExplorerUrl(
-                        transactions[t.hash].chainId
+                        transactions[t.hash].chainId,
                       )}/tx/${t.hash}`}
                       target="_blank"
                     >

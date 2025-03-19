@@ -66,7 +66,7 @@ function OrderComponent({ order, onRefetch }: OrderComponentProps) {
         />,
         {
           variant: "success",
-        }
+        },
       );
       await onRefetch();
     } catch (err) {
@@ -84,7 +84,7 @@ function OrderComponent({ order, onRefetch }: OrderComponentProps) {
         />,
         {
           variant: "success",
-        }
+        },
       );
       await onRefetch();
     } catch (err) {
@@ -102,7 +102,7 @@ function OrderComponent({ order, onRefetch }: OrderComponentProps) {
         />,
         {
           variant: "success",
-        }
+        },
       );
       await onRefetch();
     } catch (err) {

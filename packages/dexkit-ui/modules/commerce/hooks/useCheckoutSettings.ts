@@ -27,6 +27,6 @@ export default function useCheckoutSettings() {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

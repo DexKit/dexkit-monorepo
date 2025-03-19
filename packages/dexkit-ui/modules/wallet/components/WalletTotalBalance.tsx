@@ -35,7 +35,7 @@ export function WalletTotalBalance({ chainId }: Props) {
       const tokenValues = tokenBalances
         .filter((t) => prices[t.address])
         .map(
-          (t) => Number(t.balanceUnits) * prices[t.address][currency.currency]
+          (t) => Number(t.balanceUnits) * prices[t.address][currency.currency],
         );
 
       if (tokenValues && tokenValues.length) {

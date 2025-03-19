@@ -86,13 +86,10 @@ export function useSwapState() {
             sellTokenSymbol: params.sellToken.symbol.toUpperCase(),
             sellAmount: formatUnits(
               params.sellAmount,
-              params.sellToken.decimals
+              params.sellToken.decimals,
             ),
             buyTokenSymbol: params.buyToken.symbol.toUpperCase(),
-            buyAmount: formatUnits(
-              params.buyAmount,
-              params.buyToken.decimals
-            ),
+            buyAmount: formatUnits(params.buyAmount, params.buyToken.decimals),
           },
           metadata: {
             hash,
@@ -115,7 +112,7 @@ export function useSwapState() {
         });
       }
     },
-    []
+    [],
   );
 
   const connectWalletDialog = useConnectWalletDialog();
@@ -211,13 +208,11 @@ export function useSwapQuote({
             sellToken: sellToken?.address.toLowerCase(),
             buyAmount:
               buyAmount !== ''
-                ? parseUnits(buyAmount, buyToken?.decimals)
-                  .toString()
+                ? parseUnits(buyAmount, buyToken?.decimals).toString()
                 : undefined,
             sellAmount:
               sellAmount !== ''
-                ? parseUnits(sellAmount, sellToken?.decimals)
-                  .toString()
+                ? parseUnits(sellAmount, sellToken?.decimals).toString()
                 : undefined,
             takerAddress,
             skipValidation,
@@ -251,13 +246,13 @@ export function useSwapQuote({
         sellToken !== undefined &&
         (sellAmount !== '' || buyAmount !== ''),
       refetchInterval: 5000,
-    }
+    },
   );
 }
 
 export function useExecSwap(
   onSuccess?: (hash: string) => void,
-  options?: Omit<UseMutationOptions, any>
+  options?: Omit<UseMutationOptions, any>,
 ) {
   const { provider } = useWeb3React();
 

@@ -33,7 +33,7 @@ export default function QrCodeScanner({
           preferredCamera: cameraId,
           highlightScanRegion: true,
           highlightCodeOutline: true,
-        }
+        },
       );
 
       (async () => {

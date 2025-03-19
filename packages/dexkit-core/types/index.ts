@@ -32,8 +32,6 @@ export type Token = {
   logoURI?: string;
 };
 
-
-
 export type TokenPrices = {
   [key: number]: { [key: string]: { [key: string]: number } };
 };
@@ -53,8 +51,6 @@ export type Network = {
   slug?: string;
   providerRpcUrl?: string;
 };
-
-
 
 export interface AppTransaction {
   title?: string;
@@ -82,12 +78,12 @@ export interface WatchTransactionDialogProperties {
   setDialogIsOpen: (update: SetStateAction<boolean>) => void;
   setError: (update?: SetStateAction<Error | undefined>) => void;
   setMetadata: (
-    update?: SetStateAction<TransactionMetadata | undefined>
+    update?: SetStateAction<TransactionMetadata | undefined>,
   ) => void;
   showDialog: (
     open: boolean,
     metadata?: TransactionMetadata,
-    type?: TransactionType
+    type?: TransactionType,
   ) => void;
   setDialogError: (error?: Error) => void;
   addTransaction: ({

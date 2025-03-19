@@ -19,7 +19,6 @@ export type NftMetadata = {
   attributes?: NftMetadataAttribute[];
 };
 
-
 export interface Asset {
   id: string;
   chainId: number;
@@ -31,7 +30,7 @@ export interface Asset {
   type?: string;
   balance?: BigNumber;
   metadata?: AssetMetadata;
-  protocol?: 'ERC1155' | 'ERC721';
+  protocol?: "ERC1155" | "ERC721";
 }
 
 export interface AssetMetadata {

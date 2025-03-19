@@ -13,7 +13,7 @@ export function useSubscription() {
     async () => {
       return (await instance?.get("/payments/subscription"))?.data;
     },
-    { refetchInterval: 5000 }
+    { refetchInterval: 5000 },
   );
 }
 
@@ -47,7 +47,7 @@ export function useCryptoCheckout() {
     return (
       await instance?.post<CryptoCheckoutSession>(
         "/payments/crypto-checkout-session",
-        params
+        params,
       )
     )?.data;
   });
@@ -83,10 +83,10 @@ export function useConfirmCheckout() {
       return (
         await instance?.post(
           `/payments/checkout-session/${checkoutId}/confirm`,
-          { txHash, chainId, tokenAddress }
+          { txHash, chainId, tokenAddress },
         )
       )?.data;
-    }
+    },
   );
 }
 
@@ -100,11 +100,11 @@ export function useCheckoutData({ id }: { id: string }) {
     async () => {
       return (
         await instance?.get<CryptoCheckoutSession>(
-          `/payments/checkout-session/${id}`
+          `/payments/checkout-session/${id}`,
         )
       )?.data;
     },
-    { refetchInterval: 3000 }
+    { refetchInterval: 3000 },
   );
 }
 
@@ -137,7 +137,7 @@ export function usePlanPrices() {
   return useQuery([PLANS_QUERY], async () => {
     return (
       await instance?.get<{ amount: string; name: string; slug: string }[]>(
-        `/payments/plans`
+        `/payments/plans`,
       )
     )?.data;
   });
@@ -163,6 +163,6 @@ export function useActiveFeatUsage() {
     async () => {
       return (await instance?.get(`/payments/active-usage`))?.data;
     },
-    { refetchInterval: 5000 }
+    { refetchInterval: 5000 },
   );
 }

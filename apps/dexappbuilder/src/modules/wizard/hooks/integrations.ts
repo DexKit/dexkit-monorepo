@@ -14,7 +14,7 @@ export function useSaveApiKeyMutation() {
       queryClient.refetchQueries([GET_INTEGRATION_API_KEY]);
 
       return result;
-    }
+    },
   );
 }
 
@@ -42,7 +42,7 @@ export function useGetApiKeyQuery({
 
       return result;
     },
-    { enabled: instance !== undefined }
+    { enabled: instance !== undefined },
   );
 }
 
@@ -87,11 +87,11 @@ export function useSaveIntegrationMutation({
       return null;
     }
 
-    const response = (await instance?.post(`/integrations/${siteId}/${type}`, { data }))
-      ?.data;
+    const response = (
+      await instance?.post(`/integrations/${siteId}/${type}`, { data })
+    )?.data;
 
     queryClient.refetchQueries([GET_INTEGRATION_DATA_QUERY]);
     return response;
-
   });
 }

@@ -47,7 +47,7 @@ export default function AdminSidebarContainer({
     (menu: string) => {
       return Boolean(openMenus[menu]);
     },
-    [openMenus]
+    [openMenus],
   );
 
   return (

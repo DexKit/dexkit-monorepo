@@ -63,7 +63,7 @@ export default function EditTab({
           defaultMessage: "Images generated",
           id: "images.generated",
         }),
-        { variant: "success" }
+        { variant: "success" },
       );
     } catch (err) {
       enqueueSnackbar(
@@ -71,7 +71,7 @@ export default function EditTab({
           defaultMessage: "Error while generating images",
           id: "error.while.generating.images",
         }),
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };

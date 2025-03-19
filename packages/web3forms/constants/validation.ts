@@ -20,7 +20,7 @@ export const EvmSchemaTypes: { [key: string]: Yup.Schema } = {
   "address[]": Yup.array(
     Yup.string().test("address", "invalid address", (value) => {
       return value !== undefined ? isAddress(value) : true;
-    })
+    }),
   ).required(),
   address: Yup.string()
     .test("address", "invalid address", (value) => {

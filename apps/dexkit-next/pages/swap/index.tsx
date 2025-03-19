@@ -9,7 +9,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { SearchTextField } from '@/modules/wallet/components/SearchTextField';
 
 const SelectCoinList = dynamic(
-  () => import('@/modules/wallet/components/SelectCoinList')
+  () => import('@/modules/wallet/components/SelectCoinList'),
 );
 
 import AppErrorBoundary from '@/modules/common/components/AppErrorBoundary';
@@ -39,7 +39,7 @@ const SwapPage: NextPage = () => {
     (coin: Coin) => {
       recentCoins.add(coin);
     },
-    [recentCoins]
+    [recentCoins],
   );
 
   const { accounts } = useAccounts({});
@@ -57,7 +57,7 @@ const SwapPage: NextPage = () => {
           c.network.id === coin.network.id &&
           c.decimals === coin.decimals &&
           c.coingeckoId === coin.coingeckoId &&
-          coin.name === coin.name
+          coin.name === coin.name,
       );
 
       if (index > -1) {

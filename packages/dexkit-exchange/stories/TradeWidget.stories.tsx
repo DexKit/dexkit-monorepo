@@ -59,7 +59,7 @@ const Template: ComponentStory<typeof TradeWidget> = (args) => {
   const web3ReactKey = useMemo(
     () =>
       connectors.map((connector) => getConnectorName(connector[0])).join("-"),
-    [connectors]
+    [connectors],
   );
 
   return (

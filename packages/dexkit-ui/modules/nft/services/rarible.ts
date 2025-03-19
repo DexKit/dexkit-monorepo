@@ -1,16 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   AssetRari,
   CollectionRari,
   CollectionStatsRari,
-} from '../types/rarible';
+} from "../types/rarible";
 
-const RARIBLE_BASE_URL = 'https://api.rarible.org';
+const RARIBLE_BASE_URL = "https://api.rarible.org";
 
 const raribleApi = axios.create({
   baseURL: RARIBLE_BASE_URL,
   headers: {
-    'X-API-KEY': process.env.RARIBLE_API_KEY || '',
+    "X-API-KEY": process.env.RARIBLE_API_KEY || "",
   },
 });
 

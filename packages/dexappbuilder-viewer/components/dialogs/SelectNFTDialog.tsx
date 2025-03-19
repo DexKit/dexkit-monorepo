@@ -3,28 +3,28 @@ import { AppDialogTitle } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import {
-    NFT,
-    useContract,
-    useContractRead,
-    useOwnedNFTs,
+  NFT,
+  useContract,
+  useContractRead,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import { useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -51,7 +51,7 @@ export default function SelectNFTDialog({
 
   const { data: stakingContract } = useContract(
     stakingContractAddress,
-    "custom"
+    "custom",
   );
 
   const {
@@ -62,7 +62,7 @@ export default function SelectNFTDialog({
 
   const { data: accountNftsData, isLoading: isLoadingNfts } = useOwnedNFTs(
     stakingNFTContract,
-    account
+    account,
   );
 
   const nfts = useAsyncMemo(
@@ -86,7 +86,7 @@ export default function SelectNFTDialog({
       return accountNftsData;
     },
     [],
-    [accountNftsData, infoNfts, isUnstake]
+    [accountNftsData, infoNfts, isUnstake],
   );
 
   const [tokenIds, setTokenIds] = useState<string[]>([]);
@@ -120,7 +120,7 @@ export default function SelectNFTDialog({
     (tokenId: string) => {
       return tokenIds.includes(tokenId);
     },
-    [tokenIds]
+    [tokenIds],
   );
 
   const renderCard = (nft: NFT) => {

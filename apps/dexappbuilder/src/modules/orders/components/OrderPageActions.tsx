@@ -1,29 +1,29 @@
 import {
-    Box,
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import {
-    getBlockExplorerUrl,
-    getNetworkSlugFromChainId,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils/blockchain';
 import { getWindowUrl } from '@dexkit/core/utils/browser';
 import Link from '@dexkit/ui/components/AppLink';
 import Heart from '@dexkit/ui/components/icons/Heart';
 import ShareDialog from '@dexkit/ui/modules/nft/components/dialogs/ShareDialog';
 import {
-    useAsset,
-    useAssetMetadata,
-    useFavoriteAssets,
+  useAsset,
+  useAssetMetadata,
+  useFavoriteAssets,
 } from '@dexkit/ui/modules/nft/hooks';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import LaunchIcon from '@mui/icons-material/Launch';

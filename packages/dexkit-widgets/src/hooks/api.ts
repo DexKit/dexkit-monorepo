@@ -13,7 +13,7 @@ export function usePlatformCoinSearch({
 }: {
   keyword?: string;
   network?: string;
-  disable?: boolean
+  disable?: boolean;
 }) {
   return useQuery(
     [COIN_PLATFORM_SEARCH_QUERY, keyword, network, disable],
@@ -22,14 +22,12 @@ export function usePlatformCoinSearch({
         return null;
       }
 
-
-
       const req = await axios.get<DkApiPlatformCoin[]>(
         `${DEXKIT_API_URL}/coin/search-platforms`,
-        { signal, params: { keyword, network } }
+        { signal, params: { keyword, network } },
       );
 
       return [...req.data];
-    }
+    },
   );
 }

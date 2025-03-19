@@ -3,11 +3,11 @@ import dynamic from "next/dynamic";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
 const MagicSignDataDialog = dynamic(
-  () => import("../components/dialogs/MagicSignDataDialog")
+  () => import("../components/dialogs/MagicSignDataDialog"),
 );
 
 const MagicTxConfirmDialog = dynamic(
-  () => import("./dialogs/MagicTxConfirmDialog")
+  () => import("./dialogs/MagicTxConfirmDialog"),
 );
 
 import { ProviderWrapper } from "@dexkit/wallet-connectors/connectors/magic";
@@ -29,7 +29,7 @@ export function MagicStateProvider(props: Props) {
       }
     },
     undefined,
-    [connector]
+    [connector],
   );
 
   const { children, currency } = props;
@@ -76,7 +76,7 @@ export function MagicStateProvider(props: Props) {
       }
       setShowTransactionModal(false);
     },
-    [providerWrapper]
+    [providerWrapper],
   );
 
   const handleTransactionCancel = useCallback(() => {

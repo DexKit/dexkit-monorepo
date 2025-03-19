@@ -89,7 +89,7 @@ function PortfolioAccountsListItem({
 
         if (ratio > 0) {
           const amount = parseFloat(
-            ethers.utils.formatUnits(total, coin.decimals)
+            ethers.utils.formatUnits(total, coin.decimals),
           );
 
           return ratio * amount;

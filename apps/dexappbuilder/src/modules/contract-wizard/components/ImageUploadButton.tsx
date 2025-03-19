@@ -58,7 +58,7 @@ export function ImageUploadButton(props: ImageUploadButtonProps) {
       } else {
       }
     },
-    [onChange]
+    [onChange],
   );
 
   useEffect(() => {

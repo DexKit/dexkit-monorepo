@@ -1,56 +1,53 @@
-import type { OAuthExtension } from '@magic-ext/oauth';
+import type { OAuthExtension } from "@magic-ext/oauth";
 import type {
   InstanceWithExtensions,
   MagicSDKAdditionalConfiguration,
   MagicSDKExtensionsOption,
   SDKBase,
-} from '@magic-sdk/provider';
+} from "@magic-sdk/provider";
 import { EventEmitter } from "events";
-import type { EthNetworkConfiguration } from 'magic-sdk';
-import { getAddress } from 'viem';
-const IS_SERVER = typeof window === 'undefined'
+import type { EthNetworkConfiguration } from "magic-sdk";
+import { getAddress } from "viem";
+const IS_SERVER = typeof window === "undefined";
 
 export const MagicOauthConnectors = [
   {
-    name: 'Google',
+    name: "Google",
     icon: "https://raw.githubusercontent.com/DexKit/assets/main/google-icon.svg",
-    oauth: 'google'
+    oauth: "google",
   },
   {
-    name: 'Twitter',
+    name: "Twitter",
     icon: "https://raw.githubusercontent.com/DexKit/assets/main/twitter-logo.svg",
-    oauth: 'twitter'
+    oauth: "twitter",
   },
   {
-    name: 'Discord',
+    name: "Discord",
     icon: "https://raw.githubusercontent.com/DexKit/assets/main/discord-logo.svg",
-    oauth: 'discord'
-  }
-]
-
+    oauth: "discord",
+  },
+];
 
 export function getMagicIcon() {
-  const loginType = localStorage.getItem('loginType');
+  const loginType = localStorage.getItem("loginType");
 
   if (loginType) {
-    return MagicOauthConnectors.find(m => m.oauth === loginType)?.icon;
+    return MagicOauthConnectors.find((m) => m.oauth === loginType)?.icon;
   }
 }
 
-
-
-import { NETWORKS } from '@dexkit/core/constants/networks';
-import { ProviderWrapper } from '../magic';
+import { NETWORKS } from "@dexkit/core/constants/networks";
+import { ProviderWrapper } from "../magic";
 
 export interface MagicOptions {
-  apiKey: string
-  accentColor?: string
-  isDarkMode?: boolean
-  customLogo?: string
-  customHeaderText?: string
-  connectorType?: 'dedicated' | 'universal'
-  magicSdkConfiguration?: MagicSDKAdditionalConfiguration
-  networks?: EthNetworkConfiguration[]
+  apiKey: string;
+  accentColor?: string;
+  isDarkMode?: boolean;
+  customLogo?: string;
+  customHeaderText?: string;
+  connectorType?: "dedicated" | "universal";
+  magicSdkConfiguration?: MagicSDKAdditionalConfiguration;
+  networks?: EthNetworkConfiguration[];
 }
 
 /**
@@ -62,23 +59,17 @@ export interface MagicOptions {
  */
 
 export interface MagicConnectorParams {
-
-  options: MagicOptions
+  options: MagicOptions;
 }
 
-// we connect always 
+// we connect always
 const network = NETWORKS[1];
 
 let customNode = {
   // magic not allow the default rpc used
-  rpcUrl: (network?.providerRpcUrl as string),
+  rpcUrl: network?.providerRpcUrl as string,
   chainId: network?.chainId,
 };
-
-
-
-
-
 
 function setCustomNode(chainId?: number) {
   if (chainId) {
@@ -86,77 +77,78 @@ function setCustomNode(chainId?: number) {
     if (network) {
       customNode = {
         // magic not allow the default rpc used
-        rpcUrl: network.chainId === 56 ? "https://bsc-dataseed1.defibit.io" : network.chainId === 1 ? "https://rpc.ankr.com/eth" : (network?.providerRpcUrl as string),
+        rpcUrl:
+          network.chainId === 56
+            ? "https://bsc-dataseed1.defibit.io"
+            : network.chainId === 1
+              ? "https://rpc.ankr.com/eth"
+              : (network?.providerRpcUrl as string),
         chainId: network?.chainId,
       };
     }
   }
-  return customNode
+  return customNode;
 }
-
-
 
 const eventEmitter = new EventEmitter();
 
 export function magicConnector({ options }: MagicConnectorParams) {
-
   if (!options.apiKey) {
     throw new Error(
-      'Magic API Key is required. Get one at https://dashboard.magic.link/',
-    )
+      "Magic API Key is required. Get one at https://dashboard.magic.link/",
+    );
   }
 
   const getMagicSDK = async (): Promise<
     | InstanceWithExtensions<SDKBase, OAuthExtension[]>
     | InstanceWithExtensions<SDKBase, MagicSDKExtensionsOption<string>>
-    | null> => {
-    if (options.connectorType === 'dedicated') {
-      const Magic = (await import('magic-sdk')).Magic;
-      const OAuthExtension = (await import('@magic-ext/oauth')).OAuthExtension;
-      const defaultChainId = localStorage.getItem('magic:defaultChainId') ? Number(localStorage.getItem('magic:defaultChainId')) : 1;
+    | null
+  > => {
+    if (options.connectorType === "dedicated") {
+      const Magic = (await import("magic-sdk")).Magic;
+      const OAuthExtension = (await import("@magic-ext/oauth")).OAuthExtension;
+      const defaultChainId = localStorage.getItem("magic:defaultChainId")
+        ? Number(localStorage.getItem("magic:defaultChainId"))
+        : 1;
 
       return new Magic(options.apiKey, {
         ...options.magicSdkConfiguration,
         network: {
-          ...setCustomNode(defaultChainId)
+          ...setCustomNode(defaultChainId),
         },
         extensions: [new OAuthExtension()],
-      })
-
-
+      });
     }
-    if (options.connectorType === 'universal') {
-      const Magic = (await import('magic-sdk')).Magic;
+    if (options.connectorType === "universal") {
+      const Magic = (await import("magic-sdk")).Magic;
       return new Magic(options.apiKey, {
         ...options.magicSdkConfiguration,
         network:
           options.magicSdkConfiguration?.network ?? options?.networks?.[0],
-      })
+      });
     }
-    return null
-  }
+    return null;
+  };
 
   const getProvider = async () => {
-    const magic = await getMagicSDK()
-    if (!magic) return null
+    const magic = await getMagicSDK();
+    if (!magic) return null;
 
     return new ProviderWrapper(magic.rpcProvider, eventEmitter);
-
-  }
+  };
 
   const getAccount = async () => {
-    const provider = await getProvider()
+    const provider = await getProvider();
     const accounts = await provider?.request({
-      method: 'eth_accounts',
-    })
-    const account = getAddress(accounts[0] as string)
-    return account
-  }
+      method: "eth_accounts",
+    });
+    const account = getAddress(accounts[0] as string);
+    return account;
+  };
 
   const switchChain = async ({ chainId }: { chainId: number }) => {
-    setCustomNode(chainId)
-
-  }
+    setCustomNode(chainId);
+  };
 
   /*  const getWalletClient = async ({ chainId }: { chainId?: number } = {}) => {
       const provider = await getProvider()
@@ -171,15 +163,15 @@ export function magicConnector({ options }: MagicConnectorParams) {
     }*/
 
   const onAccountsChanged = async (accounts: string[]) => {
-    const provider = (await getProvider())?.provider
-    if (accounts.length === 0 || !accounts[0]) provider?.emit('disconnect')
-    else provider?.emit('change', { account: getAddress(accounts[0]) })
-  }
+    const provider = (await getProvider())?.provider;
+    if (accounts.length === 0 || !accounts[0]) provider?.emit("disconnect");
+    else provider?.emit("change", { account: getAddress(accounts[0]) });
+  };
 
   return {
-    id: 'magic',
-    name: 'Magic',
-    type: 'Magic',
+    id: "magic",
+    name: "Magic",
+    type: "Magic",
     isModalOpen: false,
     isReady: IS_SERVER,
     getProvider,
@@ -188,5 +180,5 @@ export function magicConnector({ options }: MagicConnectorParams) {
     switchChain,
     //   getWalletClient,
     onAccountsChanged,
-  }
+  };
 }

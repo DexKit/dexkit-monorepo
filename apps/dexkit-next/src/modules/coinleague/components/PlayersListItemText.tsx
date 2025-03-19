@@ -11,7 +11,7 @@ interface Props {
 
 function PlayersListItemText({ chainId, address }: Props) {
   const priceFeed = PriceFeeds[chainId].find((f) =>
-    isAddressEqual(address, f.address)
+    isAddressEqual(address, f.address),
   );
 
   return (

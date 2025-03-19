@@ -63,7 +63,7 @@ export default function ContractFunctionInputs({
         setSelectedAddress(false);
       }
     },
-    [selectFor]
+    [selectFor],
   );
 
   return (

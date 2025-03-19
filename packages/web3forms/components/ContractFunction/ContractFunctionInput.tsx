@@ -100,13 +100,13 @@ export default function ContractFunctionInput({
               formatMessage({
                 id: "field.required",
                 defaultMessage: "field required",
-              })
+              }),
             ),
             validateAddress(
               formatMessage({
                 id: "invalid.address",
                 defaultMessage: "Invalid address",
-              })
+              }),
             ),
           ])}
           disabled={
@@ -124,8 +124,8 @@ export default function ContractFunctionInput({
                       inputParams?.inputType === "address"
                         ? inputParams.addresses
                         : inputTupleParams
-                        ? inputTupleParams.addresses
-                        : []
+                          ? inputTupleParams.addresses
+                          : [],
                     )
                   }
                   size="small"
@@ -158,7 +158,7 @@ export default function ContractFunctionInput({
                   formatMessage({
                     id: "field.required",
                     defaultMessage: "field required",
-                  })
+                  }),
                 ),
               ])}
               name={inputName}
@@ -180,7 +180,7 @@ export default function ContractFunctionInput({
         formatMessage({
           id: "field.required",
           defaultMessage: "field required",
-        })
+        }),
       ),
     ];
 
@@ -190,8 +190,8 @@ export default function ContractFunctionInput({
           formatMessage({
             id: "invalid.decimal",
             defaultMessage: "Invalid decimal",
-          })
-        )
+          }),
+        ),
       );
     }
 

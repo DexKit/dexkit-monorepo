@@ -56,14 +56,14 @@ export function WalletCoinListItem({
       let total = BigNumber.from(0);
 
       for (const coinBalance of balances.filter(
-        (b) => b.network.id === coin.network.id
+        (b) => b.network.id === coin.network.id,
       )) {
         total = total.add(
           BigNumber.from(
             coinBalance.balances[
               isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
-            ] || '0'
-          )
+            ] || '0',
+          ),
         );
       }
 
@@ -78,14 +78,14 @@ export function WalletCoinListItem({
       let total = BigNumber.from(0);
 
       for (const coinBalance of balances.filter(
-        (b) => b.network.id === coin.network.id
+        (b) => b.network.id === coin.network.id,
       )) {
         total = total.add(
           BigNumber.from(
             coinBalance.balances[
               isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
-            ] || '0'
-          )
+            ] || '0',
+          ),
         );
       }
 
@@ -101,7 +101,7 @@ export function WalletCoinListItem({
 
         if (ratio > 0) {
           const amount = parseFloat(
-            ethers.utils.formatUnits(total, coin.decimals)
+            ethers.utils.formatUnits(total, coin.decimals),
           );
 
           return ratio * amount;
@@ -141,11 +141,11 @@ export function WalletCoinListItem({
             coin.imageUrl
               ? coin.imageUrl
               : coin.coinType === CoinTypes.EVM_ERC20
-              ? TOKEN_ICON_URL(
-                  coin.contractAddress,
-                  coin.network.chainId as ChainId
-                )
-              : undefined
+                ? TOKEN_ICON_URL(
+                    coin.contractAddress,
+                    coin.network.chainId as ChainId,
+                  )
+                : undefined
           }
         >
           <Token />
@@ -198,8 +198,8 @@ export function WalletCoinListItem({
                 priceChange === 0
                   ? theme.palette.text.primary
                   : priceChange > 0
-                  ? theme.palette.success.main
-                  : theme.palette.error.main,
+                    ? theme.palette.success.main
+                    : theme.palette.error.main,
             })}
           >
             <FormattedNumber

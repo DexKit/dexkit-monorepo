@@ -105,6 +105,6 @@ export function useAccountEns({
       enabled: !disabled || chainId !== ChainId.Ethereum || Boolean(account),
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-    }
+    },
   );
 }

@@ -6,9 +6,9 @@ import { Box, Container, Grid } from "@mui/material";
 
 import SelectPairDialog from "@dexkit/exchange/components/dialogs/SelectPairDialog";
 import {
-    useExchangeContext,
-    useExchangeContextState,
-    useGeckoTerminalTopPools,
+  useExchangeContext,
+  useExchangeContextState,
+  useGeckoTerminalTopPools,
 } from "@dexkit/exchange/hooks";
 import { useEffect, useMemo, useState } from "react";
 
@@ -66,7 +66,7 @@ function ExchangeSection() {
 
   const selectedPool = useMemo(() => {
     return pools.find((pool) =>
-      isAddressEqual(pool.attributes.address, selectedAddress)
+      isAddressEqual(pool.attributes.address, selectedAddress),
     );
   }, [selectedAddress, pools]);
 

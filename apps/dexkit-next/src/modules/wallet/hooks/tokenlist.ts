@@ -14,6 +14,6 @@ export function useEvmTokenList({ list }: { list?: EvmTokenList }) {
 
       return (await axios.get(list.url)).data;
     },
-    { enabled: Boolean(list) }
+    { enabled: Boolean(list) },
   );
 }

@@ -1,6 +1,6 @@
-import createPlugin from './createPlugin';
+import createPlugin from "./createPlugin";
 
-import SpacerHtmlRenderer from './Renderer/SpacerHtmlRenderer';
+import SpacerHtmlRenderer from "./Renderer/SpacerHtmlRenderer";
 
 const plugin = createPlugin({
   Renderer: SpacerHtmlRenderer,

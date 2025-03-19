@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { BigNumber, Contract, providers } from 'ethers';
@@ -9,23 +6,11 @@ import { WETHAbi } from '../constants/abis';
 
 import { WRAPPED_ETHER_CONTRACT } from '../constants';
 
-
 import { useAtomValue } from 'jotai';
 
-import {
-  accountAssetsAtom
-} from '../state/atoms';
-
+import { accountAssetsAtom } from '../state/atoms';
 
 import { getERC20Balance } from '@dexkit/core/services/balances';
-
-
-
-
-
-
-
-
 
 export const GET_ERC20_BALANCE = 'GET_ERC20_BALANCE';
 
@@ -70,12 +55,6 @@ export function useWrapEtherMutation(
   });
 }
 
-
-
-
-
-
-
 export function useTotalAssetsBalance(accounts: string[], networks: string[]) {
   const accountAssets = useAtomValue(accountAssetsAtom);
 
@@ -94,8 +73,3 @@ export function useTotalAssetsBalance(accounts: string[], networks: string[]) {
 
   return { totalAccountAssets };
 }
-
-
-
-
-

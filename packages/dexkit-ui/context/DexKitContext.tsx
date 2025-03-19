@@ -67,12 +67,12 @@ export const DexKitContext = React.createContext<DexkitContextState>({
     setDialogIsOpen: (update: SetStateAction<boolean>) => {},
     setError: (update?: SetStateAction<Error | undefined>) => {},
     setMetadata: (
-      update?: SetStateAction<TransactionMetadata | undefined>
+      update?: SetStateAction<TransactionMetadata | undefined>,
     ) => {},
     showDialog: (
       open: boolean,
       metadata?: TransactionMetadata,
-      type?: TransactionType
+      type?: TransactionType,
     ) => {},
     setDialogError: (error?: Error) => {},
     addTransaction: ({

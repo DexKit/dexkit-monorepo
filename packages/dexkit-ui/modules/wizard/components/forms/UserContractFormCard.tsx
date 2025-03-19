@@ -1,4 +1,4 @@
-import { CheckCircle } from '@mui/icons-material';
+import { CheckCircle } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -6,7 +6,7 @@ import {
   CardContent,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 export interface UserContractFormCard {
   id: number;

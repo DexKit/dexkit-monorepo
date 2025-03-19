@@ -4,7 +4,7 @@ import { mergeConfig } from "vite";
 const config: StorybookConfig = {
   async viteFinal(config, { configType }) {
     return mergeConfig(config, {
-      define: { 'process.env': {} },
+      define: { "process.env": {} },
     });
   },
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|ts|tsx)"],

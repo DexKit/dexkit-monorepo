@@ -42,6 +42,6 @@ export default function useCheckoutList(params: {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

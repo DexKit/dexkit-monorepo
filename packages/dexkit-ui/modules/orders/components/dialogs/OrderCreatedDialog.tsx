@@ -53,7 +53,7 @@ export default function OrderCreatedDialog({ dialogProps, order }: Props) {
                 defaultMessage="Order #{id} Created"
                 values={{
                   id: order?.order?.nonce.substring(
-                    order?.order?.nonce.length - 8
+                    order?.order?.nonce.length - 8,
                   ),
                 }}
               />

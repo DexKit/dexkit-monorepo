@@ -93,7 +93,7 @@ export default function OrderDetailsCard({ order }: OrderDetailsCardProps) {
                         <Link
                           target="_blank"
                           href={`${getBlockExplorerUrl(
-                            order.chainId
+                            order.chainId,
                           )}/address/${order.senderAddress}`}
                         >
                           {truncateAddress(order.senderAddress)}
@@ -112,7 +112,7 @@ export default function OrderDetailsCard({ order }: OrderDetailsCardProps) {
                         <Link
                           target="_blank"
                           href={`${getBlockExplorerUrl(
-                            order.chainId
+                            order.chainId,
                           )}/address/${order.contractAddress}`}
                         >
                           {tokenData?.name}

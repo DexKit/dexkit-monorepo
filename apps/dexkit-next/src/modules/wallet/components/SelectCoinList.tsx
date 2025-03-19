@@ -31,7 +31,7 @@ const isFavorite = (coin: Coin, favoriteCoins: Coin[]) => {
       c.network.id === coin.network.id &&
       c.decimals === coin.decimals &&
       c.coingeckoId === coin.coingeckoId &&
-      coin.name === coin.name
+      coin.name === coin.name,
   );
 
   return index > -1;
@@ -107,7 +107,7 @@ function SelectCoinList({
             c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1 ||
             (c.coinType === CoinTypes.EVM_ERC20 &&
               c.contractAddress.toLowerCase().search(keyword?.toLowerCase()) >
-                -1)
+                -1),
         );
       }
 
@@ -117,7 +117,7 @@ function SelectCoinList({
             acc.find(
               (c) =>
                 c.coinType === CoinTypes.EVM_ERC20 &&
-                isAddressEqual(c.contractAddress, current.contractAddress)
+                isAddressEqual(c.contractAddress, current.contractAddress),
             ) !== undefined;
 
           if (!found) {
@@ -138,7 +138,7 @@ function SelectCoinList({
 
   const recentCoinsBalances = useWalletBalances({
     accounts: enableBalance ? accounts : [],
-    coins: enableRecent ? recentCoins ?? [] : [],
+    coins: enableRecent ? (recentCoins ?? []) : [],
   });
 
   const results = useMemo(() => {
@@ -152,7 +152,7 @@ function SelectCoinList({
             let total = BigNumber.from(0);
 
             for (const coinBalance of balances.filter(
-              (b) => b.network.id === coin.network.id
+              (b) => b.network.id === coin.network.id,
             )) {
               total = total.add(
                 BigNumber.from(
@@ -160,8 +160,8 @@ function SelectCoinList({
                     isErc20Coin
                       ? coin.contractAddress
                       : ethers.constants.AddressZero
-                  ] || '0'
-                )
+                  ] || '0',
+                ),
               );
             }
 
@@ -203,7 +203,7 @@ function SelectCoinList({
           let total = BigNumber.from(0);
 
           for (const coinBalance of recentCoinsBalances.filter(
-            (b) => b.network.id === coin.network.id
+            (b) => b.network.id === coin.network.id,
           )) {
             total = total.add(
               BigNumber.from(
@@ -211,8 +211,8 @@ function SelectCoinList({
                   isErc20Coin
                     ? coin.contractAddress
                     : ethers.constants.AddressZero
-                ] || '0'
-              )
+                ] || '0',
+              ),
             );
           }
 

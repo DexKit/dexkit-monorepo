@@ -1,5 +1,9 @@
 import { ZeroExApiClient } from "@dexkit/ui/modules/swap/services/zrxClient";
-import { ZeroExQuote, ZeroExQuoteGasless, ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExQuote,
+  ZeroExQuoteGasless,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { useContext, useState } from "react";
 import { SUPPORTED_GASLESS_CHAIN } from "../../../constants";
 
@@ -29,7 +33,9 @@ export interface UseQuoteSwap {
   setSkipValidation: React.Dispatch<React.SetStateAction<boolean>>;
   setIntentOnFilling: React.Dispatch<React.SetStateAction<boolean>>;
   setTradeSignature: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setApprovalSignature: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setApprovalSignature: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
   params: SwapQuoteParams | undefined;
   setEnabled: React.Dispatch<boolean>;
   quoteQuery: UseQueryResult<
@@ -67,15 +73,15 @@ export function useSwapQuote({
   const refetchParams =
     params.quoteFor === "buy"
       ? {
-        sellToken: params.sellToken,
-        buyToken: params.buyToken,
-        buyTokenAmount: params.buyTokenAmount,
-      }
+          sellToken: params.sellToken,
+          buyToken: params.buyToken,
+          buyTokenAmount: params.buyTokenAmount,
+        }
       : {
-        sellToken: params.sellToken,
-        sellTokenAmount: params.sellTokenAmount,
-        buyToken: params.buyToken,
-      };
+          sellToken: params.sellToken,
+          sellTokenAmount: params.sellTokenAmount,
+          buyToken: params.buyToken,
+        };
 
   const { siteId } = useContext(SiteContext);
 
@@ -111,7 +117,11 @@ export function useSwapQuote({
       const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
 
       if (buyToken && sellToken && quoteFor) {
-        if (isGasless && SUPPORTED_GASLESS_CHAIN.includes(chainId) && !isNativeInSell({ side: quoteFor, sellToken, buyToken })) {
+        if (
+          isGasless &&
+          SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
+          !isNativeInSell({ side: quoteFor, sellToken, buyToken })
+        ) {
           const quoteParam: ZeroExQuoteGasless = {
             buyToken: buyToken?.address,
             sellToken: sellToken?.address,
@@ -135,20 +145,30 @@ export function useSwapQuote({
           if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
             quoteParam.buyAmount = buyTokenAmount?.toString();
             if (intentOnFilling) {
-              return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
+              return [
+                quoteFor,
+                await client.quoteGasless(quoteParam, { signal }),
+              ];
             } else {
-              return [quoteFor, await client.priceGasless(quoteParam, { signal })];
+              return [
+                quoteFor,
+                await client.priceGasless(quoteParam, { signal }),
+              ];
             }
-
           } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
             quoteParam.sellAmount = sellTokenAmount?.toString();
             if (intentOnFilling) {
-              return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
+              return [
+                quoteFor,
+                await client.quoteGasless(quoteParam, { signal }),
+              ];
             } else {
-              return [quoteFor, await client.priceGasless(quoteParam, { signal })];
+              return [
+                quoteFor,
+                await client.priceGasless(quoteParam, { signal }),
+              ];
             }
           }
-
         } else {
           const quoteParam: ZeroExQuote = {
             buyToken: buyToken?.address,
@@ -188,7 +208,7 @@ export function useSwapQuote({
       enabled: Boolean(params),
       refetchInterval: intentOnFilling && isGasless ? 25000 : 10000,
       onSuccess,
-    }
+    },
   );
 
   return {
@@ -199,6 +219,6 @@ export function useSwapQuote({
     setSkipValidation,
     setIntentOnFilling,
     setTradeSignature,
-    setApprovalSignature
+    setApprovalSignature,
   };
 }

@@ -5,5 +5,5 @@ export const dexkitCartAtom = atomWithStorage<CartState>(
   "dexkit.commerce.cart",
   {
     items: [],
-  }
+  },
 );

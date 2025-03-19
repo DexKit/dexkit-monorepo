@@ -1,7 +1,7 @@
-import NextAuth, { AuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import TwitterProvider from "next-auth/providers/twitter";
-import { myAppsApi } from "src/services/whitelabel";
+import NextAuth, { AuthOptions } from 'next-auth';
+import DiscordProvider from 'next-auth/providers/discord';
+import TwitterProvider from 'next-auth/providers/twitter';
+import { myAppsApi } from 'src/services/whitelabel';
 /*const getOptions = (req: any) => {
 
   return {
@@ -36,9 +36,7 @@ import { myAppsApi } from "src/services/whitelabel";
   } as AuthOptions
 }*/
 
-
 export const authOptions: AuthOptions = {
-
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_API_KEY || '',
@@ -46,7 +44,7 @@ export const authOptions: AuthOptions = {
     }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID || '',
-      clientSecret: process.env.DISCORD_CLIENT_SECRET || ''
+      clientSecret: process.env.DISCORD_CLIENT_SECRET || '',
     }),
 
     // ...add more providers here
@@ -54,18 +52,22 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({ user, account, credentials }) {
       try {
-        await myAppsApi.post('/user-credentials/create-from-auth-callback', { user, provider: account?.provider, credentials }, {
-          headers: {
-            'Dexkit-Api-Key': `${process.env.MARKETPLACE_API_KEY}`
-          }
-        })
+        await myAppsApi.post(
+          '/user-credentials/create-from-auth-callback',
+          { user, provider: account?.provider, credentials },
+          {
+            headers: {
+              'Dexkit-Api-Key': `${process.env.MARKETPLACE_API_KEY}`,
+            },
+          },
+        );
       } catch (e) {
-        console.log('error on signin')
+        console.log('error on signin');
       }
-      return true
-    }
-  }
-}
+      return true;
+    },
+  },
+};
 
 //xport default (req: any, res: any) => NextAuth(req, res, getOptions(req))
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);

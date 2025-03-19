@@ -22,7 +22,7 @@ export default function useProductCollectionItems(params: { id?: string }) {
 
       return (
         await instance.get<ProductCollectionItemType[]>(
-          `/product-collections/${params.id}/items`
+          `/product-collections/${params.id}/items`,
         )
       ).data;
     },
@@ -30,6 +30,6 @@ export default function useProductCollectionItems(params: { id?: string }) {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

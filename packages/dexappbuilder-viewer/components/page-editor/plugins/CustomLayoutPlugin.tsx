@@ -1,5 +1,5 @@
-import type { CellPlugin } from '@react-page/editor';
-import React from 'react';
+import type { CellPlugin } from "@react-page/editor";
+import React from "react";
 
 const CustomLayoutPlugin: CellPlugin<{
   backgroundColor: string;
@@ -12,8 +12,8 @@ const CustomLayoutPlugin: CellPlugin<{
   Renderer: ({ children, data }) => (
     <div
       style={{
-        height: '100%',
-        boxSizing: 'border-box',
+        height: "100%",
+        boxSizing: "border-box",
         backgroundColor: data.backgroundColor,
         padding: `${data.paddingY}px ${data.paddingX}px`,
       }}
@@ -28,7 +28,7 @@ const CustomLayoutPlugin: CellPlugin<{
       : null,
 
   createInitialData: () => ({
-    backgroundColor: '#ffeeaa',
+    backgroundColor: "#ffeeaa",
     paddingX: 12,
     paddingY: 12,
     cellSpacingOverride: false,
@@ -36,28 +36,28 @@ const CustomLayoutPlugin: CellPlugin<{
     cellSpacingY: 10,
   }),
 
-  id: 'custom-layout-plugin-with-cell-spacing',
-  title: 'Background with Cell Spacing',
-  description: 'Custom layout plugin with cell spacing support',
+  id: "custom-layout-plugin-with-cell-spacing",
+  title: "Background with Cell Spacing",
+  description: "Custom layout plugin with cell spacing support",
   version: 1,
 
   controls: {
-    type: 'autoform',
+    type: "autoform",
     schema: {
-      required: ['backgroundColor'],
+      required: ["backgroundColor"],
       properties: {
-        backgroundColor: { type: 'string', title: 'Background Color' },
-        paddingX: { type: 'number', title: 'Horizontal Padding' },
-        paddingY: { type: 'number', title: 'Vertical Padding' },
+        backgroundColor: { type: "string", title: "Background Color" },
+        paddingX: { type: "number", title: "Horizontal Padding" },
+        paddingY: { type: "number", title: "Vertical Padding" },
         cellSpacingOverride: {
-          type: 'boolean',
-          title: 'Override Cell Spacing',
+          type: "boolean",
+          title: "Override Cell Spacing",
         },
         cellSpacingX: {
-          type: 'number',
-          title: 'Horizontal Cell Spacing',
+          type: "number",
+          title: "Horizontal Cell Spacing",
         },
-        cellSpacingY: { type: 'number', title: 'Vertical Cell Spacing' },
+        cellSpacingY: { type: "number", title: "Vertical Cell Spacing" },
       },
     },
   },

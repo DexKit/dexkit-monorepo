@@ -17,6 +17,6 @@ export default function useCheckoutNetworksBySite({ id }: { id: number }) {
       return (await instance.get<number[]>(`/checkouts-networks/by-site/${id}`))
         .data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 }

@@ -53,7 +53,7 @@ export default function ExchangeTokensInput({
                         ? pair.baseToken.logoURI
                         : TOKEN_ICON_URL(
                             pair.baseToken.address,
-                            pair.baseToken.chainId
+                            pair.baseToken.chainId,
                           )
                     }
                   />
@@ -63,7 +63,7 @@ export default function ExchangeTokensInput({
                         ? pair.baseToken.logoURI
                         : TOKEN_ICON_URL(
                             pair.quoteToken.address,
-                            pair.quoteToken.chainId
+                            pair.quoteToken.chainId,
                           )
                     }
                   />

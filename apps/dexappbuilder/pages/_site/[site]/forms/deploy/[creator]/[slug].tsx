@@ -432,8 +432,9 @@ export default function DeployPage() {
                                       <Link
                                         href={`${getBlockExplorerUrl(
                                           chainId,
-                                        )}/address/${thirdwebMetadataQuery.data
-                                          ?.publisher}`}
+                                        )}/address/${
+                                          thirdwebMetadataQuery.data?.publisher
+                                        }`}
                                         target="_blank"
                                       >
                                         {truncateAddress(

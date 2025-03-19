@@ -20,7 +20,7 @@ export default function CheckoutItemsTableRow({
     useField<boolean>("editable");
   const [props, meta, helpers] = useField<string>(`${name}.productId`);
   const [propsQtd, metaQtd, helpersQtd] = useField<number | undefined>(
-    `${name}.quantity`
+    `${name}.quantity`,
   );
 
   const { data: product, isLoading } = useProduct({ id: props.value });

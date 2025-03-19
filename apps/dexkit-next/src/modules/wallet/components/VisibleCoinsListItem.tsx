@@ -44,7 +44,7 @@ export default function VisibleCoinsListItem({
             (coin.coinType === CoinTypes.EVM_ERC20
               ? TOKEN_ICON_URL(
                   coin.contractAddress,
-                  coin.network.chainId as ChainId
+                  coin.network.chainId as ChainId,
                 )
               : coin.imageUrl)
           }

@@ -42,6 +42,6 @@ export default function useProductList(params: {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       staleTime: 1000,
-    }
+    },
   );
 }

@@ -36,7 +36,7 @@ export default function EvmBurnToken({
       hash: string,
       quantity: string,
       name: string,
-      symbol: string
+      symbol: string,
     ) => {
       if (hash && chainId) {
         createNotification({

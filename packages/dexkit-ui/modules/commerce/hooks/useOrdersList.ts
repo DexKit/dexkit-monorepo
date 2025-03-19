@@ -33,6 +33,6 @@ export default function useOrdersList(params: {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

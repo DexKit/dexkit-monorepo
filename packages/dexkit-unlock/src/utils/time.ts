@@ -1,12 +1,13 @@
-
-
-export function convertDurationInDays({ duration }: { duration?: number | null }) {
-
+export function convertDurationInDays({
+  duration,
+}: {
+  duration?: number | null;
+}) {
   if (!duration) {
-    return ''
+    return "";
   }
   if (Number(duration) === 0) {
-    return ''
+    return "";
   }
 
   const days = Number(duration) / 86400;
@@ -15,5 +16,4 @@ export function convertDurationInDays({ duration }: { duration?: number | null }
   } else {
     return `${days} day`;
   }
-
 }

@@ -59,7 +59,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
       chainId &&
       defaultSlippage[chainId] &&
       defaultSlippage[chainId].slippage / 100) ||
-      0.01
+      0.01,
   );
 
   useEffect(() => {
@@ -73,14 +73,14 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
         defaultSlippage &&
           chainId &&
           defaultSlippage[chainId] &&
-          defaultSlippage[chainId].slippage / 100
+          defaultSlippage[chainId].slippage / 100,
       );
     }
   }, [chainId]);
 
   const handleChangeOrderType = (
     e: SyntheticEvent,
-    value: "market" | "limit"
+    value: "market" | "limit",
   ) => {
     setOrderType(value);
   };
@@ -138,7 +138,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
               defaultMessage="Please, switch to {networks}"
               values={{
                 networks: DEFAULT_ZRX_NETWORKS.map(
-                  (chain) => NETWORKS[chain].name
+                  (chain) => NETWORKS[chain].name,
                 ).join(", "),
               }}
             />
@@ -195,7 +195,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 defaultMessage="Please, switch to {networks}"
                 values={{
                   networks: DEFAULT_ZRX_NETWORKS.map(
-                    (chain) => NETWORKS[chain].name
+                    (chain) => NETWORKS[chain].name,
                   ).join(", "),
                 }}
               />

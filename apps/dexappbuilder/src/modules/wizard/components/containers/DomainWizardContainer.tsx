@@ -272,7 +272,8 @@ export default function DomainWizardContainer({
               >
                 <Stack direction={'row'} spacing={1}>
                   <Typography>
-                    <FormattedMessage id="status" defaultMessage="Status" />:{' '}
+                    <FormattedMessage id="status" defaultMessage="Status" />
+                    :{' '}
                   </Typography>
                   <Typography>{domainStatusText} </Typography>
                 </Stack>
@@ -351,7 +352,10 @@ export default function DomainWizardContainer({
             <Grid item xs={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
-                  <FormattedMessage id="a.record" defaultMessage="A Record" />{' '}
+                  <FormattedMessage
+                    id="a.record"
+                    defaultMessage="A Record"
+                  />{' '}
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
                   <Typography>

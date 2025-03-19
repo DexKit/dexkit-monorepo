@@ -12,7 +12,7 @@ interface Props {
 }
 
 function FeaturedCoinsChips({ chainId, onSelect }: Props) {
-  const coins = chainId ? FEATURED_COINS[chainId] ?? [] : [];
+  const coins = chainId ? (FEATURED_COINS[chainId] ?? []) : [];
 
   if (coins.length === 0) {
     return null;

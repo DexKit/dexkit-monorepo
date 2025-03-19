@@ -46,7 +46,7 @@ export function SwapSection({ section }: Props) {
       buyToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 
@@ -54,7 +54,7 @@ export function SwapSection({ section }: Props) {
       sellToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 
@@ -113,8 +113,8 @@ export function SwapSection({ section }: Props) {
               enableUrlParams && configParams?.configByChain
                 ? configParams.configByChain
                 : section.config?.configByChain
-                ? section.config?.configByChain
-                : {},
+                  ? section.config?.configByChain
+                  : {},
             currency: currency.currency,
             variant: section.config?.variant,
             enableUrlParams: enableUrlParams,

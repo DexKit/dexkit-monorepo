@@ -114,7 +114,7 @@ export default function MarketForm({
               baseToken.chainId === tk.chainId) ||
             (isAddressEqual(quoteToken.address, tk.address) &&
               quoteToken.chainId === tk.chainId)
-          )
+          ),
       );
     }
   }, [quoteToken, quoteTokens, baseToken]);
@@ -234,7 +234,7 @@ export default function MarketForm({
     if (side === "buy" && quote && quoteTokenBalance && quoteToken) {
       const total = formatBigNumber(
         BigNumber.from(quote.sellAmount),
-        quoteToken.decimals
+        quoteToken.decimals,
       );
 
       const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.sellAmount));
@@ -251,7 +251,7 @@ export default function MarketForm({
     ) {
       const total = formatBigNumber(
         BigNumber.from(quote.buyAmount),
-        quoteToken.decimals
+        quoteToken.decimals,
       );
 
       const hasAmount = baseTokenBalance.gte(BigNumber.from(quote.sellAmount));
@@ -587,14 +587,14 @@ export default function MarketForm({
         baseAmount={
           quote?.sellAmount
             ? BigNumber.from(
-                side === "buy" ? quote?.buyAmount : quote?.sellAmount
+                side === "buy" ? quote?.buyAmount : quote?.sellAmount,
               )
             : undefined
         }
         quoteAmount={
           quote?.sellAmount
             ? BigNumber.from(
-                side === "buy" ? quote?.sellAmount : quote?.buyAmount
+                side === "buy" ? quote?.sellAmount : quote?.buyAmount,
               )
             : undefined
         }

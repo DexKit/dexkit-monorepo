@@ -31,10 +31,10 @@ export const wizardStateAtom = atomWithStorage<WizardState>('wizardState', {
 
 export const collectionsAtom = focusAtom<WizardState, Collection[], void>(
   wizardStateAtom,
-  (o) => o.prop('collections')
+  (o) => o.prop('collections'),
 );
 
 export const tokensAtom = focusAtom<WizardState, Token[], void>(
   wizardStateAtom,
-  (o) => o.prop('tokens')
+  (o) => o.prop('tokens'),
 );

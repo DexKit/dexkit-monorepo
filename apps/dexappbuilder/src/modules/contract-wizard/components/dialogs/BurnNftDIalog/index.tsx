@@ -3,12 +3,12 @@ import { AppDialogTitle } from '@dexkit/ui/components';
 import { useBurnToken } from '@dexkit/ui/modules/evm-burn-nft/hooks';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Button,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
 } from '@mui/material';
 import { useContract } from '@thirdweb-dev/react';
 import { Field, Formik } from 'formik';

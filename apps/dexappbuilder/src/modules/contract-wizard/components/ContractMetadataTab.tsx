@@ -3,9 +3,9 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Box, CircularProgress, Grid } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {
-    useContract,
-    useContractMetadata,
-    useContractMetadataUpdate,
+  useContract,
+  useContractMetadata,
+  useContractMetadataUpdate,
 } from '@thirdweb-dev/react';
 import { ContractMetadataFormType } from '../types';
 import MetadataUpdateForm from './form/MetadataUpdateForm';

@@ -296,8 +296,8 @@ export function SectionsRenderer({ sections, layout }: Props) {
                   isMobile
                     ? 'horizontal'
                     : layout.layout?.desktop.position === 'side'
-                    ? 'vertical'
-                    : 'horizontal'
+                      ? 'vertical'
+                      : 'horizontal'
                 }
                 onChange={(e, value: string) => {
                   setTab(value);

@@ -1,7 +1,12 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { providers } from "ethers";
-import { BigNumber, Contract, ContractFactory, ContractInterface } from "ethers";
+import {
+  BigNumber,
+  Contract,
+  ContractFactory,
+  ContractInterface,
+} from "ethers";
 import { useSnackbar } from "notistack";
 import { useIntl } from "react-intl";
 
@@ -12,7 +17,6 @@ import axios from "axios";
 import { ChainId } from "@dexkit/core/constants";
 
 import { ETHER_SCAN_API_URL } from "../constants";
-
 
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
@@ -71,11 +75,7 @@ export function useContractCallMutation({
       let cb;
 
       if (call) {
-        contract = new Contract(
-          contractAddress,
-          abi,
-          provider?.getSigner()
-        );
+        contract = new Contract(contractAddress, abi, provider?.getSigner());
       } else {
         contract = new Contract(contractAddress, abi, currProvider);
       }
@@ -110,12 +110,12 @@ export function useContractCallMutation({
         enqueueSnackbar(
           formatMessage(
             { id: "error.err", defaultMessage: "Error: {err}" },
-            { err: String(err.code) }
+            { err: String(err.code) },
           ),
-          { variant: "error" }
+          { variant: "error" },
         );
       },
-    }
+    },
   );
 }
 
@@ -152,7 +152,7 @@ export function useContractDeployMutation({
       const factory = new ContractFactory(
         abi,
         contractBytecode,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       let result;
@@ -181,14 +181,14 @@ export function useContractDeployMutation({
         enqueueSnackbar(
           formatMessage(
             { id: "error.err", defaultMessage: "Error: {err}" },
-            { err: String(err.code) }
+            { err: String(err.code) },
           ),
-          { variant: "error" }
+          { variant: "error" },
         );
       }
 
       return result;
-    }
+    },
   );
 }
 
@@ -219,7 +219,7 @@ export function useCallOnMountFields({
           if (params.fields[field].callOnMount) {
             const cb = contract[field];
             const args = Object.keys(params.fields[field].input).map(
-              (key) => params.fields[field].input[key].defaultValue
+              (key) => params.fields[field].input[key].defaultValue,
             );
 
             let result = await cb(...args);
@@ -235,7 +235,7 @@ export function useCallOnMountFields({
     },
     {
       onSuccess,
-    }
+    },
   );
 }
 
@@ -268,7 +268,7 @@ export function useScanContractAbiMutation() {
             module: "contract",
             address: contractAddress,
           },
-        }
+        },
       );
 
       if (resp.data.message === "NOTOK") {
@@ -276,7 +276,7 @@ export function useScanContractAbiMutation() {
       }
 
       return JSON.parse(resp.data.result);
-    }
+    },
   );
 }
 
@@ -305,7 +305,7 @@ export function useContractCreation() {
             module: "contract",
             contractaddresses: contractAddress,
           },
-        }
+        },
       );
 
       if (resp.data.message === "NOTOK") {
@@ -313,7 +313,7 @@ export function useContractCreation() {
       }
 
       return resp.data.result;
-    }
+    },
   );
 }
 
@@ -357,7 +357,7 @@ export function useIfpsUploadMutation() {
 
         return res.data.IpfsHash;
       }
-    }
+    },
   );
 }
 
@@ -374,23 +374,27 @@ export function useServerUploadMutation() {
   });
 }
 
-
-
-
 export function useServerUploadMerkleTreeMutation() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async ({ content, merkleProof }: { content: string, merkleProof: string }) => {
-    if (instance) {
-      const res = await instance.post("/account-file/upload-merkle-tree", {
-        metadata: content,
-        merkleProof,
-      });
-      return res.data;
-    }
-  });
+  return useMutation(
+    async ({
+      content,
+      merkleProof,
+    }: {
+      content: string;
+      merkleProof: string;
+    }) => {
+      if (instance) {
+        const res = await instance.post("/account-file/upload-merkle-tree", {
+          metadata: content,
+          merkleProof,
+        });
+        return res.data;
+      }
+    },
+  );
 }
-
 
 export const IPFS_FILE_LIST_QUERY = "IPFS_FILE_LIST_QUERY";
 
@@ -412,7 +416,7 @@ export function useIpfsFileListQuery({
             "/account-file/ipfs/files",
             {
               params: { cursor: pageParam, limit: 12, onlyImages },
-            }
+            },
           )
         ).data;
       }
@@ -421,7 +425,7 @@ export function useIpfsFileListQuery({
     },
     {
       getNextPageParam: ({ nextCursor }) => nextCursor,
-    }
+    },
   );
 }
 
@@ -437,23 +441,23 @@ export function useFormConfigParamsQuery({
   return useQuery<FormConfigParams>(
     [FORM_CONFIG_PARAMS_QUERY, creator, contract],
     async () => {
-
-
       const result = (
-
-
         await axios.get(
-          `https://raw.githubusercontent.com/DexKit/assets/main/contracts/${creator}/${contract}.json`
+          `https://raw.githubusercontent.com/DexKit/assets/main/contracts/${creator}/${contract}.json`,
         )
       ).data;
 
       return result;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false },
   );
 }
 
-export function useDeployThirdWebContractMutation({ clientId }: { clientId: string }) {
+export function useDeployThirdWebContractMutation({
+  clientId,
+}: {
+  clientId: string;
+}) {
   const { provider, chainId } = useWeb3React();
   const [sdk, setSdk] = useState<ThirdwebSDK>();
 
@@ -484,12 +488,10 @@ export function useDeployThirdWebContractMutation({ clientId }: { clientId: stri
           return null;
         });
 
-
-
         const tx = await sdk.deployer.deployPublishedContract.prepare(
           metadata.publisher,
           metadata.name,
-          orderedParams
+          orderedParams,
         );
 
         const transaction = await tx.send();
@@ -506,7 +508,7 @@ export function useDeployThirdWebContractMutation({ clientId }: { clientId: stri
         }
         return { tx: transaction.hash, address: address };
       }
-    }
+    },
   );
 }
 
@@ -524,10 +526,9 @@ export default function useThirdwebContractMetadataQuery({
   return useQuery([THIRDWEB_CONTRACT_METADATA, id, creator], async () => {
     let publisher = "deployer.thirdweb.eth";
 
-    if (creator === 'blast' || creator === 'dexkit') {
-      publisher = '0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f';
+    if (creator === "blast" || creator === "dexkit") {
+      publisher = "0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f";
     }
-
 
     const contract = await new ThirdwebSDK("polygon", { clientId })
       .getPublisher()
@@ -538,7 +539,7 @@ export default function useThirdwebContractMetadataQuery({
 
       const result = (
         await axios.get<ThirdwebMetadata>(
-          normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io")
+          normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io"),
         )
       ).data;
 

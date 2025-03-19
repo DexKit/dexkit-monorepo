@@ -3,16 +3,16 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Search } from "@mui/icons-material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { ChangeEvent, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -76,7 +76,7 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
       .filter((asset) => {
         if (filters?.networks && filters?.networks.length) {
           return filters.networks.includes(
-            getNetworkSlugFromChainId(asset?.chainId) || ""
+            getNetworkSlugFromChainId(asset?.chainId) || "",
           );
         }
 

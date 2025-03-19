@@ -57,12 +57,12 @@ export function WalletOrders({ filter }: Props) {
         return {
           ...or,
           token: tokens.find(
-            (t) => or.erc20Token.toLowerCase() === t.address.toLowerCase()
+            (t) => or.erc20Token.toLowerCase() === t.address.toLowerCase(),
           ),
           asset: assets.find(
             (a) =>
               a.id === or.nftTokenId &&
-              a.contractAddress.toLowerCase() === or.nftToken.toLowerCase()
+              a.contractAddress.toLowerCase() === or.nftToken.toLowerCase(),
           ),
         };
       });

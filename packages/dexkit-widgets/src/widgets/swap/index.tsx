@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import { usePlatformCoinSearch } from "../../hooks/api";
 import { apiCoinToTokens } from "../../utils/api";
 const SwapSettingsDialog = dynamic(
-  () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog")
+  () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog"),
 );
 const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 
@@ -266,7 +266,7 @@ export function SwapWidget({
               (c) =>
                 c.name.toLowerCase().search(query?.toLowerCase()) > -1 ||
                 c.symbol.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.address.toLowerCase().search(query?.toLowerCase()) > -1
+                c.address.toLowerCase().search(query?.toLowerCase()) > -1,
             );
           }
 

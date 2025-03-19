@@ -3,13 +3,13 @@ import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Avatar,
-    Box,
-    Skeleton,
-    Stack,
-    TableCell,
-    TableRow,
-    Typography,
+  Avatar,
+  Box,
+  Skeleton,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import { FormattedNumber } from "react-intl";
 import { TokenBalance } from "../types";

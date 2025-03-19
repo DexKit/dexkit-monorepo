@@ -1,15 +1,14 @@
-
-import type { CreateConnectorFn } from 'wagmi';
-import { isHexString } from '../utils/colors';
-import { omitUndefinedValues } from '../utils/omitUndefinedValues';
-import { uniqueBy } from '../utils/uniqueBy';
+import type { CreateConnectorFn } from "wagmi";
+import { isHexString } from "../utils/colors";
+import { omitUndefinedValues } from "../utils/omitUndefinedValues";
+import { uniqueBy } from "../utils/uniqueBy";
 import type {
   RainbowKitWalletConnectParameters,
   Wallet,
   WalletDetailsParams,
   WalletList,
-} from './Wallet';
-import { computeWalletConnectMetaData } from './computeWalletConnectMetaData';
+} from "./Wallet";
+import { computeWalletConnectMetaData } from "./computeWalletConnectMetaData";
 
 interface WalletListItem extends Wallet {
   index: number;
@@ -38,7 +37,7 @@ export const connectorsForWallets = (
   }: ConnectorsForWalletsParameters,
 ): CreateConnectorFn[] => {
   if (!walletList.length) {
-    throw new Error('No wallet list was provided');
+    throw new Error("No wallet list was provided");
   }
 
   for (const { wallets, groupName } of walletList) {
@@ -97,7 +96,7 @@ export const connectorsForWallets = (
         index,
       };
 
-      if (typeof wallet.hidden === 'function') {
+      if (typeof wallet.hidden === "function") {
         potentiallyHiddenWallets.push(walletListItem);
       } else {
         visibleWallets.push(walletListItem);
@@ -110,7 +109,7 @@ export const connectorsForWallets = (
   // hidden wallets have access to the complete list of resolved wallets
   const walletListItems: WalletListItem[] = uniqueBy(
     [...visibleWallets, ...potentiallyHiddenWallets],
-    'id',
+    "id",
   );
 
   for (const {
@@ -120,7 +119,7 @@ export const connectorsForWallets = (
     hidden,
     ...walletMeta
   } of walletListItems) {
-    if (typeof hidden === 'function') {
+    if (typeof hidden === "function") {
       // Run the function to check if the wallet needs to be hidden
       const isHidden = hidden();
 
@@ -133,8 +132,8 @@ export const connectorsForWallets = (
     const walletMetaData = (
       // For now we should only use these as the additional parameters
       additionalRkParams?: Pick<
-        WalletDetailsParams['rkDetails'],
-        'isWalletConnectModalConnector' | 'showQrModal'
+        WalletDetailsParams["rkDetails"],
+        "isWalletConnectModalConnector" | "showQrModal"
       >,
     ) => {
       return {
@@ -152,7 +151,7 @@ export const connectorsForWallets = (
       };
     };
 
-    const isWalletConnectConnector = walletMeta.id === 'walletConnect';
+    const isWalletConnectConnector = walletMeta.id === "walletConnect";
 
     if (isWalletConnectConnector) {
       connectors.push(
@@ -169,10 +168,6 @@ export const connectorsForWallets = (
 
     connectors.push(connector);
   }
-
-
-
-
 
   return connectors;
 };

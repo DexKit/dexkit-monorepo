@@ -44,7 +44,7 @@ export function SearchNFT(props: Props) {
       onChange={(_change, value) => {
         if (value && !disabled) {
           const slug = Object.values(NETWORKS).find(
-            (n) => Number(n.chainId) === Number(value.chainId)
+            (n) => Number(n.chainId) === Number(value.chainId),
           )?.slug;
 
           router.push(`/asset/${slug}/${value.contractAddress}/${value.id}`);

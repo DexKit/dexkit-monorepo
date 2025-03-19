@@ -78,7 +78,7 @@ export default function ClaimAirdropDialog({
           address: a?.address?.toLowerCase(),
           maxClaimable: a?.maxClaimable,
         };
-      })
+      }),
     );
   };
 

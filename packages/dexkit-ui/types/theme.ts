@@ -1,8 +1,5 @@
-
-
-import z from 'zod';
-import { ReferenceSchema, ThemeSchema } from '../constants/theme';
-
+import z from "zod";
+import { ReferenceSchema, ThemeSchema } from "../constants/theme";
 
 export type ThemeType = z.infer<typeof ThemeSchema>;
 

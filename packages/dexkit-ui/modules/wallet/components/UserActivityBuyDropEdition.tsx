@@ -27,7 +27,7 @@ export default function UserActivityBuyDropEdition({
           collectionName: (
             <Link
               href={`${getBlockExplorerUrl(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/address/${collection}`}
             >
               <strong>{editionQuery.data?.name}</strong>

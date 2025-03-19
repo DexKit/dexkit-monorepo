@@ -68,7 +68,7 @@ function GenerateImagesDialog({
   const [selectedTab, setTab] = useState(tab ? tab : "select");
 
   const [varImgUrl, setVarImgUrl] = useState<string | undefined>(
-    image ? image : undefined
+    image ? image : undefined,
   );
 
   const {
@@ -93,7 +93,7 @@ function GenerateImagesDialog({
         setTab("edit");
       }
     },
-    []
+    [],
   );
 
   const { addGeneratedImages } = useGenerateImageContext();
@@ -115,7 +115,7 @@ function GenerateImagesDialog({
         }
       }
     },
-    [varImgUrl]
+    [varImgUrl],
   );
 
   const { data: sub, refetch: refetchSub } = useSubscription();
@@ -129,7 +129,7 @@ function GenerateImagesDialog({
 
       enqueueSnackbar(
         <FormattedMessage id="ai.activated" defaultMessage="AI Activated" />,
-        { variant: "success" }
+        { variant: "success" },
       );
 
       await refetchSub();
@@ -230,8 +230,8 @@ function GenerateImagesDialog({
         .minus(new Decimal(activeFeatUsageQuery.data?.used))
         .add(
           new Decimal(sub?.creditsAvailable).minus(
-            new Decimal(sub?.creditsUsed)
-          )
+            new Decimal(sub?.creditsUsed),
+          ),
         )
         .toNumber();
     }
@@ -241,7 +241,7 @@ function GenerateImagesDialog({
 
   const handleCloseConfirm = (
     event: {},
-    reason: "backdropClick" | "escapeKeyDown"
+    reason: "backdropClick" | "escapeKeyDown",
   ) => {
     if (reason !== "backdropClick") {
       if (onClose) {
@@ -350,7 +350,7 @@ function GenerateImagesDialog({
 }
 
 export default function GenerateImagesDialogWrapper(
-  props: GenerateImagesDialogProps
+  props: GenerateImagesDialogProps,
 ) {
   return (
     <ImagesContextProvider>

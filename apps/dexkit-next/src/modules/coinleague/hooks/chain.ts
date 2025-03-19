@@ -11,8 +11,8 @@ export const useLeaguesChainInfo = () => {
     router.query?.network === NETWORKS[ChainId.Polygon].name.toLowerCase()
       ? ChainId.Polygon
       : router.query?.network === NETWORKS[ChainId.BSC].name.toLowerCase()
-      ? ChainId.BSC
-      : null;
+        ? ChainId.BSC
+        : null;
   const chainId = GET_LEAGUES_CHAIN_ID(chainFromSearch || walletChainId);
 
   const coinSymbol = NETWORKS[chainId].symbol;

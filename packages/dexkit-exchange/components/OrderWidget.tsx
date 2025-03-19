@@ -44,7 +44,7 @@ export interface OrderWidgetProps {
     baseTokenSymbol?: string,
     quoteTokenSymbol?: string,
     baseTokenAmount?: string,
-    quoteTokenAmount?: string
+    quoteTokenAmount?: string,
   ) => void;
   chainId?: ChainId;
   provider?: providers.Web3Provider;
@@ -167,14 +167,14 @@ export default function OrderWidget({
   const makerTokenAmount = useMemo(() => {
     return formatBigNumber(
       BigNumber.from(record.order.makerAmount),
-      makerToken?.decimals
+      makerToken?.decimals,
     );
   }, [record, makerToken]);
 
   const takerTokenAmount = useMemo(() => {
     return formatBigNumber(
       BigNumber.from(record.order.takerAmount),
-      takerToken?.decimals
+      takerToken?.decimals,
     );
   }, [record, takerToken]);
 
@@ -182,12 +182,12 @@ export default function OrderWidget({
     const amountToBeFilled = BigNumber.from(record.order.takerAmount);
 
     const remainingFillableAmount = BigNumber.from(
-      record.metaData.remainingFillableTakerAmount
+      record.metaData.remainingFillableTakerAmount,
     );
 
     return formatBigNumber(
       amountToBeFilled.sub(remainingFillableAmount),
-      takerToken?.decimals
+      takerToken?.decimals,
     );
   }, [takerToken, record]);
 
@@ -195,7 +195,7 @@ export default function OrderWidget({
     const amountToBeFilled = BigNumber.from(record.order.takerAmount);
 
     const remainingFillableAmount = BigNumber.from(
-      record.metaData.remainingFillableTakerAmount
+      record.metaData.remainingFillableTakerAmount,
     );
 
     return amountToBeFilled.sub(remainingFillableAmount);
@@ -251,7 +251,7 @@ export default function OrderWidget({
     return () => {
       const result = new BigNumberUtils().multiply(
         remainingFillableAmount,
-        percentage
+        percentage,
       );
 
       setValue(formatUnits(result, takerToken?.decimals));

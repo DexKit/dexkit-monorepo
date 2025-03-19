@@ -1,4 +1,4 @@
-const storageKey = 'dexappbuilder-recent';
+const storageKey = "dexappbuilder-recent";
 
 function safeParseJsonArray<T>(string: string | null): T[] {
   try {
@@ -10,7 +10,7 @@ function safeParseJsonArray<T>(string: string | null): T[] {
 }
 
 export function getRecentWalletIds(): string[] {
-  return typeof localStorage !== 'undefined'
+  return typeof localStorage !== "undefined"
     ? safeParseJsonArray(localStorage.getItem(storageKey))
     : [];
 }

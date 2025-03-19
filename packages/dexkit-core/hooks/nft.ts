@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { utils } from "ethers";
 
-import type { providers } from 'ethers';
+import type { providers } from "ethers";
 
 import { ERC721Abi } from "../constants/abis";
 import { Nft, NftMetadata } from "../types/nft";
@@ -68,7 +68,7 @@ export function useNftQuery({
         chainId,
       } as Nft;
     },
-    { enabled: tokenId !== undefined && contractAddress !== undefined }
+    { enabled: tokenId !== undefined && contractAddress !== undefined },
   );
 }
 
@@ -84,6 +84,6 @@ export function useNftMetadataQuery({ tokenURI }: { tokenURI?: string }) {
 
       return (await axios.get<NftMetadata>(tokenURI)).data;
     },
-    { enabled: Boolean(tokenURI) }
+    { enabled: Boolean(tokenURI) },
   );
 }

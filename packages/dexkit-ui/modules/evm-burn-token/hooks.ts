@@ -44,7 +44,7 @@ export function useNftBurn({
       }
 
       return sentTx;
-    }
+    },
   );
 }
 
@@ -57,7 +57,7 @@ export function useBurnToken({
     hash: string,
     quantity: string,
     name: string,
-    symbol: string
+    symbol: string,
   ) => void;
 }) {
   const { data: contract } = useContract(contractAddress, "token");

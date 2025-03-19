@@ -1,27 +1,27 @@
 import DeployContractDialog from '@/modules/forms/components/DeployContractDialog';
 import {
-    useFormTemplateQuery,
-    useListTemplateInstances,
+  useFormTemplateQuery,
+  useListTemplateInstances,
 } from '@/modules/forms/hooks';
 import ShareIcon from '@mui/icons-material/Share';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    NoSsr,
-    Paper,
-    Skeleton,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  NoSsr,
+  Paper,
+  Skeleton,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
@@ -29,9 +29,9 @@ import { FormattedMessage } from 'react-intl';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import {
-    getBlockExplorerUrl,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils';
 import ShareDialog from '@dexkit/ui/components/dialogs/ShareDialog';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ import { getChainName } from '@dexkit/core/utils/blockchain';
 import { getWindowUrl } from '@dexkit/core/utils/browser';
 import Link from '@dexkit/ui/components/AppLink';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -102,8 +102,9 @@ export default function TemplatePage() {
           maxWidth: 'sm',
           fullWidth: true,
         }}
-        url={`${getWindowUrl()}/forms/contract-templates/${formTemplateQuery
-          .data?.id}`}
+        url={`${getWindowUrl()}/forms/contract-templates/${
+          formTemplateQuery.data?.id
+        }`}
       />
       <Container>
         <Stack spacing={2}>

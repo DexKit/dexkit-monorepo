@@ -36,7 +36,7 @@ export class ZeroExApiClient {
 
   async quote(
     quote: ZeroExQuote,
-    { signal }: { signal?: AbortSignal }
+    { signal }: { signal?: AbortSignal },
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(ZEROEX_QUOTE_ENDPOINT, {
       params: quote,
@@ -62,7 +62,7 @@ export class ZeroExApiClient {
       {
         signal,
         params: { trader },
-      }
+      },
     );
     return resp.data;
   }

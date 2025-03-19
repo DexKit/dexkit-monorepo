@@ -19,8 +19,6 @@ export function usePositionPaginator(pageSize = 5) {
   return { position, handleNext, handlePrevious, pageSize };
 }
 
-
-
 export function useIsMobile() {
   const theme = useTheme();
 

@@ -57,7 +57,7 @@ function OffersTableRow({
   const tokens = useTokenList({ chainId: parseInt(chainId || "0") });
 
   const token = tokens.find((t) =>
-    isAddressEqual(t.address, order?.erc20Token)
+    isAddressEqual(t.address, order?.erc20Token),
   );
 
   const elRef = useRef<HTMLElement | null>(null);
@@ -132,7 +132,7 @@ function OffersTableRow({
           href={
             chainId !== undefined
               ? `${getBlockExplorerUrl(
-                  parseInt(chainId)
+                  parseInt(chainId),
                 )}/address/${order?.maker}`
               : "/"
           }

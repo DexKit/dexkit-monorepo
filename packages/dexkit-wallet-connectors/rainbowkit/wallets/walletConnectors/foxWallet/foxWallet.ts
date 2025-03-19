@@ -1,9 +1,9 @@
-import { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { DefaultWalletOptions, Wallet } from "../../Wallet";
 import {
   getInjectedConnector,
   hasInjectedProvider,
-} from '../../getInjectedConnector';
-import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+} from "../../getInjectedConnector";
+import { getWalletConnectConnector } from "../../getWalletConnectConnector";
 
 export type FoxWalletOptions = DefaultWalletOptions;
 
@@ -12,20 +12,20 @@ export const foxWallet = ({
   walletConnectParameters,
 }: FoxWalletOptions): Wallet => {
   const isFoxInjected = hasInjectedProvider({
-    namespace: 'foxwallet.ethereum',
+    namespace: "foxwallet.ethereum",
   });
   const shouldUseWalletConnect = !isFoxInjected;
 
   return {
-    id: 'foxwallet',
-    name: 'FoxWallet',
-    iconUrl: async () => (await import('./foxWallet.svg')).default,
-    iconBackground: '#fff',
+    id: "foxwallet",
+    name: "FoxWallet",
+    iconUrl: async () => (await import("./foxWallet.svg")).default,
+    iconBackground: "#fff",
     downloadUrls: {
       android:
-        'https://play.google.com/store/apps/details?id=com.foxwallet.play',
-      ios: 'https://apps.apple.com/app/foxwallet-crypto-web3/id1590983231',
-      qrCode: 'https://foxwallet.com/download',
+        "https://play.google.com/store/apps/details?id=com.foxwallet.play",
+      ios: "https://apps.apple.com/app/foxwallet-crypto-web3/id1590983231",
+      qrCode: "https://foxwallet.com/download",
     },
     mobile: {
       getUri: shouldUseWalletConnect
@@ -38,23 +38,23 @@ export const foxWallet = ({
       ? {
           getUri: (uri: string) => uri,
           instructions: {
-            learnMoreUrl: 'https://foxwallet.com',
+            learnMoreUrl: "https://foxwallet.com",
             steps: [
               {
-                description: 'wallet_connectors.fox.qr_code.step1.description',
-                step: 'install',
-                title: 'wallet_connectors.fox.qr_code.step1.title',
+                description: "wallet_connectors.fox.qr_code.step1.description",
+                step: "install",
+                title: "wallet_connectors.fox.qr_code.step1.title",
               },
               {
-                description: 'wallet_connectors.fox.qr_code.step2.description',
+                description: "wallet_connectors.fox.qr_code.step2.description",
 
-                step: 'create',
-                title: 'wallet_connectors.fox.qr_code.step2.title',
+                step: "create",
+                title: "wallet_connectors.fox.qr_code.step2.title",
               },
               {
-                description: 'wallet_connectors.fox.qr_code.step3.description',
-                step: 'scan',
-                title: 'wallet_connectors.fox.qr_code.step3.title',
+                description: "wallet_connectors.fox.qr_code.step3.description",
+                step: "scan",
+                title: "wallet_connectors.fox.qr_code.step3.title",
               },
             ],
           },
@@ -65,6 +65,6 @@ export const foxWallet = ({
           projectId,
           walletConnectParameters,
         })
-      : getInjectedConnector({ namespace: 'foxwallet.ethereum' }),
+      : getInjectedConnector({ namespace: "foxwallet.ethereum" }),
   };
 };

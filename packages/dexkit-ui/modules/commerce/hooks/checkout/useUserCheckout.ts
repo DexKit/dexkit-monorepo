@@ -24,6 +24,6 @@ export default function useUserCheckout({ id }: { id?: string }) {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

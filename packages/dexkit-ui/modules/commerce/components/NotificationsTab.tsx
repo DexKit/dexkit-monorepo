@@ -40,7 +40,7 @@ export default function NotificationsTab() {
   };
 
   const handleChangeRowsPerPage = async (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFilter((values) => ({
       ...values,
@@ -68,7 +68,7 @@ export default function NotificationsTab() {
         />,
         {
           variant: "success",
-        }
+        },
       );
       await refetch();
     } catch (err) {

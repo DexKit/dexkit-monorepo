@@ -55,7 +55,7 @@ export default function AdminSidebarMenu({
     (menu: string) => {
       return Boolean(openMenus[menu]);
     },
-    [openMenus]
+    [openMenus],
   );
 
   const renderOptions = () => {

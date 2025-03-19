@@ -4,27 +4,24 @@ import { getDKCoinPrices } from "../../services/currency";
 import { useTokenList } from "../blockchain";
 import { useCurrency } from "../currency";
 
-const GET_DK_COIN_PRICES = 'GET_DK_COIN_PRICES';
+const GET_DK_COIN_PRICES = "GET_DK_COIN_PRICES";
 
 export const useCoinPricesQuery = ({
   includeNative,
   chainId,
 }: {
   includeNative: boolean;
-  chainId?: number
+  chainId?: number;
 }) => {
   const { chainId: walletChainId } = useWeb3React();
-  const chain = chainId || walletChainId
+  const chain = chainId || walletChainId;
 
   const tokens = useTokenList({ chainId: chain });
   const { currency } = useCurrency();
   return useQuery(
     [GET_DK_COIN_PRICES, chain, tokens, currency],
     async () => {
-      if (
-        chain === undefined ||
-        (tokens === undefined && !includeNative)
-      ) {
+      if (chain === undefined || (tokens === undefined && !includeNative)) {
         return;
       }
       const prices: { [key: string]: { [key: string]: number } } = {};
@@ -46,29 +43,30 @@ export const useCoinPricesQuery = ({
         return prices;
       }
       const contractAddresses = tokens.map((t) => t.address);
-      const dkPrices = await getDKCoinPrices({ chainId: chain, contractAddresses, currency })
-      const tokenPrices = {
-
-      }
+      const dkPrices = await getDKCoinPrices({
+        chainId: chain,
+        contractAddresses,
+        currency,
+      });
+      const tokenPrices = {};
       for (let index = 0; index < dkPrices.tokens.length; index++) {
         const element = dkPrices.tokens[index];
         //@ts-ignore
         tokenPrices[`${element.tokenAddress.toLowerCase()}`] = {
-          [`${currency}`]: Number(element.usdPrice) * Number(dkPrices.currencyUSDRatio)
-        }
+          [`${currency}`]:
+            Number(element.usdPrice) * Number(dkPrices.currencyUSDRatio),
+        };
       }
 
       if (includeNative) {
         if (dkPrices.tokens) {
-
         }
-
       }
 
-
-
-      return { ...prices, ...tokenPrices } as { [key: string]: { [key: string]: number } };
+      return { ...prices, ...tokenPrices } as {
+        [key: string]: { [key: string]: number };
+      };
     },
-    { enabled: chain !== undefined, suspense: false }
+    { enabled: chain !== undefined, suspense: false },
   );
 };

@@ -1,15 +1,15 @@
 import { getBlockExplorerUrl } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Avatar,
-    Button,
-    CircularProgress,
-    Icon,
-    Link,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText,
+  Avatar,
+  Button,
+  CircularProgress,
+  Icon,
+  Link,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { FormattedMessage } from "react-intl";

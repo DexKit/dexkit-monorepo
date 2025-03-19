@@ -44,7 +44,7 @@ export default function EvmApproveToken({
       quantity: string,
       spender: string,
       name: string,
-      symbol: string
+      symbol: string,
     ) => {
       if (hash && chainId) {
         createNotification({
@@ -75,7 +75,7 @@ export default function EvmApproveToken({
           symbol: token?.symbol,
           spender: spender,
           name: token?.name,
-        }
+        },
       );
     }
 

@@ -24,7 +24,7 @@ export default function ContainerProvider({
     (key: string) => {
       return params[key];
     },
-    [params]
+    [params],
   );
 
   const handleSet = useCallback(
@@ -34,14 +34,14 @@ export default function ContainerProvider({
         return params;
       });
     },
-    [params]
+    [params],
   );
 
   const handleSetContainer = useCallback(
     (
       containerId: string,
       params?: { [key: string]: string },
-      options?: { activeMenu?: boolean }
+      options?: { activeMenu?: boolean },
     ) => {
       setContainerId(containerId);
 
@@ -55,7 +55,7 @@ export default function ContainerProvider({
 
       setHistory((history) => [...history, { containerId, params }]);
     },
-    []
+    [],
   );
 
   const handleGoBack = useCallback(() => {

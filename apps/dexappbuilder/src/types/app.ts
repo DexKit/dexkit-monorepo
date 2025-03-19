@@ -2,7 +2,6 @@ import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { Asset } from '@dexkit/ui/modules/nft/types';
 import { Token, Transaction } from './blockchain';
 
-
 export interface AppState {
   transactions: { [hash: string]: Transaction };
   tokens: Token[];
@@ -14,11 +13,18 @@ export interface AppState {
   localeUser: string;
   assets: { [key: string]: Asset };
   accountAssets: {
-    data?: { network?: string, assets?: Asset[], account?: string, total?: number, page?: number, perPage?: number; }[]
+    data?: {
+      network?: string;
+      assets?: Asset[];
+      account?: string;
+      total?: number;
+      page?: number;
+      perPage?: number;
+    }[];
     lastTimeFetched?: {
-      query: string,
-      time: number
-    }
+      query: string;
+      time: number;
+    };
   };
   hiddenAssets: { [key: string]: boolean };
 }

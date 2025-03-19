@@ -34,7 +34,7 @@ function CheckoutGeneralSettingsFormBase({
           id="general.settings.updated"
           defaultMessage="General settings updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
     } catch (err) {
       enqueueSnackbar(String(err), { variant: "error" });

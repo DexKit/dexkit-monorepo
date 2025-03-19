@@ -69,7 +69,7 @@ export default function NftsTab() {
     let obj: { [key: number]: boolean } = {};
 
     for (let key of Object.keys(NETWORKS).filter(
-      (key) => !NETWORKS[parseChainId(key)].testnet
+      (key) => !NETWORKS[parseChainId(key)].testnet,
     )) {
       obj[parseChainId(key)] = true;
     }
@@ -106,7 +106,7 @@ export default function NftsTab() {
         };
       });
     },
-    []
+    [],
   );
 
   const { account, provider, chainId } = useWeb3React();
@@ -126,7 +126,7 @@ export default function NftsTab() {
   };
 
   const handleChangeShowHidden = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSHowHidden((value) => !value);
   };
@@ -163,7 +163,7 @@ export default function NftsTab() {
       const temp = [...accounts];
 
       const index = temp.findIndex((c) =>
-        isAddressEqual(c.address, account.address)
+        isAddressEqual(c.address, account.address),
       );
 
       if (index > -1) {

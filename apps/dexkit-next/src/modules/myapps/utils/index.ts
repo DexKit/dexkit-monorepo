@@ -53,7 +53,7 @@ export async function signWhitelabelData({
   const messageString = ethers.utils._TypedDataEncoder.getPayload(
     domain,
     types,
-    value
+    value,
   );
 
   const signature = await signer._signTypedData(domain, types, value);
@@ -72,7 +72,7 @@ export async function signWhitelabelData({
 
 export function getSignMessage(
   context: 'edit' | 'delete' | 'addDomain',
-  type: AppWhitelabelType
+  type: AppWhitelabelType,
 ) {
   if (type === AppWhitelabelType.MARKETPLACE) {
     if (context === 'edit') {

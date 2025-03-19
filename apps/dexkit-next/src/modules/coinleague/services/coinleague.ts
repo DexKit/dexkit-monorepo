@@ -20,7 +20,7 @@ export const getCoinLeagueGame = async (chainId: ChainId, id: number) => {
       GET_GAME_QUERY,
       {
         id,
-      }
+      },
     )
   ).game;
 };
@@ -28,7 +28,7 @@ export const getCoinLeagueGame = async (chainId: ChainId, id: number) => {
 export async function getCoinLeagueGameOnChain(
   provider: ethers.providers.BaseProvider,
   factoryAddress: string,
-  id: string
+  id: string,
 ) {
   const contract = await getCoinLeagueV3Contract(factoryAddress, provider);
 
@@ -101,7 +101,7 @@ export async function getCoinLeagueGameOnChain(
 export async function getCurrentCoinPrice(
   provider: ethers.providers.BaseProvider,
   factoryAddress: string,
-  tokenAddress: string
+  tokenAddress: string,
 ) {
   const contract = await getCoinLeagueV3Contract(factoryAddress, provider);
 
@@ -112,12 +112,12 @@ export async function claimGame(
   provider: ethers.providers.BaseProvider,
   factoryAddress: string,
   account?: string,
-  id?: string
+  id?: string,
 ) {
   const contract = await getCoinLeagueV3Contract(
     factoryAddress,
     provider,
-    true
+    true,
   );
 
   return await contract.claim(account, id);

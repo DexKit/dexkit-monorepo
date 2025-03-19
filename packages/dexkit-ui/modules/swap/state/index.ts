@@ -1,9 +1,8 @@
 import { atomWithStorage } from "jotai/utils";
 
-
 export const isAutoSlippageAtom = atomWithStorage<boolean>(
-  'isAutoSlippage',
-  true
+  "isAutoSlippage",
+  true,
 );
 
-export const maxSlippageAtom = atomWithStorage<number>('maxSlippage', 0.0);
+export const maxSlippageAtom = atomWithStorage<number>("maxSlippage", 0.0);

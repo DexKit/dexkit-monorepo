@@ -60,7 +60,7 @@ export default function KittygotchiCard({ id, chainId }: Props) {
           <Stack>
             <Link
               href={`${getBlockExplorerUrl(
-                chainId
+                chainId,
               )}/address/${GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}`}
               variant="caption"
               sx={{

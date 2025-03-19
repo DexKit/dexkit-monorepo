@@ -111,7 +111,7 @@ export default function ContractFormView({ params }: Props) {
 
       await callOnMountQuery.refetch();
     },
-    [chainId, params.chainId, callOnMountQuery, rpcProvider]
+    [chainId, params.chainId, callOnMountQuery, rpcProvider],
   );
 
   const handleConfirm = useCallback(
@@ -121,7 +121,7 @@ export default function ContractFormView({ params }: Props) {
         await contractCallMutation.mutateAsync({ ...callParams, value });
       }
     },
-    [callParams]
+    [callParams],
   );
 
   const handleClose = () => {

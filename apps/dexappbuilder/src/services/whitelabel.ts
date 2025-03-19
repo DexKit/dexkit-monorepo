@@ -2,16 +2,19 @@ import type { CollectionOwnershipNFTFormType } from '@/modules/contract-wizard/t
 import { myAppsApi as myAppsApiUI } from '@dexkit/ui/constants/api';
 import type { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { getAccessToken, getAccessTokenAndRefresh, getRefreshAccessToken } from '@dexkit/ui/services/auth';
+import {
+  getAccessToken,
+  getAccessTokenAndRefresh,
+  getRefreshAccessToken,
+} from '@dexkit/ui/services/auth';
 import axios from 'axios';
 import type {
   ConfigResponse,
   PageTemplateFormData,
   PageTemplateResponse,
   SiteResponse,
-  WhitelabelFormData
+  WhitelabelFormData,
 } from '../types/whitelabel';
-
 
 //const MY_APPS_ENDPOINT = 'https://dexkitapi-8oo4v.ondigitalocean.app';
 //const MY_APPS_ENDPOINT = 'http://localhost:3001';
@@ -25,8 +28,6 @@ import type {
  */
 
 export const myAppsApi = myAppsApiUI;
-
-
 
 export const testAppsApi = axios.create({
   baseURL: 'http://localhost:3001',
@@ -52,7 +53,7 @@ testAppsApi.interceptors.request.use(
     } catch {
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 testAppsApi.interceptors.response.use(
@@ -69,7 +70,7 @@ testAppsApi.interceptors.response.use(
       return Promise.reject(error);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 /*myAppsApi.interceptors.request.use(
@@ -135,7 +136,7 @@ export async function getConfigsByOwner(owner: string) {
  */
 export async function getPageTemplateById(id: string) {
   return await myAppsApi.get<PageTemplateResponse>(
-    `/site/page-template/id/${id}`
+    `/site/page-template/id/${id}`,
   );
 }
 
@@ -146,7 +147,7 @@ export async function getPageTemplateById(id: string) {
  */
 export async function getPageTemplatesByOwner(owner: string) {
   return await myAppsApi.get<PageTemplateResponse[]>(
-    `/site/page-template/${owner}`
+    `/site/page-template/${owner}`,
   );
 }
 
@@ -231,8 +232,12 @@ export async function getProtectedAppConfig(queryParameters: {
   slug?: string;
   appPage?: string;
 }) {
-
-  return await myAppsApi.get<{ sections: AppPageSection[], result: boolean, balances: { [key: number]: string }, partialResults: { [key: number]: boolean } }>(`/site/protected`, {
+  return await myAppsApi.get<{
+    sections: AppPageSection[];
+    result: boolean;
+    balances: { [key: number]: string };
+    partialResults: { [key: number]: boolean };
+  }>(`/site/protected`, {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,
@@ -277,8 +282,7 @@ export async function getTemplateSites(queryParameters: {
  * @returns
  */
 export async function getSiteMetadata({ slug }: { slug: string }) {
-  return await myAppsApi.get<SiteResponse>(`/site/metadata/${slug}`
-  );
+  return await myAppsApi.get<SiteResponse>(`/site/metadata/${slug}`);
 }
 
 export async function deleteConfig(slug: string) {
@@ -289,7 +293,7 @@ export async function deleteConfig(slug: string) {
 
 export async function deletePageTemplate(id: string) {
   return await myAppsApi.delete<PageTemplateResponse[]>(
-    `/site/page-template/${id}`
+    `/site/page-template/${id}`,
   );
 }
 
@@ -318,20 +322,20 @@ export async function setupDomainConfig(domain: string) {
 
 export async function upsertWhitelabelAsset(
   siteId: number,
-  nft: CollectionOwnershipNFTFormType
+  nft: CollectionOwnershipNFTFormType,
 ) {
   return await myAppsApi.post<ConfigResponse[]>(
     `/contract/upsert/whitelabel/asset`,
-    { siteId, nft }
+    { siteId, nft },
   );
 }
 
 export async function upsertSiteMetadata(
   siteId: number,
-  siteMedata: SiteMetadata
+  siteMedata: SiteMetadata,
 ) {
   return await myAppsApi.post<SiteResponse[]>(
     `/site/upsert/metadata/${siteId}`,
-    { ...siteMedata }
+    { ...siteMedata },
   );
 }

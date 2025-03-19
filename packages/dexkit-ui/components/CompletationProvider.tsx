@@ -73,7 +73,7 @@ export default function CompletationProvider({
         </InputAdornment>
       );
     },
-    [handleOpenComp]
+    [handleOpenComp],
   );
 
   const getPromptByAction = useCallback(
@@ -91,7 +91,7 @@ export default function CompletationProvider({
           return `Make this text longer: "${prompt}".`;
       }
     },
-    []
+    [],
   );
 
   const handleGenerate = useCallback(
@@ -119,7 +119,7 @@ export default function CompletationProvider({
         }
       }
     },
-    [getPromptByAction, setDefaultPrompt, setOpenMediaDialog]
+    [getPromptByAction, setDefaultPrompt, setOpenMediaDialog],
   );
 
   const handleConfirmCompletation = useCallback(async () => {

@@ -28,6 +28,6 @@ export default function useCollectionsBySite(params: {
         }>(`/product-collections/by-site/${params.siteId}`, { params })
       ).data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 }

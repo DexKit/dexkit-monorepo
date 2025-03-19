@@ -75,7 +75,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
       amountUnit: GET_GAME_LEVEL_AMOUNTS(
         values.gameLevel,
         chainId,
-        coinToPlay?.address
+        coinToPlay?.address,
       ),
       coin_to_play: coinToPlay?.address || '',
       startTimestamp: values.startDate / 1000,
@@ -97,7 +97,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
 
   const handleChangeStartDate = (
     newValue: Moment | null,
-    keyboardInputValue?: string | undefined
+    keyboardInputValue?: string | undefined,
   ) => {
     form.setFieldValue('startDate', newValue?.toDate().getTime());
   };

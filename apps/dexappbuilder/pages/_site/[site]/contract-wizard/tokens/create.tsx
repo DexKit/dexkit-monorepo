@@ -4,26 +4,26 @@ import { useCreateToken } from '@/modules/contract-wizard/hooks';
 import { TokenForm } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Grid,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import type {
-    GetStaticPaths,
-    GetStaticPathsContext,
-    GetStaticProps,
-    GetStaticPropsContext,
-    NextPage,
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  NextPage,
 } from 'next';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';

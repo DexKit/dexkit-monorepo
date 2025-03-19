@@ -1,5 +1,5 @@
-import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
-import { providers } from 'ethers';
+import { getChainIdFromSlug } from "@dexkit/core/utils/blockchain";
+import { providers } from "ethers";
 
 export function getProviderBySlug(slug: string) {
   const network = getChainIdFromSlug(slug);

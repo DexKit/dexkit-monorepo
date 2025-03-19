@@ -20,8 +20,10 @@ export default function useProductContent({
       throw new Error("no instance");
     }
 
-    return (await instance.get<{ content: string }>(
-      `/orders/${orderId}/content/${productId}`
-    )).data;
+    return (
+      await instance.get<{ content: string }>(
+        `/orders/${orderId}/content/${productId}`,
+      )
+    ).data;
   });
 }

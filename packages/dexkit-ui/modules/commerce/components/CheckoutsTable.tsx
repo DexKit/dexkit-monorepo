@@ -26,7 +26,7 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import useParams from "./containers/hooks/useParams";
 
 const AppConfirmDialog = dynamic(
-  () => import("@dexkit/ui/components/AppConfirmDialog")
+  () => import("@dexkit/ui/components/AppConfirmDialog"),
 );
 
 export interface CheckoutsTableProps {
@@ -90,7 +90,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
             id="checkout.deleted"
             defaultMessage="Checkout deleted"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirm(false);
         setSelectedId(undefined);
@@ -267,7 +267,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <ShoppingCartCheckoutIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
             loadingOverlay: LoadingOverlay,
             noResultsOverlay: noRowsOverlay(
@@ -281,7 +281,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <ShoppingCartCheckoutIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
           }}
         />

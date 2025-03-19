@@ -163,7 +163,7 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
             />,
             <Box sx={{ fontSize: "3rem" }}>
               <AssignmentIcon fontSize="inherit" />
-            </Box>
+            </Box>,
           ),
           loadingOverlay: LoadingOverlay,
           noResultsOverlay: noRowsOverlay(
@@ -174,7 +174,7 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
             />,
             <Box sx={{ fontSize: "3rem" }}>
               <AssignmentIcon fontSize="inherit" />
-            </Box>
+            </Box>,
           ),
         }}
       />

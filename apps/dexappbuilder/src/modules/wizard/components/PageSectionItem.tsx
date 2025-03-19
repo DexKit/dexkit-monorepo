@@ -129,8 +129,8 @@ export function PageSectionItem({
         {item.type === 'asset'
           ? renderAsset()
           : item.type === 'collection'
-          ? renderCollection()
-          : null}
+            ? renderCollection()
+            : null}
       </CardContent>
       <CardActions>
         <Button onClick={() => onEdit(index)} startIcon={<Edit />} size="small">

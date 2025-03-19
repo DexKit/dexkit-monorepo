@@ -33,7 +33,7 @@ export default function AppTransactionsDialog({
 
   const transactionList = useMemo(() => {
     return Object.keys(transactions as { [key: string]: Transaction }).map(
-      (key) => (transactions as { [key: string]: Transaction })[key]
+      (key) => (transactions as { [key: string]: Transaction })[key],
     );
   }, [transactions]);
 

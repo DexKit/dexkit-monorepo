@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 const CodeSection = dynamic(() => import("./sections/CodeSection"));
 const CollectionSection = dynamic(() => import("./sections/CollectionSection"));
 const DexGeneratorSection = dynamic(
-  () => import("./sections/DexGeneratorSection")
+  () => import("./sections/DexGeneratorSection"),
 );
 const AssetSection = dynamic(() => import("./sections/AssetSection"));
 const RankingSection = dynamic(() => import("./sections/RankingSection"));
@@ -17,11 +17,11 @@ const AssetStoreSection = dynamic(() => import("./sections/AssetStoreSection"));
 const MDSection = dynamic(() => import("./sections/MDSection"));
 
 const CallToActionSection = dynamic(
-  () => import("./sections/CallToActionSection")
+  () => import("./sections/CallToActionSection"),
 );
 const WalletSection = dynamic(() => import("./sections/WalletSection"));
 const CollectionsSection = dynamic(
-  () => import("./sections/CollectionsSection")
+  () => import("./sections/CollectionsSection"),
 );
 const CustomSection = dynamic(() => import("./sections/CustomSection"));
 const FeaturedSection = dynamic(() => import("./sections/FeaturedSection"));
@@ -30,11 +30,11 @@ const VideoSection = dynamic(() => import("./sections/VideoSection"));
 
 const ContractSection = dynamic(() => import("./sections/ContractSection"));
 const UserContractSection = dynamic(
-  () => import("./sections/UserContractSection")
+  () => import("./sections/UserContractSection"),
 );
 
 const CommerceSection = dynamic(
-  () => import("@dexkit/ui/modules/commerce/components/CommerceSection")
+  () => import("@dexkit/ui/modules/commerce/components/CommerceSection"),
 );
 
 interface Props {

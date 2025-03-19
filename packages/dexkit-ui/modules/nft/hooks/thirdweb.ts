@@ -55,6 +55,6 @@ export function useEdition({
         name: results[0] as string,
         symbol: results[1] as string,
       };
-    }
+    },
   );
 }

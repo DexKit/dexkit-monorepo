@@ -1,12 +1,11 @@
-
-import { ChainId, CoinTypes } from '@dexkit/core/constants';
-import { ERC20Abi } from '@dexkit/core/constants/abis';
-import { NETWORK_PROVIDER } from '@dexkit/core/constants/networkProvider';
-import { Coin, EvmCoin } from '@dexkit/core/types';
-import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
-import { useMutation } from '@tanstack/react-query';
-import type { providers } from 'ethers';
-import { Contract } from 'ethers';
+import { ChainId, CoinTypes } from "@dexkit/core/constants";
+import { ERC20Abi } from "@dexkit/core/constants/abis";
+import { NETWORK_PROVIDER } from "@dexkit/core/constants/networkProvider";
+import { Coin, EvmCoin } from "@dexkit/core/types";
+import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
+import { useMutation } from "@tanstack/react-query";
+import type { providers } from "ethers";
+import { Contract } from "ethers";
 
 export function useEvmTransferMutation({
   provider,
@@ -20,7 +19,7 @@ export function useEvmTransferMutation({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => void;
   onConfirm?: (
     hash: string,
@@ -28,7 +27,7 @@ export function useEvmTransferMutation({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => void;
 }) {
   return useMutation(
@@ -36,31 +35,30 @@ export function useEvmTransferMutation({
       const { coin, amount, address } = params;
 
       if (!provider) {
-        throw new Error('no provider');
+        throw new Error("no provider");
       }
       let toAddress: string | null = address;
-      if (address.split('.').length > 1) {
-        const networkProvider = NETWORK_PROVIDER(ChainId.Ethereum)
+      if (address.split(".").length > 1) {
+        const networkProvider = NETWORK_PROVIDER(ChainId.Ethereum);
         if (networkProvider) {
           toAddress = await networkProvider.resolveName(address);
         }
-
       }
 
       if (!toAddress) {
-        throw new Error('no address set');
+        throw new Error("no address set");
       }
 
       if (coin.coinType === CoinTypes.EVM_ERC20) {
         const contract = new Contract(
           coin.contractAddress,
           ERC20Abi,
-          provider.getSigner()
+          provider.getSigner(),
         );
 
         const tx = await contract.transfer(
           toAddress,
-          parseUnits(amount.toString(), coin.decimals)
+          parseUnits(amount.toString(), coin.decimals),
         );
 
         if (onSubmit) {
@@ -78,8 +76,8 @@ export function useEvmTransferMutation({
         const signer = provider.getSigner();
         const tx = await signer.sendTransaction({
           to: toAddress,
-          value: parseUnits(amount.toString(), coin.decimals)
-        })
+          value: parseUnits(amount.toString(), coin.decimals),
+        });
 
         if (onSubmit) {
           onSubmit(tx.hash, params);
@@ -92,7 +90,6 @@ export function useEvmTransferMutation({
 
         return txResult;
       }
-    }
+    },
   );
 }
-

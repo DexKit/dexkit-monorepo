@@ -38,7 +38,7 @@ function SwapSettingsDialog({
   const { onClose } = DialogProps;
 
   const [slippage, setSlippage] = useState<string>(
-    (maxSlippage * 100).toString()
+    (maxSlippage * 100).toString(),
   );
 
   const [userGasless, setUserGasless] = useUserGaslessSettings();
@@ -49,14 +49,14 @@ function SwapSettingsDialog({
 
   const handleToggleAutoSlippage = (
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     return onAutoSlippage(checked);
   };
 
   const handleToggleUserGasless = (
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     return setUserGasless(checked);
   };

@@ -1,6 +1,10 @@
-
-
-export function formatStringNumber({ value, maxDecimals = 3 }: { value: string, maxDecimals?: number }) {
+export function formatStringNumber({
+  value,
+  maxDecimals = 3,
+}: {
+  value: string;
+  maxDecimals?: number;
+}) {
   // TODO: improve this code in the future
   // pass to a memoized component or something
 

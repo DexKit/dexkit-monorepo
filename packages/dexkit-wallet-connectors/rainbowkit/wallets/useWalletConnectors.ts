@@ -1,22 +1,22 @@
-import { Config, Connector, useConnect } from 'wagmi';
-import { ConnectMutateAsync } from 'wagmi/query';
+import { Config, Connector, useConnect } from "wagmi";
+import { ConnectMutateAsync } from "wagmi/query";
 
-import { indexBy } from '../utils/indexBy';
+import { indexBy } from "../utils/indexBy";
 
-import { WagmiConnectorInstance, WalletInstance } from './Wallet';
+import { WagmiConnectorInstance, WalletInstance } from "./Wallet";
 import {
   getDesktopDownloadUrl,
   getExtensionDownloadUrl,
   getMobileDownloadUrl,
-} from './downloadUrls';
+} from "./downloadUrls";
 import {
   connectorsWithRecentWallets,
   isEIP6963Connector,
   isRainbowKitConnector,
   isRecentWallet,
   rainbowKitConnectorWithWalletConnect,
-} from './groupedWallets';
-import { addRecentWalletId, getRecentWalletIds } from './recentWalletIds';
+} from "./groupedWallets";
+import { addRecentWalletId, getRecentWalletIds } from "./recentWalletIds";
 
 export interface WalletConnector extends WalletInstance {
   ready?: boolean;
@@ -31,14 +31,18 @@ export interface WalletConnector extends WalletInstance {
   getMobileUri?: () => Promise<string>;
 }
 
-export function useWalletConnectors({ activeChainIds, defaultChainId, setConnectWalletState }: { activeChainIds: number[], defaultChainId?: number, setConnectWalletState: (open: boolean) => void }
-): WalletConnector[] {
-
+export function useWalletConnectors({
+  activeChainIds,
+  defaultChainId,
+  setConnectWalletState,
+}: {
+  activeChainIds: number[];
+  defaultChainId?: number;
+  setConnectWalletState: (open: boolean) => void;
+}): WalletConnector[] {
   const { connectAsync, connectors: defaultConnectors_untyped } = useConnect();
   const defaultCreatedConnectors =
     defaultConnectors_untyped as WagmiConnectorInstance[];
-
-
 
   const defaultConnectors = defaultCreatedConnectors.map((connector) => ({
     ...connector,
@@ -78,9 +82,9 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
     } catch (err) {
       const isUserRejection =
         // @ts-expect-error - Web3Modal v1 error name
-        err.name === 'UserRejectedRequestError' ||
+        err.name === "UserRejectedRequestError" ||
         // @ts-expect-error - Web3Modal v2 error message on desktop
-        err.message === 'Connection request reset. Please try again.';
+        err.message === "Connection request reset. Please try again.";
 
       setConnectWalletState(true);
 
@@ -96,7 +100,7 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
   ): Promise<string> => {
     const provider = await connector.getProvider();
 
-    if (connector.id === 'coinbase') {
+    if (connector.id === "coinbase") {
       // @ts-expect-error
       return provider.qrUrl;
     }
@@ -104,7 +108,7 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
     return new Promise<string>((resolve) =>
       // Wagmi v2 doesn't have a return type for provider yet
       // @ts-expect-error
-      provider.once('display_uri', (uri) => {
+      provider.once("display_uri", (uri) => {
         resolve(uriConverter(uri));
       }),
     );
@@ -112,7 +116,7 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
 
   const walletConnectModalConnector = defaultConnectors.find(
     (connector) =>
-      connector.id === 'walletConnect' &&
+      connector.id === "walletConnect" &&
       connector.isWalletConnectModalConnector,
   );
 
@@ -124,8 +128,6 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
         groupIndex: 0,
       };
     });
-
-
 
   const rainbowKitConnectors = defaultConnectors
     .filter(isRainbowKitConnector)
@@ -145,7 +147,6 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
         walletConnectModalConnector!,
       ),
     );
-
 
   const combinedConnectors = [...eip6963Connectors, ...rainbowKitConnectors];
 
@@ -181,7 +182,7 @@ export function useWalletConnectors({ activeChainIds, defaultChainId, setConnect
         iconUrl: wallet.icon!,
         ready: true,
         connect: () => connectWallet(wallet),
-        groupName: 'Installed',
+        groupName: "Installed",
         recent,
       });
 

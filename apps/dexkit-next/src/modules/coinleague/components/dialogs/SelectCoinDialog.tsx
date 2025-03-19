@@ -38,7 +38,7 @@ export default function SelectCoinDialog({
   const coins: Coin[] = chainId ? PriceFeeds[chainId] : [];
 
   const [coinList, setCoinList] = useState<{ [key: string]: Coin }>(
-    selectedCoins
+    selectedCoins,
   );
 
   const selectCount = useMemo(() => {

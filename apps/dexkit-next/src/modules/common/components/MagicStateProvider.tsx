@@ -58,7 +58,7 @@ export function MagicStateProvider(props: Props) {
       }
       setShowTransactionModal(false);
     },
-    [magicConnector]
+    [magicConnector],
   );
 
   const handleTransactionCancel = useCallback(() => {

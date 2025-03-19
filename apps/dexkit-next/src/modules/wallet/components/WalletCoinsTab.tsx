@@ -36,11 +36,11 @@ const EvmSendDialog = dynamic(() => import('./dialogs/EvmSendDialog'));
 const SelectCoinDialog = dynamic(() => import('./dialogs/SelectCoinDialog'));
 
 const VisibleCoinsDialog = dynamic(
-  () => import('./dialogs/VisibleCoinsDialog')
+  () => import('./dialogs/VisibleCoinsDialog'),
 );
 
 const EvmAddAccountDialog = dynamic(
-  () => import('./dialogs/EvmAddAccountDialog')
+  () => import('./dialogs/EvmAddAccountDialog'),
 );
 
 const ImportCoinsDialog = dynamic(() => import('./dialogs/ImportCoinsDialog'));
@@ -70,7 +70,7 @@ export default function WalletCoinsTab({}: Props) {
       apiKey: '4cf44cc4-69d7-4f4d-8237-05cc9076aa41',
       environment: 'STAGING',
       themeColor: '000000',
-    })
+    }),
   );
 
   const { chainId, account, provider, connector } = useWeb3React();
@@ -126,7 +126,7 @@ export default function WalletCoinsTab({}: Props) {
 
       setOpen(false);
     },
-    [selectFor]
+    [selectFor],
   );
 
   const handleSend = () => {
@@ -181,11 +181,11 @@ export default function WalletCoinsTab({}: Props) {
                 b.network.id === c.network.id &&
                 b.balances[
                   isErc20Coin ? c.contractAddress : ethers.constants.AddressZero
-                ]
+                ],
             ),
             prices,
             [c],
-            currency
+            currency,
           );
 
           const res =
@@ -229,7 +229,7 @@ export default function WalletCoinsTab({}: Props) {
           c.network.id === coin.network.id &&
           c.decimals === coin.decimals &&
           c.coingeckoId === coin.coingeckoId &&
-          coin.name === coin.name
+          coin.name === coin.name,
       );
 
       if (index > -1) {
@@ -378,8 +378,8 @@ export default function WalletCoinsTab({}: Props) {
                           usdTotalPercentage === 0
                             ? theme.palette.text.primary
                             : usdTotalPercentage > 0
-                            ? theme.palette.success.main
-                            : theme.palette.error.main,
+                              ? theme.palette.success.main
+                              : theme.palette.error.main,
                       })}
                       variant="caption"
                     >

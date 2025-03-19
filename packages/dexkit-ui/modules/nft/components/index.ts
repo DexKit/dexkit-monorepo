@@ -1,6 +1,5 @@
-import AssetFromApi from './AssetFromApi';
+import AssetFromApi from "./AssetFromApi";
 
-export * from './AssetListOrderbook';
-export * from './CollectionFromApi';
+export * from "./AssetListOrderbook";
+export * from "./CollectionFromApi";
 export { AssetFromApi };
-

@@ -35,10 +35,6 @@ export enum NetworkName {
   CELO = 'celo',
 }
 
-
-
-
-
 export enum SellOrBuy {
   All = 'all',
   Sell = 'sell',
@@ -50,4 +46,3 @@ export enum AppWhitelabelType {
   MARKETPLACE = 'MARKETPLACE',
   AGGREGATOR = 'AGGREGATOR',
 }
-

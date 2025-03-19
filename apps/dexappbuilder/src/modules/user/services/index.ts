@@ -3,7 +3,6 @@ import { UserOptions } from '@dexkit/ui/types/ai';
 import axios from 'axios';
 import { DEXKIT_BASE_API_URL } from 'src/constants';
 
-
 const USER_ENDPOINT = `${DEXKIT_BASE_API_URL}/user`;
 /**
  * not this endpoint is intended to use without the interceptor, we set the bearear token automatically

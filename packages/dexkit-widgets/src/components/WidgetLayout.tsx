@@ -5,15 +5,15 @@ import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
 
 const SwitchNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog")
+  () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog"),
 );
 
 const ConnectWalletDialog = dynamic(
-  () => import("@dexkit/ui/components/ConnectWalletDialog")
+  () => import("@dexkit/ui/components/ConnectWalletDialog"),
 );
 
 const WatchTransactionDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
+  () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog"),
 );
 
 import { useWalletActivate } from "@dexkit/core/hooks";
@@ -89,7 +89,7 @@ const WidgetLayout = ({ children }: Props) => {
         if (connector?.provider?.removeListener) {
           connector?.provider?.removeListener(
             "chainChanged",
-            handleNetworkChange
+            handleNetworkChange,
           );
         }
       };

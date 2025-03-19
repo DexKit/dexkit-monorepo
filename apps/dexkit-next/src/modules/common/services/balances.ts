@@ -5,7 +5,7 @@ import { getNativeTokenSymbol } from '../utils';
 
 export const getERC20Decimals = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -22,7 +22,7 @@ export const getERC20Decimals = async (
 
 export const getERC20Symbol = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -39,7 +39,7 @@ export const getERC20Symbol = async (
 
 export const getERC20Name = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -53,7 +53,7 @@ export const getERC20Name = async (
 export const getERC20Balance = async (
   contractAddress?: string,
   account?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ): Promise<BigNumber | undefined> => {
   if (
     contractAddress === undefined ||
@@ -76,7 +76,7 @@ export const getERC20TokenAllowance = async (
   provider: ethers.providers.BaseProvider,
   tokenAddress: string,
   account: string,
-  spender: string
+  spender: string,
 ): Promise<ethers.BigNumber> => {
   const contract = new ethers.Contract(tokenAddress, ERC20Abi, provider);
 

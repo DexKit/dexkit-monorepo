@@ -1,19 +1,19 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { BigNumber } from "ethers";
@@ -29,9 +29,9 @@ import * as Yup from "yup";
 
 import { TokenWhitelabelApp } from "@dexkit/core/types";
 import {
-    ipfsUriToUrl,
-    isAddressEqual,
-    isValidDecimal,
+  ipfsUriToUrl,
+  isAddressEqual,
+  isValidDecimal,
 } from "@dexkit/core/utils";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
@@ -64,7 +64,7 @@ interface Props {
     price: BigNumber,
     tokenAddress: string,
     expiry: Date | null,
-    takerAddress?: string
+    takerAddress?: string,
   ) => void;
 }
 
@@ -81,8 +81,9 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     if (form.isValid) {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-        ?.decimals;
+      const decimals = tokenList.find(
+        (t) => t.address === values.tokenAddress,
+      )?.decimals;
 
       if (!isValidDecimal(values.price, decimals || 0)) {
         formikHelpers.setFieldError(
@@ -90,7 +91,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
           formatMessage({
             id: "invalid.price",
             defaultMessage: "Invalid price",
-          })
+          }),
         );
 
         return;
@@ -100,7 +101,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
         parseUnits(values.price, decimals),
         values.tokenAddress,
         values.expiry || null,
-        values.taker
+        values.taker,
       );
 
       // formikHelpers.resetForm();
@@ -120,7 +121,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
 
   const tokenSelected = useMemo(() => {
     const tokenIndex = tokenList.findIndex((t) =>
-      isAddressEqual(t.address, form.values.tokenAddress)
+      isAddressEqual(t.address, form.values.tokenAddress),
     );
 
     if (tokenIndex > -1) {

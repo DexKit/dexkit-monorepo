@@ -45,7 +45,7 @@ export type SwapState = {
   handleConnectWallet: () => void;
   handleOpenSelectToken: (
     selectFor: SwapSide,
-    token?: Token | undefined
+    token?: Token | undefined,
   ) => void;
   handleSelectToken: (token: Token) => void;
   setBuyToken: React.Dispatch<Token | undefined>;

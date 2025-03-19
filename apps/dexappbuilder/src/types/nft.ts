@@ -1,23 +1,16 @@
 import { AssetAPI, OrderBookItem } from '@dexkit/ui/modules/nft/types';
 import { DkApiPlatformCoin } from '@dexkit/widgets/src/types/api';
 
-
-
-
-
-
-
-
 export type OrderbookAPI = {
   data: {
-    asset?: AssetAPI,
-    order?: OrderBookItem,
-    token?: DkApiPlatformCoin
-  }[]
-  total: number,
-  take: number,
+    asset?: AssetAPI;
+    order?: OrderBookItem;
+    token?: DkApiPlatformCoin;
+  }[];
+  total: number;
+  take: number;
   skip: number;
-}
+};
 
 export type AssetStoreOptions = {
   name?: string;
@@ -26,4 +19,4 @@ export type AssetStoreOptions = {
   backgroundImageURL?: string;
   description?: string;
   storeAccount?: string;
-}
+};

@@ -45,7 +45,7 @@ export function walletFiatTotal(
   balances: AccountBalance[],
   prices: CoinPrices,
   coins: Coin[],
-  currency: string
+  currency: string,
 ) {
   let totalSum = 0;
 
@@ -58,7 +58,7 @@ export function walletFiatTotal(
         let total = BigNumber.from(0);
 
         for (const coinBalance of balances.filter(
-          (b) => b.network.id === coin.network.id
+          (b) => b.network.id === coin.network.id,
         )) {
           total = total.add(
             BigNumber.from(
@@ -66,8 +66,8 @@ export function walletFiatTotal(
                 isErc20Coin
                   ? coin.contractAddress
                   : ethers.constants.AddressZero
-              ]
-            )
+              ],
+            ),
           );
         }
 
@@ -83,7 +83,7 @@ export function walletFiatTotal(
 
           if (ratio > 0) {
             const amount = parseFloat(
-              ethers.utils.formatUnits(total, coin.decimals)
+              ethers.utils.formatUnits(total, coin.decimals),
             );
 
             return ratio * amount;

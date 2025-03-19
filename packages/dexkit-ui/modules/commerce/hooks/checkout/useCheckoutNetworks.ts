@@ -17,6 +17,6 @@ export default function useCheckoutNetworks() {
       return (await instance.get<{ chainId: number }[]>("/checkouts-networks"))
         .data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 }

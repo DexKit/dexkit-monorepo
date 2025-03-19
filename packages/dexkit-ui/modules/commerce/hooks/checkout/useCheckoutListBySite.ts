@@ -33,6 +33,6 @@ export default function useCheckoutListBySite(params: {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

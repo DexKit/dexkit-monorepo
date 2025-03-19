@@ -43,14 +43,14 @@ import CustomToolbar from "./CustomToolbar";
 import useParams from "./containers/hooks/useParams";
 
 const AppConfirmDialog = dynamic(
-  () => import("@dexkit/ui/components/AppConfirmDialog")
+  () => import("@dexkit/ui/components/AppConfirmDialog"),
 );
 
 const PreviewProductDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/commerce/components/dialogs/PreviewProductDialog"
-    )
+    ),
 );
 
 export interface ProducstTableProps {}
@@ -142,7 +142,7 @@ export default function ProductsTable({}: ProducstTableProps) {
             id="product.deleted"
             defaultMessage="Product deleted"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirm(false);
         setSelectedId(undefined);
@@ -297,7 +297,7 @@ export default function ProductsTable({}: ProducstTableProps) {
   }, []);
 
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
-    []
+    [],
   );
 
   const handleCloseDuplicate = async () => {
@@ -317,7 +317,7 @@ export default function ProductsTable({}: ProducstTableProps) {
             id="product.duplicated"
             defaultMessage="Product duplicated"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirmDuplicate(false);
         setSelectedId(undefined);
@@ -340,7 +340,7 @@ export default function ProductsTable({}: ProducstTableProps) {
           id="products.deleted"
           defaultMessage="Products deleted"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       await refetch();
     } catch (err) {
@@ -534,7 +534,7 @@ export default function ProductsTable({}: ProducstTableProps) {
                 />,
                 <Box sx={{ fontSize: "3rem" }}>
                   <ShoppingBagIcon fontSize="inherit" />
-                </Box>
+                </Box>,
               ),
               loadingOverlay: LoadingOverlay,
               noResultsOverlay: noRowsOverlay(
@@ -548,7 +548,7 @@ export default function ProductsTable({}: ProducstTableProps) {
                 />,
                 <Box sx={{ fontSize: "3rem" }}>
                   <ShoppingBagIcon fontSize="inherit" />
-                </Box>
+                </Box>,
               ),
             }}
           />

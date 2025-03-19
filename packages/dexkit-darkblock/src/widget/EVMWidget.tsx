@@ -47,7 +47,7 @@ const EVMDarkblockWidget = ({
   const platform = chainId ? DARKBLOCK_EVM_NETWORKS[chainId] : "Ethereum";
 
   const [state, send] = useMachine(() =>
-    widgetMachine(tokenId, contractAddress, platform, dev, dbConfig)
+    widgetMachine(tokenId, contractAddress, platform, dev, dbConfig),
   );
 
   const address = useMemo(() => {
@@ -114,8 +114,8 @@ const EVMDarkblockWidget = ({
             state.context.contractAddress,
             null,
             platform,
-            address
-          )
+            address,
+          ),
         );
 
         let arrTemp: string[] = [];
@@ -129,8 +129,8 @@ const EVMDarkblockWidget = ({
               state.context.contractAddress,
               null,
               platform,
-              address
-            )
+              address,
+            ),
           );
         });
 
@@ -165,7 +165,7 @@ const EVMDarkblockWidget = ({
         tokenId,
         platform,
         address,
-        dev
+        dev,
       );
 
       if (

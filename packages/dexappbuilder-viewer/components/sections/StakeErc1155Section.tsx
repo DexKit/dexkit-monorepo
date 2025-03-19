@@ -59,7 +59,7 @@ export default function StakeErc1155Section({
   const { data: stakeInfo, refetch: refetchStakeInfo } = useContractRead(
     contract,
     "getStakeInfo",
-    [account]
+    [account],
   );
 
   const { data: rewardToken } = useContract(rewardTokenAddress || "", "token");
@@ -82,11 +82,11 @@ export default function StakeErc1155Section({
 
   const { data: rewardRatio } = useContractRead(
     contract,
-    "getDefaultRewardsPerUnitTime"
+    "getDefaultRewardsPerUnitTime",
   );
   const { data: rewardTimeUnit } = useContractRead(
     contract,
-    "getDefaultTimeUnit"
+    "getDefaultTimeUnit",
   );
 
   const handleChangeTab = (e: SyntheticEvent, value: "stake" | "unstake") => {
@@ -122,7 +122,7 @@ export default function StakeErc1155Section({
       return await contract?.metadata.get();
     },
     undefined,
-    [contract]
+    [contract],
   );
 
   const { watchTransactionDialog, createNotification } = useDexKitContext();
@@ -165,7 +165,7 @@ export default function StakeErc1155Section({
       });
 
       return await tx?.wait();
-    }
+    },
   );
 
   const unstakeRewardsMutation = useMutation(
@@ -206,7 +206,7 @@ export default function StakeErc1155Section({
       });
 
       return await tx?.wait();
-    }
+    },
   );
 
   const { chainId } = useWeb3React();
@@ -249,7 +249,7 @@ export default function StakeErc1155Section({
       });
 
       return res;
-    }
+    },
   );
 
   const approveForAllMuation = useApproveForAll({
@@ -260,7 +260,7 @@ export default function StakeErc1155Section({
   const { data: isApprovedForAll } = useContractRead(
     stakingTokenContract,
     "isApprovedForAll",
-    [account, address]
+    [account, address],
   );
 
   const handleStake = async () => {
@@ -450,13 +450,13 @@ export default function StakeErc1155Section({
                               <>
                                 {formatBigNumber(
                                   rewardRatio,
-                                  rewardTokenBalance?.decimals || 18
+                                  rewardTokenBalance?.decimals || 18,
                                 )}{" "}
                                 {rewardTokenBalance?.symbol}{" "}
                                 {moment
                                   .duration(
                                     rewardTimeUnit?.toNumber(),
-                                    "seconds"
+                                    "seconds",
                                   )
                                   .humanize()}
                               </>
@@ -476,7 +476,7 @@ export default function StakeErc1155Section({
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />
@@ -610,13 +610,13 @@ export default function StakeErc1155Section({
                               <>
                                 {formatBigNumber(
                                   rewardRatio,
-                                  rewardTokenBalance?.decimals || 18
+                                  rewardTokenBalance?.decimals || 18,
                                 )}{" "}
                                 {rewardTokenBalance?.symbol}{" "}
                                 {moment
                                   .duration(
                                     rewardTimeUnit?.toNumber(),
-                                    "seconds"
+                                    "seconds",
                                   )
                                   .humanize()}
                               </>
@@ -637,7 +637,7 @@ export default function StakeErc1155Section({
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />

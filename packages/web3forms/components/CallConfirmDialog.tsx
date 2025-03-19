@@ -48,7 +48,7 @@ export default function CallConfirmDialog({
 
   const handleChangeUnit = (
     event: SelectChangeEvent<string>,
-    child: React.ReactNode
+    child: React.ReactNode,
   ) => {
     setUnit(event.target.value);
   };

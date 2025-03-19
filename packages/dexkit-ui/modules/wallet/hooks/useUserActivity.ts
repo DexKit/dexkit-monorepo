@@ -40,7 +40,7 @@ export default function useUserActivity({
       const data = (
         await instance?.get<{ count: number; data: UserEvent[]; page: number }>(
           "/user-events/events",
-          { params: { page: pageParam, pageSize } }
+          { params: { page: pageParam, pageSize } },
         )
       )?.data;
 
@@ -52,6 +52,6 @@ export default function useUserActivity({
           return lastPage?.page + 1;
         }
       },
-    }
+    },
   );
 }

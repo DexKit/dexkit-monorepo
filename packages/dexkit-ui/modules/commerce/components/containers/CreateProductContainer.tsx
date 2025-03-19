@@ -26,7 +26,7 @@ function CreateProductComponent() {
           id="product.created"
           defaultMessage="Product created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       setContainer("commerce.products.items");
     } catch (err) {

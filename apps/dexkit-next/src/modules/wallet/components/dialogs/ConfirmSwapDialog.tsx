@@ -82,7 +82,7 @@ function ConfirmSwapDialog({
                   <Typography color="textSecondary">
                     {ethers.utils.formatUnits(
                       BigNumber.from(quote.sellAmount),
-                      sellToken?.decimals || 18
+                      sellToken?.decimals || 18,
                     )}{' '}
                     {sellToken?.symbol}
                   </Typography>
@@ -104,7 +104,7 @@ function ConfirmSwapDialog({
                   <Typography color="textSecondary">
                     {ethers.utils.formatUnits(
                       BigNumber.from(quote.buyAmount),
-                      buyToken?.decimals || 18
+                      buyToken?.decimals || 18,
                     )}{' '}
                     {buyToken?.symbol}
                   </Typography>
@@ -143,7 +143,7 @@ function ConfirmSwapDialog({
                     <Typography color="textSecondary">
                       (
                       {ethers.utils.formatEther(
-                        BigNumber.from(quote.gas).mul(quote.gasPrice)
+                        BigNumber.from(quote.gas).mul(quote.gasPrice),
                       )}{' '}
                       {getNativeTokenSymbol(chainId)})
                     </Typography>

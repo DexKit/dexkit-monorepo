@@ -27,8 +27,8 @@ export function ShareButton({ url, shareButtonProps, shareButtonText }: Props) {
             url
               ? url
               : typeof window !== "undefined"
-              ? window.location.href
-              : undefined
+                ? window.location.href
+                : undefined
           }
         />
       )}

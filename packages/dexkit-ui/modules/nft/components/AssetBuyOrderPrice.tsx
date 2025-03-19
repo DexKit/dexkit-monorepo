@@ -23,7 +23,7 @@ export function AssetBuyOrderPrice({ orderBookItem, asset }: Props) {
   });
 
   const token = tokens.find((t) =>
-    isAddressEqual(t.address, orderBookItem?.erc20Token)
+    isAddressEqual(t.address, orderBookItem?.erc20Token),
   );
 
   const elRef = useRef<HTMLElement | null>(null);
@@ -50,7 +50,7 @@ export function AssetBuyOrderPrice({ orderBookItem, asset }: Props) {
           return (
             ratio *
             parseFloat(
-              formatUnits(orderBookItem?.erc20TokenAmount, token.decimals)
+              formatUnits(orderBookItem?.erc20TokenAmount, token.decimals),
             )
           );
         } else {
@@ -79,7 +79,7 @@ export function AssetBuyOrderPrice({ orderBookItem, asset }: Props) {
             {orderBookItem?.order?.erc20TokenAmount &&
               formatUnits(
                 orderBookItem?.order?.erc20TokenAmount,
-                token?.decimals || 18
+                token?.decimals || 18,
               )}{" "}
             {token?.symbol.toUpperCase()}
           </b>

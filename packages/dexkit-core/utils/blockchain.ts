@@ -1,28 +1,24 @@
+import { ChainId } from "@dexkit/core/constants";
 
+import { NETWORKS } from "@dexkit/core/constants/networks";
+import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
+import { providers } from "ethers";
 
-
-
-import { ChainId } from '@dexkit/core/constants';
-
-import { NETWORKS } from '@dexkit/core/constants/networks';
-import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
-import { providers } from 'ethers';
-
-
-export const getNetworks = ({ includeTestnet }: { includeTestnet: boolean }) => {
-
+export const getNetworks = ({
+  includeTestnet,
+}: {
+  includeTestnet: boolean;
+}) => {
   if (includeTestnet) {
     return Object.values(NETWORKS);
   } else {
-    return Object.values(NETWORKS).filter(n => !n.testnet);
+    return Object.values(NETWORKS).filter((n) => !n.testnet);
   }
-
 };
-
 
 export const getChainIdFromSlug = (chainName?: string) => {
   if (!chainName) {
-    return
+    return;
   }
 
   const keys = Object.keys(NETWORKS).map(Number);
@@ -38,7 +34,7 @@ export const getChainIdFromSlug = (chainName?: string) => {
 
 export const getNetworkFromSlug = (chainName?: string) => {
   if (!chainName) {
-    return
+    return;
   }
 
   const keys = Object.keys(NETWORKS).map(Number);
@@ -55,7 +51,9 @@ export const getNetworkFromSlug = (chainName?: string) => {
 export const getNetworkFromName = (chainName: string) => {
   const keys = Object.keys(NETWORKS).map(Number);
 
-  let key = keys.find((key) => NETWORKS[key].name.toLowerCase() === chainName?.toLowerCase());
+  let key = keys.find(
+    (key) => NETWORKS[key].name.toLowerCase() === chainName?.toLowerCase(),
+  );
 
   if (key !== undefined) {
     return NETWORKS[key];
@@ -73,9 +71,7 @@ export const getNetworkSlugFromChainId = (chainId?: ChainId) => {
 export const getProviderByChainId = (chainId?: ChainId) => {
   if (chainId) {
     if (NETWORKS[chainId].providerRpcUrl) {
-      return new providers.JsonRpcProvider(
-        NETWORKS[chainId].providerRpcUrl
-      );
+      return new providers.JsonRpcProvider(NETWORKS[chainId].providerRpcUrl);
     }
   }
 };
@@ -84,11 +80,8 @@ export const truncateAddress = (address: string | undefined) => {
   if (address !== undefined && isAddress(address)) {
     return `${address.slice(0, 7)}...${address.slice(address.length - 5)}`;
   }
-  return '';
+  return "";
 };
-
-
-
 
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
@@ -144,10 +137,8 @@ export function getChainSymbol(chainId?: number) {
   }
 }
 
-
 export function getChainLogoImage(chainId?: number) {
   if (chainId) {
     return NETWORKS[chainId]?.imageUrl;
   }
 }
-

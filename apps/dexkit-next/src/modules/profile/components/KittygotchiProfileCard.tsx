@@ -127,12 +127,12 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
           enqueueSnackbar(
             formatMessage(
               { id: 'error.message', defaultMessage: 'Error: {message}' },
-              { message: String(err) }
+              { message: String(err) },
             ),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
   };
 
@@ -153,7 +153,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                         defaultMessage: 'Feed kittygotchi #{id}',
                         id: 'feed.kittygotchi.id',
                       },
-                      { id: profileNft?.tokenId as string }
+                      { id: profileNft?.tokenId as string },
                     ) as string,
                     hash,
                     checked: false,
@@ -180,13 +180,13 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                     id: 'error.while.feeding',
                     defaultMessage: 'Error while feeding',
                   },
-                  { message: String(error) }
+                  { message: String(error) },
                 ),
-                { variant: 'error' }
+                { variant: 'error' },
               );
             }
           },
-        }
+        },
       );
     }
   };
@@ -307,8 +307,8 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                       chainId === ChainId.Polygon
                         ? 'matic'
                         : chainId === ChainId.Mumbai
-                        ? 'mumbai'
-                        : 'ethereum'
+                          ? 'mumbai'
+                          : 'ethereum'
                     }/${GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}/${
                       profileNft.tokenId
                     }`}

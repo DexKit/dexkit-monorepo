@@ -43,7 +43,7 @@ export default function NavbarAlt({ appConfig, isPreview }: Props) {
                     >
                       {menu.name}
                     </Button>
-                  )
+                  ),
                 )}
               </Stack>
             </Container>

@@ -8,7 +8,7 @@ import { getKittygotchiApi } from '../utils';
 
 export const getKittyGotchiContractSigner = async (
   address: string,
-  provider: providers.Web3Provider
+  provider: providers.Web3Provider,
 ) => {
   const pr = provider.getSigner();
   return new ethers.Contract(address, kittygotchiAbi, pr);
@@ -16,7 +16,7 @@ export const getKittyGotchiContractSigner = async (
 
 export const getKittyGotchiContractNetwork = async (
   address: string,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   return new ethers.Contract(address, kittygotchiAbi, provider);
 };
@@ -24,17 +24,17 @@ export const getKittyGotchiContractNetwork = async (
 export const feed = async (
   id: string,
   kittyAddress: string,
-  provider: providers.Web3Provider
+  provider: providers.Web3Provider,
 ) => {
   return (await getKittyGotchiContractSigner(kittyAddress, provider)).feed(
-    id
+    id,
   ) as Promise<ContractTransaction>;
 };
 
 export const mint = async (
   kittyAddress: string,
   provider: providers.Web3Provider,
-  price: BigNumber
+  price: BigNumber,
 ) => {
   return (await getKittyGotchiContractSigner(kittyAddress, provider)).safeMint({
     value: price,
@@ -44,7 +44,7 @@ export const mint = async (
 export const getOnchainAttritbutes = async (
   id: string,
   kittyAddress: string,
-  provider: ethers.providers.JsonRpcProvider
+  provider: ethers.providers.JsonRpcProvider,
 ) => {
   const iface = new Interface(kittygotchiAbi);
   const multicall = await getMulticall(provider);
@@ -89,7 +89,7 @@ export const update = (
   attributes: any,
   id: string,
   account: string,
-  chainId: number
+  chainId: number,
 ) => {
   const api = getKittygotchiApi(chainId);
   const data = {

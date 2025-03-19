@@ -28,7 +28,7 @@ export function useBalanceVisible() {
 export const useERC20BalancesQuery = (
   select?: SelectCalback,
   defaultChainId?: ChainId,
-  enableSuspense = true
+  enableSuspense = true,
 ) => {
   const {
     provider: walletProvider,
@@ -62,7 +62,7 @@ export const useERC20BalancesQuery = (
 
       return getERC20Balances(account, tokens, chainId, provider);
     },
-    { enabled: chainId !== undefined, select, suspense: enableSuspense }
+    { enabled: chainId !== undefined, select, suspense: enableSuspense },
   );
 };
 
@@ -129,7 +129,7 @@ export function useParsePaymentRequest({
         defaultCoin = evmCoins.find(
           (c) =>
             c.coinType === CoinTypes.EVM_NATIVE &&
-            c.network.chainId === paymentUrlParsed.chainId
+            c.network.chainId === paymentUrlParsed.chainId,
         );
       }
       return defaultCoin;
@@ -148,7 +148,7 @@ export function useParsePaymentRequest({
         ) {
           amount = formatUnits(
             parsedPayment.parameters["uint256"],
-            defaultCoin.decimals
+            defaultCoin.decimals,
           );
         }
       }

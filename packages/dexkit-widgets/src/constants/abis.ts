@@ -15,7 +15,7 @@ export const ERC1155Abi = [
   "function symbol() external view returns (string _symbol)",
   "function uri(uint256 _tokenId) view returns (string)",
   "function balanceOf(address account, uint256 id) view returns (uint256)",
-  "function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes calldata _data) external"
+  "function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes calldata _data) external",
 ];
 
 export const ERC20Abi = [

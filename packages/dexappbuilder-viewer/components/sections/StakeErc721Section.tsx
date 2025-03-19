@@ -55,7 +55,7 @@ export default function StakeErc721Section({
   const { data: stakeInfo, refetch: refetchStakeInfo } = useContractRead(
     contract,
     "getStakeInfo",
-    [account]
+    [account],
   );
   const { data: rewardTokenAddress } = useContractRead(contract, "rewardToken");
 
@@ -82,18 +82,18 @@ export default function StakeErc721Section({
       return await contract?.metadata.get();
     },
     undefined,
-    [contract]
+    [contract],
   );
 
   const { data: rewardRatio } = useContractRead(
     contract,
-    "getRewardsPerUnitTime"
+    "getRewardsPerUnitTime",
   );
   const { data: rewardTimeUnit } = useContractRead(contract, "getTimeUnit");
 
   const { data: rewardsBalance } = useContractRead(
     contract,
-    "getRewardTokenBalance"
+    "getRewardTokenBalance",
   );
 
   const handleChangeTab = (e: SyntheticEvent, value: "stake" | "unstake") => {
@@ -158,7 +158,7 @@ export default function StakeErc721Section({
       });
 
       return res;
-    }
+    },
   );
 
   const unstakeRewardsMutation = useMutation(
@@ -199,7 +199,7 @@ export default function StakeErc721Section({
       });
 
       return res;
-    }
+    },
   );
 
   const { chainId } = useWeb3React();
@@ -212,7 +212,7 @@ export default function StakeErc721Section({
     let values = {
       amount: `${formatBigNumber(
         stakeInfo && stakeInfo.length > 0 ? stakeInfo[1] : "0",
-        rewardTokenBalance?.decimals
+        rewardTokenBalance?.decimals,
       )} ${rewardTokenBalance?.symbol}`,
       name: contractInfo?.name || "",
     };
@@ -262,7 +262,7 @@ export default function StakeErc721Section({
   const { data: isApprovedForAll } = useContractRead(
     stakingTokenContract,
     "isApprovedForAll",
-    [account, address]
+    [account, address],
   );
 
   const handleStake = async () => {
@@ -392,7 +392,7 @@ export default function StakeErc721Section({
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />
@@ -414,13 +414,13 @@ export default function StakeErc721Section({
                               <>
                                 {formatBigNumber(
                                   rewardRatio,
-                                  rewardTokenBalance?.decimals || 18
+                                  rewardTokenBalance?.decimals || 18,
                                 )}{" "}
                                 {rewardTokenBalance?.symbol}{" "}
                                 {moment
                                   .duration(
                                     rewardTimeUnit?.toNumber(),
-                                    "seconds"
+                                    "seconds",
                                   )
                                   .humanize()}
                               </>
@@ -440,7 +440,7 @@ export default function StakeErc721Section({
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />
@@ -576,7 +576,7 @@ export default function StakeErc721Section({
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />
@@ -596,13 +596,13 @@ export default function StakeErc721Section({
                               <>
                                 {formatBigNumber(
                                   rewardRatio,
-                                  rewardTokenBalance?.decimals || 18
+                                  rewardTokenBalance?.decimals || 18,
                                 )}{" "}
                                 {rewardTokenBalance?.symbol}{" "}
                                 {moment
                                   .duration(
                                     rewardTimeUnit?.toNumber(),
-                                    "seconds"
+                                    "seconds",
                                   )
                                   .humanize()}
                               </>
@@ -623,7 +623,7 @@ export default function StakeErc721Section({
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
-                                rewardTokenBalance?.decimals || 18
+                                rewardTokenBalance?.decimals || 18,
                               )} ${rewardTokenBalance?.symbol}`
                             ) : (
                               <Skeleton />

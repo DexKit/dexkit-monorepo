@@ -29,6 +29,6 @@ export default function useNotificationsCountUnread({
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       refetchInterval: 5000,
-    }
+    },
   );
 }

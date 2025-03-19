@@ -2,13 +2,10 @@ import { ChainId } from "./enums";
 
 import { Token } from "../types";
 import { isAddressEqual } from "../utils";
-import { getAddress } from '../utils/ethers/getAddress';
-import { isAddress } from '../utils/ethers/isAddress';
+import { getAddress } from "../utils/ethers/getAddress";
+import { isAddress } from "../utils/ethers/isAddress";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "./zrx";
 export { ZEROEX_NATIVE_TOKEN_ADDRESS } from "./zrx";
-
-
-
 
 export * from "./enums";
 
@@ -17,7 +14,7 @@ export const DKAPI_INVALID_ADDRESSES = [
 ];
 
 export const MULTICALL_NATIVE_TOKEN_ADDRESS =
-  '0x0000000000000000000000000000000000000000';
+  "0x0000000000000000000000000000000000000000";
 
 export const COINGECKO_ENDPOIT = "https://api.coingecko.com/api/v3";
 
@@ -32,9 +29,6 @@ export const COINGECKO_PLATFORM_ID: { [key: number]: string } = {
   [ChainId.Optimism]: "optimistic-ethereum",
   [ChainId.Base]: "base",
 };
-
-
-
 
 export function TOKEN_ICON_URL(addr: string, chainId?: ChainId) {
   if (!isAddress(addr)) {
@@ -180,8 +174,6 @@ export const NATIVE_TOKENS: { [key: number]: Token } = {
   [ChainId.Avax]: AVALANCHE_TOKEN,
   [ChainId.Base]: ETHEREUM_TOKEN,
 };
-
-
 
 export function GET_NATIVE_TOKEN(chainId: ChainId) {
   return NATIVE_TOKENS[chainId];

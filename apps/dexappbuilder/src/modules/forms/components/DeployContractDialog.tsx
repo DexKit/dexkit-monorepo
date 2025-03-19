@@ -1,16 +1,16 @@
 import { AppDialogTitle } from '@dexkit/ui/components';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Dialog,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 

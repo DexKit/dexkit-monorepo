@@ -40,10 +40,10 @@ export default function RankingList({
           thirdCount={Number(player.totalThirdWinnedGames)}
           count={Number(player.totalWinnedGames)}
           EarnedMinusSpent={Number(
-            ethers.utils.formatUnits(player.EarnedMinusSpent, decimals)
+            ethers.utils.formatUnits(player.EarnedMinusSpent, decimals),
           )}
           totalEarned={Number(
-            ethers.utils.formatUnits(player.totalEarned, decimals)
+            ethers.utils.formatUnits(player.totalEarned, decimals),
           )}
           coinSymbol={coinSymbol}
           label="asdas"

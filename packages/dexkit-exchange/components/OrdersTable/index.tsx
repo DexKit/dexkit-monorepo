@@ -59,7 +59,7 @@ export default function OrdersTable({
       baseTokenSymbol?: string,
       quoteTokenSymbol?: string,
       baseTokenAmount?: string,
-      quoteTokenAmount?: string
+      quoteTokenAmount?: string,
     ) => {
       transactionDialog.execute([
         {
@@ -100,7 +100,7 @@ export default function OrdersTable({
         },
       ]);
     },
-    [chainId, provider]
+    [chainId, provider],
   );
 
   const connectWalletDialog = useConnectWalletDialog();
@@ -116,7 +116,7 @@ export default function OrdersTable({
           (r.order.makerToken.toLowerCase() ===
             quoteToken?.address.toLowerCase() &&
             r.order.takerToken.toLowerCase() ===
-              baseToken?.address.toLowerCase())
+              baseToken?.address.toLowerCase()),
       );
     }
     return [];

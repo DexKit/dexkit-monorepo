@@ -1,5 +1,3 @@
-
-
 export enum TransactionStatus {
   Pending,
   Failed,

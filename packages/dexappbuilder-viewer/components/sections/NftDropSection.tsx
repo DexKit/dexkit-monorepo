@@ -59,7 +59,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
   const activeClaimCondition = useActiveClaimConditionForWallet(
     contract,
-    account || ""
+    account || "",
   );
 
   const [count, setCount] = useState<number>(0);
@@ -69,7 +69,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     if (active && data) {
       const total = data?.length;
       const currentIndex = data.findIndex(
-        (a) => a?.startTime?.getTime() === active?.startTime?.getTime()
+        (a) => a?.startTime?.getTime() === active?.startTime?.getTime(),
       );
 
       if (currentIndex === -1) {
@@ -112,7 +112,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
       setCount(count + 1);
     },
     // Delay in milliseconds or null to stop it
-    countDown === undefined || countDown === "Expired" ? null : 1000
+    countDown === undefined || countDown === "Expired" ? null : 1000,
   );
 
   const claimerProofs = useClaimerProofs(contract, address || "");
@@ -193,7 +193,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
       const featureDetected = detectContractFeature(
         contractWrapper,
-        "ERC721SharedMetadata"
+        "ERC721SharedMetadata",
       );
 
       return featureDetected;
@@ -205,7 +205,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     let bnMaxClaimable;
     try {
       bnMaxClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimableSupply || 0
+        activeClaimCondition.data?.maxClaimableSupply || 0,
       );
     } catch (e) {
       bnMaxClaimable = BigNumber.from(1_000_000);
@@ -214,7 +214,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     let perTransactionClaimable;
     try {
       perTransactionClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimablePerWallet || 0
+        activeClaimCondition.data?.maxClaimablePerWallet || 0,
       );
     } catch (e) {
       perTransactionClaimable = BigNumber.from(1_000_000);
@@ -264,7 +264,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
       return (
         (activeClaimCondition.isSuccess &&
           BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
-            0
+            0,
           )) ||
         (numberClaimed === numberTotal && !isOpenEdition)
       );
@@ -309,11 +309,11 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
   const priceToMint = useMemo(() => {
     const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0
+      activeClaimCondition.data?.currencyMetadata.value || 0,
     );
     return `${formatUnits(
       bnPrice.mul(quantity).toString(),
-      activeClaimCondition.data?.currencyMetadata.decimals || 18
+      activeClaimCondition.data?.currencyMetadata.decimals || 18,
     )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
   }, [
     activeClaimCondition.data?.currencyMetadata.decimals,
@@ -324,7 +324,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
   const buttonLoading = useMemo(
     () => isLoading || claimIneligibilityReasons.isLoading,
-    [claimIneligibilityReasons.isLoading, isLoading]
+    [claimIneligibilityReasons.isLoading, isLoading],
   );
 
   const buttonMessage = useMemo(() => {
@@ -334,7 +334,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
     if (canClaim) {
       const pricePerToken = BigNumber.from(
-        activeClaimCondition.data?.currencyMetadata.value || 0
+        activeClaimCondition.data?.currencyMetadata.value || 0,
       );
 
       if (pricePerToken.eq(0)) {

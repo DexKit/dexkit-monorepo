@@ -19,10 +19,10 @@ import { CoinLeagueGame } from '../types';
 export const GET_GAME_LEVEL = (
   entry: BigNumber,
   chainId = ChainId.Polygon,
-  coinToPlayAddress?: string
+  coinToPlayAddress?: string,
 ) => {
   const coinToPlay = CoinToPlay[chainId]?.find(
-    (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase()
+    (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase(),
   );
   if (
     coinToPlay &&
@@ -77,10 +77,10 @@ export const GET_GAME_LEVEL = (
 export const GET_GAME_LEVEL_AMOUNTS = (
   gameLevel: GameLevel,
   chainId = ChainId.Polygon,
-  coinToPlayAddress?: string
+  coinToPlayAddress?: string,
 ) => {
   const coinToPlay = CoinToPlay[chainId]?.find(
-    (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase()
+    (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase(),
   ) as CoinToPlayInterface;
   const isStable =
     coinToPlay &&
@@ -340,7 +340,7 @@ export const GET_CREATOR_LABELS = (address?: string) => {
     return false;
   }
   const creator = CREATOR_LABELS.find(
-    (a) => a.address.toLowerCase() === address.toLowerCase()
+    (a) => a.address.toLowerCase() === address.toLowerCase(),
   );
   if (creator) {
     return creator.label;

@@ -58,8 +58,8 @@ function WalletAccountsListItem({ account, onMenu, isActive, divider }: Props) {
               account.loginType === 'google'
                 ? googleImg.src
                 : account.loginType === 'twitter'
-                ? twitterImg.src
-                : magicImg.src
+                  ? twitterImg.src
+                  : magicImg.src
             }
             style={{ width: '1rem', height: '1rem' }}
             width={14}

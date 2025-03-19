@@ -18,11 +18,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 const NftsTab = dynamic(() => import('@/modules/wallet/components/NftsTab'));
 
 const TransactionsTab = dynamic(
-  () => import('@/modules/wallet/components/TransactionsTab')
+  () => import('@/modules/wallet/components/TransactionsTab'),
 );
 
 const WalletCoinsTab = dynamic(
-  () => import('@/modules/wallet/components/WalletCoinsTab')
+  () => import('@/modules/wallet/components/WalletCoinsTab'),
 );
 
 import { Receipt } from '@mui/icons-material';
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
   const handleChange = (
     event: SyntheticEvent<Element, Event>,
-    value: PageTabs
+    value: PageTabs,
   ): void => {
     setActiveTab(value);
   };

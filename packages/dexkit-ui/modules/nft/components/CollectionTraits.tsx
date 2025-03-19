@@ -47,7 +47,7 @@ function TraitDetails({
   const filteredProperties = useMemo(() => {
     if (search) {
       return Object.keys(traits[property]).filter(
-        (a) => a.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        (a) => a.toLowerCase().indexOf(search.toLowerCase()) !== -1,
       );
     }
 
@@ -78,7 +78,7 @@ function TraitDetails({
         {filteredProperties.map((value, key) => {
           const isChecked =
             filterTraits.findIndex(
-              (v: any) => v.property === property && v.value === value
+              (v: any) => v.property === property && v.value === value,
             ) !== -1;
           return (
             <ListItem
@@ -91,7 +91,7 @@ function TraitDetails({
                   onClick={() => {
                     const newTraits = [...filterTraits];
                     const indexProperty = newTraits.findIndex(
-                      (v) => v.property === property && v.value === value
+                      (v) => v.property === property && v.value === value,
                     );
                     if (indexProperty === -1) {
                       newTraits.push({
@@ -144,7 +144,7 @@ export function CollectionTraits({ address, chainId }: Props) {
       setFilterTraits(
         properties.map((p) => {
           return { property: p.split(".")[0], value: p.split(".")[1] };
-        })
+        }),
       );
     } else {
       setFilterTraits([]);

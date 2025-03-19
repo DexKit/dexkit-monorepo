@@ -36,12 +36,12 @@ function PreviewPage() {
       let result = appConfig?.pages[page as string]?.sections[sectionIndex];
 
       return [
-        appConfig && result ? [result] ?? [] : [],
+        appConfig && result ? ([result] ?? []) : [],
         appConfig?.pages[page as string]?.layout,
       ];
     }
     return [
-      appConfig ? appConfig.pages[page as string]?.sections ?? [] : [],
+      appConfig ? (appConfig.pages[page as string]?.sections ?? []) : [],
       appConfig?.pages[page as string]?.layout,
     ];
   }, [appConfig, page, index]);

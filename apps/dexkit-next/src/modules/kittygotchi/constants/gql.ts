@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const GET_KITTYGOTCHI_RANKING = gql`
   query QueryKittygotchiRanking($offset: Int!, $limit: Int!) {
@@ -21,7 +21,7 @@ export const GET_KITTYGOTCHI_RANKING = gql`
 
 export const GET_MY_KITTYGOTCHIES = gql`
   query QueryKittygotchies($owner: String!) {
-    tokens(where: {owner_contains: $owner}) {
+    tokens(where: { owner_contains: $owner }) {
       id
       owner {
         id

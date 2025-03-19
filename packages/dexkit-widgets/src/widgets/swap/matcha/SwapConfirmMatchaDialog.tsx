@@ -202,7 +202,7 @@ export default function SwapConfirmMatchaDialog({
                         <Typography textAlign="center">
                           {formatBigNumber(
                             BigNumber.from(quote.sellAmount),
-                            sellToken.decimals
+                            sellToken.decimals,
                           )}{" "}
                           {sellToken?.symbol?.toUpperCase()}
                         </Typography>
@@ -267,7 +267,7 @@ export default function SwapConfirmMatchaDialog({
                         <Typography textAlign="center">
                           {formatBigNumber(
                             BigNumber.from(quote.buyAmount),
-                            buyToken.decimals
+                            buyToken.decimals,
                           )}{" "}
                           {buyToken?.symbol?.toUpperCase()}
                         </Typography>

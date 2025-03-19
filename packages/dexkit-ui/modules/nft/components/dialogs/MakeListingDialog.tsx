@@ -1,24 +1,24 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
@@ -78,7 +78,7 @@ interface Props {
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string,
-    quantity?: BigNumber
+    quantity?: BigNumber,
   ) => void;
 }
 
@@ -104,8 +104,9 @@ export default function MakeListingDialog({
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     if (form.isValid) {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
-        ?.decimals;
+      const decimals = tokenList.find(
+        (t) => t.address === values.tokenAddress,
+      )?.decimals;
 
       if (!isValidDecimal(values.price, decimals || 0)) {
         formikHelpers.setFieldError(
@@ -113,7 +114,7 @@ export default function MakeListingDialog({
           formatMessage({
             id: "invalid.price",
             defaultMessage: "Invalid price",
-          })
+          }),
         );
 
         return;
@@ -126,7 +127,7 @@ export default function MakeListingDialog({
         values.taker,
         asset?.protocol === "ERC1155"
           ? BigNumber.from(values.quantity)
-          : BigNumber.from(1)
+          : BigNumber.from(1),
       );
 
       formikHelpers.resetForm();
@@ -147,7 +148,7 @@ export default function MakeListingDialog({
 
   const tokenSelected = useMemo(() => {
     const tokenIndex = tokenList.findIndex((t) =>
-      isAddressEqual(t.address, form.values.tokenAddress)
+      isAddressEqual(t.address, form.values.tokenAddress),
     );
 
     if (tokenIndex > -1) {

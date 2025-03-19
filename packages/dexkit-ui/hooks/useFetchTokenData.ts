@@ -7,10 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { utils } from "ethers";
 import { getMulticallFromProvider } from "../services/multical";
 
-
 export default function useFetchTokenData({ chainId }: { chainId?: ChainId }) {
-
-
   const provider = useNetworkProvider(chainId);
 
   return useMutation(
@@ -52,6 +49,6 @@ export default function useFetchTokenData({ chainId }: { chainId?: ChainId }) {
       }
 
       return null;
-    }
+    },
   );
 }

@@ -93,7 +93,7 @@ const CoinLeagueIndex: NextPage = () => {
   const filters = useGamesFilters({ myGames: false });
 
   const [status, setStatus] = useState<CoinLeagueGameStatus>(
-    CoinLeagueGameStatus.All
+    CoinLeagueGameStatus.All,
   );
 
   const [showFilters, setShowFilters] = useState(false);
@@ -121,7 +121,7 @@ const CoinLeagueIndex: NextPage = () => {
 
   const handleChangeStatus = (
     event: SyntheticEvent<Element, Event>,
-    value: any
+    value: any,
   ) => {
     setStatus(value as CoinLeagueGameStatus);
   };
@@ -135,12 +135,12 @@ const CoinLeagueIndex: NextPage = () => {
     (game: GameGraph) => {
       setShareUrl(
         `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
-          gameChainId
-        )}/${game.id}`
+          gameChainId,
+        )}/${game.id}`,
       );
       setShowShareDialog(true);
     },
-    [gameChainId]
+    [gameChainId],
   );
 
   const handleShowMetadata = useCallback((game: GameGraph) => {

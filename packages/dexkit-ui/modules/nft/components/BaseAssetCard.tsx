@@ -33,7 +33,7 @@ import { truncateErc1155TokenId } from "../utils";
 import { AssetBuyOrder } from "./AssetBuyOrder";
 import { AssetMedia } from "./AssetMedia";
 const AssetDetailsDialog = dynamic(
-  () => import("./dialogs/AssetDetailsDialog")
+  () => import("./dialogs/AssetDetailsDialog"),
 );
 interface Props {
   asset?: Asset;
@@ -154,7 +154,7 @@ export function BaseAssetCard({
           LinkComponent={Link}
           disabled={disabled}
           href={`/asset/${getNetworkSlugFromChainId(
-            asset?.chainId
+            asset?.chainId,
           )}/${asset?.contractAddress}/${asset?.id}`}
         >
           {assetDetails}

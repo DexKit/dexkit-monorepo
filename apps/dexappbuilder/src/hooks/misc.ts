@@ -2,14 +2,9 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { isBalancesVisibleAtom } from '../state/atoms';
 
-
-
-
 export function useIsBalanceVisible() {
   return useAtomValue(isBalancesVisibleAtom);
 }
-
-
 
 const showSelectIsOpenAtom = atom(false);
 

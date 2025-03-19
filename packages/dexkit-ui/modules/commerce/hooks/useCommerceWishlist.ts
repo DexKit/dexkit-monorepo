@@ -4,7 +4,7 @@ import { useCallback } from "react";
 
 export const wishlistAtom = atomWithStorage<string[]>(
   "dexkit.commerce.wishlist",
-  []
+  [],
 );
 
 export function useCommerceWishlist() {
@@ -26,7 +26,7 @@ export function useCommerceWishlist() {
     (id: string) => {
       return wishlist.includes(id);
     },
-    [wishlist]
+    [wishlist],
   );
 
   return {

@@ -85,8 +85,8 @@ export default function AssetSectionForm({
               enableDarkblock: section.config.enableDarkblock
                 ? section.config.enableDarkblock
                 : darkblockQuery.data
-                ? darkblockQuery.data.settings.enableDarkblock
-                : false,
+                  ? darkblockQuery.data.settings.enableDarkblock
+                  : false,
             }
           : {
               address: '',

@@ -22,7 +22,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import CustomToolbar from "./CustomToolbar";
 import { LoadingOverlay } from "./LoadingOverlay";
 const AppConfirmDialog = dynamic(
-  () => import("@dexkit/ui/components/AppConfirmDialog")
+  () => import("@dexkit/ui/components/AppConfirmDialog"),
 );
 
 import useDeleteManyCategories from "@dexkit/ui/modules/commerce/hooks/useDeleteManyCategories";
@@ -37,7 +37,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
   const [categoryName, setCategoryName] = useState<string>();
 
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
-    []
+    [],
   );
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
@@ -95,7 +95,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
             id="category.deleted"
             defaultMessage="Category deleted"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirm(false);
         setSelectedId(undefined);
@@ -172,7 +172,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
           id="categories.deleted"
           defaultMessage="Categories deleted"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       await refetch();
     } catch (err) {
@@ -337,7 +337,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <AppsIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
             loadingOverlay: LoadingOverlay,
             noResultsOverlay: noRowsOverlay(
@@ -351,7 +351,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <AppsIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
           }}
         />

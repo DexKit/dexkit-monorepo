@@ -1,11 +1,9 @@
-
-import { CoinTypes } from '@dexkit/core/constants';
-import { ERC20Abi } from '@dexkit/core/constants/abis';
-import { Coin, EvmCoin } from '@dexkit/core/types';
-import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
-import { useMutation } from '@tanstack/react-query';
-import { Contract, providers } from 'ethers';
-
+import { CoinTypes } from "@dexkit/core/constants";
+import { ERC20Abi } from "@dexkit/core/constants/abis";
+import { Coin, EvmCoin } from "@dexkit/core/types";
+import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
+import { useMutation } from "@tanstack/react-query";
+import { Contract, providers } from "ethers";
 
 export function useEvmTransferMutation({
   provider,
@@ -18,7 +16,7 @@ export function useEvmTransferMutation({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => void;
 }) {
   return useMutation(
@@ -33,12 +31,12 @@ export function useEvmTransferMutation({
         const contract = new Contract(
           coin.contractAddress,
           ERC20Abi,
-          provider.getSigner()
+          provider.getSigner(),
         );
 
         const tx = await contract.transfer(
           address,
-          parseUnits(amount.toString(), coin.decimals)
+          parseUnits(amount.toString(), coin.decimals),
         );
 
         if (onSubmit) {
@@ -47,7 +45,6 @@ export function useEvmTransferMutation({
 
         return await tx.wait();
       }
-    }
+    },
   );
 }
-

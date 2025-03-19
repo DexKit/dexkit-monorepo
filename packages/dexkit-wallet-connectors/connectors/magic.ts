@@ -1,15 +1,10 @@
-
 import { EventEmitter } from "events";
 
 import { waitForEvent } from "../utils";
 
-
-
 export const MAGIC_EVENT_EXECUTE = "execute";
 export const MAGIC_EVENT_REQUEST = "request";
 export const MAGIC_EVENT_CANCEL = "cancel";
-
-
 
 export interface RequestArguments {
   method: string;
@@ -19,8 +14,6 @@ export interface RequestArguments {
 export type MagicConnectOptions = {
   apiKey: string;
 };
-
-
 
 export class ProviderWrapper {
   public provider: any;
@@ -41,7 +34,7 @@ export class ProviderWrapper {
       const newArgs = await waitForEvent(
         this.eventEmitter,
         "execute",
-        "cancel"
+        "cancel",
       );
 
       return this.provider.request(newArgs);
@@ -58,4 +51,3 @@ export class ProviderWrapper {
 }
 
 export type MagicLoginType = "email" | "google" | "twitter" | "discord";
-

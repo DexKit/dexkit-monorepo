@@ -12,7 +12,7 @@ import {
   ZEROEX_QUOTE_ENDPOINT,
   ZEROEX_SUPPORTS_GASLESS_ENDPOINT,
   ZEROEX_TOKENS_ENDPOINT,
-  ZERO_EX_URL
+  ZERO_EX_URL,
 } from "@dexkit/ui/modules/swap/constants";
 
 import {
@@ -20,7 +20,7 @@ import {
   ZeroExQuoteGasless,
   ZeroExQuoteResponse,
   ZrxOrderRecord,
-  ZrxOrderbookResponse
+  ZrxOrderbookResponse,
 } from "../types";
 
 export function getZeroExApiClient(chainId: ChainId) {
@@ -33,7 +33,7 @@ export class ZeroExApiClient {
   constructor(
     private chainId: ChainId,
     zeroExApiKey?: string,
-    private siteId?: number
+    private siteId?: number,
   ) {
     const headers: AxiosRequestHeaders = {};
 
@@ -48,14 +48,14 @@ export class ZeroExApiClient {
 
   async quote(
     quote: ZeroExQuote,
-    { signal }: { signal?: AbortSignal }
+    { signal }: { signal?: AbortSignal },
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_QUOTE_ENDPOINT,
       {
         params: quote,
         signal,
-      }
+      },
     );
 
     return resp.data;
@@ -63,30 +63,29 @@ export class ZeroExApiClient {
 
   async price(
     quote: ZeroExQuote,
-    { signal }: { signal?: AbortSignal }
+    { signal }: { signal?: AbortSignal },
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_PRICE_ENDPOINT,
       {
         params: quote,
         signal,
-      }
+      },
     );
 
     return resp.data;
   }
 
-
   async priceGasless(
     quote: ZeroExQuoteGasless,
-    { signal }: { signal?: AbortSignal }
+    { signal }: { signal?: AbortSignal },
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_PRICE_ENDPOINT,
       {
         params: quote,
         signal,
-      }
+      },
     );
 
     return resp.data;
@@ -94,14 +93,14 @@ export class ZeroExApiClient {
 
   async quoteGasless(
     quote: ZeroExQuoteGasless,
-    { signal }: { signal?: AbortSignal }
+    { signal }: { signal?: AbortSignal },
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_QUOTE_ENDPOINT,
       {
         params: quote,
         signal,
-      }
+      },
     );
 
     return resp.data;
@@ -109,21 +108,31 @@ export class ZeroExApiClient {
 
   async submitStatusGasless(
     { tradeHash }: { tradeHash: string },
-    { signal }: { signal?: AbortSignal }
-  ): Promise<{ status: "confirmed" | "failed" | 'pending' | "succeeded" | "submitted", transactions: { hash: string, timestamp: number }[], reason?: string }> {
+    { signal }: { signal?: AbortSignal },
+  ): Promise<{
+    status: "confirmed" | "failed" | "pending" | "succeeded" | "submitted";
+    transactions: { hash: string; timestamp: number }[];
+    reason?: string;
+  }> {
     const resp = await this.axiosInstance.get(
-      ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_STATUS_ENDPOINT + `/${tradeHash}`,
+      ZERO_EX_URL(this.chainId, this.siteId) +
+        ZEROEX_GASLESS_STATUS_ENDPOINT +
+        `/${tradeHash}`,
       {
         signal,
-      }
+      },
     );
 
     return resp.data;
   }
 
-  async submitGasless(
-    { trade, approval }: { approval: any, trade: any },
-  ): Promise<{ type: "metatransaction_v2", tradeHash: string }> {
+  async submitGasless({
+    trade,
+    approval,
+  }: {
+    approval: any;
+    trade: any;
+  }): Promise<{ type: "metatransaction_v2"; tradeHash: string }> {
     const resp = await this.axiosInstance.post(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_SUBMIT_ENDPOINT,
       { trade, approval },
@@ -134,19 +143,19 @@ export class ZeroExApiClient {
 
   async tokens(): Promise<any> {
     return this.axiosInstance.get(
-      ZERO_EX_URL(this.chainId) + ZEROEX_TOKENS_ENDPOINT
+      ZERO_EX_URL(this.chainId) + ZEROEX_TOKENS_ENDPOINT,
     );
   }
 
   async isTokenGaslessSupported(): Promise<any> {
     return this.axiosInstance.get(
-      ZERO_EX_URL(this.chainId) + ZEROEX_SUPPORTS_GASLESS_ENDPOINT
+      ZERO_EX_URL(this.chainId) + ZEROEX_SUPPORTS_GASLESS_ENDPOINT,
     );
   }
 
   async order(hash: string): Promise<ZrxOrderRecord> {
     const resp = await this.axiosInstance.get(
-      `${ZERO_EX_URL(this.chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}/${hash}`
+      `${ZERO_EX_URL(this.chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}/${hash}`,
     );
 
     return resp.data;
@@ -164,7 +173,7 @@ export class ZeroExApiClient {
       {
         signal,
         params: { trader },
-      }
+      },
     );
     return resp.data;
   }

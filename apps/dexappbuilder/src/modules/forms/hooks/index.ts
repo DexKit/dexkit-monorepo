@@ -51,7 +51,7 @@ export function useCreateFormMutation({ templateId }: { templateId?: number }) {
         params: JSON.parse(data.rawData),
         templateId: data.template?.id,
       } as ContractFormData;
-    }
+    },
   );
 }
 
@@ -69,7 +69,7 @@ export function useUpdateFormMutation() {
         description: params.description,
         params: JSON.stringify(params.params),
       });
-    }
+    },
   );
 }
 
@@ -94,7 +94,7 @@ export function useFormQuery({ id }: { id?: number }) {
         templateId: data.template?.id,
       } as ContractFormData;
     },
-    { enabled: id !== undefined }
+    { enabled: id !== undefined },
   );
 }
 
@@ -114,7 +114,7 @@ export function useCreateFormTemplateMutation() {
           name: params.name,
         })
       ).data;
-    }
+    },
   );
 }
 
@@ -136,7 +136,7 @@ export function useUpdateFormTemplateMutation() {
           name: params.name,
         })
       ).data;
-    }
+    },
   );
 }
 
@@ -161,7 +161,7 @@ export function useFormTemplateQuery({ id }: { id?: number }) {
         name: data.name,
       } as FormTemplate;
     },
-    { enabled: id !== undefined, refetchOnWindowFocus: false }
+    { enabled: id !== undefined, refetchOnWindowFocus: false },
   );
 }
 
@@ -194,9 +194,9 @@ export function useListFormsQuery({
             creatorAddress: form.creatorAddress,
             params: JSON.parse(form.rawData),
             templateId: form.template?.id,
-          } as ContractFormData)
+          }) as ContractFormData,
       );
-    }
+    },
   );
 }
 
@@ -233,10 +233,10 @@ export function useListFormTemplatesQuery({
             bytecode: template.bytecode,
             description: template.description,
             name: template.name,
-          } as FormTemplate)
+          }) as FormTemplate,
       );
     },
-    { enabled: creatorAddress !== undefined }
+    { enabled: creatorAddress !== undefined },
   );
 }
 
@@ -270,7 +270,7 @@ export function useSaveInstanceMutation() {
       description: string;
     }) => {
       return await createTemplateInstance(params);
-    }
+    },
   );
 }
 
@@ -290,7 +290,7 @@ export function useListTemplateInstances({
 
       return await listTemplateInstances(templateId);
     },
-    { enabled: templateId !== undefined }
+    { enabled: templateId !== undefined },
   );
 }
 
@@ -342,7 +342,7 @@ export function useSaveContractDeployed() {
         createdAtTx,
         referral,
       });
-    }
+    },
   );
 }
 
@@ -373,7 +373,7 @@ export function useImportContract() {
         owner: account?.toLowerCase(),
         referral,
       });
-    }
+    },
   );
 }
 
@@ -428,7 +428,7 @@ export function useInfiniteListDeployedContracts({
     },
     {
       getNextPageParam: ({ nextCursor }) => nextCursor,
-    }
+    },
   );
 }
 
@@ -498,7 +498,7 @@ export function useListDeployedContracts({
       }
 
       return { data: [] };
-    }
+    },
   );
 }
 
@@ -512,7 +512,7 @@ export function useContractVisibility() {
           visibility,
         })
       )?.data;
-    }
+    },
   );
 }
 

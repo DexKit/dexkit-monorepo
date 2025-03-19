@@ -7,11 +7,11 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { isAddressEqual } from "@dexkit/core/utils/blockchain";
 import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSignMessageDialog,
-    useSwitchNetwork,
-    useTokenList,
+  useConnectWalletDialog,
+  useDexKitContext,
+  useSignMessageDialog,
+  useSwitchNetwork,
+  useTokenList,
 } from "@dexkit/ui/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
@@ -20,14 +20,14 @@ import dynamic from "next/dynamic";
 import { getERC20Name, getERC20Symbol } from "@dexkit/core/services/balances";
 import Icon from "../../../components/Icon";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useAsset,
-    useAssetBalance,
-    useAssetMetadata,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetBalance,
+  useAssetMetadata,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { getAssetProtocol, isERC1155Owner } from "../utils";
 import { TransferAssetButton } from "./TransferAssetButton";
@@ -90,7 +90,7 @@ export function AssetPricePaper({ address, id }: Props) {
         }
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const handleApproveAssetMutate = useCallback(
@@ -109,14 +109,14 @@ export function AssetPricePaper({ address, id }: Props) {
         }
       }
     },
-    [watchTransactionDialog, asset]
+    [watchTransactionDialog, asset],
   );
 
   const handleApproveAssetError = useCallback(
     (error: any) => {
       watchTransactionDialog.setDialogError(error);
     },
-    [watchTransactionDialog]
+    [watchTransactionDialog],
   );
 
   const approveAsset = useApproveAssetMutation(
@@ -126,7 +126,7 @@ export function AssetPricePaper({ address, id }: Props) {
     {
       onMutate: handleApproveAssetMutate,
       onError: handleApproveAssetError,
-    }
+    },
   );
 
   const signMessageDialog = useSignMessageDialog();
@@ -137,7 +137,7 @@ export function AssetPricePaper({ address, id }: Props) {
       formatMessage({
         id: "creating.a.listing",
         defaultMessage: "Creating a listing",
-      })
+      }),
     );
   }, [signMessageDialog]);
 
@@ -147,7 +147,7 @@ export function AssetPricePaper({ address, id }: Props) {
       formatMessage({
         id: "creating.an.offer",
         defaultMessage: "Creating an offer",
-      })
+      }),
     );
   }, [signMessageDialog]);
 
@@ -159,7 +159,7 @@ export function AssetPricePaper({ address, id }: Props) {
     (err: any) => {
       signMessageDialog.setError(err);
     },
-    [signMessageDialog]
+    [signMessageDialog],
   );
 
   const handleSignMessageSuccess = useCallback(() => {
@@ -186,7 +186,7 @@ export function AssetPricePaper({ address, id }: Props) {
       onSuccess: handleSignMessageSuccess,
       onMutate: handleOpenSignMessageListingDialog,
       onError: handleSignMessageError,
-    }
+    },
   );
 
   const makeOffer = useMakeOfferMutation(nftSwapSdk, account, asset?.chainId, {
@@ -232,7 +232,7 @@ export function AssetPricePaper({ address, id }: Props) {
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string,
-    quantity?: BigNumber
+    quantity?: BigNumber,
   ) => {
     setOpenMakeListing(false);
 
@@ -246,7 +246,7 @@ export function AssetPricePaper({ address, id }: Props) {
         tokenId: id as string,
         type: getAssetProtocol(asset),
       },
-      account
+      account,
     );
 
     if (!status?.contractApproved) {
@@ -280,7 +280,7 @@ export function AssetPricePaper({ address, id }: Props) {
     amount: BigNumber,
     tokenAddress: string,
     expiry: Date | null,
-    quantity?: BigNumber
+    quantity?: BigNumber,
   ) => {
     setOpenMakeOffer(false);
 
@@ -294,7 +294,7 @@ export function AssetPricePaper({ address, id }: Props) {
         type: "ERC20",
         amount: amount.toString(),
       },
-      account
+      account,
     );
 
     if (!status?.contractApproved) {

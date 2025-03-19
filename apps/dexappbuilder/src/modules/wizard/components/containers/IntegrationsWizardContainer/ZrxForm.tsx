@@ -33,7 +33,7 @@ export default function ZrxForm({ siteId, dialog }: ZrxFormProps) {
             id="saved.successfully"
             defaultMessage="Saved successfully"
           />,
-          { variant: 'success' }
+          { variant: 'success' },
         );
       }
     } catch (err) {

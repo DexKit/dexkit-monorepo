@@ -55,9 +55,9 @@ export function useTokenAllowanceQuery({
         provider,
         tokenAddress,
         account,
-        spender
+        spender,
       );
-    }
+    },
   );
 }
 
@@ -91,7 +91,7 @@ export function useApproveToken({
       tokenContract,
       spender,
       BigNumber.from('1000000').mul(BigNumber.from('10').pow(18)),
-      provider
+      provider,
     );
 
     onSubmited(tx.hash);

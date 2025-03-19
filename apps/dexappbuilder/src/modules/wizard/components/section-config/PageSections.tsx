@@ -54,8 +54,8 @@ function getSectionType(
               defaultMessage: 'Unnamed Section',
             })
           : section.name
-          ? section.name
-          : section.title || '',
+            ? section.name
+            : section.title || '',
       icon: config.icon,
     };
   }

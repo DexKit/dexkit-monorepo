@@ -19,7 +19,7 @@ export interface OrdersTableRowProps {
     baseTokenSymbol?: string,
     quoteTokenSymbol?: string,
     baseTokenAmount?: string,
-    quoteTokenAmount?: string
+    quoteTokenAmount?: string,
   ) => void;
 }
 
@@ -64,7 +64,7 @@ export default function OrdersTableRow({
 
     const amountToBeFilled = BigNumber.from(record.order.takerAmount);
     const remainingFillableAmount = BigNumber.from(
-      record.metaData.remainingFillableTakerAmount
+      record.metaData.remainingFillableTakerAmount,
     );
 
     return formatUnits(amountToBeFilled.sub(remainingFillableAmount), decimals);
@@ -94,7 +94,7 @@ export default function OrdersTableRow({
       baseTokenSymbol,
       quoteTokenSymbol,
       baseTokenAmount,
-      quoteTokenAmount
+      quoteTokenAmount,
     );
   };
 

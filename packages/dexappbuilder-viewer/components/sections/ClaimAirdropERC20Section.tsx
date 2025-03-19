@@ -6,23 +6,23 @@ import { useInterval } from "@dexkit/ui/hooks/misc";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { useMerkleTreeAllowListQuery } from "@dexkit/ui/modules/token/hooks/merkleTree";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-    createMerkleTreeFromAllowList,
-    getProofsForAllowListEntry,
-    useContract,
-    useContractRead,
+  createMerkleTreeFromAllowList,
+  getProofsForAllowListEntry,
+  useContract,
+  useContractRead,
 } from "@thirdweb-dev/react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -56,11 +56,11 @@ export default function ClaimAirdropERC20Section({
 
   const contractAddressAirdropQuery = useContractRead(
     contract,
-    "airdropTokenAddress"
+    "airdropTokenAddress",
   );
   const openClaimLimitPerWalletQuery = useContractRead(
     contract,
-    "openClaimLimitPerWallet"
+    "openClaimLimitPerWallet",
   );
 
   const availableAmountQuery = useContractRead(contract, "availableAmount");
@@ -70,12 +70,12 @@ export default function ClaimAirdropERC20Section({
   const supplyClaimedByWalletQuery = useContractRead(
     contract,
     "supplyClaimedByWallet",
-    [account]
+    [account],
   );
 
   const expirationTimestampQuery = useContractRead(
     contract,
-    "expirationTimestamp"
+    "expirationTimestamp",
   );
 
   const countDown = useMemo(() => {
@@ -108,12 +108,12 @@ export default function ClaimAirdropERC20Section({
       setCount(count + 1);
     },
     // Delay in milliseconds or null to stop it
-    countDown === "Expired" ? null : 1000
+    countDown === "Expired" ? null : 1000,
   );
 
   const { data: tokenContract, isFetched } = useContract(
     contractAddressAirdropQuery.data as string,
-    "token"
+    "token",
   );
 
   const tokenAddress = contractAddressAirdropQuery.data;
@@ -126,7 +126,7 @@ export default function ClaimAirdropERC20Section({
       } else {
         return null;
       }
-    }
+    },
   );
 
   const merkleTreeAllowList = useMerkleTreeAllowListQuery({
@@ -138,7 +138,7 @@ export default function ClaimAirdropERC20Section({
   const getUserProof = async (
     address: string,
     allowList: { address: string; maxClaimable: string }[],
-    amount: string
+    amount: string,
   ) => {
     const merkleTree = await createMerkleTreeFromAllowList(allowList);
 
@@ -168,12 +168,12 @@ export default function ClaimAirdropERC20Section({
         tokenMetadataQuery?.data?.decimals
       ) {
         const claimer = merkleTreeAllowList.data.find(
-          (d) => d.address.toLowerCase() === account.toLowerCase()
+          (d) => d.address.toLowerCase() === account.toLowerCase(),
         );
         if (claimer && claimer?.maxClaimable) {
           return parseUnits(
             claimer?.maxClaimable,
-            tokenMetadataQuery?.data?.decimals
+            tokenMetadataQuery?.data?.decimals,
           );
         } else {
           return BigNumber.from(0);
@@ -202,7 +202,7 @@ export default function ClaimAirdropERC20Section({
   const amountToBeClaimed = useMemo(() => {
     if (supplyClaimedByWalletQuery.data && amountMaxToClaim) {
       return BigNumber.from(amountMaxToClaim).sub(
-        supplyClaimedByWalletQuery.data
+        supplyClaimedByWalletQuery.data,
       );
     }
   }, [supplyClaimedByWalletQuery.data, amountMaxToClaim]);
@@ -231,7 +231,7 @@ export default function ClaimAirdropERC20Section({
     ) {
       return formatUnits(
         availableAmountQuery.data,
-        tokenMetadataQuery?.data?.decimals
+        tokenMetadataQuery?.data?.decimals,
       );
     }
     return " ";
@@ -264,14 +264,14 @@ export default function ClaimAirdropERC20Section({
         amountToBeClaimed
       ) {
         const claimer = merkleTreeAllowList.data.find(
-          (d) => d.address.toLowerCase() === account.toLowerCase()
+          (d) => d.address.toLowerCase() === account.toLowerCase(),
         );
 
         if (claimer) {
           const proof = await getUserProof(
             account.toLowerCase(),
             merkleTreeAllowList.data,
-            claimer.maxClaimable
+            claimer.maxClaimable,
           );
 
           preparedTX = contract.prepare("claim", [
@@ -406,7 +406,7 @@ export default function ClaimAirdropERC20Section({
                   claimAirdropMutation.mutate(undefined, {
                     onError: (e) => {
                       watchTransactionDialog.setError(
-                        new Error("Error deploying contract")
+                        new Error("Error deploying contract"),
                       );
                     },
                   })

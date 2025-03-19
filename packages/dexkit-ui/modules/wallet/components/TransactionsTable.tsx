@@ -41,7 +41,7 @@ export function TransactionsTable({ filter }: TransactionsTableProps) {
   const pageList = useMemo(() => {
     return filteredNotifications.slice(
       page * pageSize,
-      page * pageSize + pageSize
+      page * pageSize + pageSize,
     );
   }, [filteredNotifications, page, pageSize]);
 
@@ -75,7 +75,7 @@ export function TransactionsTable({ filter }: TransactionsTableProps) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setPageSize(parseInt(event.target.value, 10));
     setPage(0);

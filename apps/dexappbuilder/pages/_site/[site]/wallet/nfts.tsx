@@ -3,17 +3,17 @@ import TableSkeleton from '@dexkit/ui/modules/nft/components/tables/TableSkeleto
 import HiddenAssetsSection from '@dexkit/ui/modules/wallet/components/HiddenAssetsSection';
 import WalletAssetsFilter from '@dexkit/ui/modules/wallet/components/WalletAssetsFilter';
 import WalletAssetsSection from '@dexkit/ui/modules/wallet/components/WalletAssetsSection';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Container,
-    Drawer,
-    Grid,
-    Paper,
-    Stack,
-    Tabs,
-    Typography,
+  Box,
+  Button,
+  Container,
+  Drawer,
+  Grid,
+  Paper,
+  Stack,
+  Tabs,
+  Typography,
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';

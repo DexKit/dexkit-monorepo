@@ -1,10 +1,16 @@
 import { TransactionStatus } from "@dexkit/core/constants/enums";
-import type { AppTransaction, Asset, TokenWhitelabelApp } from "@dexkit/core/types";
+import type {
+  AppTransaction,
+  Asset,
+  TokenWhitelabelApp,
+} from "@dexkit/core/types";
 import { PrimitiveAtom, useAtom, useAtomValue } from "jotai";
-import type { AppNotification, AppNotificationType, CreateAppNotificationParams } from "../types";
+import type {
+  AppNotification,
+  AppNotificationType,
+  CreateAppNotificationParams,
+} from "../types";
 import { useWatchTransactionDialog } from "./useWatchTransactionsDialog";
-
-
 
 export function useDexkitContextState({
   notificationTypes,

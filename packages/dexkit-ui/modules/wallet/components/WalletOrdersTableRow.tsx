@@ -50,7 +50,7 @@ export function WalletOrdersTableRow({ order }: Props) {
               <FormattedNumber
                 currency={currency.currency}
                 value={parseFloat(
-                  formatUnits(order.order.erc20TokenAmount, token.decimals)
+                  formatUnits(order.order.erc20TokenAmount, token.decimals),
                 )}
               />
             }{" "}
@@ -89,16 +89,18 @@ export function WalletOrdersTableRow({ order }: Props) {
     <TableRow>
       <TableCell>
         <Link
-          href={`/order/${NETWORK_SLUG(order.asset?.chainId)}/${order?.order
-            .nonce}`}
+          href={`/order/${NETWORK_SLUG(order.asset?.chainId)}/${
+            order?.order.nonce
+          }`}
         >
           {order?.order?.nonce.substring(order?.order?.nonce.length - 8)}
         </Link>
       </TableCell>
       <TableCell>
         <Link
-          href={`/asset/${NETWORK_SLUG(order.asset?.chainId)}/${order.asset
-            ?.contractAddress}/${order.asset?.id}`}
+          href={`/asset/${NETWORK_SLUG(order.asset?.chainId)}/${
+            order.asset?.contractAddress
+          }/${order.asset?.id}`}
         >
           {order.asset?.metadata?.name || (
             <FormattedMessage id="unknown.name" defaultMessage="Unknown name" />

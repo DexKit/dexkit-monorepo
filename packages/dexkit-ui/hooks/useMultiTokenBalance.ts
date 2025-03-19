@@ -35,7 +35,7 @@ export function useMultiTokenBalance({
           .filter((t) => t.chainId === chainId)
           .map((t) => ({ contractAddress: t.address })),
         provider,
-        account
+        account,
       );
     },
     {
@@ -43,6 +43,6 @@ export function useMultiTokenBalance({
       refetchOnWindowFocus: "always",
       staleTime: 1000,
       enabled: Boolean(provider),
-    }
+    },
   );
 }

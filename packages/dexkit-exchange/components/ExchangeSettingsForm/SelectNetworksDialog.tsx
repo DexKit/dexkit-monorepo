@@ -51,7 +51,7 @@ export default function SelectNetworksDialog({
         setFieldValue("availNetworks", newNetworks);
       };
     },
-    [values]
+    [values],
   );
 
   const handleClose = () => {
@@ -81,7 +81,7 @@ export default function SelectNetworksDialog({
                 <ListItemAvatar>
                   <Avatar
                     src={ipfsUriToUrl(
-                      NETWORKS[parseChainId(key)].imageUrl || ""
+                      NETWORKS[parseChainId(key)].imageUrl || "",
                     )}
                   />
                 </ListItemAvatar>

@@ -35,7 +35,7 @@ export const ProductSchema = z.object({
 
       return false;
     },
-    { message: "Must be greater than zero" }
+    { message: "Must be greater than zero" },
   ),
   category: z
     .custom<z.infer<typeof CategoryFormSchema>>()
@@ -80,7 +80,7 @@ export const UserCheckoutItemsFormSchema = z.object({
     z.object({
       quantity: z.number().min(1).max(100),
       price: z.string(),
-    })
+    }),
   ),
 });
 

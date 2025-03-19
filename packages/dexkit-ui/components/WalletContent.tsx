@@ -38,18 +38,18 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useDisconnect } from "wagmi";
 import { useBalanceVisible } from "../modules/wallet/hooks";
 const EvmReceiveDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
+  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog"),
 );
 
 const EvmTransferCoinDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
-    )
+    ),
 );
 
 const SelectNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
+  () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog"),
 );
 
 export default function WalletContent() {

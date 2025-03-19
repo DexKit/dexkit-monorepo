@@ -60,7 +60,7 @@ export function CommerceBreadcrumbs({
         setContainer(containerId, params);
       };
     },
-    [setContainer]
+    [setContainer],
   );
 
   // TODO: make push logic to go back on mobile...

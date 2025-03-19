@@ -32,14 +32,14 @@ export default function DomainSection({
   const handleSubmit = useCallback(
     (
       values: DomainSectionForm,
-      formikHelpers: FormikHelpers<DomainSectionForm>
+      formikHelpers: FormikHelpers<DomainSectionForm>,
     ) => {
       if (onSubmit) {
         onSubmit(values);
         setIsEditing(false);
       }
     },
-    [onSubmit]
+    [onSubmit],
   );
 
   const formik = useFormik<DomainSectionForm>({

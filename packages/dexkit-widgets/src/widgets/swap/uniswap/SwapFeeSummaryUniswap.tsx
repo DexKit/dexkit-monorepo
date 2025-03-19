@@ -100,10 +100,10 @@ export default function SwapFeeSummaryUniswap({
   const sellTokenByBuyToken = useMemo(() => {
     if (buyToken && sellToken && quote && quote.sellAmount && quote.buyAmount) {
       const sellAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.sellAmount), sellToken.decimals)
+        formatBigNumber(BigNumber.from(quote.sellAmount), sellToken.decimals),
       );
       const buyAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals)
+        formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals),
       );
 
       return toggleSide ? buyAmount / sellAmount : sellAmount / buyAmount;

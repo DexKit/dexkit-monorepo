@@ -40,7 +40,7 @@ function FormWrapper({
           id="collection.updated"
           defaultMessage="Collection updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       setContainer("commerce.products.collections");
     } catch (err) {

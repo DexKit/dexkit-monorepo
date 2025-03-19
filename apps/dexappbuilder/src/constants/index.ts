@@ -4,17 +4,12 @@ import { TRADER_BASE_API } from '@dexkit/ui/constants/api';
 import moment from 'moment';
 import { Token } from '../types/blockchain';
 
-
-export const TRADER_BASE_URL = TRADER_BASE_API
-
+export const TRADER_BASE_URL = TRADER_BASE_API;
 
 export const TRADER_ORDERBOOK_API = `${TRADER_BASE_URL}/orderbook/orders`;
 
-
 // revalidate page time
 export const REVALIDATE_PAGE_TIME = 180;
-
-
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -46,8 +41,6 @@ export const MATIC_COIN: Token = {
 
 export const MIN_ORDER_DATE_TIME = moment.duration(1, 'hour');
 
-
-
 export const ZERO_EX_CHAIN_PREFIX = (chainId?: number) => {
   switch (chainId) {
     case ChainId.Polygon:
@@ -77,7 +70,7 @@ export const ZERO_EX_CHAIN_PREFIX = (chainId?: number) => {
 
 export const ZERO_EX_QUOTE_ENDPOINT = (chainId?: number) => {
   const endpoint = `https://${ZERO_EX_CHAIN_PREFIX(
-    chainId
+    chainId,
   )}api.0x.org/swap/v1/quote`;
 
   return endpoint;
@@ -87,8 +80,6 @@ export const ZERO_EX_TOKENS_ENDPOINT = (chainId?: number) =>
   `https://${ZERO_EX_CHAIN_PREFIX(chainId)}api.0x.org/swap/v1/tokens`;
 
 export const NUMBER_REGEX = new RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$');
-
-
 
 export const WIZARD_DOCS_URL =
   'https://docs.dexkit.com/defi-products/nft-marketplace/overview';
@@ -105,8 +96,6 @@ export const DEXKIT_BASE_API_URL =
   process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT ?? 'http://localhost:3005';
 //export const DEXKIT_BASE_API_URL = 'https://dexkit-main-api-9vzhs.ondigitalocean.app'
 // export const DEXKIT_BASE_API_URL = 'https://nft-api.dexkit.com';
-
-
 
 export const DEXKIT_AUTHENTICATE_API_KEY = process.env.MARKETPLACE_API_KEY
   ? process.env.MARKETPLACE_API_KEY
@@ -139,5 +128,3 @@ export const DEXKIT_NFT_BASE_URI = DEXKIT_BASE_API_URL;
 export const DEXKIT_NFT_METADATA_URI = `${DEXKIT_NFT_BASE_URI}/asset/metadata`;
 
 export const MIN_KIT_HOLDING_AI_GENERATION = '1000';
-
-

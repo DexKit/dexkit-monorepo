@@ -27,7 +27,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
   const [formData, setFormData] = useState<SwapConfig | undefined>(data);
 
   const [selectedChainId, setSelectedChainId] = useState<number | undefined>(
-    data?.defaultChainId
+    data?.defaultChainId,
   );
 
   const sellToken = useMemo(() => {

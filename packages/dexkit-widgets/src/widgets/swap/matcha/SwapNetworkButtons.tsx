@@ -35,7 +35,7 @@ export default function SwapNetworkButtons({
         .filter((key) => {
           return !NETWORKS[parseChainId(key)].testnet;
         }),
-    []
+    [],
   );
 
   return (

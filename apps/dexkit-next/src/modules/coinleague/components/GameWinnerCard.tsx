@@ -51,7 +51,7 @@ export default function GameWinnerCard({
           }
 
           return 0;
-        }
+        },
       );
     }
 
@@ -61,7 +61,7 @@ export default function GameWinnerCard({
   const position = useMemo(() => {
     if (game && account) {
       return playerList.findIndex((p) =>
-        isAddressEqual(p.player_address, account)
+        isAddressEqual(p.player_address, account),
       );
     }
 
@@ -71,7 +71,7 @@ export default function GameWinnerCard({
   const prizeByPosition = useMemo(() => {
     if (game && coinToPlay) {
       const prize = BigNumber.from(game?.amount_to_play).mul(
-        BigNumber.from(game.players.length)
+        BigNumber.from(game.players.length),
       );
 
       if (playerList.length > 3) {
@@ -82,23 +82,23 @@ export default function GameWinnerCard({
         if (position === 0) {
           return ethers.utils.formatUnits(
             partPrize.div(BigNumber.from('10')).mul(BigNumber.from('6')),
-            coinToPlay.decimals
+            coinToPlay.decimals,
           );
         } else if (position === 1) {
           return ethers.utils.formatUnits(
             partPrize.div(BigNumber.from('10')).mul(BigNumber.from('3')),
-            coinToPlay.decimals
+            coinToPlay.decimals,
           );
         } else if (position === 2) {
           return ethers.utils.formatUnits(
             partPrize.div(BigNumber.from('10')).mul(BigNumber.from('1')),
-            coinToPlay.decimals
+            coinToPlay.decimals,
           );
         }
       } else if (position === 0) {
         return ethers.utils.formatUnits(
           prize.div(BigNumber.from('10')).mul(BigNumber.from('9')),
-          coinToPlay.decimals
+          coinToPlay.decimals,
         );
       }
     }

@@ -1,6 +1,6 @@
-import { Link, Typography, TypographyProps } from '@mui/material';
-import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Link, Typography, TypographyProps } from "@mui/material";
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
 
 export interface AppExpandableTypographyProps {
   value: string;
@@ -22,7 +22,7 @@ export function AppExpandableTypography({
       <Typography {...TypographyProps}>
         {expanded
           ? value
-          : `${value.slice(0, 100)}${value.length > 100 ? '...' : ''}`}
+          : `${value.slice(0, 100)}${value.length > 100 ? "..." : ""}`}
       </Typography>
       {value.length > 100 && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -30,7 +30,7 @@ export function AppExpandableTypography({
           type="button"
           component="button"
           variant={TypographyProps.variant}
-          sx={{ fontSize: 'inherit' }}
+          sx={{ fontSize: "inherit" }}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? (

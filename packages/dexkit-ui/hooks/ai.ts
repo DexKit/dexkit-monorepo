@@ -17,7 +17,7 @@ export function useCompletation() {
           messages,
         })
       )?.data;
-    }
+    },
   );
 }
 
@@ -34,7 +34,7 @@ export function useImageGenerate() {
       onError: (err) => {
         enqueueSnackbar(String(err), { variant: "error" });
       },
-    }
+    },
   );
 }
 
@@ -52,13 +52,13 @@ export function useSaveImages() {
       onSuccess: () => {
         enqueueSnackbar(
           formatMessage({ id: "saved", defaultMessage: "Saved" }),
-          { variant: "success" }
+          { variant: "success" },
         );
       },
       onError: (err) => {
         enqueueSnackbar(String(err), { variant: "error" });
       },
-    }
+    },
   );
 }
 
@@ -69,7 +69,7 @@ export function useGenVariants() {
       return (
         await instance?.post<string[]>("/ai/image/variants", { url, numImages })
       )?.data;
-    }
+    },
   );
 }
 
@@ -104,7 +104,7 @@ export function useEditImage() {
       }
 
       return (await instance?.post<string[]>("/ai/image/edit", form))?.data;
-    }
+    },
   );
 }
 

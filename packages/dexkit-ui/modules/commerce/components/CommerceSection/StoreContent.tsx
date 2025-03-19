@@ -29,7 +29,7 @@ import FiltersSection from "./FiltersSection";
 import dynamic from "next/dynamic";
 
 const ShareMenu = dynamic(
-  () => import("@dexkit/ui/components/dialogs/ShareMenu")
+  () => import("@dexkit/ui/components/dialogs/ShareMenu"),
 );
 
 export const DEFAULT_FILTERS = {
@@ -80,7 +80,7 @@ export default function StoreContent({}: StoreContentProps) {
   });
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFilters((values) => ({
       ...values,

@@ -45,7 +45,7 @@ export default function CompletationPopover({
 
       enqueueSnackbar(
         <FormattedMessage id="ai.activated" defaultMessage="AI Activated" />,
-        { variant: "success" }
+        { variant: "success" },
       );
 
       await subQuery.refetch();

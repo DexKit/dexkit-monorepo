@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export function useAsyncMemo<T>(
   cb: (initial: T) => Promise<T>,
   initial: T,
-  args: unknown[]
+  args: unknown[],
 ) {
   const [result, setResult] = useState<T>(initial);
 

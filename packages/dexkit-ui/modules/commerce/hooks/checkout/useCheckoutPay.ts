@@ -41,6 +41,6 @@ export default function useCheckoutPay() {
       }
 
       return (await instance.post<Order>(`/checkouts/${id}/pay`, params)).data;
-    }
+    },
   );
 }

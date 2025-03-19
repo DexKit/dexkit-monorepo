@@ -21,7 +21,7 @@ export interface CheckoutTokenAutocompleteProps {
 }
 
 export default function CheckoutTokenAutocomplete(
-  props: CheckoutTokenAutocompleteProps
+  props: CheckoutTokenAutocompleteProps,
 ) {
   const { data, label, onChange, chainId, disabled, tokens, token } = props;
 
@@ -92,7 +92,7 @@ export default function CheckoutTokenAutocomplete(
             <Typography color="text.secondary">
               {formatBigNumber(
                 getTokenBalance(option.address),
-                option.decimals
+                option.decimals,
               )}{" "}
               {option?.symbol.toUpperCase() || ""}
             </Typography>

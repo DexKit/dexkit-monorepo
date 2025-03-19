@@ -29,7 +29,7 @@ export default function TokenTradeSection({ section }: TokenTradeSectionProps) {
   const baseToken = useMemo(() => {
     if (tokens && baseTokenConfig && tokens.length) {
       return tokens.find((tk) =>
-        isAddressEqual(baseTokenConfig.address, tk.address)
+        isAddressEqual(baseTokenConfig.address, tk.address),
       );
     }
   }, [tokens, baseTokenConfig]);

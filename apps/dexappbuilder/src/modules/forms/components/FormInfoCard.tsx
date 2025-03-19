@@ -171,7 +171,7 @@ export default function FormInfoCard({
                 startIcon={<ReceiptLongIcon />}
                 target="_blank"
                 href={`${getBlockExplorerUrl(
-                  chainId
+                  chainId,
                 )}/address/${contractAddress}`}
               >
                 <FormattedMessage

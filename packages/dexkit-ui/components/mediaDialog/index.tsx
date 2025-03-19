@@ -196,7 +196,7 @@ export default function MediaDialog({
         { id: selectedFile.id, newFileName: newFileName },
         {
           onSuccess: () => filesQuery.refetch(),
-        }
+        },
       );
       setNewFileName(undefined);
       setEditFileName(undefined);
@@ -242,7 +242,7 @@ export default function MediaDialog({
       handleShowImageGeneratorDialog("select");
       setAiImage(url);
     },
-    [handleShowImageGeneratorDialog]
+    [handleShowImageGeneratorDialog],
   );
 
   return (
@@ -468,8 +468,10 @@ export default function MediaDialog({
                   {fileUploadMutation.isError && (
                     <Box sx={{ p: 2 }}>
                       <FormattedMessage id="reason" defaultMessage="Reason" />:{" "}
-                      {`${(fileUploadMutation.error as any)?.response?.data
-                        ?.message}`}
+                      {`${
+                        (fileUploadMutation.error as any)?.response?.data
+                          ?.message
+                      }`}
                     </Box>
                   )}
                 </Stack>
@@ -812,7 +814,7 @@ export default function MediaDialog({
                     onChange={(_ev, _page) => setPage(_page - 1)}
                     count={
                       Math.floor(
-                        filesQuery?.data?.total / filesQuery?.data?.take
+                        filesQuery?.data?.total / filesQuery?.data?.take,
                       ) + 1
                     }
                   />

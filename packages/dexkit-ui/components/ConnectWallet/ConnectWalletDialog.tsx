@@ -67,7 +67,7 @@ export default function ConnectWalletDialog({
 
   const [connectorName, setConnectorName] = useState<string>();
   const [loginType, setLoginType] = useState<MagicLoginType | undefined>(
-    localStorage.getItem("loginType") as MagicLoginType
+    localStorage.getItem("loginType") as MagicLoginType,
   );
 
   const handleClose = () => {
@@ -197,7 +197,7 @@ export default function ConnectWalletDialog({
               setLoginType(conn.oauth as any);
               localStorage.setItem("loginType", conn.oauth);
               const magicConnector = wagmiConnectors.find(
-                (c) => c.id === "magic"
+                (c) => c.id === "magic",
               );
 
               if (magicConnector) {

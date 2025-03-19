@@ -4,13 +4,13 @@ import { useAssetsOrderBook } from '@dexkit/ui/modules/nft/hooks';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Search from '@mui/icons-material/Search';
 import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    InputAdornment,
-    Stack,
-    TextField,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  InputAdornment,
+  Stack,
+  TextField,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import dynamic from 'next/dynamic';

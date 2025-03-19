@@ -30,7 +30,7 @@ function CreateProductCollectionComponent() {
           id="collection.created"
           defaultMessage="Collection created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       setContainer("commerce.products.collections");
     } catch (err) {

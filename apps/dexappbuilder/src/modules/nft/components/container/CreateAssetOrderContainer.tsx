@@ -11,23 +11,23 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import Launch from '@mui/icons-material/Launch';
 import {
-    Alert,
-    Autocomplete,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    Grid,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
 import { PostOrderResponsePayload } from '@traderxyz/nft-swap-sdk/dist/sdk/v4/orderbook';
@@ -38,20 +38,20 @@ import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
-    getBlockExplorerUrl,
-    getChainName,
-    getChainSlug,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getChainName,
+  getChainSlug,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils/blockchain';
 import Link from '@dexkit/ui/components/AppLink';
 import {
-    useAccountAssetsBalance,
-    useApproveAssetMutation,
-    useFavoriteAssets,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  useAccountAssetsBalance,
+  useApproveAssetMutation,
+  useFavoriteAssets,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from '@dexkit/ui/modules/nft/hooks';
 
 import { getERC20Name, getERC20Symbol } from '@dexkit/core/services/balances';

@@ -86,7 +86,7 @@ export default function EvmSendDialog({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => {
     enqueueSnackbar(
       formatMessage({
@@ -95,7 +95,7 @@ export default function EvmSendDialog({
       }),
       {
         variant: 'info',
-      }
+      },
     );
     if (chainId !== undefined) {
       const now = Date.now();
@@ -112,7 +112,7 @@ export default function EvmSendDialog({
               symbol: params.coin.symbol,
               amount: params.amount,
               address: truncateAddress(params.address),
-            }
+            },
           ) as string,
           hash,
           checked: false,
@@ -167,11 +167,11 @@ export default function EvmSendDialog({
               id: 'transaction.failed.reason',
               defaultMessage: 'Transaction failed: {reason}',
             },
-            { reason: String(err) }
+            { reason: String(err) },
           ),
           {
             variant: 'error',
-          }
+          },
         );
       }
     }

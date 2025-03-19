@@ -41,7 +41,7 @@ export function DropEditionListSection({ section }: Props) {
       return assets.filter(
         (a) =>
           a.collectionName.indexOf(search) !== -1 ||
-          a.metadata?.name.indexOf(search) !== -1
+          a.metadata?.name.indexOf(search) !== -1,
       );
     }
 
@@ -109,7 +109,7 @@ export function DropEditionListSection({ section }: Props) {
                       asset={asset}
                       onClickCardAction={(a) =>
                         router.push(
-                          `/drop/edition/${network}/${address}/${a?.id || " "}`
+                          `/drop/edition/${network}/${address}/${a?.id || " "}`,
                         )
                       }
                     />

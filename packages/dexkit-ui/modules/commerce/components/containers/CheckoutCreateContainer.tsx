@@ -27,7 +27,7 @@ function CreateCheckoutComponent() {
           id="checkout.created"
           defaultMessage="Checkout Created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       setContainer("commerce.checkouts");
     } catch (err) {
