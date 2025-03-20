@@ -7,20 +7,20 @@ import {
   ZeroExQuoteResponse,
 } from "@dexkit/ui/modules/swap/types";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
+import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Transak } from "@transak/transak-sdk";
-
-import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import type { providers } from "ethers";
 
 import { BigNumber, constants } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useClient, useSignTypedData, useSwitchChain } from "wagmi";
+import { useAccount, useClient, useSignTypedData, useSwitchChain } from "wagmi";
 
 import { splitSignature } from "ethers/lib/utils";
-import { Hex } from "viem";
+import { erc20Abi, Hex } from "viem";
+import { waitForTransactionReceipt, writeContract } from "viem/actions";
 import {
   useAsyncMemo,
   useDebounce,
@@ -38,6 +38,11 @@ import { useSwapCurrencyPrice } from "./useSwapCurrencyPrice";
 import { SwapExecParams } from "./useSwapExec";
 import { SwapGaslessExecParams } from "./useSwapGaslessExec";
 import { useSwapQuote } from "./useSwapQuote";
+
+const USDC_CONTRACT = {
+  address: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913" as `0x${string}`, // Replace with actual USDC contract address
+  abi: erc20Abi,
+};
 
 export function useSwapState({
   execMutation,
@@ -399,6 +404,7 @@ export function useSwapState({
   });
   const { signTypedDataAsync } = useSignTypedData();
   const client = useClient();
+  const { chain } = useAccount();
   const { enqueueSnackbar } = useSnackbar();
   const { formatMessage } = useIntl();
   const handleConfirmExecSwap = async () => {
@@ -443,6 +449,29 @@ export function useSwapState({
             primaryType: data.approval.eip712.primaryType,
           });
         } else {
+          if (data.issues.allowance !== null) {
+            try {
+              const hash = await writeContract(client!, {
+                address: USDC_CONTRACT.address,
+                abi: USDC_CONTRACT.abi,
+                functionName: "approve",
+                args: [
+                  data.issues.allowance.spender,
+                  constants.MaxUint256.toBigInt(),
+                ],
+                account: client?.account || ("" as any),
+                chain: chain ?? null,
+              });
+
+              await waitForTransactionReceipt(client!, { hash });
+
+              console.log("Approved Permit2 to spend USDC.");
+            } catch (error) {
+              console.error("Error approving Permit2:", error);
+            }
+          } else {
+            console.log("USDC already approved for Permit2");
+          }
         }
       }
 
