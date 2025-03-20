@@ -19,6 +19,7 @@ export default function MarketTradeSection({
 }: MarketTradeSectionProps) {
   const { show, baseTokenConfig, slippage, useGasless } = section.config;
   const { account, provider } = useWeb3React();
+
   const appConfig = useAppConfig();
 
   const appChaind = useMemo(() => {

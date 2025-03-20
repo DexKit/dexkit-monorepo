@@ -44,22 +44,20 @@ export function useZrxQuoteMutation({
 }
 
 export function useZrxQuoteQuery({
-  chainId,
   params,
   useGasless,
 }: {
-  chainId?: ChainId;
   params: ZeroExQuote | ZeroExQuoteGasless;
   useGasless?: boolean;
 }) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([chainId, params, useGasless], async () => {
-    if (!chainId || !(params.buyAmount || params.sellAmount)) {
+  return useQuery([params], async () => {
+    if (!params.chainId || !params.sellAmount) {
       return null;
     }
 
-    const zrxClient = new ZeroExApiClient(chainId, siteId);
+    const zrxClient = new ZeroExApiClient(params.chainId, siteId);
 
     if (useGasless) {
       let gaslessParams = params as ZeroExQuoteGasless;

@@ -1,5 +1,7 @@
+import { ChainId } from "@dexkit/core";
+
 export type ZeroExQuote = {
-  chainId: string;
+  chainId: ChainId;
   taker: string;
   swapFeeBps?: string;
   swapFeeRecipient?: string;
@@ -48,8 +50,8 @@ export type ZeroExQuoteResponse = {
   buyAmount: string;
   sellAmount: string;
   sources: any;
-  buyTokenAddress: string;
-  sellTokenAddress: string;
+  buyToken: string;
+  sellToken: string;
   allowanceTarget: any;
   orders: any;
   sellTokenToEthRate: string;
@@ -148,7 +150,7 @@ export type ZeroExGaslessQuoteResponse = {
 };
 
 export type ZeroExQuoteGasless = {
-  chainId: string;
+  chainId: ChainId;
   taker: string;
   swapFeeRecipient: string;
   swapFeeBps?: number;

@@ -20,7 +20,6 @@ import { useAccount, useClient, useSignTypedData, useSwitchChain } from "wagmi";
 
 import { splitSignature } from "ethers/lib/utils";
 import { erc20Abi, Hex } from "viem";
-import { waitForTransactionReceipt, writeContract } from "viem/actions";
 import {
   useAsyncMemo,
   useDebounce,
@@ -449,29 +448,7 @@ export function useSwapState({
             primaryType: data.approval.eip712.primaryType,
           });
         } else {
-          if (data.issues.allowance !== null) {
-            try {
-              const hash = await writeContract(client!, {
-                address: USDC_CONTRACT.address,
-                abi: USDC_CONTRACT.abi,
-                functionName: "approve",
-                args: [
-                  data.issues.allowance.spender,
-                  constants.MaxUint256.toBigInt(),
-                ],
-                account: client?.account || ("" as any),
-                chain: chain ?? null,
-              });
-
-              await waitForTransactionReceipt(client!, { hash });
-
-              console.log("Approved Permit2 to spend USDC.");
-            } catch (error) {
-              console.error("Error approving Permit2:", error);
-            }
-          } else {
-            console.log("USDC already approved for Permit2");
-          }
+          // TODO: Implement the  approval process
         }
       }
 
@@ -607,7 +584,7 @@ export function useSwapState({
           {
             spender: data.issues.allowance.spender || data.allowanceTarget,
             provider: connectorProvider as providers.Web3Provider,
-            tokenAddress: sellToken.address || data.sellTokenAddress,
+            tokenAddress: sellToken.address || data.sellToken,
             amount: constants.MaxUint256,
             token: sellToken,
           },

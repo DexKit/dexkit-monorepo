@@ -130,7 +130,7 @@ export function useSwapQuote({
           !isNativeInSell({ side: quoteFor, sellToken, buyToken })
         ) {
           const quoteParam: ZeroExQuoteGasless = {
-            chainId: String(chainId),
+            chainId,
             buyToken: buyToken?.address,
             sellToken: sellToken?.address,
             slippageBps: maxSlippage ? maxSlippage * 100 * 100 : undefined,
@@ -145,7 +145,7 @@ export function useSwapQuote({
           return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
         } else {
           const quoteParam: ZeroExQuote = {
-            chainId: String(chainId),
+            chainId,
             buyToken: buyToken?.address,
             sellToken: sellToken?.address,
             taker: account || "",

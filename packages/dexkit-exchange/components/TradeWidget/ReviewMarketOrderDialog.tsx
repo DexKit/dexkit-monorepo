@@ -74,12 +74,14 @@ export default function ReviewMarketOrderDialog({
   }, [price]);
 
   const pricePerTokenFormatted = useMemo(() => {
-    if (price && Number(price) > 0) {
+    if (quoteAmount && amount && amount.gt(0)) {
+      const division = quoteAmount.div(amount);
+
       return new Intl.NumberFormat("en-US", {
         maximumSignificantDigits: 3,
-      }).format(Number(price) || 0);
+      }).format(division.toNumber() || 0);
     }
-  }, [price]);
+  }, [quoteAmount, amount]);
 
   const amountFormatted = useMemo(() => {
     if (amount) {
