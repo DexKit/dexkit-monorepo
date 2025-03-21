@@ -3,6 +3,7 @@ import {
   useApproveToken,
   useErc20BalanceQuery,
   useTokenAllowanceQuery,
+  ZEROEX_NATIVE_TOKEN_ADDRESS,
 } from "@dexkit/core";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { Token } from "@dexkit/core/types";
@@ -45,8 +46,8 @@ import type { providers } from "ethers";
 import { BigNumber, utils } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { concat, Hex, numberToHex, size } from "viem";
-import { useClient, useSignTypedData } from "wagmi";
+import { concat, Hex, numberToHex, publicActions, size } from "viem";
+import { useClient, useSendTransaction, useSignTypedData } from "wagmi";
 import { EXCHANGE_NOTIFICATION_TYPES } from "../../../constants/messages";
 import { useZrxQuoteQuery } from "../../../hooks/zrx";
 import { useMarketTradeGaslessExec } from "../../../hooks/zrx/useMarketTradeGaslessExec";
@@ -89,8 +90,9 @@ export default function MarketForm({
   const { createNotification } = useDexKitContext();
   const [showReview, setShowReview] = useState(false);
   const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
-  const { signTypedDataAsync } = useSignTypedData();
-  const client = useClient();
+  const { sendTransactionAsync } = useSendTransaction();
+  const { signTypedDataAsync, signTypedData } = useSignTypedData();
+  const client = useClient()?.extend(publicActions);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -237,7 +239,7 @@ export default function MarketForm({
         quoteToken.decimals
       );
 
-      const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.sellAmount));
+      const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.buyAmount));
 
       return [total, hasAmount];
     }
@@ -351,42 +353,58 @@ export default function MarketForm({
           }
         }
       } else {
-        const { to, value } = quote.transaction;
-        const { domain, types, message, primaryType } = quote.permit2.eip712;
+        let signature: Hex | undefined;
+        let hash: Hex | undefined;
 
-        const signature = await signTypedDataAsync({
-          domain,
-          types,
-          message,
-          primaryType,
-          account: account! as `0x${string}`,
+        if (quote.permit2.eip712) {
+          signature = await signTypedDataAsync(quote.permit2.eip712);
+
+          const signatureLengthInHex = numberToHex(
+            size(signature as `0x${string}`),
+            {
+              signed: false,
+              size: 32,
+            }
+          );
+
+          const transactionData = quote.transaction.data as Hex;
+          const sigLengthHex = signatureLengthInHex as Hex;
+          const sig = signature as Hex;
+
+          quote.transaction.data = concat([transactionData, sigLengthHex, sig]);
+        }
+
+        const nonce = await client?.getTransactionCount({
+          address: account! as Hex,
         });
 
-        const signatureLengthInHex = numberToHex(size(signature), {
-          signed: false,
-          size: 32,
-        });
+        if (quote?.buyToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+          // Directly sign and send the native token transaction
+          hash = await sendTransactionAsync({
+            account: account! as Hex,
+            chainId: client!.chain.id,
+            gas: !!quote?.transaction.gas
+              ? BigInt(quote?.transaction.gas)
+              : undefined,
+            to: quote?.transaction.to,
+            data: quote.transaction.data,
+            value: BigInt(quote.buyAmount),
+            gasPrice: !!quote?.transaction.gasPrice
+              ? BigInt(quote?.transaction.gasPrice)
+              : undefined,
+            nonce,
+          });
 
-        const transactionData = quote.transaction.data as Hex;
-        const sigLengthHex = signatureLengthInHex as Hex;
-        const sig = signature as Hex;
+          console.log("Transaction hash:", hash);
+          console.log(`See tx details at https://basescan.org/tx/${hash}`);
+        } else if (signature && quote.transaction.data) {
+          // Handle ERC-20 token case (requires signature)
 
-        quote.transaction.data = concat([transactionData, sigLengthHex, sig]);
-
-        const nonce = await provider?.getTransactionCount(account!);
-        const tx = await provider?.getSigner().sendTransaction({
-          data: quote.transaction.data,
-          value: BigNumber.from(value),
-          to,
-          nonce,
-          chainId,
-          gasLimit: !!quote?.transaction.gas
-            ? BigInt(quote?.transaction.gas)
-            : undefined,
-          gasPrice: !!quote?.transaction.gasPrice
-            ? BigInt(quote?.transaction.gasPrice)
-            : undefined,
-        });
+          console.log("Transaction hash:", hash);
+          console.log(`See tx details at https://basescan.org/tx/${hash}`);
+        } else {
+          console.error("Failed to obtain a signature, transaction not sent.");
+        }
 
         const subType = side == "buy" ? "marketBuy" : "marketSell";
         const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -398,7 +416,7 @@ export default function MarketForm({
           icon: messageType.icon,
           subtype: subType,
           metadata: {
-            hash: tx?.hash,
+            hash,
             chainId,
           },
           values: {
@@ -411,14 +429,14 @@ export default function MarketForm({
 
         trackUserEvent.mutate({
           event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
-          hash: tx?.hash,
+          hash,
           chainId,
           metadata: JSON.stringify({
             quote,
           }),
         });
 
-        setHash(tx?.hash);
+        setHash(hash);
       }
     }
   });
@@ -489,7 +507,11 @@ export default function MarketForm({
         return gaslessQuote?.approval?.isRequired && !approvalSignature;
       }
     } else {
-      return quote?.issues.allowance !== null;
+      const approval =
+        quote?.buyToken !== ZEROEX_NATIVE_TOKEN_ADDRESS &&
+        quote?.issues.allowance !== null;
+
+      return approval;
     }
   }, [
     tokenAllowanceQuery.data,
