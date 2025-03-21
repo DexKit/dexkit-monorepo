@@ -13,6 +13,9 @@
   "pre-push": [
     "build"
   ],
+  "engines": {
+    "node": "22.14.0"
+  },
   "dependencies": {
     "@0x/contract-addresses": "^7.4.0",
     "@apollo/client": "^3.7.0",

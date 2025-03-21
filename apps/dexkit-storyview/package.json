@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engines": {
+    "node": "22.14.0"
+  },
   "dependencies": {
     "@dexkit/core": "*",
     "@dexkit/exchange": "*",
