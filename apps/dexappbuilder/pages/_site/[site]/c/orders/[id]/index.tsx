@@ -181,7 +181,7 @@ function OrderComponent({ order }: OrderComponentProps) {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items?.map((item, index) => (
+                        {items?.map((item: any, index: any) => (
                           <TableRow key={index}>
                             <TableCell>
                               <Stack

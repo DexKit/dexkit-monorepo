@@ -13,7 +13,7 @@ export function useCompletation() {
   return useMutation(
     async ({ messages }: { messages: { role: string; content: string }[] }) => {
       return (
-        await instance?.post<{ output: string }>("/ai/completation", {
+        await instance?.post("/ai/completation", {
           messages,
         })
       )?.data;

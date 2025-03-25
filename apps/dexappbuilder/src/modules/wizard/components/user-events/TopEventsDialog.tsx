@@ -41,7 +41,7 @@ export default function TopEventsDialog({
         <TopEventsList
           events={
             topUserEventsQuery.data
-              ? topUserEventsQuery.data.map((e) => {
+              ? topUserEventsQuery.data.map((e: any) => {
                   return {
                     count: e.count,
                     name: USER_EVENT_NAMES[e.name]

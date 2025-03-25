@@ -21,7 +21,7 @@
     "storybook:widget": "turbo run storybook --filter=@dexkit/widgets",
     "storybook:exchange": "turbo run storybook --filter=@dexkit/exchange",
     "bundle:widgets": "turbo run bundle:widgets",
-    "build:packages": "turbo run build --parallel",
+    "build:parallel": "turbo run build --parallel",
     "build:whitelabel": "turbo run build --parallel --filter=dexappbuilder",
     "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",

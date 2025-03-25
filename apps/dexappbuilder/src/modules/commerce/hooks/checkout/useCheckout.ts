@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { CheckoutFormType } from '../../types';
 
 export const GET_CHECKOUT_QUERY = 'GET_CHECKOUT_QUERY';
 
@@ -19,7 +18,7 @@ export default function useCheckout(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get<CheckoutFormType>(`/checkouts/${params.id}`))
+      return (await instance.get(`/checkouts/${params.id}`))
         .data;
     },
     {

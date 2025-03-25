@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { CategoryType } from '../types';
 
 export const GET_CATEGORY_QUERY = 'GET_CATEGORY_QUERY';
 
@@ -20,7 +19,7 @@ export default function useCategory(params: { id?: string }) {
       }
 
       return (
-        await instance.get<CategoryType>(`/product-category/${params.id}`)
+        await instance.get(`/product-category/${params.id}`)
       ).data;
     },
     {

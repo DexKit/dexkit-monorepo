@@ -163,7 +163,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
             ),
           ),
         )
-        .reduce((prev, curr) => {
+        .reduce((prev: any, curr: any) => {
           return prev.add(curr);
         }, BigNumber.from(0));
     }

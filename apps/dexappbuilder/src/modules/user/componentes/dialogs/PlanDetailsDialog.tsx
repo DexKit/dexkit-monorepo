@@ -40,7 +40,7 @@ export default function PlanDetailsDialog({
       />
       <DialogContent dividers>
         <Stack spacing={1}>
-          {planCostsQuery.data?.map((cost, index: number) => (
+          {planCostsQuery.data?.map((cost: any, index: number) => (
             <Stack
               justifyContent="space-between"
               alignItems="center"

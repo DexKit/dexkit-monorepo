@@ -187,14 +187,14 @@ export function useListFormsQuery({
 
       return data.map(
         (form: any) =>
-          ({
-            id: form.id,
-            name: form.name,
-            description: form.description,
-            creatorAddress: form.creatorAddress,
-            params: JSON.parse(form.rawData),
-            templateId: form.template?.id,
-          } as ContractFormData)
+        ({
+          id: form.id,
+          name: form.name,
+          description: form.description,
+          creatorAddress: form.creatorAddress,
+          params: JSON.parse(form.rawData),
+          templateId: form.template?.id,
+        } as ContractFormData)
       );
     }
   );
@@ -226,14 +226,14 @@ export function useListFormTemplatesQuery({
 
       return data.map(
         (template: any) =>
-          ({
-            id: template.id,
-            creatorAddress: template.creatorAddress,
-            abi: JSON.parse(template.abi),
-            bytecode: template.bytecode,
-            description: template.description,
-            name: template.name,
-          } as FormTemplate)
+        ({
+          id: template.id,
+          creatorAddress: template.creatorAddress,
+          abi: JSON.parse(template.abi),
+          bytecode: template.bytecode,
+          description: template.description,
+          name: template.name,
+        } as FormTemplate)
       );
     },
     { enabled: creatorAddress !== undefined }
@@ -408,17 +408,7 @@ export function useInfiniteListDeployedContracts({
     async ({ pageParam }) => {
       if (instance) {
         return (
-          await instance.get<{
-            items: {
-              name: string;
-              contractAddress: string;
-              owner: string;
-              id: number;
-              type?: string;
-              chainId?: number;
-            }[];
-            nextCursor?: number;
-          }>('/forms/deploy/list', {
+          await instance.get('/forms/deploy/list', {
             params: { cursor: pageParam, limit: 20, owner, name, chainId },
           })
         ).data;
@@ -471,19 +461,7 @@ export function useListDeployedContracts({
     async () => {
       if (instance) {
         return (
-          await instance.get<{
-            data: {
-              name: string;
-              contractAddress: string;
-              owner: string;
-              id: number;
-              type?: string;
-              chainId?: number;
-            }[];
-            skip?: number;
-            take?: number;
-            total?: number;
-          }>('/forms/deploy/contract/list', {
+          await instance.get('/forms/deploy/contract/list', {
             params: {
               owner,
               name,
@@ -519,7 +497,7 @@ export function useContractVisibility() {
 export const DEPLOYABLE_CONTRACTS_QUERY = 'DEPLOYABLE_CONTRACTS_QUERY';
 
 export function useDeployableContractsQuery() {
-  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({}) => {
+  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({ }) => {
     return (await axios.get<DeployableContract[]>(DEPLOYABLE_CONTRACTS_URL))
       .data;
   });

@@ -2,7 +2,6 @@ export type * from "./blockchain";
 export type * from "./coin";
 export type * from "./nft";
 
-import type { AxiosInstance } from "axios";
 import { Dispatch, SetStateAction } from "react";
 import type { ChainId, TransactionStatus, TransactionType } from "../constants";
 import type { TransactionMetadata } from "./blockchain";
@@ -106,5 +105,6 @@ export interface WatchTransactionDialogProperties {
 }
 
 export interface DexkitApiProviderState {
-  instance: AxiosInstance | null;
+  // instance: AxiosInstance | null;
+  instance: any;
 }
