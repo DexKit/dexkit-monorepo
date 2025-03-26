@@ -67,5 +67,4 @@ export const ZEROEX_GASLESS_SUBMIT_ENDPOINT = "/gasless/submit";
 
 export const ZEROEX_GASLESS_STATUS_ENDPOINT = "/gasless/status";
 
-export const ZEROEX_SUPPORTS_GASLESS_ENDPOINT =
-  "/tx-relay/v1/swap/supported-tokens";
+export const ZEROEX_SUPPORTS_GASLESS_ENDPOINT = "/gasless/chains";

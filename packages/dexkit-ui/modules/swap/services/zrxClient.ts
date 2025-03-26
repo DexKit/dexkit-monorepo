@@ -53,13 +53,13 @@ export class ZeroExApiClient {
   }
 
   async price(
-    quote: ZeroExQuote,
+    price: ZeroExQuote,
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_URL(this.chainId, this.siteId) + ZEROEX_PRICE_ENDPOINT,
       {
-        params: quote,
+        params: price,
         signal,
       }
     );

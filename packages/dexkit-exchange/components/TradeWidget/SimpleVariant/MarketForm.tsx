@@ -46,10 +46,24 @@ import type { providers } from "ethers";
 import { BigNumber, utils } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { concat, Hex, numberToHex, publicActions, size } from "viem";
-import { useClient, useSendTransaction, useSignTypedData } from "wagmi";
+import {
+  concat,
+  erc20Abi,
+  Hex,
+  maxUint256,
+  numberToHex,
+  publicActions,
+  size,
+} from "viem";
+import {
+  useClient,
+  useSendTransaction,
+  useSignTypedData,
+  useSimulateContract,
+  useWriteContract,
+} from "wagmi";
 import { EXCHANGE_NOTIFICATION_TYPES } from "../../../constants/messages";
-import { useZrxQuoteQuery } from "../../../hooks/zrx";
+import { useZrxPriceQuery, useZrxQuoteQuery } from "../../../hooks/zrx";
 import { useMarketTradeGaslessExec } from "../../../hooks/zrx/useMarketTradeGaslessExec";
 import { useMarketTradeGaslessState } from "../../../hooks/zrx/useMarketTradeGaslessState";
 import { getZrxExchangeAddress } from "../../../utils";
@@ -91,7 +105,7 @@ export default function MarketForm({
   const [showReview, setShowReview] = useState(false);
   const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
   const { sendTransactionAsync } = useSendTransaction();
-  const { signTypedDataAsync, signTypedData } = useSignTypedData();
+  const { signTypedDataAsync } = useSignTypedData();
   const client = useClient()?.extend(publicActions);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -161,20 +175,11 @@ export default function MarketForm({
     return "0.0";
   }, [quoteTokenBalance, baseToken]);
 
-  //const [quote, setQuote] = useState<ZeroExQuoteResponse>();
-
   const approveMutation = useApproveToken();
-  const amountToTrade =
+  const kitAmount =
     amount && Number(amount) > 0
       ? parseUnits(amount, baseToken.decimals).toString()
       : undefined;
-
-  const sideToBuy: any = {};
-  if (side === "buy") {
-    sideToBuy.buyAmount = amountToTrade;
-  } else {
-    sideToBuy.sellAmount = amountToTrade;
-  }
 
   const isTokenGaslessSupported = useIsGaslessSupportedToken({
     chainId,
@@ -200,12 +205,13 @@ export default function MarketForm({
     ) {
       return true;
     }
+
     return false;
   }, [useGasless, chainId, quoteToken?.address, baseToken?.address, side]);
 
-  const quoteQuery = useZrxQuoteQuery({
+  const priceQuery = useZrxPriceQuery({
     params: {
-      sellAmount: amountToTrade,
+      sellAmount: kitAmount,
       buyToken: quoteToken.address,
       sellToken: baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
@@ -219,11 +225,29 @@ export default function MarketForm({
     useGasless: canGasless,
   });
 
-  const marketTradeGasless = useMarketTradeGaslessExec({
-    onNotification: createNotification,
+  const price = priceQuery.data;
+
+  const quoteQuery = useZrxQuoteQuery({
+    params: {
+      sellAmount: side === "buy" ? price?.buyAmount : price?.sellAmount,
+      buyToken: side === "buy" ? baseToken.address : quoteToken.address,
+      sellToken: side === "buy" ? quoteToken.address : baseToken.address,
+      affiliateAddress: affiliateAddress ? affiliateAddress : "",
+      slippageBps: slippage ? slippage * 100 * 100 : undefined,
+      slippagePercentage: slippage,
+      taker: account || "",
+      feeRecipient,
+      buyTokenPercentageFee,
+      chainId: chainId!,
+    },
+    useGasless: canGasless,
   });
 
   const quote = quoteQuery.data;
+
+  const marketTradeGasless = useMarketTradeGaslessExec({
+    onNotification: createNotification,
+  });
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
@@ -233,42 +257,51 @@ export default function MarketForm({
   });
 
   const [formattedCost, hasSufficientBalance] = useMemo(() => {
-    if (side === "buy" && quote && quoteTokenBalance && quoteToken) {
+    if (side === "buy" && price && quoteTokenBalance && quoteToken) {
       const total = formatBigNumber(
-        BigNumber.from(quote.buyAmount),
+        BigNumber.from(price.buyAmount),
         quoteToken.decimals
       );
 
-      const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.buyAmount));
+      const hasAmount = quoteTokenBalance.gte(BigNumber.from(price.buyAmount));
 
       return [total, hasAmount];
     }
 
     if (
       side === "sell" &&
-      quote &&
+      price &&
       baseTokenBalance &&
       baseToken &&
       quoteToken
     ) {
       const total = formatBigNumber(
-        BigNumber.from(quote.buyAmount),
+        BigNumber.from(price.buyAmount),
         quoteToken.decimals
       );
 
-      const hasAmount = baseTokenBalance.gte(BigNumber.from(quote.sellAmount));
+      const hasAmount = baseTokenBalance.gte(BigNumber.from(price.sellAmount));
 
       return [total, hasAmount];
     }
 
     return ["0.0", false];
-  }, [quote, quoteTokenBalance, quoteToken, side, baseToken, baseTokenBalance]);
+  }, [price, quoteTokenBalance, quoteToken, side, baseToken, baseTokenBalance]);
 
   const [hash, setHash] = useState<string>();
   const [tradeHash, setTradeHash] = useState<string>();
   const [approvalSignature, setApprovalSignature] = useState<string>();
   const trackUserEvent = useTrackUserEventsMutation();
   const gaslessTradeStatus = useMarketTradeGaslessState({ chainId, tradeHash });
+
+  const simulateApproveRequest = useSimulateContract({
+    abi: erc20Abi,
+    address: quote?.sellToken as Hex,
+    functionName: "approve",
+    args: [quote?.issues.allowance?.spender, maxUint256],
+  });
+
+  const { writeContractAsync } = useWriteContract();
 
   const waitTxResult = useWaitTransactionConfirmation({
     transactionHash: hash,
@@ -353,10 +386,37 @@ export default function MarketForm({
           }
         }
       } else {
+        if (quote.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+          console.log("Native token detected, no need for allowance check");
+        } else if (quote.issues.allowance !== null) {
+          try {
+            const simulateRequest = await simulateApproveRequest;
+
+            console.log(
+              "Approving Permit2 to spend sellToken...",
+              simulateApproveRequest
+            );
+
+            const tx = await writeContractAsync({
+              abi: erc20Abi,
+              address: quote.sellToken as Hex,
+              functionName: "approve",
+              args: simulateRequest.data?.request.args!,
+            });
+
+            await provider?.waitForTransaction(tx);
+
+            await quoteQuery.refetch();
+          } catch (error) {
+            console.log("Error approving Permit2:", error);
+            return;
+          }
+        }
+
         let signature: Hex | undefined;
         let hash: Hex | undefined;
 
-        if (quote.permit2.eip712) {
+        if (quote.permit2?.eip712) {
           signature = await signTypedDataAsync(quote.permit2.eip712);
 
           const signatureLengthInHex = numberToHex(
@@ -378,7 +438,7 @@ export default function MarketForm({
           address: account! as Hex,
         });
 
-        if (quote?.buyToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+        if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           // Directly sign and send the native token transaction
           hash = await sendTransactionAsync({
             account: account! as Hex,
@@ -388,7 +448,7 @@ export default function MarketForm({
               : undefined,
             to: quote?.transaction.to,
             data: quote.transaction.data,
-            value: BigInt(quote.buyAmount),
+            value: BigInt(quote.transaction.value),
             gasPrice: !!quote?.transaction.gasPrice
               ? BigInt(quote?.transaction.gasPrice)
               : undefined,
@@ -398,7 +458,15 @@ export default function MarketForm({
           console.log("Transaction hash:", hash);
           console.log(`See tx details at https://basescan.org/tx/${hash}`);
         } else if (signature && quote.transaction.data) {
-          // Handle ERC-20 token case (requires signature)
+          hash = await sendTransactionAsync({
+            chainId: chainId,
+            data: quote.transaction.data,
+            gas: quote.transaction.gas,
+            gasPrice: quote.transaction.gasPrice,
+            nonce: nonce,
+            to: quote.transaction.to,
+            value: quote.transaction.value,
+          });
 
           console.log("Transaction hash:", hash);
           console.log(`See tx details at https://basescan.org/tx/${hash}`);
@@ -476,19 +544,11 @@ export default function MarketForm({
           await quoteQuery.refetch();
         }
       }
-    } else {
-      await approveMutation.mutateAsync({
-        onSubmited: (hash: string) => {},
-        amount: BigNumber.from(quote?.sellAmount),
-        provider,
-        spender: quoteQuery.data?.issues.allowance?.spender,
-        tokenContract: quote?.sellToken,
-      });
-      await quoteQuery.refetch();
     }
   };
 
   const handleConfirm = async () => {
+    await quoteQuery.refetch();
     await sendTxMutation.mutateAsync();
   };
 
@@ -543,9 +603,9 @@ export default function MarketForm({
     }
     let errorMsg = null;
 
-    if (quoteQuery?.isError) {
-      if (quoteQuery?.error) {
-        const errorResponse = (quoteQuery?.error as any)?.response;
+    if (priceQuery?.isError) {
+      if (priceQuery?.error) {
+        const errorResponse = (priceQuery?.error as any)?.response;
 
         if (
           errorResponse?.data.validationErrors &&
@@ -563,19 +623,19 @@ export default function MarketForm({
     return (
       <Button
         disabled={
-          quoteQuery.isLoading || !hasSufficientBalance || quoteQuery.isError
+          priceQuery.isLoading || !hasSufficientBalance || priceQuery.isError
         }
         size="large"
         fullWidth
         startIcon={
-          quoteQuery.isLoading ? <CircularProgress size={"small"} /> : undefined
+          priceQuery.isLoading ? <CircularProgress size={"small"} /> : undefined
         }
         variant="contained"
         onClick={handleExecute}
       >
         {errorMsg ? (
           <>{errorMsg}</>
-        ) : quoteQuery.isLoading ? (
+        ) : priceQuery.isLoading ? (
           <FormattedMessage
             id="loading.quote"
             defaultMessage="Loading quote..."
@@ -633,14 +693,13 @@ export default function MarketForm({
         }
         isApproval={isApproval}
         chainId={chainId}
-        price={quote?.price}
         pendingHash={gaslessTradeStatus?.successTxGasless?.hash}
         hash={hash || gaslessTradeStatus?.confirmedTxGasless?.hash}
         reasonFailedGasless={gaslessTradeStatus?.reasonFailedGasless}
         quoteToken={quoteToken}
         baseToken={baseToken}
-        baseAmount={BigNumber.from(quote?.sellAmount || 0)}
-        quoteAmount={BigNumber.from(quote?.buyAmount || 0)}
+        baseAmount={BigNumber.from(price?.sellAmount || 0)}
+        quoteAmount={BigNumber.from(price?.buyAmount || 0)}
         side={side}
         isPlacingOrder={
           sendTxMutation.isLoading ||
@@ -714,7 +773,7 @@ export default function MarketForm({
                       alignItems={"center"}
                     >
                       <Typography color="text.secondary">
-                        {quoteQuery.isLoading ? (
+                        {priceQuery.isLoading ? (
                           <Skeleton sx={{ minWidth: "50px" }} />
                         ) : (
                           <>{formattedCost}</>

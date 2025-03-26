@@ -17,6 +17,11 @@ import { ZRX_EXCHANGE_ABI } from "../constants/zrx";
 
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 
+export const ZRX_ORDERBOOK_QUERY = "ZRX_ORDERBOOK_QUERY";
+export const ZRX_QUOTE_QUERY = "ZRX_QUOTE_QUERY";
+export const ZRX_PRICE_QUERY = "ZRX_PRICE_QUERY";
+export const ZRX_ORDERBOOK_ORDER_QUERY = "ZRX_ORDERBOOK_ORDER_QUERY";
+
 export function useZrxQuoteMutation({
   chainId,
   useGasless,
@@ -52,7 +57,7 @@ export function useZrxQuoteQuery({
 }) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([params], async () => {
+  return useQuery([ZRX_QUOTE_QUERY, params], async () => {
     if (!params.chainId || !params.sellAmount) {
       return null;
     }
@@ -68,7 +73,30 @@ export function useZrxQuoteQuery({
   });
 }
 
-export const ZRX_ORDERBOOK_QUERY = "ZRX_ORDERBOOK_QUERY";
+export function useZrxPriceQuery({
+  params,
+  useGasless,
+}: {
+  params: ZeroExQuote | ZeroExQuoteGasless;
+  useGasless?: boolean;
+}) {
+  const { siteId } = useContext(SiteContext);
+
+  return useQuery([ZRX_PRICE_QUERY, params], async () => {
+    if (!params.chainId || !params.sellAmount) {
+      return null;
+    }
+
+    const zrxClient = new ZeroExApiClient(params.chainId, siteId);
+
+    if (useGasless) {
+      let gaslessParams = params as ZeroExQuoteGasless;
+      return zrxClient.priceGasless(gaslessParams, {});
+    } else {
+      return zrxClient.price(params as ZeroExQuote, {});
+    }
+  });
+}
 
 export function useZrxOrderbook({
   chainId,
@@ -78,6 +106,7 @@ export function useZrxOrderbook({
   account?: string;
 }) {
   const { siteId } = useContext(SiteContext);
+
   return useQuery<ZrxOrderbookResponse | null>(
     [ZRX_ORDERBOOK_QUERY, account, chainId],
     async () => {
@@ -90,8 +119,6 @@ export function useZrxOrderbook({
     }
   );
 }
-
-export const ZRX_ORDERBOOK_ORDER_QUERY = "ZRX_ORDERBOOK_ORDER_QUERY";
 
 export function useZrxOrderbookOrder({
   hash,

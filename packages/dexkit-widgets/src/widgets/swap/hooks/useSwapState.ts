@@ -19,7 +19,7 @@ import { useIntl } from "react-intl";
 import { useAccount, useClient, useSignTypedData, useSwitchChain } from "wagmi";
 
 import { splitSignature } from "ethers/lib/utils";
-import { erc20Abi, Hex } from "viem";
+import { Hex } from "viem";
 import {
   useAsyncMemo,
   useDebounce,
@@ -37,11 +37,6 @@ import { useSwapCurrencyPrice } from "./useSwapCurrencyPrice";
 import { SwapExecParams } from "./useSwapExec";
 import { SwapGaslessExecParams } from "./useSwapGaslessExec";
 import { useSwapQuote } from "./useSwapQuote";
-
-const USDC_CONTRACT = {
-  address: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913" as `0x${string}`, // Replace with actual USDC contract address
-  abi: erc20Abi,
-};
 
 export function useSwapState({
   execMutation,
