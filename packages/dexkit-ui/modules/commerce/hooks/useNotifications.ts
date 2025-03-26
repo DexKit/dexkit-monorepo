@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { CommerceNotification } from "../types";
 
 export const NOTIFICATIONS_QUERY = "NOTIFICATIONS_QUERY";
 
@@ -19,12 +18,7 @@ export default function useNotifications(params: {
     }
 
     return (
-      await instance?.get<{
-        items: CommerceNotification[];
-        totalItems: number;
-        totalPages: number;
-        currentPage: number;
-      }>("/notifications/", { params })
+      await instance?.get("/notifications/", { params })
     ).data;
   });
 }

@@ -38,7 +38,7 @@ export default function useUserActivity({
     [USER_ACTIVITY_QUERY, account, pageSize],
     async ({ pageParam = 0 }) => {
       const data = (
-        await instance?.get<{ count: number; data: UserEvent[]; page: number }>(
+        await instance?.get(
           "/user-events/events",
           { params: { page: pageParam, pageSize } }
         )

@@ -28,7 +28,7 @@ export function useImageGenerate() {
 
   return useMutation(
     async (body: ImageGenerate) => {
-      return (await instance?.post<string[]>("/ai/image/generate", body))?.data;
+      return (await instance?.post("/ai/image/generate", body))?.data;
     },
     {
       onError: (err) => {
@@ -67,7 +67,7 @@ export function useGenVariants() {
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
       return (
-        await instance?.post<string[]>("/ai/image/variants", { url, numImages })
+        await instance?.post("/ai/image/variants", { url, numImages })
       )?.data;
     }
   );
@@ -103,7 +103,7 @@ export function useEditImage() {
         form.append("model", model);
       }
 
-      return (await instance?.post<string[]>("/ai/image/edit", form))?.data;
+      return (await instance?.post("/ai/image/edit", form))?.data;
     }
   );
 }
