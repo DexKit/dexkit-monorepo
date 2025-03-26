@@ -1,5 +1,16 @@
 # @dexkit/ui
 
+## 0.21.0
+
+### Minor Changes
+
+- ecbf91f: Improve magic wallet connection
+
+### Patch Changes
+
+- Updated dependencies [ecbf91f]
+  - @dexkit/wallet-connectors@0.5.0
+
 ## 0.20.0
 
 ### Minor Changes
