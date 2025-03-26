@@ -1,3 +1,4 @@
+import { SignatureType } from "@0x/protocol-utils";
 import {
   ChainId,
   useApproveToken,
@@ -43,7 +44,7 @@ import {
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import type { providers } from "ethers";
-import { BigNumber, utils } from "ethers";
+import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import {
@@ -66,7 +67,7 @@ import { EXCHANGE_NOTIFICATION_TYPES } from "../../../constants/messages";
 import { useZrxPriceQuery, useZrxQuoteQuery } from "../../../hooks/zrx";
 import { useMarketTradeGaslessExec } from "../../../hooks/zrx/useMarketTradeGaslessExec";
 import { useMarketTradeGaslessState } from "../../../hooks/zrx/useMarketTradeGaslessState";
-import { getZrxExchangeAddress } from "../../../utils";
+import { getZrxExchangeAddress, splitSignature } from "../../../utils";
 import LazyDecimalInput from "../LazyDecimalInput";
 import ReviewMarketOrderDialog from "../ReviewMarketOrderDialog";
 
@@ -196,10 +197,10 @@ export default function MarketForm({
       !isNativeInSell({
         side,
         sellToken: {
-          address: side === "buy" ? baseToken.address : quoteToken.address,
+          address: side === "buy" ? quoteToken.address : baseToken.address,
         },
         buyToken: {
-          address: side === "buy" ? quoteToken.address : baseToken.address,
+          address: side === "buy" ? baseToken.address : quoteToken.address,
         },
       })
     ) {
@@ -315,80 +316,127 @@ export default function MarketForm({
       if (canGasless) {
         const data = quote as unknown as ZeroExGaslessQuoteResponse;
 
-        if (data.trade) {
-          const { eip712, type } = data.trade;
-          const signature = await signTypeDataMutation.mutateAsync({
-            domain: eip712.domain,
-            value: eip712.message,
-            primaryType: eip712.primaryType,
-            types: eip712.types,
-          });
-          if (signature) {
-            const sign = utils.splitSignature(signature);
-            const trade = {
-              type: type,
-              eip712: eip712,
-              signature: {
-                v: sign.v,
-                r: sign.r,
-                s: sign.s,
-                signatureType: 2,
-              },
-            };
+        const tokenApprovalRequired = data.issues.allowance != null;
+        const gaslessApprovalAvailable = data.approval != null;
 
-            let approval;
-            if (approvalSignature) {
-              const signAppr = utils.splitSignature(approvalSignature);
-              const { eip712: eip721Appr, type: ApprType } = data.approval;
-              approval = {
-                type: ApprType,
-                eip712: eip721Appr,
-                signature: {
-                  v: signAppr.v,
-                  r: signAppr.r,
-                  s: signAppr.s,
-                  signatureType: 2,
-                },
-              };
-            }
-            const trHash = await marketTradeGasless.mutateAsync({
-              trade: trade,
-              approval: approval,
-              quote: data,
-              chainId,
-              sellToken: baseToken,
-              buyToken: quoteToken,
-              side,
+        let successfulTradeHash: any = null;
+
+        let approvalSignature: Hex | null = null;
+        let approvalDataToSubmit: any = null;
+        let tradeDataToSubmit: any = null;
+        let tradeSignature: any = null;
+
+        if (tokenApprovalRequired) {
+          if (gaslessApprovalAvailable) {
+            approvalSignature = await signTypedDataAsync({
+              types: data.approval.eip712.types,
+              domain: data.approval.eip712.domain,
+              message: data.approval.eip712.message,
+              primaryType: data.approval.eip712.primaryType,
             });
-            if (trHash) {
-              const subType = side == "buy" ? "marketBuy" : "marketSell";
-              const messageType = EXCHANGE_NOTIFICATION_TYPES[
-                subType
-              ] as AppNotificationType;
+          } else {
+            if (quote.issues.allowance !== null) {
+              try {
+                const simulateRequest = await simulateApproveRequest;
 
-              gaslessTrades.push({
-                type: subType,
-                chainId,
-                tradeHash: trHash,
-                icon: messageType.icon,
-                values: {
-                  sellAmount: amount,
-                  sellTokenSymbol: baseToken.symbol.toUpperCase(),
-                  buyAmount: formattedCost,
-                  buyTokenSymbol: quoteToken.symbol.toUpperCase(),
-                },
-              });
-              // We use this on gasless trade updater to issue swap trades notifications
-              setGaslessTrades(gaslessTrades);
+                console.log(
+                  "Approving Permit2 to spend sellToken...",
+                  simulateApproveRequest
+                );
 
-              setTradeHash(trHash);
+                const tx = await writeContractAsync({
+                  abi: erc20Abi,
+                  address: quote?.sellToken as Hex,
+                  functionName: "approve",
+                  args: simulateRequest.data?.request.args!,
+                });
+
+                await provider?.waitForTransaction(tx);
+
+                await quoteQuery.refetch();
+              } catch (error) {
+                console.log("Error approving Permit2:", error);
+                return;
+              }
+            } else {
+              console.log("USDC already approved for Permit2");
             }
           }
         }
+
+        if (approvalSignature) {
+          const approvalSplitSig = await splitSignature(approvalSignature);
+          approvalDataToSubmit = {
+            type: data.approval.type,
+            eip712: data.approval.eip712,
+            signature: {
+              ...approvalSplitSig,
+              v: Number(approvalSplitSig.v),
+              signatureType: SignatureType.EIP712,
+            },
+          };
+        }
+
+        tradeSignature = await signTypedDataAsync({
+          types: data.trade.eip712.types,
+          domain: data.trade.eip712.domain,
+          message: data.trade.eip712.message,
+          primaryType: data.trade.eip712.primaryType,
+        });
+
+        const tradeSplitSig = await splitSignature(tradeSignature);
+        tradeDataToSubmit = {
+          type: data.trade.type,
+          eip712: data.trade.eip712,
+          signature: {
+            ...tradeSplitSig,
+            v: Number(tradeSplitSig.v),
+            signatureType: SignatureType.EIP712,
+          },
+        };
+
+        try {
+          const requestBody: any = {
+            trade: tradeDataToSubmit,
+            chainId,
+          };
+          if (approvalDataToSubmit) {
+            requestBody.approval = approvalDataToSubmit;
+          }
+
+          successfulTradeHash =
+            await marketTradeGasless.mutateAsync(requestBody);
+
+          if (successfulTradeHash) {
+            const subType = side == "buy" ? "marketBuy" : "marketSell";
+            const messageType = EXCHANGE_NOTIFICATION_TYPES[
+              subType
+            ] as AppNotificationType;
+
+            gaslessTrades.push({
+              type: subType,
+              chainId,
+              tradeHash: successfulTradeHash,
+              icon: messageType.icon,
+              values: {
+                sellAmount: amount,
+                sellTokenSymbol: baseToken.symbol.toUpperCase(),
+                buyAmount: formattedCost,
+                buyTokenSymbol: quoteToken.symbol.toUpperCase(),
+              },
+            });
+            // We use this on gasless trade updater to issue swap trades notifications
+            setGaslessTrades(gaslessTrades);
+
+            setTradeHash(successfulTradeHash);
+          }
+        } catch (error) {
+          console.error("Error submitting the gasless swap", error);
+        }
       } else {
-        if (quote.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+        if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           console.log("Native token detected, no need for allowance check");
-        } else if (quote.issues.allowance !== null) {
+        } else if (quote?.issues.allowance !== null) {
           try {
             const simulateRequest = await simulateApproveRequest;
 
@@ -399,7 +447,7 @@ export default function MarketForm({
 
             const tx = await writeContractAsync({
               abi: erc20Abi,
-              address: quote.sellToken as Hex,
+              address: quote?.sellToken as Hex,
               functionName: "approve",
               args: simulateRequest.data?.request.args!,
             });
@@ -519,31 +567,22 @@ export default function MarketForm({
 
   const handleApprove = async () => {
     if (canGasless) {
-      const gaslessQuote =
-        quoteQuery.data as unknown as ZeroExGaslessQuoteResponse;
-      if (gaslessQuote?.approval && gaslessQuote?.approval.isRequired) {
-        if (gaslessQuote.approval.isGasslessAvailable) {
-          const { eip712 } = gaslessQuote.approval;
-          const signature = await signTypeDataMutation.mutateAsync({
-            domain: eip712.domain,
-            value: eip712.message,
-            primaryType: eip712.primaryType,
-            types: eip712.types,
-          });
-          if (signature) {
-            setApprovalSignature(signature);
-          }
-        } else {
-          await approveMutation.mutateAsync({
-            onSubmited: (hash: string) => {},
-            amount: BigNumber.from(quote?.sellAmount),
-            provider,
-            spender: getZrxExchangeAddress(chainId),
-            tokenContract: quote?.sellToken,
-          });
-          await quoteQuery.refetch();
-        }
-      }
+      // const gaslessQuote =
+      //   quoteQuery.data as unknown as ZeroExGaslessQuoteResponse;
+      // if (gaslessQuote?.approval && gaslessQuote?.approval.isRequired) {
+      //   if (gaslessQuote.approval.isGasslessAvailable) {
+      //     const { eip712 } = gaslessQuote.approval;
+      //     const signature = await signTypeDataMutation.mutateAsync({
+      //       domain: eip712.domain,
+      //       value: eip712.message,
+      //       primaryType: eip712.primaryType,
+      //       types: eip712.types,
+      //     });
+      //     if (signature) {
+      //       setApprovalSignature(signature);
+      //     }
+      //   }
+      // }
     }
   };
 

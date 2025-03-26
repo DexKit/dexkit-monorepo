@@ -61,6 +61,7 @@
     "@mui/x-date-pickers": "^5.0.0-alpha.2",
     "@mycrypto/gas-estimation": "^1.1.1",
     "@next/bundle-analyzer": "^13.5.4",
+    "@noble/curves": "^1.8.1",
     "@react-page/editor": "5.4.4",
     "@react-page/plugins-background": "^5.4.4",
     "@react-page/plugins-divider": "^5.4.4",

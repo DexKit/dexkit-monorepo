@@ -147,6 +147,7 @@ export type ZeroExGaslessQuoteResponse = {
       message: any;
     };
   };
+  issues: any;
 };
 
 export type ZeroExQuoteGasless = {
