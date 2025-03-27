@@ -73,6 +73,32 @@ export function useZrxQuoteQuery({
   });
 }
 
+export function useZrxPriceMutation({
+  chainId,
+  useGasless,
+}: {
+  chainId?: ChainId;
+  useGasless?: boolean;
+}) {
+  const { siteId } = useContext(SiteContext);
+
+  return useMutation(async (params: ZeroExQuote | ZeroExQuoteGasless) => {
+    if (!chainId) {
+      return null;
+    }
+
+    const zrxClient = new ZeroExApiClient(chainId, siteId);
+
+    if (useGasless) {
+      let gaslessParams = params as ZeroExQuoteGasless;
+
+      return zrxClient.priceGasless(gaslessParams, {});
+    } else {
+      return zrxClient.price(params as ZeroExQuote, {});
+    }
+  });
+}
+
 export function useZrxPriceQuery({
   params,
   useGasless,

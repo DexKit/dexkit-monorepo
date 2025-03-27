@@ -565,27 +565,6 @@ export default function MarketForm({
     setApprovalSignature(undefined);
   };
 
-  const handleApprove = async () => {
-    if (canGasless) {
-      // const gaslessQuote =
-      //   quoteQuery.data as unknown as ZeroExGaslessQuoteResponse;
-      // if (gaslessQuote?.approval && gaslessQuote?.approval.isRequired) {
-      //   if (gaslessQuote.approval.isGasslessAvailable) {
-      //     const { eip712 } = gaslessQuote.approval;
-      //     const signature = await signTypeDataMutation.mutateAsync({
-      //       domain: eip712.domain,
-      //       value: eip712.message,
-      //       primaryType: eip712.primaryType,
-      //       types: eip712.types,
-      //     });
-      //     if (signature) {
-      //       setApprovalSignature(signature);
-      //     }
-      //   }
-      // }
-    }
-  };
-
   const handleConfirm = async () => {
     await quoteQuery.refetch();
     await sendTxMutation.mutateAsync();
@@ -597,28 +576,6 @@ export default function MarketForm({
 
   const { chainId: providerChainId, connector } = useWeb3React();
   const switchNetworkMutation = useSwitchNetworkMutation();
-
-  const isApproval = useMemo(() => {
-    if (canGasless) {
-      const gaslessQuote =
-        quoteQuery.data as unknown as ZeroExGaslessQuoteResponse;
-      if (gaslessQuote?.approval) {
-        return gaslessQuote?.approval?.isRequired && !approvalSignature;
-      }
-    } else {
-      const approval =
-        quote?.buyToken !== ZEROEX_NATIVE_TOKEN_ADDRESS &&
-        quote?.issues.allowance !== null;
-
-      return approval;
-    }
-  }, [
-    tokenAllowanceQuery.data,
-    quote?.sellAmount,
-    canGasless,
-    approvalSignature,
-    quoteQuery.data,
-  ]);
 
   const renderActionButton = useCallback(() => {
     if (providerChainId && chainId && providerChainId !== chainId) {
@@ -727,10 +684,6 @@ export default function MarketForm({
           fullWidth: true,
           onClose: handleCloseReview,
         }}
-        isApproving={
-          approveMutation.isLoading || signTypeDataMutation.isLoading
-        }
-        isApproval={isApproval}
         chainId={chainId}
         pendingHash={gaslessTradeStatus?.successTxGasless?.hash}
         hash={hash || gaslessTradeStatus?.confirmedTxGasless?.hash}
@@ -746,7 +699,6 @@ export default function MarketForm({
           gaslessTradeStatus?.isLoadingStatusGasless
         }
         onConfirm={handleConfirm}
-        onApprove={handleApprove}
         canGasless={canGasless}
       />
       <Box>

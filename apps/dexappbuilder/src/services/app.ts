@@ -105,7 +105,7 @@ export async function getAppConfig(
 
   if (site?.includes('localhost:')) {
     const [slug] = site?.split('.') || [];
-    // const slug = 'tiago-swap';
+    // const slug = 'tiago-exchange';
 
     if (slug) {
       const configResponse = (await getConfig({ slug, appPage })).data;
