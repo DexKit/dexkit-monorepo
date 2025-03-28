@@ -34,14 +34,18 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
   }
 };
 
-export const ZERO_EX_URL = (chainId?: number, siteId?: number) => {
-  return `/api/zrx-api/${siteId || "dexappbuilder"}/${chainId}`;
+export const ZERO_EX_V2_URL = (chainId?: number, siteId?: number) => {
+  return `/api/zrx-api/v2/${siteId || "dexappbuilder"}/${chainId}`;
 
   /*if (siteId !== undefined) {
     return `/api/zrx/${siteId}/${NETWORK_SLUG(chainId)}`;
   }
 
   return `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;*/
+};
+
+export const ZERO_EX_V1_URL = (chainId?: number, siteId?: number) => {
+  return `/api/zrx-api/v1/${siteId || "dexappbuilder"}/${chainId}`;
 };
 
 export const ZEROEX_QUOTE_ENDPOINT = "/swap/permit2/quote";
