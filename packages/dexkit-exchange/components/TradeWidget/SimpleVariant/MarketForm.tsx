@@ -20,7 +20,6 @@ import {
   useWaitTransactionConfirmation,
 } from "@dexkit/ui/hooks";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
-import { useSignTypeData } from "@dexkit/ui/hooks/web3/useSignTypeData";
 import { SUPPORTED_GASLESS_CHAIN } from "@dexkit/ui/modules/swap/constants";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { useIsGaslessSupportedToken } from "@dexkit/ui/modules/swap/hooks/useIsGaslessSupportedToken";
@@ -291,7 +290,6 @@ export default function MarketForm({
 
   const [hash, setHash] = useState<string>();
   const [tradeHash, setTradeHash] = useState<string>();
-  const [approvalSignature, setApprovalSignature] = useState<string>();
   const trackUserEvent = useTrackUserEventsMutation();
   const gaslessTradeStatus = useMarketTradeGaslessState({ chainId, tradeHash });
 
@@ -308,8 +306,6 @@ export default function MarketForm({
     transactionHash: hash,
     provider,
   });
-
-  const signTypeDataMutation = useSignTypeData();
 
   const sendTxMutation = useMutation(async () => {
     if (amount && chainId && quote) {
@@ -562,7 +558,6 @@ export default function MarketForm({
     quoteTokenBalanceQuery.refetch();
     setShowReview(false);
     setTradeHash(undefined);
-    setApprovalSignature(undefined);
   };
 
   const handleConfirm = async () => {
