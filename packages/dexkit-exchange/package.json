@@ -1,7 +1,6 @@
 {
   "name": "@dexkit/exchange",
   "version": "0.11.1",
-  "private": false,
   "license": "MIT",
   "engines": {
     "node": "22.14.0"
