@@ -45,7 +45,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
     defaultSlippage,
   } = useExchangeContext();
 
-  const [orderType, setOrderType] = useState<"market" | "limit">("limit");
+  const [orderType, setOrderType] = useState<"market" | "limit">("market");
 
   const [orderSide, setOrderSide] = useState<"buy" | "sell">("buy");
 
