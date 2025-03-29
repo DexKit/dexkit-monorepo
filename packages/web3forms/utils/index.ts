@@ -12,7 +12,7 @@ export function getSchemaForInput(type: string) {
 }
 
 export function getSchemaForInputs(inputs: FunctionInput[]) {
-  let obj: { [key: string]: Yup.Schema } = {};
+  let obj: { [key: string]: Yup.AnySchema } = {};
 
   for (let input of inputs) {
     obj[input.name] = getSchemaForInput(input.type);

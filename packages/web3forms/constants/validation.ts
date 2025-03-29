@@ -3,7 +3,7 @@ import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { isBytesLike } from "@dexkit/core/utils/ethers/isBytesLike";
 import * as Yup from "yup";
 
-export const EvmSchemaTypes: { [key: string]: Yup.Schema } = {
+export const EvmSchemaTypes: { [key: string]: Yup.AnySchema } = {
   uint256: Yup.string().max(32).required(),
   string: Yup.string().required(),
   bytes: Yup.string().required(),

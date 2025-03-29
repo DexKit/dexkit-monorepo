@@ -16,6 +16,7 @@
     "generate-lang-files": "yarn extract 'src/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },
   "devDependencies": {
+    "@types/eth-url-parser": "^1.0.3",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
@@ -26,6 +27,9 @@
   },
   "dependencies": {
     "@dexkit/ui": "*",
-    "@unlock-protocol/unlock-js": "^0.45.1"
+    "@mycrypto/gas-estimation": "1.1.1",
+    "@unlock-protocol/unlock-js": "^0.45.1",
+    "eth-url-parser": "1.0.4",
+    "react-qr-code": "2.0.8"
   }
 }
