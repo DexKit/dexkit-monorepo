@@ -46,7 +46,7 @@ export const NextLinkComposed = React.forwardRef<
       locale={locale}
       legacyBehavior={legacyBehavior}
     >
-      <Anchor ref={ref} {...other} />
+      <Anchor ref={ref} {...other as any} />
     </NextLink>
   );
 });
@@ -95,7 +95,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 
   if (isExternal) {
     if (noLinkStyle) {
-      return <Anchor className={className} href={href} ref={ref} {...other} />;
+      return <Anchor className={className} href={href} ref={ref} {...other as any} />;
     }
 
     return <MuiLink className={className} href={href} ref={ref} {...other} />;
