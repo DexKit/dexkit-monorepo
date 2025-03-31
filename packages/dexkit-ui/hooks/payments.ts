@@ -2,7 +2,6 @@ import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { FeatUsage, Subscription } from "../types/ai";
-import { CreditGrant, CryptoCheckoutSession } from "../types/payments";
 
 export const SUBSCRIPTION_QUERY = "SUBSCRIPTION_QUERY";
 
@@ -22,7 +21,7 @@ export function useBuyCreditsCheckout() {
 
   return useMutation(async ({ amount }: { amount: number }) => {
     return (
-      await instance?.post<{ url: string }>("/payments/buy-credits-session", {
+      await instance?.post("/payments/buy-credits-session", {
         amount: amount.toString(),
       })
     )?.data;
@@ -35,7 +34,7 @@ export function useCreditHistory() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CREDIT_HISTORY], async () => {
-    return (await instance?.get<CreditGrant[]>("/payments/credit-history"))
+    return (await instance?.get("/payments/credit-history"))
       ?.data;
   });
 }
@@ -45,7 +44,7 @@ export function useCryptoCheckout() {
 
   return useMutation(async (params: { intent: string; amount: string }) => {
     return (
-      await instance?.post<CryptoCheckoutSession>(
+      await instance?.post(
         "/payments/crypto-checkout-session",
         params
       )
@@ -60,7 +59,7 @@ export function useCheckoutItems({ id }: { id: string }) {
 
   return useQuery([CRYPTO_CHECKOUT_ITEMS, id], async () => {
     return (
-      await instance?.get<any[]>(`/payments/checkout-session/${id}/items`)
+      await instance?.get(`/payments/checkout-session/${id}/items`)
     )?.data;
   });
 }
@@ -99,7 +98,7 @@ export function useCheckoutData({ id }: { id: string }) {
     [CHECKOUT_STATUS, id],
     async () => {
       return (
-        await instance?.get<CryptoCheckoutSession>(
+        await instance?.get(
           `/payments/checkout-session/${id}`
         )
       )?.data;
@@ -117,15 +116,7 @@ export function usePlanCosts(slug?: string) {
       return [];
     }
     return (
-      await instance?.get<
-        {
-          id: number;
-          plan: string;
-          feat: string;
-          model?: string;
-          price: string;
-        }[]
-      >(`/payments/plans/${slug}/costs`)
+      await instance?.get(`/payments/plans/${slug}/costs`)
     )?.data;
   });
 }
@@ -136,7 +127,7 @@ export function usePlanPrices() {
   const { instance } = useContext(DexkitApiProvider);
   return useQuery([PLANS_QUERY], async () => {
     return (
-      await instance?.get<{ amount: string; name: string; slug: string }[]>(
+      await instance?.get(
         `/payments/plans`
       )
     )?.data;
@@ -148,7 +139,7 @@ export function usePlanCheckoutMutation() {
 
   return useMutation(async ({ plan }: { plan: string }) => {
     return (
-      await instance?.get<{ url: string }>("/payments/checkout-session", {
+      await instance?.get("/payments/checkout-session", {
         params: { plan },
       })
     )?.data;

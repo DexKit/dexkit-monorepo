@@ -19,7 +19,7 @@ export default function useProduct(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get<ProductFormType>(`/products/${params.id}`))
+      return (await instance.get(`/products/${params.id}`))
         .data;
     },
     {

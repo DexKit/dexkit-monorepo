@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { Product } from "../types";
 
 export const GET_COLLECTION_PRODUCTS_QUERY = "GET_COLLECTION_PRODUCTS_QUERY";
 
@@ -29,12 +28,7 @@ export default function useCollectionProductsList(params: {
     } = { page, limit, q: query };
 
     return (
-      await instance?.get<{
-        items: Product[];
-        totalItems: number;
-        totalPages: number;
-        currentPage: number;
-      }>(`/product-collections/user/${id}/products`, {
+      await instance?.get(`/product-collections/user/${id}/products`, {
         params: queryParams,
       })
     )?.data;

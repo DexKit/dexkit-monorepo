@@ -57,7 +57,7 @@ export default function CreditSection() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {credits?.map((credit, index: number) => (
+            {credits?.map((credit: any, index: number) => (
               <TableRow key={index}>
                 <TableCell>
                   {credit.enabled ? (

@@ -87,7 +87,7 @@ export default function CollectionContent({ id }: CollectionContentProps) {
           <Grid item xs={12}>
             <Grid container spacing={2}>
               {products && products?.totalItems > 0 ? (
-                products?.items?.map((product, key) => (
+                products?.items?.map((product: any, key: any) => (
                   <Grid key={key} item xs={12} sm={3}>
                     <ProductCard
                       isOnWinshlist={isOnWishlist(product.id)}

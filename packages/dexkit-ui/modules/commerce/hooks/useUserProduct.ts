@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { Product } from "../types";
 
 export const GET_USER_PRODUCT_QUERY = "GET_USER_PRODUCT_QUERY";
 
@@ -15,7 +14,7 @@ export default function useUserProduct(params: { id?: string }) {
         throw new Error("no instance");
       }
 
-      return (await instance?.get<Product>(`/products/user/${params.id}`))
+      return (await instance?.get(`/products/user/${params.id}`))
         ?.data;
     },
     { enabled: Boolean(params.id) }

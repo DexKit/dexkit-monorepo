@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@dexkit/evm-chains": "^1.14",
+    "axios": "0.27.0",
     "eth-url-parser": "^1.0.4",
     "ua-parser-js": "^1.0.35"
   },

@@ -20,9 +20,7 @@ export default function useNotificationsCountUnread({
       }
 
       return (
-        await instance?.get<{
-          count: number;
-        }>("/notifications/count-unread", { params: { scope } })
+        await instance?.get("/notifications/count-unread", { params: { scope } })
       ).data;
     },
     {

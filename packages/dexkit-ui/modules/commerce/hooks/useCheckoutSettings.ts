@@ -15,10 +15,7 @@ export default function useCheckoutSettings() {
       }
 
       const result = (
-        await instance.get<{
-          notificationEmail: string;
-          receiverAddress: string;
-        }>("/checkouts/settings")
+        await instance.get("/checkouts/settings")
       ).data;
 
       return result;

@@ -4,10 +4,7 @@ import { useContext } from "react";
 
 export const GET_PRODUCT_CONTENT_QUERY = "GET_PRODUCT_CONTENT_QUERY";
 
-export type UseProductContentParams = {
-  productId: string;
-  orderId: string;
-};
+export type UseProductContentParams = { productId: string; orderId: string };
 
 export default function useProductContent({
   productId,
@@ -20,8 +17,6 @@ export default function useProductContent({
       throw new Error("no instance");
     }
 
-    return (await instance.get<{ content: string }>(
-      `/orders/${orderId}/content/${productId}`
-    )).data;
+    return (await instance.get(`/orders/${orderId}/content/${productId}`)).data;
   });
 }

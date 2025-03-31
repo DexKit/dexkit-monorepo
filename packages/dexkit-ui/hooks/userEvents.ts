@@ -132,7 +132,7 @@ export function useTopUserEvents({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number; name: string }[]>(
+        await instance?.get(
           "/user-events/count-by-type",
           {
             params: filters,
@@ -159,7 +159,7 @@ export function useCountUserEvents({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number }>("/user-events/count", {
+        await instance?.get("/user-events/count", {
           params: filters,
         })
       ).data?.count || Number(0)
@@ -183,7 +183,7 @@ export function useCountEventAccounts({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number }>("/user-events/count-accounts", {
+        await instance?.get("/user-events/count-accounts", {
           params: filters,
         })
       ).data?.count || Number(0)
@@ -218,7 +218,7 @@ export function useSwapFeesByToken({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<TokenFeesResult>("/user-events/fees-by-token", {
+        await instance?.get("/user-events/fees-by-token", {
           params: filters,
         })
       ).data || {}
@@ -254,7 +254,7 @@ export function useCountDropCollection({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<DropNFTTokenResult>(
+        await instance?.get(
           "/user-events/count-buy-drop-collection",
           {
             params: filters,
@@ -294,7 +294,7 @@ export function useCountDropCollectionByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenAccountResult>(
+          await instance?.get(
             "/user-events/count-buy-drop-collection-by-group",
             {
               params: { ...filters, group },
@@ -345,7 +345,7 @@ export function useCountDropTokenByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenDropResult>(
+          await instance?.get(
             "/user-events/count-buy-drop-token",
             {
               params: { ...filters, group },
@@ -382,7 +382,7 @@ export function useCountDropEditionByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenAccountResult>(
+          await instance?.get(
             "/user-events/count-buy-drop-edition-by-group",
             {
               params: { ...filters, group },
@@ -422,7 +422,7 @@ export function useCountDropEdition({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<DropNFTEditionResult>(
+        await instance?.get(
           "/user-events/count-buy-drop-edition",
           {
             params: filters,

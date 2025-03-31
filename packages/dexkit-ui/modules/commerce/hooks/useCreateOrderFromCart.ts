@@ -11,6 +11,6 @@ export default function useCreateOrderFromCart() {
       throw new Error("no instance");
     }
 
-    return (await instance?.post<Order>("/orders/from-cart", data)).data;
+    return (await instance?.post("/orders/from-cart", data)).data;
   });
 }

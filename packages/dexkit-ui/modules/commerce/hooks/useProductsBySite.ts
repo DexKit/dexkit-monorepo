@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { Product } from "../types";
 
 export const GET_PRODUCTS_BY_SITE = "GET_PRODUCTS_BY_SITE";
 
@@ -39,12 +38,7 @@ export default function useProductsBySite(params: {
     }
 
     return (
-      await instance?.get<{
-        items: Product[];
-        totalItems: number;
-        totalPages: number;
-        currentPage: number;
-      }>(`/products/by-site/${siteId}`, {
+      await instance?.get(`/products/by-site/${siteId}`, {
         params: queryParams,
       })
     )?.data;

@@ -28,19 +28,8 @@ export default function useCategoryList(params: {
 
       delete newParams['sortModel'];
 
-      return (
-        await instance.get<{
-          items: {
-            name: string;
-            id: string;
-            countItems: number;
-            active: true;
-          }[];
-          totalItems: number;
-          totalPages: number;
-          currentPage: number;
-        }>('/product-category', { params: newParams })
-      ).data;
+      return (await instance.get('/product-category', { params: newParams }))
+        .data;
     },
     {
       refetchOnMount: 'always',
