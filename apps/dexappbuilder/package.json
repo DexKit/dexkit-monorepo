@@ -51,7 +51,7 @@
     "@dexkit/widgets": "*",
     "@dnd-kit/core": "^6.1.0",
     "@emotion/cache": "^11.7.1",
-    "@emotion/react": "^11.9.0",
+    "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@indexed-finance/multicall": "^2.0.0",
