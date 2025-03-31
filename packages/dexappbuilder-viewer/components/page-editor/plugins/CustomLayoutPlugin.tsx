@@ -18,7 +18,7 @@ const CustomLayoutPlugin: CellPlugin<{
         padding: `${data.paddingY}px ${data.paddingX}px`,
       }}
     >
-      {children}
+      {children as any}
     </div>
   ),
 

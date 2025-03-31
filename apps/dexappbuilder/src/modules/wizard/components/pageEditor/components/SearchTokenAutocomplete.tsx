@@ -2,7 +2,7 @@ import { useSearchSwapTokens } from '@/modules/swap/hooks';
 import { isAddressEqual } from '@dexkit/core/utils';
 import { getChainName, getChainSlug } from '@dexkit/core/utils/blockchain';
 import { CircularProgress, Stack } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete/index.js';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import React, { useMemo, useState } from 'react';

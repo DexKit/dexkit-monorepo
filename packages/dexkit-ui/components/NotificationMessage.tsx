@@ -17,7 +17,7 @@ export function NotificationMessage({ types, type, values }: Props) {
         })
         .reduce(
           (curr: Record<string, ReactNode>, next) => {
-            curr[next.key] = <strong>{next.value}</strong>;
+            curr[next.key] = <strong>{next.value as any}</strong>;
 
             return curr;
           },

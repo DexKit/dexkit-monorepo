@@ -1,6 +1,6 @@
 import { Token } from '@dexkit/core/types';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete/index.js';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

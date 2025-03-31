@@ -125,6 +125,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/cookie": "^0.5.1",
     "@types/eth-url-parser": "^1.0.3",
+    "@types/json-stable-stringify": "^1.2.0",
     "@types/qs": "^6.9.7",
     "@types/react-resizable": "^3.0.3",
     "@types/react-syntax-highlighter": "^15.5.5",

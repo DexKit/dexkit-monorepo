@@ -18,17 +18,12 @@
     "incremental": true,
     "typeRoots": [
       "../../node_modules/@0x/typescript-typings/types",
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "./@types"
     ],
     "baseUrl": ".",
-    "paths": {
-      "@/modules/*": ["src/modules/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "paths": { "@/modules/*": ["src/modules/*"] },
+    "plugins": [{ "name": "next" }]
   },
   "include": [
     "next-env.d.ts",

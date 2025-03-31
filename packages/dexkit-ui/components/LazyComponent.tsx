@@ -11,7 +11,7 @@ const LazyComponent = ({ children }: Props) => {
 
   return (
     <div ref={ref}>
-      {inView ? children : <Skeleton height={400}></Skeleton>}
+      {inView ? children as any : <Skeleton height={400}></Skeleton>}
     </div>
   );
 };
