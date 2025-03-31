@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { ProductFormType } from '../types';
 
 export const GET_PRODUCT_QUERY = 'GET_PRODUCT_QUERY';
 
@@ -19,7 +18,7 @@ export default function useProduct(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get<ProductFormType>(`/products/${params.id}`))
+      return (await instance.get(`/products/${params.id}`))
         .data;
     },
     {

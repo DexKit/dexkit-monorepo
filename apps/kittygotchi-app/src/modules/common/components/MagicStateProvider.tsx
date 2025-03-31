@@ -2,8 +2,8 @@ import { TransactionConfirmDialog } from '@/modules/common/components/dialogs/Tr
 import { MagicConnector } from '@/modules/common/connectors/magic';
 import { useWeb3React } from '@web3-react/core';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
-import SignDataDialog from './dialogs/SignDataDialog';
 import { MagicStateContext } from '../context';
+import SignDataDialog from './dialogs/SignDataDialog';
 
 interface Props {
   children: ReactNode;

@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { Order } from '../../types';
 
 export const GET_ORDER_QUERY = 'GET_ORDER_QUERY';
 
@@ -19,7 +18,7 @@ export default function useOrder(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get<Order>(`/orders/${params.id}`)).data;
+      return (await instance.get/*<Order>*/(`/orders/${params.id}`)).data;
     },
     {
       refetchOnWindowFocus: 'always',

@@ -11,7 +11,7 @@ export default function useAddPaymentIntent() {
     [ADD_PAYMENT_INTENT_QUERY],
     async () => {
       const result = (
-        await instance?.get<{ clientSecret: string }>(
+        await instance?.get(
           '/payments/add-method-intent',
         )
       )?.data;

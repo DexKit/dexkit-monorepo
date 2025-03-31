@@ -21,7 +21,7 @@ export default function useCheckoutNetworks() {
       }
 
       return (
-        await instance.get<{ chainId: number }[]>('/checkouts-networks', {
+        await instance.get/*<{ chainId: number }[]>*/('/checkouts-networks', {
           params: { owner: data?.owner },
         })
       ).data;

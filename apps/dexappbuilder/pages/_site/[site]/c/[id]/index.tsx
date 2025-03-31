@@ -181,7 +181,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const initialValues = useMemo(() => {
     const result = (userCheckout.data?.items ?? ([] as CheckoutItem[])).reduce(
-      (prev, curr: CheckoutItem) => {
+      (prev: any, curr: any) => {
         prev[curr.id] = {
           quantity: curr.quantity,
           price: curr.price,
@@ -210,7 +210,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
     if (userCheckout.data) {
       return sumItems(
-        userCheckout.data.items.map((c) =>
+        userCheckout.data.items.map((c: any) =>
           new Decimal(c.price).mul(c.quantity),
         ),
       );
@@ -248,7 +248,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const { data: availNetworks, refetch } = useCheckoutNetworks();
 
-  const chainIds = availNetworks?.map((n) => n.chainId) ?? [];
+  const chainIds = availNetworks?.map((n: any) => n.chainId) ?? [];
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
