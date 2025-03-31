@@ -21,12 +21,7 @@ export default function useOrdersList(params: {
       }
 
       return (
-        await instance.get<{
-          items: Order[];
-          totalItems: number;
-          totalPages: number;
-          currentPage: number;
-        }>("/orders", { params })
+        await instance.get("/orders", { params })
       ).data;
     },
     {

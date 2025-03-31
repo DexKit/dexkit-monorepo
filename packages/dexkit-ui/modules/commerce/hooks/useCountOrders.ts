@@ -12,6 +12,6 @@ export default function useCountOrders() {
       throw new Error(" no instance");
     }
 
-    return (await instance.get<{ count: number }>(`/orders/count`)).data;
+    return (await instance.get(`/orders/count`)).data;
   });
 }

@@ -203,7 +203,7 @@ function OrderComponent({ order, onRefetch }: OrderComponentProps) {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {items?.map((item, index) => (
+                      {items?.map((item: any, index: number) => (
                         <TableRow key={index}>
                           <TableCell>
                             <Stack direction="row" spacing={2}>

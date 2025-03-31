@@ -1,7 +1,6 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { ProductCollectionItemType } from "../types";
 
 export const GET_PRODUCT_COLLECTION_ITEMS_QUERY =
   "GET_PRODUCT_COLLECTION_ITEMS_QUERY";
@@ -20,11 +19,8 @@ export default function useProductCollectionItems(params: { id?: string }) {
         return null;
       }
 
-      return (
-        await instance.get<ProductCollectionItemType[]>(
-          `/product-collections/${params.id}/items`
-        )
-      ).data;
+      return (await instance.get(`/product-collections/${params.id}/items`))
+        .data;
     },
     {
       refetchOnWindowFocus: "always",

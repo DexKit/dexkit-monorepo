@@ -12,9 +12,7 @@ export function useSiteReceiver({ siteId }: { siteId?: number }) {
       throw new Error("no instance");
     }
 
-    const res = (
-      await instance.get<{ receiver: string }>(`/orders/receiver/${siteId}`)
-    ).data;
+    const res = (await instance.get(`/orders/receiver/${siteId}`)).data;
 
     console.log(res);
 
