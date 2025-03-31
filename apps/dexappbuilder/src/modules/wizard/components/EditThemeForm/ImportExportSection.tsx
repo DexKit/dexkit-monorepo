@@ -67,13 +67,8 @@ export default function ImportExportSection({
 
   const handleExport = () => {
     const exportedTheme: ThemeType = {
-      shape: {
-        borderRadius: 1,
-      },
-      palette: {
-        type: 'simple',
-        colors: {},
-      },
+      shape: { borderRadius: 1 },
+      palette: { type: 'simple', colors: {} },
     };
 
     if (exportedTheme.palette.type === 'simple') {
@@ -102,7 +97,9 @@ export default function ImportExportSection({
     <>
       <input
         type="file"
-        ref={(ref) => (fileInputRef.current = ref)}
+        ref={(ref) => {
+          fileInputRef.current = ref;
+        }}
         style={{ display: 'none' }}
         onChange={handleChange}
       />

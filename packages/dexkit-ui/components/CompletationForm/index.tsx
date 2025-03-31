@@ -95,7 +95,10 @@ export default function CompletationForm({
       />
       <Box sx={{ position: "relative", p: 2 }}>
         <Formik
-          initialValues={{ prompt: initialPrompt ? initialPrompt : "" }}
+          initialValues={{
+            prompt: initialPrompt ? initialPrompt : "",
+            action: undefined,
+          }}
           onSubmit={handleSubmit}
           validationSchema={FormScheme}
         >

@@ -26,7 +26,7 @@ const TransakNetworks: { [key: number]: string } = {
 export default function TransakWidget({ transakOverride, buttonProps }: Props) {
   const appConfig = useAppConfig();
   const currency = useCurrency();
-  const transak = useRef<any>();
+  const transak = useRef<any>(undefined);
   const { account, chainId } = useWeb3React();
   const theme = useTheme();
 

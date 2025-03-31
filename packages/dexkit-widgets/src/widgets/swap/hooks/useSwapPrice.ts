@@ -38,10 +38,7 @@ export function useSwapPrice({
 }: {
   maxSlippage?: number;
   zeroExApiKey?: string;
-  swapFees?: {
-    recipient: string;
-    amount_percentage: number;
-  };
+  swapFees?: { recipient: string; amount_percentage: number };
   params: SwapQuoteParams;
   variant?: SwapVariant;
 }): UseQueryResult<
@@ -101,7 +98,7 @@ export function useSwapPrice({
 
       if (buyToken && sellToken && quoteFor) {
         const quoteParam: ZeroExQuote = {
-          chainId: chainId.toString(),
+          chainId,
           buyToken: buyToken?.address,
           sellToken: sellToken?.address,
 
@@ -169,9 +166,6 @@ export function useSwapPrice({
       }
       return null;
     },
-    {
-      enabled: Boolean(params),
-      refetchInterval: 5000,
-    }
+    { enabled: Boolean(params), refetchInterval: 5000 }
   );
 }

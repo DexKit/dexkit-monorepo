@@ -67,8 +67,8 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
             item.actionType && item?.actionType === "link" && item?.url
               ? item.url
               : item.actionType && item.actionType === "page" && item?.page
-              ? item?.page
-              : ""
+                ? item?.page
+                : ""
           }
         >
           {item.imageUrl ? (
@@ -180,14 +180,7 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
 
               {item.subtitle ? (
                 item.subtitle
-              ) : <AppExpandableTypography
-                  TypographyProps={{
-                    sx: { textOverflow: "ellipsis", overflow: "hidden" },
-                    variant: "body2",
-                    color: "text.secondary",
-                  }}
-                  value={contractMetadata.data?.name || ""}
-                /> ? (
+              ) : contractMetadata.data?.description ? (
                 <AppExpandableTypography
                   TypographyProps={{
                     sx: { textOverflow: "ellipsis", overflow: "hidden" },

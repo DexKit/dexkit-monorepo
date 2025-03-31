@@ -11,7 +11,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { FormikHelpers, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -34,11 +34,7 @@ interface Form {
   type: string;
   title: string;
   subtitle?: string;
-  button: {
-    title: string;
-    url: string;
-    openInNewPage?: boolean;
-  };
+  button: { title: string; url: string; openInNewPage?: boolean };
 }
 
 const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
@@ -72,7 +68,7 @@ export default function CallToActionSectionForm({
     section ? section.items : [],
   );
 
-  const handleSubmit = (values: Form, helpers: FormikHelpers<Form>) => {
+  const handleSubmit = (values: Form) => {
     onSave({
       button: values.button,
       type: 'call-to-action',
@@ -95,7 +91,7 @@ export default function CallToActionSectionForm({
       : {
           title: '',
           subtitle: '',
-          button: { title: '', url: '' },
+          button: { title: '', url: '', openInNewPage: false },
           type: 'call-to-action',
           variant: 'light',
         },

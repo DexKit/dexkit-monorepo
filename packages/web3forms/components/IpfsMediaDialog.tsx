@@ -96,7 +96,9 @@ export default function IpfsMediaDialog({
       <input
         type="file"
         style={{ display: "none" }}
-        ref={(ref) => (fileInputRef.current = ref)}
+        ref={(ref) => {
+          fileInputRef.current = ref;
+        }}
         onChange={handleFileSelected}
         accept="image/*"
       />

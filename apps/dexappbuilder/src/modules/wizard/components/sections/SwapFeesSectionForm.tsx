@@ -38,7 +38,7 @@ export default function SwapFeesSectionForm({
     initialValues: {
       recipient: fee?.recipient || '',
       amountPercentage: fee?.amountPercentage || 0,
-    } || { amountPercentage: 0.0, recipient: '' },
+    },
     onSubmit: handleSubmit,
   });
 

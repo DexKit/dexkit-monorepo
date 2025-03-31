@@ -91,11 +91,7 @@ function EditToolbar(props: EditToolbarProps) {
         }
 
         let newRows = csv.data.map((line: any, index: number) => {
-          return {
-            id: index.toString(),
-            ...line,
-            isNew: false,
-          };
+          return { id: index.toString(), ...line, isNew: false };
         });
 
         setRows((old) => newRows);
@@ -140,7 +136,9 @@ function EditToolbar(props: EditToolbarProps) {
       <input
         style={{ display: "none" }}
         type="file"
-        ref={(ref) => (inputRef.current = ref)}
+        ref={(ref) => {
+          inputRef.current = ref;
+        }}
         onChange={handleChangeFile}
         accept=".csv"
       />
@@ -287,9 +285,7 @@ export default function AppDataTable<
                 <GridActionsCellItem
                   icon={<Save />}
                   label="Save"
-                  sx={{
-                    color: "primary.main",
-                  }}
+                  sx={{ color: "primary.main" }}
                   onClick={handleSaveClick(id)}
                 />
               </Tooltip>,
@@ -358,9 +354,7 @@ export default function AppDataTable<
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        slots={{
-          toolbar: EditToolbar,
-        }}
+        slots={{ toolbar: EditToolbar }}
         slotProps={{
           toolbar: {
             setRows,

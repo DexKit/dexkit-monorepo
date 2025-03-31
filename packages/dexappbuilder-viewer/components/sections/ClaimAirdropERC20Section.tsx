@@ -6,23 +6,23 @@ import { useInterval } from "@dexkit/ui/hooks/misc";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { useMerkleTreeAllowListQuery } from "@dexkit/ui/modules/token/hooks/merkleTree";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-    createMerkleTreeFromAllowList,
-    getProofsForAllowListEntry,
-    useContract,
-    useContractRead,
+  createMerkleTreeFromAllowList,
+  getProofsForAllowListEntry,
+  useContract,
+  useContractRead,
 } from "@thirdweb-dev/react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -142,13 +142,10 @@ export default function ClaimAirdropERC20Section({
   ) => {
     const merkleTree = await createMerkleTreeFromAllowList(allowList);
 
-    const leaf = {
-      address: address,
-      maxClaimable: amount,
-    };
+    const leaf = { address: address, maxClaimable: amount };
 
     const proof = await getProofsForAllowListEntry(merkleTree, leaf);
-    const proofHash = "0x" + proof[0].data.toString("hex");
+    const proofHash = "0x" + (proof[0] as any).data.toString("hex");
 
     return proofHash;
   };
@@ -302,10 +299,7 @@ export default function ClaimAirdropERC20Section({
           name: tokenMetadataQuery.data?.name || " ",
           symbol: tokenMetadataQuery.data?.symbol.toUpperCase() || " ",
         },
-        metadata: {
-          chainId,
-          hash: tx.hash,
-        },
+        metadata: { chainId, hash: tx.hash },
       });
 
       const metadata = {

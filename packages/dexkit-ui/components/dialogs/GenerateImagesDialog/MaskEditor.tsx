@@ -180,18 +180,10 @@ export default function MaskEditor({
 
   return (
     <Stack spacing={1}>
-      <Box
-        sx={{
-          display: isImageLoading ? "block" : "none",
-        }}
-      >
+      <Box sx={{ display: isImageLoading ? "block" : "none" }}>
         <Skeleton
           variant="rectangular"
-          sx={{
-            aspectRatio: "1/1",
-            width: "100%",
-            height: "100%",
-          }}
+          sx={{ aspectRatio: "1/1", width: "100%", height: "100%" }}
         />
       </Box>
 
@@ -208,7 +200,9 @@ export default function MaskEditor({
             width={canvasSize.width}
             height={canvasSize.height}
             style={{ position: "absolute" }}
-            ref={(ref) => (canvas.current = ref)}
+            ref={(ref) => {
+              canvas.current = ref;
+            }}
           />
 
           <canvas
@@ -219,7 +213,9 @@ export default function MaskEditor({
               opacity: 0.4,
               imageRendering: "crisp-edges",
             }}
-            ref={(ref) => (maskCanvas.current = ref)}
+            ref={(ref) => {
+              maskCanvas.current = ref;
+            }}
           />
           <canvas
             width={canvasSize.width}
@@ -228,7 +224,9 @@ export default function MaskEditor({
               position: "absolute",
               display: isEditing ? "block" : "none",
             }}
-            ref={(ref) => (circleCanvas.current = ref)}
+            ref={(ref) => {
+              circleCanvas.current = ref;
+            }}
             onMouseMove={handleDrawCircle}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
@@ -242,9 +240,7 @@ export default function MaskEditor({
                 width: canvasSize.width,
                 height: canvasSize.height,
                 position: "absolute",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 0.2)",
-                },
+                "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.2)" },
               }}
             >
               <IconButton

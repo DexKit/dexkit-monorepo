@@ -36,12 +36,12 @@ function PreviewPage() {
       let result = appConfig?.pages[page as string]?.sections[sectionIndex];
 
       return [
-        appConfig && result ? [result] ?? [] : [],
+        appConfig && result ? [result] : [],
         appConfig?.pages[page as string]?.layout,
       ];
     }
     return [
-      appConfig ? appConfig.pages[page as string]?.sections ?? [] : [],
+      appConfig ? (appConfig.pages[page as string]?.sections ?? []) : [],
       appConfig?.pages[page as string]?.layout,
     ];
   }, [appConfig, page, index]);
@@ -57,10 +57,7 @@ function PreviewPage() {
   );
 }
 
-type Params = {
-  site?: string;
-  page?: string;
-};
+type Params = { site?: string; page?: string };
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -69,10 +66,7 @@ export const getStaticProps: GetStaticProps = async ({
   const configResponse = await getAppConfig(params?.site, 'no-page-defined');
 
   return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      ...configResponse,
-    },
+    props: { dehydratedState: dehydrate(queryClient), ...configResponse },
     revalidate: 300,
   };
 };
@@ -80,10 +74,7 @@ export const getStaticProps: GetStaticProps = async ({
 export const getStaticPaths: GetStaticPaths<
   Params
 > = ({}: GetStaticPathsContext) => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
+  return { paths: [], fallback: 'blocking' };
 };
 
 export default PreviewPage;

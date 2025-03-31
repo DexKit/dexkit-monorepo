@@ -9,13 +9,9 @@ const DecimalInput = (props: any) => {
     fieldState: { isTouched, invalid, error },
     formState: { isSubmitted },
     isRequired,
-  } = useInput({
-    onChange,
-    onBlur,
-    source: props.source,
-  });
+  } = useInput({ onChange, onBlur, source: props.source });
 
-  return <TextField value={field.value} onChange={field.onChange} />;
+  return <TextField {...field} onChange={field.onChange} />;
 };
 
 export default DecimalInput;

@@ -21,7 +21,7 @@ export function NotificationMessage({ types, type, values }: Props) {
 
             return curr;
           },
-          {} as Record<string, ReactNode>
+          {} as Record<string, any>
         );
     }
 

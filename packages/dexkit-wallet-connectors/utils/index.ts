@@ -1,8 +1,4 @@
-
 import { EventEmitter } from "events";
-
-
-
 
 export function waitForEvent<T>(
   emitter: EventEmitter,
@@ -18,12 +14,10 @@ export function waitForEvent<T>(
   });
 }
 
-
-
 /**
  * Returns true if the string is a RFC2397-compliant data URI
  * @see {@link https://www.rfc-editor.org/rfc/rfc2397}
  */
 export default function isDataURI(uri: string): boolean {
-  return /data:(image\/[-+\w.]+)(;?\w+=[-\w]+)*(;base64)?,.*/gu.test(uri)
+  return /^data:(image\/[-+\w.]+)(;?\w+=[-\w]+)*(;base64)?,.*/.test(uri);
 }

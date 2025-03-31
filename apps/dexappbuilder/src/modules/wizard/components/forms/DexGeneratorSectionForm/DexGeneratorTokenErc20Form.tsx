@@ -30,20 +30,21 @@ function DexGeneratorTokenErc20Form({
 
   const handleValidate = (form: FormType) => {
     if (section) {
-      onChange({
-        type: 'token',
-        settings: {
-          ...section.settings,
-          ...form,
-        },
-      });
+      onChange({ type: 'token', settings: { ...section.settings, ...form } });
     }
   };
 
   return (
     <Formik
       initialValues={
-        section && section.type === 'token' ? section.settings : {}
+        section && section.type === 'token'
+          ? section.settings
+          : {
+              disableBurn: false,
+              disableInfo: false,
+              disableMint: false,
+              disableTransfer: false,
+            }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}

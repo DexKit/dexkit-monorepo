@@ -6,24 +6,24 @@ import { FormattedMessage } from "react-intl";
 import { Formik } from "formik";
 
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Card,
-    CircularProgress,
-    Divider,
-    Skeleton,
-    Stack,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Card,
+  CircularProgress,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import {
-    CallParams,
-    ContractFormParams,
-    FunctionInput,
-    OutputType,
+  CallParams,
+  ContractFormParams,
+  FunctionInput,
+  OutputType,
 } from "../../types";
 import { getSchemaForInputs } from "../../utils";
 
@@ -138,7 +138,7 @@ export default function ContractFunction({
 
           if (name) {
             if (isBytesLike(values[key])) {
-              if (!isAddress(values[key])) {
+              if (!isAddress(String(values[key]))) {
                 const arr = arrayify(values[key]);
 
                 return arrayify(values[key]);
@@ -289,9 +289,7 @@ export default function ContractFunction({
             <>
               <AccordionSummary
                 expandIcon={!collapse ? <ExpandMoreIcon /> : undefined}
-                sx={{
-                  width: "100%",
-                }}
+                sx={{ width: "100%" }}
               >
                 <Box
                   sx={{
