@@ -1,7 +1,6 @@
 {
   "name": "@dexkit/exchange",
   "version": "0.11.1",
-  "private": false,
   "license": "MIT",
   "engines": {
     "node": "22.14.0"
@@ -41,7 +40,8 @@
     "@0x/contract-addresses": "^8.7.0",
     "@0x/protocol-utils": "^11.22.4",
     "@dexkit/core": "*",
-    "@dexkit/ui": "*"
+    "@dexkit/ui": "*",
+    "@noble/curves": "^1.8.1"
   },
   "publishConfig": {
     "access": "public"

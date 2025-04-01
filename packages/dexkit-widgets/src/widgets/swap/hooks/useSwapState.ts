@@ -2,23 +2,24 @@ import { ChainId } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import { useIsGaslessSupportedToken } from "@dexkit/ui/modules/swap/hooks/useIsGaslessSupportedToken";
 import {
-  ZeroExQuoteMetaTransactionResponse,
+  SignatureType,
+  ZeroExQuoteGasless,
   ZeroExQuoteResponse,
 } from "@dexkit/ui/modules/swap/types";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
+import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Transak } from "@transak/transak-sdk";
+import type { providers } from "ethers";
 
-import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import type { providers } from 'ethers';
-
-import { BigNumber, constants, utils } from "ethers";
+import { BigNumber, constants } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSwitchChain } from 'wagmi';
+import { useAccount, useClient, useSignTypedData, useSwitchChain } from "wagmi";
 
-
+import { splitSignature } from "ethers/lib/utils";
+import { Hex } from "viem";
 import {
   useAsyncMemo,
   useDebounce,
@@ -113,7 +114,7 @@ export function useSwapState({
   maxSlippage: number;
   isAutoSlippage: boolean;
   currency: string;
-  variant?: SwapVariant
+  variant?: SwapVariant;
 }) {
   const { switchChain } = useSwitchChain();
 
@@ -217,7 +218,6 @@ export function useSwapState({
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({
-
     maxSlippage: !isAutoSlippage ? maxSlippage : undefined,
     zeroExApiKey,
     currency,
@@ -231,7 +231,7 @@ export function useSwapState({
       quoteFor: lazyQuoteFor,
       account,
     },
-    variant
+    variant,
   });
 
   const { quoteQuery } = quote;
@@ -396,11 +396,11 @@ export function useSwapState({
     lazySellAmount,
     provider,
   });
-
+  const { signTypedDataAsync } = useSignTypedData();
+  const client = useClient();
+  const { chain } = useAccount();
   const { enqueueSnackbar } = useSnackbar();
-
   const { formatMessage } = useIntl();
-
   const handleConfirmExecSwap = async () => {
     // Gasless not work on native token as sell side
     const canGasless =
@@ -423,117 +423,83 @@ export function useSwapState({
     ) {
       const [, data] = quoteQuery.data as unknown as [
         string,
-        ZeroExQuoteMetaTransactionResponse
+        ZeroExQuoteGasless,
       ];
-      const {
-        eip712: eip712Approval,
-        isRequired,
-        isGaslessAvailable,
-        type: approvalType,
-      } = data.approval;
-      let trade;
-      let approval;
 
-      if (isRequired && isGaslessAvailable) {
-        setExecSwapState(ExecSwapState.gasless_approval);
-        const signature = await signTypeDataMutation.mutateAsync(
-          {
-            domain: eip712Approval.domain,
-            types: eip712Approval.types,
-            value: eip712Approval.message,
-            primaryType: eip712Approval.primaryType,
-          },
-          {
-            onSuccess: (signature: string | null) => {
-              if (signature) {
-                quote.setApprovalSignature(signature);
-              }
-            },
-          }
-        );
-        if (signature) {
-          const sign = utils.splitSignature(signature);
-          approval = {
-            type: approvalType,
-            eip712: eip712Approval,
-            signature: {
-              v: sign.v,
-              r: sign.r,
-              s: sign.s,
-              signatureType: 2,
-            },
-          };
+      const tokenApprovalRequired = data.issues.allowance != null;
+      const gaslessApprovalAvailable = data.approval != null;
+
+      let approvalSignature: Hex | null = null;
+      let approvalDataToSubmit: any = null;
+      let tradeDataToSubmit: any = null;
+      let tradeSignature: any = null;
+
+      if (tokenApprovalRequired) {
+        if (gaslessApprovalAvailable) {
+          approvalSignature = await signTypedDataAsync({
+            types: data.approval.eip712.types,
+            domain: data.approval.eip712.domain,
+            message: data.approval.eip712.message,
+            primaryType: data.approval.eip712.primaryType,
+          });
+        } else {
+          // TODO: Implement the  approval process
         }
       }
-      if (isRequired && !isGaslessAvailable) {
-        if (data && sellToken) {
-          setExecSwapState(ExecSwapState.approve);
-          await approveMutation.mutateAsync(
-            {
-              spender: data.allowanceTarget,
-              provider: connectorProvider as providers.Web3Provider,
-              tokenAddress: data.sellTokenAddress,
-              amount: constants.MaxUint256,
-              token: sellToken,
-            },
-            {
-              onSuccess: () => { },
-            }
-          );
-          quote.quoteQuery.refetch();
-          return;
-        }
-      }
-      const { eip712, type } = data.trade;
-      setExecSwapState(ExecSwapState.gasless_trade);
-      const signature = await signTypeDataMutation.mutateAsync(
-        {
-          domain: eip712.domain,
-          types: eip712.types,
-          value: eip712.message,
-          primaryType: eip712.primaryType,
-        },
-        {
-          onSuccess: (signature: string | null) => {
-            if (signature) {
-              quote.setTradeSignature(signature);
-            }
-          },
-        }
-      );
 
-      if (signature) {
-        const sign = utils.splitSignature(signature);
-        trade = {
-          type: type,
-          eip712: eip712,
+      if (approvalSignature) {
+        const approvalSplitSig = await splitSignature(approvalSignature);
+        approvalDataToSubmit = {
+          type: data.approval.type,
+          eip712: data.approval.eip712,
           signature: {
-            v: sign.v,
-            r: sign.r,
-            s: sign.s,
-            signatureType: 2,
+            ...approvalSplitSig,
+            v: Number(approvalSplitSig.v),
+            signatureType: SignatureType.EIP712,
           },
         };
       }
+
+      tradeSignature = await signTypedDataAsync({
+        types: data.trade.eip712.types,
+        domain: data.trade.eip712.domain,
+        message: data.trade.eip712.message,
+        primaryType: data.trade.eip712.primaryType,
+      });
+      const tradeSplitSig = await splitSignature(tradeSignature);
+      tradeDataToSubmit = {
+        type: data.trade.type,
+        eip712: data.trade.eip712,
+        signature: {
+          ...tradeSplitSig,
+          v: Number(tradeSplitSig.v),
+          signatureType: SignatureType.EIP712,
+        },
+      };
+
       try {
-        setExecSwapState(ExecSwapState.gasless_trade_submit);
-        const tradeHash = await execGaslessMutation.mutateAsync({
-          trade,
-          approval,
-          quote: data,
-          onHash: (hash: string) => { },
-          sellToken,
-          buyToken,
-          chainId: connectedChainId,
-        });
+        const requestBody: any = {
+          trade: tradeDataToSubmit,
+          chainId,
+        };
+
+        if (approvalDataToSubmit) {
+          requestBody.approval = approvalDataToSubmit;
+        }
+
+        if (data) {
+          requestBody.quote = data;
+        }
+
+        const tradeHash = await execGaslessMutation.mutateAsync(requestBody);
 
         setTradeHash(tradeHash);
-      } catch {
+        handleCloseConfirmSwap();
+        setExecSwapState(ExecSwapState.quote);
+      } catch (error) {
+        console.error("Error submitting the gasless swap", error);
         setTradeHash(undefined);
       }
-
-      // handleCloseConfirmSwap();
-      // setExecSwapState(ExecSwapState.quote)
     } else if (quoteQuery.data) {
       const onError = async (err: unknown) => {
         enqueueSnackbar(
@@ -554,19 +520,19 @@ export function useSwapState({
             {
               quote: data,
               provider: connectorProvider as providers.Web3Provider,
-              onHash: (hash: string) => { },
+              onHash: (_hash: string) => {},
               sellToken,
               buyToken,
             },
             {
-              onSuccess: (receipt: providers.TransactionReceipt) => { },
+              onSuccess: (_receipt: providers.TransactionReceipt) => {},
               onError,
             }
           );
           sellTokenBalance.refetch();
           buyTokenBalance.refetch();
         }
-      } catch (err: unknown) { }
+      } catch (err: unknown) {}
     }
   };
 
@@ -598,10 +564,10 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
-          onSuccess: (receipt: providers.TransactionReceipt) => { },
+          onSuccess: (_receipt: providers.TransactionReceipt) => {},
         }
       );
     } else if (execType === "approve" && quoteQuery.data) {
@@ -611,14 +577,14 @@ export function useSwapState({
       if (data && sellToken) {
         await approveMutation.mutateAsync(
           {
-            spender: data.allowanceTarget,
+            spender: data.issues.allowance.spender || data.allowanceTarget,
             provider: connectorProvider as providers.Web3Provider,
-            tokenAddress: data.sellTokenAddress,
+            tokenAddress: sellToken.address || data.sellToken,
             amount: constants.MaxUint256,
             token: sellToken,
           },
           {
-            onSuccess: () => { },
+            onSuccess: () => {},
           }
         );
       }
@@ -627,7 +593,7 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {

@@ -1,11 +1,13 @@
 import { ZeroExApiClient } from "@dexkit/ui/modules/swap/services/zrxClient";
-import { ZeroExQuote, ZeroExQuoteGasless, ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExQuote,
+  ZeroExQuoteGasless,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { useContext, useState } from "react";
 import { SUPPORTED_GASLESS_CHAIN } from "../../../constants";
 
-import { ChainId } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
-import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
@@ -17,7 +19,7 @@ export interface SwapQuoteParams {
   sellTokenAmount?: BigNumber;
   buyToken?: Token;
   buyTokenAmount?: BigNumber;
-  chainId: ChainId;
+  chainId: number;
   skipValidation?: boolean;
   quoteFor?: SwapSide;
   account?: string;
@@ -29,7 +31,9 @@ export interface UseQuoteSwap {
   setSkipValidation: React.Dispatch<React.SetStateAction<boolean>>;
   setIntentOnFilling: React.Dispatch<React.SetStateAction<boolean>>;
   setTradeSignature: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setApprovalSignature: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setApprovalSignature: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
   params: SwapQuoteParams | undefined;
   setEnabled: React.Dispatch<boolean>;
   quoteQuery: UseQueryResult<
@@ -67,15 +71,15 @@ export function useSwapQuote({
   const refetchParams =
     params.quoteFor === "buy"
       ? {
-        sellToken: params.sellToken,
-        buyToken: params.buyToken,
-        buyTokenAmount: params.buyTokenAmount,
-      }
+          sellToken: params.sellToken,
+          buyToken: params.buyToken,
+          buyTokenAmount: params.buyTokenAmount,
+        }
       : {
-        sellToken: params.sellToken,
-        sellTokenAmount: params.sellTokenAmount,
-        buyToken: params.buyToken,
-      };
+          sellToken: params.sellToken,
+          sellTokenAmount: params.sellTokenAmount,
+          buyToken: params.buyToken,
+        };
 
   const { siteId } = useContext(SiteContext);
 
@@ -108,78 +112,49 @@ export function useSwapQuote({
         quoteFor,
       } = { ...params, skipValidation };
 
-      const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
+      const client = new ZeroExApiClient(chainId, siteId);
 
       if (buyToken && sellToken && quoteFor) {
-        if (isGasless && SUPPORTED_GASLESS_CHAIN.includes(chainId) && !isNativeInSell({ side: quoteFor, sellToken, buyToken })) {
+        const buyAmount =
+          quoteFor === "buy" && buyTokenAmount?.gt(0)
+            ? buyTokenAmount?.toString()
+            : undefined;
+        const sellAmount =
+          quoteFor === "sell" && sellTokenAmount?.gt(0)
+            ? sellTokenAmount?.toString()
+            : undefined;
+
+        if (
+          isGasless &&
+          SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
+          !isNativeInSell({ side: quoteFor, sellToken, buyToken })
+        ) {
           const quoteParam: ZeroExQuoteGasless = {
+            chainId,
             buyToken: buyToken?.address,
             sellToken: sellToken?.address,
-            feeRecipient: swapFees?.recipient,
-            affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-            acceptedTypes: "metatransaction_v2",
-            feeType: "volume",
-            feeSellTokenPercentage: swapFees
-              ? swapFees.amount_percentage / 100
-              : undefined,
-            skipValidation: canSkipValitaion,
+            slippageBps: maxSlippage ? maxSlippage * 100 * 100 : undefined,
+            swapFeeRecipient: swapFees?.recipient || "",
+            swapFeeBps: 0,
+            swapFeeToken: sellToken?.address,
+            taker: account || "",
+            buyAmount,
+            sellAmount,
           };
 
-          if (account) {
-            quoteParam.takerAddress = account;
-          }
-          if (intentOnFilling) {
-            quoteParam.checkApproval = true;
-          }
-
-          if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
-            quoteParam.buyAmount = buyTokenAmount?.toString();
-            if (intentOnFilling) {
-              return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
-            } else {
-              return [quoteFor, await client.priceGasless(quoteParam, { signal })];
-            }
-
-          } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
-            quoteParam.sellAmount = sellTokenAmount?.toString();
-            if (intentOnFilling) {
-              return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
-            } else {
-              return [quoteFor, await client.priceGasless(quoteParam, { signal })];
-            }
-          }
-
+          return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
         } else {
           const quoteParam: ZeroExQuote = {
+            chainId,
             buyToken: buyToken?.address,
             sellToken: sellToken?.address,
-            affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-            feeRecipient: swapFees?.recipient,
-            buyTokenPercentageFee: swapFees
-              ? swapFees.amount_percentage / 100
-              : undefined,
-            skipValidation: canSkipValitaion,
+            taker: account || "",
+            slippageBps: maxSlippage ? maxSlippage * 100 * 100 : undefined,
+            buyAmount,
+            sellAmount,
           };
 
-          if (account && !skipValidation) {
-            quoteParam.takerAddress = account;
-          }
-
-          if (intentOnFilling && zeroExApiKey) {
-            quoteParam.intentOnFilling = true;
-          }
-
-          if (maxSlippage !== undefined) {
-            quoteParam.slippagePercentage = maxSlippage;
-          }
-
-          if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
-            quoteParam.buyAmount = buyTokenAmount?.toString();
-            return [quoteFor, await client.quote(quoteParam, { signal })];
-          } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
-            quoteParam.sellAmount = sellTokenAmount?.toString();
-            return [quoteFor, await client.quote(quoteParam, { signal })];
-          }
+          return [quoteFor, await client.quote(quoteParam, { signal })];
         }
       }
       return null;
@@ -199,6 +174,6 @@ export function useSwapQuote({
     setSkipValidation,
     setIntentOnFilling,
     setTradeSignature,
-    setApprovalSignature
+    setApprovalSignature,
   };
 }

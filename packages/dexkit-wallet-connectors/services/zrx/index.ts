@@ -5,7 +5,7 @@ import {
   ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
   ZEROEX_QUOTE_ENDPOINT,
   ZEROEX_TOKENS_ENDPOINT,
-  ZERO_EX_URL,
+  ZERO_EX_V2_URL,
 } from "./constants";
 
 import {
@@ -29,7 +29,7 @@ export class ZeroExApiClient {
     }
 
     this.axiosInstance = axios.create({
-      baseURL: ZERO_EX_URL(chainId),
+      baseURL: ZERO_EX_V2_URL(chainId),
       headers,
     });
   }

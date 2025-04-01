@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import type { providers } from "ethers";
 import { BigNumber } from "ethers";
 import { useIntl } from "react-intl";
+import { concat, Hex, numberToHex, size } from "viem";
+import { useAccount, useChainId, useSignTypedData } from "wagmi";
 import { NotificationCallbackParams } from "../types";
 
 export interface SwapExecParams {
@@ -23,6 +25,9 @@ export function useSwapExec({
 }) {
   const { formatMessage } = useIntl();
   const trackUserEvent = useTrackUserEventsMutation();
+  const account = useAccount();
+  const chainId = useChainId();
+  const { signTypedDataAsync } = useSignTypedData();
 
   return useMutation(
     async ({
@@ -36,13 +41,47 @@ export function useSwapExec({
         throw new Error("no provider");
       }
 
-      const chainId = (await provider.getNetwork()).chainId;
+      const { value, to } = quote.transaction;
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
 
       try {
+        if (quote.permit2?.eip712) {
+          const { domain, types, message, primaryType } = quote.permit2.eip712;
+
+          const signature = await signTypedDataAsync({
+            domain,
+            types,
+            message,
+            primaryType,
+            account: account.address,
+          });
+
+          const signatureLengthInHex = numberToHex(size(signature), {
+            signed: false,
+            size: 32,
+          });
+
+          const transactionData = quote.transaction.data as Hex;
+          const sigLengthHex = signatureLengthInHex as Hex;
+          const sig = signature as Hex;
+
+          quote.transaction.data = concat([transactionData, sigLengthHex, sig]);
+        }
+
+        const nonce = await provider.getTransactionCount(address);
         const tx = await provider.getSigner().sendTransaction({
-          data: quote?.data,
-          value: BigNumber.from(quote?.value),
-          to: quote?.to,
+          data: quote.transaction.data,
+          value: BigNumber.from(value),
+          to,
+          nonce,
+          chainId,
+          gasLimit: !!quote?.transaction.gas
+            ? BigInt(quote?.transaction.gas)
+            : undefined,
+          gasPrice: !!quote?.transaction.gasPrice
+            ? BigInt(quote?.transaction.gasPrice)
+            : undefined,
         });
 
         onNotification({

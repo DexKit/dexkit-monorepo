@@ -37,8 +37,11 @@ export default function SwapFeeSummary({
   });
 
   const maxFee = useMemo(() => {
-    if (quote && quote?.gas && quote?.gasPrice) {
-      return BigNumber.from(quote.gas).mul(quote.gasPrice);
+    const { fees } = quote || {};
+    if (fees) {
+      return BigNumber.from(fees.gasFee ? fees.gasFee.amount : 0)
+        .add(BigNumber.from(fees.integratorFee ? fees.integratorFee.amount : 0))
+        .add(BigNumber.from(fees.zeroExFee ? fees.zeroExFee.amount : 0));
     }
 
     return BigNumber.from(0);
@@ -71,14 +74,6 @@ export default function SwapFeeSummary({
 
     return 0;
   }, [totalFee, coinPrices.data, chainId, currency]);
-
-  const priceImpact = useMemo(() => {
-    if (quote) {
-      return parseFloat(quote.estimatedPriceImpact);
-    }
-
-    return 0;
-  }, [quote]);
 
   const [toggleSide, setToggleSide] = useState(false);
 
@@ -171,44 +166,6 @@ export default function SwapFeeSummary({
           </Stack>
         )}
 
-        <Stack
-          spacing={1}
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography>
-            <FormattedMessage id="price.impact" defaultMessage="Price impact" />
-          </Typography>
-          <Stack
-            spacing={1}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography
-              color="text.secondary"
-              sx={(theme) => ({
-                color:
-                  priceImpact > 10
-                    ? theme.palette.error.main
-                    : theme.palette.text.secondary,
-              })}
-            >
-              {priceImpact}%{" "}
-            </Typography>
-            <Tooltip
-              title={
-                <FormattedMessage
-                  id="price.impact.swap.message.info"
-                  defaultMessage="Price impact refers to the fluctuation in the price of a coin that happens when a trade takes place. When the price impact is high, it can sometimes lead to buying coins at a price lower than what was initially expected."
-                />
-              }
-            >
-              <Info fontSize="inherit" />
-            </Tooltip>
-          </Stack>
-        </Stack>
         {/* <Stack spacing={2} direction="row" justifyContent="space-between">
           <Typography>
             <FormattedMessage id="amount" defaultMessage="Amount" />

@@ -30,7 +30,7 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
   }
 };
 
-export const ZERO_EX_URL = (chainId?: number) =>
+export const ZERO_EX_V2_URL = (chainId?: number) =>
   `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;
 
 export const ZEROEX_QUOTE_ENDPOINT = "/swap/v1/quote";
