@@ -12,11 +12,11 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { Transak } from "@transak/transak-sdk";
 import type { providers } from "ethers";
 
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useAccount, useClient, useSignTypedData, useSwitchChain } from "wagmi";
+import { useSignTypedData, useSwitchChain } from "wagmi";
 
 import { splitSignature } from "ethers/lib/utils";
 import { Hex } from "viem";
@@ -34,7 +34,6 @@ import { NotificationCallbackParams, SwapSide } from "../types";
 import { useExecType } from "./useExecType";
 import { useGaslessSwapState } from "./useGaslessSwapState";
 import { useSwapCurrencyPrice } from "./useSwapCurrencyPrice";
-import { SwapExecParams } from "./useSwapExec";
 import { SwapGaslessExecParams } from "./useSwapGaslessExec";
 import { useSwapQuote } from "./useSwapQuote";
 
@@ -66,12 +65,7 @@ export function useSwapState({
   variant,
 }: {
   zeroExApiKey?: string;
-  execMutation: UseMutationResult<
-    providers.TransactionReceipt,
-    unknown,
-    SwapExecParams,
-    unknown
-  >;
+  execMutation: any;
   execGaslessMutation: UseMutationResult<
     string,
     unknown,
@@ -397,8 +391,6 @@ export function useSwapState({
     provider,
   });
   const { signTypedDataAsync } = useSignTypedData();
-  const client = useClient();
-  const { chain } = useAccount();
   const { enqueueSnackbar } = useSnackbar();
   const { formatMessage } = useIntl();
   const handleConfirmExecSwap = async () => {
@@ -515,10 +507,12 @@ export function useSwapState({
 
       try {
         const [, data] = quoteQuery.data;
+
         if (data && sellToken && buyToken) {
           await execMutation.mutateAsync(
             {
               quote: data,
+              quoteQuery,
               provider: connectorProvider as providers.Web3Provider,
               onHash: (_hash: string) => {},
               sellToken,
@@ -554,12 +548,7 @@ export function useSwapState({
       quote.setIntentOnFilling(true);
       quote.quoteQuery.refetch();
       setExecSwapState(ExecSwapState.gasless_trade);
-    } /*else if (execType === "approve_gasless" && quoteQuery.data) {
-      setShowConfirmSwap(true);
-      quote.setIntentOnFilling(true);
-      setExecSwapState(ExecSwapState.gasless_approval)
-      quote.quoteQuery.refetch();
-    }*/ else if (execType === "wrap") {
+    } else if (execType === "wrap") {
       await wrapMutation.mutateAsync(
         {
           provider: connectorProvider as providers.Web3Provider,
@@ -570,24 +559,6 @@ export function useSwapState({
           onSuccess: (_receipt: providers.TransactionReceipt) => {},
         }
       );
-    } else if (execType === "approve" && quoteQuery.data) {
-      const [, data] = quoteQuery.data;
-      setExecSwapState(ExecSwapState.approve);
-
-      if (data && sellToken) {
-        await approveMutation.mutateAsync(
-          {
-            spender: data.issues.allowance.spender || data.allowanceTarget,
-            provider: connectorProvider as providers.Web3Provider,
-            tokenAddress: sellToken.address || data.sellToken,
-            amount: constants.MaxUint256,
-            token: sellToken,
-          },
-          {
-            onSuccess: () => {},
-          }
-        );
-      }
     } else if (execType === "unwrap") {
       await unwrapMutation.mutateAsync(
         {

@@ -49,8 +49,6 @@ export function useExecButtonMessage({
           defaultMessage="Switch wallet to {networkName}"
           values={{ networkName }}
         />
-      ) : execType === "approve" ? (
-        <FormattedMessage id="approve" defaultMessage="Approve" />
       ) : execType === "network_not_supported" ? (
         <FormattedMessage
           id="network_not_supported"

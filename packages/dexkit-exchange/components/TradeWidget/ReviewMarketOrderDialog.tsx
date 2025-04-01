@@ -66,6 +66,7 @@ export default function ReviewMarketOrderDialog({
     }
   }, [price]);
 
+  // TODO: check component SwapFeeSummary
   const pricePerTokenFormatted = useMemo(() => {
     if (quoteAmount && amount && amount.gt(0)) {
       const division = quoteAmount.div(amount);

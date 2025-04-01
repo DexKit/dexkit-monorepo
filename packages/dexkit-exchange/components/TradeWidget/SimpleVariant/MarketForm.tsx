@@ -1,7 +1,6 @@
 import { SignatureType } from "@0x/protocol-utils";
 import {
   ChainId,
-  useApproveToken,
   useErc20BalanceQuery,
   useTokenAllowanceQuery,
   ZEROEX_NATIVE_TOKEN_ADDRESS,
@@ -175,7 +174,6 @@ export default function MarketForm({
     return "0.0";
   }, [quoteTokenBalance, baseToken]);
 
-  const approveMutation = useApproveToken();
   const kitAmount =
     amount && Number(amount) > 0
       ? parseUnits(amount, baseToken.decimals).toString()
@@ -400,8 +398,9 @@ export default function MarketForm({
             requestBody.approval = approvalDataToSubmit;
           }
 
-          successfulTradeHash =
-            await marketTradeGasless.mutateAsync(requestBody);
+          successfulTradeHash = await marketTradeGasless.mutateAsync(
+            requestBody
+          );
 
           if (successfulTradeHash) {
             const subType = side == "buy" ? "marketBuy" : "marketSell";

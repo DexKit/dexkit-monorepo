@@ -1,5 +1,5 @@
 import type { providers } from "ethers";
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 import { useAsyncMemo } from "../../../hooks";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
 import { ExecType, SwapSide } from "../types";
@@ -7,9 +7,7 @@ import { ExecType, SwapSide } from "../types";
 import { WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
-import { ZeroExQuoteMetaTransactionResponse } from "@dexkit/ui/modules/swap/types";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
-import { hasSufficientAllowance } from "../../../services";
 import { isAddressEqual } from "../../../utils";
 
 export function useExecType({
@@ -71,52 +69,14 @@ export function useExecType({
           side: quoteFor,
         });
 
-      if (lazyBuyToken && lazySellToken && quoteQuery.data) {
-        if (!isBuyTokenWrapped && !isSellTokenWrapped) {
-          if (account) {
-            if (canGasless) {
-              const [, data] = quoteQuery.data as unknown as [
-                string,
-                ZeroExQuoteMetaTransactionResponse,
-              ];
-              if (
-                data &&
-                data?.approval &&
-                data?.approval?.isRequired !== undefined &&
-                data?.approval?.isGaslessAvailable !== undefined
-              ) {
-                const { isRequired, isGaslessAvailable } = data.approval;
-
-                if (isRequired && isGaslessAvailable) {
-                  return "approve_gasless";
-                }
-                if (isRequired) {
-                  return "approve";
-                }
-              }
-            } else {
-              const [, data] = quoteQuery.data;
-
-              if (data?.issues?.allowance) {
-                const sufficientAllowance = await hasSufficientAllowance({
-                  spender:
-                    data.issues.allowance.spender ||
-                    data.allowanceTarget ||
-                    constants.AddressZero,
-                  tokenAddress: data.sellToken,
-                  amount: BigNumber.from(data.sellAmount),
-                  provider,
-                  account,
-                });
-
-                if (!sufficientAllowance) {
-                  return "approve";
-                }
-              }
-            }
-          }
-        }
-
+      if (
+        lazyBuyToken &&
+        lazySellToken &&
+        quoteQuery.data &&
+        !isBuyTokenWrapped &&
+        !isSellTokenWrapped &&
+        account
+      ) {
         return canGasless ? "swap_gasless" : "swap";
       }
 
@@ -125,11 +85,11 @@ export function useExecType({
         isAddressEqual(lazySellToken?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
           ? "wrap"
           : isSellTokenWrapped &&
-              isAddressEqual(lazyBuyToken?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
-            ? "unwrap"
-            : canGasless
-              ? "swap_gasless"
-              : "swap";
+            isAddressEqual(lazyBuyToken?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+          ? "unwrap"
+          : canGasless
+          ? "swap_gasless"
+          : "swap";
 
       return result;
     },
