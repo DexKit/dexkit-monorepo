@@ -78,6 +78,6 @@ export function useSwapExec({
       } catch (err) {
         throw err;
       }
-    }
+    },
   );
 }

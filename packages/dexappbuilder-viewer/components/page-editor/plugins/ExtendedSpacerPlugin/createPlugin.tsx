@@ -1,37 +1,37 @@
-import type { CellPlugin } from '@react-page/editor';
-import { lazyLoad } from '@react-page/editor';
-import React from 'react';
-import { defaultSettings } from './default/settings';
-import { SpacerSettings } from './types/settings';
+import type { CellPlugin } from "@react-page/editor";
+import { lazyLoad } from "@react-page/editor";
+import React from "react";
+import { defaultSettings } from "./default/settings";
+import { SpacerSettings } from "./types/settings";
 
-import type { SpacerState } from './types/state';
+import type { SpacerState } from "./types/state";
 
-const AspectRatio = lazyLoad(() => import('@mui/icons-material/AspectRatio'));
+const AspectRatio = lazyLoad(() => import("@mui/icons-material/AspectRatio"));
 const createPlugin: (settings: SpacerSettings) => CellPlugin<SpacerState> = (
-  settings
+  settings,
 ) => {
   const mergedSettings = { ...defaultSettings, ...settings };
 
   return {
     Renderer: mergedSettings.Renderer,
     controls: {
-      type: 'autoform',
+      type: "autoform",
       schema: {
-        required: ['height'],
+        required: ["height"],
         properties: {
           height: {
-            type: 'number',
+            type: "number",
           },
           hideInDesktop: {
-            type: 'boolean',
+            type: "boolean",
           },
           hideInMobile: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
     },
-    id: 'ory/editor/core/content/spacer',
+    id: "ory/editor/core/content/spacer",
     version: 1,
     icon: <AspectRatio />,
     title: mergedSettings.translations?.pluginName,

@@ -97,10 +97,10 @@ const KittygotchiEditPage: NextPage = () => {
               id: 'error.while.updating.kittygotchi',
               defaultMessage: 'Error while updating kittygotchi',
             }),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
 
     enqueueSnackbar(
@@ -108,7 +108,7 @@ const KittygotchiEditPage: NextPage = () => {
         id: 'kittygotchi.updated',
         defaultMessage: 'Kittygotchi Updated',
       }),
-      { variant: 'success' }
+      { variant: 'success' },
     );
   };
 
@@ -199,7 +199,7 @@ const KittygotchiEditPage: NextPage = () => {
                               <img
                                 alt="EMPTY"
                                 src={getNormalizedUrl(
-                                  kittygotchi.data?.image || ''
+                                  kittygotchi.data?.image || '',
                                 )}
                                 style={{ height: '100%', width: '100%' }}
                               />
@@ -436,7 +436,7 @@ const KittygotchiEditPage: NextPage = () => {
                                       value={attr.value}
                                     />
                                   </Grid>
-                                )
+                                ),
                               )}
                         </Grid>
                       </Grid>

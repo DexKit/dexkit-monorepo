@@ -60,7 +60,7 @@ export function useCoins() {
     return sortedCoins.filter(
       (c) =>
         c.coinType === CoinTypes.EVM_ERC20 ||
-        c.coinType === CoinTypes.EVM_NATIVE
+        c.coinType === CoinTypes.EVM_NATIVE,
     ) as EvmCoin[];
   }, [sortedCoins]);
 
@@ -117,7 +117,7 @@ export function useAccounts({}) {
             formatMessage({
               id: 'account.already.exists',
               defaultMessage: 'Account already exists',
-            })
+            }),
           );
         }
       }
@@ -132,7 +132,7 @@ export function useAccounts({}) {
         const newAccounts = [...accounts];
 
         const account = accounts.find((a) =>
-          isAddressEqual(a.address, address)
+          isAddressEqual(a.address, address),
         );
 
         if (!account) {
@@ -140,7 +140,7 @@ export function useAccounts({}) {
             formatMessage({
               id: 'account.already.exists',
               defaultMessage: 'Account does not exists',
-            })
+            }),
           );
         }
 
@@ -149,7 +149,7 @@ export function useAccounts({}) {
         return newAccounts;
       });
     },
-    []
+    [],
   );
 
   const updateName = useCallback((address: string, name: string) => {
@@ -163,7 +163,7 @@ export function useAccounts({}) {
           formatMessage({
             id: 'account.already.exists',
             defaultMessage: 'Account does not exists',
-          })
+          }),
         );
       }
 
@@ -177,7 +177,7 @@ export function useAccounts({}) {
     (account: Account) => {
       const index = accounts.findIndex(
         (a) =>
-          isAddressEqual(a.address, account.address) && a.type === account.type
+          isAddressEqual(a.address, account.address) && a.type === account.type,
       );
 
       const newAccounts = [...accounts];
@@ -187,7 +187,7 @@ export function useAccounts({}) {
         setAccounts(newAccounts);
       }
     },
-    [accounts]
+    [accounts],
   );
 
   const evmAccounts = useMemo(() => {
@@ -215,7 +215,7 @@ export function useEvmTransferMutation({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => void;
 }) {
   return useMutation(
@@ -230,12 +230,12 @@ export function useEvmTransferMutation({
         const contract = new ethers.Contract(
           coin.contractAddress,
           ERC20Abi,
-          provider.getSigner()
+          provider.getSigner(),
         );
 
         const tx = await contract.transfer(
           address,
-          ethers.utils.parseUnits(amount.toString(), coin.decimals)
+          ethers.utils.parseUnits(amount.toString(), coin.decimals),
         );
 
         if (onSubmit) {
@@ -244,7 +244,7 @@ export function useEvmTransferMutation({
 
         return await tx.wait();
       }
-    }
+    },
   );
 }
 
@@ -263,7 +263,7 @@ export function useWalletBalances({
       .map((a) => a.address);
 
     const evmCoins = coins.filter((c) =>
-      [CoinTypes.EVM_NATIVE, CoinTypes.EVM_ERC20].includes(c.coinType)
+      [CoinTypes.EVM_NATIVE, CoinTypes.EVM_ERC20].includes(c.coinType),
     );
 
     const evmNetworks = new Set(
@@ -271,7 +271,7 @@ export function useWalletBalances({
         .map((c) => c.network)
         .filter((n) => {
           return n && EVM_NETWORKS.includes(n.id as Networks);
-        })
+        }),
     ).values();
 
     const results: Set<any> = new Set();
@@ -283,7 +283,7 @@ export function useWalletBalances({
       const promise = getAccountsBalanceEvmByNetwork(
         network,
         networkCoins as EvmCoin[],
-        evmAccounts
+        evmAccounts,
       );
 
       results.add({
@@ -323,15 +323,15 @@ export function useEvmCoinPrices({
           .filter(
             (c) =>
               [CoinTypes.EVM_ERC20, CoinTypes.EVM_NATIVE].includes(
-                c.coinType
-              ) && c.network.chainId
+                c.coinType,
+              ) && c.network.chainId,
           )
-          .map((c) => NETWORKS[c.network.chainId || 0])
-      ).keys()
+          .map((c) => NETWORKS[c.network.chainId || 0]),
+      ).keys(),
     );
 
     const nativeCoins = coins.filter(
-      (c) => c.coinType === CoinTypes.EVM_NATIVE
+      (c) => c.coinType === CoinTypes.EVM_NATIVE,
     );
 
     return [
@@ -340,7 +340,7 @@ export function useEvmCoinPrices({
           .filter(
             (c) =>
               c.network.chainId === n.chainId &&
-              c.coinType === CoinTypes.EVM_ERC20
+              c.coinType === CoinTypes.EVM_ERC20,
           )
           .map((c) => (c as Erc20Coin).contractAddress);
         return {
@@ -410,7 +410,7 @@ export function useCoinsMarketData({
   return useQuery([COIN_MARKET_DATA_QUERY, coins, currency], async () => {
     return getCoinMarketData({
       ids: Array.from(
-        new Set(coins.map((c) => c.coingeckoId)).values()
+        new Set(coins.map((c) => c.coingeckoId)).values(),
       ) as string[],
       currency,
     });
@@ -424,7 +424,7 @@ export function useRecentCoins() {
     setRecentCoins((recentCoins) => {
       let copyRecentCoins = [...recentCoins];
       let recentCoin = recentCoins.find(
-        (r) => coinKey(r.coin) === coinKey(coin)
+        (r) => coinKey(r.coin) === coinKey(coin),
       );
 
       if (recentCoin) {

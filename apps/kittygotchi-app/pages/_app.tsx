@@ -39,7 +39,7 @@ export default function MyApp(props: MyAppProps) {
   const key = useMemo(
     () =>
       connectors.map((connector) => getConnectorName(connector[0])).join('-'),
-    [connectors]
+    [connectors],
   );
 
   return (

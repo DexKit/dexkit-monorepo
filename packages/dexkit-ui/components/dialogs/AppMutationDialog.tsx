@@ -1,5 +1,5 @@
-import CheckCircle from '@mui/icons-material/CheckCircle';
-import Error from '@mui/icons-material/Error';
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import Error from "@mui/icons-material/Error";
 import {
   Box,
   CircularProgress,
@@ -7,10 +7,10 @@ import {
   DialogContent,
   DialogProps,
   Stack,
-} from '@mui/material';
+} from "@mui/material";
 
-import { FormattedMessage } from 'react-intl';
-import { AppDialogTitle } from '../AppDialogTitle';
+import { FormattedMessage } from "react-intl";
+import { AppDialogTitle } from "../AppDialogTitle";
 
 interface Props {
   dialogProps: DialogProps;
@@ -39,7 +39,7 @@ export default function AppMutationDialog({
 
   const handleClose = () => {
     if (onClose) {
-      onClose({}, 'backdropClick');
+      onClose({}, "backdropClick");
     }
   };
 

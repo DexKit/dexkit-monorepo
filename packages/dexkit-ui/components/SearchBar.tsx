@@ -34,7 +34,7 @@ export function SearchBar(props: Props) {
     ? []
     : appConfig.collections
         ?.filter((c) =>
-          chainId ? (c.chainId === chainId ? true : false) : true
+          chainId ? (c.chainId === chainId ? true : false) : true,
         )
         .map((value) => {
           return {
@@ -76,13 +76,13 @@ export function SearchBar(props: Props) {
         if (!(typeof value === "string") && value) {
           if (value?.type === "Tokens") {
             router.push(
-              `/token/${NETWORK_SLUG(value.chainId)}/${value.address}`
+              `/token/${NETWORK_SLUG(value.chainId)}/${value.address}`,
             );
           }
 
           if (value?.type === "Collections") {
             router.push(
-              `/collection/${NETWORK_SLUG(value.chainId)}/${value.address}`
+              `/collection/${NETWORK_SLUG(value.chainId)}/${value.address}`,
             );
           }
         }

@@ -61,5 +61,3 @@ export const UserEvents = {
   ...UserOnChainEvents,
   ...UserOffChainEvents,
 };
-
-

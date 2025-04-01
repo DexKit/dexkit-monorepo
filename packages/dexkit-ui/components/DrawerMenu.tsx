@@ -36,7 +36,7 @@ const CustomListItemSecondaryAction = styled(ListItemSecondaryAction)(
     alignContent: "center",
     justifyContent: "center",
     height: "100%",
-  })
+  }),
 );
 
 export interface DrawerMenuItemProps {

@@ -70,7 +70,7 @@ export function useNft({
         tokenId,
       } as Nft;
     },
-    { enabled: tokenId !== undefined && contractAddress !== undefined }
+    { enabled: tokenId !== undefined && contractAddress !== undefined },
   );
 }
 
@@ -86,7 +86,7 @@ export function useNftMetadata({ tokenURI }: { tokenURI?: string }) {
 
       return (await axios.get<NftMetadata>(tokenURI)).data;
     },
-    { enabled: Boolean(tokenURI) }
+    { enabled: Boolean(tokenURI) },
   );
 }
 
@@ -117,7 +117,7 @@ export function useNftTransfer({
       const contract = new ethers.Contract(
         contractAddress,
         ERC721Abi,
-        provider?.getSigner()
+        provider?.getSigner(),
       );
 
       const tx = await contract.transferFrom(from, to, tokenId);
@@ -127,7 +127,7 @@ export function useNftTransfer({
       }
 
       return await tx.wait();
-    }
+    },
   );
 }
 
@@ -172,7 +172,7 @@ export function useListNfts({
 
       return ret;
     },
-    { suspense: true }
+    { suspense: true },
   );
 
   useEffect(() => {

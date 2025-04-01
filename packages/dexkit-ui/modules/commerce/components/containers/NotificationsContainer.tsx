@@ -42,7 +42,7 @@ function Notifications() {
   };
 
   const handleChangeRowsPerPage = async (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFilter((values) => ({
       ...values,
@@ -70,7 +70,7 @@ function Notifications() {
         />,
         {
           variant: "success",
-        }
+        },
       );
     } catch (err) {
       enqueueSnackbar(String(err), { variant: "error" });

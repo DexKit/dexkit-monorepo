@@ -1,8 +1,8 @@
-import { Grid, NoSsr } from '@mui/material';
-import { AssetPageActions } from './AssetPageActions';
-import { AssetPageTitle } from './AssetPageTitle';
-import { AssetPricePaper } from './AssetPricePaper';
-import { AssetTabs } from './AssetTabs';
+import { Grid, NoSsr } from "@mui/material";
+import { AssetPageActions } from "./AssetPageActions";
+import { AssetPageTitle } from "./AssetPageTitle";
+import { AssetPricePaper } from "./AssetPricePaper";
+import { AssetTabs } from "./AssetTabs";
 
 interface Props {
   address: string;

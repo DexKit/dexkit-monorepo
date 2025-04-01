@@ -88,7 +88,7 @@ export default function EvmTransferCoin({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => {
     enqueueSnackbar(
       formatMessage({
@@ -97,7 +97,7 @@ export default function EvmTransferCoin({
       }),
       {
         variant: "info",
-      }
+      },
     );
     if (chainId !== undefined) {
       const values = {
@@ -127,7 +127,7 @@ export default function EvmTransferCoin({
         address: string;
         amount: number;
         coin: Coin;
-      }
+      },
     ) => {
       if (chainId !== undefined) {
         const values = {
@@ -173,7 +173,7 @@ export default function EvmTransferCoin({
             ? values?.coin
               ? parseUnits(
                   values?.amount?.toString() || "0",
-                  values.coin.decimals
+                  values.coin.decimals,
                 ).toString()
               : parseEther(values?.amount?.toString() || "0").toString()
             : undefined,
@@ -181,7 +181,7 @@ export default function EvmTransferCoin({
             values?.coin?.coinType === CoinTypes.EVM_ERC20
               ? values.coin.contractAddress
               : undefined,
-        })
+        }),
       );
     }
   };
@@ -209,11 +209,11 @@ export default function EvmTransferCoin({
               id: "transaction.failed.reason",
               defaultMessage: "Transaction failed",
             },
-            { reason: String(err) }
+            { reason: String(err) },
           ),
           {
             variant: "error",
-          }
+          },
         );
       }
     }

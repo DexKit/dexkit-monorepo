@@ -110,12 +110,12 @@ export function useContractCallMutation({
         enqueueSnackbar(
           formatMessage(
             { id: "error.err", defaultMessage: "Error: {err}" },
-            { err: String(err.code) }
+            { err: String(err.code) },
           ),
-          { variant: "error" }
+          { variant: "error" },
         );
       },
-    }
+    },
   );
 }
 
@@ -152,7 +152,7 @@ export function useContractDeployMutation({
       const factory = new ContractFactory(
         abi,
         contractBytecode,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       let result;
@@ -179,14 +179,14 @@ export function useContractDeployMutation({
         enqueueSnackbar(
           formatMessage(
             { id: "error.err", defaultMessage: "Error: {err}" },
-            { err: String(err.code) }
+            { err: String(err.code) },
           ),
-          { variant: "error" }
+          { variant: "error" },
         );
       }
 
       return result;
-    }
+    },
   );
 }
 
@@ -217,7 +217,7 @@ export function useCallOnMountFields({
           if (params.fields[field].callOnMount) {
             const cb = contract[field];
             const args = Object.keys(params.fields[field].input).map(
-              (key) => params.fields[field].input[key].defaultValue
+              (key) => params.fields[field].input[key].defaultValue,
             );
 
             let result = await cb(...args);
@@ -231,7 +231,7 @@ export function useCallOnMountFields({
 
       return {};
     },
-    { onSuccess }
+    { onSuccess },
   );
 }
 
@@ -264,7 +264,7 @@ export function useScanContractAbiMutation() {
             module: "contract",
             address: contractAddress,
           },
-        }
+        },
       );
 
       if (resp.data.message === "NOTOK") {
@@ -272,7 +272,7 @@ export function useScanContractAbiMutation() {
       }
 
       return JSON.parse(resp.data.result);
-    }
+    },
   );
 }
 
@@ -301,7 +301,7 @@ export function useContractCreation() {
             module: "contract",
             contractaddresses: contractAddress,
           },
-        }
+        },
       );
 
       if (resp.data.message === "NOTOK") {
@@ -309,7 +309,7 @@ export function useContractCreation() {
       }
 
       return resp.data.result;
-    }
+    },
   );
 }
 
@@ -353,7 +353,7 @@ export function useIfpsUploadMutation() {
 
         return res.data.IpfsHash;
       }
-    }
+    },
   );
 }
 
@@ -388,7 +388,7 @@ export function useServerUploadMerkleTreeMutation() {
         });
         return res.data;
       }
-    }
+    },
   );
 }
 
@@ -416,7 +416,7 @@ export function useIpfsFileListQuery({
 
       return { items: [], nextCursor: undefined };
     },
-    { getNextPageParam: ({ nextCursor }) => nextCursor }
+    { getNextPageParam: ({ nextCursor }) => nextCursor },
   );
 }
 
@@ -434,13 +434,13 @@ export function useFormConfigParamsQuery({
     async () => {
       const result = (
         await axios.get(
-          `https://raw.githubusercontent.com/DexKit/assets/main/contracts/${creator}/${contract}.json`
+          `https://raw.githubusercontent.com/DexKit/assets/main/contracts/${creator}/${contract}.json`,
         )
       ).data;
 
       return result;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false },
   );
 }
 
@@ -482,7 +482,7 @@ export function useDeployThirdWebContractMutation({
         const tx = await sdk.deployer.deployPublishedContract.prepare(
           metadata.publisher,
           metadata.name,
-          orderedParams
+          orderedParams,
         );
 
         const transaction = await tx.send();
@@ -499,7 +499,7 @@ export function useDeployThirdWebContractMutation({
         }
         return { tx: transaction.hash, address: address };
       }
-    }
+    },
   );
 }
 
@@ -530,7 +530,7 @@ export default function useThirdwebContractMetadataQuery({
 
       const result = (
         await axios.get<ThirdwebMetadata>(
-          normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io")
+          normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io"),
         )
       ).data;
 

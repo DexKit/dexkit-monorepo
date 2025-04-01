@@ -15,7 +15,7 @@ export function useWalletActivate({
   selectedWalletAtom: PrimitiveAtom<string>;
 }) {
   const { chainId } = useWeb3React();
-  const { setWalletConnectorMetadata } = useWalletConnectorMetadata()
+  const { setWalletConnectorMetadata } = useWalletConnectorMetadata();
   // This should be deprecated
   const [walletConnector, setWalletConnector] = useAtom(selectedWalletAtom);
 
@@ -24,27 +24,20 @@ export function useWalletActivate({
        await connector.deactivate();
      }*/
 
-
-    setWalletConnectorMetadata(
-      {
-        id: params?.connectorName,
-        icon: params?.icon,
-        rdns: params?.rdns,
-        name: params?.name,
-        type: params?.connectionType
-      }
-    )
+    setWalletConnectorMetadata({
+      id: params?.connectorName,
+      icon: params?.icon,
+      rdns: params?.rdns,
+      name: params?.name,
+      type: params?.connectionType,
+    });
 
     if (params?.loginType) {
       // This should be deprecated
       setWalletConnector("magic");
-
-
     } else {
-
       // This should be deprecated
       setWalletConnector(params?.connectorName);
-
 
       return null;
     }
@@ -53,17 +46,24 @@ export function useWalletActivate({
   return { connectorName: walletConnector, mutation };
 }
 
-const walletConnectorMetadataAtom = atomWithStorage<{ id?: string, name?: string, icon?: string, rdns?: string, type?: ConnectionType }>("wallet-connector-metadata", {});
+const walletConnectorMetadataAtom = atomWithStorage<{
+  id?: string;
+  name?: string;
+  icon?: string;
+  rdns?: string;
+  type?: ConnectionType;
+}>("wallet-connector-metadata", {});
 
 /**
  * Return current active connector metadata
- * @returns 
+ * @returns
  */
 export function useWalletConnectorMetadata() {
-  const [walletConnectorMetadata, setWalletConnectorMetadata] = useAtom(walletConnectorMetadataAtom);
+  const [walletConnectorMetadata, setWalletConnectorMetadata] = useAtom(
+    walletConnectorMetadataAtom,
+  );
   return {
     walletConnectorMetadata,
-    setWalletConnectorMetadata
-  }
-
+    setWalletConnectorMetadata,
+  };
 }

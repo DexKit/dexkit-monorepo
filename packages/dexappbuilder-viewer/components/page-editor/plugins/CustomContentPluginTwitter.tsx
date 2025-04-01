@@ -1,6 +1,6 @@
-import type { CellPlugin } from '@react-page/editor';
-import React from 'react';
-import { Timeline } from 'react-twitter-widgets';
+import type { CellPlugin } from "@react-page/editor";
+import React from "react";
+import { Timeline } from "react-twitter-widgets";
 
 type Data = {
   screenName: string;
@@ -14,7 +14,7 @@ const CustomContentPluginTwitter: CellPlugin<Data> = {
       <h4>{data.title}</h4>
       <Timeline
         dataSource={{
-          sourceType: 'profile',
+          sourceType: "profile",
           // data has already the right type!
           screenName: data.screenName,
         }}
@@ -24,30 +24,30 @@ const CustomContentPluginTwitter: CellPlugin<Data> = {
       />
     </div>
   ),
-  id: 'twitter-timeline',
-  title: 'Twitter timeline',
-  description: 'A twitter timeline',
+  id: "twitter-timeline",
+  title: "Twitter timeline",
+  description: "A twitter timeline",
   version: 1,
   controls: {
-    type: 'autoform',
+    type: "autoform",
     schema: {
       // this JSONschema is type checked against the generic type argument
       // the autocompletion of your IDE helps to create this schema
       properties: {
         title: {
-          type: 'string',
-          default: 'A Sample Twitter plugin',
+          type: "string",
+          default: "A Sample Twitter plugin",
         },
         screenName: {
-          type: 'string',
-          default: 'dexkit',
+          type: "string",
+          default: "dexkit",
         },
         height: {
-          type: 'number',
+          type: "number",
           default: 500,
         },
       },
-      required: ['screenName'],
+      required: ["screenName"],
     },
   },
 };

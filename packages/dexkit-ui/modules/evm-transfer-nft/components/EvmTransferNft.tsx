@@ -145,7 +145,7 @@ export default function EvmTransferNft({
 
   const handleSubmit = async (
     { address, quantity }: { address: string; quantity?: string },
-    helpers: FormikHelpers<{ address: string }>
+    helpers: FormikHelpers<{ address: string }>,
   ) => {
     if (tokenId && account) {
       await nftTransfer.mutateAsync(
@@ -164,10 +164,10 @@ export default function EvmTransferNft({
                 id: "error.while.transferring",
                 defaultMessage: "Error while transferring",
               }),
-              { variant: "error" }
+              { variant: "error" },
             );
           },
-        }
+        },
       );
 
       if (onOwnershipChange) {
@@ -301,7 +301,7 @@ export default function EvmTransferNft({
                         owner: (
                           <Link
                             href={`${getBlockExplorerUrl(
-                              nft?.chainId
+                              nft?.chainId,
                             )}/address/${nft?.owner}`}
                             target="_blank"
                           >

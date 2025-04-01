@@ -75,7 +75,7 @@ export default function GaslessTradesUpdater() {
                   }
                 }
                 setGaslessTrades(
-                  gaslessTrades.filter((t) => t.tradeHash !== trade.tradeHash)
+                  gaslessTrades.filter((t) => t.tradeHash !== trade.tradeHash),
                 );
               } else {
                 gaslessTrades[index].mutationCalledTimes =
@@ -96,7 +96,7 @@ export default function GaslessTradesUpdater() {
             // If we call several times, maybe this trade is broken
             if (trade.mutationCalledTimes && trade.mutationCalledTimes > 20) {
               setGaslessTrades(
-                gaslessTrades.filter((t) => t.tradeHash !== trade.tradeHash)
+                gaslessTrades.filter((t) => t.tradeHash !== trade.tradeHash),
               );
             }
           }

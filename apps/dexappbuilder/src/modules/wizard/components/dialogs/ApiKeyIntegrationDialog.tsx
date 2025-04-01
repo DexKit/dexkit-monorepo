@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic';
 import { FormattedMessage } from 'react-intl';
 
 const ZrxForm = dynamic(
-  () => import('../containers/IntegrationsWizardContainer/ZrxForm')
+  () => import('../containers/IntegrationsWizardContainer/ZrxForm'),
 );
 
 export interface ApiKeyIntegrationDialogProps {

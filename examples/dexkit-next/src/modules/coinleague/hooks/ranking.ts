@@ -23,7 +23,7 @@ export enum RankingType {
 export const useRanking = (
   type: RankingType,
   isNFTGame = false,
-  chainId = ChainId.Polygon
+  chainId = ChainId.Polygon,
 ) => {
   const queryString = useMemo(() => {
     switch (type) {
@@ -43,11 +43,11 @@ export const useRanking = (
     async () => {
       const { players } = await request(
         getGraphEndpoint(isNFTGame, chainId),
-        queryString
+        queryString,
       );
 
       return players;
-    }
+    },
   );
 };
 
@@ -108,12 +108,12 @@ export const useRanking = (
 
 export const useRankingMostWinned = (
   isNFTGame = false,
-  chainId = ChainId.Polygon
+  chainId = ChainId.Polygon,
 ) => {
   return useQuery<PlayerGraph[]>([isNFTGame, chainId], async () => {
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
-      GET_RANKING_MOST_WINNED
+      GET_RANKING_MOST_WINNED,
     );
     return players;
   });
@@ -121,12 +121,12 @@ export const useRankingMostWinned = (
 
 export const useRankingMostJoined = (
   isNFTGame = false,
-  chainId = ChainId.Polygon
+  chainId = ChainId.Polygon,
 ) => {
   return useQuery<PlayerGraph[]>([isNFTGame, chainId], async () => {
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
-      GET_RANKING_MOST_JOINED
+      GET_RANKING_MOST_JOINED,
     );
     return players;
   });
@@ -134,12 +134,12 @@ export const useRankingMostJoined = (
 
 export const useRankingMostEarned = (
   isNFTGame = false,
-  chainId = ChainId.Polygon
+  chainId = ChainId.Polygon,
 ) => {
   return useQuery<PlayerGraph[]>([isNFTGame, chainId], async () => {
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
-      GET_RANKING_MOST_EARNED
+      GET_RANKING_MOST_EARNED,
     );
     return players;
   });
@@ -147,12 +147,12 @@ export const useRankingMostEarned = (
 
 export const useRankingMostProfit = (
   isNFTGame = false,
-  chainId = ChainId.Polygon
+  chainId = ChainId.Polygon,
 ) => {
   return useQuery<PlayerGraph[]>([isNFTGame, chainId], async () => {
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
-      GET_RANKING_MOST_PROFIT
+      GET_RANKING_MOST_PROFIT,
     );
     return players;
   });

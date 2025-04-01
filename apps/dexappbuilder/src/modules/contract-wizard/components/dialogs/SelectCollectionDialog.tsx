@@ -6,19 +6,19 @@ import { isAddressEqual } from '@dexkit/core/utils';
 import { AppDialogTitle } from '@dexkit/ui';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    List,
-    ListItemButton,
-    ListItemSecondaryAction,
-    ListItemText,
-    Radio,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  List,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+  Radio,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

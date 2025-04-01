@@ -1,4 +1,4 @@
-import { Address, isAddress } from 'viem';
+import { Address, isAddress } from "viem";
 
 interface EnsData {
   ensName: string;
@@ -12,7 +12,7 @@ export function getStorageEnsNameKey(address: Address) {
 function safeParseJsonData(string: string | null): EnsData | null {
   try {
     const value = string ? JSON.parse(string) : null;
-    return typeof value === 'object' ? value : null;
+    return typeof value === "object" ? value : null;
   } catch {
     return null;
   }
@@ -43,7 +43,7 @@ export function getEnsName(address: Address): string | null {
 
   const { ensName, expires } = data;
 
-  if (typeof ensName !== 'string' || Number.isNaN(Number(expires))) {
+  if (typeof ensName !== "string" || Number.isNaN(Number(expires))) {
     localStorage.removeItem(getStorageEnsNameKey(address));
     return null;
   }

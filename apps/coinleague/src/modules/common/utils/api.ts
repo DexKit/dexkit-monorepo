@@ -5,7 +5,7 @@ export const applyMiddleware =
   (middleware: any) => (request: any, response: any) =>
     new Promise((resolve, reject) => {
       middleware(request, response, (result: any) =>
-        result instanceof Error ? reject(result) : resolve(result)
+        result instanceof Error ? reject(result) : resolve(result),
       );
     });
 
@@ -30,7 +30,7 @@ export async function applyRateLimit(request: Request, response: Response) {
   await Promise.all(
     middlewares
       .map(applyMiddleware)
-      .map((middleware) => middleware(request, response))
+      .map((middleware) => middleware(request, response)),
   );
 }
 

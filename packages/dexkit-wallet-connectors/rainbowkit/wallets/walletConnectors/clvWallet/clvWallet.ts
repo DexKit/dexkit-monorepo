@@ -1,9 +1,9 @@
-import { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { DefaultWalletOptions, Wallet } from "../../Wallet";
 import {
   getInjectedConnector,
   hasInjectedProvider,
-} from '../../getInjectedConnector';
-import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+} from "../../getInjectedConnector";
+import { getWalletConnectConnector } from "../../getWalletConnectConnector";
 
 export type CLVWalletOptions = DefaultWalletOptions;
 
@@ -11,41 +11,41 @@ export const clvWallet = ({
   projectId,
   walletConnectParameters,
 }: CLVWalletOptions): Wallet => {
-  const isCLVInjected = hasInjectedProvider({ namespace: 'clover' });
+  const isCLVInjected = hasInjectedProvider({ namespace: "clover" });
   const shouldUseWalletConnect = !isCLVInjected;
 
   return {
-    id: 'clv',
-    name: 'CLV',
-    iconUrl: async () => (await import('./clvWallet.svg')).default,
-    iconBackground: '#fff',
-    iconAccent: '#BDFDE2',
+    id: "clv",
+    name: "CLV",
+    iconUrl: async () => (await import("./clvWallet.svg")).default,
+    iconBackground: "#fff",
+    iconAccent: "#BDFDE2",
     installed: isCLVInjected,
     downloadUrls: {
       chrome:
-        'https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk',
-      ios: 'https://apps.apple.com/app/clover-wallet/id1570072858',
-      mobile: 'https://apps.apple.com/app/clover-wallet/id1570072858',
-      qrCode: 'https://clv.org/',
+        "https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk",
+      ios: "https://apps.apple.com/app/clover-wallet/id1570072858",
+      mobile: "https://apps.apple.com/app/clover-wallet/id1570072858",
+      qrCode: "https://clv.org/",
     },
     extension: {
       instructions: {
-        learnMoreUrl: 'https://clv.org/',
+        learnMoreUrl: "https://clv.org/",
         steps: [
           {
-            description: 'wallet_connectors.clv.extension.step1.description',
-            step: 'install',
-            title: 'wallet_connectors.clv.extension.step1.title',
+            description: "wallet_connectors.clv.extension.step1.description",
+            step: "install",
+            title: "wallet_connectors.clv.extension.step1.title",
           },
           {
-            description: 'wallet_connectors.clv.extension.step2.description',
-            step: 'create',
-            title: 'wallet_connectors.clv.extension.step2.title',
+            description: "wallet_connectors.clv.extension.step2.description",
+            step: "create",
+            title: "wallet_connectors.clv.extension.step2.title",
           },
           {
-            description: 'wallet_connectors.clv.extension.step3.description',
-            step: 'refresh',
-            title: 'wallet_connectors.clv.extension.step3.title',
+            description: "wallet_connectors.clv.extension.step3.description",
+            step: "refresh",
+            title: "wallet_connectors.clv.extension.step3.title",
           },
         ],
       },
@@ -57,22 +57,22 @@ export const clvWallet = ({
       ? {
           getUri: (uri: string) => uri,
           instructions: {
-            learnMoreUrl: 'https://clv.org/',
+            learnMoreUrl: "https://clv.org/",
             steps: [
               {
-                description: 'wallet_connectors.clv.qr_code.step1.description',
-                step: 'install',
-                title: 'wallet_connectors.clv.qr_code.step1.title',
+                description: "wallet_connectors.clv.qr_code.step1.description",
+                step: "install",
+                title: "wallet_connectors.clv.qr_code.step1.title",
               },
               {
-                description: 'wallet_connectors.clv.qr_code.step2.description',
-                step: 'create',
-                title: 'wallet_connectors.clv.qr_code.step2.title',
+                description: "wallet_connectors.clv.qr_code.step2.description",
+                step: "create",
+                title: "wallet_connectors.clv.qr_code.step2.title",
               },
               {
-                description: 'wallet_connectors.clv.qr_code.step3.description',
-                step: 'scan',
-                title: 'wallet_connectors.clv.qr_code.step3.title',
+                description: "wallet_connectors.clv.qr_code.step3.description",
+                step: "scan",
+                title: "wallet_connectors.clv.qr_code.step3.title",
               },
             ],
           },
@@ -83,6 +83,6 @@ export const clvWallet = ({
           projectId,
           walletConnectParameters,
         })
-      : getInjectedConnector({ namespace: 'clover' }),
+      : getInjectedConnector({ namespace: "clover" }),
   };
 };

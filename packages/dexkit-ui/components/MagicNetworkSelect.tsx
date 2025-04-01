@@ -5,16 +5,16 @@ import { parseChainId, switchNetwork } from "@dexkit/core/utils";
 import { MagicConnector } from "@dexkit/wallet-connectors/connectors/magic";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Avatar,
-    CircularProgress,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    SelectProps,
-    Stack,
-    Typography,
+  Avatar,
+  CircularProgress,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { MetaMask } from "@web3-react/metamask";
 import { useSnackbar } from "notistack";

@@ -21,7 +21,7 @@ export default function useSwapImportTokens({
   const add = useCallback((token: Token) => {
     const found = tokens.find(
       (t) =>
-        t.chainId === token.chainId && isAddressEqual(token.address, t.address)
+        t.chainId === token.chainId && isAddressEqual(token.address, t.address),
     );
 
     if (!found) {

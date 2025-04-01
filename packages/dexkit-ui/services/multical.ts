@@ -1,8 +1,8 @@
-import { MultiCall } from '@indexed-finance/multicall';
-import { providers } from 'ethers';
+import { MultiCall } from "@indexed-finance/multicall";
+import { providers } from "ethers";
 
 export const getMulticallFromProvider = async (
-  provider?: providers.JsonRpcProvider
+  provider?: providers.JsonRpcProvider,
 ) => {
   if (provider !== undefined) {
     return new MultiCall(provider);
@@ -12,7 +12,7 @@ export const getMulticallFromProvider = async (
 export const getMulticallTokenBalances = async (
   tokens: string[],
   account: string,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   const multicall = await getMulticallFromProvider(provider);
   const tokensBal = await multicall?.getBalances(tokens, account);
@@ -23,13 +23,13 @@ export const getMulticallTokenBalancesAndAllowances = async (
   tokens: string[],
   account: string,
   target: string,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   const multicall = await getMulticallFromProvider(provider);
   const tokensBalAll = await multicall?.getBalancesAndAllowances(
     tokens,
     account,
-    target
+    target,
   );
   return tokensBalAll;
 };

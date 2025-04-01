@@ -31,7 +31,7 @@ export default function CollectionItemForm({ itemIndex }: Props) {
             }}
             file={values.items[itemIndex]?.file}
             error={Boolean(
-              errors.items && (errors.items[itemIndex] as any)?.file
+              errors.items && (errors.items[itemIndex] as any)?.file,
             )}
           />
         </Grid>
@@ -66,7 +66,7 @@ export default function CollectionItemForm({ itemIndex }: Props) {
                         index={index}
                         itemIndex={itemIndex}
                       />
-                    )
+                    ),
                   )}
                 </Stack>
               </Box>

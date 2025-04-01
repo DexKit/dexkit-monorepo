@@ -29,14 +29,12 @@ export default function useCheckoutList(params: {
 
       delete newParams["sortModel"];
 
-      return (
-        await instance.get("/checkouts", { params: newParams })
-      ).data;
+      return (await instance.get("/checkouts", { params: newParams })).data;
     },
     {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

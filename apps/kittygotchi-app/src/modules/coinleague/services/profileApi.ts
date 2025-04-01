@@ -3,9 +3,11 @@ import axios from 'axios';
 import { ethers } from 'ethers';
 import { PROFILE_API } from '../constants';
 import { GameProfile } from '../types';
-;
 const profileaApi = axios.create({ baseURL: PROFILE_API });
-export const signUpdate = async (provider: ethers.providers.Web3Provider, chainId: ChainId) => {
+export const signUpdate = async (
+  provider: ethers.providers.Web3Provider,
+  chainId: ChainId,
+) => {
   const signer = provider.getSigner();
 
   const domain = {
@@ -29,7 +31,7 @@ export const signUpdate = async (provider: ethers.providers.Web3Provider, chainI
   const messageSigned = ethers.utils._TypedDataEncoder.getPayload(
     domain,
     types,
-    message
+    message,
   );
   const sig = await signer._signTypedData(domain, types, message);
   return { sig, messageSigned };
@@ -44,7 +46,6 @@ export const create = (
   account: string,
   chainId: ChainId = ChainId.Polygon,
 ) => {
-
   const data = {
     address: account,
     message: message,
@@ -53,10 +54,9 @@ export const create = (
     username: username,
     tokenId: tokenId,
     chainId: chainId,
-  }
+  };
 
-  return profileaApi.post('/create', data)
-
+  return profileaApi.post('/create', data);
 };
 
 export const createUsername = (
@@ -72,8 +72,8 @@ export const createUsername = (
     signature: sig,
     username: username,
     chainId: chainId,
-  }
-  return profileaApi.post('/create-username', data)
+  };
+  return profileaApi.post('/create-username', data);
 };
 
 export const remove = (sig: string, message: string, account: string) => {
@@ -82,8 +82,7 @@ export const remove = (sig: string, message: string, account: string) => {
     signature: sig,
   };
 
-  return profileaApi.delete(`/${account}`, { data })
-
+  return profileaApi.delete(`/${account}`, { data });
 };
 
 export const getProfile = async (address: string) => {

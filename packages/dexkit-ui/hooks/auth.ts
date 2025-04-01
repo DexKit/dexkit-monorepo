@@ -78,9 +78,7 @@ export function useLoginAccountMutation() {
         .getSigner()
         .signMessage(messageToSign.data);
 
-      const chain = connector?.id === 'coinbase' ? chainId : undefined
-
-
+      const chain = connector?.id === "coinbase" ? chainId : undefined;
 
       const loginResponse = await loginApp({
         signature,
@@ -108,6 +106,6 @@ export function useLoginAccountMutation() {
       onSettled() {
         signMessageDialog.setOpen(false);
       },
-    }
+    },
   );
 }

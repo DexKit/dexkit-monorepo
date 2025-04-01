@@ -17,7 +17,7 @@ export default function DecimalInput({
   decimals,
 }: DecimalInputProps) {
   const pattern = new RegExp(
-    `^\\d+(\\.\\d{0,${decimals !== undefined ? decimals : 18}})?$`
+    `^\\d+(\\.\\d{0,${decimals !== undefined ? decimals : 18}})?$`,
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

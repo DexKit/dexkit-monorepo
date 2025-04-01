@@ -42,7 +42,7 @@ export function useNftTransfer({
       let contract = new Contract(
         contractAddress,
         protocol === "ERC1155" ? ERC1155Abi : ERC721Abi,
-        provider?.getSigner()
+        provider?.getSigner(),
       );
       let toAddress: string | null = to;
       if (to.split(".").length > 1) {
@@ -62,7 +62,7 @@ export function useNftTransfer({
           toAddress,
           tokenId,
           quantity,
-          ""
+          "",
         );
       } else {
         tx = await contract.safeTransferFrom(from, toAddress, tokenId);
@@ -73,6 +73,6 @@ export function useNftTransfer({
       }
 
       return await tx.wait();
-    }
+    },
   );
 }

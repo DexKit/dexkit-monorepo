@@ -70,7 +70,7 @@ export default extendTheme({
         },
         success: {
           main: '#36AB47',
-        }
+        },
       },
     },
     light: {
@@ -109,6 +109,6 @@ export default extendTheme({
           main: '#36AB47',
         },
       },
-    }
-  }
-})
+    },
+  },
+});

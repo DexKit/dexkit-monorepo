@@ -1,20 +1,20 @@
 export function isAndroid(): boolean {
   return (
-    typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent)
+    typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)
   );
 }
 
 export function isSmallIOS(): boolean {
   return (
-    typeof navigator !== 'undefined' && /iPhone|iPod/.test(navigator.userAgent)
+    typeof navigator !== "undefined" && /iPhone|iPod/.test(navigator.userAgent)
   );
 }
 
 export function isLargeIOS(): boolean {
   return (
-    typeof navigator !== 'undefined' &&
+    typeof navigator !== "undefined" &&
     (/iPad/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1))
   );
 }
 

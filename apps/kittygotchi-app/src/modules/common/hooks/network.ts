@@ -1,10 +1,10 @@
-import { providers } from "ethers";
-import { ChainId } from "../constants/enums";
-import { NETWORKS } from "../constants/networks";
+import { providers } from 'ethers';
+import { ChainId } from '../constants/enums';
+import { NETWORKS } from '../constants/networks';
 
 /**
- * 
- * @param chainId 
+ *
+ * @param chainId
  * @returns an  based provider
  */
 export function useNetworkProvider(chainId?: ChainId) {

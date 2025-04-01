@@ -46,7 +46,7 @@ export async function getConfig(queryParameters: {
 export async function deleteConfig(
   formData: any,
   owner: string,
-  domain: string
+  domain: string,
 ) {
   return await myAppsApi.delete<ConfigResponse[]>(`/v4/config/${owner}`, {
     data: formData,

@@ -32,7 +32,7 @@ function RequireLogin({
   const { data } = useNotificationsCountUnread({ scope: "Store" });
 
   const [open, setOpen] = useState(
-    ["categories", "products", "collections"].includes(page)
+    ["categories", "products", "collections"].includes(page),
   );
 
   if (isActive) {

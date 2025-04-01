@@ -14,12 +14,12 @@ export default function GameCounterSpan({ startsAt }: Props) {
     const interval = setInterval(
       () => {
         const startTime = Math.floor(
-          startsAt - Math.round(new Date().getTime() / 1000)
+          startsAt - Math.round(new Date().getTime() / 1000),
         );
         setCountdown(startTime);
       },
       1000,
-      true
+      true,
     );
 
     return () => clearInterval(interval);

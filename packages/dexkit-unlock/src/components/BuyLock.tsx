@@ -95,7 +95,7 @@ export default function BuyLock({
                   </Typography>
                   <Button
                     href={`/asset/${NETWORK_SLUG(
-                      chainId
+                      chainId,
                     )}/${lockAddress}/${tokenId}`}
                     startIcon={<KeyIcon />}
                     variant={"contained"}

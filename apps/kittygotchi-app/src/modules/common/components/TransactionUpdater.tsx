@@ -11,7 +11,7 @@ import { useBlockNumber } from '@/modules/common/hooks/blockchain';
 export default function TransactionUpdater() {
   const { chainId, provider } = useWeb3React();
   const [pendingTransactions, setPendingTransactions] = useAtom(
-    pendingTransactionsAtom
+    pendingTransactionsAtom,
   );
   const blockNumber = useBlockNumber();
 
@@ -24,7 +24,7 @@ export default function TransactionUpdater() {
         return provider?.getTransactionReceipt(hash);
       }
     },
-    [chainId, provider]
+    [chainId, provider],
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function TransactionUpdater() {
                       }),
                       {
                         variant: 'success',
-                      }
+                      },
                     );
                   } else if (receipt?.status === 0) {
                     newTx.status = TransactionStatus.Failed;
@@ -69,7 +69,7 @@ export default function TransactionUpdater() {
                       }),
                       {
                         variant: 'error',
-                      }
+                      },
                     );
                   }
                 }

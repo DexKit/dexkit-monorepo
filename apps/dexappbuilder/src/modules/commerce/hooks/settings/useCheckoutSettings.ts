@@ -14,9 +14,7 @@ export default function useCheckoutSettings() {
         throw new Error('no instance');
       }
 
-      const result = (
-        await instance.get('/checkouts/settings')
-      ).data;
+      const result = (await instance.get('/checkouts/settings')).data;
 
       return result;
     },

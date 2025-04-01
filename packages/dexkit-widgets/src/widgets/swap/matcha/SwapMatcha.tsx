@@ -164,7 +164,7 @@ export default function SwapMatcha({
                   networks: Object.values(NETWORKS)
                     .filter((n) => SUPPORTED_SWAP_CHAIN_IDS.includes(n.chainId))
                     .map((n, index, arr) =>
-                      index !== arr.length - 1 ? ` ${n.name},` : ` ${n.name}.`
+                      index !== arr.length - 1 ? ` ${n.name},` : ` ${n.name}.`,
                     ),
                 }}
               />

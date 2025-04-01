@@ -9,13 +9,13 @@ import { hexToString } from "@dexkit/ui/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Alert,
-    Box,
-    Button,
-    Grid,
-    NoSsr,
-    Stack,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Grid,
+  NoSsr,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useContract } from "@thirdweb-dev/react";
@@ -47,7 +47,7 @@ function DropWrapper({ tokenId, address, network }: DropWrapperProps) {
       }
     },
     false,
-    [contract]
+    [contract],
   );
 
   if (isDrop) {

@@ -32,7 +32,7 @@ export default function WalletCoinList({
     return coins.filter(
       (c) =>
         c.name.toLowerCase().search(search.toLowerCase()) > -1 ||
-        c.network.name.toLowerCase().search(search.toLowerCase()) > -1
+        c.network.name.toLowerCase().search(search.toLowerCase()) > -1,
     );
   }, [search, coins]);
 

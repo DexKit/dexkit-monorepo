@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material';
-import type { CellPlugin } from '@react-page/editor';
+import { Grid } from "@mui/material";
+import type { CellPlugin } from "@react-page/editor";
 
 type Data = {
   spacing: number;
@@ -12,22 +12,22 @@ const GridPlugin: CellPlugin<Data> = {
       {children}
     </Grid>
   ),
-  id: 'grid',
-  title: 'Grid',
-  description: 'Grid container, insert columns inside container',
+  id: "grid",
+  title: "Grid",
+  description: "Grid container, insert columns inside container",
   version: 1,
   controls: {
-    type: 'autoform',
+    type: "autoform",
     schema: {
       // this JSONschema is type checked against the generic type argument
       // the autocompletion of your IDE helps to create this schema
       properties: {
         spacing: {
-          type: 'number',
+          type: "number",
           default: 2,
         },
       },
-      required: ['spacing'],
+      required: ["spacing"],
     },
   },
 };

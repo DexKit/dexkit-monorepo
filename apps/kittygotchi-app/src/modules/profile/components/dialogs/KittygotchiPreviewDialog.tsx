@@ -110,9 +110,8 @@ export default function KittygotchiPreviewDialog({
                 values={{
                   owner: (
                     <Link
-                      href={`${getBlockExplorerUrl(chainId)}/address/${
-                        nftQuery.data?.owner
-                      }`}
+                      href={`${getBlockExplorerUrl(chainId)}/address/${nftQuery
+                        .data?.owner}`}
                       target="_blank"
                     >
                       {truncateAddress(nftQuery.data?.owner)}

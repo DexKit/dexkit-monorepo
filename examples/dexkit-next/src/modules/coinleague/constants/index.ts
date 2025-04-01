@@ -8,7 +8,7 @@ import { GameOrderBy } from './enums';
 import { BSCPriceFeeds } from './PriceFeeds/bsc';
 
 export const DEXKIT_MULTIPLIER_HOLDING = BigNumber.from(50).mul(
-  BigNumber.from(10).pow(18)
+  BigNumber.from(10).pow(18),
 );
 
 export const CREATOR_ADDRESSES = ['0xD00995A10dB2E58A1A90270485056629134B151B'];

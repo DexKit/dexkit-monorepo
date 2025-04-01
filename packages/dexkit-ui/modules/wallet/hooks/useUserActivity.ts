@@ -38,10 +38,9 @@ export default function useUserActivity({
     [USER_ACTIVITY_QUERY, account, pageSize],
     async ({ pageParam = 0 }) => {
       const data = (
-        await instance?.get(
-          "/user-events/events",
-          { params: { page: pageParam, pageSize } }
-        )
+        await instance?.get("/user-events/events", {
+          params: { page: pageParam, pageSize },
+        })
       )?.data;
 
       return data;
@@ -52,6 +51,6 @@ export default function useUserActivity({
           return lastPage?.page + 1;
         }
       },
-    }
+    },
   );
 }

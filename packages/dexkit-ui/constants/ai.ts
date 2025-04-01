@@ -4,5 +4,5 @@ export enum TextImproveAction {
   MAKE_SHORTER = "make-shorter",
   MAKE_LONGER = "make-longer",
   GENERATE = "generate",
-  GENERATE_IMAGE = 'generate-image'
+  GENERATE_IMAGE = "generate-image",
 }

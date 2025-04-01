@@ -8,13 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 export function useMarketTradeGaslessExec({
   onNotification,
-
 }: {
   onNotification: (params: any) => void;
 }) {
-
   const { siteId } = useContext(SiteContext);
-
 
   const trackUserEvent = useTrackUserEventsMutation();
 
@@ -26,64 +23,81 @@ export function useMarketTradeGaslessExec({
       chainId,
       sellToken,
       buyToken,
-      side
-    }: { quote: any, trade: any, approval?: any, chainId?: number, sellToken: Token, buyToken: Token, side: 'sell' | 'buy' }) => {
+      side,
+    }: {
+      quote: any;
+      trade: any;
+      approval?: any;
+      chainId?: number;
+      sellToken: Token;
+      buyToken: Token;
+      side: "sell" | "buy";
+    }) => {
       if (!chainId) {
-        return null
+        return null;
       }
 
-
-      const client = new ZeroExApiClient(chainId, process.env.NEXT_PUBLIC_ZRX_API_KEY, siteId);
+      const client = new ZeroExApiClient(
+        chainId,
+        process.env.NEXT_PUBLIC_ZRX_API_KEY,
+        siteId,
+      );
 
       try {
-
-        const { tradeHash } = await client.submitGasless({ trade, approval })
+        const { tradeHash } = await client.submitGasless({ trade, approval });
 
         trackUserEvent.mutate({
-          event: side === 'buy' ? UserEvents.marketBuyGasless : UserEvents.marketSellGasless,
+          event:
+            side === "buy"
+              ? UserEvents.marketBuyGasless
+              : UserEvents.marketSellGasless,
           chainId,
           metadata: JSON.stringify({
             quote: quote,
           }),
-        })
+        });
 
-
-        return tradeHash
+        return tradeHash;
       } catch (err) {
         throw err;
       }
-    }
+    },
   );
 }
-
 
 export function useMarketGaslessTradeStatusQuery({
   tradeHash,
   chainId,
 }: {
-  chainId?: ChainId,
-  tradeHash: string | undefined
+  chainId?: ChainId;
+  tradeHash: string | undefined;
 }) {
-
   const { siteId } = useContext(SiteContext);
 
+  return useQuery(
+    [tradeHash],
+    async ({ signal }) => {
+      if (!tradeHash || !chainId) {
+        return null;
+      }
 
-  return useQuery([tradeHash], async ({ signal }) => {
-    if (!tradeHash || !chainId) {
-      return null
-    }
+      const client = new ZeroExApiClient(
+        chainId,
+        process.env.NEXT_PUBLIC_ZRX_API_KEY,
+        siteId,
+      );
 
-    const client = new ZeroExApiClient(chainId, process.env.NEXT_PUBLIC_ZRX_API_KEY, siteId);
+      try {
+        const status = await client.submitStatusGasless(
+          { tradeHash },
+          { signal },
+        );
 
-    try {
-
-      const status = await client.submitStatusGasless({ tradeHash }, { signal });
-
-      return status;
-
-    } catch (err) {
-      throw err;
-    }
-  }, { refetchInterval: 2000 }
+        return status;
+      } catch (err) {
+        throw err;
+      }
+    },
+    { refetchInterval: 2000 },
   );
 }

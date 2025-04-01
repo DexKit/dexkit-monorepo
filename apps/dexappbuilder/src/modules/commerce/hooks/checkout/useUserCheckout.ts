@@ -14,8 +14,9 @@ export default function useUserCheckout({ id }: { id?: string }) {
         throw new Error('no instance');
       }
 
-      const result = (await instance?.get/*<Checkout>*/(`/checkouts/user/${id}`))
-        .data;
+      const result = (
+        await instance?.get(/*<Checkout>*/ `/checkouts/user/${id}`)
+      ).data;
 
       return result;
     },

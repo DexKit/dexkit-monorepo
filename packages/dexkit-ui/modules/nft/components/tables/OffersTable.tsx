@@ -4,24 +4,24 @@ import Share from "@mui/icons-material/Share";
 import Visibility from "@mui/icons-material/Visibility";
 
 import {
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import moment from "moment";
@@ -99,15 +99,15 @@ export function OffersTable({
   const handleViewOrder = () => {
     router.push(
       `/order/${getNetworkSlugFromChainId(
-        asset?.chainId
-      )}/${selectedOrder?.nonce}`
+        asset?.chainId,
+      )}/${selectedOrder?.nonce}`,
     );
   };
 
   const renderRows = () => {
     const tempOrders = orders?.orders?.filter(
       ({ order }: { order: SwapApiOrder }) =>
-        moment.unix(parseInt(order.expiry)).isAfter(moment())
+        moment.unix(parseInt(order.expiry)).isAfter(moment()),
     );
 
     if (tempOrders?.length === 0) {

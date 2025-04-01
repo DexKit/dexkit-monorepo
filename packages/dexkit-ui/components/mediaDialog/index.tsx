@@ -196,7 +196,7 @@ export default function MediaDialog({
         { id: selectedFile.id, newFileName: newFileName },
         {
           onSuccess: () => filesQuery.refetch(),
-        }
+        },
       );
       setNewFileName(undefined);
       setEditFileName(undefined);
@@ -242,7 +242,7 @@ export default function MediaDialog({
       handleShowImageGeneratorDialog("select");
       setAiImage(url);
     },
-    [handleShowImageGeneratorDialog]
+    [handleShowImageGeneratorDialog],
   );
 
   return (
@@ -812,7 +812,7 @@ export default function MediaDialog({
                     onChange={(_ev, _page) => setPage(_page - 1)}
                     count={
                       Math.floor(
-                        filesQuery?.data?.total / filesQuery?.data?.take
+                        filesQuery?.data?.total / filesQuery?.data?.take,
                       ) + 1
                     }
                   />

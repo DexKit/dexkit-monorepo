@@ -15,7 +15,7 @@ export async function getConfig(queryParameters: {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,
-      ['app-page']: queryParameters.appPage,
+      ["app-page"]: queryParameters.appPage,
     },
   });
 }

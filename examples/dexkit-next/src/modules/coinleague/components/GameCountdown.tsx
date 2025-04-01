@@ -25,7 +25,7 @@ export default function GameCountdown({
   useEffect(() => {
     const interval = setInterval(() => {
       const diff = Math.floor(
-        (endTime.getTime() - new Date().getTime()) / 1000
+        (endTime.getTime() - new Date().getTime()) / 1000,
       );
 
       if (diff <= 0) {

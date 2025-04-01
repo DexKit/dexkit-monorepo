@@ -18,8 +18,7 @@ export default function useCheckout(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/checkouts/${params.id}`))
-        .data;
+      return (await instance.get(`/checkouts/${params.id}`)).data;
     },
     {
       refetchOnWindowFocus: 'always',

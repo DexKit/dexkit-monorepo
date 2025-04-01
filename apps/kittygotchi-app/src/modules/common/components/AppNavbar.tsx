@@ -89,7 +89,7 @@ export default function AppNavbar({ open, onOpenDrawer }: Props) {
   };
 
   const handleSettingsMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAnchorMenuEl(event.currentTarget);
   };

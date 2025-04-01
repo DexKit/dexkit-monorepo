@@ -1,15 +1,15 @@
 export const MOCKS = {};
 
 const coins = [
-  {name: 'RDC', icon: '0'},
-  {name: 'BCD', icon: '1'},
-  {name: 'DOG', icon: '2'},
-  {name: 'BSC', icon: '3'},
-  {name: 'KIT', icon: '4'},
-  {name: 'ADA', icon: '5'},
-  {name: 'ABC', icon: '6'},
-  {name: 'CDS', icon: '7'},
-  {name: 'HYR', icon: '8'},
+  { name: 'RDC', icon: '0' },
+  { name: 'BCD', icon: '1' },
+  { name: 'DOG', icon: '2' },
+  { name: 'BSC', icon: '3' },
+  { name: 'KIT', icon: '4' },
+  { name: 'ADA', icon: '5' },
+  { name: 'ABC', icon: '6' },
+  { name: 'CDS', icon: '7' },
+  { name: 'HYR', icon: '8' },
 ];
 
 const rowsMock = [

@@ -84,7 +84,7 @@ export default function VariantsGrid({
       setAnchorEl(anchorEl);
       setSelectedUrl(url);
     },
-    []
+    [],
   );
 
   const handleCloseMenu = () => {

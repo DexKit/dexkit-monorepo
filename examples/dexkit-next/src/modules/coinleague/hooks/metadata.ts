@@ -28,7 +28,7 @@ export function useGameMetadataMutation() {
       isNFT ? RoomType.NFT : RoomType.Stable,
       id,
       account,
-      chainId
+      chainId,
     );
   });
 }
@@ -49,7 +49,7 @@ export const useGameMetadataDeleteMutation = () => {
       data,
       isNFT ? RoomType.NFT : RoomType.Stable,
       id,
-      account
+      account,
     );
   });
 };
@@ -72,7 +72,7 @@ export const useGamesMetadata = (ids?: string) => {
     return getGamesMetadata(
       ids,
       isNFT ? RoomType.NFT : RoomType.Stable,
-      chainId
+      chainId,
     );
   });
 };

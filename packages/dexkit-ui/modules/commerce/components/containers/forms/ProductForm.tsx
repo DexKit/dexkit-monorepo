@@ -27,7 +27,7 @@ const PreviewProductDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/commerce/components/dialogs/PreviewProductDialog"
-    )
+    ),
 );
 
 import ProductCategoryAutocomplete from "@dexkit/ui/modules/commerce/components/CommerceSection/ProductCategoryAutocomplete";
@@ -58,7 +58,7 @@ import useParams from "../hooks/useParams";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
+  { ssr: false },
 );
 
 export interface ProductFormProps {
@@ -121,7 +121,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
             id="product.deleted"
             defaultMessage="Product deleted"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirm(false);
         router.push("/u/account/commerce/products");
@@ -234,7 +234,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                   theme.palette.getContrastText(
                     theme.palette.mode === "light"
                       ? "rgba(0,0,0, 0.2)"
-                      : alpha(theme.palette.common.white, 0.1)
+                      : alpha(theme.palette.common.white, 0.1),
                   ),
               }}
             >
@@ -396,7 +396,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                       icon: <AutoAwesome fontSize="inherit" />,
                       execute: async (
                         state: ExecuteState,
-                        api: TextAreaTextApi
+                        api: TextAreaTextApi,
                       ) => {},
                     },
                   ]}

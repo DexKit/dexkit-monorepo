@@ -10,11 +10,7 @@ export default function useAddPaymentIntent() {
   return useQuery(
     [ADD_PAYMENT_INTENT_QUERY],
     async () => {
-      const result = (
-        await instance?.get(
-          '/payments/add-method-intent',
-        )
-      )?.data;
+      const result = (await instance?.get('/payments/add-method-intent'))?.data;
 
       return result;
     },

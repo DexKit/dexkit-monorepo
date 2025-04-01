@@ -28,12 +28,12 @@ export const transactionsAtom = focusAtom<
 
 export const notificationsAtom = focusAtom<AppState, AppNotification[], void>(
   appStateAtom,
-  (o) => o.prop('notifications')
+  (o) => o.prop('notifications'),
 );
 
 export const isBalancesVisibleAtom = focusAtom<AppState, boolean, void>(
   appStateAtom,
-  (o) => o.prop('isBalancesVisible')
+  (o) => o.prop('isBalancesVisible'),
 );
 
 export const pendingTransactionsAtom = atom<any, any>(
@@ -54,11 +54,11 @@ export const pendingTransactionsAtom = atom<any, any>(
   },
   (get, set, arg) => {
     return set(transactionsAtom, arg);
-  }
+  },
 );
 
 export const hasPendingTransactionsAtom = atom(
-  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0
+  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0,
 );
 
 export const uncheckedNotificationsAtom = atom((get) => {
@@ -73,16 +73,16 @@ export const uncheckedNotificationsAtom = atom((get) => {
 
 export const currencyAtom = focusAtom<AppState, string, void>(
   appStateAtom,
-  (o) => o.prop('currency')
+  (o) => o.prop('currency'),
 );
 
 export const localeAtom = focusAtom<AppState, string, void>(appStateAtom, (o) =>
-  o.prop('locale')
+  o.prop('locale'),
 );
 
 export const profileNftAtom = focusAtom<AppState, ProfileNft | undefined, void>(
   appStateAtom,
-  (o) => o.prop('profileNft')
+  (o) => o.prop('profileNft'),
 );
 
 export const showNotificationsAtom = atom<boolean>(false);

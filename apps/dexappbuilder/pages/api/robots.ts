@@ -1,14 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-
-export default function handler(req: NextApiRequest,
-  res: NextApiResponse) {
-
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const domain = req.headers.host;
 
-
-  const robots =
-    `# *
+  const robots = `# *
 User-agent: *
 Allow: /
   

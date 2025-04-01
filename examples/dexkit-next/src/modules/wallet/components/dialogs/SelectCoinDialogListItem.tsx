@@ -42,14 +42,14 @@ export default function SelectCoinDialogListItem({
       let total = BigNumber.from(0);
 
       for (const coinBalance of balances.filter(
-        (b) => b.network.id === coin.network.id
+        (b) => b.network.id === coin.network.id,
       )) {
         total = total.add(
           BigNumber.from(
             coinBalance.balances[
               isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
-            ]
-          )
+            ],
+          ),
         );
       }
 
@@ -64,14 +64,14 @@ export default function SelectCoinDialogListItem({
       let total = BigNumber.from(0);
 
       for (const coinBalance of balances.filter(
-        (b) => b.network.id === coin.network.id
+        (b) => b.network.id === coin.network.id,
       )) {
         total = total.add(
           BigNumber.from(
             coinBalance.balances[
               isErc20Coin ? coin.contractAddress : ethers.constants.AddressZero
-            ]
-          )
+            ],
+          ),
         );
       }
 
@@ -87,7 +87,7 @@ export default function SelectCoinDialogListItem({
 
         if (ratio > 0) {
           const amount = parseFloat(
-            ethers.utils.formatUnits(total, coin.decimals)
+            ethers.utils.formatUnits(total, coin.decimals),
           );
 
           return ratio * amount;
@@ -106,7 +106,7 @@ export default function SelectCoinDialogListItem({
             coin.coinType === CoinTypes.EVM_ERC20
               ? TOKEN_ICON_URL(
                   coin.contractAddress,
-                  coin.network.chainId as ChainId
+                  coin.network.chainId as ChainId,
                 )
               : coin.imageUrl
           }

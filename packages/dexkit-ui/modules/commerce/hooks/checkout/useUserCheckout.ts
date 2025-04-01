@@ -14,8 +14,7 @@ export default function useUserCheckout({ id }: { id?: string }) {
         throw new Error("no instance");
       }
 
-      const result = (await instance?.get(`/checkouts/user/${id}`))
-        .data;
+      const result = (await instance?.get(`/checkouts/user/${id}`)).data;
 
       return result;
     },
@@ -23,6 +22,6 @@ export default function useUserCheckout({ id }: { id?: string }) {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

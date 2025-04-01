@@ -64,7 +64,7 @@ export default function PageSectionMenuStack({
               {item.icon}
             </Tooltip>
           </IconButton>
-        )
+        ),
       )}
     </Stack>
   );

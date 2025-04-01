@@ -4,28 +4,28 @@ import DecimalInput from "@dexkit/ui/components/DecimalInput";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import {
-    NFT,
-    useContract,
-    useContractRead,
-    useOwnedNFTs,
+  NFT,
+  useContract,
+  useContractRead,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import { useMemo, useState } from "react";
@@ -55,7 +55,7 @@ export default function SelectNFTEditionDialog({
 
   const { data: stakingContract } = useContract(
     stakingContractAddress,
-    "custom"
+    "custom",
   );
 
   const {
@@ -66,7 +66,7 @@ export default function SelectNFTEditionDialog({
 
   const { data: accountNftsData, isLoading: isLoadingNfts } = useOwnedNFTs(
     stakingNFTContract,
-    account
+    account,
   );
 
   const nfts = useAsyncMemo(
@@ -90,7 +90,7 @@ export default function SelectNFTEditionDialog({
       return accountNftsData;
     },
     [],
-    [accountNftsData, infoNfts, isUnstake]
+    [accountNftsData, infoNfts, isUnstake],
   );
 
   const [tokenId, setTokenId] = useState<string>();
@@ -140,7 +140,7 @@ export default function SelectNFTEditionDialog({
 
         const value = await stakingNFTContract?.erc1155.balanceOf(
           account,
-          tokenId
+          tokenId,
         );
 
         return value?.toNumber() || 0;
@@ -156,7 +156,7 @@ export default function SelectNFTEditionDialog({
       stakingContractAddress,
       infoNfts,
       isUnstake,
-    ]
+    ],
   );
 
   const { formatMessage } = useIntl();

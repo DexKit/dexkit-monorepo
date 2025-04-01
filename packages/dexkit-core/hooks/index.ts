@@ -3,5 +3,4 @@ export * from "./misc";
 export * from "./nft";
 export * from "./wallet";
 
-
-export * from '@dexkit/ui/hooks/useBlockNumber';
+export * from "@dexkit/ui/hooks/useBlockNumber";

@@ -41,7 +41,7 @@ export function useErc20ApproveMutation({
       const contract = new Contract(
         tokenAddress,
         ERC20Abi,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       const tx = await contract.approve(spender, amount);
@@ -60,7 +60,7 @@ export function useErc20ApproveMutation({
 
       return await tx.wait();
     },
-    options
+    options,
   );
 
   return mutation;
@@ -100,8 +100,8 @@ export function useSelectImport({
         tokens.find(
           (t) =>
             t.chainId === token.chainId &&
-            isAddressEqual(t.address, token.address)
-        )
+            isAddressEqual(t.address, token.address),
+        ),
       );
     }
 

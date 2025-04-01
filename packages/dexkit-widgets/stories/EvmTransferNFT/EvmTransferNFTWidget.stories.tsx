@@ -16,7 +16,7 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof EvmTransferNftWidget> = (
-  args: EvmTransferNftWidgetProps
+  args: EvmTransferNftWidgetProps,
 ) => {
   return (
     <WidgetContext>

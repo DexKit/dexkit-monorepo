@@ -53,7 +53,7 @@ export default function OrderCreatedDialog({ dialogProps, order }: Props) {
                 defaultMessage="Order #{id} Created"
                 values={{
                   id: order?.order?.nonce.substring(
-                    order?.order?.nonce.length - 8
+                    order?.order?.nonce.length - 8,
                   ),
                 }}
               />
@@ -68,9 +68,9 @@ export default function OrderCreatedDialog({ dialogProps, order }: Props) {
           <Button
             LinkComponent={Link}
             target="_blank"
-            href={`/order/${NETWORK_SLUG(parseInt(order?.chainId || "0"))}/${
-              order?.order.nonce
-            }`}
+            href={`/order/${NETWORK_SLUG(
+              parseInt(order?.chainId || "0"),
+            )}/${order?.order.nonce}`}
             variant="contained"
             color="primary"
             fullWidth

@@ -8,7 +8,7 @@ import { SpacerState } from '../types/state';
 const faintBlack = 'rgba(0, 0, 0, 0.12)';
 
 const SpacerResizable: React.FC<CellPluginComponentProps<SpacerState>> = (
-  props
+  props,
 ) => {
   const [height, setHeight] = useState(props.data?.height ?? 24);
   useEffect(() => setHeight(props.data?.height), [props.data?.height]);

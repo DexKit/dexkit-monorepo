@@ -1,12 +1,12 @@
 import {
-    Box,
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -19,8 +19,8 @@ import Heart from "../../../components/icons/Heart";
 import { useAsset, useAssetMetadata, useFavoriteAssets } from "../../nft/hooks";
 
 import {
-    NETWORK_EXPLORER,
-    NETWORK_SLUG,
+  NETWORK_EXPLORER,
+  NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
 import { isAddressEqual, truncateAddress } from "@dexkit/core/utils";
 import { getWindowUrl } from "@dexkit/core/utils/browser";
@@ -72,7 +72,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
               </Typography>
               <Link
                 href={`${NETWORK_EXPLORER(
-                  asset?.chainId
+                  asset?.chainId,
                 )}/address/${asset?.owner}`}
                 color="primary"
                 target="_blank"

@@ -18,9 +18,7 @@ export default function useCategory(params: { id?: string }) {
         return null;
       }
 
-      return (
-        await instance.get(`/product-category/${params.id}`)
-      ).data;
+      return (await instance.get(`/product-category/${params.id}`)).data;
     },
     {
       refetchOnWindowFocus: 'always',

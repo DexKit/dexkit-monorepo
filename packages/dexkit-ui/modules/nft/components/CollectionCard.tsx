@@ -68,7 +68,7 @@ export function CollectionCard({
                   disabled
                     ? "javascript:void(0)"
                     : `/collection/${NETWORK_SLUG(
-                        collection?.chainId
+                        collection?.chainId,
                       )}/${collection?.address.toLowerCase()}`
                 }
                 variant="contained"
@@ -93,7 +93,7 @@ export function CollectionCard({
         <CardActionArea
           LinkComponent={Link}
           href={`/collection/${NETWORK_SLUG(
-            collection?.chainId
+            collection?.chainId,
           )}/${collection?.address.toLowerCase()}`}
           sx={{ height: "100%" }}
         >

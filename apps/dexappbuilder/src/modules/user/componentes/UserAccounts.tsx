@@ -5,16 +5,16 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-    CircularProgress,
-    Divider,
-    IconButton,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Tooltip,
-    useMediaQuery,
-    useTheme,
+  CircularProgress,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -24,8 +24,8 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
-    useAddAccountUserMutation,
-    useRemoveAccountUserMutation,
+  useAddAccountUserMutation,
+  useRemoveAccountUserMutation,
 } from '../hooks';
 
 interface Props {

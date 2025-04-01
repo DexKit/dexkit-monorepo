@@ -19,16 +19,12 @@ export default function useProductCollection(params: { id?: string }) {
         return null;
       }
 
-      return (
-        await instance.get(
-          `/product-collections/${params.id}`
-        )
-      ).data;
+      return (await instance.get(`/product-collections/${params.id}`)).data;
     },
     {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

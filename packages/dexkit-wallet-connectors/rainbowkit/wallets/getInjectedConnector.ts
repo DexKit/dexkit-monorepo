@@ -1,22 +1,22 @@
-import { createConnector } from 'wagmi';
-import { injected } from 'wagmi/connectors';
-import { WalletProviderFlags, WindowProvider } from '../types/utils';
-import { CreateConnector, WalletDetailsParams } from './Wallet';
+import { createConnector } from "wagmi";
+import { injected } from "wagmi/connectors";
+import { WalletProviderFlags, WindowProvider } from "../types/utils";
+import { CreateConnector, WalletDetailsParams } from "./Wallet";
 
 /*
  * Returns the explicit window provider that matches the flag and the flag is true
  */
 function getExplicitInjectedProvider(flag: WalletProviderFlags) {
   const _window =
-    typeof window !== 'undefined' ? (window as WindowProvider) : undefined;
-  if (typeof _window === 'undefined' || typeof _window.ethereum === 'undefined')
+    typeof window !== "undefined" ? (window as WindowProvider) : undefined;
+  if (typeof _window === "undefined" || typeof _window.ethereum === "undefined")
     return;
   const providers = _window.ethereum.providers;
   return providers
     ? providers.find((provider) => provider[flag])
     : _window.ethereum[flag]
-      ? _window.ethereum
-      : undefined;
+    ? _window.ethereum
+    : undefined;
 }
 
 /*
@@ -24,14 +24,14 @@ function getExplicitInjectedProvider(flag: WalletProviderFlags) {
  */
 function getWindowProviderNamespace(namespace: string) {
   const providerSearch = (provider: any, namespace: string): any => {
-    const [property, ...path] = namespace.split('.');
+    const [property, ...path] = namespace.split(".");
     const _provider = provider[property];
     if (_provider) {
       if (path.length === 0) return _provider;
-      return providerSearch(_provider, path.join('.'));
+      return providerSearch(_provider, path.join("."));
     }
   };
-  if (typeof window !== 'undefined') return providerSearch(window, namespace);
+  if (typeof window !== "undefined") return providerSearch(window, namespace);
 }
 
 /*
@@ -44,9 +44,9 @@ export function hasInjectedProvider({
   flag?: WalletProviderFlags;
   namespace?: string;
 }): boolean {
-  if (namespace && typeof getWindowProviderNamespace(namespace) !== 'undefined')
+  if (namespace && typeof getWindowProviderNamespace(namespace) !== "undefined")
     return true;
-  if (flag && typeof getExplicitInjectedProvider(flag) !== 'undefined')
+  if (flag && typeof getExplicitInjectedProvider(flag) !== "undefined")
     return true;
   return false;
 }
@@ -62,8 +62,8 @@ function getInjectedProvider({
   namespace?: string;
 }) {
   const _window =
-    typeof window !== 'undefined' ? (window as WindowProvider) : undefined;
-  if (typeof _window === 'undefined') return;
+    typeof window !== "undefined" ? (window as WindowProvider) : undefined;
+  if (typeof _window === "undefined") return;
   if (namespace) {
     // prefer custom eip1193 namespaces
     const windowProvider = getWindowProviderNamespace(namespace);
@@ -74,7 +74,7 @@ function getInjectedProvider({
     const provider = getExplicitInjectedProvider(flag);
     if (provider) return provider;
   }
-  if (typeof providers !== 'undefined' && providers.length > 0)
+  if (typeof providers !== "undefined" && providers.length > 0)
     return providers[0];
   return _window.ethereum;
 }

@@ -38,7 +38,7 @@ export default function TradingGraph({
 }: TradingGraph) {
   const handleChange = async (
     event: SelectChangeEvent<string>,
-    child: React.ReactNode
+    child: React.ReactNode,
   ) => {
     onChange(event.target.value);
   };
@@ -57,7 +57,7 @@ export default function TradingGraph({
 
   const handleChangeSwap = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     onChangeShowSwaps(checked);
   };

@@ -32,7 +32,7 @@ export default function SelectNftAccountsList({
               size="small"
               checked={
                 selectedAccounts.find((a) =>
-                  isAddressEqual(account.address, a.address)
+                  isAddressEqual(account.address, a.address),
                 ) !== undefined
               }
             />

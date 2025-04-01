@@ -32,7 +32,7 @@ function FormWrapper({ checkout }: CheckoutEditComponentProps) {
           id="checkout.updated"
           defaultMessage="Checkout updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
     } catch (err) {
       enqueueSnackbar(String(err), { variant: "error" });

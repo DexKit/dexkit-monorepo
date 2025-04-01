@@ -29,12 +29,15 @@ export default function useCheckoutList(params: {
       delete newParams['sortModel'];
 
       return (
-        await instance.get/*<{
+        await instance.get(
+          /*<{
           items: CheckoutFormType[];
           totalItems: number;
           totalPages: number;
           currentPage: number;
-        }>*/('/checkouts', { params: newParams })
+        }>*/ '/checkouts',
+          { params: newParams },
+        )
       ).data;
     },
     {

@@ -81,7 +81,7 @@ export default function MarketSellForm({
     if (quote && baseTokenBalance) {
       const total = formatBigNumber(
         BigNumber.from(quote.buyAmount),
-        quoteToken.decimals
+        quoteToken.decimals,
       );
 
       const hasAmount = baseTokenBalance?.gte(BigNumber.from(quote.sellAmount));

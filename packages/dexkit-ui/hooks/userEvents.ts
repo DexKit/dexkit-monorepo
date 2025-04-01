@@ -33,7 +33,7 @@ export function useTrackUserEventsMutation() {
         userEventURL,
         referral: affiliateReferral,
       });
-    }
+    },
   );
 }
 
@@ -100,7 +100,7 @@ export function useUserEventsList<T = any>({
       }
 
       return { data: [] };
-    }
+    },
   );
 }
 
@@ -132,12 +132,9 @@ export function useTopUserEvents({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get(
-          "/user-events/count-by-type",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-by-type", {
+          params: filters,
+        })
       ).data || []
     );
   });
@@ -254,12 +251,9 @@ export function useCountDropCollection({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get(
-          "/user-events/count-buy-drop-collection",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-buy-drop-collection", {
+          params: filters,
+        })
       ).data || {}
     );
   });
@@ -298,11 +292,11 @@ export function useCountDropCollectionByGroup({
             "/user-events/count-buy-drop-collection-by-group",
             {
               params: { ...filters, group },
-            }
+            },
           )
         ).data || {}
       );
-    }
+    },
   );
 }
 
@@ -345,15 +339,12 @@ export function useCountDropTokenByGroup({
 
       return (
         (
-          await instance?.get(
-            "/user-events/count-buy-drop-token",
-            {
-              params: { ...filters, group },
-            }
-          )
+          await instance?.get("/user-events/count-buy-drop-token", {
+            params: { ...filters, group },
+          })
         ).data || {}
       );
-    }
+    },
   );
 }
 
@@ -382,15 +373,12 @@ export function useCountDropEditionByGroup({
 
       return (
         (
-          await instance?.get(
-            "/user-events/count-buy-drop-edition-by-group",
-            {
-              params: { ...filters, group },
-            }
-          )
+          await instance?.get("/user-events/count-buy-drop-edition-by-group", {
+            params: { ...filters, group },
+          })
         ).data || {}
       );
-    }
+    },
   );
 }
 
@@ -422,12 +410,9 @@ export function useCountDropEdition({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get(
-          "/user-events/count-buy-drop-edition",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-buy-drop-edition", {
+          params: filters,
+        })
       ).data || {}
     );
   });

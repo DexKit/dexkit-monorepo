@@ -44,7 +44,7 @@ export const KittygotchiTraitSelector = (props: Props) => {
     (item: KittygotchiTraitItem) => {
       onSelect(item);
     },
-    [onSelect]
+    [onSelect],
   );
 
   return (

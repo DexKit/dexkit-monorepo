@@ -9,7 +9,6 @@ export interface KittygotchiRankingItem {
   strength: number;
 }
 
-
 export interface Kittygotchi {
   id: string;
   attack: number;

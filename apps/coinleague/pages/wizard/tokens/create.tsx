@@ -62,7 +62,7 @@ const WizardCreateTokenPage: NextPage = () => {
       }),
       {
         variant: 'info',
-      }
+      },
     );
 
     if (chainId !== undefined) {
@@ -76,7 +76,7 @@ const WizardCreateTokenPage: NextPage = () => {
               defaultMessage: 'Creating token {name}',
               id: 'creating.collection',
             },
-            { name: '' }
+            { name: '' },
           ) as string,
           hash,
           checked: false,
@@ -110,7 +110,7 @@ const WizardCreateTokenPage: NextPage = () => {
           }),
           {
             variant: 'error',
-          }
+          },
         );
       }
     }

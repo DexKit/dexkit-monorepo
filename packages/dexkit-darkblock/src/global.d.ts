@@ -1,1 +1,1 @@
-declare module '@darkblock.io/shared-components';
+declare module "@darkblock.io/shared-components";

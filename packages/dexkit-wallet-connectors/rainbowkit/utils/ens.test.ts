@@ -1,9 +1,9 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { addEnsName, getEnsName, getStorageEnsNameKey } from './ens';
+import { beforeAll, describe, expect, it, vi } from "vitest";
+import { addEnsName, getEnsName, getStorageEnsNameKey } from "./ens";
 
 // vitalik.eth
-const mockAddress = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
-const mockEnsName = 'vitalik.eth';
+const mockAddress = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+const mockEnsName = "vitalik.eth";
 
 const store: Record<string, string> = {};
 
@@ -17,7 +17,7 @@ const localStorageMock: Storage = {
   },
   clear: (): void => {},
   // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-  key: (index: number): string | null => '',
+  key: (index: number): string | null => "",
   length: Object.keys(store).length,
   // Easier to get number realtime, due to single object
   // reference not allowing us to use localStorage.length realtime
@@ -28,15 +28,15 @@ beforeAll((): void => {
   localStorage = localStorageMock;
 });
 
-describe('ens', () => {
-  it('should return null if ens name is not found', () => {
+describe("ens", () => {
+  it("should return null if ens name is not found", () => {
     const ensName = getEnsName(mockAddress);
 
     expect(localStorage.total()).toBe(0);
     expect(ensName).toBeNull();
   });
 
-  it('should return ens name if added to storage', () => {
+  it("should return ens name if added to storage", () => {
     addEnsName(mockAddress, mockEnsName);
 
     const ensName = getEnsName(mockAddress);
@@ -45,7 +45,7 @@ describe('ens', () => {
     expect(ensName).toBe(mockEnsName);
   });
 
-  it('should return null if ens name has expired', () => {
+  it("should return null if ens name has expired", () => {
     const date = new Date();
 
     // 3 hours and 1 minute passed (expired)
@@ -60,7 +60,7 @@ describe('ens', () => {
     expect(ensName).toBeNull();
   });
 
-  it('should return null if ens name from localStorage is not a string', () => {
+  it("should return null if ens name from localStorage is not a string", () => {
     addEnsName(mockAddress, mockEnsName);
 
     expect(localStorage.total()).toBe(1);
@@ -77,7 +77,7 @@ describe('ens', () => {
     expect(ensName).toBeNull();
   });
 
-  it('should return null if ens name expiration from localStorage is NaN', () => {
+  it("should return null if ens name expiration from localStorage is NaN", () => {
     addEnsName(mockAddress, mockEnsName);
 
     expect(localStorage.total()).toBe(1);

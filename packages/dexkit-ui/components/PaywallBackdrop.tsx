@@ -19,8 +19,8 @@ export default function PaywallBackdrop() {
         .minus(new Decimal(featUsage?.used))
         .add(
           new Decimal(sub?.creditsAvailable).minus(
-            new Decimal(sub?.creditsUsed)
-          )
+            new Decimal(sub?.creditsUsed),
+          ),
         )
         .toNumber();
     }

@@ -38,7 +38,7 @@ export function SearchTokenAutocomplete(props: Props) {
           address: value.address.toLowerCase(),
           symbol: value.symbol,
           network: Object.values(NETWORKS).find(
-            (n) => n.chainId === value?.chainId
+            (n) => n.chainId === value?.chainId,
           )?.name,
           chainId: value.chainId as number,
           logoURI: value?.logoURI,

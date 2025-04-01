@@ -15,7 +15,7 @@ interface Props {
 
 const Pill = styled(
   Box,
-  {}
+  {},
 )<BoxProps>(({ theme }) => ({
   borderRadius: '3rem',
   backgroundColor: theme.palette.background.paper,

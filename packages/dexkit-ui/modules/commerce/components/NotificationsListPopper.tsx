@@ -43,7 +43,7 @@ export default function NotificationsListPopper({
   };
 
   const handleChangeRowsPerPage = async (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFilter((values) => ({
       ...values,

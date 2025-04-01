@@ -31,7 +31,7 @@ interface CheckoutNetworksBaseProps {
 
 const commerceSettingsAtomTestnets = atomWithStorage(
   "dexkit.commerce.show.testnets",
-  false
+  false,
 );
 
 function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
@@ -67,7 +67,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
 
       return prev;
     },
-    {} as { [key: string]: boolean }
+    {} as { [key: string]: boolean },
   );
 
   const [checked, setChecked] = useState<{ [key: string]: boolean }>(value);
@@ -99,7 +99,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
           id="networks.updated"
           defaultMessage="Networks updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
     } catch (err) {
       enqueueSnackbar(String(err), { variant: "error" });

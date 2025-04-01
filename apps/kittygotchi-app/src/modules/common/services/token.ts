@@ -8,19 +8,19 @@ export const approveToken = async (
   tokenAddress: string,
   spender: string,
   amountToSpend: BigNumber,
-  provider: any
+  provider: any,
 ) => {
   const signer = provider.getSigner();
   const contract = new ethers.Contract(tokenAddress, ApproveAbi, signer);
 
   return (await contract.approve(
     spender,
-    amountToSpend
+    amountToSpend,
   )) as ContractTransaction;
 };
 
 export const getErc20Balance = async (
   provider: ethers.providers.Web3Provider,
   contract: string,
-  address: string
+  address: string,
 ) => {};

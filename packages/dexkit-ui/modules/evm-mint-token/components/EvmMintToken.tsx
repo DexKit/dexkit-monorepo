@@ -44,7 +44,7 @@ export default function EvmMintToken({
       quantity: string,
       name: string,
       symbol: string,
-      to: string
+      to: string,
     ) => {
       if (hash && chainId) {
         createNotification({

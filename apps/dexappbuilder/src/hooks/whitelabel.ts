@@ -28,7 +28,7 @@ import {
   setupDomainConfig,
   upsertPageTemplate,
   upsertSiteMetadata,
-  upsertWhitelabelAsset
+  upsertWhitelabelAsset,
 } from '../services/whitelabel';
 
 import { PageTemplateFormData } from '../types/whitelabel';
@@ -60,12 +60,12 @@ export const useSendConfigMutation = ({ slug }: { slug?: string }) => {
           type,
           slug,
           email,
-          siteId
+          siteId,
         });
         configQuery.refetch();
         return response.data;
       }
-    }
+    },
   );
 };
 
@@ -126,7 +126,8 @@ export const useWhitelabelSitesListQuery = (queryParameters: {
   });
 };
 
-export const QUERY_WHITELABEL_TEMPLATE_SITES_QUERY = 'GET_WHITELABEL_TEMPLATES_SITES_QUERY';
+export const QUERY_WHITELABEL_TEMPLATE_SITES_QUERY =
+  'GET_WHITELABEL_TEMPLATES_SITES_QUERY';
 
 export const useWhitelabelTemplateSitesListQuery = (queryParameters: {
   usecases?: string[];
@@ -134,19 +135,20 @@ export const useWhitelabelTemplateSitesListQuery = (queryParameters: {
   skip?: number;
   take?: number;
 }) => {
-  return useQuery([QUERY_WHITELABEL_TEMPLATE_SITES_QUERY, queryParameters.usecases], async () => {
-    return (await getTemplateSites(queryParameters)).data
-  })
-
+  return useQuery(
+    [QUERY_WHITELABEL_TEMPLATE_SITES_QUERY, queryParameters.usecases],
+    async () => {
+      return (await getTemplateSites(queryParameters)).data;
+    },
+  );
 };
 
 export const GET_SITE_METADATA_QUERY = 'GET_SITE_METADATA_QUERY';
 
 export const useSiteMetadataQuery = ({ slug }: { slug: string }) => {
   return useQuery([GET_SITE_METADATA_QUERY], async () => {
-    return (await getSiteMetadata({ slug })).data
-  })
-
+    return (await getSiteMetadata({ slug })).data;
+  });
 };
 
 export const QUERY_PAGE_TEMPLATES_CONFIGS_BY_OWNER_NAME =
@@ -161,7 +163,7 @@ export const usePageTemplatesByOwnerQuery = ({
       if (!owner) return;
 
       return (await getPageTemplatesByOwner(owner)).data;
-    }
+    },
   );
 };
 
@@ -199,7 +201,7 @@ export const useWhitelabelConfigQuery = ({
 
       return (await getConfig({ domain, slug })).data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false }
+    { refetchOnWindowFocus: false, refetchOnReconnect: false },
   );
 };
 
@@ -224,12 +226,12 @@ export const useTemplateWhitelabelConfigQuery = ({
 
       return (await getTemplateConfig({ domain, slug })).data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false }
+    { refetchOnWindowFocus: false, refetchOnReconnect: false },
   );
 };
 
-
-export const QUERY_ADMIN_WHITELABEL_CONFIG_NAME = 'GET_ADMIN_WHITELABEL_CONFIG_QUERY';
+export const QUERY_ADMIN_WHITELABEL_CONFIG_NAME =
+  'GET_ADMIN_WHITELABEL_CONFIG_QUERY';
 /**
  * get config by name or query
  * @param param0
@@ -244,7 +246,6 @@ export const useAdminWhitelabelConfigQuery = ({
 }) => {
   const { setIsLoggedIn } = useAuth();
 
-
   return useQuery(
     [QUERY_ADMIN_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
     async () => {
@@ -252,16 +253,14 @@ export const useAdminWhitelabelConfigQuery = ({
         return null;
       }
 
-      const response = (await getAdminConfig({ domain, slug }));
+      const response = await getAdminConfig({ domain, slug });
 
       if (response.status === 401 && setIsLoggedIn) {
         setIsLoggedIn(false);
       }
-      return response.data
-
-
+      return response.data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false }
+    { refetchOnWindowFocus: false, refetchOnReconnect: false },
   );
 };
 
@@ -272,7 +271,9 @@ export const useDeleteMyAppMutation = ({
 }) => {
   const { account, provider, chainId } = useWeb3React();
   const { isLoggedIn, user } = useAuth();
-  const { refetch } = useWhitelabelConfigsByOwnerQuery({ owner: user?.address });
+  const { refetch } = useWhitelabelConfigsByOwnerQuery({
+    owner: user?.address,
+  });
 
   const loginMutation = useLoginAccountMutation();
 
@@ -351,12 +352,11 @@ export const useSetupDomainConfigMutation = () => {
 export const useUpsertWhitelabelAssetMutation = () => {
   const { account, provider, chainId } = useWeb3React();
 
-  const setIsHoldingKit = useSetAtom(holdsKitDialogAtom)
+  const setIsHoldingKit = useSetAtom(holdsKitDialogAtom);
   const isHoldingKit = useAccountHoldDexkitMutation();
   const queryClient = useQueryClient();
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
-
 
   return useMutation<any, any, any>(
     async ({
@@ -374,14 +374,13 @@ export const useUpsertWhitelabelAssetMutation = () => {
           return false;
         }
 
-
         if (!isLoggedIn) {
           await loginMutation.mutateAsync();
         }
         await upsertWhitelabelAsset(siteId, nft);
         queryClient.invalidateQueries([QUERY_WHITELABEL_CONFIG_NAME]);
       }
-    }
+    },
   );
 };
 
@@ -389,7 +388,6 @@ export const useUpsertSiteMetadataMutation = () => {
   const { account, provider, chainId } = useWeb3React();
 
   const queryClient = useQueryClient();
-
 
   return useMutation<any, any, any>(
     async ({
@@ -403,6 +401,6 @@ export const useUpsertSiteMetadataMutation = () => {
         await upsertSiteMetadata(siteId, siteMetadata);
         queryClient.invalidateQueries([GET_SITE_METADATA_QUERY]);
       }
-    }
+    },
   );
 };

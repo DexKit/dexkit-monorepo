@@ -112,7 +112,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   };
 
   const [status, setStatus] = useState<CoinLeagueGameStatus>(
-    CoinLeagueGameStatus.All
+    CoinLeagueGameStatus.All,
   );
 
   const [showTable, setShowTable] = useState(false);
@@ -127,7 +127,7 @@ const CoinLeagueProfilePage: NextPage = () => {
 
   const handleChangeStatus = (
     event: SyntheticEvent<Element, Event>,
-    value: any
+    value: any,
   ) => {
     setStatus(value as CoinLeagueGameStatus);
   };
@@ -145,12 +145,12 @@ const CoinLeagueProfilePage: NextPage = () => {
     (game: GameGraph) => {
       setShareUrl(
         `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
-          selectedChainId
-        )}/${game.id}`
+          selectedChainId,
+        )}/${game.id}`,
       );
       setShowShareDialog(true);
     },
-    [selectedChainId]
+    [selectedChainId],
   );
 
   return (
@@ -390,7 +390,7 @@ const CoinLeagueProfilePage: NextPage = () => {
                   <>
                     {ethers.utils.formatUnits(
                       playerStats.data?.totalEarned,
-                      coinToPlay?.decimals
+                      coinToPlay?.decimals,
                     )}{' '}
                     {coinToPlay?.symbol.toUpperCase()}
                   </>
@@ -408,7 +408,7 @@ const CoinLeagueProfilePage: NextPage = () => {
                   <>
                     {ethers.utils.formatUnits(
                       playerStats.data?.totalSpent,
-                      coinToPlay?.decimals
+                      coinToPlay?.decimals,
                     )}{' '}
                     {coinToPlay?.symbol.toUpperCase()}
                   </>

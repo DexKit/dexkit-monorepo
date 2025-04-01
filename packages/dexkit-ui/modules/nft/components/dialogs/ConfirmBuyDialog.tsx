@@ -1,18 +1,18 @@
 import {
-    Alert,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Tooltip,
-    Typography,
+  Alert,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { AppDialogTitle } from "../../../../components/AppDialogTitle";
 
@@ -63,7 +63,7 @@ export default function ConfirmBuyDialog({
   const token = useMemo(() => {
     if (order) {
       const tokenIndex = tokens.findIndex((t) =>
-        isAddressEqual(t.address, order?.erc20Token)
+        isAddressEqual(t.address, order?.erc20Token),
       );
 
       if (tokenIndex > -1) {
@@ -75,7 +75,7 @@ export default function ConfirmBuyDialog({
   const hasSufficientFunds = useMemo(() => {
     if (token !== undefined) {
       const orderTokenAmount: BigNumber = BigNumber.from(
-        order?.erc20TokenAmount
+        order?.erc20TokenAmount,
       );
       if (quantity > 1) {
         if (erc20Balance.data?.gte(orderTokenAmount.div(quantity))) {
@@ -107,7 +107,7 @@ export default function ConfirmBuyDialog({
             return (
               (ratio *
                 parseFloat(
-                  formatUnits(order?.erc20TokenAmount, token.decimals)
+                  formatUnits(order?.erc20TokenAmount, token.decimals),
                 )) /
               quantity
             );
@@ -207,13 +207,13 @@ export default function ConfirmBuyDialog({
                         {asset?.protocol === "ERC1155"
                           ? formatUnits(
                               BigNumber.from(
-                                order?.erc20TokenAmount || "0"
+                                order?.erc20TokenAmount || "0",
                               ).div(order?.erc1155TokenAmount || "1"),
-                              token?.decimals
+                              token?.decimals,
                             )
                           : formatUnits(
                               BigNumber.from(order?.erc20TokenAmount || "0"),
-                              token?.decimals
+                              token?.decimals,
                             )}{" "}
                         {token?.symbol}
                       </Typography>
@@ -284,10 +284,10 @@ export default function ConfirmBuyDialog({
                             Number(
                               formatUnits(
                                 BigNumber.from(
-                                  order?.erc20TokenAmount || "0"
+                                  order?.erc20TokenAmount || "0",
                                 ).div(order?.erc1155TokenAmount || "1"),
-                                token?.decimals
-                              )
+                                token?.decimals,
+                              ),
                             )}{" "}
                           {token?.symbol}
                         </b>
@@ -332,7 +332,7 @@ export default function ConfirmBuyDialog({
                   ) : (
                     formatUnits(
                       erc20Balance.data || BigNumber.from(0),
-                      token?.decimals
+                      token?.decimals,
                     )
                   )}{" "}
                   {token?.symbol}

@@ -41,12 +41,12 @@ export const useAffiliateEntries = (params: AffiliateParams, isNFT = false) => {
       const { affiliates } = await request(
         getGraphEndpoint(isNFT, chainId),
         GET_AFFILIATES_ENTRIES,
-        variables
+        variables,
       );
 
       return affiliates;
     },
-    { suspense: true }
+    { suspense: true },
   );
 
   return query;
@@ -66,7 +66,7 @@ export const useAffiliatePlayer = (account?: string, isNFT = false) => {
       GET_PLAYER_AFFILIATE,
       {
         affiliate: account,
-      }
+      },
     );
 
     return player;

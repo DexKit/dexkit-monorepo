@@ -63,7 +63,7 @@ const Template: ComponentStory<typeof ReviewOrderDialog> = (args) => {
   const web3ReactKey = useMemo(
     () =>
       connectors.map((connector) => getConnectorName(connector[0])).join("-"),
-    [connectors]
+    [connectors],
   );
 
   return (

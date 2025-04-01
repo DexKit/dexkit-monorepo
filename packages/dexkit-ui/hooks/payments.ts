@@ -12,7 +12,7 @@ export function useSubscription() {
     async () => {
       return (await instance?.get("/payments/subscription"))?.data;
     },
-    { refetchInterval: 5000 }
+    { refetchInterval: 5000 },
   );
 }
 
@@ -34,8 +34,7 @@ export function useCreditHistory() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CREDIT_HISTORY], async () => {
-    return (await instance?.get("/payments/credit-history"))
-      ?.data;
+    return (await instance?.get("/payments/credit-history"))?.data;
   });
 }
 
@@ -43,12 +42,8 @@ export function useCryptoCheckout() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(async (params: { intent: string; amount: string }) => {
-    return (
-      await instance?.post(
-        "/payments/crypto-checkout-session",
-        params
-      )
-    )?.data;
+    return (await instance?.post("/payments/crypto-checkout-session", params))
+      ?.data;
   });
 }
 
@@ -58,9 +53,8 @@ export function useCheckoutItems({ id }: { id: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CRYPTO_CHECKOUT_ITEMS, id], async () => {
-    return (
-      await instance?.get(`/payments/checkout-session/${id}/items`)
-    )?.data;
+    return (await instance?.get(`/payments/checkout-session/${id}/items`))
+      ?.data;
   });
 }
 
@@ -82,10 +76,10 @@ export function useConfirmCheckout() {
       return (
         await instance?.post(
           `/payments/checkout-session/${checkoutId}/confirm`,
-          { txHash, chainId, tokenAddress }
+          { txHash, chainId, tokenAddress },
         )
       )?.data;
-    }
+    },
   );
 }
 
@@ -97,13 +91,9 @@ export function useCheckoutData({ id }: { id: string }) {
   return useQuery(
     [CHECKOUT_STATUS, id],
     async () => {
-      return (
-        await instance?.get(
-          `/payments/checkout-session/${id}`
-        )
-      )?.data;
+      return (await instance?.get(`/payments/checkout-session/${id}`))?.data;
     },
-    { refetchInterval: 3000 }
+    { refetchInterval: 3000 },
   );
 }
 
@@ -115,9 +105,7 @@ export function usePlanCosts(slug?: string) {
     if (!slug) {
       return [];
     }
-    return (
-      await instance?.get(`/payments/plans/${slug}/costs`)
-    )?.data;
+    return (await instance?.get(`/payments/plans/${slug}/costs`))?.data;
   });
 }
 
@@ -126,11 +114,7 @@ export const PLANS_QUERY = "PLANS_QUERY";
 export function usePlanPrices() {
   const { instance } = useContext(DexkitApiProvider);
   return useQuery([PLANS_QUERY], async () => {
-    return (
-      await instance?.get(
-        `/payments/plans`
-      )
-    )?.data;
+    return (await instance?.get(`/payments/plans`))?.data;
   });
 }
 
@@ -154,6 +138,6 @@ export function useActiveFeatUsage() {
     async () => {
       return (await instance?.get(`/payments/active-usage`))?.data;
     },
-    { refetchInterval: 5000 }
+    { refetchInterval: 5000 },
   );
 }

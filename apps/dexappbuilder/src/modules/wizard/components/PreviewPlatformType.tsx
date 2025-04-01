@@ -16,7 +16,7 @@ export function PreviewPlatformType({ type, setType }: Props) {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: PreviewPlatform
+    newAlignment: PreviewPlatform,
   ) => {
     setAlignment(newAlignment);
     if (setType) {

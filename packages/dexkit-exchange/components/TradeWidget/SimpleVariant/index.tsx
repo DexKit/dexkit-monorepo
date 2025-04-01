@@ -19,7 +19,7 @@ import { OrderMarketType } from "../../../constants";
 import TradeWidgetTabAlt from "../TradeWidgetTabAlt";
 import MarketForm from "./MarketForm";
 const SwapSettingsDialog = dynamic(
-  () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog")
+  () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog"),
 );
 
 export interface TradeWidgetSimpleVariantProps {
@@ -57,7 +57,7 @@ export default function TradeWidgetSimpleVariant({
 }: TradeWidgetSimpleVariantProps) {
   const [userGasless] = useUserGaslessSettings();
   const [selectedOrderSide, setOrderSide] = useState<"buy" | "sell">(
-    defaultOrderSide
+    defaultOrderSide,
   );
   const orderSide = useMemo(() => {
     if (selectedOrderSide) {
@@ -71,7 +71,7 @@ export default function TradeWidgetSimpleVariant({
   const [isAutoSlippage, setAutoSlippage] = useState<boolean>(false);
 
   const [slippage, setSlippage] = useState<number | undefined>(
-    defaultSlippage || 0.01
+    defaultSlippage || 0.01,
   );
 
   const handleChangeOrderSide = (e: SyntheticEvent, value: "buy" | "sell") => {

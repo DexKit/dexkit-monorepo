@@ -4,7 +4,7 @@ const AddCreditDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/AddCreditDialog"),
   {
     ssr: false,
-  }
+  },
 );
 
 import Add from "@mui/icons-material/Add";

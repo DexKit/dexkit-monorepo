@@ -45,7 +45,7 @@ export default function EvmEditAccountDialog({ dialogProps, account }: Props) {
     helpers: FormikHelpers<{
       address: string;
       name: string;
-    }>
+    }>,
   ) => {
     try {
       updateName(address, name);
@@ -57,7 +57,7 @@ export default function EvmEditAccountDialog({ dialogProps, account }: Props) {
         }),
         {
           variant: 'success',
-        }
+        },
       );
       helpers.resetForm();
       handleClose();
@@ -69,7 +69,7 @@ export default function EvmEditAccountDialog({ dialogProps, account }: Props) {
         }),
         {
           variant: 'error',
-        }
+        },
       );
     }
   };

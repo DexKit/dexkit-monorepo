@@ -79,9 +79,9 @@ export default function KittygotchiMintDialog({ DialogProps }: Props) {
                       id: 'kittygotchi.id.created',
                       defaultMessage: 'Kittygotchi #{id} created',
                     },
-                    { id: tokenId }
+                    { id: tokenId },
                   ),
-                  { variant: 'success' }
+                  { variant: 'success' },
                 );
               }
             }
@@ -122,12 +122,12 @@ export default function KittygotchiMintDialog({ DialogProps }: Props) {
                 id: 'error.while.minting',
                 defaultMessage: 'Error while minting',
               },
-              { message: String(err) }
+              { message: String(err) },
             ),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
   };
 

@@ -6,10 +6,10 @@ import { ethers } from 'ethers';
 import { ChainId } from './enums';
 
 export const DEXKIT_MULTIPLIER_HOLDING = BigNumber.from(50).mul(
-  BigNumber.from(10).pow(18)
+  BigNumber.from(10).pow(18),
 );
 export const BITTOKEN_MULTIPLIER_HOLDING = BigNumber.from(200).mul(
-  BigNumber.from(10).pow(18)
+  BigNumber.from(10).pow(18),
 );
 
 export const POLL_INTERVAL_GAMES = 5000;

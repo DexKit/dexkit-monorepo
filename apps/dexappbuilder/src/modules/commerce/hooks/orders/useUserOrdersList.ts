@@ -21,12 +21,15 @@ export default function useUserOrderList(params: {
       }
 
       return (
-        await instance.get/*<{
+        await instance.get(
+          /*<{
           items: Order[];
           totalItems: number;
           totalPages: number;
           currentPage: number;
-        }>*/(`/orders/user-orders`, { params })
+        }>*/ `/orders/user-orders`,
+          { params },
+        )
       ).data;
     },
     {

@@ -4,7 +4,12 @@ import { BigNumber } from "ethers";
 
 import { formatUnits } from "@ethersproject/units";
 import { EventEmitter } from "events";
-import { ChainId, CoinTypes, IPFS_GATEWAY, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
+import {
+  ChainId,
+  CoinTypes,
+  IPFS_GATEWAY,
+  ZEROEX_NATIVE_TOKEN_ADDRESS,
+} from "../constants";
 import { NETWORKS } from "../constants/networks";
 import { EvmCoin, TokenWhitelabelApp } from "../types";
 
@@ -27,7 +32,7 @@ export function parseChainId(chainId: string | number) {
 export function waitForEvent<T>(
   emitter: EventEmitter,
   event: string,
-  rejectEvent: string
+  rejectEvent: string,
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     emitter.once(event, (args) => {

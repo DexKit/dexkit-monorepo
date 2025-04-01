@@ -62,7 +62,7 @@ export async function fetchAbi({
         module: "contract",
         address: contractAddress,
       },
-    }
+    },
   );
 
   if (resp.data.message === "NOTOK") {

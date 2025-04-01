@@ -46,7 +46,7 @@ export function SwapSection({ section }: Props) {
       buyToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 
@@ -54,7 +54,7 @@ export function SwapSection({ section }: Props) {
       sellToken = tokens.find(
         (t) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
-          t.chainId === chainId
+          t.chainId === chainId,
       );
     }
 

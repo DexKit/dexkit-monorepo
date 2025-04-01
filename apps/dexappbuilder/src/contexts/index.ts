@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import type { AssetAPI } from '@dexkit/ui/modules/nft/types';
 import type { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import defaultAppConfig from '../../config/app.json';
@@ -22,10 +21,3 @@ export const AppWizardConfigContext =
   React.createContext<IAppWizardConfigContext>({
     wizardConfig: defaultAppConfig as AppConfig,
   });
-
-
-
-
-
-
-

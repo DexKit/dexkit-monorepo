@@ -53,7 +53,7 @@ export default function EditCategoryFormDialog({
           id="category.updated"
           defaultMessage="Category updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       handleClose();
       onRefetch();

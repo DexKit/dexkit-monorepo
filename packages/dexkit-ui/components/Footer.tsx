@@ -129,7 +129,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                         defaultMessage={m.name}
                       />
                     </Link>
-                  )
+                  ),
                 )}
               </Stack>
             ) : (

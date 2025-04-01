@@ -1,11 +1,11 @@
-
-
-
-
-
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
-import { showTxDialogAtom, txDialogLoading, txDialogOptions, txDialogTransactionsAtom } from "../atoms";
+import {
+  showTxDialogAtom,
+  txDialogLoading,
+  txDialogOptions,
+  txDialogTransactionsAtom,
+} from "../atoms";
 import type { TxDialogOptions, TxDialogTransaction } from "../types";
 
 const showSelectLocaleAtom = atom(false);
@@ -16,7 +16,6 @@ export function useShowSelectLocale() {
   return { isOpen, setIsOpen };
 }
 
-
 export const holdsKitDialogoAtom = atom(false);
 
 export function useHoldsKitDialog() {
@@ -24,7 +23,6 @@ export function useHoldsKitDialog() {
 
   return { isOpen, setIsOpen };
 }
-
 
 const isConnectWalletOpenAtom = atom(false);
 
@@ -55,7 +53,7 @@ export const switchNetworkChainIdAtom = atom<number | undefined>(undefined);
 
 export function useSwitchNetwork() {
   const [isOpenSwitchNetwork, setOpenSwitchNetwork] = useAtom(
-    switchNetworkOpenAtom
+    switchNetworkOpenAtom,
   );
   const [networkChainId, setNetworkChainId] = useAtom(switchNetworkChainIdAtom);
 
@@ -96,7 +94,6 @@ export function useSignMessageDialog() {
   };
 }
 
-
 export function useExecuteTransactionsDialog() {
   const [show, setShow] = useAtom(showTxDialogAtom);
   const [transactions, setTransactions] = useAtom(txDialogTransactionsAtom);
@@ -115,7 +112,7 @@ export function useExecuteTransactionsDialog() {
       setTransactions(transactions);
       setOptions(opts);
     },
-    []
+    [],
   );
 
   return {

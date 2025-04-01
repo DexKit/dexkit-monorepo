@@ -20,9 +20,9 @@ export const CollectionItemsSchema = Yup.object().shape({
           trait_type: Yup.string().required(),
           display_type: Yup.string(),
           value: Yup.string().required(),
-        })
+        }),
       ),
-    })
+    }),
   ),
 });
 

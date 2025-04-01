@@ -18,7 +18,7 @@ import {
 
 export const getERC20Decimals = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -35,7 +35,7 @@ export const getERC20Decimals = async (
 
 export const getERC20Symbol = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -52,7 +52,7 @@ export const getERC20Symbol = async (
 
 export const getERC20Name = async (
   contractAddress?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -66,7 +66,7 @@ export const getERC20Name = async (
 export const getERC20Balance = async (
   contractAddress?: string,
   account?: string,
-  provider?: ethers.providers.BaseProvider
+  provider?: ethers.providers.BaseProvider,
 ) => {
   if (
     contractAddress === undefined ||
@@ -89,7 +89,7 @@ export const getERC20Balances = async (
   account: string,
   tokens: Token[],
   chainId: ChainId,
-  provider: ethers.providers.JsonRpcProvider
+  provider: ethers.providers.JsonRpcProvider,
 ) => {
   const tokensByChainId = tokens.filter((t) => t.chainId === chainId);
 
@@ -104,7 +104,7 @@ export const getERC20Balances = async (
   const multicallBalanceResult = await getMulticallTokenBalances(
     tokenAddressesWithNative,
     account,
-    provider
+    provider,
   );
 
   if (multicallBalanceResult) {
@@ -131,7 +131,7 @@ export const getERC20WithProxyUnlockedBalances = async (
   account: string,
   tokens: Token[],
   chainId: ChainId,
-  provider: ethers.providers.JsonRpcProvider
+  provider: ethers.providers.JsonRpcProvider,
 ) => {
   const tokensByChainId = tokens.filter((t) => t.chainId === chainId);
 
@@ -150,7 +150,7 @@ export const getERC20WithProxyUnlockedBalances = async (
     tokenAddressesWithNative,
     account,
     exchangeProxy,
-    provider
+    provider,
   );
 
   const balances: TokenBalance[] = [];
@@ -186,7 +186,7 @@ export const getERC20TokenAllowance = async (
   provider: ethers.providers.BaseProvider,
   tokenAddress: string,
   account: string,
-  spender: string
+  spender: string,
 ): Promise<ethers.BigNumber> => {
   const contract = new ethers.Contract(tokenAddress, ERC20Abi, provider);
 
@@ -210,7 +210,7 @@ export const getCoinMarketData = async ({
           ids: ids.join(','),
           order: 'market_cap_desc',
         },
-      }
+      },
     )
   ).data;
 

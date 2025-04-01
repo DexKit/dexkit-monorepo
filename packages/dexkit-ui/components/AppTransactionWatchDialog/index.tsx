@@ -41,7 +41,7 @@ export default function AppTransactionWatchDialog({
 
       return true;
     },
-    [conditions]
+    [conditions],
   );
 
   const enableConditions = useCallback((newConditions: string[]) => {

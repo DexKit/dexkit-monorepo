@@ -10,7 +10,7 @@ export const getERC20Balances = async (
   account: string,
   tokens: TokenWhitelabelApp[],
   chainId: ChainId,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   const tokensByChainId = tokens.filter((t) => Number(t.chainId) === chainId);
 
@@ -25,7 +25,7 @@ export const getERC20Balances = async (
   const multicallBalanceResult = await getMulticallTokenBalances(
     tokenAddressesWithNative,
     account,
-    provider
+    provider,
   );
 
   if (multicallBalanceResult) {

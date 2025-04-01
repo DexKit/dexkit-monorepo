@@ -1,8 +1,6 @@
-import axios from "axios";
-import { TokenMetadata } from "../types/nfts";
-import { getNormalizedUrl } from "../utils";
-
-
+import axios from 'axios';
+import { TokenMetadata } from '../types/nfts';
+import { getNormalizedUrl } from '../utils';
 
 export const getTokenMetadata = async (url: string) => {
   return axios

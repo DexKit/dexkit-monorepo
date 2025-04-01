@@ -133,16 +133,16 @@ export default function ContractConstructor({
         enqueueSnackbar(String(err), { variant: "error" });
       }
     },
-    [name, stateMutability, onCall]
+    [name, stateMutability, onCall],
   );
 
   const [selectedChainId, setSelectedChainId] = useState<ChainId>(
-    chainId ? chainId : ChainId.Ethereum
+    chainId ? chainId : ChainId.Ethereum,
   );
 
   const handleChangeChainId = (
     event: SelectChangeEvent<number>,
-    child: ReactNode
+    child: ReactNode,
   ) => {
     setSelectedChainId(parseChainId(event.target.value));
   };
@@ -162,7 +162,7 @@ export default function ContractConstructor({
         submitForm();
       };
     },
-    [chainId, selectedChainId]
+    [chainId, selectedChainId],
   );
 
   return (

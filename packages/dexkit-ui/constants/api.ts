@@ -14,9 +14,8 @@ export const DEXKIT_NFT_BASE_URL = `${DEXKIT_UI_BASE_API_URL}`;
 export const DEXKIT_STORAGE_MERKLE_TREE_URL =
   "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/merkle-tree/";
 
-export const TRADER_BASE_API = 'https://0x-orderbook.dexkit.com'
+export const TRADER_BASE_API = "https://0x-orderbook.dexkit.com";
 //export const TRADER_BASE_API = 'http://localhost:5000'
-
 
 export const TRADER_ORDERBOOK_API = `${TRADER_BASE_API}/orderbook/orders`;
 
@@ -55,7 +54,7 @@ myAppsApi.interceptors.request.use(
     } catch {
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 myAppsApi.interceptors.response.use(
@@ -72,7 +71,7 @@ myAppsApi.interceptors.response.use(
       return Promise.reject(error);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export async function getAssetDexKitApi({
@@ -85,12 +84,12 @@ export async function getAssetDexKitApi({
   tokenId: string;
 }) {
   const resp = await dexkitNFTapi.get<AssetAPI>(
-    `/asset/${networkId}/${contractAddress.toLowerCase()}/${tokenId}`
+    `/asset/${networkId}/${contractAddress.toLowerCase()}/${tokenId}`,
   );
   // We replace it with the cdn image
   const imageUrl = resp.data.imageUrl?.replace(
     "dexkit-storage.nyc3.digitaloceanspaces.com",
-    "dexkit-storage.nyc3.cdn.digitaloceanspaces.com"
+    "dexkit-storage.nyc3.cdn.digitaloceanspaces.com",
   );
 
   if (imageUrl) {

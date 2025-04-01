@@ -89,7 +89,7 @@ const KittygotchiDetailPage: NextPage = () => {
                       defaultMessage: 'Feed kittygotchi #{id}',
                       id: 'feed.kittygotchi.id',
                     },
-                    { id: id as string }
+                    { id: id as string },
                   ) as string,
                   hash,
                   checked: false,
@@ -119,13 +119,13 @@ const KittygotchiDetailPage: NextPage = () => {
                   id: 'error.while.feeding',
                   defaultMessage: 'Error while feeding',
                 },
-                { message: String(error) }
+                { message: String(error) },
               ),
-              { variant: 'error' }
+              { variant: 'error' },
             );
           }
         },
-      }
+      },
     );
   };
 
@@ -164,7 +164,7 @@ const KittygotchiDetailPage: NextPage = () => {
           id: 'your.kittygotchi.is.now.the.default.nft',
           defaultMessage: 'Your kittygotchi is now the default NFT',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
   };
@@ -433,8 +433,8 @@ const KittygotchiDetailPage: NextPage = () => {
                                 <MomentSpan
                                   from={moment(
                                     new Date(
-                                      kittygotchi.data?.lastUpdated * 1000
-                                    )
+                                      kittygotchi.data?.lastUpdated * 1000,
+                                    ),
                                   )}
                                 />
                               ) : (

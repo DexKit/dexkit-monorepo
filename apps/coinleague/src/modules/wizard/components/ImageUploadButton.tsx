@@ -39,7 +39,6 @@ export function ImageUploadButton(props: ImageUploadButtonProps) {
   useEffect(() => {}, []);
 
   const handleClick = useCallback(() => {
-
     if (file !== null) {
       onChange(null);
     }
@@ -59,7 +58,7 @@ export function ImageUploadButton(props: ImageUploadButtonProps) {
       } else {
       }
     },
-    [onChange]
+    [onChange],
   );
 
   useEffect(() => {

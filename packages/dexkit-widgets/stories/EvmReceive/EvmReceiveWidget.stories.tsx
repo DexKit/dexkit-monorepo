@@ -14,7 +14,7 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof EvmReceiveWidget> = (
-  args: EvmReceiveWidgetProps
+  args: EvmReceiveWidgetProps,
 ) => {
   return (
     <WidgetContext>

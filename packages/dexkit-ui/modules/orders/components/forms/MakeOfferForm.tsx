@@ -1,17 +1,17 @@
 import {
-    Alert,
-    Avatar,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { BigNumber } from "ethers";
@@ -58,7 +58,7 @@ interface Props {
   onConfirm: (
     price: BigNumber,
     tokenAddress: string,
-    expiry: Date | null
+    expiry: Date | null,
   ) => void;
 }
 
@@ -83,14 +83,14 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
         formatMessage({
           id: "invalid.price",
           defaultMessage: "Invalid price",
-        })
+        }),
       );
     }
 
     onConfirm(
       parseUnits(values.price, decimals),
       values.tokenAddress,
-      values.expiry || null
+      values.expiry || null,
     );
 
     //   formikHelpers.resetForm();
@@ -129,7 +129,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   const erc20Balance = useErc20Balance(
     provider,
     form.values.tokenAddress,
-    account
+    account,
   );
 
   const handleChangeExpiryDuration = (newValue: moment.Duration | null) => {
@@ -138,7 +138,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
 
   const tokenSelected = useMemo(() => {
     const tokenIndex = tokenList.findIndex((t) =>
-      isAddressEqual(t.address, form.values.tokenAddress)
+      isAddressEqual(t.address, form.values.tokenAddress),
     );
 
     if (tokenIndex > -1) {
@@ -167,7 +167,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
     } else {
       const imageUrl = TOKEN_ICON_URL(
         token.address.toLowerCase(),
-        token.chainId
+        token.chainId,
       );
 
       if (imageUrl) {
@@ -238,7 +238,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
                           secondary={token.name}
                         />
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </Select>
               </FormControl>
@@ -302,7 +302,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
                   ) : (
                     formatUnits(
                       erc20Balance.data || BigNumber.from(0),
-                      tokenSelected.decimals
+                      tokenSelected.decimals,
                     )
                   )}{" "}
                   {tokenSelected.symbol.toUpperCase()}

@@ -1,12 +1,12 @@
-import { createConnector } from 'wagmi';
-import type { CreateConnectorFn } from 'wagmi';
-import { WalletConnectParameters, walletConnect } from 'wagmi/connectors';
+import { createConnector } from "wagmi";
+import type { CreateConnectorFn } from "wagmi";
+import { WalletConnectParameters, walletConnect } from "wagmi/connectors";
 import type {
   CreateConnector,
   RainbowKitDetails,
   RainbowKitWalletConnectParameters,
   WalletDetailsParams,
-} from './Wallet';
+} from "./Wallet";
 
 interface GetWalletConnectConnectorParams {
   projectId: string;
@@ -22,7 +22,7 @@ interface CreateWalletConnectConnectorParams {
 interface GetOrCreateWalletConnectInstanceParams {
   projectId: string;
   walletConnectParameters?: RainbowKitWalletConnectParameters;
-  rkDetailsShowQrModal?: RainbowKitDetails['showQrModal'];
+  rkDetailsShowQrModal?: RainbowKitDetails["showQrModal"];
 }
 
 const walletConnectInstances = new Map<
@@ -92,15 +92,15 @@ export function getWalletConnectConnector({
   // We use this projectId in place of YOUR_PROJECT_ID for our examples.
   // This allows us our examples and templates to be functional with WalletConnect v2.
   // We warn developers against using this projectId in their dApp in production.
-  const exampleProjectId = '21fef48091f12692cad574a6f7753643';
+  const exampleProjectId = "21fef48091f12692cad574a6f7753643";
 
-  if (!projectId || projectId === '') {
+  if (!projectId || projectId === "") {
     throw new Error(
-      'No projectId found. Every dApp must now provide a WalletConnect Cloud projectId to enable WalletConnect v2 https://www.rainbowkit.com/docs/installation#configure',
+      "No projectId found. Every dApp must now provide a WalletConnect Cloud projectId to enable WalletConnect v2 https://www.rainbowkit.com/docs/installation#configure",
     );
   }
 
-  if (projectId === 'YOUR_PROJECT_ID') {
+  if (projectId === "YOUR_PROJECT_ID") {
     projectId = exampleProjectId;
   }
 

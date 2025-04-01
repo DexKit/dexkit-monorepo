@@ -29,7 +29,7 @@ export function useNotifications() {
 
       updateNotifications((notifications) => [...notifications, notification]);
     },
-    [updateNotifications, updateTransactions]
+    [updateNotifications, updateTransactions],
   );
 
   return { isOpen, setOpen, addNotification };
@@ -49,7 +49,7 @@ export function useOrderedConnectors() {
       connectors = [CONNECTORS[selectedWallet], ...otherConnectors];
     } else {
       const otherConnectors = Object.keys(CONNECTORS).map(
-        (key) => CONNECTORS[key]
+        (key) => CONNECTORS[key],
       );
 
       connectors = otherConnectors;

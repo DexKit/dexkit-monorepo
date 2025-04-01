@@ -61,7 +61,7 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
     helpers: FormikHelpers<{
       amount: string;
       paymentMethod: string;
-    }>
+    }>,
   ) => {
     if (paymentMethod === "crypto") {
       const result = await cryptoCheckout.mutateAsync({
@@ -112,7 +112,7 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
   const isVisible = useIsBalanceVisible();
 
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(
-    isBalancesVisibleAtom
+    isBalancesVisibleAtom,
   );
 
   const handleToggleVisibility = () => {
@@ -125,8 +125,8 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
         .minus(new Decimal(activeFeatUsageQuery.data?.used))
         .add(
           new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
-            new Decimal(subscriptionQuery.data?.creditsUsed)
-          )
+            new Decimal(subscriptionQuery.data?.creditsUsed),
+          ),
         )
         .toNumber();
     }

@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material';
-import PaginationDot from './PaginationDot';
+import { Stack } from "@mui/material";
+import PaginationDot from "./PaginationDot";
 
 export interface PaginationProps {
   dots: number;

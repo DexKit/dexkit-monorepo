@@ -2,12 +2,11 @@ import { AppCollection } from '@dexkit/ui/modules/wizard/types/config';
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-
 export const collectionAtom = atom<AppCollection | undefined>(undefined);
 
 export const isFirstVisitOnEditWizardAtom = atomWithStorage<boolean>(
   'isFirstVisitOnEditWizard',
-  true
+  true,
 );
 
 export interface CustomThemeColorSchemesInterface {

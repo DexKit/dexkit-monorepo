@@ -70,7 +70,6 @@ export default extendTheme({
           main: '#36AB47',
         },
       },
-
     },
     dark: {
       palette: {
@@ -109,6 +108,6 @@ export default extendTheme({
           main: '#36AB47',
         },
       },
-    }
-  }
+    },
+  },
 });

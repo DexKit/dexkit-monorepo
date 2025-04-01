@@ -103,7 +103,7 @@ export async function loginApp({
 }) {
   return axios.post<{ access_token: string; refresh_token: string }>(
     "/api/dex-auth/login",
-    { data: { address, signature, siteId, referral, chainId } }
+    { data: { address, signature, siteId, referral, chainId } },
   );
 }
 
@@ -149,6 +149,6 @@ export async function login({
 }) {
   return authApi.post<{ access_token: string; refresh_token: string }>(
     "/login",
-    { data: { address, signature, chainId } }
+    { data: { address, signature, chainId } },
   );
 }

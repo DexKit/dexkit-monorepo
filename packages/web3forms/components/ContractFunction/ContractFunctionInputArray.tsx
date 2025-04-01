@@ -56,7 +56,7 @@ export default function ContractFunctionInputArray({
               size="small"
               startIcon={<AddIcon />}
               onClick={helpers.handlePush(
-                input.type.startsWith("tuple") ? {} : ""
+                input.type.startsWith("tuple") ? {} : "",
               )}
             >
               <FormattedMessage id="add" defaultMessage="add" />

@@ -1,4 +1,4 @@
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   CircularProgress,
@@ -10,11 +10,11 @@ import {
   IconButton,
   Stack,
   Typography,
-} from '@mui/material';
-import { FormattedMessage } from 'react-intl';
-import CloseCircle from '../icons/CloseCircle';
-import ReceiptText from '../icons/ReceiptText';
-import TickCircle from '../icons/TickCircle';
+} from "@mui/material";
+import { FormattedMessage } from "react-intl";
+import CloseCircle from "../icons/CloseCircle";
+import ReceiptText from "../icons/ReceiptText";
+import TickCircle from "../icons/TickCircle";
 
 interface Props {
   dialogProps: DialogProps;
@@ -31,7 +31,7 @@ export function SignMessageDialog({
 }: Props) {
   const { onClose } = dialogProps;
 
-  const handleClose = () => onClose!({}, 'backdropClick');
+  const handleClose = () => onClose!({}, "backdropClick");
 
   const renderContent = () => {
     if (error !== undefined) {
@@ -83,11 +83,11 @@ export function SignMessageDialog({
     <Dialog {...dialogProps} onClose={handleClose}>
       <DialogTitle
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
           p: 2,
-          alignItems: 'center',
-          alignContent: 'center',
+          alignItems: "center",
+          alignContent: "center",
         }}
       >
         <Stack

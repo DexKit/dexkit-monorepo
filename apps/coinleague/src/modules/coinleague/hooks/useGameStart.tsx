@@ -51,7 +51,7 @@ export function useGameStart({ game }: { game?: Game }) {
               <FormattedMessage id="view" defaultMessage="View" />
             </Button>
           ),
-        }
+        },
       );
 
       // createNotification({

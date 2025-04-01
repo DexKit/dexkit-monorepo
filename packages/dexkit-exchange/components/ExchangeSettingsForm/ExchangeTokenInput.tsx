@@ -31,7 +31,7 @@ export default function ExchangeTokenInput({
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
-    value: Token | null
+    value: Token | null,
   ) => {
     if (value) {
       helpers.setValue(value);
@@ -88,7 +88,7 @@ export default function ExchangeTokenInput({
                         : field.value
                         ? TOKEN_ICON_URL(
                             field.value.address,
-                            field.value.chainId
+                            field.value.chainId,
                           )
                         : undefined
                     }

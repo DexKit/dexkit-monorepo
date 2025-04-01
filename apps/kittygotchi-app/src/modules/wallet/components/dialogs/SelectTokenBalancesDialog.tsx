@@ -98,7 +98,7 @@ function SelectTokenBalanceDialog({
                       onSelect={onSelect}
                       chainId={chainId}
                     />
-                  )
+                  ),
                 )}
               </List>
             )}

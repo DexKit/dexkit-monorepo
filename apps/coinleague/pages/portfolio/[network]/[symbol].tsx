@@ -89,7 +89,7 @@ const CoinPage: NextPage = () => {
       coin &&
       (coin.coinType === CoinTypes.EVM_ERC20 ||
         coin.coinType === CoinTypes.EVM_NATIVE),
-    [coin]
+    [coin],
   );
 
   const isErc20Coin = useMemo(() => {
@@ -143,7 +143,7 @@ const CoinPage: NextPage = () => {
       walletBalances || [],
       prices,
       coin ? [coin] : [],
-      currency
+      currency,
     );
   }, [walletBalances, prices, coin, currency]);
 
@@ -267,7 +267,7 @@ const CoinPage: NextPage = () => {
 
   const handleRemoveAddress = () => {
     const account = accounts.find((a) =>
-      isAddressEqual(selectedAddress, a.address)
+      isAddressEqual(selectedAddress, a.address),
     );
 
     if (account) {
@@ -280,7 +280,7 @@ const CoinPage: NextPage = () => {
 
   const handleEditAccount = () => {
     const account = accounts.find((a) =>
-      isAddressEqual(selectedAddress, a.address)
+      isAddressEqual(selectedAddress, a.address),
     );
 
     if (account) {
@@ -306,7 +306,7 @@ const CoinPage: NextPage = () => {
           id: 'address.copied',
           defaultMessage: 'Address copied',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
   };
@@ -315,7 +315,7 @@ const CoinPage: NextPage = () => {
     if (selectedAddress) {
       window.open(
         `${getBlockExplorerUrl(chainId)}/address/${selectedAddress}`,
-        '_blank'
+        '_blank',
       );
 
       setSelectedAddress(undefined);
@@ -391,7 +391,7 @@ const CoinPage: NextPage = () => {
                         coin?.coinType === CoinTypes.EVM_ERC20
                           ? TOKEN_ICON_URL(
                               coin?.contractAddress,
-                              coin?.network.chainId as ChainId
+                              coin?.network.chainId as ChainId,
                             )
                           : coin?.imageUrl
                       }

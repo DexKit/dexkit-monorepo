@@ -19,14 +19,14 @@ import { FormattedMessage } from "react-intl";
 import Link from "../../../components/AppLink";
 
 const EvmReceiveDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
+  () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog"),
 );
 
 const EvmTransferCoinDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
-    )
+    ),
 );
 
 export interface TokenSummaryProps {
@@ -51,7 +51,7 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
   const token = useMemo(() => {
     if (chainId && address) {
       return tokens.find(
-        (tk) => isAddressEqual(address, tk.address) && chainId === tk.chainId
+        (tk) => isAddressEqual(address, tk.address) && chainId === tk.chainId,
       );
     }
   }, [chainId, address]);

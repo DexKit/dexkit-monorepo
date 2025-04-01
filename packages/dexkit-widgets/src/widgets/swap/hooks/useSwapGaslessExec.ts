@@ -20,12 +20,10 @@ export interface SwapGaslessExecParams {
 }
 
 export function useSwapGaslessExec({
-
-  zeroExApiKey
+  zeroExApiKey,
 }: {
-  zeroExApiKey?: string
+  zeroExApiKey?: string;
 }) {
-
   const { siteId } = useContext(SiteContext);
   const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
 
@@ -38,8 +36,7 @@ export function useSwapGaslessExec({
       approval,
       chainId,
       sellToken,
-      buyToken
-
+      buyToken,
     }: SwapGaslessExecParams) => {
       if (!zeroExApiKey) {
         throw new Error("no api key");
@@ -47,8 +44,7 @@ export function useSwapGaslessExec({
       const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
 
       try {
-
-        const { tradeHash } = await client.submitGasless({ trade, approval })
+        const { tradeHash } = await client.submitGasless({ trade, approval });
 
         /* onNotification({
            chainId,
@@ -66,7 +62,7 @@ export function useSwapGaslessExec({
          });*/
         if (tradeHash) {
           gaslessTrades.push({
-            type: 'swap',
+            type: "swap",
             chainId,
             tradeHash,
             values: {
@@ -74,13 +70,11 @@ export function useSwapGaslessExec({
               buyAmount: quote.buyAmount as string,
               sellToken,
               buyToken,
-            }
-          })
+            },
+          });
           // We use this on gasless trade updater to issue swap trades notifications
           setGaslessTrades(gaslessTrades);
         }
-
-
 
         trackUserEvent.mutate({
           event: UserEvents.swapGasless,
@@ -88,14 +82,13 @@ export function useSwapGaslessExec({
           metadata: JSON.stringify({
             quote: quote,
           }),
-        })
+        });
 
-
-        return tradeHash
+        return tradeHash;
       } catch (err) {
         throw err;
       }
-    }
+    },
   );
 }
 
@@ -104,33 +97,35 @@ export function useSwapGaslessTradeStatusQuery({
   tradeHash,
   chainId,
 }: {
-  chainId?: ChainId,
-  zeroExApiKey?: string,
-  tradeHash: string | undefined
+  chainId?: ChainId;
+  zeroExApiKey?: string;
+  tradeHash: string | undefined;
 }) {
-
   const { siteId } = useContext(SiteContext);
 
+  return useQuery(
+    [tradeHash],
+    async ({ signal }) => {
+      if (!zeroExApiKey) {
+        throw new Error("no api key");
+      }
+      if (!tradeHash || !chainId) {
+        return null;
+      }
 
-  return useQuery([tradeHash], async ({ signal }) => {
-    if (!zeroExApiKey) {
-      throw new Error("no api key");
-    }
-    if (!tradeHash || !chainId) {
-      return null
-    }
+      const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
 
-    const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
+      try {
+        const status = await client.submitStatusGasless(
+          { tradeHash },
+          { signal },
+        );
 
-    try {
-
-      const status = await client.submitStatusGasless({ tradeHash }, { signal });
-
-      return status;
-
-    } catch (err) {
-      throw err;
-    }
-  }, { refetchInterval: 2000 }
+        return status;
+      } catch (err) {
+        throw err;
+      }
+    },
+    { refetchInterval: 2000 },
   );
 }

@@ -50,14 +50,14 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
   const token = useMemo(() => {
     if (chainId && tokenIsAddress) {
       return tokens.find(
-        (tk) => isAddressEqual(address, tk.address) && chainId === tk.chainId
+        (tk) => isAddressEqual(address, tk.address) && chainId === tk.chainId,
       );
     }
     if (chainId && address) {
       return tokens.find(
         (tk) =>
           address.toLowerCase() === tk.symbol.toLowerCase() &&
-          chainId === tk.chainId
+          chainId === tk.chainId,
       );
     }
 
@@ -65,7 +65,7 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
       return tokens.find(
         (tk) =>
           address.toLowerCase() === tk.name.toLowerCase() &&
-          chainId === tk.chainId
+          chainId === tk.chainId,
       );
     }
   }, [chainId, address]);
@@ -183,7 +183,7 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
             orderMarketType: tradeType,
             network: (network as string)?.toUpperCase(),
             tokenSymbol: token?.symbol.toUpperCase() || address,
-          }
+          },
         )}
         description={formatMessage(
           {
@@ -195,7 +195,7 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
             orderMarketType: tradeType,
             network: (network as string)?.toUpperCase(),
             tokenSymbol: token?.symbol.toUpperCase() || address,
-          }
+          },
         )}
       />
       <Container maxWidth={"md"}>

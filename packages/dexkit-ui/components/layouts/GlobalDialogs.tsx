@@ -17,33 +17,33 @@ import dynamic from "next/dynamic";
 
 import { selectedWalletAtom } from "@dexkit/ui/state";
 const SignMessageDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SignMessageDialog")
+  () => import("@dexkit/ui/components/dialogs/SignMessageDialog"),
 );
 const SwitchNetworkDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog")
+  () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog"),
 );
 
 import { useWalletActivate } from "@dexkit/wallet-connectors/hooks/wallet";
 
 const ConnectWalletDialog = dynamic(
-  () => import("@dexkit/ui/components/ConnectWallet/ConnectWalletDialog")
+  () => import("@dexkit/ui/components/ConnectWallet/ConnectWalletDialog"),
 );
 const WatchTransactionDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
+  () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog"),
 );
 const AppTransactionWatchDialog = dynamic(
-  () => import("@dexkit/ui/components/AppTransactionWatchDialog")
+  () => import("@dexkit/ui/components/AppTransactionWatchDialog"),
 );
 
 const HoldingKitDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/HoldingKitDialog")
+  () => import("@dexkit/ui/components/dialogs/HoldingKitDialog"),
 );
 
 const SelectCurrencyDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectCurrencyDialog")
+  () => import("@dexkit/ui/components/dialogs/SelectCurrencyDialog"),
 );
 const SelectLanguageDialog = dynamic(
-  () => import("@dexkit/ui/components/dialogs/SelectLanguageDialog")
+  () => import("@dexkit/ui/components/dialogs/SelectLanguageDialog"),
 );
 
 let runnedEagerly = false;

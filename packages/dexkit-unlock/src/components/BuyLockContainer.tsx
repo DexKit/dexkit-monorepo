@@ -66,7 +66,7 @@ export default function BuyLockContainer({ lockAddress, lockChainId }: Props) {
       setCount(count + 1);
     },
     // Delay in milliseconds or null to stop it
-    countDown === "Expired" || unlimitedDuration ? null : 1000
+    countDown === "Expired" || unlimitedDuration ? null : 1000,
   );
 
   const tokens = useTokenList({ includeNative: true, chainId: lockChainId });
@@ -74,7 +74,7 @@ export default function BuyLockContainer({ lockAddress, lockChainId }: Props) {
   const token = useMemo(() => {
     if (data && !data?.currencyContractAddress) {
       const tk = tokens.find(
-        (t) => t.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS
+        (t) => t.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS,
       );
       if (tk) {
         return {
@@ -89,7 +89,7 @@ export default function BuyLockContainer({ lockAddress, lockChainId }: Props) {
       const tk = tokens.find(
         (t) =>
           t.address.toLowerCase() ===
-          data?.currencyContractAddress?.toLowerCase()
+          data?.currencyContractAddress?.toLowerCase(),
       );
       if (tk) {
         return {

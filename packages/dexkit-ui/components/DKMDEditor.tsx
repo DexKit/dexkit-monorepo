@@ -10,7 +10,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface Props {
@@ -80,7 +80,7 @@ export default function DKMDEditor({ setValue, value }: Props) {
 
                 const after = state.text.substring(
                   state.selection.end,
-                  state.text.length
+                  state.text.length,
                 );
 
                 setTextPos({ before, after });

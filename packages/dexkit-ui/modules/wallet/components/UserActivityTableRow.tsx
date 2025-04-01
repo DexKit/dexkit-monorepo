@@ -91,7 +91,7 @@ export default function UserActivityTableRow({
           tokenOutSymbol: tokenOut?.symbol,
           tokenInSymbol: tokenIn?.symbol,
         }}
-      />
+      />,
     );
   }
 
@@ -110,7 +110,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -120,7 +120,7 @@ export default function UserActivityTableRow({
           amount: <strong>{amount}</strong>,
           symbol: <strong>{symbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -135,7 +135,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -145,7 +145,7 @@ export default function UserActivityTableRow({
           amount: <strong>{amount}</strong>,
           symbol: <strong>{symbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -160,7 +160,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -170,7 +170,7 @@ export default function UserActivityTableRow({
           amount: <strong>{amount}</strong>,
           symbol: <strong>{symbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -185,7 +185,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -195,7 +195,7 @@ export default function UserActivityTableRow({
           amount: <strong>{amount}</strong>,
           symbol: <strong>{symbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -210,7 +210,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -219,7 +219,7 @@ export default function UserActivityTableRow({
           ),
           tokens: <strong>{tokenIds.join(", ")}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -234,7 +234,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -243,7 +243,7 @@ export default function UserActivityTableRow({
           ),
           tokens: <strong>{tokenIds.join(", ")}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -258,7 +258,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -268,7 +268,7 @@ export default function UserActivityTableRow({
           amount,
           token: <strong>{tokenId}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -283,7 +283,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -293,7 +293,7 @@ export default function UserActivityTableRow({
           amount,
           token: <strong>{tokenId}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -308,7 +308,7 @@ export default function UserActivityTableRow({
           name: (
             <Link
               href={`/stake/${getNetworkSlugFromChainId(
-                event.chainId ? event.chainId : undefined
+                event.chainId ? event.chainId : undefined,
               )}/${stakeAddress}`}
               target="_blank"
             >
@@ -317,7 +317,7 @@ export default function UserActivityTableRow({
           ),
           token: <strong>{tokenId}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -340,7 +340,7 @@ export default function UserActivityTableRow({
           takerTokenSymbol,
           makerTokenSymbol,
         }}
-      />
+      />,
     );
   }
 
@@ -365,7 +365,7 @@ export default function UserActivityTableRow({
           erc721Name: <strong>{erc721Name}</strong>,
           erc721TokenId,
         }}
-      />
+      />,
     );
   }
 
@@ -390,7 +390,7 @@ export default function UserActivityTableRow({
           erc721Name: <strong>{erc721Name}</strong>,
           erc721TokenId,
         }}
-      />
+      />,
     );
   }
 
@@ -416,7 +416,7 @@ export default function UserActivityTableRow({
           erc1155Name: <strong>{erc1155Name}</strong>,
           erc1155TokenAmount,
         }}
-      />
+      />,
     );
   }
 
@@ -446,7 +446,7 @@ export default function UserActivityTableRow({
           erc1155TokenId,
           erc20Symbol: <strong>{erc20Symbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -468,7 +468,7 @@ export default function UserActivityTableRow({
           tokenOutSymbol: tokenOut?.symbol,
           tokenInSymbol: tokenIn?.symbol,
         }}
-      />
+      />,
     );
   }
 
@@ -491,7 +491,7 @@ export default function UserActivityTableRow({
           amount,
           symbol: token.symbol,
         }}
-      />
+      />,
     );
   }
 
@@ -514,7 +514,7 @@ export default function UserActivityTableRow({
           amount,
           symbol: token.symbol,
         }}
-      />
+      />,
     );
   }
 
@@ -532,7 +532,7 @@ export default function UserActivityTableRow({
           tokenOutSymbol: tokenOut?.symbol,
           tokenInSymbol: tokenIn?.symbol,
         }}
-      />
+      />,
     );
   }
 
@@ -557,7 +557,7 @@ export default function UserActivityTableRow({
           takerAmount: <strong>{takerAmount}</strong>,
           takerTokenSymbol: <strong>{takerTokenSymbol}</strong>,
         }}
-      />
+      />,
     );
   }
 
@@ -580,7 +580,7 @@ export default function UserActivityTableRow({
             </Link>
           ),
         }}
-      />
+      />,
     );
   }
 
@@ -604,7 +604,7 @@ export default function UserActivityTableRow({
         {event.hash && (
           <Link
             href={`${getBlockExplorerUrl(
-              event.chainId ? event.chainId : undefined
+              event.chainId ? event.chainId : undefined,
             )}/tx/${event.hash}`}
             target="_blank"
           >

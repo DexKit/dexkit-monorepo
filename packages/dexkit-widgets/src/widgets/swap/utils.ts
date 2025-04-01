@@ -2,8 +2,8 @@ import { Token } from "@dexkit/core/types";
 
 /**
  * Remove this function after all tokens are migrated to new interface
- * @param tk 
- * @returns 
+ * @param tk
+ * @returns
  */
 export function convertOldTokenToNew(tk?: Token) {
   //@ts-ignore

@@ -108,7 +108,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const web3ReactKey = useMemo(
     () =>
       connectors.map((connector) => getConnectorName(connector[0])).join("-"),
-    [connectors]
+    [connectors],
   );
 
   return (

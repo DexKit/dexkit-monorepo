@@ -1,6 +1,10 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 
-import { ChainId, TransactionStatus, TransactionType } from "@dexkit/core/constants/enums";
+import {
+  ChainId,
+  TransactionStatus,
+  TransactionType,
+} from "@dexkit/core/constants/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
@@ -24,13 +28,13 @@ import {
   transactionDialogRedirectUrlAtom,
   transactionTypeAtom,
   transactionValuesAtom,
-  transactionsAtom
-} from '../state/atoms';
+  transactionsAtom,
+} from "../state/atoms";
 import { isAddressEqual, tokenKey } from "../utils";
 import { NotificationCallbackParams } from "../widgets/swap/types";
 import { convertOldTokenToNew } from "../widgets/swap/utils";
 
-export { useCoinPrices } from './useCoinPrices';
+export { useCoinPrices } from "./useCoinPrices";
 
 export function useConnectWalletDialog() {
   const [isOpen, setOpen] = useAtom(isConnectWalletOpenAtom);
@@ -82,7 +86,7 @@ export function useDebounce<T>(value: any, delay: number) {
 export function useDebounceCallback<T>(
   value: T,
   callback: (value: T) => void,
-  delay: number
+  delay: number,
 ) {
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -131,16 +135,15 @@ export function useWrapToken({
 
       const chainId = (await provider?.getNetwork()).chainId;
 
-      const contractAddress = WRAPPED_TOKEN_ADDRESS(chainId) || '';
+      const contractAddress = WRAPPED_TOKEN_ADDRESS(chainId) || "";
 
       const contract = new Contract(
         contractAddress,
         WETHAbi,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       const tx = await contract.deposit({ value: amount });
-
 
       onHash(tx.hash);
 
@@ -154,7 +157,7 @@ export function useWrapToken({
           enqueueSnackbar(String(err), { variant: "error" });
         }
       },
-    }
+    },
   );
 
   const unwrapMutation = useMutation(
@@ -166,9 +169,9 @@ export function useWrapToken({
       const chainId = (await provider?.getNetwork()).chainId;
 
       const contract = new Contract(
-        WRAPPED_TOKEN_ADDRESS(chainId) || '',
+        WRAPPED_TOKEN_ADDRESS(chainId) || "",
         ["function withdraw(uint wad) public "],
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       const tx = await contract.withdraw(amount);
@@ -184,7 +187,7 @@ export function useWrapToken({
           enqueueSnackbar(String(err), { variant: "error" });
         }
       },
-    }
+    },
   );
 
   return { wrapMutation, unwrapMutation };
@@ -193,7 +196,7 @@ export function useWrapToken({
 export function useAsyncMemo<T>(
   cb: (initial: T) => Promise<T>,
   initial: T,
-  args: unknown[]
+  args: unknown[],
 ) {
   const [result, setResult] = useState<T>(initial);
 
@@ -272,10 +275,6 @@ export function useMultiTokenBalance({
 
 export const COIN_PRICES_QUERY = "COIN_PRICES_QUERY";
 
-
-
-
-
 export const GAS_PRICE_QUERY = "";
 
 export function useGasPrice({
@@ -292,10 +291,9 @@ export function useGasPrice({
 
       return BigNumber.from(0);
     },
-    { refetchInterval: 20000 }
+    { refetchInterval: 20000 },
   );
 }
-
 
 export function useTransactionDialog() {
   const updateTransactions = useUpdateAtom(transactionsAtom);
@@ -309,7 +307,7 @@ export function useTransactionDialog() {
   const [values, setValues] = useAtom(transactionValuesAtom);
 
   const [redirectUrl, setRedirectUrl] = useAtom(
-    transactionDialogRedirectUrlAtom
+    transactionDialogRedirectUrlAtom,
   );
 
   const { chainId } = useWeb3React();
@@ -341,7 +339,7 @@ export function useTransactionDialog() {
         setType(undefined);
       }
     },
-    []
+    [],
   );
 
   const setDialogError = useCallback(
@@ -350,7 +348,7 @@ export function useTransactionDialog() {
         setError(error);
       }
     },
-    [setError, isOpen]
+    [setError, isOpen],
   );
 
   const addTransaction = useCallback(
@@ -371,7 +369,7 @@ export function useTransactionDialog() {
         }));
       }
     },
-    [chainId]
+    [chainId],
   );
 
   return {
@@ -403,15 +401,14 @@ export function useRecentTokens() {
   const add = useCallback((token: Token) => {
     setRecentTokens((recentTokens) => {
       let copyRecentTokens = [...recentTokens];
-      let recentToken = recentTokens.map(v => {
-        return {
-          count: v.count,
-          token: convertOldTokenToNew(v.token) as Token
-        }
-      })
-        .find(
-          (r) => tokenKey(r.token) === tokenKey(token)
-        );
+      let recentToken = recentTokens
+        .map((v) => {
+          return {
+            count: v.count,
+            token: convertOldTokenToNew(v.token) as Token,
+          };
+        })
+        .find((r) => tokenKey(r.token) === tokenKey(token));
 
       if (recentToken) {
         recentToken.count = recentToken.count + 1;

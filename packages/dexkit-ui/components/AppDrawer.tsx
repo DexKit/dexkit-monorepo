@@ -52,7 +52,7 @@ import { ThemeModeSelector } from "./ThemeModeSelector";
 import { useRouter } from "next/router";
 
 const ScanWalletQrCodeDialog = dynamic(
-  async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
+  async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog"),
 );
 
 const CustomListItemSecondaryAction = styled(ListItemSecondaryAction)({

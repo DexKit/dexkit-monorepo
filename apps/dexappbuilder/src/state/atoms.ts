@@ -15,7 +15,6 @@ import {
 import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { Asset } from '@dexkit/ui/modules/nft/types';
 
-
 export const referralAtom = atom<string | undefined>(undefined);
 
 export const appStateAtom = atomWithStorage<AppState>('appState', {
@@ -45,7 +44,7 @@ export const transactionsAtom = focusAtom<
 
 export const isBalancesVisibleAtom = focusAtom<AppState, boolean, void>(
   appStateAtom,
-  (o) => o.prop('isBalancesVisible')
+  (o) => o.prop('isBalancesVisible'),
 );
 
 export const pendingTransactionsAtom = atom<any, any>(
@@ -64,11 +63,11 @@ export const pendingTransactionsAtom = atom<any, any>(
   },
   (get, set, arg) => {
     return set(transactionsAtom, arg);
-  }
+  },
 );
 
 export const hasPendingTransactionsAtom = atom(
-  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0
+  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0,
 );
 
 export const uncheckedTransactionsAtom = atom((get) =>
@@ -78,17 +77,17 @@ export const uncheckedTransactionsAtom = atom((get) =>
 
       return transactions[key];
     })
-    .filter((t) => !t.checked)
+    .filter((t) => !t.checked),
 );
 
 export const tokensAtom = focusAtom<AppState, Token[], void>(
   appStateAtom,
-  (o) => o.prop('tokens')
+  (o) => o.prop('tokens'),
 );
 
 export const currencyAtom = focusAtom<AppState, string, void>(
   appStateAtom,
-  (o) => o.prop('currency')
+  (o) => o.prop('currency'),
 );
 
 export const userThemeModeAtom = focusAtom<
@@ -98,22 +97,22 @@ export const userThemeModeAtom = focusAtom<
 >(appStateAtom, (o) => o.prop('themeMode'));
 
 export const localeAtom = focusAtom<AppState, string, void>(appStateAtom, (o) =>
-  o.prop('locale')
+  o.prop('locale'),
 );
 
 export const currencyUserAtom = focusAtom<AppState, string, void>(
   appStateAtom,
-  (o) => o.prop('currencyUser')
+  (o) => o.prop('currencyUser'),
 );
 
 export const localeUserAtom = focusAtom<AppState, string, void>(
   appStateAtom,
-  (o) => o.prop('localeUser')
+  (o) => o.prop('localeUser'),
 );
 
 export const assetsAtom = focusAtom<AppState, { [key: string]: Asset }, void>(
   appStateAtom,
-  (o) => o.prop('assets')
+  (o) => o.prop('assets'),
 );
 
 export const accountAssetsAtom = focusAtom<
@@ -147,11 +146,11 @@ export const transactionDialogMetadataAtom = atom<
 
 /** @deprecated */
 export const transactionDialogTypeAtom = atom<TransactionType | undefined>(
-  undefined
+  undefined,
 );
 
 export const transactionValuesAtom = atom<Record<string, any> | undefined>(
-  undefined
+  undefined,
 );
 
 export const transactionTypeAtom = atom<string | undefined>(undefined);
@@ -160,7 +159,7 @@ export const switchNetworkOpenAtom = atom(false);
 export const switchNetworkChainIdAtom = atom<number | undefined>(undefined);
 
 export const transactionDialogRedirectUrlAtom = atom<string | undefined>(
-  undefined
+  undefined,
 );
 
 export const drawerIsOpenAtom = atom(false);
@@ -171,12 +170,12 @@ export const holdsKitDialogAtom = atom(false);
 
 export const isAutoSlippageAtom = atomWithStorage<boolean>(
   'isAutoSlippage',
-  true
+  true,
 );
 
 export const isMiniSidebarAtom = atomWithStorage<boolean>(
   'isMiniSidebar',
-  false
+  false,
 );
 
 export const maxSlippageAtom = atomWithStorage<number>('maxSlippage', 0.0);
@@ -198,5 +197,5 @@ export const gaslessTradesAtom = atomWithStorage<{
 
 export const notificationsAtom = atomWithStorage<AppNotification[]>(
   'dexkit.notifications',
-  []
+  [],
 );

@@ -57,7 +57,7 @@ interface ValuesType {
 }
 
 export default function MagicTxConfirmDialog(
-  props: TransactionConfirmDialogProps
+  props: TransactionConfirmDialogProps,
 ) {
   const { data, onCancel, onConfirm, currency } = props;
   const { dialogProps } = props;
@@ -168,7 +168,7 @@ export default function MagicTxConfirmDialog(
         });
       }
     },
-    [values]
+    [values],
   );
 
   useEffect(() => {
@@ -204,16 +204,16 @@ export default function MagicTxConfirmDialog(
             if (chainId && hasLondonHardForkSupport(chainId)) {
               if (chainId === ChainId.Polygon) {
                 const estimatedFeeResponse = await fetch(
-                  "https://gasstation.polygon.technology/v2"
+                  "https://gasstation.polygon.technology/v2",
                 );
                 const estimatedFee = await estimatedFeeResponse.json();
                 vals.maxFeePerGas = parseUnits(
                   String(estimatedFee["fast"].maxFee.toFixed(6)),
-                  "gwei"
+                  "gwei",
                 );
                 vals.maxPriorityFeePerGas = parseUnits(
                   String(estimatedFee["fast"].maxPriorityFee.toFixed(6)),
-                  "gwei"
+                  "gwei",
                 );
               } else {
                 let result = await estimateFees(provider);
@@ -221,7 +221,7 @@ export default function MagicTxConfirmDialog(
                 vals.maxFeePerGas = BigNumber.from(result.maxFeePerGas);
 
                 vals.maxPriorityFeePerGas = BigNumber.from(
-                  result.maxPriorityFeePerGas
+                  result.maxPriorityFeePerGas,
                 );
               }
             } else {
@@ -243,21 +243,21 @@ export default function MagicTxConfirmDialog(
         cost = parseFloat(
           formatEther(
             values.gasLimit?.mul(values.maxFeePerGas || BigNumber.from(0)) ||
-              BigNumber.from(0)
-          )
+              BigNumber.from(0),
+          ),
         );
       } else {
         cost = parseFloat(
           formatEther(
             values.gasLimit?.mul(values.gasPrice || BigNumber.from(0)) ||
-              BigNumber.from(0)
-          )
+              BigNumber.from(0),
+          ),
         );
       }
 
       return cost;
     },
-    [isEIP1559]
+    [isEIP1559],
   );
 
   return (
@@ -399,7 +399,7 @@ export default function MagicTxConfirmDialog(
                               size="small"
                               value={formatUnits(
                                 values.maxPriorityFeePerGas?.toString() || "0",
-                                "gwei"
+                                "gwei",
                               )}
                               onChange={handleChange}
                               name="maxPriorityFeePerGas"
@@ -418,7 +418,7 @@ export default function MagicTxConfirmDialog(
                               size="small"
                               value={formatUnits(
                                 values.maxFeePerGas?.toString() || "0",
-                                "gwei"
+                                "gwei",
                               )}
                               onChange={handleChange}
                               name="maxFeePerGas"
@@ -440,7 +440,7 @@ export default function MagicTxConfirmDialog(
                               size="small"
                               value={formatUnits(
                                 values.gasPrice?.toString() || "0",
-                                "gwei"
+                                "gwei",
                               )}
                               onChange={handleChange}
                               name="gasPrice"

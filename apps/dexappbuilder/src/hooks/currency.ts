@@ -6,7 +6,10 @@ import axios from 'axios';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
 
-import { COINGECKO_ENDPOIT, COINGECKO_PLATFORM_ID } from '@dexkit/core/constants';
+import {
+  COINGECKO_ENDPOIT,
+  COINGECKO_PLATFORM_ID,
+} from '@dexkit/core/constants';
 import { NETWORKS } from '../constants/chain';
 import { currencyAtom, currencyUserAtom } from '../state/atoms';
 import { useAppConfig } from './app';
@@ -21,15 +24,13 @@ export function useCurrency(): string {
       return currUser;
     }
     if (appConfig.currency && appConfig.currency !== curr) {
-      return appConfig.currency
+      return appConfig.currency;
     }
-    return curr || 'usd' as string;
-  }, [appConfig.locale, curr, currUser])
+    return curr || ('usd' as string);
+  }, [appConfig.locale, curr, currUser]);
 
   return currency || 'usd';
 }
-
-
 
 export const GET_FIAT_RATION = 'GET_FIAT_RATION';
 
@@ -56,11 +57,11 @@ export function useFiatRatio({
       }
 
       const response = await axios.get(
-        `${COINGECKO_ENDPOIT}/simple/token_price/${platformId}?contract_addresses=${contractAddress}&vs_currencies=${currency}`
+        `${COINGECKO_ENDPOIT}/simple/token_price/${platformId}?contract_addresses=${contractAddress}&vs_currencies=${currency}`,
       );
 
       return response.data[contractAddress][currency];
-    }
+    },
   );
 }
 
@@ -88,6 +89,6 @@ export const useNativeCoinPriceQuery = (defaultChainId?: number) => {
         }
       }
     },
-    { enabled: provider !== undefined, suspense: true }
+    { enabled: provider !== undefined, suspense: true },
   );
 };

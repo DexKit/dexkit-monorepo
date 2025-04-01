@@ -1,5 +1,4 @@
-
-import { NETWORKS as NETWORKS_CORE } from "@dexkit/core/constants/networks";
+import { NETWORKS as NETWORKS_CORE } from '@dexkit/core/constants/networks';
 
 export const NETWORKS = NETWORKS_CORE;
 
@@ -145,4 +144,3 @@ export const NETWORKS = NETWORKS_CORE;
     },
   }
 };*/
-

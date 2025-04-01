@@ -2,7 +2,6 @@ import { ChainId } from '@dexkit/core';
 import { AppPageOptions } from '@dexkit/ui/modules/wizard/types/config';
 import { SectionMetadata } from '@dexkit/ui/modules/wizard/types/section';
 
-
 export const MAX_FEES = 10;
 
 export const UNISWAP_DEFAULT_TOKENLIST_URL = 'https://tokens.uniswap.org/';
@@ -56,7 +55,6 @@ export const CUSTOM_PAGE: { [key: string]: AppPageOptions } = {
     title: 'Custom',
     uri: '/custom-page-dexappbuilder',
   },
-
 };
 
 export enum BuilderKit {
@@ -105,5 +103,5 @@ export const DARKBLOCK_SUPPORTED_CHAIN_IDS = [
   ChainId.Avax,
   ChainId.Base,
   ChainId.Goerli,
-  ChainId.Mumbai
-]
+  ChainId.Mumbai,
+];

@@ -1,13 +1,18 @@
 import { TransactionStatus, TransactionType } from "@dexkit/core/constants";
-import { AppTransaction, Token, Transaction, TransactionMetadata } from "@dexkit/core/types";
+import {
+  AppTransaction,
+  Token,
+  Transaction,
+  TransactionMetadata,
+} from "@dexkit/core/types";
 import { AppNotification } from "@dexkit/ui/types";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { AppState } from "../../types";
 
-export const transactionsAtom = atom<{ [key: string]: Transaction } | undefined>(undefined);
-
-
+export const transactionsAtom = atom<
+  { [key: string]: Transaction } | undefined
+>(undefined);
 
 export const isConnectWalletOpenAtom = atom(false);
 export const transactionDialogOpenAtom = atom(false);
@@ -19,11 +24,11 @@ export const transactionDialogMetadataAtom = atom<
 
 /** @deprecated */
 export const transactionDialogTypeAtom = atom<TransactionType | undefined>(
-  undefined
+  undefined,
 );
 
 export const transactionValuesAtom = atom<Record<string, any> | undefined>(
-  undefined
+  undefined,
 );
 
 export const transactionTypeAtom = atom<string | undefined>(undefined);
@@ -32,19 +37,18 @@ export const switchNetworkOpenAtom = atom(false);
 export const switchNetworkChainIdAtom = atom<number | undefined>(undefined);
 
 export const transactionDialogRedirectUrlAtom = atom<string | undefined>(
-  undefined
+  undefined,
 );
 
-
-export const selectedWalletAtom = atomWithStorage<string>('connector', '');
+export const selectedWalletAtom = atomWithStorage<string>("connector", "");
 
 export const transactionsAtomV2 = atomWithStorage<{
   [key: string]: AppTransaction;
-}>('dexkit.transactions', {});
+}>("dexkit.transactions", {});
 
 export const notificationsAtom = atomWithStorage<AppNotification[]>(
-  'dexkit.notifications',
-  []
+  "dexkit.notifications",
+  [],
 );
 
 export const recentTokensAtom = atomWithStorage<
@@ -54,8 +58,6 @@ export const recentTokensAtom = atomWithStorage<
 export const appStateAtom = atomWithStorage<AppState>("appState", {
   transactions: {},
 });
-
-
 
 export const pendingTransactionsAtom = atom<any, any>(
   (get) => {
@@ -75,7 +77,7 @@ export const pendingTransactionsAtom = atom<any, any>(
   },
   (get, set, arg) => {
     return set(transactionsAtom, arg);
-  }
+  },
 );
 
 export const uncheckedTransactionsAtom = atom((get) => {
@@ -91,5 +93,5 @@ export const uncheckedTransactionsAtom = atom((get) => {
 });
 
 export const hasPendingTransactionsAtom = atom(
-  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0
+  (get) => Object.keys(get(pendingTransactionsAtom)).length > 0,
 );

@@ -53,23 +53,23 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
   const { data: stakingTokenAddress } = useContractRead(
     contract,
-    "stakingToken"
+    "stakingToken",
   );
 
   const { data: stakeInfo, refetch: refetchStakeInfo } = useContractRead(
     contract,
     "getStakeInfo",
-    [account]
+    [account],
   );
 
   const { data: rewardToken, isLoading: isLoadingRewardToken } = useContract(
     rewardTokenAddress || "",
-    "token"
+    "token",
   );
 
   const { data: stakingToken } = useContract(
     stakingTokenAddress || "",
-    "token"
+    "token",
   );
 
   const rewardRatioQuery = useContractRead(contract, "getRewardRatio");
@@ -146,12 +146,12 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
     ["STAKING_TOKEN_ALLOWANCE", rewardTokenAddress],
     async () => {
       return await stakingToken?.erc20.allowance(address);
-    }
+    },
   );
 
   const { data: rewardsBalance } = useContractRead(
     contract,
-    "getRewardTokenBalance"
+    "getRewardTokenBalance",
   );
 
   const { chainId } = useWeb3React();
@@ -163,7 +163,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       return await rewardToken?.get();
     },
     undefined,
-    [rewardToken]
+    [rewardToken],
   );
 
   const stakingTokenInfo = useAsyncMemo(
@@ -171,7 +171,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       return await stakingToken?.get();
     },
     undefined,
-    [stakingToken]
+    [stakingToken],
   );
 
   const trackEventMutation = useTrackUserEventsMutation();
@@ -186,7 +186,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
         const values = {
           amount: `${formatUnits(
             amount,
-            stakingTokenBalance?.decimals
+            stakingTokenBalance?.decimals,
           )} ${stakingTokenBalance?.symbol}`,
           name: rewardTokenInfo?.name || "",
         };
@@ -213,7 +213,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
           account,
         }),
       });
-    }
+    },
   );
 
   const unstakeMutation = useMutation(
@@ -226,7 +226,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
         const values = {
           amount: `${formatUnits(
             amount,
-            stakingTokenBalance?.decimals
+            stakingTokenBalance?.decimals,
           )} ${stakingTokenBalance?.symbol}`,
           name: rewardTokenInfo?.name || "",
         };
@@ -255,7 +255,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       });
       refetchStakingTokenBalance();
       refetchStakeInfo();
-    }
+    },
   );
 
   const handleSubmit = async ({ amount }: { amount: string }) => {
@@ -351,7 +351,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
     const amountParsed = parseUnits(
       amount || "0",
-      stakingTokenBalance?.decimals
+      stakingTokenBalance?.decimals,
     );
 
     if (amountParsed.isZero()) {
@@ -376,7 +376,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
     const amountParsed = parseUnits(
       amount || "0",
-      stakingTokenBalance?.decimals
+      stakingTokenBalance?.decimals,
     );
 
     if (amountParsed.isZero()) {
@@ -482,7 +482,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                               {rewardTokenBalance && stakeInfo?.length > 1 ? (
                                 `${formatBigNumber(
                                   stakeInfo[1],
-                                  rewardTokenBalance.decimals
+                                  rewardTokenBalance.decimals,
                                 )} ${rewardTokenBalance?.symbol}`
                               ) : (
                                 <Skeleton />
@@ -513,7 +513,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                                   onClick={() =>
                                     setFieldValue(
                                       "amount",
-                                      stakingTokenBalance?.displayValue
+                                      stakingTokenBalance?.displayValue,
                                     )
                                   }
                                 >
@@ -645,7 +645,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                                   onClick={() =>
                                     setFieldValue(
                                       "amount",
-                                      tokensStakedValueFormatted
+                                      tokensStakedValueFormatted,
                                     )
                                   }
                                 >

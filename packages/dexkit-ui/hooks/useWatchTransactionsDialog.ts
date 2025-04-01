@@ -1,4 +1,8 @@
-import { ChainId, TransactionStatus, TransactionType } from "@dexkit/core/constants/enums";
+import {
+  ChainId,
+  TransactionStatus,
+  TransactionType,
+} from "@dexkit/core/constants/enums";
 import { AppTransaction, TransactionMetadata } from "@dexkit/core/types";
 import { PrimitiveAtom } from "jotai";
 import { useUpdateAtom } from "jotai/utils";
@@ -54,7 +58,7 @@ export function useWatchTransactionDialog({
         setError(undefined);
       }
     },
-    []
+    [],
   );
 
   const setDialogError = useCallback(
@@ -63,7 +67,7 @@ export function useWatchTransactionDialog({
         setError(error);
       }
     },
-    [setError, isOpen]
+    [setError, isOpen],
   );
 
   const addTransaction = ({

@@ -1,13 +1,14 @@
-import { getContractAddressesForChainOrThrow } from '@0x/contract-addresses';
-import { ChainId, MULTICALL_NATIVE_TOKEN_ADDRESS } from '@dexkit/core/constants';
-import { ERC1155Abi, ERC20Abi } from '@dexkit/core/constants/abis';
-import { BigNumber, Contract, providers, utils } from 'ethers';
+import { getContractAddressesForChainOrThrow } from "@0x/contract-addresses";
+import {
+  ChainId,
+  MULTICALL_NATIVE_TOKEN_ADDRESS,
+} from "@dexkit/core/constants";
+import { ERC1155Abi, ERC20Abi } from "@dexkit/core/constants/abis";
+import { BigNumber, Contract, providers, utils } from "ethers";
 import { DEXKIT } from "../constants";
 
-import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
-import { parseEther } from '@dexkit/core/utils/ethers/parseEther';
-
-
+import { getChainIdFromSlug } from "@dexkit/core/utils/blockchain";
+import { parseEther } from "@dexkit/core/utils/ethers/parseEther";
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
@@ -15,16 +16,14 @@ import { Token } from "@dexkit/core/types";
 import { TokenBalance } from "../modules/wallet/types";
 import {
   getMulticallTokenBalances,
-  getMulticallTokenBalancesAndAllowances
-} from './multical';
-
-
+  getMulticallTokenBalancesAndAllowances,
+} from "./multical";
 
 export const getERC20Balances = async (
   account: string,
   tokens: Token[],
   chainId: ChainId,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   const tokensByChainId = tokens.filter((t) => Number(t.chainId) === chainId);
 
@@ -39,7 +38,7 @@ export const getERC20Balances = async (
   const multicallBalanceResult = await getMulticallTokenBalances(
     tokenAddressesWithNative,
     account,
-    provider
+    provider,
   );
 
   if (multicallBalanceResult) {
@@ -66,10 +65,9 @@ export const getERC20WithProxyUnlockedBalances = async (
   account: string,
   tokens: Token[],
   chainId: ChainId,
-  provider: providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider,
 ) => {
   const tokensByChainId = tokens.filter((t) => Number(t.chainId) === chainId);
-
 
   const zrxContracts = getContractAddressesForChainOrThrow(chainId as number);
 
@@ -86,7 +84,7 @@ export const getERC20WithProxyUnlockedBalances = async (
     tokenAddressesWithNative,
     account,
     exchangeProxy,
-    provider
+    provider,
   );
 
   const balances: TokenBalance[] = [];
@@ -108,7 +106,7 @@ export const getERC20WithProxyUnlockedBalances = async (
         isProxyUnlocked:
           addr === MULTICALL_NATIVE_TOKEN_ADDRESS
             ? true
-            : tokenBalances[addr].allowance.gt(parseEther('10')),
+            : tokenBalances[addr].allowance.gt(parseEther("10")),
       };
     }) as TokenBalance[];
 
@@ -122,52 +120,64 @@ export const getERC20TokenAllowance = async (
   provider: providers.BaseProvider,
   tokenAddress: string,
   account: string,
-  spender: string
+  spender: string,
 ): Promise<BigNumber> => {
   const contract = new Contract(tokenAddress, ERC20Abi, provider);
 
   return await contract.allowance(account, spender);
 };
 
-
-
-
-
-
-export async function getBalanceOf(networkId: string, address: string, owner: string) {
+export async function getBalanceOf(
+  networkId: string,
+  address: string,
+  owner: string,
+) {
   const network = NETWORKS[getChainIdFromSlug(networkId)?.chainId as any];
   if (!network) {
-    throw new Error('network not supported')
+    throw new Error("network not supported");
   }
   const iface = new utils.Interface(ERC20Abi);
-  const provider = new providers.JsonRpcProvider(network.providerRpcUrl)
+  const provider = new providers.JsonRpcProvider(network.providerRpcUrl);
   const contract = new Contract(address, iface, provider);
   return (await contract.balanceOf(owner)) as BigNumber;
 }
 
-export async function getBalanceOfERC1155(networkId: string, address: string, owner: string, tokenId: string) {
+export async function getBalanceOfERC1155(
+  networkId: string,
+  address: string,
+  owner: string,
+  tokenId: string,
+) {
   const network = NETWORKS[getChainIdFromSlug(networkId)?.chainId as any];
   if (!network) {
-    throw new Error('network not supported')
+    throw new Error("network not supported");
   }
   const iface = new utils.Interface(ERC1155Abi);
-  const provider = new providers.JsonRpcProvider(network.providerRpcUrl)
+  const provider = new providers.JsonRpcProvider(network.providerRpcUrl);
   const contract = new Contract(address, iface, provider);
   return (await contract.balanceOf(owner, tokenId)) as BigNumber;
 }
 
-export async function getKitBalanceOfThreshold(owner: string, amountUnits: string) {
+export async function getKitBalanceOfThreshold(
+  owner: string,
+  amountUnits: string,
+) {
   const networks = Object.keys(DEXKIT);
   let hasKit = 0;
   for (const network of networks) {
     //@ts-ignore
-    const balanceOf = await getBalanceOf(network, DEXKIT[network].address, owner);
+    const balanceOf = await getBalanceOf(
+      network,
+      DEXKIT[network].address,
+      owner,
+    );
     //@ts-ignore
-    const thresholdUnits = BigNumber.from(amountUnits).mul(BigNumber.from(10).pow(DEXKIT[network].decimals));
+    const thresholdUnits = BigNumber.from(amountUnits).mul(
+      BigNumber.from(10).pow(DEXKIT[network].decimals),
+    );
     if (balanceOf.gte(thresholdUnits)) {
       hasKit++;
     }
   }
   return hasKit;
-
 }

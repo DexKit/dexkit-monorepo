@@ -59,7 +59,7 @@ export default function AppConnectWalletDialog({ dialogProps }: Props) {
   const handleActivateWallet = async (
     connectorName: string,
     loginType?: MagicLoginType,
-    email?: string
+    email?: string,
   ) => {
     setConnectorName(connectorName);
     setLoginType(loginType);
@@ -160,7 +160,7 @@ export default function AppConnectWalletDialog({ dialogProps }: Props) {
                     sx={(theme) => ({
                       background: lighten(
                         theme.palette.background.default,
-                        0.05
+                        0.05,
                       ),
                       padding: theme.spacing(1),
                       width: 'auto',
@@ -197,7 +197,7 @@ export default function AppConnectWalletDialog({ dialogProps }: Props) {
                     sx={(theme) => ({
                       background: lighten(
                         theme.palette.background.default,
-                        0.05
+                        0.05,
                       ),
                       padding: theme.spacing(1),
                       width: 'auto',
@@ -233,7 +233,7 @@ export default function AppConnectWalletDialog({ dialogProps }: Props) {
                     sx={(theme) => ({
                       background: lighten(
                         theme.palette.background.default,
-                        0.05
+                        0.05,
                       ),
                       padding: theme.spacing(1),
                       width: 'auto',

@@ -98,7 +98,7 @@ export default function SelectPairDialog({
         isAddressEqual(token.address, other.address)
       );
     },
-    [baseToken]
+    [baseToken],
   );
 
   const handleToggleBaseToken = useCallback(
@@ -107,7 +107,7 @@ export default function SelectPairDialog({
         setQuoteToken(token);
       };
     },
-    [baseToken]
+    [baseToken],
   );
 
   const [query, setQuery] = useState("");

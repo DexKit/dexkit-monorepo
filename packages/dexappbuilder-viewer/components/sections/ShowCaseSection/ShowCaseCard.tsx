@@ -55,7 +55,7 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
           contractAddress: item.contractAddress,
           provider: providerQuery.data,
         }
-      : undefined
+      : undefined,
   );
 
   if (item.type === "image") {

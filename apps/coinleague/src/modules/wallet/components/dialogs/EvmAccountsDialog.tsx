@@ -73,7 +73,7 @@ export default function EvmAccountsDialog({
           id: 'account.removed',
           defaultMessage: 'Account removed',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
     setSelectedAccount(undefined);
@@ -108,7 +108,7 @@ export default function EvmAccountsDialog({
           id: 'address.copied',
           defaultMessage: 'Address copied',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
   };
@@ -117,7 +117,7 @@ export default function EvmAccountsDialog({
     if (selectedAccount) {
       window.open(
         `${getBlockExplorerUrl(chainId)}/address/${selectedAccount.address}`,
-        '_blank'
+        '_blank',
       );
 
       setSelectedAccount(undefined);

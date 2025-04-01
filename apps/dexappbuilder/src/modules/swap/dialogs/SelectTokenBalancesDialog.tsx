@@ -1,20 +1,20 @@
 import { ChainId, TOKEN_ICON_URL } from '@dexkit/core/constants';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Avatar,
-    Dialog,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Skeleton,
-    TextField,
-    Typography,
+  Avatar,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Skeleton,
+  TextField,
+  Typography,
 } from '@mui/material';
 import { memo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -82,7 +82,7 @@ export default function MarketBuyForm({
     if (quote && quoteTokenBalance) {
       const total = formatBigNumber(
         BigNumber.from(quote.sellAmount),
-        quoteToken.decimals
+        quoteToken.decimals,
       );
 
       const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.sellAmount));

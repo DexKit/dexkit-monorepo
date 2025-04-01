@@ -18,8 +18,7 @@ export default function useProduct(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/products/${params.id}`))
-        .data;
+      return (await instance.get(`/products/${params.id}`)).data;
     },
     {
       refetchOnWindowFocus: 'always',

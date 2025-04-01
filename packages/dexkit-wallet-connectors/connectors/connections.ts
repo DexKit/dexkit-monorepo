@@ -1,11 +1,11 @@
+import { NETWORKS } from "@dexkit/core/constants/networks";
 
-
-import { NETWORKS } from '@dexkit/core/constants/networks';
-
-
-import { getIsCoinbaseWallet, getIsInjected, getIsMetaMaskWallet } from '../constants/connectors/utils';
-import { isMobile } from '../utils/userAgent';
-
+import {
+  getIsCoinbaseWallet,
+  getIsInjected,
+  getIsMetaMaskWallet,
+} from "../constants/connectors/utils";
+import { isMobile } from "../utils/userAgent";
 
 const rpcs: { [key: number]: string } = {};
 
@@ -16,29 +16,24 @@ for (const key in NETWORKS) {
 }
 
 function onError(error: Error) {
-  console.debug(`web3-react error: ${error}`)
+  console.debug(`web3-react error: ${error}`);
 }
-
-
-
 
 // Since eip6963 wallet are `announced` dynamically after compile-time, but web3provider required connectors to be statically defined,
 // we define a static eip6963Connection object that provides access to all eip6963 wallets. The `wrap` function is used to obtain a copy
 // of the connection with metadata & activation for a specific extension/provider.
 
-const getIsCoinbaseWalletBrowser = () => isMobile && getIsCoinbaseWallet()
-const getIsMetaMaskBrowser = () => isMobile && getIsMetaMaskWallet()
-export const getIsInjectedMobileBrowser = () => getIsCoinbaseWalletBrowser() || getIsMetaMaskBrowser()
+const getIsCoinbaseWalletBrowser = () => isMobile && getIsCoinbaseWallet();
+const getIsMetaMaskBrowser = () => isMobile && getIsMetaMaskWallet();
+export const getIsInjectedMobileBrowser = () =>
+  getIsCoinbaseWalletBrowser() || getIsMetaMaskBrowser();
 const getShouldAdvertiseMetaMask = () =>
-  !getIsMetaMaskWallet() && !isMobile && (!getIsInjected() || getIsCoinbaseWallet())
+  !getIsMetaMaskWallet() &&
+  !isMobile &&
+  (!getIsInjected() || getIsCoinbaseWallet());
 
-const getIsGenericInjector = () => getIsInjected() && !getIsMetaMaskWallet() && !getIsCoinbaseWallet()
-
-
-
-
-
-
+const getIsGenericInjector = () =>
+  getIsInjected() && !getIsMetaMaskWallet() && !getIsCoinbaseWallet();
 
 /*const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<CoinbaseWallet>(
   (actions) =>
@@ -68,8 +63,3 @@ export const coinbaseWalletConnection: Connection = {
     return false
   },
 }*/
-
-
-
-
-

@@ -27,7 +27,7 @@ export const isTokenEqual = (token?: Token, other?: Token) => {
 
 export const getExpirationTimeFromSeconds = (seconds: BigNumber) => {
   return new BigNumber(
-    Math.floor(new Date().valueOf() / 1000) + seconds.toNumber()
+    Math.floor(new Date().valueOf() / 1000) + seconds.toNumber(),
   );
 };
 
@@ -61,7 +61,7 @@ export async function createZrxOrder({
     taker: constants.AddressZero,
     sender: constants.AddressZero,
     expiry: new BigNumber(
-      getExpirationTimeFromSeconds(new BigNumber(expirationTime))
+      getExpirationTimeFromSeconds(new BigNumber(expirationTime)),
     ),
     maker,
     chainId,
@@ -73,7 +73,7 @@ export async function createZrxOrder({
   if (window.ethereum) {
     const signature = await order.getSignatureWithProviderAsync(
       window.ethereum as any,
-      SignatureType.EIP712
+      SignatureType.EIP712,
     );
 
     return { ...order, signature };
@@ -88,11 +88,11 @@ export function getZrxExchangeAddress(chainId?: ChainId) {
 
 export class BigNumberUtils {
   protected oneBN: EthersBigNumber = parseUnits("1", 18);
-  constructor() { }
+  constructor() {}
 
   public multiply(
     bn: EthersBigNumber | string,
-    number: number | string
+    number: number | string,
   ): EthersBigNumber {
     const bnForSure = EthersBigNumber.from(bn);
     const numberBN = parseUnits(number.toString() || "0.0", 18);
@@ -102,7 +102,7 @@ export class BigNumberUtils {
 
   public divide(
     bn: EthersBigNumber | string,
-    number: number | string
+    number: number | string,
   ): EthersBigNumber {
     const bnForSure = EthersBigNumber.from(bn);
     const numberBN = parseUnits(number.toString() || "0.0", 18);

@@ -1,10 +1,10 @@
-import Link from '@dexkit/ui/components/AppLink';
-import { Stack, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import React from 'react';
+import Link from "@dexkit/ui/components/AppLink";
+import { Stack, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import React from "react";
 
-import { SlideAction } from '@dexkit/ui/modules/wizard/types/section';
+import { SlideAction } from "@dexkit/ui/modules/wizard/types/section";
 
 export interface SlideProps {
   title: React.ReactNode;
@@ -30,37 +30,37 @@ export default function Slide({
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Box
         sx={(theme) => ({
-          position: 'relative',
+          position: "relative",
           height: height?.mobile !== undefined ? height?.mobile : 250,
-          [theme.breakpoints.up('sm')]: {
+          [theme.breakpoints.up("sm")]: {
             height: height?.desktop !== undefined ? height?.desktop : 500,
           },
-          width: '100%',
+          width: "100%",
         })}
       >
         <Box
           sx={{
             backgroundImage: `linear-gradient(0deg, ${overlayColor} 0%, rgba(0,0,0,0) ${overlayPercentage}%), url("${imageUrl}")`,
-            aspectRation: '16/9',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            display: 'block',
+            aspectRation: "16/9",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            display: "block",
           }}
         />
         <Stack
           sx={{
-            position: 'absolute',
-            display: 'block',
+            position: "absolute",
+            display: "block",
             bottom: (theme) => theme.spacing(4),
             left: (theme) => theme.spacing(4),
             right: (theme) => theme.spacing(4),
@@ -91,7 +91,7 @@ export default function Slide({
           </Box>
           {action && (
             <Box>
-              {action.type === 'link' && action.caption && (
+              {action.type === "link" && action.caption && (
                 <Button
                   variant="contained"
                   LinkComponent={Link}
@@ -100,7 +100,7 @@ export default function Slide({
                   {action.caption}
                 </Button>
               )}
-              {action.type === 'page' && action.caption && (
+              {action.type === "page" && action.caption && (
                 <Button
                   variant="contained"
                   LinkComponent={Link}

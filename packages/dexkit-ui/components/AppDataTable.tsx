@@ -37,7 +37,7 @@ type ColumnType = {
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
+    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
   ) => void;
   columns: ColumnType[];
   data: any[];
@@ -84,7 +84,7 @@ function EditToolbar(props: EditToolbarProps) {
                 defaultMessage="Invalid file: column {column} is missing"
                 values={{ column: column.name }}
               />,
-              { variant: "error" }
+              { variant: "error" },
             );
             return;
           }
@@ -178,7 +178,7 @@ export default function AppDataTable<
   const [rows, setRows] = useState<Z[]>(
     data.map((item, index) => {
       return { ...item, isNew: false, id: index.toString() };
-    })
+    }),
   );
 
   useEffect(() => {
@@ -190,7 +190,7 @@ export default function AppDataTable<
         delete newRow.isNew;
 
         return newRow;
-      })
+      }),
     );
   }, [rows]);
 
@@ -218,7 +218,7 @@ export default function AppDataTable<
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
-    event
+    event,
   ) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;

@@ -43,7 +43,7 @@ export const useCoinLeagueFactoryRoutes = (isNFT = false) => {
         }
       }
     },
-    [room, isNFTGame, chainFromSearchName]
+    [room, isNFTGame, chainFromSearchName],
   );
 
   const activeGamesRoute = useMemo(() => {

@@ -50,7 +50,7 @@ export function EvmSendForm({
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
     value: Coin | null,
-    reason: AutocompleteChangeReason
+    reason: AutocompleteChangeReason,
   ) => {
     onChange({ ...values, coin: value });
   };
@@ -58,7 +58,7 @@ export function EvmSendForm({
   const handleChangeAddress = (
     event: SyntheticEvent<Element, Event>,
     newValue: string | null,
-    reason: AutocompleteChangeReason
+    reason: AutocompleteChangeReason,
   ) => {
     if (typeof newValue === 'string') {
       onChange({ ...values, address: newValue });

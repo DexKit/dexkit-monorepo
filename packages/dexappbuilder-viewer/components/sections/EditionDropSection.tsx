@@ -58,7 +58,7 @@ interface Props {
 
 export function parseIneligibility(
   reasons: ClaimEligibility[],
-  quantity = 0
+  quantity = 0,
 ): JSX.Element {
   if (!reasons.length) {
     return <></>;
@@ -117,7 +117,7 @@ export function EditionDropSection({ section }: Props) {
   const { data: balance, isLoading: isLoadingBalance } = useNFTBalance(
     editionDrop,
     account,
-    tokenId
+    tokenId,
   );
 
   const allowanceMutation = useErc20AllowanceMutation(provider);
@@ -129,7 +129,7 @@ export function EditionDropSection({ section }: Props) {
   const activeClaimCondition = useActiveClaimConditionForWallet(
     editionDrop,
     account,
-    tokenId
+    tokenId,
   );
 
   const [count, setCount] = useState<number>(0);
@@ -140,7 +140,7 @@ export function EditionDropSection({ section }: Props) {
     if (active && data) {
       const total = data?.length;
       const currentIndex = data.findIndex(
-        (a) => a?.startTime?.getTime() === active?.startTime?.getTime()
+        (a) => a?.startTime?.getTime() === active?.startTime?.getTime(),
       );
 
       if (currentIndex === -1) {
@@ -183,7 +183,7 @@ export function EditionDropSection({ section }: Props) {
       setCount(count + 1);
     },
     // Delay in milliseconds or null to stop it
-    countDown === undefined || countDown === "Expired" ? null : 1000
+    countDown === undefined || countDown === "Expired" ? null : 1000,
   );
 
   const handleApproveAssetSuccess = useCallback(
@@ -209,12 +209,12 @@ export function EditionDropSection({ section }: Props) {
       watchTransactionDialog,
       activeClaimCondition.data?.currencyMetadata.symbol,
       chainId,
-    ]
+    ],
   );
 
   const approveMutation = useErc20ApproveMutationV2(
     provider,
-    handleApproveAssetSuccess
+    handleApproveAssetSuccess,
   );
 
   const claimerProofs = useClaimerProofs(editionDrop, account || "", tokenId);
@@ -224,7 +224,7 @@ export function EditionDropSection({ section }: Props) {
       quantity,
       walletAddress: account || "",
     },
-    tokenId
+    tokenId,
   );
 
   const claimedSupply = useTotalCirculatingSupply(editionDrop, tokenId);
@@ -251,18 +251,18 @@ export function EditionDropSection({ section }: Props) {
 
   const totalAmount = useMemo(() => {
     const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0
+      activeClaimCondition.data?.currencyMetadata.value || 0,
     );
     return bnPrice.mul(quantity);
   }, [quantity, activeClaimCondition.data?.currencyMetadata.value]);
 
   const priceToMint = useMemo(() => {
     const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0
+      activeClaimCondition.data?.currencyMetadata.value || 0,
     );
     return `${formatUnits(
       bnPrice.mul(quantity).toString(),
-      activeClaimCondition.data?.currencyMetadata.decimals || 18
+      activeClaimCondition.data?.currencyMetadata.decimals || 18,
     )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
   }, [
     activeClaimCondition.data?.currencyMetadata.decimals,
@@ -275,7 +275,7 @@ export function EditionDropSection({ section }: Props) {
     let bnMaxClaimable;
     try {
       bnMaxClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimableSupply || 0
+        activeClaimCondition.data?.maxClaimableSupply || 0,
       );
     } catch (e) {
       bnMaxClaimable = BigNumber.from(1_000_000);
@@ -284,7 +284,7 @@ export function EditionDropSection({ section }: Props) {
     let perTransactionClaimable;
     try {
       perTransactionClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimablePerWallet || 0
+        activeClaimCondition.data?.maxClaimablePerWallet || 0,
       );
     } catch (e) {
       perTransactionClaimable = BigNumber.from(1_000_000);
@@ -332,7 +332,7 @@ export function EditionDropSection({ section }: Props) {
       return (
         (activeClaimCondition.isSuccess &&
           BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
-            0
+            0,
           )) ||
         numberClaimed === numberTotal
       );
@@ -368,21 +368,21 @@ export function EditionDropSection({ section }: Props) {
 
   const buttonLoading = useMemo(
     () => isLoading || claimIneligibilityReasons.isLoading,
-    [claimIneligibilityReasons.isLoading, isLoading]
+    [claimIneligibilityReasons.isLoading, isLoading],
   );
   const priceText = useMemo(() => {
     const pricePerToken = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0
+      activeClaimCondition.data?.currencyMetadata.value || 0,
     );
     if (pricePerToken.eq(0)) {
       return <FormattedMessage id={"Free"} defaultMessage={"Free"} />;
     }
     const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0
+      activeClaimCondition.data?.currencyMetadata.value || 0,
     );
     return `${formatUnits(
       bnPrice.toString(),
-      activeClaimCondition.data?.currencyMetadata.decimals || 18
+      activeClaimCondition.data?.currencyMetadata.decimals || 18,
     )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
   }, [
     activeClaimCondition.data?.currencyMetadata.decimals,
@@ -398,7 +398,7 @@ export function EditionDropSection({ section }: Props) {
 
     if (canClaim) {
       const pricePerToken = BigNumber.from(
-        activeClaimCondition.data?.currencyMetadata.value || 0
+        activeClaimCondition.data?.currencyMetadata.value || 0,
       );
       if (pricePerToken.eq(0)) {
         return (
@@ -537,7 +537,7 @@ export function EditionDropSection({ section }: Props) {
                 {claimConditions.data?.length === 0 ||
                 !claimConditions.data ||
                 claimConditions.data?.every(
-                  (cc) => cc.maxClaimableSupply === "0"
+                  (cc) => cc.maxClaimableSupply === "0",
                 ) ? (
                   <Alert severity="info">
                     <FormattedMessage
@@ -720,11 +720,11 @@ export function EditionDropSection({ section }: Props) {
 
                             watchTransactionDialog.open(
                               "mintEditionDrop",
-                              values
+                              values,
                             );
                             const result = await editionDrop.erc1155.claim(
                               tokenId,
-                              quantity
+                              quantity,
                             );
 
                             const metadata = {
@@ -756,7 +756,7 @@ export function EditionDropSection({ section }: Props) {
                             });
 
                             watchTransactionDialog.watch(
-                              result.receipt.transactionHash
+                              result.receipt.transactionHash,
                             );
                           }
                         }}

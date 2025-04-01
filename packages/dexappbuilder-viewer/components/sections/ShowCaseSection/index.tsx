@@ -68,7 +68,6 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
     return results[alignItems];
   }, [alignItems]);
 
-
   return (
     <Container sx={{ p: { xs: 0, ms: 2 } }}>
       <Box

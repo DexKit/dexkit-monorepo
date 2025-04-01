@@ -48,7 +48,6 @@ export interface MintEditionDropTransactionMetadata {
   address?: string;
 }
 
-
 export type TransactionMetadata =
   | SwapTransactionMetadata
   | ApproveTransactionMetadata
@@ -56,9 +55,7 @@ export type TransactionMetadata =
   | AcceptTransactionMetadata
   | BuyTransactionMetadata
   | ApproveForAllTransactionMetadata
-  | MintEditionDropTransactionMetadata
-
-  ;
+  | MintEditionDropTransactionMetadata;
 
 export interface Transaction {
   title?: string;

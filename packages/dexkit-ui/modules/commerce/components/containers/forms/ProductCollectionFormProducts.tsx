@@ -53,7 +53,7 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
         id="product.list.updated"
         defaultMessage="Product list updated"
       />,
-      { variant: "success" }
+      { variant: "success" },
     );
   };
 
@@ -71,7 +71,7 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
 
   const handleRemove = () => {
     const newItems = [...(values.items ?? [])].filter(
-      (i) => !Boolean(selection[i.id ?? ""])
+      (i) => !Boolean(selection[i.id ?? ""]),
     );
 
     setFieldValue("items", newItems);

@@ -1,9 +1,11 @@
-import { chainsViem } from '@dexkit/core/constants/chainsViem';
-import { getDefaultConfig } from '../rainbowkit/config/getDefaultConfig';
+import { chainsViem } from "@dexkit/core/constants/chainsViem";
+import { getDefaultConfig } from "../rainbowkit/config/getDefaultConfig";
 
-
-export const wagmiConfig = getDefaultConfig({ chains: chainsViem, appName: 'Dapp', projectId: 'bcd1271357ab9202f271bc908324aff6' })
-
+export const wagmiConfig = getDefaultConfig({
+  chains: chainsViem,
+  appName: "Dapp",
+  projectId: "bcd1271357ab9202f271bc908324aff6",
+});
 
 /*createConfig({
   chains: [mainnet, sepolia, polygon, polygonAmoy, bsc, fantom, avalanche, base, optimism, arbitrum],

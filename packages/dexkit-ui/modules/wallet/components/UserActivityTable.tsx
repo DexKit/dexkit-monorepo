@@ -54,7 +54,7 @@ export default function UserActivityTable({}: UserActivityTableProps) {
       return userActivityQuery.data?.pages[page]?.data.map(
         (event: any, key: number) => (
           <UserActivityTableRow event={event} key={`event-${page}-${key}`} />
-        )
+        ),
       );
     }
   };
@@ -69,7 +69,7 @@ export default function UserActivityTable({}: UserActivityTableProps) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setPageSize(parseInt(event.target.value, 10));
     setPage(0);

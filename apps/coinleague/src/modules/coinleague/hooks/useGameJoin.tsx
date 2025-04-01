@@ -51,7 +51,7 @@ export function useGameJoin({ game }: { game?: Game }) {
           captainCoin,
           provider,
           affiliate || ZERO_ADDRESS,
-          game.id.toString()
+          game.id.toString(),
         );
         setTransactionHash(tx.hash);
 
@@ -68,7 +68,7 @@ export function useGameJoin({ game }: { game?: Game }) {
                 <FormattedMessage id="view" defaultMessage="View" />
               </Button>
             ),
-          }
+          },
         );
 
         // createNotification({
@@ -97,7 +97,7 @@ export function useGameJoin({ game }: { game?: Game }) {
         // });
         await tx.wait();
       }
-    }
+    },
   );
 
   return {

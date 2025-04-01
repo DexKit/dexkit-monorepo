@@ -1,22 +1,22 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { BigNumber } from "ethers";
@@ -71,7 +71,7 @@ interface Props {
     price: BigNumber,
     tokenAddress: string,
     expiry: Date | null,
-    quantity?: BigNumber
+    quantity?: BigNumber,
   ) => void;
 }
 
@@ -95,7 +95,7 @@ export default function MakeOfferDialog({
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     const decimals = tokenList.find((t) =>
-      isAddressEqual(t.address, values.tokenAddress)
+      isAddressEqual(t.address, values.tokenAddress),
     )?.decimals;
 
     if (!isValidDecimal(values.price, decimals || 1)) {
@@ -104,7 +104,7 @@ export default function MakeOfferDialog({
         formatMessage({
           id: "invalid.price",
           defaultMessage: "Invalid price",
-        })
+        }),
       );
     }
 
@@ -114,7 +114,7 @@ export default function MakeOfferDialog({
       values.expiry || null,
       asset?.protocol === "ERC1155"
         ? BigNumber.from(values.quantity)
-        : BigNumber.from(1)
+        : BigNumber.from(1),
     );
 
     formikHelpers.resetForm();
@@ -135,7 +135,7 @@ export default function MakeOfferDialog({
     },
     validate: async (values) => {
       const decimals = tokenList.find((t) =>
-        isAddressEqual(t.address, values.tokenAddress)
+        isAddressEqual(t.address, values.tokenAddress),
       )?.decimals;
 
       if (values.price !== "" && isValidDecimal(values.price, decimals || 1)) {
@@ -161,7 +161,7 @@ export default function MakeOfferDialog({
   const erc20Balance = useErc20Balance(
     provider,
     form.values.tokenAddress,
-    account
+    account,
   );
 
   const handleChangeExpiryDuration = (newValue: moment.Duration | null) => {
@@ -180,7 +180,7 @@ export default function MakeOfferDialog({
 
   const tokenSelected = useMemo(() => {
     const tokenIndex = tokenList.findIndex((t) =>
-      isAddressEqual(t.address, form.values.tokenAddress)
+      isAddressEqual(t.address, form.values.tokenAddress),
     );
 
     if (tokenIndex > -1) {
@@ -209,7 +209,7 @@ export default function MakeOfferDialog({
     } else {
       const imageUrl = TOKEN_ICON_URL(
         token.address.toLowerCase(),
-        token.chainId
+        token.chainId,
       );
 
       if (imageUrl) {
@@ -420,7 +420,7 @@ export default function MakeOfferDialog({
                       ) : (
                         formatUnits(
                           erc20Balance.data || BigNumber.from(0),
-                          tokenSelected.decimals
+                          tokenSelected.decimals,
                         )
                       )}{" "}
                       {tokenSelected.symbol.toUpperCase()}

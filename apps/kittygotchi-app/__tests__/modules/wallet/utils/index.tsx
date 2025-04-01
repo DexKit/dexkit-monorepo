@@ -4,7 +4,7 @@ import { Wallet } from 'ethers';
 const PASSWORD = '1234';
 
 const walletManager = new WalletManager(
-  'warm robot pony industry immune breeze page wish erode vendor either trick'
+  'warm robot pony industry immune breeze page wish erode vendor either trick',
 );
 
 jest.setTimeout(20000);
@@ -25,7 +25,7 @@ describe('Wallet utils', () => {
 
       const walletManagerFromJson = await WalletManager.fromJson(
         data,
-        PASSWORD
+        PASSWORD,
       );
 
       expect(walletManagerFromJson.mnemonic).toBeDefined();

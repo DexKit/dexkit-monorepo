@@ -50,12 +50,12 @@ export const useERC20BalancesQuery = (select?: SelectCalback) => {
       }
       return getERC20Balances(account, tokens, chainId, provider);
     },
-    { enabled: provider !== undefined, select, suspense: true }
+    { enabled: provider !== undefined, select, suspense: true },
   );
 };
 
 export const useERC20BalancesProxyAllowancesQuery = (
-  select?: SelectCalback
+  select?: SelectCalback,
 ) => {
   const { provider, account, chainId } = useWeb3React();
 
@@ -83,12 +83,12 @@ export const useERC20BalancesProxyAllowancesQuery = (
         account,
         tokens,
         chainId,
-        provider
+        provider,
       );
 
       return res;
     },
-    { enabled: provider !== undefined, select, suspense: false }
+    { enabled: provider !== undefined, select, suspense: false },
   );
 };
 
@@ -99,7 +99,7 @@ export const useSelectNativeBalancesQuery = () => {
 export const useSelectERC20BalancesQuery = (tokens: Token[]) => {
   const filterTokensCallback = useCallback(
     (data?: TokenBalance[]) => data?.filter((t) => tokens.includes(t.token)),
-    [tokens]
+    [tokens],
   );
 
   return useERC20BalancesQuery(filterTokensCallback);
@@ -121,7 +121,7 @@ export const useNativeBalanceQuery = () => {
 
       return await provider.getBalance(account);
     },
-    { enabled: provider !== undefined }
+    { enabled: provider !== undefined },
   );
 };
 
@@ -142,18 +142,18 @@ export const useERC20BalanceQuery = (token: Token) => {
         account,
         [token],
         chainId,
-        provider
+        provider,
       );
       return balances.filter((tb) => tb.token === token)[0];
     },
-    { enabled: provider !== undefined }
+    { enabled: provider !== undefined },
   );
 };
 
 export function useErc20ApproveMutation(
   provider?: ethers.providers.Web3Provider,
   onSuccess?: (hash: string, asset: SwappableAssetV4) => void,
-  options?: Omit<UseMutationOptions, any>
+  options?: Omit<UseMutationOptions, any>,
 ) {
   const mutation = useMutation(
     async ({
@@ -172,7 +172,7 @@ export function useErc20ApproveMutation(
       const contract = new ethers.Contract(
         tokenAddress,
         ERC20Abi,
-        provider.getSigner()
+        provider.getSigner(),
       );
 
       const tx = await contract.approve(spender, amount);
@@ -187,7 +187,7 @@ export function useErc20ApproveMutation(
 
       return await tx.wait();
     },
-    options
+    options,
   );
 
   return mutation;

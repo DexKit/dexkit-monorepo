@@ -13,8 +13,22 @@ export function useNftTransfer({
   contractAddress?: string;
   tokenId?: string;
   provider?: providers.Web3Provider;
-  onSubmit?: ({ hash }: { hash: string, isERC1155: boolean, to: string, quantity?: string }) => void;
-  onConfirm?: ({ hash }: { hash: string, isERC1155: boolean, to: string, quantity?: string }) => void;
+  onSubmit?: ({
+    hash,
+  }: {
+    hash: string;
+    isERC1155: boolean;
+    to: string;
+    quantity?: string;
+  }) => void;
+  onConfirm?: ({
+    hash,
+  }: {
+    hash: string;
+    isERC1155: boolean;
+    to: string;
+    quantity?: string;
+  }) => void;
 }) {
   return useMutation(
     async ({
@@ -39,12 +53,10 @@ export function useNftTransfer({
         return false;
       }
 
-
-
       let contract = new Contract(
         contractAddress,
         protocol === "ERC1155" ? ERC1155Abi : ERC721Abi,
-        provider?.getSigner()
+        provider?.getSigner(),
       );
 
       let toAddress: string | null = to;
@@ -62,29 +74,38 @@ export function useNftTransfer({
       let tx;
 
       if (protocol === "ERC1155") {
-
         tx = await contract.safeTransferFrom(
           from,
           toAddress,
           tokenId,
           quantity,
-          "0x"
+          "0x",
         );
       } else {
         tx = await contract.transferFrom(from, toAddress, tokenId);
       }
 
       if (onSubmit) {
-        onSubmit({ hash: tx.hash, to: toAddress, isERC1155: protocol === "ERC1155", quantity: quantity || '1' });
+        onSubmit({
+          hash: tx.hash,
+          to: toAddress,
+          isERC1155: protocol === "ERC1155",
+          quantity: quantity || "1",
+        });
       }
 
       const txResult = await tx.wait();
 
       if (onConfirm) {
-        onConfirm({ hash: tx.hash, to: toAddress, isERC1155: protocol === "ERC1155", quantity: quantity || '1' });
+        onConfirm({
+          hash: tx.hash,
+          to: toAddress,
+          isERC1155: protocol === "ERC1155",
+          quantity: quantity || "1",
+        });
       }
 
       return txResult;
-    }
+    },
   );
 }

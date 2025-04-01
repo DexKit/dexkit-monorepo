@@ -93,7 +93,7 @@ const WizardCreateCollectionPage: NextPage = () => {
               defaultMessage: 'Creating collection {name}',
               id: 'creating.collection',
             },
-            { name: collectionFormValues.name }
+            { name: collectionFormValues.name },
           ) as string,
           hash,
           checked: false,
@@ -122,7 +122,7 @@ const WizardCreateCollectionPage: NextPage = () => {
               defaultMessage: 'Creating items for the collection {name}',
               id: 'creating.items.for.the.collection.name',
             },
-            { name: collectionFormValues.name }
+            { name: collectionFormValues.name },
           ) as string,
           hash,
           checked: false,
@@ -141,7 +141,7 @@ const WizardCreateCollectionPage: NextPage = () => {
 
   const createCollectionMutation = useCreateCollection(
     provider,
-    handleDeployHash
+    handleDeployHash,
   );
   const createItemsMutation = useCreateItems(provider, handleItemsHash);
 
@@ -159,7 +159,7 @@ const WizardCreateCollectionPage: NextPage = () => {
   };
 
   const handleSubmitCollectionItemsForm = async (
-    values: CollectionItemsForm
+    values: CollectionItemsForm,
   ) => {
     setCollectionItemsFormValues(values);
     setActiveStep(Steps.Create);
@@ -215,7 +215,7 @@ const WizardCreateCollectionPage: NextPage = () => {
       setShowCreateDialog(true);
 
       let contractMetadataFile = await uploadImageMutation.mutateAsync(
-        collectionFormValues.file
+        collectionFormValues.file,
       );
 
       let uploadedContractMetadata =
@@ -232,7 +232,7 @@ const WizardCreateCollectionPage: NextPage = () => {
 
       if (collectionItemsFormValues.items?.length > 0) {
         let files = await uploadImagesMutation.mutateAsync(
-          collectionItemsFormValues.items?.map((i) => i.file)
+          collectionItemsFormValues.items?.map((i) => i.file),
         );
 
         const items: WizardItem[] = collectionItemsFormValues.items.map(
@@ -242,7 +242,7 @@ const WizardCreateCollectionPage: NextPage = () => {
             image: `ipfs://${files[index]}` || '',
             name: item.name || '',
             external_link: '',
-          })
+          }),
         );
 
         let uploadedItems = await uploadMetadataMutation.mutateAsync(items);
@@ -421,7 +421,7 @@ const WizardCreateCollectionPage: NextPage = () => {
                         </Stack>
                       </Box>
                     </Card>
-                  )
+                  ),
                 )}
               </Stack>
             </Box>

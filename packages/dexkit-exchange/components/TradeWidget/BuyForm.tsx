@@ -55,7 +55,7 @@ export default function BuyForm({
 }: BuyFormProps) {
   const [amount, setAmount] = useState<string | undefined>("0.0");
   const [amountPerToken, setAmountPerToken] = useState<string | undefined>(
-    "0.0"
+    "0.0",
   );
   const [duration, setDuration] = useState(ORDER_LIMIT_DURATIONS[0].value);
 
@@ -190,7 +190,7 @@ export default function BuyForm({
           id: "order.created.message",
           defaultMessage: "Order created",
         }),
-        { variant: "success" }
+        { variant: "success" },
       );
       setShowReview(false);
     } catch (err) {
@@ -199,7 +199,7 @@ export default function BuyForm({
           id: "order.failed",
           defaultMessage: "Order failed",
         }),
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };

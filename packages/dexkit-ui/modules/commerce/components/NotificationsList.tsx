@@ -40,13 +40,13 @@ export default function NotificationList({
         if (n.scope === "Store") {
           if (n.metadata.type === "order") {
             await router.push(
-              `/u/account/commerce/orders/${n.metadata.orderId}`
+              `/u/account/commerce/orders/${n.metadata.orderId}`,
             );
             await markAsRead({ id: n.id });
           }
           if (n.metadata.type === "payment") {
             await router.push(
-              `/u/account/commerce/orders/${n.metadata.orderId}`
+              `/u/account/commerce/orders/${n.metadata.orderId}`,
             );
             await markAsRead({ id: n.id });
           }
@@ -153,7 +153,7 @@ export default function NotificationList({
 
                               return acc;
                             },
-                            {}
+                            {},
                           )
                         : undefined
                     }

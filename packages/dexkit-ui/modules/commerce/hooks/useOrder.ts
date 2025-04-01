@@ -25,6 +25,6 @@ export default function useOrder(params: { id?: string }) {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

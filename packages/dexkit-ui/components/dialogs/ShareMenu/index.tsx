@@ -77,7 +77,7 @@ export default function ShareMenu({ MenuProps, onClick }: ShareMenuProps) {
         onClick(value);
       };
     },
-    [onClick]
+    [onClick],
   );
 
   const { onClose } = MenuProps;

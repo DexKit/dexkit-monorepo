@@ -61,7 +61,6 @@ export type ZeroExQuoteResponse = {
   expectedSlippage: any;
 };
 
-
 export type ZrxOrder = {
   chainId: number;
   expiry: string;

@@ -38,7 +38,7 @@ export default function CollectionContent({ id }: CollectionContentProps) {
   });
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFilters((values) => ({
       ...values,

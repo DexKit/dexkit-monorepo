@@ -65,13 +65,13 @@ export default function EvmReceive({
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
     value: EvmCoin | null,
-    reason: AutocompleteChangeReason
+    reason: AutocompleteChangeReason,
   ) => {
     setCoin(value);
   };
 
   const handleChangeAmount = (
-    ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     setAmount(Number(ev.currentTarget.value));
   };
@@ -96,7 +96,7 @@ export default function EvmReceive({
     }
     if (typeof window !== "undefined") {
       return `${window.location.origin}/wallet/send/${encodeURIComponent(
-        receiveURL
+        receiveURL,
       )}`;
     }
 

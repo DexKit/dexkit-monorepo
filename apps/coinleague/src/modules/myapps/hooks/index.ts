@@ -1,9 +1,20 @@
-import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from '@tanstack/react-query';
 import { useWeb3React } from '@web3-react/core';
 
 import { useIntl } from 'react-intl';
 import { AppWhitelabelType } from '../constants/enum';
-import { deleteConfig, getConfig, getConfigsByOwner, getDomainConfigStatus, sendConfig, setupDomainConfig } from '../services';
+import {
+  deleteConfig,
+  getConfig,
+  getConfigsByOwner,
+  getDomainConfigStatus,
+  sendConfig,
+  setupDomainConfig,
+} from '../services';
 import { getSignMessage, signWhitelabelData } from '../utils';
 
 export const QUERY_WHITELABEL_CONFIGS_BY_OWNER_NAME =
@@ -22,15 +33,15 @@ export const useWhitelabelConfigsByOwnerQuery = ({
     const response = await getConfigsByOwner(owner);
 
     const data = response.data;
-    return data.map(d => {
+    return data.map((d) => {
       if (d.type === AppWhitelabelType.MARKETPLACE) {
         return {
           ...d,
-          appConfig: JSON.stringify(d.config)
-        }
+          appConfig: JSON.stringify(d.config),
+        };
       }
       return d;
-    })
+    });
   });
 };
 
@@ -58,7 +69,7 @@ export const useWhitelabelConfigQuery = ({
       const response = await getConfig({ domain, name });
       return response.data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false }
+    { refetchOnWindowFocus: false, refetchOnReconnect: false },
   );
 };
 
@@ -73,15 +84,19 @@ export const useDeleteMyAppMutation = ({
   const { formatMessage } = useIntl();
 
   return useMutation<any, any, any>(
-    async ({ domain, config, type }: { domain: string; config: any, type: AppWhitelabelType.MARKETPLACE }) => {
+    async ({
+      domain,
+      config,
+      type,
+    }: {
+      domain: string;
+      config: any;
+      type: AppWhitelabelType.MARKETPLACE;
+    }) => {
       if (account && provider && chainId !== undefined) {
-
-        const message = formatMessage(
-          getSignMessage('delete', type),
-          {
-            domain: domain || '',
-          }
-        );
+        const message = formatMessage(getSignMessage('delete', type), {
+          domain: domain || '',
+        });
 
         const dataToSend = await signWhitelabelData({
           provider,
@@ -94,18 +109,17 @@ export const useDeleteMyAppMutation = ({
 
         if (dataToSend) {
           await deleteConfig(dataToSend, account, domain);
-          refetch()
+          refetch();
         }
       }
     },
-    options
+    options,
   );
 };
 
 export const useDomainConfigStatusMutation = () => {
   const { account } = useWeb3React();
   const { refetch } = useWhitelabelConfigsByOwnerQuery({ owner: account });
-
 
   return useMutation(async ({ domain }: { domain: string }) => {
     await getDomainConfigStatus(domain);
@@ -117,27 +131,28 @@ export const useSendConfigMutation = ({ slug }: { slug?: string }) => {
   const { account, provider, chainId } = useWeb3React();
   const { formatMessage } = useIntl();
 
-  return useMutation(async ({ config, type }: { config: any, type: AppWhitelabelType }) => {
-    if (account && provider && chainId !== undefined) {
+  return useMutation(
+    async ({ config, type }: { config: any; type: AppWhitelabelType }) => {
+      if (account && provider && chainId !== undefined) {
+        const message = formatMessage(getSignMessage('edit', type));
 
-      const message = formatMessage(getSignMessage('edit', type));
+        const dataToSend = await signWhitelabelData({
+          provider,
+          chainId,
+          owner: account,
+          config,
+          type,
+          message,
+          slug,
+        });
 
-      const dataToSend = await signWhitelabelData({
-        provider,
-        chainId,
-        owner: account,
-        config,
-        type,
-        message,
-        slug,
-      });
-
-      if (dataToSend) {
-        const response = await sendConfig(dataToSend);
-        return response.data;
+        if (dataToSend) {
+          const response = await sendConfig(dataToSend);
+          return response.data;
+        }
       }
-    }
-  });
+    },
+  );
 };
 
 export const useSetupDomainConfigMutation = () => {
@@ -150,15 +165,14 @@ export const useSetupDomainConfigMutation = () => {
       domain,
       config,
       slug,
-      type
+      type,
     }: {
       domain: string;
       config: any;
       slug: string;
-      type: AppWhitelabelType
+      type: AppWhitelabelType;
     }) => {
       if (account && provider && chainId !== undefined) {
-
         const message = formatMessage(getSignMessage('addDomain', type), {
           domain: domain || '',
         });
@@ -178,6 +192,6 @@ export const useSetupDomainConfigMutation = () => {
           refetch();
         }
       }
-    }
+    },
   );
 };

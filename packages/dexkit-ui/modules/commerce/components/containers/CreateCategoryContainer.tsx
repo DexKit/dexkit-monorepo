@@ -26,7 +26,7 @@ function CreateCategoryComponent() {
           id="category.created"
           defaultMessage="Category created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       router.push("/u/account/commerce/categories");
     } catch (err) {

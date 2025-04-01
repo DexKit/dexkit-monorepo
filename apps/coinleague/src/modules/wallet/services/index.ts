@@ -18,7 +18,7 @@ export async function getEvmAccountBalances(
   network: BlockchainNetwork,
   multicall: MultiCall,
   coinAddresses: string[],
-  address: string
+  address: string,
 ): Promise<AccountBalance> {
   const [, balances] = await multicall.getBalances(coinAddresses, address);
 
@@ -28,7 +28,7 @@ export async function getEvmAccountBalances(
 export async function getAccountsBalanceEvmByNetwork(
   network: BlockchainNetwork,
   coins: EvmCoin[],
-  addresses: string[]
+  addresses: string[],
 ): Promise<AccountBalance[]> {
   if (!network.chainId) {
     return [];
@@ -58,7 +58,7 @@ export async function getAccountsBalanceEvmByNetwork(
 
   for (const address of addresses) {
     results.push(
-      getEvmAccountBalances(network, multicall, coinAddresses, address)
+      getEvmAccountBalances(network, multicall, coinAddresses, address),
     );
   }
 
@@ -81,8 +81,8 @@ export const getTokenPrices = async ({
 
   const priceResponce = await axios.get(
     `${COINGECKO_ENDPOIT}/simple/token_price/${platformId}?contract_addresses=${addresses.join(
-      ','
-    )}&vs_currencies=${currency}`
+      ',',
+    )}&vs_currencies=${currency}`,
   );
 
   return priceResponce.data as { [key: string]: { [key: string]: number } };
@@ -99,7 +99,7 @@ export const getCoinPrices = async ({
     await axios.get<{ [key: string]: { [key: string]: number } }>(
       `${COINGECKO_ENDPOIT}/simple/price?ids=${coins
         .map((c) => c.coingeckoId)
-        .join(',')}&vs_currencies=${currency}`
+        .join(',')}&vs_currencies=${currency}`,
     )
   ).data;
 
@@ -123,7 +123,7 @@ export const getCoinPrices = async ({
 export async function getPricesByChain(
   chain: Network,
   coinAddresses: string[],
-  currency: string
+  currency: string,
 ): Promise<CoinPrices> {
   const prices: CoinPrices = {};
 

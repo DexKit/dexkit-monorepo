@@ -1,7 +1,6 @@
 import { ChainId } from "@dexkit/core/constants/enums";
 import { TransactionStatus } from "../constants/enum";
 
-
 export type Network = {
   chainId: ChainId;
   name: string;

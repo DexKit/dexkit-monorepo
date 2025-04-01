@@ -165,7 +165,7 @@ export default function AccountFormsTable({
           }),
           {
             variant: 'success',
-          }
+          },
         );
 
         await refetch();
@@ -195,7 +195,7 @@ export default function AccountFormsTable({
           }),
           {
             variant: 'success',
-          }
+          },
         );
         await refetch();
       } catch (err) {
@@ -310,7 +310,7 @@ export default function AccountFormsTable({
 
       setFilter(filterModel);
     },
-    [onSearch]
+    [onSearch],
   );
 
   const [sortModel, setSortModel] = useState<GridSortModel>([

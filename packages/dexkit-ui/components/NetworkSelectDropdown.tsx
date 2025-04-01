@@ -33,8 +33,8 @@ export function NetworkSelectDropdown({
       .filter((key) => (enableTestnet ? true : !NETWORKS[Number(key)].testnet))
       .sort((a, b) =>
         NETWORKS[parseChainId(a)].name.localeCompare(
-          NETWORKS[parseChainId(b)].name
-        )
+          NETWORKS[parseChainId(b)].name,
+        ),
       );
   }, [enableTestnet]);
 

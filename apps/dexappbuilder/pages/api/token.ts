@@ -8,7 +8,7 @@ import { ERC20Abi } from '../../src/constants/abis';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { chainId, address } = req.query;
 

@@ -1,10 +1,14 @@
 import MultiCall, { TokenBalances } from "@indexed-finance/multicall";
 import { BigNumber, Contract, constants, providers } from "ethers";
-import { COINGECKO_ENDPOIT, COINGECKO_PLATFORM_ID, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
+import {
+  COINGECKO_ENDPOIT,
+  COINGECKO_PLATFORM_ID,
+  ZEROEX_NATIVE_TOKEN_ADDRESS,
+} from "../constants";
 import { ERC20Abi } from "../constants/abis";
 import { Token, TokenPrices } from "../types";
 import { isAddressEqual } from "../utils";
-export * from './balances';
+export * from "./balances";
 
 import { ChainId } from "@dexkit/core/constants/enums";
 import axios from "axios";
@@ -13,7 +17,7 @@ export const getERC20TokenAllowance = async (
   provider: providers.BaseProvider,
   tokenAddress: string,
   account: string,
-  spender: string
+  spender: string,
 ): Promise<BigNumber> => {
   const contract = new Contract(tokenAddress, ERC20Abi, provider);
 
@@ -45,21 +49,19 @@ export const hasSufficientAllowance = async ({
     provider,
     tokenAddress,
     account,
-    spender
+    spender,
   );
 
   return allowance.gte(amount);
 };
 
-
-
 export async function getTokensBalance(
   tokens?: { contractAddress: string }[],
   provider?: providers.BaseProvider,
-  account?: string
+  account?: string,
 ): Promise<TokenBalances | undefined> {
   if (!provider || !tokens || !account) {
-    return
+    return;
   }
 
   await provider.ready;
@@ -74,7 +76,7 @@ export async function getTokensBalance(
 
       return t.contractAddress;
     }),
-    account
+    account,
   );
 
   return balances;
@@ -83,19 +85,17 @@ export async function getTokensBalance(
 export async function getTokenBalance(
   token?: { contractAddress: string },
   provider?: providers.BaseProvider,
-  account?: string
+  account?: string,
 ): Promise<BigNumber | undefined> {
   if (!token || provider || account) {
     return;
   }
-  const balance = (await getTokensBalance([token], provider, account));
+  const balance = await getTokensBalance([token], provider, account);
   if (balance) {
-    return balance[0]
+    return balance[0];
   }
   return;
-
 }
-
 
 export const getTokenPrices = async ({
   chainId,
@@ -113,8 +113,8 @@ export const getTokenPrices = async ({
 
   const priceResponce = await axios.get(
     `${COINGECKO_ENDPOIT}/simple/token_price/${platformId}?contract_addresses=${addresses.join(
-      ","
-    )}&vs_currencies=${currency}`
+      ",",
+    )}&vs_currencies=${currency}`,
   );
 
   return priceResponce.data as { [key: string]: { [key: string]: number } };
@@ -131,7 +131,7 @@ export const getCoinPrices = async ({
     await axios.get<{ [key: string]: { [key: string]: number } }>(
       `${COINGECKO_ENDPOIT}/simple/price?ids=${tokens
         .map((c) => c.coingeckoId)
-        .join(",")}&vs_currencies=${currency}`
+        .join(",")}&vs_currencies=${currency}`,
     )
   ).data;
 
@@ -157,7 +157,7 @@ export const getCoinPrices = async ({
 export async function getPricesByChain(
   chainId: ChainId,
   tokens: Token[],
-  currency: string
+  currency: string,
 ): Promise<TokenPrices> {
   return await getCoinPrices({
     tokens,
@@ -167,15 +167,15 @@ export async function getPricesByChain(
 
 export const getCoinPricesByCID = async ({
   coingeckoIds,
-  currency = 'usd',
+  currency = "usd",
 }: {
   coingeckoIds: string[];
   currency: string;
 }): Promise<{ [key: string]: { [key: string]: number } }> => {
   const priceResponce = await axios.get(
     `${COINGECKO_ENDPOIT}/simple/price?ids=${coingeckoIds.concat(
-      ','
-    )}&vs_currencies=${currency}`
+      ",",
+    )}&vs_currencies=${currency}`,
   );
 
   return priceResponce.data as { [key: string]: { [key: string]: number } };

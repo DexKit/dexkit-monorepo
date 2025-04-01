@@ -1,15 +1,15 @@
-import { useTheme } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import type { CellPluginComponentProps } from '@react-page/editor';
-import { lazyLoad } from '@react-page/editor';
+import { useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import type { CellPluginComponentProps } from "@react-page/editor";
+import { lazyLoad } from "@react-page/editor";
 
-import React from 'react';
-import { SpacerState } from '../types/state';
+import React from "react";
+import { SpacerState } from "../types/state";
 
 function HtmlSpacer(props: CellPluginComponentProps<SpacerState>) {
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (props.data.hideInDesktop && isDesktop) {
     return null;
@@ -24,12 +24,12 @@ function HtmlSpacer(props: CellPluginComponentProps<SpacerState>) {
   );
 }
 
-const SpacerResizable = lazyLoad(() => import('./SpacerResizable'));
+const SpacerResizable = lazyLoad(() => import("./SpacerResizable"));
 const SpacerHtmlRenderer: React.FC<CellPluginComponentProps<SpacerState>> = (
-  props
+  props,
 ) => {
   return (
-    <div className={'react-page-plugins-content-spacer'}>
+    <div className={"react-page-plugins-content-spacer"}>
       {props.isEditMode ? <SpacerResizable {...props} /> : HtmlSpacer(props)}
     </div>
   );

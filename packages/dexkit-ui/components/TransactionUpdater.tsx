@@ -18,7 +18,7 @@ export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
   const { chainId, provider } = useWeb3React();
 
   const [transactions, setPendingTransactions] = useAtom(
-    pendingTransactionsAtom
+    pendingTransactionsAtom,
   );
 
   const pendingTransactions = useMemo(() => {
@@ -46,7 +46,7 @@ export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
         return provider?.getTransactionReceipt(hash);
       }
     },
-    [chainId, provider]
+    [chainId, provider],
   );
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
                       }),
                       {
                         variant: "success",
-                      }
+                      },
                     );
                   } else if (receipt?.status === 0) {
                     newTx.status = TransactionStatus.Failed;
@@ -91,7 +91,7 @@ export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
                       }),
                       {
                         variant: "error",
-                      }
+                      },
                     );
                   }
                 }

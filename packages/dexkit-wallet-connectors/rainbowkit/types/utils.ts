@@ -1,4 +1,4 @@
-import { type EIP1193Provider } from 'viem';
+import { type EIP1193Provider } from "viem";
 
 /** Combines members of an intersection into a readable type. */
 export type Evaluate<type> = { [key in keyof type]: type[key] } & unknown;
@@ -17,50 +17,50 @@ export type Omit<type, keys extends keyof type> = Pick<
 // window.ethereum types
 
 export type WalletProviderFlags =
-  | 'isApexWallet'
-  | 'isAvalanche'
-  | 'isBackpack'
-  | 'isBifrost'
-  | 'isBitKeep'
-  | 'isBitski'
-  | 'isBlockWallet'
-  | 'isBraveWallet'
-  | 'isCoinbaseWallet'
-  | 'isDawn'
-  | 'isEnkrypt'
-  | 'isExodus'
-  | 'isFrame'
-  | 'isFrontier'
-  | 'isGamestop'
-  | 'isHyperPay'
-  | 'isImToken'
-  | 'isKuCoinWallet'
-  | 'isMathWallet'
-  | 'isMetaMask'
-  | 'isNestWallet'
-  | 'isOkxWallet'
-  | 'isOKExWallet'
-  | 'isOneInchAndroidWallet'
-  | 'isOneInchIOSWallet'
-  | 'isOpera'
-  | 'isPhantom'
-  | 'isPortal'
-  | 'isRabby'
-  | 'isRainbow'
-  | 'isStatus'
-  | 'isTally'
-  | 'isTokenPocket'
-  | 'isTokenary'
-  | 'isTrust'
-  | 'isTrustWallet'
-  | 'isXDEFI'
-  | 'isZerion'
-  | 'isTalisman'
-  | 'isZeal'
-  | 'isCoin98'
-  | 'isMEWwallet'
-  | 'isSafeheron'
-  | 'isSafePal';
+  | "isApexWallet"
+  | "isAvalanche"
+  | "isBackpack"
+  | "isBifrost"
+  | "isBitKeep"
+  | "isBitski"
+  | "isBlockWallet"
+  | "isBraveWallet"
+  | "isCoinbaseWallet"
+  | "isDawn"
+  | "isEnkrypt"
+  | "isExodus"
+  | "isFrame"
+  | "isFrontier"
+  | "isGamestop"
+  | "isHyperPay"
+  | "isImToken"
+  | "isKuCoinWallet"
+  | "isMathWallet"
+  | "isMetaMask"
+  | "isNestWallet"
+  | "isOkxWallet"
+  | "isOKExWallet"
+  | "isOneInchAndroidWallet"
+  | "isOneInchIOSWallet"
+  | "isOpera"
+  | "isPhantom"
+  | "isPortal"
+  | "isRabby"
+  | "isRainbow"
+  | "isStatus"
+  | "isTally"
+  | "isTokenPocket"
+  | "isTokenary"
+  | "isTrust"
+  | "isTrustWallet"
+  | "isXDEFI"
+  | "isZerion"
+  | "isTalisman"
+  | "isZeal"
+  | "isCoin98"
+  | "isMEWwallet"
+  | "isSafeheron"
+  | "isSafePal";
 
 export type WalletProvider = Evaluate<
   EIP1193Provider & {

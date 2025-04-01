@@ -51,7 +51,7 @@ export default function EvmReceiveDialog({
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
     value: EvmCoin | null,
-    reason: AutocompleteChangeReason
+    reason: AutocompleteChangeReason,
   ) => {
     setCoin(value);
   };

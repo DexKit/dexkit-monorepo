@@ -64,9 +64,9 @@ export function GameOverviewCard({
     if (game && coinToPlay) {
       return ethers.utils.formatUnits(
         BigNumber.from(game?.amount_to_play).mul(
-          BigNumber.from(game.num_players)
+          BigNumber.from(game.num_players),
         ),
-        coinToPlay.decimals
+        coinToPlay.decimals,
       );
     }
 
@@ -83,7 +83,7 @@ export function GameOverviewCard({
 
     const entry = ethers.utils.formatUnits(
       BigNumber.from(game?.amount_to_play),
-      coinToPlay?.decimals
+      coinToPlay?.decimals,
     );
 
     return [
@@ -144,7 +144,7 @@ export function GameOverviewCard({
                     GET_GAME_LEVEL(
                       BigNumber.from(game?.amount_to_play),
                       chainId,
-                      game?.coin_to_play
+                      game?.coin_to_play,
                     )
                   )}
                 </Typography>

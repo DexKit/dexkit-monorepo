@@ -17,8 +17,6 @@ export default function useNotifications(params: {
       throw new Error("no instance");
     }
 
-    return (
-      await instance?.get("/notifications/", { params })
-    ).data;
+    return (await instance?.get("/notifications/", { params })).data;
   });
 }

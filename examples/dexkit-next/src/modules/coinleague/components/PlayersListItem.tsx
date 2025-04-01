@@ -54,7 +54,7 @@ function PlayersListItem({
 }: Props) {
   const profile = useMemo(() => {
     return profiles?.find((p) =>
-      isAddressEqual(p.address, player.player_address)
+      isAddressEqual(p.address, player.player_address),
     );
   }, [profiles, player, chainId]);
 

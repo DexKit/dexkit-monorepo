@@ -23,7 +23,7 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
     asset.contractAddress,
     asset.chainId,
     asset.id,
-    metadata
+    metadata,
   );
 
   return (

@@ -10,7 +10,7 @@ import {
 
 export async function signUpdate(
   provider: ethers.providers.Web3Provider,
-  chainId: ChainId
+  chainId: ChainId,
 ) {
   const signer = provider.getSigner();
 
@@ -36,7 +36,7 @@ export async function signUpdate(
   const message = ethers.utils._TypedDataEncoder.getPayload(
     domain,
     types,
-    values
+    values,
   );
 
   const sig = await signer._signTypedData(domain, types, values);
@@ -46,7 +46,7 @@ export async function signUpdate(
 
 export function getKittygotchiMetadataEndpoint(
   chainId?: number,
-  prefix?: string
+  prefix?: string,
 ) {
   if (
     chainId === ChainId.Polygon ||
@@ -93,7 +93,7 @@ export enum KittygotchiTraitType {
 
 export function getImageFromTrait(
   traitType: KittygotchiTraitType,
-  value?: string
+  value?: string,
 ) {
   let dir = '';
 
@@ -172,7 +172,7 @@ export function GET_KITTYGOTCHI_MINT_RATE(chainId?: number) {
 
 export function getImageFromTraitIcon(
   traitType: KittygotchiTraitType,
-  value?: string
+  value?: string,
 ) {
   let dir = '';
 

@@ -1,5 +1,5 @@
-import { ChainId } from '@dexkit/core/constants';
-import { WalletTotalBalance } from './WalletTotalBalance';
+import { ChainId } from "@dexkit/core/constants";
+import { WalletTotalBalance } from "./WalletTotalBalance";
 
 interface Props {
   chainId?: ChainId;

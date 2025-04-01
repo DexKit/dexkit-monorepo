@@ -53,7 +53,7 @@ function WalletBalancesTable({ isBalancesVisible, chainId, filter }: Props) {
         (t) =>
           t?.token?.name?.toLowerCase().search(lowercasedFilter) !== -1 ||
           t?.token?.symbol?.toLowerCase().search(lowercasedFilter) !== -1 ||
-          t?.token?.address?.toLowerCase().search(lowercasedFilter) !== -1
+          t?.token?.address?.toLowerCase().search(lowercasedFilter) !== -1,
       );
     }
 

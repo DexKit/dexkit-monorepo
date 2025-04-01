@@ -10,14 +10,13 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { Transak } from "@transak/transak-sdk";
 
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import type { providers } from 'ethers';
+import type { providers } from "ethers";
 
 import { BigNumber, constants, utils } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSwitchChain } from 'wagmi';
-
+import { useSwitchChain } from "wagmi";
 
 import {
   useAsyncMemo,
@@ -113,7 +112,7 @@ export function useSwapState({
   maxSlippage: number;
   isAutoSlippage: boolean;
   currency: string;
-  variant?: SwapVariant
+  variant?: SwapVariant;
 }) {
   const { switchChain } = useSwitchChain();
 
@@ -182,7 +181,7 @@ export function useSwapState({
         }
       }
     },
-    [quoteFor]
+    [quoteFor],
   );
 
   const isTokenGaslessSupported = useIsGaslessSupportedToken({
@@ -217,7 +216,6 @@ export function useSwapState({
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({
-
     maxSlippage: !isAutoSlippage ? maxSlippage : undefined,
     zeroExApiKey,
     currency,
@@ -231,7 +229,7 @@ export function useSwapState({
       quoteFor: lazyQuoteFor,
       account,
     },
-    variant
+    variant,
   });
 
   const { quoteQuery } = quote;
@@ -317,7 +315,7 @@ export function useSwapState({
         setBuyAmount(value);
       }
     },
-    [buyToken]
+    [buyToken],
   );
 
   const handleChangeSellAmount = useCallback(
@@ -332,7 +330,7 @@ export function useSwapState({
         setSellAmount(value);
       }
     },
-    [sellToken]
+    [sellToken],
   );
 
   const handleConnectWallet = () => {
@@ -381,7 +379,7 @@ export function useSwapState({
       return initial;
     },
     false,
-    [provider]
+    [provider],
   );
 
   const execType = useExecType({
@@ -423,7 +421,7 @@ export function useSwapState({
     ) {
       const [, data] = quoteQuery.data as unknown as [
         string,
-        ZeroExQuoteMetaTransactionResponse
+        ZeroExQuoteMetaTransactionResponse,
       ];
       const {
         eip712: eip712Approval,
@@ -449,7 +447,7 @@ export function useSwapState({
                 quote.setApprovalSignature(signature);
               }
             },
-          }
+          },
         );
         if (signature) {
           const sign = utils.splitSignature(signature);
@@ -477,8 +475,8 @@ export function useSwapState({
               token: sellToken,
             },
             {
-              onSuccess: () => { },
-            }
+              onSuccess: () => {},
+            },
           );
           quote.quoteQuery.refetch();
           return;
@@ -499,7 +497,7 @@ export function useSwapState({
               quote.setTradeSignature(signature);
             }
           },
-        }
+        },
       );
 
       if (signature) {
@@ -521,7 +519,7 @@ export function useSwapState({
           trade,
           approval,
           quote: data,
-          onHash: (hash: string) => { },
+          onHash: (hash: string) => {},
           sellToken,
           buyToken,
           chainId: connectedChainId,
@@ -541,7 +539,7 @@ export function useSwapState({
             id: "transaction.rejected",
             defaultMessage: "Transaction rejected",
           }),
-          { variant: "error" }
+          { variant: "error" },
         );
       };
 
@@ -554,19 +552,19 @@ export function useSwapState({
             {
               quote: data,
               provider: connectorProvider as providers.Web3Provider,
-              onHash: (hash: string) => { },
+              onHash: (hash: string) => {},
               sellToken,
               buyToken,
             },
             {
-              onSuccess: (receipt: providers.TransactionReceipt) => { },
+              onSuccess: (receipt: providers.TransactionReceipt) => {},
               onError,
-            }
+            },
           );
           sellTokenBalance.refetch();
           buyTokenBalance.refetch();
         }
-      } catch (err: unknown) { }
+      } catch (err: unknown) {}
     }
   };
 
@@ -598,11 +596,11 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (hash: string) => {},
         },
         {
-          onSuccess: (receipt: providers.TransactionReceipt) => { },
-        }
+          onSuccess: (receipt: providers.TransactionReceipt) => {},
+        },
       );
     } else if (execType === "approve" && quoteQuery.data) {
       const [, data] = quoteQuery.data;
@@ -618,8 +616,8 @@ export function useSwapState({
             token: sellToken,
           },
           {
-            onSuccess: () => { },
-          }
+            onSuccess: () => {},
+          },
         );
       }
     } else if (execType === "unwrap") {
@@ -627,13 +625,13 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (hash: string) => { },
+          onHash: (hash: string) => {},
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {
             quoteQuery.refetch();
           },
-        }
+        },
       );
     } else if (execType === "switch" && chainId) {
       switchChain({ chainId });
@@ -694,7 +692,7 @@ export function useSwapState({
     buyAmount: lazyBuyAmount,
     quoteFor: quote.params?.quoteFor,
     insufficientBalance: lazySellAmount?.gt(
-      sellTokenBalance.data ?? BigNumber.from(0)
+      sellTokenBalance.data ?? BigNumber.from(0),
     ),
     clickOnMax,
     isExecuting:

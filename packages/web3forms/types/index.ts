@@ -201,9 +201,7 @@ export type InputComponent =
   | DecimalInput
   | ImageUrlInput
   | SharesArray
-  | MerkleTreeFileInput
-
-  ;
+  | MerkleTreeFileInput;
 
 export type FormInput = {
   type: "input";

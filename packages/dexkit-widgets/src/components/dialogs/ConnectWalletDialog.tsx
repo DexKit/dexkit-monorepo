@@ -53,7 +53,7 @@ export default function ConnectWalletDialog({
   const handleActivateWallet = async (
     connectorName: string,
     loginType?: MagicLoginType,
-    email?: string
+    email?: string,
   ) => {
     setConnectorName(connectorName);
     setLoginType(loginType);

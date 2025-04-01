@@ -38,7 +38,7 @@ export function useFormQuery({ id }: { id?: number }) {
         templateId: data.template?.id,
       } as ContractFormData;
     },
-    { enabled: id !== undefined }
+    { enabled: id !== undefined },
   );
 }
 
@@ -71,9 +71,9 @@ export function useListFormsQuery({
             creatorAddress: form.creatorAddress,
             params: JSON.parse(form.rawData),
             templateId: form.template?.id,
-          } as ContractFormData)
+          }) as ContractFormData,
       );
     },
-    { enabled: creatorAddress !== undefined }
+    { enabled: creatorAddress !== undefined },
   );
 }

@@ -28,14 +28,13 @@ export default function useCategoryList(params: {
 
       delete newParams["sortModel"];
 
-      return (
-        await instance.get("/product-category", { params: newParams })
-      ).data;
+      return (await instance.get("/product-category", { params: newParams }))
+        .data;
     },
     {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       staleTime: 1000,
-    }
+    },
   );
 }

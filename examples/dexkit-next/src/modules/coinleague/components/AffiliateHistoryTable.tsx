@@ -33,7 +33,7 @@ export default function AffiliateHistoryTable({ account, chainId }: Props) {
       first: rowsPerPage,
       skip: page * rowsPerPage,
     },
-    false
+    false,
   );
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -41,7 +41,7 @@ export default function AffiliateHistoryTable({ account, chainId }: Props) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -83,7 +83,7 @@ export default function AffiliateHistoryTable({ account, chainId }: Props) {
                   affiliate={affiliate}
                   chainId={chainId}
                 />
-              )
+              ),
             )
           ) : (
             <TableRow>

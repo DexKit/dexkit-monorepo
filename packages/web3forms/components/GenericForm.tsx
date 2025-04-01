@@ -29,7 +29,7 @@ type FormParams = {
   setFieldValue: (
     field: string,
     value: any,
-    shouldValidate?: boolean | undefined
+    shouldValidate?: boolean | undefined,
   ) => void;
 };
 
@@ -55,7 +55,7 @@ function SyncContextAndHiddenFields({
   setFieldValue: (
     field: string,
     value: any,
-    shouldValidate?: boolean | undefined
+    shouldValidate?: boolean | undefined,
   ) => Promise<void | FormikErrors<any>>;
   elements: FormElement[];
   account?: string;
@@ -221,7 +221,7 @@ export default function GenericForm({
   const renderElements = (
     elements: FormElement[],
     group?: string,
-    params?: FormParams
+    params?: FormParams,
   ) => {
     return elements
       .map((el, key) => {
@@ -331,7 +331,7 @@ export default function GenericForm({
                   .test("address", (value) => {
                     return value !== undefined ? isAddress(value) : true;
                   })
-                  .required()
+                  .required(),
               ),
             };
           } else if (
@@ -369,7 +369,7 @@ export default function GenericForm({
                 [el.ref[0]]: Yup.array(
                   Yup.string().test("address", (value) => {
                     return value !== undefined ? isAddress(value) : true;
-                  })
+                  }),
                 ).required(),
                 [el.ref[1]]: Yup.array(Yup.string()).required(),
               };
@@ -458,7 +458,7 @@ export default function GenericForm({
                     vals = values[fieldName.name].map((v: string) =>
                       fieldName.decimals > 0
                         ? parseUnits(v, fieldName.decimals)
-                        : BigNumber.from(v)
+                        : BigNumber.from(v),
                     );
                   } else {
                     vals =

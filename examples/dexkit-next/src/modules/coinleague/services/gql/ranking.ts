@@ -6,7 +6,7 @@ export const GET_RANKING_MOST_WINNED = gql`
       first: 100
       orderBy: totalWinnedGames
       orderDirection: desc
-      where: {totalWinnedGames_gt: 0}
+      where: { totalWinnedGames_gt: 0 }
     ) {
       id
       totalWinnedGames
@@ -26,7 +26,7 @@ export const GET_RANKING_MOST_JOINED = gql`
       first: 500
       orderBy: totalJoinedGames
       orderDirection: desc
-      where: {totalJoinedGames_gt: 0}
+      where: { totalJoinedGames_gt: 0 }
     ) {
       id
       totalWinnedGames
@@ -41,12 +41,12 @@ export const GET_RANKING_MOST_JOINED = gql`
 `;
 
 export const GET_RANKING_MOST_JOINED_COMPETITION = gql`
-  query GetMostJoinedPast($block: Int){
+  query GetMostJoinedPast($block: Int) {
     players(
       first: 500
       orderBy: totalJoinedGames
       orderDirection: desc
-      where: {totalJoinedGames_gt: 0}
+      where: { totalJoinedGames_gt: 0 }
     ) {
       id
       totalWinnedGames
@@ -61,8 +61,8 @@ export const GET_RANKING_MOST_JOINED_COMPETITION = gql`
       first: 500
       orderBy: totalJoinedGames
       orderDirection: desc
-      where: {totalJoinedGames_gt: 0}
-      block: {number: $block }
+      where: { totalJoinedGames_gt: 0 }
+      block: { number: $block }
     ) {
       id
       totalWinnedGames
@@ -149,14 +149,13 @@ export const GET_RANKING_MOST_JOINED_COMPETITION_BETWEEN_MONTHS_STRING = `
   }
 `;
 
-
 export const GET_RANKING_MOST_EARNED = gql`
   {
     players(
       first: 100
       orderBy: totalEarned
       orderDirection: desc
-      where: {totalEarned_gt: 0}
+      where: { totalEarned_gt: 0 }
     ) {
       id
       totalWinnedGames
@@ -176,7 +175,7 @@ export const GET_RANKING_MOST_PROFIT = gql`
       first: 100
       orderBy: EarnedMinusSpent
       orderDirection: desc
-      where: {EarnedMinusSpent_gt: 0}
+      where: { EarnedMinusSpent_gt: 0 }
     ) {
       id
       totalWinnedGames

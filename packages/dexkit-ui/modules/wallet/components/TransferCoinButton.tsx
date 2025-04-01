@@ -11,7 +11,7 @@ const EvmTransferCoinDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
-    )
+    ),
 );
 
 export function TransferCoinButton() {

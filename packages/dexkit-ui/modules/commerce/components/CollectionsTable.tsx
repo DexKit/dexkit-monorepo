@@ -26,7 +26,7 @@ import CustomToolbar from "./CustomToolbar";
 import useParams from "./containers/hooks/useParams";
 
 const AppConfirmDialog = dynamic(
-  () => import("@dexkit/ui/components/AppConfirmDialog")
+  () => import("@dexkit/ui/components/AppConfirmDialog"),
 );
 
 export interface CollectionsTableProps {}
@@ -88,7 +88,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
             id="collection.deleted"
             defaultMessage="Collection deleted"
           />,
-          { variant: "success" }
+          { variant: "success" },
         );
         setShowConfirm(false);
         setSelectedId(undefined);
@@ -124,7 +124,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
   }, []);
 
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
-    []
+    [],
   );
 
   const handleCloseDeleteMany = () => {
@@ -143,7 +143,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
           id="products.are.deleted"
           defaultMessage="Products are deleted"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       await refetch();
     } catch (err) {
@@ -262,7 +262,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <LabelIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
             loadingOverlay: LoadingOverlay,
             noResultsOverlay: noRowsOverlay(
@@ -276,7 +276,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
               />,
               <Box sx={{ fontSize: "3rem" }}>
                 <LabelIcon fontSize="inherit" />
-              </Box>
+              </Box>,
             ),
           }}
           sortingOrder={["asc", "desc"]}

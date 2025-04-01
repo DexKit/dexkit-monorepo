@@ -29,11 +29,11 @@ export default function ExchangeQuoteTokensInput({
   chainId,
 }: ExchangeQuoteTokensInputProps) {
   const [field, meta, helpers] = useField<Token[] | undefined>(
-    `defaultTokens.${chainId}.quoteTokens`
+    `defaultTokens.${chainId}.quoteTokens`,
   );
 
   const [baseField, baseMeta, baseHelpers] = useField<Token[] | undefined>(
-    `defaultTokens.${chainId}.baseTokens`
+    `defaultTokens.${chainId}.baseTokens`,
   );
 
   const chainTokens = useMemo(() => {
@@ -47,7 +47,7 @@ export default function ExchangeQuoteTokensInput({
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
-    value: Token[] | undefined
+    value: Token[] | undefined,
   ) => {
     let newTokens = [...chainTokens];
 
@@ -57,7 +57,7 @@ export default function ExchangeQuoteTokensInput({
           value.findIndex(
             (t) =>
               t.chainId === token.chainId &&
-              isAddressEqual(t.address, token.address)
+              isAddressEqual(t.address, token.address),
           ) > -1
         );
       });

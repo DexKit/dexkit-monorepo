@@ -20,9 +20,11 @@ export default function useCollectionsBySite(params: {
       }
 
       return (
-        await instance.get(`/product-collections/by-site/${params.siteId}`, { params })
+        await instance.get(`/product-collections/by-site/${params.siteId}`, {
+          params,
+        })
       ).data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 }

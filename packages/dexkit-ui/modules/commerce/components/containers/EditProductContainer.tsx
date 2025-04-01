@@ -29,7 +29,7 @@ function EditProductComponentWrapper({ product }: EditProductComponentProps) {
           id="product.updated"
           defaultMessage="Product updated"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
     } catch (err) {
       enqueueSnackbar(String(err), { variant: "error" });

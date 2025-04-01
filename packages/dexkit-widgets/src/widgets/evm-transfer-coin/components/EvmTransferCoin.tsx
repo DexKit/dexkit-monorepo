@@ -76,7 +76,7 @@ export default function EvmTransferCoin({
       address: string;
       amount: number;
       coin: Coin;
-    }
+    },
   ) => {
     enqueueSnackbar(
       formatMessage({
@@ -85,7 +85,7 @@ export default function EvmTransferCoin({
       }),
       {
         variant: "info",
-      }
+      },
     );
     if (chainId !== undefined) {
       createNotification({
@@ -137,11 +137,11 @@ export default function EvmTransferCoin({
               id: "transaction.failed.reason",
               defaultMessage: "Transaction failed",
             },
-            { reason: String(err) }
+            { reason: String(err) },
           ),
           {
             variant: "error",
-          }
+          },
         );
       }
     }

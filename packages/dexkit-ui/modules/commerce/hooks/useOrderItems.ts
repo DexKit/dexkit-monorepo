@@ -18,13 +18,12 @@ export default function useOrderItems(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/orders/${params.id}/items`))
-        .data;
+      return (await instance.get(`/orders/${params.id}/items`)).data;
     },
     {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

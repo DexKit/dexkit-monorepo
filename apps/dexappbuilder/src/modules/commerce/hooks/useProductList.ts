@@ -28,9 +28,7 @@ export default function useProductList(params: {
 
       delete newParams['sortModel'];
 
-      return (
-        await instance.get('/products', { params: newParams })
-      ).data;
+      return (await instance.get('/products', { params: newParams })).data;
     },
     {
       refetchOnMount: 'always',

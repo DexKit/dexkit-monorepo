@@ -23,21 +23,21 @@ const EvmTransferCoinDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
-    )
+    ),
 );
 
 const EvmBurnTokenDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-burn-token/components/dialogs/EvmBurnTokenDialog"
-    )
+    ),
 );
 
 const EvmMintTokenDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-mint-token/components/dialogs/EvmMintTokenDialog"
-    )
+    ),
 );
 
 export default function TokenErc20Section({ section }: TokenErc20SectionProps) {
@@ -89,7 +89,7 @@ export default function TokenErc20Section({ section }: TokenErc20SectionProps) {
       return await contract?.get();
     },
     undefined,
-    [contract]
+    [contract],
   );
 
   const net = useMemo(() => {

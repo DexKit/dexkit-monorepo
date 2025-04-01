@@ -51,7 +51,7 @@ export default function CreateCategoryFormDialog({
           id="category.created"
           defaultMessage="Category created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
       handleClose();
       onRefetch();

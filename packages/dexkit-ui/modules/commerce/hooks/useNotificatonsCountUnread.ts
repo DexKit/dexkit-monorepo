@@ -20,13 +20,15 @@ export default function useNotificationsCountUnread({
       }
 
       return (
-        await instance?.get("/notifications/count-unread", { params: { scope } })
+        await instance?.get("/notifications/count-unread", {
+          params: { scope },
+        })
       ).data;
     },
     {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       refetchInterval: 5000,
-    }
+    },
   );
 }

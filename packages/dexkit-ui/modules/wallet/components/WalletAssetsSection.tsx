@@ -3,16 +3,16 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Search } from "@mui/icons-material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { ChangeEvent, useMemo, useState } from "react";
@@ -21,23 +21,23 @@ import CloseCircle from "../../../components/icons/CloseCircle";
 
 import { Asset } from "@dexkit/core/types/nft";
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import Funnel from "../../../components/icons/Filter";
 import { AssetCard } from "../../nft/components/AssetCard";
 import TableSkeleton from "../../nft/components/tables/TableSkeleton";
 import {
-    useAccountAssetsBalance,
-    useAsset,
-    useHiddenAssets,
+  useAccountAssetsBalance,
+  useAsset,
+  useHiddenAssets,
 } from "../../nft/hooks";
 import WalletAssetsFilter from "./WalletAssetsFilter";
 const EvmTransferNftDialog = dynamic(
   () =>
     import(
       "@dexkit/ui/modules/evm-transfer-nft/components/dialogs/EvmTransferNftDialog"
-    )
+    ),
 );
 interface Props {
   onOpenFilters?: () => void;
@@ -64,7 +64,7 @@ function WalletAssetsSection({
 
   const { accountAssets, accountAssetsQuery } = useAccountAssetsBalance(
     filters?.account ? [filters?.account] : [],
-    false
+    false,
   );
   // We are calling this hook, because from api is missing the owner and this is in realtime
   const assetToTransfer = useAsset(
@@ -72,7 +72,7 @@ function WalletAssetsSection({
     assetTransfer?.id,
     undefined,
     true,
-    assetTransfer?.chainId
+    assetTransfer?.chainId,
   );
 
   const { isHidden, toggleHidden, assets: hiddenAssets } = useHiddenAssets();
@@ -111,7 +111,7 @@ function WalletAssetsSection({
         }*/
         if (filters?.networks && filters?.networks.length) {
           return filters.networks.includes(
-            getNetworkSlugFromChainId(asset.chainId) || ""
+            getNetworkSlugFromChainId(asset.chainId) || "",
           );
         }
 

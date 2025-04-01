@@ -20,14 +20,12 @@ export default function useOrdersList(params: {
         throw new Error("no instance");
       }
 
-      return (
-        await instance.get("/orders", { params })
-      ).data;
+      return (await instance.get("/orders", { params })).data;
     },
     {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

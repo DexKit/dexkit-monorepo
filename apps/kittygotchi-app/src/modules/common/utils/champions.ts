@@ -21,7 +21,7 @@ export function getEventCurrentRound(): ChampionsEventRound {
 export function getEventAccessDate(
   round: ChampionsEventRound,
   offset = 0,
-  chainId?: number
+  chainId?: number,
 ): number {
   let currChain = chainId ? chainId : ChainId.Polygon;
 
@@ -59,7 +59,7 @@ export function getMaxSupplyForRound(round: ChampionsEventRound): number {
 export function getEventEarlyAccessDate(
   round: ChampionsEventRound,
   offset = 0,
-  chainId?: number
+  chainId?: number,
 ): number {
   if (chainId && IS_CHAMPIONS_SUPPORTED_NETWORK(chainId)) {
     if (round === ChampionsEventRound.FIRST) {
@@ -80,7 +80,7 @@ export function getEventEarlyAccessDate(
 
 // mudar para uma variavel.
 export function getEventHoldingAmount(
-  chainId?: number
+  chainId?: number,
 ): ethers.BigNumber | undefined {
   if (chainId && IS_CHAMPIONS_SUPPORTED_NETWORK(chainId)) {
     return EVENT_HOLDING_AMOUNT[chainId];

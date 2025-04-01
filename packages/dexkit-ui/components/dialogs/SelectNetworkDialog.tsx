@@ -84,7 +84,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           <List disablePadding>
             {Object.keys(NETWORKS)
               .filter(
-                (k) => activeChainIds && activeChainIds?.includes(Number(k))
+                (k) => activeChainIds && activeChainIds?.includes(Number(k)),
               )
               .filter((k) => Number(k) !== connectedChainId)
               .filter((k) => !NETWORKS[parseInt(k)].testnet)

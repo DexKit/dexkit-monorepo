@@ -9,7 +9,7 @@ interface Props {
   pageTemplate: PageTemplateResponse;
   onMenu: (
     event: React.MouseEvent<HTMLElement>,
-    config: PageTemplateResponse
+    config: PageTemplateResponse,
   ) => void;
 }
 

@@ -20,7 +20,6 @@ export interface NetworkCoin {
   coingeckoId?: string;
 }
 
-
 export interface NativeEvmCoin extends NetworkCoin {
   coinType: CoinTypes.EVM_NATIVE;
 }
@@ -39,6 +38,5 @@ export interface SolanaNativeCoin extends NetworkCoin {
 export interface BitcoinNativeCoin extends NetworkCoin {
   coinType: CoinTypes.BITCOIN_NATIVE;
 }
-
 
 export type Coin = EvmCoin | SolanaNativeCoin | BitcoinNativeCoin;

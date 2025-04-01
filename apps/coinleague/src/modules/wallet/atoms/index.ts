@@ -6,7 +6,7 @@ import { DkApiAsset } from '../types/dexkitapi';
 
 export const coinsAtom = atomWithStorage(
   'coins',
-  COIN_LIST.filter((c) => !c.isHidden)
+  COIN_LIST.filter((c) => !c.isHidden),
 );
 
 export const accountsAtom = atomWithStorage<Account[]>('accounts', []);
@@ -15,7 +15,7 @@ export const walletsAtom = atomWithStorage<Wallet[]>('wallets', []);
 
 export const isAutoSlippageAtom = atomWithStorage<boolean>(
   'isAutoSlippage',
-  true
+  true,
 );
 
 export const maxSlippageAtom = atomWithStorage<number>('maxSlippage', 0.0);
@@ -30,15 +30,15 @@ export const nftAccountsAtom = atomWithStorage<Account[]>('nftsAccounts', []);
 
 export const recentCoinsAtom = atomWithStorage<{ coin: Coin; count: number }[]>(
   'recentCoins',
-  []
+  [],
 );
 
 export const swapFavoriteCoinsAtom = atomWithStorage<Coin[]>(
   'swapFavoriteCoins',
-  []
+  [],
 );
 
 export const importedCoinsAtom = atomWithStorage<Coin[]>(
   'importedCoins',
-  COIN_LIST.filter((c) => !c.isHidden)
+  COIN_LIST.filter((c) => !c.isHidden),
 );

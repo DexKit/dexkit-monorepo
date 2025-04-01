@@ -1,39 +1,41 @@
-import type { Chain, Transport } from 'viem';
-import { CreateConfigParameters, createConfig, http } from 'wagmi';
+import type { Chain, Transport } from "viem";
+import { CreateConfigParameters, createConfig, http } from "wagmi";
 
-import type { WalletList } from '../wallets/Wallet';
-import { computeWalletConnectMetaData } from '../wallets/computeWalletConnectMetaData';
-import { connectorsForWallets } from '../wallets/connectorsForWallets';
+import type { WalletList } from "../wallets/Wallet";
+import { computeWalletConnectMetaData } from "../wallets/computeWalletConnectMetaData";
+import { connectorsForWallets } from "../wallets/connectorsForWallets";
 import {
   // coinbaseWallet,
   metaMaskWallet,
-  walletConnectWallet
-} from '../wallets/walletConnectors';
+  walletConnectWallet,
+} from "../wallets/walletConnectors";
 
-import { dedicatedWalletConnector } from '../../connectors/magic-wagmi/dedicatedWalletConnector';
+import { dedicatedWalletConnector } from "../../connectors/magic-wagmi/dedicatedWalletConnector";
 
-import { NETWORKS } from '@dexkit/core/constants/networks';
-import { MagicApiKey } from '../../constants/magic';
+import { NETWORKS } from "@dexkit/core/constants/networks";
+import { MagicApiKey } from "../../constants/magic";
 
-import { getDeprecatedInjectionOnMobileBrowser, getHashInjectionOnMobileBrowser } from '../../utils/injected';
-
+import {
+  getDeprecatedInjectionOnMobileBrowser,
+  getHashInjectionOnMobileBrowser,
+} from "../../utils/injected";
 
 export type _chains = readonly [Chain, ...Chain[]];
 
 // Define the '_transports' type as a Record
 // It maps each 'Chain' id to a 'Transport'
-export type _transports = Record<_chains[number]['id'], Transport>;
+export type _transports = Record<_chains[number]["id"], Transport>;
 
 interface GetDefaultConfigParameters<
   chains extends _chains,
   transports extends _transports,
 > extends Omit<
-  CreateConfigParameters<chains, transports>,
-  // If you use 'client' you can't use 'transports' (we force to use 'transports')
-  // More info here https://wagmi.sh/core/api/createConfig#client
-  // We will also use our own 'connectors' instead of letting user specifying it
-  'client' | 'connectors'
-> {
+    CreateConfigParameters<chains, transports>,
+    // If you use 'client' you can't use 'transports' (we force to use 'transports')
+    // More info here https://wagmi.sh/core/api/createConfig#client
+    // We will also use our own 'connectors' instead of letting user specifying it
+    "client" | "connectors"
+  > {
   appName: string;
   appDescription?: string;
   appUrl?: string;
@@ -49,8 +51,7 @@ const createDefaultTransports = <
   chains: chains,
 ): transports => {
   const transportsObject = chains.reduce((acc: transports, chain) => {
-
-    const providerRpcUrl = NETWORKS[chain.id]?.providerRpcUrl
+    const providerRpcUrl = NETWORKS[chain.id]?.providerRpcUrl;
 
     const key = chain.id as keyof transports;
     if (providerRpcUrl) {
@@ -98,17 +99,15 @@ export const getDefaultConfig = <
     walletConnectors = [];
     if (walletConnector) {
       //@ts-ignore
-      walletConnectors = [walletConnector]
+      walletConnectors = [walletConnector];
     }
-
   }
-
 
   const connectors = connectorsForWallets(
     wallets || [
       {
-        groupName: 'Popular',
-        wallets: walletConnectors
+        groupName: "Popular",
+        wallets: walletConnectors,
       },
     ],
     {
@@ -121,11 +120,12 @@ export const getDefaultConfig = <
     },
   );
 
-  const allConnectors = [...connectors, dedicatedWalletConnector({ options: { apiKey: MagicApiKey } })]
-
+  const allConnectors = [
+    ...connectors,
+    dedicatedWalletConnector({ options: { apiKey: MagicApiKey } }),
+  ];
 
   return createConfig({
-
     connectors: allConnectors,
     ssr: true,
     chains,

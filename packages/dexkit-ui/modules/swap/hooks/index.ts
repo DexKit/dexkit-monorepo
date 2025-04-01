@@ -100,7 +100,7 @@ export function useSwapState() {
             sellTokenSymbol: params.sellToken.symbol.toUpperCase(),
             sellAmount: formatUnits(
               params.sellAmount,
-              params.sellToken.decimals
+              params.sellToken.decimals,
             ),
             buyTokenSymbol: params.buyToken.symbol.toUpperCase(),
             buyAmount: formatUnits(params.buyAmount, params.buyToken.decimals),
@@ -126,7 +126,7 @@ export function useSwapState() {
         });
       }
     },
-    []
+    [],
   );
 
   const connectWalletDialog = useConnectWalletDialog();
@@ -205,7 +205,7 @@ export function useSearchSwapTokens({
         coins = coins.filter(
           (c) =>
             c.name.toLowerCase().search(keyword?.toLowerCase()) > -1 ||
-            c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1
+            c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1,
         );
       }
 
@@ -214,7 +214,7 @@ export function useSearchSwapTokens({
           acc.find(
             (c) =>
               isAddressEqual(c.address, current.address) &&
-              c.chainId === current.chainId
+              c.chainId === current.chainId,
           ) !== undefined;
 
         if (!found) {
@@ -230,7 +230,7 @@ export function useSearchSwapTokens({
         tokens = tokens.filter(
           (c) =>
             c.name.toLowerCase().search(keyword?.toLowerCase()) > -1 ||
-            c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1
+            c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1,
         );
       }
       return tokens;
@@ -261,6 +261,6 @@ export function usePlatformCoinSearch({
       }
 
       return [];
-    }
+    },
   );
 }

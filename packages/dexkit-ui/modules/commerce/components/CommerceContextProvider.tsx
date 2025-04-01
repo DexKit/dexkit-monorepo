@@ -103,7 +103,7 @@ export default function CommerceContextProvider({
 
   const [cart, dispatch] = useReducerAtom<CartState, Action>(
     dexkitCartAtom,
-    reducer
+    reducer,
   );
 
   const handleSetProduct = (productId?: string) => {
@@ -165,7 +165,7 @@ export default function CommerceContextProvider({
           id="removed.not.found.products"
           defaultMessage="Removed not found products"
         />,
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };
@@ -181,7 +181,7 @@ export default function CommerceContextProvider({
           section &&
             section.type === "commerce" &&
             section.settings.content.type === "store" &&
-            section.settings.content.params.emailRequired
+            section.settings.content.params.emailRequired,
         ),
         openCart,
         closeCart,

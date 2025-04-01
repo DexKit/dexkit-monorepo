@@ -58,18 +58,18 @@ export default function EvmReceiveForm({
 }: EvmReceiveProps) {
   const [coin, setCoin] = useState<EvmCoin | null | undefined>(defaultCoin);
   const [address, setAddress] = useState<string | null | undefined>(
-    defaultENSName || defaultReceiver
+    defaultENSName || defaultReceiver,
   );
 
   const [receiver, setReceiver] = useState<string | null | undefined>(
-    defaultReceiver
+    defaultReceiver,
   );
   const [ENSName, setENSName] = useState<string | undefined>(defaultENSName);
   const [chainId, setChainId] = useState<number | null | undefined>(
-    defaultChainId
+    defaultChainId,
   );
   const [amount, setAmount] = useState<number | null | undefined>(
-    defaultAmount
+    defaultAmount,
   );
   const [addressTouched, setAddressTouched] = useState<boolean>(false);
 
@@ -115,13 +115,13 @@ export default function EvmReceiveForm({
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
     value: EvmCoin | null,
-    reason: AutocompleteChangeReason
+    reason: AutocompleteChangeReason,
   ) => {
     setCoin(value);
   };
 
   const handleChangeAmount = (
-    ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     setAmount(Number(ev.currentTarget.value));
   };

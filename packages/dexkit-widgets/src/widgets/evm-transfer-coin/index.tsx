@@ -30,7 +30,7 @@ function EvmTransferCoinContainer(params: EvmTransferCoinWidgetProps) {
 }
 
 export default function EvmTransferCoinWidget(
-  params: EvmTransferCoinWidgetProps
+  params: EvmTransferCoinWidgetProps,
 ) {
   return (
     <WidgetLayout>

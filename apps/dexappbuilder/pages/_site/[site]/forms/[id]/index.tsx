@@ -1,25 +1,25 @@
 import ContractFormView from '@dexkit/web3forms/components/ContractFormView';
 import {
-    Box,
-    CircularProgress,
-    Container,
-    Grid,
-    NoSsr,
-    Stack,
-    Typography,
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  NoSsr,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
-    useCloseFormMutation,
-    useDeleteFormMutation,
-    useFormQuery,
+  useCloseFormMutation,
+  useDeleteFormMutation,
+  useFormQuery,
 } from '../../../../../src/modules/forms/hooks';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import FormInfoCard from '@/modules/forms/components/FormInfoCard';

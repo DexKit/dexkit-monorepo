@@ -5,7 +5,7 @@ import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 
 const EVMDarkblockWidget = dynamic(
   async () => (await import("@dexkit/darkblock-evm-widget")).EVMDarkblockWidget,
-  { ssr: false }
+  { ssr: false },
 );
 
 export interface DarkBlockWrapperProps {

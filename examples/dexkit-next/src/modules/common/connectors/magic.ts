@@ -30,7 +30,7 @@ interface MagicConnectConstructorArgs {
 function waitForEvent<T>(
   emitter: EventEmitter,
   event: string,
-  rejectEvent: string
+  rejectEvent: string,
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     emitter.once(event, (args) => {
@@ -42,7 +42,10 @@ function waitForEvent<T>(
 }
 
 export class ProviderWrapper {
-  constructor(public provider: any, public eventEmitter: EventEmitter) {}
+  constructor(
+    public provider: any,
+    public eventEmitter: EventEmitter,
+  ) {}
 
   async request(args: RequestArguments) {
     if (
@@ -54,7 +57,7 @@ export class ProviderWrapper {
       const newArgs = await waitForEvent(
         this.eventEmitter,
         'execute',
-        'cancel'
+        'cancel',
       );
 
       return this.provider.request(newArgs);
@@ -210,7 +213,7 @@ export class MagicConnector extends Connector {
       //@ts-ignore
       this.provider = new ProviderWrapper(
         this.magicInstance.rpcProvider,
-        this.eventEmitter
+        this.eventEmitter,
       );
     }
   }
@@ -268,5 +271,5 @@ export const [magic, magicHooks] = initializeConnector<MagicConnector>(
     });
 
     return instance;
-  }
+  },
 );

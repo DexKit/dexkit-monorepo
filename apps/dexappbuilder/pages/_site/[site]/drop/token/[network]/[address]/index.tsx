@@ -1,14 +1,14 @@
 import {
-    ThirdwebSDKProvider,
-    useContract,
-    useContractMetadata,
+  ThirdwebSDKProvider,
+  useContract,
+  useContractMetadata,
 } from '@thirdweb-dev/react';
 import { useRouter } from 'next/router';
 
 import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
 import TokenDropSection from '@dexkit/dexappbuilder-viewer/components/sections/TokenDropSection';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Container, Grid, Skeleton } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';

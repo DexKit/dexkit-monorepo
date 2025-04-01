@@ -49,7 +49,7 @@ export function useGameEnd({ game }: { game?: Game }) {
               <FormattedMessage id="view" defaultMessage="View" />
             </Button>
           ),
-        }
+        },
       );
       // createNotification({
       //   title: formatMessage({

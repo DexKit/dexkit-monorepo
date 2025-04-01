@@ -2,22 +2,18 @@ export const networks = {
   1: {
     unlockAddress: "0xe79B93f8E22676774F2A8dAd469175ebd00029FA", // Smart contracts docs include all addresses on all networks
     provider: "https://rpc.unlock-protocol.com/1",
-
   },
   5: {
     unlockAddress: "0x627118a4fB747016911e5cDA82e2E77C531e8206", // Smart contracts docs include all addresses on all networks
     provider: "https://rpc.unlock-protocol.com/5",
-
   },
   10: {
     unlockAddress: "0x99b1348a9129ac49c6de7F11245773dE2f51fB0c", // Smart contracts docs include all addresses on all networks
     provider: "https://rpc.unlock-protocol.com/10",
-
   },
   56: {
     unlockAddress: "0xeC83410DbC48C7797D2f2AFe624881674c65c856", // Smart contracts docs include all addresses on all networks
     provider: "https://rpc.unlock-protocol.com/56",
-
   },
   100: {
     unlockAddress: "0x1bc53f4303c711cc693F6Ec3477B83703DcB317f", // Smart contracts docs include all addresses on all networks

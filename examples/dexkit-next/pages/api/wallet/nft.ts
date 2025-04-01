@@ -11,13 +11,13 @@ const dexkitApiClient = axios.create({
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> {
   const { networks, accounts } = req.query;
 
   try {
     const response = await dexkitApiClient.get(
-      `/account/nfts/${networks}/${accounts}`
+      `/account/nfts/${networks}/${accounts}`,
     );
 
     if (response.data === '') {

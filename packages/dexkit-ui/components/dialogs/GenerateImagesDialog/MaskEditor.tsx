@@ -24,7 +24,7 @@ export default function MaskEditor({
   const ctx = React.useRef<CanvasRenderingContext2D | null>(null);
 
   const [canvasSize, setCanvasSize] = useState(
-    size ? size : { width: 512, height: 512 }
+    size ? size : { width: 512, height: 512 },
   );
 
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -81,7 +81,7 @@ export default function MaskEditor({
           event.clientY - rect.top,
           20,
           0,
-          2 * Math.PI
+          2 * Math.PI,
         );
         ctx?.fill();
       }
@@ -113,7 +113,7 @@ export default function MaskEditor({
           event.clientY - rect.top,
           20,
           0,
-          2 * Math.PI
+          2 * Math.PI,
         );
         ctx?.fill();
       }
@@ -125,7 +125,7 @@ export default function MaskEditor({
       maskCanvas.current,
       circleCanvas.current,
       canvasSize,
-    ]
+    ],
   );
 
   const handleClear = () => {
@@ -143,7 +143,7 @@ export default function MaskEditor({
         0,
         0,
         canvasSize.width,
-        canvasSize.height
+        canvasSize.height,
       );
 
       let data = imageData?.data; // Array containing pixel data: [r, g, b, a, r, g, b, a, ...]

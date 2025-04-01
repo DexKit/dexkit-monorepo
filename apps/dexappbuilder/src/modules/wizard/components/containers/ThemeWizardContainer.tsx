@@ -3,18 +3,18 @@ import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import Cancel from '@mui/icons-material/Cancel';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import {
-    Autocomplete,
-    Box,
-    Button,
-    Divider,
-    FormControl,
-    Grid,
-    MenuItem,
-    Select,
-    Stack,
-    Switch,
-    TextField,
-    Typography,
+  Autocomplete,
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
 } from '@mui/material';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';

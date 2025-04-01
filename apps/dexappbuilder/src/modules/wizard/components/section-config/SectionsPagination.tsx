@@ -15,7 +15,7 @@ const PAGE_SIZES = [5, 10, 25, 50];
 function shouldDisableNextButton(
   totalItems: number,
   pageSize: number,
-  currentPage: number
+  currentPage: number,
 ): boolean {
   // Calculate the total number of pages
   const totalPages = Math.ceil(totalItems / pageSize) - 1;

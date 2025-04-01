@@ -17,7 +17,9 @@ export default function useUserOrderItems(params: { id?: string }) {
     }
 
     return (
-      await instance.get/*<OrderItem[]>*/(`/orders/user-orders/${params.id}/items`)
+      await instance.get(
+        /*<OrderItem[]>*/ `/orders/user-orders/${params.id}/items`,
+      )
     ).data;
   });
 }

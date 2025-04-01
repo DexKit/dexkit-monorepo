@@ -32,7 +32,7 @@ export default function SelectTokenList({
         onSelect(token);
       };
     },
-    [onSelect]
+    [onSelect],
   );
 
   return (
@@ -58,7 +58,7 @@ export default function SelectTokenList({
                 selectedTokens[
                   `${token.chainId}-${token.address.toLowerCase()}`
                 ],
-                token
+                token,
               )}
             />
           </ListItemSecondaryAction>

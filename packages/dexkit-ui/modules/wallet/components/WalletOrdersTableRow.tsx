@@ -50,7 +50,7 @@ export function WalletOrdersTableRow({ order }: Props) {
               <FormattedNumber
                 currency={currency.currency}
                 value={parseFloat(
-                  formatUnits(order.order.erc20TokenAmount, token.decimals)
+                  formatUnits(order.order.erc20TokenAmount, token.decimals),
                 )}
               />
             }{" "}

@@ -3,13 +3,9 @@ import { Token } from "@dexkit/core/types";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 
-
-
 import type { BigNumber } from "ethers";
 
 // import { MagicConnector } from "../connectors/magic";
-
-
 
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
@@ -60,8 +56,6 @@ export function parseChainId(chainId: string | number) {
     ? chainId
     : Number.parseInt(chainId, chainId.startsWith("0x") ? 16 : 10);
 }
-
-
 
 export function tokenKey(token: Token) {
   return `${token.chainId}-${token.address.toLowerCase()}`;

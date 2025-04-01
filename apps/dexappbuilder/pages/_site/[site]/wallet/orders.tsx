@@ -1,21 +1,21 @@
 import { useActiveChainIds } from '@dexkit/ui';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import SidebarFilters from '@dexkit/ui/components/SidebarFilters';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Drawer,
-    Grid,
-    IconButton,
-    MenuItem,
-    Paper,
-    Select,
-    SelectChangeEvent,
-    Stack,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Button,
+  Drawer,
+  Grid,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';

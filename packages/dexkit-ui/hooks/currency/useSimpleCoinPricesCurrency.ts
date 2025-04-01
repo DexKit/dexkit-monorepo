@@ -6,27 +6,24 @@ import { getSimpleCoinPrices } from "../../services/currency";
 import { useTokenList } from "../blockchain";
 import { useCurrency } from "../currency";
 
-const GET_SIMPLE_COIN_PRICES = 'GET_SIMPLE_COIN_PRICES';
+const GET_SIMPLE_COIN_PRICES = "GET_SIMPLE_COIN_PRICES";
 
 export const useSimpleCoinPricesQuery = ({
   includeNative,
   chainId,
 }: {
   includeNative: boolean;
-  chainId?: number
+  chainId?: number;
 }) => {
   const { chainId: walletChainId } = useWeb3React();
-  const chain = chainId || walletChainId
+  const chain = chainId || walletChainId;
 
   const tokens = useTokenList({ chainId: chain });
   const { currency } = useCurrency();
   return useQuery(
     [GET_SIMPLE_COIN_PRICES, chain, tokens, currency],
     async () => {
-      if (
-        chain === undefined ||
-        (tokens === undefined && !includeNative)
-      ) {
+      if (chain === undefined || (tokens === undefined && !includeNative)) {
         return;
       }
       const prices: { [key: string]: { [key: string]: number } } = {};
@@ -48,33 +45,33 @@ export const useSimpleCoinPricesQuery = ({
         return prices;
       }
       const contractAddresses = tokens.map((t) => t.address);
-      const wrapped_address = WRAPPED_TOKEN_ADDRESSES[chain]?.toLowerCase() || ' ';
+      const wrapped_address =
+        WRAPPED_TOKEN_ADDRESSES[chain]?.toLowerCase() || " ";
       // Our API returns native as the wrapped coin
       if (includeNative) {
-
         if (!contractAddresses.includes(wrapped_address)) {
           contractAddresses.push(wrapped_address);
         }
       }
 
-
-      let simplePrices = await getSimpleCoinPrices({ chainId: chain, contractAddresses, currency });
-
+      let simplePrices = await getSimpleCoinPrices({
+        chainId: chain,
+        contractAddresses,
+        currency,
+      });
 
       if (includeNative) {
         const priceWrapped = simplePrices[wrapped_address];
         if (priceWrapped) {
           simplePrices = {
             ...simplePrices,
-            [ZEROEX_NATIVE_TOKEN_ADDRESS]: priceWrapped
-          }
+            [ZEROEX_NATIVE_TOKEN_ADDRESS]: priceWrapped,
+          };
         }
-
       }
-
 
       return simplePrices as { [key: string]: { [key: string]: number } };
     },
-    { enabled: chain !== undefined, suspense: false }
+    { enabled: chain !== undefined, suspense: false },
   );
 };

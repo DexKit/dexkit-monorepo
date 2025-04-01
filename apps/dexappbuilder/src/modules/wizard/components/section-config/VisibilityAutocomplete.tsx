@@ -20,11 +20,11 @@ const VisibilityAutocomplete = ({
 }: VisibilityAutocompleteProps) => {
   const handleSelectionChange = (
     event: any,
-    newValue: { id: string; label: string }[]
+    newValue: { id: string; label: string }[],
   ) => {
     onChange(
       Boolean(newValue.find((opt) => opt.id === 'desktop')),
-      Boolean(newValue.find((opt) => opt.id === 'mobile'))
+      Boolean(newValue.find((opt) => opt.id === 'mobile')),
     );
   };
 

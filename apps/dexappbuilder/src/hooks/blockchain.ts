@@ -19,16 +19,13 @@ import { Token } from '../types/blockchain';
 
 import { NETWORKS } from '../constants/chain';
 
-
 import { useAppWizardConfig } from '@/modules/wizard/hooks';
 import { ChainId } from '@dexkit/core/constants';
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '@dexkit/core/constants/zrx';
 import { useAppConfig } from './app';
 
-
 export function useBlockNumber() {
   const { provider } = useWeb3React();
-
 
   const [blockNumber, setBlockNumber] = useState(0);
 
@@ -64,21 +61,18 @@ export function useSwitchNetwork() {
 }
 
 export function useSwitchNetworkMutation() {
-  const { switchChain } = useSwitchChain()
+  const { switchChain } = useSwitchChain();
 
   return useMutation<unknown, Error, { chainId: number }>(
     async ({ chainId }) => {
       if (chainId) {
         await switchChain({ chainId: chainId });
-        return true
+        return true;
       }
-      return null
-
-
+      return null;
     },
   );
 }
-
 
 /**
  * If chainId is not passed it returns all tokens from all chains
@@ -222,10 +216,6 @@ export function useAllTokenList({
   }, [chainId, onlyNative, includeNative]);
 }
 
-
-
 export function useNetworkProvider(chainId?: ChainId) {
   return getProviderByChainId(chainId);
 }
-
-

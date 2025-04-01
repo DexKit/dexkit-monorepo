@@ -1,10 +1,10 @@
-import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
-import { useDexKitContext } from '@dexkit/ui';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { useMutation } from '@tanstack/react-query';
-import { useContractMetadata } from '@thirdweb-dev/react';
-import { SmartContract, Token } from '@thirdweb-dev/sdk';
-import { BigNumber } from 'ethers';
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
+import { useDexKitContext } from "@dexkit/ui";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useMutation } from "@tanstack/react-query";
+import { useContractMetadata } from "@thirdweb-dev/react";
+import { SmartContract, Token } from "@thirdweb-dev/sdk";
+import { BigNumber } from "ethers";
 
 export function useWithdrawRewardsMutation({
   contract,
@@ -22,19 +22,19 @@ export function useWithdrawRewardsMutation({
   return useMutation(async ({ amount }: { amount: BigNumber }) => {
     let values = {
       amount: formatUnits(amount, rewardDecimals),
-      contractName: metadata?.name || '',
+      contractName: metadata?.name || "",
     };
 
-    watchTransactionDialog.open('withdrawRewards', values);
+    watchTransactionDialog.open("withdrawRewards", values);
 
-    const call = await contract?.call('withdrawRewardTokens', [amount]);
+    const call = await contract?.call("withdrawRewardTokens", [amount]);
 
     let tx = await call.send();
 
     if (tx.hash && chainId) {
       createNotification({
-        type: 'transaction',
-        subtype: 'withdrawRewards',
+        type: "transaction",
+        subtype: "withdrawRewards",
         values,
         metadata: { hash: tx.hash, chainId },
       });
@@ -60,19 +60,19 @@ export function useDepositRewardTokensMutation({
   return useMutation(async ({ amount }: { amount: BigNumber }) => {
     let values = {
       amount: formatUnits(amount, rewardDecimals),
-      contractName: metadata?.name || '',
+      contractName: metadata?.name || "",
     };
 
-    watchTransactionDialog.open('depositRewardTokens', values);
+    watchTransactionDialog.open("depositRewardTokens", values);
 
-    const call = await contract?.call('depositRewardTokens', [amount]);
+    const call = await contract?.call("depositRewardTokens", [amount]);
 
     let tx = await call.send();
 
     if (tx.hash && chainId) {
       createNotification({
-        type: 'transaction',
-        subtype: 'depositRewardTokens',
+        type: "transaction",
+        subtype: "depositRewardTokens",
         values,
         metadata: { hash: tx.hash, chainId },
       });
@@ -98,11 +98,11 @@ export function useThirdwebApprove({
       const metadata = await contract?.metadata.get();
 
       let values = {
-        name: metadata?.name || '',
-        symbol: metadata?.symbol || '',
+        name: metadata?.name || "",
+        symbol: metadata?.symbol || "",
       };
 
-      watchTransactionDialog.open('approve', values);
+      watchTransactionDialog.open("approve", values);
 
       let call = await contract?.erc20.setAllowance.prepare(address, amount);
 
@@ -111,8 +111,8 @@ export function useThirdwebApprove({
 
         if (tx?.hash && chainId) {
           createNotification({
-            type: 'transaction',
-            subtype: 'approve',
+            type: "transaction",
+            subtype: "approve",
             values,
             metadata: { hash: tx.hash, chainId },
           });
@@ -146,19 +146,22 @@ export function useSetRewardsPerUnitTime({
   return useMutation(async ({ unitTime }: { unitTime: string }) => {
     const metadata = await contract?.metadata.get();
 
-    const values = { amount: unitTime, contractName: metadata?.name || '' };
+    const values = { amount: unitTime, contractName: metadata?.name || "" };
 
-    watchTransactionDialog.open('setRewardPerUnitTime', values);
+    watchTransactionDialog.open("setRewardPerUnitTime", values);
 
-    const call = contract?.prepare(isEdition ? 'setDefaultRewardsPerUnitTime' : 'setRewardsPerUnitTime', [unitTime]);
+    const call = contract?.prepare(
+      isEdition ? "setDefaultRewardsPerUnitTime" : "setRewardsPerUnitTime",
+      [unitTime],
+    );
 
     try {
       let tx = await call?.send();
 
       if (tx?.hash && chainId) {
         createNotification({
-          type: 'transaction',
-          subtype: 'setRewardPerUnitTime',
+          type: "transaction",
+          subtype: "setRewardPerUnitTime",
           values,
           metadata: { hash: tx.hash, chainId },
         });
@@ -187,12 +190,12 @@ export function useSetDefaultTimeUnit({
   return useMutation(async ({ timeUnit }: { timeUnit: string }) => {
     const metadata = await contract?.metadata.get();
 
-    const values = { amount: timeUnit, contractName: metadata?.name || '' };
+    const values = { amount: timeUnit, contractName: metadata?.name || "" };
 
-    watchTransactionDialog.open('setDefaultTimeUnit', values);
+    watchTransactionDialog.open("setDefaultTimeUnit", values);
 
     const call = contract?.prepare(
-      isAltVersion ? 'setTimeUnit' : 'setDefaultTimeUnit',
+      isAltVersion ? "setTimeUnit" : "setDefaultTimeUnit",
       [timeUnit],
     );
 
@@ -201,8 +204,8 @@ export function useSetDefaultTimeUnit({
 
       if (tx?.hash && chainId) {
         createNotification({
-          type: 'transaction',
-          subtype: 'setDefaultTimeUnit',
+          type: "transaction",
+          subtype: "setDefaultTimeUnit",
           values,
           metadata: { hash: tx.hash, chainId },
         });
@@ -235,12 +238,12 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
       const values = {
         numerator: numerator,
         denominator: numerator,
-        contractName: metadata?.name || '',
+        contractName: metadata?.name || "",
       };
 
-      watchTransactionDialog.open('setRewardRatio', values);
+      watchTransactionDialog.open("setRewardRatio", values);
 
-      const call = contract?.prepare('setRewardRatio', [
+      const call = contract?.prepare("setRewardRatio", [
         numerator,
         denominator,
       ]);
@@ -250,8 +253,8 @@ export function useSetRewardRatio({ contract }: { contract?: SmartContract }) {
 
         if (tx?.hash && chainId) {
           createNotification({
-            type: 'transaction',
-            subtype: 'setDefaultTimeUnit',
+            type: "transaction",
+            subtype: "setDefaultTimeUnit",
             values,
             metadata: { hash: tx.hash, chainId },
           });
@@ -282,21 +285,21 @@ export function useApproveForAll({
     const metadata = await contract?.metadata.get();
 
     const values = {
-      name: metadata?.name || '',
+      name: metadata?.name || "",
     };
 
     // Do not remove this "await". The IDE show this line as a non-async function, but it's not.
-    const call = await contract?.prepare('setApprovalForAll', [address, true]);
+    const call = await contract?.prepare("setApprovalForAll", [address, true]);
 
-    watchTransactionDialog.open('approveContracForAllNfts', values);
+    watchTransactionDialog.open("approveContracForAllNfts", values);
 
     try {
       const tx = await call?.send();
 
       if (tx?.hash && chainId) {
         createNotification({
-          type: 'transaction',
-          subtype: 'approveContracForAllNfts',
+          type: "transaction",
+          subtype: "approveContracForAllNfts",
           values,
           metadata: { hash: tx.hash, chainId },
         });

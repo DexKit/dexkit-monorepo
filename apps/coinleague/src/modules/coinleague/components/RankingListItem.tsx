@@ -143,7 +143,7 @@ export default function RankingListItem({
               <Typography variant="subtitle1">
                 {joinsCount
                   ? `${Number(((winsCount || 0) / joinsCount) * 100).toFixed(
-                      2
+                      2,
                     )}%`
                   : '0%'}
               </Typography>

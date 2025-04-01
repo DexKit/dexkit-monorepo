@@ -140,14 +140,14 @@ export default function ExchangeSettingsForm({
             id: "the.base.token.is.required.on.chain",
             defaultMessage: "The base token is required on {chainName}",
           },
-          { chainName: getChainName(chainId) }
+          { chainName: getChainName(chainId) },
         );
 
         setWith(
           errors,
           `defaultPairs.${String(chainId)}.baseToken`,
           error,
-          Object
+          Object,
         );
       }
 
@@ -160,14 +160,14 @@ export default function ExchangeSettingsForm({
             id: "the.base.token.is.required.on.chain",
             defaultMessage: "The quote token is required on {chainName}",
           },
-          { chainName: getChainName(chainId) }
+          { chainName: getChainName(chainId) },
         );
 
         setWith(
           errors,
           `defaultPairs.${String(chainId)}.quoteToken`,
           error,
-          Object
+          Object,
         );
       }
       if (
@@ -184,7 +184,7 @@ export default function ExchangeSettingsForm({
           errors,
           `defaultSlippage.${String(chainId)}.slippage`,
           error,
-          Object
+          Object,
         );
       }
     }
@@ -206,7 +206,7 @@ export default function ExchangeSettingsForm({
         let index = tokens.findIndex(
           (t) =>
             curr.token.chainId === t.chainId &&
-            isAddressEqual(curr.token.address, t.address)
+            isAddressEqual(curr.token.address, t.address),
         );
 
         if (index > -1) {
@@ -215,7 +215,7 @@ export default function ExchangeSettingsForm({
 
         return obj;
       },
-      {} as { [key: number]: { quoteTokens: Token[]; baseTokens: Token[] } }
+      {} as { [key: number]: { quoteTokens: Token[]; baseTokens: Token[] } },
     );
 
     for (let chain of Object.keys(NETWORKS)) {
@@ -228,7 +228,7 @@ export default function ExchangeSettingsForm({
           let index = resQuote[chainId].quoteTokens.findIndex(
             (t) =>
               t.chainId === token.chainId &&
-              isAddressEqual(t.address, token.address)
+              isAddressEqual(t.address, token.address),
           );
 
           if (index === -1) {
@@ -342,7 +342,7 @@ export default function ExchangeSettingsForm({
                         <ListItemIcon>
                           <Avatar
                             src={ipfsUriToUrl(
-                              NETWORKS[n.chainId].imageUrl || ""
+                              NETWORKS[n.chainId].imageUrl || "",
                             )}
                             style={{ width: "1rem", height: "1rem" }}
                           />
@@ -386,7 +386,7 @@ export default function ExchangeSettingsForm({
                       {values.availNetworks.length > 0 ? (
                         networks
                           .filter((network) =>
-                            values.availNetworks.includes(network.chainId)
+                            values.availNetworks.includes(network.chainId),
                           )
                           .map((n) => (
                             <Grid item key={n.chainId}>
@@ -395,7 +395,7 @@ export default function ExchangeSettingsForm({
                                 avatar={
                                   <Avatar
                                     src={ipfsUriToUrl(
-                                      NETWORKS[n.chainId].imageUrl || ""
+                                      NETWORKS[n.chainId].imageUrl || "",
                                     )}
                                   />
                                 }
@@ -466,7 +466,7 @@ export default function ExchangeSettingsForm({
                             >
                               <Avatar
                                 src={ipfsUriToUrl(
-                                  NETWORKS[value].imageUrl || ""
+                                  NETWORKS[value].imageUrl || "",
                                 )}
                                 style={{ width: "auto", height: "1rem" }}
                               />
@@ -479,14 +479,14 @@ export default function ExchangeSettingsForm({
                       >
                         {networks
                           .filter((n) =>
-                            values.availNetworks.includes(n.chainId)
+                            values.availNetworks.includes(n.chainId),
                           )
                           .map((n) => (
                             <MenuItem key={n.chainId} value={n.chainId}>
                               <ListItemIcon>
                                 <Avatar
                                   src={ipfsUriToUrl(
-                                    NETWORKS[n.chainId].imageUrl || ""
+                                    NETWORKS[n.chainId].imageUrl || "",
                                   )}
                                   style={{ width: "1rem", height: "1rem" }}
                                 />
@@ -574,7 +574,7 @@ export default function ExchangeSettingsForm({
                         }
                         setFieldValue(
                           `defaultSlippage.${chainId}.slippage`,
-                          value
+                          value,
                         );
                       }}
                       fullWidth

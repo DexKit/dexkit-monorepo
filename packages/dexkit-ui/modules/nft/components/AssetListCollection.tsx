@@ -35,7 +35,7 @@ export function AssetListCollection({
       return assets.filter(
         (a) =>
           a.collectionName.indexOf(search) !== -1 ||
-          a.metadata?.name.indexOf(search) !== -1
+          a.metadata?.name.indexOf(search) !== -1,
       );
     }
 

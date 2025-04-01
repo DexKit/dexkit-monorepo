@@ -11,7 +11,7 @@ export default function useNotificationsMarkAllAsRead() {
     }
 
     return await Promise.all(
-      ids.map((id) => instance?.post(`/notifications/${id}/read`))
+      ids.map((id) => instance?.post(`/notifications/${id}/read`)),
     );
   });
 }

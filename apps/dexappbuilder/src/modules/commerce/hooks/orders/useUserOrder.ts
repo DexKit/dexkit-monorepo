@@ -18,8 +18,9 @@ export default function useUserOrder(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get/*<Order>*/(`/orders/user-orders/${params.id}`))
-        .data;
+      return (
+        await instance.get(/*<Order>*/ `/orders/user-orders/${params.id}`)
+      ).data;
     },
     {
       refetchOnWindowFocus: 'always',

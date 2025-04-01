@@ -16,7 +16,7 @@ export interface CheckoutTokenAutocompleteProps {
 }
 
 export default function CheckoutTokenAutocomplete(
-  props: CheckoutTokenAutocompleteProps
+  props: CheckoutTokenAutocompleteProps,
 ) {
   const { data, label, onChange, chainId, disabled, tokens, token } = props;
 

@@ -4,7 +4,7 @@ export interface CommerceContainerState {
   setContainer: (
     containerId: string,
     params?: { [key: string]: string },
-    options?: { activeMenu?: boolean }
+    options?: { activeMenu?: boolean },
   ) => void;
   set: (key: string, value: string) => void;
   get: (key: string) => string;

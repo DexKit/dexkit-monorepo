@@ -44,7 +44,7 @@ export default function EvmAddAccountDialog({ dialogProps }: Props) {
     helpers: FormikHelpers<{
       address: string;
       name: string;
-    }>
+    }>,
   ) => {
     try {
       addAccount({
@@ -60,7 +60,7 @@ export default function EvmAddAccountDialog({ dialogProps }: Props) {
         }),
         {
           variant: 'success',
-        }
+        },
       );
       helpers.resetForm();
       handleClose();
@@ -72,7 +72,7 @@ export default function EvmAddAccountDialog({ dialogProps }: Props) {
         }),
         {
           variant: 'error',
-        }
+        },
       );
     }
   };

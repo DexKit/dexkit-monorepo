@@ -41,7 +41,7 @@ function SelectTokenDialogListItem({ tokenBalance, onSelect, chainId }: Props) {
         <Typography>
           {ethers.utils.formatUnits(
             tokenBalance.balance,
-            tokenBalance.token.decimals
+            tokenBalance.token.decimals,
           )}{' '}
           {tokenBalance.token.symbol.toUpperCase()}
         </Typography>

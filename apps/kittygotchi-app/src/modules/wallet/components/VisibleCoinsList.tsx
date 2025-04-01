@@ -31,7 +31,7 @@ export default function VisibleCoinsList({
       coins = coins.filter(
         (c) =>
           c.name.toLowerCase().search(query.toLowerCase()) > -1 ||
-          c.network.name.toLowerCase().search(query.toLowerCase()) > -1
+          c.network.name.toLowerCase().search(query.toLowerCase()) > -1,
       );
     }
 

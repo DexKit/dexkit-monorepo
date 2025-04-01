@@ -5,10 +5,9 @@ import { ERC20Abi } from "../constants/abis";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { NETWORK_COIN_SYMBOL } from "../constants/networks";
 
-
 export const getERC20Decimals = async (
   contractAddress?: string,
-  provider?: providers.BaseProvider
+  provider?: providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -25,7 +24,7 @@ export const getERC20Decimals = async (
 
 export const getERC20Symbol = async (
   contractAddress?: string,
-  provider?: providers.BaseProvider
+  provider?: providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -42,7 +41,7 @@ export const getERC20Symbol = async (
 
 export const getERC20Name = async (
   contractAddress?: string,
-  provider?: providers.BaseProvider
+  provider?: providers.BaseProvider,
 ) => {
   if (contractAddress === undefined || provider === undefined) {
     return;
@@ -56,7 +55,7 @@ export const getERC20Name = async (
 export const getERC20Balance = async (
   contractAddress?: string,
   account?: string,
-  provider?: providers.BaseProvider
+  provider?: providers.BaseProvider,
 ) => {
   if (
     contractAddress === undefined ||
@@ -90,11 +89,7 @@ export const approveToken = async ({
     return;
   }
 
-  const contract = new Contract(
-    tokenContract,
-    ERC20Abi,
-    provider.getSigner()
-  );
+  const contract = new Contract(tokenContract, ERC20Abi, provider.getSigner());
 
   return await contract.approve(spender, amount);
 };

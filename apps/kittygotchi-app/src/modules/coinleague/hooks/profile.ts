@@ -37,11 +37,11 @@ export function usePlayerProfileStats(account?: string, isNFT = false) {
       const data = await request(
         getGraphEndpoint(isNFT, chainId),
         GET_PLAYER_PROFILE_STATS_QUERY,
-        { address: account?.toLowerCase() }
+        { address: account?.toLowerCase() },
       );
 
       return data.stats;
-    }
+    },
   );
 }
 
@@ -72,9 +72,9 @@ export const useGameProfileUpdater = () => {
         tokenId,
         username,
         account?.toLowerCase(),
-        chainId
+        chainId,
       );
-    }
+    },
   );
 
   const onPostOnlyUsernameMetadataMutation = useMutation(
@@ -90,9 +90,9 @@ export const useGameProfileUpdater = () => {
         signedData.messageSigned,
         username,
         account?.toLowerCase(),
-        chainId
+        chainId,
       );
-    }
+    },
   );
 
   return { onPostMetadataMutation, onPostOnlyUsernameMetadataMutation };
@@ -126,7 +126,7 @@ export const useProfileGame = (account?: string) => {
 
       return await getProfile(account);
     },
-    { retryDelay: 30000 }
+    { retryDelay: 30000 },
   );
 };
 

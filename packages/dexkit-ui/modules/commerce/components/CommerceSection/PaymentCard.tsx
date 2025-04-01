@@ -120,7 +120,7 @@ export default function PaymentCard() {
         },
         {} as {
           [key: string]: { quantity: number; price: string };
-        }
+        },
       );
 
       setItems(items);
@@ -203,7 +203,7 @@ export default function PaymentCard() {
           id="transaction.created"
           defaultMessage="Transaction created"
         />,
-        { variant: "success" }
+        { variant: "success" },
       );
 
       if (chainId && hash && cartItems.length > 0 && account && token) {
@@ -223,7 +223,7 @@ export default function PaymentCard() {
               id="order.created.alt"
               defaultMessage="Order created"
             />,
-            { variant: "success" }
+            { variant: "success" },
           );
 
           clearCart();
@@ -235,7 +235,7 @@ export default function PaymentCard() {
               id="error.while.creating.order"
               defaultMessage="Error while creating order"
             />,
-            { variant: "error" }
+            { variant: "error" },
           );
         }
       }
@@ -339,7 +339,7 @@ export default function PaymentCard() {
 
   const handleChangeNetwork = (
     e: SelectChangeEvent<number>,
-    child: ReactNode
+    child: ReactNode,
   ) => {
     const newChainId = e.target.value as number;
 
@@ -354,7 +354,7 @@ export default function PaymentCard() {
     if (providerChainId) {
       setChainId(providerChainId);
       setToken(
-        CHECKOUT_TOKENS.find((t) => t.chainId === providerChainId) ?? null
+        CHECKOUT_TOKENS.find((t) => t.chainId === providerChainId) ?? null,
       );
     }
   }, [providerChainId]);
@@ -435,7 +435,7 @@ export default function PaymentCard() {
                         <Avatar
                           src={ipfsUriToUrl(
                             networks.find((n) => n.chainId === chainId)
-                              ?.imageUrl || ""
+                              ?.imageUrl || "",
                           )}
                           style={{ width: "1rem", height: "1rem" }}
                         />

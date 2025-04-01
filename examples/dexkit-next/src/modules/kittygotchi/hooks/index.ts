@@ -77,7 +77,7 @@ export function useKittygotchi({
           } as Kittygotchi;
         }
       }
-    }
+    },
   );
   return query;
 }
@@ -172,7 +172,7 @@ export function useKittygotchiOnChain() {
     const contract = new ethers.Contract(
       kittyAddress,
       kittygotchiAbi,
-      provider
+      provider,
     );
 
     let attack = await contract.getAttackOf(id);
@@ -214,10 +214,10 @@ export function useKitHolding(account?: string) {
 
         const [, tb] = await getTokenBalances(
           (tokens.filter((t) => t !== undefined) as Token[]).map(
-            (t) => t.address
+            (t) => t.address,
           ),
           account,
-          networkProvider
+          networkProvider,
         );
 
         return (tokens.filter((t) => t !== undefined) as Token[]).map((t) => {
@@ -236,7 +236,7 @@ export function useKitHolding(account?: string) {
 export function useKittygotchiRanking(
   chainId?: ChainId,
   offset: number = 0,
-  limit: number = 10
+  limit: number = 10,
 ) {
   const graphEndpoint = GET_KITTYGOTCHI_GRAPH_ENDPOINT(chainId);
 
@@ -292,7 +292,7 @@ export function useKittygotchiFeed({
       if (callbacks?.onConfirmation) {
         callbacks?.onConfirmation(tx.hash);
       }
-    }
+    },
   );
 }
 
@@ -310,7 +310,7 @@ export function useKittygotchiMint() {
     ) {
       if (callbacks?.onError) {
         callbacks?.onError(
-          new Error('There is no address for Binance Smart Chain')
+          new Error('There is no address for Binance Smart Chain'),
         );
       }
       return;
@@ -319,7 +319,7 @@ export function useKittygotchiMint() {
     const tx = await mint(
       kittyAddress,
       provider,
-      GET_KITTYGOTCHI_MINT_RATE(chainId)
+      GET_KITTYGOTCHI_MINT_RATE(chainId),
     );
 
     if (callbacks?.onSubmit) {
@@ -395,7 +395,7 @@ export function useKittygotchiUpdate() {
         callbacks?.onSubmit();
       }
       return await update(sig, message, params, id, account, chainId);
-    }
+    },
   );
 }
 
@@ -441,7 +441,7 @@ export function useKittygotchiStyleEdit() {
 
     if (values?.accessory) {
       arr.push(
-        getImageFromTrait(KittygotchiTraitType.ACCESSORIES, values?.accessory)
+        getImageFromTrait(KittygotchiTraitType.ACCESSORIES, values?.accessory),
       );
     }
 
@@ -452,49 +452,49 @@ export function useKittygotchiStyleEdit() {
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, cloth: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectBody = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, body: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectEyes = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, eyes: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectNose = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, nose: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectEars = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, ears: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectAccessory = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, accessory: item.value });
     },
-    [values]
+    [values],
   );
 
   const handleSelectMouth = useCallback(
     (item: KittygotchiTraitItem) => {
       setValues({ ...values, mouth: item.value });
     },
-    [values]
+    [values],
   );
 
   const isEmpty = useCallback(() => {
@@ -580,7 +580,7 @@ export function useKittygotchiStyleEdit() {
 
       setValues(newValues);
     },
-    []
+    [],
   );
 
   return {

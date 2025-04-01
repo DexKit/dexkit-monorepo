@@ -3,16 +3,16 @@ import { formatEther } from '@dexkit/core/utils/ethers/formatEther';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Alert,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Stack,
-    Typography,
+  Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { BigNumber } from 'ethers';
 import { memo } from 'react';

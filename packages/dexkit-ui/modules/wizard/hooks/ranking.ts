@@ -67,7 +67,7 @@ export function useAppRankingListQuery({
         })
       ).data;
     },
-    { refetchOnMount: "always", refetchOnWindowFocus: "always" }
+    { refetchOnMount: "always", refetchOnWindowFocus: "always" },
   );
 }
 

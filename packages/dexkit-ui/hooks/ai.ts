@@ -17,7 +17,7 @@ export function useCompletation() {
           messages,
         })
       )?.data;
-    }
+    },
   );
 }
 
@@ -34,7 +34,7 @@ export function useImageGenerate() {
       onError: (err) => {
         enqueueSnackbar(String(err), { variant: "error" });
       },
-    }
+    },
   );
 }
 
@@ -52,13 +52,13 @@ export function useSaveImages() {
       onSuccess: () => {
         enqueueSnackbar(
           formatMessage({ id: "saved", defaultMessage: "Saved" }),
-          { variant: "success" }
+          { variant: "success" },
         );
       },
       onError: (err) => {
         enqueueSnackbar(String(err), { variant: "error" });
       },
-    }
+    },
   );
 }
 
@@ -66,10 +66,9 @@ export function useGenVariants() {
   const { instance } = useContext(DexkitApiProvider);
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
-      return (
-        await instance?.post("/ai/image/variants", { url, numImages })
-      )?.data;
-    }
+      return (await instance?.post("/ai/image/variants", { url, numImages }))
+        ?.data;
+    },
   );
 }
 
@@ -104,7 +103,7 @@ export function useEditImage() {
       }
 
       return (await instance?.post("/ai/image/edit", form))?.data;
-    }
+    },
   );
 }
 

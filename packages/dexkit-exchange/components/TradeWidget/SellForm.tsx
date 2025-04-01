@@ -56,7 +56,7 @@ export default function SellForm({
   const [amountPercentage, setAmountPercentage] = useState(0);
   const [amount, setAmount] = useState<string | undefined>("0.0");
   const [amountPerToken, setAmountPerToken] = useState<string | undefined>(
-    "0.0"
+    "0.0",
   );
   const [duration, setDuration] = useState(ORDER_LIMIT_DURATIONS[0].value);
 
@@ -169,7 +169,7 @@ export default function SellForm({
   const handleChangeSliderAmount = (
     event: Event,
     value: number | number[],
-    activeThumb: number
+    activeThumb: number,
   ) => {
     const amount = baseTokenBalance?.div(100).mul(value as number);
 
@@ -243,7 +243,7 @@ export default function SellForm({
           id: "order.created.message",
           defaultMessage: "Order created",
         }),
-        { variant: "success" }
+        { variant: "success" },
       );
       setShowReview(false);
     } catch (err) {
@@ -252,7 +252,7 @@ export default function SellForm({
           id: "order.failed",
           defaultMessage: "Order failed",
         }),
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };

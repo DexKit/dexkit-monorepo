@@ -26,6 +26,6 @@ export default function useProductCollectionItems(params: { id?: string }) {
       refetchOnWindowFocus: "always",
       refetchOnMount: "always",
       staleTime: Infinity,
-    }
+    },
   );
 }

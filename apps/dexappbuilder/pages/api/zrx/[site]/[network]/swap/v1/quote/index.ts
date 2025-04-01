@@ -10,7 +10,7 @@ const GET_ZRX_URL = (chainId?: number) =>
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   return;
   const { network, site } = req.query;
@@ -36,7 +36,7 @@ export default async function handler(
 
     const response = await axios.get(
       GET_ZRX_URL(NETWORK_FROM_SLUG(network as string)?.chainId) +
-      '/swap/v1/quote',
+        '/swap/v1/quote',
       {
         params: req.query,
         headers: {
@@ -44,7 +44,7 @@ export default async function handler(
             apiKey?.value || process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
         },
         signal,
-      }
+      },
     );
 
     return res.status(200).json(response.data);

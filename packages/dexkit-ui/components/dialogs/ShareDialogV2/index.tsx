@@ -95,7 +95,7 @@ export default function ShareDialogV2({
         onClick(value);
       };
     },
-    [onClick]
+    [onClick],
   );
 
   return (

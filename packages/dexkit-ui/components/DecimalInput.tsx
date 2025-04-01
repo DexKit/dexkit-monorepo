@@ -20,7 +20,7 @@ export default function DecimalInput({
     return new RegExp(
       `^\\d{0,${maxDigits !== undefined ? maxDigits : 10}}(\\.\\d{0,${
         decimals !== undefined ? decimals : 18
-      }})?$`
+      }})?$`,
     );
   }, [decimals, maxDigits]);
 

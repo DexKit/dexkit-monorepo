@@ -57,7 +57,7 @@ export default function NftGrid({
         (n) =>
           selectedNft?.chainId === n.chainId &&
           selectedNft.address === n.address &&
-          selectedNft.collectionName === n.collectionName
+          selectedNft.collectionName === n.collectionName,
       );
 
       if (index > -1) {
@@ -69,7 +69,7 @@ export default function NftGrid({
               id: 'your.nft.is.now.hidden',
               defaultMessage: 'Your NFT is now hidden',
             }),
-            { variant: 'info' }
+            { variant: 'info' },
           );
         } else {
           enqueueSnackbar(
@@ -77,7 +77,7 @@ export default function NftGrid({
               id: 'your.nft.is.now.visible.again',
               defaultMessage: 'Your NFT is now visible again',
             }),
-            { variant: 'info' }
+            { variant: 'info' },
           );
         }
       }
@@ -93,7 +93,7 @@ export default function NftGrid({
       setAnchorEl(el);
       setSelectedNft(nft);
     },
-    []
+    [],
   );
 
   const handleTransferNft = () => {

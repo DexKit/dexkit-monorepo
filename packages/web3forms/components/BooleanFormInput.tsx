@@ -12,7 +12,7 @@ export default function BooleanFormInput({ name }: BooleanFormInputProps) {
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     setFieldValue(name, checked);
   };

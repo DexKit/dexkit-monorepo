@@ -41,7 +41,7 @@ export function CollectionHeader(props: Props) {
       appConfig.collections?.find(
         (c) =>
           c.chainId === collection?.chainId &&
-          isAddressEqual(c.contractAddress, collection?.address)
+          isAddressEqual(c.contractAddress, collection?.address),
       )?.image || collection?.imageUrl
     );
   }, [collection]);
@@ -50,7 +50,7 @@ export function CollectionHeader(props: Props) {
     return appConfig.collections?.find(
       (c) =>
         c.chainId === collection?.chainId &&
-        isAddressEqual(c.contractAddress, collection?.address)
+        isAddressEqual(c.contractAddress, collection?.address),
     )?.backgroundImage;
   }, [collection]);
 

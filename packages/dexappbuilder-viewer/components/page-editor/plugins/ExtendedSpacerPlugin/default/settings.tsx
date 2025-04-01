@@ -1,10 +1,10 @@
-import React from 'react';
-import type { SpacerSettings } from '../types/settings';
+import React from "react";
+import type { SpacerSettings } from "../types/settings";
 
 export const defaultTranslations = {
-  pluginName: 'Spacer',
-  pluginDescription: 'Resizeable, horizontal and vertical empty space.',
-  elementHeightLabel: 'Element height (px)',
+  pluginName: "Spacer",
+  pluginDescription: "Resizeable, horizontal and vertical empty space.",
+  elementHeightLabel: "Element height (px)",
 };
 
 export const defaultSettings: SpacerSettings = {

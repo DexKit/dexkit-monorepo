@@ -18,8 +18,9 @@ export default function useOrderItems(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get/*<OrderItem[]>*/(`/orders/${params.id}/items`))
-        .data;
+      return (
+        await instance.get(/*<OrderItem[]>*/ `/orders/${params.id}/items`)
+      ).data;
     },
     {
       refetchOnWindowFocus: 'always',

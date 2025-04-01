@@ -14,9 +14,8 @@ export default function useCheckoutNetworks() {
         throw new Error("no instance");
       }
 
-      return (await instance.get("/checkouts-networks"))
-        .data;
+      return (await instance.get("/checkouts-networks")).data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true }
+    { refetchOnWindowFocus: true, refetchOnMount: true },
   );
 }

@@ -89,7 +89,7 @@ const CoinLeagueGame: NextPage = () => {
   const [isSelectMultiple, setIsSelectMultiple] = useState(false);
 
   const [selectedCoins, setSelectedCoins] = useState<{ [key: string]: Coin }>(
-    {}
+    {},
   );
 
   const connectWalletDialog = useConnectWalletDialog();
@@ -130,7 +130,7 @@ const CoinLeagueGame: NextPage = () => {
       erc20Balance.data &&
       gameOnChainQuery.data &&
       erc20Balance.data.gte(
-        BigNumber.from(gameOnChainQuery.data?.amount_to_play)
+        BigNumber.from(gameOnChainQuery.data?.amount_to_play),
       )
     );
   }, [gameOnChainQuery.data, erc20Balance.data]);
@@ -179,7 +179,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Joining Game #{id}',
               id: 'join.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -200,7 +200,7 @@ const CoinLeagueGame: NextPage = () => {
     affiliate: affiliate as string,
     captainCoinFeed: selectedCaptain?.address,
     coinFeeds: Object.keys(selectedCoins).map(
-      (key) => selectedCoins[key].address
+      (key) => selectedCoins[key].address,
     ),
     factoryAddress,
     gameId: id as string,
@@ -223,7 +223,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Starting Game #{id}',
               id: 'starting.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -266,7 +266,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Approve Coin League Token Spend',
               id: 'approve.coin.league.token.spend',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -338,7 +338,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Claim Game #{id}',
               id: 'claim.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -548,7 +548,7 @@ const CoinLeagueGame: NextPage = () => {
             getGameStatus(gameOnChainQuery.data) === GAME_ENDED &&
             !isAddressEqual(
               winner?.winner_address,
-              ethers.constants.AddressZero
+              ethers.constants.AddressZero,
             ) && (
               <GameWinnerCard
                 account={account}
@@ -812,12 +812,12 @@ export const getStaticProps: GetStaticProps = async ({
           const game = await getCoinLeagueGameOnChain(
             provider,
             factoryAddress,
-            id as string
+            id as string,
           );
 
           await queryClient.prefetchQuery(
             [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
-            async () => game
+            async () => game,
           );
         }
       }

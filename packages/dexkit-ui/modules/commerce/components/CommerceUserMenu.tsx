@@ -27,7 +27,7 @@ export default function CommerceUserMenu({
         onAction({ action });
       };
     },
-    [onAction]
+    [onAction],
   );
 
   return (

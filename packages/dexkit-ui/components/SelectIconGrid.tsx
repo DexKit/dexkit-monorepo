@@ -26,8 +26,6 @@ export default function SelectIconGrid({
     });
   }, [filters]);
 
-
-
   const theme = useTheme();
 
   const renderRow = useCallback(
@@ -70,7 +68,7 @@ export default function SelectIconGrid({
         </div>
       );
     },
-    [value, theme]
+    [value, theme],
   );
 
   return (

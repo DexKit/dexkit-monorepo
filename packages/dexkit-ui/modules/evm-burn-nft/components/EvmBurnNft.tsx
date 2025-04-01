@@ -113,7 +113,7 @@ export default function EvmBurnNft({
 
   const handleSubmit = async (
     { address, quantity }: { address: string; quantity: string },
-    helpers: FormikHelpers<{ address: string; quantity: string }>
+    helpers: FormikHelpers<{ address: string; quantity: string }>,
   ) => {
     if (tokenId && account) {
       await nftBurn.mutateAsync(
@@ -126,10 +126,10 @@ export default function EvmBurnNft({
                 id: "error.while.burning",
                 defaultMessage: "Error while burning",
               }),
-              { variant: "error" }
+              { variant: "error" },
             );
           },
-        }
+        },
       );
 
       if (onOwnershipChange) {
@@ -263,7 +263,7 @@ export default function EvmBurnNft({
                         owner: (
                           <Link
                             href={`${getBlockExplorerUrl(
-                              nft?.chainId
+                              nft?.chainId,
                             )}/address/${nft?.owner}`}
                             target="_blank"
                           >

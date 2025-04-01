@@ -28,7 +28,7 @@ function SwapSettingsDialog({ dialogProps }: Props) {
 
   const [isAutoSlippage, setIsAutoSlippage] = useState(isAutoSlippageStore);
   const [slippage, setSlippage] = useState<string>(
-    (maxSlippage * 100).toString()
+    (maxSlippage * 100).toString(),
   );
 
   const handleClose = () => {
@@ -37,7 +37,7 @@ function SwapSettingsDialog({ dialogProps }: Props) {
 
   const handleToggleAutoSlippage = (
     event: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     return setIsAutoSlippage(checked);
   };

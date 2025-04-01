@@ -1,23 +1,23 @@
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    Drawer,
-    FormControlLabel,
-    FormGroup,
-    Grid,
-    IconButton,
-    InputAdornment,
-    NoSsr,
-    Stack,
-    Tab,
-    Tabs,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  IconButton,
+  InputAdornment,
+  NoSsr,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { AppErrorBoundary } from "@dexkit/ui/components/AppErrorBoundary";
@@ -70,7 +70,7 @@ function CollectionSection({ section }: CollectionSectionProps) {
 
   const { data: collection, isError } = useCollection(
     section.config.address,
-    chainId
+    chainId,
   );
 
   const theme = useTheme();
@@ -171,7 +171,7 @@ function CollectionSection({ section }: CollectionSectionProps) {
   };
 
   const { data: contractType } = useContractType(
-    section.config.address as string
+    section.config.address as string,
   );
 
   const isDrop = useMemo(() => {

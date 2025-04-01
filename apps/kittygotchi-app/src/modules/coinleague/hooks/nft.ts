@@ -1,7 +1,6 @@
-import { useRouter } from "next/router";
-import { useMemo } from "react";
-import { COINLEAGUENFT_ROUTE } from "../constants/routes";
-
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+import { COINLEAGUENFT_ROUTE } from '../constants/routes';
 
 export const useIsNFTGame = () => {
   const { pathname } = useRouter();
