@@ -1,5 +1,11 @@
 # @dexkit/wallet-connectors
 
+## 0.5.0
+
+### Minor Changes
+
+- ecbf91f: Improve magic wallet connection
+
 ## 0.4.0
 
 ### Minor Changes
