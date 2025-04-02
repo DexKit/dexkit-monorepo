@@ -58,24 +58,26 @@ export default function ReviewMarketOrderDialog({
   hash,
   pendingHash,
 }: ReviewMarketOrderDialogProps) {
-  const pricePerTokenInverseFormatted = useMemo(() => {
-    if (price && Number(price) > 0) {
-      return new Intl.NumberFormat("en-US", {
-        maximumSignificantDigits: 3,
-      }).format(1 / Number(price) || 0);
-    }
-  }, [price]);
+  const [swapPrices, setSwapPrices] = useState(true);
 
-  // TODO: check component SwapFeeSummary
   const pricePerTokenFormatted = useMemo(() => {
     if (quoteAmount && amount && amount.gt(0)) {
-      const division = quoteAmount.div(amount);
+      const sellAmount = parseFloat(
+        formatBigNumber(BigNumber.from(quoteAmount), quoteToken?.decimals)
+      );
+
+      const buyAmount = parseFloat(
+        formatBigNumber(BigNumber.from(amount), baseToken?.decimals)
+      );
+      const division = swapPrices
+        ? sellAmount / buyAmount
+        : buyAmount / sellAmount;
 
       return new Intl.NumberFormat("en-US", {
         maximumSignificantDigits: 3,
-      }).format(division.toNumber() || 0);
+      }).format(division || 0);
     }
-  }, [quoteAmount, amount]);
+  }, [quoteAmount, amount, swapPrices]);
 
   const amountFormatted = useMemo(() => {
     if (amount) {
@@ -150,8 +152,6 @@ export default function ReviewMarketOrderDialog({
       </Stack>
     );
   };
-
-  const [swapPrices, setSwapPrices] = useState(true);
 
   const handleSwapPrices = () => setSwapPrices((val) => !val);
 
@@ -313,7 +313,7 @@ export default function ReviewMarketOrderDialog({
                     ) : (
                       <Typography color="text.secondary" variant="body1">
                         1 {quoteToken?.symbol.toUpperCase()} ={" "}
-                        {pricePerTokenInverseFormatted}{" "}
+                        {pricePerTokenFormatted}{" "}
                         {baseToken?.symbol.toUpperCase()}
                       </Typography>
                     )}
