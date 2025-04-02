@@ -20,22 +20,13 @@ export function useIsGaslessSupportedToken({
 
   const isTokenSupported = useQuery(
     ["is_gasless_supported", chainId, useGasless, sellTokenExists],
-    () => {
-      if (chainId !== 1 && useGasless) {
-        return null;
-      }
+    async () => {
       if (!chainId || !sellTokenExists) {
         return null;
       }
-      // We just need to call this on Ethereum chain
-      if (chainId === 1) {
-        const client = new ZeroExApiClient(chainId);
 
-        const data = client.isTokenGaslessSupported();
-
-        return data;
-      }
-      return null;
+      const client = new ZeroExApiClient(chainId);
+      return await client.isTokenGaslessSupported();
     },
     { staleTime: Infinity }
   );
@@ -45,11 +36,10 @@ export function useIsGaslessSupportedToken({
       return false;
     }
 
-    if (chainId !== 1 && useGasless) {
-      return true;
-    }
     if (isTokenSupported.data?.data && sellToken) {
-      return isTokenSupported.data.data.includes(sellToken.toLowerCase());
+      const data = isTokenSupported.data.data;
+      const isGaslessSupported = !!data.chains.find((chain: any) => chain.chainId === chainId)
+      return isGaslessSupported;
     }
     return false;
   }, [chainId, useGasless, sellToken, isTokenSupported.data]);

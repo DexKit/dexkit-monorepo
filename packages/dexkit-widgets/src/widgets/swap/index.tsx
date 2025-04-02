@@ -14,9 +14,6 @@ const SwapSettingsDialog = dynamic(
 );
 const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 
-// declare global {
-//   function renderSwapWidget(id: string, options: RenderOptions): void;
-// }
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { useUserGaslessSettings } from "@dexkit/ui/modules/swap/hooks/useUserGaslessSettings";
