@@ -3,7 +3,7 @@ import {
   UseMutationOptions,
   useQuery,
 } from '@tanstack/react-query';
-import { BigNumber } from 'ethers';
+
 
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
@@ -268,8 +268,8 @@ export function useExecSwap(
 
     const tx = await provider.getSigner().sendTransaction({
       data: quote?.data,
-      gasPrice: BigNumber.from(quote?.gasPrice),
-      value: BigNumber.from(quote?.value),
+      gasPrice: BigInt(quote?.gasPrice),
+      value: BigInt(quote?.value),
       to: quote?.to,
     });
     if (onSuccess) {

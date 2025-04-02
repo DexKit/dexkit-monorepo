@@ -2,7 +2,6 @@ import CheckoutItemList from '@/modules/checkout/components/CheckoutItemList';
 import CheckoutTokenAutocomplete from '@/modules/checkout/components/CheckoutTokenAutocomplete';
 import CheckoutConfirmDialog from '@/modules/checkout/components/dialogs/CheckoutConfirmDialog';
 import { ChainId, useErc20Balance } from '@dexkit/core';
-import { ERC20Abi } from '@dexkit/core/constants/abis';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { Token } from '@dexkit/core/types';
@@ -19,6 +18,7 @@ import {
   useConfirmCheckout,
 } from '@dexkit/ui/hooks/payments';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
 import Wallet from '@mui/icons-material/Wallet';
 import {
   Alert,
@@ -42,7 +42,7 @@ import {
   Typography,
 } from '@mui/material';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
-import { BigNumber, ethers } from 'ethers';
+
 import {
   GetStaticPaths,
   GetStaticPathsContext,
@@ -55,6 +55,9 @@ import { FormattedMessage } from 'react-intl';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { getAppConfig } from 'src/services/app';
 import { myAppsApi } from 'src/services/whitelabel';
+import { getContract } from 'thirdweb';
+import { useActiveWalletChain } from 'thirdweb/react';
+import { formatUnits, parseUnits } from 'viem';
 
 export interface CheckoutPageProps {
   id: string;
@@ -149,6 +152,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
   const checkoutItemsQuery = useCheckoutItems({ id: id });
   const { activeChainIds } = useActiveChainIds();
 
+  const activeChain = useActiveWalletChain();
   const [token, setToken] = useState<Token | null>();
 
   const [hash, setHash] = useState<string>();
@@ -156,21 +160,19 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
   const total = useMemo(() => {
     if (token?.decimals) {
       return checkoutItemsQuery.data
-        ?.map((item: any) =>
-          BigNumber.from(item.amount).mul(
-            BigNumber.from(item.price).mul(
-              BigNumber.from('10').pow(token?.decimals),
-            ),
-          ),
+        ?.map(
+          (item: { amount: bigint; price: bigint }) =>
+            item.amount * item.price * parseUnits('10', token?.decimals)
         )
+
         .reduce((prev: any, curr: any) => {
           return prev.add(curr);
-        }, BigNumber.from(0));
+        }, 0);
     }
   }, [checkoutItemsQuery.data, token?.decimals]);
 
   const { provider, account, isActive } = useWeb3React();
-  const balanceQuery = useErc20Balance(provider, token?.address, account);
+  const balanceQuery = useErc20Balance(token?.address, account);
 
   const confirmCheckoutMutation = useConfirmCheckout();
 
@@ -184,16 +186,18 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
       onSubmit,
     }: {
       address: string;
-      amount: BigNumber;
+      amount: BigInt;
       token?: Token;
       onSubmit: (hash: string) => void;
     }) => {
       if (token) {
-        const contract = new ethers.Contract(
-          token?.address,
-          ERC20Abi,
-          provider?.getSigner(),
-        );
+        const contract = getContract({
+          client,
+          chain: activeChain,
+          address: token?.address,
+          // optional ABI
+          abi: '{function transfer(address _to, uint256 _value) public returns (bool success)}',
+        });
 
         const tx = await contract.transfer(address, amount);
 
@@ -201,7 +205,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
         return await tx.wait();
       }
-    },
+    }
   );
 
   const { enqueueSnackbar } = useSnackbar();
@@ -234,7 +238,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
             id="error.while.tranfer"
             defaultMessage="Error while transfer"
           />,
-          { variant: 'error' },
+          { variant: 'error' }
         );
       }
     }
@@ -301,7 +305,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
   const handleChangeNetwork = (
     e: SelectChangeEvent<number>,
-    child: ReactNode,
+    child: ReactNode
   ) => {
     const newChainId = e.target.value as number;
 
@@ -359,7 +363,9 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
               values={{
                 tokenSymbol: token?.symbol,
                 amount:
-                  total && ethers.utils.formatUnits(total, token?.decimals),
+                  total && token?.decimals
+                    ? formatUnits(total, token?.decimals)
+                    : undefined,
               }}
             />
           ) : (
@@ -449,8 +455,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                   <FormattedMessage id="total" defaultMessage="total" />
                 </Typography>
                 <Typography variant="h5" fontWeight="bold">
-                  {total &&
-                    ethers.utils.formatUnits(total, token?.decimals || 6)}{' '}
+                  {total && formatUnits(total, token?.decimals || 6)}{' '}
                   {token ? token?.symbol : 'USD'}
                 </Typography>
               </CardContent>
@@ -470,12 +475,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                   </Typography>
 
                   <Typography color="text.secondary" variant="body2">
-                    {total &&
-                      ethers.utils.formatUnits(
-                        total,
-                        token?.decimals || 6,
-                      )}{' '}
-                    USD
+                    {total && formatUnits(total, token?.decimals || 6)} USD
                   </Typography>
                 </Stack>
               </CardContent>
@@ -520,7 +520,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                               <Avatar
                                 src={ipfsUriToUrl(
                                   networks.find((n) => n.chainId === chainId)
-                                    ?.imageUrl || '',
+                                    ?.imageUrl || ''
                                 )}
                                 style={{ width: '1rem', height: '1rem' }}
                               />
@@ -583,10 +583,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
                         {balanceQuery.data ? (
-                          ethers.utils.formatUnits(
-                            balanceQuery.data,
-                            token?.decimals,
-                          )
+                          balanceQuery.data.displayValue
                         ) : (
                           <Skeleton />
                         )}{' '}

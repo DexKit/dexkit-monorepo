@@ -1,5 +1,5 @@
 import { TokenWhitelabelApp } from "@dexkit/core/types";
-import { BigNumber } from "ethers";
+import type { BigNumber } from "ethers";
 
 
 export interface TokenBalance {

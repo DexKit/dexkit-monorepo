@@ -1,11 +1,9 @@
 import { CoinTypes } from "@dexkit/core/constants";
-import { useErc20BalanceQuery } from "@dexkit/core/hooks";
 import { Coin, EvmCoin } from "@dexkit/core/types";
 import {
   buildEtherReceiveAddress,
   copyToClipboard,
-  formatBigNumber,
-  truncateAddress,
+  truncateAddress
 } from "@dexkit/core/utils";
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import { useDexKitContext } from "@dexkit/ui/hooks";
@@ -14,14 +12,14 @@ import FileCopy from "@mui/icons-material/FileCopy";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { parseEther } from "@dexkit/core/utils/ethers/parseEther";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
-import { formatStringNumber } from "@dexkit/core/utils/formatStringNumber";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { Divider, Skeleton, Stack, Typography } from "@mui/material";
 import type { providers } from "ethers";
 import { useSnackbar } from "notistack";
 import { useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { formatEther } from "viem";
-import { useBalance } from "wagmi";
+import { defineChain } from "thirdweb/chains";
+import { useWalletBalance } from "thirdweb/react";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
 import { useEvmTransferMutation } from "../hooks";
 import { EvmSendForm } from "./forms/EvmSendForm";
@@ -65,14 +63,17 @@ export default function EvmTransferCoin({
     coin?: Coin | null;
   }>({ address: to, amount: amount, coin: defaultCoin });
 
-  const balanceQuery = useBalance({
-    address: account as "0x",
+  const balanceQuery = useWalletBalance({
+    chain: chainId ? defineChain(chainId): undefined,
+    address: account,
+    client,
   });
 
-  const { data: erc20Balance, isLoading } = useErc20BalanceQuery({
-    provider,
-    account,
-    contractAddress:
+  const { data: erc20Balance, isLoading } = useWalletBalance({
+    chain: chainId ? defineChain(chainId): undefined,
+    address: account,
+    client,
+    tokenAddress:
       values.coin?.coinType === CoinTypes.EVM_ERC20
         ? values.coin?.contractAddress
         : undefined,
@@ -226,14 +227,12 @@ export default function EvmTransferCoin({
   const balance = useMemo(() => {
     if (values.coin) {
       if (values.coin.coinType === CoinTypes.EVM_ERC20 && erc20Balance) {
-        return formatBigNumber(erc20Balance, values.coin.decimals);
+        return erc20Balance.displayValue;
       } else if (
         values.coin.coinType === CoinTypes.EVM_NATIVE &&
         balanceQuery.data
       ) {
-        return formatStringNumber({
-          value: formatEther(balanceQuery.data?.value),
-        });
+        return balanceQuery.data.displayValue
       }
     }
 

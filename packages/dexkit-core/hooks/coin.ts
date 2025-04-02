@@ -1,51 +1,37 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { BigNumber, Contract } from "ethers";
+import { BigNumber } from "ethers";
 import { ERC20Abi } from "../constants/abis";
 
 import type { providers } from "ethers";
 
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { useActiveWalletChain, useWalletBalance } from "thirdweb/react";
 import { useReadContracts } from "wagmi";
-import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { getERC20TokenAllowance } from "../services";
-import { approveToken, getERC20Balance } from "../services/balances";
-import { isAddressEqual } from "../utils";
+import { approveToken } from "../services/balances";
 
 export const ERC20_BALANCE = "ERC20_BALANCE";
 
 export interface Erc20BalanceParams {
   account?: string;
   contractAddress?: string;
-  provider?: providers.BaseProvider;
-  chainId?: ChainId;
+
 }
 
 export function useErc20BalanceQuery({
   account,
   contractAddress,
-  provider,
-  chainId,
 }: Erc20BalanceParams) {
-  return useQuery(
-    [ERC20_BALANCE, account, contractAddress, chainId],
-    async () => {
-      if (!contractAddress || !provider || !account) {
-        return BigNumber.from(0);
-      }
+  const activeChain = useActiveWalletChain();
 
-      if (isAddressEqual(contractAddress, ZEROEX_NATIVE_TOKEN_ADDRESS)) {
-        return await provider.getBalance(account);
-      }
+  const balanceQuery = useWalletBalance({
+    chain: activeChain,
+    address: account,
+    client,
+    tokenAddress: contractAddress
+  });
 
-      const contract = new Contract(contractAddress, ERC20Abi, provider);
-
-      return (await contract.balanceOf(account)) as BigNumber;
-    },
-    {
-      refetchOnMount: "always",
-      refetchOnWindowFocus: "always",
-      enabled: Boolean(provider),
-    }
-  );
+  return balanceQuery
 }
 
 export const ERC20_BALANCE_V2 = "ERC20_BALANCE_V2";
@@ -53,81 +39,64 @@ export const ERC20_BALANCE_V2 = "ERC20_BALANCE_V2";
 export interface Erc20BalanceParamsV2 {
   account?: string;
   contractAddress?: string;
-  provider?: providers.BaseProvider;
-  chainId?: ChainId;
 }
 
 export function useErc20BalanceQueryV2({
   account,
   contractAddress,
-  provider,
-  chainId,
 }: Erc20BalanceParamsV2) {
   const { data: balance } = useReadContracts({
     contracts: [{ address: "0x", abi: ERC20Abi, functionName: "balanceOf" }],
   });
 
-  return useQuery(
-    [ERC20_BALANCE_V2, account, contractAddress, chainId],
-    async () => {
-      if (!contractAddress || !provider || !account) {
-        return BigNumber.from(0);
-      }
+  const activeChain = useActiveWalletChain();
 
-      if (isAddressEqual(contractAddress, ZEROEX_NATIVE_TOKEN_ADDRESS)) {
-        return await provider.getBalance(account);
-      }
+  const balanceQuery = useWalletBalance({
+    chain: activeChain,
+    address: account,
+    client,
+    tokenAddress: contractAddress
+  });
 
-      const contract = new Contract(contractAddress, ERC20Abi, provider);
-
-      return (await contract.balanceOf(account)) as BigNumber;
-    },
-    {
-      refetchOnMount: "always",
-      refetchOnWindowFocus: "always",
-      enabled: Boolean(provider),
-    }
-  );
+  return balanceQuery
 }
 
-const EVM_NATIVE_BALANCE_QUERY = "EVM_NATIVE_BALANCE_QUERY";
 
 export function useEvmNativeBalanceQuery({
-  provider,
   account,
 }: {
   account?: string;
-  provider?: providers.BaseProvider;
-}) {
-  return useQuery([EVM_NATIVE_BALANCE_QUERY, account], async () => {
-    if (!account || !provider) {
-      return BigNumber.from(0);
-    }
 
-    return (await provider.getBalance(account)) || BigNumber.from(0);
+}) {
+  const activeChain = useActiveWalletChain();
+
+  const balanceQuery = useWalletBalance({
+    chain: activeChain,
+    address: account,
+    client,
   });
+
+  return balanceQuery.data?.value
+
 }
 
 export const GET_ERC20_BALANCE = "GET_ERC20_BALANCE";
-
+//@ts-ignore
 export function useErc20Balance(
-  provider?: providers.BaseProvider,
   contractAddress?: string,
   account?: string
 ) {
-  return useQuery<BigNumber | undefined>(
-    [GET_ERC20_BALANCE, contractAddress, account],
-    async () => {
-      if (!contractAddress || !account || !provider) {
-        return undefined;
-      }
+  const activeChain = useActiveWalletChain();
 
-      return getERC20Balance(contractAddress, account, provider);
-    },
-    {
-      enabled: contractAddress !== undefined && account !== undefined,
-    }
-  );
+  const balanceQuery = useWalletBalance({
+    chain: activeChain,
+    address: account,
+    client,
+    tokenAddress: contractAddress
+  });
+
+  return balanceQuery
+
 }
 
 export const TOKEN_ALLOWANCE_QUERY = "TOKEN_ALLOWANCE_QUERY";

@@ -8,7 +8,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSwitchChain } from 'wagmi';
+import { defineChain } from "thirdweb/chains";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
 import {
   switchNetworkChainIdAtom,
   switchNetworkOpenAtom,
@@ -64,12 +65,12 @@ export function useSwitchNetwork() {
 }
 
 export function useSwitchNetworkMutation() {
-  const { switchChain } = useSwitchChain()
+  const switchChain = useSwitchActiveWalletChain();
 
   return useMutation<unknown, Error, { chainId: number }>(
     async ({ chainId }) => {
       if (chainId) {
-        await switchChain({ chainId: chainId });
+        await switchChain(defineChain(chainId))
         return true
       }
       return null

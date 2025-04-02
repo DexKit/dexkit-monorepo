@@ -1,26 +1,41 @@
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+
+import { appMetadata, client, wallets } from "@dexkit/wallet-connectors/thirdweb/client";
+
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FormattedMessage } from "react-intl";
-import { useConnectWalletDialog } from "../hooks";
+import { AutoConnect, useConnectModal, useIsAutoConnecting } from "thirdweb/react";
+import { ThemeMode } from "../constants/enum";
+import { useThemeMode } from "../hooks";
 import WalletIcon from "./icons/Wallet";
 
 export function ConnectWalletButton() {
-  const { isActivating } = useWeb3React();
+  const isAutoConnecting = useIsAutoConnecting();
+    const { mode } = useThemeMode();
 
-  const connectWalletDialog = useConnectWalletDialog();
 
-  const handleOpenConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(true);
-  };
+  const { connect, isConnecting } = useConnectModal();
+ 
+  async function handleConnect() {
+    const wallet = await connect({ client, wallets, appMetadata, size: 'compact', showThirdwebBranding: false, theme: mode === ThemeMode.light ? 'light': 'dark'  }); // opens the connect modal
+  }
+
   return (
+    <>
+    <AutoConnect
+      wallets={wallets}
+      client={client}
+      appMetadata={appMetadata}
+    />
+
+
     <Button
       variant="outlined"
       color="inherit"
-      onClick={handleOpenConnectWalletDialog}
+      onClick={() => handleConnect()}
       startIcon={
-        isActivating ? (
+        isConnecting || isAutoConnecting ? (
           <CircularProgress
             color="inherit"
             sx={{ fontSize: (theme) => theme.spacing(2) }}
@@ -31,7 +46,7 @@ export function ConnectWalletButton() {
       }
       endIcon={<ChevronRightIcon />}
     >
-      {isActivating ? (
+      {isConnecting || isAutoConnecting  ? (
         <FormattedMessage
           id="loading.wallet"
           defaultMessage="Loading Wallet"
@@ -45,5 +60,6 @@ export function ConnectWalletButton() {
         />
       )}
     </Button>
+    </>
   );
 }

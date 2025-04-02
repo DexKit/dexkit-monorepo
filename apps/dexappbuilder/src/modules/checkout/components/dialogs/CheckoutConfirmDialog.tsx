@@ -15,7 +15,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { BigNumber } from 'ethers';
+
 import { FormattedMessage } from 'react-intl';
 
 export interface CheckoutConfirmDialogProps {
@@ -23,7 +23,7 @@ export interface CheckoutConfirmDialogProps {
   txHash?: string;
   isLoading?: boolean;
   DialogProps: DialogProps;
-  total?: BigNumber;
+  total?: bigint;
   id: string;
   onConfirm: () => void;
 }
@@ -95,7 +95,10 @@ export default function CheckoutConfirmDialog({
                 id="transfer.amount.symbol"
                 defaultMessage="Transfer {amount} {symbol}"
                 values={{
-                  amount: total ? formatUnits(total, token?.decimals) : '0.0',
+                  amount:
+                    total && token?.decimals
+                      ? formatUnits(total, token?.decimals)
+                      : '0.0',
                   symbol: token?.symbol,
                 }}
               />
@@ -105,7 +108,10 @@ export default function CheckoutConfirmDialog({
                 id="transfering.amount.to.pay"
                 defaultMessage="Transfering amount to pay"
                 values={{
-                  amount: total ? formatUnits(total, token?.decimals) : '0.0',
+                  amount:
+                    total && token?.decimals
+                      ? formatUnits(total, token?.decimals)
+                      : '0.0',
                   symbol: token?.symbol,
                 }}
               />

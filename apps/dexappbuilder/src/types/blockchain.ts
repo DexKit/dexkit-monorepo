@@ -1,6 +1,6 @@
 import { ChainId } from '@dexkit/core/constants';
 import { Asset, SwapApiOrder } from '@dexkit/ui/modules/nft/types';
-import { BigNumber } from 'ethers';
+
 
 
 export enum TransactionStatus {
@@ -23,8 +23,8 @@ export enum TransactionType {
 export interface SwapTransactionMetadata {
   sellToken: Token;
   buyToken: Token;
-  sellAmount: BigNumber;
-  buyAmount: BigNumber;
+  sellAmount: bigint;
+  buyAmount: bigint;
 }
 
 export interface ApproveTransactionMetadata {
@@ -97,7 +97,7 @@ export interface TokenList {
 
 export interface TokenBalance {
   token: Token;
-  balance: BigNumber;
+  balance: bigint;
   isProxyUnlocked?: boolean;
 }
 
