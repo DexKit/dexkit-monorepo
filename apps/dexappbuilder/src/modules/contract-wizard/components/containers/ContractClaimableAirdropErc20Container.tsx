@@ -35,7 +35,7 @@ import Link from '@dexkit/ui/components/AppLink';
 import { useThirdwebApprove } from '@dexkit/ui/modules/contract-wizard/hooks/thirdweb';
 import AirdropDialog from '../dialogs/AirdropDialog';
 
-import { zeroAddress } from 'viem';
+import { parseUnits, zeroAddress } from 'viem';
 
 export interface ContractAirdropErc20ContainerProps {
   address: string;
@@ -53,7 +53,7 @@ export default function ContractClaimableAirdropErc20Container({
 
   const { data: tokenAirdropAdress } = useContractRead(
     contract,
-    'airdropTokenAddress'
+    'airdropTokenAddress',
   );
 
   const { data: owner } = useContractRead(contract, 'tokenOwner');
@@ -66,19 +66,19 @@ export default function ContractClaimableAirdropErc20Container({
 
   const { data: tokenContract, isFetched } = useContract(
     tokenAirdropAdress,
-    'token'
+    'token',
   );
 
   const openClaimLimitPerWalletQuery = useContractRead(
     contract,
-    'openClaimLimitPerWallet'
+    'openClaimLimitPerWallet',
   );
 
   const tokenMetadataQuery = useQuery(
     ['token_metadata', isFetched],
     async () => {
       return tokenContract?.erc20?.get();
-    }
+    },
   );
 
   const openClaimLimitFormatted = useMemo(() => {
@@ -88,19 +88,19 @@ export default function ContractClaimableAirdropErc20Container({
     ) {
       return formatUnits(
         openClaimLimitPerWalletQuery?.data,
-        tokenMetadataQuery?.data?.decimals
+        tokenMetadataQuery?.data?.decimals,
       );
     }
   }, [openClaimLimitPerWalletQuery?.data, tokenMetadataQuery.data]);
 
   const { data: expirationTimestamp } = useContractRead(
     contract,
-    'expirationTimestamp'
+    'expirationTimestamp',
   );
 
   const { data: availableAmount } = useContractRead(
     contract,
-    'availableAmount'
+    'availableAmount',
   );
 
   const { account } = useWeb3React();
@@ -110,7 +110,7 @@ export default function ContractClaimableAirdropErc20Container({
     ['AIRDROP_TOKEN_ALLOWANCE', tokenAirdropAdress],
     async () => {
       return await tokenContract?.erc20.allowance(address);
-    }
+    },
   );
 
   const contractChain = NETWORK_FROM_SLUG(network)?.chainId;
@@ -124,7 +124,7 @@ export default function ContractClaimableAirdropErc20Container({
   const { data: tokenBalance, isLoading } = useBalance(
     tokenAddress !== NATIVE_TOKEN_ADDRESS && tokenAddress !== zeroAddress
       ? tokenAddress
-      : undefined
+      : undefined,
   );
 
   const [totalAmount, totalAmountFormatted] = useAsyncMemo(
@@ -140,7 +140,7 @@ export default function ContractClaimableAirdropErc20Container({
       return [0, '0.0'];
     },
     [0, '0.0'],
-    [availableAmount, tokenContract]
+    [availableAmount, tokenContract],
   );
 
   const airdropMutation = useMutation(async () => {
@@ -261,7 +261,7 @@ export default function ContractClaimableAirdropErc20Container({
                               ) : (
                                 `${parseUnits(
                                   tokenBalance?.value,
-                                  tokenBalance?.decimals
+                                  tokenBalance?.decimals,
                                 )} ${tokenBalance?.symbol.toUpperCase()}`
                               )}
                             </Typography>

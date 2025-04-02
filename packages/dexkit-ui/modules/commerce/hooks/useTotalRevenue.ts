@@ -12,7 +12,6 @@ export default function useTotalRevenue() {
       throw new Error(" no instance");
     }
 
-    return (await instance.get<{ total: number }>(`/orders/total-revenue`))
-      .data;
+    return (await instance.get(`/orders/total-revenue`)).data;
   });
 }

@@ -20,7 +20,7 @@ export default function useProductCollection(params: { id?: string }) {
       }
 
       return (
-        await instance.get<ProductCollectionType>(
+        await instance.get(
           `/product-collections/${params.id}`
         )
       ).data;

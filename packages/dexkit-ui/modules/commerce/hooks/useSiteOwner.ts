@@ -12,6 +12,6 @@ export function useSiteOwner({ id }: { id: number }) {
       throw new Error("no instance");
     }
 
-    return (await instance.get<{ owner: string }>(`/site/by-id/${id}`)).data;
+    return (await instance.get(`/site/by-id/${id}`)).data;
   });
 }
