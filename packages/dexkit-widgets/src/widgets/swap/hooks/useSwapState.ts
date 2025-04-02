@@ -484,7 +484,6 @@ export function useSwapState({
         }
 
         const tradeHash = await execGaslessMutation.mutateAsync(requestBody);
-
         setTradeHash(tradeHash);
         handleCloseConfirmSwap();
         setExecSwapState(ExecSwapState.quote);

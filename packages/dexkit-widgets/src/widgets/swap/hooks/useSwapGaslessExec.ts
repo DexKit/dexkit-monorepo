@@ -42,20 +42,6 @@ export function useSwapGaslessExec() {
           approval,
           chainId: chainId.toString(),
         });
-        /* onNotification({
-           chainId,
-           title: formatMessage({
-             id: "swap.tokens",
-             defaultMessage: "Swap Tokens", // TODO: add token symbols and amounts
-           }),
-           params: {
-             type: "swapGasless",
-             sellAmount: quote.sellAmount as string,
-             buyAmount: quote.buyAmount as string,
-             sellToken,
-             buyToken,
-           },
-         });*/
         if (tradeHash) {
           gaslessTrades.push({
             type: "swap",
