@@ -272,7 +272,6 @@ export function useSwapState({
     recentTokens.add(token);
 
     if (selectSide === "sell") {
-      setQuoteFor("sell");
       if (
         token.chainId === buyToken?.chainId &&
         isAddressEqual(token.address, buyToken?.address)
@@ -282,7 +281,6 @@ export function useSwapState({
         setSellToken(token);
       }
     } else {
-      setQuoteFor("buy");
       if (
         token.chainId === sellToken?.chainId &&
         isAddressEqual(token.address, sellToken?.address)
@@ -316,17 +314,20 @@ export function useSwapState({
     [buyToken]
   );
 
-  const handleChangeSellAmount = (value: BigNumber, clickMax?: boolean) => {
-    setQuoteFor("sell");
-    if (sellToken) {
-      if (clickMax) {
-        setClickOnMax(true);
-      } else {
-        setClickOnMax(false);
+  const handleChangeSellAmount = useCallback(
+    (value: BigNumber, clickMax?: boolean) => {
+      setQuoteFor("sell");
+      if (sellToken) {
+        if (clickMax) {
+          setClickOnMax(true);
+        } else {
+          setClickOnMax(false);
+        }
+        setSellAmount(value);
       }
-    }
-    setSellAmount(value);
-  };
+    },
+    [sellToken]
+  );
 
   const handleConnectWallet = () => {
     onConnectWallet();
@@ -424,7 +425,7 @@ export function useSwapState({
       let approvalDataToSubmit: any = null;
       let tradeDataToSubmit: any = null;
       let tradeSignature: any = null;
-
+      setExecSwapState(ExecSwapState.gasless_trade);
       if (tokenApprovalRequired) {
         if (gaslessApprovalAvailable) {
           approvalSignature = await signTypedDataAsync({
@@ -457,6 +458,7 @@ export function useSwapState({
         message: data.trade.eip712.message,
         primaryType: data.trade.eip712.primaryType,
       });
+      setExecSwapState(ExecSwapState.gasless_trade_submit);
       const tradeSplitSig = await splitSignature(tradeSignature);
       tradeDataToSubmit = {
         type: data.trade.type,
@@ -484,7 +486,6 @@ export function useSwapState({
 
         const tradeHash = await execGaslessMutation.mutateAsync(requestBody);
         setTradeHash(tradeHash);
-        handleCloseConfirmSwap();
         setExecSwapState(ExecSwapState.quote);
       } catch (error) {
         console.error("Error submitting the gasless swap", error);
