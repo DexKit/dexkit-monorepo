@@ -272,6 +272,7 @@ export function useSwapState({
     recentTokens.add(token);
 
     if (selectSide === "sell") {
+      setQuoteFor("sell");
       if (
         token.chainId === buyToken?.chainId &&
         isAddressEqual(token.address, buyToken?.address)
@@ -281,6 +282,7 @@ export function useSwapState({
         setSellToken(token);
       }
     } else {
+      setQuoteFor("buy");
       if (
         token.chainId === sellToken?.chainId &&
         isAddressEqual(token.address, sellToken?.address)
@@ -314,20 +316,17 @@ export function useSwapState({
     [buyToken]
   );
 
-  const handleChangeSellAmount = useCallback(
-    (value: BigNumber, clickMax?: boolean) => {
-      setQuoteFor("sell");
-      if (sellToken) {
-        if (clickMax) {
-          setClickOnMax(true);
-        } else {
-          setClickOnMax(false);
-        }
-        setSellAmount(value);
+  const handleChangeSellAmount = (value: BigNumber, clickMax?: boolean) => {
+    setQuoteFor("sell");
+    if (sellToken) {
+      if (clickMax) {
+        setClickOnMax(true);
+      } else {
+        setClickOnMax(false);
       }
-    },
-    [sellToken]
-  );
+    }
+    setSellAmount(value);
+  };
 
   const handleConnectWallet = () => {
     onConnectWallet();

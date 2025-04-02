@@ -65,8 +65,8 @@ export function useSwapQuote({
   const [enabled, setEnabled] = useState(true);
   const [skipValidation, setSkipValidation] = useState(true);
   const [intentOnFilling, setIntentOnFilling] = useState(false);
-  const [tradeSignature, setTradeSignature] = useState<string>();
-  const [approvalSignature, setApprovalSignature] = useState<string>();
+  const [, setTradeSignature] = useState<string>();
+  const [, setApprovalSignature] = useState<string>();
 
   const refetchParams =
     params.quoteFor === "buy"
@@ -108,9 +108,8 @@ export function useSwapQuote({
         sellToken,
         sellTokenAmount,
         buyTokenAmount,
-        skipValidation: canSkipValitaion,
         quoteFor,
-      } = { ...params, skipValidation };
+      } = { ...params };
 
       const client = new ZeroExApiClient(chainId, siteId);
 

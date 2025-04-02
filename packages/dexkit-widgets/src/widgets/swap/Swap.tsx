@@ -234,6 +234,11 @@ export default function Swap({
               InputBaseProps={{ fullWidth: true }}
               onChange={onChangeSellAmount}
               onSelectToken={handleSelectSellToken}
+              onInputClick={() => {
+                if (!sellToken) {
+                  handleSelectSellToken();
+                }
+              }}
               token={sellToken}
               value={sellAmount}
               balance={sellTokenBalance}
@@ -257,6 +262,11 @@ export default function Swap({
               InputBaseProps={{ fullWidth: true }}
               onChange={onChangeBuyAmount}
               onSelectToken={handleSelectBuyToken}
+              onInputClick={() => {
+                if (!buyToken) {
+                  handleSelectSellToken();
+                }
+              }}
               token={buyToken}
               value={buyAmount}
               balance={buyTokenBalance}
