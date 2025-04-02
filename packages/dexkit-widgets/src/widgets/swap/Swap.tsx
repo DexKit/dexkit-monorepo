@@ -264,7 +264,7 @@ export default function Swap({
               onSelectToken={handleSelectBuyToken}
               onInputClick={() => {
                 if (!buyToken) {
-                  handleSelectSellToken();
+                  handleSelectBuyToken();
                 }
               }}
               token={buyToken}
