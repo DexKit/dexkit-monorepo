@@ -1,4 +1,23 @@
 import { ChainId } from "@dexkit/core";
+import { type UseQueryResult } from "@tanstack/react-query";
+import { type providers } from "ethers";
+
+export type txMutationParams = {
+  amount?: string;
+  account?: string;
+  chainId?: ChainId;
+  quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null | undefined;
+  quoteQuery: UseQueryResult<
+    ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null,
+    unknown
+  >;
+  side: "buy" | "sell";
+  formattedCost: string;
+  baseToken: any;
+  quoteToken: any;
+  canGasless: boolean;
+  provider?: providers.Web3Provider;
+};
 
 export type ZeroExQuote = {
   chainId: ChainId;
@@ -119,7 +138,7 @@ export type ZeroExGaslessQuoteResponse = {
   sellAmount: string;
   sources: any;
   buyTokenAddress: string;
-  sellTokenAddress: string;
+  sellToken: string;
   allowanceTarget: any;
   orders: any;
   sellTokenToEthRate: any;

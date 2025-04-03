@@ -2,14 +2,15 @@ import { ChainId } from "@dexkit/core";
 import { useMemo } from "react";
 import { useMarketGaslessTradeStatusQuery } from "./useMarketTradeGaslessExec";
 
+export function useMarketTradeGaslessState({ chainId, tradeHash, canGasless }: { zeroExApiKey?: string, chainId?: ChainId, tradeHash?: string, canGasless?: boolean }) {
 
-
-
-export function useMarketTradeGaslessState({ chainId, tradeHash }: { zeroExApiKey?: string, chainId?: ChainId, tradeHash?: string }) {
-
-  const statusGaslessQuery = useMarketGaslessTradeStatusQuery({ chainId, tradeHash });
+  const statusGaslessQuery = useMarketGaslessTradeStatusQuery({ chainId, tradeHash, canGasless });
 
   const isLoadingStatusGasless = useMemo(() => {
+    if(!canGasless) {
+      return false;
+    }
+
     if (statusGaslessQuery.isLoading) {
       return true;
     }
@@ -17,7 +18,7 @@ export function useMarketTradeGaslessState({ chainId, tradeHash }: { zeroExApiKe
       return true;
     }
     return false;
-  }, [statusGaslessQuery.isLoading, statusGaslessQuery.data]);
+  }, [statusGaslessQuery.isLoading, statusGaslessQuery.data, canGasless]);
 
   const successTxGasless = useMemo(() => {
     if (!tradeHash) {

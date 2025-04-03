@@ -6,6 +6,7 @@ import { ZeroExApiClient } from "@dexkit/ui/modules/swap/services/zrxClient";
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
+
 export function useMarketTradeGaslessExec({
   onNotification,
 }: {
@@ -68,9 +69,11 @@ export function useMarketTradeGaslessExec({
 export function useMarketGaslessTradeStatusQuery({
   tradeHash,
   chainId,
+  canGasless,
 }: {
   chainId?: ChainId;
   tradeHash: string | undefined;
+  canGasless?: boolean;
 }) {
   const { siteId } = useContext(SiteContext);
 
@@ -94,6 +97,8 @@ export function useMarketGaslessTradeStatusQuery({
         throw err;
       }
     },
-    { refetchInterval: 2000 }
+    { 
+      enabled: !!tradeHash && !!chainId && canGasless,
+      refetchInterval: 2000 }
   );
 }

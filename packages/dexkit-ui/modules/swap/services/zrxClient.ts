@@ -17,6 +17,7 @@ import {
 } from "@dexkit/ui/modules/swap/constants";
 
 import {
+  ZeroExGaslessQuoteResponse,
   ZeroExQuote,
   ZeroExQuoteGasless,
   ZeroExQuoteResponse,
@@ -86,7 +87,7 @@ export class ZeroExApiClient {
   async quoteGasless(
     quote: ZeroExQuoteGasless,
     { signal }: { signal?: AbortSignal }
-  ): Promise<ZeroExQuoteResponse> {
+  ): Promise<ZeroExGaslessQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_QUOTE_ENDPOINT,
       {
