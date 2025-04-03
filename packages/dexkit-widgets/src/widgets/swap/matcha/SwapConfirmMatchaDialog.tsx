@@ -206,14 +206,15 @@ export default function SwapConfirmMatchaDialog({
                           )}{" "}
                           {sellToken?.symbol?.toUpperCase()}
                         </Typography>
-                        <Typography
+                        {/* TODO: Make price dynamic -> Issues created: https://github.com/DexKit/dexkit-monorepo/issues/428 */}
+                        {/* <Typography
                           component="div"
                           textAlign="center"
                           variant="caption"
                           color="text.secondary"
                         >
                           $30.0
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Stack>
                   </Box>
@@ -271,14 +272,15 @@ export default function SwapConfirmMatchaDialog({
                           )}{" "}
                           {buyToken?.symbol?.toUpperCase()}
                         </Typography>
-                        <Typography
+                        {/* TODO: Make price dynamic -> Issues created: https://github.com/DexKit/dexkit-monorepo/issues/428 */}
+                        {/* <Typography
                           component="div"
                           textAlign="center"
                           variant="caption"
                           color="text.secondary"
                         >
                           $30.0
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Stack>
                   </Box>

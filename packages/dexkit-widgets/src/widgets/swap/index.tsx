@@ -14,9 +14,6 @@ const SwapSettingsDialog = dynamic(
 );
 const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 
-// declare global {
-//   function renderSwapWidget(id: string, options: RenderOptions): void;
-// }
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { useUserGaslessSettings } from "@dexkit/ui/modules/swap/hooks/useUserGaslessSettings";
@@ -104,9 +101,7 @@ export function SwapWidget({
 
   const execSwapMutation = useSwapExec({ onNotification });
 
-  const execSwapGaslessMutation = useSwapGaslessExec({
-    zeroExApiKey,
-  });
+  const execSwapGaslessMutation = useSwapGaslessExec();
 
   const [selectedChainId, setSelectedChainId] = useState<ChainId>();
 
@@ -555,7 +550,6 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
-          isApproving={approveMutation.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
@@ -583,7 +577,6 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
-          isApproving={approveMutation.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
@@ -610,7 +603,6 @@ export function SwapWidget({
         }}
         quote={quote}
         isQuoting={isQuoting}
-        isApproving={approveMutation.isLoading}
         isLoadingSignGasless={isLoadingSignGasless}
         isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
         reasonFailedGasless={gaslessSwapState.reasonFailedGasless}

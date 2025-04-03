@@ -1,5 +1,8 @@
 import { ZeroExApiClient } from "@dexkit/ui/modules/swap/services/zrxClient";
-import { ZeroExQuote, ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExQuote,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { useContext } from "react";
 
 import { ChainId } from "@dexkit/core/constants";
@@ -11,7 +14,7 @@ import type { BigNumber } from "ethers";
 import { SwapSide } from "../types";
 
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import { formatUnits } from 'viem';
+import { formatUnits } from "viem";
 export interface SwapQuoteParams {
   sellToken?: Token;
   sellTokenAmount?: BigNumber;
@@ -24,7 +27,6 @@ export interface SwapQuoteParams {
   slippagePercentage?: number;
 }
 
-
 export const SWAP_PRICE = "SWAP_PRICE";
 
 export function useSwapPrice({
@@ -32,33 +34,34 @@ export function useSwapPrice({
   zeroExApiKey,
   swapFees,
   params,
-  variant
+  variant,
 }: {
   maxSlippage?: number;
   zeroExApiKey?: string;
-  swapFees?: {
-    recipient: string;
-    amount_percentage: number;
-  };
+  swapFees?: { recipient: string; amount_percentage: number };
   params: SwapQuoteParams;
-  variant?: SwapVariant
+  variant?: SwapVariant;
 }): UseQueryResult<
-  Pick<ZeroExQuoteResponse, 'sellTokenToEthRate' | 'buyTokenToEthRate'> & { buyAmountUnits: string, sellAmountUnits: string } | undefined | null,
+  | (Pick<ZeroExQuoteResponse, "sellTokenToEthRate" | "buyTokenToEthRate"> & {
+      buyAmountUnits: string;
+      sellAmountUnits: string;
+    })
+  | undefined
+  | null,
   unknown
 > {
-
   const refetchParams =
     params.quoteFor === "buy"
       ? {
-        sellToken: params.sellToken,
-        buyToken: params.buyToken,
-        buyTokenAmount: params.buyTokenAmount,
-      }
+          sellToken: params.sellToken,
+          buyToken: params.buyToken,
+          buyTokenAmount: params.buyTokenAmount,
+        }
       : {
-        sellToken: params.sellToken,
-        sellTokenAmount: params.sellTokenAmount,
-        buyToken: params.buyToken,
-      };
+          sellToken: params.sellToken,
+          sellTokenAmount: params.sellTokenAmount,
+          buyToken: params.buyToken,
+        };
 
   const { siteId } = useContext(SiteContext);
 
@@ -71,13 +74,12 @@ export function useSwapPrice({
       maxSlippage,
       zeroExApiKey,
       swapFees,
-      variant
+      variant,
     ],
     async ({ signal }) => {
-
       // Classic variant don't have usd prices
       if (!variant || variant === SwapVariant.Classic) {
-        return null
+        return null;
       }
 
       if (!params) {
@@ -92,19 +94,20 @@ export function useSwapPrice({
         buyTokenAmount,
         quoteFor,
       } = { ...params };
-
-      const client = new ZeroExApiClient(chainId, zeroExApiKey, siteId);
+      const client = new ZeroExApiClient(chainId, siteId);
 
       if (buyToken && sellToken && quoteFor) {
         const quoteParam: ZeroExQuote = {
+          chainId,
           buyToken: buyToken?.address,
           sellToken: sellToken?.address,
+
           affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
           feeRecipient: swapFees?.recipient,
+          taker: params.account || "",
           buyTokenPercentageFee: swapFees
             ? swapFees.amount_percentage / 100
             : undefined,
-
         };
 
         if (maxSlippage !== undefined) {
@@ -113,31 +116,56 @@ export function useSwapPrice({
 
         if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
           quoteParam.buyAmount = buyTokenAmount?.toString();
-          const { sellTokenToEthRate, buyTokenToEthRate, buyAmount, sellAmount } = await client.price(quoteParam, { signal })
+          const {
+            sellTokenToEthRate,
+            buyTokenToEthRate,
+            buyAmount,
+            sellAmount,
+          } = await client.price(quoteParam, { signal });
 
-          const buyAmountUnits = formatUnits(BigInt(buyAmount), buyToken.decimals);
-          const sellAmountUnits = formatUnits(BigInt(sellAmount), sellToken.decimals);
+          const buyAmountUnits = formatUnits(
+            BigInt(buyAmount),
+            buyToken.decimals
+          );
+          const sellAmountUnits = formatUnits(
+            BigInt(sellAmount),
+            sellToken.decimals
+          );
 
-
-          return { sellTokenToEthRate, buyTokenToEthRate, buyAmountUnits, sellAmountUnits }
+          return {
+            sellTokenToEthRate,
+            buyTokenToEthRate,
+            buyAmountUnits,
+            sellAmountUnits,
+          };
         } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
           quoteParam.sellAmount = sellTokenAmount?.toString();
-          const { sellTokenToEthRate, buyTokenToEthRate, buyAmount, sellAmount } = await client.price(quoteParam, { signal })
+          const {
+            sellTokenToEthRate,
+            buyTokenToEthRate,
+            buyAmount,
+            sellAmount,
+          } = await client.price(quoteParam, { signal });
 
-          const buyAmountUnits = formatUnits(BigInt(buyAmount), buyToken.decimals);
-          const sellAmountUnits = formatUnits(BigInt(sellAmount), sellToken.decimals);
+          const buyAmountUnits = formatUnits(
+            BigInt(buyAmount),
+            buyToken.decimals
+          );
+          const sellAmountUnits = formatUnits(
+            BigInt(sellAmount),
+            sellToken.decimals
+          );
 
-          return { sellTokenToEthRate, buyTokenToEthRate, buyAmountUnits, sellAmountUnits }
+          return {
+            sellTokenToEthRate,
+            buyTokenToEthRate,
+            buyAmountUnits,
+            sellAmountUnits,
+          };
         }
-
       }
       return null;
     },
-    {
-      enabled: Boolean(params),
-      refetchInterval: 5000,
-
-    }
+    { enabled: Boolean(params), refetchInterval: 5000 }
   );
-
 }

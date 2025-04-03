@@ -23,12 +23,12 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { BigNumber, providers } from "ethers";
 import { ORDER_LIMIT_DURATIONS } from "../../constants";
 import { useSendLimitOrderMutation } from "../../hooks";
-import { useZrxQuoteMutation } from "../../hooks/zrx";
+import { useZrxPriceMutation } from "../../hooks/zrx";
 import { BigNumberUtils, getZrxExchangeAddress } from "../../utils";
 import DurationSelect from "./DurationSelect";
 import ReviewOrderDialog from "./ReviewOrderDialog";
 
-export interface BuyFormProps {
+export interface LimitFormProps {
   chainId?: ChainId;
   quoteToken: Token;
   baseToken: Token;
@@ -36,23 +36,23 @@ export interface BuyFormProps {
   quoteTokenBalance?: BigNumber;
   maker?: string;
   provider?: providers.Web3Provider;
-  buyTokenPercentageFee?: number;
   feeRecipient?: string;
   affiliateAddress?: string;
+  side: "buy" | "sell";
 }
 
-export default function BuyForm({
-  quoteToken: quoteToken,
-  baseToken: baseToken,
+export default function LimitForm({
+  quoteToken,
+  baseToken,
   quoteTokenBalance,
-  buyTokenPercentageFee,
   slippage,
   affiliateAddress,
   feeRecipient,
   maker,
   provider,
   chainId,
-}: BuyFormProps) {
+  side,
+}: LimitFormProps) {
   const [amount, setAmount] = useState<string | undefined>("0.0");
   const [amountPerToken, setAmountPerToken] = useState<string | undefined>(
     "0.0"
@@ -127,22 +127,23 @@ export default function BuyForm({
     );
   }, [hasSufficientBalance, baseToken, quoteToken, cost]);
 
-  const quoteMutation = useZrxQuoteMutation({ chainId });
+  const priceMutation = useZrxPriceMutation({ chainId });
 
   const handleQuotePrice = useCallback(async () => {
-    const quote = await quoteMutation.mutateAsync({
-      buyToken: baseToken.address,
+    const quote = await priceMutation.mutateAsync({
+      buyToken: side === "buy" ? quoteToken.address : baseToken.address,
+      sellToken: side === "buy" ? baseToken.address : quoteToken.address,
+      sellAmount: parseUnits("1.0", baseToken.decimals).toString(),
       chainId: chainId!,
-      sellToken: quoteToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      buyAmount: parseUnits("1.0", baseToken.decimals).toString(),
-      slippagePercentage: slippage ? slippage / 100 : 0.01,
+      slippageBps: slippage ? slippage * 100 * 100 : 0.01 * 100 * 100,
       feeRecipient,
-      buyTokenPercentageFee,
       taker: maker || "",
     });
 
-    const sellAmount = BigNumber.from(quote?.sellAmount || "0");
+    const sellAmount = BigNumber.from(
+      side === "buy" ? quote?.buyAmount : quote?.sellAmount || "0"
+    );
 
     setAmountPerToken(formatUnits(sellAmount, quoteToken.decimals));
   }, [baseToken, quoteToken]);
@@ -298,7 +299,7 @@ export default function BuyForm({
           cost &&
           tokenAllowanceQuery.data?.lt(cost)
         }
-        side="buy"
+        side={side}
         baseAmount={takerAmount}
         amountPerToken={parsedAmountPerToken}
         quoteToken={quoteToken}

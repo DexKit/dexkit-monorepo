@@ -211,14 +211,14 @@ export default function SwapConfirmUniswapDialog({
                         sx={{ height: "2rem", width: "2rem" }}
                       />
                     </Stack>
-
-                    <Typography
+                    {/* TODO: Make price dynamic -> Issues created: https://github.com/DexKit/dexkit-monorepo/issues/428 */}
+                    {/* <Typography
                       component="div"
                       variant="caption"
                       color="text.secondary"
                     >
                       $30.0
-                    </Typography>
+                    </Typography> */}
                   </Box>
 
                   <Box>

@@ -1,7 +1,6 @@
 import { ChainId } from "@dexkit/core/constants/enums";
 
-export const SUPPORTED_GASLESS_CHAIN = [1, 137, 42161, 8453, 10]
-
+export const SUPPORTED_GASLESS_CHAIN = [1, 137, 42161, 8453, 10];
 
 export const ZEROEX_NATIVE_TOKEN_ADDRESS =
   "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
@@ -35,9 +34,8 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
   }
 };
 
-export const ZERO_EX_URL = (chainId?: number, siteId?: number) => {
-
-  return `/api/zrx-api/${siteId || 'dexappbuilder'}/${chainId}`;
+export const ZERO_EX_V2_URL = (chainId?: number, siteId?: number) => {
+  return `/api/zrx-api/v2/${siteId || "dexappbuilder"}/${chainId}`;
 
   /*if (siteId !== undefined) {
     return `/api/zrx/${siteId}/${NETWORK_SLUG(chainId)}`;
@@ -46,8 +44,12 @@ export const ZERO_EX_URL = (chainId?: number, siteId?: number) => {
   return `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;*/
 };
 
-export const ZEROEX_QUOTE_ENDPOINT = "/swap/v1/quote";
-export const ZEROEX_PRICE_ENDPOINT = "/swap/v1/price";
+export const ZERO_EX_V1_URL = (chainId?: number, siteId?: number) => {
+  return `/api/zrx-api/v1/${siteId || "dexappbuilder"}/${chainId}`;
+};
+
+export const ZEROEX_QUOTE_ENDPOINT = "/swap/permit2/quote";
+export const ZEROEX_PRICE_ENDPOINT = "/swap/permit2/price";
 
 export const ZEROEX_TOKENS_ENDPOINT = "/swap/v1/tokens";
 export const ZEROEX_ORDERBOOK_ENDPOINT = "/orderbook/v1/order";
@@ -61,12 +63,12 @@ export const ZEROEX_FEE_RECIPIENT =
 
 // TX relay endpoints
 
-export const ZEROEX_GASLESS_PRICE_ENDPOINT = "/tx-relay/v1/swap/price";
+export const ZEROEX_GASLESS_PRICE_ENDPOINT = "/gasless/price";
 
-export const ZEROEX_GASLESS_QUOTE_ENDPOINT = "/tx-relay/v1/swap/quote";
+export const ZEROEX_GASLESS_QUOTE_ENDPOINT = "/gasless/quote";
 
-export const ZEROEX_GASLESS_SUBMIT_ENDPOINT = "/tx-relay/v1/swap/submit";
+export const ZEROEX_GASLESS_SUBMIT_ENDPOINT = "/gasless/submit";
 
-export const ZEROEX_GASLESS_STATUS_ENDPOINT = "/tx-relay/v1/swap/status";
+export const ZEROEX_GASLESS_STATUS_ENDPOINT = "/gasless/status";
 
-export const ZEROEX_SUPPORTS_GASLESS_ENDPOINT = "/tx-relay/v1/swap/supported-tokens";
+export const ZEROEX_SUPPORTS_GASLESS_ENDPOINT = "/gasless/chains";

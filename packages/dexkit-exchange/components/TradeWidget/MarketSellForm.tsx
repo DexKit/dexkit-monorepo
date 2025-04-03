@@ -98,7 +98,7 @@ export default function MarketSellForm({
     account,
     provider,
     spender: getZrxExchangeAddress(chainId),
-    tokenAddress: quote?.sellTokenAddress,
+    tokenAddress: quote?.sellToken,
   });
 
   useEffect(() => {
@@ -109,9 +109,10 @@ export default function MarketSellForm({
           buyToken: quoteToken.address,
           affiliateAddress: affiliateAddress ? affiliateAddress : "",
           sellAmount: parseUnits(amount, baseToken.decimals).toString(),
-          skipValidation: true,
           slippagePercentage: 0.01,
           feeRecipient,
+          taker: account!,
+          chainId: chainId!,
           buyTokenPercentageFee: buyTokenPercentageFee
             ? buyTokenPercentageFee / 100
             : undefined,
@@ -192,8 +193,8 @@ export default function MarketSellForm({
       onSubmited: (hash: string) => {},
       amount: BigNumber.from(quote?.sellAmount),
       provider,
-      spender: getZrxExchangeAddress(chainId),
-      tokenContract: quote?.sellTokenAddress,
+      spender: quote?.issues.allowance.spender,
+      tokenContract: quote?.sellToken,
     });
   };
 

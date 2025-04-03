@@ -6,7 +6,7 @@ import { Token } from "@dexkit/core/types";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
   ZEROEX_ORDERBOOK_ENDPOINT,
-  ZERO_EX_URL,
+  ZERO_EX_V1_URL,
 } from "@dexkit/ui/modules/swap/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -66,7 +66,7 @@ export function useSendLimitOrderMutation() {
       });
 
       const resp = await axios.post(
-        `${ZERO_EX_URL(chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}`,
+        `${ZERO_EX_V1_URL(chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}`,
         signedOrder,
         context.zrxApiKey
           ? { headers: { "0x-api-key": context.zrxApiKey } }

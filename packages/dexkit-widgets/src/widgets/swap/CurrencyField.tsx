@@ -8,6 +8,9 @@ import { useDebounceCallback } from "../../hooks";
 
 interface Props {
   onChange: (value: BigNumber) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onClick?: () => void;
   InputBaseProps?: InputBaseProps;
   value: BigNumber;
   decimals?: number;
@@ -20,6 +23,9 @@ export function CurrencyField({
   value,
   decimals,
   isUserInput,
+  onFocus,
+  onBlur,
+  onClick,
 }: Props) {
   const [internalValue, setInternalValue] = useState({
     value: "",
@@ -54,7 +60,7 @@ export function CurrencyField({
 
   useDebounceCallback<{ value: string; triggerChange: boolean }>(
     internalValue,
-    (value) => {
+    () => {
       try {
         if (internalValue.triggerChange && decimals) {
           onChange(parseUnits(internalValue.value, decimals));
@@ -72,6 +78,9 @@ export function CurrencyField({
       inputProps={{ inputMode: "decimal" }}
       value={internalValue.value}
       onChange={handleChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onClick={onClick}
     />
   );
 }

@@ -59,8 +59,8 @@ export type ZeroExQuoteResponse = {
   sellTokenToEthRate: any;
   buyTokenToEthRate: any;
   expectedSlippage: any;
+  permit2?: any;
 };
-
 
 export type ZrxOrder = {
   chainId: number;

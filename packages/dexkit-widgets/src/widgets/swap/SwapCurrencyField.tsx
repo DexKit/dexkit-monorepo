@@ -18,6 +18,8 @@ export interface SwapTokenFieldProps {
   InputBaseProps?: InputBaseProps;
   disabled?: boolean;
   onChange: (value: BigNumber, clickOnMax?: boolean) => void;
+  onInputFocus?: () => void;
+  onInputClick?: () => void;
   token?: Token;
   onSelectToken: (token?: Token) => void;
   value: BigNumber;
@@ -30,6 +32,8 @@ function SwapTokenField({
   InputBaseProps,
   onChange,
   onSelectToken,
+  onInputFocus,
+  onInputClick,
   token,
   value,
   disabled,
@@ -72,6 +76,8 @@ function SwapTokenField({
           value={value}
           isUserInput={isUserInput}
           decimals={token?.decimals}
+          onFocus={onInputFocus}
+          onClick={onInputClick}
         />
         <SwapTokenButton
           token={token}
