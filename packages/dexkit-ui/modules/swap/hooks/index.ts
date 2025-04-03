@@ -3,7 +3,7 @@ import {
   NETWORK_FROM_SLUG,
   NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
-import { TokenWhitelabelApp } from "@dexkit/core/types";
+import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -21,8 +21,10 @@ import {
   useDexKitContext,
 } from "../../../hooks";
 import { useTokenList } from "../../../hooks/blockchain";
+import { SUPPORTED_GASLESS_CHAIN } from "../constants";
 import { getApiCoinPlatforms } from "../services";
 import { isAutoSlippageAtom, maxSlippageAtom } from "../state";
+import { isNativeInSell } from "../utils";
 
 export function useSwapState() {
   const { chainId } = useWeb3React();
@@ -264,3 +266,36 @@ export function usePlatformCoinSearch({
     }
   );
 }
+
+export const useCanGasless = ({
+  enabled,
+  chainId,
+  side,
+  sellToken,
+  buyToken,
+}: {
+  enabled: boolean;
+  chainId: ChainId;
+  side: "buy" | "sell";
+  sellToken: Token;
+  buyToken: Token;
+}): boolean => {
+  if (
+    chainId &&
+    enabled &&
+    SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
+    !isNativeInSell({
+      side,
+      sellToken: {
+        address: sellToken.address,
+      },
+      buyToken: {
+        address: buyToken.address,
+      },
+    })
+  ) {
+    return true;
+  }
+
+  return false;
+};

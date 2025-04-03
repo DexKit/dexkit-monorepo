@@ -15,9 +15,8 @@ import {
   useZrxPriceQuery,
   useZrxQuoteQuery,
 } from "@dexkit/ui/hooks/zrx";
-import { SUPPORTED_GASLESS_CHAIN } from "@dexkit/ui/modules/swap/constants";
+import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useIsGaslessSupportedToken } from "@dexkit/ui/modules/swap/hooks/useIsGaslessSupportedToken";
-import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -152,27 +151,13 @@ export default function MarketForm({
     sellToken: side === "buy" ? quoteToken.address : baseToken.address,
   });
 
-  const canGasless = useMemo(() => {
-    if (
-      isTokenGaslessSupported &&
-      useGasless &&
-      chainId &&
-      SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
-      !isNativeInSell({
-        side,
-        sellToken: {
-          address: side === "buy" ? quoteToken.address : baseToken.address,
-        },
-        buyToken: {
-          address: side === "buy" ? baseToken.address : quoteToken.address,
-        },
-      })
-    ) {
-      return true;
-    }
-
-    return false;
-  }, [useGasless, chainId, quoteToken?.address, baseToken?.address, side]);
+  const canGasless = useCanGasless({
+    enabled: !!useGasless && isTokenGaslessSupported,
+    side,
+    sellToken: side === "buy" ? baseToken : quoteToken,
+    chainId: chainId!,
+    buyToken: side === "buy" ? baseToken : quoteToken,
+  });
 
   const priceQuery = useZrxPriceQuery({
     params: {
