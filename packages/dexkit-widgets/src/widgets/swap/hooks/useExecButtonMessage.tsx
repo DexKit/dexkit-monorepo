@@ -15,6 +15,7 @@ export function useExecButtonMessage({
   insufficientBalance?: boolean;
 }) {
   return useMemo(() => {
+    // eslint-disable-next-line react/display-name
     return () => {
       if (quoteQuery?.isError) {
         if (quoteQuery?.error) {
@@ -26,7 +27,7 @@ export function useExecButtonMessage({
         }
       }
 
-      if (quoteQuery?.isLoading) {
+      if (quoteQuery?.isFetching) {
         return <FormattedMessage id="quoting" defaultMessage="Quoting" />;
       }
 
@@ -60,10 +61,11 @@ export function useExecButtonMessage({
     };
   }, [
     quoteQuery?.isError,
-    quoteQuery?.isLoading,
+    quoteQuery?.isFetching,
     quoteQuery?.error,
     networkName,
     sellTokenSymbol,
     insufficientBalance,
+    execType,
   ]);
 }

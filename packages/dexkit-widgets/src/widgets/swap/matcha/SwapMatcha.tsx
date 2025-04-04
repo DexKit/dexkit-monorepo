@@ -19,7 +19,10 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -38,8 +41,8 @@ export interface SwapMatchaProps {
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    [string, ZeroExQuoteResponse | null] | undefined,
-    any
+    ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null,
+    unknown
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;

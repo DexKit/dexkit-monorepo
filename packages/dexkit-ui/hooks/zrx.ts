@@ -65,26 +65,41 @@ export function useZrxPriceQuery({
 export function useZrxQuoteQuery({
   params,
   useGasless,
+  onSuccess,
+  options,
 }: {
   params: ZeroExQuote | ZeroExQuoteGasless;
   useGasless?: boolean;
+  onSuccess?: (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => void;
+  options?: any;
 }) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([ZRX_QUOTE_QUERY, params], async () => {
-    if (!params.chainId || !params.sellAmount) {
-      return null;
-    }
+  return useQuery(
+    [ZRX_QUOTE_QUERY, params],
+    async () => {
+      const zrxClient = new ZeroExApiClient(params.chainId, siteId);
 
-    const zrxClient = new ZeroExApiClient(params.chainId, siteId);
-
-    if (useGasless) {
-      let gaslessParams = params as ZeroExQuoteGasless;
-      return zrxClient.quoteGasless(gaslessParams, {});
-    } else {
-      return zrxClient.quote(params as ZeroExQuote, {});
+      if (useGasless) {
+        let gaslessParams = params as ZeroExQuoteGasless;
+        return zrxClient.quoteGasless(gaslessParams, {});
+      } else {
+        return zrxClient.quote(params as ZeroExQuote, {});
+      }
+    },
+    {
+      onSuccess,
+      enabled:
+        Boolean(params) &&
+        !!params.chainId &&
+        !!params.buyToken &&
+        !!params.sellToken &&
+        !!params.sellAmount &&
+        BigInt(params.sellAmount) > 0,
+      refetchInterval: useGasless ? 25000 : 10000,
+      ...options,
     }
-  });
+  );
 }
 
 export function useMarketTradeGaslessExec({
@@ -165,7 +180,10 @@ export const useSendTxMutation = (p: txMutationParams) => {
     abi: erc20Abi,
     address: quote?.sellToken as Hex,
     functionName: "approve",
-    args: [quote?.issues.allowance?.spender, maxUint256],
+    args: [
+      quote?.issues.allowance?.spender,
+      quote?.sellAmount ? BigInt(quote.sellAmount) : maxUint256,
+    ],
   });
   const { writeContractAsync } = useWriteContract();
   const { sendTransactionAsync } = useSendTransaction();
@@ -180,7 +198,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
   return useMutation(async () => {
     if (amount && chainId && quote) {
       if (canGasless) {
-        const data = quote as unknown as ZeroExGaslessQuoteResponse;
+        const data = quote as ZeroExGaslessQuoteResponse;
 
         const tokenApprovalRequired = data.issues.allowance != null;
         const gaslessApprovalAvailable = data.approval != null;
@@ -301,11 +319,14 @@ export const useSendTxMutation = (p: txMutationParams) => {
           console.error("Error submitting the gasless swap", error);
         }
       } else {
-        const quote = quoteQuery.data as unknown as ZeroExQuoteResponse;
+        let data = quote as ZeroExQuoteResponse;
 
-        if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+        if (data?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           console.log("Native token detected, no need for allowance check");
-        } else if (quote?.issues.allowance !== null) {
+        } else if (
+          data?.issues.allowance !== null &&
+          BigInt(data?.issues.allowance.actual) < BigInt(data.sellAmount)
+        ) {
           try {
             const simulateRequest = await simulateApproveRequest;
 
@@ -316,14 +337,14 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
             const tx = await writeContractAsync({
               abi: erc20Abi,
-              address: quote?.sellToken as Hex,
+              address: data?.sellToken as Hex,
               functionName: "approve",
               args: simulateRequest.data?.request.args!,
             });
 
             await provider?.waitForTransaction(tx);
-
-            await quoteQuery.refetch();
+            const response = (await quoteQuery.refetch()).data;
+            data = Array.isArray(response) ? response[1] : response;
           } catch (error) {
             console.log("Error approving Permit2:", error);
             return;
@@ -333,9 +354,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
         let signature: Hex | undefined;
         let hash: Hex | undefined;
 
-        if (quote.permit2?.eip712) {
-          signature = await signTypedDataAsync(quote.permit2.eip712);
-
+        if (data.permit2?.eip712) {
+          signature = await signTypedDataAsync(data.permit2.eip712);
           const signatureLengthInHex = numberToHex(
             size(signature as `0x${string}`),
             {
@@ -344,11 +364,11 @@ export const useSendTxMutation = (p: txMutationParams) => {
             }
           );
 
-          const transactionData = quote.transaction.data as Hex;
+          const transactionData = data.transaction.data as Hex;
           const sigLengthHex = signatureLengthInHex as Hex;
           const sig = signature as Hex;
 
-          quote.transaction.data = concat([transactionData, sigLengthHex, sig]);
+          data.transaction.data = concat([transactionData, sigLengthHex, sig]);
         }
 
         const nonce = await client?.getTransactionCount({
@@ -360,29 +380,29 @@ export const useSendTxMutation = (p: txMutationParams) => {
           hash = await sendTransactionAsync({
             account: account! as Hex,
             chainId: client!.chain.id,
-            gas: !!quote?.transaction.gas
-              ? BigInt(quote?.transaction.gas)
+            gas: !!data?.transaction.gas
+              ? BigInt(data?.transaction.gas)
               : undefined,
-            to: quote?.transaction.to,
-            data: quote.transaction.data,
-            value: BigInt(quote.transaction.value),
-            gasPrice: !!quote?.transaction.gasPrice
-              ? BigInt(quote?.transaction.gasPrice)
+            to: data?.transaction.to,
+            data: data.transaction.data,
+            value: BigInt(data.transaction.value),
+            gasPrice: !!data?.transaction.gasPrice
+              ? BigInt(data?.transaction.gasPrice)
               : undefined,
             nonce,
           });
 
           console.log("Transaction hash:", hash);
           console.log(`See tx details at https://basescan.org/tx/${hash}`);
-        } else if (signature && quote.transaction.data) {
+        } else if (signature && data.transaction.data) {
           hash = await sendTransactionAsync({
             chainId: chainId,
-            data: quote.transaction.data,
-            gas: quote.transaction.gas,
-            gasPrice: quote.transaction.gasPrice,
+            data: data.transaction.data,
+            gas: data.transaction.gas,
+            gasPrice: data.transaction.gasPrice,
             nonce: nonce,
-            to: quote.transaction.to,
-            value: quote.transaction.value,
+            to: data.transaction.to,
+            value: data.transaction.value,
           });
 
           console.log("Transaction hash:", hash);

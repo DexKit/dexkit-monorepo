@@ -51,7 +51,13 @@ export class ZeroExApiClient {
       }
     );
 
-    return resp.data;
+    const { data } = resp;
+
+    if (!data.liquidityAvailable) {
+      throw new Error("Liquidity not available");
+    }
+
+    return data;
   }
 
   async price(
@@ -96,7 +102,13 @@ export class ZeroExApiClient {
       }
     );
 
-    return resp.data;
+    const { data } = resp;
+
+    if (!data.liquidityAvailable) {
+      throw new Error("Liquidity not available");
+    }
+
+    return data;
   }
 
   async submitStatusGasless(

@@ -169,7 +169,7 @@ export function useSwapExec({
 
         onHash(hash!);
 
-        return await provider?.waitForTransaction(hash!);;
+        return await provider?.waitForTransaction(hash!);
     }
   );
 }

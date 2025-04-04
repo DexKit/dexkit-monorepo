@@ -1,4 +1,5 @@
 import { ChainId } from "@dexkit/core";
+import { Token } from "@dexkit/core/types";
 import { type UseQueryResult } from "@tanstack/react-query";
 import { type providers } from "ethers";
 
@@ -13,8 +14,8 @@ export type txMutationParams = {
   >;
   side: "buy" | "sell";
   formattedCost: string;
-  baseToken: any;
-  quoteToken: any;
+  baseToken: Token;
+  quoteToken: Token;
   canGasless: boolean;
   provider?: providers.Web3Provider;
 };
@@ -57,7 +58,6 @@ export type ZeroExQuote = {
 export type ZeroExQuoteResponse = {
   price: string;
   guaranteedPrice: any;
-  estimatedPriceImpact: any;
   to: string;
   data: string;
   value: string;
@@ -81,6 +81,7 @@ export type ZeroExQuoteResponse = {
   issues?: any;
   permit2?: any;
   trade?: any;
+  liquidityAvailable: boolean;
 };
 
 export type ZrxOrder = {
@@ -126,6 +127,7 @@ export type ZeroExGaslessQuoteResponse = {
   price: string;
   guaranteedPrice: any;
   estimatedPriceImpact: any;
+  buyToken: string;
   to: string;
   data: string;
   value: string;
@@ -178,7 +180,7 @@ export type ZeroExQuoteGasless = {
   tradeSurplusRecipient?: string;
   slippageBps?: number;
   excludedSources?: string;
-
+  liquidityAvailable: boolean;
   // Ethereum Address
   sellToken?: string;
 
