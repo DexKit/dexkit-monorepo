@@ -1,4 +1,3 @@
-import { formatBigNumber } from '@dexkit/core/utils';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
 import { useDexKitContext } from '@dexkit/ui';
@@ -33,7 +32,6 @@ import {
   useContractRead,
   useTokenBalance,
 } from '@thirdweb-dev/react';
-import { BigNumber } from 'ethers';
 import { Field, Formik } from 'formik';
 import { Switch, TextField } from 'formik-mui';
 import moment from 'moment';
@@ -93,14 +91,14 @@ export default function ContractStakeErc721Container({
   const { data: rewardTimeUnit } = useContractRead(contract, 'getTimeUnit');
 
   const rewardsPerUnitTimeValue = useMemo(() => {
-    return formatBigNumber(rewardsPerUnitTime, rewardTokenBalance?.decimals);
+    return formatUnits(rewardsPerUnitTime, rewardTokenBalance?.decimals);
   }, [rewardsPerUnitTime, rewardTokenBalance?.decimals]);
 
   const { data: allowance } = useQuery(
     ['REWARD_TOKEN_ALLOWANCE', rewardTokenAddress],
     async () => {
       return await rewardToken?.erc20.allowance(address);
-    },
+    }
   );
 
   const { mutateAsync: approve } = useThirdwebApprove({
@@ -129,7 +127,7 @@ export default function ContractStakeErc721Container({
   }) => {
     const amountParsed = parseUnits(
       amount || '0.0',
-      rewardTokenBalance?.decimals,
+      rewardTokenBalance?.decimals
     );
 
     if (withdraw) {
@@ -191,9 +189,9 @@ export default function ContractStakeErc721Container({
               />
             </Typography>
             <Typography variant="h5">
-              {formatBigNumber(
-                rewardTokenBalance?.value || BigNumber.from('0'),
-                rewardTokenBalance?.decimals || 18,
+              {formatUnits(
+                rewardTokenBalance?.value || 0,
+                rewardTokenBalance?.decimals || 18
               )}{' '}
               {rewardTokenBalance?.symbol}
             </Typography>
@@ -206,9 +204,9 @@ export default function ContractStakeErc721Container({
               />
             </Typography>
             <Typography variant="h5">
-              {formatBigNumber(
-                rewardsPerUnitTime || BigNumber.from('0'),
-                rewardTokenBalance?.decimals || 18,
+              {formatUnits(
+                rewardsPerUnitTime || 0,
+                rewardTokenBalance?.decimals || 18
               )}{' '}
               {rewardTokenBalance?.symbol}
             </Typography>
@@ -219,9 +217,9 @@ export default function ContractStakeErc721Container({
             </Typography>
             <Typography variant="h5">
               {rewardsBalance && rewardTokenBalance ? (
-                `${formatBigNumber(
+                `${formatUnits(
                   rewardsBalance,
-                  rewardTokenBalance?.decimals || 18,
+                  rewardTokenBalance?.decimals || 18
                 )} ${rewardTokenBalance?.symbol}`
               ) : (
                 <Skeleton />
@@ -309,14 +307,14 @@ export default function ContractStakeErc721Container({
                                     'amount',
                                     formatUnits(
                                       rewardsBalance,
-                                      rewardTokenBalance?.decimals,
-                                    ),
+                                      rewardTokenBalance?.decimals
+                                    )
                                   );
                                 }
 
                                 setFieldValue(
                                   'amount',
-                                  rewardTokenBalance?.displayValue,
+                                  rewardTokenBalance?.displayValue
                                 );
                               }}
                               size="small"

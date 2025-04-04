@@ -2,7 +2,7 @@ import CheckoutUserItemList from '@/modules/commerce/components/CheckoutUserItem
 import { CHECKOUT_TOKENS } from '@/modules/commerce/constants';
 import useUserCheckout from '@/modules/commerce/hooks/checkout/useUserCheckout';
 import { sumItems } from '@/modules/commerce/hooks/utils';
-import { ChainId, useErc20BalanceQuery } from '@dexkit/core';
+import { ChainId } from '@dexkit/core';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { Token, TokenWhitelabelApp } from '@dexkit/core/types';
@@ -48,7 +48,6 @@ import {
 } from '@mui/material';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import Decimal from 'decimal.js';
-import { ethers } from 'ethers';
 import {
   GetStaticPaths,
   GetStaticPathsContext,
@@ -76,6 +75,11 @@ import { useSnackbar } from 'notistack';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
+
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
+import { defineChain } from "thirdweb/chains";
+import { useWalletBalance } from "thirdweb/react";
+
 const validEmail = z.string().email();
 
 export interface UserCheckoutProps {
@@ -89,7 +93,6 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const { data: receiverData } = useSiteReceiver({ siteId: siteId });
 
-  console.log('siteId', siteId, receiverData);
 
   const userCheckout = useUserCheckout({ id: id as string });
 
@@ -219,12 +222,14 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     return new Decimal('0');
   }, [userCheckout.data, items]);
 
-  const balanceQuery = useErc20BalanceQuery({
-    provider,
-    contractAddress: token?.address,
-    account,
-    chainId,
+
+  const balanceQuery = useWalletBalance({
+    chain: chainId ? defineChain(chainId) : undefined,
+    address: account,
+    client,
+    tokenAddress: token?.address,
   });
+
 
   const decimalBalance = useMemo(() => {
     if (balanceQuery.data === undefined || token === undefined) {
@@ -232,7 +237,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     }
 
     return new Decimal(
-      ethers.utils.formatUnits(balanceQuery.data, token?.decimals),
+      balanceQuery.data.displayValue
     );
   }, [balanceQuery.data, token]);
 

@@ -1,3 +1,3 @@
-import { formatUnits } from "@ethersproject/units";
+import { formatUnits } from "viem";
 
 export { formatUnits };

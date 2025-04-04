@@ -1,3 +1,3 @@
-import { parseEther } from "@ethersproject/units";
+import { parseEther } from "viem";
 
 export { parseEther };

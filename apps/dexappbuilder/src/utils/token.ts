@@ -1,5 +1,5 @@
 import { formatUnits as formatUnitsEthers } from '@dexkit/core/utils/ethers/formatUnits';
-import { BigNumber } from 'ethers';
+
 import defaultConfig from '../../config/default.tokenlist.json';
 
 export function GET_TOKEN(address: string, chainId: number) {
@@ -17,6 +17,6 @@ export function GET_TOKEN(address: string, chainId: number) {
 
 
 
-export function formatUnits(balance: BigNumber, decimals: number) {
+export function formatUnits(balance: bigint, decimals: number) {
   return Number(formatUnitsEthers(balance, decimals)).toFixed(3);
 }

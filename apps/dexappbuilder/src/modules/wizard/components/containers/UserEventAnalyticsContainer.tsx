@@ -5,7 +5,6 @@ import {
 } from '@dexkit/core/constants/networks';
 import {
   beautifyCamelCase,
-  formatBigNumber,
   getBlockExplorerUrl,
   ipfsUriToUrl,
   parseChainId,
@@ -57,14 +56,14 @@ import { GridColDef } from '@mui/x-data-grid';
 
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { BigNumber } from 'ethers';
-import { isAddress } from 'ethers/lib/utils';
+
 import { Field, Formik } from 'formik';
 import { Select, TextField } from 'formik-mui';
 import moment, { Moment } from 'moment';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { myAppsApi } from 'src/services/whitelabel';
+import { isAddress } from 'viem';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import useColumns from '../../hooks/useColumns';
@@ -80,6 +79,8 @@ import CountNftDropsCard from '../user-events/CountNftDropsCard';
 import CountTokenDropsByGroupCard from '../user-events/CountTokenDropsByGroupCard';
 import OffChainTab from '../user-events/OffChainTab';
 import UserEventsTable from '../user-events/UserEventsTable';
+
+import { parseUnits } from 'viem';
 
 interface RenderGroupProps {
   group: string;
@@ -161,7 +162,7 @@ function OnChainDataGrid({
 
   useEffect(() => {
     setRowCountState((prevRowCountState: number) =>
-      data?.total !== undefined ? data?.total : prevRowCountState,
+      data?.total !== undefined ? data?.total : prevRowCountState
     );
   }, [data?.total, setRowCountState]);
 
@@ -337,7 +338,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
       chainId: 0,
       referral: undefined,
     }),
-    [siteId],
+    [siteId]
   );
 
   const [filters, setFilters] = useState<CountFilter>(DEFAULT_VALUES);
@@ -476,9 +477,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -508,9 +509,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -539,9 +540,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -570,9 +571,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -611,9 +612,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -642,9 +643,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -673,9 +674,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -704,9 +705,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -735,9 +736,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -772,11 +773,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                 />
                                                 <Typography color="text.secondary">
                                                   $
-                                                  {formatBigNumber(
-                                                    BigNumber.from(
-                                                      item.amount,
-                                                    ).mul(item.quantity),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount * item.quantity,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -806,11 +805,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                 />
                                                 <Typography color="text.secondary">
                                                   $
-                                                  {formatBigNumber(
-                                                    BigNumber.from(
-                                                      item.amount,
-                                                    ).mul(item.quantity),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount * item.quantity,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -840,11 +837,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                 />
                                                 <Typography color="text.secondary">
                                                   $
-                                                  {formatBigNumber(
-                                                    BigNumber.from(
-                                                      item.amount,
-                                                    ).mul(item.quantity),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount * item.quantity,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -874,11 +869,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                 />
                                                 <Typography color="text.secondary">
                                                   $
-                                                  {formatBigNumber(
-                                                    BigNumber.from(
-                                                      item.amount,
-                                                    ).mul(item.quantity),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount * item.quantity,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -917,9 +910,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -948,9 +941,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -979,9 +972,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -1010,9 +1003,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -1041,9 +1034,9 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                   primary={`${item.tokenName} (${item.nftAmount})`}
                                                 />
                                                 <Typography color="text.secondary">
-                                                  {formatBigNumber(
-                                                    BigNumber.from(item.amount),
-                                                    item.decimals,
+                                                  {parseUnits(
+                                                    item.amount,
+                                                    item.decimals
                                                   )}{' '}
                                                   {item.symbol.toUpperCase()}
                                                 </Typography>
@@ -1066,7 +1059,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                             initialValues={DEFAULT_VALUES}
                             onSubmit={handleSubmitFilters}
                             validationSchema={toFormikValidationSchema(
-                              FilterSchema,
+                              FilterSchema
                             )}
                           >
                             {({
@@ -1122,7 +1115,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                                 }
                                               />
                                             </MenuItem>
-                                          ),
+                                          )
                                         )}
                                       </Field>
                                     </FormControl>
@@ -1140,7 +1133,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                         if (value) {
                                           setFieldValue(
                                             'start',
-                                            value?.format(),
+                                            value?.format()
                                           );
                                         }
                                       }}
@@ -1203,7 +1196,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                             >
                                               <Avatar
                                                 src={ipfsUriToUrl(
-                                                  NETWORKS[key]?.imageUrl || '',
+                                                  NETWORKS[key]?.imageUrl || ''
                                                 )}
                                                 style={{
                                                   width: '1rem',
@@ -1230,7 +1223,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                         </MenuItem>
                                         {Object.keys(NETWORKS)
                                           .filter((n) =>
-                                            activeChainIds.includes(Number(n)),
+                                            activeChainIds.includes(Number(n))
                                           )
                                           .map((key) => (
                                             <MenuItem
@@ -1267,7 +1260,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                       onChange={(e: any) => {
                                         setFieldValue(
                                           'referral',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                       label={

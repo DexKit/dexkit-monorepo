@@ -1,6 +1,6 @@
 import SelectTokenDialog from '@/modules/swap/dialogs/SelectTokenDialog';
 import { Token } from '@dexkit/core/types';
-import { formatBigNumber, isAddressEqual } from '@dexkit/core/utils';
+import { isAddressEqual } from '@dexkit/core/utils';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
 import { useDexKitContext } from '@dexkit/ui';
@@ -28,7 +28,7 @@ import {
   useBalance,
   useContract,
 } from '@thirdweb-dev/react';
-import { BigNumber, constants } from 'ethers';
+import { constants } from 'ethers';
 import { useSnackbar } from 'notistack';
 import { SyntheticEvent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -55,14 +55,14 @@ export default function ContractAirdropErc20Container({
 
   const { data: tokenContract, isLoading: isLoadingToken } = useContract(
     tokenAddress,
-    'token',
+    'token'
   );
 
   const { data: allowance } = useQuery(
     ['REWARD_TOKEN_ALLOWANCE', tokenAddress],
     async () => {
       return await tokenContract?.erc20.allowance(address);
-    },
+    }
   );
 
   const approve = useThirdwebApprove({ contract: tokenContract, address });
@@ -75,7 +75,7 @@ export default function ContractAirdropErc20Container({
     tokenAddress !== NATIVE_TOKEN_ADDRESS &&
       tokenAddress !== constants.AddressZero
       ? tokenAddress
-      : undefined,
+      : undefined
   );
 
   const [totalAmount, totalAmountFormatted] = useAsyncMemo(
@@ -86,15 +86,15 @@ export default function ContractAirdropErc20Container({
         .map((r) => parseUnits(r.quantity, metadata?.decimals))
         .reduce((prev, curr) => {
           return prev.add(curr);
-        }, BigNumber.from(0));
+        }, 0);
 
       return [
         amount,
         `${formatUnits(amount, metadata?.decimals)} ${metadata?.symbol}`,
       ];
     },
-    [BigNumber.from(0), '0.0'],
-    [recipients, tokenContract],
+    [0, '0.0'],
+    [recipients, tokenContract]
   );
 
   const { enqueueSnackbar } = useSnackbar();
@@ -111,7 +111,7 @@ export default function ContractAirdropErc20Container({
         .map((r) => parseUnits(r.quantity, metadata?.decimals))
         .reduce((prev, curr) => {
           return prev.add(curr);
-        }, BigNumber.from(0));
+        }, 0);
 
       if (
         !isAddressEqual(tokenAddress, NATIVE_TOKEN_ADDRESS) &&
@@ -145,7 +145,7 @@ export default function ContractAirdropErc20Container({
           recipients.map((r) => ({
             recipient: r.address,
             amount: parseUnits(r.quantity, metadata?.decimals).toString(),
-          })),
+          }))
         );
 
         if (isAddressEqual(tokenAddress, NATIVE_TOKEN_ADDRESS)) {
@@ -174,7 +174,7 @@ export default function ContractAirdropErc20Container({
         watchTransactionDialog.close();
         throw err;
       }
-    },
+    }
   );
 
   const handleConfirm = (data: { address: string; quantity: string }[]) => {
@@ -285,9 +285,9 @@ export default function ContractAirdropErc20Container({
                                 {isLoading ? (
                                   <Skeleton />
                                 ) : (
-                                  `${formatBigNumber(
+                                  `${parseUnits(
                                     tokenBalance?.value,
-                                    tokenBalance?.decimals,
+                                    tokenBalance?.decimals
                                   )} ${tokenBalance?.symbol.toUpperCase()}`
                                 )}
                               </Typography>
@@ -411,7 +411,7 @@ export default function ContractAirdropErc20Container({
             <Grid item xs={12}>
               <Stack spacing={2}>
                 <Divider />
-                {tokenBalance && totalAmount.gt(tokenBalance.value) && (
+                {tokenBalance && totalAmount > tokenBalance.value && (
                   <Alert severity="error">
                     <FormattedMessage
                       id="you.do.not.have.enough.balance.for.your.airdrop"
@@ -431,7 +431,7 @@ export default function ContractAirdropErc20Container({
                       recipients.length === 0 ||
                       airdropMutation.isLoading ||
                       !tokenAddress ||
-                      (tokenBalance && totalAmount.gt(tokenBalance.value))
+                      (tokenBalance && totalAmount > tokenBalance.value)
                     }
                     onClick={handleAirdrop}
                     variant="contained"

@@ -1,8 +1,8 @@
 const ImportAssetDialog = dynamic(
-  () => import('@/modules/orders/components/dialogs/ImportAssetDialog'),
+  () => import('@/modules/orders/components/dialogs/ImportAssetDialog')
 );
 const OrderCreatedDialog = dynamic(
-  () => import('@/modules/orders/components/dialogs/OrderCreatedDialog'),
+  () => import('@/modules/orders/components/dialogs/OrderCreatedDialog')
 );
 import MakeListingForm from '@/modules/orders/components/forms/MakeListingForm';
 import MakeOfferForm from '@/modules/orders/components/forms/MakeOfferForm';
@@ -11,47 +11,46 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import Launch from '@mui/icons-material/Launch';
 import {
-    Alert,
-    Autocomplete,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    Grid,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
 import { PostOrderResponsePayload } from '@traderxyz/nft-swap-sdk/dist/sdk/v4/orderbook';
-import { BigNumber } from 'ethers';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
-    getBlockExplorerUrl,
-    getChainName,
-    getChainSlug,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getChainName,
+  getChainSlug,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils/blockchain';
 import Link from '@dexkit/ui/components/AppLink';
 import {
-    useAccountAssetsBalance,
-    useApproveAssetMutation,
-    useFavoriteAssets,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  useAccountAssetsBalance,
+  useApproveAssetMutation,
+  useFavoriteAssets,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from '@dexkit/ui/modules/nft/hooks';
 
 import { getERC20Name, getERC20Symbol } from '@dexkit/core/services/balances';
@@ -72,7 +71,7 @@ export const CreateAssetOrderContainer = () => {
 
   const { accountAssets } = useAccountAssetsBalance(
     account ? [account] : [],
-    false,
+    false
   );
 
   const nftSwapSdk = useSwapSdkV4(provider, chainId);
@@ -147,7 +146,7 @@ export const CreateAssetOrderContainer = () => {
         watchTransactionDialog.watch(hash);
       }
     },
-    [watchTransactionDialog, asset, chainId],
+    [watchTransactionDialog, asset, chainId]
   );
 
   const handleApproveAssetMutate = useCallback(
@@ -166,12 +165,12 @@ export const CreateAssetOrderContainer = () => {
         } else {
           const symbol = await getERC20Symbol(
             variable.asset.tokenAddress,
-            provider,
+            provider
           );
 
           const name = await getERC20Name(
             variable.asset.tokenAddress,
-            provider,
+            provider
           );
 
           const values = {
@@ -183,21 +182,21 @@ export const CreateAssetOrderContainer = () => {
         }
       }
     },
-    [watchTransactionDialog, asset],
+    [watchTransactionDialog, asset]
   );
 
   const handleApproveAssetError = useCallback(
     (error: any) => {
       watchTransactionDialog.setDialogError(error);
     },
-    [watchTransactionDialog],
+    [watchTransactionDialog]
   );
 
   const handleSignMessageSuccess = useCallback(
     async (
       data: PostOrderResponsePayload | undefined,
       variables: void,
-      context: any,
+      context: any
     ) => {
       signMessageDialog.setIsSuccess(true);
       signMessageDialog.setOpen(false);
@@ -215,7 +214,7 @@ export const CreateAssetOrderContainer = () => {
         });
       }
     },
-    [signMessageDialog, asset],
+    [signMessageDialog, asset]
   );
 
   const approveAsset = useApproveAssetMutation(
@@ -225,7 +224,7 @@ export const CreateAssetOrderContainer = () => {
     {
       onMutate: handleApproveAssetMutate,
       onError: handleApproveAssetError,
-    },
+    }
   );
 
   const handleOpenSignMessageListingDialog = useCallback(() => {
@@ -234,7 +233,7 @@ export const CreateAssetOrderContainer = () => {
       formatMessage({
         id: 'creating.a.listing',
         defaultMessage: 'Creating a listing',
-      }),
+      })
     );
   }, [signMessageDialog]);
 
@@ -242,7 +241,7 @@ export const CreateAssetOrderContainer = () => {
     (err: any) => {
       signMessageDialog.setError(err);
     },
-    [signMessageDialog],
+    [signMessageDialog]
   );
 
   const handleOpenSignMessageOfferDialog = useCallback(() => {
@@ -251,7 +250,7 @@ export const CreateAssetOrderContainer = () => {
       formatMessage({
         id: 'creating.an.offer',
         defaultMessage: 'Creating an offer',
-      }),
+      })
     );
   }, [signMessageDialog]);
 
@@ -263,7 +262,7 @@ export const CreateAssetOrderContainer = () => {
       onSuccess: handleSignMessageSuccess,
       onMutate: handleOpenSignMessageListingDialog,
       onError: handleSignMessageError,
-    },
+    }
   );
 
   const makeOffer = useMakeOfferMutation(nftSwapSdk, account, asset?.chainId, {
@@ -273,10 +272,10 @@ export const CreateAssetOrderContainer = () => {
   });
 
   const handleConfirmMakeListing = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
     expiry: Date | null,
-    takerAddress?: string,
+    takerAddress?: string
   ) => {
     if (account === undefined || asset === null) {
       return;
@@ -288,7 +287,7 @@ export const CreateAssetOrderContainer = () => {
         tokenId: asset.id as string,
         type: asset?.protocol === 'ERC1155' ? 'ERC1155' : 'ERC721',
       },
-      account,
+      account
     );
 
     if (!status?.contractApproved) {
@@ -318,9 +317,9 @@ export const CreateAssetOrderContainer = () => {
   };
 
   const handleConfirmMakeOffer = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
-    expiry: Date | null,
+    expiry: Date | null
   ) => {
     if (account === undefined) {
       return;
@@ -332,7 +331,7 @@ export const CreateAssetOrderContainer = () => {
         type: 'ERC20',
         amount: amount.toString(),
       },
-      account,
+      account
     );
 
     if (!status?.contractApproved) {
@@ -523,9 +522,9 @@ export const CreateAssetOrderContainer = () => {
                         />
                       </Typography>
                       <Link
-                        href={`${getBlockExplorerUrl(
-                          asset?.chainId,
-                        )}/address/${asset?.owner}`}
+                        href={`${getBlockExplorerUrl(asset?.chainId)}/address/${
+                          asset?.owner
+                        }`}
                         color="primary"
                         target="_blank"
                       >

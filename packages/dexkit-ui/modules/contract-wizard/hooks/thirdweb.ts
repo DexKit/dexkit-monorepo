@@ -19,7 +19,7 @@ export function useWithdrawRewardsMutation({
 
   const { chainId } = useWeb3React();
 
-  return useMutation(async ({ amount }: { amount: BigNumber }) => {
+  return useMutation(async ({ amount }: { amount: bigint }) => {
     let values = {
       amount: formatUnits(amount, rewardDecimals),
       contractName: metadata?.name || '',

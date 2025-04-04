@@ -26,7 +26,8 @@ import { isHexString } from '@dexkit/core/utils/ethers/isHexString';
 import type { providers } from "ethers";
 import { AdminContext } from "../context/AdminContext";
 
-import { useAccount } from 'wagmi';
+import { defineChain } from "thirdweb/chains";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
 import { useAppConfig } from './useAppConfig';
 import { useDexKitContext } from './useDexKitContext';
 import { useLocale } from './useLocale';
@@ -127,18 +128,15 @@ export function useNotifications() {
 }
 
 export function useSwitchNetworkMutation() {
-  const { connector } = useAccount();
+  const switchChain = useSwitchActiveWalletChain();
 
   return useMutation<unknown, Error, { chainId: number }>(
     async ({ chainId }) => {
-      if (connector && connector.switchChain) {
-        await connector.switchChain({ chainId })
-
-
-        //  const response = await switchNetwork(connector, chainId);
-        return null
-      }
+      await switchChain(defineChain(chainId))
+      //  const response = await switchNetwork(connector, chainId);
+      return null
     }
+
   );
 }
 

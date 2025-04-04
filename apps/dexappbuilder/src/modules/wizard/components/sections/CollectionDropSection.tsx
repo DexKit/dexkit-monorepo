@@ -25,7 +25,7 @@ import { detectContractFeature, NATIVE_TOKEN_ADDRESS } from '@thirdweb-dev/sdk';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
-import { BigNumber } from 'ethers';
+
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -98,28 +98,28 @@ export function CollectionDropSection({ section }: Props) {
   const claimedSupply = useClaimedNFTSupply(editionDrop);
 
   const numberClaimed = useMemo(() => {
-    return BigNumber.from(claimedSupply.data || 0).toString();
+    return (claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
   const numberTotal = useMemo(() => {
-    return BigNumber.from(claimedSupply.data || 0)
-      .add(BigNumber.from(unclaimedSupply.data || 0))
+    return ((claimedSupply.data || 0)
+      +(unclaimedSupply.data || 0))
       .toString();
   }, [claimedSupply.data, unclaimedSupply.data]);
 
   const totalAmount = useMemo(() => {
-    const bnPrice = BigNumber.from(
+    const bnPrice = 
       activeClaimCondition.data?.currencyMetadata.value || 0,
-    );
-    return bnPrice.mul(quantity);
+    ;
+    return bnPrice * quantity;
   }, [quantity, activeClaimCondition.data?.currencyMetadata.value]);
 
   const priceToMint = useMemo(() => {
-    const bnPrice = BigNumber.from(
+    const bnPrice = 
       activeClaimCondition.data?.currencyMetadata.value || 0,
-    );
+    ;
     return `${formatUnits(
-      bnPrice.mul(quantity).toString(),
+      BigInt(bnPrice * quantity).toString(),
       activeClaimCondition.data?.currencyMetadata.decimals || 18,
     )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
   }, [
@@ -146,20 +146,20 @@ export function CollectionDropSection({ section }: Props) {
   const maxClaimable = useMemo(() => {
     let bnMaxClaimable;
     try {
-      bnMaxClaimable = BigNumber.from(
+      bnMaxClaimable =
         activeClaimCondition.data?.maxClaimableSupply || 0,
-      );
+      
     } catch (e) {
-      bnMaxClaimable = BigNumber.from(1_000_000);
+      bnMaxClaimable = 1_000_000;
     }
 
     let perTransactionClaimable;
     try {
-      perTransactionClaimable = BigNumber.from(
+      perTransactionClaimable = 
         activeClaimCondition.data?.maxClaimablePerWallet || 0,
-      );
+      ;
     } catch (e) {
-      perTransactionClaimable = BigNumber.from(1_000_000);
+      perTransactionClaimable = 1_000_000;
     }
 
     if (perTransactionClaimable.lte(bnMaxClaimable)) {
@@ -171,26 +171,26 @@ export function CollectionDropSection({ section }: Props) {
     if (snapshotClaimable) {
       if (snapshotClaimable === '0') {
         // allowed unlimited for the snapshot
-        bnMaxClaimable = BigNumber.from(1_000_000);
+        bnMaxClaimable = 1_000_000;
       } else {
         try {
-          bnMaxClaimable = BigNumber.from(snapshotClaimable);
+          bnMaxClaimable = snapshotClaimable;
         } catch (e) {
           // fall back to default case
         }
       }
     }
 
-    const maxAvailable = BigNumber.from(unclaimedSupply.data || 0);
+    const maxAvailable = unclaimedSupply.data || 0;
 
     let max;
-    if (maxAvailable.lt(bnMaxClaimable) && !isOpenEdition) {
+    if (maxAvailable < bnMaxClaimable && !isOpenEdition) {
       max = maxAvailable;
     } else {
       max = bnMaxClaimable;
     }
 
-    if (max.gte(1_000_000)) {
+    if (max >= 1_000_000) {
       return 1_000_000;
     }
     return max.toNumber();
@@ -205,7 +205,7 @@ export function CollectionDropSection({ section }: Props) {
     try {
       return (
         (activeClaimCondition.isSuccess &&
-          BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
+          activeClaimCondition.data?.availableSupply || 0) <=
             0,
           )) ||
         (numberClaimed === numberTotal && !isOpenEdition)
@@ -276,15 +276,14 @@ export function CollectionDropSection({ section }: Props) {
   );
 
   const priceText = useMemo(() => {
-    const pricePerToken = BigNumber.from(
+    const pricePerToken = 
       activeClaimCondition.data?.currencyMetadata.value || 0,
-    );
+    ;
     if (pricePerToken.eq(0)) {
       return <FormattedMessage id={'Free'} defaultMessage={'Free)'} />;
     }
-    const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0,
-    );
+    const bnPrice =  activeClaimCondition.data?.currencyMetadata.value || 0,
+    
     return `${formatUnits(
       bnPrice.toString(),
       activeClaimCondition.data?.currencyMetadata.decimals || 18,
@@ -302,10 +301,10 @@ export function CollectionDropSection({ section }: Props) {
     }
 
     if (canClaim) {
-      const pricePerToken = BigNumber.from(
+      const pricePerToken =
         activeClaimCondition.data?.currencyMetadata.value || 0,
-      );
-      if (pricePerToken.eq(0)) {
+      ;
+      if (pricePerToken === 0) {
         return (
           <FormattedMessage id={'mint.free'} defaultMessage={'Mint (free)'} />
         );
@@ -495,7 +494,7 @@ export function CollectionDropSection({ section }: Props) {
                             // we need to approve token
                             if (
                               allowance &&
-                              (allowance as BigNumber).lt(totalAmount)
+                              (allowance as bigint).lt(totalAmount)
                             ) {
                               const values = {
                                 name: activeClaimCondition.data

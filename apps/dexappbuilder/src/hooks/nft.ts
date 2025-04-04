@@ -1,10 +1,8 @@
 import {
-  useMutation,
-  useQuery
+  useMutation
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { BigNumber, Contract, providers } from 'ethers';
 import { WETHAbi } from '../constants/abis';
 
 import { WRAPPED_ETHER_CONTRACT } from '../constants';
@@ -17,9 +15,10 @@ import {
 } from '../state/atoms';
 
 
-import { getERC20Balance } from '@dexkit/core/services/balances';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
 
-
+import { getContract } from 'thirdweb';
+import { useActiveWalletChain, useWalletBalance } from "thirdweb/react";
 
 
 
@@ -30,33 +29,34 @@ import { getERC20Balance } from '@dexkit/core/services/balances';
 export const GET_ERC20_BALANCE = 'GET_ERC20_BALANCE';
 
 export function useErc20Balance(
-  provider?: providers.BaseProvider,
   contractAddress?: string,
   account?: string,
 ) {
-  return useQuery<BigNumber | undefined>(
-    [GET_ERC20_BALANCE, contractAddress, account],
-    async () => {
-      if (!contractAddress || !account || !provider) {
-        return undefined;
-      }
 
-      return getERC20Balance(contractAddress, account, provider);
-    },
-    {
-      enabled: contractAddress !== undefined && account !== undefined,
-    },
-  );
+  const activeChain = useActiveWalletChain();
+  const { data, isLoading, isError } = useWalletBalance({
+    chain: activeChain,
+    address: account,
+    client,
+    tokenAddress: contractAddress
+  });
+
+  return data?.value
+
+
 }
 
 export function useWrapEtherMutation(
-  provider?: providers.BaseProvider,
   chainId?: number,
 ) {
-  return useMutation(async ({ amount }: { amount: BigNumber }) => {
+  const activeChain = useActiveWalletChain();
+
+
+  return useMutation(async ({ amount }: { amount: BigInt }) => {
     if (chainId === undefined) {
       return;
     }
+
 
     const contractAddress = WRAPPED_ETHER_CONTRACT[chainId];
 
@@ -64,7 +64,15 @@ export function useWrapEtherMutation(
       return;
     }
 
-    const contract = new Contract(contractAddress, WETHAbi, provider);
+
+    const contract = getContract({
+      client,
+      chain: activeChain,
+      address: contractAddress,
+      // optional ABI
+      abi: WETHAbi,
+    });
+
 
     return await contract.deposit({ value: amount });
   });

@@ -1,4 +1,3 @@
-import { formatBigNumber } from '@dexkit/core/utils';
 import { CountFilter, useSwapFeesByToken } from '@dexkit/ui/hooks/userEvents';
 import {
   Box,
@@ -11,8 +10,8 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-import { BigNumber } from 'ethers';
 import { FormattedMessage } from 'react-intl';
+import { parseUnits } from 'viem';
 
 export interface CountEventsCardProps {
   filters: CountFilter;
@@ -46,10 +45,7 @@ export default function CountFeesCard({ filters }: CountEventsCardProps) {
                   <ListItem key={index} divider={index < arr.length - 1}>
                     <ListItemText primary={item.tokenName} />
                     <Typography color="text.secondary">
-                      {formatBigNumber(
-                        BigNumber.from(item.amount),
-                        item.decimals,
-                      )}{' '}
+                      {parseUnits(item.amount, item.decimals)}{' '}
                       {item.symbol.toUpperCase()}
                     </Typography>
                   </ListItem>

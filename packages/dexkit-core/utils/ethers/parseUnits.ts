@@ -1,3 +1,3 @@
-import { parseUnits } from "@ethersproject/units";
+import { parseUnits } from "viem";
 
 export { parseUnits };

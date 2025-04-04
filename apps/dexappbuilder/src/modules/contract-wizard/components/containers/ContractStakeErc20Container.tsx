@@ -1,4 +1,3 @@
-import { formatBigNumber } from '@dexkit/core/utils';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
 import { useDexKitContext } from '@dexkit/ui';
@@ -33,7 +32,7 @@ import {
   useContractRead,
   useTokenBalance,
 } from '@thirdweb-dev/react';
-import { BigNumber } from 'ethers';
+
 import { Field, Formik } from 'formik';
 import { Switch, TextField } from 'formik-mui';
 import moment from 'moment';
@@ -74,23 +73,23 @@ export default function ContractStakeErc20Container({
 
   const { data: rewardsBalance } = useContractRead(
     contract,
-    'getRewardTokenBalance',
+    'getRewardTokenBalance'
   );
 
   const { data: totalStakedBalance } = useContractRead(
     contract,
-    'stakingTokenBalance',
+    'stakingTokenBalance'
   );
 
   const { data: stakingTokenAddress } = useContractRead(
     contract,
-    'stakingToken',
+    'stakingToken'
   );
   const { data: rewardToken } = useContract(rewardTokenAddress || '', 'token');
 
   const { data: stakingToken } = useContract(
     stakingTokenAddress || '',
-    'token',
+    'token'
   );
 
   const { data: rewardTokenBalance } = useTokenBalance(rewardToken, account);
@@ -103,17 +102,17 @@ export default function ContractStakeErc20Container({
   const [numerator, denominator] = useMemo(() => {
     if (rewardRatio) {
       const [n, d] = rewardRatio;
-      return [n as BigNumber, d as BigNumber];
+      return [n as bigint, d as bigint];
     }
 
-    return [BigNumber.from(0), BigNumber.from(0)];
+    return [0, 0];
   }, [rewardRatio]);
 
   const { data: allowance } = useQuery(
     ['REWARD_TOKEN_ALLOWANCE', rewardTokenAddress],
     async () => {
       return await rewardToken?.erc20.allowance(address);
-    },
+    }
   );
 
   const { mutateAsync: approve } = useThirdwebApprove({
@@ -140,7 +139,9 @@ export default function ContractStakeErc20Container({
     amount: string;
     withdraw: boolean;
   }) => {
-    const amountParsed = parseUnits(amount, rewardTokenBalance?.decimals);
+    const amountParsed = rewardTokenBalance?.decimals
+      ? parseUnits(amount, rewardTokenBalance?.decimals)
+      : undefined;
 
     if (withdraw) {
       try {
@@ -200,9 +201,9 @@ export default function ContractStakeErc20Container({
               />
             </Typography>
             <Typography variant="h5">
-              {formatBigNumber(
-                rewardTokenBalance?.value || BigNumber.from('0'),
-                rewardTokenBalance?.decimals || 18,
+              {formatUnits(
+                rewardTokenBalance?.value || 0,
+                rewardTokenBalance?.decimals || 18
               )}{' '}
               {rewardTokenBalance?.symbol}
             </Typography>
@@ -215,9 +216,9 @@ export default function ContractStakeErc20Container({
               />
             </Typography>
             <Typography variant="h5">
-              {denominator.gt(0) ? (
+              {denominator > 0 ? (
                 <>
-                  {numerator.mul(10000).div(denominator).toNumber() / 10000}{' '}
+                  {((numerator * 10000) / denominator).toNumber() / 10000}{' '}
                   {rewardTokenBalance?.symbol}{' '}
                   {moment
                     .duration(rewardTimeUnit?.toNumber(), 'seconds')
@@ -237,9 +238,9 @@ export default function ContractStakeErc20Container({
             </Typography>
             <Typography variant="h5">
               {rewardsBalance && rewardTokenBalance ? (
-                `${formatBigNumber(
+                `${formatUnits(
                   rewardsBalance,
-                  rewardTokenBalance?.decimals || 18,
+                  rewardTokenBalance?.decimals || 18
                 )} ${rewardTokenBalance?.symbol}`
               ) : (
                 <Skeleton />
@@ -255,9 +256,9 @@ export default function ContractStakeErc20Container({
             </Typography>
             <Typography variant="h5">
               {totalStakedBalance && stakingTokenBalance ? (
-                `${formatBigNumber(
+                `${formatUnits(
                   totalStakedBalance,
-                  stakingTokenBalance?.decimals || 18,
+                  stakingTokenBalance?.decimals || 18
                 )} ${stakingTokenBalance.symbol}`
               ) : (
                 <Skeleton />
@@ -345,14 +346,14 @@ export default function ContractStakeErc20Container({
                                     'amount',
                                     formatUnits(
                                       rewardsBalance,
-                                      rewardTokenBalance?.decimals,
-                                    ),
+                                      rewardTokenBalance?.decimals
+                                    )
                                   );
                                 }
 
                                 setFieldValue(
                                   'amount',
-                                  rewardTokenBalance?.displayValue,
+                                  rewardTokenBalance?.displayValue
                                 );
                               }}
                               size="small"

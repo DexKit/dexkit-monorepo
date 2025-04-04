@@ -1,4 +1,3 @@
-import { formatBigNumber } from '@dexkit/core/utils';
 import {
   CountFilter,
   useCountDropCollection,
@@ -14,8 +13,8 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-import { BigNumber } from 'ethers';
 import { FormattedMessage } from 'react-intl';
+import { parseUnits } from 'viem';
 
 export interface CountNftDropsCardProps {
   filters: CountFilter;
@@ -51,10 +50,7 @@ export default function CountNftDropsCard({ filters }: CountNftDropsCardProps) {
                       primary={`${item.tokenName} (${item.nftAmount})`}
                     />
                     <Typography color="text.secondary">
-                      {formatBigNumber(
-                        BigNumber.from(item.amount),
-                        item.decimals,
-                      )}{' '}
+                      {parseUnits(item.amount, item.decimals)}{' '}
                       {item.symbol.toUpperCase()}
                     </Typography>
                   </ListItem>

@@ -1,43 +1,41 @@
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import {
-    formatBigNumber,
-    isAddressEqual,
-    truncateAddress,
-} from '@dexkit/core/utils';
+import { isAddressEqual, truncateAddress } from '@dexkit/core/utils';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useDexKitContext } from '@dexkit/ui';
 import { DEXKIT_STORAGE_MERKLE_TREE_URL } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useAsyncMemo } from '@dexkit/widgets/src/hooks';
 import {
-    Alert,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
 } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-    NATIVE_TOKEN_ADDRESS,
-    useBalance,
-    useContract,
-    useContractRead,
+  NATIVE_TOKEN_ADDRESS,
+  useBalance,
+  useContract,
+  useContractRead,
 } from '@thirdweb-dev/react';
-import { BigNumber, constants } from 'ethers';
+
 import { SyntheticEvent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Link from '@dexkit/ui/components/AppLink';
 import { useThirdwebApprove } from '@dexkit/ui/modules/contract-wizard/hooks/thirdweb';
 import AirdropDialog from '../dialogs/AirdropDialog';
+
+import { parseUnits, zeroAddress } from 'viem';
 
 export interface ContractAirdropErc20ContainerProps {
   address: string;
@@ -124,8 +122,7 @@ export default function ContractClaimableAirdropErc20Container({
   const { createNotification, watchTransactionDialog } = useDexKitContext();
 
   const { data: tokenBalance, isLoading } = useBalance(
-    tokenAddress !== NATIVE_TOKEN_ADDRESS &&
-      tokenAddress !== constants.AddressZero
+    tokenAddress !== NATIVE_TOKEN_ADDRESS && tokenAddress !== zeroAddress
       ? tokenAddress
       : undefined,
   );
@@ -140,9 +137,9 @@ export default function ContractClaimableAirdropErc20Container({
           `${formatUnits(amount, metadata?.decimals)} ${metadata?.symbol}`,
         ];
       }
-      return [BigNumber.from(0), '0.0'];
+      return [0, '0.0'];
     },
-    [BigNumber.from(0), '0.0'],
+    [0, '0.0'],
     [availableAmount, tokenContract],
   );
 
@@ -151,7 +148,7 @@ export default function ContractClaimableAirdropErc20Container({
 
     if (
       !isAddressEqual(tokenAddress, NATIVE_TOKEN_ADDRESS) &&
-      !isAddressEqual(tokenAddress, constants.AddressZero)
+      !isAddressEqual(tokenAddress, zeroAddress)
     ) {
       if (!allowance?.value.gte(availableAmount)) {
         await approve.mutateAsync({
@@ -262,7 +259,7 @@ export default function ContractClaimableAirdropErc20Container({
                               {isLoading ? (
                                 <Skeleton />
                               ) : (
-                                `${formatBigNumber(
+                                `${parseUnits(
                                   tokenBalance?.value,
                                   tokenBalance?.decimals,
                                 )} ${tokenBalance?.symbol.toUpperCase()}`

@@ -35,7 +35,7 @@ import Send from "@mui/icons-material/Send";
 import SwitchAccount from "@mui/icons-material/SwitchAccount";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useDisconnect } from "wagmi";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
 import { useBalanceVisible } from "../modules/wallet/hooks";
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
@@ -57,6 +57,8 @@ export default function WalletContent() {
 
   const icon = useConnectorImage({ connector });
 
+  const wallet = useActiveWallet();
+
   const { disconnect } = useDisconnect();
 
   const logoutMutation = useLogoutAccountMutation();
@@ -67,7 +69,10 @@ export default function WalletContent() {
 
   const handleLogoutWallet = useCallback(async () => {
     logoutMutation.mutate();
-    disconnect();
+    if(wallet){
+      disconnect(wallet);
+    }
+   
   }, [logoutMutation, connector]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();

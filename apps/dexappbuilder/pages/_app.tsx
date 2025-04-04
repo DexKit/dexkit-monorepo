@@ -23,7 +23,7 @@ import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import type { } from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
 import defaultAppConfig from '../config/app.minimal.json';
@@ -38,6 +38,8 @@ import SiteProvider from '@dexkit/ui/providers/SiteProvider';
 import { WagmiUIProvider } from '@dexkit/ui/providers/WagmiUIProvider';
 import { AuthStateProvider } from '@dexkit/ui/providers/authStateProvider';
 import { AppBarANN } from 'src/components/AppBarANN';
+
+import { ThirdwebProvider } from "thirdweb/react";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -266,6 +268,7 @@ export default function MyApp(props: MyAppProps) {
             >
               <WagmiUIProvider config={config}>
                 <QueryClientProvider client={queryClient}>
+                <ThirdwebProvider>
                   <Hydrate state={pageProps.dehydratedState}>
                     <DefaultSeo {...SEO} />
                     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -288,6 +291,7 @@ export default function MyApp(props: MyAppProps) {
                       </AppMarketplaceProvider>
                     </LocalizationProvider>
                   </Hydrate>
+                  </ThirdwebProvider>
                 </QueryClientProvider>
               </WagmiUIProvider>
             </AppUIConfigContext.Provider>
