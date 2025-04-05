@@ -17,19 +17,21 @@ const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { useUserGaslessSettings } from "@dexkit/ui/modules/swap/hooks/useUserGaslessSettings";
-import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import SwitchNetworkDialog from "../../components/SwitchNetworkDialog";
 import { SUPPORTED_GASLESS_CHAIN } from "../../constants";
-import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
-import Swap from "./Swap";
-import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import { useSwapProvider } from "./hooks/useSwapProvider";
 import { useSwapState } from "./hooks/useSwapState";
+import { NotificationCallbackParams, RenderOptions } from "./types";
+
 import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
+
+import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
+import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
+import Swap from "./Swap";
+import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
 import SwapMatcha from "./matcha/SwapMatcha";
 import SwapSelectCoinMatchaDialog from "./matcha/SwapSelectCoinMatchaDialog";
-import { NotificationCallbackParams, RenderOptions } from "./types";
 import SwapConfirmUniswapDialog from "./uniswap/SwapConfirmUniswapDialog";
 import SwapSelectCoinUniswapDialog from "./uniswap/SwapSelectCoinUniswapDialog";
 import SwapUniswap from "./uniswap/SwapUniswap";

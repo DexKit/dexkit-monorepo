@@ -58,7 +58,7 @@ export interface SwapProps {
   sellAmount: BigNumber;
   buyAmount: BigNumber;
   execType?: ExecType;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
   sellTokenBalance?: BigNumber;

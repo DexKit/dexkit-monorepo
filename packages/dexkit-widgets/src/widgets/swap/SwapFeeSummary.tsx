@@ -9,12 +9,15 @@ import { FormattedMessage, FormattedNumber } from "react-intl";
 import { GET_NATIVE_TOKEN } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { useCoinPrices, useGasPrice } from "../../hooks";
 import { formatBigNumber } from "../../utils";
 
 export interface SwapFeeSummaryProps {
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null;
   chainId?: ChainId;
   currency: string;
   sellToken?: Token;
@@ -37,7 +40,7 @@ export default function SwapFeeSummary({
   });
 
   const maxFee = useMemo(() => {
-    const { fees } = quote || {};
+    const { fees } = (quote as ZeroExQuoteResponse) || {};
     if (fees) {
       return BigNumber.from(fees.gasFee ? fees.gasFee.amount : 0)
         .add(BigNumber.from(fees.integratorFee ? fees.integratorFee.amount : 0))
@@ -55,12 +58,8 @@ export default function SwapFeeSummary({
     return BigNumber.from(0);
   }, [quote]);
 
-  const totalFee = useMemo(() => {
-    return maxFee;
-  }, [amount, maxFee]);
-
   const totalFiat = useMemo(() => {
-    const amount = parseFloat(formatEther(totalFee));
+    const amount = parseFloat(formatEther(maxFee));
 
     if (coinPrices.data && chainId && currency) {
       const t = coinPrices.data[chainId];
@@ -73,7 +72,7 @@ export default function SwapFeeSummary({
     }
 
     return 0;
-  }, [totalFee, coinPrices.data, chainId, currency]);
+  }, [maxFee, coinPrices.data, chainId, currency]);
 
   const [toggleSide, setToggleSide] = useState(false);
 
@@ -204,7 +203,7 @@ export default function SwapFeeSummary({
                   value={totalFiat}
                   currency={currency}
                 />{" "}
-                ({formatBigNumber(totalFee, 18)} {NETWORK_COIN_SYMBOL(chainId)})
+                ({formatBigNumber(maxFee, 18)} {NETWORK_COIN_SYMBOL(chainId)})
               </>
             </Typography>
             <Tooltip

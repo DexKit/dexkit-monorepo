@@ -18,7 +18,10 @@ import AppDialogTitle from "../../../components/AppDialogTitle";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import ErrorIcon from "@mui/icons-material/Error";
 
 import { Token } from "@dexkit/core/types";
@@ -29,7 +32,7 @@ import { ExecSwapState } from "../constants/enum";
 
 export interface SwapConfirmDialogProps {
   DialogProps: DialogProps;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   chainId?: ChainId;
   execSwapState: ExecSwapState;
   isApproving?: boolean;

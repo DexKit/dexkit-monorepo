@@ -41,8 +41,7 @@ export interface SwapMatchaProps {
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null,
-    unknown
+    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
@@ -59,7 +58,7 @@ export interface SwapMatchaProps {
   sellAmount: BigNumber;
   buyAmount: BigNumber;
   execType?: ExecType;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
   sellTokenBalance?: BigNumber;

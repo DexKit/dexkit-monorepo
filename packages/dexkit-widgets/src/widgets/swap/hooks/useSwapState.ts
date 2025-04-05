@@ -136,7 +136,7 @@ export function useSwapState({
     (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => {
       if (data) {
         if (quoteFor === "buy") {
-          setSellAmount(BigNumber.from(data.sellAmount));
+          setSellAmount(BigNumber.from(data.buyAmount));
         } else if (quoteFor === "sell") {
           setBuyAmount(BigNumber.from(data.buyAmount));
         }
@@ -175,9 +175,9 @@ export function useSwapState({
           ? lazyBuyAmount.toString()
           : lazySellAmount.toString(),
       buyToken:
-        quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
-      sellToken:
         quoteFor === "buy" ? lazySellToken?.address : lazyBuyToken?.address,
+      sellToken:
+        quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
       taker: account!,
       slippageBps: maxSlippage ? maxSlippage * 100 * 100 : 0,
     },
@@ -215,25 +215,11 @@ export function useSwapState({
   };
 
   const handleSwapTokens = useCallback(() => {
-    const sell = sellToken;
-    const buy = buyToken;
-
-    const sellValue = sellAmount;
-    const buyValue = buyAmount;
-
-    if (quoteFor === "buy") {
-      setSellAmount(buyValue);
-      setBuyAmount(BigNumber.from(0));
-      setQuoteFor("sell");
-    } else if (quoteFor === "sell") {
-      setBuyAmount(sellValue);
-      setSellAmount(BigNumber.from(0));
-      setQuoteFor("buy");
-    }
-
-    setSellToken(buy);
-    setBuyToken(sell);
-  }, [sellToken, buyToken, sellAmount, buyAmount, quoteFor]);
+    setSellAmount(buyAmount);
+    setBuyAmount(sellAmount);
+    setSellToken(buyToken);
+    setBuyToken(sellToken);
+  }, [sellToken, buyToken, sellAmount, buyAmount]);
 
   const handleOpenSelectToken = (selectFor: SwapSide, token?: Token) => {
     setSelectSide(selectFor);

@@ -169,6 +169,7 @@ export type ZeroExGaslessQuoteResponse = {
     };
   };
   issues: any;
+  liquidityAvailable: boolean;
 };
 
 export type ZeroExQuoteGasless = {
@@ -180,7 +181,7 @@ export type ZeroExQuoteGasless = {
   tradeSurplusRecipient?: string;
   slippageBps?: number;
   excludedSources?: string;
-  liquidityAvailable: boolean;
+
   // Ethereum Address
   sellToken?: string;
 
