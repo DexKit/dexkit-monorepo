@@ -1,7 +1,6 @@
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { Token } from "@dexkit/core/types";
-import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import {
@@ -21,7 +20,6 @@ import {
   useWriteContract,
 } from "wagmi";
 import { ZRX_PRICE_QUERY, ZRX_QUOTE_QUERY } from "../constants/zrx";
-import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 import { ZeroExApiClient } from "../modules/swap/services/zrxClient";
 import {
   SignatureType,
@@ -32,7 +30,6 @@ import {
   ZeroExQuoteResponse,
 } from "../modules/swap/types";
 import { SiteContext } from "../providers/SiteProvider";
-import { AppNotificationType } from "../types";
 import { splitSignature } from "../utils";
 import { useDexKitContext } from "./useDexKitContext";
 import { useTrackUserEventsMutation } from "./userEvents";
@@ -188,11 +185,9 @@ export const useSendTxMutation = (p: txMutationParams) => {
   const { writeContractAsync } = useWriteContract();
   const { sendTransactionAsync } = useSendTransaction();
   const { createNotification } = useDexKitContext();
-  const trackUserEvent = useTrackUserEventsMutation();
   const marketTradeGasless = useMarketTradeGaslessExec({
     onNotification: createNotification,
   });
-  const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
   const client = useClient()?.extend(publicActions);
 
   return useMutation(async () => {
@@ -202,7 +197,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
         const tokenApprovalRequired = data.issues.allowance != null;
         const gaslessApprovalAvailable = data.approval != null;
 
-        let successfulTradeHash: any = null;
+        let hash: any = null;
         let approvalSignature: Hex | null = null;
         let approvalDataToSubmit: any = null;
         let tradeDataToSubmit: any = null;
@@ -286,33 +281,9 @@ export const useSendTxMutation = (p: txMutationParams) => {
             requestBody.approval = approvalDataToSubmit;
           }
 
-          successfulTradeHash = await marketTradeGasless.mutateAsync(
-            requestBody
-          );
+          hash = await marketTradeGasless.mutateAsync(requestBody);
 
-          if (successfulTradeHash) {
-            const subType = side == "buy" ? "marketBuy" : "marketSell";
-            const messageType = EXCHANGE_NOTIFICATION_TYPES[
-              subType
-            ] as AppNotificationType;
-
-            gaslessTrades.push({
-              type: subType,
-              chainId,
-              tradeHash: successfulTradeHash,
-              icon: messageType.icon,
-              values: {
-                sellAmount: amount,
-                sellTokenSymbol: baseToken.symbol.toUpperCase(),
-                buyAmount: formattedCost,
-                buyTokenSymbol: quoteToken.symbol.toUpperCase(),
-              },
-            });
-            // We use this on gasless trade updater to issue swap trades notifications
-            setGaslessTrades(gaslessTrades);
-
-            return successfulTradeHash;
-          }
+          return hash;
         } catch (error) {
           console.error("Error submitting the gasless swap", error);
         }
@@ -342,7 +313,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
             await provider?.waitForTransaction(tx);
             const response = (await quoteQuery.refetch()).data;
-            data = Array.isArray(response) ? response[1] : response;
+            data = response as ZeroExQuoteResponse;
           } catch (error) {
             console.log("Error approving Permit2:", error);
             return;
@@ -408,36 +379,6 @@ export const useSendTxMutation = (p: txMutationParams) => {
         } else {
           console.error("Failed to obtain a signature, transaction not sent.");
         }
-
-        const subType = side == "buy" ? "marketBuy" : "marketSell";
-        const messageType = EXCHANGE_NOTIFICATION_TYPES[
-          subType
-        ] as AppNotificationType;
-
-        createNotification({
-          type: "transaction",
-          icon: messageType.icon,
-          subtype: subType,
-          metadata: {
-            hash,
-            chainId,
-          },
-          values: {
-            sellAmount: amount,
-            sellTokenSymbol: baseToken.symbol.toUpperCase(),
-            buyAmount: formattedCost,
-            buyTokenSymbol: quoteToken.symbol.toUpperCase(),
-          },
-        });
-
-        trackUserEvent.mutate({
-          event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
-          hash,
-          chainId,
-          metadata: JSON.stringify({
-            quote,
-          }),
-        });
 
         await provider?.waitForTransaction(hash as Hex);
 

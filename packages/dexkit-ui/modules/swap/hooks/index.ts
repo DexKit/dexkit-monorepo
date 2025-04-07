@@ -283,6 +283,8 @@ export const useCanGasless = ({
   if (
     chainId &&
     enabled &&
+    sellToken?.address &&
+    buyToken?.address &&
     SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
     !isNativeInSell({
       side,

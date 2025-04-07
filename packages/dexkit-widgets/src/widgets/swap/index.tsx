@@ -26,7 +26,13 @@ import { NotificationCallbackParams, RenderOptions } from "./types";
 
 import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
 
+import { UserEvents } from "@dexkit/core/constants/userEvents";
+import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
+import { useDexKitContext } from "@dexkit/ui/hooks";
+import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
+import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
+import { AppNotificationType } from "@dexkit/ui/types";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
 import Swap from "./Swap";
 import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
@@ -186,7 +192,6 @@ export function SwapWidget({
     transakApiKey,
     currency,
     variant,
-
     defaultBuyToken:
       selectedChainId && configsByChain[selectedChainId]
         ? convertOldTokenToNew(configsByChain[selectedChainId].buyToken)
@@ -198,6 +203,9 @@ export function SwapWidget({
   });
 
   const [query, setQuery] = useState("");
+  const { createNotification } = useDexKitContext();
+  const trackUserEvent = useTrackUserEventsMutation();
+  const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
 
   const searchQuery = usePlatformCoinSearch({
     keyword: query,
@@ -291,6 +299,62 @@ export function SwapWidget({
     }
 
     handleSelectTokenState(token);
+  };
+
+  const handleConfirmSwap = async () => {
+    const hash = await handleConfirmExecSwap.mutateAsync();
+    if (isGasless) {
+      const subType = quoteFor == "buy" ? "marketBuy" : "marketSell";
+      const messageType = EXCHANGE_NOTIFICATION_TYPES[
+        subType
+      ] as AppNotificationType;
+
+      gaslessTrades.push({
+        type: subType,
+        chainId: chainId!,
+        tradeHash: hash,
+        icon: messageType.icon,
+        values: {
+          sellAmount: quote?.sellAmount || "0",
+          sellTokenSymbol: sellToken?.symbol.toUpperCase() || "",
+          buyAmount: quote?.buyAmount || "0",
+          buyTokenSymbol: buyToken?.symbol.toUpperCase() || "",
+        },
+      });
+
+      // We use this on gasless trade updater to issue swap trades notifications
+      setGaslessTrades(gaslessTrades);
+    } else {
+      const subType = quoteFor == "buy" ? "marketBuy" : "marketSell";
+      const messageType = EXCHANGE_NOTIFICATION_TYPES[
+        subType
+      ] as AppNotificationType;
+
+      createNotification({
+        type: "transaction",
+        icon: messageType.icon,
+        subtype: subType,
+        metadata: {
+          hash,
+          chainId,
+        },
+        values: {
+          sellAmount: quote?.sellAmount || "0",
+          sellTokenSymbol: sellToken?.symbol.toUpperCase() || "",
+          buyAmount: quote?.buyAmount || "0",
+          buyTokenSymbol: buyToken?.symbol.toUpperCase() || "",
+        },
+      });
+
+      trackUserEvent.mutate({
+        event: quoteFor == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
+        hash,
+        chainId,
+        metadata: JSON.stringify({
+          quote,
+        }),
+      });
+    }
   };
 
   const filteredChainIds = useMemo(() => {
@@ -570,7 +634,7 @@ export function SwapWidget({
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
           successTxGasless={gaslessSwapState.successTxGasless}
           confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-          onConfirm={handleConfirmExecSwap.mutateAsync}
+          onConfirm={handleConfirmSwap}
           execSwapState={execSwapState}
           execType={execType}
           chainId={chainId}
@@ -593,11 +657,11 @@ export function SwapWidget({
         isQuoting={isQuoting}
         isConfirming={handleConfirmExecSwap.isLoading}
         isLoadingSignGasless={isLoadingSignGasless}
-        isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
+        isLoadingStatusGasless={gaslessTrades.length > 0}
         reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
         successTxGasless={gaslessSwapState.successTxGasless}
         confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-        onConfirm={handleConfirmExecSwap.mutateAsync}
+        onConfirm={handleConfirmSwap}
         execSwapState={execSwapState}
         execType={execType}
         chainId={chainId}

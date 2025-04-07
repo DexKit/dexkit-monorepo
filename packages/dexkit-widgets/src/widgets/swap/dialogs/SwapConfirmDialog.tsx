@@ -67,6 +67,11 @@ export default function SwapConfirmDialog({
   sellToken,
   buyToken,
 }: SwapConfirmDialogProps) {
+  console.log("SwapConfirmDialog", isLoadingSignGasless);
+  console.log("isLoadingStatusGasless", isLoadingStatusGasless);
+  console.log("confirmedTxGasless", confirmedTxGasless);
+  console.log("successTxGasless", successTxGasless);
+
   const { onClose } = DialogProps;
   const isButtonDisabled =
     isQuoting ||

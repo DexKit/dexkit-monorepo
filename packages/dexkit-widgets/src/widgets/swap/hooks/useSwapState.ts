@@ -92,15 +92,11 @@ export function useSwapState({
   }, [transakApiKey]);
 
   const { wrapMutation, unwrapMutation } = useWrapToken({ onNotification });
-
   const [showSelect, setShowSelectToken] = useState(false);
   const [tradeHash, setTradeHash] = useState<string>();
-
   const [execSwapState, setExecSwapState] = useState(ExecSwapState.quote);
-
   const [quoteFor, setQuoteFor] = useState<SwapSide>();
   const [clickOnMax, setClickOnMax] = useState<boolean>(false);
-
   const [sellToken, setSellToken] = useState<Token | undefined>();
   const [buyToken, setBuyToken] = useState<Token | undefined>();
 
@@ -184,8 +180,6 @@ export function useSwapState({
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,
   });
-
-  const quote = quoteQuery.data;
 
   const quoteQueryPrice = useSwapCurrencyPrice({
     maxSlippage: !isAutoSlippage ? maxSlippage : undefined,
