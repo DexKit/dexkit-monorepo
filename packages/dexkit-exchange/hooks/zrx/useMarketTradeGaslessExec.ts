@@ -67,8 +67,8 @@ export function useMarketTradeGaslessExec({
 }
 
 export function useMarketGaslessTradeStatusQuery({
-  tradeHash,
   chainId,
+  tradeHash,
   canGasless,
 }: {
   chainId?: ChainId;
@@ -78,8 +78,9 @@ export function useMarketGaslessTradeStatusQuery({
   const { siteId } = useContext(SiteContext);
 
   return useQuery(
-    [tradeHash],
+    ["useMarketGaslessTradeStatusQuery", tradeHash],
     async ({ signal }) => {
+      debugger;
       if (!tradeHash || !chainId) {
         return null;
       }
@@ -97,8 +98,9 @@ export function useMarketGaslessTradeStatusQuery({
         throw err;
       }
     },
-    { 
-      enabled: !!tradeHash && !!chainId && canGasless,
-      refetchInterval: 2000 }
+    {
+      enabled: Boolean(tradeHash) && Boolean(chainId) && canGasless,
+      refetchInterval: 2000,
+    }
   );
 }

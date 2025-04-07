@@ -99,8 +99,7 @@ export default function ReviewMarketOrderDialog({
     }
   };
 
-  const gaslessConfirmed = canGasless && hash;
-
+  const gaslessConfirmed = canGasless && hash && !isPlacingOrder;
   const gaslessPending = canGasless && pendingHash;
 
   const renderActions = () => {

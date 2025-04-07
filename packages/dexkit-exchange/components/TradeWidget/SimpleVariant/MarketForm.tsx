@@ -6,10 +6,8 @@ import {
   isAddressEqual,
 } from "@dexkit/core/utils";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
-import {
-  useSwitchNetworkMutation,
-  useWaitTransactionConfirmation,
-} from "@dexkit/ui/hooks";
+import { useSwitchNetworkMutation } from "@dexkit/ui/hooks";
+import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
   useSendTxMutation,
   useZrxPriceQuery,
@@ -32,6 +30,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+
+import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import type { providers } from "ethers";
 import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
@@ -81,7 +81,7 @@ export default function MarketForm({
     setAnchorEl(null);
   };
   const [selectedQuoteToken, setSelectedQuoteToken] = useState<Token>();
-
+  const trackUserEvent = useTrackUserEventsMutation();
   const quoteToken = useMemo(() => {
     if (selectedQuoteToken) {
       return selectedQuoteToken;
@@ -108,7 +108,8 @@ export default function MarketForm({
     provider,
     contractAddress: baseToken?.address,
   });
-
+  const [gaslessTrades] = useGaslessTrades();
+  console.log("gaslessTrades", gaslessTrades);
   const quoteTokenBalanceQuery = useErc20BalanceQuery({
     account,
     provider,
@@ -231,11 +232,6 @@ export default function MarketForm({
     chainId,
     tradeHash,
     canGasless,
-  });
-
-  const waitTxResult = useWaitTransactionConfirmation({
-    transactionHash: hash,
-    provider,
   });
 
   const sendTxMutation = useSendTxMutation({
@@ -391,9 +387,7 @@ export default function MarketForm({
         quoteAmount={BigNumber.from(price?.buyAmount || 0)}
         side={side}
         isPlacingOrder={
-          sendTxMutation.isLoading ||
-          waitTxResult.isFetching ||
-          (gaslessTradeStatus?.isLoadingStatusGasless && !!tradeHash)
+          sendTxMutation.isLoading || (canGasless && gaslessTrades.length > 0)
         }
         onConfirm={handleConfirm}
         canGasless={canGasless}

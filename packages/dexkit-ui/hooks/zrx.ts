@@ -1,6 +1,7 @@
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { Token } from "@dexkit/core/types";
+import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import {
@@ -20,6 +21,7 @@ import {
   useWriteContract,
 } from "wagmi";
 import { ZRX_PRICE_QUERY, ZRX_QUOTE_QUERY } from "../constants/zrx";
+import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 import { ZeroExApiClient } from "../modules/swap/services/zrxClient";
 import {
   SignatureType,
@@ -30,6 +32,7 @@ import {
   ZeroExQuoteResponse,
 } from "../modules/swap/types";
 import { SiteContext } from "../providers/SiteProvider";
+import { AppNotificationType } from "../types";
 import { splitSignature } from "../utils";
 import { useDexKitContext } from "./useDexKitContext";
 import { useTrackUserEventsMutation } from "./userEvents";
@@ -189,6 +192,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
     onNotification: createNotification,
   });
   const client = useClient()?.extend(publicActions);
+  const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
+  const trackUserEvent = useTrackUserEventsMutation();
 
   return useMutation(async () => {
     if (amount && chainId && quote) {
@@ -282,6 +287,25 @@ export const useSendTxMutation = (p: txMutationParams) => {
           }
 
           hash = await marketTradeGasless.mutateAsync(requestBody);
+          const subType = side == "buy" ? "marketBuy" : "marketSell";
+          const messageType = EXCHANGE_NOTIFICATION_TYPES[
+            subType
+          ] as AppNotificationType;
+          gaslessTrades.push({
+            type: subType,
+            chainId: chainId!,
+            tradeHash: hash,
+            icon: messageType.icon,
+            values: {
+              sellAmount: quote?.sellAmount || "0",
+              sellTokenSymbol: quoteToken?.symbol.toUpperCase() || "",
+              buyAmount: quote?.buyAmount || "0",
+              buyTokenSymbol: baseToken?.symbol.toUpperCase() || "",
+            },
+          });
+
+          // We use this on gasless trade updater to issue swap trades notifications
+          setGaslessTrades(gaslessTrades);
 
           return hash;
         } catch (error) {
@@ -381,6 +405,36 @@ export const useSendTxMutation = (p: txMutationParams) => {
         }
 
         await provider?.waitForTransaction(hash as Hex);
+
+        const subType = side == "buy" ? "marketBuy" : "marketSell";
+        const messageType = EXCHANGE_NOTIFICATION_TYPES[
+          subType
+        ] as AppNotificationType;
+
+        createNotification({
+          type: "transaction",
+          icon: messageType.icon,
+          subtype: subType,
+          metadata: {
+            hash,
+            chainId,
+          },
+          values: {
+            sellAmount: amount,
+            sellTokenSymbol: baseToken.symbol.toUpperCase(),
+            buyAmount: formattedCost,
+            buyTokenSymbol: quoteToken.symbol.toUpperCase(),
+          },
+        });
+
+        trackUserEvent.mutate({
+          event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
+          hash,
+          chainId,
+          metadata: JSON.stringify({
+            quote,
+          }),
+        });
 
         return hash;
       }
