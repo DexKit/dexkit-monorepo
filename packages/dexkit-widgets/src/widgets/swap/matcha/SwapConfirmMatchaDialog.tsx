@@ -50,12 +50,14 @@ export interface SwapConfirmMatchaDialogProps {
   confirmedTxGasless?: { hash: string };
   sellToken?: Token;
   buyToken?: Token;
+  isConfirming: boolean;
 }
 
 export default function SwapConfirmMatchaDialog({
   DialogProps,
   quote,
   isQuoting,
+  isConfirming,
   chainId,
   onConfirm,
   execSwapState,
@@ -71,6 +73,11 @@ export default function SwapConfirmMatchaDialog({
   buyToken,
 }: SwapConfirmMatchaDialogProps) {
   const { onClose } = DialogProps;
+  const isButtonDisabled =
+    isQuoting ||
+    isLoadingStatusGasless ||
+    isConfirming ||
+    execSwapState === ExecSwapState.gasless_trade_submit;
 
   const handleClose = () => {
     if (onClose) {
@@ -381,18 +388,8 @@ export default function SwapConfirmMatchaDialog({
           </Button>
         ) : (
           <Button
-            disabled={
-              isQuoting ||
-              isLoadingStatusGasless ||
-              execSwapState === ExecSwapState.gasless_trade_submit ||
-              isApproving
-            }
-            startIcon={
-              (isQuoting ||
-                isLoadingStatusGasless ||
-                execSwapState === ExecSwapState.gasless_trade_submit ||
-                isApproving) && <CircularProgress size={20} />
-            }
+            disabled={isButtonDisabled}
+            startIcon={isButtonDisabled && <CircularProgress size={20} />}
             onClick={onConfirm}
             variant="contained"
           >

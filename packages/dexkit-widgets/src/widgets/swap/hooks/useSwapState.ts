@@ -179,7 +179,7 @@ export function useSwapState({
       sellToken:
         quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
       taker: account!,
-      slippageBps: maxSlippage ? maxSlippage * 100 * 100 : 0,
+      slippageBps: maxSlippage ? maxSlippage * 100 * 100 : undefined,
     },
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,

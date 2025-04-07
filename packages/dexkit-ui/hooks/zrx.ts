@@ -199,12 +199,10 @@ export const useSendTxMutation = (p: txMutationParams) => {
     if (amount && chainId && quote) {
       if (canGasless) {
         const data = quote as ZeroExGaslessQuoteResponse;
-
         const tokenApprovalRequired = data.issues.allowance != null;
         const gaslessApprovalAvailable = data.approval != null;
 
         let successfulTradeHash: any = null;
-
         let approvalSignature: Hex | null = null;
         let approvalDataToSubmit: any = null;
         let tradeDataToSubmit: any = null;
@@ -440,6 +438,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
             quote,
           }),
         });
+
+        await provider?.waitForTransaction(hash as Hex);
 
         return hash;
       }

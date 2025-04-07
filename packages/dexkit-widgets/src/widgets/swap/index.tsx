@@ -536,6 +536,7 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
+          isConfirming={handleConfirmExecSwap.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
@@ -563,6 +564,7 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
+          isConfirming={handleConfirmExecSwap.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
@@ -589,6 +591,7 @@ export function SwapWidget({
         }}
         quote={quote}
         isQuoting={isQuoting}
+        isConfirming={handleConfirmExecSwap.isLoading}
         isLoadingSignGasless={isLoadingSignGasless}
         isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
         reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
