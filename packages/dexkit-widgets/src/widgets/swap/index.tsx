@@ -547,7 +547,7 @@ export function SwapWidget({
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
           successTxGasless={gaslessSwapState.successTxGasless}
           confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-          onConfirm={handleConfirmExecSwap.mutateAsync}
+          onConfirm={handleConfirmSwap}
           execSwapState={execSwapState}
           execType={execType}
           chainId={chainId}
