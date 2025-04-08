@@ -80,7 +80,6 @@ export function useMarketGaslessTradeStatusQuery({
   return useQuery(
     ["useMarketGaslessTradeStatusQuery", tradeHash],
     async ({ signal }) => {
-      debugger;
       if (!tradeHash || !chainId) {
         return null;
       }

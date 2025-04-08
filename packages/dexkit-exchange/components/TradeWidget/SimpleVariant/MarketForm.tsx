@@ -109,7 +109,6 @@ export default function MarketForm({
     contractAddress: baseToken?.address,
   });
   const [gaslessTrades] = useGaslessTrades();
-  console.log("gaslessTrades", gaslessTrades);
   const quoteTokenBalanceQuery = useErc20BalanceQuery({
     account,
     provider,

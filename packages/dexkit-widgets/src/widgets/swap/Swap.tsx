@@ -122,7 +122,7 @@ export default function Swap({
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {
-  const handleSelectSellToken = (token?: Token) => {
+  const handleSelectSellToken = (token?: Token, clickOnMax?: boolean) => {
     onSelectToken("sell", token);
   };
 
@@ -233,9 +233,7 @@ export default function Swap({
           <Stack>
             <SwapTokenField
               InputBaseProps={{ fullWidth: true }}
-              onChange={(val) => {
-                onChangeSellAmount(val);
-              }}
+              onChange={onChangeSellAmount}
               onSelectToken={handleSelectSellToken}
               onInputClick={() => {
                 if (!sellToken) {

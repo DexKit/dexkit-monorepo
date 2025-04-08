@@ -310,16 +310,14 @@ export const useSendTxMutation = (p: txMutationParams) => {
           return hash;
         } catch (error) {
           console.error("Error submitting the gasless swap", error);
+          throw new Error("Error submitting the gasless swap");
         }
       } else {
         let data = quote as ZeroExQuoteResponse;
 
         if (data?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           console.log("Native token detected, no need for allowance check");
-        } else if (
-          data?.issues.allowance !== null &&
-          BigInt(data?.issues.allowance.actual) < BigInt(data.sellAmount)
-        ) {
+        } else if (data?.issues.allowance !== null) {
           try {
             const simulateRequest = await simulateApproveRequest;
 
@@ -336,16 +334,16 @@ export const useSendTxMutation = (p: txMutationParams) => {
             });
 
             await provider?.waitForTransaction(tx);
-            const response = (await quoteQuery.refetch()).data;
-            data = response as ZeroExQuoteResponse;
           } catch (error) {
             console.log("Error approving Permit2:", error);
-            return;
+            throw new Error("Error approving Permit2");
           }
         }
 
         let signature: Hex | undefined;
         let hash: Hex | undefined;
+
+        data = (await quoteQuery.refetch()).data as ZeroExQuoteResponse;
 
         if (data.permit2?.eip712) {
           signature = await signTypedDataAsync(data.permit2.eip712);
