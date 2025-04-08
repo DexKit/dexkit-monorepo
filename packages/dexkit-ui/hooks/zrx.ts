@@ -163,7 +163,6 @@ export function useMarketTradeGaslessExec({
 
 export const useSendTxMutation = (p: txMutationParams) => {
   const {
-    amount,
     account,
     chainId,
     quote,
@@ -171,9 +170,10 @@ export const useSendTxMutation = (p: txMutationParams) => {
     provider,
     quoteQuery,
     side,
-    baseToken,
-    formattedCost,
-    quoteToken,
+    buyAmount,
+    sellToken,
+    buyToken,
+    sellAmount,
   } = p;
   const { signTypedDataAsync } = useSignTypedData();
   const simulateApproveRequest = useSimulateContract({
@@ -196,7 +196,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
   const trackUserEvent = useTrackUserEventsMutation();
 
   return useMutation(async () => {
-    if (amount && chainId && quote) {
+    if (sellAmount && buyAmount && chainId && quote) {
       if (canGasless) {
         const data = quote as ZeroExGaslessQuoteResponse;
         const tokenApprovalRequired = data.issues.allowance != null;
@@ -298,9 +298,9 @@ export const useSendTxMutation = (p: txMutationParams) => {
             icon: messageType.icon,
             values: {
               sellAmount: quote?.sellAmount || "0",
-              sellTokenSymbol: quoteToken?.symbol.toUpperCase() || "",
+              sellTokenSymbol: sellToken?.symbol.toUpperCase() || "",
               buyAmount: quote?.buyAmount || "0",
-              buyTokenSymbol: baseToken?.symbol.toUpperCase() || "",
+              buyTokenSymbol: sellToken?.symbol.toUpperCase() || "",
             },
           });
 
@@ -408,7 +408,6 @@ export const useSendTxMutation = (p: txMutationParams) => {
         const messageType = EXCHANGE_NOTIFICATION_TYPES[
           subType
         ] as AppNotificationType;
-
         createNotification({
           type: "transaction",
           icon: messageType.icon,
@@ -418,10 +417,10 @@ export const useSendTxMutation = (p: txMutationParams) => {
             chainId,
           },
           values: {
-            sellAmount: amount,
-            sellTokenSymbol: baseToken.symbol.toUpperCase(),
-            buyAmount: formattedCost,
-            buyTokenSymbol: quoteToken.symbol.toUpperCase(),
+            sellAmount,
+            sellTokenSymbol: sellToken.symbol.toUpperCase(),
+            buyAmount,
+            buyTokenSymbol: buyToken.symbol.toUpperCase(),
           },
         });
 

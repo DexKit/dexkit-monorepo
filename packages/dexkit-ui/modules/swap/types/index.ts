@@ -4,7 +4,6 @@ import { type UseQueryResult } from "@tanstack/react-query";
 import { type providers } from "ethers";
 
 export type txMutationParams = {
-  amount?: string;
   account?: string;
   chainId?: ChainId;
   quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null | undefined;
@@ -13,9 +12,10 @@ export type txMutationParams = {
     unknown
   >;
   side: "buy" | "sell";
-  formattedCost: string;
-  baseToken: Token;
-  quoteToken: Token;
+  buyAmount: string;
+  sellToken: Token;
+  buyToken: Token;
+  sellAmount?: string;
   canGasless: boolean;
   provider?: providers.Web3Provider;
 };

@@ -9,6 +9,7 @@ import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { Transak } from "@transak/transak-sdk";
 import type { providers } from "ethers";
 
+import { formatBigNumber } from "@dexkit/core/utils";
 import { useSendTxMutation, useZrxQuoteQuery } from "@dexkit/ui/hooks/zrx";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { BigNumber } from "ethers";
@@ -351,10 +352,10 @@ export function useSwapState({
     account: account!,
     chainId: chainId!,
     canGasless,
-    formattedCost: quoteQuery.data ? quoteQuery.data.buyAmount : "0",
-    amount: quoteQuery.data ? quoteQuery.data.sellAmount : "0",
-    baseToken: lazyBuyToken!,
-    quoteToken: lazySellToken!,
+    buyAmount: formatBigNumber(lazyBuyAmount, lazyBuyToken?.decimals),
+    sellAmount: formatBigNumber(lazySellAmount, lazySellToken?.decimals),
+    buyToken: lazyBuyToken!,
+    sellToken: lazySellToken!,
   });
 
   const handleShowTransak = () => {

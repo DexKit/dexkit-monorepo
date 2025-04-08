@@ -234,7 +234,6 @@ export default function MarketForm({
   });
 
   const sendTxMutation = useSendTxMutation({
-    amount,
     account,
     chainId,
     quote,
@@ -242,9 +241,10 @@ export default function MarketForm({
     provider,
     quoteQuery,
     side,
-    baseToken,
-    formattedCost,
-    quoteToken,
+    sellToken: side === "sell" ? baseToken : quoteToken,
+    buyAmount: side === "sell" ? formattedCost : amount!,
+    buyToken: side === "sell" ? quoteToken : baseToken,
+    sellAmount: side === "sell" ? amount : formattedCost,
   });
 
   const handleCloseReview = () => {
