@@ -347,10 +347,10 @@ export default function SwapMatcha({
                       insufficientBalance ||
                       disabled ||
                       quoteQuery?.isError ||
-                      quoteQuery?.isLoading
+                      quoteQuery?.isFetching
                     }
                     startIcon={
-                      isExecuting || quoteQuery?.isLoading ? (
+                      isExecuting || quoteQuery?.isFetching ? (
                         <CircularProgress color="inherit" size="1rem" />
                       ) : undefined
                     }
