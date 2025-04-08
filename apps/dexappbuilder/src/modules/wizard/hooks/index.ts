@@ -100,13 +100,17 @@ export function useCheckGatedConditions({
   conditions?: GatedCondition[];
   account?: string;
 }) {
-  return useQuery(['GET_CHECKED_GATED_CONDITIONS', account, conditions], () => {
-    if (!conditions) {
-      return null;
-    }
+  return useQuery(
+    ['GET_CHECKED_GATED_CONDITIONS', account, conditions],
+    async () => {
+      if (!conditions) {
+        return null;
+      }
 
-    return checkGatedConditions({ account, conditions });
-  });
+      const data = await checkGatedConditions({ account, conditions });
+      return data;
+    },
+  );
 }
 
 export function useSendSiteConfirmationLinkMutation() {

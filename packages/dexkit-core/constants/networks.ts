@@ -1,14 +1,20 @@
-
-
-import { COINGECKO_IDS, EVM_CHAINS, WRAPPED_TOKEN_ADDRESSES } from "@dexkit/evm-chains/constants";
+import {
+  COINGECKO_IDS,
+  EVM_CHAINS,
+  WRAPPED_TOKEN_ADDRESSES,
+} from "@dexkit/evm-chains/constants";
 import { Network } from "../types";
 import { ChainId } from "./enums";
-import { EVM_CHAIN_IMAGES, GET_EVM_CHAIN_IMAGE, UNKNOWN_LOGO_URL } from "./evmChainImages";
+import {
+  EVM_CHAIN_IMAGES,
+  GET_EVM_CHAIN_IMAGE,
+  UNKNOWN_LOGO_URL,
+} from "./evmChainImages";
 
-
-
-
-const IS_TESTNET = typeof process !== 'undefined' ? process?.env.NODE_ENV !== "development" : true;
+const IS_TESTNET =
+  typeof process !== "undefined"
+    ? process?.env.NODE_ENV !== "development"
+    : true;
 
 export const NETWORK_NAME_OVERLAP: { [key: number]: string } = {
   [ChainId.Ethereum]: "Ethereum",
@@ -23,20 +29,19 @@ export const NETWORK_NAME_OVERLAP: { [key: number]: string } = {
 };
 
 export const PROVIDER_OVERLAP: { [key: number]: string } = {
-  [ChainId.Ethereum]: 'https://eth.llamarpc.com',
-  [ChainId.Arbitrum]: 'https://arb1.arbitrum.io/rpc',
-  [ChainId.Optimism]: 'https://mainnet.optimism.io',
-  [ChainId.Avax]: 'https://api.avax.network/ext/bc/C/rpc',
-  [ChainId.BSC]: 'https://bscrpc.com',
-  [ChainId.Fantom]: 'https://rpc.ftm.tools',
+  [ChainId.Ethereum]: "https://eth.llamarpc.com",
+  [ChainId.Arbitrum]: "https://arb1.arbitrum.io/rpc",
+  [ChainId.Optimism]: "https://mainnet.optimism.io",
+  [ChainId.Avax]: "https://api.avax.network/ext/bc/C/rpc",
+  [ChainId.BSC]: "https://bsc-dataseed.bnbchain.org",
+  [ChainId.Fantom]: "https://rpc.ftm.tools",
   [ChainId.Polygon]: `https://polygon-rpc.com/`,
   [ChainId.Base]: "https://mainnet.base.org",
   [ChainId.Mumbai]: `https://rpc.ankr.com/polygon_mumbai`,
-  [ChainId.Goerli]: 'https://rpc.ankr.com/eth_goerli'
-}
+  [ChainId.Goerli]: "https://rpc.ankr.com/eth_goerli",
+};
 
-
-const NETS: { [key: number]: Network } = {}
+const NETS: { [key: number]: Network } = {};
 
 for (let index = 0; index < EVM_CHAINS.length; index++) {
   const element = EVM_CHAINS[index];
@@ -45,29 +50,32 @@ for (let index = 0; index < EVM_CHAINS.length; index++) {
       chainId: element.chainId,
       symbol: element.shortName.toUpperCase(),
       explorerUrl: element.explorers[0].url,
-      name: NETWORK_NAME_OVERLAP[element.chainId] ? NETWORK_NAME_OVERLAP[element.chainId] : element.name,
+      name: NETWORK_NAME_OVERLAP[element.chainId]
+        ? NETWORK_NAME_OVERLAP[element.chainId]
+        : element.name,
       slug: element?.slug ? element?.slug : element.shortName,
-      coingeckoPlatformId: COINGECKO_IDS.find(c => c.chain_identifier === element.chainId)?.native_coin_id,
+      coingeckoPlatformId: COINGECKO_IDS.find(
+        (c) => c.chain_identifier === element.chainId
+      )?.native_coin_id,
       wrappedAddress: WRAPPED_TOKEN_ADDRESSES[element.chainId],
-      imageUrl: GET_EVM_CHAIN_IMAGE({ chainId: element.chainId }) || UNKNOWN_LOGO_URL,
+      imageUrl:
+        GET_EVM_CHAIN_IMAGE({ chainId: element.chainId }) || UNKNOWN_LOGO_URL,
       coinImageUrl: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl,
-      coinName: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl ? element?.nativeCurrency?.name : element?.nativeCurrency?.name,
-      coinSymbol: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl ? element?.nativeCurrency?.symbol : element?.nativeCurrency?.symbol,
-      providerRpcUrl: PROVIDER_OVERLAP[element.chainId] ? PROVIDER_OVERLAP[element.chainId] : element.rpc[0],
+      coinName: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl
+        ? element?.nativeCurrency?.name
+        : element?.nativeCurrency?.name,
+      coinSymbol: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl
+        ? element?.nativeCurrency?.symbol
+        : element?.nativeCurrency?.symbol,
+      providerRpcUrl: PROVIDER_OVERLAP[element.chainId]
+        ? PROVIDER_OVERLAP[element.chainId]
+        : element.rpc[0],
       testnet: element?.testnet,
-    }
+    };
   }
 }
 
-
 export const NETWORKS = NETS;
-
-
-
-
-
-
-
 
 /*export const NETWORKS: { [key: number]: Network } = {
   [ChainId.Ethereum]: {
@@ -106,7 +114,7 @@ export const NETWORKS = NETS;
     slug: "bsc",
     coingeckoPlatformId: "binancecoin",
     wrappedAddress: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    providerRpcUrl: "https://bscrpc.com",
+    providerRpcUrl: "https://bsc-dataseed.bnbchain.org",
     imageUrl:
       "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png",
   },
@@ -227,24 +235,36 @@ export const NETWORK_SYMBOL = (chainId?: ChainId) =>
   chainId && NETWORKS[chainId] ? NETWORKS[chainId].symbol : undefined;
 
 export const NETWORK_COIN_SYMBOL = (chainId?: ChainId) =>
-  chainId && NETWORKS[chainId] ? NETWORKS[chainId]?.coinSymbol ? NETWORKS[chainId]?.coinSymbol : NETWORKS[chainId].symbol : undefined;
+  chainId && NETWORKS[chainId]
+    ? NETWORKS[chainId]?.coinSymbol
+      ? NETWORKS[chainId]?.coinSymbol
+      : NETWORKS[chainId].symbol
+    : undefined;
 
 export const NETWORK_COIN_NAME = (chainId?: ChainId) =>
-  chainId && NETWORKS[chainId] ? NETWORKS[chainId]?.coinName ? NETWORKS[chainId]?.coinName : NETWORKS[chainId].name : undefined;
+  chainId && NETWORKS[chainId]
+    ? NETWORKS[chainId]?.coinName
+      ? NETWORKS[chainId]?.coinName
+      : NETWORKS[chainId].name
+    : undefined;
 
 export const NETWORK_COIN_IMAGE = (chainId?: ChainId) =>
-  chainId && NETWORKS[chainId] ? NETWORKS[chainId]?.coinImageUrl ? NETWORKS[chainId]?.coinImageUrl : NETWORKS[chainId].imageUrl : undefined;
-
-
+  chainId && NETWORKS[chainId]
+    ? NETWORKS[chainId]?.coinImageUrl
+      ? NETWORKS[chainId]?.coinImageUrl
+      : NETWORKS[chainId].imageUrl
+    : undefined;
 
 export const NETWORK_FROM_SLUG = (slug?: string) => {
   if (slug) {
-    const network = Object.values(NETWORKS).find(n => n.slug?.toLowerCase() === slug.toLowerCase());
+    const network = Object.values(NETWORKS).find(
+      (n) => n.slug?.toLowerCase() === slug.toLowerCase()
+    );
     if (network) {
-      return network
+      return network;
     }
   }
-}
+};
 // We are using 0x API wrapped token feature
-export const WRAPPED_TOKEN_ADDRESS = (chainId?: ChainId) => undefined
+export const WRAPPED_TOKEN_ADDRESS = (chainId?: ChainId) => undefined;
 // chainId && NETWORKS[chainId] ? NETWORKS[chainId].wrappedAddress : undefined;

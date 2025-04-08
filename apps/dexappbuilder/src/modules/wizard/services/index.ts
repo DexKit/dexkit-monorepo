@@ -10,14 +10,16 @@ import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
 import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
 import { getAssetProtocol } from '@dexkit/ui/modules/nft/services';
-import { GamificationPoint, GatedCondition } from '@dexkit/ui/modules/wizard/types';
+import {
+  GamificationPoint,
+  GatedCondition,
+} from '@dexkit/ui/modules/wizard/types';
 import {
   getBalanceOf,
   getBalanceOfERC1155,
 } from '@dexkit/ui/services/balances';
 import { myAppsApi } from 'src/services/whitelabel';
 import { Token } from '../../../types/blockchain';
-
 
 export async function getTokenList(url: string) {
   const response = await axios.get(url);
@@ -46,7 +48,7 @@ export async function getContractImplementation({
         type: 'function',
       },
     ],
-    provider
+    provider,
   );
 
   return await contract.implementation();
@@ -61,8 +63,6 @@ export async function checkGatedConditions({
 }) {
   const balances: { [key: number]: string } = {};
   const partialResults: { [key: number]: boolean } = {};
-
-
 
   if (!account) {
     return { result: false, balances, partialResults };
@@ -81,17 +81,12 @@ export async function checkGatedConditions({
         const balance = await getERC20Balance(
           condition.address,
           account,
-          getProviderByChainId(condition.chainId)
+          getProviderByChainId(condition.chainId),
         );
         balances[index] = formatUnits(balance, condition.decimals);
         partialResults[index] = false;
         if (
-          balance.gte(
-            parseUnits(
-              String(condition.amount),
-              condition.decimals
-            )
-          )
+          balance.gte(parseUnits(String(condition.amount), condition.decimals))
         ) {
           thisCondition = true;
           partialResults[index] = true;
@@ -101,16 +96,17 @@ export async function checkGatedConditions({
       let nftProtocol = condition?.protocol;
       // This condition was added but maybe is not needed
       if (condition?.type === 'collection' && nftProtocol === undefined) {
-        nftProtocol = (await getAssetProtocol(getProviderByChainId(condition.chainId), condition?.address) as 'ERC721' | 'ERC1155')
+        nftProtocol = (await getAssetProtocol(
+          getProviderByChainId(condition.chainId),
+          condition?.address,
+        )) as 'ERC721' | 'ERC1155';
       }
 
-
       if (condition.type === 'collection' && nftProtocol !== 'ERC1155') {
-
         const balance = await getBalanceOf(
           getNetworkSlugFromChainId(condition.chainId) as string,
           condition.address as string,
-          account
+          account,
         );
 
         balances[index] = formatUnits(balance, 0);
@@ -129,7 +125,7 @@ export async function checkGatedConditions({
           getNetworkSlugFromChainId(condition.chainId) as string,
           condition.address as string,
           account,
-          condition.tokenId as string
+          condition.tokenId as string,
         );
 
         balances[index] = formatUnits(balance, 0);
@@ -149,7 +145,6 @@ export async function checkGatedConditions({
         result = result && thisCondition;
       }
     }
-
 
     return { result, balances, partialResults };
   }
@@ -175,30 +170,37 @@ export function getGatedConditionsText({
 
       // We check all conditions here now
       if (condition.type === 'coin') {
-        text = `${text} have ${condition.amount
-          } of coin ${condition.symbol?.toUpperCase()} with address ${condition.address
-          } on network ${getNetworkSlugFromChainId(
-            condition.chainId
-          )?.toUpperCase()}`;
+        text = `${text} have ${
+          condition.amount
+        } of coin ${condition.symbol?.toUpperCase()} with address ${
+          condition.address
+        } on network ${getNetworkSlugFromChainId(
+          condition.chainId,
+        )?.toUpperCase()}`;
       }
       if (condition.type === 'collection' && condition.protocol !== 'ERC1155') {
-        text = `${text} have ${condition.amount
-          } of collection ${condition.symbol?.toUpperCase()} with address ${condition.address
-          } on network ${getNetworkSlugFromChainId(
-            condition.chainId
-          )?.toUpperCase()}`;
+        text = `${text} have ${
+          condition.amount
+        } of collection ${condition.symbol?.toUpperCase()} with address ${
+          condition.address
+        } on network ${getNetworkSlugFromChainId(
+          condition.chainId,
+        )?.toUpperCase()}`;
       }
       if (
         condition.type === 'collection' &&
         condition.protocol === 'ERC1155' &&
         condition.tokenId
       ) {
-        text = `${text} have ${condition.amount
-          } of collection ${condition.symbol?.toUpperCase()} with id ${condition.tokenId
-          } with address ${condition.address
-          } on network ${getNetworkSlugFromChainId(
-            condition.chainId
-          )?.toUpperCase()} `;
+        text = `${text} have ${
+          condition.amount
+        } of collection ${condition.symbol?.toUpperCase()} with id ${
+          condition.tokenId
+        } with address ${
+          condition.address
+        } on network ${getNetworkSlugFromChainId(
+          condition.chainId,
+        )?.toUpperCase()} `;
       }
     }
     return text;
@@ -221,67 +223,136 @@ export async function isProxyContract({
   }
 }
 
-
-export async function requestEmailConfirmatioForSite({ siteId, accessToken }: { siteId: number, accessToken: string }) {
-
+export async function requestEmailConfirmatioForSite({
+  siteId,
+  accessToken,
+}: {
+  siteId: number;
+  accessToken: string;
+}) {
   return axios.get(`/api/email/site-verification-link?siteId=${siteId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-
 }
 
-export async function addPermissionsMemberSite({ siteId, permissions, account }: { siteId: number, permissions: string, account: string }) {
+export async function addPermissionsMemberSite({
+  siteId,
+  permissions,
+  account,
+}: {
+  siteId: number;
+  permissions: string;
+  account: string;
+}) {
   return myAppsApi.post(`/site/add-permissions/${siteId}`, {
     permissions,
-    account
+    account,
   });
 }
 
-export async function deleteMemberSite({ siteId, account }: { siteId: number, account: string }) {
-
+export async function deleteMemberSite({
+  siteId,
+  account,
+}: {
+  siteId: number;
+  account: string;
+}) {
   return myAppsApi.delete(`/site/remove-permissions/${siteId}/${account}`);
-
 }
 
-export async function upsertAppVersion({ siteId, version, description, versionId }: { siteId: number, version: string, description?: string, versionId?: number }) {
+export async function upsertAppVersion({
+  siteId,
+  version,
+  description,
+  versionId,
+}: {
+  siteId: number;
+  version: string;
+  description?: string;
+  versionId?: number;
+}) {
   return myAppsApi.post(`/site/upsert-version/${siteId}`, {
     version,
     description,
-    versionId
+    versionId,
   });
 }
 
-export async function deleteAppVersion({ siteId, siteVersionId }: { siteId: number, siteVersionId: number }) {
+export async function deleteAppVersion({
+  siteId,
+  siteVersionId,
+}: {
+  siteId: number;
+  siteVersionId: number;
+}) {
   return myAppsApi.delete(`/site/version/${siteId}/${siteVersionId}`);
 }
 
-export async function setAppVersion({ siteId, siteVersionId }: { siteId: number, siteVersionId: number }) {
+export async function setAppVersion({
+  siteId,
+  siteVersionId,
+}: {
+  siteId: number;
+  siteVersionId: number;
+}) {
   return myAppsApi.get(`/site/set-version/${siteId}/${siteVersionId}`);
 }
 
 // site rankings
-export async function createSiteRankingVersion({ siteId, title, description, settings }: { siteId: number, title?: string, description?: string, settings?: GamificationPoint[] }) {
+export async function createSiteRankingVersion({
+  siteId,
+  title,
+  description,
+  settings,
+}: {
+  siteId: number;
+  title?: string;
+  description?: string;
+  settings?: GamificationPoint[];
+}) {
   return myAppsApi.post(`/site-ranking/create`, {
     title,
     description,
     siteId,
-    settings
+    settings,
   });
 }
 
-export async function updateSiteRankingVersion({ siteId, title, description, rankingId, settings, from, to }: { siteId: number, title?: string, description?: string, rankingId?: number, settings?: GamificationPoint[], from?: string, to?: string }) {
+export async function updateSiteRankingVersion({
+  siteId,
+  title,
+  description,
+  rankingId,
+  settings,
+  from,
+  to,
+}: {
+  siteId: number;
+  title?: string;
+  description?: string;
+  rankingId?: number;
+  settings?: GamificationPoint[];
+  from?: string;
+  to?: string;
+}) {
   return myAppsApi.patch(`/site-ranking/${rankingId}`, {
     title,
     description,
     siteId,
     settings,
     from,
-    to
+    to,
   });
 }
 
-export async function deleteAppRanking({ siteId, rankingId }: { siteId: number, rankingId: number }) {
+export async function deleteAppRanking({
+  siteId,
+  rankingId,
+}: {
+  siteId: number;
+  rankingId: number;
+}) {
   return myAppsApi.delete(`/site-ranking/${siteId}/${rankingId}`);
 }

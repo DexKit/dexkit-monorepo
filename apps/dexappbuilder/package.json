@@ -43,7 +43,7 @@
     "@dexkit/core": "*",
     "@dexkit/darkblock-evm-widget": "*",
     "@dexkit/dexappbuilder-viewer": "*",
-    "@dexkit/evm-chains": "^1.14",
+    "@dexkit/evm-chains": "1.15.1",
     "@dexkit/ui": "*",
     "@dexkit/unlock-widget": "*",
     "@dexkit/wallet-connectors": "*",

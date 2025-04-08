@@ -105,7 +105,7 @@ export async function getAppConfig(
 
   if (site?.includes('localhost:')) {
     const [slug] = site?.split('.') || [];
-    // const slug = 'cybercows';
+    // const slug = 'tiago-exchange';
 
     if (slug) {
       const configResponse = (await getConfig({ slug, appPage })).data;
@@ -253,7 +253,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
 
   if (site?.startsWith('localhost')) {
     const [slug] = site?.split('.') || [];
-    //const slug = 'swapkit';
+    // const slug = 'tiago-exchange';
     if (slug) {
       const configResponse = (await getSitemapConfig({ slug })).data;
 

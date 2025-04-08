@@ -1,5 +1,4 @@
-
-import { NETWORKS as NETWORKS_CORE } from "@dexkit/core/constants/networks";
+import { NETWORKS as NETWORKS_CORE } from '@dexkit/core/constants/networks';
 
 export const NETWORKS = NETWORKS_CORE;
 
@@ -63,7 +62,7 @@ export const NETWORKS = NETWORKS_CORE;
     slug: 'bsc',
     coingeckoId: 'binancecoin',
     wrappedAddress: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-    providerRpcUrl: 'https://bscrpc.com',
+    providerRpcUrl: 'https://bsc-dataseed.bnbchain.org',
     imageUrl: bscIcon.src,
     nativeCurrency: {
       name: 'Binance coin',
@@ -145,4 +144,3 @@ export const NETWORKS = NETWORKS_CORE;
     },
   }
 };*/
-
