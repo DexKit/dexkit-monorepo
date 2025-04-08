@@ -396,7 +396,11 @@ export default function MarketForm({
           <Grid item xs={12}>
             <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            sx={{ visibility: provider ? "visible" : "hidden" }}
+          >
             {side === "buy" ? (
               <Typography variant="body2">
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
