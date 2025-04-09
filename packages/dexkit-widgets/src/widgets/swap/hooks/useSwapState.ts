@@ -15,6 +15,7 @@ import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import { BigNumber } from "ethers";
+import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSwitchChain } from "wagmi";
 import {
@@ -116,7 +117,7 @@ export function useSwapState({
   const lazySellAmount = useDebounce<BigNumber>(sellAmount, 200);
   const lazyBuyAmount = useDebounce<BigNumber>(buyAmount, 200);
   const lazyQuoteFor = useDebounce<SwapSide>(quoteFor, 0);
-
+  const { enqueueSnackbar } = useSnackbar();
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
 
   const sellTokenBalance = useTokenBalance({
@@ -140,6 +141,13 @@ export function useSwapState({
           setBuyAmount(BigNumber.from(data.buyAmount));
         }
       }
+    },
+    [quoteFor]
+  );
+
+  const handleQuoteError = useCallback(
+    (error: any) => {
+      enqueueSnackbar(error.message, { variant: "error" });
     },
     [quoteFor]
   );
@@ -191,6 +199,7 @@ export function useSwapState({
     },
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,
+    onError: handleQuoteError,
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({

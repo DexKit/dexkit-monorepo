@@ -40,37 +40,56 @@ import { useTrackUserEventsMutation } from "./userEvents";
 export function useZrxPriceQuery({
   params,
   useGasless,
+  onSuccess,
+  onError,
 }: {
   params: ZeroExQuote | ZeroExQuoteGasless;
   useGasless?: boolean;
+  onSuccess?: (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => void;
+  onError?: (error: any) => void;
 }) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([ZRX_PRICE_QUERY, params], async () => {
-    if (!params.chainId || !params.sellAmount) {
-      return null;
-    }
+  return useQuery(
+    [ZRX_PRICE_QUERY, params],
+    async () => {
+      const zrxClient = new ZeroExApiClient(params.chainId, siteId);
 
-    const zrxClient = new ZeroExApiClient(params.chainId, siteId);
-
-    if (useGasless) {
-      let gaslessParams = params as ZeroExQuoteGasless;
-      return zrxClient.priceGasless(gaslessParams, {});
-    } else {
-      return zrxClient.price(params as ZeroExQuote, {});
+      if (useGasless) {
+        let gaslessParams = params as ZeroExQuoteGasless;
+        return zrxClient.priceGasless(gaslessParams, {});
+      } else {
+        return zrxClient.price(params as ZeroExQuote, {});
+      }
+    },
+    {
+      enabled:
+        Boolean(params) &&
+        !!params.chainId &&
+        !!params.buyToken &&
+        !!params.sellToken &&
+        !!params.sellAmount &&
+        BigInt(params.sellAmount) > 0,
+      refetchInterval: useGasless ? 25000 : 10000,
+      cacheTime: 0,
+      staleTime: 0,
+      onSuccess,
+      onError,
     }
-  });
+  );
 }
 
 export function useZrxQuoteQuery({
   params,
   useGasless,
   onSuccess,
+  onError,
   options,
 }: {
   params: ZeroExQuote | ZeroExQuoteGasless;
   useGasless?: boolean;
   onSuccess?: (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => void;
+  onError?: (error: any) => void;
   options?: any;
 }) {
   const { siteId } = useContext(SiteContext);
@@ -89,6 +108,51 @@ export function useZrxQuoteQuery({
     },
     {
       onSuccess,
+      onError,
+      enabled:
+        Boolean(params) &&
+        !!params.chainId &&
+        !!params.buyToken &&
+        !!params.sellToken &&
+        !!params.sellAmount &&
+        BigInt(params.sellAmount) > 0,
+      cacheTime: 0,
+      staleTime: 0,
+      refetchInterval: useGasless ? 25000 : 10000,
+      ...options,
+    }
+  );
+}
+
+export const useZrxQuoteMutation = ({
+  params,
+  useGasless,
+  onSuccess,
+  onError,
+  options,
+}: {
+  params: ZeroExQuote | ZeroExQuoteGasless;
+  useGasless?: boolean;
+  onSuccess?: (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => void;
+  onError?: (error: any) => void;
+  options?: any;
+}) => {
+  const { siteId } = useContext(SiteContext);
+  return useMutation(
+    [ZRX_QUOTE_QUERY, params],
+    async () => {
+      const zrxClient = new ZeroExApiClient(params.chainId, siteId);
+
+      if (useGasless) {
+        let gaslessParams = params as ZeroExQuoteGasless;
+        return await zrxClient.quoteGasless(gaslessParams, {});
+      } else {
+        return await zrxClient.quote(params as ZeroExQuote, {});
+      }
+    },
+    {
+      onSuccess,
+      onError,
       enabled:
         Boolean(params) &&
         !!params.chainId &&
@@ -100,7 +164,7 @@ export function useZrxQuoteQuery({
       ...options,
     }
   );
-}
+};
 
 export function useMarketTradeGaslessExec({
   onNotification,
