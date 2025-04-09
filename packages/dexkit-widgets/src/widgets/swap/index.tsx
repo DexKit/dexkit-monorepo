@@ -297,7 +297,7 @@ export function SwapWidget({
 
   const handleConfirmSwap = async () => {
     await handleConfirmExecSwap.mutateAsync();
-    setShowConfirmSwap(false);
+    !isGasless && setShowConfirmSwap(false);
   };
 
   const filteredChainIds = useMemo(() => {

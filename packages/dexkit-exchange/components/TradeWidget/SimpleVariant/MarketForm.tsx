@@ -7,7 +7,6 @@ import {
 } from "@dexkit/core/utils";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { useSwitchNetworkMutation } from "@dexkit/ui/hooks";
-import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
   useSendTxMutation,
   useZrxPriceQuery,
@@ -83,7 +82,6 @@ export default function MarketForm({
     setAnchorEl(null);
   };
   const [selectedQuoteToken, setSelectedQuoteToken] = useState<Token>();
-  const trackUserEvent = useTrackUserEventsMutation();
   const quoteToken = useMemo(() => {
     if (selectedQuoteToken) {
       return selectedQuoteToken;
@@ -160,6 +158,7 @@ export default function MarketForm({
     chainId: chainId!,
     buyToken: quoteToken,
   });
+
   const priceQuery = useZrxPriceQuery({
     params: {
       sellAmount: kitAmount,
@@ -255,27 +254,25 @@ export default function MarketForm({
     sellAmount: side === "sell" ? amount : formattedCost,
   });
 
-  const handleCloseReview = () => {
-    baseTokenBalanceQuery.refetch();
-    quoteTokenBalanceQuery.refetch();
+  const handleCloseReview = useCallback(() => {
     setShowReview(false);
     setHash(undefined);
     setTradeHash(undefined);
-  };
+  }, [setShowReview, setHash, setTradeHash]);
 
   const handleConfirm = async () => {
-    await quoteQuery.refetch();
-    const hash = await sendTxMutation.mutateAsync();
-    setShowReview(false);
-    setHash(hash);
-    setTradeHash(hash);
+    await sendTxMutation.mutateAsync();
+
+    if (!canGasless) {
+      handleCloseReview();
+    }
   };
 
   const handleExecute = () => {
     setShowReview(true);
   };
 
-  const { chainId: providerChainId, connector } = useWeb3React();
+  const { chainId: providerChainId } = useWeb3React();
   const switchNetworkMutation = useSwitchNetworkMutation();
 
   const renderActionButton = useCallback(() => {
@@ -320,19 +317,21 @@ export default function MarketForm({
     return (
       <Button
         disabled={
-          priceQuery.isLoading || !hasSufficientBalance || priceQuery.isError
+          priceQuery.isFetching || !hasSufficientBalance || priceQuery.isError
         }
         size="large"
         fullWidth
         startIcon={
-          priceQuery.isLoading ? <CircularProgress size={"small"} /> : undefined
+          priceQuery.isFetching ? (
+            <CircularProgress size={"small"} />
+          ) : undefined
         }
         variant="contained"
         onClick={handleExecute}
       >
         {errorMsg ? (
           <>{errorMsg}</>
-        ) : priceQuery.isLoading ? (
+        ) : priceQuery.isFetching ? (
           <FormattedMessage
             id="loading.quote"
             defaultMessage="Loading quote..."
@@ -366,14 +365,17 @@ export default function MarketForm({
       </Button>
     );
   }, [
-    chainId,
-    side,
-    connector,
     providerChainId,
-    baseToken,
-    quoteToken,
-    handleExecute,
+    chainId,
+    priceQuery.isError,
+    priceQuery.isFetching,
+    priceQuery?.error,
     hasSufficientBalance,
+    amount,
+    side,
+    quoteToken.symbol,
+    baseToken.symbol,
+    switchNetworkMutation,
   ]);
 
   return (
@@ -467,7 +469,7 @@ export default function MarketForm({
                       alignItems={"center"}
                     >
                       <Typography color="text.secondary">
-                        {priceQuery.isLoading ? (
+                        {priceQuery.isFetching ? (
                           <Skeleton sx={{ minWidth: "50px" }} />
                         ) : (
                           <>{formattedCost}</>
@@ -516,7 +518,7 @@ export default function MarketForm({
                     </Box>
                   ) : (
                     <Typography color="text.secondary">
-                      {quoteQuery.isLoading ? (
+                      {quoteQuery.isFetching ? (
                         <Skeleton sx={{ minWidth: "50px" }} />
                       ) : (
                         <>
