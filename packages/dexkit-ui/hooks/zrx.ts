@@ -262,7 +262,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
   return useMutation(async () => {
     if (sellAmount && buyAmount && chainId && quote) {
       if (canGasless) {
-        const data = quote as ZeroExGaslessQuoteResponse;
+        let data = quote as ZeroExGaslessQuoteResponse;
         const tokenApprovalRequired = data.issues.allowance != null;
         const gaslessApprovalAvailable = data.approval != null;
 
@@ -299,7 +299,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
                 await provider?.waitForTransaction(tx);
 
-                await quoteQuery.refetch();
+                data = (await quoteQuery.refetch())
+                  .data as ZeroExGaslessQuoteResponse;
               } catch (error) {
                 console.log("Error approving Permit2:", error);
                 return;
@@ -472,6 +473,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
         const messageType = EXCHANGE_NOTIFICATION_TYPES[
           subType
         ] as AppNotificationType;
+
         createNotification({
           type: "transaction",
           icon: messageType.icon,
