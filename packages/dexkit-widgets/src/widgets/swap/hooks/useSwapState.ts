@@ -178,11 +178,11 @@ export function useSwapState({
       sellToken:
         quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
       taker: account!,
-      slippageBps: maxSlippage ? maxSlippage * 100 : 100,
+      slippageBps: maxSlippage ? maxSlippage * 100 * 100 : 100,
       swapFeeRecipient: swapFees
         ? swapFees.recipient
         : ZEROEX_AFFILIATE_ADDRESS,
-      swapFeeBps: swapFees ? swapFees.amount_percentage * 10 * 100 : 300,
+      swapFeeBps: swapFees ? swapFees.amount_percentage * 100 * 100 : 300,
       swapFeeToken: getSwapFeeTokenAddress({
         sellTokenAddress: lazySellToken?.address!,
         buyTokenAddress: lazyBuyToken?.address!,

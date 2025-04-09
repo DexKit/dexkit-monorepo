@@ -182,13 +182,13 @@ export default function MarketForm({
       buyToken: side === "buy" ? baseToken.address : quoteToken.address,
       sellToken: side === "buy" ? quoteToken.address : baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      slippageBps: slippage ? slippage * 100 : 100,
+      slippageBps: slippage ? slippage * 100 * 100 : 100,
       taker: account || "",
       chainId: chainId!,
       swapFeeRecipient: feeRecipient || ZEROEX_AFFILIATE_ADDRESS,
       swapFeeBps: buyTokenPercentageFee
-        ? buyTokenPercentageFee * 10 * 100 * 100
-        : 300,
+        ? buyTokenPercentageFee * 100 * 100
+        : 30,
       swapFeeToken: getSwapFeeTokenAddress({
         sellTokenAddress: side === "buy" ? price?.buyAmount : price?.sellAmount,
         buyTokenAddress:
