@@ -182,7 +182,7 @@ export function useSwapState({
       swapFeeRecipient: swapFees
         ? swapFees.recipient
         : ZEROEX_AFFILIATE_ADDRESS,
-      swapFeeBps: swapFees ? swapFees.amount_percentage * 100 * 100 : 300,
+      swapFeeBps: swapFees ? swapFees.amount_percentage * 100 : 30,
       swapFeeToken: getSwapFeeTokenAddress({
         sellTokenAddress: lazySellToken?.address!,
         buyTokenAddress: lazyBuyToken?.address!,
@@ -221,10 +221,10 @@ export function useSwapState({
   };
 
   const handleSwapTokens = useCallback(() => {
-    setSellAmount(buyAmount);
-    setBuyAmount(sellAmount);
     setSellToken(buyToken);
     setBuyToken(sellToken);
+    setSellAmount(buyAmount);
+    setBuyAmount(sellAmount);
   }, [sellToken, buyToken, sellAmount, buyAmount]);
 
   const handleOpenSelectToken = (selectFor: SwapSide, token?: Token) => {
