@@ -248,10 +248,10 @@ export default function MarketForm({
     provider,
     quoteQuery,
     side,
-    sellToken: side === "sell" ? quoteToken : baseToken,
-    buyAmount: side === "sell" ? amount! : formattedCost,
-    buyToken: side === "sell" ? baseToken : quoteToken,
-    sellAmount: side === "sell" ? formattedCost : amount,
+    sellToken: side === "buy" ? quoteToken : baseToken,
+    buyAmount: side === "buy" ? amount! : formattedCost,
+    buyToken: side === "buy" ? baseToken : quoteToken,
+    sellAmount: side === "buy" ? formattedCost : amount!,
   });
 
   const handleCloseReview = useCallback(() => {
