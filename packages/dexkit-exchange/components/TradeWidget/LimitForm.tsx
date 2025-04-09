@@ -136,7 +136,7 @@ export default function LimitForm({
       sellAmount: parseUnits("1.0", baseToken.decimals).toString(),
       chainId: chainId!,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      slippageBps: slippage ? slippage * 100 * 100 : 0.01 * 100 * 100,
+      slippageBps: slippage ? slippage * 100 : 100,
       feeRecipient,
       taker: maker || "",
     });

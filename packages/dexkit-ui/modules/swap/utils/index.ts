@@ -32,3 +32,21 @@ export function isNativeInSell({
 
   return false;
 }
+
+export const getSwapFeeTokenAddress = ({
+  sellTokenAddress,
+  buyTokenAddress,
+}: {
+  sellTokenAddress?: string;
+  buyTokenAddress?: string;
+}): string => {
+  if (!sellTokenAddress || !buyTokenAddress) {
+    return ZEROEX_NATIVE_TOKEN_ADDRESS;
+  }
+
+  if (sellTokenAddress.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS) {
+    return sellTokenAddress;
+  }
+
+  return buyTokenAddress;
+};

@@ -11,7 +11,9 @@ import type { providers } from "ethers";
 
 import { formatBigNumber } from "@dexkit/core/utils";
 import { useSendTxMutation, useZrxQuoteQuery } from "@dexkit/ui/hooks/zrx";
+import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
+import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import { BigNumber } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSwitchChain } from "wagmi";
@@ -176,7 +178,16 @@ export function useSwapState({
       sellToken:
         quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
       taker: account!,
-      slippageBps: maxSlippage ? maxSlippage * 100 * 100 : undefined,
+      slippageBps: maxSlippage ? maxSlippage * 100 : 100,
+      swapFeeRecipient: swapFees
+        ? swapFees.recipient
+        : ZEROEX_AFFILIATE_ADDRESS,
+      swapFeeBps: swapFees ? swapFees.amount_percentage * 10 * 100 : 300,
+      swapFeeToken: getSwapFeeTokenAddress({
+        sellTokenAddress: lazySellToken?.address!,
+        buyTokenAddress: lazyBuyToken?.address!,
+      }),
+      tradeSurplusRecipient: ZEROEX_AFFILIATE_ADDRESS,
     },
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,

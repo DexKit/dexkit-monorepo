@@ -31,7 +31,9 @@ import {
   Typography,
 } from "@mui/material";
 
+import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
+import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import type { providers } from "ethers";
 import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
@@ -165,8 +167,7 @@ export default function MarketForm({
       buyToken: quoteToken.address,
       sellToken: baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      slippageBps: slippage ? slippage * 100 * 100 : undefined,
-      slippagePercentage: slippage,
+      slippageBps: slippage ? slippage * 100 : 100,
       taker: account || "",
       feeRecipient,
       buyTokenPercentageFee,
@@ -183,10 +184,19 @@ export default function MarketForm({
       buyToken: side === "buy" ? baseToken.address : quoteToken.address,
       sellToken: side === "buy" ? quoteToken.address : baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      slippageBps: slippage ? slippage * 100 * 100 : undefined,
+      slippageBps: slippage ? slippage * 100 : 100,
       taker: account || "",
-      buyTokenPercentageFee,
       chainId: chainId!,
+      swapFeeRecipient: feeRecipient || ZEROEX_AFFILIATE_ADDRESS,
+      swapFeeBps: buyTokenPercentageFee
+        ? buyTokenPercentageFee * 10 * 100 * 100
+        : 300,
+      swapFeeToken: getSwapFeeTokenAddress({
+        sellTokenAddress: side === "buy" ? price?.buyAmount : price?.sellAmount,
+        buyTokenAddress:
+          side === "buy" ? quoteToken.address : baseToken.address,
+      }),
+      tradeSurplusRecipient: ZEROEX_AFFILIATE_ADDRESS,
     },
     useGasless: canGasless,
   });
