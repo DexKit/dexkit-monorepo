@@ -160,17 +160,15 @@ export default function MarketForm({
     chainId: chainId!,
     buyToken: side === "buy" ? baseToken : quoteToken,
   });
-
   const priceQuery = useZrxPriceQuery({
     params: {
       sellAmount: kitAmount,
       buyToken: quoteToken.address,
       sellToken: baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      slippageBps: slippage ? slippage * 100 : 100,
+      slippageBps: slippage ? slippage * 100 * 100 : 100,
       taker: account || "",
       feeRecipient,
-      buyTokenPercentageFee,
       chainId: chainId!,
     },
     useGasless: canGasless,
@@ -268,6 +266,7 @@ export default function MarketForm({
   const handleConfirm = async () => {
     await quoteQuery.refetch();
     const hash = await sendTxMutation.mutateAsync();
+    setShowReview(false);
     setHash(hash);
     setTradeHash(hash);
   };

@@ -143,6 +143,7 @@ export function SwapWidget({
     sellTokenBalance,
     insufficientBalance,
     showConfirmSwap,
+    setShowConfirmSwap,
     showSettings,
     isQuoting,
     isProviderReady,
@@ -296,6 +297,7 @@ export function SwapWidget({
 
   const handleConfirmSwap = async () => {
     await handleConfirmExecSwap.mutateAsync();
+    setShowConfirmSwap(false);
   };
 
   const filteredChainIds = useMemo(() => {

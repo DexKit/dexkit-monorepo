@@ -449,6 +449,7 @@ export function useSwapState({
     sellTokenBalance: sellTokenBalance.data,
     buyTokenBalance: buyTokenBalance.data,
     showConfirmSwap,
+    setShowConfirmSwap,
     isLoadingSignGasless: signTypeDataMutation.isLoading,
     showSettings,
     isProviderReady,
