@@ -26,6 +26,7 @@ import { NotificationCallbackParams, RenderOptions } from "./types";
 
 import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
 
+import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
@@ -200,7 +201,13 @@ export function SwapWidget({
 
   const [query, setQuery] = useState("");
   const [gaslessTrades] = useGaslessTrades();
-
+  const canGasless = useCanGasless({
+    enabled: !!isGasless && !!userGasless,
+    buyToken: buyToken!,
+    sellToken: sellToken!,
+    side: quoteFor!,
+    chainId: chainId!,
+  });
   const searchQuery = usePlatformCoinSearch({
     keyword: query,
     network: chainId && NETWORKS[chainId] ? NETWORKS[chainId].slug : undefined,
@@ -297,7 +304,8 @@ export function SwapWidget({
 
   const handleConfirmSwap = async () => {
     await handleConfirmExecSwap.mutateAsync();
-    !isGasless && setShowConfirmSwap(false);
+
+    !canGasless && handleCloseConfirmSwap();
   };
 
   const filteredChainIds = useMemo(() => {
