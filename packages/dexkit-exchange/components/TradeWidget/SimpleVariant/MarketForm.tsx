@@ -156,9 +156,9 @@ export default function MarketForm({
   const canGasless = useCanGasless({
     enabled: !!useGasless && isTokenGaslessSupported,
     side,
-    sellToken: side === "buy" ? baseToken : quoteToken,
+    sellToken: baseToken,
     chainId: chainId!,
-    buyToken: side === "buy" ? baseToken : quoteToken,
+    buyToken: quoteToken,
   });
   const priceQuery = useZrxPriceQuery({
     params: {

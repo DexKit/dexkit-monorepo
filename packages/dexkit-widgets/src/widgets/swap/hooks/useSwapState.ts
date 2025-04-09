@@ -223,9 +223,8 @@ export function useSwapState({
   const handleSwapTokens = useCallback(() => {
     setSellToken(buyToken);
     setBuyToken(sellToken);
-    setSellAmount(buyAmount);
     setQuoteFor("sell");
-  }, [sellToken, buyToken, buyAmount]);
+  }, [sellToken, buyToken]);
 
   const handleOpenSelectToken = (selectFor: SwapSide, token?: Token) => {
     setSelectSide(selectFor);
