@@ -358,6 +358,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
           address: userCheckout.data?.owner,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
+          chainId: chainId as number,
         });
       } catch (err) {}
     }
