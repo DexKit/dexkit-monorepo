@@ -90,12 +90,12 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
         return [
           formatBigNumber(n, stakingTokenBalance?.decimals || 18),
           formatBigNumber(d, rewardTokenBalance?.decimals || 18),
-          formatUnits(n, stakingTokenBalance?.decimals),
+          formatUnits(n, stakingTokenBalance?.decimals as number),
           n as bigint,
         ];
       }
 
-      return ["0", "0", "0", BigNumber.from(0)];
+      return ["0", "0", "0", BigInt(0)];
     }, [stakeInfo, rewardTokenBalance, stakingTokenBalance]);
 
   const rewardsPerSecond = useMemo(() => {
@@ -107,9 +107,15 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       const dividerConst = 10000;
       const [n, d] = rewardRatioQuery.data as [bigint, bigint];
       const seconds = rewardTimeUnitQuery.data as bigint;
-      const ratio = Number(((BigInt(n.toString()) * BigInt(dividerConst.toString())) / BigInt(d.toString())).toString()) / dividerConst;
+      const ratio =
+        Number(
+          (
+            (BigInt(n.toString()) * BigInt(dividerConst.toString())) /
+            BigInt(d.toString())
+          ).toString()
+        ) / dividerConst;
       return `${ratio} ${rewardTokenBalance.symbol} ${moment
-        .duration(seconds?.toNumber(), "seconds")
+        .duration(seconds?.toString(), "seconds")
         .humanize()}`;
     }
     return "-";
@@ -175,45 +181,43 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
   const trackEventMutation = useTrackUserEventsMutation();
 
-  const stakeMutation = useMutation(
-    async ({ amount }: { amount: bigint}) => {
-      let call = contract?.prepare("stake", [amount]);
+  const stakeMutation = useMutation(async ({ amount }: { amount: bigint }) => {
+    let call = contract?.prepare("stake", [amount]);
 
-      let tx = await call?.send();
+    let tx = await call?.send();
 
-      if (tx?.hash && chainId) {
-        const values = {
-          amount: `${formatUnits(
-            amount,
-            stakingTokenBalance?.decimals
-          )} ${stakingTokenBalance?.symbol}`,
-          name: rewardTokenInfo?.name || "",
-        };
+    if (tx?.hash && chainId) {
+      const values = {
+        amount: `${formatUnits(
+          amount,
+          stakingTokenBalance?.decimals as number
+        )} ${stakingTokenBalance?.symbol}`,
+        name: rewardTokenInfo?.name || "",
+      };
 
-        createNotification({
-          subtype: "stakeToken",
-          values,
-          type: "transaction",
-          metadata: { hash: tx?.hash, chainId },
-        });
-
-        watchTransactionDialog.watch(tx.hash);
-      }
-
-      await tx?.wait();
-
-      await trackEventMutation.mutateAsync({
-        event: UserEvents.stakeErc20,
-        chainId,
-        hash: tx?.hash,
-        metadata: JSON.stringify({
-          amount: amount.toString(),
-          stakeAddress: address,
-          account,
-        }),
+      createNotification({
+        subtype: "stakeToken",
+        values,
+        type: "transaction",
+        metadata: { hash: tx?.hash, chainId },
       });
+
+      watchTransactionDialog.watch(tx.hash);
     }
-  );
+
+    await tx?.wait();
+
+    await trackEventMutation.mutateAsync({
+      event: UserEvents.stakeErc20,
+      chainId,
+      hash: tx?.hash,
+      metadata: JSON.stringify({
+        amount: amount.toString(),
+        stakeAddress: address,
+        account,
+      }),
+    });
+  });
 
   const unstakeMutation = useMutation(
     async ({ amount }: { amount: bigint }) => {
@@ -225,7 +229,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
         const values = {
           amount: `${formatUnits(
             amount,
-            stakingTokenBalance?.decimals
+            stakingTokenBalance?.decimals as number
           )} ${stakingTokenBalance?.symbol}`,
           name: rewardTokenInfo?.name || "",
         };
@@ -258,7 +262,10 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
   );
 
   const handleSubmit = async ({ amount }: { amount: string }) => {
-    const amountParsed = parseUnits(amount, stakingTokenBalance?.decimals);
+    const amountParsed = parseUnits(
+      amount,
+      stakingTokenBalance?.decimals as number
+    );
 
     if (!allowance?.value.gte(amountParsed)) {
       await approve({ amount });
@@ -325,7 +332,10 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
   };
 
   const handleSubmitUnstake = async ({ amount }: { amount: string }) => {
-    const amountParsed = parseUnits(amount, stakingTokenBalance?.decimals);
+    const amountParsed = parseUnits(
+      amount,
+      stakingTokenBalance?.decimals as number
+    );
 
     const values = {
       amount: `${amount} ${stakingTokenBalance?.symbol}`,
@@ -350,17 +360,20 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
     const amountParsed = parseUnits(
       amount || "0",
-      stakingTokenBalance?.decimals
+      stakingTokenBalance?.decimals as number
     );
 
-    if (amountParsed.isZero()) {
+    if (BigInt(amountParsed) === BigInt(0)) {
       errors["amount"] = formatMessage({
         id: "the.amount.cannot.be.zero",
         defaultMessage: "The amount cannot be zero",
       });
     }
 
-    if (amountParsed > stakingTokenBalance?.value || BigInt(0))) {
+    if (
+      stakingTokenBalance?.value !== undefined &&
+      amountParsed > (BigInt(stakingTokenBalance.value.toString()) || BigInt(0))
+    ) {
       errors["amount"] = formatMessage({
         id: "amount.exceeds.the.balance",
         defaultMessage: "Amount exceeds the balance",
@@ -375,17 +388,17 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
 
     const amountParsed = parseUnits(
       amount || "0",
-      stakingTokenBalance?.decimals
+      stakingTokenBalance?.decimals as number
     );
 
-    if (amountParsed.isZero()) {
+    if (amountParsed === BigInt(0)) {
       errors["amount"] = formatMessage({
         id: "the.amount.cannot.be.zero",
         defaultMessage: "The amount cannot be zero",
       });
     }
 
-    if (amountParsed > BigInt((tokensStakedValue || BigInt(0)))) {
+    if (amountParsed > BigInt(tokensStakedValue || BigInt(0))) {
       errors["amount"] = formatMessage({
         id: "amount.exceeds.the.amount.staked",
         defaultMessage: "Amount exceeds the amount staked",
