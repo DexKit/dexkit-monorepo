@@ -25,9 +25,6 @@ const SwitchNetworkDialog = dynamic(
 
 import { useWalletActivate } from "@dexkit/wallet-connectors/hooks/wallet";
 
-const ConnectWalletDialog = dynamic(
-  () => import("@dexkit/ui/components/ConnectWallet/ConnectWalletDialog")
-);
 const WatchTransactionDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
 );
@@ -244,22 +241,7 @@ export function GlobalDialogs() {
           chainId={switchNetwork.networkChainId}
         />
       )}
-      {connectWalletDialog.isOpen && (
-        <ConnectWalletDialog
-          DialogProps={{
-            open:
-              connectWalletDialog.isOpen ||
-              isActivating ||
-              walletActivate.mutation.isLoading,
-            onClose: handleCloseConnectWalletDialog,
-            fullWidth: true,
-            maxWidth: "sm",
-          }}
-          isActive={isActive}
-          isActivating={walletActivate.mutation.isLoading || isActivating}
-          activeConnectorName={connector?.name}
-        />
-      )}
+
       {txDialog.show && (
         <AppTransactionWatchDialog
           DialogProps={{

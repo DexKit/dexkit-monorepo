@@ -4,7 +4,6 @@ import { ERC20Abi } from "../constants/abis";
 
 import type { providers } from "ethers";
 
-import { useReadContracts } from "wagmi";
 import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { getERC20TokenAllowance } from "../services";
 import { approveToken, getERC20Balance } from "../services/balances";
@@ -63,9 +62,6 @@ export function useErc20BalanceQueryV2({
   provider,
   chainId,
 }: Erc20BalanceParamsV2) {
-  const { data: balance } = useReadContracts({
-    contracts: [{ address: "0x", abi: ERC20Abi, functionName: "balanceOf" }],
-  });
 
   return useQuery(
     [ERC20_BALANCE_V2, account, contractAddress, chainId],

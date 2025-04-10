@@ -5,7 +5,6 @@ import {
   useLogoutAccountMutation,
 } from "@dexkit/ui";
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
-import { useConnectorImage } from "@dexkit/wallet-connectors/hooks/useConnectorImage";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Avatar,
@@ -17,6 +16,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -35,8 +35,13 @@ import Send from "@mui/icons-material/Send";
 import SwitchAccount from "@mui/icons-material/SwitchAccount";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useDisconnect } from "wagmi";
+import {
+  WalletIcon,
+  WalletProvider, useActiveWallet, useConnectedWallets, useDisconnect
+} from "thirdweb/react";
 import { useBalanceVisible } from "../modules/wallet/hooks";
+
+
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
 );
@@ -53,12 +58,14 @@ const SelectNetworkDialog = dynamic(
 );
 
 export default function WalletContent() {
-  const { account, ENSName, provider, chainId, connector } = useWeb3React();
+  const { account, ENSName, chainId, connector } = useWeb3React();
 
-  const icon = useConnectorImage({ connector });
+  const theme = useTheme()
+  const wallet = useActiveWallet();
 
   const { disconnect } = useDisconnect();
-
+ const wallets = useConnectedWallets();
+ 
   const logoutMutation = useLogoutAccountMutation();
   const connectWalletDialog = useConnectWalletDialog();
   const handleSwitchWallet = () => {
@@ -67,7 +74,9 @@ export default function WalletContent() {
 
   const handleLogoutWallet = useCallback(async () => {
     logoutMutation.mutate();
-    disconnect();
+    if (wallet) {
+      disconnect(wallet);
+    }
   }, [logoutMutation, connector]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();
@@ -141,7 +150,6 @@ export default function WalletContent() {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: evmCoins,
           }}
         />
@@ -170,15 +178,23 @@ export default function WalletContent() {
             justifyContent={"space-between"}
           >
             <Stack direction="row" spacing={1} alignItems="center">
-              <Avatar
-                src={icon}
-                sx={(theme) => ({
-                  width: theme.spacing(2),
-                  height: theme.spacing(2),
-                  background: theme.palette.action.hover,
-                })}
-                variant="rounded"
-              />
+               {wallets && wallets.length ? (
+                          <WalletProvider id={wallets[0].id}>
+                            <WalletIcon width={theme.spacing(2)} height={theme.spacing(2)} />
+                          </WalletProvider>
+                        ):       <Avatar
+                        sx={(theme) => ({
+                          width: theme.spacing(2),
+                          height: theme.spacing(2),
+                          background: theme.palette.action.hover,
+                        })}
+                        variant="rounded"
+                      />
+                      
+                      }
+
+
+           
               <Box>
                 <Typography variant="caption" align="left" component="div">
                   {isBalancesVisible

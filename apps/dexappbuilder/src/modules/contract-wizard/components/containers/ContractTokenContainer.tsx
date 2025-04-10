@@ -150,7 +150,6 @@ export default function ContractTokenContainer({
           ENSName,
           account: account,
           chainId: chainId,
-          provider: provider,
           coins: token
             ? [...tokens.map(convertTokenToEvmCoin), token]
             : tokens.map(convertTokenToEvmCoin),

@@ -16,7 +16,8 @@ import { BigNumber, constants, utils } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSwitchChain } from 'wagmi';
+import { defineChain } from "thirdweb/chains";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
 
 
 import {
@@ -115,7 +116,7 @@ export function useSwapState({
   currency: string;
   variant?: SwapVariant
 }) {
-  const { switchChain } = useSwitchChain();
+  const switchChain = useSwitchActiveWalletChain();
 
   const transak = useMemo(() => {
     if (transakApiKey) {
@@ -636,7 +637,7 @@ export function useSwapState({
         }
       );
     } else if (execType === "switch" && chainId) {
-      switchChain({ chainId });
+      switchChain(defineChain(chainId));
     }
   }, [
     quoteQuery.data,

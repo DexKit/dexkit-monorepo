@@ -115,7 +115,7 @@ function AddTokenDialog({ dialogProps, tokens, onSave }: Props) {
   const formik = useFormik<Form>({
     initialValues: {
       type: 'via-api',
-      chainId,
+      chainId: chainId as number,
     },
     validationSchema: FormSchema,
     onSubmit: handleSubmit,

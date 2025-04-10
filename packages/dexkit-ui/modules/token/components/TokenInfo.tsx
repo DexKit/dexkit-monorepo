@@ -85,7 +85,6 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: [convertTokenToEvmCoin(token)],
             defaultCoin: convertTokenToEvmCoin(token),
           }}

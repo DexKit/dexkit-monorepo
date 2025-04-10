@@ -1,54 +1,69 @@
-import ConnectWalletDialog from '@dexkit/ui/components/ConnectWallet/ConnectWalletDialog';
 import { useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
-import { useWalletActivate } from '@dexkit/wallet-connectors/hooks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 
-import { Box, Button, Container } from '@mui/material';
+import { useThemeMode } from '@dexkit/ui/hooks';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
+import { Box, Button, Container, useTheme } from '@mui/material';
 import { useLogin } from 'react-admin';
 import { FormattedMessage } from 'react-intl';
+import {
+  AutoConnect,
+  darkTheme,
+  lightTheme,
+  useConnectModal,
+} from 'thirdweb/react';
 
-import { useConnectWalletDialog } from 'src/hooks/app';
-import { selectedWalletAtom } from 'src/state/atoms';
+import { ThemeMode } from '@dexkit/ui/constants/enum';
+import {
+  appMetadata,
+  wallets,
+} from '@dexkit/wallet-connectors/thirdweb/client';
 
 const MyLoginPage = () => {
   const { account } = useWeb3React();
   const login = useLogin();
   const loginMutation = useLoginAccountMutation();
-  const connectWalletDialog = useConnectWalletDialog();
-  const walletActivate = useWalletActivate({
-    magicRedirectUrl:
-      typeof window !== 'undefined'
-        ? window.location.href
-        : process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || '',
-    selectedWalletAtom,
-  });
-  const { isActive } = useWeb3React();
+  const { mode } = useThemeMode();
+  const theme = useTheme();
 
   const handleLoginMutation = async () => {
     await loginMutation.mutateAsync();
     login({});
   };
 
-  const handleCloseConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(false);
+  const colors = {
+    modalBg: theme.palette.background.default,
+    primaryButtonBg: theme.palette.action.active,
   };
 
+  const { connect, isConnecting } = useConnectModal();
+
+  async function handleConnect() {
+    await connect({
+      client,
+      wallets,
+      appMetadata,
+      size: 'compact',
+      showThirdwebBranding: false,
+      theme:
+        mode === ThemeMode.light
+          ? lightTheme({
+              colors,
+            })
+          : darkTheme({ colors }),
+    }); // opens the connect modal
+  }
+
   const handleConnectWallet = () => {
-    connectWalletDialog.setOpen(true);
+    handleConnect();
   };
 
   return (
     <Container maxWidth="xs">
-      <ConnectWalletDialog
-        DialogProps={{
-          open: connectWalletDialog.isOpen,
-          onClose: handleCloseConnectWalletDialog,
-          fullWidth: true,
-          maxWidth: 'sm',
-        }}
-        isActive={isActive}
-        isActivating={walletActivate.mutation.isLoading}
-        activeConnectorName={walletActivate.connectorName}
+      <AutoConnect
+        wallets={wallets}
+        client={client}
+        appMetadata={appMetadata}
       />
       <Box
         sx={{

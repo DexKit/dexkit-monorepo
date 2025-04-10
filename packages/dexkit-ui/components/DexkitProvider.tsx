@@ -26,7 +26,6 @@ import { DexKitContext } from "../context/DexKitContext";
 import type { AppNotification, AppNotificationType } from "../types";
 import { AppErrorBoundary } from "./AppErrorBoundary";
 import GaslessTradesUpdater from "./GaslessTradesUpdater";
-import { MagicStateProvider } from "./MagicStateProvider";
 import TransactionUpdater from "./TransactionUpdater";
 export interface DexkitProviderProps {
   theme: {
@@ -139,7 +138,7 @@ export function DexkitProvider({
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <CssBaseline />
-              <MagicStateProvider currency="usd">{children}</MagicStateProvider>
+              {children}
               <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
               <GaslessTradesUpdater />
             </SnackbarProvider>
