@@ -306,26 +306,9 @@ export function SwapWidget({
   };
 
   const handleConfirmSwap = useCallback(async () => {
-    try {
-      await handleConfirmExecSwap.mutateAsync();
-      !canGasless && handleCloseConfirmSwap();
-    } catch (e) {
-      enqueueSnackbar(
-        formatMessage({
-          id: "please.try.again.later",
-          defaultMessage: "Please, try again later",
-        }),
-        { variant: "error" }
-      );
-      console.error(e);
-    }
-  }, [
-    handleConfirmExecSwap,
-    canGasless,
-    handleCloseConfirmSwap,
-    enqueueSnackbar,
-    formatMessage,
-  ]);
+    await handleConfirmExecSwap.mutateAsync();
+    !canGasless && handleCloseConfirmSwap();
+  }, [handleConfirmExecSwap, canGasless, handleCloseConfirmSwap]);
 
   const filteredChainIds = useMemo(() => {
     return activeChainIds.filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(k));

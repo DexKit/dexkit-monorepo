@@ -4,13 +4,7 @@ import { Token } from "@dexkit/core/types";
 import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import {
-  concat,
-  Hex,
-  maxUint256,
-  numberToHex,
-  size
-} from "viem";
+import { concat, Hex, maxUint256, numberToHex, size } from "viem";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
@@ -235,7 +229,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
     buyToken,
     sellAmount,
   } = p;
-  const { activeAccount } = useWeb3React()
+  const { activeAccount } = useWeb3React();
 
   const { createNotification } = useDexKitContext();
   const marketTradeGasless = useMarketTradeGaslessExec({
@@ -273,17 +267,21 @@ export const useSendTxMutation = (p: txMutationParams) => {
                   const contract = getContract({
                     client,
                     address: quote?.issues.allowance?.spender,
-                    chain: defineChain(chainId)
-                  })
+                    chain: defineChain(chainId),
+                  });
                   //const simulateRequest = await simulateApproveRequest;
                   const transaction = await approve({
                     contract,
                     spender: quote?.issues.allowance?.spender,
-                    amount: quote?.sellAmount ? BigInt(quote.sellAmount).toString() : maxUint256.toString(),
+                    amount: quote?.sellAmount
+                      ? BigInt(quote.sellAmount).toString()
+                      : maxUint256.toString(),
                   });
 
-                  await sendTransaction({ transaction, account: activeAccount });
-
+                  await sendTransaction({
+                    transaction,
+                    account: activeAccount,
+                  });
                 }
 
                 data = (await quoteQuery.refetch())
@@ -343,6 +341,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
           const messageType = EXCHANGE_NOTIFICATION_TYPES[
             subType
           ] as AppNotificationType;
+
           gaslessTrades.push({
             type: subType,
             chainId: chainId!,
@@ -371,22 +370,22 @@ export const useSendTxMutation = (p: txMutationParams) => {
           console.log("Native token detected, no need for allowance check");
         } else if (data?.issues.allowance !== null) {
           try {
-
             if (activeAccount) {
               const contract = getContract({
                 client,
                 address: quote?.sellToken,
-                chain: defineChain(chainId)
-              })
+                chain: defineChain(chainId),
+              });
               //const simulateRequest = await simulateApproveRequest;
               const transaction = await approve({
                 contract,
                 spender: quote?.issues.allowance?.spender,
-                amount: quote?.sellAmount ? BigInt(quote.sellAmount).toString() : maxUint256.toString(),
+                amount: quote?.sellAmount
+                  ? BigInt(quote.sellAmount).toString()
+                  : maxUint256.toString(),
               });
 
               await sendTransaction({ transaction, account: activeAccount });
-
             }
           } catch (error) {
             console.log("Error approving Permit2:", error);
@@ -395,7 +394,6 @@ export const useSendTxMutation = (p: txMutationParams) => {
         }
 
         let signature: Hex | undefined;
-
 
         data = (await quoteQuery.refetch()).data as ZeroExQuoteResponse;
 
@@ -417,7 +415,6 @@ export const useSendTxMutation = (p: txMutationParams) => {
         }
         let hash;
 
-
         if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           // Directly sign and send the native token transaction
           hash = await activeAccount?.sendTransaction({
@@ -431,10 +428,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
             gasPrice: !!data?.transaction.gasPrice
               ? BigInt(data?.transaction.gasPrice)
               : undefined,
-
           });
-
-
         } else if (signature && data.transaction.data) {
           hash = await activeAccount?.sendTransaction({
             chainId: chainId,
@@ -445,13 +439,9 @@ export const useSendTxMutation = (p: txMutationParams) => {
             to: data.transaction.to,
             value: data.transaction.value,
           });
-
-
         } else {
           console.error("Failed to obtain a signature, transaction not sent.");
         }
-
-
 
         const subType = side == "buy" ? "marketBuy" : "marketSell";
         const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -463,7 +453,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
           icon: messageType.icon,
           subtype: subType,
           metadata: {
-            hash,
+            hash: hash?.transactionHash,
             chainId,
           },
           values: {
@@ -483,7 +473,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
           }),
         });
 
-        return hash;
+        await provider?.waitForTransaction(hash?.transactionHash as string);
+        return hash?.transactionHash;
       }
     }
   });
