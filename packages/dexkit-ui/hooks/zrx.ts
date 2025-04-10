@@ -6,20 +6,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import {
   concat,
-  erc20Abi,
   Hex,
   maxUint256,
   numberToHex,
-  publicActions,
-  size,
+  size
 } from "viem";
-import {
-  useClient,
-  useSendTransaction,
-  useSignTypedData,
-  useSimulateContract,
-  useWriteContract,
-} from "wagmi";
+
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { defineChain, getContract, sendTransaction } from "thirdweb";
+import { approve } from "thirdweb/extensions/erc20";
 import { ZRX_PRICE_QUERY, ZRX_QUOTE_QUERY } from "../constants/zrx";
 import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 import { ZeroExApiClient } from "../modules/swap/services/zrxClient";
@@ -239,23 +235,13 @@ export const useSendTxMutation = (p: txMutationParams) => {
     buyToken,
     sellAmount,
   } = p;
-  const { signTypedDataAsync } = useSignTypedData();
-  const simulateApproveRequest = useSimulateContract({
-    abi: erc20Abi,
-    address: quote?.sellToken as Hex,
-    functionName: "approve",
-    args: [
-      quote?.issues.allowance?.spender,
-      quote?.sellAmount ? BigInt(quote.sellAmount) : maxUint256,
-    ],
-  });
-  const { writeContractAsync } = useWriteContract();
-  const { sendTransactionAsync } = useSendTransaction();
+  const { activeAccount } = useWeb3React()
+
   const { createNotification } = useDexKitContext();
   const marketTradeGasless = useMarketTradeGaslessExec({
     onNotification: createNotification,
   });
-  const client = useClient()?.extend(publicActions);
+
   const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
   const trackUserEvent = useTrackUserEventsMutation();
 
@@ -267,14 +253,14 @@ export const useSendTxMutation = (p: txMutationParams) => {
         const gaslessApprovalAvailable = data.approval != null;
 
         let hash: any = null;
-        let approvalSignature: Hex | null = null;
+        let approvalSignature = null;
         let approvalDataToSubmit: any = null;
         let tradeDataToSubmit: any = null;
         let tradeSignature: any = null;
 
         if (tokenApprovalRequired) {
           if (gaslessApprovalAvailable) {
-            approvalSignature = await signTypedDataAsync({
+            approvalSignature = await activeAccount?.signTypedData({
               types: data.approval.eip712.types,
               domain: data.approval.eip712.domain,
               message: data.approval.eip712.message,
@@ -283,21 +269,22 @@ export const useSendTxMutation = (p: txMutationParams) => {
           } else {
             if (quote.issues.allowance !== null) {
               try {
-                const simulateRequest = await simulateApproveRequest;
+                if (activeAccount) {
+                  const contract = getContract({
+                    client,
+                    address: quote?.issues.allowance?.spender,
+                    chain: defineChain(chainId)
+                  })
+                  //const simulateRequest = await simulateApproveRequest;
+                  const transaction = await approve({
+                    contract,
+                    spender: quote?.issues.allowance?.spender,
+                    amount: quote?.sellAmount ? BigInt(quote.sellAmount).toString() : maxUint256.toString(),
+                  });
 
-                console.log(
-                  "Approving Permit2 to spend sellToken...",
-                  simulateApproveRequest
-                );
+                  await sendTransaction({ transaction, account: activeAccount });
 
-                const tx = await writeContractAsync({
-                  abi: erc20Abi,
-                  address: quote?.sellToken as Hex,
-                  functionName: "approve",
-                  args: simulateRequest.data?.request.args!,
-                });
-
-                await provider?.waitForTransaction(tx);
+                }
 
                 data = (await quoteQuery.refetch())
                   .data as ZeroExGaslessQuoteResponse;
@@ -324,7 +311,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
           };
         }
 
-        tradeSignature = await signTypedDataAsync({
+        tradeSignature = await activeAccount?.signTypedData({
           types: data.trade.eip712.types,
           domain: data.trade.eip712.domain,
           message: data.trade.eip712.message,
@@ -384,21 +371,23 @@ export const useSendTxMutation = (p: txMutationParams) => {
           console.log("Native token detected, no need for allowance check");
         } else if (data?.issues.allowance !== null) {
           try {
-            const simulateRequest = await simulateApproveRequest;
 
-            console.log(
-              "Approving Permit2 to spend sellToken...",
-              simulateApproveRequest
-            );
+            if (activeAccount) {
+              const contract = getContract({
+                client,
+                address: quote?.sellToken,
+                chain: defineChain(chainId)
+              })
+              //const simulateRequest = await simulateApproveRequest;
+              const transaction = await approve({
+                contract,
+                spender: quote?.issues.allowance?.spender,
+                amount: quote?.sellAmount ? BigInt(quote.sellAmount).toString() : maxUint256.toString(),
+              });
 
-            const tx = await writeContractAsync({
-              abi: erc20Abi,
-              address: data?.sellToken as Hex,
-              functionName: "approve",
-              args: simulateRequest.data?.request.args!,
-            });
+              await sendTransaction({ transaction, account: activeAccount });
 
-            await provider?.waitForTransaction(tx);
+            }
           } catch (error) {
             console.log("Error approving Permit2:", error);
             throw new Error("Error approving Permit2");
@@ -406,12 +395,12 @@ export const useSendTxMutation = (p: txMutationParams) => {
         }
 
         let signature: Hex | undefined;
-        let hash: Hex | undefined;
+
 
         data = (await quoteQuery.refetch()).data as ZeroExQuoteResponse;
 
         if (data.permit2?.eip712) {
-          signature = await signTypedDataAsync(data.permit2.eip712);
+          signature = await activeAccount?.signTypedData(data.permit2.eip712);
           const signatureLengthInHex = numberToHex(
             size(signature as `0x${string}`),
             {
@@ -426,16 +415,13 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
           data.transaction.data = concat([transactionData, sigLengthHex, sig]);
         }
+        let hash;
 
-        const nonce = await client?.getTransactionCount({
-          address: account! as Hex,
-        });
 
         if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
           // Directly sign and send the native token transaction
-          hash = await sendTransactionAsync({
-            account: account! as Hex,
-            chainId: client!.chain.id,
+          hash = await activeAccount?.sendTransaction({
+            chainId: chainId,
             gas: !!data?.transaction.gas
               ? BigInt(data?.transaction.gas)
               : undefined,
@@ -445,29 +431,27 @@ export const useSendTxMutation = (p: txMutationParams) => {
             gasPrice: !!data?.transaction.gasPrice
               ? BigInt(data?.transaction.gasPrice)
               : undefined,
-            nonce,
+
           });
 
-          console.log("Transaction hash:", hash);
-          console.log(`See tx details at https://basescan.org/tx/${hash}`);
+
         } else if (signature && data.transaction.data) {
-          hash = await sendTransactionAsync({
+          hash = await activeAccount?.sendTransaction({
             chainId: chainId,
             data: data.transaction.data,
             gas: data.transaction.gas,
             gasPrice: data.transaction.gasPrice,
-            nonce: nonce,
+
             to: data.transaction.to,
             value: data.transaction.value,
           });
 
-          console.log("Transaction hash:", hash);
-          console.log(`See tx details at https://basescan.org/tx/${hash}`);
+
         } else {
           console.error("Failed to obtain a signature, transaction not sent.");
         }
 
-        await provider?.waitForTransaction(hash as Hex);
+
 
         const subType = side == "buy" ? "marketBuy" : "marketSell";
         const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -492,7 +476,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
         trackUserEvent.mutate({
           event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
-          hash,
+          hash: hash?.transactionHash,
           chainId,
           metadata: JSON.stringify({
             quote,
