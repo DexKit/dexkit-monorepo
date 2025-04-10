@@ -193,7 +193,6 @@ export default function PaymentCard() {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    provider,
     onConfirm: () => {},
     onSubmit: async (hash, params) => {
       setHash(hash);
