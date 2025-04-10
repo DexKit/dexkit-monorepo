@@ -114,12 +114,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     }
   };
 
-  const {
-    chainId: providerChainId,
-    account,
-    isActive,
-    provider,
-  } = useWeb3React();
+  const { chainId: providerChainId, account, isActive } = useWeb3React();
 
   const [hash, setHash] = useState<string>();
 
@@ -132,7 +127,6 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    provider,
     onConfirm: () => {},
     onSubmit: async (hash, params) => {
       setHash(hash);
@@ -220,7 +214,6 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
   }, [userCheckout.data, items]);
 
   const balanceQuery = useErc20BalanceQuery({
-    provider,
     contractAddress: token?.address,
     account,
     chainId,
@@ -377,6 +370,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
           address: userCheckout.data?.owner,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
+          chainId: chainId as number,
         });
       } catch (err) {}
     }
