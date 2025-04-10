@@ -29,6 +29,8 @@ import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
+import { useSnackbar } from "notistack";
+import { useIntl } from "react-intl";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
 import Swap from "./Swap";
 import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
@@ -198,7 +200,8 @@ export function SwapWidget({
         ? convertOldTokenToNew(configsByChain[selectedChainId].sellToken)
         : undefined,
   });
-
+  const { enqueueSnackbar } = useSnackbar();
+  const { formatMessage } = useIntl();
   const [query, setQuery] = useState("");
   const [gaslessTrades] = useGaslessTrades();
   const canGasless = useCanGasless({
@@ -307,9 +310,22 @@ export function SwapWidget({
       await handleConfirmExecSwap.mutateAsync();
       !canGasless && handleCloseConfirmSwap();
     } catch (e) {
+      enqueueSnackbar(
+        formatMessage({
+          id: "please.try.again.later",
+          defaultMessage: "Please, try again later",
+        }),
+        { variant: "error" }
+      );
       console.error(e);
     }
-  }, [canGasless, handleConfirmExecSwap, handleCloseConfirmSwap]);
+  }, [
+    handleConfirmExecSwap,
+    canGasless,
+    handleCloseConfirmSwap,
+    enqueueSnackbar,
+    formatMessage,
+  ]);
 
   const filteredChainIds = useMemo(() => {
     return activeChainIds.filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(k));
@@ -707,4 +723,10 @@ export function SwapWidget({
       {renderSwapComponent()}
     </>
   );
+}
+function formatMessage(
+  arg0: { id: string; defaultMessage: string },
+  arg1: { message: string }
+): import("notistack").SnackbarMessage {
+  throw new Error("Function not implemented.");
 }
