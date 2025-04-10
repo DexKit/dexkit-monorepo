@@ -2,7 +2,7 @@ import type { Token } from '@dexkit/core/types';
 
 import type { DkApiPlatformCoin } from '@dexkit/widgets/src/types/api';
 import type { UseQueryOptions } from '@tanstack/react-query';
-import type { BigNumber } from 'ethers';
+
 import type { NFTType, SellOrBuy, TraderOrderStatus } from "../constants/enum";
 
 export interface AssetMetadata {
@@ -28,7 +28,7 @@ export interface Asset {
   symbol: string;
   type?: string;
   metadata?: AssetMetadata;
-  balance?: BigNumber;
+  balance?: bigint;
   protocol?: 'ERC1155' | 'ERC721';
 }
 
@@ -140,7 +140,7 @@ export interface HiddenAsset {
 }
 
 export interface AssetBalance {
-  balance?: BigNumber;
+  balance?: bigint;
   asset: Asset;
 }
 

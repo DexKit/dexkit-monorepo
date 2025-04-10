@@ -9,7 +9,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { BigNumber, constants, providers } from "ethers";
+
+import { zeroAddress } from "viem";
+
 import { useMemo, useState } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 
@@ -30,7 +32,6 @@ export interface SwapFeeSummaryMatchaProps {
   currency: string;
   sellToken?: Token;
   buyToken?: Token;
-  provider?: providers.BaseProvider;
   defaultExpanded?: boolean;
 }
 
@@ -51,18 +52,18 @@ export default function SwapFeeSummaryMatcha({
 
   const maxFee = useMemo(() => {
     if (quote && quote?.gas && quote?.gasPrice) {
-      return BigNumber.from(quote.gas).mul(quote.gasPrice);
+      return BigInt(quote.gas) * BigInt(quote.gasPrice);
     }
 
-    return BigNumber.from(0);
+    return BigInt(0);
   }, [quote]);
 
   const amount = useMemo(() => {
     if (quote && quote?.value) {
-      return BigNumber.from(quote.value);
+      return BigInt(quote.value);
     }
 
-    return BigNumber.from(0);
+    return BigInt(0);
   }, [quote]);
 
   const totalFee = useMemo(() => {
@@ -76,7 +77,7 @@ export default function SwapFeeSummaryMatcha({
       const t = coinPrices.data[chainId];
 
       if (t) {
-        const price = t[constants.AddressZero];
+        const price = t[zeroAddress];
 
         return amount * price[currency];
       }
@@ -95,17 +96,17 @@ export default function SwapFeeSummaryMatcha({
 
   const [toggleSide, setToggleSide] = useState(false);
 
-  const gasPriceQuery = useGasPrice({ provider });
+  const gasPriceQuery = useGasPrice({ chainId });
 
   const handelToggle = () => setToggleSide((value) => !value);
 
   const sellTokenByBuyToken = useMemo(() => {
     if (buyToken && sellToken && quote && quote.sellAmount && quote.buyAmount) {
       const sellAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.sellAmount), sellToken.decimals)
+        formatBigNumber(BigInt(quote.sellAmount), sellToken.decimals)
       );
       const buyAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals)
+        formatBigNumber(BigInt(quote.buyAmount), buyToken.decimals)
       );
 
       return toggleSide ? buyAmount / sellAmount : sellAmount / buyAmount;

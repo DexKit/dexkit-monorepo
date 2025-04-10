@@ -21,7 +21,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { BigNumber, providers } from "ethers";
+import { providers } from "ethers";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import { useSnackbar } from "notistack";
@@ -42,7 +42,7 @@ export interface EvmTransferNftProps {
     owner?: string;
     tokenId?: string;
     protocol?: "ERC721" | "ERC1155";
-    balance?: BigNumber;
+    balance?: bigint;
   };
   nftMetadata?: {
     image?: string;

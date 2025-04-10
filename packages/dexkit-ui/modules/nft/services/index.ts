@@ -3,14 +3,18 @@ import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { Asset, AssetMetadata } from '@dexkit/core/types/nft';
 import { Interface } from '@dexkit/core/utils/ethers/abi/Interface';
 import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
 import { CallInput } from '@indexed-finance/multicall';
 import axios from 'axios';
-import { BigNumber, Contract, providers } from 'ethers';
+import { Contract, providers } from 'ethers';
+import { encode, getContract, prepareContractCall } from "thirdweb";
+import { defineChain } from "thirdweb/chains";
+import { balanceOf } from "thirdweb/extensions/erc1155";
+import { totalSupply } from "thirdweb/extensions/erc721";
+import { aggregate } from 'thirdweb/extensions/multicall3';
 import { DEXKIT_NFT_BASE_URL, ENS_BASE_URL, TRADER_ORDERBOOK_API, dexkitNFTapi, metadataENSapi } from '../../../constants/api';
-import { getMulticallFromProvider } from '../../../services/multical';
 import { AssetAPI, ContractURIMetadata, OrderbookAPI, OrderbookResponse, TraderOrderFilter } from '../types';
 import { isENSContract } from '../utils';
-
 const orderbookNFTapi = axios.create({ baseURL: DEXKIT_NFT_BASE_URL, timeout: 10000 });
 
 
@@ -72,50 +76,62 @@ export async function getAssetMetadata(
 
 //Return multiple assets at once
 export async function getAssetsData(
-  provider: providers.JsonRpcProvider,
+  chainId: number,
   contractAddress: string,
   ids: string[],
-  isERC1155 = false
+  isERC1155 = false,
+
 ): Promise<Asset[] | undefined> {
 
   if (isENSContract(contractAddress)) {
     const data: Asset[] = [];
     for (const id of ids) {
-      const response = await getENSAssetData(provider, contractAddress, id);
+      const response = await getENSAssetData(contractAddress, id);
       if (response) {
         data.push(response);
       }
     }
     return data;
   }
-  const multicall = await getMulticallFromProvider(provider);
-  const iface = new Interface(isERC1155 ? ERC1155Abi : ERC721Abi);
-  let calls: CallInput[] = [];
+
+
+  let calls = [];
   calls.push({
-    interface: iface,
     target: contractAddress,
-    function: 'name',
+    callData: await encode('name')
   });
 
   calls.push({
-    interface: iface,
+
     target: contractAddress,
-    function: 'symbol',
+    callData: await encode('symbol'),
   });
   for (let index = 0; index < ids.length; index++) {
+    const contract = getContract({
+      chain: defineChain(chainId),
+      address: contractAddress,
+      client
+    });
+    const callData = prepareContractCall({
+      contract: contract,
+      method: isERC1155 ? 'uri' : 'tokenURI',
+      params: [ids[index]],
+    })
+
+
     calls.push({
-      interface: iface,
+
       target: contractAddress,
-      function: isERC1155 ? 'uri' : 'tokenURI',
-      args: [ids[index]],
+      callData: await encode(callData)
+
     });
   }
 
 
-  const response = await multicall?.multiCall(calls);
+  const response = aggregate({ calls });
   const assets: Asset[] = [];
   if (response) {
-    const { chainId } = await provider.getNetwork();
+
     const [, results] = response;
     const name = results[0];
     const symbol = results[1];
@@ -348,34 +364,33 @@ export async function getContractURI({ provider, contractAddress }: {
 
 
 export async function getERC1155Balance({
-  provider,
+  chainId,
   contractAddress,
   tokenId,
   account,
 }: {
-  provider?: providers.JsonRpcProvider,
+  chainId?: number,
   contractAddress: string;
   tokenId: string;
   account: string;
 }) {
-  if (!provider || !contractAddress || !tokenId || !account) {
+  if (!contractAddress || !tokenId || !account || !chainId) {
     return;
   }
 
-  const multicall = await getMulticallFromProvider(provider);
-  const iface = new Interface(ERC1155Abi);
-  let calls: CallInput[] = [];
-  calls.push({
-    interface: iface,
-    target: contractAddress,
-    function: 'balanceOf',
-    args: [account, tokenId],
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: contractAddress,
+    client
+  })
+
+  const result = await balanceOf({
+    contract,
+    owner: account,
+    tokenId: BigInt(tokenId)
   });
-  const response = await multicall?.multiCall(calls);
-  if (response) {
-    const [, results] = response;
-    return results[0] as BigNumber;
-  }
+
+  return result
 }
 
 export async function getApiMultipleAssets({ query }: { query: any }
@@ -441,29 +456,26 @@ export async function getMultipleAssetDexKitApi({
 
 
 export async function getERC721TotalSupply({
-  provider,
+  chainId,
   contractAddress,
 }: {
-  provider?: providers.JsonRpcProvider,
+  chainId?: number,
   contractAddress: string;
 }) {
-  if (!provider || !contractAddress) {
+  if (!chainId || !contractAddress) {
     return;
   }
 
-  const multicall = await getMulticallFromProvider(provider);
-  const iface = new Interface(ERC721Abi);
-  let calls: CallInput[] = [];
-  calls.push({
-    interface: iface,
-    target: contractAddress,
-    function: 'totalSupply'
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: contractAddress,
+    client
+  })
+
+  const result = await totalSupply({
+    contract,
   });
-  const response = await multicall?.multiCall(calls);
-  if (response) {
-    const [, results] = response;
-    return results[0] as BigNumber;
-  }
+  return result
 }
 
 

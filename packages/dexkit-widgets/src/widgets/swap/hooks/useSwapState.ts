@@ -10,9 +10,8 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { Transak } from "@transak/transak-sdk";
 
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import type { providers } from 'ethers';
+import { maxUint256, parseSignature } from 'viem';
 
-import { BigNumber, constants, utils } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
@@ -21,11 +20,10 @@ import { useSwitchActiveWalletChain } from "thirdweb/react";
 
 
 import {
-  useAsyncMemo,
   useDebounce,
   useRecentTokens,
   useTokenBalance,
-  useWrapToken,
+  useWrapToken
 } from "../../../hooks";
 import { useSignTypeData } from "../../../hooks/useSignTypeData";
 import { isAddressEqual } from "../../../utils";
@@ -41,10 +39,8 @@ import { useSwapQuote } from "./useSwapQuote";
 export function useSwapState({
   execMutation,
   approveMutation,
-  provider,
   defaultSellToken,
   defaultBuyToken,
-  connectorProvider,
   selectedChainId: chainId,
   connectedChainId,
   account,
@@ -67,7 +63,6 @@ export function useSwapState({
 }: {
   zeroExApiKey?: string;
   execMutation: UseMutationResult<
-    providers.TransactionReceipt,
     unknown,
     SwapExecParams,
     unknown
@@ -83,9 +78,8 @@ export function useSwapState({
     unknown,
     {
       spender: string;
-      amount: BigNumber;
+      amount: bigint;
       tokenAddress?: string;
-      provider?: providers.Web3Provider;
       token: Token;
     },
     unknown
@@ -96,8 +90,6 @@ export function useSwapState({
   };
   disableFooter?: boolean;
   enableBuyCryptoButton?: boolean;
-  provider?: providers.BaseProvider;
-  connectorProvider?: providers.Web3Provider;
   isGasless?: boolean;
   isActive?: boolean;
   isActivating?: boolean;
@@ -145,28 +137,28 @@ export function useSwapState({
     setBuyToken(defaultBuyToken);
   }, [defaultBuyToken, defaultSellToken, chainId, connectedChainId]);
 
-  const [sellAmount, setSellAmount] = useState<BigNumber>(BigNumber.from(0));
-  const [buyAmount, setBuyAmount] = useState<BigNumber>(BigNumber.from(0));
+  const [sellAmount, setSellAmount] = useState<bigint>(BigInt(0));
+  const [buyAmount, setBuyAmount] = useState<bigint>(BigInt(0));
   const [selectSide, setSelectSide] = useState<SwapSide>();
 
   const [showSettings, setShowSettings] = useState(false);
 
   const lazySellToken = useDebounce<Token | undefined>(sellToken, 0);
   const lazyBuyToken = useDebounce<Token | undefined>(buyToken, 0);
-  const lazySellAmount = useDebounce<BigNumber>(sellAmount, 200);
-  const lazyBuyAmount = useDebounce<BigNumber>(buyAmount, 200);
+  const lazySellAmount = useDebounce<bigint>(sellAmount, 200);
+  const lazyBuyAmount = useDebounce<bigint>(buyAmount, 200);
   const lazyQuoteFor = useDebounce<SwapSide>(quoteFor, 0);
 
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
 
   const sellTokenBalance = useTokenBalance({
-    provider,
+    chainId,
     account,
     contractAddress: lazySellToken?.address,
   });
 
   const buyTokenBalance = useTokenBalance({
-    provider,
+    chainId,
     account,
     contractAddress: lazyBuyToken?.address,
   });
@@ -177,9 +169,9 @@ export function useSwapState({
         const [quotedFor, quote] = data;
 
         if (quotedFor === "buy" && quote && quote?.sellAmount) {
-          setSellAmount(BigNumber.from(quote?.sellAmount));
+          setSellAmount(BigInt(quote?.sellAmount));
         } else if (quotedFor === "sell" && quote && quote?.buyAmount) {
-          setBuyAmount(BigNumber.from(quote?.buyAmount));
+          setBuyAmount(BigInt(quote?.buyAmount));
         }
       }
     },
@@ -256,11 +248,11 @@ export function useSwapState({
 
     if (quote.params?.quoteFor === "buy") {
       setSellAmount(buyValue);
-      setBuyAmount(BigNumber.from(0));
+      setBuyAmount(BigInt(0));
       setQuoteFor("sell");
     } else if (quote.params?.quoteFor === "sell") {
       setBuyAmount(sellValue);
-      setSellAmount(BigNumber.from(0));
+      setSellAmount(BigInt(0));
       setQuoteFor("buy");
     }
 
@@ -307,7 +299,7 @@ export function useSwapState({
   };
 
   const handleChangeBuyAmount = useCallback(
-    (value: BigNumber, clickMax?: boolean) => {
+    (value: bigint, clickMax?: boolean) => {
       setQuoteFor("buy");
       if (buyToken) {
         if (clickMax) {
@@ -322,7 +314,7 @@ export function useSwapState({
   );
 
   const handleChangeSellAmount = useCallback(
-    (value: BigNumber, clickMax?: boolean) => {
+    (value: bigint, clickMax?: boolean) => {
       setQuoteFor("sell");
       if (sellToken) {
         if (clickMax) {
@@ -365,25 +357,13 @@ export function useSwapState({
   const handleChangeNetwork = async (newChainId: ChainId) => {
     onChangeNetwork(newChainId);
     setQuoteFor(undefined);
-    setSellAmount(BigNumber.from(0));
-    setBuyAmount(BigNumber.from(0));
+    setSellAmount(BigInt(0));
+    setBuyAmount(BigInt(0));
     setSellToken(undefined);
     setBuyToken(undefined);
   };
 
-  const isProviderReady = useAsyncMemo<boolean>(
-    async (initial) => {
-      if (provider) {
-        await provider.ready;
 
-        return true;
-      }
-
-      return initial;
-    },
-    false,
-    [provider]
-  );
 
   const execType = useExecType({
     chainId,
@@ -395,7 +375,6 @@ export function useSwapState({
     quoteFor,
     isGasless,
     lazySellAmount,
-    provider,
   });
 
   const { enqueueSnackbar } = useSnackbar();
@@ -453,7 +432,7 @@ export function useSwapState({
           }
         );
         if (signature) {
-          const sign = utils.splitSignature(signature);
+          const sign = parseSignature(signature);
           approval = {
             type: approvalType,
             eip712: eip712Approval,
@@ -472,9 +451,9 @@ export function useSwapState({
           await approveMutation.mutateAsync(
             {
               spender: data.allowanceTarget,
-              provider: connectorProvider as providers.Web3Provider,
+
               tokenAddress: data.sellTokenAddress,
-              amount: constants.MaxUint256,
+              amount: maxUint256,
               token: sellToken,
             },
             {
@@ -504,7 +483,7 @@ export function useSwapState({
       );
 
       if (signature) {
-        const sign = utils.splitSignature(signature);
+        const sign = parseSignature(signature);
         trade = {
           type: type,
           eip712: eip712,
@@ -554,13 +533,12 @@ export function useSwapState({
           await execMutation.mutateAsync(
             {
               quote: data,
-              provider: connectorProvider as providers.Web3Provider,
               onHash: (hash: string) => { },
               sellToken,
               buyToken,
             },
             {
-              onSuccess: (receipt: providers.TransactionReceipt) => { },
+              onSuccess: () => { },
               onError,
             }
           );
@@ -597,12 +575,12 @@ export function useSwapState({
     }*/ else if (execType === "wrap") {
       await wrapMutation.mutateAsync(
         {
-          provider: connectorProvider as providers.Web3Provider,
+
           amount: lazySellAmount,
           onHash: (hash: string) => { },
         },
         {
-          onSuccess: (receipt: providers.TransactionReceipt) => { },
+          onSuccess: () => { },
         }
       );
     } else if (execType === "approve" && quoteQuery.data) {
@@ -613,9 +591,9 @@ export function useSwapState({
         await approveMutation.mutateAsync(
           {
             spender: data.allowanceTarget,
-            provider: connectorProvider as providers.Web3Provider,
+
             tokenAddress: data.sellTokenAddress,
-            amount: constants.MaxUint256,
+            amount: maxUint256,
             token: sellToken,
           },
           {
@@ -626,12 +604,12 @@ export function useSwapState({
     } else if (execType === "unwrap") {
       await unwrapMutation.mutateAsync(
         {
-          provider: connectorProvider as providers.Web3Provider,
+
           amount: lazySellAmount,
           onHash: (hash: string) => { },
         },
         {
-          onSuccess: (receipt: providers.TransactionReceipt) => {
+          onSuccess: () => {
             quoteQuery.refetch();
           },
         }
@@ -645,8 +623,6 @@ export function useSwapState({
     lazySellAmount,
     sellToken,
     chainId,
-
-    connectorProvider,
   ]);
 
   /*useEffect(() => {
@@ -694,8 +670,8 @@ export function useSwapState({
     sellAmount: lazySellAmount,
     buyAmount: lazyBuyAmount,
     quoteFor: quote.params?.quoteFor,
-    insufficientBalance: lazySellAmount?.gt(
-      sellTokenBalance.data ?? BigNumber.from(0)
+    insufficientBalance: lazySellAmount > (
+      sellTokenBalance.data ?? BigInt(0)
     ),
     clickOnMax,
     isExecuting:
@@ -711,7 +687,6 @@ export function useSwapState({
     showConfirmSwap,
     isLoadingSignGasless: signTypeDataMutation.isLoading,
     showSettings,
-    isProviderReady,
     recentTokens: recentTokens.tokens,
     setQuoteFor,
     gaslessSwapState,

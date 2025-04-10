@@ -34,7 +34,7 @@ import {
   useOwnedNFTs,
   useUnclaimedNFTSupply,
 } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
+
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import NFTGrid from "../NFTGrid";
@@ -178,13 +178,13 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   };
 
   const numberClaimed = useMemo(() => {
-    return BigNumber.from(claimedSupply.data || 0).toString();
+    return BigInt(claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
   const numberTotal = useMemo(() => {
-    return BigNumber.from(claimedSupply.data || 0)
-      .add(BigNumber.from(unclaimedSupply.data || 0))
-      .toString();
+    return (
+      BigInt(claimedSupply.data || 0) + BigInt(unclaimedSupply.data || 0)
+    ).toString();
   }, [claimedSupply.data, unclaimedSupply.data]);
 
   const isOpenEdition = useMemo(() => {
@@ -204,23 +204,23 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   const maxClaimable = useMemo(() => {
     let bnMaxClaimable;
     try {
-      bnMaxClaimable = BigNumber.from(
+      bnMaxClaimable = BigInt(
         activeClaimCondition.data?.maxClaimableSupply || 0
       );
     } catch (e) {
-      bnMaxClaimable = BigNumber.from(1_000_000);
+      bnMaxClaimable = BigInt(1_000_000);
     }
 
     let perTransactionClaimable;
     try {
-      perTransactionClaimable = BigNumber.from(
+      perTransactionClaimable = BigInt(
         activeClaimCondition.data?.maxClaimablePerWallet || 0
       );
     } catch (e) {
-      perTransactionClaimable = BigNumber.from(1_000_000);
+      perTransactionClaimable = BigInt(1_000_000);
     }
 
-    if (perTransactionClaimable.lte(bnMaxClaimable)) {
+    if (BigInt(perTransactionClaimable) <= BigInt(bnMaxClaimable)) {
       bnMaxClaimable = perTransactionClaimable;
     }
 
@@ -229,20 +229,20 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     if (snapshotClaimable) {
       if (snapshotClaimable === "0") {
         // allowed unlimited for the snapshot
-        bnMaxClaimable = BigNumber.from(1_000_000);
+        bnMaxClaimable = BigInt(1_000_000);
       } else {
         try {
-          bnMaxClaimable = BigNumber.from(snapshotClaimable);
+          bnMaxClaimable = BigInt(snapshotClaimable);
         } catch (e) {
           // fall back to default case
         }
       }
     }
 
-    const maxAvailable = BigNumber.from(unclaimedSupply.data || 0);
+    const maxAvailable = BigInt(unclaimedSupply.data || 0);
 
     let max;
-    if (maxAvailable.lt(bnMaxClaimable) && !isOpenEdition) {
+    if (BigInt(maxAvailable) < BigInt(bnMaxClaimable) && !isOpenEdition) {
       max = maxAvailable;
     } else {
       max = bnMaxClaimable;
@@ -263,9 +263,8 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     try {
       return (
         (activeClaimCondition.isSuccess &&
-          BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
-            0
-          )) ||
+          BigInt(activeClaimCondition.data?.availableSupply || 0) <=
+            BigInt(0)) ||
         (numberClaimed === numberTotal && !isOpenEdition)
       );
     } catch (e) {
@@ -308,7 +307,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   ]);
 
   const priceToMint = useMemo(() => {
-    const bnPrice = BigNumber.from(
+    const bnPrice = BigInt(
       activeClaimCondition.data?.currencyMetadata.value || 0
     );
     return `${formatUnits(
@@ -333,7 +332,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     }
 
     if (canClaim) {
-      const pricePerToken = BigNumber.from(
+      const pricePerToken = BigInt(
         activeClaimCondition.data?.currencyMetadata.value || 0
       );
 

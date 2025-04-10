@@ -1,20 +1,20 @@
 import type { providers } from "ethers";
-import { BigNumber } from "ethers";
+
 import { useAsyncMemo } from "../../../hooks";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
 import { ExecType, SwapSide } from "../types";
 
 import { WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
+import { hasSufficientAllowance } from "@dexkit/core/services";
 import { Token } from "@dexkit/core/types";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { ZeroExQuoteMetaTransactionResponse } from "@dexkit/ui/modules/swap/types";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
-import { hasSufficientAllowance } from "../../../services";
 import { isAddressEqual } from "../../../utils";
 
 
 
-export function useExecType({ chainId, connectedChainId, lazyBuyToken, lazySellToken, account, quoteQuery, quoteFor, isGasless, lazySellAmount, provider }: { chainId?: number, connectedChainId?: number, lazyBuyToken?: Token, lazySellToken?: Token, isGasless?: boolean, quoteFor?: SwapSide, lazySellAmount?: BigNumber, provider?: providers.BaseProvider, account?: string, quoteQuery: any }) {
+export function useExecType({ chainId, connectedChainId, lazyBuyToken, lazySellToken, account, quoteQuery, quoteFor, isGasless, lazySellAmount, provider }: { chainId?: number, connectedChainId?: number, lazyBuyToken?: Token, lazySellToken?: Token, isGasless?: boolean, quoteFor?: SwapSide, lazySellAmount?: bigint, provider?: providers.BaseProvider, account?: string, quoteQuery: any }) {
 
 
   return useAsyncMemo<ExecType>(
@@ -65,9 +65,9 @@ export function useExecType({ chainId, connectedChainId, lazyBuyToken, lazySellT
                 const sufficientAllowance = await hasSufficientAllowance({
                   spender: data.allowanceTarget,
                   tokenAddress: data.sellTokenAddress,
-                  amount: BigNumber.from(data.sellAmount),
-                  provider,
-                  account,
+                  amount: BigInt(data.sellAmount),
+
+                  owner: account,
                 });
 
                 if (!sufficientAllowance) {

@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { BigNumber, providers } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 import SwapTokenField from "./SwapCurrencyField";
 import SwapSwitchTokensButton from "./SwapSwitchTokensButton";
@@ -46,7 +46,7 @@ export interface SwapProps {
     [string, ZeroExQuoteResponse | null] | undefined,
     any
   >;
-  provider?: providers.Web3Provider | providers.BaseProvider;
+  provider?: any;
   account?: string;
   isActivating?: boolean;
   isActive?: boolean;
@@ -54,14 +54,14 @@ export interface SwapProps {
   maxSlippage?: number;
   sellToken?: Token;
   buyToken?: Token;
-  sellAmount: BigNumber;
-  buyAmount: BigNumber;
+  sellAmount: bigint;
+  buyAmount: bigint;
   execType?: ExecType;
   quote?: ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
-  sellTokenBalance?: BigNumber;
-  buyTokenBalance?: BigNumber;
+  sellTokenBalance?: bigint;
+  buyTokenBalance?: bigint;
   insufficientBalance?: boolean;
   isProviderReady?: boolean;
   isQuoting?: boolean;
@@ -72,8 +72,8 @@ export interface SwapProps {
   activeChainIds: number[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
-  onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChangeSellAmount: (value: bigint, clickOnMax?: boolean) => void;
+  onChangeBuyAmount: (value: bigint, clickOnMax?: boolean) => void;
   onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;

@@ -1,5 +1,5 @@
 import { Button, FormControlLabel, Grid } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { Field, Formik, FormikErrors, getIn } from "formik";
 import { Autocomplete, Checkbox, TextField } from "formik-mui";
 import {
@@ -428,7 +428,7 @@ export default function GenericForm({
             [key]:
               field.component.decimals > 0
                 ? parseUnits(formValues[key], field.component.decimals)
-                : BigNumber.from(formValues[key]),
+                : BigInt(formValues[key]),
           };
         } else if (
           field?.component?.type === "hidden" &&
@@ -458,13 +458,13 @@ export default function GenericForm({
                     vals = values[fieldName.name].map((v: string) =>
                       fieldName.decimals > 0
                         ? parseUnits(v, fieldName.decimals)
-                        : BigNumber.from(v)
+                        : BigInt(v)
                     );
                   } else {
                     vals =
                       fieldName.decimals > 0
                         ? parseUnits(values[fieldName.name], fieldName.decimals)
-                        : BigNumber.from(values[fieldName.name]);
+                        : BigInt(values[fieldName.name]);
                   }
 
                   return {

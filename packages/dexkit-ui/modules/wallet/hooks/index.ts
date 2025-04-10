@@ -1,5 +1,4 @@
 import { ChainId, CoinTypes } from "@dexkit/core/constants/enums";
-import { getProviderByChainId } from "@dexkit/core/utils/blockchain";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -9,7 +8,7 @@ import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 import { useMemo } from "react";
 import { useEvmCoins, useTokenList } from "../../../hooks/blockchain";
-import { getERC20Balances } from "../services";
+import { getERC20Balances } from "../../../services/balances";
 import { isBalancesVisibleAtom } from "../state";
 import { TokenBalance } from "../types";
 
@@ -37,14 +36,15 @@ export const useERC20BalancesQuery = (
   } = useWeb3React();
   const chainId = defaultChainId || walletChainId;
   const tokens = useTokenList({ chainId, includeNative: true });
+  const { activeAccount } = useWeb3React()
 
   return useQuery(
-    [GET_ERC20_BALANCES, account, chainId, tokens],
+    [GET_ERC20_BALANCES, activeAccount, chainId, tokens],
     () => {
       if (
-        account === undefined ||
         chainId === undefined ||
-        tokens === undefined
+        tokens === undefined ||
+        activeAccount === undefined
       ) {
         return;
       }
@@ -52,15 +52,7 @@ export const useERC20BalancesQuery = (
         return [];
       }
 
-      const provider =
-        defaultChainId === walletChainId
-          ? walletProvider
-          : getProviderByChainId(chainId);
-      if (!provider) {
-        return;
-      }
-
-      return getERC20Balances(account, tokens, chainId, provider);
+      return getERC20Balances({ activeAccount, tokens, chainId });
     },
     { enabled: chainId !== undefined, select, suspense: enableSuspense }
   );
@@ -147,14 +139,14 @@ export function useParsePaymentRequest({
           defaultCoin.decimals !== undefined
         ) {
           amount = formatUnits(
-            parsedPayment.parameters["uint256"],
+            BigInt(parsedPayment.parameters["uint256"]),
             defaultCoin.decimals
           );
         }
       }
       if (parsedPayment.function_name === undefined) {
         if (parsedPayment.parameters && parsedPayment.parameters["value"]) {
-          amount = formatEther(parsedPayment.parameters["value"]);
+          amount = formatEther(BigInt(parsedPayment.parameters["value"]));
         }
       }
       return amount;

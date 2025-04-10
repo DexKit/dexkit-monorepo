@@ -2,7 +2,6 @@ import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { providers } from "ethers";
 import {
-  BigNumber,
   Contract,
   ContractFactory,
   ContractInterface,
@@ -42,7 +41,7 @@ export interface UseContractCallMutationParams {
   args: any[];
   name: string;
   payable?: boolean;
-  value?: BigNumber;
+  value?: bigint;
   rpcProvider?: providers.JsonRpcProvider;
 }
 
@@ -141,7 +140,7 @@ export function useContractDeployMutation({
       value,
     }: {
       params: ContractDeployParams;
-      value: BigNumber;
+      value: bigint;
     }) => {
       if (!contractBytecode || !provider) {
         return;

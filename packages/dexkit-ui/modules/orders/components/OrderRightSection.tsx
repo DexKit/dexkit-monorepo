@@ -1,21 +1,21 @@
 import { useDexKitContext } from "@dexkit/ui";
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    NoSsr,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  NoSsr,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
-import { BigNumber, constants } from "ethers";
+
 import moment from "moment";
 import { useCallback, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -24,32 +24,34 @@ import Link from "../../../components/AppLink";
 import Calendar from "../../../components/icons/Calendar";
 
 import {
-    useApproveAssetMutation,
-    useAsset,
-    useAssetMetadata,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetMetadata,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../../nft/hooks";
 
 import {
-    NETWORK_EXPLORER,
-    NETWORK_SLUG,
+  NETWORK_EXPLORER,
+  NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Symbol,
 } from "@dexkit/core/services/balances";
 import { SwapApiOrder } from "@dexkit/core/types/nft";
 import {
-    ipfsUriToUrl,
-    isAddressEqual,
-    truncateAddress,
+  ipfsUriToUrl,
+  isAddressEqual,
+  truncateAddress,
 } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
+import { zeroAddress } from "viem";
 import AppFeePercentageSpan from "../../../components/AppFeePercentageSpan";
 import { useSwitchNetwork, useTokenList } from "../../../hooks/blockchain";
+
 import { useCoinPricesQuery, useCurrency } from "../../../hooks/currency";
 import { OrderBookItem } from "../../nft/types";
 import { OrderPageActions } from "./OrderPageActions";
@@ -85,7 +87,7 @@ function OrderRightSection({ order }: Props) {
   const amountFormatted = useMemo(() => {
     if (order && token) {
       return formatUnits(
-        BigNumber.from(order?.erc20TokenAmount || "0"),
+        BigInt(order?.erc20TokenAmount || "0"),
         token?.decimals
       );
     }
@@ -106,7 +108,10 @@ function OrderRightSection({ order }: Props) {
           return (
             ratio *
             parseFloat(
-              formatUnits(order?.erc20TokenAmount, token.decimals)
+              formatUnits(
+                BigInt(order?.erc20TokenAmount || "0"),
+                token.decimals
+              )
             )
           );
         } else {
@@ -125,9 +130,9 @@ function OrderRightSection({ order }: Props) {
     (hash: string, order: SwapApiOrder) => {
       if (asset !== undefined) {
         watchTransactionDialog.setRedirectUrl(
-          `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${
-            asset?.id
-          }`
+          `/asset/${NETWORK_SLUG(
+            asset?.chainId
+          )}/${asset?.contractAddress}/${asset?.id}`
         );
 
         const values = {
@@ -173,14 +178,20 @@ function OrderRightSection({ order }: Props) {
   const handleMutateSignedOrder = useCallback(
     async ({ order, accept }: { order: SwapApiOrder; accept?: boolean }) => {
       if (asset && order) {
-        const decimals = await getERC20Decimals(order.erc20Token, provider);
+        const decimals = (await getERC20Decimals({
+          contractAddress: order.erc20Token,
+          chainId,
+        })) as number;
 
-        const symbol = await getERC20Symbol(order.erc20Token, provider);
+        const symbol = (await getERC20Symbol({
+          contractAddress: order.erc20Token,
+          chainId,
+        })) as string;
 
         const values = {
           collectionName: asset.collectionName,
           id: asset.id,
-          amount: formatUnits(order.erc20TokenAmount, decimals),
+          amount: formatUnits(BigInt(order?.erc20TokenAmount || "0"), decimals),
           symbol,
         };
 
@@ -209,19 +220,25 @@ function OrderRightSection({ order }: Props) {
       }
 
       watchTransactionDialog.setRedirectUrl(
-        `/asset/${NETWORK_SLUG(asset?.chainId)}/${asset?.contractAddress}/${
-          asset?.id
-        }`
+        `/asset/${NETWORK_SLUG(
+          asset?.chainId
+        )}/${asset?.contractAddress}/${asset?.id}`
       );
 
-      const decimals = await getERC20Decimals(order.erc20Token, provider);
+      const decimals = (await getERC20Decimals({
+        contractAddress: order.erc20Token,
+        chainId,
+      })) as number;
 
-      const symbol = await getERC20Symbol(order.erc20Token, provider);
+      const symbol = (await getERC20Symbol({
+        contractAddress: order.erc20Token,
+        chainId,
+      })) as string;
 
       const values = {
         collectionName: asset.collectionName,
         id: asset.id,
-        amount: formatUnits(order.erc20TokenAmount, decimals),
+        amount: formatUnits(BigInt(order?.erc20TokenAmount || "0"), decimals),
         symbol,
       };
 
@@ -265,8 +282,15 @@ function OrderRightSection({ order }: Props) {
             metadata: { chainId, hash },
           });
         } else {
-          const symbol = await getERC20Symbol(swapAsset.tokenAddress, provider);
-          const name = await getERC20Symbol(swapAsset.tokenAddress, provider);
+          const symbol = (await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          })) as string;
+
+          const name = (await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          })) as string;
 
           const values = { name, symbol };
 
@@ -300,14 +324,15 @@ function OrderRightSection({ order }: Props) {
 
             watchTransactionDialog.open("approveForAll", values);
           } else {
-            const symbol = await getERC20Symbol(
-              variable.asset.tokenAddress,
-              provider
-            );
-            const name = await getERC20Symbol(
-              variable.asset.tokenAddress,
-              provider
-            );
+            const symbol = (await getERC20Symbol({
+              contractAddress: variable.asset.tokenAddress,
+              chainId,
+            })) as string;
+
+            const name = (await getERC20Symbol({
+              contractAddress: variable.asset.tokenAddress,
+              chainId,
+            })) as string;
 
             const values = { name, symbol };
 
@@ -356,7 +381,7 @@ function OrderRightSection({ order }: Props) {
     const tempAsset: any = {
       tokenAddress: order?.nftToken,
       tokenId: order?.nftTokenId,
-      type: asset?.protocol === 'ERC1155' ? 'ERC1155' : 'ERC721';,
+      type: asset?.protocol === "ERC1155" ? "ERC1155" : "ERC721",
     };
 
     const status = await nftSwapSdk?.loadApprovalStatus(tempAsset, account);
@@ -577,9 +602,8 @@ function OrderRightSection({ order }: Props) {
           </Typography>
 
           <Link
-            href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${
-              order?.order.maker
-            }`}
+            href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${order?.order
+              .maker}`}
             variant="body2"
             target="_blank"
           >
@@ -587,7 +611,7 @@ function OrderRightSection({ order }: Props) {
           </Link>
         </Stack>
       </Paper>
-      {!isAddressEqual(order?.order.taker, constants.AddressZero) && (
+      {!isAddressEqual(order?.order.taker, zeroAddress) && (
         <Paper sx={{ p: 2 }}>
           <Stack
             direction="row"
@@ -599,9 +623,9 @@ function OrderRightSection({ order }: Props) {
               <FormattedMessage id="visible.for" defaultMessage="Visible for" />
             </Typography>
             <Link
-              href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${
-                asset?.owner
-              }`}
+              href={`${NETWORK_EXPLORER(
+                asset?.chainId
+              )}/address/${asset?.owner}`}
               variant="body2"
               target="_blank"
             >

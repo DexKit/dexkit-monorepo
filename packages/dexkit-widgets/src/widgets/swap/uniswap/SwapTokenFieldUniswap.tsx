@@ -7,12 +7,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 
 import { Token } from "@dexkit/core/types";
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import React from "react";
-import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
 import SwapTokenButtonUniswap from "./SwapTokenButtonUniswap";
 
@@ -21,11 +21,11 @@ export interface SwapTokenFieldUniswapProps {
   priceLoading?: boolean;
   price?: string;
   disabled?: boolean;
-  onChange: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChange: (value: bigint, clickOnMax?: boolean) => void;
   token?: Token;
   onSelectToken: (token?: Token) => void;
-  value: BigNumber;
-  balance?: BigNumber;
+  value: bigint;
+  balance?: bigint;
   showBalance?: boolean;
   isUserInput?: boolean;
   title?: React.ReactNode;
@@ -95,7 +95,7 @@ function SwapTokenFieldUniswap({
           ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
         />
       </Stack>
-      {token && balance && showBalance && (
+      {token && balance !== undefined && balance > 0 && showBalance && (
         <Stack
           direction="row"
           spacing={0.5}
@@ -130,7 +130,7 @@ function SwapTokenFieldUniswap({
                 id="token.balance.balance"
                 defaultMessage="Balance: {balance}"
                 values={{
-                  balance: formatBigNumber(balance, token?.decimals),
+                  balance: formatUnits(balance, token?.decimals),
                 }}
               />
             </Typography>

@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 
 import { Token } from "@dexkit/core/types";
@@ -17,11 +17,11 @@ import SwapTokenButton from "./SwapTokenButton";
 export interface SwapTokenFieldProps {
   InputBaseProps?: InputBaseProps;
   disabled?: boolean;
-  onChange: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChange: (value: bigint, clickOnMax?: boolean) => void;
   token?: Token;
   onSelectToken: (token?: Token) => void;
-  value: BigNumber;
-  balance?: BigNumber;
+  value: bigint;
+  balance?: bigint;
   showBalance?: boolean;
   isUserInput?: boolean;
 }
@@ -78,7 +78,7 @@ function SwapTokenField({
           ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
         />
       </Stack>
-      {token && balance && showBalance && (
+      {token && balance !== undefined && showBalance && (
         <Stack
           direction="row"
           spacing={0.5}

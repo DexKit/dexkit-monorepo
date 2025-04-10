@@ -2,18 +2,20 @@ import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { Token } from "@dexkit/core/types";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { useMutation } from "@tanstack/react-query";
-import type { providers } from "ethers";
-import { BigNumber } from "ethers";
 import { useIntl } from "react-intl";
+import { defineChain, prepareTransaction, sendTransaction } from "thirdweb";
+import type { Account } from "thirdweb/wallets";
 import { NotificationCallbackParams } from "../types";
 
 export interface SwapExecParams {
   quote: ZeroExQuoteResponse;
-  provider?: providers.Web3Provider;
+  activeAccount: Account
   onHash: (hash: string) => void;
   sellToken: Token;
   buyToken: Token;
+  chainId: number
 }
 
 export function useSwapExec({
@@ -27,23 +29,26 @@ export function useSwapExec({
   return useMutation(
     async ({
       quote,
-      provider,
       onHash,
       sellToken,
       buyToken,
+      chainId,
+      activeAccount
     }: SwapExecParams) => {
-      if (!provider) {
-        throw new Error("no provider");
-      }
 
-      const chainId = (await provider.getNetwork()).chainId;
 
       try {
-        const tx = await provider.getSigner().sendTransaction({
-          data: quote?.data,
-          value: BigNumber.from(quote?.value),
+
+        const transaction = prepareTransaction({
           to: quote?.to,
+          chain: defineChain(chainId),
+          client,
+          value: BigInt(quote?.value),
+          //@ts-ignore
+          data: quote?.data
         });
+
+        const tx = await sendTransaction({ account: activeAccount, transaction });
 
         onNotification({
           chainId,
@@ -51,7 +56,7 @@ export function useSwapExec({
             id: "swap.tokens",
             defaultMessage: "Swap Tokens", // TODO: add token symbols and amounts
           }),
-          hash: tx.hash,
+          hash: tx.transactionHash,
           params: {
             type: "swap",
             sellAmount: quote.sellAmount,
@@ -63,7 +68,7 @@ export function useSwapExec({
 
         trackUserEvent.mutate({
           event: UserEvents.swap,
-          hash: tx.hash,
+          hash: tx.transactionHash,
           chainId,
           metadata: JSON.stringify({
             quote: quote,
@@ -72,9 +77,9 @@ export function useSwapExec({
           }),
         });
 
-        onHash(tx.hash);
+        onHash(tx.transactionHash);
 
-        return await tx.wait();
+        return await true;
       } catch (err) {
         throw err;
       }

@@ -1,94 +1,203 @@
-import MultiCall, { TokenBalances } from "@indexed-finance/multicall";
-import { BigNumber, Contract, constants, providers } from "ethers";
+import { zeroAddress } from "viem";
 import { COINGECKO_ENDPOIT, COINGECKO_PLATFORM_ID, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
-import { ERC20Abi } from "../constants/abis";
 import { Token, TokenPrices } from "../types";
 import { isAddressEqual } from "../utils";
 export * from './balances';
 
+import { defineChain } from "thirdweb/chains";
+
 import { ChainId } from "@dexkit/core/constants/enums";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import axios from "axios";
+import { encode, getContract, prepareContractCall, readContract, resolveMethod } from "thirdweb";
+import { allowance } from "thirdweb/extensions/erc20";
+import type { Account } from "thirdweb/wallets";
 
-export const getERC20TokenAllowance = async (
-  provider: providers.BaseProvider,
+
+export const getERC20TokenAllowance = async ({ chainId,
+  tokenAddress, owner, spender
+
+
+
+}: {
+  chainId: number
   tokenAddress: string,
-  account: string,
+  owner: string,
   spender: string
-): Promise<BigNumber> => {
-  const contract = new Contract(tokenAddress, ERC20Abi, provider);
+}
 
-  return await contract.allowance(account, spender);
+): Promise<bigint> => {
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: tokenAddress,
+    client
+  })
+
+  return await allowance({
+    contract,
+    owner: owner,
+    spender: spender
+  });
 };
 
 export const hasSufficientAllowance = async ({
   spender,
   tokenAddress,
   amount,
-  account,
-  provider,
+  chainId,
+  owner,
 }: {
-  account?: string;
+
   spender: string;
   tokenAddress: string;
-  amount: BigNumber;
-  provider?: providers.BaseProvider;
+  amount: bigint;
+  chainId?: number
+  owner: string
+
 }) => {
-  if (!provider || !account) {
+  if (!owner || !chainId) {
     throw new Error("no provider or account");
   }
 
-  if (isAddressEqual(spender, constants.AddressZero)) {
+  if (isAddressEqual(spender, zeroAddress)) {
     return true;
   }
 
-  const allowance = await getERC20TokenAllowance(
-    provider,
-    tokenAddress,
-    account,
-    spender
-  );
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: tokenAddress,
+    client
+  })
 
-  return allowance.gte(amount);
+  const allowanceResult = await allowance({
+    contract,
+    owner: owner,
+    spender: spender
+  });
+
+
+  return allowanceResult >= amount;
 };
 
 
 
-export async function getTokensBalance(
+export async function getTokensBalance({
+  tokens, activeAccount, chainId
+}: {
   tokens?: { contractAddress: string }[],
-  provider?: providers.BaseProvider,
-  account?: string
-): Promise<TokenBalances | undefined> {
-  if (!provider || !tokens || !account) {
+  activeAccount?: Account,
+  chainId?: number
+}
+
+): Promise<{ [key: string]: bigint } | undefined> {
+  if (!tokens || !activeAccount || !chainId) {
     return
   }
 
-  await provider.ready;
+  const rawTxs = tokens.map((t) => {
+    const contract = getContract({
+      chain: defineChain(chainId),
+      address: t.contractAddress,
+      client
+    });
 
-  const multicall = new MultiCall(provider);
+    return {
+      address: t.contractAddress, tx: prepareContractCall({
+        contract: contract,
+        method: "function balanceOf(address owner) view returns (uint256)",
+        params: [t.contractAddress],
+      })
+    }
+  });
 
-  const [, balances] = await multicall.getBalances(
-    tokens.map((t) => {
-      if (isAddressEqual(t.contractAddress, ZEROEX_NATIVE_TOKEN_ADDRESS)) {
-        return constants.AddressZero;
-      }
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: tokens[0].contractAddress,
+    client
+  })
 
-      return t.contractAddress;
-    }),
-    account
-  );
+  const encodedTxs = await Promise.all(rawTxs.map(async (tx) => { return { target: tx.address, callData: await encode(tx.tx) } }));
+  //const multiCallTransaction = await aggregate({ contract, calls: encodedTxs });
 
-  return balances;
+  const data = await readContract({ contract, method: resolveMethod('aggregate'), params: [encodedTxs] })
+
+  /*const tx = await sendAndConfirmTransaction({
+    transaction: multiCallTransaction,
+    account: activeAccount,
+  });
+  const data = await multiCallTransaction.data
+  console.log('multicall');
+  console.log(data);
+  console.log(tx);*/
+
+  return data as unknown as { [key: string]: bigint }
+
+
 }
 
-export async function getTokenBalance(
+export async function getTokensAllowances({
+  tokens, activeAccount, chainId, spender
+}: {
+  tokens?: { contractAddress: string }[],
+  activeAccount?: Account,
+  chainId?: number
+  spender?: string
+}
+
+): Promise<{ [key: string]: bigint } | undefined> {
+  if (!tokens || !activeAccount || !chainId || !spender) {
+    return
+  }
+
+  const rawTxs = tokens.map((t) => {
+    const contract = getContract({
+      chain: defineChain(chainId),
+      address: t.contractAddress,
+      client
+    });
+
+    return {
+      address: t.contractAddress, tx: prepareContractCall({
+        contract: contract,
+        method: "function allowance(address _owner, address _spender) public view returns (uint256 remaining)",
+        params: [activeAccount.address, spender],
+      })
+    }
+  });
+
+  const contract = getContract({
+    chain: defineChain(chainId),
+    address: tokens[0].contractAddress,
+    client
+  })
+
+  const encodedTxs = await Promise.all(rawTxs.map(async (tx) => { return { target: tx.address, callData: await encode(tx.tx) } }));
+  /* const multiCallTransaction = await aggregate({ contract, calls: encodedTxs });
+   const tx = await sendAndConfirmTransaction({
+     transaction: multiCallTransaction,
+     account: activeAccount,
+   });
+   const data = await multiCallTransaction.data*/
+
+  const data = await readContract({ contract, method: resolveMethod('aggregate'), params: [encodedTxs] })
+
+  return data as unknown as { [key: string]: bigint }
+
+
+}
+
+export async function getTokenBalance({
+  token, activeAccount, chainId
+}: {
   token?: { contractAddress: string },
-  provider?: providers.BaseProvider,
-  account?: string
-): Promise<BigNumber | undefined> {
-  if (!token || provider || account) {
+  activeAccount?: Account,
+  chainId?: number
+}
+): Promise<BigInt | undefined> {
+  if (!token || chainId || activeAccount) {
     return;
   }
-  const balance = (await getTokensBalance([token], provider, account));
+  const balance = (await getTokensBalance({ tokens: [token], chainId, activeAccount }));
   if (balance) {
     return balance[0]
   }
@@ -145,7 +254,7 @@ export const getCoinPrices = async ({
     if (token?.chainId) {
       results[token.chainId] = {
         [isAddressEqual(token.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
-          ? constants.AddressZero
+          ? zeroAddress
           : token.address]: { [currency]: amount },
       };
     }

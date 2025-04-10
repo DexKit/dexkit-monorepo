@@ -2,7 +2,7 @@ import { ChainId } from "@dexkit/core/constants/enums";
 import { Token } from "@dexkit/core/types";
 import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import type { BigNumber } from "ethers";
+
 import React from "react";
 
 export type Empty = {
@@ -29,14 +29,14 @@ export type SwapState = {
   showConfirmSwap: boolean;
   showSelect: boolean;
   selectSide: SwapSide | undefined;
-  sellAmount: BigNumber;
-  buyAmount: BigNumber;
+  sellAmount: bigint;
+  buyAmount: bigint;
   quoteFor?: SwapSide;
   execType?: ExecType;
   isExecuting: boolean;
   quote?: ZeroExQuoteResponse | null;
-  sellTokenBalance?: BigNumber;
-  buyTokenBalance?: BigNumber;
+  sellTokenBalance?: bigint;
+  buyTokenBalance?: bigint;
   insufficientBalance: boolean;
   showSettings: boolean;
   isProviderReady?: boolean;
@@ -51,10 +51,10 @@ export type SwapState = {
   setBuyToken: React.Dispatch<Token | undefined>;
   setQuoteFor: React.Dispatch<SwapSide | undefined>;
   setSellToken: React.Dispatch<Token | undefined>;
-  setBuyAmount: React.Dispatch<BigNumber>;
-  setSellAmount: React.Dispatch<BigNumber>;
-  handleChangeSellAmount: (value: BigNumber) => void;
-  handleChangeBuyAmount: (value: BigNumber) => void;
+  setBuyAmount: React.Dispatch<bigint>;
+  setSellAmount: React.Dispatch<bigint>;
+  handleChangeSellAmount: (value: bigint) => void;
+  handleChangeBuyAmount: (value: bigint) => void;
   handleSwapTokens: () => void;
   handleExecSwap: () => void;
   handleCloseSelectToken: () => void;

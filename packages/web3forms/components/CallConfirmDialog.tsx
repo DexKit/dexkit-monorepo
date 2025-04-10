@@ -18,15 +18,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { ChangeEvent, useState } from "react";
 import { PARSE_UNITS } from "../constants";
 
 export interface CallConfirmDialogProps {
   DialogProps: DialogProps;
-  onConfirm: (value: BigNumber) => void;
+  onConfirm: (value: bigint) => void;
   payable?: boolean;
-  payableAmount?: BigNumber;
+  payableAmount?: bigint;
   execLabel?: string;
 }
 
@@ -43,7 +43,7 @@ export default function CallConfirmDialog({
 
   const [value, setValue] = useState({
     value: payableAmount ? formatEther(payableAmount) : "",
-    parsed: payableAmount ? payableAmount : BigNumber.from(0),
+    parsed: payableAmount ? payableAmount : BigInt(0),
   });
 
   const handleChangeUnit = (
@@ -54,7 +54,7 @@ export default function CallConfirmDialog({
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let parsedValue = BigNumber.from(0);
+    let parsedValue = BigInt(0);
 
     const regex = /^\d+\.?(?:\d{1,2})?$/;
 

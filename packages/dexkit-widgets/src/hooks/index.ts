@@ -6,14 +6,15 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { WRAPPED_TOKEN_ADDRESS } from "@dexkit/core/constants/networks";
 import { Token, TransactionMetadata } from "@dexkit/core/types";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
-import { BigNumber, Contract, providers } from "ethers";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+
 import { useAtom } from "jotai";
 import { useUpdateAtom } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { ERC20Abi, WETHAbi } from "../constants/abis";
-import { getTokensBalance } from "../services";
+import { defineChain, getContract, getGasPrice, prepareContractCall, resolveMethod, sendTransaction } from "thirdweb";
+import { Account, getWalletBalance } from "thirdweb/wallets";
 import {
   isConnectWalletOpenAtom,
   recentTokensAtom,
@@ -110,9 +111,10 @@ export function useIsMounted() {
 }
 
 export interface WrapTokenParams {
-  provider?: providers.Web3Provider;
-  amount: BigNumber;
+  amount: bigint;
   onHash: (hash: string) => void;
+  chainId?: number,
+  activeAccount?: Account
 }
 
 export function useWrapToken({
@@ -124,27 +126,37 @@ export function useWrapToken({
   const { formatMessage } = useIntl();
 
   const wrapMutation = useMutation(
-    async ({ provider, amount, onHash }: WrapTokenParams) => {
-      if (!provider) {
-        throw new Error("no provider");
+    async ({ amount, onHash, chainId, activeAccount }: WrapTokenParams) => {
+      if (!chainId || !activeAccount) {
+        throw new Error("no chainId");
       }
 
-      const chainId = (await provider?.getNetwork()).chainId;
+
 
       const contractAddress = WRAPPED_TOKEN_ADDRESS(chainId) || '';
 
-      const contract = new Contract(
-        contractAddress,
-        WETHAbi,
-        provider.getSigner()
-      );
+      const contract = getContract({
+        client,
+        address: contractAddress,
+        chain: defineChain(chainId),
+      });
 
-      const tx = await contract.deposit({ value: amount });
+      const transaction = await prepareContractCall({
+        contract,
+        method: resolveMethod('deposit'),
+        params: [amount]
+      })
+
+      const { transactionHash } = await sendTransaction({
+        account: activeAccount,
+        transaction,
+      })
 
 
-      onHash(tx.hash);
 
-      return (await tx.wait()) as providers.TransactionReceipt;
+      onHash(transactionHash);
+
+      return true;
     },
     {
       onError: (err: any) => {
@@ -158,23 +170,35 @@ export function useWrapToken({
   );
 
   const unwrapMutation = useMutation(
-    async ({ provider, amount, onHash }: WrapTokenParams) => {
-      if (!provider) {
-        throw new Error("no provider");
+    async ({ activeAccount, chainId, amount, onHash }: WrapTokenParams) => {
+      if (!chainId || !activeAccount) {
+        throw new Error("no chainId");
       }
 
-      const chainId = (await provider?.getNetwork()).chainId;
 
-      const contract = new Contract(
-        WRAPPED_TOKEN_ADDRESS(chainId) || '',
-        ["function withdraw(uint wad) public "],
-        provider.getSigner()
-      );
 
-      const tx = await contract.withdraw(amount);
-      onHash(tx.hash);
+      const contractAddress = WRAPPED_TOKEN_ADDRESS(chainId) || '';
 
-      return (await tx.wait()) as providers.TransactionReceipt;
+      const contract = getContract({
+        client,
+        address: contractAddress,
+        chain: defineChain(chainId),
+      });
+
+      const transaction = await prepareContractCall({
+        contract,
+        method: resolveMethod('widthdraw'),
+        params: [amount]
+      })
+
+      const { transactionHash } = await sendTransaction({
+        account: activeAccount,
+        transaction,
+      })
+
+      onHash(transactionHash);
+
+      return true;
     },
     {
       onError: (err: any) => {
@@ -221,54 +245,42 @@ export const TOKEN_BALANCE = "TOKEN_BALANCE";
 export interface TokenBalanceParams {
   account?: string;
   contractAddress?: string;
-  provider?: providers.BaseProvider;
+  chainId?: number
 }
 
 export function useTokenBalance({
   account,
   contractAddress,
-  provider,
+  chainId
+
 }: TokenBalanceParams) {
   return useQuery([TOKEN_BALANCE, account, contractAddress], async () => {
-    if (!contractAddress || !provider || !account) {
-      return BigNumber.from(0);
+    if (!contractAddress || !account || !chainId) {
+      return BigInt(0);
     }
 
     if (isAddressEqual(contractAddress, ZEROEX_NATIVE_TOKEN_ADDRESS)) {
-      return await provider.getBalance(account);
+      return (await getWalletBalance({
+        address: account,
+        client,
+        chain: defineChain(chainId),
+
+      })).value as bigint;
+
+
+
     }
 
-    const contract = new Contract(contractAddress, ERC20Abi, provider);
-
-    return (await contract.balanceOf(account)) as BigNumber;
+    return (await getWalletBalance({
+      address: account,
+      client,
+      chain: defineChain(chainId),
+      tokenAddress: contractAddress,
+    })).value as bigint;
   });
 }
 
-export const MULTI_TOKEN_BALANCE_QUERY = "MULTI_TOKEN_BALANCE_QUERY";
 
-export function useMultiTokenBalance({
-  tokens,
-  account,
-  provider,
-}: {
-  account?: string;
-  tokens?: Token[];
-  provider?: providers.BaseProvider;
-}) {
-  //const enabled = Boolean(tokens && provider && account);
-
-  return useQuery(
-    [MULTI_TOKEN_BALANCE_QUERY, tokens, account],
-    async () => {
-      if (!tokens || !provider || !account) {
-        return null;
-      }
-
-      return await getTokensBalance(tokens, provider, account);
-    },
-    // { enabled: enabled }
-  );
-}
 
 export const COIN_PRICES_QUERY = "COIN_PRICES_QUERY";
 
@@ -279,18 +291,18 @@ export const COIN_PRICES_QUERY = "COIN_PRICES_QUERY";
 export const GAS_PRICE_QUERY = "";
 
 export function useGasPrice({
-  provider,
+  chainId,
 }: {
-  provider?: providers.BaseProvider;
+  chainId?: number;
 }) {
   return useQuery(
     [GAS_PRICE_QUERY],
     async () => {
-      if (provider) {
-        return await provider.getGasPrice();
+      if (chainId) {
+        return await getGasPrice({ client, chain: defineChain(chainId) });
       }
 
-      return BigNumber.from(0);
+      return BigInt(0);
     },
     { refetchInterval: 20000 }
   );

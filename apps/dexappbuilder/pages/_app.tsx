@@ -23,7 +23,7 @@ import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import type { } from '@mui/material/themeCssVarsAugmentation';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
 import defaultAppConfig from '../config/app.minimal.json';
@@ -35,11 +35,10 @@ import './customCss.css';
 import type { AssetAPI } from '@dexkit/ui/modules/nft/types';
 import type { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import SiteProvider from '@dexkit/ui/providers/SiteProvider';
-import { WagmiUIProvider } from '@dexkit/ui/providers/WagmiUIProvider';
 import { AuthStateProvider } from '@dexkit/ui/providers/authStateProvider';
 import { AppBarANN } from 'src/components/AppBarANN';
 
-import { ThirdwebProvider } from "thirdweb/react";
+import { ThirdwebProvider } from 'thirdweb/react';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -258,6 +257,7 @@ export default function MyApp(props: MyAppProps) {
           content={theme?.colorSchemes?.light?.palette?.primary?.main}
         />
       </Head>
+
       <AuthStateProvider>
         <SiteProvider siteId={siteId} slug={site}>
           <AppConfigContext.Provider
@@ -266,9 +266,8 @@ export default function MyApp(props: MyAppProps) {
             <AppUIConfigContext.Provider
               value={{ appConfig: config, appNFT, siteId }}
             >
-              <WagmiUIProvider config={config}>
+              <ThirdwebProvider>
                 <QueryClientProvider client={queryClient}>
-                <ThirdwebProvider>
                   <Hydrate state={pageProps.dehydratedState}>
                     <DefaultSeo {...SEO} />
                     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -286,14 +285,14 @@ export default function MyApp(props: MyAppProps) {
                         >
                           <CircularProgress color="inherit" size={80} />
                         </Backdrop>
+
                         {false && <AppBarANN />}
                         {getLayout(<Component {...pageProps} />)}
                       </AppMarketplaceProvider>
                     </LocalizationProvider>
                   </Hydrate>
-                  </ThirdwebProvider>
                 </QueryClientProvider>
-              </WagmiUIProvider>
+              </ThirdwebProvider>
             </AppUIConfigContext.Provider>
           </AppConfigContext.Provider>
         </SiteProvider>

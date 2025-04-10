@@ -1,17 +1,16 @@
 import DollarSquare from "@dexkit/ui/components/icons/DollarSquare";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Button, Grid, Paper, Stack } from "@mui/material";
-import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { isAddressEqual } from "@dexkit/core/utils/blockchain";
 import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSignMessageDialog,
-    useSwitchNetwork,
-    useTokenList,
+  useConnectWalletDialog,
+  useDexKitContext,
+  useSignMessageDialog,
+  useSwitchNetwork,
+  useTokenList,
 } from "@dexkit/ui/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
@@ -20,14 +19,14 @@ import dynamic from "next/dynamic";
 import { getERC20Name, getERC20Symbol } from "@dexkit/core/services/balances";
 import Icon from "../../../components/Icon";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useAsset,
-    useAssetBalance,
-    useAssetMetadata,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetBalance,
+  useAssetMetadata,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { getAssetProtocol, isERC1155Owner } from "../utils";
 import { TransferAssetButton } from "./TransferAssetButton";
@@ -61,7 +60,7 @@ export function AssetPricePaper({ address, id }: Props) {
 
   const handleApproveAssetSuccess = useCallback(
     async (hash: string, swapAsset: SwappableAssetV4) => {
-      if (asset !== undefined) {
+      if (asset && chainId) {
         if (swapAsset.type === "ERC721") {
           const values = { name: asset.collectionName, tokenId: asset.id };
 
@@ -74,8 +73,14 @@ export function AssetPricePaper({ address, id }: Props) {
 
           watchTransactionDialog.watch(hash);
         } else if (swapAsset.type === "ERC20") {
-          const symbol = await getERC20Symbol(swapAsset.tokenAddress, provider);
-          const name = await getERC20Name(swapAsset.tokenAddress, provider);
+          const symbol = await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          });
+          const name = await getERC20Name({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          });
 
           const values = { name, symbol };
 
@@ -95,15 +100,21 @@ export function AssetPricePaper({ address, id }: Props) {
 
   const handleApproveAssetMutate = useCallback(
     async ({ asset: swapAsset }: { asset: SwappableAssetV4 }) => {
-      if (asset) {
+      if (asset && chainId) {
         if (swapAsset.type === "ERC721" || swapAsset.type === "ERC1155") {
           watchTransactionDialog.open("approveForAll", {
             name: asset.collectionName,
             tokenId: asset.id,
           });
         } else {
-          const symbol = await getERC20Symbol(swapAsset.tokenAddress, provider);
-          const name = await getERC20Name(swapAsset.tokenAddress, provider);
+          const symbol = await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          });
+          const name = await getERC20Name({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          });
 
           watchTransactionDialog.open("approve", { name, symbol });
         }
@@ -228,11 +239,11 @@ export function AssetPricePaper({ address, id }: Props) {
   const handleCloseMakeOfferDialog = () => setOpenMakeOffer(false);
 
   const handleConfirmMakeListing = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string,
-    quantity?: BigNumber
+    quantity?: bigint
   ) => {
     setOpenMakeListing(false);
 
@@ -268,7 +279,7 @@ export function AssetPricePaper({ address, id }: Props) {
       },
       another: {
         tokenAddress,
-        amount: quantity ? amount.mul(quantity).toString() : amount.toString(),
+        amount: quantity ? (amount * quantity).toString() : amount.toString(),
         type: "ERC20",
       },
       expiry: expiry,
@@ -277,10 +288,10 @@ export function AssetPricePaper({ address, id }: Props) {
   };
 
   const handleConfirmMakeOffer = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
     expiry: Date | null,
-    quantity?: BigNumber
+    quantity?: bigint
   ) => {
     setOpenMakeOffer(false);
 

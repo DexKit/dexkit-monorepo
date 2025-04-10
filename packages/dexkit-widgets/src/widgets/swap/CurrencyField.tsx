@@ -1,5 +1,4 @@
 import { InputBase, InputBaseProps } from "@mui/material";
-import { BigNumber } from "ethers";
 
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
@@ -7,9 +6,9 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { useDebounceCallback } from "../../hooks";
 
 interface Props {
-  onChange: (value: BigNumber) => void;
+  onChange: (value: bigint) => void;
   InputBaseProps?: InputBaseProps;
-  value: BigNumber;
+  value: bigint;
   decimals?: number;
   isUserInput?: boolean;
 }
@@ -26,14 +25,14 @@ export function CurrencyField({
     triggerChange: false,
   });
 
-  useDebounceCallback<BigNumber>(
+  useDebounceCallback<bigint>(
     value,
     (value) => {
       if (isUserInput) {
         return;
       }
       try {
-        const val = formatUnits(value, decimals);
+        const val = formatUnits(value, decimals as number);
         setInternalValue({
           value: val,
           triggerChange: false,
@@ -60,7 +59,7 @@ export function CurrencyField({
           onChange(parseUnits(internalValue.value, decimals));
         }
       } catch (err) {
-        onChange(BigNumber.from(0));
+        onChange(BigInt(0));
       }
     },
     0

@@ -9,14 +9,14 @@ import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import type { BigNumber } from "ethers";
+
 import { SwapSide } from "../types";
 
 export interface SwapQuoteParams {
   sellToken?: Token;
-  sellTokenAmount?: BigNumber;
+  sellTokenAmount?: bigint;
   buyToken?: Token;
-  buyTokenAmount?: BigNumber;
+  buyTokenAmount?: bigint;
   chainId: ChainId;
   skipValidation?: boolean;
   quoteFor?: SwapSide;
@@ -132,7 +132,7 @@ export function useSwapQuote({
             quoteParam.checkApproval = true;
           }
 
-          if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
+          if (quoteFor === "buy" && buyTokenAmount !== undefined && buyTokenAmount > BigInt(0)) {
             quoteParam.buyAmount = buyTokenAmount?.toString();
             if (intentOnFilling) {
               return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
@@ -140,7 +140,7 @@ export function useSwapQuote({
               return [quoteFor, await client.priceGasless(quoteParam, { signal })];
             }
 
-          } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
+          } else if (quoteFor === "sell" && sellTokenAmount !== undefined && sellTokenAmount > BigInt(0)) {
             quoteParam.sellAmount = sellTokenAmount?.toString();
             if (intentOnFilling) {
               return [quoteFor, await client.quoteGasless(quoteParam, { signal })];
@@ -173,10 +173,10 @@ export function useSwapQuote({
             quoteParam.slippagePercentage = maxSlippage;
           }
 
-          if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
+          if (quoteFor === "buy" && buyTokenAmount !== undefined && buyTokenAmount > BigInt(0)) {
             quoteParam.buyAmount = buyTokenAmount?.toString();
             return [quoteFor, await client.quote(quoteParam, { signal })];
-          } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
+          } else if (quoteFor === "sell" && sellTokenAmount !== undefined && sellTokenAmount > BigInt(0)) {
             quoteParam.sellAmount = sellTokenAmount?.toString();
             return [quoteFor, await client.quote(quoteParam, { signal })];
           }

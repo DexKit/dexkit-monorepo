@@ -38,7 +38,6 @@ import { styled } from "@mui/material/styles";
 import { useNFTBalance } from "@thirdweb-dev/react";
 import { ClaimEligibility, NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
-import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -231,18 +230,18 @@ export function EditionDropSection({ section }: Props) {
 
   const totalAvailableSupply = useMemo(() => {
     try {
-      return BigNumber.from(activeClaimCondition.data?.availableSupply || 0);
+      return BigInt(activeClaimCondition.data?.availableSupply || 0);
     } catch {
-      return BigNumber.from(1_000_000);
+      return BigInt(1_000_000);
     }
   }, [activeClaimCondition.data?.availableSupply]);
 
   const numberClaimed = useMemo(() => {
-    return BigNumber.from(claimedSupply.data || 0).toString();
+    return BigInt(claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
   const numberTotal = useMemo(() => {
-    const n = totalAvailableSupply.add(BigNumber.from(claimedSupply.data || 0));
+    const n = totalAvailableSupply + BigInt(claimedSupply.data || 0);
     if (n.gte(1_000_000)) {
       return "";
     }
@@ -250,14 +249,14 @@ export function EditionDropSection({ section }: Props) {
   }, [totalAvailableSupply, claimedSupply]);
 
   const totalAmount = useMemo(() => {
-    const bnPrice = BigNumber.from(
+    const bnPrice = BigInt(
       activeClaimCondition.data?.currencyMetadata.value || 0
     );
     return bnPrice.mul(quantity);
   }, [quantity, activeClaimCondition.data?.currencyMetadata.value]);
 
   const priceToMint = useMemo(() => {
-    const bnPrice = BigNumber.from(
+    const bnPrice = BigInt(
       activeClaimCondition.data?.currencyMetadata.value || 0
     );
     return `${formatUnits(
@@ -274,20 +273,20 @@ export function EditionDropSection({ section }: Props) {
   const maxClaimable = useMemo(() => {
     let bnMaxClaimable;
     try {
-      bnMaxClaimable = BigNumber.from(
+      bnMaxClaimable = BigInt(
         activeClaimCondition.data?.maxClaimableSupply || 0
       );
     } catch (e) {
-      bnMaxClaimable = BigNumber.from(1_000_000);
+      bnMaxClaimable = BigInt(1_000_000);
     }
 
     let perTransactionClaimable;
     try {
-      perTransactionClaimable = BigNumber.from(
+      perTransactionClaimable = BigInt(
         activeClaimCondition.data?.maxClaimablePerWallet || 0
       );
     } catch (e) {
-      perTransactionClaimable = BigNumber.from(1_000_000);
+      perTransactionClaimable = BigInt(1_000_000);
     }
 
     if (perTransactionClaimable.lte(bnMaxClaimable)) {
@@ -299,10 +298,10 @@ export function EditionDropSection({ section }: Props) {
     if (snapshotClaimable) {
       if (snapshotClaimable === "0") {
         // allowed unlimited for the snapshot
-        bnMaxClaimable = BigNumber.from(1_000_000);
+        bnMaxClaimable = BigInt(1_000_000);
       } else {
         try {
-          bnMaxClaimable = BigNumber.from(snapshotClaimable);
+          bnMaxClaimable = BigInt(snapshotClaimable);
         } catch (e) {
           // fall back to default case
         }
@@ -331,9 +330,8 @@ export function EditionDropSection({ section }: Props) {
     try {
       return (
         (activeClaimCondition.isSuccess &&
-          BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
-            0
-          )) ||
+          BigInt(activeClaimCondition.data?.availableSupply || 0) <=
+            BigInt(0)) ||
         numberClaimed === numberTotal
       );
     } catch (e) {
@@ -371,13 +369,13 @@ export function EditionDropSection({ section }: Props) {
     [claimIneligibilityReasons.isLoading, isLoading]
   );
   const priceText = useMemo(() => {
-    const pricePerToken = BigNumber.from(
+    const pricePerToken = BigInt(
       activeClaimCondition.data?.currencyMetadata.value || 0
     );
     if (pricePerToken.eq(0)) {
       return <FormattedMessage id={"Free"} defaultMessage={"Free"} />;
     }
-    const bnPrice = BigNumber.from(
+    const bnPrice = BigInt(
       activeClaimCondition.data?.currencyMetadata.value || 0
     );
     return `${formatUnits(
@@ -397,7 +395,7 @@ export function EditionDropSection({ section }: Props) {
     }
 
     if (canClaim) {
-      const pricePerToken = BigNumber.from(
+      const pricePerToken = BigInt(
         activeClaimCondition.data?.currencyMetadata.value || 0
       );
       if (pricePerToken.eq(0)) {
@@ -692,7 +690,7 @@ export function EditionDropSection({ section }: Props) {
                               // we need to approve token
                               if (
                                 allowance &&
-                                (allowance as BigNumber).lt(totalAmount)
+                                (allowance as BigInt) < BigInt(totalAmount)
                               ) {
                                 const values = {
                                   name: activeClaimCondition.data

@@ -1,48 +1,43 @@
 import { getTokensBalance } from "@dexkit/core/services";
 import { Token } from "@dexkit/core/types";
 import { useQuery } from "@tanstack/react-query";
-import { providers } from "ethers";
+import type { Account } from "thirdweb/wallets";
 
 export const MULTI_TOKEN_BALANCE_QUERY = "MULTI_TOKEN_BALANCE_QUERY";
 
 export function useMultiTokenBalance({
   tokens,
-  account,
-  provider,
+  activeAccount,
+  chainId
 }: {
-  account?: string;
+  activeAccount?: Account;
   tokens?: Token[];
-  provider?: providers.BaseProvider;
+  chainId?: number;
 }) {
   //const enabled = Boolean(tokens && provider && account);
 
   return useQuery(
-    [MULTI_TOKEN_BALANCE_QUERY, tokens, account],
+    [MULTI_TOKEN_BALANCE_QUERY, tokens, chainId, activeAccount],
     async () => {
-      console.log("entra aqui 1", tokens, provider, account);
-      if (!tokens || !provider || !account) {
+
+      if (!tokens || !chainId || !activeAccount) {
         return null;
       }
 
-      console.log("entra aqui 2");
-
-      await provider.ready;
-
-      const chainId = (await provider.getNetwork()).chainId;
-
-      return await getTokensBalance(
-        tokens
+      return await getTokensBalance({
+        tokens: tokens
           .filter((t) => t.chainId === chainId)
           .map((t) => ({ contractAddress: t.address })),
-        provider,
-        account
+        activeAccount: activeAccount,
+        chainId
+      }
       );
     },
     {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       staleTime: 1000,
-      enabled: Boolean(provider),
+
     }
   );
 }

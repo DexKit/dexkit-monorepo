@@ -11,8 +11,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { BigNumber, constants } from "ethers";
+
 import { memo } from "react";
+import { zeroAddress } from "viem";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
@@ -40,10 +41,10 @@ function SelectCoinListMatchaItem({
     ? tokenBalances[
         token?.address.toLowerCase() ===
         ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
-          ? constants.AddressZero
+          ? zeroAddress
           : token.address
       ]
-    : BigNumber.from(0);
+    : BigInt(0);
 
   const renderAvatar = () => {
     if (isExtern) {

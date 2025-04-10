@@ -18,7 +18,6 @@ import {
 } from "@traderxyz/nft-swap-sdk";
 import { PostOrderResponsePayload } from "@traderxyz/nft-swap-sdk/dist/sdk/v4/orderbook";
 import axios from "axios";
-import { BigNumber } from "ethers";
 import { useAtom } from "jotai";
 import { useCallback, useMemo } from "react";
 import { getAssetDexKitApi, TRADER_BASE_API } from "../../../constants/api";
@@ -70,11 +69,11 @@ export function useAssetBalance(asset?: Asset, account?: string) {
     ) {
       return;
     }
-    let balance: BigNumber | undefined;
+    let balance: bigint | undefined;
 
     if (asset?.protocol === "ERC1155") {
       balance = await getERC1155Balance({
-        provider,
+        chainId,
         account,
         contractAddress: asset.contractAddress,
         tokenId: asset.id,
@@ -277,7 +276,7 @@ export function useMakeOfferMutation(
 
       if (appConfig.fees && token) {
         options.fees = calculeFees(
-          BigNumber.from(another.amount),
+          BigInt(another.amount),
           token.decimals,
           appConfig.fees
         );
@@ -348,7 +347,7 @@ export function useMakeListingMutation(
 
       if (appConfig.fees && token) {
         options.fees = calculeFees(
-          BigNumber.from(another.amount),
+          BigInt(another.amount),
           token.decimals,
           appConfig.fees
         );
@@ -676,7 +675,7 @@ export function useFillSignedOrderMutation(
         const erc20TotalAmount = nftSwapSdk
           .getErc20TotalIncludingFees(order)
           .mul(
-            BigNumber.from(quantity).mul(100000).div(order.erc1155TokenAmount)
+            (BigInt(quantity) * 100000n) / BigInt(order.erc1155TokenAmount.toString())
           )
           .div(100000);
 
@@ -794,7 +793,7 @@ export const useAssetListFromOrderbook = (orderFilter: TraderOrderFilter) => {
         const itensCollection = Array.from(itensCollectionMap.values());
         const nftType = itensCollection[0].nftType;
         const nfts = await getAssetsData(
-          provider,
+          orderFilter.chainId as number,
           collection,
           itensCollection.map((or) => or.nftTokenId),
           nftType === NFTType.ERC1155

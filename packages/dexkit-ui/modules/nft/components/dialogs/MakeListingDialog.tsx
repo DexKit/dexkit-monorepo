@@ -1,29 +1,27 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
-
-import { BigNumber, utils } from "ethers";
 
 import moment from "moment";
 import { useMemo } from "react";
@@ -35,6 +33,7 @@ import { Token } from "@dexkit/core/types";
 import { Asset, AssetMetadata } from "@dexkit/core/types/nft";
 import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { isAddressEqual } from "@dexkit/core/utils/blockchain";
+import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { isValidDecimal } from "@dexkit/core/utils/numbers";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -74,11 +73,11 @@ interface Props {
   assetBalance?: AssetBalance;
   tokenList: Token[];
   onConfirm: (
-    price: BigNumber,
+    price: bigint,
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string,
-    quantity?: BigNumber
+    quantity?: bigint
   ) => void;
 }
 
@@ -118,15 +117,16 @@ export default function MakeListingDialog({
 
         return;
       }
+      if (!decimals) {
+        throw new Error("no decimals");
+      }
 
       onConfirm(
-        utils.parseUnits(values.price, decimals),
+        parseUnits(values.price, decimals),
         values.tokenAddress,
         values.expiry || null,
         values.taker,
-        asset?.protocol === "ERC1155"
-          ? BigNumber.from(values.quantity)
-          : BigNumber.from(1)
+        asset?.protocol === "ERC1155" ? BigInt(values.quantity as string) : 1n
       );
 
       formikHelpers.resetForm();
@@ -326,7 +326,7 @@ export default function MakeListingDialog({
                         id="available.to.sell"
                         defaultMessage="Available to sell: {quantity}"
                         values={{
-                          quantity: assetBalance.balance.toNumber(),
+                          quantity: assetBalance.balance.toString(),
                         }}
                       />
                     </Typography>
@@ -334,7 +334,7 @@ export default function MakeListingDialog({
                       type={"number"}
                       inputProps={{
                         min: 1,
-                        max: assetBalance.balance.toNumber(),
+                        max: assetBalance.balance.toString(),
                         step: 1,
                       }}
                       value={Number(form.values.quantity || 1)}

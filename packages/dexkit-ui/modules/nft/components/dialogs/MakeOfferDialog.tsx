@@ -1,25 +1,23 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-
-import { BigNumber } from "ethers";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import moment from "moment";
@@ -68,10 +66,10 @@ interface Props {
   account?: string;
   asset?: Asset;
   onConfirm: (
-    price: BigNumber,
+    price: bigint,
     tokenAddress: string,
     expiry: Date | null,
-    quantity?: BigNumber
+    quantity?: bigint
   ) => void;
 }
 
@@ -96,7 +94,7 @@ export default function MakeOfferDialog({
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     const decimals = tokenList.find((t) =>
       isAddressEqual(t.address, values.tokenAddress)
-    )?.decimals;
+    )?.decimals as number;
 
     if (!isValidDecimal(values.price, decimals || 1)) {
       formikHelpers.setFieldError(
@@ -113,8 +111,8 @@ export default function MakeOfferDialog({
       values.tokenAddress,
       values.expiry || null,
       asset?.protocol === "ERC1155"
-        ? BigNumber.from(values.quantity)
-        : BigNumber.from(1)
+        ? BigInt(values.quantity as number)
+        : BigInt(1)
     );
 
     formikHelpers.resetForm();
@@ -136,14 +134,14 @@ export default function MakeOfferDialog({
     validate: async (values) => {
       const decimals = tokenList.find((t) =>
         isAddressEqual(t.address, values.tokenAddress)
-      )?.decimals;
+      )?.decimals as number;
 
       if (values.price !== "" && isValidDecimal(values.price, decimals || 1)) {
         const priceValue = parseUnits(values.price, decimals);
 
         const errors: FormikErrors<Form> = {};
 
-        if (priceValue.gt(erc20Balance.data || BigNumber.from(0))) {
+        if (priceValue > (erc20Balance.data?.value || BigInt(0))) {
           errors.price = formatMessage({
             id: "insufficient.funds",
             defaultMessage: "insufficient funds",
@@ -158,11 +156,10 @@ export default function MakeOfferDialog({
     onSubmit: handleConfirm,
   });
 
-  const erc20Balance = useErc20Balance(
-    provider,
-    form.values.tokenAddress,
-    account
-  );
+  const erc20Balance = useErc20Balance({
+    contractAddress: form.values.tokenAddress,
+    account,
+  });
 
   const handleChangeExpiryDuration = (newValue: moment.Duration | null) => {
     form.setFieldValue("expiry", moment().add(newValue).toDate());
@@ -419,7 +416,7 @@ export default function MakeOfferDialog({
                         <Skeleton />
                       ) : (
                         formatUnits(
-                          erc20Balance.data || BigNumber.from(0),
+                          erc20Balance.data?.value || BigInt(0),
                           tokenSelected.decimals
                         )
                       )}{" "}

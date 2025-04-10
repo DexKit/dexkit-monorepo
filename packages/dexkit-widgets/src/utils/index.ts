@@ -5,12 +5,6 @@ import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 
 
 
-import type { BigNumber } from "ethers";
-
-// import { MagicConnector } from "../connectors/magic";
-
-
-
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
     return false;
@@ -23,14 +17,14 @@ export function isAddressEqual(address?: string, other?: string) {
   return address.toLowerCase() === other.toLowerCase();
 }
 
-export function formatBigNumber(val: BigNumber, decimals: number) {
+export function formatBigNumber(val: bigint, decimals: number) {
   // TODO: improve this code in the future
   // pass to a memoized component or something
   const value = formatUnits(val, decimals);
 
   let index = value.indexOf(".");
 
-  if (val.isZero()) {
+  if (val === BigInt(0)) {
     return value;
   }
 

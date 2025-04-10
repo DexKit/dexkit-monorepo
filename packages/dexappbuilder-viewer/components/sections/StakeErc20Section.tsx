@@ -30,7 +30,6 @@ import {
   useContractRead,
   useTokenBalance,
 } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
 import { Formik, FormikErrors } from "formik";
 import moment from "moment";
 import { SyntheticEvent, useMemo, useState } from "react";
@@ -92,7 +91,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
           formatBigNumber(n, stakingTokenBalance?.decimals || 18),
           formatBigNumber(d, rewardTokenBalance?.decimals || 18),
           formatUnits(n, stakingTokenBalance?.decimals),
-          n as BigNumber,
+          n as bigint,
         ];
       }
 
@@ -106,9 +105,9 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       rewardTokenBalance?.symbol
     ) {
       const dividerConst = 10000;
-      const [n, d] = rewardRatioQuery.data as [BigNumber, BigNumber];
-      const seconds = rewardTimeUnitQuery.data as BigNumber;
-      const ratio = n.mul(dividerConst).div(d).toNumber() / dividerConst;
+      const [n, d] = rewardRatioQuery.data as [bigint, bigint];
+      const seconds = rewardTimeUnitQuery.data as bigint;
+      const ratio = Number(((BigInt(n.toString()) * BigInt(dividerConst.toString())) / BigInt(d.toString())).toString()) / dividerConst;
       return `${ratio} ${rewardTokenBalance.symbol} ${moment
         .duration(seconds?.toNumber(), "seconds")
         .humanize()}`;
@@ -177,7 +176,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
   const trackEventMutation = useTrackUserEventsMutation();
 
   const stakeMutation = useMutation(
-    async ({ amount }: { amount: BigNumber }) => {
+    async ({ amount }: { amount: bigint}) => {
       let call = contract?.prepare("stake", [amount]);
 
       let tx = await call?.send();
@@ -217,7 +216,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
   );
 
   const unstakeMutation = useMutation(
-    async ({ amount }: { amount: BigNumber }) => {
+    async ({ amount }: { amount: bigint }) => {
       let call = contract?.prepare("withdraw", [amount]);
 
       let tx = await call?.send();
@@ -361,7 +360,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       });
     }
 
-    if (amountParsed.gt(stakingTokenBalance?.value || BigNumber.from(0))) {
+    if (amountParsed > stakingTokenBalance?.value || BigInt(0))) {
       errors["amount"] = formatMessage({
         id: "amount.exceeds.the.balance",
         defaultMessage: "Amount exceeds the balance",
@@ -386,7 +385,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       });
     }
 
-    if (amountParsed.gt(tokensStakedValue || BigNumber.from(0))) {
+    if (amountParsed > BigInt((tokensStakedValue || BigInt(0)))) {
       errors["amount"] = formatMessage({
         id: "amount.exceeds.the.amount.staked",
         defaultMessage: "Amount exceeds the amount staked",

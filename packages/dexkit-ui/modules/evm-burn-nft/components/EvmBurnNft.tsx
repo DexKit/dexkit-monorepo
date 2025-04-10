@@ -21,7 +21,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { BigNumber } from "ethers";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import { useSnackbar } from "notistack";
@@ -42,7 +41,7 @@ export interface EvmTransferNftProps {
     owner?: string;
     tokenId?: string;
     protocol?: "ERC721" | "ERC1155";
-    balance?: BigNumber;
+    balance?: bigint;
   };
   nftMetadata?: {
     image?: string;
@@ -142,7 +141,7 @@ export default function EvmBurnNft({
 
   const disableNotOwner = ({ addressValue }: { addressValue: string }) => {
     if (nft?.protocol === "ERC1155" && nft?.balance) {
-      return !nft?.balance.gt(0);
+      return nft?.balance !== undefined && nft.balance > BigInt(0);
     } else {
       return (
         isAddressEqual(nft?.owner, addressValue) ||
@@ -246,7 +245,7 @@ export default function EvmBurnNft({
                   {isLoadingNft ? (
                     <Skeleton />
                   ) : nft?.protocol === "ERC1155" ? (
-                    nft?.balance && (
+                    nft?.balance !== undefined && (
                       <FormattedMessage
                         id="you.own.nfts"
                         defaultMessage="You own {balance} NFTs"
@@ -304,7 +303,7 @@ export default function EvmBurnNft({
                 }
                 name="quantity"
                 component={TextField}
-                max={nft.balance?.toNumber() || 1}
+                max={nft.balance?.toString() || 1}
                 type="number"
               />
             )}

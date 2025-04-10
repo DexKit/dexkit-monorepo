@@ -1,5 +1,4 @@
 import { ChainId } from '@dexkit/core/constants';
-import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   useMutation,
@@ -7,18 +6,18 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
-import { BigNumber, Contract, providers } from 'ethers';
 import { useCallback } from 'react';
 
 
 
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '@dexkit/core/constants';
 
-import { ERC20Abi } from '@dexkit/core/constants/abis';
-import { Token } from '@dexkit/core/types';
+import { Token, TokenWhitelabelApp } from '@dexkit/core/types';
+import { sendTransaction } from "thirdweb";
+import type { Account } from 'thirdweb/wallets';
 import { useERC20BalancesQuery } from '../modules/wallet/hooks';
 import { TokenBalance } from '../modules/wallet/types';
-import { getERC20Balances, getERC20WithProxyUnlockedBalances } from '../services/balances';
+import { getERC20Approve, getERC20Balances, getERC20TokenAllowance, getERC20WithProxyUnlockedBalances } from '../services/balances';
 
 export const GET_ERC20_BALANCES = 'GET_ERC20_BALANCES';
 export const GET_ERC20_BALANCE = 'GET_ERC20_BALANCE';
@@ -38,17 +37,16 @@ export const useERC20BalancesProxyAllowancesQuery = (
   useSuspense?: boolean
 ) => {
   const {
-    provider: walletProvider,
-    account,
+    activeAccount,
     chainId: walletChainId,
   } = useWeb3React();
   const chainId = defaultChainId || walletChainId;
 
   return useQuery(
-    [GET_ERC20_BALANCES, account, chainId, tokens],
+    [GET_ERC20_BALANCES, activeAccount, chainId, tokens],
     () => {
       if (
-        account === undefined ||
+        activeAccount === undefined ||
         chainId === undefined ||
         tokens === undefined
       ) {
@@ -57,19 +55,14 @@ export const useERC20BalancesProxyAllowancesQuery = (
       if (tokens && tokens.length === 0) {
         return [];
       }
-      const provider =
-        defaultChainId === walletChainId
-          ? walletProvider
-          : getProviderByChainId(chainId);
-      if (!provider) {
-        return;
+
+
+      return getERC20WithProxyUnlockedBalances({
+        chainId,
+        tokens: tokens as TokenWhitelabelApp[],
+        activeAccount
       }
 
-      return getERC20WithProxyUnlockedBalances(
-        account,
-        tokens,
-        chainId,
-        provider
       );
     },
     { enabled: chainId !== undefined, select, suspense: useSuspense }
@@ -91,85 +84,80 @@ export const useSelectERC20BalancesQuery = (tokens: Token[]) => {
 
 // We use this if we need only to return the native balance
 export const useNativeBalanceQuery = () => {
-  const { provider, account, chainId } = useWeb3React();
+  const { activeAccount, chainId } = useWeb3React();
   return useQuery(
-    [GET_NATIVE_BALANCE, account, chainId],
+    [GET_NATIVE_BALANCE, activeAccount, chainId],
     async () => {
       if (
-        provider === undefined ||
-        account === undefined ||
+        activeAccount === undefined ||
         chainId === undefined
       ) {
         return;
       }
-      const balances = await getERC20Balances(account, [], chainId, provider);
+      const balances = await getERC20Balances({ activeAccount, tokens: [], chainId });
       return balances[0];
     },
-    { enabled: provider !== undefined }
+    { enabled: activeAccount !== undefined }
   );
 };
 
 // We use this if we need only a token balance
 export const useERC20BalanceQuery = (token: Token) => {
-  const { provider, account, chainId } = useWeb3React();
+  const { activeAccount, chainId } = useWeb3React();
   return useQuery(
-    [GET_ERC20_BALANCE, account, chainId],
+    [GET_ERC20_BALANCE, activeAccount, chainId, token],
     async () => {
       if (
-        provider === undefined ||
-        account === undefined ||
-        chainId === undefined
+        activeAccount === undefined ||
+        chainId === undefined ||
+        token === undefined
       ) {
         return;
       }
-      const balances = await getERC20Balances(
-        account,
-        [token],
-        chainId,
-        provider
-      );
+      const balances = await getERC20Balances({
+        activeAccount,
+        tokens: [token as TokenWhitelabelApp],
+        chainId
+      });
       return balances.filter((tb) => tb.token === token)[0];
     },
-    { enabled: provider !== undefined }
+    { enabled: activeAccount !== undefined }
   );
 };
 
 export function useErc20ApproveMutation(
-  provider?: providers.Web3Provider,
   onSuccess?: (hash: string, asset: SwappableAssetV4) => void,
   options?: Omit<UseMutationOptions, any>
 ) {
   const mutation = useMutation(
     async ({
       spender,
+      chainId,
       amount,
       tokenAddress,
+      activeAccount
     }: {
+      chainId: number,
       spender: string;
-      amount: BigNumber;
+      amount: bigint;
       tokenAddress?: string;
+      activeAccount: Account
     }) => {
-      if (!provider || tokenAddress === undefined) {
+      if (tokenAddress === undefined) {
         return undefined;
       }
 
-      const contract = new Contract(
-        tokenAddress,
-        ERC20Abi,
-        provider.getSigner()
-      );
-
-      const tx = await contract.approve(spender, amount);
-
+      const transaction = await getERC20Approve({ spender, amount: amount.toString(), chainId });
+      const tx = await sendTransaction({ transaction, account: activeAccount });
       if (onSuccess) {
-        onSuccess(tx.hash, {
+        onSuccess(tx.transactionHash, {
           type: 'ERC20',
           amount: amount.toString(),
           tokenAddress,
         });
       }
 
-      return await tx.wait();
+      return await true;
     },
     options
   );
@@ -178,7 +166,7 @@ export function useErc20ApproveMutation(
 }
 
 export function useErc20AllowanceMutation(
-  provider?: providers.Web3Provider,
+
   options?: Omit<UseMutationOptions, any>,
 
 ) {
@@ -187,26 +175,19 @@ export function useErc20AllowanceMutation(
       account,
       spender,
       tokenAddress,
+      chainId,
     }: {
       spender: string;
       account?: string,
       tokenAddress?: string;
+      chainId: number,
     }) => {
-      if (!provider || tokenAddress === undefined || !account) {
+      if (tokenAddress === undefined || !account) {
         return undefined;
       }
 
-      const contract = new Contract(
-        tokenAddress,
-        ERC20Abi,
-        provider
-      );
+      return await getERC20TokenAllowance({ chainId, tokenAddress, account, spender })
 
-      const allowance = await contract.allowance(account, spender);
-
-
-
-      return allowance as BigNumber;
     },
     options
   );
@@ -215,39 +196,37 @@ export function useErc20AllowanceMutation(
 }
 
 export function useErc20ApproveMutationV2(
-  provider?: providers.Web3Provider,
   onSuccess?: (hash: string, asset: SwappableAssetV4) => void,
 ) {
   const mutation = useMutation(
     async ({
       spender,
+      chainId,
       amount,
       tokenAddress,
+      activeAccount
     }: {
+      chainId: number,
       spender: string;
-      amount: BigNumber;
+      amount: bigint;
       tokenAddress?: string;
+      activeAccount: Account
     }) => {
-      if (!provider || tokenAddress === undefined) {
+      if (tokenAddress === undefined) {
         return undefined;
       }
 
-      const contract = new Contract(
-        tokenAddress,
-        ERC20Abi,
-        provider.getSigner()
-      );
-
-      const tx = await contract.approve(spender, amount);
+      const transaction = await getERC20Approve({ spender, amount: amount.toString(), chainId });
+      const tx = await sendTransaction({ transaction, account: activeAccount });
       if (onSuccess) {
-        onSuccess(tx.hash, {
+        onSuccess(tx.transactionHash, {
           type: 'ERC20',
           amount: amount.toString(),
           tokenAddress,
         });
       }
 
-      return await tx.wait();
+      return true;
     }
   );
 

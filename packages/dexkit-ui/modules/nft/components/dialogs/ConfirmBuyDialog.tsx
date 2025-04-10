@@ -1,18 +1,18 @@
 import {
-    Alert,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Tooltip,
-    Typography,
+  Alert,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { AppDialogTitle } from "../../../../components/AppDialogTitle";
 
@@ -23,7 +23,6 @@ import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { ipfsUriToUrl } from "@dexkit/core/utils/ipfs";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Box } from "@mui/material";
-import { BigNumber } from "ethers";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FormattedMessage, FormattedNumber, useIntl } from "react-intl";
@@ -52,11 +51,14 @@ export default function ConfirmBuyDialog({
 
   const currency = useCurrency();
 
-  const { provider, account } = useWeb3React();
+  const { account } = useWeb3React();
 
   const [quantity, setQuantity] = useState(1);
 
-  const erc20Balance = useErc20Balance(provider, order?.erc20Token, account);
+  const erc20Balance = useErc20Balance({
+    contractAddress: order?.erc20Token,
+    account,
+  });
 
   const handleClose = () => onClose!({}, "backdropClick");
 
@@ -73,17 +75,15 @@ export default function ConfirmBuyDialog({
   }, [tokens, order]);
 
   const hasSufficientFunds = useMemo(() => {
-    if (token !== undefined) {
-      const orderTokenAmount: BigNumber = BigNumber.from(
-        order?.erc20TokenAmount
-      );
+    if (token !== undefined && erc20Balance.data?.value !== undefined) {
+      const orderTokenAmount: bigint = BigInt(order?.erc20TokenAmount);
       if (quantity > 1) {
-        if (erc20Balance.data?.gte(orderTokenAmount.div(quantity))) {
+        if (erc20Balance.data?.value > orderTokenAmount / BigInt(quantity)) {
           return true;
         }
       }
 
-      if (erc20Balance.data?.gte(orderTokenAmount)) {
+      if (erc20Balance.data?.value >= orderTokenAmount) {
         return true;
       }
     }
@@ -206,14 +206,13 @@ export default function ConfirmBuyDialog({
                       <Typography sx={{ fontWeight: 600 }} variant="body1">
                         {asset?.protocol === "ERC1155"
                           ? formatUnits(
-                              BigNumber.from(
-                                order?.erc20TokenAmount || "0"
-                              ).div(order?.erc1155TokenAmount || "1"),
-                              token?.decimals
+                              BigInt(order?.erc20TokenAmount || "0") /
+                                BigInt(order?.erc1155TokenAmount || "1"),
+                              token?.decimals as number
                             )
                           : formatUnits(
-                              BigNumber.from(order?.erc20TokenAmount || "0"),
-                              token?.decimals
+                              BigInt(order?.erc20TokenAmount || "0"),
+                              token?.decimals as number
                             )}{" "}
                         {token?.symbol}
                       </Typography>
@@ -283,10 +282,9 @@ export default function ConfirmBuyDialog({
                           {quantity *
                             Number(
                               formatUnits(
-                                BigNumber.from(
-                                  order?.erc20TokenAmount || "0"
-                                ).div(order?.erc1155TokenAmount || "1"),
-                                token?.decimals
+                                BigInt(order?.erc20TokenAmount || "0") /
+                                  BigInt(order?.erc1155TokenAmount || "1"),
+                                token?.decimals as number
                               )
                             )}{" "}
                           {token?.symbol}
@@ -331,8 +329,8 @@ export default function ConfirmBuyDialog({
                     <Skeleton />
                   ) : (
                     formatUnits(
-                      erc20Balance.data || BigNumber.from(0),
-                      token?.decimals
+                      erc20Balance.data?.value || BigInt(0),
+                      token?.decimals as number
                     )
                   )}{" "}
                   {token?.symbol}

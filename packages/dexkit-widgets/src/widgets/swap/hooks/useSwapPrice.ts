@@ -7,16 +7,16 @@ import { Token } from "@dexkit/core/types";
 import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import type { BigNumber } from "ethers";
+
 import { SwapSide } from "../types";
 
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits } from 'viem';
 export interface SwapQuoteParams {
   sellToken?: Token;
-  sellTokenAmount?: BigNumber;
+  sellTokenAmount?: bigint;
   buyToken?: Token;
-  buyTokenAmount?: BigNumber;
+  buyTokenAmount?: bigint;
   chainId: ChainId;
   skipValidation?: boolean;
   quoteFor?: SwapSide;

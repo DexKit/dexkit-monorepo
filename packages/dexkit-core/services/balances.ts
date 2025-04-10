@@ -1,16 +1,18 @@
-import { BigNumber, Contract, providers } from "ethers";
 
-import { ERC20Abi } from "../constants/abis";
 
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { defineChain, getContract, readContract } from "thirdweb";
+import { approve, decimals } from "thirdweb/extensions/erc20";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { NETWORK_COIN_SYMBOL } from "../constants/networks";
 
+export const getERC20Decimals = async ({ contractAddress, chainId
 
-export const getERC20Decimals = async (
+}: {
   contractAddress?: string,
-  provider?: providers.BaseProvider
-) => {
-  if (contractAddress === undefined || provider === undefined) {
+  chainId?: number
+}) => {
+  if (contractAddress === undefined || chainId === undefined) {
     return;
   }
 
@@ -18,83 +20,122 @@ export const getERC20Decimals = async (
     return 18;
   }
 
-  const contract = new Contract(contractAddress, ERC20Abi, provider);
+  const contract = getContract({
+    client,
+    address: contractAddress,
+    chain: defineChain(chainId),
+  });
 
-  return await contract.decimals();
+  return await decimals({ contract });;
 };
 
-export const getERC20Symbol = async (
+export const getERC20Symbol = async ({ contractAddress, chainId
+
+}: {
   contractAddress?: string,
-  provider?: providers.BaseProvider
-) => {
-  if (contractAddress === undefined || provider === undefined) {
+  chainId?: number
+}) => {
+  if (contractAddress === undefined || chainId === undefined) {
     return;
   }
 
   if (contractAddress === ZEROEX_NATIVE_TOKEN_ADDRESS) {
-    return NETWORK_COIN_SYMBOL((await provider.getNetwork()).chainId);
+    return NETWORK_COIN_SYMBOL(chainId);
   }
 
-  const contract = new Contract(contractAddress, ERC20Abi, provider);
+  const contract = getContract({
+    client,
+    address: contractAddress,
+    chain: defineChain(chainId),
+  });
 
-  return await contract.symbol();
+  const data = await readContract({
+    contract: contract,
+    method: "function symbol() public view returns (string)",
+    params: [],
+  })
+
+
+
+
+  return data
 };
 
-export const getERC20Name = async (
+export const getERC20Name = async ({ contractAddress, chainId
+
+}: {
   contractAddress?: string,
-  provider?: providers.BaseProvider
-) => {
-  if (contractAddress === undefined || provider === undefined) {
+  chainId?: number
+}) => {
+  if (contractAddress === undefined || chainId === undefined) {
     return;
   }
 
-  const contract = new Contract(contractAddress, ERC20Abi, provider);
+  const contract = getContract({
+    client,
+    address: contractAddress,
+    chain: defineChain(chainId),
+  });
 
-  return await contract.name();
+  const data = await readContract({
+    contract: contract,
+    method: "function name() public view returns (string)",
+    params: [],
+  })
+
+
+
+  return data
 };
 
-export const getERC20Balance = async (
+/*export const getERC20BalanceAsync = async ({
+  contractAddress,
+  activeAccount,
+  chainId
+
+}: {
   contractAddress?: string,
-  account?: string,
-  provider?: providers.BaseProvider
-) => {
-  if (
-    contractAddress === undefined ||
-    account === undefined ||
-    provider === undefined
-  ) {
+  activeAccount?: Account,
+  chainId?: number
+}) => {
+  if (contractAddress === undefined || activeAccount === undefined || chainId === undefined) {
     return;
   }
 
   if (contractAddress === ZEROEX_NATIVE_TOKEN_ADDRESS) {
-    return await provider.getBalance(account);
+    return await getWalletBalance({ address: activeAccount.address, chain: defineChain(chainId), client });
   }
+  return await getWalletBalance({ address: activeAccount.address, chain: defineChain(chainId), client, tokenAddress: contractAddress });
 
-  const contract = new Contract(contractAddress, ERC20Abi, provider);
-
-  return await contract.balanceOf(account);
-};
+};*/
 
 export const approveToken = async ({
-  provider,
   spender,
   tokenContract,
   amount,
+  chainId
 }: {
-  provider?: providers.Web3Provider;
+
   spender?: string;
   tokenContract?: string;
-  amount?: BigNumber;
+  amount?: bigint;
+  chainId?: number
 }) => {
-  if (!tokenContract || !provider || !spender || !amount) {
+  if (!tokenContract || !spender || !amount || !chainId) {
     return;
   }
 
-  const contract = new Contract(
-    tokenContract,
-    ERC20Abi,
-    provider.getSigner()
-  );
+  const contract = getContract({
+    client,
+    address: tokenContract,
+    chain: defineChain(chainId),
+  });
 
-  return await contract.approve(spender, amount);
+
+
+  return await approve({
+    contract,
+    spender,
+    amount: amount.toString(),
+  })
 };

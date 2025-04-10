@@ -9,36 +9,36 @@ import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Name,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Name,
+  getERC20Symbol,
 } from "@dexkit/core/services/balances";
 import { Asset, SwapApiOrder } from "@dexkit/core/types/nft";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSwitchNetwork,
+  useConnectWalletDialog,
+  useDexKitContext,
+  useSwitchNetwork,
 } from "@dexkit/ui";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
-    SignedNftOrderV4,
-    SwappableAssetV4,
-    TradeDirection,
+  SignedNftOrderV4,
+  SwappableAssetV4,
+  TradeDirection,
 } from "@traderxyz/nft-swap-sdk";
-import { BigNumber } from "ethers";
+
 import dynamic from "next/dynamic";
 import ShareDialog from "../../../components/dialogs/ShareDialog";
 import { useTokenList } from "../../../hooks/blockchain";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
 import { OrderDirection } from "../constants/enum";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { OrderBookItem } from "../types";
 import { getAssetProtocol } from "../utils";
@@ -74,9 +74,14 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
 
           watchTransactionDialog.watch(hash);
         } else {
-          const symbol = await getERC20Symbol(swapAsset.tokenAddress, provider);
-          const name = await getERC20Symbol(swapAsset.tokenAddress, provider);
-
+          const symbol = (await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          })) as string;
+          const name = (await getERC20Symbol({
+            contractAddress: swapAsset.tokenAddress,
+            chainId,
+          })) as string;
           const values = { name, symbol };
 
           createNotification({
@@ -109,12 +114,15 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
 
             watchTransactionDialog.open("approveForAll", values);
           } else {
-            const symbol = await getERC20Symbol(
-              asset.contractAddress,
-              provider
-            );
+            const symbol = await getERC20Symbol({
+              contractAddress: asset.contractAddress,
+              chainId,
+            });
 
-            const name = await getERC20Name(asset.contractAddress, provider);
+            const name = await getERC20Name({
+              contractAddress: asset.contractAddress,
+              chainId,
+            });
 
             const values = { name, symbol };
 
@@ -141,29 +149,42 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         return;
       }
 
-      const decimals = await getERC20Decimals(order.erc20Token, provider);
+      const decimals = await getERC20Decimals({
+        contractAddress: order.erc20Token,
+        chainId,
+      });
 
-      const symbol = await getERC20Symbol(order.erc20Token, provider);
+      const symbol = (await getERC20Symbol({
+        contractAddress: order.erc20Token,
+        chainId,
+      })) as string;
+
+      if (decimals === undefined) {
+        throw new Error("no decimals");
+      }
 
       const values = {
         collectionName: asset.collectionName,
         id: asset.id,
-        amount: formatUnits(order.erc20TokenAmount, decimals),
+        amount: formatUnits(
+          BigInt(order.erc20TokenAmount.toString()),
+          decimals
+        ),
         symbol,
       };
 
       if (
         quantity &&
+        decimals &&
         quantity > 1 &&
         "erc1155Token" in order &&
         order.direction === TradeDirection.SellNFT
       ) {
         values.amount = formatUnits(
-          BigNumber.from(order.erc20TokenAmount)
-            .mul(
-              BigNumber.from(quantity).mul(100000).div(order.erc1155TokenAmount)
-            )
-            .div(100000),
+          (BigInt(order.erc20TokenAmount.toString()) *
+            ((BigInt(quantity) * 100000n) /
+              BigInt(order.erc1155TokenAmount.toString()))) /
+            100000n,
 
           decimals
         );
@@ -232,14 +253,27 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
       quantity?: number;
     }) => {
       if (asset && order) {
-        const decimals = await getERC20Decimals(order.erc20Token, provider);
+        const decimals = await getERC20Decimals({
+          contractAddress: order.erc20Token,
+          chainId,
+        });
 
-        const symbol = await getERC20Symbol(order.erc20Token, provider);
+        const symbol = await getERC20Symbol({
+          contractAddress: order.erc20Token,
+          chainId,
+        });
+
+        if (decimals === undefined) {
+          throw new Error("no decimals");
+        }
 
         const values = {
           collectionName: asset.collectionName,
           id: asset.id,
-          amount: formatUnits(order.erc20TokenAmount, decimals),
+          amount: formatUnits(
+            BigInt(order.erc20TokenAmount.toString()),
+            decimals
+          ),
           symbol,
         };
 
@@ -248,18 +282,16 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         }
         if (
           quantity &&
+          decimals &&
           quantity > 1 &&
           "erc1155Token" in order &&
           order.direction === TradeDirection.SellNFT
         ) {
           values.amount = formatUnits(
-            BigNumber.from(order.erc20TokenAmount)
-              .mul(
-                BigNumber.from(quantity)
-                  .mul(100000)
-                  .div(order.erc1155TokenAmount)
-              )
-              .div(100000),
+            (BigInt(order.erc20TokenAmount.toString()) *
+              ((BigInt(quantity) * 100000n) /
+                BigInt(order.erc1155TokenAmount.toString()))) /
+              100000n,
 
             decimals
           );

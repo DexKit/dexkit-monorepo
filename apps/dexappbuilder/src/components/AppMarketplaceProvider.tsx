@@ -179,12 +179,6 @@ export function AppMarketplaceProvider({
           ? appConfig.activeChainIds || SUPPORTED_LEGACY_CHAIN_IDS
           : SUPPORTED_DEXAPPBUILDER_CHAIN_IDS
       }
-      options={{
-        magicRedirectUrl:
-          typeof window !== 'undefined'
-            ? window.location.href
-            : process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || '',
-      }}
       notificationTypes={{
         ...WHITELABEL_NOTIFICATION_TYPES,
         ...EXCHANGE_NOTIFICATION_TYPES,

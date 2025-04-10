@@ -10,27 +10,27 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import Launch from "@mui/icons-material/Launch";
 import {
-    Alert,
-    Autocomplete,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    Grid,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Alert,
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { PostOrderResponsePayload } from "@traderxyz/nft-swap-sdk/dist/sdk/v4/orderbook";
-import { BigNumber } from "ethers";
+
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
@@ -40,18 +40,18 @@ import { useSignMessageDialog } from "../../../../hooks";
 import MakeListingForm from "../../../orders/components/forms/MakeListingForm";
 import MakeOfferForm from "../../../orders/components/forms/MakeOfferForm";
 import {
-    useAccountAssetsBalance,
-    useApproveAssetMutation,
-    useFavoriteAssets,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  useAccountAssetsBalance,
+  useApproveAssetMutation,
+  useFavoriteAssets,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from "../../hooks";
 
 import {
-    NETWORK_EXPLORER,
-    NETWORK_NAME,
-    NETWORK_SLUG,
+  NETWORK_EXPLORER,
+  NETWORK_NAME,
+  NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
 import { Asset } from "@dexkit/core/types/nft";
 import { isAddressEqual, truncateAddress } from "@dexkit/core/utils";
@@ -163,15 +163,15 @@ export const CreateAssetOrderContainer = () => {
 
           watchTransactionDialog.open("approveForAll", values);
         } else {
-          const symbol = await getERC20Symbol(
-            variable.asset.tokenAddress,
-            provider
-          );
+          const symbol = await getERC20Symbol({
+            contractAddress: variable.asset.tokenAddress,
+            chainId,
+          });
 
-          const name = await getERC20Name(
-            variable.asset.tokenAddress,
-            provider
-          );
+          const name = await getERC20Name({
+            contractAddress: variable.asset.tokenAddress,
+            chainId,
+          });
 
           const values = {
             name,
@@ -272,7 +272,7 @@ export const CreateAssetOrderContainer = () => {
   });
 
   const handleConfirmMakeListing = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string
@@ -317,7 +317,7 @@ export const CreateAssetOrderContainer = () => {
   };
 
   const handleConfirmMakeOffer = async (
-    amount: BigNumber,
+    amount: bigint,
     tokenAddress: string,
     expiry: Date | null
   ) => {

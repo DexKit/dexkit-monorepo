@@ -5,7 +5,7 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { parseEther } from "@dexkit/core/utils/ethers/parseEther";
 import { useSwitchNetworkMutation } from "@dexkit/ui/hooks";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { BigNumber, providers } from "ethers";
+import { providers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { useCallOnMountFields, useContractCallMutation } from "../hooks";
 import { CallParams, ContractFormParams } from "../types";
@@ -115,7 +115,7 @@ export default function ContractFormView({ params }: Props) {
   );
 
   const handleConfirm = useCallback(
-    async (value: BigNumber) => {
+    async (value: bigint) => {
       if (callParams && callParams.call) {
         setShowConfirm(false);
         await contractCallMutation.mutateAsync({ ...callParams, value });

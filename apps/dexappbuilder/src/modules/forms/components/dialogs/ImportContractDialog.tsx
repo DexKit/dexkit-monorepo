@@ -20,11 +20,11 @@ import {
   Typography,
 } from '@mui/material';
 
-import { isAddress } from 'ethers/lib/utils';
 import { Field, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { FormattedMessage } from 'react-intl';
 import { NETWORKS } from 'src/constants/chain';
+import { isAddress } from '/lib/uetherstils';
 
 import { ChainId } from '@dexkit/core';
 import { getProviderByChainId } from '@dexkit/core/utils/blockchain';

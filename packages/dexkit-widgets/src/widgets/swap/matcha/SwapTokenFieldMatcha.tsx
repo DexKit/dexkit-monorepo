@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 
 import { Token } from "@dexkit/core/types";
@@ -22,13 +22,13 @@ export interface SwapTokenFieldMatchaProps {
   InputBaseProps?: InputBaseProps;
   disabled?: boolean;
   selectedChainId?: ChainId;
-  onChange: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChange: (value: bigint, clickOnMax?: boolean) => void;
   token?: Token;
   onSelectToken: (token?: Token) => void;
-  value: BigNumber;
+  value: bigint;
   price?: string;
   priceLoading?: boolean;
-  balance?: BigNumber;
+  balance?: bigint;
   showBalance?: boolean;
   isUserInput?: boolean;
   title?: React.ReactNode;
@@ -65,7 +65,7 @@ function SwapTokenFieldMatcha({
 
   const handleHalfAmont = () => {
     if (balance) {
-      onChange(balance.div(2), true);
+      onChange(balance / BigInt(2), true);
     }
   };
 
@@ -91,7 +91,7 @@ function SwapTokenFieldMatcha({
           <Typography component="div" variant="caption" color="text.secondary">
             {title}
           </Typography>
-          {token && balance && showBalance && (
+          {token && balance !== undefined && showBalance && (
             <Stack
               direction="row"
               spacing={0.5}

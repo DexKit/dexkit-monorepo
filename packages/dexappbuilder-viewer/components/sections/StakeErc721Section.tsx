@@ -28,7 +28,7 @@ import {
   useContractRead,
   useTokenBalance,
 } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
+
 import moment from "moment";
 import { SyntheticEvent, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -69,12 +69,12 @@ export default function StakeErc721Section({
       const [n, d] = stakeInfo;
 
       return [
-        Array.isArray(n) ? (n as BigNumber[])?.map((v) => v?.toNumber()) : [],
+        Array.isArray(n) ? (n as bigint[])?.map((v) => v?.toNumber()) : [],
         d,
       ];
     }
 
-    return [[] as number[], BigNumber.from(0)];
+    return [[] as number[], BigInt(0)];
   }, [stakeInfo, rewardTokenBalance]);
 
   const contractInfo = useAsyncMemo(

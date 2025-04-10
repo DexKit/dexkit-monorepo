@@ -9,15 +9,15 @@ import {
   Skeleton,
   Tooltip,
 } from "@mui/material";
-import { BigNumber, constants } from "ethers";
 import { memo } from "react";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import Warning from "@mui/icons-material/Warning";
 import { FormattedMessage } from "react-intl";
-import { formatBigNumber } from "../utils";
+import { zeroAddress } from "viem";
 
 export interface SelectCoinListItemProps {
   token: Token;
@@ -38,10 +38,10 @@ function SelectCoinListItem({
     ? tokenBalances[
         token?.address.toLowerCase() ===
         ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
-          ? constants.AddressZero
+          ? zeroAddress
           : token.address
       ]
-    : BigNumber.from(0);
+    : BigInt(0);
 
   const renderAvatar = () => {
     if (isExtern) {
@@ -98,7 +98,7 @@ function SelectCoinListItem({
         {isLoading ? (
           <Skeleton>--</Skeleton>
         ) : tokenBalances && token && balance ? (
-          formatBigNumber(balance, token.decimals)
+          formatUnits(balance, token.decimals)
         ) : (
           "0.0"
         )}

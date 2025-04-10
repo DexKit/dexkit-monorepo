@@ -53,7 +53,7 @@ const SelectNetworkDialog = dynamic(
 );
 
 export default function WalletContent() {
-  const { account, ENSName, provider, chainId, connector } = useWeb3React();
+  const { account, ENSName, chainId, connector } = useWeb3React();
 
   const icon = useConnectorImage({ connector });
 
@@ -69,10 +69,9 @@ export default function WalletContent() {
 
   const handleLogoutWallet = useCallback(async () => {
     logoutMutation.mutate();
-    if(wallet){
+    if (wallet) {
       disconnect(wallet);
     }
-   
   }, [logoutMutation, connector]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();
@@ -146,7 +145,6 @@ export default function WalletContent() {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: evmCoins,
           }}
         />

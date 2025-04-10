@@ -1,16 +1,25 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { BigNumber } from "ethers";
+import { useMutation, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ERC20Abi } from "../constants/abis";
 
-import type { providers } from "ethers";
 
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { sendTransaction } from "thirdweb";
 import { useActiveWalletChain, useWalletBalance } from "thirdweb/react";
+import type { Account } from "thirdweb/wallets";
 import { useReadContracts } from "wagmi";
 import { getERC20TokenAllowance } from "../services";
 import { approveToken } from "../services/balances";
 
+
 export const ERC20_BALANCE = "ERC20_BALANCE";
+
+export type GetWalletBalanceResult = {
+  value: bigint;
+  decimals: number;
+  displayValue: string;
+  symbol: string;
+  name: string;
+};
 
 export interface Erc20BalanceParams {
   account?: string;
@@ -21,7 +30,7 @@ export interface Erc20BalanceParams {
 export function useErc20BalanceQuery({
   account,
   contractAddress,
-}: Erc20BalanceParams) {
+}: Erc20BalanceParams): UseQueryResult<GetWalletBalanceResult> {
   const activeChain = useActiveWalletChain();
 
   const balanceQuery = useWalletBalance({
@@ -30,7 +39,7 @@ export function useErc20BalanceQuery({
     client,
     tokenAddress: contractAddress
   });
-
+  //@ts-ignore
   return balanceQuery
 }
 
@@ -44,7 +53,7 @@ export interface Erc20BalanceParamsV2 {
 export function useErc20BalanceQueryV2({
   account,
   contractAddress,
-}: Erc20BalanceParamsV2) {
+}: Erc20BalanceParamsV2): UseQueryResult<GetWalletBalanceResult> {
   const { data: balance } = useReadContracts({
     contracts: [{ address: "0x", abi: ERC20Abi, functionName: "balanceOf" }],
   });
@@ -57,7 +66,7 @@ export function useErc20BalanceQueryV2({
     client,
     tokenAddress: contractAddress
   });
-
+  //@ts-ignore
   return balanceQuery
 }
 
@@ -82,10 +91,10 @@ export function useEvmNativeBalanceQuery({
 
 export const GET_ERC20_BALANCE = "GET_ERC20_BALANCE";
 //@ts-ignore
-export function useErc20Balance(
+export function useErc20Balance({ contractAddress, account }: {
   contractAddress?: string,
   account?: string
-) {
+}): UseQueryResult<GetWalletBalanceResult> {
   const activeChain = useActiveWalletChain();
 
   const balanceQuery = useWalletBalance({
@@ -94,7 +103,7 @@ export function useErc20Balance(
     client,
     tokenAddress: contractAddress
   });
-
+  //@ts-ignore
   return balanceQuery
 
 }
@@ -105,26 +114,28 @@ export function useTokenAllowanceQuery({
   tokenAddress,
   account,
   spender,
-  provider,
+  chainId,
 }: {
+  chainId?: number;
   account?: string;
   tokenAddress?: string | null;
   spender?: string;
-  provider?: providers.Web3Provider;
+  activeAccount?: Account
 }) {
   return useQuery(
     [TOKEN_ALLOWANCE_QUERY, tokenAddress, account, spender],
     async () => {
-      if (!provider || !tokenAddress || !account || !spender) {
+      if (!tokenAddress || !account || !spender || !chainId) {
         return null;
       }
 
-      return await getERC20TokenAllowance(
-        provider,
+      return await getERC20TokenAllowance({
+        owner: account,
+        chainId,
         tokenAddress,
-        account,
+
         spender
-      );
+      });
     },
     { retry: 2 }
   );
@@ -133,19 +144,19 @@ export function useTokenAllowanceQuery({
 export function useApproveToken() {
   return useMutation(
     async ({
+      activeAccount,
       spender,
       tokenContract,
-      provider,
       onSubmited,
       amount,
     }: {
-      amount?: BigNumber;
+      activeAccount?: Account,
+      amount?: bigint;
       spender?: string;
       tokenContract?: string;
-      provider?: providers.Web3Provider;
       onSubmited: (hash: string) => void;
     }) => {
-      if (!tokenContract || !spender) {
+      if (!tokenContract || !spender || !activeAccount) {
         return;
       }
 
@@ -153,12 +164,18 @@ export function useApproveToken() {
         tokenContract,
         spender,
         amount,
-        provider,
       });
+      if (tx) {
+        const { transactionHash } = await sendTransaction({
+          account: activeAccount,
+          transaction: tx,
+        });
 
-      onSubmited(tx.hash);
+        onSubmited(transactionHash);
+      } else {
+        return true
+      }
 
-      return await tx.wait();
     }
   );
 }

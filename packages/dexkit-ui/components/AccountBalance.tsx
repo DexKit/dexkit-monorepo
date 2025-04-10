@@ -20,13 +20,11 @@ export function AccountBalance({ isBalancesVisible }: AccountBalanceProps) {
     client,
   });
 
-
-
   const formattedBalance = useMemo(() => {
-    if(data?.displayValue){
-      return data?.displayValue
+    if (data?.displayValue) {
+      return Number(data?.displayValue).toFixed(3);
     }
-    
+
     return "0.00";
   }, [data]);
   return (

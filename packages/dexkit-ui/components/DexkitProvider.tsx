@@ -42,9 +42,6 @@ export interface DexkitProviderProps {
     | Record<string, string>
     | Record<string, MessageFormatElement[]>;
   children: React.ReactNode | React.ReactNode[];
-  options?: {
-    magicRedirectUrl: string;
-  };
   userEventsURL?: string;
   siteId?: number;
   transactionsAtom: WritableAtom<
@@ -137,6 +134,7 @@ export function DexkitProvider({
               maxSnack={3}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
+              {children}
               <CssBaseline />
               <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
               <GaslessTradesUpdater />

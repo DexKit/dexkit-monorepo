@@ -1,20 +1,18 @@
 import {
-    Alert,
-    Avatar,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-
-import { BigNumber } from "ethers";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import moment from "moment";
@@ -55,11 +53,7 @@ interface Props {
   account?: string;
   asset?: Asset;
   disabled?: boolean;
-  onConfirm: (
-    price: BigNumber,
-    tokenAddress: string,
-    expiry: Date | null
-  ) => void;
+  onConfirm: (price: bigint, tokenAddress: string, expiry: Date | null) => void;
 }
 
 export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
@@ -76,6 +70,10 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     const decimals = tokenList.find((t) => t.address === values.tokenAddress)
       ?.decimals;
+
+    if (!decimals) {
+      throw new Error("no decimals");
+    }
 
     if (!isValidDecimal(values.price, decimals || 1)) {
       formikHelpers.setFieldError(
@@ -106,12 +104,16 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
       const decimals = tokenList.find((t) => t.address === values.tokenAddress)
         ?.decimals;
 
+      if (!decimals) {
+        throw new Error("no decimals");
+      }
+
       if (values.price !== "" && isValidDecimal(values.price, decimals || 1)) {
-        const priceValue = parseUnits(values.price);
+        const priceValue = parseUnits(values.price, decimals);
 
         const errors: FormikErrors<Form> = {};
 
-        if (priceValue.gt(erc20Balance.data || BigNumber.from(0))) {
+        if (priceValue > (erc20Balance.data?.value || 0n)) {
           errors.price = formatMessage({
             id: "insufficient.funds",
             defaultMessage: "insufficient funds",
@@ -126,11 +128,10 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
     onSubmit: handleConfirm,
   });
 
-  const erc20Balance = useErc20Balance(
-    provider,
-    form.values.tokenAddress,
-    account
-  );
+  const erc20Balance = useErc20Balance({
+    account,
+    contractAddress: form.values.tokenAddress,
+  });
 
   const handleChangeExpiryDuration = (newValue: moment.Duration | null) => {
     form.setFieldValue("expiry", moment().add(newValue).toDate());
@@ -300,10 +301,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
                   {erc20Balance.isLoading ? (
                     <Skeleton />
                   ) : (
-                    formatUnits(
-                      erc20Balance.data || BigNumber.from(0),
-                      tokenSelected.decimals
-                    )
+                    formatUnits(erc20Balance.data || 0n, tokenSelected.decimals)
                   )}{" "}
                   {tokenSelected.symbol.toUpperCase()}
                 </Typography>

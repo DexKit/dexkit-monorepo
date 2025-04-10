@@ -14,7 +14,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { BigNumber } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 import AppDialogTitle from "../../../components/AppDialogTitle";
 
@@ -201,7 +201,7 @@ export default function SwapConfirmMatchaDialog({
                       <Box>
                         <Typography textAlign="center">
                           {formatBigNumber(
-                            BigNumber.from(quote.sellAmount),
+                            BigInt(quote.sellAmount),
                             sellToken.decimals
                           )}{" "}
                           {sellToken?.symbol?.toUpperCase()}
@@ -266,7 +266,7 @@ export default function SwapConfirmMatchaDialog({
                       <Box>
                         <Typography textAlign="center">
                           {formatBigNumber(
-                            BigNumber.from(quote.buyAmount),
+                            BigInt(quote.buyAmount),
                             buyToken.decimals
                           )}{" "}
                           {buyToken?.symbol?.toUpperCase()}

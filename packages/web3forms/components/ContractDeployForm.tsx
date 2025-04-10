@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import { ChainId } from "@dexkit/core/constants";
 import { useSwitchNetworkMutation } from "@dexkit/ui/hooks";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { BigNumber, Contract } from "ethers";
+import { Contract } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -45,7 +45,7 @@ export default function ContractDeployForm({
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleConfirm = async (value: BigNumber) => {
+  const handleConfirm = async (value: bigint) => {
     if (deployParams) {
       try {
         setShowConfirm(false);

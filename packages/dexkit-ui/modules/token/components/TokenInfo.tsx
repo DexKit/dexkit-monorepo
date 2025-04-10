@@ -1,5 +1,4 @@
 import {
-  formatBigNumber,
   getBlockExplorerUrl,
   getTokenBlockExplorerUrl,
   isAddressEqual,
@@ -7,6 +6,7 @@ import {
 import { useTokenList } from "@dexkit/ui/hooks";
 
 import { convertTokenToEvmCoin } from "@dexkit/core/utils";
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import TransakWidget from "@dexkit/ui/components/Transak";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useTokenBalance } from "@dexkit/widgets/src/hooks";
@@ -44,7 +44,6 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
 
   const tokenBalance = useTokenBalance({
     account,
-    provider,
     contractAddress: address,
   });
 
@@ -85,7 +84,6 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: [convertTokenToEvmCoin(token)],
             defaultCoin: convertTokenToEvmCoin(token),
           }}
@@ -163,7 +161,7 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
                 </Typography>
                 <Typography variant="h6">
                   {account
-                    ? formatBigNumber(tokenBalance.data, token?.decimals)
+                    ? formatUnits(tokenBalance.data as bigint, token?.decimals)
                     : "-"}{" "}
                   {token?.symbol}
                 </Typography>

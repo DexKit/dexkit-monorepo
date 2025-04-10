@@ -7,7 +7,6 @@ import { providers } from "ethers";
 import { getAssetProtocol, getAssetsData, getOrderbookOrders } from ".";
 import { DEXKIT_AUTHENTICATE_API_KEY } from "../../../constants";
 import { dexkitNFTapi } from "../../../constants/api";
-import { getMulticallFromProvider } from "../../../services/multical";
 import { AssetAPI, Collection, CollectionAPI, TraderOrderFilter } from "../types";
 
 export async function getApiCollectionData(

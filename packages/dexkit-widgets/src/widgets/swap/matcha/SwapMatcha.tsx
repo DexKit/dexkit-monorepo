@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { BigNumber, providers } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 import { ExecType, SwapSide } from "../types";
 
@@ -41,7 +41,6 @@ export interface SwapMatchaProps {
     [string, ZeroExQuoteResponse | null] | undefined,
     any
   >;
-  provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
   isActivating?: boolean;
   isActive?: boolean;
@@ -53,14 +52,14 @@ export interface SwapMatchaProps {
   priceSellLoading?: boolean;
   sellToken?: Token;
   buyToken?: Token;
-  sellAmount: BigNumber;
-  buyAmount: BigNumber;
+  sellAmount: bigint;
+  buyAmount: bigint;
   execType?: ExecType;
   quote?: ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
-  sellTokenBalance?: BigNumber;
-  buyTokenBalance?: BigNumber;
+  sellTokenBalance?: bigint;
+  buyTokenBalance?: bigint;
   insufficientBalance?: boolean;
   isProviderReady?: boolean;
   isQuoting?: boolean;
@@ -72,8 +71,8 @@ export interface SwapMatchaProps {
   featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
-  onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChangeSellAmount: (value: bigint, clickOnMax?: boolean) => void;
+  onChangeBuyAmount: (value: bigint, clickOnMax?: boolean) => void;
   onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
@@ -108,7 +107,6 @@ export default function SwapMatcha({
   sellToken,
   buyToken,
   currency,
-  provider,
   isExecuting,
   disableFooter,
   quote,
@@ -302,7 +300,6 @@ export default function SwapMatcha({
                     currency={currency}
                     sellToken={sellToken}
                     buyToken={buyToken}
-                    provider={provider}
                   />
                 </Box>
               </>

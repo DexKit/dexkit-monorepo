@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { BigNumber, constants, providers } from "ethers";
+import { constants, providers } from "ethers";
 import { useMemo, useState } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 
@@ -19,8 +19,8 @@ import { formatStringNumber } from "@dexkit/core/utils";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
 import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { useCoinPrices, useGasPrice } from "../../../hooks";
-import { formatBigNumber } from "../../../utils";
 
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
@@ -49,18 +49,18 @@ export default function SwapFeeSummaryUniswap({
 
   const maxFee = useMemo(() => {
     if (quote && quote?.gas && quote?.gasPrice) {
-      return BigNumber.from(quote.gas).mul(quote.gasPrice);
+      return BigInt(quote.gas) * BigInt(quote.gasPrice);
     }
 
-    return BigNumber.from(0);
+    return BigInt(0);
   }, [quote]);
 
   const amount = useMemo(() => {
     if (quote && quote?.value) {
-      return BigNumber.from(quote.value);
+      return BigInt(quote.value);
     }
 
-    return BigNumber.from(0);
+    return BigInt(0);
   }, [quote]);
 
   const totalFee = useMemo(() => {
@@ -100,10 +100,10 @@ export default function SwapFeeSummaryUniswap({
   const sellTokenByBuyToken = useMemo(() => {
     if (buyToken && sellToken && quote && quote.sellAmount && quote.buyAmount) {
       const sellAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.sellAmount), sellToken.decimals)
+        formatUnits(BigInt(quote.sellAmount), sellToken.decimals)
       );
       const buyAmount = parseFloat(
-        formatBigNumber(BigNumber.from(quote.buyAmount), buyToken.decimals)
+        formatUnits(BigInt(quote.buyAmount), buyToken.decimals)
       );
 
       return toggleSide ? buyAmount / sellAmount : sellAmount / buyAmount;
@@ -279,8 +279,7 @@ export default function SwapFeeSummaryUniswap({
                       value={totalFiat}
                       currency={currency}
                     />{" "}
-                    ({formatBigNumber(totalFee, 18)}{" "}
-                    {NETWORK_COIN_SYMBOL(chainId)})
+                    ({formatUnits(totalFee, 18)} {NETWORK_COIN_SYMBOL(chainId)})
                   </>
                 </Typography>
                 <Tooltip
@@ -291,7 +290,7 @@ export default function SwapFeeSummaryUniswap({
                         defaultMessage="Gas: {gas} Gwei"
                         values={{
                           gas: gasPriceQuery.data
-                            ? formatBigNumber(gasPriceQuery.data, 9)
+                            ? formatUnits(gasPriceQuery.data, 9)
                             : "0.0",
                         }}
                       />

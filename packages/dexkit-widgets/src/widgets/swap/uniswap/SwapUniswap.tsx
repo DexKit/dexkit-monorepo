@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { BigNumber, providers } from "ethers";
+
 import { FormattedMessage } from "react-intl";
 import { ExecType, SwapSide } from "../types";
 
@@ -51,14 +51,14 @@ export interface SwapProps {
   priceBuyLoading?: boolean;
   priceSell?: string;
   priceSellLoading?: boolean;
-  sellAmount: BigNumber;
-  buyAmount: BigNumber;
+  sellAmount: bigint;
+  buyAmount: bigint;
   execType?: ExecType;
   quote?: ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
-  sellTokenBalance?: BigNumber;
-  buyTokenBalance?: BigNumber;
+  sellTokenBalance?: bigint;
+  buyTokenBalance?: bigint;
   insufficientBalance?: boolean;
   isProviderReady?: boolean;
   isQuoting?: boolean;
@@ -69,8 +69,8 @@ export interface SwapProps {
   activeChainIds: number[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
-  onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
+  onChangeSellAmount: (value: bigint, clickOnMax?: boolean) => void;
+  onChangeBuyAmount: (value: bigint, clickOnMax?: boolean) => void;
   onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;

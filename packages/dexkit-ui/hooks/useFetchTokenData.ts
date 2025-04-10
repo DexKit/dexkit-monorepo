@@ -1,11 +1,11 @@
 import type { ChainId } from "@dexkit/core";
-import { ERC20Abi } from "@dexkit/core/constants/abis";
+
 import { useNetworkProvider } from "@dexkit/core/hooks/blockchain";
-import type { Token } from "@dexkit/core/types";
-import type { CallInput } from "@indexed-finance/multicall";
+
+
 import { useMutation } from "@tanstack/react-query";
-import { utils } from "ethers";
-import { getMulticallFromProvider } from "../services/multical";
+
+
 
 
 export default function useFetchTokenData({ chainId }: { chainId?: ChainId }) {

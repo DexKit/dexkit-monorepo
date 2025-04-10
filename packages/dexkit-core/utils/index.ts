@@ -1,6 +1,5 @@
 import { isAddress } from "@ethersproject/address";
 import { build, BuildInput } from "eth-url-parser";
-import { BigNumber } from "ethers";
 
 import { formatUnits } from "@ethersproject/units";
 import { EventEmitter } from "events";
@@ -139,7 +138,7 @@ export function formatStringNumber(value: string) {
   return value.substring(0, ending);
 }
 
-export function formatBigNumber(val?: BigNumber, decimals?: number) {
+export function formatBigNumber(val?: bigint, decimals?: number) {
   // TODO: improve this code in the future
   // pass to a memoized component or something
 
@@ -151,7 +150,7 @@ export function formatBigNumber(val?: BigNumber, decimals?: number) {
 
   let index = value.indexOf(".");
 
-  if (val.isZero()) {
+  if (val === BigInt(0)) {
     return value;
   }
 

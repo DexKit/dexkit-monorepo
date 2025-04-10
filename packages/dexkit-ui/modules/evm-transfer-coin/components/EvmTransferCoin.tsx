@@ -3,7 +3,7 @@ import { Coin, EvmCoin } from "@dexkit/core/types";
 import {
   buildEtherReceiveAddress,
   copyToClipboard,
-  truncateAddress
+  truncateAddress,
 } from "@dexkit/core/utils";
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import { useDexKitContext } from "@dexkit/ui/hooks";
@@ -14,7 +14,6 @@ import { parseEther } from "@dexkit/core/utils/ethers/parseEther";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { Divider, Skeleton, Stack, Typography } from "@mui/material";
-import type { providers } from "ethers";
 import { useSnackbar } from "notistack";
 import { useMemo, useState } from "react";
 import { useIntl } from "react-intl";
@@ -30,7 +29,6 @@ export interface EvmTransferCoinProps {
   chainId?: number;
   onSwitchNetwork?: ({ chainId }: { chainId?: number }) => void;
   onConnectWallet?: () => void;
-  provider?: providers.Web3Provider;
   coins?: EvmCoin[];
   defaultCoin?: EvmCoin;
   evmAccounts?: { address: string }[];
@@ -43,7 +41,6 @@ export default function EvmTransferCoin({
   account,
   ENSName,
   chainId,
-  provider,
   evmAccounts,
   defaultCoin,
   coins,
@@ -64,13 +61,13 @@ export default function EvmTransferCoin({
   }>({ address: to, amount: amount, coin: defaultCoin });
 
   const balanceQuery = useWalletBalance({
-    chain: chainId ? defineChain(chainId): undefined,
+    chain: chainId ? defineChain(chainId) : undefined,
     address: account,
     client,
   });
 
   const { data: erc20Balance, isLoading } = useWalletBalance({
-    chain: chainId ? defineChain(chainId): undefined,
+    chain: chainId ? defineChain(chainId) : undefined,
     address: account,
     client,
     tokenAddress:
@@ -120,7 +117,6 @@ export default function EvmTransferCoin({
   };
 
   const evmTransferMutation = useEvmTransferMutation({
-    provider,
     onSubmit: handleSubmitTransaction,
     onConfirm: (
       hash: string,
@@ -188,7 +184,7 @@ export default function EvmTransferCoin({
   };
 
   const handleSubmit = async () => {
-    if (values.address && values.amount && values.coin) {
+    if (values.address && values.amount && values.coin && chainId) {
       try {
         const val = {
           amount: values.amount.toString(),
@@ -200,6 +196,7 @@ export default function EvmTransferCoin({
           address: values.address,
           amount: values.amount,
           coin: values.coin as EvmCoin,
+          chainId,
         });
       } catch (err: any) {
         const error = new Error(err);
@@ -232,7 +229,7 @@ export default function EvmTransferCoin({
         values.coin.coinType === CoinTypes.EVM_NATIVE &&
         balanceQuery.data
       ) {
-        return balanceQuery.data.displayValue
+        return balanceQuery.data.displayValue;
       }
     }
 

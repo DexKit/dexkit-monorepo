@@ -4,7 +4,6 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { Alert, Button, Grid, IconButton, Paper } from "@mui/material";
-import { BigNumber } from "ethers";
 import { Field, FieldArray, getIn, useFormikContext } from "formik";
 import { TextField } from "formik-mui";
 import { useMemo, useState } from "react";
@@ -55,7 +54,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
           .map((val) => parseUnits(val !== "" ? val : "0", 2))
           .reduce((prev, curr) => {
             return prev.add(curr);
-          }, BigNumber.from(0));
+          }, BigInt(0));
 
         return [formatUnits(sum, 2), sum.gt(oneHundred), sum.lt(oneHundred)];
       }

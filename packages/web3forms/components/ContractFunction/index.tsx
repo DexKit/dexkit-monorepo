@@ -6,24 +6,24 @@ import { FormattedMessage } from "react-intl";
 import { Formik } from "formik";
 
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Card,
-    CircularProgress,
-    Divider,
-    Skeleton,
-    Stack,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Card,
+  CircularProgress,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import {
-    CallParams,
-    ContractFormParams,
-    FunctionInput,
-    OutputType,
+  CallParams,
+  ContractFormParams,
+  FunctionInput,
+  OutputType,
 } from "../../types";
 import { getSchemaForInputs } from "../../utils";
 
@@ -31,7 +31,6 @@ import { ChainId } from "@dexkit/core/constants";
 import { getBlockExplorerUrl } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { BigNumber } from "ethers";
 
 import { arrayify } from "@dexkit/core/utils/ethers/arrayify";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
@@ -180,7 +179,7 @@ export default function ContractFunction({
     if (name && results && results[name]) {
       let value = results[name];
 
-      if (value instanceof BigNumber) {
+      if (value instanceof bigint) {
         if (output?.type === "decimal") {
           return formatUnits(value, output?.decimals);
         }

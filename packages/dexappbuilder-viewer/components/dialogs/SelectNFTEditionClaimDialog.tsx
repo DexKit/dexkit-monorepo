@@ -3,26 +3,25 @@ import { AppDialogTitle } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { NFT, useContract, useContractRead } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -112,7 +111,7 @@ export default function SelectNFTEditionClaimDialog({
         const [nfts, amounts, rewards] = infoNfts;
 
         const index: number = nfts
-          .map((n: BigNumber) => n.toNumber() as number)
+          .map((n: bigint) => n.toNumber() as number)
           .findIndex((t: number) => t === parseInt(tokenId));
 
         if (index > -1) {

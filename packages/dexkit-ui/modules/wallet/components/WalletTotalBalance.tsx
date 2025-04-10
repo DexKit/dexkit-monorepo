@@ -21,6 +21,8 @@ export function WalletTotalBalance({ chainId }: Props) {
   });
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
 
+  console.log(tokenBalancesQuery);
+
   const totalBalance = useMemo(() => {
     if (tokenBalancesQuery.data && coinPricesQuery.data) {
       const prices = coinPricesQuery.data;

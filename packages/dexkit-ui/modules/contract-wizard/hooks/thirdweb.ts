@@ -4,7 +4,6 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation } from '@tanstack/react-query';
 import { useContractMetadata } from '@thirdweb-dev/react';
 import { SmartContract, Token } from '@thirdweb-dev/sdk';
-import { BigNumber } from 'ethers';
 
 export function useWithdrawRewardsMutation({
   contract,
@@ -21,7 +20,7 @@ export function useWithdrawRewardsMutation({
 
   return useMutation(async ({ amount }: { amount: bigint }) => {
     let values = {
-      amount: formatUnits(amount, rewardDecimals),
+      amount: formatUnits(amount, rewardDecimals as number),
       contractName: metadata?.name || '',
     };
 
@@ -57,9 +56,9 @@ export function useDepositRewardTokensMutation({
 
   const { chainId } = useWeb3React();
 
-  return useMutation(async ({ amount }: { amount: BigNumber }) => {
+  return useMutation(async ({ amount }: { amount: bigint }) => {
     let values = {
-      amount: formatUnits(amount, rewardDecimals),
+      amount: formatUnits(amount, rewardDecimals as number),
       contractName: metadata?.name || '',
     };
 

@@ -2,7 +2,7 @@ import { ChainId } from "@dexkit/core/constants";
 import { Asset, AssetMetadata } from "@dexkit/core/types/nft";
 import { getNetworkSlugFromChainId } from "@dexkit/core/utils/blockchain";
 import { UserFacingFeeStruct } from '@traderxyz/nft-swap-sdk';
-import { BigNumber } from "ethers";
+
 import { NETWORK_ID } from "../../../constants/enum";
 import { IS_CHAIN_SUPPORTED_BY_RARIBLE, MARKETPLACES, MARKETPLACES_INFO } from "../constants/marketplaces";
 import { AssetAPI, AssetBalance } from "../types";
@@ -31,7 +31,7 @@ export function getNFTMediaSrcAndType(address: string, chainId: ChainId, tokenId
 }
 
 export function calculeFees(
-  amount: BigNumber,
+  amount: bigint,
   decimals: number,
   fees: { amount_percentage: number; recipient: string }[]
 ): UserFacingFeeStruct[] {
@@ -39,10 +39,7 @@ export function calculeFees(
 
   for (let fee of fees) {
     tempFees.push({
-      amount: amount
-        .mul((fee.amount_percentage * 100).toFixed(0))
-        .div(10000)
-        .toString(),
+      amount: (amount * (BigInt((fee.amount_percentage * 100).toFixed(0))) / 10000n).toString(),
       recipient: fee.recipient,
     });
   }
@@ -86,7 +83,7 @@ export function getAssetProtocol(asset?: Asset) {
 
 
 export function isERC1155Owner(assetBalance?: AssetBalance) {
-  return assetBalance?.balance?.gt(0) && assetBalance.asset.protocol === 'ERC1155'
+  return assetBalance?.balance && assetBalance?.balance > 0 && assetBalance.asset.protocol === 'ERC1155'
 }
 
 

@@ -1,22 +1,21 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
-import { BigNumber } from "ethers";
 import moment from "moment";
 import { useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -29,9 +28,9 @@ import * as Yup from "yup";
 
 import { TokenWhitelabelApp } from "@dexkit/core/types";
 import {
-    ipfsUriToUrl,
-    isAddressEqual,
-    isValidDecimal,
+  ipfsUriToUrl,
+  isAddressEqual,
+  isValidDecimal,
 } from "@dexkit/core/utils";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
@@ -61,7 +60,7 @@ const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
 interface Props {
   disabled?: boolean;
   onConfirm: (
-    price: BigNumber,
+    price: bigint,
     tokenAddress: string,
     expiry: Date | null,
     takerAddress?: string
@@ -83,6 +82,10 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
     if (form.isValid) {
       const decimals = tokenList.find((t) => t.address === values.tokenAddress)
         ?.decimals;
+
+      if (!decimals) {
+        throw new Error("no decimals");
+      }
 
       if (!isValidDecimal(values.price, decimals || 0)) {
         formikHelpers.setFieldError(

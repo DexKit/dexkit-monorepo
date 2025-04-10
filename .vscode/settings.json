@@ -17,5 +17,6 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
-  }
+  },
+  "typescript.tsserver.experimental.useVsCodeWatcher": false
 }

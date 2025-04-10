@@ -4,30 +4,29 @@ import DecimalInput from "@dexkit/ui/components/DecimalInput";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import {
-    NFT,
-    useContract,
-    useContractRead,
-    useOwnedNFTs,
+  NFT,
+  useContract,
+  useContractRead,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
 import { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -128,7 +127,7 @@ export default function SelectNFTEditionDialog({
           const [nfts, amounts, rewards] = infoNfts;
 
           const index: number = nfts
-            .map((n: BigNumber) => n.toNumber() as number)
+            .map((n: bigint) => Number(n.toString()) as number)
             .findIndex((t: number) => t === parseInt(tokenId));
 
           if (index > -1) {

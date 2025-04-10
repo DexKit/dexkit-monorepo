@@ -11,9 +11,10 @@ import {
   DialogProps,
 } from '@mui/material';
 import { GridRowId } from '@mui/x-data-grid';
-import { utils } from 'ethers';
+
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { isAddress } from 'viem';
 
 export interface AirdropDialogProps {
   DialogProps: DialogProps;
@@ -85,7 +86,7 @@ export default function AirdropDialog({
               name: 'address',
               width: 400,
               isValid: (value: unknown) => {
-                return utils.isAddress(value as string);
+                return isAddress(value as string);
               },
               editable: true,
             },
