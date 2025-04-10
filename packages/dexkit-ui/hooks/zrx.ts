@@ -266,7 +266,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
                 if (activeAccount) {
                   const contract = getContract({
                     client,
-                    address: quote?.issues.allowance?.spender,
+                    address: quote?.sellToken,
                     chain: defineChain(chainId),
                   });
                   //const simulateRequest = await simulateApproveRequest;
