@@ -29,7 +29,7 @@ export interface WalletButtonProps {
 }
 
 export function WalletButton({ align }: WalletButtonProps) {
-  const { account, ENSName, connector } = useWeb3React();
+  const { account, ENSName } = useWeb3React();
   const theme = useTheme();
 
   const isBalancesVisible = useIsBalanceVisible();

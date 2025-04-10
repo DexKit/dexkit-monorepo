@@ -196,6 +196,7 @@ export default function EvmTransferCoin({
           address: values.address,
           amount: values.amount,
           coin: values.coin as EvmCoin,
+          chainId,
         });
       } catch (err: any) {
         const error = new Error(err);
