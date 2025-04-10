@@ -18,7 +18,10 @@ import AppDialogTitle from "../../../components/AppDialogTitle";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import ErrorIcon from "@mui/icons-material/Error";
 
 import { Token } from "@dexkit/core/types";
@@ -29,10 +32,9 @@ import { ExecSwapState } from "../constants/enum";
 
 export interface SwapConfirmDialogProps {
   DialogProps: DialogProps;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   chainId?: ChainId;
   execSwapState: ExecSwapState;
-  isApproving?: boolean;
   execType: string;
   isQuoting?: boolean;
   isLoadingStatusGasless?: boolean;
@@ -44,16 +46,17 @@ export interface SwapConfirmDialogProps {
   confirmedTxGasless?: { hash: string };
   sellToken?: Token;
   buyToken?: Token;
+  isConfirming: boolean;
 }
 
 export default function SwapConfirmDialog({
   DialogProps,
   quote,
   isQuoting,
+  isConfirming,
   chainId,
   onConfirm,
   execSwapState,
-  isApproving,
   execType,
   isLoadingSignGasless,
   isLoadingStatusGasless,
@@ -65,6 +68,11 @@ export default function SwapConfirmDialog({
   buyToken,
 }: SwapConfirmDialogProps) {
   const { onClose } = DialogProps;
+  const isButtonDisabled =
+    isQuoting ||
+    isLoadingStatusGasless ||
+    isConfirming ||
+    execSwapState === ExecSwapState.gasless_trade_submit;
 
   const handleClose = () => {
     if (onClose) {
@@ -307,18 +315,8 @@ export default function SwapConfirmDialog({
           </Button>
         ) : (
           <Button
-            disabled={
-              isQuoting ||
-              isLoadingStatusGasless ||
-              execSwapState === ExecSwapState.gasless_trade_submit ||
-              isApproving
-            }
-            startIcon={
-              (isQuoting ||
-                isLoadingStatusGasless ||
-                execSwapState === ExecSwapState.gasless_trade_submit ||
-                isApproving) && <CircularProgress size={20} />
-            }
+            disabled={isButtonDisabled}
+            startIcon={isButtonDisabled && <CircularProgress size={20} />}
             onClick={onConfirm}
             variant="contained"
           >

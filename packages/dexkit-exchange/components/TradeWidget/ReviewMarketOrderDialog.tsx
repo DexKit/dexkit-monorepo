@@ -2,7 +2,6 @@ import { ChainId } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import { formatBigNumber, getBlockExplorerUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
-import CheckIcon from "@mui/icons-material/Check";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
@@ -36,13 +35,10 @@ export interface ReviewMarketOrderDialogProps {
   quoteToken?: Token;
   pendingHash?: string;
   baseToken?: Token;
-  isApproval?: boolean;
-  isApproving?: boolean;
   side?: "sell" | "buy";
   hash?: string;
   chainId?: ChainId;
   reasonFailedGasless?: string;
-  onApprove?: () => void;
   onConfirm: () => void;
 }
 
@@ -52,10 +48,7 @@ export default function ReviewMarketOrderDialog({
   quoteAmount,
   isPlacingOrder,
   price,
-  onApprove,
   baseToken,
-  isApproving,
-  isApproval,
   onConfirm,
   reasonFailedGasless,
   side,
@@ -65,21 +58,26 @@ export default function ReviewMarketOrderDialog({
   hash,
   pendingHash,
 }: ReviewMarketOrderDialogProps) {
-  const pricePerTokenInverseFormatted = useMemo(() => {
-    if (price && Number(price) > 0) {
-      return new Intl.NumberFormat("en-US", {
-        maximumSignificantDigits: 3,
-      }).format(1 / Number(price) || 0);
-    }
-  }, [price]);
+  const [swapPrices, setSwapPrices] = useState(true);
 
   const pricePerTokenFormatted = useMemo(() => {
-    if (price && Number(price) > 0) {
+    if (quoteAmount && amount && amount.gt(0)) {
+      const sellAmount = parseFloat(
+        formatBigNumber(BigNumber.from(quoteAmount), quoteToken?.decimals)
+      );
+
+      const buyAmount = parseFloat(
+        formatBigNumber(BigNumber.from(amount), baseToken?.decimals)
+      );
+      const division = swapPrices
+        ? sellAmount / buyAmount
+        : buyAmount / sellAmount;
+
       return new Intl.NumberFormat("en-US", {
         maximumSignificantDigits: 3,
-      }).format(Number(price) || 0);
+      }).format(division || 0);
     }
-  }, [price]);
+  }, [quoteAmount, amount, swapPrices]);
 
   const amountFormatted = useMemo(() => {
     if (amount) {
@@ -101,44 +99,10 @@ export default function ReviewMarketOrderDialog({
     }
   };
 
-  const gaslessConfirmed = canGasless && hash;
-
+  const gaslessConfirmed = canGasless && hash && !isPlacingOrder;
   const gaslessPending = canGasless && pendingHash;
 
   const renderActions = () => {
-    if (isApproval) {
-      return (
-        <Stack spacing={2}>
-          <Button
-            size="large"
-            onClick={onApprove}
-            disabled={isApproving}
-            startIcon={
-              isApproving ? (
-                <CircularProgress color="inherit" size="1rem" />
-              ) : (
-                <CheckIcon />
-              )
-            }
-            fullWidth
-            variant="contained"
-            color="primary"
-          >
-            <FormattedMessage
-              id="approve.token.symbol"
-              defaultMessage="Approve {tokenSymbol} on wallet"
-              values={{
-                tokenSymbol:
-                  side === "buy"
-                    ? quoteToken?.symbol.toUpperCase()
-                    : baseToken?.symbol.toUpperCase(),
-              }}
-            />
-          </Button>
-        </Stack>
-      );
-    }
-
     return (
       <Stack spacing={1} direction={"row"} justifyContent={"center"}>
         {reasonFailedGasless ? (
@@ -187,8 +151,6 @@ export default function ReviewMarketOrderDialog({
       </Stack>
     );
   };
-
-  const [swapPrices, setSwapPrices] = useState(true);
 
   const handleSwapPrices = () => setSwapPrices((val) => !val);
 
@@ -350,7 +312,7 @@ export default function ReviewMarketOrderDialog({
                     ) : (
                       <Typography color="text.secondary" variant="body1">
                         1 {quoteToken?.symbol.toUpperCase()} ={" "}
-                        {pricePerTokenInverseFormatted}{" "}
+                        {pricePerTokenFormatted}{" "}
                         {baseToken?.symbol.toUpperCase()}
                       </Typography>
                     )}

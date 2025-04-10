@@ -18,7 +18,10 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -36,8 +39,7 @@ export interface SwapProps {
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    [string, ZeroExQuoteResponse | null] | undefined,
-    any
+    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | unknown
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
@@ -54,7 +56,7 @@ export interface SwapProps {
   sellAmount: BigNumber;
   buyAmount: BigNumber;
   execType?: ExecType;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
   sellTokenBalance?: BigNumber;
@@ -304,10 +306,10 @@ export default function SwapUniswap({
                     insufficientBalance ||
                     disabled ||
                     quoteQuery?.isError ||
-                    quoteQuery?.isLoading
+                    quoteQuery?.isFetching
                   }
                   startIcon={
-                    isExecuting || quoteQuery?.isLoading ? (
+                    isExecuting || quoteQuery?.isFetching ? (
                       <CircularProgress color="inherit" size="1rem" />
                     ) : undefined
                   }

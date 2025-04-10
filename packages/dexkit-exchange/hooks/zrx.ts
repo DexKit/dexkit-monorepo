@@ -10,14 +10,23 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getZrxExchangeAddress } from "../utils";
 
 import { ZrxOrder } from "@dexkit/ui/modules/swap/types";
-import type { providers } from 'ethers';
+import type { providers } from "ethers";
 import { BigNumber, Contract } from "ethers";
 import { useContext } from "react";
 import { ZRX_EXCHANGE_ABI } from "../constants/zrx";
 
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 
-export function useZrxQuoteMutation({ chainId, useGasless }: { chainId?: ChainId, useGasless?: boolean }) {
+export const ZRX_ORDERBOOK_QUERY = "ZRX_ORDERBOOK_QUERY";
+export const ZRX_ORDERBOOK_ORDER_QUERY = "ZRX_ORDERBOOK_ORDER_QUERY";
+
+export function useZrxQuoteMutation({
+  chainId,
+  useGasless,
+}: {
+  chainId?: ChainId;
+  useGasless?: boolean;
+}) {
   const { siteId } = useContext(SiteContext);
 
   return useMutation(async (params: ZeroExQuote | ZeroExQuoteGasless) => {
@@ -25,55 +34,43 @@ export function useZrxQuoteMutation({ chainId, useGasless }: { chainId?: ChainId
       return null;
     }
 
-    const zrxClient = new ZeroExApiClient(
-      chainId,
-      process.env.NEXT_PUBLIC_ZRX_API_KEY,
-      siteId
-    );
+    const zrxClient = new ZeroExApiClient(chainId, siteId);
 
     if (useGasless) {
       let gaslessParams = params as ZeroExQuoteGasless;
-      if (params.intentOnFilling) {
-        return zrxClient.quoteGasless(gaslessParams, {});
-      } else {
-        return zrxClient.priceGasless(gaslessParams, {});
-      }
 
+      return zrxClient.quoteGasless(gaslessParams, {});
     } else {
       return zrxClient.quote(params as ZeroExQuote, {});
     }
   });
 }
 
-
-export function useZrxQuoteQuery({ chainId, params, useGasless }: { chainId?: ChainId, params: ZeroExQuote | ZeroExQuoteGasless, useGasless?: boolean }) {
+export function useZrxPriceMutation({
+  chainId,
+  useGasless,
+}: {
+  chainId?: ChainId;
+  useGasless?: boolean;
+}) {
   const { siteId } = useContext(SiteContext);
 
-  return useQuery([chainId, params, params.skipValidation, useGasless], async () => {
-    if (!chainId || !(params.buyAmount || params.sellAmount)) {
+  return useMutation(async (params: ZeroExQuote | ZeroExQuoteGasless) => {
+    if (!chainId) {
       return null;
     }
 
-    const zrxClient = new ZeroExApiClient(
-      chainId,
-      process.env.NEXT_PUBLIC_ZRX_API_KEY,
-      siteId
-    );
+    const zrxClient = new ZeroExApiClient(chainId, siteId);
 
     if (useGasless) {
       let gaslessParams = params as ZeroExQuoteGasless;
-      if (params.skipValidation === false) {
-        return zrxClient.quoteGasless(gaslessParams, {});
-      } else {
-        return zrxClient.priceGasless(gaslessParams, {});
-      }
+
+      return zrxClient.priceGasless(gaslessParams, {});
     } else {
-      return zrxClient.quote(params as ZeroExQuote, {});
+      return zrxClient.price(params as ZeroExQuote, {});
     }
   });
 }
-
-export const ZRX_ORDERBOOK_QUERY = "ZRX_ORDERBOOK_QUERY";
 
 export function useZrxOrderbook({
   chainId,
@@ -82,6 +79,8 @@ export function useZrxOrderbook({
   chainId?: ChainId;
   account?: string;
 }) {
+  const { siteId } = useContext(SiteContext);
+
   return useQuery<ZrxOrderbookResponse | null>(
     [ZRX_ORDERBOOK_QUERY, account, chainId],
     async () => {
@@ -89,17 +88,11 @@ export function useZrxOrderbook({
         return null;
       }
 
-      const zrxClient = new ZeroExApiClient(
-        chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
-      );
-
+      const zrxClient = new ZeroExApiClient(chainId, siteId);
       return await zrxClient.orderbook({ trader: account });
     }
   );
 }
-
-export const ZRX_ORDERBOOK_ORDER_QUERY = "ZRX_ORDERBOOK_ORDER_QUERY";
 
 export function useZrxOrderbookOrder({
   hash,
@@ -108,6 +101,7 @@ export function useZrxOrderbookOrder({
   hash?: string;
   chainId?: ChainId;
 }) {
+  const { siteId } = useContext(SiteContext);
   return useQuery<ZrxOrderRecord | null>(
     [ZRX_ORDERBOOK_ORDER_QUERY, hash],
     async () => {
@@ -115,17 +109,12 @@ export function useZrxOrderbookOrder({
         return null;
       }
 
-      const zrxClient = new ZeroExApiClient(
-        chainId,
-        process.env.NEXT_PUBLIC_ZRX_API_KEY
-      );
+      const zrxClient = new ZeroExApiClient(chainId, siteId);
 
       return await zrxClient.order(hash);
     }
   );
 }
-
-
 
 export function useZrxFillOrderMutation() {
   // const trackUserEvent = useTrackUserEventsMutation();
@@ -142,7 +131,6 @@ export function useZrxFillOrderMutation() {
       fillAmount?: BigNumber;
     }) => {
       const contractAddress = getZrxExchangeAddress(chainId);
-
 
       if (!contractAddress || !provider || !chainId) {
         throw new Error("no provider or contract address");
@@ -170,7 +158,6 @@ export function useZrxFillOrderMutation() {
       //   pool: order.pool,
       //   takerTokenFeeAmount: new BigNumber(order.takerTokenFeeAmount),
       // });
-
 
       const tx = await contract.fillLimitOrder(
         order,

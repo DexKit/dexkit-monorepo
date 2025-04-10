@@ -2,49 +2,45 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { ZeroExApiClient } from "../services/zrxClient";
 
-
 /**
  * Some tokens on Ethereum network are not supported
- * @param param0 
- * @returns 
+ * @param param0
+ * @returns
  */
-export function useIsGaslessSupportedToken({ chainId, useGasless, sellToken }: { chainId?: number, useGasless?: boolean, sellToken?: string }) {
-
+export function useIsGaslessSupportedToken({
+  chainId,
+  useGasless,
+  sellToken,
+}: {
+  chainId?: number;
+  useGasless?: boolean;
+  sellToken?: string;
+}) {
   const sellTokenExists = sellToken !== undefined;
 
-  const isTokenSupported = useQuery(['is_gasless_supported', chainId, useGasless, sellTokenExists], () => {
-    if (chainId !== 1 && useGasless) {
-      return null
-    }
-    if (!chainId || !sellTokenExists) {
-      return null
-    }
-    // We just need to call this on Ethereum chain
-    if (chainId === 1) {
+  const isTokenSupported = useQuery(
+    ["is_gasless_supported", chainId, useGasless, sellTokenExists],
+    async () => {
+      if (!chainId || !sellTokenExists) {
+        return null;
+      }
+
       const client = new ZeroExApiClient(chainId);
-
-      const data = client.isTokenGaslessSupported();
-
-      return data;
-    }
-    return null
-  }, { staleTime: Infinity })
-
-
+      return await client.isTokenGaslessSupported();
+    },
+    { staleTime: Infinity }
+  );
 
   return useMemo(() => {
     if (!sellToken || !chainId) {
       return false;
     }
 
-    if (chainId !== 1 && useGasless) {
-      return true
-    }
     if (isTokenSupported.data?.data && sellToken) {
-      return isTokenSupported.data.data.includes(sellToken.toLowerCase())
+      const data = isTokenSupported.data.data;
+      const isGaslessSupported = !!data.chains.find((chain: any) => chain.chainId === chainId)
+      return isGaslessSupported;
     }
     return false;
-
-  }, [chainId, useGasless, sellToken, isTokenSupported.data])
-
+  }, [chainId, useGasless, sellToken, isTokenSupported.data]);
 }

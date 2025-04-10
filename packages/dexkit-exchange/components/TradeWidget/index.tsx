@@ -12,7 +12,6 @@ import {
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
 import { FormattedMessage } from "react-intl";
-import BuyForm from "./BuyForm";
 import TradeWidgetTabAlt from "./TradeWidgetTabAlt";
 import { TradeWidgetTabs } from "./TradeWidgetTabs";
 
@@ -23,7 +22,7 @@ import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { DEFAULT_ZRX_NETWORKS } from "../../constants";
 import { useExchangeContext } from "../../hooks";
-import SellForm from "./SellForm";
+import LimitForm from "./LimitForm";
 import MarketForm from "./SimpleVariant/MarketForm";
 import TradeWidgetTab from "./TradeWidgetTab";
 
@@ -218,12 +217,9 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
           </Stack>
         ) : (
           <>
-            {orderSide === "buy" &&
-            orderType == "limit" &&
-            quoteToken &&
-            baseToken ? (
-              <BuyForm
-                key={`buy-${baseToken.address}-${quoteToken.address}`}
+            {orderType == "limit" && quoteToken && baseToken && (
+              <LimitForm
+                key={`limit-${baseToken.address}-${quoteToken.address}`}
                 baseToken={baseToken}
                 slippage={slippage}
                 quoteToken={quoteToken}
@@ -233,26 +229,9 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 provider={provider}
                 affiliateAddress={affiliateAddress}
                 chainId={chainId}
+                side={orderSide}
               />
-            ) : null}
-            {orderSide === "sell" &&
-            orderType === "limit" &&
-            quoteToken &&
-            baseToken ? (
-              <SellForm
-                key={`sell-${baseToken.address}-${quoteToken.address}`}
-                slippage={slippage}
-                quoteToken={quoteToken}
-                baseToken={baseToken}
-                baseTokenBalance={baseTokenBalanceQuery.data}
-                provider={provider}
-                feeRecipient={feeRecipient}
-                buyTokenPercentageFee={buyTokenPercentageFee}
-                maker={account}
-                affiliateAddress={affiliateAddress}
-                chainId={chainId}
-              />
-            ) : null}
+            )}
           </>
         )}
 

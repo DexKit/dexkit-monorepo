@@ -5,10 +5,11 @@ import { Token } from "@dexkit/core/types";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import type { BigNumber } from "ethers";
 import { useIntl } from "react-intl";
-import { zeroAddress } from 'viem';
+import { zeroAddress } from "viem";
 import { useCoinPrices } from "../../../hooks/useCoinPrices";
 import { SwapSide } from "../types";
-import { useSwapPrice } from './useSwapPrice';
+import { useSwapPrice } from "./useSwapPrice";
+
 export interface SwapQuoteParams {
   sellToken?: Token;
   sellTokenAmount?: BigNumber;
@@ -21,7 +22,6 @@ export interface SwapQuoteParams {
   slippagePercentage?: number;
 }
 
-
 export const SWAP_PRICE = "SWAP_CURRENCY_PRICE";
 
 export function useSwapCurrencyPrice({
@@ -30,7 +30,7 @@ export function useSwapCurrencyPrice({
   swapFees,
   params,
   currency,
-  variant
+  variant,
 }: {
   maxSlippage?: number;
   zeroExApiKey?: string;
@@ -40,17 +40,21 @@ export function useSwapCurrencyPrice({
   };
   currency: string;
   params: SwapQuoteParams;
-  variant?: SwapVariant
-}): { buyPrice?: string, sellPrice?: string, isLoadingPrice?: boolean } {
+  variant?: SwapVariant;
+}): { buyPrice?: string; sellPrice?: string; isLoadingPrice?: boolean } {
   const intl = useIntl();
 
   const chainId = params.chainId;
 
-
-  const quotePrice = useSwapPrice({ maxSlippage, zeroExApiKey, swapFees, params, variant })
+  const quotePrice = useSwapPrice({
+    maxSlippage,
+    zeroExApiKey,
+    swapFees,
+    params,
+    variant,
+  });
 
   const nativeToken = chainId && GET_NATIVE_TOKEN(chainId);
-
 
   const coinPrices = useCoinPrices({
     currency,
@@ -58,9 +62,13 @@ export function useSwapCurrencyPrice({
     chainId,
   });
 
-
   return useMemo(() => {
-    if (coinPrices.data && nativeToken?.chainId && currency && quotePrice.data) {
+    if (
+      coinPrices.data &&
+      nativeToken?.chainId &&
+      currency &&
+      quotePrice.data
+    ) {
       try {
         const t = coinPrices.data[nativeToken.chainId];
         if (t) {
@@ -70,26 +78,31 @@ export function useSwapCurrencyPrice({
           const buyAmountUnits = Number(quotePrice.data.buyAmountUnits);
           const sellAmountUnits = Number(quotePrice.data.sellAmountUnits);
 
-          return { buyPrice: intl.formatNumber((currencyPrice / Number(ethRates.buyTokenToEthRate)) * buyAmountUnits, { style: 'currency', currency }), sellPrice: intl.formatNumber((currencyPrice / Number(ethRates.sellTokenToEthRate)) * sellAmountUnits, { style: 'currency', currency }), isLoadingPrice: quotePrice.isLoading || coinPrices.isLoading }
+          return {
+            buyPrice: intl.formatNumber(
+              (currencyPrice / Number(ethRates.buyTokenToEthRate)) *
+                buyAmountUnits,
+              { style: "currency", currency }
+            ),
+            sellPrice: intl.formatNumber(
+              (currencyPrice / Number(ethRates.sellTokenToEthRate)) *
+                sellAmountUnits,
+              { style: "currency", currency }
+            ),
+            isLoadingPrice: quotePrice.isLoading || coinPrices.isLoading,
+          };
         }
       } catch (e) {
-
-        return {}
+        return {};
       }
     }
 
-    return { isLoadingPrice: quotePrice.isLoading || coinPrices.isLoading }
-
-
-
-
-
-
-
-  }, [quotePrice.isLoading, quotePrice.data, currency, coinPrices.isLoading, coinPrices.data])
-
-
-
-
-
+    return { isLoadingPrice: quotePrice.isLoading || coinPrices.isLoading };
+  }, [
+    quotePrice.isLoading,
+    quotePrice.data,
+    currency,
+    coinPrices.isLoading,
+    coinPrices.data,
+  ]);
 }
