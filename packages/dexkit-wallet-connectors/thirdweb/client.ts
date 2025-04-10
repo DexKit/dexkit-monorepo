@@ -38,8 +38,8 @@ export const wallets = [
 
 
 export const appMetadata = {
-  name: "My App",
-  url: "https://my-app.com",
-  description: "some description about your app",
+  name: "DexAppBuilder",
+  url: "https://dexappbuilder.dexkit.com",
+  description: "Your no/low code for web3",
   logoUrl: "https://path/to/my-app/logo.svg",
 };
