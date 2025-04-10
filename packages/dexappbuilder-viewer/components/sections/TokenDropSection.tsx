@@ -34,7 +34,6 @@ import {
   useTokenSupply,
 } from "@thirdweb-dev/react";
 import { CurrencyValue } from "@thirdweb-dev/sdk/evm";
-import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -166,19 +165,19 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
       amount = activeClaimCondition.data?.availableSupply.split(".")[0] || "0";
     }
 
-    return BigNumber.from(amount);
+    return BigInt(amount);
   }, [activeClaimCondition.data?.availableSupply]);
 
   const totalAvailableSupply = useMemo(() => {
     try {
       return availableSupply;
     } catch {
-      return BigNumber.from(1_000_000_000);
+      return BigInt(1_000_000_000);
     }
   }, [availableSupply]);
 
   const numberClaimed = useMemo(() => {
-    return BigNumber.from(claimedSupply.data?.value || 0).toString();
+    return BigInt(claimedSupply.data?.value || 0).toString();
   }, [claimedSupply]);
 
   const numberTotal = useMemo(() => {
@@ -192,7 +191,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const priceToMint = useMemo(() => {
     if (lazyQuantity) {
       const bnPrice =
-        activeClaimCondition.data?.currencyMetadata.value || BigNumber.from(0);
+        activeClaimCondition.data?.currencyMetadata.value || BigInt(0);
 
       return `${formatUnits(
         bnPrice.mul(lazyQuantity).toString(),
@@ -210,19 +209,18 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     let bnMaxClaimable;
     try {
       bnMaxClaimable =
-        BigNumber.from(activeClaimCondition.data?.maxClaimableSupply) ||
-        BigNumber.from(0);
+        BigInt(activeClaimCondition.data?.maxClaimableSupply) || BigInt(0);
     } catch (e) {
-      bnMaxClaimable = BigNumber.from(1_000_000_000);
+      bnMaxClaimable = BigIn(1_000_000_000);
     }
 
     let perTransactionClaimable;
     try {
-      perTransactionClaimable = BigNumber.from(
+      perTransactionClaimable = BigInt(
         activeClaimCondition.data?.maxClaimablePerWallet || 0
       );
     } catch (e) {
-      perTransactionClaimable = BigNumber.from(1_000_000_000);
+      perTransactionClaimable = BigInt(1_000_000_000);
     }
 
     if (perTransactionClaimable.lte(bnMaxClaimable)) {
@@ -234,10 +232,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     if (snapshotClaimable) {
       if (snapshotClaimable === "0") {
         // allowed unlimited for the snapshot
-        bnMaxClaimable = BigNumber.from(1_000_000_000);
+        bnMaxClaimable = BigInt(1_000_000_000);
       } else {
         try {
-          bnMaxClaimable = BigNumber.from(snapshotClaimable);
+          bnMaxClaimable = BigInt(snapshotClaimable);
         } catch (e) {
           // fall back to default case
         }
@@ -314,10 +312,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     }
 
     if (canClaim) {
-      const pricePerToken = BigNumber.from(
-        activeClaimCondition.data?.currencyMetadata.value || 0
+      const pricePerToken = BigInt(
+        activeClaimCondition.data?.currencyMetadata.value || BigInt(0)
       );
-      if (pricePerToken.eq(0)) {
+      if (pricePerToken === BigInt(0)) {
         return <FormattedMessage id="mint.free" defaultMessage="Mint (Free)" />;
       }
       return (
