@@ -17,6 +17,7 @@ import { ChainId } from "@dexkit/core/constants/enums";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import {
   ZeroExGaslessQuoteResponse,
@@ -24,7 +25,6 @@ import {
 } from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import WalletIcon from "@mui/icons-material/Wallet";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { AppNotificationsBadge } from "../../../components/AppNotificationBadge";
 import TransakIcon from "../../../components/icons/TransakIcon";
@@ -318,18 +318,7 @@ export default function SwapUniswap({
                 </Button>
               )
             ) : (
-              <Button
-                onClick={connectWallet}
-                startIcon={<WalletIcon />}
-                variant="contained"
-                color="primary"
-                size="large"
-              >
-                <FormattedMessage
-                  id="connect.wallet"
-                  defaultMessage="Connect Wallet"
-                />
-              </Button>
+              <ConnectButton variant="contained" color="primary" size="large" />
             )}
           </Stack>
         </Box>

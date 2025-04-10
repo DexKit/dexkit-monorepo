@@ -7,11 +7,10 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { isAddressEqual } from "@dexkit/core/utils/blockchain";
 import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSignMessageDialog,
-    useSwitchNetwork,
-    useTokenList,
+  useDexKitContext,
+  useSignMessageDialog,
+  useSwitchNetwork,
+  useTokenList,
 } from "@dexkit/ui/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
@@ -19,15 +18,16 @@ import dynamic from "next/dynamic";
 
 import { getERC20Name, getERC20Symbol } from "@dexkit/core/services/balances";
 import Icon from "../../../components/Icon";
+import { useWalletConnect } from "../../../hooks/wallet";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useAsset,
-    useAssetBalance,
-    useAssetMetadata,
-    useMakeListingMutation,
-    useMakeOfferMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useAsset,
+  useAssetBalance,
+  useAssetMetadata,
+  useMakeListingMutation,
+  useMakeOfferMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { getAssetProtocol, isERC1155Owner } from "../utils";
 import { TransferAssetButton } from "./TransferAssetButton";
@@ -209,11 +209,11 @@ export function AssetPricePaper({ address, id }: Props) {
     }
   };
 
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
 
   const handleOpenMakeOfferDialog = () => {
     if (!isActive || chainId === undefined) {
-      connectWalletDialog.setOpen(true);
+      connectWallet;
     } else if (chainId !== asset?.chainId) {
       if (asset?.chainId) {
         switchNetwork(asset?.chainId);

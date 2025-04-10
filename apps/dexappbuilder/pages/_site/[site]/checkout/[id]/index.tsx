@@ -7,11 +7,8 @@ import { NETWORKS } from '@dexkit/core/constants/networks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { Token } from '@dexkit/core/types';
 import { ipfsUriToUrl, parseChainId } from '@dexkit/core/utils';
-import {
-  useActiveChainIds,
-  useConnectWalletDialog,
-  useSwitchNetworkMutation,
-} from '@dexkit/ui';
+import { useActiveChainIds, useSwitchNetworkMutation } from '@dexkit/ui';
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import {
   useCheckoutData,
@@ -19,7 +16,6 @@ import {
   useConfirmCheckout,
 } from '@dexkit/ui/hooks/payments';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import Wallet from '@mui/icons-material/Wallet';
 import {
   Alert,
   Avatar,
@@ -244,8 +240,6 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
     setToken(token);
   };
 
-  const { handleConnectWallet } = useConnectWalletDialog();
-
   const hasSufficientBalance = useMemo(() => {
     if (total && balanceQuery.data) {
       return balanceQuery.data?.gte(total);
@@ -372,17 +366,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
       );
     }
 
-    return (
-      <Button
-        onClick={handleConnectWallet}
-        startIcon={<Wallet />}
-        fullWidth
-        variant="contained"
-        size="large"
-      >
-        <FormattedMessage id="connect.wallet" defaultMessage="Connect wallet" />
-      </Button>
-    );
+    return <ConnectButton variant="contained" size="large" fullWidth />;
   };
 
   return (

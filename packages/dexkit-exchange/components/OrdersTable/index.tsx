@@ -1,8 +1,14 @@
 import { ChainId } from "@dexkit/core";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
+import {
+  useConnectWalletDialog,
+  useDexKitContext,
+  useExecuteTransactionsDialog,
+} from "@dexkit/ui/hooks";
 import { ZrxOrder } from "@dexkit/ui/modules/swap/types";
+import { AppNotificationType } from "@dexkit/ui/types";
 import {
   Box,
-  Button,
   Card,
   Divider,
   Skeleton,
@@ -18,19 +24,11 @@ import {
 import type { providers } from "ethers";
 import { useCallback, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
+import { EXCHANGE_NOTIFICATION_TYPES } from "../../constants/messages";
 import { useExchangeContext } from "../../hooks";
 import { useZrxOrderbook } from "../../hooks/zrx";
 import { useZrxCancelOrderMutation } from "../../hooks/zrx/useZrxCancelOrderMutation";
 import OrdersTableRow from "./OrdersTableRow";
-
-import {
-  useConnectWalletDialog,
-  useDexKitContext,
-  useExecuteTransactionsDialog,
-} from "@dexkit/ui/hooks";
-import { AppNotificationType } from "@dexkit/ui/types";
-import WalletIcon from "@mui/icons-material/Wallet";
-import { EXCHANGE_NOTIFICATION_TYPES } from "../../constants/messages";
 
 export interface OrdersTable {
   chainId?: ChainId;
@@ -165,16 +163,7 @@ export default function OrdersTable({
                         defaultMessage="Your wallet is not connected"
                       />
                     </Typography>
-                    <Button
-                      onClick={connectWalletDialog.handleConnectWallet}
-                      startIcon={<WalletIcon />}
-                      variant="contained"
-                    >
-                      <FormattedMessage
-                        id="connect.wallet"
-                        defaultMessage="Connect wallet"
-                      />
-                    </Button>
+                    <ConnectButton variant="contained" />
                   </Stack>
                 </TableCell>
               </TableRow>

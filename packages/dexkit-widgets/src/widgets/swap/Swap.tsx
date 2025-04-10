@@ -2,6 +2,7 @@ import { ChainId } from "@dexkit/core/constants/enums";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import {
@@ -10,7 +11,6 @@ import {
 } from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import WalletIcon from "@mui/icons-material/Wallet";
 import {
   Alert,
   Avatar,
@@ -334,18 +334,7 @@ export default function Swap({
               </Button>
             )
           ) : (
-            <Button
-              onClick={connectWallet}
-              startIcon={<WalletIcon />}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              <FormattedMessage
-                id="connect.wallet"
-                defaultMessage="Connect Wallet"
-              />
-            </Button>
+            <ConnectButton variant="contained" color="primary" size="large" />
           )}
         </Stack>
       </CardContent>

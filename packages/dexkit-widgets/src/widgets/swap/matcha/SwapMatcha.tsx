@@ -25,7 +25,6 @@ import {
 } from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import WalletIcon from "@mui/icons-material/Wallet";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { AppNotificationsBadge } from "../../../components/AppNotificationBadge";
 import TransakIcon from "../../../components/icons/TransakIcon";
@@ -85,6 +84,7 @@ export interface SwapMatchaProps {
   onSetToken?: (token: Token) => void;
 }
 
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryMatcha from "./SwapFeeSummaryMatcha";
@@ -359,18 +359,11 @@ export default function SwapMatcha({
                   </Button>
                 )
               ) : (
-                <Button
-                  onClick={connectWallet}
-                  startIcon={<WalletIcon />}
+                <ConnectButton
                   variant="contained"
                   color="primary"
                   size="large"
-                >
-                  <FormattedMessage
-                    id="connect.wallet"
-                    defaultMessage="Connect Wallet"
-                  />
-                </Button>
+                />
               )}
             </Stack>
           </Stack>

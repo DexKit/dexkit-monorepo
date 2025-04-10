@@ -9,36 +9,33 @@ import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import {
-    getERC20Decimals,
-    getERC20Name,
-    getERC20Symbol,
+  getERC20Decimals,
+  getERC20Name,
+  getERC20Symbol,
 } from "@dexkit/core/services/balances";
 import { Asset, SwapApiOrder } from "@dexkit/core/types/nft";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
-import {
-    useConnectWalletDialog,
-    useDexKitContext,
-    useSwitchNetwork,
-} from "@dexkit/ui";
+import { useDexKitContext, useSwitchNetwork } from "@dexkit/ui";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
-    SignedNftOrderV4,
-    SwappableAssetV4,
-    TradeDirection,
+  SignedNftOrderV4,
+  SwappableAssetV4,
+  TradeDirection,
 } from "@traderxyz/nft-swap-sdk";
 import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import ShareDialog from "../../../components/dialogs/ShareDialog";
 import { useTokenList } from "../../../hooks/blockchain";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
+import { useWalletConnect } from "../../../hooks/wallet";
 import { OrderDirection } from "../constants/enum";
 import {
-    GET_NFT_ORDERS,
-    useApproveAssetMutation,
-    useCancelSignedOrderMutation,
-    useFillSignedOrderMutation,
-    useSwapSdkV4,
+  GET_NFT_ORDERS,
+  useApproveAssetMutation,
+  useCancelSignedOrderMutation,
+  useFillSignedOrderMutation,
+  useSwapSdkV4,
 } from "../hooks";
 import { OrderBookItem } from "../types";
 import { getAssetProtocol } from "../utils";
@@ -53,7 +50,7 @@ interface Props {
 
 export function AssetBuyOrder({ asset, orderBookItem }: Props) {
   const { account, provider, chainId } = useWeb3React();
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
   const trackUserEvent = useTrackUserEventsMutation();
   const nftSwapSdk = useSwapSdkV4(provider, asset?.chainId);
 
@@ -378,7 +375,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         setOpenConfirmBuy(true);
       }
     } else {
-      connectWalletDialog.setOpen(true);
+      connectWallet();
     }
   }, [asset, chainId, switchNetwork]);
 

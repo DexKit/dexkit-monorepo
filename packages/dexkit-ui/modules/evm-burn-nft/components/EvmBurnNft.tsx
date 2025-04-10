@@ -26,6 +26,7 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
+import { ConnectButton } from "../../../components/ConnectButton";
 import { getTransferNftSchema } from "../constants/schemas";
 import { useNftBurn } from "../hooks";
 
@@ -156,18 +157,7 @@ export default function EvmBurnNft({
       <Card>
         <CardContent>
           <Box display={"flex"} justifyContent={"center"}>
-            <Button
-              onClick={onConnectWallet}
-              startIcon={<WalletIcon />}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              <FormattedMessage
-                id="connect.wallet"
-                defaultMessage="Connect Wallet"
-              />
-            </Button>
+            <ConnectButton variant="contained" color="primary" size="large" />
           </Box>
         </CardContent>
       </Card>
@@ -368,20 +358,11 @@ export default function EvmBurnNft({
                   </Button>
                 )
               ) : (
-                onConnectWallet && (
-                  <Button
-                    onClick={onConnectWallet}
-                    startIcon={<WalletIcon />}
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    <FormattedMessage
-                      id="connect.wallet"
-                      defaultMessage="Connect Wallet"
-                    />
-                  </Button>
-                )
+                <ConnectButton
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                />
               )}
 
               {onCancel && (

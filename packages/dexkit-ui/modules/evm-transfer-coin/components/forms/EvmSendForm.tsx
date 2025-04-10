@@ -4,7 +4,6 @@ import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { QrCodeScanner } from "@mui/icons-material";
 import SendIcon from "@mui/icons-material/Send";
 import Token from "@mui/icons-material/Token";
-import WalletIcon from "@mui/icons-material/Wallet";
 import {
   Autocomplete,
   AutocompleteChangeReason,
@@ -26,6 +25,7 @@ import { parse } from "eth-url-parser";
 import dynamic from "next/dynamic";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { ConnectButton } from "../../../../components/ConnectButton";
 
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
@@ -278,18 +278,7 @@ export function EvmSendForm({
           label={<FormattedMessage id="amount" defaultMessage="Amount" />}
         />
         {!account ? (
-          <Button
-            onClick={onConnectWallet}
-            startIcon={<WalletIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          >
-            <FormattedMessage
-              id="connect.wallet"
-              defaultMessage="Connect wallet"
-            />
-          </Button>
+          <ConnectButton variant="contained" color="primary" size="large" />
         ) : isChainDiff ? (
           <Button
             onClick={() =>

@@ -40,7 +40,6 @@ import FileCopy from "@mui/icons-material/FileCopy";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import dynamic from "next/dynamic";
 
-import Wallet from "@mui/icons-material/Wallet";
 import { NetworkSelectButton } from "../../../../components/NetworkSelectButton";
 const TransakWidget = dynamic(() => import("@dexkit/ui/components/Transak"));
 
@@ -49,12 +48,7 @@ import { AppErrorBoundary } from "../../../../components/AppErrorBoundary";
 import ImportTokenDialog from "../../../../components/dialogs/ImportTokenDialog";
 import CloseCircle from "../../../../components/icons/CloseCircle";
 import { myAppsApi } from "../../../../constants/api";
-import {
-  useAppConfig,
-  useAuth,
-  useConnectWalletDialog,
-  useEvmCoins,
-} from "../../../../hooks";
+import { useAppConfig, useAuth, useEvmCoins } from "../../../../hooks";
 import { isBalancesVisibleAtom } from "../../state";
 import {
   TransactionsTable,
@@ -70,6 +64,8 @@ import { useRouter } from "next/router";
 
 import { useIsMobile } from "@dexkit/core";
 import LoginAppButton from "@dexkit/ui/components/LoginAppButton";
+import { ConnectButton } from "../../../../components/ConnectButton";
+import { useWalletConnect } from "../../../../hooks/wallet";
 
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
@@ -95,10 +91,9 @@ const EvmWalletContainer = () => {
   const evmCoins = useEvmCoins({ defaultChainId: chainId });
 
   const theme = useTheme();
-  const connectWalletDialog = useConnectWalletDialog();
-
+  const { connectWallet } = useWalletConnect();
   const handleConnectWallet = () => {
-    connectWalletDialog.setOpen(true);
+    connectWallet();
   };
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -405,16 +400,7 @@ const EvmWalletContainer = () => {
                       />
                     </Typography>
                   </Box>
-                  <Button
-                    onClick={() => handleConnectWallet()}
-                    variant="contained"
-                    startIcon={<Wallet />}
-                  >
-                    <FormattedMessage
-                      id="connect.wallet"
-                      defaultMessage="Connect Wallet"
-                    />
-                  </Button>
+                  <ConnectButton variant="contained" />
                 </Stack>
               )}
             </Grid>

@@ -1,5 +1,4 @@
 import { useDexKitContext } from "@dexkit/ui/hooks";
-import WalletIcon from "@mui/icons-material/Wallet";
 import {
   Box,
   Button,
@@ -13,6 +12,7 @@ import { Form, Formik } from "formik";
 import { FormattedMessage } from "react-intl";
 
 import { Token } from "@dexkit/core/types";
+import { ConnectButton } from "../../../components/ConnectButton";
 import FormikDecimalInput from "../../../components/FormikDecimalInput";
 import { useSetAllowanceToken } from "../hooks";
 
@@ -94,18 +94,7 @@ export default function EvmApproveToken({
       <Card>
         <CardContent>
           <Box display="flex" justifyContent="center">
-            <Button
-              onClick={onConnectWallet}
-              startIcon={<WalletIcon />}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              <FormattedMessage
-                id="connect.wallet"
-                defaultMessage="Connect Wallet"
-              />
-            </Button>
+            <ConnectButton variant="contained" color="primary" size="large" />
           </Box>
         </CardContent>
       </Card>

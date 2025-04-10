@@ -5,6 +5,7 @@ import {
   isAddressEqual,
   truncateAddress,
 } from "@dexkit/core/utils";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { useDexKitContext } from "@dexkit/ui/hooks";
 import WalletIcon from "@mui/icons-material/Wallet";
 import {
@@ -129,18 +130,7 @@ export default function EvmTransferNft({
       <Card>
         <CardContent>
           <Box display={"flex"} justifyContent={"center"}>
-            <Button
-              onClick={onConnectWallet}
-              startIcon={<WalletIcon />}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              <FormattedMessage
-                id="connect.wallet"
-                defaultMessage="Connect Wallet"
-              />
-            </Button>
+            <ConnectButton variant="contained" color="primary" size="large" />
           </Box>
         </CardContent>
       </Card>
@@ -336,20 +326,11 @@ export default function EvmTransferNft({
                   </Button>
                 )
               ) : (
-                onConnectWallet && (
-                  <Button
-                    onClick={onConnectWallet}
-                    startIcon={<WalletIcon />}
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    <FormattedMessage
-                      id="connect.wallet"
-                      defaultMessage="Connect Wallet"
-                    />
-                  </Button>
-                )
+                <ConnectButton
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                />
               )}
 
               {onCancel && (

@@ -13,6 +13,7 @@ import {
   useConnectModal,
 } from 'thirdweb/react';
 
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { ThemeMode } from '@dexkit/ui/constants/enum';
 import {
   appMetadata,
@@ -73,14 +74,7 @@ const MyLoginPage = () => {
           alignItems: 'center',
         }}
       >
-        {!account && (
-          <Button variant={'contained'} onClick={handleConnectWallet}>
-            <FormattedMessage
-              defaultMessage={'Connect Wallet'}
-              id={'connect.wallet'}
-            ></FormattedMessage>
-          </Button>
-        )}
+        {!account && <ConnectButton variant="contained" />}
         {account && (
           <Button variant={'contained'} onClick={handleLoginMutation}>
             <FormattedMessage

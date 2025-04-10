@@ -11,15 +11,10 @@ import {
   ipfsUriToUrl,
   parseChainId,
 } from '@dexkit/core/utils';
-import {
-  useActiveChainIds,
-  useConnectWalletDialog,
-  useSwitchNetworkMutation,
-} from '@dexkit/ui';
+import { useActiveChainIds, useSwitchNetworkMutation } from '@dexkit/ui';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import Wallet from '@mui/icons-material/Wallet';
 import {
   Alert,
   Avatar,
@@ -67,6 +62,7 @@ import useCheckoutPay from '@/modules/commerce/hooks/checkout/useCheckoutPay';
 import useCheckoutNetworks from '@/modules/commerce/hooks/settings/useCheckoutNetworks';
 import { UserCheckoutItemsFormSchema } from '@/modules/commerce/schemas';
 import { CheckoutItem } from '@/modules/commerce/types';
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import CheckoutTokenAutocomplete from '@dexkit/ui/modules/commerce/components/CheckoutTokenAutocomplete';
 import { useSiteReceiver } from '@dexkit/ui/modules/commerce/hooks/useSiteReceiver';
 import { useEvmTransferMutation } from '@dexkit/ui/modules/evm-transfer-coin/hooks';
@@ -237,8 +233,6 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     return false;
   }, []);
 
-  const { handleConnectWallet } = useConnectWalletDialog();
-
   const { data: availNetworks, refetch } = useCheckoutNetworks();
 
   const chainIds = availNetworks?.map((n: any) => n.chainId) ?? [];
@@ -337,17 +331,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
       );
     }
 
-    return (
-      <Button
-        onClick={handleConnectWallet}
-        startIcon={<Wallet />}
-        fullWidth
-        variant="contained"
-        size="large"
-      >
-        <FormattedMessage id="connect.wallet" defaultMessage="Connect wallet" />
-      </Button>
-    );
+    return <ConnectButton variant="contained" size="large" fullWidth />;
   };
 
   const handleChangeToken = (token: Token | null) => {

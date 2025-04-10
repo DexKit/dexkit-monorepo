@@ -1,5 +1,6 @@
 import { getNetworkFromSlug } from '@dexkit/core/utils/blockchain';
 import Link from '@dexkit/ui/components/AppLink';
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { useAccountContractCollection } from '@dexkit/ui/modules/nft/hooks/collection';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -16,7 +17,6 @@ import Menu from '@mui/material/Menu';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Wallet from 'src/components/icons/Wallet';
 
 import { useConnectWalletDialog } from 'src/hooks/app';
 
@@ -169,19 +169,11 @@ export default function ContractCollectionList() {
               defaultMessage="Connect wallet to start create collections"
             />
           </Typography>
-          <Button
+          <ConnectButton
             variant="outlined"
             color="inherit"
-            onClick={handleOpenConnectWalletDialog}
-            startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
-          >
-            <FormattedMessage
-              id="connect.wallet"
-              defaultMessage="Connect Wallet"
-              description="Connect wallet button"
-            />
-          </Button>
+          />
         </Stack>
       )}
     </List>

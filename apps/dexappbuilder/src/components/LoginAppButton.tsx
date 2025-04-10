@@ -6,9 +6,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
 import { useConnectWalletDialog } from 'src/hooks/app';
-import Wallet from './icons/Wallet';
 
 interface Props {
   onLogin?: () => void;
@@ -76,19 +76,11 @@ export function LoginAppButton({
             )}
           </Typography>
         </Alert>
-        <Button
+        <ConnectButton
           variant="outlined"
           color="inherit"
-          onClick={handleOpenConnectWalletDialog}
-          startIcon={<Wallet />}
           endIcon={<ChevronRightIcon />}
-        >
-          <FormattedMessage
-            id="connect.wallet"
-            defaultMessage="Connect Wallet"
-            description="Connect wallet button"
-          />
-        </Button>
+        />
       </Stack>
     );
   }

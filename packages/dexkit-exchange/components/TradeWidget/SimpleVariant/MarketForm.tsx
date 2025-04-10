@@ -30,6 +30,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
@@ -276,6 +277,17 @@ export default function MarketForm({
   const switchNetworkMutation = useSwitchNetworkMutation();
 
   const renderActionButton = useCallback(() => {
+    if (!providerChainId) {
+      return (
+        <ConnectButton
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+        />
+      );
+    }
+
     if (providerChainId && chainId && providerChainId !== chainId) {
       return (
         <Button

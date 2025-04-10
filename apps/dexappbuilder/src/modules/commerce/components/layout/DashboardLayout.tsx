@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Button,
   Collapse,
   Container,
   Grid,
@@ -24,7 +23,6 @@ import React, { useState } from 'react';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import ChevronRight from '@mui/icons-material/ChevronRight';
-import Wallet from '@mui/icons-material/Wallet';
 import { useConnectWalletDialog } from 'src/hooks/app';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -44,6 +42,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 export interface DashboardLayoutProps {
@@ -274,19 +273,11 @@ function RequireLogin({
             />
           </Typography>
         </Stack>
-        <Button
+        <ConnectButton
           variant="outlined"
           color="inherit"
-          onClick={() => connectWalletDialog.setOpen(true)}
-          startIcon={<Wallet />}
           endIcon={<ChevronRight />}
-        >
-          <FormattedMessage
-            id="connect.wallet"
-            defaultMessage="Connect Wallet"
-            description="Connect wallet button"
-          />
-        </Button>
+        />
       </Stack>
     </Box>
   );

@@ -25,7 +25,6 @@ import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import theDefaultConfig from '../../../../../config/wizard.default.app.json';
-import Wallet from '../../../../components/icons/Wallet';
 
 import { IS_STAGING } from '../../../../constants';
 import { useConnectWalletDialog } from '../../../../hooks/app';
@@ -36,6 +35,7 @@ import {
 } from '../../../../hooks/whitelabel';
 import { getTheme } from '../../../../theme';
 
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import ThemePreview from '../ThemePreview';
@@ -383,19 +383,11 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                               />
                             </Button>
                           ) : (
-                            <Button
+                            <ConnectButton
                               variant="outlined"
                               color="inherit"
-                              onClick={() => connectWalletDialog.setOpen(true)}
-                              startIcon={<Wallet />}
                               endIcon={<ChevronRightIcon />}
-                            >
-                              <FormattedMessage
-                                id="connect.wallet"
-                                defaultMessage="Connect Wallet"
-                                description="Connect wallet button"
-                              />
-                            </Button>
+                            />
                           )}
                         </Stack>
                       </Grid>

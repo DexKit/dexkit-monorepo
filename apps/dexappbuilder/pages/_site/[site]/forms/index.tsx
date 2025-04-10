@@ -1,9 +1,9 @@
 import ContractButton from '@/modules/forms/components/ContractButton';
 import Link from '@dexkit/ui/components/AppLink';
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { THIRDWEB_ICON_URL } from '@dexkit/web3forms/constants';
-import WalletIcon from '@mui/icons-material/Wallet';
 import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
@@ -137,16 +137,7 @@ export default function FormsPage() {
                             />
                           </Button>
                         ) : (
-                          <Button
-                            onClick={handleConnectWallet}
-                            variant="outlined"
-                            startIcon={<WalletIcon />}
-                          >
-                            <FormattedMessage
-                              id="connect.wallet"
-                              defaultMessage="Connect wallet"
-                            />
-                          </Button>
+                          <ConnectButton variant="outlined" />
                         )}
                       </Stack>
                     </Grid>

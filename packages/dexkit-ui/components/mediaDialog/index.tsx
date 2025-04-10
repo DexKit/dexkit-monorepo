@@ -48,12 +48,13 @@ import { MAX_ACCOUNT_FILE_UPLOAD_SIZE } from "../../constants";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useConnectWalletDialog } from "../../hooks";
 import { AccountFile } from "../../modules/file/types";
 
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { truncateText } from "@dexkit/core/utils/text";
 import { myAppsApi } from "../../constants/api";
+import { useWalletConnect } from "../../hooks/wallet";
+import { ConnectButton } from "../ConnectButton";
 import GenerateImagesDialog from "../dialogs/GenerateImagesDialog";
 
 interface Props {
@@ -100,7 +101,6 @@ export default function MediaDialog({
 }: Props) {
   const { onClose } = dialogProps;
   const { isActive } = useWeb3React();
-  const { setOpen } = useConnectWalletDialog();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState<string>();
   const [sortCreatedAt, setSortCreatedAt] = useState("desc");
@@ -162,9 +162,7 @@ export default function MediaDialog({
     inputRef.current?.click();
   }, [inputRef]);
 
-  const handleConnectWallet = () => {
-    setOpen(true);
-  };
+  const { connectWallet } = useWalletConnect();
 
   const onUploadFile = () => {
     if (file) {
@@ -321,12 +319,7 @@ export default function MediaDialog({
                       />
                     </Button>
                   ) : (
-                    <Button variant="contained" onClick={handleConnectWallet}>
-                      <FormattedMessage
-                        id="connect.wallet"
-                        defaultMessage="Connect wallet"
-                      />
-                    </Button>
+                    <ConnectButton variant="contained" />
                   )}
                   <Button
                     onClick={() => handleShowImageGeneratorDialog("generator")}
@@ -581,7 +574,7 @@ export default function MediaDialog({
                   alignContent={"center"}
                   alignItems={"center"}
                 >
-                  <CustomButton onClick={handleConnectWallet}>
+                  <CustomButton onClick={connectWallet}>
                     <FormattedMessage
                       id="connect.wallet"
                       defaultMessage="Connect wallet"

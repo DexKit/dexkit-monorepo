@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import { DexkitApiProvider } from "@dexkit/core/providers";
@@ -7,10 +7,10 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import React, { useState } from "react";
 
 import ChevronRight from "@mui/icons-material/ChevronRight";
-import Wallet from "@mui/icons-material/Wallet";
 
 import useNotificationsCountUnread from "@dexkit/ui/modules/commerce/hooks/useNotificatonsCountUnread";
 
+import { ConnectButton } from "../../../../components/ConnectButton";
 import { useConnectWalletDialog } from "../../../../hooks";
 
 export interface DashboardLayoutProps {
@@ -65,19 +65,11 @@ function RequireLogin({
             />
           </Typography>
         </Stack>
-        <Button
+        <ConnectButton
           variant="outlined"
           color="inherit"
-          onClick={() => connectWalletDialog.setOpen(true)}
-          startIcon={<Wallet />}
           endIcon={<ChevronRight />}
-        >
-          <FormattedMessage
-            id="connect.wallet"
-            defaultMessage="Connect Wallet"
-            description="Connect wallet button"
-          />
-        </Button>
+        />
       </Stack>
     </Box>
   );

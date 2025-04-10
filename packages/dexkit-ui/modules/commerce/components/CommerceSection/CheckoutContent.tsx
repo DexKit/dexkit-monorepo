@@ -12,7 +12,6 @@ import {
   useSwitchNetworkMutation,
 } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import Wallet from "@mui/icons-material/Wallet";
 import {
   Alert,
   Avatar,
@@ -49,6 +48,7 @@ import { Formik } from "formik";
 import { useSnackbar } from "notistack";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { ConnectButton } from "../../../../components/ConnectButton";
 import { CHECKOUT_TOKENS } from "../../constants";
 import useCheckoutNetworks from "../../hooks/checkout/useCheckoutNetworks";
 import useCheckoutPay from "../../hooks/checkout/useCheckoutPay";
@@ -319,17 +319,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
       );
     }
 
-    return (
-      <Button
-        onClick={handleConnectWallet}
-        startIcon={<Wallet />}
-        fullWidth
-        variant="contained"
-        size="large"
-      >
-        <FormattedMessage id="connect.wallet" defaultMessage="Connect wallet" />
-      </Button>
-    );
+    return <ConnectButton size="large" variant="contained" />;
   };
 
   const handleChangeToken = (token: Token | null) => {

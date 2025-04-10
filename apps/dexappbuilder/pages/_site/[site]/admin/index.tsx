@@ -5,13 +5,13 @@ import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
 import ConfigureDomainDialog from '@/modules/wizard/components/dialogs/ConfigureDomainDialog';
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
+import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Search from '@mui/icons-material/Search';
-import Wallet from '@mui/icons-material/Wallet';
 import {
   Box,
   Button,
@@ -195,19 +195,11 @@ export const AdminIndexPage: NextPage = () => {
               />
             </Typography>
           </Stack>
-          <Button
+          <ConnectButton
             variant="outlined"
             color="inherit"
-            onClick={() => connectWalletDialog.setOpen(true)}
-            startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
-          >
-            <FormattedMessage
-              id="connect.wallet"
-              defaultMessage="Connect Wallet"
-              description="Connect wallet button"
-            />
-          </Button>
+          />
         </Stack>
       </Box>
     );
