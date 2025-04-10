@@ -4,7 +4,7 @@ import {
   GET_NATIVE_TOKEN,
 } from "@dexkit/core/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { usePlatformCoinSearch } from "../../hooks/api";
@@ -302,11 +302,14 @@ export function SwapWidget({
     handleSelectTokenState(token);
   };
 
-  const handleConfirmSwap = async () => {
-    await handleConfirmExecSwap.mutateAsync();
-
-    !canGasless && handleCloseConfirmSwap();
-  };
+  const handleConfirmSwap = useCallback(async () => {
+    try {
+      await handleConfirmExecSwap.mutateAsync();
+      !canGasless && handleCloseConfirmSwap();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [canGasless, handleConfirmExecSwap, handleCloseConfirmSwap]);
 
   const filteredChainIds = useMemo(() => {
     return activeChainIds.filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(k));
