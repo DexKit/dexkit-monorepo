@@ -320,13 +320,9 @@ export function useSwapState({
 
   const handleCloseConfirmSwap = () => {
     setShowConfirmSwap(false);
-    // if there is
-    if (gaslessSwapState.confirmedTxGasless) {
-      sellTokenBalance.refetch();
-      buyTokenBalance.refetch();
-    }
+    sellTokenBalance.refetch();
+    buyTokenBalance.refetch();
     setTradeHash(undefined);
-
     setExecSwapState(ExecSwapState.quote);
   };
 
