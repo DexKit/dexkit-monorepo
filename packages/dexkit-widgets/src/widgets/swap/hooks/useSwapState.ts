@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { defineChain } from "thirdweb/chains";
 import { useSwitchActiveWalletChain } from "thirdweb/react";
 
-
 import {
   useAsyncMemo,
   useDebounce,
@@ -55,7 +54,6 @@ export function useSwapState({
   transakApiKey,
   onChangeNetwork,
   onNotification,
-  onConnectWallet,
   onShowTransactions,
   currency,
   variant,
@@ -80,7 +78,6 @@ export function useSwapState({
   transakApiKey?: string;
   onChangeNetwork: (chainId: ChainId) => void;
   onNotification: (params: NotificationCallbackParams) => void;
-  onConnectWallet: () => void;
   onShowTransactions: () => void;
   maxSlippage: number;
   isAutoSlippage: boolean;
@@ -306,10 +303,6 @@ export function useSwapState({
     [sellToken]
   );
 
-  const handleConnectWallet = () => {
-    onConnectWallet();
-  };
-
   const handleShowTransactions = () => {
     onShowTransactions();
   };
@@ -395,10 +388,10 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (_hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
-          onSuccess: (_receipt: providers.TransactionReceipt) => { },
+          onSuccess: (_receipt: providers.TransactionReceipt) => {},
         }
       );
     } else if (execType === "unwrap") {
@@ -406,7 +399,7 @@ export function useSwapState({
         {
           provider: connectorProvider as providers.Web3Provider,
           amount: lazySellAmount,
-          onHash: (_hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {
@@ -466,7 +459,6 @@ export function useSwapState({
     execSwapState,
     setSellAmount,
     setBuyAmount,
-    handleConnectWallet,
     handleOpenSelectToken,
     handleSelectToken,
     setBuyToken,

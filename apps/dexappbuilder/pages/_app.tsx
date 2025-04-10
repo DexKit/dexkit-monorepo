@@ -23,7 +23,7 @@ import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import type { } from '@mui/material/themeCssVarsAugmentation';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
 import defaultAppConfig from '../config/app.minimal.json';
@@ -264,7 +264,7 @@ export default function MyApp(props: MyAppProps) {
             <AppUIConfigContext.Provider
               value={{ appConfig: config, appNFT, siteId }}
             >
-                 <ThirdwebProvider>
+              <ThirdwebProvider>
                 <QueryClientProvider client={queryClient}>
                   <Hydrate state={pageProps.dehydratedState}>
                     <DefaultSeo {...SEO} />
@@ -289,7 +289,6 @@ export default function MyApp(props: MyAppProps) {
                     </LocalizationProvider>
                   </Hydrate>
                 </QueryClientProvider>
-              
               </ThirdwebProvider>
             </AppUIConfigContext.Provider>
           </AppConfigContext.Provider>

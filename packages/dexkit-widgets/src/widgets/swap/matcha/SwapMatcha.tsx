@@ -76,7 +76,6 @@ export interface SwapMatchaProps {
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
   onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
   onShowSettings: () => void;
@@ -86,6 +85,7 @@ export interface SwapMatchaProps {
   onSetToken?: (token: Token) => void;
 }
 
+import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryMatcha from "./SwapFeeSummaryMatcha";
 import SwapSwitchTokensMatchaButton from "./SwapSwitchTokensMatchaButton";
@@ -125,7 +125,6 @@ export default function SwapMatcha({
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
-  onConnectWallet,
   onChangeNetwork,
   onShowSettings,
   onShowTransactions,
@@ -135,6 +134,7 @@ export default function SwapMatcha({
   onToggleChangeNetwork,
   onSetToken,
 }: SwapMatchaProps) {
+  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
   };
@@ -360,7 +360,7 @@ export default function SwapMatcha({
                 )
               ) : (
                 <Button
-                  onClick={onConnectWallet}
+                  onClick={connectWallet}
                   startIcon={<WalletIcon />}
                   variant="contained"
                   color="primary"

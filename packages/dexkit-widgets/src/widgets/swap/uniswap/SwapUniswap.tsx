@@ -73,7 +73,6 @@ export interface SwapProps {
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
   onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
   onShowSettings: () => void;
@@ -82,6 +81,7 @@ export interface SwapProps {
   onShowTransak?: () => void;
 }
 
+import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryUniswap from "./SwapFeeSummaryUniswap";
 import SwapSwitchTokensUniswapButton from "./SwapSwitchTokensUniswapButton";
@@ -119,7 +119,6 @@ export default function SwapUniswap({
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
-  onConnectWallet,
   onChangeNetwork,
   onShowSettings,
   onShowTransactions,
@@ -128,6 +127,7 @@ export default function SwapUniswap({
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {
+  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
   };
@@ -319,7 +319,7 @@ export default function SwapUniswap({
               )
             ) : (
               <Button
-                onClick={onConnectWallet}
+                onClick={connectWallet}
                 startIcon={<WalletIcon />}
                 variant="contained"
                 color="primary"

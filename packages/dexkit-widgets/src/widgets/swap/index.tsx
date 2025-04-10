@@ -152,7 +152,6 @@ export function SwapWidget({
     isProviderReady,
     recentTokens,
     quoteFor,
-    handleConnectWallet,
     handleOpenSelectToken,
     handleSwapTokens,
     handleSelectToken: handleSelectTokenState,
@@ -180,7 +179,6 @@ export function SwapWidget({
     connectorProvider: provider,
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
-    onConnectWallet,
     onShowTransactions,
     account,
     swapFees,
@@ -421,7 +419,6 @@ export function SwapWidget({
           sellToken={sellToken}
           onSelectToken={handleOpenSelectToken}
           onSwapTokens={handleSwapTokens}
-          onConnectWallet={handleConnectWallet}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
           networkName={
@@ -469,7 +466,6 @@ export function SwapWidget({
           sellToken={sellToken}
           onSelectToken={handleOpenSelectToken}
           onSwapTokens={handleSwapTokens}
-          onConnectWallet={handleConnectWallet}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
           networkName={
@@ -512,7 +508,6 @@ export function SwapWidget({
         sellToken={sellToken}
         onSelectToken={handleOpenSelectToken}
         onSwapTokens={handleSwapTokens}
-        onConnectWallet={handleConnectWallet}
         sellAmount={sellAmount}
         buyAmount={buyAmount}
         networkName={
@@ -706,10 +701,4 @@ export function SwapWidget({
       {renderSwapComponent()}
     </>
   );
-}
-function formatMessage(
-  arg0: { id: string; defaultMessage: string },
-  arg1: { message: string }
-): import("notistack").SnackbarMessage {
-  throw new Error("Function not implemented.");
 }

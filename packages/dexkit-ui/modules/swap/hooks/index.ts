@@ -7,7 +7,11 @@ import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { appMetadata, client, wallets } from "@dexkit/wallet-connectors/thirdweb/client";
+import {
+  appMetadata,
+  client,
+  wallets,
+} from "@dexkit/wallet-connectors/thirdweb/client";
 import { DkApiPlatformCoin } from "@dexkit/widgets/src/types/api";
 import {
   NotificationCallbackParams,
@@ -19,19 +23,12 @@ import { useAtom } from "jotai";
 import { useCallback, useMemo } from "react";
 import { darkTheme, lightTheme, useConnectModal } from "thirdweb/react";
 import { ThemeMode } from "../../../constants/enum";
-import {
-  useAppConfig,
-
-  useDexKitContext,
-  useThemeMode,
-} from "../../../hooks";
+import { useAppConfig, useDexKitContext, useThemeMode } from "../../../hooks";
 import { useTokenList } from "../../../hooks/blockchain";
 import { SUPPORTED_GASLESS_CHAIN } from "../constants";
 import { getApiCoinPlatforms } from "../services";
 import { isAutoSlippageAtom, maxSlippageAtom } from "../state";
 import { isNativeInSell } from "../utils";
-
-
 
 export function useSwapState() {
   const { chainId } = useWeb3React();
@@ -40,7 +37,7 @@ export function useSwapState() {
 
   const appConfig = useAppConfig();
   const { mode } = useThemeMode();
-  const theme = useTheme()
+  const theme = useTheme();
   const onChangeSlippage = useCallback((value: number) => {
     setMaxSlippage(value);
   }, []);
@@ -141,29 +138,26 @@ export function useSwapState() {
 
   const colors = {
     modalBg: theme.palette.background.default,
-    primaryButtonBg: theme.palette.action.active
-  }
-
+    primaryButtonBg: theme.palette.action.active,
+  };
 
   const { connect, isConnecting } = useConnectModal();
 
   async function handleConnect() {
     await connect({
       client,
-      wallets, appMetadata,
-      size: 'compact',
+      wallets,
+      appMetadata,
+      size: "compact",
       showThirdwebBranding: false,
-      theme: mode === ThemeMode.light ? lightTheme({
-        colors
-
-      }) : darkTheme({ colors })
-
-
-    }
-
-    ); // opens the connect modal
+      theme:
+        mode === ThemeMode.light
+          ? lightTheme({
+              colors,
+            })
+          : darkTheme({ colors }),
+    });
   }
-
 
   const onConnectWallet = useCallback(() => {
     handleConnect();

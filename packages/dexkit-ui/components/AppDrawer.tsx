@@ -33,7 +33,6 @@ import { useIsMobile } from "@dexkit/core/hooks";
 import WalletContent from "@dexkit/ui/components/WalletContent";
 import {
   useAuthUserQuery,
-  useConnectWalletDialog,
   useCurrency,
   useLocale,
   useShowSelectCurrency,
@@ -50,6 +49,7 @@ import Link from "./AppLink";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
 import { useRouter } from "next/router";
+import { useWalletConnect } from "../hooks/wallet";
 
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
@@ -71,12 +71,10 @@ interface Props {
 
 function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
-
-  const connectWalletDialog = useConnectWalletDialog();
-
+  const { connectWallet } = useWalletConnect();
   const handleConnectWallet = () => {
     onClose();
-    connectWalletDialog.setOpen(true);
+    connectWallet();
   };
 
   const { locale } = useLocale();

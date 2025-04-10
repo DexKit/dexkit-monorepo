@@ -3,6 +3,7 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
+import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import {
   ZeroExGaslessQuoteResponse,
   ZeroExQuoteResponse,
@@ -36,7 +37,6 @@ import SwapSwitchTokensButton from "./SwapSwitchTokensButton";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import { useExecButtonMessage } from "./hooks/useExecButtonMessage";
 import { ExecType, SwapSide } from "./types";
-
 // @ts-ignore
 
 export interface SwapProps {
@@ -75,7 +75,6 @@ export interface SwapProps {
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
   onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
   onShowSettings: () => void;
@@ -113,7 +112,6 @@ export default function Swap({
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
-  onConnectWallet,
   onChangeNetwork,
   onShowSettings,
   onShowTransactions,
@@ -122,6 +120,7 @@ export default function Swap({
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {
+  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token, clickOnMax?: boolean) => {
     onSelectToken("sell", token);
   };
@@ -336,7 +335,7 @@ export default function Swap({
             )
           ) : (
             <Button
-              onClick={onConnectWallet}
+              onClick={connectWallet}
               startIcon={<WalletIcon />}
               variant="contained"
               color="primary"
