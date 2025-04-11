@@ -4,7 +4,6 @@ import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
-import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import {
   ZeroExGaslessQuoteResponse,
   ZeroExQuoteResponse,
@@ -120,7 +119,6 @@ export default function Swap({
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {
-  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token, clickOnMax?: boolean) => {
     onSelectToken("sell", token);
   };

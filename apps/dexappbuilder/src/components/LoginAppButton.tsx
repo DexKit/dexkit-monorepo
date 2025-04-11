@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
-import { useConnectWalletDialog } from 'src/hooks/app';
 
 interface Props {
   onLogin?: () => void;
@@ -24,11 +23,7 @@ export function LoginAppButton({
   const { account, isActive } = useWeb3React();
   const userQuery = useAuthUserQuery();
   const { user } = useAuth();
-  const connectWalletDialog = useConnectWalletDialog();
   const loginMutation = useLoginAccountMutation();
-  const handleOpenConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(true);
-  };
   const handleLogin = async () => {
     await loginMutation.mutateAsync();
     userQuery.refetch();

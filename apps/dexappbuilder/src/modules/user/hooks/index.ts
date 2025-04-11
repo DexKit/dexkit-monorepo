@@ -66,7 +66,7 @@ export function useUserClaimCampaignQuery() {
 }
 
 export function useAddAccountUserMutation() {
-  const { account, provider } = useWeb3React();
+  const { account, provider, signMessage } = useWeb3React();
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
   return useMutation(async () => {
@@ -77,9 +77,9 @@ export function useAddAccountUserMutation() {
       return;
     }
     const messageToSign = await getUserAddAccountMessage({ address: account });
-    const signature = await provider
-      .getSigner()
-      .signMessage(messageToSign.data);
+    const signature = await signMessage({
+      message: messageToSign.data,
+    });
     const user = await postUserAddAccount({ signature, address: account });
     queryClient.refetchQueries([GET_AUTH_USER]);
     return user;

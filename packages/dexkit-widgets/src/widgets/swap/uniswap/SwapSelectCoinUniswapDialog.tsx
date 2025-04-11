@@ -67,7 +67,6 @@ export default function SwapSelectCoinUniswapDialog({
   enableImportExterTokens,
 }: SwapSelectCoinDialogProps) {
   const { onClose } = DialogProps;
-
   const { formatMessage } = useIntl();
 
   const handleClose = () => {

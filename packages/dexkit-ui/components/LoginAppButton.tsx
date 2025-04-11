@@ -30,9 +30,6 @@ export default function LoginAppButton({
   const { connectWallet } = useWalletConnect();
   const loginMutation = useLoginAccountMutation();
 
-  const handleOpenConnectWalletDialog = () => {
-    connectWallet();
-  };
   const handleLogin = async () => {
     await loginMutation.mutateAsync();
     userQuery.refetch();
