@@ -68,7 +68,6 @@ export interface SwapProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
@@ -123,7 +122,6 @@ export default function SwapUniswap({
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {

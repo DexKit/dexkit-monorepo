@@ -66,7 +66,6 @@ export default function SwapSelectCoinMatchaDialog({
   const { onClose } = DialogProps;
 
   const { formatMessage } = useIntl();
-
   const handleClose = () => {
     if (onClose) {
       onClose({}, "backdropClick");

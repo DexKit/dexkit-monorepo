@@ -69,7 +69,6 @@ export interface SwapMatchaProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
   featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
@@ -85,7 +84,6 @@ export interface SwapMatchaProps {
 }
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
-import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryMatcha from "./SwapFeeSummaryMatcha";
 import SwapSwitchTokensMatchaButton from "./SwapSwitchTokensMatchaButton";
@@ -129,12 +127,10 @@ export default function SwapMatcha({
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
   onToggleChangeNetwork,
   onSetToken,
 }: SwapMatchaProps) {
-  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
   };
