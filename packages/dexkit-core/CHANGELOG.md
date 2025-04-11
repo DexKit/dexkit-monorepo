@@ -1,5 +1,16 @@
 # @dexkit/core
 
+## 0.17.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+
+### Patch Changes
+
+- e9afb9c: 0x Migration to V2
+
 ## 0.16.0
 
 ### Minor Changes
