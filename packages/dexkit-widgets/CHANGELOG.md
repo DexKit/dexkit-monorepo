@@ -1,5 +1,18 @@
 # @dexkit/widgets
 
+## 0.11.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+- 9139f66: Fixed sign messages with user wallet
+- 1775883: Updated Swap widget
+
+### Patch Changes
+
+- e9afb9c: 0x Migration to V2
+
 ## 0.10.0
 
 ### Minor Changes

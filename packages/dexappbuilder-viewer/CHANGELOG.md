@@ -1,5 +1,27 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.7.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+- f9c52d8: Add priority option on image custom section
+
+### Patch Changes
+
+- Updated dependencies [e9afb9c]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [ecbf91f]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [9139f66]
+- Updated dependencies [1775883]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/widgets@0.11.0
+  - @dexkit/core@0.17.0
+  - @dexkit/ui@0.21.0
+  - @dexkit/exchange@0.12.0
+
 ## 0.6.0
 
 ### Minor Changes
