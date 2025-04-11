@@ -52,7 +52,7 @@ import {
   getNetworkSlugFromChainId,
 } from "@dexkit/core/utils/blockchain";
 import { SignedNftOrderV4, TradeDirection } from "@traderxyz/nft-swap-sdk";
-import { SUPPORTED_SWAP_CHAIN_IDS } from "../../../constants/zrx";
+import { SUPPORTED_NFTS_SWAP_CHAIN_IDS } from "../../../constants/zrx";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
 import { getCollectionByApi } from "../services/collection";
 import { AssetRari } from "../types/rarible";
@@ -202,11 +202,13 @@ export function useSwapSdkV4(provider: any, chainId?: number) {
       return undefined;
     }
     // swap sdk gives error if chainId not supported
-    if (chainId && !SUPPORTED_SWAP_CHAIN_IDS.includes(chainId)) {
+    if (chainId && !SUPPORTED_NFTS_SWAP_CHAIN_IDS.includes(chainId)) {
       return undefined;
     }
 
-    return new NftSwapV4(provider, provider.getSigner(), chainId, { orderbookRootUrl: TRADER_BASE_API });
+    return new NftSwapV4(provider, provider.getSigner(), chainId, {
+      orderbookRootUrl: TRADER_BASE_API,
+    });
   }, [provider, chainId]);
 }
 
@@ -418,7 +420,7 @@ export function useFavoriteAssets() {
         asset !== undefined &&
         assets !== undefined &&
         assets[
-        `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
+          `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
         ] !== undefined
       );
     },
@@ -893,7 +895,7 @@ export function useHiddenAssets() {
         asset !== undefined &&
         assets !== undefined &&
         assets[
-        `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
+          `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
         ] === true
       );
     },
