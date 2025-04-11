@@ -119,8 +119,9 @@ export default function SwapNetworkButtons({
                       sx={{
                         width: "100%",
                         backgroundColor: (theme) =>
-                          chainId === parseChainId(key) &&
-                          alpha(theme.palette.primary.main, 0.1),
+                          chainId === parseChainId(key)
+                            ? alpha(theme.palette.primary.main, 0.1)
+                            : undefined,
                       }}
                     >
                       <ListItemIcon>
