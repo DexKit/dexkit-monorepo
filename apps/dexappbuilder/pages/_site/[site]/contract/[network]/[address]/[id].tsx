@@ -1,6 +1,6 @@
 import ContractNftItemContainer from '@/modules/contract-wizard/components/containers/ContractNftItemContainer';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Container from '@mui/material/Container';
 import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
@@ -14,13 +14,13 @@ export default function ContractPage() {
 
   const { address, network, id } = query;
 
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
     <ThirdwebSDKProvider
       clientId={THIRDWEB_CLIENT_ID}
       activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={provider?.getSigner()}
+      signer={signer}
     >
       <Container>
         <ContractNftItemContainer

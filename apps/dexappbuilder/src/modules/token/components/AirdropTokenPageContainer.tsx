@@ -5,10 +5,10 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import { useQuery } from '@tanstack/react-query';
 import {
-    ThirdwebSDKProvider,
-    useContract,
-    useContractRead,
-    useContractType,
+  ThirdwebSDKProvider,
+  useContract,
+  useContractRead,
+  useContractType,
 } from '@thirdweb-dev/react';
 
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
@@ -131,7 +131,7 @@ function AirdropTokenPageContainer({ address, network }: Props) {
 }
 
 export default function Wrapper(props: Props) {
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
     <>
@@ -151,7 +151,7 @@ export default function Wrapper(props: Props) {
       <ThirdwebSDKProvider
         clientId={THIRDWEB_CLIENT_ID}
         activeChain={getChainIdFromSlug(props.network as string)?.chainId}
-        signer={provider?.getSigner()}
+        signer={signer}
       >
         <AirdropTokenPageContainer {...props} />
       </ThirdwebSDKProvider>

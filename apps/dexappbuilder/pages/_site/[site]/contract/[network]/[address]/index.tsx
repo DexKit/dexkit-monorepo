@@ -14,13 +14,13 @@ export default function ContractPage() {
 
   const { address, network } = query;
 
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
     <ThirdwebSDKProvider
       clientId={THIRDWEB_CLIENT_ID}
       activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={provider?.getSigner()}
+      signer={signer}
     >
       <Container>
         <ContractContainer

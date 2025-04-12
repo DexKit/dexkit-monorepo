@@ -124,11 +124,11 @@ function DexGeneratorTokenErc721Form({
 }
 
 export default function Wrapper(props: DexGeneratorTokenErc721FormProps) {
-  const { chainId, provider } = useWeb3React();
+  const { chainId, signer } = useWeb3React();
 
   return (
     <ThirdwebSDKProvider
-      signer={provider?.getSigner()}
+      signer={signer}
       activeChain={chainId}
       clientId={THIRDWEB_CLIENT_ID}
     >

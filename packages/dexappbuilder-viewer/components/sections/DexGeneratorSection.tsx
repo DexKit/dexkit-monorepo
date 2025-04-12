@@ -23,7 +23,7 @@ export default function DexGeneratorSection({
   section,
   hideGrid,
 }: DexGeneratorSectionProps) {
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   const renderSection = () => {
     if (section?.section) {
@@ -80,7 +80,7 @@ export default function DexGeneratorSection({
   return (
     <Container sx={{ py: 2 }}>
       <ThirdwebSDKProvider
-        signer={provider?.getSigner()}
+        signer={signer}
         activeChain={section?.contract?.chainId}
         clientId={THIRDWEB_CLIENT_ID}
       >

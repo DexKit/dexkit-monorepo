@@ -107,7 +107,7 @@ export function StakePage() {
 }
 
 export default function Wrapper() {
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
   const router = useRouter();
   const { network } = router.query;
 
@@ -115,7 +115,7 @@ export default function Wrapper() {
     <ThirdwebSDKProvider
       clientId={THIRDWEB_CLIENT_ID}
       activeChain={getChainIdFromSlug(network as string)?.chainId}
-      signer={provider?.getSigner()}
+      signer={signer}
     >
       <StakePage />
     </ThirdwebSDKProvider>

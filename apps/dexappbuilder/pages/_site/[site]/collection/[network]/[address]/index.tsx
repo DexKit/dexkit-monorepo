@@ -220,13 +220,13 @@ const CollectionPage: NextPage<{
 };
 
 function Wrapper(props: any) {
-  const { chainId, provider } = useWeb3React();
+  const { chainId, signer } = useWeb3React();
 
   return (
     <ThirdwebSDKProvider
       activeChain={chainId}
       clientId={THIRDWEB_CLIENT_ID}
-      signer={provider?.getSigner()}
+      signer={signer}
     >
       <CollectionPage {...props} />
     </ThirdwebSDKProvider>
