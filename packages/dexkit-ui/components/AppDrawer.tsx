@@ -3,6 +3,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -46,9 +47,9 @@ import AppDefaultMenuList from "./AppDefaultMenuList";
 import Link from "./AppLink";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
+import { Wallet } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useWalletConnect } from "../hooks/wallet";
-import { ConnectButton } from "./ConnectButton";
 
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
@@ -70,14 +71,9 @@ interface Props {
 
 function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
-  const { connectWallet } = useWalletConnect();
-  const handleConnectWallet = () => {
-    onClose();
-    connectWallet();
-  };
-
   const { locale } = useLocale();
   const { currency } = useCurrency();
+  const { connectWallet } = useWalletConnect();
 
   const showSelectCurrency = useShowSelectCurrency();
 
@@ -163,12 +159,22 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           <Box>
             {!isActive ? (
               <Box p={2}>
-                <ConnectButton
+                <Button
                   variant="outlined"
                   color="inherit"
+                  startIcon={<Wallet />}
                   endIcon={<ChevronRightIcon />}
-                  fullWidth
-                />
+                  onClick={() => {
+                    onClose();
+                    connectWallet();
+                  }}
+                >
+                  <FormattedMessage
+                    id="connect.wallet"
+                    defaultMessage="Connect Wallet"
+                    description="Connect wallet button"
+                  />
+                </Button>
               </Box>
             ) : (
               <Stack spacing={2}>

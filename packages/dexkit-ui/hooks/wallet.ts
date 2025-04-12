@@ -18,8 +18,8 @@ export const useWalletConnect = () => {
     primaryButtonBg: theme.palette.action.active,
   };
 
-  const connectWallet = async () =>
-    await connect({
+  const connectWallet = async () => {
+    const wallet = await connect({
       client,
       wallets,
       appMetadata,
@@ -32,6 +32,9 @@ export const useWalletConnect = () => {
             })
           : darkTheme({ colors }),
     });
+
+    console.log("connected to : ", wallet);
+  };
 
   return {
     connectWallet,
