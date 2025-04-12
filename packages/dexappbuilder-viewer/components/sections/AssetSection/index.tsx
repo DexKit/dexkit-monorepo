@@ -9,13 +9,13 @@ import { hexToString } from "@dexkit/ui/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Alert,
-    Box,
-    Button,
-    Grid,
-    NoSsr,
-    Stack,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Grid,
+  NoSsr,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useContract } from "@thirdweb-dev/react";
@@ -100,7 +100,7 @@ export default function AssetSection({ section }: AssetSectionProps) {
     }
   }, [address, tokenId, network, queryClient]);
 
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
     <AssetOptionsProvider
@@ -153,7 +153,7 @@ export default function AssetSection({ section }: AssetSectionProps) {
           <Grid item xs={12}>
             <ThirdwebSDKProvider
               activeChain={NETWORK_FROM_SLUG(network)?.chainId}
-              signer={provider?.getSigner()}
+              signer={signer}
             >
               <DropWrapper
                 address={address}

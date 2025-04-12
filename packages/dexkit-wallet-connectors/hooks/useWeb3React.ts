@@ -1,4 +1,5 @@
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { ethers5Adapter } from "thirdweb/adapters/ethers5";
 import {
@@ -19,6 +20,7 @@ export function useWeb3React(): {
   chainId: number | undefined;
   chainMetadata: ReturnType<typeof useActiveWalletChain>;
   provider: ReturnType<typeof ethers5Adapter.provider.toEthers> | undefined;
+  signer: any;
   isActivating: boolean;
   ENSName: string | null | undefined;
   connector: undefined;
@@ -53,6 +55,20 @@ export function useWeb3React(): {
     }
   }, [client, activeChain]);
 
+  const signer = useQuery(
+    ["GET_THIRD_WEB_SIGNER", activeChain, activeAccount],
+    async () => {
+      return ethers5Adapter.signer.toEthers({
+        client,
+        chain: activeChain!,
+        account: activeAccount!,
+      });
+    },
+    {
+      enabled: !!activeChain && !!activeAccount,
+    }
+  );
+
   const signMessage = activeAccount
     ? activeAccount.signMessage
     : () => {
@@ -66,6 +82,7 @@ export function useWeb3React(): {
     chainId: activeChain?.id,
     chainMetadata: activeChain,
     provider,
+    signer: signer.data,
     isActivating: isConnecting,
     ENSName: data,
     connector: undefined,
