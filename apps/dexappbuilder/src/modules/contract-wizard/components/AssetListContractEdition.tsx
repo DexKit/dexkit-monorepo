@@ -12,14 +12,14 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {
-    Alert,
-    Box,
-    Button,
-    Grid,
-    Pagination,
-    Skeleton,
-    Stack,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Grid,
+  Pagination,
+  Skeleton,
+  Stack,
+  Typography,
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useRouter } from 'next/router';
@@ -49,7 +49,7 @@ export function AssetListContractEdition({
   showClaimConditions,
 }: Props) {
   const router = useRouter();
-  const { chainId, account, provider } = useWeb3React();
+  const { chainId, account, signer } = useWeb3React();
   const [asset, setAsset] = useState<Asset | undefined>();
   const [tabValue, setTabValue] = useState('1');
 
@@ -119,7 +119,7 @@ export function AssetListContractEdition({
           params={{
             chainId: chainId,
             account: account,
-            provider: provider,
+            signer: signer,
             contractAddress: assetToTransfer.data?.contractAddress,
             tokenId: assetToTransfer.data?.id,
             isLoadingNft: assetToTransfer.isLoading,

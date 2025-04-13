@@ -30,6 +30,7 @@ export type DexkitExchangeContextState = {
   account?: string;
   chainId?: ChainId;
   provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   quoteTokens: Token[];
   buyTokenPercentageFee?: number;
   feeRecipient?: string;

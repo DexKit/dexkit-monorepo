@@ -41,7 +41,7 @@ interface Props {
 }
 
 export function AssetPricePaper({ address, id }: Props) {
-  const { account, chainId, provider, isActive } = useWeb3React();
+  const { account, chainId, provider, isActive, signer } = useWeb3React();
 
   const { formatMessage } = useIntl();
 
@@ -53,7 +53,7 @@ export function AssetPricePaper({ address, id }: Props) {
   const [openMakeOffer, setOpenMakeOffer] = useState(false);
   const [openMakeListing, setOpenMakeListing] = useState(false);
 
-  const nftSwapSdk = useSwapSdkV4(provider, chainId);
+  const nftSwapSdk = useSwapSdkV4({ provider, signer, chainId });
 
   const { openDialog: switchNetwork } = useSwitchNetwork();
 

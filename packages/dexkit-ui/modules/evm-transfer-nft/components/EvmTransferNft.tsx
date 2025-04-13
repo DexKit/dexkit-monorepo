@@ -56,7 +56,7 @@ export interface EvmTransferNftProps {
   onConnectWallet?: () => void;
   onSwitchNetwork?: () => void;
   onCancel?: () => void;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onOwnershipChange?: (ownerAddress: string) => void;
 }
 
@@ -69,7 +69,7 @@ export default function EvmTransferNft({
   nftMetadata,
   isLoadingNftMetadata,
   isLoadingNft,
-  provider,
+  signer,
   onConnectWallet,
   onSwitchNetwork,
   onCancel,
@@ -84,7 +84,7 @@ export default function EvmTransferNft({
 
   const nftTransfer = useNftTransfer({
     contractAddress,
-    provider,
+    signer,
     onSubmit: ({ hash, quantity, to }) => {
       if (hash && chainId) {
         if (nft?.protocol === "ERC1155") {

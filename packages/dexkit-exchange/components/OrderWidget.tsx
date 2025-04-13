@@ -47,7 +47,7 @@ export interface OrderWidgetProps {
     quoteTokenAmount?: string
   ) => void;
   chainId?: ChainId;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
 }
 
 export default function OrderWidget({
@@ -55,7 +55,7 @@ export default function OrderWidget({
   account,
   onCancel,
   chainId,
-  provider,
+  signer,
 }: OrderWidgetProps) {
   const [makerToken, setMakerToken] = useState<Token>();
   const [takerToken, setTakerToken] = useState<Token>();
@@ -88,7 +88,7 @@ export default function OrderWidget({
             function: "decimals",
           });
 
-          const multical = new MultiCall(provider);
+          const multical = new MultiCall(signer);
           const [, results] = await multical.multiCall(takerCalls);
 
           const takerToken: Token = {
@@ -134,7 +134,7 @@ export default function OrderWidget({
             function: "decimals",
           });
 
-          const multicalMaker = new MultiCall(provider);
+          const multicalMaker = new MultiCall(signer);
           const [, makerResults] = await multicalMaker.multiCall(makerCalls);
 
           const makerToken: Token = {
@@ -156,7 +156,7 @@ export default function OrderWidget({
         }
       }
     })();
-  }, [record, provider]);
+  }, [record, signer]);
 
   const side = useMemo(() => {
     return isAddressEqual(makerToken?.address, record.order.makerToken)
@@ -207,7 +207,7 @@ export default function OrderWidget({
 
   const { data: allowance } = useTokenAllowanceQuery({
     account,
-    provider,
+    signer,
     spender: getZrxExchangeAddress(chainId),
     tokenAddress: takerToken?.address,
   });
@@ -224,7 +224,7 @@ export default function OrderWidget({
         await approve.mutateAsync({
           amount,
           onSubmited: () => {},
-          provider,
+          signer,
           spender: getZrxExchangeAddress(chainId),
           tokenContract: takerToken?.address,
         });
@@ -233,7 +233,7 @@ export default function OrderWidget({
       await fillOrderMutation.mutateAsync({
         order: record.order,
         chainId,
-        provider,
+        signer,
         fillAmount: amount,
       });
     }

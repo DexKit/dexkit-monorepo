@@ -110,7 +110,8 @@ export function useIsMounted() {
 }
 
 export interface WrapTokenParams {
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
+  chainId?: number;
   amount: BigNumber;
   onHash: (hash: string) => void;
 }
@@ -124,19 +125,17 @@ export function useWrapToken({
   const { formatMessage } = useIntl();
 
   const wrapMutation = useMutation(
-    async ({ provider, amount, onHash }: WrapTokenParams) => {
-      if (!provider) {
+    async ({ signer, amount, onHash, chainId }: WrapTokenParams) => {
+      if (!signer || !chainId) {
         throw new Error("no provider");
       }
-
-      const chainId = (await provider?.getNetwork()).chainId;
 
       const contractAddress = WRAPPED_TOKEN_ADDRESS(chainId) || '';
 
       const contract = new Contract(
         contractAddress,
         WETHAbi,
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.deposit({ value: amount });
@@ -158,17 +157,16 @@ export function useWrapToken({
   );
 
   const unwrapMutation = useMutation(
-    async ({ provider, amount, onHash }: WrapTokenParams) => {
-      if (!provider) {
+    async ({ signer, amount, onHash, chainId }: WrapTokenParams) => {
+      if (!signer || !chainId) {
         throw new Error("no provider");
       }
 
-      const chainId = (await provider?.getNetwork()).chainId;
 
       const contract = new Contract(
         WRAPPED_TOKEN_ADDRESS(chainId) || '',
         ["function withdraw(uint wad) public "],
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.withdraw(amount);

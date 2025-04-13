@@ -121,25 +121,25 @@ export function useZrxFillOrderMutation() {
   return useMutation(
     async ({
       chainId,
-      provider,
+      signer,
       order,
       fillAmount,
     }: {
       chainId?: ChainId;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
       order: ZrxOrder;
       fillAmount?: BigNumber;
     }) => {
       const contractAddress = getZrxExchangeAddress(chainId);
 
-      if (!contractAddress || !provider || !chainId) {
+      if (!contractAddress || !signer || !chainId) {
         throw new Error("no provider or contract address");
       }
 
       const contract = new Contract(
         contractAddress,
         ZRX_EXCHANGE_ABI,
-        provider.getSigner()
+        signer
       );
 
       // let newOrder = new LimitOrder({

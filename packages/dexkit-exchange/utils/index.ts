@@ -38,7 +38,7 @@ export const getExpirationTimeFromSeconds = (seconds: BigNumber) => {
 };
 
 export interface CreateZrxOrderParams {
-  provider: providers.Web3Provider;
+  signer: providers.JsonRpcSigner;
   chainId: ChainId;
   maker?: string;
   makerToken: string;
@@ -50,7 +50,7 @@ export interface CreateZrxOrderParams {
 
 export async function createZrxOrder({
   maker,
-  provider,
+  signer,
   chainId,
   makerToken,
   takerToken,
@@ -76,9 +76,10 @@ export async function createZrxOrder({
 
   let order = new LimitOrder(params);
 
-  if (window.ethereum) {
+  if (signer) {
     const signature = await order.getSignatureWithProviderAsync(
-      window.ethereum as any,
+      //window.ethereum as any,
+      signer as any,
       SignatureType.EIP712
     );
 
@@ -94,7 +95,7 @@ export function getZrxExchangeAddress(chainId?: ChainId) {
 
 export class BigNumberUtils {
   protected oneBN: EthersBigNumber = parseUnits("1", 18);
-  constructor() {}
+  constructor() { }
 
   public multiply(
     bn: EthersBigNumber | string,

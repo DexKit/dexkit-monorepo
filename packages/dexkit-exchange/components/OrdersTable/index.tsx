@@ -1,7 +1,6 @@
 import { ChainId } from "@dexkit/core";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import {
-  useConnectWalletDialog,
   useDexKitContext,
   useExecuteTransactionsDialog,
 } from "@dexkit/ui/hooks";
@@ -33,14 +32,14 @@ import OrdersTableRow from "./OrdersTableRow";
 export interface OrdersTable {
   chainId?: ChainId;
   account?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   active?: boolean;
 }
 
 export default function OrdersTable({
   chainId,
   account,
-  provider,
+  signer,
   active,
 }: OrdersTable) {
   const { baseToken, quoteToken } = useExchangeContext();
@@ -65,7 +64,7 @@ export default function OrdersTable({
             const result = await cancelOrderMutation.mutateAsync({
               order,
               chainId,
-              provider,
+              signer,
             });
             const subType = "orderCancelled";
             const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -98,10 +97,8 @@ export default function OrdersTable({
         },
       ]);
     },
-    [chainId, provider]
+    [chainId, signer]
   );
-
-  const connectWalletDialog = useConnectWalletDialog();
 
   const records = useMemo(() => {
     if (orderbookQuery.data?.records) {

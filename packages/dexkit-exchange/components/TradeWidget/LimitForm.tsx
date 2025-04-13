@@ -35,7 +35,7 @@ export interface LimitFormProps {
   slippage?: number;
   quoteTokenBalance?: BigNumber;
   maker?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   feeRecipient?: string;
   affiliateAddress?: string;
   side: "buy" | "sell";
@@ -49,7 +49,7 @@ export default function LimitForm({
   affiliateAddress,
   feeRecipient,
   maker,
-  provider,
+  signer,
   chainId,
   side,
 }: LimitFormProps) {
@@ -165,14 +165,7 @@ export default function LimitForm({
   }, [parsedAmount, baseToken]);
 
   const handleConfirmBuy = async () => {
-    if (
-      !chainId ||
-      !maker ||
-      !quoteToken ||
-      !provider ||
-      !cost ||
-      !takerAmount
-    ) {
+    if (!chainId || !maker || !quoteToken || !signer || !cost || !takerAmount) {
       return;
     }
 
@@ -183,7 +176,7 @@ export default function LimitForm({
         maker,
         makerAmount: cost.toString(),
         makerToken: quoteToken.address,
-        provider,
+        signer,
         takerAmount: takerAmount.toString(),
         takerToken: baseToken.address,
       });
@@ -214,7 +207,7 @@ export default function LimitForm({
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
-    provider,
+    signer,
     spender: getZrxExchangeAddress(chainId),
     tokenAddress: quoteToken?.address,
   });
@@ -225,7 +218,7 @@ export default function LimitForm({
     await approveTokenMutation.mutateAsync({
       onSubmited: (hash: string) => {},
       spender: getZrxExchangeAddress(chainId),
-      provider,
+      signer,
       tokenContract: quoteToken?.address,
       amount: cost,
     });
