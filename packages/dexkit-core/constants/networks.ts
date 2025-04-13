@@ -7,6 +7,7 @@ import { Network } from "../types";
 import { ChainId } from "./enums";
 import {
   EVM_CHAIN_IMAGES,
+  GET_EVM_CHAIN_ICON,
   GET_EVM_CHAIN_IMAGE,
   UNKNOWN_LOGO_URL,
 } from "./evmChainImages";
@@ -59,7 +60,7 @@ for (let index = 0; index < EVM_CHAINS.length; index++) {
       )?.native_coin_id,
       wrappedAddress: WRAPPED_TOKEN_ADDRESSES[element.chainId],
       imageUrl:
-        GET_EVM_CHAIN_IMAGE({ chainId: element.chainId }) || UNKNOWN_LOGO_URL,
+        (GET_EVM_CHAIN_IMAGE({ chainId: element.chainId }) || GET_EVM_CHAIN_ICON({ chainId: element.chainId, allChains: EVM_CHAINS })) || UNKNOWN_LOGO_URL,
       coinImageUrl: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl,
       coinName: EVM_CHAIN_IMAGES[element.chainId]?.coinImageUrl
         ? element?.nativeCurrency?.name
