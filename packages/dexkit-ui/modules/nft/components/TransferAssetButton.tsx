@@ -19,7 +19,7 @@ interface Props {
 }
 
 export function TransferAssetButton({ asset }: Props) {
-  const { account, provider, chainId } = useWeb3React();
+  const { account, signer, chainId } = useWeb3React();
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,7 +34,7 @@ export function TransferAssetButton({ asset }: Props) {
         params={{
           chainId: chainId,
           account: account,
-          provider: provider,
+          signer: signer,
           contractAddress: asset?.contractAddress,
           tokenId: asset?.id,
           nft: asset,

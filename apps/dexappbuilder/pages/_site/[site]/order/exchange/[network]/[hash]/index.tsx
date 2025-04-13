@@ -24,7 +24,7 @@ export default function ExchangeOrderPage() {
 
   const { hash, network } = router.query;
 
-  const { chainId, account, provider } = useWeb3React();
+  const { chainId, account, signer } = useWeb3React();
 
   const { createNotification } = useDexKitContext();
 
@@ -51,7 +51,7 @@ export default function ExchangeOrderPage() {
             const result = await cancelOrderMutation.mutateAsync({
               order,
               chainId,
-              provider,
+              signer,
             });
             const subType = 'orderCancelled';
             const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -84,7 +84,7 @@ export default function ExchangeOrderPage() {
         },
       ]);
     },
-    [chainId, provider],
+    [chainId, signer],
   );
 
   return (
@@ -117,7 +117,7 @@ export default function ExchangeOrderPage() {
                   onCancel={handleCancelOrder}
                   account={account}
                   record={orderQuery.data}
-                  provider={provider}
+                  signer={signer}
                   chainId={chainId}
                 />
               ) : undefined}

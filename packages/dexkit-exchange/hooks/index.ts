@@ -35,7 +35,7 @@ export function useSendLimitOrderMutation() {
       expirationTime,
       makerAmount,
       makerToken,
-      provider,
+      signer,
       takerAmount,
       takerToken,
       chainId,
@@ -44,7 +44,7 @@ export function useSendLimitOrderMutation() {
       expirationTime: number;
       makerAmount: string;
       makerToken: string;
-      provider: providers.Web3Provider;
+      signer: providers.JsonRpcSigner;
       takerAmount: string;
       takerToken: string;
       chainId: ChainId;
@@ -60,7 +60,7 @@ export function useSendLimitOrderMutation() {
         expirationTime,
         makerAmount: new BigNumber(makerAmount),
         makerToken,
-        provider,
+        signer,
         takerAmount: new BigNumber(takerAmount),
         takerToken,
       });
@@ -118,7 +118,7 @@ export function useExchangeContextState(params: {
 }): DexkitExchangeContextState {
   const { settings } = params;
 
-  const { account, provider } = useWeb3React();
+  const { account, signer, provider } = useWeb3React();
 
   const [defaultChain, setDefaultChain] = useState<ChainId>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -176,6 +176,7 @@ export function useExchangeContextState(params: {
     quoteTokens,
     tokens: {},
     chainId: currChainId,
+    signer,
     provider,
     account,
     container: settings?.container,

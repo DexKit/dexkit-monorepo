@@ -6,9 +6,9 @@ import { Box, Container, Grid } from "@mui/material";
 
 import SelectPairDialog from "@dexkit/exchange/components/dialogs/SelectPairDialog";
 import {
-    useExchangeContext,
-    useExchangeContextState,
-    useGeckoTerminalTopPools,
+  useExchangeContext,
+  useExchangeContextState,
+  useGeckoTerminalTopPools,
 } from "@dexkit/exchange/hooks";
 import { useEffect, useMemo, useState } from "react";
 
@@ -22,7 +22,7 @@ import { ExchangePageSection } from "@dexkit/ui/modules/wizard/types/section";
 function ExchangeSection() {
   const exchangeState = useExchangeContext();
 
-  const { chainId, provider, account } = exchangeState;
+  const { chainId, account, signer } = exchangeState;
 
   const { isActive } = useWeb3React();
 
@@ -135,7 +135,7 @@ function ExchangeSection() {
                   <OrdersTable
                     account={account}
                     chainId={chainId}
-                    provider={provider}
+                    signer={signer}
                     active={isActive}
                   />
                 </Grid>
@@ -192,7 +192,7 @@ function ExchangeSection() {
               <OrdersTable
                 account={account}
                 chainId={chainId}
-                provider={provider}
+                signer={signer}
                 active={isActive}
               />
             </Grid>

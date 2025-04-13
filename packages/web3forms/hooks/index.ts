@@ -33,7 +33,7 @@ import {
 export interface UseContractCallMutationOptions {
   contractAddress?: string;
   abi: ContractInterface;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSuccess?: (data: { name: string; result: any }) => void;
 }
 
@@ -49,7 +49,7 @@ export interface UseContractCallMutationParams {
 export function useContractCallMutation({
   contractAddress,
   abi,
-  provider,
+  signer,
   onSuccess,
 }: UseContractCallMutationOptions) {
   const { enqueueSnackbar } = useSnackbar();
@@ -66,16 +66,16 @@ export function useContractCallMutation({
     }: UseContractCallMutationParams) => {
       let contract: Contract;
 
-      let currProvider = rpcProvider ? rpcProvider : provider;
+      let currProvider = rpcProvider ? rpcProvider : signer;
 
-      if (!contractAddress || !provider) {
+      if (!contractAddress || !signer) {
         throw new Error("no provider");
       }
 
       let cb;
 
       if (call) {
-        contract = new Contract(contractAddress, abi, provider?.getSigner());
+        contract = new Contract(contractAddress, abi, signer);
       } else {
         contract = new Contract(contractAddress, abi, currProvider);
       }
@@ -122,14 +122,14 @@ export function useContractCallMutation({
 export interface UseContractDeployMutationOptions {
   contractBytecode?: string;
   abi: ContractInterface;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onContractCreated?: (contract: Contract) => void;
 }
 
 export function useContractDeployMutation({
   contractBytecode,
   abi,
-  provider,
+  signer,
   onContractCreated,
 }: UseContractDeployMutationOptions) {
   const { enqueueSnackbar } = useSnackbar();
@@ -143,7 +143,7 @@ export function useContractDeployMutation({
       params: ContractDeployParams;
       value: BigNumber;
     }) => {
-      if (!contractBytecode || !provider) {
+      if (!contractBytecode || !signer) {
         return;
       }
 
@@ -152,7 +152,7 @@ export function useContractDeployMutation({
       const factory = new ContractFactory(
         abi,
         contractBytecode,
-        provider.getSigner()
+        signer
       );
 
       let result;
@@ -449,14 +449,14 @@ export function useDeployThirdWebContractMutation({
 }: {
   clientId: string;
 }) {
-  const { provider, chainId } = useWeb3React();
+  const { signer, chainId } = useWeb3React();
   const [sdk, setSdk] = useState<ThirdwebSDK>();
 
   useEffect(() => {
-    if (provider) {
-      setSdk(new ThirdwebSDK(provider.getSigner(), { clientId }));
+    if (signer) {
+      setSdk(new ThirdwebSDK(signer, { clientId }));
     }
-  }, [provider, chainId]);
+  }, [signer, chainId]);
 
   return useMutation(
     async ({

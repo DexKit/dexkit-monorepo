@@ -7,13 +7,13 @@ import { ERC1155Abi } from "../../constants/abis";
 
 export function useNftTransfer({
   contractAddress,
-  provider,
+  signer,
   onSubmit,
 }: {
   contractAddress?: string;
   tokenId?: string;
 
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: (hash: string) => void;
 }) {
   return useMutation(
@@ -33,7 +33,7 @@ export function useNftTransfer({
       if (
         !contractAddress ||
         !tokenId ||
-        !provider ||
+        !signer ||
         (protocol === "ERC1155" && !quantity)
       ) {
         return false;
@@ -42,7 +42,7 @@ export function useNftTransfer({
       let contract = new Contract(
         contractAddress,
         protocol === "ERC1155" ? ERC1155Abi : ERC721Abi,
-        provider?.getSigner()
+        signer
       );
       let toAddress: string | null = to;
       if (to.split(".").length > 1) {

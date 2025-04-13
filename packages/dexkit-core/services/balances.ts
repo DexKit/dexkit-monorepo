@@ -76,24 +76,24 @@ export const getERC20Balance = async (
 };
 
 export const approveToken = async ({
-  provider,
+  signer,
   spender,
   tokenContract,
   amount,
 }: {
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   spender?: string;
   tokenContract?: string;
   amount?: BigNumber;
 }) => {
-  if (!tokenContract || !provider || !spender || !amount) {
+  if (!tokenContract || !signer || !spender || !amount) {
     return;
   }
 
   const contract = new Contract(
     tokenContract,
     ERC20Abi,
-    provider.getSigner()
+    signer
   );
 
   return await contract.approve(spender, amount);

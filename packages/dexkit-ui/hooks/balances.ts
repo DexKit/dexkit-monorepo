@@ -135,7 +135,7 @@ export const useERC20BalanceQuery = (token: Token) => {
 };
 
 export function useErc20ApproveMutation(
-  provider?: providers.Web3Provider,
+  signer?: providers.JsonRpcSigner,
   onSuccess?: (hash: string, asset: SwappableAssetV4) => void,
   options?: Omit<UseMutationOptions, any>
 ) {
@@ -149,14 +149,14 @@ export function useErc20ApproveMutation(
       amount: BigNumber;
       tokenAddress?: string;
     }) => {
-      if (!provider || tokenAddress === undefined) {
+      if (!signer || tokenAddress === undefined) {
         return undefined;
       }
 
       const contract = new Contract(
         tokenAddress,
         ERC20Abi,
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.approve(spender, amount);
@@ -215,7 +215,7 @@ export function useErc20AllowanceMutation(
 }
 
 export function useErc20ApproveMutationV2(
-  provider?: providers.Web3Provider,
+  signer?: providers.Web3Provider,
   onSuccess?: (hash: string, asset: SwappableAssetV4) => void,
 ) {
   const mutation = useMutation(
@@ -228,14 +228,14 @@ export function useErc20ApproveMutationV2(
       amount: BigNumber;
       tokenAddress?: string;
     }) => {
-      if (!provider || tokenAddress === undefined) {
+      if (!signer || tokenAddress === undefined) {
         return undefined;
       }
 
       const contract = new Contract(
         tokenAddress,
         ERC20Abi,
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.approve(spender, amount);

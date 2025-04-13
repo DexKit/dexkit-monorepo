@@ -23,7 +23,7 @@ export interface Props {
 
 export default function ContractFormView({ params }: Props) {
   const { abi, contractAddress, chainId: contractChainId } = params;
-  const { provider, chainId } = useWeb3React();
+  const { provider, chainId, signer } = useWeb3React();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -50,7 +50,7 @@ export default function ContractFormView({ params }: Props) {
   });
 
   const contractCallMutation = useContractCallMutation({
-    provider,
+    signer,
     contractAddress,
     abi,
     onSuccess: ({ name, result }: { name: string; result: any }) => {

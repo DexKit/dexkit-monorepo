@@ -10,12 +10,12 @@ import { ChainId } from "@dexkit/core/constants/enums";
 import axios from "axios";
 
 export const getERC20TokenAllowance = async (
-  provider: providers.BaseProvider,
+  signer: providers.JsonRpcSigner,
   tokenAddress: string,
   account: string,
   spender: string
 ): Promise<BigNumber> => {
-  const contract = new Contract(tokenAddress, ERC20Abi, provider);
+  const contract = new Contract(tokenAddress, ERC20Abi, signer);
 
   return await contract.allowance(account, spender);
 };
@@ -25,15 +25,15 @@ export const hasSufficientAllowance = async ({
   tokenAddress,
   amount,
   account,
-  provider,
+  signer,
 }: {
   account?: string;
   spender: string;
   tokenAddress: string;
   amount: BigNumber;
-  provider?: providers.BaseProvider;
+  signer?: providers.JsonRpcSigner;
 }) => {
-  if (!provider || !account) {
+  if (!signer || !account) {
     throw new Error("no provider or account");
   }
 
@@ -42,7 +42,7 @@ export const hasSufficientAllowance = async ({
   }
 
   const allowance = await getERC20TokenAllowance(
-    provider,
+    signer,
     tokenAddress,
     account,
     spender

@@ -39,7 +39,7 @@ export function useSwapState({
   provider,
   defaultSellToken,
   defaultBuyToken,
-  connectorProvider,
+  signer,
   selectedChainId: chainId,
   connectedChainId,
   account,
@@ -66,7 +66,7 @@ export function useSwapState({
   disableFooter?: boolean;
   enableBuyCryptoButton?: boolean;
   provider?: providers.BaseProvider;
-  connectorProvider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   isGasless?: boolean;
   isActive?: boolean;
   isActivating?: boolean;
@@ -358,7 +358,7 @@ export function useSwapState({
   const sendTxMutation = useSendTxMutation({
     quote: quoteQuery.data ? quoteQuery.data : undefined,
     quoteQuery: quoteQuery as any,
-    provider: connectorProvider as providers.Web3Provider,
+    provider: signer as any,
     side: quoteFor! as any,
     account: account!,
     chainId: chainId!,
@@ -386,20 +386,20 @@ export function useSwapState({
     } else if (execType === "wrap") {
       await wrapMutation.mutateAsync(
         {
-          provider: connectorProvider as providers.Web3Provider,
+          signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => {},
+          onHash: (_hash: string) => { },
         },
         {
-          onSuccess: (_receipt: providers.TransactionReceipt) => {},
+          onSuccess: (_receipt: providers.TransactionReceipt) => { },
         }
       );
     } else if (execType === "unwrap") {
       await unwrapMutation.mutateAsync(
         {
-          provider: connectorProvider as providers.Web3Provider,
+          signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => {},
+          onHash: (_hash: string) => { },
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {
@@ -416,7 +416,7 @@ export function useSwapState({
     lazySellAmount,
     sellToken,
     chainId,
-    connectorProvider,
+    signer,
   ]);
 
   const quoteData = useMemo(() => {
