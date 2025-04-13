@@ -4,15 +4,15 @@ import EvmTransferNftDialog from '@dexkit/ui/modules/evm-transfer-nft/components
 import { AssetImage } from '@dexkit/ui/modules/nft/components/AssetImage';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CardMedia,
-    Link,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Link,
+  Skeleton,
+  Stack,
+  Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useContract, useContractMetadata, useNFT } from '@thirdweb-dev/react';
@@ -57,7 +57,7 @@ export default function ContractNftItemContainer({
     setShowBurn(false);
   };
 
-  const { chainId, provider, account } = useWeb3React();
+  const { chainId, signer, account } = useWeb3React();
 
   return (
     <>
@@ -71,7 +71,7 @@ export default function ContractNftItemContainer({
         params={{
           contractAddress: address,
           tokenId,
-          provider,
+          signer,
           chainId,
           account,
           nft: {

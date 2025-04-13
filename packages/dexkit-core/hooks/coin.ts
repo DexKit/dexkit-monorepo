@@ -132,22 +132,22 @@ export function useTokenAllowanceQuery({
   tokenAddress,
   account,
   spender,
-  provider,
+  signer,
 }: {
   account?: string;
   tokenAddress?: string | null;
   spender?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
 }) {
   return useQuery(
     [TOKEN_ALLOWANCE_QUERY, tokenAddress, account, spender],
     async () => {
-      if (!provider || !tokenAddress || !account || !spender) {
+      if (!signer || !tokenAddress || !account || !spender) {
         return null;
       }
 
       return await getERC20TokenAllowance(
-        provider,
+        signer,
         tokenAddress,
         account,
         spender
@@ -162,14 +162,14 @@ export function useApproveToken() {
     async ({
       spender,
       tokenContract,
-      provider,
+      signer,
       onSubmited,
       amount,
     }: {
       amount?: BigNumber;
       spender?: string;
       tokenContract?: string;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
       onSubmited: (hash: string) => void;
     }) => {
       if (!tokenContract || !spender) {
@@ -180,7 +180,7 @@ export function useApproveToken() {
         tokenContract,
         spender,
         amount,
-        provider,
+        signer,
       });
 
       onSubmited(tx.hash);

@@ -39,6 +39,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
     buyTokenPercentageFee,
     affiliateAddress,
     chainId,
+    signer,
     provider,
     account,
     availNetworks,
@@ -87,12 +88,6 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
   const handleChangeOrderSide = (e: SyntheticEvent, value: "buy" | "sell") => {
     setOrderSide(value);
   };
-
-  const baseTokenBalanceQuery = useErc20BalanceQuery({
-    account,
-    provider,
-    contractAddress: baseToken?.address,
-  });
 
   const quoteTokenBalanceQuery = useErc20BalanceQuery({
     account,
@@ -226,7 +221,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 quoteTokenBalance={quoteTokenBalanceQuery.data}
                 feeRecipient={feeRecipient}
                 maker={account}
-                provider={provider}
+                signer={signer}
                 affiliateAddress={affiliateAddress}
                 chainId={chainId}
                 side={orderSide}

@@ -49,10 +49,14 @@ interface Props {
 }
 
 export function AssetBuyOrder({ asset, orderBookItem }: Props) {
-  const { account, provider, chainId } = useWeb3React();
+  const { account, signer, provider, chainId } = useWeb3React();
   const { connectWallet } = useWalletConnect();
   const trackUserEvent = useTrackUserEventsMutation();
-  const nftSwapSdk = useSwapSdkV4(provider, asset?.chainId);
+  const nftSwapSdk = useSwapSdkV4({
+    provider,
+    signer,
+    chainId: asset?.chainId,
+  });
 
   const { createNotification, watchTransactionDialog } = useDexKitContext();
 

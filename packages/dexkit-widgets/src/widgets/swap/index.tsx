@@ -76,6 +76,7 @@ export function SwapWidget({
 }: SwapWidgetProps) {
   const {
     provider,
+    signer,
     account,
     isActive,
     isActivating,
@@ -176,7 +177,7 @@ export function SwapWidget({
     selectedChainId,
     connectedChainId,
     provider: swapProvider,
-    connectorProvider: provider,
+    signer,
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
     onShowTransactions,
