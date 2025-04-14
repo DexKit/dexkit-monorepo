@@ -251,15 +251,6 @@ export function SwapWidget({
             ...apiCoinToTokens(searchQuery.data),
           ];
 
-          if (query !== "") {
-            tokens = tokens.filter(
-              (c) =>
-                c.name.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.symbol.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.address.toLowerCase().search(query?.toLowerCase()) > -1
-            );
-          }
-
           let tokensCopy = [
             ...tokens
               .filter((t) => t)
