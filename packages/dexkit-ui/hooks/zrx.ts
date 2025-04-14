@@ -75,12 +75,14 @@ export function useZrxQuoteQuery({
   onSuccess,
   onError,
   options,
+  isEnabled = true,
 }: {
   params: ZeroExQuote | ZeroExQuoteGasless;
   useGasless?: boolean;
   onSuccess?: (data?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse) => void;
   onError?: (error: any) => void;
   options?: any;
+  isEnabled?: boolean;
 }) {
   const { siteId } = useContext(SiteContext);
 
@@ -105,7 +107,9 @@ export function useZrxQuoteQuery({
         !!params.buyToken &&
         !!params.sellToken &&
         !!params.sellAmount &&
-        BigInt(params.sellAmount) > 0,
+        params.sellToken !== params.buyToken &&
+        BigInt(params.sellAmount) > 0 &&
+        isEnabled,
       cacheTime: 0,
       staleTime: 0,
       refetchInterval: useGasless ? 25000 : 10000,

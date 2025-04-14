@@ -119,12 +119,14 @@ export function useSwapState({
   const lazyQuoteFor = useDebounce<SwapSide>(quoteFor, 0);
   const { enqueueSnackbar } = useSnackbar();
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-
   const sellTokenBalance = useTokenBalance({
     provider,
     account,
     contractAddress: lazySellToken?.address,
   });
+  const insufficientBalance = lazySellAmount?.gt(
+    sellTokenBalance.data ?? BigNumber.from(0)
+  );
 
   const buyTokenBalance = useTokenBalance({
     provider,
@@ -200,6 +202,7 @@ export function useSwapState({
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,
     onError: handleQuoteError,
+    isEnabled: !insufficientBalance,
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({
@@ -388,10 +391,10 @@ export function useSwapState({
         {
           signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
-          onSuccess: (_receipt: providers.TransactionReceipt) => { },
+          onSuccess: (_receipt: providers.TransactionReceipt) => {},
         }
       );
     } else if (execType === "unwrap") {
@@ -399,7 +402,7 @@ export function useSwapState({
         {
           signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => { },
+          onHash: (_hash: string) => {},
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {
@@ -410,14 +413,7 @@ export function useSwapState({
     } else if (execType === "switch" && chainId) {
       switchChain(defineChain(chainId));
     }
-  }, [
-    quoteQuery.data,
-    execType,
-    lazySellAmount,
-    sellToken,
-    chainId,
-    signer,
-  ]);
+  }, [quoteQuery.data, execType, lazySellAmount, sellToken, chainId, signer]);
 
   const quoteData = useMemo(() => {
     if (quoteQuery.data) {
@@ -438,9 +434,7 @@ export function useSwapState({
     sellAmount: lazySellAmount,
     buyAmount: lazyBuyAmount,
     quoteFor,
-    insufficientBalance: lazySellAmount?.gt(
-      sellTokenBalance.data ?? BigNumber.from(0)
-    ),
+    insufficientBalance,
     clickOnMax,
     isExecuting: wrapMutation.isLoading || unwrapMutation.isLoading,
     quote: quoteData,

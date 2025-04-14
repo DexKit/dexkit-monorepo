@@ -50,7 +50,7 @@ export default function SwapFeeSummaryUniswap({
   const maxFee = useMemo(() => {
     const { fees } = quote || {};
     if (fees) {
-      return BigNumber.from(fees.gasFee || 0)
+      return BigNumber.from(fees.gasFee?.amount || 0)
         .add(BigNumber.from(fees.integratorFee || 0))
         .add(BigNumber.from(fees.zeroExFee.amount || 0));
     }
