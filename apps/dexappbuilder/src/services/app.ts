@@ -104,8 +104,8 @@ export async function getAppConfig(
   }
 
   if (site?.includes('localhost:')) {
-    const [slug] = site?.split('.') || [];
-    // const slug = 'tiago-exchange';
+    // const [slug] = site?.split('.') || [];
+    const slug = 'the-blockchain-cowboy';
 
     if (slug) {
       const configResponse = (await getConfig({ slug, appPage })).data;
@@ -252,8 +252,8 @@ export async function getAppSitemapConfig(site?: string): Promise<{
   }
 
   if (site?.startsWith('localhost')) {
-    const [slug] = site?.split('.') || [];
-    // const slug = 'tiago-exchange';
+    // const [slug] = site?.split('.') || [];
+    const slug = 'the-blockchain-cowboy';
     if (slug) {
       const configResponse = (await getSitemapConfig({ slug })).data;
 
