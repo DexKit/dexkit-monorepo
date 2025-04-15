@@ -1,3 +1,4 @@
+import { AppErrorBoundary } from '@dexkit/ui/components/AppErrorBoundary';
 import Search from '@mui/icons-material/Search';
 import { Tab, Tabs } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -10,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { SyntheticEvent, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { AppErrorBoundary } from '@dexkit/ui/components/AppErrorBoundary';
 import { AssetListContractEdition } from '../AssetListContractEdition';
 import ContractAdminTab from '../ContractAdminTab';
 import ContractMetadataTab from '../ContractMetadataTab';
@@ -25,7 +25,6 @@ export default function ContractEditionDropContainer({
   network,
 }: Props) {
   const [openMintDialog, setOpenMintDialog] = useState(false);
-
   const [search, setSearch] = useState<string>();
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

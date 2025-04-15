@@ -25,7 +25,11 @@ import Tab from '@mui/material/Tab';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useAssetListFromCollection } from '../../../hooks/collection';
+import {
+  useAssetListFromCollection,
+  useGetNextTokenIdToMint,
+  useResyncAssets,
+} from '../../../hooks/collection';
 import { ClaimConditionsContainer } from './containers/ClaimConditionsContainer';
 
 interface Props {
@@ -89,7 +93,20 @@ export function AssetListContractEdition({
     take: perPage,
     traitsFilter: router.query['traitsFilter'] as string | undefined,
   });
+
   const assets = data?.assets;
+
+  const { data: totalAmountOfNfts } = useGetNextTokenIdToMint({
+    network,
+    address: contractAddress,
+    enabled: !!data?.assets,
+  });
+
+  const { data: result } = useResyncAssets({
+    network,
+    address: contractAddress,
+    enabled: totalAmountOfNfts?.toString() !== data?.assets.length.toString(),
+  });
 
   const filteredAssets = useMemo(() => {
     if (assets && search) {

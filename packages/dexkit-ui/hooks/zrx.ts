@@ -8,7 +8,12 @@ import { concat, Hex, maxUint256, numberToHex, size } from "viem";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
-import { defineChain, getContract, sendTransaction } from "thirdweb";
+import {
+  defineChain,
+  getContract,
+  sendTransaction,
+  waitForReceipt,
+} from "thirdweb";
 import { approve } from "thirdweb/extensions/erc20";
 import { ZRX_PRICE_QUERY, ZRX_QUOTE_QUERY } from "../constants/zrx";
 import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
@@ -473,7 +478,11 @@ export const useSendTxMutation = (p: txMutationParams) => {
           }),
         });
 
-        await provider?.waitForTransaction(hash?.transactionHash as string);
+        await waitForReceipt({
+          client,
+          chain: defineChain(chainId),
+          transactionHash: hash?.transactionHash!,
+        });
         return hash?.transactionHash;
       }
     }
