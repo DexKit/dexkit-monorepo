@@ -396,6 +396,10 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
     return errors;
   };
 
+  console.log("rewardTokenBalance : ", rewardTokenBalance);
+  console.log("rewardTokenBalance gt 0 : ", rewardTokenBalance?.value.gt(0));
+  console.log("rewardTokenBalance eq 0 : ", rewardTokenBalance?.value.eq(0));
+
   return (
     <Card>
       <CardContent>
