@@ -52,7 +52,7 @@ import {
   getNetworkSlugFromChainId,
 } from "@dexkit/core/utils/blockchain";
 import { SignedNftOrderV4, TradeDirection } from "@traderxyz/nft-swap-sdk";
-import { SUPPORTED_SWAP_CHAIN_IDS } from "../../../constants/zrx";
+import { SUPPORTED_NFTS_SWAP_CHAIN_IDS } from "../../../constants/zrx";
 import { useTrackUserEventsMutation } from "../../../hooks/userEvents";
 import { getCollectionByApi } from "../services/collection";
 import { AssetRari } from "../types/rarible";
@@ -196,18 +196,28 @@ export function useAssetMetadata(
   );
 }
 
-export function useSwapSdkV4({ provider, signer, chainId }: { provider: any, signer: any, chainId?: number }) {
+export function useSwapSdkV4({
+  provider,
+  signer,
+  chainId,
+}: {
+  provider: any;
+  signer: any;
+  chainId?: number;
+}) {
   return useMemo(() => {
     if (chainId === undefined || signer === undefined) {
       return undefined;
     }
     // swap sdk gives error if chainId not supported
-    if (chainId && !SUPPORTED_SWAP_CHAIN_IDS.includes(chainId)) {
+    if (chainId && !SUPPORTED_NFTS_SWAP_CHAIN_IDS.includes(chainId)) {
       return undefined;
     }
 
-    return new NftSwapV4(provider, signer, chainId, { orderbookRootUrl: TRADER_BASE_API });
-  }, [signer, chainId, provider]);
+    return new NftSwapV4(provider, provider.getSigner(), chainId, {
+      orderbookRootUrl: TRADER_BASE_API,
+    });
+  }, [provider, chainId]);
 }
 
 export function useApproveAssetMutation(
@@ -418,7 +428,7 @@ export function useFavoriteAssets() {
         asset !== undefined &&
         assets !== undefined &&
         assets[
-        `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
+          `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
         ] !== undefined
       );
     },
@@ -893,7 +903,7 @@ export function useHiddenAssets() {
         asset !== undefined &&
         assets !== undefined &&
         assets[
-        `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
+          `${asset.chainId}-${asset.contractAddress.toLowerCase()}-${asset.id}`
         ] === true
       );
     },
