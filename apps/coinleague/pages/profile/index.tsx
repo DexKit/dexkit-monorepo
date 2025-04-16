@@ -3,12 +3,12 @@ import type { NextPage } from 'next';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
-import MagicNetworkSelect from '@/modules/common/components/MagicNetworkSelect';
 import KittygotchiPreviewDialog from '@/modules/profile/components/dialogs/KittygotchiPreviewDialog';
 import KittygotchiProfileCard from '@/modules/profile/components/KittygotchiProfileCard';
 import KittygotchiRankingCard from '@/modules/profile/components/KittygotchiRankingCard';
 import { Box, Grid, NoSsr, Stack } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
+
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { NextSeo } from 'next-seo';
 import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -76,7 +76,6 @@ const ProfilePage: NextPage = () => {
                   },
                 ]}
               />
-              <MagicNetworkSelect SelectProps={{ size: 'small' }} />
             </Stack>
           </Box>
           <Box>

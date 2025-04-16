@@ -3,6 +3,7 @@ import { DRAWER_WIDTH } from '@/modules/common/constants';
 import { NETWORKS } from '@/modules/common/constants/networks';
 import { Network } from '@/modules/common/types/networks';
 import { isAddressEqual, parseChainId } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Apps, Error, FilterAlt, Search } from '@mui/icons-material';
 import TableRows from '@mui/icons-material/TableRows';
 import {
@@ -22,7 +23,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { useAtom } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import { Suspense, useCallback, useMemo, useState } from 'react';
@@ -69,7 +69,7 @@ export default function NftsTab() {
     let obj: { [key: number]: boolean } = {};
 
     for (let key of Object.keys(NETWORKS).filter(
-      (key) => !NETWORKS[parseChainId(key)].testnet
+      (key) => !NETWORKS[parseChainId(key)].testnet,
     )) {
       obj[parseChainId(key)] = true;
     }
@@ -106,10 +106,10 @@ export default function NftsTab() {
         };
       });
     },
-    []
+    [],
   );
 
-  const { account, provider, chainId } = useWeb3React();
+  const { account, provider, chainId, signer } = useWeb3React();
 
   const [showHidden, setSHowHidden] = useState(false);
 
@@ -126,7 +126,7 @@ export default function NftsTab() {
   };
 
   const handleChangeShowHidden = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSHowHidden((value) => !value);
   };
@@ -163,7 +163,7 @@ export default function NftsTab() {
       const temp = [...accounts];
 
       const index = temp.findIndex((c) =>
-        isAddressEqual(c.address, account.address)
+        isAddressEqual(c.address, account.address),
       );
 
       if (index > -1) {
@@ -263,6 +263,7 @@ export default function NftsTab() {
         provider={provider}
         account={account}
         chainId={chainId}
+        signer={signer}
       />
 
       <Drawer onClose={toggleDrawer} variant="temporary" open={showFilters}>

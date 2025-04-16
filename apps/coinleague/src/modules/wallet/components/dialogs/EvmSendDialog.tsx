@@ -20,7 +20,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { Connector } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
@@ -36,7 +35,6 @@ interface Props {
   chainId?: number;
   provider?: ethers.providers.Web3Provider;
   defaultCoin?: EvmCoin;
-  connector?: Connector;
 }
 
 export default function EvmSendDialog({
@@ -45,7 +43,6 @@ export default function EvmSendDialog({
   chainId,
   provider,
   defaultCoin,
-  connector,
 }: Props) {
   const { onClose } = dialogProps;
 
@@ -266,7 +263,6 @@ export default function EvmSendDialog({
             onChange={handleChange}
             coins={evmCoins}
             onSubmit={handleSubmit}
-            connector={connector}
             chainId={chainId}
           />
         </Stack>

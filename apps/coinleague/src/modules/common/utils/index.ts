@@ -1,7 +1,5 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import { NETWORKS } from '@/modules/common/constants/networks';
-import { MetaMask } from '@web3-react/metamask';
-import { Connector } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { IPFS_GATEWAY } from '../constants';
 import { Network } from '../types/networks';
@@ -42,10 +40,7 @@ export const truncateAddress = (address: string | undefined) => {
   return '';
 };
 
-export function getName(connector: any) {
-  if (connector instanceof MetaMask) return 'MetaMask';
-  return 'Unknown';
-}
+
 
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
@@ -83,14 +78,6 @@ export function getChainLogoImage(chainId?: number) {
   }
 }
 
-export async function switchNetwork(connector: Connector, chainId: number) {
-  if (connector instanceof MetaMask) {
-    return connector.provider?.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${chainId.toString(16)}` }],
-    });
-  }
-}
 
 export function isIpfsUrl(url: string) {
   return url.startsWith('ipfs://');

@@ -1,6 +1,6 @@
-import { MagicLoginType } from '@/modules/common/connectors/magic';
+
 import { TokenBalances } from '@indexed-finance/multicall';
-import { AccountType, CoinTypes, WalletConnectType } from '../constants/enums';
+import { AccountType, CoinTypes } from '../constants/enums';
 
 export type BlockchainNetwork = {
   id: string;
@@ -45,8 +45,6 @@ export type Coin = EvmCoin | SolanaNativeCoin | BitcoinNativeCoin;
 
 export type Account = {
   type: AccountType;
-  loginType?: MagicLoginType;
-  connector?: WalletConnectType;
   address: string;
   name?: string;
   walletIndex?: number;

@@ -1,43 +1,10 @@
 import { useMediaQuery, useTheme } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useUpdateAtom } from 'jotai/utils';
 import { useCallback, useEffect, useState } from 'react';
-import { selectedWalletAtom, showConnectWalletAtom } from '../atoms';
-import { magic, MagicLoginType } from '../connectors/magic';
-import { metaMask } from '../connectors/metaMask';
+import { showConnectWalletAtom } from '../atoms';
 
-export function useWalletActivate() {
-  const { connector } = useWeb3React();
 
-  const setSelectedWallet = useUpdateAtom(selectedWalletAtom);
 
-  return useMutation(
-    async ({
-      connectorName,
-      loginType,
-      email,
-    }: {
-      connectorName: string;
-      loginType?: MagicLoginType;
-      email?: string;
-    }) => {
-      if (connector.deactivate) {
-        await connector.deactivate();
-      }
-      if (connectorName === 'metamask') {
-        setSelectedWallet('metamask');
-        return await metaMask.activate();
-      } else if (connectorName === 'magic') {
-        setSelectedWallet('magic');
-        return await magic.activate({
-          loginType,
-          email,
-        });
-      }
-    }
-  );
-}
 
 export function useConnectWalletDialog() {
   const setShowConnectWallet = useUpdateAtom(showConnectWalletAtom);

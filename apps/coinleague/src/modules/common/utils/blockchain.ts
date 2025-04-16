@@ -1,9 +1,5 @@
-import { MetaMask } from '@web3-react/metamask';
-import { WalletConnect } from '@web3-react/walletconnect';
 
-import metaMaskImage from 'public/icons/metamask-fox.svg';
 
-import { Connector } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { ChainId } from '../constants/enums';
 import { NETWORKS } from '../constants/networks';
@@ -43,16 +39,7 @@ export const truncateAddress = (address: string | undefined) => {
   return '';
 };
 
-export function getName(connector: any) {
-  if (connector instanceof MetaMask) return 'MetaMask';
-  if (connector instanceof WalletConnect) return 'WalletConnect';
-  return 'Unknown';
-}
 
-export function getWalletIcon(connector: any) {
-  if (connector instanceof MetaMask) return metaMaskImage.src;
-  return undefined;
-}
 
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
@@ -90,14 +77,7 @@ export function getChainLogoImage(chainId?: number) {
   }
 }
 
-export async function switchNetwork(connector: Connector, chainId: number) {
-  if (connector instanceof MetaMask) {
-    return connector.provider?.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${chainId.toString(16)}` }],
-    });
-  }
-}
+
 
 export function hasLondonHardForkSupport(chainId: number) {
   switch (chainId) {

@@ -4,16 +4,16 @@ import MainLayout from '@/modules/common/components/layouts/MainLayout';
 
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import DexkitLogo from '@/modules/common/components/icons/DexkitLogo';
-import MagicNetworkSelect from '@/modules/common/components/MagicNetworkSelect';
+
 import { getNormalizedUrl } from '@/modules/common/utils';
 import KittygotchiImage from '@/modules/kittygotchi/components/KittygotchiImage';
 import KittygotchiTrait from '@/modules/kittygotchi/components/KittygotchiTrait';
 import KittygotchiTraitSelector from '@/modules/kittygotchi/components/KittygotchiTraitSelector';
 import {
   GET_KITTYGOTCHI_CONTRACT_ADDR,
+  KITTYGOTCHI_EDIT_MIN_AMOUNT,
   KittygotchiTraits,
   KittygotchiTraitType,
-  KITTYGOTCHI_EDIT_MIN_AMOUNT,
 } from '@/modules/kittygotchi/constants';
 import {
   useKitHolding,
@@ -22,6 +22,7 @@ import {
   useKittygotchiUpdate,
 } from '@/modules/kittygotchi/hooks';
 import { isKittygotchiNetworkSupported } from '@/modules/kittygotchi/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
   Avatar,
@@ -36,7 +37,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -97,10 +97,10 @@ const KittygotchiEditPage: NextPage = () => {
               id: 'error.while.updating.kittygotchi',
               defaultMessage: 'Error while updating kittygotchi',
             }),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
 
     enqueueSnackbar(
@@ -108,7 +108,7 @@ const KittygotchiEditPage: NextPage = () => {
         id: 'kittygotchi.updated',
         defaultMessage: 'Kittygotchi Updated',
       }),
-      { variant: 'success' }
+      { variant: 'success' },
     );
   };
 
@@ -155,7 +155,6 @@ const KittygotchiEditPage: NextPage = () => {
                 },
               ]}
             />
-            <MagicNetworkSelect SelectProps={{ size: 'small' }} />
           </Stack>
         </Box>
 
@@ -199,7 +198,7 @@ const KittygotchiEditPage: NextPage = () => {
                               <img
                                 alt="EMPTY"
                                 src={getNormalizedUrl(
-                                  kittygotchi.data?.image || ''
+                                  kittygotchi.data?.image || '',
                                 )}
                                 style={{ height: '100%', width: '100%' }}
                               />
@@ -436,7 +435,7 @@ const KittygotchiEditPage: NextPage = () => {
                                       value={attr.value}
                                     />
                                   </Grid>
-                                )
+                                ),
                               )}
                         </Grid>
                       </Grid>

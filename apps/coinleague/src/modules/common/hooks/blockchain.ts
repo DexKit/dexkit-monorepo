@@ -1,9 +1,9 @@
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   useMutation,
   UseMutationOptions,
   useQuery,
 } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { getERC20Balance, getERC20TokenAllowance } from '../services/balances';

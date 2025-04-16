@@ -1,6 +1,6 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import axios from 'axios';
-import { ethers } from 'ethers';
+import { providers } from 'ethers';
 import request from 'graphql-request';
 import { GET_GAME_QUERY } from '../constants/queries';
 import {
@@ -26,11 +26,11 @@ export const getCoinLeagueGame = async (chainId: ChainId, id: number) => {
 };
 
 export async function getCoinLeagueGameOnChain(
-  provider: ethers.providers.BaseProvider,
+  provider: providers.BaseProvider,
   factoryAddress: string,
   id: string
 ) {
-  const contract = await getCoinLeagueV3Contract(factoryAddress, provider);
+  const contract = await getCoinLeagueV3Contract({ address: factoryAddress, provider });
 
   let game: Game = await contract.games(id);
 
@@ -99,26 +99,29 @@ export async function getCoinLeagueGameOnChain(
 }
 
 export async function getCurrentCoinPrice(
-  provider: ethers.providers.BaseProvider,
+  provider: providers.BaseProvider,
   factoryAddress: string,
   tokenAddress: string
 ) {
-  const contract = await getCoinLeagueV3Contract(factoryAddress, provider);
+  const contract = await getCoinLeagueV3Contract({ address: factoryAddress, provider });
 
   return await contract.getPriceFeed(tokenAddress);
 }
 
-export async function claimGame(
-  provider: ethers.providers.BaseProvider,
+export async function claimGame({ signer, provider, factoryAddress, account, id }: {
+  signer: providers.JsonRpcSigner,
+  provider: providers.Web3Provider,
   factoryAddress: string,
   account?: string,
   id?: string
-) {
-  const contract = await getCoinLeagueV3Contract(
-    factoryAddress,
-    provider,
-    true
-  );
+}) {
+  const contract = await getCoinLeagueV3Contract({
+    address: factoryAddress,
+    signer,
+    useSigner: true,
+    provider
+
+  });
 
   return await contract.claim(account, id);
 }

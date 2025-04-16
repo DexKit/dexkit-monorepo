@@ -6,7 +6,6 @@ import { profileNftAtom } from '@/modules/common/atoms';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import OpenSea from '@/modules/common/components/icons/OpenSea';
 import Link from '@/modules/common/components/Link';
-import MagicNetworkSelect from '@/modules/common/components/MagicNetworkSelect';
 import MomentSpan from '@/modules/common/components/MomentSpan';
 import { useNotifications } from '@/modules/common/hooks/app';
 import { useNetworkProvider } from '@/modules/common/hooks/network';
@@ -20,6 +19,7 @@ import {
 } from '@/modules/kittygotchi/hooks';
 import EvmTransferNftDialog from '@/modules/wallet/components/dialogs/EvmTransferNftDialog';
 import { ChainId } from '@0x/contract-addresses';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Check, Edit, FoodBank } from '@mui/icons-material';
 import Close from '@mui/icons-material/Close';
 import Send from '@mui/icons-material/Send';
@@ -37,7 +37,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { useAtom } from 'jotai';
 import moment from 'moment';
 import { useRouter } from 'next/router';
@@ -89,7 +88,7 @@ const KittygotchiDetailPage: NextPage = () => {
                       defaultMessage: 'Feed kittygotchi #{id}',
                       id: 'feed.kittygotchi.id',
                     },
-                    { id: id as string }
+                    { id: id as string },
                   ) as string,
                   hash,
                   checked: false,
@@ -119,13 +118,13 @@ const KittygotchiDetailPage: NextPage = () => {
                   id: 'error.while.feeding',
                   defaultMessage: 'Error while feeding',
                 },
-                { message: String(error) }
+                { message: String(error) },
               ),
-              { variant: 'error' }
+              { variant: 'error' },
             );
           }
         },
-      }
+      },
     );
   };
 
@@ -164,7 +163,7 @@ const KittygotchiDetailPage: NextPage = () => {
           id: 'your.kittygotchi.is.now.the.default.nft',
           defaultMessage: 'Your kittygotchi is now the default NFT',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
   };
@@ -230,7 +229,6 @@ const KittygotchiDetailPage: NextPage = () => {
                   },
                 ]}
               />
-              <MagicNetworkSelect SelectProps={{ size: 'small' }} />
             </Stack>
           </Box>
 
@@ -433,8 +431,8 @@ const KittygotchiDetailPage: NextPage = () => {
                                 <MomentSpan
                                   from={moment(
                                     new Date(
-                                      kittygotchi.data?.lastUpdated * 1000
-                                    )
+                                      kittygotchi.data?.lastUpdated * 1000,
+                                    ),
                                   )}
                                 />
                               ) : (

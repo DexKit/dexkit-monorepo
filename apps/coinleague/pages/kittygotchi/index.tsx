@@ -5,10 +5,10 @@ import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import AppConnectWalletEmtpy from '@/modules/common/components/AppConnectWalletEmpty';
 import AppErrorBoundary from '@/modules/common/components/AppErrorBoundary';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
-import MagicNetworkSelect from '@/modules/common/components/MagicNetworkSelect';
 import KittygotchiMintDialog from '@/modules/kittygotchi/components/dialogs/KittygotchiMintDialog';
 import KittygotchiGrid from '@/modules/kittygotchi/components/KittygotchiGrid';
 import { SearchTextField } from '@/modules/wallet/components/SearchTextField';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Error, Search } from '@mui/icons-material';
 import {
   Button,
@@ -21,7 +21,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useWeb3React } from '@web3-react/core';
 import { Suspense, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -81,7 +80,6 @@ const KittygotchiesPage: NextPage = () => {
                   },
                 ]}
               />
-              <MagicNetworkSelect SelectProps={{ size: 'small' }} />
             </Stack>
           </Box>
           <Box>
