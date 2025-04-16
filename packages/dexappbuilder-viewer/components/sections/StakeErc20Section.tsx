@@ -569,30 +569,32 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         )}
                       </Button>
                     </Grid>
-                    {rewardTokenBalance && rewardTokenBalance.value.gt(0) && (
-                      <Grid item xs={12}>
-                        <Button
-                          onClick={handleClaim}
-                          disabled={
-                            isSubmitting || claimRewardsMutation.isLoading
-                          }
-                          startIcon={
-                            claimRewardsMutation.isLoading ? (
-                              <CircularProgress color="inherit" size="1rem" />
-                            ) : undefined
-                          }
-                          variant="outlined"
-                          color="primary"
-                          fullWidth
-                          size="large"
-                        >
-                          <FormattedMessage
-                            id="claim.rewards"
-                            defaultMessage="Claim rewards"
-                          />
-                        </Button>
-                      </Grid>
-                    )}
+                    {rewardTokenBalance &&
+                      stakeInfo?.length > 1 &&
+                      stakeInfo[1].gt(0) && (
+                        <Grid item xs={12}>
+                          <Button
+                            onClick={handleClaim}
+                            disabled={
+                              isSubmitting || claimRewardsMutation.isLoading
+                            }
+                            startIcon={
+                              claimRewardsMutation.isLoading ? (
+                                <CircularProgress color="inherit" size="1rem" />
+                              ) : undefined
+                            }
+                            variant="outlined"
+                            color="primary"
+                            fullWidth
+                            size="large"
+                          >
+                            <FormattedMessage
+                              id="claim.rewards"
+                              defaultMessage="Claim rewards"
+                            />
+                          </Button>
+                        </Grid>
+                      )}
                   </Grid>
                 )}
               </Formik>
