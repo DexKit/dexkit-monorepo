@@ -1,33 +1,29 @@
-import { red } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import { CssVarsTheme, Theme } from '@mui/material/styles';
 
-const theme = createTheme({
-  typography: {
-    fontFamily: "'Sora', sans-serif",
-  },
-  components: {
-    MuiLink: {
-      defaultProps: {
-        underline: 'hover',
-      },
-    },
-  },
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#0D1017',
-      paper: '#151B22',
-    },
-    primary: {
-      main: '#F0883E',
-    },
-    secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
-  },
-});
+import boredApeTheme from './themes/boredape';
+import coinleagueTheme from './themes/coinleague';
+import cryptoPunkTheme from './themes/cryptopunk';
+import customTheme from './themes/custom';
+import defaultTheme from './themes/index';
+import kittygotchiTheme from './themes/kittygotchi';
 
-export default theme;
+
+type ThemeEntry = {
+  theme: Omit<Theme, 'palette'> & CssVarsTheme;
+  name: string
+};
+
+
+export const themes: { [key: string]: ThemeEntry } = {
+  'default-theme': { theme: defaultTheme, name: 'Default' },
+  kittygotchi: { theme: kittygotchiTheme, name: 'Kittygotchi' },
+  cryptopunk: { theme: cryptoPunkTheme, name: 'CryptoPunk' },
+  boredape: { theme: boredApeTheme, name: 'BoredApe' },
+  custom: { theme: customTheme, name: 'Custom' },
+  coinleague: { theme: coinleagueTheme, name: 'Coinleague' },
+};
+
+export function getTheme({ name }: { name: string }) {
+  return themes[name]
+
+}

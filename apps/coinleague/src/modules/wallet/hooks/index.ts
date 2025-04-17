@@ -23,8 +23,7 @@ import { COIN_LIST, EVM_NETWORKS } from '../constants';
 import {
   AccountType,
   CoinTypes,
-  Networks,
-  WalletConnectType,
+  Networks
 } from '../constants/enums';
 import {
   getAccountsBalanceEvmByNetwork,
@@ -105,7 +104,7 @@ export function useWallets() {
   return { wallets, addWallet };
 }
 
-export function useAccounts({}) {
+export function useAccounts({ }) {
   const [accounts, setAccounts] = useAtom(accountsAtom);
   const { formatMessage } = useIntl();
 
@@ -127,7 +126,7 @@ export function useAccounts({}) {
   }, []);
 
   const updateConnector = useCallback(
-    (address: string, connector: WalletConnectType) => {
+    (address: string) => {
       setAccounts((accounts) => {
         const newAccounts = [...accounts];
 
@@ -143,8 +142,6 @@ export function useAccounts({}) {
             })
           );
         }
-
-        account.connector = connector;
 
         return newAccounts;
       });

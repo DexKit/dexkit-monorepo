@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { ethers } from 'ethers';
 
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import axios from 'axios';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';

@@ -1,8 +1,9 @@
-import { ERC721Abi } from '@/modules/wizard/constants/contracts/abis/ERC721Abi';
+
+import { ERC721Abi } from '@/modules/coinleague/constants/abis';
 import MultiCall, { CallInput } from '@indexed-finance/multicall';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { ethers, providers } from 'ethers';
+import { Contract, providers } from 'ethers';
 import { Interface } from 'ethers/lib/utils';
 import { useAtom } from 'jotai';
 import moment from 'moment';
@@ -92,12 +93,12 @@ export function useNftMetadata({ tokenURI }: { tokenURI?: string }) {
 
 export function useNftTransfer({
   contractAddress,
-  provider,
+  signer,
   onSubmit,
 }: {
   contractAddress?: string;
   tokenId?: string;
-  provider?: ethers.providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: (hash: string) => void;
 }) {
   return useMutation(
@@ -110,14 +111,14 @@ export function useNftTransfer({
       from: string;
       tokenId: string;
     }) => {
-      if (!contractAddress || !tokenId || !provider) {
+      if (!contractAddress || !tokenId || !signer) {
         return false;
       }
 
-      const contract = new ethers.Contract(
+      const contract = new Contract(
         contractAddress,
         ERC721Abi,
-        provider?.getSigner()
+        signer
       );
 
       const tx = await contract.transferFrom(from, to, tokenId);

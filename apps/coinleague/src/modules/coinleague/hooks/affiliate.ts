@@ -7,7 +7,7 @@ import {
 import { getGraphEndpoint } from '../services/graphql';
 import { useLeaguesChainInfo } from './chain';
 import { useIsNFTGame } from './nft';
-export const usePlayerGames = () => {};
+export const usePlayerGames = () => { };
 
 export interface AffiliateParams {
   account?: string;
@@ -42,7 +42,7 @@ export const useAffiliateEntries = (params: AffiliateParams, isNFT = false) => {
         getGraphEndpoint(isNFT, chainId),
         GET_AFFILIATES_ENTRIES,
         variables
-      );
+      ) as any;
 
       return affiliates;
     },
@@ -67,7 +67,7 @@ export const useAffiliatePlayer = (account?: string, isNFT = false) => {
       {
         affiliate: account,
       }
-    );
+    ) as any;
 
     return player;
   });

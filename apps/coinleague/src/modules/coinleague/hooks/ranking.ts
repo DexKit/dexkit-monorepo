@@ -44,7 +44,7 @@ export const useRanking = (
       const { players } = await request(
         getGraphEndpoint(isNFTGame, chainId),
         queryString
-      );
+      ) as any;
 
       return players;
     }
@@ -114,7 +114,7 @@ export const useRankingMostWinned = (
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
       GET_RANKING_MOST_WINNED
-    );
+    ) as any;
     return players;
   });
 };
@@ -127,7 +127,7 @@ export const useRankingMostJoined = (
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
       GET_RANKING_MOST_JOINED
-    );
+    ) as any;
     return players;
   });
 };
@@ -140,7 +140,7 @@ export const useRankingMostEarned = (
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
       GET_RANKING_MOST_EARNED
-    );
+    ) as any;
     return players;
   });
 };
@@ -153,7 +153,7 @@ export const useRankingMostProfit = (
     const { players } = await request(
       getGraphEndpoint(isNFTGame, chainId),
       GET_RANKING_MOST_PROFIT
-    );
+    ) as any;
     return players;
   });
 };

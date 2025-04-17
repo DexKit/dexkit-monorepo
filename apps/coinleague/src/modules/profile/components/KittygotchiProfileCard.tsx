@@ -16,11 +16,12 @@ import {
   useKittygotchiMint,
 } from '@/modules/kittygotchi/hooks';
 import {
-  getKittygotchiMetadataEndpoint,
   GET_KITTYGOTCHI_MINT_RATE,
+  getKittygotchiMetadataEndpoint,
 } from '@/modules/kittygotchi/utils';
 import EvmTransferNftDialog from '@/modules/wallet/components/dialogs/EvmTransferNftDialog';
 import { useNativeBalanceQuery } from '@/modules/wallet/hooks/balances';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Add, ChevronRight, Edit, FoodBank, Send } from '@mui/icons-material';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import {
@@ -36,7 +37,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { useAtom } from 'jotai';
@@ -60,7 +60,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
 
   const { formatMessage } = useIntl();
 
-  const { provider, account } = useWeb3React();
+  const { provider, account, signer } = useWeb3React();
 
   const ratio = useMemo(() => {
     return GET_KITTYGOTCHI_MINT_RATE(chainId);
@@ -127,12 +127,12 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
           enqueueSnackbar(
             formatMessage(
               { id: 'error.message', defaultMessage: 'Error: {message}' },
-              { message: String(err) }
+              { message: String(err) },
             ),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
   };
 
@@ -153,7 +153,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                         defaultMessage: 'Feed kittygotchi #{id}',
                         id: 'feed.kittygotchi.id',
                       },
-                      { id: profileNft?.tokenId as string }
+                      { id: profileNft?.tokenId as string },
                     ) as string,
                     hash,
                     checked: false,
@@ -180,13 +180,13 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                     id: 'error.while.feeding',
                     defaultMessage: 'Error while feeding',
                   },
-                  { message: String(error) }
+                  { message: String(error) },
                 ),
-                { variant: 'error' }
+                { variant: 'error' },
               );
             }
           },
-        }
+        },
       );
     }
   };
@@ -223,6 +223,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
         provider={provider}
         account={account}
         chainId={chainId}
+        signer={signer}
         onOwnershipChange={handleOwnershipChange}
       />
       <Card>

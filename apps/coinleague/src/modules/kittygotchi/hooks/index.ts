@@ -4,8 +4,8 @@ import { getTokenBalances } from '@/modules/common/services/multicall';
 import { getTokenMetadata } from '@/modules/common/services/nft';
 import { Token } from '@/modules/common/types/transactions';
 import { getNormalizedUrl } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers } from 'ethers';
 import request from 'graphql-request';
 import { useCallback, useState } from 'react';
@@ -23,10 +23,10 @@ import {
 import { feed, getOnchainAttritbutes, mint, update } from '../services';
 import { Kittygotchi, KittygotchiTraitItem } from '../types';
 import {
-  getImageFromTrait,
-  getKittygotchiApi,
   GET_DEXKIT,
   GET_KITTYGOTCHI_MINT_RATE,
+  getImageFromTrait,
+  getKittygotchiApi,
   isKittygotchiNetworkSupported,
   KittygotchiTraitType,
   signUpdate,
@@ -91,7 +91,7 @@ export const useKittygotchiList = (address?: string) => {
     if (graphEndpoint && address) {
       const { tokens } = await request(graphEndpoint, GET_MY_KITTYGOTCHIES, {
         owner: address?.toLowerCase(),
-      });
+      }) as any;
 
       return tokens.map((k: any) => ({
         id: k.id,
@@ -118,7 +118,7 @@ export function useKittygotchiGraph(id?: string) {
 
     const { token } = await request(graphEndpoint, GET_KITTYGOTCHI, {
       id: id?.toLowerCase(),
-    });
+    }) as any;
 
     let resultData = token;
 
@@ -247,7 +247,7 @@ export function useKittygotchiRanking(
       const { tokens } = await request(graphEndpoint, GET_KITTYGOTCHI_RANKING, {
         offset,
         limit,
-      });
+      }) as any;
       return (
         tokens?.map((r: any) => ({
           tokenId: r.id,

@@ -38,6 +38,7 @@ import {
   useTokenAllowanceQuery,
 } from '@/modules/common/hooks/blockchain';
 import { getChainIdFromName, isAddressEqual } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
   Avatar,
@@ -53,7 +54,6 @@ import {
   Typography,
 } from '@mui/material';
 import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -82,7 +82,7 @@ const CoinLeagueGame: NextPage = () => {
 
   const { addNotification } = useNotifications();
 
-  const { account, provider, isActive } = useWeb3React();
+  const { account, provider, isActive, signer } = useWeb3React();
   const { network, id, affiliate } = router.query;
 
   const [showSelectCoin, setShowSelectCoin] = useState(false);
@@ -205,6 +205,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     gameId: id as string,
     provider,
+    signer,
     onSubmit: handleJoinSubmit,
     options: {
       onSuccess: handleRefetchGame,
@@ -244,6 +245,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     gameId: id as string,
     provider,
+    signer,
     onSubmit: handleStartSubmit,
     options: {
       onSuccess: handleRefetchGame,
@@ -361,6 +363,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     onSubmited: handleClaimSubmit,
     provider,
+    signer
   });
 
   const handleCloseCoinDialog = () => {

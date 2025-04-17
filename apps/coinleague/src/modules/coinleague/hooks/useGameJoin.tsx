@@ -1,8 +1,8 @@
 import { ZERO_ADDRESS } from '@/modules/common/constants';
 import Button from '@mui/material/Button';
 
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -15,7 +15,7 @@ import { useFactoryAddress } from './coinleagueFactory';
 export function useGameJoin({ game }: { game?: Game }) {
   // const { getScannerUrl } = useChainInfo();
   const factoryAddress = useFactoryAddress();
-  const { provider } = useWeb3React();
+  const { provider, signer } = useWeb3React();
   const { formatMessage } = useIntl();
   const [transactionHash, setTransactionHash] = useState<string>();
 
@@ -45,14 +45,15 @@ export function useGameJoin({ game }: { game?: Game }) {
       affiliate?: string | null;
     }) => {
       if (game?.amount_to_play && chainId && provider) {
-        const tx = await joinGame(
+        const tx = await joinGame({
           factoryAddress,
-          coins,
+          feeds: coins,
           captainCoin,
           provider,
-          affiliate || ZERO_ADDRESS,
-          game.id.toString()
-        );
+          affiliate: affiliate || ZERO_ADDRESS,
+          id: game.id.toString(),
+          signer
+      });
         setTransactionHash(tx.hash);
 
         enqueueSnackbar(
@@ -68,7 +69,7 @@ export function useGameJoin({ game }: { game?: Game }) {
                 <FormattedMessage id="view" defaultMessage="View" />
               </Button>
             ),
-          }
+          },
         );
 
         // createNotification({
@@ -97,7 +98,7 @@ export function useGameJoin({ game }: { game?: Game }) {
         // });
         await tx.wait();
       }
-    }
+    },
   );
 
   return {

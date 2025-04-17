@@ -3,6 +3,7 @@ import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import Link from '@/modules/common/components/Link';
 import { copyToClipboard, getWindowUrl } from '@/modules/common/utils/browser';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Avatar,
   Box,
@@ -16,7 +17,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { NextPage } from 'next';
 import { Suspense, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -24,8 +24,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import AffiliateHistoryTable from '@/modules/coinleague/components/AffiliateHistoryTable';
 import { useAffiliatePlayer } from '@/modules/coinleague/hooks/affiliate';
 import { useCoinToPlayStable } from '@/modules/coinleague/hooks/coinleague';
-import AppErrorBoundary from '@/modules/common/components/AppErrorBoundary';
-import AppStandardErrorBlock from '@/modules/common/components/AppStandardErrorBlock';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
 import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
 import { truncateAddress } from '@/modules/common/utils';
@@ -142,7 +140,7 @@ const AffiliatesPage: NextPage = () => {
                             {ethers.utils.formatUnits(
                               queryPlayer.data?.player
                                 ?.estimatedAffiliateEarnings || '0',
-                              coinToPlay?.decimals
+                              coinToPlay?.decimals,
                             )}{' '}
                             {coinToPlay?.symbol.toUpperCase()}
                           </>
@@ -209,18 +207,12 @@ const AffiliatesPage: NextPage = () => {
               )}
               <Grid item xs={12}>
                 <NoSsr>
-                  <AppErrorBoundary
-                    fallbackRender={({ resetErrorBoundary }) => (
-                      <AppStandardErrorBlock onTryAgain={resetErrorBoundary} />
-                    )}
-                  >
-                    <Suspense fallback={<TableSkeleton cols={4} rows={5} />}>
-                      <AffiliateHistoryTable
-                        account={account}
-                        chainId={chainId}
-                      />
-                    </Suspense>
-                  </AppErrorBoundary>
+                  <Suspense fallback={<TableSkeleton cols={4} rows={5} />}>
+                    <AffiliateHistoryTable
+                      account={account}
+                      chainId={chainId}
+                    />
+                  </Suspense>
                 </NoSsr>
               </Grid>
             </Grid>

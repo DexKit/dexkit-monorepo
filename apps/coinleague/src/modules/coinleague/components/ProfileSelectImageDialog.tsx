@@ -23,7 +23,7 @@ import { GET_CHAMPIONS_CONTRACT_ADDR } from '@/modules/common/utils/champions';
 import { GET_KITTYGOTCHI_CONTRACT_ADDR } from '@/modules/kittygotchi/constants';
 import { useKittygotchiList } from '@/modules/kittygotchi/hooks';
 import { Kittygotchi } from '@/modules/kittygotchi/types';
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useLeaguesChainInfo } from '../hooks/chain';
 import { useMyChampions } from '../hooks/coinleague';
 import { CoinLeaguesChampion } from '../types';
@@ -88,7 +88,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
         setSelectedAsset(asset);
       }
     },
-    [selectedAsset]
+    [selectedAsset],
   );
 
   const renderChampions = useCallback(() => {
@@ -160,7 +160,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
               contractAddress={GET_CHAMPIONS_CONTRACT_ADDR(chainId)}
             />
           </Grid>
-        )
+        ),
       );
     }
     // eslint-disable-next-line
@@ -215,7 +215,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
               contractAddress={GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}
             />
           </Grid>
-        )
+        ),
       );
     }
     // eslint-disable-next-line

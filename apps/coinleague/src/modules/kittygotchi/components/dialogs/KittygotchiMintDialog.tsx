@@ -8,6 +8,7 @@ import { useNotifications } from '@/modules/common/hooks/app';
 import { AppNotificationType } from '@/modules/common/types/app';
 import { TransactionStatus } from '@/modules/common/types/transactions';
 import { useNativeBalanceQuery } from '@/modules/wallet/hooks/balances';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Add } from '@mui/icons-material';
 import {
   Button,
@@ -19,7 +20,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { useSnackbar } from 'notistack';
@@ -27,8 +27,8 @@ import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useKittygotchiMint } from '../../hooks';
 import {
-  getKittygotchiMetadataEndpoint,
   GET_KITTYGOTCHI_MINT_RATE,
+  getKittygotchiMetadataEndpoint,
 } from '../../utils';
 
 interface Props {
@@ -79,9 +79,9 @@ export default function KittygotchiMintDialog({ DialogProps }: Props) {
                       id: 'kittygotchi.id.created',
                       defaultMessage: 'Kittygotchi #{id} created',
                     },
-                    { id: tokenId }
+                    { id: tokenId },
                   ),
-                  { variant: 'success' }
+                  { variant: 'success' },
                 );
               }
             }
@@ -122,12 +122,12 @@ export default function KittygotchiMintDialog({ DialogProps }: Props) {
                 id: 'error.while.minting',
                 defaultMessage: 'Error while minting',
               },
-              { message: String(err) }
+              { message: String(err) },
             ),
-            { variant: 'error' }
+            { variant: 'error' },
           );
         },
-      }
+      },
     );
   };
 

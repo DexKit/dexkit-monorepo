@@ -1,4 +1,4 @@
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { gql, request } from 'graphql-request';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -38,7 +38,7 @@ export function usePlayerProfileStats(account?: string, isNFT = false) {
         getGraphEndpoint(isNFT, chainId),
         GET_PLAYER_PROFILE_STATS_QUERY,
         { address: account?.toLowerCase() }
-      );
+      ) as any;
 
       return data.stats;
     }

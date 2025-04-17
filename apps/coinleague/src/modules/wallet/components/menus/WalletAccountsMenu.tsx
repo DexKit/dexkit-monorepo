@@ -4,6 +4,7 @@ import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import FileCopy from '@mui/icons-material/FileCopy';
 
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import LaunchIcon from '@mui/icons-material/Launch';
 import {
   Divider,
@@ -13,7 +14,6 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {

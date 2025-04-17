@@ -1,6 +1,6 @@
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Button from '@mui/material/Button';
 import { useMutation } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useSnackbar } from 'notistack';
 import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -10,7 +10,7 @@ import { useLeaguesChainInfo } from './chain';
 import { useFactoryAddress } from './coinleagueFactory';
 
 export function useGameEnd({ game }: { game?: Game }) {
-  const { provider } = useWeb3React();
+  const { provider, signer } = useWeb3React();
   // const { getScannerUrl } = useChainInfo();
   const factoryAddress = useFactoryAddress();
   const { enqueueSnackbar } = useSnackbar();
@@ -33,7 +33,7 @@ export function useGameEnd({ game }: { game?: Game }) {
 
   const endGameMutation = useMutation(async () => {
     if (game?.amount_to_play && chainId && provider) {
-      const tx = await endGame(factoryAddress, provider, game.id.toString());
+      const tx = await endGame({factoryAddress, id: game.id.toString(), signer, provider});
       const hash = tx.hash;
       setTransactionHash(hash);
       enqueueSnackbar(
@@ -49,7 +49,7 @@ export function useGameEnd({ game }: { game?: Game }) {
               <FormattedMessage id="view" defaultMessage="View" />
             </Button>
           ),
-        }
+        },
       );
       // createNotification({
       //   title: formatMessage({

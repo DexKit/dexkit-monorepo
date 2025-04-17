@@ -19,8 +19,8 @@ import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
 import { ChainId } from '@/modules/common/constants/enums';
 import { isAddressEqual } from '@/modules/common/utils';
 import { getRarityFromBodyType } from '@/modules/common/utils/champions';
-import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import { ContractReceipt, providers } from 'ethers';
 import { request } from 'graphql-request';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -51,10 +51,10 @@ import {
   ProfileContextState,
 } from '../types';
 import {
-  getGamesQuery,
   GET_DURATION_FROM_FILTER,
   GET_GAME_LEVEL_AMOUNTS,
   GET_GAME_ORDER_VARIABLES,
+  getGamesQuery,
 } from '../utils/game';
 import { getNetworkProvider } from '../utils/network';
 import { useLeaguesChainInfo } from './chain';
@@ -151,7 +151,7 @@ export const useCoinLeagueGames = (
         getGraphEndpoint(isNFTGame, chainId),
         gqlQuery,
         variables
-      );
+      ) as any;
       return games;
     }
   );
@@ -332,7 +332,7 @@ export function useCoinLeagueGameOnChainQuery({
   provider,
 }: {
   factoryAddress: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
   id?: string;
 }) {
   return useQuery<CoinLeagueGame | undefined>(
@@ -354,6 +354,7 @@ export function useJoinGameMutation({
   captainCoinFeed,
   affiliate,
   factoryAddress,
+  signer,
   provider,
   onSubmit,
 }: {
@@ -362,22 +363,24 @@ export function useJoinGameMutation({
   captainCoinFeed?: string;
   affiliate?: string;
   factoryAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: (hash: string) => void;
   options?:
-    | Omit<
-        UseMutationOptions<
-          ethers.ContractReceipt | undefined,
-          unknown,
-          void,
-          unknown
-        >,
-        'mutationFn'
-      >
-    | undefined;
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
 }) {
   return useMutation(async () => {
     if (
+      !signer ||
       !provider ||
       !coinFeeds ||
       !captainCoinFeed ||
@@ -387,14 +390,15 @@ export function useJoinGameMutation({
       return;
     }
 
-    const tx = await joinGame(
+    const tx = await joinGame({
       factoryAddress,
-      coinFeeds,
-      captainCoinFeed,
+      feeds: coinFeeds,
+      captainCoin: captainCoinFeed,
       provider,
-      gameId,
+      signer,
+      id: gameId,
       affiliate
-    );
+    });
 
     if (onSubmit) {
       onSubmit(tx.hash);
@@ -410,29 +414,31 @@ export function useStartGameMutation({
   factoryAddress,
   provider,
   onSubmit,
+  signer
 }: {
   gameId?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: (hash: string) => void;
   factoryAddress?: string;
   options?:
-    | Omit<
-        UseMutationOptions<
-          ethers.ContractReceipt | undefined,
-          unknown,
-          void,
-          unknown
-        >,
-        'mutationFn'
-      >
-    | undefined;
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
 }) {
   return useMutation(async () => {
-    if (!provider || !gameId || !factoryAddress) {
+    if (!provider || !gameId || !factoryAddress || !signer) {
       return;
     }
 
-    const tx = await startGame(factoryAddress, provider, gameId);
+    const tx = await startGame({ factoryAddress, provider, id: gameId, signer });
 
     if (onSubmit) {
       onSubmit(tx.hash);
@@ -462,18 +468,20 @@ export function useGameProfilesState(
 export function useCreateGameMutation({
   factoryAddress,
   provider,
+  signer,
   onHash,
 }: {
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   factoryAddress?: string;
   onHash: (hash: string) => void;
 }) {
   return useMutation(async (params?: GameParamsV3) => {
-    if (!provider || !factoryAddress || !params) {
+    if (!provider || !factoryAddress || !params || !signer) {
       return;
     }
 
-    const tx = await createGame(factoryAddress, params, provider);
+    const tx = await createGame({ address: factoryAddress, params, provider, signer });
 
     if (onHash) {
       onHash(tx.hash);
@@ -492,7 +500,7 @@ export function useGameCoin({
 }: {
   id?: string;
   coinAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
 }) {
   return useQuery([COINLEAGUE_GAME_COIN, coinAddress, id], async () => {
     if (!provider || !coinAddress || !id) {
@@ -510,7 +518,7 @@ export function useCurrentCoinPrice({
 }: {
   coinAddress?: string;
   factoryAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
 }) {
   return useQuery([CURRENT_COIN_PRICE, coinAddress], async () => {
     if (!provider || !coinAddress || !factoryAddress) {
@@ -532,7 +540,7 @@ export function useWinner({
   account?: string;
   id: string;
   factoryAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
 }) {
   return useQuery(
     [ACCOUNT_CLAIMED_QUERY, factoryAddress, account, id],
@@ -552,19 +560,21 @@ export function useCoinLeagueClaim({
   factoryAddress,
   provider,
   onSubmited,
+  signer
 }: {
   account?: string;
   id: string;
   factoryAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmited?: (hash: string) => void;
 }) {
   return useMutation(async () => {
-    if (!provider || !account || !id || !factoryAddress) {
+    if (!provider || !account || !id || !factoryAddress || !signer) {
       return;
     }
 
-    const tx = await claimGame(provider, factoryAddress, account, id);
+    const tx = await claimGame({ provider, factoryAddress, account, id, signer });
 
     if (onSubmited) {
       onSubmited(tx.hash);

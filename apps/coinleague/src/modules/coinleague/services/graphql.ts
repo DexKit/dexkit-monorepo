@@ -16,7 +16,8 @@ export const getGraphEndpoint = (isNFTGame: boolean, chainId?: ChainId) => {
 
 export const GET_GRAPHQL_CLIENT_URL_MAIN_ROOM = {
   [ChainId.Polygon]:
-    'https://api.thegraph.com/subgraphs/name/joaocampos89/coinleaguev3',
+    //   'https://api.thegraph.com/subgraphs/name/joaocampos89/coinleaguev3',
+    'https://api.studio.thegraph.com/query/1827/coinleague-polygon/version/latest',
   [ChainId.BSC]:
     'https://api.thegraph.com/subgraphs/name/joaocampos89/coinleaguebsc',
   [ChainId.Mumbai]:

@@ -18,6 +18,7 @@ import { GameGraph, GamesFilter } from '@/modules/coinleague/types';
 import AppFilterDrawer from '@/modules/common/components/AppFilterDrawer';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Filter, FilterAlt } from '@mui/icons-material';
 import {
   Avatar,
@@ -37,9 +38,8 @@ import {
   Tabs,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -222,6 +222,7 @@ const CoinLeagueIndex: NextPage = () => {
         }}
       />
       <MainLayout>
+     
         <Stack spacing={2}>
           <TickerTapeTV />
 
@@ -451,6 +452,7 @@ const CoinLeagueIndex: NextPage = () => {
             </Grid>
           </Box>
         </Stack>
+       
       </MainLayout>
     </>
   );

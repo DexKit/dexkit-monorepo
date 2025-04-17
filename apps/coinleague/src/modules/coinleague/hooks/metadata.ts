@@ -1,5 +1,5 @@
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { RoomType } from '../constants/enums';
 import {
   getGameMetadata,
@@ -12,14 +12,14 @@ import { useLeaguesChainInfo } from './chain';
 import { useIsNFTGame } from './nft';
 
 export function useGameMetadataMutation() {
-  const { provider, account } = useWeb3React();
+  const { signer, account } = useWeb3React();
   const { chainId } = useLeaguesChainInfo();
   const isNFT = useIsNFTGame();
   return useMutation(async ({ data, id }: { data: any; id: string }) => {
-    if (!chainId || !account || !provider) {
+    if (!chainId || !account || !signer) {
       return;
     }
-    const signedData = await signUpdate(provider, chainId);
+    const signedData = await signUpdate({ signer, chainId });
 
     await update(
       signedData.sig,
@@ -34,14 +34,14 @@ export function useGameMetadataMutation() {
 }
 
 export const useGameMetadataDeleteMutation = () => {
-  const { provider, chainId, account } = useWeb3React();
+  const { signer, chainId, account } = useWeb3React();
   const isNFT = useIsNFTGame();
   return useMutation(async ({ data, id }: { data: any; id: string }) => {
-    if (!chainId || !account || !provider) {
+    if (!chainId || !account || !signer) {
       return;
     }
 
-    const signedData = await signUpdate(provider, chainId);
+    const signedData = await signUpdate({ signer, chainId });
 
     await remove(
       signedData.sig,
