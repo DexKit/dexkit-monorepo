@@ -1,5 +1,31 @@
 # dexappbuilder
 
+## 0.1.0
+
+### Minor Changes
+
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+
+### Patch Changes
+
+- e9afb9c: 0x Migration to V2
+- Updated dependencies [e9afb9c]
+- Updated dependencies [56cd62b]
+- Updated dependencies [72ebec1]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [465fbcd]
+- Updated dependencies [bacf6ad]
+- Updated dependencies [ecbf91f]
+- Updated dependencies [f9c52d8]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [9139f66]
+- Updated dependencies [1775883]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/dexappbuilder-viewer@0.7.0
+  - @dexkit/widgets@0.11.0
+  - @dexkit/core@0.17.0
+  - @dexkit/ui@0.21.0
+
 ## 0.23.0
 
 ### Minor Changes
