@@ -1,5 +1,3 @@
-# 🚀 DexAppBuilder
-
 <div align="center">
   <img src="public/assets/dexappbuilder/DexAppBuilder-readme.png" alt="DexAppBuilder Logo" width="300"/>
   <h3>Create Powerful Web3 Applications Without Code</h3>

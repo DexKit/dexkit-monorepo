@@ -1,5 +1,3 @@
-# 🚀 DexKit Monorepo
-
 <div align="center">
   <img src="apps/dexappbuilder/public/assets/dexappbuilder/DexAppBuilder-readme.png" alt="DexKit Logo" width="200"/>
   <h3>Web3 Innovation Hub: DApps Builder & Blockchain Gaming</h3>
