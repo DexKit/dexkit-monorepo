@@ -1,7 +1,7 @@
 # 🏆 Coin League
 
 <div align="center">
-  <img src="public/coinLeague/coinLeagueLogoBig.png" alt="Coin League Logo" width="200"/>
+  <img src="public/assets/cl-logos/CoinLeagueLogoBig.png" alt="Coin League Logo" width="200"/>
   <h3>The Ultimate Blockchain Price Racing Game</h3>
 </div>
 

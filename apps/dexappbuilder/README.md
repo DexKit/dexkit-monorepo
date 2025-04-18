@@ -1,7 +1,7 @@
 # 🚀 DexAppBuilder
 
 <div align="center">
-  <img src="public/DexAppBuilder/DexAppBuilder-readme.png" alt="DexAppBuilder Logo" width="300"/>
+  <img src="public/assets/dexappbuilder/DexAppBuilder-readme.png" alt="DexAppBuilder Logo" width="300"/>
   <h3>Create Powerful Web3 Applications Without Code</h3>
   <h4><em>If you can click and drag, with DexAppBuilder you can make a DApp</em> 🪄</h4>
   
