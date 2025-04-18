@@ -1,6 +1,11 @@
 import type { NextPage } from 'next';
 
+import GamesFilterForm from '@/modules/coinleague/components/GamesFilterForm';
 import GamesGrid from '@/modules/coinleague/components/GamesGrid';
+import GamesGridSkeleton from '@/modules/coinleague/components/GamesGridSkeleton';
+import GamesTable from '@/modules/coinleague/components/GamesTable';
+import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
+import { GET_GAME_ORDER_OPTIONS } from '@/modules/coinleague/constants';
 import {
   CoinLeagueGameStatus,
   GameDuration,
@@ -17,9 +22,18 @@ import {
 import { GameGraph, GamesFilter } from '@/modules/coinleague/types';
 import AppFilterDrawer from '@/modules/common/components/AppFilterDrawer';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
+import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
+import GameController from '@/modules/common/components/icons/GameController';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
+import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
+import { ChainId } from '@/modules/common/constants/enums';
+import { getNetworkSlugFromChainId } from '@/modules/common/utils';
+import { getWindowUrl } from '@/modules/common/utils/browser';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Filter, FilterAlt } from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import GridViewIcon from '@mui/icons-material/GridView';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 import {
   Avatar,
   Box,
@@ -40,26 +54,13 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const CreateGameDialog = dynamic(() => import('@/modules/coinleague/components/dialogs/CreateGameDialog'));
 const GameMetadataDialog = dynamic(() => import('@/modules/coinleague/components/dialogs/GameMetadataDialog'));
-import GamesFilterForm from '@/modules/coinleague/components/GamesFilterForm';
-import GamesGridSkeleton from '@/modules/coinleague/components/GamesGridSkeleton';
-import GamesTable from '@/modules/coinleague/components/GamesTable';
-import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
-import { GET_GAME_ORDER_OPTIONS } from '@/modules/coinleague/constants';
-import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
-import GameController from '@/modules/common/components/icons/GameController';
-import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
-import { ChainId } from '@/modules/common/constants/enums';
-import { getNetworkSlugFromChainId } from '@/modules/common/utils';
-import { getWindowUrl } from '@/modules/common/utils/browser';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GridViewIcon from '@mui/icons-material/GridView';
-import TableRowsIcon from '@mui/icons-material/TableRows';
-import { useRouter } from 'next/router';
 
 const INITIAL_FILTERS: GamesFilter = {
   numberOfPlayers: NumberOfPLayers.ALL,

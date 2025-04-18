@@ -40,7 +40,6 @@ export class ZeroExApiClient {
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(ZEROEX_QUOTE_ENDPOINT, {
       params: quote,
-      signal,
     });
 
     return resp.data;
@@ -60,7 +59,6 @@ export class ZeroExApiClient {
     const resp = await this.axiosInstance.get<ZrxOrderbookResponse>(
       ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
       {
-        signal,
         params: { trader },
       }
     );
