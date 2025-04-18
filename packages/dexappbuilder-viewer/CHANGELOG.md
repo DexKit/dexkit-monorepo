@@ -1,5 +1,32 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.7.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- 56cd62b: Fixed condition to claim stake rewards
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+- bacf6ad: Fix signer in web3provider
+- f9c52d8: Add priority option on image custom section
+
+### Patch Changes
+
+- Updated dependencies [e9afb9c]
+- Updated dependencies [72ebec1]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [465fbcd]
+- Updated dependencies [bacf6ad]
+- Updated dependencies [ecbf91f]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [9139f66]
+- Updated dependencies [1775883]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/widgets@0.11.0
+  - @dexkit/core@0.17.0
+  - @dexkit/ui@0.21.0
+  - @dexkit/exchange@0.12.0
+
 ## 0.6.0
 
 ### Minor Changes

@@ -21,13 +21,6 @@ export const getNetworkSlugFromChainId = (chainId?: ChainId) => {
   }
 };
 
-
-
-
-
-
-
-
 export function getBlockExplorerUrl(chainId?: number) {
   if (chainId) {
     return NETWORKS[chainId].explorerUrl;

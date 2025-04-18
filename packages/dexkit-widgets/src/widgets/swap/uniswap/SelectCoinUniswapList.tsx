@@ -27,6 +27,10 @@ function SelectCoinUniswapList({
   subHeader,
   externToken,
 }: SelectCoinUniswapListProps) {
+  if (isLoading) {
+    return <SwapSelectCoinListSkeleton />;
+  }
+
   if (tokens.length === 0) {
     return (
       <Box py={2}>
@@ -46,10 +50,6 @@ function SelectCoinUniswapList({
         </Stack>
       </Box>
     );
-  }
-
-  if (isLoading) {
-    return <SwapSelectCoinListSkeleton />;
   }
 
   if (externToken) {
