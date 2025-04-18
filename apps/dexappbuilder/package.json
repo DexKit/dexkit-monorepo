@@ -35,7 +35,6 @@
     "module": false
   },
   "dependencies": {
-    "@0x/contract-addresses": "^8.13.0",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
     "@codemirror/lang-javascript": "^6.2.1",
