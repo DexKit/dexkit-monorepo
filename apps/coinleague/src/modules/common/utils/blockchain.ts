@@ -1,6 +1,5 @@
 
 
-import { ethers } from 'ethers';
 import { ChainId } from '../constants/enums';
 import { NETWORKS } from '../constants/networks';
 
@@ -21,37 +20,6 @@ export const getNetworkSlugFromChainId = (chainId?: ChainId) => {
     return NETWORKS[chainId].slug;
   }
 };
-
-export const getProviderByChainId = (chainId?: ChainId) => {
-  if (chainId) {
-    if (NETWORKS[chainId].providerRpcUrl) {
-      return new ethers.providers.JsonRpcProvider(
-        NETWORKS[chainId].providerRpcUrl,
-      );
-    }
-  }
-};
-
-export const truncateAddress = (address: string | undefined) => {
-  if (address !== undefined && ethers.utils.isAddress(address)) {
-    return `${address.slice(0, 7)}...${address.slice(address.length - 5)}`;
-  }
-  return '';
-};
-
-
-
-export function isAddressEqual(address?: string, other?: string) {
-  if (address === undefined || other === undefined) {
-    return false;
-  }
-
-  if (!ethers.utils.isAddress(address) || !ethers.utils.isAddress(other)) {
-    return false;
-  }
-
-  return address.toLowerCase() === other.toLowerCase();
-}
 
 export function getBlockExplorerUrl(chainId?: number) {
   if (chainId) {

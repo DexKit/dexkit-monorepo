@@ -8,7 +8,6 @@ import OpenSea from '@/modules/common/components/icons/OpenSea';
 import Link from '@/modules/common/components/Link';
 import MomentSpan from '@/modules/common/components/MomentSpan';
 import { useNotifications } from '@/modules/common/hooks/app';
-import { useNetworkProvider } from '@/modules/common/hooks/network';
 import { AppNotificationType } from '@/modules/common/types/app';
 import { TransactionStatus } from '@/modules/common/types/transactions';
 import { getNormalizedUrl } from '@/modules/common/utils';
@@ -19,6 +18,7 @@ import {
 } from '@/modules/kittygotchi/hooks';
 import EvmTransferNftDialog from '@/modules/wallet/components/dialogs/EvmTransferNftDialog';
 import { ChainId } from '@0x/contract-addresses';
+import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Check, Edit, FoodBank } from '@mui/icons-material';
 import Close from '@mui/icons-material/Close';
@@ -51,8 +51,8 @@ const KittygotchiDetailPage: NextPage = () => {
 
   const [showSendNft, setShowSendNft] = useState(false);
 
-  const { chainId, provider, account } = useWeb3React();
-  const rpcProvider = useNetworkProvider(chainId);
+  const { chainId, provider, account, signer } = useWeb3React();
+  const rpcProvider = getProviderByChainId(chainId);
   const kittyAddress = GET_KITTYGOTCHI_CONTRACT_ADDR(chainId);
 
   const kittygotchi: any = useKittygotchi({
@@ -64,7 +64,7 @@ const KittygotchiDetailPage: NextPage = () => {
 
   const kittygotchiFeed = useKittygotchiFeed({
     chainId,
-    provider,
+    signer,
     kittyAddress: GET_KITTYGOTCHI_CONTRACT_ADDR(chainId),
   });
 

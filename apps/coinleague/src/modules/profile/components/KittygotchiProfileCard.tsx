@@ -21,6 +21,7 @@ import {
 } from '@/modules/kittygotchi/utils';
 import EvmTransferNftDialog from '@/modules/wallet/components/dialogs/EvmTransferNftDialog';
 import { useNativeBalanceQuery } from '@/modules/wallet/hooks/balances';
+import { formatEther } from '@dexkit/core/utils/ethers/formatEther';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Add, ChevronRight, Edit, FoodBank, Send } from '@mui/icons-material';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
@@ -38,7 +39,6 @@ import {
   Typography,
 } from '@mui/material';
 import axios from 'axios';
-import { ethers } from 'ethers';
 import { useAtom } from 'jotai';
 import { useSnackbar } from 'notistack';
 import { useMemo, useState } from 'react';
@@ -60,7 +60,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
 
   const { formatMessage } = useIntl();
 
-  const { provider, account, signer } = useWeb3React();
+  const { provider, signer, account} = useWeb3React();
 
   const ratio = useMemo(() => {
     return GET_KITTYGOTCHI_MINT_RATE(chainId);
@@ -70,7 +70,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
 
   const kittygotchiFeed = useKittygotchiFeed({
     chainId,
-    provider,
+    signer,
     kittyAddress: GET_KITTYGOTCHI_CONTRACT_ADDR(chainId),
   });
 
@@ -341,7 +341,7 @@ export default function KittygotchiProfileCard({ chainId }: Props) {
                     values={{
                       amount: (
                         <strong>
-                          {ethers.utils.formatEther(ratio)}{' '}
+                          {formatEther(ratio)}{' '}
                           {getNativeTokenSymbol(chainId)}
                         </strong>
                       ),

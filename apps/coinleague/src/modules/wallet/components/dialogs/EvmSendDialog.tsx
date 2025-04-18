@@ -2,7 +2,6 @@ import { AppDialogTitle } from '@/modules/common/components/AppDialogTitle';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
 import { useNotifications } from '@/modules/common/hooks/app';
 import {
-  useErc20BalanceQuery,
   useEvmNativeBalance,
 } from '@/modules/common/hooks/blockchain';
 import { AppNotificationType } from '@/modules/common/types/app';
@@ -11,6 +10,7 @@ import { truncateAddress } from '@/modules/common/utils';
 import { copyToClipboard } from '@/modules/common/utils/browser';
 import FileCopy from '@mui/icons-material/FileCopy';
 
+import { useErc20BalanceQuery } from '@dexkit/core/hooks/coin';
 import {
   Dialog,
   DialogContent,
@@ -67,7 +67,7 @@ export default function EvmSendDialog({
   const { data: erc20Balance, isLoading } = useErc20BalanceQuery({
     provider,
     account,
-    tokenAddress:
+    contractAddress:
       values.coin?.coinType === CoinTypes.EVM_ERC20
         ? values.coin?.contractAddress
         : undefined,

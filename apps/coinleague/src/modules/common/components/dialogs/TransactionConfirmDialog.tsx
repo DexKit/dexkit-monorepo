@@ -27,11 +27,11 @@ import { FormattedMessage } from 'react-intl';
 import { currencyAtom } from '../../atoms';
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '../../constants';
 
+import { truncateAddress } from '@dexkit/core/utils';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   getNativeTokenSymbol,
   hasLondonHardForkSupport,
-  truncateAddress,
 } from '../../utils/blockchain';
 import AppDialogTitle from '../AppDialogTitle';
 
