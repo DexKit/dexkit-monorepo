@@ -26,7 +26,7 @@ import {
   transactionsAtomV2,
 } from 'src/state/atoms';
 import { getTheme } from 'src/theme';
-import defaultAppConfig from '../../config/app.minimal.json';
+import defaultAppConfig from '../../config/app.json';
 import { loadLocaleMessages } from '../utils/intl';
 
 export interface AppMarketplaceContextProps {
