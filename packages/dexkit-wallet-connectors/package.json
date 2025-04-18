@@ -15,10 +15,6 @@
     "tsconfig": "*",
     "typescript": "5.4.3"
   },
-  "dependencies": {
-    "@magic-ext/oauth": "22.0.2",
-    "magic-sdk": "21.2.0"
-  },
   "publishConfig": {
     "access": "public"
   }
