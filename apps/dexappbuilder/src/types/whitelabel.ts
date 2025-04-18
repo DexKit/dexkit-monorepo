@@ -1,6 +1,6 @@
-import { AssetAPI } from '@dexkit/ui/modules/nft/types';
-import { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
-import { AppWhitelabelType } from '../constants/enum';
+import type { AssetAPI } from '@dexkit/ui/modules/nft/types';
+import type { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
+import type { AppWhitelabelType } from '../constants/enum';
 
 
 export interface WhitelabelFormData {

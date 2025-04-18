@@ -1,5 +1,5 @@
-import { AssetAPI, OrderBookItem } from '@dexkit/ui/modules/nft/types';
-import { DkApiPlatformCoin } from '@dexkit/widgets/src/types/api';
+import type { AssetAPI, OrderBookItem } from '@dexkit/ui/modules/nft/types';
+import type { DkApiPlatformCoin } from '@dexkit/widgets/src/types/api';
 
 
 

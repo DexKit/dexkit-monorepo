@@ -30,6 +30,7 @@
     "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",
     "build:ui": "turbo run build --parallel --filter=@dexkit/ui",
     "build:dexviewer": "turbo run build --parallel --filter=@dexkit/dexappbuilder-viewer",
+    "remove-node-modules": "./scripts/bash/remove-node-modules.sh",
     "merge-lang-main-files": "node ./scripts/merge-lang-main-files.js",
     "run:process-dexappbuilder-translation": "./scripts/bash/run-generate-lang-files.sh",
     "lint": "turbo run lint",
