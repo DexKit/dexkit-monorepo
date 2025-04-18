@@ -22,6 +22,7 @@ export interface CompletationPopoverProps {
   onGenerate: (prompt: string, action?: TextImproveAction) => Promise<void>;
   onConfirm: () => void;
   multiline?: boolean;
+  filteredActions?: TextImproveAction[];
 }
 
 export default function CompletationPopover({
@@ -33,9 +34,9 @@ export default function CompletationPopover({
   onGenerate,
   onConfirm,
   multiline,
+  filteredActions,
 }: CompletationPopoverProps) {
   const subQuery = useSubscription();
-
   const { mutateAsync: checkoutPlan, isLoading } = usePlanCheckoutMutation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -77,6 +78,7 @@ export default function CompletationPopover({
             onConfirm={onConfirm}
             initialPrompt={initialPrompt}
             multiline={multiline}
+            filteredActions={filteredActions}
           />
         ) : subQuery.isSuccess ? (
           <Stack sx={{ p: 2 }} spacing={2} alignItems="center">

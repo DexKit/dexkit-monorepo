@@ -23,6 +23,8 @@ import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import { javascript } from '@codemirror/lang-javascript';
 import { AppDialogTitle } from '@dexkit/ui';
+import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
+import { TextImproveAction } from '@dexkit/ui/constants/ai';
 import { CodePageSection } from '@dexkit/ui/modules/wizard/types/section';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import parse from 'html-react-parser';
@@ -259,12 +261,28 @@ function CodeSectionForm({
           {renderDialog(inputs(values), setFieldValue, showAsFullScreen)}
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Switch checked={showList} onClick={handleToggle} />}
-                label={
-                  <FormattedMessage id="show.all" defaultMessage="Show all" />
-                }
-              />
+              <Stack
+                alignItems="center"
+                justifyContent="space-between"
+                direction="row"
+                mb={2}
+              >
+                <FormControlLabel
+                  control={<Switch checked={showList} onClick={handleToggle} />}
+                  label={
+                    <FormattedMessage id="show.all" defaultMessage="Show all" />
+                  }
+                />
+                <CompletationProvider
+                  onCompletation={(output) => {}}
+                  filteredActions={[TextImproveAction.GENERATE_CODE]}
+                  initialPrompt={''}
+                >
+                  {({ inputAdornment, ref }) => {
+                    return <Box ref={ref}>{inputAdornment('start')}</Box>;
+                  }}
+                </CompletationProvider>
+              </Stack>
             </Grid>
             <Grid item xs={12}>
               {showList

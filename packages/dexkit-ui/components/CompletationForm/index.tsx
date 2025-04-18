@@ -40,6 +40,7 @@ export interface CompletationFormProps {
   initialPrompt?: string;
   onConfirm: () => void;
   multiline?: boolean;
+  filteredActions?: TextImproveAction[];
 }
 
 export default function CompletationForm({
@@ -48,6 +49,7 @@ export default function CompletationForm({
   initialPrompt,
   onConfirm,
   multiline,
+  filteredActions,
 }: CompletationFormProps) {
   const handleSubmit = async ({
     prompt,
@@ -170,6 +172,7 @@ export default function CompletationForm({
               <Box>
                 <ImproveTextActionList
                   value={values.action}
+                  filteredActions={filteredActions}
                   onChange={(value: string) => {
                     if (value === values.action) {
                       return setFieldValue("action", undefined);

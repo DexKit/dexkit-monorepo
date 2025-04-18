@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import { useIntl } from "react-intl";
+import { TextImproveAction } from "../constants/ai";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
 import { ImageGenerate } from "../types/ai";
 import { dataURItoBlob } from "../utils/image";
@@ -11,10 +12,17 @@ export function useCompletation() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(
-    async ({ messages }: { messages: { role: string; content: string }[] }) => {
+    async ({
+      messages,
+      action,
+    }: {
+      messages: { role: string; content: string }[];
+      action?: TextImproveAction;
+    }) => {
       return (
         await instance?.post("/ai/completation", {
           messages,
+          action,
         })
       )?.data;
     }
@@ -66,9 +74,8 @@ export function useGenVariants() {
   const { instance } = useContext(DexkitApiProvider);
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
-      return (
-        await instance?.post("/ai/image/variants", { url, numImages })
-      )?.data;
+      return (await instance?.post("/ai/image/variants", { url, numImages }))
+        ?.data;
     }
   );
 }

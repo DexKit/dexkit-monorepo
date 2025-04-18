@@ -26,6 +26,7 @@ export interface CompletationProviderProps {
   initialPrompt?: string;
   multiline?: boolean;
   messages?: { role: string; content: string }[];
+  filteredActions?: TextImproveAction[];
 }
 
 export default function CompletationProvider({
@@ -34,6 +35,7 @@ export default function CompletationProvider({
   initialPrompt,
   multiline,
   messages,
+  filteredActions,
 }: CompletationProviderProps) {
   const [showAiComp, setShowAiComp] = useState(false);
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
@@ -89,6 +91,8 @@ export default function CompletationProvider({
           return `Make this text shorter: "${prompt}".`;
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
+        case TextImproveAction.GENERATE_CODE:
+          return `Generate html, js and css code for: "${prompt}".`;
       }
     },
     []
@@ -96,6 +100,7 @@ export default function CompletationProvider({
 
   const handleGenerate = useCallback(
     async (prompt: string, action?: TextImproveAction) => {
+      debugger;
       if (action && action === TextImproveAction.GENERATE_IMAGE) {
         setDefaultPrompt(prompt);
         setOpenMediaDialog(true);
@@ -115,6 +120,7 @@ export default function CompletationProvider({
 
           await completationMutation.mutateAsync({
             messages: promptMessages,
+            action,
           });
         }
       }
@@ -124,6 +130,7 @@ export default function CompletationProvider({
 
   const handleConfirmCompletation = useCallback(async () => {
     if (completationMutation.data) {
+      debugger;
       onCompletation(completationMutation.data?.output);
       handleClose();
     }
@@ -157,6 +164,7 @@ export default function CompletationProvider({
           onConfirm={handleConfirmCompletation}
           initialPrompt={initialPrompt}
           multiline={multiline}
+          filteredActions={filteredActions}
         />
       )}
       {children({ ref, open: handleCompletation, inputAdornment })}
