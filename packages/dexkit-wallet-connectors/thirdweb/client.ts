@@ -8,7 +8,7 @@ import {
 } from "thirdweb/wallets";
 
 export const client = createThirdwebClient({
-  clientId: "8b875cba6d295240d3b3861a3e8c2260",
+  clientId: process.env.THIRDWEB_CLIENT_ID || "8b875cba6d295240d3b3861a3e8c2260",
 });
 
 
