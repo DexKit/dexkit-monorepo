@@ -14,13 +14,13 @@ export function InitTransak({currency, account}: {currency?: string, account?: s
   let transak;
 
   import("@transak/transak-sdk").then((transakSDK) => {
-    transak = new transakSDK({
-      apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY, // Your API Key
+    transak = new transakSDK.Transak({
+      apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || " ", // Your API Key
+      //@ts-ignore
       environment:
         process.env.NODE_ENV === "production"
-          ? "PRODUCTION"
-          : "PRODUCTION", // STAGING/PRODUCTION
-      hostURL: window.location.origin,
+          ? transakSDK.Transak.ENVIRONMENTS.PRODUCTION
+          : transakSDK.Transak.ENVIRONMENTS.PRODUCTION, // STAGING/PRODUCTION
       widgetHeight:
         window.innerHeight > 840
           ? "770px"
