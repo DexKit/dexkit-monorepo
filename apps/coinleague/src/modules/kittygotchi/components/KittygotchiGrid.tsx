@@ -1,8 +1,8 @@
 import KittygotchiCard from '@/modules/kittygotchi/components/KittygotchiCard';
 import { useKittygotchiList } from '@/modules/kittygotchi/hooks';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { useWeb3React } from '@web3-react/core';
 
 export default function KittygotchiGrid() {
   const { account, chainId } = useWeb3React();

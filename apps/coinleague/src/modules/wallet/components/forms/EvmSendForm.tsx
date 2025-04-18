@@ -1,4 +1,4 @@
-import { switchNetwork } from '@/modules/common/utils';
+
 import { Account, Coin } from '@/modules/wallet/types';
 import SendIcon from '@mui/icons-material/Send';
 import Token from '@mui/icons-material/Token';
@@ -15,11 +15,12 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { Connector } from '@web3-react/types';
+
 import { isAddress } from 'ethers/lib/utils';
 import { ChangeEvent, SyntheticEvent, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import { defineChain } from "thirdweb/chains";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
 const filter = createFilterOptions<string>();
 
 interface Props {
@@ -33,7 +34,6 @@ interface Props {
     coin: Coin | null;
   }) => void;
   onSubmit: () => void;
-  connector?: Connector;
   chainId?: number;
 }
 
@@ -45,8 +45,11 @@ export function EvmSendForm({
   onSubmit,
   isSubmitting,
   chainId,
-  connector,
+
 }: Props) {
+  const switchChain = useSwitchActiveWalletChain();
+  
+
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
     value: Coin | null,
@@ -74,8 +77,8 @@ export function EvmSendForm({
   };
 
   const handleSwitchNetwork = () => {
-    if (connector && values.coin?.network.chainId) {
-      switchNetwork(connector, values.coin?.network.chainId);
+    if ( values.coin?.network.chainId) {
+      switchChain(defineChain(values.coin?.network.chainId));   
     }
   };
 

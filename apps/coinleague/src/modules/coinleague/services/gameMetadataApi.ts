@@ -1,6 +1,6 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import axios from 'axios';
-import { ethers } from 'ethers';
+import { providers, utils } from 'ethers';
 
 import { GAME_METADATA_API } from '../constants';
 import { GameMetadata } from '../types';
@@ -14,11 +14,13 @@ export const GET_API_PREFIX = (chainId: ChainId) => {
   return '';
 };
 
-export const signUpdate = async (
-  provider: ethers.providers.Web3Provider,
+export const signUpdate = async ({ signer, chainId }: {
+  signer: providers.JsonRpcSigner,
   chainId: ChainId,
+}
+
 ) => {
-  const signer = provider.getSigner();
+
   const domain = {
     name: 'Coinleague',
     version: '1',
@@ -36,7 +38,7 @@ export const signUpdate = async (
     message: 'Update my Game Metadata',
     powered: 'Powered By DexKit',
   };
-  const messageSigned = ethers.utils._TypedDataEncoder.getPayload(
+  const messageSigned = utils._TypedDataEncoder.getPayload(
     domain,
     types,
     message,

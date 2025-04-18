@@ -16,7 +16,7 @@ import {
   COIN_LEAGUES_FACTORY_ADDRESS_V3,
   GAME_ENDED,
   GAME_WAITING,
-  GET_LEAGUES_CHAIN_ID,
+  GET_LEAGUES_CHAIN_ID
 } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
@@ -31,13 +31,9 @@ import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory'
 import { Coin } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
-import {
-  TOKEN_ALLOWANCE_QUERY,
-  useApproveToken,
-  useErc20BalanceQuery,
-  useTokenAllowanceQuery,
-} from '@/modules/common/hooks/blockchain';
+
 import { getChainIdFromName, isAddressEqual } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
   Avatar,
@@ -53,22 +49,22 @@ import {
   Typography,
 } from '@mui/material';
 import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import GameCoinList from '@/modules/coinleague/components/GameCoinList';
 import PlayersList from '@/modules/coinleague/components/PlayersList';
-import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
 import { getGameStatus } from '@/modules/coinleague/utils/game';
 import { useNotifications } from '@/modules/common/hooks/app';
-import { useConnectWalletDialog } from '@/modules/common/hooks/misc';
 import { AppNotificationType } from '@/modules/common/types/app';
 import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
-import { getProviderByChainId } from '@/modules/common/utils';
+import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
+import { TOKEN_ALLOWANCE_QUERY, useApproveToken, useErc20BalanceQuery, useTokenAllowanceQuery } from '@dexkit/core/hooks/coin';
+import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
+import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers } from 'ethers';
@@ -82,7 +78,7 @@ const CoinLeagueGame: NextPage = () => {
 
   const { addNotification } = useNotifications();
 
-  const { account, provider, isActive } = useWeb3React();
+  const { account, provider, isActive, signer } = useWeb3React();
   const { network, id, affiliate } = router.query;
 
   const [showSelectCoin, setShowSelectCoin] = useState(false);
@@ -92,7 +88,7 @@ const CoinLeagueGame: NextPage = () => {
     {}
   );
 
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
 
   const coinList = useMemo(() => {
     return Object.keys(selectedCoins).map((k) => selectedCoins[k]);
@@ -106,23 +102,26 @@ const CoinLeagueGame: NextPage = () => {
 
   const factoryAddress = useFactoryAddress();
 
+
+
   const gameOnChainQuery = useCoinLeagueGameOnChainQuery({
     factoryAddress,
     id: id as string,
     provider,
   });
-
+ 
   const erc20Balance = useErc20BalanceQuery({
-    tokenAddress: gameOnChainQuery.data?.coin_to_play,
+    contractAddress: gameOnChainQuery.data?.coin_to_play,
     account,
     provider,
+    chainId
   });
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account: account,
     tokenAddress: gameOnChainQuery.data?.coin_to_play,
     spender: factoryAddress,
-    provider,
+    signer,
   });
 
   const hasSufficientFunds = useMemo(() => {
@@ -205,6 +204,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     gameId: id as string,
     provider,
+    signer,
     onSubmit: handleJoinSubmit,
     options: {
       onSuccess: handleRefetchGame,
@@ -244,6 +244,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     gameId: id as string,
     provider,
+    signer,
     onSubmit: handleStartSubmit,
     options: {
       onSuccess: handleRefetchGame,
@@ -283,15 +284,7 @@ const CoinLeagueGame: NextPage = () => {
     }
   };
 
-  const approveTokenMutation = useApproveToken({
-    spender: factoryAddress,
-    tokenContract: gameOnChainQuery.data?.coin_to_play,
-    provider,
-    onSubmited: handleApproveSubmit,
-    options: {
-      onSuccess: handleApproveSuccess,
-    },
-  });
+  const approveTokenMutation = useApproveToken();
 
   const playerAddresses = useMemo(() => {
     if (gameOnChainQuery.data) {
@@ -361,6 +354,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     onSubmited: handleClaimSubmit,
     provider,
+    signer
   });
 
   const handleCloseCoinDialog = () => {
@@ -403,19 +397,29 @@ const CoinLeagueGame: NextPage = () => {
   };
 
   const handleApproveToken = async () => {
-    await approveTokenMutation.mutateAsync();
+    await approveTokenMutation.mutateAsync({ spender: factoryAddress,
+      tokenContract: gameOnChainQuery.data?.coin_to_play,
+      signer,
+      onSubmited: handleApproveSubmit,
+   
+    });
   };
 
   const handleJoinGame = async () => {
     if (!hasSufficientAllowance) {
-      await approveTokenMutation.mutateAsync();
+      await approveTokenMutation.mutateAsync({ spender: factoryAddress,
+        tokenContract: gameOnChainQuery.data?.coin_to_play,
+        signer,
+        onSubmited: handleApproveSubmit,
+     
+      });
     }
 
     await joinGameMutation.mutateAsync();
   };
 
   const handleConnectWallet = () => {
-    connectWalletDialog.show();
+    connectWallet();
   };
 
   const handleStartGame = async () => {
@@ -800,6 +804,7 @@ export const getStaticProps: GetStaticProps = async ({
     const { id, network } = params;
 
     if (network && id) {
+      try{
       const chain = getChainIdFromName(network);
 
       if (chain) {
@@ -821,7 +826,11 @@ export const getStaticProps: GetStaticProps = async ({
           );
         }
       }
+    }catch(e){
+      console.log('error fetching data')
     }
+    }
+ 
   }
 
   return {

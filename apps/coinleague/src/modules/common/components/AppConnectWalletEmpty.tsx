@@ -1,13 +1,13 @@
-import Wallet from '@mui/icons-material/Wallet';
+import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
+import { default as Wallet, default as WalletIcon } from '@mui/icons-material/Wallet';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { useConnectWalletDialog } from '../hooks/misc';
 
 export default function AppConnectWalletEmtpy() {
-  const connectWalletDialog = useConnectWalletDialog();
+ const { connectWallet } = useWalletConnect();
 
   const handleConnectWallet = () => {
-    connectWalletDialog.show();
+    connectWallet();
   };
 
   return (
@@ -18,6 +18,11 @@ export default function AppConnectWalletEmtpy() {
         alignItems="center"
         alignContent="center"
       >
+        <Box>
+          <WalletIcon  sx={{ fontSize: 60 }}/>
+        </Box>
+
+
         <Box>
           <Typography variant="h5" align="center">
             <FormattedMessage

@@ -7,6 +7,8 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
+import { truncateAddress } from '@dexkit/core/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import TreeItem from '@mui/lab/TreeItem';
 import TreeView from '@mui/lab/TreeView';
 import Button from '@mui/material/Button';
@@ -17,8 +19,6 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { useWeb3React } from '@web3-react/core';
-import { truncateAddress } from '../../utils/blockchain';
 import { AppDialogTitle } from '../AppDialogTitle';
 
 interface ObjectToTreeProps {

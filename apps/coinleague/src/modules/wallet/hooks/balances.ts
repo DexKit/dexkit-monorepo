@@ -1,11 +1,11 @@
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '@/modules/common/constants';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   useMutation,
   UseMutationOptions,
   useQuery,
 } from '@tanstack/react-query';
 import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
-import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
 

@@ -3,12 +3,9 @@ import type { NextPage } from 'next';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
-  NoSsr,
   Stack,
-  Tabs,
+  Tabs
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { NextSeo } from 'next-seo';
@@ -25,8 +22,6 @@ const WalletCoinsTab = dynamic(
   () => import('@/modules/wallet/components/WalletCoinsTab')
 );
 
-import { Receipt } from '@mui/icons-material';
-import HomeIcon from '@mui/icons-material/Home';
 import dynamic from 'next/dynamic';
 
 enum PageTabs {
@@ -56,7 +51,7 @@ const Home: NextPage = () => {
         })}
       />
       <MainLayout
-        renderBottomNavigation={() => (
+       /* renderBottomNavigation={() => (
           <BottomNavigation
             showLabels
             value={activeTab}
@@ -82,7 +77,7 @@ const Home: NextPage = () => {
               icon={<Receipt />}
             />
           </BottomNavigation>
-        )}
+        )}*/
       >
         <Stack spacing={2}>
           <Box
@@ -115,11 +110,11 @@ const Home: NextPage = () => {
               />
             </Tabs>
           </Box>
-          <NoSsr>
+         
             {activeTab === PageTabs.Portfolio && <WalletCoinsTab />}
             {activeTab === PageTabs.Nfts && <NftsTab />}
             {activeTab === PageTabs.Transactions && <TransactionsTab />}
-          </NoSsr>
+          
         </Stack>
       </MainLayout>
     </>

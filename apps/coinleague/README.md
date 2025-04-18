@@ -1,14 +1,17 @@
-# Next.js with TypeScript example
+# NFT Marketplace
 
-## How to use
+[![NFT marketplace](https://img.youtube.com/vi/9UxtgAkNG1k/0.jpg)](https://www.youtube.com/watch?v=9UxtgAkNG1k 'Marketplace by DexKit')
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
+This marketplace is the DexKit showcase on how to use 0x v4 nft smart contracts on a production app. Additionally, we are building a zero code solution with premium features to help artists deploy their own marketplace in an easy and secure way.
 
-<!-- #default-branch-switch -->
+On this marketplace you can make offers and listings of ERC721 Tokens on the chains supported by 0x smart contracts, namely: Ethereum, Binance Smart Chain, Polygon, Fantom, Avalanche, Celo and Optimism
 
-```sh
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/nextjs-with-typescript
-cd nextjs-with-typescript
+# How to Start
+
+clone this repo
+
+```
+git clone https://github.com/DexKit/nft-marketplace.git
 ```
 
 Install it and run:
@@ -18,27 +21,55 @@ npm install
 npm run dev
 ```
 
-or:
+# Contributing
 
-<!-- #default-branch-switch -->
+This is list of welcome contributions to this repo:
 
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/nextjs-with-typescript)
+- Adding languages
+- Fix language typo's
+- bug fix's reporting
+- Add tests
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui/material-ui/tree/master/examples/nextjs-with-typescript)
+# Deployment
 
-## The idea behind the example
+We recommend Vercel to deploy this app, after you made your changes on the app.json config file, just use the button below
 
-The project uses [Next.js](https://github.com/vercel/next.js), which is a framework for server-rendered React apps.
-It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5. If you prefer, you can [use styled-components instead](https://mui.com/material-ui/guides/interoperability/#styled-components).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FDexKit%2Fnft-marketplace)
 
-## The link component
+# Tech used
 
-The [example folder](https://github.com/mui/material-ui/tree/HEAD/examples/nextjs-with-typescript) provides an adapter for the use of [Next.js's Link component](https://nextjs.org/docs/api-reference/next/link) with MUI.
-More information [in the documentation](https://mui.com/material-ui/guides/routing/#next-js).
+Started from [NEXT JS + Material UI+ Typescript + Boilerplat](https://github.com/mui/material-ui/tree/master/examples/nextjs-with-typescript)
 
-## What's next?
+Additionally we use trader sdk to handle nft smart contract interactions, react query to handle all http and blockchain requests, format js for internalization, web3 react to handle wallet logic. You can check our requirements [here](REQUIREMENTS.md) .
 
-<!-- #default-branch-switch -->
+# Roadmap
 
-You now have a working example project.
-You can head back to the documentation, continuing browsing it from the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+We will be adding any new evm network that 0x smart contracts will support.
+
+It is also planned to extract all common hooks and state used to interact with the blockchain to a library repo.
+
+# Customization
+
+If you need a zero code solution we are building one to be launched soon. If you want to deploy your own custom solution using this repo, please fork it, update the app.json file accordingly on config folder and then deploy on Vercel or Heroku.
+
+# Missing feature?
+
+We are welcome missing features, but take in mind that this is repo is intended to be base app for any dev to start working on, if it is makes sense to have that feature on this base app we will include, if it is considered a premium feature, we will be including on our premium marketplace which uses this one as base.
+
+We at the moment consider premium features as follows:
+
+- [ ] - NFT trading history
+
+- [ ] - Artist page
+
+- [ ] - Cache optimizations
+
+- [ ] - Fetch NFT and token balances via api without the need to import, using Alchemy for instance
+
+- [ ] - Swap ERC20 <-> ERC20 tokens
+
+- [ ] - Collection level stats like orders, max supply, floor price, number of trades
+
+# Acknowledgements
+
+We would like to thank ZRX project for these amazing tools and ZRX DAO for the support on building this open source app.

@@ -1,3 +1,4 @@
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +7,6 @@ import {
   Grid,
   List,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -98,7 +98,7 @@ function SelectTokenBalanceDialog({
                       onSelect={onSelect}
                       chainId={chainId}
                     />
-                  )
+                  ),
                 )}
               </List>
             )}

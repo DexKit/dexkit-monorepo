@@ -1,11 +1,11 @@
 import { AppDialogTitle } from '@/modules/common/components/AppDialogTitle';
 import Wallet from '@/modules/common/components/icons/Wallet';
-import MagicNetworkSelect from '@/modules/common/components/MagicNetworkSelect';
 import { useConnectWalletDialog } from '@/modules/common/hooks/misc';
 import { getBlockExplorerUrl } from '@/modules/common/utils';
 import { copyToClipboard } from '@/modules/common/utils/browser';
 import { Add } from '@mui/icons-material';
 
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import WalletIcon from '@mui/icons-material/Wallet';
 import {
   Box,
@@ -17,7 +17,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { useSnackbar } from 'notistack';
 import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -38,7 +37,7 @@ export default function EvmAccountsDialog({
 }: Props) {
   const { onClose } = dialogProps;
 
-  const { chainId, isActive } = useWeb3React();
+  const { chainId } = useWeb3React();
   const connectWalletDialog = useConnectWalletDialog();
 
   const { removeAccount, evmAccounts } = useAccounts({});
@@ -73,7 +72,7 @@ export default function EvmAccountsDialog({
           id: 'account.removed',
           defaultMessage: 'Account removed',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
     setSelectedAccount(undefined);
@@ -108,7 +107,7 @@ export default function EvmAccountsDialog({
           id: 'address.copied',
           defaultMessage: 'Address copied',
         }),
-        { variant: 'success' }
+        { variant: 'success' },
       );
     }
   };
@@ -117,7 +116,7 @@ export default function EvmAccountsDialog({
     if (selectedAccount) {
       window.open(
         `${getBlockExplorerUrl(chainId)}/address/${selectedAccount.address}`,
-        '_blank'
+        '_blank',
       );
 
       setSelectedAccount(undefined);
@@ -152,13 +151,7 @@ export default function EvmAccountsDialog({
       />
       <Dialog {...dialogProps}>
         <AppDialogTitle
-          title={
-            isActive ? (
-              <MagicNetworkSelect SelectProps={{ size: 'small' }} />
-            ) : (
-              <FormattedMessage id="accounts" defaultMessage="Accounts" />
-            )
-          }
+          title={<FormattedMessage id="accounts" defaultMessage="Accounts" />}
           onClose={handleClose}
         />
         <Divider />

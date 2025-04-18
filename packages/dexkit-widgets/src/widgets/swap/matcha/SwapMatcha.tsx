@@ -16,7 +16,6 @@ import { ExecType, SwapSide } from "../types";
 
 import { ChainId } from "@dexkit/core/constants/enums";
 import { NETWORKS } from "@dexkit/core/constants/networks";
-import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import {
@@ -146,8 +145,6 @@ export default function SwapMatcha({
     networkName,
     execType,
   });
-
-  const isMobile = useIsMobile();
 
   return (
     <Paper variant="elevation">

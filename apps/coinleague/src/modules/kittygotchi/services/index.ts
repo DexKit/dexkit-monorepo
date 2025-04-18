@@ -1,42 +1,41 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import { getMulticall } from '@/modules/common/services/multicall';
 import { CallInput } from '@indexed-finance/multicall';
-import { BigNumber, ContractTransaction, ethers, providers } from 'ethers';
+import { BigNumber, Contract, ContractTransaction, providers } from 'ethers';
 import { Interface } from 'ethers/lib/utils';
 import kittygotchiAbi from '../constants/ABI/kittygotchi.json';
 import { getKittygotchiApi } from '../utils';
 
 export const getKittyGotchiContractSigner = async (
   address: string,
-  provider: providers.Web3Provider
+  signer: providers.JsonRpcSigner
 ) => {
-  const pr = provider.getSigner();
-  return new ethers.Contract(address, kittygotchiAbi, pr);
+  return new Contract(address, kittygotchiAbi, signer);
 };
 
 export const getKittyGotchiContractNetwork = async (
   address: string,
   provider: providers.JsonRpcProvider
 ) => {
-  return new ethers.Contract(address, kittygotchiAbi, provider);
+  return new Contract(address, kittygotchiAbi, provider);
 };
 
 export const feed = async (
   id: string,
   kittyAddress: string,
-  provider: providers.Web3Provider
+  signer: providers.JsonRpcSigner
 ) => {
-  return (await getKittyGotchiContractSigner(kittyAddress, provider)).feed(
+  return (await getKittyGotchiContractSigner(kittyAddress, signer)).feed(
     id
   ) as Promise<ContractTransaction>;
 };
 
 export const mint = async (
   kittyAddress: string,
-  provider: providers.Web3Provider,
+  signer: providers.JsonRpcSigner,
   price: BigNumber
 ) => {
-  return (await getKittyGotchiContractSigner(kittyAddress, provider)).safeMint({
+  return (await getKittyGotchiContractSigner(kittyAddress, signer)).safeMint({
     value: price,
   }) as Promise<ContractTransaction>;
 };
@@ -44,7 +43,7 @@ export const mint = async (
 export const getOnchainAttritbutes = async (
   id: string,
   kittyAddress: string,
-  provider: ethers.providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider
 ) => {
   const iface = new Interface(kittygotchiAbi);
   const multicall = await getMulticall(provider);

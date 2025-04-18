@@ -1,4 +1,5 @@
 import { AppDialogTitle } from '@/modules/common/components/AppDialogTitle';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Button,
   Dialog,
@@ -13,7 +14,6 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { FormikHelpers, useFormik } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { GameLevel, GameType } from '../../constants/enums';
@@ -50,7 +50,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
     }
   };
 
-  const { provider, chainId } = useWeb3React();
+  const { provider, chainId, signer } = useWeb3React();
 
   const factoryAddress = useFactoryAddress();
 
@@ -59,6 +59,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
   const createGameMutation = useCreateGameMutation({
     factoryAddress,
     provider,
+    signer,
     onHash: handleTxHash,
   });
 
@@ -75,7 +76,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
       amountUnit: GET_GAME_LEVEL_AMOUNTS(
         values.gameLevel,
         chainId,
-        coinToPlay?.address
+        coinToPlay?.address,
       ),
       coin_to_play: coinToPlay?.address || '',
       startTimestamp: values.startDate / 1000,
@@ -97,7 +98,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
 
   const handleChangeStartDate = (
     newValue: Moment | null,
-    keyboardInputValue?: string | undefined
+    keyboardInputValue?: string | undefined,
   ) => {
     form.setFieldValue('startDate', newValue?.toDate().getTime());
   };

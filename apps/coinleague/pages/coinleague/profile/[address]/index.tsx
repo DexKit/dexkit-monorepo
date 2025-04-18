@@ -37,6 +37,7 @@ import {
 } from '@/modules/common/utils';
 import { copyToClipboard, getWindowUrl } from '@/modules/common/utils/browser';
 import { strPad } from '@/modules/common/utils/strings';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Edit } from '@mui/icons-material';
 import FileCopy from '@mui/icons-material/FileCopy';
 import GridView from '@mui/icons-material/GridView';
@@ -56,7 +57,6 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { NextPage } from 'next';

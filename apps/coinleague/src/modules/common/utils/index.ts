@@ -1,8 +1,8 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import { NETWORKS } from '@/modules/common/constants/networks';
-import { MetaMask } from '@web3-react/metamask';
-import { Connector } from '@web3-react/types';
-import { ethers } from 'ethers';
+import { providers } from 'ethers';
+
+import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
 import { IPFS_GATEWAY } from '../constants';
 import { Network } from '../types/networks';
 
@@ -27,7 +27,7 @@ export const getNetworkSlugFromChainId = (chainId?: ChainId) => {
 export const getProviderByChainId = (chainId?: ChainId) => {
   if (chainId) {
     if (NETWORKS[chainId].providerRpcUrl) {
-      return new ethers.providers.JsonRpcProvider(
+      return new providers.JsonRpcProvider(
         NETWORKS[chainId].providerRpcUrl,
         chainId
       );
@@ -36,23 +36,20 @@ export const getProviderByChainId = (chainId?: ChainId) => {
 };
 
 export const truncateAddress = (address: string | undefined) => {
-  if (address !== undefined && ethers.utils.isAddress(address)) {
+  if (address !== undefined && isAddress(address)) {
     return `${address.slice(0, 7)}...${address.slice(address.length - 5)}`;
   }
   return '';
 };
 
-export function getName(connector: any) {
-  if (connector instanceof MetaMask) return 'MetaMask';
-  return 'Unknown';
-}
+
 
 export function isAddressEqual(address?: string, other?: string) {
   if (address === undefined || other === undefined) {
     return false;
   }
 
-  if (!ethers.utils.isAddress(address) || !ethers.utils.isAddress(other)) {
+  if (!isAddress(address) || !isAddress(other)) {
     return false;
   }
 
@@ -83,14 +80,6 @@ export function getChainLogoImage(chainId?: number) {
   }
 }
 
-export async function switchNetwork(connector: Connector, chainId: number) {
-  if (connector instanceof MetaMask) {
-    return connector.provider?.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${chainId.toString(16)}` }],
-    });
-  }
-}
 
 export function isIpfsUrl(url: string) {
   return url.startsWith('ipfs://');

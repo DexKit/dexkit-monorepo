@@ -1,5 +1,5 @@
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -86,18 +86,18 @@ export const useCoinLeagueFactoryRoutes = (isNFT = false) => {
 };
 
 export const useCoinLeagueFactoryCreateGame = () => {
-  const { provider, chainId } = useWeb3React();
+  const { provider, chainId, signer } = useWeb3React();
   // const { createNotification } = useNotifications();
   const { formatMessage } = useIntl();
   const isNFTGame = useIsNFTGame();
   const factoryAddress = useFactoryAddress();
 
   const onGameCreateMutation = useMutation(async (params: GameParamsV3) => {
-    if (!provider || !factoryAddress || !chainId) {
+    if (!provider || !factoryAddress || !chainId || !signer) {
       return;
     }
 
-    const tx = await createGame(factoryAddress, params, provider);
+    const tx = await createGame({ address: factoryAddress, params, provider, signer });
 
     // createNotification({
     //   title: isNFTGame

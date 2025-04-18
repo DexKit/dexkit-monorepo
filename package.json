@@ -14,6 +14,7 @@
     "generate-lang-files": "turbo run generate-lang-files --filter=dexappbuilder",
     "publish-packages": "changeset publish",
     "dev:whitelabel": "turbo run dev --parallel --filter=dexappbuilder",
+    "dev:coinleague": "turbo run dev --parallel --filter=coinleague",
     "dev:storyview": "turbo run dev --parallel --filter=dexkit-storyview",
     "storybook": "turbo run storybook",
     "storybook:ui": "turbo run storybook --filter=@dexkit/ui",

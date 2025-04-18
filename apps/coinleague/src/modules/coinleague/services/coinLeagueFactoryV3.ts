@@ -1,34 +1,36 @@
 import { getMulticall } from '@/modules/common/services/multicall';
 import { CallInput } from '@indexed-finance/multicall';
-import { BigNumber, ContractTransaction, ethers } from 'ethers';
+import { BigNumber, Contract, ContractTransaction, providers } from 'ethers';
 import { Interface } from 'ethers/lib/utils';
 import { COINLEAGUE_DEFAULT_AFFILIATE } from '../constants';
 
 import coinLeagueFactoryAbi from '../constants/ABI/CoinLeagueFactoryV3.json';
 import { Game, GameParamsV3 } from '../types';
 
-export const getCoinLeagueV3Contract = async (
+export const getCoinLeagueV3Contract = async ({ address, provider, signer, useSigner }: {
   address: string,
-  provider: ethers.providers.BaseProvider | ethers.providers.Web3Provider,
+  provider: providers.BaseProvider | providers.Web3Provider,
+  signer?: providers.JsonRpcSigner,
   useSigner?: boolean
-) => {
-  if (useSigner && provider instanceof ethers.providers.Web3Provider) {
-    return new ethers.Contract(
+}) => {
+  if (useSigner && signer instanceof providers.JsonRpcSigner) {
+    return new Contract(
       address,
       coinLeagueFactoryAbi,
-      provider.getSigner()
+      signer
     );
   }
 
-  return new ethers.Contract(address, coinLeagueFactoryAbi, provider);
+  return new Contract(address, coinLeagueFactoryAbi, provider);
 };
 
-export const createGame = async (
+export const createGame = async ({ address, params, provider, signer }: {
   address: string,
   params: GameParamsV3,
-  provider: ethers.providers.Web3Provider
-): Promise<ContractTransaction> => {
-  return (await getCoinLeagueV3Contract(address, provider, true)).createGame(
+  provider: providers.Web3Provider,
+  signer: providers.JsonRpcSigner,
+}): Promise<ContractTransaction> => {
+  return (await getCoinLeagueV3Contract({ address, provider, useSigner: true, signer })).createGame(
     params.numPlayers,
     params.duration,
     params.amountUnit,
@@ -40,16 +42,17 @@ export const createGame = async (
   ) as Promise<ContractTransaction>;
 };
 
-export const joinGame = async (
+export const joinGame = async ({ factoryAddress, feeds, captainCoin, provider, id, affiliate, signer }: {
   factoryAddress: string,
   feeds: string[],
   captainCoin: string,
-  provider: ethers.providers.Web3Provider,
+  provider: providers.Web3Provider,
+  signer?: providers.JsonRpcSigner,
   id: string,
   affiliate?: string
-) => {
+}) => {
   return (
-    await getCoinLeagueV3Contract(factoryAddress, provider, true)
+    await getCoinLeagueV3Contract({ address: factoryAddress, provider, useSigner: true, signer })
   ).joinGameWithCaptainCoin(
     feeds,
     captainCoin,
@@ -58,23 +61,25 @@ export const joinGame = async (
   ) as Promise<ContractTransaction>;
 };
 
-export const endGame = async (
+export const endGame = async ({ factoryAddress, signer, id, provider }: {
   factoryAddress: string,
-  provider: ethers.providers.Web3Provider,
+  provider: providers.Web3Provider,
+  signer: providers.JsonRpcSigner,
   id: string
-) => {
-  return (await getCoinLeagueV3Contract(factoryAddress, provider)).endGame(
+}) => {
+  return (await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider })).endGame(
     id
   ) as Promise<ContractTransaction>;
 };
 
-export const startGame = async (
+export const startGame = async ({ signer, provider, id, factoryAddress }: {
   factoryAddress: string,
-  provider: ethers.providers.Web3Provider,
+  signer?: providers.JsonRpcSigner,
+  provider: providers.Web3Provider,
   id: string
-) => {
+}) => {
   return (
-    await getCoinLeagueV3Contract(factoryAddress, provider, true)
+    await getCoinLeagueV3Contract({ address: factoryAddress, provider, useSigner: true })
   ).startGame(id) as Promise<ContractTransaction>;
 };
 
@@ -85,7 +90,7 @@ export const startGame = async (
 export const getGamesData = async (
   ids: string[],
   address: string,
-  provider: ethers.providers.JsonRpcProvider
+  provider: providers.JsonRpcProvider
 ): Promise<Game[]> => {
   try {
     const iface = new Interface(coinLeagueFactoryAbi);
@@ -127,14 +132,14 @@ export const getWinner = async (
   gameAddress: string,
   account: string,
   id: string,
-  provider: ethers.providers.Web3Provider
+  provider: providers.Web3Provider
 ): Promise<{
   claimed: boolean;
   place: number;
   score: BigNumber;
   winner_address: string;
 }> => {
-  return (await getCoinLeagueV3Contract(gameAddress, provider)).winners(
+  return (await getCoinLeagueV3Contract({ address: gameAddress, provider })).winners(
     id,
     account
   );

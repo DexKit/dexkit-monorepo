@@ -25,7 +25,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { ethers } from 'ethers';
+import { providers } from 'ethers';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { TextField } from 'formik-mui';
 import { useSnackbar } from 'notistack';
@@ -39,7 +39,8 @@ interface Props {
   chainId?: number;
   account?: string;
   contractAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onOwnershipChange?: (ownerAddress: string) => void;
 }
 
@@ -50,6 +51,7 @@ export default function EvmTransferNftDialog({
   contractAddress,
   account,
   provider,
+  signer,
   onOwnershipChange,
 }: Props) {
   const { onClose } = DialogProps;
@@ -75,7 +77,7 @@ export default function EvmTransferNftDialog({
 
   const nftTransfer = useNftTransfer({
     contractAddress,
-    provider,
+    signer,
     onSubmit: (hash: string) => {
       handleClose()();
       if (hash && chainId) {

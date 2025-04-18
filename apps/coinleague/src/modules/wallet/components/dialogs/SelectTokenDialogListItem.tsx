@@ -34,7 +34,7 @@ function SelectTokenDialogListItem({ tokenBalance, onSelect, chainId }: Props) {
         )}
       </ListItemAvatar>
       <ListItemText
-        primary={tokenBalance.token.toUpperCase()}
+        primary={tokenBalance.token.symbol.toUpperCase()}
         secondary={tokenBalance.token.name}
       />
       <ListItemSecondaryAction>

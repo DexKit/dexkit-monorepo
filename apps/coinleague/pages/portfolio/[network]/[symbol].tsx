@@ -29,6 +29,7 @@ import {
 import { Account, Erc20Coin, EvmCoin } from '@/modules/wallet/types';
 import { walletFiatTotal } from '@/modules/wallet/utils';
 import { TOKEN_ICON_URL } from '@/modules/wallet/utils/token';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Add,
   AttachMoney,
@@ -47,7 +48,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers } from 'ethers';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';

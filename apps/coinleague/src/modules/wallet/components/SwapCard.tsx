@@ -20,7 +20,7 @@
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 // import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
-// import { useWeb3React } from '@web3-react/core';
+// import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 // import { BigNumber, ethers } from 'ethers';
 // import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 // import { FormattedMessage, FormattedNumber } from 'react-intl';

@@ -35,7 +35,7 @@ export const GET_KITTYGOTCHI_CONTRACT_ADDR = (chainId?: number) => {
 
 const KITTYGOTCHI_GRAPH_ENDPOINT = {
   [ChainId.Polygon]:
-    'https://api.thegraph.com/subgraphs/name/joaocampos89/kittygotchi',
+    'https://api.studio.thegraph.com/query/1827/kittygotchi-poly/version/latest',
   [ChainId.Mumbai]:
     'https://api.thegraph.com/subgraphs/name/joaocampos89/kittygotchimumbai',
   [ChainId.BSC]:
