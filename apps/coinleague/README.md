@@ -1,75 +1,97 @@
-# NFT Marketplace
+# 🏆 Coin League
 
-[![NFT marketplace](https://img.youtube.com/vi/9UxtgAkNG1k/0.jpg)](https://www.youtube.com/watch?v=9UxtgAkNG1k 'Marketplace by DexKit')
+<div align="center">
+  <img src="public/coinLeague/coinLeagueLogoBig.png" alt="Coin League Logo" width="200"/>
+  <h3>The Ultimate Blockchain Price Racing Game</h3>
+</div>
 
-This marketplace is the DexKit showcase on how to use 0x v4 nft smart contracts on a production app. Additionally, we are building a zero code solution with premium features to help artists deploy their own marketplace in an easy and secure way.
+## 🎮 Overview
 
-On this marketplace you can make offers and listings of ERC721 Tokens on the chains supported by 0x smart contracts, namely: Ethereum, Binance Smart Chain, Polygon, Fantom, Avalanche, Celo and Optimism
+Coin League is an exciting blockchain-based game where players compete in price prediction races. Test your crypto market knowledge, compete with other players, and climb the leaderboard while having fun!
 
-# How to Start
+## ✨ Features
 
-clone this repo
+- **Real-time Price Racing**: Compete in real-time races based on cryptocurrency price movements
+- **Multiple Game Modes**: Choose between different racing formats and timeframes
+- **Global Leaderboard**: Climb the ranks and become a legendary price predictor
+- **Blockchain Integration**: Secure, transparent, and decentralized gameplay
+- **Social Features**: Challenge friends and join communities
+- **Achievement System**: Earn rewards for your victories
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.0 or higher
+- npm or yarn
+- A Web3 wallet (or social profile)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/DexKit/dexkit-monorepo.git
+cd apps/coinleague
 ```
-git clone https://github.com/DexKit/nft-marketplace.git
-```
 
-Install it and run:
-
-```sh
+2. Install dependencies:
+```bash
 npm install
-npm run dev
+# or
+yarn install
 ```
 
-# Contributing
+P.S:  we recommend yarn for better dependencies management
 
-This is list of welcome contributions to this repo:
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
+Edit `.env.local` with your configuration.
 
-- Adding languages
-- Fix language typo's
-- bug fix's reporting
-- Add tests
+4. Start the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-# Deployment
+Visit `http://localhost:3000` to start playing!
 
-We recommend Vercel to deploy this app, after you made your changes on the app.json config file, just use the button below
+## 🎯 How to Play
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FDexKit%2Fnft-marketplace)
+1. **Connect Wallet**: Link your Web3 wallet to get started
+2. **Choose or create a Race**: Select from available price prediction races or create your own
+3. **Make Your Predictions**: Predict whether the price will go up or down
+4. **Compete**: Race against other players in real-time
+5. **Win & Earn**: Climb the leaderboard and earn rewards
 
-# Tech used
+## 🛠 Tech Stack
 
-Started from [NEXT JS + Material UI+ Typescript + Boilerplat](https://github.com/mui/material-ui/tree/master/examples/nextjs-with-typescript)
+- Next.js with App Router
+- TypeScript
+- Material-UI (MUI)
+- Real-time Data Feeds
+- Custom Blockchain Smart Contracts
 
-Additionally we use trader sdk to handle nft smart contract interactions, react query to handle all http and blockchain requests, format js for internalization, web3 react to handle wallet logic. You can check our requirements [here](REQUIREMENTS.md) .
+## 🤝 Contributing
 
-# Roadmap
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-We will be adding any new evm network that 0x smart contracts will support.
+## 📜 License
 
-It is also planned to extract all common hooks and state used to interact with the blockchain to a library repo.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-# Customization
+## 🔗 Links
 
-If you need a zero code solution we are building one to be launched soon. If you want to deploy your own custom solution using this repo, please fork it, update the app.json file accordingly on config folder and then deploy on Vercel or Heroku.
+- [Official Game ebsite](https://coinleague.org)
+- [Official Game ebsite](https://coinleague.xyz)
+- [Documentation](https://docs.coinleague.org)
+- [Discord Community](https://discord.gg/qnwVzgncXd)
+- [X / Twitter](https://x.com/Coin__League)
 
-# Missing feature?
+---
 
-We are welcome missing features, but take in mind that this is repo is intended to be base app for any dev to start working on, if it is makes sense to have that feature on this base app we will include, if it is considered a premium feature, we will be including on our premium marketplace which uses this one as base.
-
-We at the moment consider premium features as follows:
-
-- [ ] - NFT trading history
-
-- [ ] - Artist page
-
-- [ ] - Cache optimizations
-
-- [ ] - Fetch NFT and token balances via api without the need to import, using Alchemy for instance
-
-- [ ] - Swap ERC20 <-> ERC20 tokens
-
-- [ ] - Collection level stats like orders, max supply, floor price, number of trades
-
-# Acknowledgements
-
-We would like to thank ZRX project for these amazing tools and ZRX DAO for the support on building this open source app.
+<div align="center">
+  Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
+</div>
