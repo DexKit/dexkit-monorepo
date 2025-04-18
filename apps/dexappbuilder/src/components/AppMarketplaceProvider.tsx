@@ -14,7 +14,9 @@ import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { WHITELABEL_NOTIFICATION_TYPES } from 'src/constants/messages';
-import { useAppConfig, useSiteId, useThemeMode } from 'src/hooks/app';
+import { useAppConfig } from 'src/hooks/app/useAppConfig';
+import { useSiteId } from 'src/hooks/app/useSiteId';
+import { useThemeMode } from 'src/hooks/app/useThemeMode';
 import {
   assetsAtom,
   currencyUserAtom,

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { AppConfigContext } from '../contexts';
 
-import { useAuth, useConnectWalletDialog as useConnectWalletDialogV2, useThemeMode as useThemeModeUI } from '@dexkit/ui/hooks';
+import { useAuth, useConnectWalletDialog as useConnectWalletDialogV2 } from '@dexkit/ui/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { getProtectedAppConfig } from 'src/services/whitelabel';
-
-
-
+import { useSiteId } from './app/useSiteId';
+import { useAppConfig } from './app/useAppConfig';
+import { useThemeMode } from './app/useThemeMode';
 // const isConnectWalletOpenAtom = atom(false);
 
 // export function useConnectWalletDialog() {
@@ -18,15 +18,13 @@ import { getProtectedAppConfig } from 'src/services/whitelabel';
 //   };
 // }
 
+export { useSiteId, useAppConfig, useThemeMode };
+
 export function useConnectWalletDialog() {
   return useConnectWalletDialogV2();
 }
 
-// App config context is passed on _app.tsx, in each page we need to pass
-// app config in static props to context be initialized
-export function useAppConfig() {
-  return useContext(AppConfigContext).appConfig;
-}
+
 
 const PROTECTED_CONFIG_QUERY = 'PROTECTED_CONFIG_QUERY'
 
@@ -43,13 +41,7 @@ export function useProtectedAppConfig({ isProtected, domain, page, slug, result 
 export function useAppNFT() {
   return useContext(AppConfigContext).appNFT;
 }
-/**
- * Site id from active app. If is DexAppBuilder this will return null
- * @returns 
- */
-export function useSiteId() {
-  return useContext(AppConfigContext).siteId;
-}
+
 
 export function useCollections() {
   const appConfig = useAppConfig();
@@ -57,10 +49,6 @@ export function useCollections() {
 }
 
 
-export function useThemeMode() {
-  const { mode, userMode, setThemeMode } = useThemeModeUI()
 
-  return { mode, userMode, setThemeMode };
-}
 
 
