@@ -15,7 +15,7 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   },
   "dependencies": {
     "@dexkit/evm-chains": "1.15.2",

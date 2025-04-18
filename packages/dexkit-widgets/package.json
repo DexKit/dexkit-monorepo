@@ -43,7 +43,7 @@
     "storybook": "^6.5.16",
     "tsconfig": "*",
     "tsup": "^6.5.0",
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   },
   "publishConfig": {
     "access": "public"
