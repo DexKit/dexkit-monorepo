@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -130,6 +130,7 @@
     "@types/react-window": "^1.8.5",
     "@types/sharp": "^0.31.0",
     "babel-plugin-transform-remove-imports": "^1.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.14.0",
     "eslint-config-next": "^12.2.3",
     "jest": "^29.0.1",
