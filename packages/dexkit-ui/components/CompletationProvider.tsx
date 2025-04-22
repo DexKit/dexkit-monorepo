@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { FormattedMessage } from "react-intl";
 import { TextImproveAction } from "../constants/ai";
 import { useCompletation } from "../hooks/ai";
+import { AI_MODEL } from "../types/ai";
 
 const MediaDialog = dynamic(() => import("./mediaDialog"), {
   ssr: false,
@@ -92,20 +93,20 @@ export default function CompletationProvider({
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
         case TextImproveAction.GENERATE_CODE:
-          return `Generate html, js and css code for: "${prompt}".`;
+          return `Generate html, js and css code and make it a formatted JSON for: "${prompt}".`;
       }
     },
     []
   );
 
   const handleGenerate = useCallback(
-    async (prompt: string, action?: TextImproveAction) => {
-      debugger;
+    async (prompt: string, action?: TextImproveAction, model?: AI_MODEL) => {
       if (action && action === TextImproveAction.GENERATE_IMAGE) {
         setDefaultPrompt(prompt);
         setOpenMediaDialog(true);
       } else if (action) {
         const actionPrompt = getPromptByAction(prompt, action);
+
         if (actionPrompt) {
           const promptMessages = messages
             ? [...messages, { role: "user", content: actionPrompt }]
@@ -121,6 +122,7 @@ export default function CompletationProvider({
           await completationMutation.mutateAsync({
             messages: promptMessages,
             action,
+            model,
           });
         }
       }

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useIntl } from "react-intl";
 import { TextImproveAction } from "../constants/ai";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
-import { ImageGenerate } from "../types/ai";
+import { AI_MODEL, ImageGenerate } from "../types/ai";
 import { dataURItoBlob } from "../utils/image";
 
 export function useCompletation() {
@@ -15,14 +15,17 @@ export function useCompletation() {
     async ({
       messages,
       action,
+      model,
     }: {
       messages: { role: string; content: string }[];
       action?: TextImproveAction;
+      model?: AI_MODEL;
     }) => {
       return (
         await instance?.post("/ai/completation", {
           messages,
           action,
+          model,
         })
       )?.data;
     }

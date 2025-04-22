@@ -1,27 +1,26 @@
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Alert,
   Box,
   Button,
   CircularProgress,
   Divider,
+  MenuItem,
+  Select,
   Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
-import { Field, Formik } from "formik";
-
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { FormattedMessage } from "react-intl";
-
-import { TextField } from "formik-mui";
-
 import { Decimal } from "decimal.js";
-
+import { Field, Formik } from "formik";
+import { TextField } from "formik-mui";
 import { MouseEvent, useMemo, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import * as Yup from "yup";
 import { TextImproveAction } from "../../constants/ai";
 import { useActiveFeatUsage, useSubscription } from "../../hooks/payments";
+import { AI_MODEL } from "../../types/ai";
 import AIOptionsMenu from "../AIOptionsMenu";
 import AddCreditsButton from "../AddCreditsButton";
 import PaywallBackdrop from "../PaywallBackdrop";
@@ -35,7 +34,11 @@ const FormScheme = Yup.object({
 });
 
 export interface CompletationFormProps {
-  onGenerate: (prompt: string, action?: TextImproveAction) => Promise<void>;
+  onGenerate: (
+    prompt: string,
+    action?: TextImproveAction,
+    model?: AI_MODEL
+  ) => Promise<void>;
   output?: string;
   initialPrompt?: string;
   onConfirm: () => void;
@@ -54,11 +57,14 @@ export default function CompletationForm({
   const handleSubmit = async ({
     prompt,
     action,
+    model,
   }: {
     prompt: string;
     action?: TextImproveAction;
+    model: AI_MODEL;
   }) => {
-    await onGenerate(prompt, action);
+    debugger;
+    await onGenerate(prompt, action, model);
   };
 
   const { data: sub } = useSubscription();
@@ -97,7 +103,11 @@ export default function CompletationForm({
       />
       <Box sx={{ position: "relative", p: 2 }}>
         <Formik
-          initialValues={{ prompt: initialPrompt ? initialPrompt : "" }}
+          initialValues={{
+            prompt: initialPrompt ? initialPrompt : "",
+            action: filteredActions ? filteredActions[0] : undefined,
+            model: AI_MODEL.GPT_3_5_TURBO,
+          }}
           onSubmit={handleSubmit}
           validationSchema={FormScheme}
         >
@@ -183,8 +193,34 @@ export default function CompletationForm({
                 />
               </Box>
               <Divider />
-              <Box>
-                <Stack direction="row" justifyContent="flex-end" spacing={1}>
+
+              <Stack direction="row" justifyContent="space-between">
+                <Field name="model">
+                  {({ field }: any) => (
+                    <Select
+                      {...field}
+                      color="primary"
+                      label={
+                        <FormattedMessage
+                          id="ai.model"
+                          defaultMessage="AI Model"
+                        />
+                      }
+                    >
+                      {Object.keys(AI_MODEL).map((model) => {
+                        return (
+                          <MenuItem
+                            key={model}
+                            value={AI_MODEL[model as keyof typeof AI_MODEL]}
+                          >
+                            {AI_MODEL[model as keyof typeof AI_MODEL]}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  )}
+                </Field>
+                <Stack direction="row" spacing={1}>
                   <Button
                     onClick={handleClick}
                     startIcon={<ExpandMoreIcon />}
@@ -210,7 +246,7 @@ export default function CompletationForm({
                     <FormattedMessage id="confirm" defaultMessage="Confirm" />
                   </Button>
                 </Stack>
-              </Box>
+              </Stack>
             </Stack>
           )}
         </Formik>

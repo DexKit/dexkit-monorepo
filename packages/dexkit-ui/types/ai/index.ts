@@ -70,3 +70,9 @@ export type FeatUsage = {
   updatedAt: string;
   active: boolean;
 };
+
+export enum AI_MODEL {
+  GPT_3_5_TURBO = "gpt-3.5-turbo",
+  DALL_E_2 = "dall-e-2",
+  CLAUDE_3_5_SONNET_LATEST = "claude-3-5-sonnet-latest",
+}
