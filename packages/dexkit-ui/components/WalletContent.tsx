@@ -310,9 +310,12 @@ export default function WalletContent() {
             </Button>
           </Stack>
           <Stack spacing={2} direction="row">
-            <TransakWidget
-              buttonProps={{ color: "inherit", variant: "outlined" }}
-            ></TransakWidget>
+            {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+            {false && (
+              <TransakWidget
+                buttonProps={{ color: "inherit", variant: "outlined" }}
+              ></TransakWidget>
+            )}
 
             <Button
               onClick={connectWallet}
