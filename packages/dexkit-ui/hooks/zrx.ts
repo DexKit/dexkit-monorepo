@@ -221,11 +221,9 @@ export function useMarketTradeGaslessExec({
 
 export const useSendTxMutation = (p: txMutationParams) => {
   const {
-    account,
     chainId,
     quote,
     canGasless,
-    provider,
     quoteQuery,
     side,
     buyAmount,
@@ -233,7 +231,7 @@ export const useSendTxMutation = (p: txMutationParams) => {
     buyToken,
     sellAmount,
   } = p;
-  const { activeAccount } = useWeb3React();
+  const { activeAccount, provider } = useWeb3React();
 
   const { createNotification } = useDexKitContext();
   const marketTradeGasless = useMarketTradeGaslessExec({
