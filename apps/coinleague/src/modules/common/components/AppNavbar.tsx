@@ -2,7 +2,6 @@ import { DRAWER_WIDTH } from '@/modules/common/constants';
 import { AttachMoney, Language, Menu as MuiMenu } from '@mui/icons-material';
 import Settings from '@mui/icons-material/Settings';
 import {
-  AppBar as MuiAppBar,
   AppBarProps,
   Avatar,
   Box,
@@ -12,6 +11,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  AppBar as MuiAppBar,
   NoSsr,
   Stack,
   styled,
@@ -89,7 +89,7 @@ export default function AppNavbar({ open, onOpenDrawer }: Props) {
   };
 
   const handleSettingsMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAnchorMenuEl(event.currentTarget);
   };

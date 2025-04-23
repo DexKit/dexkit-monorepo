@@ -11,7 +11,7 @@ export async function getForm({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/${id}`, { signal });
+  return await myAppsApi.get(`/forms/${id}`, {});
 }
 
 export async function listForms({
@@ -24,7 +24,6 @@ export async function listForms({
   signal?: AbortSignal;
 }) {
   return await myAppsApi.get(`/forms`, {
-    signal,
     params: { creatorAddress, query },
   });
 }

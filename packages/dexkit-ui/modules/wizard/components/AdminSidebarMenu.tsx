@@ -5,10 +5,35 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import React, { useCallback, useState } from "react";
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+
+const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
+  '&.Mui-selected': {
+    backgroundColor: theme.palette.mode === 'dark' 
+      ? theme.palette.action.selected
+      : theme.palette.grey[100],
+    '&:hover': {
+      backgroundColor: theme.palette.mode === 'dark'
+        ? theme.palette.action.hover
+        : theme.palette.grey[200],
+    }
+  },
+  '&:hover': {
+    backgroundColor: theme.palette.mode === 'dark'
+      ? theme.palette.action.hover
+      : theme.palette.grey[100],
+  }
+}));
+
+const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
+  color: theme.palette.mode === 'dark' 
+    ? theme.palette.text.primary 
+    : 'inherit'
+}));
 
 export interface AdminSidebarMenuProps {
   onToggle: () => void;
@@ -69,22 +94,22 @@ export default function AdminSidebarMenu({
       if (opt.options) {
         return (
           <List key={opt.id} disablePadding>
-            <ListItemButton onClick={handleToggleMenu(opt.id)}>
-              <ListItemIcon>{opt.icon}</ListItemIcon>
+            <StyledListItemButton onClick={handleToggleMenu(opt.id)}>
+              <StyledListItemIcon>{opt.icon}</StyledListItemIcon>
               <ListItemText primary={opt.title} />
               {isMenuToggled(opt.id) ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
+            </StyledListItemButton>
             <Collapse in={isMenuToggled(opt.id)} timeout="auto" unmountOnExit>
               <List disablePadding>
                 {opt.options.map((o) => (
-                  <ListItemButton
+                  <StyledListItemButton
                     key={o.id}
                     selected={activeMenuId === o.id}
                     onClick={() => onSelectMenuId(o.id)}
                   >
-                    <ListItemIcon></ListItemIcon>
+                    <StyledListItemIcon />
                     <ListItemText sx={{ ml: 4 }} primary={o.title} />
-                  </ListItemButton>
+                  </StyledListItemButton>
                 ))}
               </List>
             </Collapse>
@@ -93,29 +118,36 @@ export default function AdminSidebarMenu({
       }
 
       return (
-        <ListItemButton
+        <StyledListItemButton
           key={opt.id}
           selected={activeMenuId === opt.id}
           onClick={() => onSelectMenuId(opt.id)}
         >
-          <ListItemIcon></ListItemIcon>
+          <StyledListItemIcon />
           <ListItemText primary={opt.title} />
-        </ListItemButton>
+        </StyledListItemButton>
       );
     });
   };
 
   return (
     <List disablePadding>
-      <ListItemButton dense={Boolean(subtitle)} onClick={onToggle}>
-        <ListItemIcon>{icon}</ListItemIcon>
+      <StyledListItemButton dense={Boolean(subtitle)} onClick={onToggle}>
+        <StyledListItemIcon>{icon}</StyledListItemIcon>
         <ListItemText
           primary={title}
           secondary={subtitle}
-          secondaryTypographyProps={{ variant: "caption" }}
+          secondaryTypographyProps={{ 
+            variant: "caption",
+            sx: { 
+              color: theme => theme.palette.mode === 'dark' 
+                ? theme.palette.text.secondary 
+                : 'inherit' 
+            }
+          }}
         />
         {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+      </StyledListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List disablePadding>{renderOptions()}</List>
       </Collapse>

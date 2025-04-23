@@ -5,7 +5,7 @@
   "currency": "usd",
   "theme": "coinleague",
   "defaultThemeMode": "dark",
-  "domain": "https://dexappbuilder.dexkit.com",
+  "domain": "https://coinleague.xyz",
   "logo": {
     "url": "/logo.png",
     "height": 50,
@@ -67,7 +67,7 @@
   "menuTree": [
     {
       "type": "Page",
-      "href": "/coinleague",
+      "href": "/",
       "name": "Home"
     },
     {
@@ -84,6 +84,11 @@
       "type": "Page",
       "href": "/coinleague/affiliates",
       "name": "Affiliates"
+    },
+    {
+      "type": "Page",
+      "href": "/wallet",
+      "name": "Wallet"
     }
   ],
   "collections": [
