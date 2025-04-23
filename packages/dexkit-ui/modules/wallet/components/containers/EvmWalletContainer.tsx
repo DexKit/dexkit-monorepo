@@ -290,7 +290,9 @@ const EvmWalletContainer = () => {
                 )}
                 <Grid item xs={12}>
                   <Grid container spacing={2} alignItems="center">
-                    {appConfig.transak?.enabled && (
+                    {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+                    {/* {appConfig.transak?.enabled && ( */}
+                    {false && (
                       <Grid item>
                         <TransakWidget />
                       </Grid>

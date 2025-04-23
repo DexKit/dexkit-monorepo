@@ -312,7 +312,9 @@ export default function SwapMatcha({
                   />
                 </Alert>
               )}
-              {onShowTransak && insufficientBalance && isActive && (
+              {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+              {/* {onShowTransak && insufficientBalance && isActive && ( */}
+              {false && (
                 <Button
                   startIcon={<TransakIcon />}
                   onClick={onShowTransak}
