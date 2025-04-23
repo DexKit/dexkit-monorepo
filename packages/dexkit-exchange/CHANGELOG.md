@@ -1,5 +1,17 @@
 # @dexkit/ui
 
+## 0.13.0
+
+### Minor Changes
+
+- 742d40d: Fixed provider
+
+### Patch Changes
+
+- Updated dependencies [528512d]
+- Updated dependencies [742d40d]
+  - @dexkit/ui@0.22.0
+
 ## 0.12.0
 
 ### Minor Changes
