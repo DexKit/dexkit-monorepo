@@ -339,16 +339,20 @@ export default function StakeErc1155Section({
 
         const res = await tx?.wait();
 
-        await trackUserEvent.mutateAsync({
-          event: UserEvents.stakeClaimErc1155,
-          chainId,
-          hash: tx?.hash,
-          metadata: JSON.stringify({
-            tokenId,
-            stakeAddress: address,
-            account,
-          }),
-        });
+        try {
+          await trackUserEvent.mutateAsync({
+            event: UserEvents.stakeClaimErc1155,
+            chainId,
+            hash: tx?.hash,
+            metadata: JSON.stringify({
+              tokenId,
+              stakeAddress: address,
+              account,
+            }),
+          });
+        } catch (trackError) {
+          console.error("Error tracking claim event:", trackError);
+        }
 
         return res;
       } catch (error: any) {
@@ -450,6 +454,11 @@ export default function StakeErc1155Section({
       refetchRewardTokenBalance();
     } catch (err) {
       console.error("Error during claim:", err);
+      if ((err as any)?.message?.includes("User Events") || (err as any)?.message?.includes("500")) {
+        console.log("Transaction successful but user-events error");
+        refetchRewardTokenBalance();
+        refetchStakeInfo();
+      }
     }
   };
 

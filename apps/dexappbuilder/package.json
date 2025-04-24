@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
     "prebuild": "node scripts/update-version-json.js",
-    "build": "next build",
+    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --max-http-header-size=16384 --no-warnings --max-semi-space-size=512\" next build",
     "start": "next start -p $PORT",
     "lint": "next lint",
     "test": "jest",
