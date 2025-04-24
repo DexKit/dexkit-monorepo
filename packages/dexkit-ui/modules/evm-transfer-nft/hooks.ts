@@ -6,13 +6,13 @@ import type { providers } from "ethers";
 import { Contract } from "ethers";
 export function useNftTransfer({
   contractAddress,
-  provider,
+  signer,
   onSubmit,
   onConfirm,
 }: {
   contractAddress?: string;
   tokenId?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: ({ hash }: { hash: string, isERC1155: boolean, to: string, quantity?: string }) => void;
   onConfirm?: ({ hash }: { hash: string, isERC1155: boolean, to: string, quantity?: string }) => void;
 }) {
@@ -33,7 +33,7 @@ export function useNftTransfer({
       if (
         !contractAddress ||
         !tokenId ||
-        !provider ||
+        !signer ||
         (protocol === "ERC1155" && !quantity)
       ) {
         return false;
@@ -44,7 +44,7 @@ export function useNftTransfer({
       let contract = new Contract(
         contractAddress,
         protocol === "ERC1155" ? ERC1155Abi : ERC721Abi,
-        provider?.getSigner()
+        signer
       );
 
       let toAddress: string | null = to;

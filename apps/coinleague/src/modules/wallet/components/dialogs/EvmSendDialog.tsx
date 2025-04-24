@@ -2,7 +2,6 @@ import { AppDialogTitle } from '@/modules/common/components/AppDialogTitle';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
 import { useNotifications } from '@/modules/common/hooks/app';
 import {
-  useErc20BalanceQuery,
   useEvmNativeBalance,
 } from '@/modules/common/hooks/blockchain';
 import { AppNotificationType } from '@/modules/common/types/app';
@@ -11,6 +10,7 @@ import { truncateAddress } from '@/modules/common/utils';
 import { copyToClipboard } from '@/modules/common/utils/browser';
 import FileCopy from '@mui/icons-material/FileCopy';
 
+import { useErc20BalanceQuery } from '@dexkit/core/hooks/coin';
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { Connector } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo, useState } from 'react';
@@ -36,7 +35,6 @@ interface Props {
   chainId?: number;
   provider?: ethers.providers.Web3Provider;
   defaultCoin?: EvmCoin;
-  connector?: Connector;
 }
 
 export default function EvmSendDialog({
@@ -45,7 +43,6 @@ export default function EvmSendDialog({
   chainId,
   provider,
   defaultCoin,
-  connector,
 }: Props) {
   const { onClose } = dialogProps;
 
@@ -70,7 +67,7 @@ export default function EvmSendDialog({
   const { data: erc20Balance, isLoading } = useErc20BalanceQuery({
     provider,
     account,
-    tokenAddress:
+    contractAddress:
       values.coin?.coinType === CoinTypes.EVM_ERC20
         ? values.coin?.contractAddress
         : undefined,
@@ -266,7 +263,6 @@ export default function EvmSendDialog({
             onChange={handleChange}
             coins={evmCoins}
             onSubmit={handleSubmit}
-            connector={connector}
             chainId={chainId}
           />
         </Stack>

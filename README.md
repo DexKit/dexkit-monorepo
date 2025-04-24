@@ -1,71 +1,85 @@
-# DexAppBuilder
+<div align="center">
+  <img src="apps/dexappbuilder/public/assets/dexappbuilder/DexAppBuilder-readme.png" alt="DexKit Logo" width="200"/>
+  <h3>Web3 Innovation Hub: DApps Builder & Blockchain Gaming</h3>
+  <em>Building the future of Web3, one block at a time</em>
+</div>
 
-Tap into the potential of Web3 with DexAppBuilder. Easily create decentralized applications (DApps) without the coding headaches. Join us now to revolutionize your DApp development journey on Web3!
+## 📦 Projects
 
-## Getting Started
+### [🛠️ DexAppBuilder](apps/dexappbuilder)
+Create powerful Web3 applications without code. If you can click and drag, you can make a DApp! 🪄
 
-Follow these steps to set up and run DexApp Builder locally:
+#### Featured DApps built with DexAppBuilder:
+- 🐮 [CyberCows](https://cybercows.dexkit.app/) - NFT Collection with Daily Rewards
+- 🪙 [The Midas Touch](https://themidastouch.dexkit.app/) - Gold-Backed Tokens Platform
+- 💱 [ScaleSwap](https://scaleswap.dexkit.app/) - Streamlined DEX
+- 👹 [The Bestiary](https://thebestiary.dexkit.app/) - Lovecraftian NFT Collection
 
-### Installation
+### [🎮 Coin League](apps/coinleague)
+The ultimate blockchain price racing game. Compete in real-time races based on cryptocurrency price movements!
 
-Note: Yarn is the preferred package manager for this project.
+## 🚀 Getting Started
 
-#### Clone the repository:
+This monorepo uses Yarn as the preferred package manager.
 
-```
+```bash
+# Clone the repository
 git clone https://github.com/DexKit/dexkit-monorepo.git
-cd dexapp-builder
-```
+cd dexkit-monorepo
 
-If you plan to colaborate fork the repository instead
-
-#### Install dependencies:
-
-```
+# Install dependencies
 yarn install
-```
 
-#### Set up environment variables:
-
-Inside the apps/dexappbuilder directory, copy the example environment file and create a new .env file:
-
-```
+# Set up environment variables for DexAppBuilder
 cp apps/dexappbuilder/.env.example apps/dexappbuilder/.env
+
+# Set up environment variables for Coin League
+cp apps/coinleague/.env.example apps/coinleague/.env
 ```
 
-#### Start the development server:
+### Running Projects
 
-```
+#### DexAppBuilder:
+```bash
+cd apps/dexappbuilder
 yarn dev
+# Visit http://localhost:3000
 ```
 
-The project should now be live at:
-(Be sure that project is running on port 3000, in case port 3000 is already ocuppied kill the process that is runnin on it)
-
+#### Coin League:
+```bash
+cd apps/coinleague
+yarn dev
+# Visit http://localhost:3001
 ```
-http://localhost:3000/
-```
 
-## Contributing
+### General Guidelines:
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-We welcome contributions from the community! You can contribute in the following ways:
+## 📚 Documentation
 
-### Reporting Issues
+- [DexAppBuilder Documentation](https://docs.dexkit.com/defi-products/dexappbuilder)
+- [Coin League Documentation](https://docs.dexkit.com/gaming/predictions-hub/coin-league)
 
-If you encounter any bugs, have feature requests, or see areas for improvement, please open an issue on GitHub.
+## 🔗 Links
 
-### Submitting a Pull Request (PR)
+- [Official Website](https://dexkit.com)
+- [Documentation](https://docs.dexkit.com)
+- [Blog](https://dexkit.com/blog)
+- [Discord Community](https://discord.com/invite/dexkit-official-943552525217435649)
+- [X / Twitter](https://x.com/intent/follow?screen_name=dexkit)
+- [YouTube tutorials](https://www.youtube.com/@DexKit)
 
-Fork the repository and create a new branch.
-
-Make your changes and ensure the code follows the project's guidelines.
-
-Test your changes locally.
-
-Submit a pull request with a clear description of the changes made.
-
-Thank you for helping improve DexApp Builder!
-
-### License
+## 📜 License
 
 This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
+</div>

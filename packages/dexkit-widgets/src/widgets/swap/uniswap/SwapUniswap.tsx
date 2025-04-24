@@ -68,7 +68,6 @@ export interface SwapProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
@@ -123,7 +122,6 @@ export default function SwapUniswap({
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
   onToggleChangeNetwork,
 }: SwapProps) {
@@ -278,7 +276,9 @@ export default function SwapUniswap({
                 />
               </Alert>
             )}
-            {onShowTransak && insufficientBalance && isActive && (
+            {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+            {/* {onShowTransak && insufficientBalance && isActive && ( */}
+            {false && (
               <Button
                 startIcon={<TransakIcon />}
                 onClick={onShowTransak}

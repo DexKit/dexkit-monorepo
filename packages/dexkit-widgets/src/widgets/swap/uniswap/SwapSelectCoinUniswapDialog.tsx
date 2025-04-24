@@ -223,7 +223,11 @@ export default function SwapSelectCoinUniswapDialog({
             !isOnList && fetchTokenData.data ? fetchTokenData.data : undefined
           }
           tokenBalances={tokenBalances.data}
-          isLoading={tokenBalances.isLoading || fetchTokenData.isLoading}
+          isLoading={
+            tokenBalances.isLoading ||
+            fetchTokenData.isLoading ||
+            isLoadingSearch
+          }
         />
       </DialogContent>
     </Dialog>

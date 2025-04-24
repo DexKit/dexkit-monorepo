@@ -1,7 +1,8 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import { DEXKIT } from '@/modules/common/constants/tokens';
+import { parseEther } from '@dexkit/core/utils/ethers/parseEther';
 import axios from 'axios';
-import { ethers } from 'ethers';
+import { providers, utils } from 'ethers';
 import {
   IMAGE_PATHS,
   IMAGE_PATHS_ICONS,
@@ -9,10 +10,10 @@ import {
 } from '../constants';
 
 export async function signUpdate(
-  provider: ethers.providers.Web3Provider,
+  signer: providers.JsonRpcSigner,
   chainId: ChainId
 ) {
-  const signer = provider.getSigner();
+
 
   const domain = {
     name: 'KittyGotchi',
@@ -33,7 +34,7 @@ export async function signUpdate(
     powered: 'Powered By DexKit',
   };
 
-  const message = ethers.utils._TypedDataEncoder.getPayload(
+  const message = utils._TypedDataEncoder.getPayload(
     domain,
     types,
     values
@@ -54,15 +55,13 @@ export function getKittygotchiMetadataEndpoint(
     chainId === ChainId.Ethereum
   ) {
     if (chainId === ChainId.Polygon) {
-      return `${KITTYGOTCHI_METADATA_ENDPOINT}${
-        prefix ? prefix + '/' : ''
-      }eth/`;
+      return `${KITTYGOTCHI_METADATA_ENDPOINT}${prefix ? prefix + '/' : ''
+        }eth/`;
     }
 
     if (chainId === ChainId.BSC) {
-      return `${KITTYGOTCHI_METADATA_ENDPOINT}${
-        prefix ? prefix + '/' : ''
-      }bsc/`;
+      return `${KITTYGOTCHI_METADATA_ENDPOINT}${prefix ? prefix + '/' : ''
+        }bsc/`;
     }
 
     return KITTYGOTCHI_METADATA_ENDPOINT;
@@ -155,19 +154,19 @@ export const GET_DEXKIT = (chainId?: ChainId) => {
 export function GET_KITTYGOTCHI_MINT_RATE(chainId?: number) {
   if (chainId) {
     if (chainId === ChainId.Ethereum) {
-      return ethers.utils.parseEther('0.02');
+      return parseEther('0.02');
     } else if (chainId === ChainId.Ropsten) {
-      return ethers.utils.parseEther('0.0000001');
+      return parseEther('0.0000001');
     } else if (chainId === ChainId.Polygon) {
-      return ethers.utils.parseEther('10.0');
+      return parseEther('10.0');
     } else if (chainId === ChainId.Mumbai) {
-      return ethers.utils.parseEther('0.0000000000000001');
+      return parseEther('0.0000000000000001');
     } else if (chainId === ChainId.BSC) {
-      return ethers.utils.parseEther('0.05');
+      return parseEther('0.05');
     }
   }
 
-  return ethers.utils.parseEther('0');
+  return parseEther('0');
 }
 
 export function getImageFromTraitIcon(

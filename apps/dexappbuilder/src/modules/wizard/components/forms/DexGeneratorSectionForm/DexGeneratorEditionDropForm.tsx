@@ -67,13 +67,13 @@ function DexGeneratorEditionDropForm({
 }
 
 export default function Wrapper(props: DexGeneratorEditionDropFormProps) {
-  const { chainId, provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   const { section } = props;
 
   return (
     <ThirdwebSDKProvider
-      signer={provider?.getSigner()}
+      signer={signer}
       activeChain={NETWORK_FROM_SLUG(section?.config.network)?.chainId}
       clientId={THIRDWEB_CLIENT_ID}
     >

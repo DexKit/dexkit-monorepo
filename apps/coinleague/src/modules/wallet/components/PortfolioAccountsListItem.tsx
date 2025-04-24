@@ -10,16 +10,13 @@ import {
   Typography,
 } from '@mui/material';
 import { ethers } from 'ethers';
-import Image from 'next/future/image';
 import { memo, MouseEvent, useMemo } from 'react';
 import { FormattedNumber } from 'react-intl';
-import { CoinTypes, WalletConnectType } from '../constants/enums';
+import { CoinTypes } from '../constants/enums';
 import { useAccounts, useBalancesVisibility } from '../hooks';
 import { AccountBalance, Coin, CoinPrices } from '../types';
 
-import metaMaskFoxImg from 'public/icons/metamask-fox.svg';
 
-import magicImg from 'public/icons/magic.svg';
 
 interface Props {
   account: string;
@@ -104,33 +101,7 @@ function PortfolioAccountsListItem({
     return accounts.find((a) => isAddressEqual(a.address, account));
   }, [accounts, account]);
 
-  const renderConnectorIcon = () => {
-    if (resultAccount?.connector === WalletConnectType.MetaMask) {
-      return (
-        <Box sx={{ position: 'relative', height: 14, width: 14, mr: 1 }}>
-          <Image
-            alt="MetaMask"
-            src={metaMaskFoxImg.src}
-            style={{ width: '1rem', height: '1rem' }}
-            width={14}
-            height={14}
-          />
-        </Box>
-      );
-    } else if (resultAccount?.connector === WalletConnectType.Magic) {
-      return (
-        <Box sx={{ position: 'relative', height: 14, width: 14, mr: 1 }}>
-          <Image
-            alt="Magic"
-            src={magicImg.src}
-            style={{ width: '1rem', height: '1rem' }}
-            width={14}
-            height={14}
-          />
-        </Box>
-      );
-    }
-  };
+  
 
   return (
     <ListItem
@@ -152,7 +123,7 @@ function PortfolioAccountsListItem({
             alignContent="center"
             spacing={1}
           >
-            {renderConnectorIcon()} {truncateAddress(account)}
+             {truncateAddress(account)}
           </Stack>
         }
       />

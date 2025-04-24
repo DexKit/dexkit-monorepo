@@ -14,23 +14,23 @@ export function useZrxCancelOrderMutation() {
   return useMutation(
     async ({
       chainId,
-      provider,
+      signer,
       order,
     }: {
       chainId?: ChainId;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
       order: ZrxOrder;
     }) => {
       const contractAddress = getZrxExchangeAddress(chainId);
 
-      if (!contractAddress || !provider || !chainId) {
-        throw new Error("no provider or contract address");
+      if (!contractAddress || !signer || !chainId) {
+        throw new Error("no signer or contract address");
       }
 
       const contract = new Contract(
         contractAddress,
         ZRX_EXCHANGE_ABI,
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.cancelLimitOrder(order);

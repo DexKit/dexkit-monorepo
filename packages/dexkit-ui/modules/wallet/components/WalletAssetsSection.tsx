@@ -3,16 +3,16 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Search } from "@mui/icons-material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { ChangeEvent, useMemo, useState } from "react";
@@ -21,16 +21,16 @@ import CloseCircle from "../../../components/icons/CloseCircle";
 
 import { Asset } from "@dexkit/core/types/nft";
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import Funnel from "../../../components/icons/Filter";
 import { AssetCard } from "../../nft/components/AssetCard";
 import TableSkeleton from "../../nft/components/tables/TableSkeleton";
 import {
-    useAccountAssetsBalance,
-    useAsset,
-    useHiddenAssets,
+  useAccountAssetsBalance,
+  useAsset,
+  useHiddenAssets,
 } from "../../nft/hooks";
 import WalletAssetsFilter from "./WalletAssetsFilter";
 const EvmTransferNftDialog = dynamic(
@@ -58,7 +58,7 @@ function WalletAssetsSection({
   setFilters,
   accounts,
 }: Props) {
-  const { account, chainId, provider } = useWeb3React();
+  const { account, chainId, signer } = useWeb3React();
   const [openFilter, setOpenFilter] = useState(false);
   const [assetTransfer, setAssetTransfer] = useState<Asset | undefined>();
 
@@ -188,7 +188,7 @@ function WalletAssetsSection({
           params={{
             chainId: chainId,
             account: account,
-            provider: provider,
+            signer: signer,
             contractAddress: assetToTransfer.data?.contractAddress,
             tokenId: assetToTransfer.data?.id,
             isLoadingNft: assetToTransfer.isLoading,

@@ -1,15 +1,15 @@
 import { ChainId } from '@/modules/common/constants/enums';
-import { useNetworkProvider } from '@/modules/common/hooks/network';
 import { getTokenBalances } from '@/modules/common/services/multicall';
 import { getTokenMetadata } from '@/modules/common/services/nft';
 import { Token } from '@/modules/common/types/transactions';
 import { getNormalizedUrl } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useWeb3React } from '@web3-react/core';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, Contract, providers } from 'ethers';
 import request from 'graphql-request';
 import { useCallback, useState } from 'react';
 
+import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
 import {
   GET_KITTYGOTCHI_CONTRACT_ADDR,
   GET_KITTYGOTCHI_GRAPH_ENDPOINT,
@@ -23,10 +23,10 @@ import {
 import { feed, getOnchainAttritbutes, mint, update } from '../services';
 import { Kittygotchi, KittygotchiTraitItem } from '../types';
 import {
-  getImageFromTrait,
-  getKittygotchiApi,
   GET_DEXKIT,
   GET_KITTYGOTCHI_MINT_RATE,
+  getImageFromTrait,
+  getKittygotchiApi,
   isKittygotchiNetworkSupported,
   KittygotchiTraitType,
   signUpdate,
@@ -52,7 +52,7 @@ export function useKittygotchi({
 }: {
   id?: string;
   kittyAddress?: string;
-  provider?: ethers.providers.JsonRpcProvider;
+  provider?: providers.JsonRpcProvider;
   chainId?: number;
 }) {
   const query = useQuery(
@@ -91,7 +91,7 @@ export const useKittygotchiList = (address?: string) => {
     if (graphEndpoint && address) {
       const { tokens } = await request(graphEndpoint, GET_MY_KITTYGOTCHIES, {
         owner: address?.toLowerCase(),
-      });
+      }) as any;
 
       return tokens.map((k: any) => ({
         id: k.id,
@@ -118,7 +118,7 @@ export function useKittygotchiGraph(id?: string) {
 
     const { token } = await request(graphEndpoint, GET_KITTYGOTCHI, {
       id: id?.toLowerCase(),
-    });
+    }) as any;
 
     let resultData = token;
 
@@ -169,7 +169,7 @@ export function useKittygotchiOnChain() {
     }
     const kittyAddress = GET_KITTYGOTCHI_CONTRACT_ADDR(chainId) || '';
 
-    const contract = new ethers.Contract(
+    const contract = new Contract(
       kittyAddress,
       kittygotchiAbi,
       provider
@@ -203,7 +203,7 @@ export function useKittygotchiOnChain() {
 export function useKitHolding(account?: string) {
   const { chainId } = useWeb3React();
 
-  const networkProvider = useNetworkProvider(chainId);
+  const networkProvider = getProviderByChainId(chainId);
 
   const query = useQuery(['GET_KITTY_HOLDING', account, chainId], async () => {
     if (account && isKittygotchiNetworkSupported(chainId) && networkProvider) {
@@ -247,7 +247,7 @@ export function useKittygotchiRanking(
       const { tokens } = await request(graphEndpoint, GET_KITTYGOTCHI_RANKING, {
         offset,
         limit,
-      });
+      }) as any;
       return (
         tokens?.map((r: any) => ({
           tokenId: r.id,
@@ -266,11 +266,11 @@ export function useKittygotchiRanking(
 // Mutations
 export function useKittygotchiFeed({
   chainId,
-  provider,
+  signer,
   kittyAddress,
 }: {
   kittyAddress?: string;
-  provider?: ethers.providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   chainId?: number;
 }) {
   return useMutation(
@@ -279,11 +279,11 @@ export function useKittygotchiFeed({
         !chainId ||
         !isKittygotchiNetworkSupported(chainId) ||
         !kittyAddress ||
-        !provider
+        !signer
       ) {
         return;
       }
-      const tx = await feed(id, kittyAddress, provider);
+      const tx = await feed(id, kittyAddress, signer);
 
       if (callbacks?.onSubmit) {
         callbacks?.onSubmit(tx.hash);
@@ -297,13 +297,13 @@ export function useKittygotchiFeed({
 }
 
 export function useKittygotchiMint() {
-  const { chainId, provider } = useWeb3React();
+  const { chainId, signer } = useWeb3React();
 
   const kittyAddress = GET_KITTYGOTCHI_CONTRACT_ADDR(chainId);
 
   return useMutation(async ({ callbacks }: { callbacks?: MintCallbacks }) => {
     if (
-      !provider ||
+      !signer ||
       !chainId ||
       !isKittygotchiNetworkSupported(chainId) ||
       !kittyAddress
@@ -318,7 +318,7 @@ export function useKittygotchiMint() {
 
     const tx = await mint(
       kittyAddress,
-      provider,
+      signer,
       GET_KITTYGOTCHI_MINT_RATE(chainId)
     );
 

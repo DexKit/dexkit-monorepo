@@ -52,7 +52,12 @@ export default function AdminSidebarContainer({
 
   return (
     <Stack spacing={2}>
-      <Box sx={{ backgroundColor: (theme) => theme.palette.grey[100] }}>
+      <Box sx={{ 
+        backgroundColor: (theme) => 
+          theme.palette.mode === 'dark' 
+            ? theme.palette.background.default 
+            : theme.palette.grey[100]
+      }}>
         <AdminSidebarMenu
           activeMenuId={activeMenuId}
           icon={<SettingsIcon />}
@@ -273,7 +278,12 @@ export default function AdminSidebarContainer({
             </Typography>
           )}
 
-          <Box sx={{ backgroundColor: (theme) => theme.palette.grey[100] }}>
+          <Box sx={{ 
+            backgroundColor: (theme) => 
+              theme.palette.mode === 'dark' 
+                ? theme.palette.background.default 
+                : theme.palette.grey[100]
+          }}>
             {commerceEnabled && (
               <AdminSidebarMenu
                 activeMenuId={activeMenuId}

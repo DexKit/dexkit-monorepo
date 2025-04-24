@@ -43,7 +43,7 @@ const AssetDetailPage: NextPage = () => {
   const router = useRouter();
 
   const { address, id, network } = router.query;
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   const { data: asset, isLoading } = useAsset(address as string, id as string);
 
@@ -115,7 +115,7 @@ const AssetDetailPage: NextPage = () => {
             <ThirdwebSDKProvider
               clientId={THIRDWEB_CLIENT_ID}
               activeChain={asset?.chainId}
-              signer={provider?.getSigner()}
+              signer={signer}
             >
               <Box py={2}>
                 <EditionDropSection

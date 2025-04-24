@@ -1,8 +1,8 @@
 import PasteIconButton from '@/modules/common/components/PasteIconButton';
 import { ChainId } from '@/modules/common/constants/enums';
 import { useDebounce } from '@/modules/common/hooks/misc';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { CircularProgress, InputAdornment, Stack } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { Field, Form, useFormikContext } from 'formik';
 import { TextField } from 'formik-mui';
 import { useEffect } from 'react';

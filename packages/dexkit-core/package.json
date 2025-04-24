@@ -1,7 +1,7 @@
 {
   "name": "@dexkit/core",
   "private": false,
-  "version": "0.16.0",
+  "version": "0.17.0",
   "license": "MIT",
   "engines": {
     "node": "22.14.0"
@@ -15,11 +15,11 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   },
   "dependencies": {
     "@dexkit/evm-chains": "1.15.2",
-    "axios": "0.27.0",
+    "axios": "0.30.0",
     "eth-url-parser": "^1.0.4",
     "ua-parser-js": "^1.0.35"
   },

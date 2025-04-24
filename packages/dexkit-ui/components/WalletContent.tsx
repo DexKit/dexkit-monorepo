@@ -1,9 +1,5 @@
 import { copyToClipboard, truncateAddress } from "@dexkit/core/utils";
-import {
-  useConnectWalletDialog,
-  useEvmCoins,
-  useLogoutAccountMutation,
-} from "@dexkit/ui";
+import { useEvmCoins, useLogoutAccountMutation } from "@dexkit/ui";
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
@@ -16,7 +12,7 @@ import {
   Stack,
   Tooltip,
   Typography,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -37,10 +33,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   WalletIcon,
-  WalletProvider, useActiveWallet, useConnectedWallets, useDisconnect
+  WalletProvider,
+  useActiveWallet,
+  useConnectedWallets,
+  useDisconnect,
 } from "thirdweb/react";
+import { useWalletConnect } from "../hooks/wallet";
 import { useBalanceVisible } from "../modules/wallet/hooks";
-
 
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
@@ -60,17 +59,13 @@ const SelectNetworkDialog = dynamic(
 export default function WalletContent() {
   const { account, ENSName, chainId, connector } = useWeb3React();
 
-  const theme = useTheme()
+  const theme = useTheme();
   const wallet = useActiveWallet();
 
   const { disconnect } = useDisconnect();
- const wallets = useConnectedWallets();
- 
+  const wallets = useConnectedWallets();
+  const { connectWallet } = useWalletConnect();
   const logoutMutation = useLogoutAccountMutation();
-  const connectWalletDialog = useConnectWalletDialog();
-  const handleSwitchWallet = () => {
-    connectWalletDialog.setOpen(true);
-  };
 
   const handleLogoutWallet = useCallback(async () => {
     logoutMutation.mutate();
@@ -178,23 +173,24 @@ export default function WalletContent() {
             justifyContent={"space-between"}
           >
             <Stack direction="row" spacing={1} alignItems="center">
-               {wallets && wallets.length ? (
-                          <WalletProvider id={wallets[0].id}>
-                            <WalletIcon width={theme.spacing(2)} height={theme.spacing(2)} />
-                          </WalletProvider>
-                        ):       <Avatar
-                        sx={(theme) => ({
-                          width: theme.spacing(2),
-                          height: theme.spacing(2),
-                          background: theme.palette.action.hover,
-                        })}
-                        variant="rounded"
-                      />
-                      
-                      }
+              {wallets && wallets.length ? (
+                <WalletProvider id={wallets[0].id}>
+                  <WalletIcon
+                    width={theme.spacing(2)}
+                    height={theme.spacing(2)}
+                  />
+                </WalletProvider>
+              ) : (
+                <Avatar
+                  sx={(theme) => ({
+                    width: theme.spacing(2),
+                    height: theme.spacing(2),
+                    background: theme.palette.action.hover,
+                  })}
+                  variant="rounded"
+                />
+              )}
 
-
-           
               <Box>
                 <Typography variant="caption" align="left" component="div">
                   {isBalancesVisible
@@ -314,12 +310,15 @@ export default function WalletContent() {
             </Button>
           </Stack>
           <Stack spacing={2} direction="row">
-            <TransakWidget
-              buttonProps={{ color: "inherit", variant: "outlined" }}
-            ></TransakWidget>
+            {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+            {false && (
+              <TransakWidget
+                buttonProps={{ color: "inherit", variant: "outlined" }}
+              ></TransakWidget>
+            )}
 
             <Button
-              onClick={handleSwitchWallet}
+              onClick={connectWallet}
               startIcon={<SwitchAccount fontSize="small" />}
               variant="outlined"
               color="inherit"

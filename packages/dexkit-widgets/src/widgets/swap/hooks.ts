@@ -25,28 +25,29 @@ export function useErc20ApproveMutation({
       spender,
       amount,
       tokenAddress,
-      provider,
+      signer,
       token,
+      chainId,
     }: {
       spender: string;
+      chainId: number;
       token: Token;
       amount: BigNumber;
       tokenAddress?: string;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
     }) => {
-      if (!provider || tokenAddress === undefined) {
+      if (!signer || tokenAddress === undefined || !chainId) {
         return undefined;
       }
 
       const contract = new Contract(
         tokenAddress,
         ERC20Abi,
-        provider.getSigner()
+        signer
       );
 
       const tx = await contract.approve(spender, amount);
 
-      const chainId = (await provider.getNetwork()).chainId;
 
       onNotification({
         chainId,

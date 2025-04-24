@@ -41,13 +41,12 @@ export class ZeroExApiClient {
 
   async quote(
     quote: ZeroExQuote,
-    { signal }: { signal?: AbortSignal }
+    { }: {}
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_QUOTE_ENDPOINT,
       {
         params: quote,
-        signal,
       }
     );
 
@@ -68,7 +67,6 @@ export class ZeroExApiClient {
       ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_PRICE_ENDPOINT,
       {
         params: price,
-        signal,
       }
     );
 
@@ -89,7 +87,6 @@ export class ZeroExApiClient {
       ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_PRICE_ENDPOINT,
       {
         params: quote,
-        signal,
       }
     );
 
@@ -110,7 +107,6 @@ export class ZeroExApiClient {
       ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_QUOTE_ENDPOINT,
       {
         params: quote,
-        signal,
       }
     );
 
@@ -133,10 +129,10 @@ export class ZeroExApiClient {
   }> {
     const resp = await this.axiosInstance.get(
       ZERO_EX_V2_URL(this.chainId, this.siteId) +
-        ZEROEX_GASLESS_STATUS_ENDPOINT +
-        `/${tradeHash}`,
+      ZEROEX_GASLESS_STATUS_ENDPOINT +
+      `/${tradeHash}`,
       {
-        signal,
+
       }
     );
 
@@ -154,7 +150,7 @@ export class ZeroExApiClient {
   }): Promise<{ type: "metatransaction_v2"; tradeHash: string }> {
     const resp = await this.axiosInstance.post(
       ZERO_EX_V2_URL(this.chainId, this.siteId) +
-        ZEROEX_GASLESS_SUBMIT_ENDPOINT,
+      ZEROEX_GASLESS_SUBMIT_ENDPOINT,
       { trade, approval, chainId }
     );
     return resp.data;
@@ -190,7 +186,6 @@ export class ZeroExApiClient {
     const resp = await this.axiosInstance.get<ZrxOrderbookResponse>(
       ZERO_EX_V1_URL(this.chainId) + ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
       {
-        signal,
         params: { trader },
       }
     );

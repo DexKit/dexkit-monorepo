@@ -72,8 +72,8 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
   const { connectWallet } = useWalletConnect();
   const handleConnectWallet = () => {
-    onClose();
     connectWallet();
+    onClose();
   };
 
   const { locale } = useLocale();
@@ -166,6 +166,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                 <ConnectButton
                   variant="outlined"
                   color="inherit"
+                  onConnectWallet={handleConnectWallet}
                   endIcon={<ChevronRightIcon />}
                   fullWidth
                 />

@@ -1,10 +1,10 @@
 {
   "name": "dexappbuilder",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -35,7 +35,6 @@
     "module": false
   },
   "dependencies": {
-    "@0x/contract-addresses": "^8.13.0",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
     "@codemirror/lang-javascript": "^6.2.1",
@@ -80,7 +79,7 @@
     "@uiw/react-md-editor": "3.25.6",
     "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.5.0",
-    "axios": "0.27.0",
+    "axios": "0.30.0",
     "cookie": "^0.5.0",
     "eslint-config-custom": "*",
     "formik": "^2.2.9",
@@ -131,12 +130,13 @@
     "@types/react-window": "^1.8.5",
     "@types/sharp": "^0.31.0",
     "babel-plugin-transform-remove-imports": "^1.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.14.0",
     "eslint-config-next": "^12.2.3",
     "jest": "^29.0.1",
     "jest-environment-jsdom": "^29.0.1",
     "pre-push": "^0.1.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   }
 }

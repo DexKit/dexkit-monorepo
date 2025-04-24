@@ -1,5 +1,27 @@
 # @dexkit/widgets
 
+## 0.12.0
+
+### Minor Changes
+
+- 528512d: Hide transak button
+- 742d40d: Fixed provider
+
+## 0.11.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- 72ebec1: Fixed swap interface when there is insufficient balance
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+- 465fbcd: Fixed search token
+- 9139f66: Fixed sign messages with user wallet
+- 1775883: Updated Swap widget
+
+### Patch Changes
+
+- e9afb9c: 0x Migration to V2
+
 ## 0.10.0
 
 ### Minor Changes

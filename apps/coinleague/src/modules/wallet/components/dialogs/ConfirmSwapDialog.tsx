@@ -1,6 +1,7 @@
 import { currencyAtom } from '@/modules/common/atoms';
 import AppDialogTitle from '@/modules/common/components/AppDialogTitle';
 import { getNativeTokenSymbol } from '@/modules/common/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
   Button,
@@ -13,7 +14,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers } from 'ethers';
 import { useAtomValue } from 'jotai';
 import { memo } from 'react';
@@ -82,7 +82,7 @@ function ConfirmSwapDialog({
                   <Typography color="textSecondary">
                     {ethers.utils.formatUnits(
                       BigNumber.from(quote.sellAmount),
-                      sellToken?.decimals || 18
+                      sellToken?.decimals || 18,
                     )}{' '}
                     {sellToken?.symbol}
                   </Typography>
@@ -104,7 +104,7 @@ function ConfirmSwapDialog({
                   <Typography color="textSecondary">
                     {ethers.utils.formatUnits(
                       BigNumber.from(quote.buyAmount),
-                      buyToken?.decimals || 18
+                      buyToken?.decimals || 18,
                     )}{' '}
                     {buyToken?.symbol}
                   </Typography>
@@ -143,7 +143,7 @@ function ConfirmSwapDialog({
                     <Typography color="textSecondary">
                       (
                       {ethers.utils.formatEther(
-                        BigNumber.from(quote.gas).mul(quote.gasPrice)
+                        BigNumber.from(quote.gas).mul(quote.gasPrice),
                       )}{' '}
                       {getNativeTokenSymbol(chainId)})
                     </Typography>

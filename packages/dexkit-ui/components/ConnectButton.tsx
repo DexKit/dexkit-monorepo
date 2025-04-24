@@ -3,7 +3,11 @@ import { FormattedMessage } from "react-intl";
 import { useWalletConnect } from "../hooks/wallet";
 import Wallet from "./icons/Wallet";
 
-export const ConnectButton = (p: ButtonProps) => {
+type ConnectButtonProps = {
+  onConnectWallet?: () => void;
+} & ButtonProps;
+
+export const ConnectButton = (p: ConnectButtonProps) => {
   const { connectWallet } = useWalletConnect();
 
   return (
@@ -11,7 +15,7 @@ export const ConnectButton = (p: ButtonProps) => {
       variant={p.variant || "outlined"}
       color={p.color || "inherit"}
       size={p.size}
-      onClick={connectWallet}
+      onClick={p?.onConnectWallet || connectWallet}
       startIcon={<Wallet />}
       {...p}
     >

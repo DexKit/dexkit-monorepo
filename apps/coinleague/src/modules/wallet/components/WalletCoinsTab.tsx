@@ -2,6 +2,7 @@ import { currencyAtom } from '@/modules/common/atoms';
 import Receive from '@/modules/common/components/icons/Receive';
 import Send from '@/modules/common/components/icons/Send';
 import Wallet from '@/modules/common/components/icons/Wallet';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Add, Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Alert,
@@ -13,9 +14,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { useAtomValue } from 'jotai';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import {
   useAccounts,
@@ -36,11 +36,11 @@ const EvmSendDialog = dynamic(() => import('./dialogs/EvmSendDialog'));
 const SelectCoinDialog = dynamic(() => import('./dialogs/SelectCoinDialog'));
 
 const VisibleCoinsDialog = dynamic(
-  () => import('./dialogs/VisibleCoinsDialog')
+  () => import('./dialogs/VisibleCoinsDialog'),
 );
 
 const EvmAddAccountDialog = dynamic(
-  () => import('./dialogs/EvmAddAccountDialog')
+  () => import('./dialogs/EvmAddAccountDialog'),
 );
 
 const ImportCoinsDialog = dynamic(() => import('./dialogs/ImportCoinsDialog'));
@@ -49,9 +49,8 @@ import { SearchTextField } from './SearchTextField';
 import WalletActionButton from './WalletActionButton';
 import WalletCoinList from './WalletCoinList';
 
-import { useConnectWalletDialog } from '@/modules/common/hooks/misc';
+import { InitTransak } from '@dexkit/ui/components/TransakButton';
 import TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
-import transakSDK from '@transak/transak-sdk';
 import { ethers } from 'ethers';
 import { useUpdateAtom } from 'jotai/utils';
 import dynamic from 'next/dynamic';
@@ -64,16 +63,14 @@ export default function WalletCoinsTab({}: Props) {
   const { formatMessage } = useIntl();
   const currency = useAtomValue(currencyAtom);
   const balancesVisibility = useBalancesVisibility();
+  const { chainId, account, provider } = useWeb3React();
+  const transakRef = useRef<any>();
 
-  const transakRef = useRef(
-    new transakSDK({
-      apiKey: '4cf44cc4-69d7-4f4d-8237-05cc9076aa41',
-      environment: 'STAGING',
-      themeColor: '000000',
-    })
-  );
+  useEffect(() => {     
+          transakRef.current = InitTransak({currency: currency})
+    }, [account, currency]);
 
-  const { chainId, account, provider, connector } = useWeb3React();
+
 
   const { accounts } = useAccounts({});
   const { coins } = useCoins();
@@ -109,7 +106,7 @@ export default function WalletCoinsTab({}: Props) {
   };
 
   const handleShowTransak = () => {
-    transakRef.current.init();
+    transakRef?.current?.init();
   };
 
   const handleSelectCoin = useCallback(
@@ -126,7 +123,7 @@ export default function WalletCoinsTab({}: Props) {
 
       setOpen(false);
     },
-    [selectFor]
+    [selectFor],
   );
 
   const handleSend = () => {
@@ -181,11 +178,11 @@ export default function WalletCoinsTab({}: Props) {
                 b.network.id === c.network.id &&
                 b.balances[
                   isErc20Coin ? c.contractAddress : ethers.constants.AddressZero
-                ]
+                ],
             ),
             prices,
             [c],
-            currency
+            currency,
           );
 
           const res =
@@ -212,11 +209,6 @@ export default function WalletCoinsTab({}: Props) {
     setShowAddEvmAccount(true);
   };
 
-  const connectWalletDialog = useConnectWalletDialog();
-
-  const handleConnectWallet = () => {
-    connectWalletDialog.show();
-  };
 
   const setCoins = useUpdateAtom(coinsAtom);
 
@@ -229,7 +221,7 @@ export default function WalletCoinsTab({}: Props) {
           c.network.id === coin.network.id &&
           c.decimals === coin.decimals &&
           c.coingeckoId === coin.coingeckoId &&
-          coin.name === coin.name
+          coin.name === coin.name,
       );
 
       if (index > -1) {
@@ -314,7 +306,6 @@ export default function WalletCoinsTab({}: Props) {
           account={account}
           chainId={chainId}
           provider={provider}
-          connector={connector}
         />
       )}
 

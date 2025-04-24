@@ -1,5 +1,35 @@
 # @dexkit/ui
 
+## 0.22.0
+
+### Minor Changes
+
+- 528512d: Hide transak button
+- 742d40d: Fixed provider
+
+## 0.21.0
+
+### Minor Changes
+
+- e9afb9c: Improved wallet connection
+- 72ebec1: Fixed swap interface when there is insufficient balance
+- e9afb9c: Implementation of thirdweb and 0x Swap API v2
+- bacf6ad: Fix signer in web3provider
+- ecbf91f: Improve magic wallet connection
+- 9139f66: Fixed sign messages with user wallet
+
+### Patch Changes
+
+- e9afb9c: 0x Migration to V2
+- Updated dependencies [e9afb9c]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [bacf6ad]
+- Updated dependencies [ecbf91f]
+- Updated dependencies [e9afb9c]
+- Updated dependencies [9139f66]
+  - @dexkit/wallet-connectors@0.5.0
+  - @dexkit/core@0.17.0
+
 ## 0.20.0
 
 ### Minor Changes

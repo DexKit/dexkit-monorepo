@@ -7,8 +7,8 @@ import { useGameProfilesState } from '@/modules/coinleague/hooks/coinleague';
 import { RankingType, useRanking } from '@/modules/coinleague/hooks/ranking';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { List, Stack, Tab, Tabs } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 

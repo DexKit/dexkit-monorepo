@@ -19,21 +19,20 @@ import { Token } from "@dexkit/core/types";
 import { useUserGaslessSettings } from "@dexkit/ui/modules/swap/hooks/useUserGaslessSettings";
 import SwitchNetworkDialog from "../../components/SwitchNetworkDialog";
 import { SUPPORTED_GASLESS_CHAIN } from "../../constants";
-import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import { useSwapProvider } from "./hooks/useSwapProvider";
 import { useSwapState } from "./hooks/useSwapState";
 import { NotificationCallbackParams, RenderOptions } from "./types";
 
 import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
 
+import { parseChainId } from "@dexkit/core/utils";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import { useSnackbar } from "notistack";
-import { useIntl } from "react-intl";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
 import Swap from "./Swap";
 import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
+import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import SwapMatcha from "./matcha/SwapMatcha";
 import SwapSelectCoinMatchaDialog from "./matcha/SwapSelectCoinMatchaDialog";
 import SwapConfirmUniswapDialog from "./uniswap/SwapConfirmUniswapDialog";
@@ -77,6 +76,7 @@ export function SwapWidget({
 }: SwapWidgetProps) {
   const {
     provider,
+    signer,
     account,
     isActive,
     isActivating,
@@ -99,6 +99,7 @@ export function SwapWidget({
     myTokensOnlyOnSearch,
     variant,
   } = options;
+
   const [selectedChainId, setSelectedChainId] = useState<ChainId>();
   const [showWarningDialog, setShowWarningDialog] = useState(false);
   const [selectedToken, setSelecteToken] = useState<Token>();
@@ -176,7 +177,7 @@ export function SwapWidget({
     selectedChainId,
     connectedChainId,
     provider: swapProvider,
-    connectorProvider: provider,
+    signer,
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
     onShowTransactions,
@@ -198,8 +199,6 @@ export function SwapWidget({
         ? convertOldTokenToNew(configsByChain[selectedChainId].sellToken)
         : undefined,
   });
-  const { enqueueSnackbar } = useSnackbar();
-  const { formatMessage } = useIntl();
   const [query, setQuery] = useState("");
   const [gaslessTrades] = useGaslessTrades();
   const canGasless = useCanGasless({
@@ -252,15 +251,6 @@ export function SwapWidget({
             ...apiCoinToTokens(searchQuery.data),
           ];
 
-          if (query !== "") {
-            tokens = tokens.filter(
-              (c) =>
-                c.name.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.symbol.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.address.toLowerCase().search(query?.toLowerCase()) > -1
-            );
-          }
-
           let tokensCopy = [
             ...tokens
               .filter((t) => t)
@@ -309,7 +299,11 @@ export function SwapWidget({
   }, [handleConfirmExecSwap, canGasless, handleCloseConfirmSwap]);
 
   const filteredChainIds = useMemo(() => {
-    return activeChainIds.filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(k));
+    return Object.keys(NETWORKS)
+      .filter((k) => activeChainIds.includes(Number(k)))
+      .filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(Number(k)))
+      .filter((key) => !NETWORKS[parseChainId(key)].testnet)
+      .map((key) => Number(key));
   }, [activeChainIds]);
 
   const renderDialogComponent = () => {
@@ -410,7 +404,6 @@ export function SwapWidget({
           disableNotificationsButton={disableNotificationsButton}
           chainId={chainId}
           selectedChainId={selectedChainId}
-          activeChainIds={filteredChainIds}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
           clickOnMax={clickOnMax}
@@ -457,7 +450,6 @@ export function SwapWidget({
           priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
           priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           chainId={chainId}
-          activeChainIds={filteredChainIds}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
           clickOnMax={clickOnMax}

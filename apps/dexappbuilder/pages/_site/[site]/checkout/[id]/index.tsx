@@ -165,7 +165,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
     }
   }, [checkoutItemsQuery.data, token?.decimals]);
 
-  const { provider, account, isActive } = useWeb3React();
+  const { provider, account, isActive, signer } = useWeb3React();
   const balanceQuery = useErc20Balance(provider, token?.address, account);
 
   const confirmCheckoutMutation = useConfirmCheckout();
@@ -185,11 +185,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
       onSubmit: (hash: string) => void;
     }) => {
       if (token) {
-        const contract = new ethers.Contract(
-          token?.address,
-          ERC20Abi,
-          provider?.getSigner(),
-        );
+        const contract = new ethers.Contract(token?.address, ERC20Abi, signer);
 
         const tx = await contract.transfer(address, amount);
 

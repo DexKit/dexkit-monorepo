@@ -26,7 +26,7 @@ import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
-import defaultAppConfig from '../config/app.minimal.json';
+import defaultAppConfig from '../config/app.json';
 import { AppMarketplaceProvider } from '../src/components/AppMarketplaceProvider';
 import { AppConfigContext } from '../src/contexts';
 

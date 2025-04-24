@@ -16,7 +16,6 @@ import { ExecType, SwapSide } from "../types";
 
 import { ChainId } from "@dexkit/core/constants/enums";
 import { NETWORKS } from "@dexkit/core/constants/networks";
-import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import {
@@ -69,7 +68,6 @@ export interface SwapMatchaProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
   featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
@@ -85,7 +83,6 @@ export interface SwapMatchaProps {
 }
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
-import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryMatcha from "./SwapFeeSummaryMatcha";
 import SwapSwitchTokensMatchaButton from "./SwapSwitchTokensMatchaButton";
@@ -129,12 +126,10 @@ export default function SwapMatcha({
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
   onToggleChangeNetwork,
   onSetToken,
 }: SwapMatchaProps) {
-  const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
   };
@@ -150,8 +145,6 @@ export default function SwapMatcha({
     networkName,
     execType,
   });
-
-  const isMobile = useIsMobile();
 
   return (
     <Paper variant="elevation">
@@ -319,7 +312,9 @@ export default function SwapMatcha({
                   />
                 </Alert>
               )}
-              {onShowTransak && insufficientBalance && isActive && (
+              {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+              {/* {onShowTransak && insufficientBalance && isActive && ( */}
+              {false && (
                 <Button
                   startIcon={<TransakIcon />}
                   onClick={onShowTransak}

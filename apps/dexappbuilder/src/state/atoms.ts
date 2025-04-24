@@ -1,19 +1,22 @@
-import { AppTransaction } from '@dexkit/core/types';
-import { AppNotification } from '@dexkit/ui/types';
+import type { AppTransaction } from '@dexkit/core/types';
+import type { AppNotification } from '@dexkit/ui/types';
 import { atom } from 'jotai';
 import { focusAtom } from 'jotai/optics';
 import { atomWithStorage } from 'jotai/utils';
-import { AppState } from '../types/app';
-import {
+import type { AppState } from '../types/app';
+import type {
   Token,
   Transaction,
   TransactionMetadata,
-  TransactionStatus,
   TransactionType,
 } from '../types/blockchain';
 
-import { ThemeMode } from '@dexkit/ui/constants/enum';
-import { Asset } from '@dexkit/ui/modules/nft/types';
+import {
+  TransactionStatus,
+} from '../types/blockchain';
+
+import type { ThemeMode } from '@dexkit/ui/constants/enum';
+import type { Asset } from '@dexkit/ui/modules/nft/types';
 
 
 export const referralAtom = atom<string | undefined>(undefined);

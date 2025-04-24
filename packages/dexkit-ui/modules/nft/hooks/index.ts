@@ -196,9 +196,17 @@ export function useAssetMetadata(
   );
 }
 
-export function useSwapSdkV4(provider: any, chainId?: number) {
+export function useSwapSdkV4({
+  provider,
+  signer,
+  chainId,
+}: {
+  provider: any;
+  signer: any;
+  chainId?: number;
+}) {
   return useMemo(() => {
-    if (chainId === undefined || provider === undefined) {
+    if (chainId === undefined || signer === undefined) {
       return undefined;
     }
     // swap sdk gives error if chainId not supported
@@ -206,10 +214,10 @@ export function useSwapSdkV4(provider: any, chainId?: number) {
       return undefined;
     }
 
-    return new NftSwapV4(provider, provider.getSigner(), chainId, {
+    return new NftSwapV4(provider, signer, chainId, {
       orderbookRootUrl: TRADER_BASE_API,
     });
-  }, [provider, chainId]);
+  }, [signer, chainId, provider]);
 }
 
 export function useApproveAssetMutation(

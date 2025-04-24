@@ -17,7 +17,7 @@ export function usePlatformCoinSearch({
     async ({ signal }) => {
       const req = await axios.get<DkApiPlatformCoin[]>(
         `${DEXKIT_UI_BASE_API_URL}/coin/search-platforms`,
-        { signal, params: { keyword, network } }
+        { params: { keyword, network } }
       );
 
       return [...req.data];

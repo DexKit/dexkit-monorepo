@@ -1,4 +1,4 @@
-import { ChainId } from '@0x/contract-addresses';
+
 import { getCoinPrices } from '@dexkit/ui/services/currency';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useQuery } from '@tanstack/react-query';
@@ -38,7 +38,7 @@ export function useFiatRatio({
   contractAddress,
   currency,
 }: {
-  chainId?: ChainId;
+  chainId?: number;
   contractAddress?: string;
   currency?: string;
 }) {

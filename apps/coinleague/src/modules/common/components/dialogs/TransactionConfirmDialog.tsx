@@ -20,7 +20,6 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { estimateFees } from '@mycrypto/gas-estimation';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber, ethers } from 'ethers';
 import { useAtomValue } from 'jotai';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -28,10 +27,11 @@ import { FormattedMessage } from 'react-intl';
 import { currencyAtom } from '../../atoms';
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from '../../constants';
 
+import { truncateAddress } from '@dexkit/core/utils';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   getNativeTokenSymbol,
   hasLondonHardForkSupport,
-  truncateAddress,
 } from '../../utils/blockchain';
 import AppDialogTitle from '../AppDialogTitle';
 
@@ -51,7 +51,7 @@ interface ValuesType {
 }
 
 export const TransactionConfirmDialog = (
-  props: TransactionConfirmDialogProps
+  props: TransactionConfirmDialogProps,
 ) => {
   const { data, onCancel, onConfirm } = props;
   const { dialogProps } = props;
@@ -65,7 +65,7 @@ export const TransactionConfirmDialog = (
       return tokenBalancesQuery.data.find(
         (t) =>
           t.token.address.toLowerCase() ===
-          ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
+          ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase(),
       )?.balance;
     }
   }, [tokenBalancesQuery.data]);
@@ -133,7 +133,7 @@ export const TransactionConfirmDialog = (
         });
       }
     },
-    [values]
+    [values],
   );
 
   const isEIP1559 = useCallback(() => {
@@ -171,7 +171,7 @@ export const TransactionConfirmDialog = (
               vals.maxFeePerGas = BigNumber.from(result.maxFeePerGas);
 
               vals.maxPriorityFeePerGas = BigNumber.from(
-                result.maxPriorityFeePerGas
+                result.maxPriorityFeePerGas,
               );
             } else {
               vals.gasPrice = await pr.getGasPrice();
@@ -192,22 +192,22 @@ export const TransactionConfirmDialog = (
         cost = parseFloat(
           ethers.utils.formatEther(
             values.gasLimit?.mul(
-              values.maxFeePerGas || ethers.BigNumber.from(0)
-            ) || BigNumber.from(0)
-          )
+              values.maxFeePerGas || ethers.BigNumber.from(0),
+            ) || BigNumber.from(0),
+          ),
         );
       } else {
         cost = parseFloat(
           ethers.utils.formatEther(
             values.gasLimit?.mul(values.gasPrice || ethers.BigNumber.from(0)) ||
-              BigNumber.from(0)
-          )
+              BigNumber.from(0),
+          ),
         );
       }
 
       return cost;
     },
-    [isEIP1559]
+    [isEIP1559],
   );
 
   return (
@@ -251,7 +251,7 @@ export const TransactionConfirmDialog = (
               </Typography>
               <Typography variant="body1" color="textSecondary">
                 {Number(ethers.utils.formatEther(etherBalance || '0')).toFixed(
-                  4
+                  4,
                 )}{' '}
                 {getNativeTokenSymbol(chainId)}
               </Typography>
@@ -320,7 +320,7 @@ export const TransactionConfirmDialog = (
                     parseInt(
                       values.value
                         ? ethers.utils.formatEther(values.value)
-                        : '0'
+                        : '0',
                     ))}{' '}
                 <FormattedMessage id="usd" defaultMessage={'USD'} />
               </Typography>
@@ -368,7 +368,7 @@ export const TransactionConfirmDialog = (
                               size="small"
                               value={ethers.utils.formatUnits(
                                 values.maxPriorityFeePerGas?.toString() || '0',
-                                'gwei'
+                                'gwei',
                               )}
                               onChange={handleChange}
                               name="maxPriorityFeePerGas"
@@ -387,7 +387,7 @@ export const TransactionConfirmDialog = (
                               size="small"
                               value={ethers.utils.formatUnits(
                                 values.maxFeePerGas?.toString() || '0',
-                                'gwei'
+                                'gwei',
                               )}
                               onChange={handleChange}
                               name="maxFeePerGas"
@@ -409,7 +409,7 @@ export const TransactionConfirmDialog = (
                               size="small"
                               value={ethers.utils.formatUnits(
                                 values.gasPrice?.toString() || '0',
-                                'gwei'
+                                'gwei',
                               )}
                               onChange={handleChange}
                               name="gasPrice"
@@ -451,7 +451,7 @@ export const TransactionConfirmDialog = (
             Number(ethers.utils.formatEther(etherBalance || '0')) <
               gasCost(values) +
                 parseInt(
-                  values.value ? ethers.utils.formatEther(values.value) : '0'
+                  values.value ? ethers.utils.formatEther(values.value) : '0',
                 ) || gasCost(values) === 0
           }
           onClick={handleConfirm}
