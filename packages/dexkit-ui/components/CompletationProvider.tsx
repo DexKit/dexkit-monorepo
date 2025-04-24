@@ -5,9 +5,8 @@ import CompletationContext from "../context/CompletationContext";
 
 import dynamic from "next/dynamic";
 import { FormattedMessage } from "react-intl";
-import { TextImproveAction } from "../constants/ai";
 import { useCompletation } from "../hooks/ai";
-import { AI_MODEL } from "../types/ai";
+import { AI_MODEL, TextImproveAction } from "../types/ai";
 
 const MediaDialog = dynamic(() => import("./mediaDialog"), {
   ssr: false,
@@ -93,7 +92,7 @@ export default function CompletationProvider({
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
         case TextImproveAction.GENERATE_CODE:
-          return `Generate html, js and css code and make it a formatted JSON for: "${prompt}".`;
+          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code and make the answer a valid JSON ready to be parsed: "${prompt}".`;
       }
     },
     []
@@ -114,7 +113,7 @@ export default function CompletationProvider({
                 {
                   role: "user",
                   content:
-                    "You are an assistant. Do not return text with quotes",
+                    "You are an assistant. Do not return text with quotes nor special characters.",
                 },
                 { role: "user", content: actionPrompt },
               ];
@@ -132,7 +131,6 @@ export default function CompletationProvider({
 
   const handleConfirmCompletation = useCallback(async () => {
     if (completationMutation.data) {
-      debugger;
       onCompletation(completationMutation.data?.output);
       handleClose();
     }

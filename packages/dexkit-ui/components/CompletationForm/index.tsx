@@ -18,9 +18,10 @@ import { TextField } from "formik-mui";
 import { MouseEvent, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import * as Yup from "yup";
-import { TextImproveAction } from "../../constants/ai";
+import { aiModelsItems } from "../../constants/ai";
 import { useActiveFeatUsage, useSubscription } from "../../hooks/payments";
-import { AI_MODEL } from "../../types/ai";
+import { AI_MODEL, AI_MODEL_TYPE, TextImproveAction } from "../../types/ai";
+import { stringToJson } from "../../utils";
 import AIOptionsMenu from "../AIOptionsMenu";
 import AddCreditsButton from "../AddCreditsButton";
 import PaywallBackdrop from "../PaywallBackdrop";
@@ -63,12 +64,10 @@ export default function CompletationForm({
     action?: TextImproveAction;
     model: AI_MODEL;
   }) => {
-    debugger;
     await onGenerate(prompt, action, model);
   };
 
   const { data: sub } = useSubscription();
-
   const { data: featUsage } = useActiveFeatUsage();
 
   const total = useMemo(() => {
@@ -96,6 +95,10 @@ export default function CompletationForm({
     setAnchorEl(null);
   };
 
+  const [selectedAiModelType, setSelectedAiModelType] = useState<
+    AI_MODEL_TYPE | undefined
+  >(undefined);
+
   return (
     <>
       <AIOptionsMenu
@@ -105,7 +108,7 @@ export default function CompletationForm({
         <Formik
           initialValues={{
             prompt: initialPrompt ? initialPrompt : "",
-            action: filteredActions ? filteredActions[0] : undefined,
+            action: undefined,
             model: AI_MODEL.GPT_3_5_TURBO,
           }}
           onSubmit={handleSubmit}
@@ -155,6 +158,15 @@ export default function CompletationForm({
                   </Typography>
                   {output && (
                     <Stack spacing={2}>
+                      {values.action === TextImproveAction.GENERATE_CODE &&
+                        typeof stringToJson(output) !== "object" && (
+                          <Alert severity="warning">
+                            <FormattedMessage
+                              id="code.malformatted"
+                              defaultMessage="The response from the AI model is not properly formatted! It's recommended to copy and paste the response into a code editor manually."
+                            />
+                          </Alert>
+                        )}
                       <Stack direction="row" spacing={1}>
                         <Button
                           variant="contained"
@@ -182,14 +194,16 @@ export default function CompletationForm({
               <Box>
                 <ImproveTextActionList
                   value={values.action}
-                  filteredActions={filteredActions}
-                  onChange={(value: string) => {
-                    if (value === values.action) {
+                  onChange={(item) => {
+                    if (item.action === values.action) {
+                      setSelectedAiModelType(undefined);
                       return setFieldValue("action", undefined);
                     }
-                    setFieldValue("action", value);
+                    setSelectedAiModelType(item.type);
+                    setFieldValue("action", item.action);
                   }}
                   disabled={total === 0}
+                  filteredActions={filteredActions}
                 />
               </Box>
               <Divider />
@@ -200,23 +214,22 @@ export default function CompletationForm({
                     <Select
                       {...field}
                       color="primary"
-                      label={
-                        <FormattedMessage
-                          id="ai.model"
-                          defaultMessage="AI Model"
-                        />
-                      }
+                      sx={{ minWidth: 200 }}
+                      disabled={values.action === undefined}
                     >
-                      {Object.keys(AI_MODEL).map((model) => {
-                        return (
-                          <MenuItem
-                            key={model}
-                            value={AI_MODEL[model as keyof typeof AI_MODEL]}
-                          >
-                            {AI_MODEL[model as keyof typeof AI_MODEL]}
-                          </MenuItem>
-                        );
-                      })}
+                      {aiModelsItems
+                        .filter(
+                          (model) =>
+                            selectedAiModelType === undefined ||
+                            model.type === selectedAiModelType
+                        )
+                        .map((model) => {
+                          return (
+                            <MenuItem key={model.model} value={model.model}>
+                              {model.model}
+                            </MenuItem>
+                          );
+                        })}
                     </Select>
                   )}
                 </Field>

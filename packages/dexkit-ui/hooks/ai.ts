@@ -3,9 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import { useIntl } from "react-intl";
-import { TextImproveAction } from "../constants/ai";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
-import { AI_MODEL, ImageGenerate } from "../types/ai";
+import { AI_MODEL, ImageGenerate, TextImproveAction } from "../types/ai";
 import { dataURItoBlob } from "../utils/image";
 
 export function useCompletation() {

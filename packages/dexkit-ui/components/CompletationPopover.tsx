@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { FormattedMessage } from "react-intl";
-import { TextImproveAction } from "../constants/ai";
 import { usePlanCheckoutMutation, useSubscription } from "../hooks/payments";
+import { TextImproveAction } from "../types/ai";
 import CompletationForm from "./CompletationForm";
 
 export interface CompletationPopoverProps {

@@ -24,8 +24,9 @@ import { html } from '@codemirror/lang-html';
 import { javascript } from '@codemirror/lang-javascript';
 import { AppDialogTitle } from '@dexkit/ui';
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
-import { TextImproveAction } from '@dexkit/ui/constants/ai';
 import { CodePageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { TextImproveAction } from '@dexkit/ui/types/ai';
+import { stringToJson } from '@dexkit/ui/utils';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import parse from 'html-react-parser';
 import { SyntheticEvent, useState } from 'react';
@@ -274,7 +275,16 @@ function CodeSectionForm({
                   }
                 />
                 <CompletationProvider
-                  onCompletation={(output) => {}}
+                  onCompletation={(output) => {
+                    const code = stringToJson(output);
+
+                    if (typeof code !== 'object') {
+                      return;
+                    }
+                    setFieldValue('html', code.html);
+                    setFieldValue('js', code.js);
+                    setFieldValue('css', code.css);
+                  }}
                   filteredActions={[TextImproveAction.GENERATE_CODE]}
                   initialPrompt={''}
                 >
