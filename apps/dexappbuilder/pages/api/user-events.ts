@@ -21,7 +21,13 @@ export default async function handler(
       }
     })
     return res.status(200).json({ message: 'update success' });;
-  } catch (e) {
-    return res.status(500).json({ message: 'User Events:Requirements not attended' });
+  } catch (e: any) {
+    console.error('User Events API error:', e?.message || 'Unknown error', e?.response?.status);
+    
+    return res.status(500).json({ 
+      message: 'User Events:Requirements not attended',
+      error: e?.message || 'Unknown error',
+      status: e?.response?.status
+    });
   }
 }
