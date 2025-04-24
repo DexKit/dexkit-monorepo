@@ -392,8 +392,9 @@ export const getStaticProps: GetStaticProps = async ({
         NETWORK_FROM_SLUG(network)?.chainId as ChainId,
       )
     ) {
+      const siteId = configResponse.siteId === null ? undefined : configResponse.siteId;
       const darkBlock = await getIntegrationData({
-        siteId: configResponse.siteId, //
+        siteId,
         type: 'darkblock',
         instance: axios.create({
           baseURL: MY_APPS_ENDPOINT,

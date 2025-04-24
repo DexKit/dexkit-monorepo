@@ -176,7 +176,7 @@ export const getStaticProps: GetStaticProps = async ({
         )
       ) {
         const darkBlock = await getIntegrationData({
-          siteId: configResponse.siteId, //
+          siteId: configResponse.siteId ?? undefined,
           type: 'darkblock',
           instance: axios.create({
             baseURL: MY_APPS_ENDPOINT,
