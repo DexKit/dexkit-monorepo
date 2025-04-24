@@ -276,40 +276,73 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
   };
 
   const claimRewardsMutation = useMutation(async () => {
-    let call = contract?.prepare("claimRewards", []);
+    try {
+      let call = contract?.prepare("claimRewards", []);
 
-    let tx = await call?.send();
-
-    if (tx?.hash && chainId) {
-      const values = {
+      let values = {
         amount: `${rewards} ${rewardTokenInfo?.symbol}`,
         name: rewardTokenInfo?.name || "",
       };
 
-      createNotification({
-        subtype: "claimRewards",
-        values,
-        type: "transaction",
-        metadata: { hash: tx?.hash, chainId },
-      });
+      watchTransactionDialog.open("claimRewards", values);
 
-      watchTransactionDialog.watch(tx.hash);
+      const tx = await call?.send();
 
-      await trackEventMutation.mutateAsync({
-        event: UserEvents.stakeClaimErc20,
-        chainId,
-        hash: tx?.hash,
-        metadata: JSON.stringify({
-          amount: rewardTokenBalance?.value.toString(),
-          stakeAddress: address,
-          account,
-        }),
-      });
+      if (tx?.hash && chainId) {
+        createNotification({
+          subtype: "claimRewards",
+          values,
+          type: "transaction",
+          metadata: { hash: tx?.hash, chainId },
+        });
+
+        watchTransactionDialog.watch(tx.hash);
+
+        await trackEventMutation.mutateAsync({
+          event: UserEvents.stakeClaimErc20,
+          chainId,
+          hash: tx?.hash,
+          metadata: JSON.stringify({
+            amount: rewardTokenBalance?.value.toString(),
+            stakeAddress: address,
+            account,
+          }),
+        });
+      }
+
+      await tx?.wait();
+
+      refetchRewardTokenBalance();
+      return true;
+    } catch (error: any) {
+      console.error("Error during claim rewards:", error);
+      
+      if (error.code === -32002) {
+        watchTransactionDialog.setError(new Error("There is already a pending request in the wallet. Please resolve that request first."));
+      } else if (error.code === 4001) {
+        watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
+      } else if (
+        error.message && (
+          error.message.includes("429") || 
+          error.message.includes("rate limit") || 
+          error.message.includes("too many requests")
+        )
+      ) {
+        watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
+      } else if (
+        error.message && (
+          error.message.includes("timeout") || 
+          error.message.includes("timed out") ||
+          error.message.includes("exceeded") ||
+          error.message.includes("server error")
+        )
+      ) {
+        watchTransactionDialog.setError(new Error("Timeout exceeded. The transaction could not be completed, but you can try again. Your rewards are safe."));
+      } else {
+        watchTransactionDialog.setError(error);
+      }
+      return false;
     }
-
-    await tx?.wait();
-
-    refetchRewardTokenBalance();
   });
 
   const handleClaim = async () => {
@@ -318,11 +351,15 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       name: rewardTokenInfo?.name || "",
     };
 
-    watchTransactionDialog.open("claimRewards", values);
-
-    await claimRewardsMutation.mutateAsync();
-
-    // await claimRewards({});
+    try {
+      const result = await claimRewardsMutation.mutateAsync();
+      if (result) {
+        refetchRewardTokenBalance();
+        refetchStakeInfo();
+      }
+    } catch (error) {
+      console.error("Handle claim error:", error);
+    }
   };
 
   const handleSubmitUnstake = async ({ amount }: { amount: string }) => {

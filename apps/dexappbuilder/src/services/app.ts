@@ -11,8 +11,8 @@ export async function getAppConfig(
   appConfig: AppConfig;
   appPage?: string;
   appNFT?: AssetAPI | null;
-  siteId?: number;
-  slug?: string;
+  siteId?: number | null;
+  slug?: string | null;
   appLocaleMessages?: Record<string, string> | null;
 }> {
   /**/
@@ -166,16 +166,26 @@ export async function getAppConfig(
     };
   }
 
-  throw new Error('Oops, something went wrong');
+  console.error(`Could not find configuration for site: ${site}`);
+  const defaultAppConfig = (await import('../../config/app.json')).default;
+  const defaultAppLocaleMessages = await getLocaleMessages(defaultAppConfig.locale);
+  
+  return {
+    appConfig: defaultAppConfig as AppConfig,
+    appLocaleMessages: defaultAppLocaleMessages,
+    appNFT: null,
+    siteId: null,
+    slug: null,
+    appPage,
+  };
 
-  // return appConfigJson as Promise<AppConfig>;
 }
 
 export async function getAppSitemapConfig(site?: string): Promise<{
   appConfig: AppConfig;
   appNFT?: AssetAPI | null;
-  siteId?: number;
-  slug?: string;
+  siteId?: number | null;
+  slug?: string | null;
 }> {
   /**/
   if (site === 'boredapes.dexkit.com') {
@@ -293,13 +303,20 @@ export async function getAppSitemapConfig(site?: string): Promise<{
   if (configResponse) {
     return {
       appConfig: JSON.parse(configResponse.config) as AppConfig,
-      appNFT: configResponse.nft === undefined ? configResponse.nft : null,
+      appNFT: configResponse.nft === undefined ? null : configResponse.nft,
       siteId: configResponse?.id,
       slug: configResponse?.slug,
     };
   }
 
-  throw new Error('Oops, something went wrong');
+  console.error(`Could not find sitemap configuration for site: ${site}`);
+  const defaultAppConfig = (await import('../../config/app.json')).default;
+  
+  return {
+    appConfig: defaultAppConfig as AppConfig,
+    appNFT: null,
+    siteId: null,
+    slug: null
+  };
 
-  // return appConfigJson as Promise<AppConfig>;
 }
