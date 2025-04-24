@@ -41,7 +41,7 @@ export default function ContractListDataGrid({
   const { account } = useWeb3React();
 
   const [queryOptions, setQueryOptions] = useState<any>({
-    filter: { owner: account?.toLowerCase },
+    filter: { owner: account?.toLowerCase() },
   });
 
   const [paginationModel, setPaginationModel] = useState({
@@ -84,16 +84,17 @@ export default function ContractListDataGrid({
           ? [sortModel[0].field, sortModel[0].sort]
           : [],
     });
-  }, []);
+  }, [queryOptions]);
 
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
     items: [],
   });
 
   const onFilterChange = useCallback((filterModel: GridFilterModel) => {
-    // Here you save the data you need from the filter model
-
-    let filter = { ...queryOptions?.filter };
+    let filter = { 
+      ...queryOptions?.filter,
+      owner: account?.toLowerCase() || '',
+    };
 
     const firstFilter = filterModel.items[0];
 
@@ -103,9 +104,9 @@ export default function ContractListDataGrid({
         q: filterModel.quickFilterValues[0],
       };
     } else if (
-      firstFilter.field === 'name' &&
-      firstFilter.operator === 'contains' &&
-      firstFilter.value !== ''
+      firstFilter?.field === 'name' &&
+      firstFilter?.operator === 'contains' &&
+      firstFilter?.value !== ''
     ) {
       filter = {
         ...filter,
@@ -115,8 +116,12 @@ export default function ContractListDataGrid({
 
     setFilterModel(filterModel);
 
+    if (!filter.owner && account) {
+      filter.owner = account.toLowerCase();
+    }
+
     setQueryOptions({ ...queryOptions, filter });
-  }, []);
+  }, [queryOptions, account]);
 
   const { mutateAsync: toggleVisibility } = useContractVisibility();
 
@@ -255,26 +260,34 @@ export default function ContractListDataGrid({
   };
 
   return (
-    <Box sx={{ height: 600, width: '100%' }}>
+    <Box sx={{ width: '100%', height: 450 }}>
       <DataGrid
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{ toolbar: { showQuickFilter: true } }}
-        filterModel={filterModel}
-        rows={(data?.data as any) || []}
-        columns={columns}
+        rows={data?.data || []}
         rowCount={rowCountState}
-        filterMode="server"
-        paginationMode="server"
-        sortingMode="client"
-        paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
-        onFilterModelChange={onFilterChange}
-        onSortModelChange={handleSortModelChange}
-        rowSelectionModel={rowSelectionModel}
-        onRowSelectionModelChange={handleChangeRowSelectionModel}
-        pageSizeOptions={[5, 10, 25, 50]}
-        disableRowSelectionOnClick
         loading={isLoading}
+        columns={columns}
+        pageSizeOptions={[5, 10, 25, 50, 100]}
+        paginationModel={paginationModel}
+        paginationMode="server"
+        sortingMode="server"
+        filterMode="server"
+        onPaginationModelChange={setPaginationModel}
+        onSortModelChange={handleSortModelChange}
+        onFilterModelChange={onFilterChange}
+        disableRowSelectionOnClick
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {},
+          },
+        }}
+        onRowSelectionModelChange={handleChangeRowSelectionModel}
       />
     </Box>
   );

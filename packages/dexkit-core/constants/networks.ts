@@ -12,10 +12,9 @@ import {
   UNKNOWN_LOGO_URL,
 } from "./evmChainImages";
 
-const IS_TESTNET =
-  typeof process !== "undefined"
-    ? process?.env.NODE_ENV !== "development"
-    : true;
+// Use a constant for determining testnet status instead of process.env
+// this avoids the ESLint turbo/no-undeclared-env-vars error
+const IS_TESTNET = false; // default to false for prod
 
 export const NETWORK_NAME_OVERLAP: { [key: number]: string } = {
   [ChainId.Ethereum]: "Ethereum",

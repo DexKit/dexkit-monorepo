@@ -442,6 +442,15 @@ export function useListDeployedContracts({
   filter?: any;
 }) {
   const { instance } = useContext(DexkitApiProvider);
+  const { account } = useWeb3React();
+  
+  const safeOwner = owner || account?.toLowerCase() || '';
+  
+  const safeFilter = filter ? {
+    ...filter,
+    owner: filter.owner || safeOwner,
+  } : { owner: safeOwner };
+  
   return useQuery<{
     data: DeployedContract[];
     skip?: number;
@@ -450,32 +459,39 @@ export function useListDeployedContracts({
   }>(
     [
       LIST_DEPLOYED_CONTRACTS,
-      owner,
+      safeOwner,
       name,
       chainId,
       sort,
       page,
       pageSize,
-      filter,
+      safeFilter,
     ],
     async () => {
+      if (!safeOwner) {
+        return { data: [] };
+      }
+      
       if (instance) {
         return (
           await instance.get('/forms/deploy/contract/list', {
             params: {
-              owner,
+              owner: safeOwner,
               name,
               chainId,
               skip: page * pageSize,
               take: pageSize,
               sort,
-              filter: filter ? JSON.stringify(filter) : undefined,
+              filter: safeFilter ? JSON.stringify(safeFilter) : undefined,
             },
           })
         ).data;
       }
 
       return { data: [] };
+    },
+    {
+      enabled: !!safeOwner
     }
   );
 }
