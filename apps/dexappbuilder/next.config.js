@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-export default {
+const nextConfig = {
   experimental: {
     productionBrowserSourceMaps: false,
     serverSourceMaps: false,
@@ -59,3 +59,5 @@ export default {
     ],
   },
 };
+
+export default nextConfig;

@@ -363,7 +363,6 @@ export function useSwapState({
     quoteQuery: quoteQuery as any,
     provider: signer as any,
     side: quoteFor! as any,
-    account: account!,
     chainId: chainId!,
     canGasless,
     buyAmount: formatBigNumber(lazyBuyAmount, lazyBuyToken?.decimals),

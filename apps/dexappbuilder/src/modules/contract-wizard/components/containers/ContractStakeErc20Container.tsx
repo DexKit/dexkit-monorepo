@@ -140,7 +140,7 @@ export default function ContractStakeErc20Container({
     amount: string;
     withdraw: boolean;
   }) => {
-    const amountParsed = parseUnits(amount, rewardTokenBalance?.decimals);
+    const amountParsed = parseUnits(amount || '0.0', rewardTokenBalance?.decimals);
 
     if (withdraw) {
       try {
@@ -154,16 +154,53 @@ export default function ContractStakeErc20Container({
       return;
     }
 
-    if (!allowance?.value.gte(amountParsed)) {
-      await approve({ amount });
-    }
-
     try {
-      await depositRewardTokensMutation.mutateAsync({
-        amount: amountParsed,
-      });
-    } catch (err) {
-      watchTransactionDialog.setError(err as any);
+      const currentAllowance = allowance?.value || BigNumber.from(0);
+      if (currentAllowance.lt(amountParsed)) {
+        console.log('Insufficient allowance. Requesting approval...');
+        await approve({ amount });
+      }
+
+      try {
+        const result = await depositRewardTokensMutation.mutateAsync({
+          amount: amountParsed,
+        });
+        
+        if (result && 'requiresApproval' in result && result.requiresApproval) {
+          console.log('Additional approval required. Retrying process...');
+          await approve({ amount: amountParsed.mul(1000).toString() });
+          
+          await depositRewardTokensMutation.mutateAsync({
+            amount: amountParsed,
+          });
+        }
+      } catch (depositErr: any) {
+        console.error('Error during deposit:', depositErr);
+        
+        if (depositErr.message && depositErr.message.includes('insufficient allowance')) {
+          await approve({ amount: amountParsed.mul(10).toString() });
+          
+          await depositRewardTokensMutation.mutateAsync({
+            amount: amountParsed,
+          });
+        } else {
+          throw depositErr;
+        }
+      }
+    } catch (err: any) {
+      console.error('Error during deposit process:', err);
+      
+      let errorMessage = err.message || 'Unknown error during deposit';
+      
+      if (errorMessage.includes('insufficient allowance')) {
+        errorMessage = 'Insufficient allowance. Please try again.';
+      } else if (errorMessage.includes('user rejected') || errorMessage.includes('rejected transaction')) {
+        errorMessage = 'Transaction rejected by the user.';
+      } else if (errorMessage.includes('out-of-bounds') || errorMessage.includes('overflow')) {
+        errorMessage = 'Value out of bounds. Try with a smaller amount.';
+      }
+      
+      watchTransactionDialog.setError(new Error(errorMessage));
     }
   };
 
@@ -369,7 +406,7 @@ export default function ContractStakeErc20Container({
                   <Box>
                     <Stack direction="row" spacing={2}>
                       <Button
-                        disabled={isSubmitting || !isValid}
+                        disabled={isSubmitting || !isValid || (!values.withdraw && !values.amount)}
                         startIcon={
                           isSubmitting ? (
                             <CircularProgress color="inherit" size="1rem" />

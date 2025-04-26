@@ -66,16 +66,16 @@ export default function StakeErc721Section({
 
   const [stakedTokenIds, rewards] = useMemo(() => {
     if (stakeInfo) {
-      const [n, d] = stakeInfo;
+      const [n, d, r] = stakeInfo;
 
       return [
         Array.isArray(n) ? (n as BigNumber[])?.map((v) => v?.toNumber()) : [],
-        d,
+        r,
       ];
     }
 
     return [[] as number[], BigNumber.from(0)];
-  }, [stakeInfo, rewardTokenBalance]);
+  }, [stakeInfo]);
 
   const contractInfo = useAsyncMemo(
     async () => {
@@ -205,51 +205,89 @@ export default function StakeErc721Section({
   const { chainId } = useWeb3React();
 
   const claimRewardsMutation = useMutation(async () => {
-    const amount = rewardTokenBalance?.value.toString();
+    try {
+      const amount = rewardTokenBalance?.value.toString();
 
-    let call = contract?.prepare("claimRewards", []);
+      let call = contract?.prepare("claimRewards", []);
 
-    let values = {
-      amount: `${formatBigNumber(
-        stakeInfo && stakeInfo.length > 0 ? stakeInfo[1] : "0",
-        rewardTokenBalance?.decimals
-      )} ${rewardTokenBalance?.symbol}`,
-      name: contractInfo?.name || "",
-    };
+      let values = {
+        amount: `${formatBigNumber(
+          stakeInfo && stakeInfo.length > 0 ? stakeInfo[1] : "0",
+          rewardTokenBalance?.decimals
+        )} ${rewardTokenBalance?.symbol}`,
+        name: contractInfo?.name || "",
+      };
 
-    watchTransactionDialog.open("claimRewards", values);
+      watchTransactionDialog.open("claimRewards", values);
 
-    const tx = await call?.send();
+      const tx = await call?.send();
 
-    if (tx?.hash && chainId) {
-      createNotification({
-        type: "transaction",
-        subtype: "claimRewards",
-        values: values,
-        metadata: { hash: tx.hash, chainId },
+      if (tx?.hash && chainId) {
+        createNotification({
+          type: "transaction",
+          subtype: "claimRewards",
+          values: values,
+          metadata: { hash: tx.hash, chainId },
+        });
+
+        watchTransactionDialog.watch(tx.hash);
+      }
+
+      await tx?.wait();
+
+      await trackUserEventsMutation.mutateAsync({
+        event: UserEvents.stakeClaimErc721,
+        chainId,
+        hash: tx?.hash,
+        metadata: JSON.stringify({
+          amount: rewardTokenBalance?.value.toString(),
+          stakeAddress: address,
+          account,
+        }),
       });
 
-      watchTransactionDialog.watch(tx.hash);
+      return true;
+    } catch (error: any) {
+      console.error("Error during claim rewards:", error);
+      
+      if (error.code === -32002) {
+        watchTransactionDialog.setError(new Error("There is already a pending transaction in your wallet. Please resolve that transaction first."));
+      } else if (error.code === 4001) {
+        watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
+      } else if (
+        error.message && (
+          error.message.includes("429") || 
+          error.message.includes("rate limit") || 
+          error.message.includes("too many requests")
+        )
+      ) {
+        watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
+      } else if (
+        error.message && (
+          error.message.includes("timeout") || 
+          error.message.includes("timed out") ||
+          error.message.includes("exceeded") ||
+          error.message.includes("server error")
+        )
+      ) {
+        watchTransactionDialog.setError(new Error("Timeout exceeded. The transaction could not be completed, but you can try again. Your rewards are safe."));
+      } else {
+        watchTransactionDialog.setError(error);
+      }
+      return false;
     }
-
-    await tx?.wait();
-
-    await trackUserEventsMutation.mutateAsync({
-      event: UserEvents.stakeClaimErc721,
-      chainId,
-      hash: tx?.hash,
-      metadata: JSON.stringify({
-        amount: rewardTokenBalance?.value.toString(),
-        stakeAddress: address,
-        account,
-      }),
-    });
   });
 
   const handleClaim = async () => {
-    await claimRewardsMutation.mutateAsync();
-    refetchRewardTokenBalance();
-    refetchStakeInfo();
+    try {
+      const result = await claimRewardsMutation.mutateAsync();
+      if (result) {
+        refetchRewardTokenBalance();
+        refetchStakeInfo();
+      }
+    } catch (error) {
+      console.error("Error during claim:", error);
+    }
   };
 
   const { data: stakingTokenContract } = useContract(stakingAddress, "custom");

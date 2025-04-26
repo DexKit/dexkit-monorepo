@@ -242,7 +242,6 @@ export default function MarketForm({
   });
 
   const sendTxMutation = useSendTxMutation({
-    account,
     chainId,
     quote,
     canGasless,

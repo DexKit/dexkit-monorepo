@@ -4,7 +4,6 @@ import { type UseQueryResult } from "@tanstack/react-query";
 import { type providers } from "ethers";
 
 export type txMutationParams = {
-  account?: string;
   chainId?: ChainId;
   quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null | undefined;
   quoteQuery: UseQueryResult<

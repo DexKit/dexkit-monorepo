@@ -19,6 +19,7 @@ import { Formik } from 'formik';
 
 import CodeMirror, { Extension } from '@uiw/react-codemirror';
 
+import { history } from '@codemirror/commands';
 import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import { javascript } from '@codemirror/lang-javascript';
@@ -29,7 +30,7 @@ import { TextImproveAction } from '@dexkit/ui/types/ai';
 import { stringToJson } from '@dexkit/ui/utils';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import parse from 'html-react-parser';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FormattedMessage } from 'react-intl';
 import ChangeListener from '../ChangeListener';
@@ -76,122 +77,115 @@ function CodeSectionForm({
   const theme = useTheme();
 
   const [showAsFullScreen, setShowAsFullScreen] = useState<string>();
-
-  const renderInput = (
-    { extensions, value, name }: InputParam,
-    setFieldValue: (
-      name: string,
-      value: string,
-      shouldValidate?: boolean,
-    ) => void,
+  
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const debouncedSetFieldValue = useCallback((
+    name: string, 
+    value: string, 
+    setFieldValue: (name: string, value: string, shouldValidate?: boolean) => void
   ) => {
-    return (
-      <>
-        <CodeMirror
-          extensions={extensions}
-          theme={theme.palette.mode}
-          height="500px"
-          value={value}
-          onChange={(val) => setFieldValue(name, val)}
-        />
-      </>
-    );
-  };
-
-  const renderDialog = (
-    inputs: InputParam[],
-    setFieldValue: (
-      name: string,
-      value: string,
-      shouldValidate?: boolean,
-    ) => void,
-    viewAsfullScreen?: string,
-  ) => {
-    const node = inputs.find((i) => i.name === viewAsfullScreen);
-
-    if (node) {
-      return (
-        <Dialog open fullWidth maxWidth="xl">
-          <AppDialogTitle
-            title={
-              <FormattedMessage
-                id="edit.name.name"
-                defaultMessage='Edit "{name}"'
-                values={{ name: node.name }}
-              />
-            }
-            onClose={() => setShowAsFullScreen(undefined)}
-          />
-          <Divider />
-          <DialogContent sx={{ p: 0 }}>
-            {renderInput(node, setFieldValue)}
-          </DialogContent>
-        </Dialog>
-      );
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
     }
+    
+    debounceTimeoutRef.current = setTimeout(() => {
+      setFieldValue(name, value, false);
+    }, 300);
+  }, []);
+  
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
 
-    return null;
-  };
-
-  const renderList = (
-    nodes: InputParam[],
+  const renderInput = useCallback(
+    ({ extensions, value, name }: InputParam,
     setFieldValue: (
       name: string,
       value: string,
       shouldValidate?: boolean,
     ) => void,
-  ) => {
-    return (
-      <Grid container spacing={2}>
-        {nodes.map((node, key) => (
-          <Grid item xs={12} key={key}>
-            <Card>
-              <Box px={2} py={1}>
-                <Stack
-                  alignItems="center"
-                  justifyContent="space-between"
-                  direction="row"
-                >
-                  <Typography>{node.name}</Typography>
-                  <IconButton onClick={() => setShowAsFullScreen(node.name)}>
-                    <Fullscreen />
-                  </IconButton>
-                </Stack>
-              </Box>
+    ) => {
+      return (
+        <>
+          <CodeMirror
+            extensions={[
+              ...extensions,
+              history()
+            ]}
+            theme={theme.palette.mode}
+            height="500px"
+            value={value}
+            onChange={(val) => debouncedSetFieldValue(name, val, setFieldValue)}
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLine: true,
+              highlightSelectionMatches: false,
+              history: false,
+              foldGutter: false,
+              allowMultipleSelections: false,
+            }}
+          />
+        </>
+      );
+    },
+    [theme.palette.mode, debouncedSetFieldValue]
+  );
+
+  const renderDialog = useCallback(
+    (
+      inputs: InputParam[],
+      setFieldValue: (
+        name: string,
+        value: string,
+        shouldValidate?: boolean,
+      ) => void,
+      viewAsfullScreen?: string,
+    ) => {
+      const node = inputs.find((i) => i.name === viewAsfullScreen);
+
+      if (node) {
+        return (
+          <Dialog open fullWidth maxWidth="xl">
+            <AppDialogTitle
+              title={
+                <FormattedMessage
+                  id="edit.name.name"
+                  defaultMessage='Edit "{name}"'
+                  values={{ name: node.name }}
+                />
+              }
+              onClose={() => setShowAsFullScreen(undefined)}
+            />
+            <Divider />
+            <DialogContent sx={{ p: 0 }}>
               {renderInput(node, setFieldValue)}
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    );
-  };
+            </DialogContent>
+          </Dialog>
+        );
+      }
 
-  const [currTab, setCurrTab] = useState('html');
+      return null;
+    },
+    [renderInput]
+  );
 
-  const handleChangeTab = (e: SyntheticEvent, value: string) => {
-    setCurrTab(value);
-  };
-
-  const renderTabs = (
-    nodes: InputParam[],
-    setFieldValue: (
-      name: string,
-      value: string,
-      shouldValidate?: boolean,
-    ) => void,
-  ) => {
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Tabs value={currTab} onChange={handleChangeTab}>
-            {nodes.map((node, key) => (
-              <Tab label={node.name} value={node.name} key={key} />
-            ))}
-          </Tabs>
-        </Grid>
-        {nodes
-          .filter((n) => n.name === currTab)
-          .map((node, key) => (
+  const renderList = useCallback(
+    (
+      nodes: InputParam[],
+      setFieldValue: (
+        name: string,
+        value: string,
+        shouldValidate?: boolean,
+      ) => void,
+    ) => {
+      return (
+        <Grid container spacing={2}>
+          {nodes.map((node, key) => (
             <Grid item xs={12} key={key}>
               <Card>
                 <Box px={2} py={1}>
@@ -210,9 +204,62 @@ function CodeSectionForm({
               </Card>
             </Grid>
           ))}
-      </Grid>
-    );
+        </Grid>
+      );
+    },
+    [renderInput]
+  );
+
+  const [currTab, setCurrTab] = useState('html');
+
+  const handleChangeTab = (e: SyntheticEvent, value: string) => {
+    setCurrTab(value);
   };
+
+  const renderTabs = useCallback(
+    (
+      nodes: InputParam[],
+      setFieldValue: (
+        name: string,
+        value: string,
+        shouldValidate?: boolean,
+      ) => void,
+    ) => {
+      const activeNode = nodes.find(n => n.name === currTab);
+      
+      return (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Tabs value={currTab} onChange={handleChangeTab}>
+              {nodes.map((node, key) => (
+                <Tab label={node.name} value={node.name} key={key} />
+              ))}
+            </Tabs>
+          </Grid>
+          {activeNode && (
+            <Grid item xs={12}>
+              <Card>
+                <Box px={2} py={1}>
+                  <Stack
+                    alignItems="center"
+                    justifyContent="space-between"
+                    direction="row"
+                  >
+                    <Typography>{activeNode.name}</Typography>
+                    <IconButton onClick={() => setShowAsFullScreen(activeNode.name)}>
+                      <Fullscreen />
+                    </IconButton>
+                  </Stack>
+                </Box>
+                {renderInput(activeNode, setFieldValue)}
+              </Card>
+            </Grid>
+          )}
+        </Grid>
+      );
+    },
+    [currTab, renderInput]
+  );
 
   const [showList, setShowList] = useState(false);
 
@@ -220,7 +267,7 @@ function CodeSectionForm({
     setShowList((value) => !value);
   };
 
-  const inputs = (values: { html: string; js: string; css: string }) => {
+  const inputs = useMemo(() => (values: { html: string; js: string; css: string }) => {
     return [
       {
         extensions: [html()],
@@ -238,7 +285,7 @@ function CodeSectionForm({
         value: values.css,
       },
     ];
-  };
+  }, []);
 
   return (
     <Formik
