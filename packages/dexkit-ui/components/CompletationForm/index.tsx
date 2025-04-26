@@ -24,6 +24,7 @@ import { AI_MODEL, AI_MODEL_TYPE, TextImproveAction } from "../../types/ai";
 import { stringToJson } from "../../utils";
 import AIOptionsMenu from "../AIOptionsMenu";
 import AddCreditsButton from "../AddCreditsButton";
+import CodeSection from "../CodeSection";
 import PaywallBackdrop from "../PaywallBackdrop";
 import ImproveTextActionList from "./ImproveTextActionList";
 
@@ -156,6 +157,26 @@ export default function CompletationForm({
                       </>
                     )}
                   </Typography>
+                  {output &&
+                    values.action === TextImproveAction.GENERATE_CODE &&
+                    typeof stringToJson(output) === "object" && (
+                      <Box
+                        mt={12}
+                        position="relative"
+                        sx={{ transform: "translate(0,0)" }}
+                      >
+                        <CodeSection
+                          section={{
+                            type: "code-page-section",
+                            config: {
+                              html: stringToJson(output)?.html,
+                              js: stringToJson(output)?.js,
+                              css: stringToJson(output)?.css,
+                            },
+                          }}
+                        />
+                      </Box>
+                    )}
                   {output && (
                     <Stack spacing={2}>
                       {values.action === TextImproveAction.GENERATE_CODE &&

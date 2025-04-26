@@ -27,6 +27,7 @@ export interface CompletationProviderProps {
   multiline?: boolean;
   messages?: { role: string; content: string }[];
   filteredActions?: TextImproveAction[];
+  withContext?: boolean;
 }
 
 export default function CompletationProvider({
@@ -36,13 +37,16 @@ export default function CompletationProvider({
   multiline,
   messages,
   filteredActions,
+  withContext,
 }: CompletationProviderProps) {
   const [showAiComp, setShowAiComp] = useState(false);
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [defaultPrompt, setDefaultPrompt] = useState("");
   const ref = useRef<HTMLInputElement | null>(null);
   const completationMutation = useCompletation();
-
+  const promptHistory = useRef<{ role: string; content: string }[] | null>(
+    null
+  );
   const handleOpenComp = (event: MouseEvent<HTMLButtonElement>) => {
     setShowAiComp(true);
   };
@@ -92,7 +96,7 @@ export default function CompletationProvider({
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
         case TextImproveAction.GENERATE_CODE:
-          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code and make the answer a valid JSON ready to be parsed: "${prompt}".`;
+          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code. Return only the JSON and nothing else for"${prompt}".`;
       }
     },
     []
@@ -104,25 +108,34 @@ export default function CompletationProvider({
         setDefaultPrompt(prompt);
         setOpenMediaDialog(true);
       } else if (action) {
-        const actionPrompt = getPromptByAction(prompt, action);
+        const actionPrompt = promptHistory.current
+          ? prompt
+          : getPromptByAction(prompt, action);
 
         if (actionPrompt) {
-          const promptMessages = messages
-            ? [...messages, { role: "user", content: actionPrompt }]
-            : [
-                {
-                  role: "user",
-                  content:
-                    "You are an assistant. Do not return text with quotes nor special characters.",
-                },
-                { role: "user", content: actionPrompt },
-              ];
+          const promptMessages = messages ||
+            promptHistory.current || [
+              {
+                role: "user",
+                content:
+                  "You are an assistant. Do not return text with quotes nor special characters.",
+              },
+            ];
+
+          promptMessages.push({
+            role: "user",
+            content: actionPrompt,
+          });
 
           await completationMutation.mutateAsync({
             messages: promptMessages,
             action,
             model,
           });
+
+          if (withContext) {
+            promptHistory.current = promptMessages;
+          }
         }
       }
     },

@@ -286,6 +286,7 @@ function CodeSectionForm({
                     setFieldValue('css', code.css);
                   }}
                   filteredActions={[TextImproveAction.GENERATE_CODE]}
+                  withContext
                   initialPrompt={''}
                 >
                   {({ inputAdornment, ref }) => {
