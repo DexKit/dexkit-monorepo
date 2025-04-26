@@ -1,25 +1,26 @@
-import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
-import { ConfigResponse } from '../../../../../types/whitelabel';
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 
-import { ADMIN_TABLE_LIST } from '@/modules/admin/constants';
-import { useIsMobile } from '@dexkit/core';
-import { AppConfirmDialog, AppLink } from '@dexkit/ui';
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import MoreVert from '@mui/icons-material/MoreVert';
-import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { useIsMobile } from "@dexkit/core";
+import { AppConfirmDialog, AppLink } from "@dexkit/ui";
+import { useDeleteMyAppMutation } from "@dexkit/ui/modules/whitelabel/hooks/useDeleteMyAppMutation";
+import {
+  AppConfig,
+  ConfigResponse,
+} from "@dexkit/ui/modules/wizard/types/config";
+import MoreVert from "@mui/icons-material/MoreVert";
+import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridFilterModel,
   GridRowId,
   GridSortModel,
-} from '@mui/x-data-grid';
-import { useSnackbar } from 'notistack';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { IS_STAGING } from 'src/constants';
-import { useDeleteMyAppMutation } from 'src/hooks/whitelabel';
-import Menu from './Menu';
+} from "@mui/x-data-grid";
+import { useSnackbar } from "notistack";
+import { FormattedMessage, useIntl } from "react-intl";
+import { ADMIN_TABLE_LIST } from "../../../constants";
+import Menu from "./Menu";
 
 interface Props {
   configs: ConfigResponse[];
@@ -59,11 +60,11 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
     if (config) {
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        config?.config,
+        config?.config
       )}`;
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = jsonString;
-      link.download = 'config.json';
+      link.download = "config.json";
 
       link.click();
 
@@ -72,7 +73,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           id="config.exported"
           defaultMessage="Config exported"
         />,
-        { variant: 'success' },
+        { variant: "success" }
       );
     }
   };
@@ -82,10 +83,8 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
     if (config) {
       window.open(
-        IS_STAGING
-          ? `https://test.dev.dexkit.app?mid=${config?.slug}`
-          : `https://dexappbuilder.dexkit.com?mid=${config?.slug}`,
-        '_blank',
+        `https://dexappbuilder.dexkit.com?mid=${config?.slug}`,
+        "_blank"
       );
     }
     handleCloseMenu();
@@ -101,32 +100,32 @@ export default function MarketplacesTableV2({ configs }: Props) {
   const handleDeleteSuccess = () => {
     enqueueSnackbar(
       formatMessage({
-        defaultMessage: 'App removed',
-        id: 'app.removed',
+        defaultMessage: "App removed",
+        id: "app.removed",
       }),
       {
-        variant: 'success',
+        variant: "success",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
   const handleDeleteError = (error: any) => {
     enqueueSnackbar(
       `${formatMessage({
-        defaultMessage: 'Error',
-        id: 'error',
+        defaultMessage: "Error",
+        id: "error",
       })}: ${String(error)}`,
       {
-        variant: 'error',
+        variant: "error",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
@@ -162,16 +161,16 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const handleAction = (action: string, id: GridRowId) => {
     switch (action) {
-      case 'export':
+      case "export":
         handleExport(id);
         break;
-      case 'preview':
+      case "preview":
         handlePreview(id);
         break;
-      case 'edit':
+      case "edit":
         handleEdit(id);
         break;
-      case 'delete':
+      case "delete":
         handleRemove(id);
         break;
       default:
@@ -202,8 +201,8 @@ export default function MarketplacesTableV2({ configs }: Props) {
           </Typography>
         );
       },
-      field: 'name',
-      headerName: formatMessage({ id: 'name', defaultMessage: 'Name' }),
+      field: "name",
+      headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
       minWidth: 200,
       renderCell: (params) => {
         return (
@@ -241,9 +240,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
           </Typography>
         );
       },
-      field: 'domain',
+      field: "domain",
       flex: 1,
-      headerName: formatMessage({ id: 'domain', defaultMessage: 'Domain' }),
+      headerName: formatMessage({ id: "domain", defaultMessage: "Domain" }),
       minWidth: 200,
       renderCell: ({ row }) => {
         const appConfig: AppConfig = JSON.parse(row.config);
@@ -263,7 +262,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           );
         }
 
-        if (appConfig.domain && appConfig.domain !== '') {
+        if (appConfig.domain && appConfig.domain !== "") {
           return (
             <AppLink
               sx={(theme) => ({
@@ -272,7 +271,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
                   : theme.typography.fontSize,
               })}
               href={appConfig.domain}
-              target={'_blank'}
+              target={"_blank"}
             >
               {appConfig.domain}
             </AppLink>
@@ -281,7 +280,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
       },
     },
     {
-      field: 'action',
+      field: "action",
       disableReorder: true,
       sortable: false,
       disableColumnMenu: true,
@@ -301,8 +300,8 @@ export default function MarketplacesTableV2({ configs }: Props) {
       },
       flex: 1,
       minWidth: isMobile ? 150 : undefined,
-      headerName: formatMessage({ id: 'actions', defaultMessage: 'Actions' }),
-      headerAlign: 'center',
+      headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
+      headerAlign: "center",
       renderCell: ({ row, id }) => {
         if (isMobile) {
           return (
@@ -319,7 +318,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
         return (
           <Stack
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
             direction="row"
             alignItems="center"
             justifyContent="center"
@@ -349,8 +348,8 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
-      field: 'rating',
-      sort: 'desc',
+      field: "rating",
+      sort: "desc",
     },
   ]);
 

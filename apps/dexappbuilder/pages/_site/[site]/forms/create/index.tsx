@@ -1,4 +1,3 @@
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
 import { useCreateFormMutation } from '@/modules/forms/hooks';
 import { getFormTemplate } from '@/modules/forms/services';
 import { FormTemplate } from '@/modules/forms/types';
@@ -37,6 +36,7 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { getAppConfig } from 'src/services/app';
 

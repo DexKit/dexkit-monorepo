@@ -1,8 +1,8 @@
-import MarketplacesTableSkeleton from '@/modules/admin/components/tables/MaketplacesTableSkeleton';
-import PageTemplatesTable from '@/modules/admin/components/tables/PageTemplatesTable';
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
+import PageTemplatesTable from '@dexkit/ui/modules/admin/components/tables/PageTemplatesTable';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';

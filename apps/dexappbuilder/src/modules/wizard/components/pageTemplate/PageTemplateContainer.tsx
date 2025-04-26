@@ -4,7 +4,8 @@ import Stack from '@mui/material/Stack';
 import { FormattedMessage } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { PageTemplateResponse } from '../../../../types/whitelabel';
+
+import { PageTemplateResponse } from '@dexkit/ui/modules/whitelabel/types';
 import PageTemplateForm from './forms/PageTemplateForm';
 
 interface Props {

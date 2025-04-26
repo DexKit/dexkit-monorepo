@@ -23,7 +23,6 @@ import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 
 import { useSaveContractDeployed } from '@/modules/forms/hooks';
@@ -42,6 +41,7 @@ import {
   useSwitchNetworkMutation,
 } from '@dexkit/ui';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import useThirdwebContractMetadataQuery, {
   useDeployThirdWebContractMutation,

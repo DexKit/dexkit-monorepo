@@ -1,3 +1,4 @@
+import { NETWORKS } from '@dexkit/core/constants/networks';
 import CategoryIcon from '@mui/icons-material/LocalOffer';
 import MailIcon from '@mui/icons-material/MailOutline';
 import { Card, CardContent } from '@mui/material';
@@ -7,10 +8,9 @@ import {
   FilterLiveSearch,
   SavedQueriesList,
 } from 'react-admin';
-import { NETWORKS } from 'src/constants/chain';
 
-export const CoinPlatformFilterSidebar = () => (
-  <Card sx={{ order: -1, mr: 2, mt: 9, width: 300 }}>
+export const CoinFilterSidebar = () => (
+  <Card sx={{ order: -1, mr: 2, mt: 9, width: 400 }}>
     <CardContent>
       <SavedQueriesList />
       <FilterLiveSearch />
@@ -26,6 +26,13 @@ export const CoinPlatformFilterSidebar = () => (
               />
             ))}
         </>
+      </FilterList>
+      <FilterList label="Coingecko Listed" icon={<CategoryIcon />}>
+        <FilterListItem label="Listed" value={{ isCoingeckoListed: true }} />
+        <FilterListItem
+          label="Not Listed"
+          value={{ isCoingeckoListed: false }}
+        />
       </FilterList>
     </CardContent>
   </Card>

@@ -28,7 +28,7 @@ import {
   default as CheckDomainDialog,
   default as DeployDomainDialog,
 } from '../dialogs/CheckDomainDialog';
-import InfoDialog from '../dialogs/InfoDialog';
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import DomainSection, { DomainSectionForm } from '../sections/DomainSection';
 interface Props {
   config: AppConfig;

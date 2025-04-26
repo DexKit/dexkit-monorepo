@@ -1,9 +1,8 @@
-import { IconButton, TableCell, TableRow } from '@mui/material';
-import { memo } from 'react';
+import { IconButton, TableCell, TableRow } from "@mui/material";
+import { memo } from "react";
 
-import { PageTemplateResponse } from '../../../../types/whitelabel';
-
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { PageTemplateResponse } from "../../../whitelabel/types";
 
 interface Props {
   pageTemplate: PageTemplateResponse;

@@ -1,5 +1,3 @@
-import MarketplacesTableSkeleton from '@/modules/admin/components/tables/MaketplacesTableSkeleton';
-import MarketplacesTableV2 from '@/modules/admin/components/tables/MarketplacesTableV2';
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
 import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
 import ConfigureDomainDialog from '@/modules/wizard/components/dialogs/ConfigureDomainDialog';
@@ -8,6 +6,8 @@ import Link from '@dexkit/ui/components/AppLink';
 import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
+import MarketplacesTableV2 from '@dexkit/ui/modules/admin/components/tables/MarketplacesTableV2';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';

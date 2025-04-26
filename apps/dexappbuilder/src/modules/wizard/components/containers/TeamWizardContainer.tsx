@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SiteResponse } from '../../../../types/whitelabel';
 import AddMemberFormDialog from '../dialogs/AddMemberFormDialog';
-import InfoDialog from '../dialogs/InfoDialog';
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import { PermissionsAccordionForm } from '../forms/PermissionsAccordionForm';
 interface Props {
   site?: SiteResponse | null;

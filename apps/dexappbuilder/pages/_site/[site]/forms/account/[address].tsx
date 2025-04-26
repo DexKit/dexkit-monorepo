@@ -1,4 +1,3 @@
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
 import { useListFormsQuery } from '@/modules/forms/hooks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { truncateAddress } from '@dexkit/core/utils';
@@ -8,6 +7,7 @@ import Search from '@mui/icons-material/Search';
 
 import Link from '@dexkit/ui/components/AppLink';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import {
   Avatar,
   Box,

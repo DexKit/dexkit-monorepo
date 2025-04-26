@@ -1,5 +1,6 @@
 import type { CollectionOwnershipNFTFormType } from '@/modules/contract-wizard/types';
 import { myAppsApi as myAppsApiUI } from '@dexkit/ui/constants/api';
+import { PageTemplateResponse } from '@dexkit/ui/modules/whitelabel/types';
 import type { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { getAccessToken, getAccessTokenAndRefresh, getRefreshAccessToken } from '@dexkit/ui/services/auth';
@@ -7,7 +8,6 @@ import axios from 'axios';
 import type {
   ConfigResponse,
   PageTemplateFormData,
-  PageTemplateResponse,
   SiteResponse,
   WhitelabelFormData
 } from '../types/whitelabel';
@@ -287,11 +287,6 @@ export async function deleteConfig(slug: string) {
   });
 }
 
-export async function deletePageTemplate(id: string) {
-  return await myAppsApi.delete<PageTemplateResponse[]>(
-    `/site/page-template/${id}`
-  );
-}
 
 export async function getDomainConfigStatus(domain: string) {
   return await myAppsApi.get<ConfigResponse[]>(`/site/domain-status`, {

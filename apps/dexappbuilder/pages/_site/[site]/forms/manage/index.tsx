@@ -1,5 +1,3 @@
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
-
 const AccountFormsTable = dynamic(
   () => import('@/modules/forms/components/AccountFormsTable'),
 );
@@ -10,6 +8,7 @@ import { AppErrorBoundary } from '@dexkit/ui/components/AppErrorBoundary';
 import Link from '@dexkit/ui/components/AppLink';
 import { ConnectWalletButton } from '@dexkit/ui/components/ConnectWalletButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Add from '@mui/icons-material/Add';
 import {

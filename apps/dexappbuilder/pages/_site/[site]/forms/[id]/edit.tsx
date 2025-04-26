@@ -18,7 +18,6 @@ import {
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
 import { useFormQuery, useUpdateFormMutation } from '@/modules/forms/hooks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
@@ -27,6 +26,7 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 export default function FormsEditPage() {

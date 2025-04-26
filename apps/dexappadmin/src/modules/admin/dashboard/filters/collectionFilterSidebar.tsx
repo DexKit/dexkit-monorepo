@@ -8,10 +8,10 @@ import {
   SavedQueriesList,
 } from 'react-admin';
 
+import { NETWORKS } from '@dexkit/core/constants/networks';
 import { CollectionSyncStatus } from '@dexkit/ui/modules/nft/constants/enum';
-import { NETWORKS } from 'src/constants/chain';
 
-export const AssetFilterSidebar = () => (
+export const CollectionFilterSidebar = () => (
   <Card sx={{ order: -1, mr: 2, mt: 9, width: 400 }}>
     <CardContent>
       <SavedQueriesList />
@@ -20,9 +20,9 @@ export const AssetFilterSidebar = () => (
         <>
           {Object.values(NETWORKS)
             .filter((t) => !t.testnet)
-            .map((n, key) => (
+            .map((n, k) => (
               <FilterListItem
-                key={key}
+                key={k}
                 label={n.name}
                 value={{ networkId: n.slug }}
               />

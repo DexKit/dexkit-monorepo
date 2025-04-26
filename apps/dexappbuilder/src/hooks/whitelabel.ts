@@ -3,22 +3,17 @@ import { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   useMutation,
-  UseMutationOptions,
   useQuery,
-  useQueryClient,
+  useQueryClient
 } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { holdsKitDialogAtom } from 'src/state/atoms';
 import { AppWhitelabelType } from '../constants/enum';
 import {
-  deleteConfig,
-  deletePageTemplate,
   getAdminConfig,
   getConfig,
-  getConfigsByOwner,
   getDomainConfigStatus,
   getPageTemplateById,
-  getPageTemplatesByOwner,
   getSiteMetadata,
   getSites,
   getTemplateConfig,
@@ -37,6 +32,13 @@ import { useAccountHoldDexkitMutation } from '@dexkit/ui/hooks/account';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { useSiteId } from './app';
+
+import { useDeleteMyAppMutation } from '@dexkit/ui/modules/whitelabel/hooks/useDeleteMyAppMutation';
+import { useDeletePageTemplateMutation } from '@dexkit/ui/modules/whitelabel/hooks/useDeletePageTemplateMutation';
+import { usePageTemplatesByOwnerQuery } from '@dexkit/ui/modules/whitelabel/hooks/usePageTemplatesByOwnerQuery';
+import { useWhitelabelConfigsByOwnerQuery } from '@dexkit/ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerQuery';
+
+export { useDeleteMyAppMutation, useDeletePageTemplateMutation, usePageTemplatesByOwnerQuery, useWhitelabelConfigsByOwnerQuery };
 //import SiteConfig from '../../config/dexappbuilder.json';
 
 export const useSendConfigMutation = ({ slug }: { slug?: string }) => {
@@ -91,25 +93,7 @@ export const useUpsertPageTemplateMutation = () => {
   });
 };
 
-export const QUERY_WHITELABEL_CONFIGS_BY_OWNER_NAME =
-  'GET_WHITELABEL_CONFIGS_BY_OWNER_QUERY';
 
-interface ConfigsByOwnerParams {
-  owner?: string;
-}
-
-export const useWhitelabelConfigsByOwnerQuery = ({
-  owner,
-}: ConfigsByOwnerParams) => {
-  return useQuery([QUERY_WHITELABEL_CONFIGS_BY_OWNER_NAME, owner], async () => {
-    if (!owner) return;
-
-    return (await getConfigsByOwner(owner)).data.map((resp) => ({
-      ...resp,
-      appConfig: JSON.parse(resp.config) as AppConfig,
-    }));
-  });
-};
 
 export const QUERY_WHITELABEL_SITES_QUERY = 'GET_WHITELABEL_SITESQUERY';
 
@@ -149,21 +133,7 @@ export const useSiteMetadataQuery = ({ slug }: { slug: string }) => {
 
 };
 
-export const QUERY_PAGE_TEMPLATES_CONFIGS_BY_OWNER_NAME =
-  'GET_PAGE_TEMPLATES_CONFIGS_BY_OWNER_QUERY';
 
-export const usePageTemplatesByOwnerQuery = ({
-  owner,
-}: ConfigsByOwnerParams) => {
-  return useQuery(
-    [QUERY_PAGE_TEMPLATES_CONFIGS_BY_OWNER_NAME, owner],
-    async () => {
-      if (!owner) return;
-
-      return (await getPageTemplatesByOwner(owner)).data;
-    }
-  );
-};
 
 export const QUERY_PAGE_TEMPLATES_CONFIG_BY_ID =
   'GET_PAGE_TEMPLATES_CONFIG_BY_ID_QUERY';
@@ -265,49 +235,8 @@ export const useAdminWhitelabelConfigQuery = ({
   );
 };
 
-export const useDeleteMyAppMutation = ({
-  options,
-}: {
-  options?: UseMutationOptions;
-}) => {
-  const { account, provider, chainId } = useWeb3React();
-  const { isLoggedIn, user } = useAuth();
-  const { refetch } = useWhitelabelConfigsByOwnerQuery({ owner: user?.address });
 
-  const loginMutation = useLoginAccountMutation();
 
-  return useMutation<any, any, any>(async ({ slug }: { slug: string }) => {
-    if (account && provider && chainId !== undefined) {
-      if (!isLoggedIn) {
-        await loginMutation.mutateAsync();
-      }
-
-      await deleteConfig(slug);
-      refetch();
-    }
-  }, options);
-};
-
-export const useDeletePageTemplateMutation = ({
-  options,
-}: {
-  options?: UseMutationOptions;
-}) => {
-  const { account, provider, chainId } = useWeb3React();
-  const { refetch } = usePageTemplatesByOwnerQuery({ owner: account });
-  const { isLoggedIn } = useAuth();
-  const loginMutation = useLoginAccountMutation();
-
-  return useMutation<any, any, any>(async ({ id }: { id: string }) => {
-    if (account && provider && chainId !== undefined && id) {
-      if (!isLoggedIn) {
-        await loginMutation.mutateAsync();
-      }
-      await deletePageTemplate(id);
-      refetch();
-    }
-  }, options);
-};
 
 export const useDomainConfigStatusMutation = () => {
   const { account } = useWeb3React();

@@ -11,8 +11,6 @@ import {
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
-
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
@@ -35,6 +33,7 @@ const ImportContractDialog = dynamic(
 );
 
 import Link from '@dexkit/ui/components/AppLink';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { QueryClient, dehydrate, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
