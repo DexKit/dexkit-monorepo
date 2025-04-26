@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
@@ -20,5 +20,26 @@
     "dev": {
       "cache": false
     }
-  }
+  },
+  "globalEnv": [
+    "BROWSER",
+    "NODE_ENV",
+    "OPENSEA_PROJECT_ID",
+    "OPENSEA_PROJECT_API_KEY",
+    "PORT",
+    "NEXT_PUBLIC_CHAIN_ID",
+    "NEXT_PUBLIC_DEFAULT_CHAIN_ID",
+    "NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID",
+    "NEXT_PUBLIC_ALCHEMY_KEY",
+    "NEXT_PUBLIC_INFURA_KEY",
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_ENABLE_TESTNETS",
+    "NEXT_PUBLIC_NFT_MARKETPLACE",
+    "SOLANA_RPC_URL",
+    "HOME",
+    "USERPROFILE",
+    "LOCALAPPDATA",
+    "METAMASK_PATH",
+    "AVAX_PRIVATE_KEY"
+  ]
 }

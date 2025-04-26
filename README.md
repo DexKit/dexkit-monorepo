@@ -83,3 +83,53 @@ This project is licensed under the MIT License.
 <div align="center">
   Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
 </div>
+
+# E2E Testing with Brave Browser and MetaMask
+
+This directory contains end-to-end (E2E) tests for our DexKit products, using Playwright for UI testing and Brave Browser with MetaMask for wallet interactions.
+
+## Test Types
+
+1. **Basic UI Tests** - Using Playwright to test UI elements and navigation
+2. **Mock Wallet Tests** - Using a simulated wallet for testing contract interactions
+3. **Real Wallet Tests (Beta)** - Using Brave Browser with MetaMask for real blockchain interactions
+
+## Setting Up for Tests
+
+Please see the detailed instructions in the following files:
+- [General E2E Testing](/tests/README.md)
+- [Specific Testing Strategy](/tests/e2e/README.md)
+
+## Current Status
+
+The real wallet testing with Brave Browser and MetaMask is currently in **beta** status:
+
+- ✅ Detection of Brave Browser works
+- ✅ Detection of MetaMask extension works
+- ✅ Browser launches correctly with the extension
+- ✅ MetaMask unlocking works
+- ❌ Automatic network switching needs updates
+- ❌ Connection dialog detection needs updates
+
+## Manual Testing Procedure
+
+While we continue to improve the automated tests, you can follow this manual procedure:
+
+1. Run `yarn test:e2e:setup-metamask` to configure paths
+2. Edit your MetaMask password in the test file
+3. Start the development server with `yarn dev:whitelabel`
+4. Set up BSC Testnet in your MetaMask manually
+5. Run `yarn test:e2e:wallet` to launch the browser
+6. When the test stops at the connection screen:
+   - Manually approve the connection in MetaMask
+   - Take note of what happens for future test improvements
+
+## Contribution
+
+If you would like to help improve these tests, please focus on:
+
+1. Updating the MetaMask helper functions to match the current UI
+2. Improving the wallet connection detection
+3. Adding more robust error handling
+
+For more information on running or developing tests, see the documentation in the `tests` directory.

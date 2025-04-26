@@ -34,10 +34,17 @@
     "merge-lang-main-files": "node ./scripts/merge-lang-main-files.js",
     "run:process-dexappbuilder-translation": "./scripts/bash/run-generate-lang-files.sh",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test:e2e": "npx playwright test ./tests/e2e",
+    "test:e2e:ui": "npx playwright test ./tests/e2e/contract-ui.spec.ts",
+    "test:e2e:visual": "npx playwright test ./tests/e2e/contract-ui.spec.ts --update-snapshots",
+    "test:e2e:report": "npx playwright show-report",
+    "test:e2e:wallet": "node ./tests/e2e/contract-with-wallet.spec.js",
+    "test:e2e:setup-metamask": "node ./scripts/setup-metamask.js"
   },
   "devDependencies": {
-    "@playwright/test": "^1.32.2",
+    "@playwright/test": "^1.52.0",
+    "@synthetixio/synpress": "^4.0.10",
     "cross-env": "^7.0.3",
     "eslint-config-custom": "*",
     "next-transpile-modules": "^10.0.0",

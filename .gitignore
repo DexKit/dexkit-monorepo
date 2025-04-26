@@ -35,3 +35,6 @@ yarn-error.log*
 dist/
 
 sitemap-0.xml
+/playwright-report
+/test-results
+/brave-data
