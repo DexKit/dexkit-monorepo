@@ -18,6 +18,7 @@ myAppsApi.interceptors.request.use(async (config) => {
       authorization: `Bearer ${access_token}`,
     };
   return config;
+
 });
 
 export default {

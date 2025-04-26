@@ -37,3 +37,10 @@ yarn-error.log*
 .vercel
 
 sitemap-0.xml
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
