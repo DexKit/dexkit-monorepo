@@ -1,4 +1,5 @@
 {
+  "globalEnv": ["NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT"],
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {

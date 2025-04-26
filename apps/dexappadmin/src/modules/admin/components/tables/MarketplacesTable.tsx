@@ -1,5 +1,6 @@
-import Delete from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { useDeleteMyAppMutation } from "@dexkit/ui/modules/whitelabel/hooks/useDeleteMyAppMutation";
+import Delete from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Container,
   Divider,
@@ -13,20 +14,20 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { useCallback, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDeleteMyAppMutation } from '../../../../hooks/whitelabel';
-import { ConfigResponse } from '../../../../types/whitelabel';
-import MarketplacesTableRow from './MarketplacesTableRow';
+} from "@mui/material";
+import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
+import { useCallback, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
-import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { IS_STAGING } from '../../../../constants';
-import InfoDialog from '../../../wizard/components/dialogs/InfoDialog';
+import MarketplacesTableRow from "./MarketplacesTableRow";
+
+import AppConfirmDialog from "@dexkit/ui/components/AppConfirmDialog";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
+import InfoDialog from "@dexkit/ui/components/dialogs/InfoDialog";
+import { ConfigResponse } from "@dexkit/ui/modules/wizard/types/config";
 
 interface Props {
   configs: ConfigResponse[];
@@ -42,8 +43,8 @@ export default function MarketplacesTable({ configs }: Props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
-  const [titleInfo, setTitleInfo] = useState('');
-  const [contentInfo, setContentInfo] = useState('');
+  const [titleInfo, setTitleInfo] = useState("");
+  const [contentInfo, setContentInfo] = useState("");
   const [isDeployConfirmOpen, setIsDeployConfirmOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,7 +62,7 @@ export default function MarketplacesTable({ configs }: Props) {
       setAnchorEl(e.currentTarget);
       setSelectedConfig(config);
     },
-    [],
+    []
   );
 
   const handleEdit = () => {
@@ -72,32 +73,32 @@ export default function MarketplacesTable({ configs }: Props) {
   const handleDeleteSuccess = () => {
     enqueueSnackbar(
       formatMessage({
-        defaultMessage: 'App removed',
-        id: 'app.removed',
+        defaultMessage: "App removed",
+        id: "app.removed",
       }),
       {
-        variant: 'success',
+        variant: "success",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
   const handleDeleteError = (error: any) => {
     enqueueSnackbar(
       `${formatMessage({
-        defaultMessage: 'Error',
-        id: 'error',
+        defaultMessage: "Error",
+        id: "error",
       })}: ${String(error)}`,
       {
-        variant: 'error',
+        variant: "error",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
@@ -113,10 +114,8 @@ export default function MarketplacesTable({ configs }: Props) {
   const handlePreview = () => {
     if (selectedConfig) {
       window.open(
-        IS_STAGING
-          ? `https://test.dev.dexkit.app?mid=${selectedConfig?.slug}`
-          : `https://dexappbuilder.dexkit.com?mid=${selectedConfig?.slug}`,
-        '_blank',
+        `https://dexappbuilder.dexkit.com?mid=${selectedConfig?.slug}`,
+        "_blank"
       );
     }
     handleCloseMenu();
@@ -129,8 +128,8 @@ export default function MarketplacesTable({ configs }: Props) {
 
   const handleCloseInfo = () => {
     setOpenInfo(false);
-    setTitleInfo('');
-    setContentInfo('');
+    setTitleInfo("");
+    setContentInfo("");
   };
 
   const handleDeploy = (config: ConfigResponse) => {
@@ -150,11 +149,11 @@ export default function MarketplacesTable({ configs }: Props) {
   const handleExport = () => {
     if (selectedConfig) {
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        selectedConfig.config,
+        selectedConfig.config
       )}`;
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = jsonString;
-      link.download = 'config.json';
+      link.download = "config.json";
 
       link.click();
     }

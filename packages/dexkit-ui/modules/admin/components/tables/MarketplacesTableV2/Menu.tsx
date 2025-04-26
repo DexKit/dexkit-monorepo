@@ -1,12 +1,12 @@
-import { ADMIN_TABLE_LIST } from '@/modules/admin/constants';
 import {
   ListItemIcon,
   ListItemText,
   MenuItem,
   Menu as MuiMenu,
   Typography,
-} from '@mui/material';
-import { FormattedMessage } from 'react-intl';
+} from "@mui/material";
+import { FormattedMessage } from "react-intl";
+import { ADMIN_TABLE_LIST } from "../../../constants";
 
 export interface MenuProps {
   anchorEl: null | HTMLElement;

@@ -40,7 +40,7 @@ import {
 } from '../../hooks';
 import { generateCSSVarsTheme } from '../../utils';
 import AddAppVersionFormDialog from '../dialogs/AddAppVersionFormDialog';
-import InfoDialog from '../dialogs/InfoDialog';
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 const PreviewPageDialog = dynamic(() => import('../dialogs/PreviewPageDialog'));
 
 interface AppVersion {

@@ -1,5 +1,5 @@
-import Delete from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import Delete from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Divider,
   ListItemIcon,
@@ -12,18 +12,18 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { useCallback, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDeletePageTemplateMutation } from '../../../../hooks/whitelabel';
-import { PageTemplateResponse } from '../../../../types/whitelabel';
+} from "@mui/material";
+import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
+import { useCallback, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
-import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import PageEditorDialog from '../../../wizard/components/pageEditor/dialogs/PageEditorDialog';
-import PageTemplatesTableRow from './PageTemplatesTableRow';
+import AppConfirmDialog from "@dexkit/ui/components/AppConfirmDialog";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+//import PageEditorDialog from "../../../wizard/components/pageEditor/dialogs/PageEditorDialog";
+import { useDeletePageTemplateMutation } from "../../../whitelabel/hooks/useDeletePageTemplateMutation";
+import { PageTemplateResponse } from "../../../whitelabel/types";
+import PageTemplatesTableRow from "./PageTemplatesTableRow";
 
 interface Props {
   pageTemplates: PageTemplateResponse[];
@@ -39,8 +39,8 @@ export default function PageTemplatesTable({ pageTemplates }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPreview, setIsOpenPreview] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
-  const [titleInfo, setTitleInfo] = useState('');
-  const [contentInfo, setContentInfo] = useState('');
+  const [titleInfo, setTitleInfo] = useState("");
+  const [contentInfo, setContentInfo] = useState("");
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -58,7 +58,7 @@ export default function PageTemplatesTable({ pageTemplates }: Props) {
       setAnchorEl(e.currentTarget);
       setSelectedPageTemplate(config);
     },
-    [],
+    []
   );
 
   const handleEdit = () => {
@@ -69,32 +69,32 @@ export default function PageTemplatesTable({ pageTemplates }: Props) {
   const handleDeleteSuccess = () => {
     enqueueSnackbar(
       formatMessage({
-        defaultMessage: 'Page template removed',
-        id: 'page.template.removed',
+        defaultMessage: "Page template removed",
+        id: "page.template.removed",
       }),
       {
-        variant: 'success',
+        variant: "success",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
   const handleDeleteError = (error: any) => {
     enqueueSnackbar(
       `${formatMessage({
-        defaultMessage: 'Error',
-        id: 'error',
+        defaultMessage: "Error",
+        id: "error",
       })}: ${String(error)}`,
       {
-        variant: 'error',
+        variant: "error",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
@@ -139,10 +139,10 @@ export default function PageTemplatesTable({ pageTemplates }: Props) {
         <FormattedMessage
           id="do.you.really.want.to.remove.this.page.template"
           defaultMessage="Do you really want to remove this page template #{id}"
-          values={{ id: selectedPageTemplate?.id || '' }}
+          values={{ id: selectedPageTemplate?.id || "" }}
         />
       </AppConfirmDialog>
-      {isOpenPreview && (
+      {/*isOpenPreview && (
         <PageEditorDialog
           dialogProps={{
             open: isOpenPreview,
@@ -153,7 +153,7 @@ export default function PageTemplatesTable({ pageTemplates }: Props) {
           value={selectedPageTemplate?.config}
           readonly={true}
         />
-      )}
+      )*/}
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
         <MenuItem onClick={handlePreview}>

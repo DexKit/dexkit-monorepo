@@ -1,5 +1,6 @@
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
+
 import { ChainId } from '@dexkit/core';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import { TemplateInstance } from '../types';
 
 export async function createForm({
@@ -20,7 +21,7 @@ export async function createForm({
   return await myAppsApi.post(
     '/forms/create',
     { creatorAddress, params, name, description, templateId },
-    { signal },
+    { },
   );
 }
 
@@ -40,7 +41,7 @@ export async function updateForm({
   return await myAppsApi.post(
     `/forms/${id}`,
     { name, description, params },
-    { signal },
+    { },
   );
 }
 
@@ -51,7 +52,7 @@ export async function getForm({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/${id}`, { signal });
+  return await myAppsApi.get(`/forms/${id}`, {  });
 }
 
 export async function createFormTemplate({
@@ -70,7 +71,7 @@ export async function createFormTemplate({
   return await myAppsApi.post(
     '/forms/templates/create',
     { name, description, bytecode, abi },
-    { signal },
+    {  },
   );
 }
 
@@ -92,7 +93,7 @@ export async function updateFormTemplate({
   return await myAppsApi.post(
     `/forms/templates/${id}`,
     { name, description, bytecode, abi },
-    { signal },
+    {  },
   );
 }
 
@@ -103,7 +104,7 @@ export async function getFormTemplate({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/templates/${id}`, { signal });
+  return await myAppsApi.get(`/forms/templates/${id}`, {  });
 }
 
 export async function listFormTemplates({
@@ -116,7 +117,6 @@ export async function listFormTemplates({
   query?: string;
 }) {
   return await myAppsApi.get(`/forms/templates`, {
-    signal,
     params: { creatorAddress, query },
   });
 }
@@ -131,7 +131,7 @@ export async function listForms({
   signal?: AbortSignal;
 }) {
   return await myAppsApi.get(`/forms`, {
-    signal,
+
     params: { creatorAddress, query },
   });
 }
@@ -178,7 +178,7 @@ export async function deleteForm({
   signal?: AbortSignal;
 }) {
   return await myAppsApi.delete(`/forms/${id}`, {
-    signal,
+  
   });
 }
 

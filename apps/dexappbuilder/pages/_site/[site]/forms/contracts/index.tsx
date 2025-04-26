@@ -1,7 +1,6 @@
 import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
-import { myAppsApi } from '@/modules/admin/dashboard/dataProvider';
 import ContractButton from '@/modules/forms/components/ContractButton';
 import {
   useDeployableContractsQuery,
@@ -10,6 +9,7 @@ import {
 import { DexkitApiProvider } from '@dexkit/core/providers';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
+import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
