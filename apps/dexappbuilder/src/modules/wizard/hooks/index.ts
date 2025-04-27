@@ -14,6 +14,7 @@ import {
 } from '@dexkit/ui/modules/wizard/hooks/ranking';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import {
+  GatedConditionsResult,
   addPermissionsMemberSite,
   checkGatedConditions,
   createSiteRankingVersion,
@@ -100,15 +101,47 @@ export function useCheckGatedConditions({
   conditions?: GatedCondition[];
   account?: string;
 }) {
-  return useQuery(
+  const queryClient = useQueryClient();
+  
+  return useQuery<GatedConditionsResult | null>(
     ['GET_CHECKED_GATED_CONDITIONS', account, conditions],
     async () => {
       if (!conditions) {
         return null;
       }
 
-      const data = await checkGatedConditions({ account, conditions });
-      return data;
+      try {
+        const data = await checkGatedConditions({ account, conditions });
+        return data;
+      } catch (error) {
+        console.error("Error verifying gated conditions", error);
+        const balances: { [key: number]: string } = {};
+        const partialResults: { [key: number]: boolean } = {};
+        
+        conditions.forEach((_, index) => {
+          balances[index] = "Error";
+          partialResults[index] = false;
+        });
+        
+        return { 
+          result: false, 
+          balances, 
+          partialResults,
+          error: true,
+          errorMessage: "An error occurred while verifying your assets. Please try again."
+        };
+      }
+    },
+    {
+      retry: 2,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+      keepPreviousData: true,
+      staleTime: 30000,
+      onSuccess: (data) => {
+        if (data && data.result) {
+          queryClient.invalidateQueries(['GET_PROTECTED_APP_CONFIG']);
+        }
+      },
     },
   );
 }
