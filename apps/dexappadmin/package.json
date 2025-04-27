@@ -36,9 +36,8 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "5.14.11",
     "@mui/material": "5.14.11",
-    "thirdweb": "^5.93.15",
-    "react-admin": "4.14.1"
-    
+    "react-admin": "4.14.1",
+    "thirdweb": "^5.93.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -46,6 +45,6 @@
     "eslint-config-next": "^12.2.3",
     "pre-push": "^0.1.4",
     "ts-node": "^10.9.1",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   }
 }

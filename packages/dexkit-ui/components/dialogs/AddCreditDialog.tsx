@@ -32,9 +32,13 @@ import { isBalancesVisibleAtom } from "../../modules/wallet/state";
 
 export interface AddCreditDialogProps {
   DialogProps: DialogProps;
+  initialAmount?: string;
 }
 
-export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
+export default function AddCreditDialog({
+  DialogProps,
+  initialAmount,
+}: AddCreditDialogProps) {
   const { onClose } = DialogProps;
 
   const buyCreditsCheckout = useBuyCreditsCheckout();
@@ -96,11 +100,11 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
       };
     }
 
-    if (value.greaterThan(95)) {
+    if (value.greaterThan(600)) {
       return {
         amount: formatMessage({
-          defaultMessage: "the maximum is 95",
-          id: "the.maximum.is.95",
+          defaultMessage: "the maximum is 600",
+          id: "the.maximum.is.600",
         }),
       };
     }
@@ -208,12 +212,12 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
               defaultMessage="Cryptocurrency"
             />
           </MenuItem>
-          <MenuItem disabled value="card">
+          {/* <MenuItem disabled value="card">
             <FormattedMessage
               id="credit.card.soming.soon"
               defaultMessage="Credit Card (Coming Soon)"
             />
-          </MenuItem>
+          </MenuItem>*/}
         </Field>
       </Stack>
     );
@@ -222,7 +226,10 @@ export default function AddCreditDialog({ DialogProps }: AddCreditDialogProps) {
   return (
     <Dialog {...DialogProps}>
       <Formik
-        initialValues={{ amount: "5", paymentMethod: "crypto" }}
+        initialValues={{
+          amount: initialAmount || "50",
+          paymentMethod: "crypto",
+        }}
         onSubmit={handleSubmit}
         validate={handleValitate}
       >
