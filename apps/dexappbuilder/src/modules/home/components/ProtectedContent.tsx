@@ -8,9 +8,16 @@ import {
 } from '@dexkit/ui/modules/wizard/types';
 import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { Container, Grid } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { Alert, Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { useProtectedAppConfig } from 'src/hooks/app';
+
+const hasError = (data: any): boolean => {
+  return data && 'error' in data && data.error === true;
+};
 
 export default function ProtectedContent({
   isProtected,
@@ -31,10 +38,17 @@ export default function ProtectedContent({
 }) {
   const { account } = useWeb3React();
   const { isLoggedIn } = useAuth();
-  const { data: conditionsData } = useCheckGatedConditions({
+  const [retryCount, setRetryCount] = useState(0);
+  
+  const { 
+    data: conditionsData, 
+    isLoading: isCheckingConditions,
+    refetch,
+  } = useCheckGatedConditions({
     conditions,
     account,
   });
+  
   const { data } = useProtectedAppConfig({
     isProtected,
     domain: site,
@@ -43,9 +57,45 @@ export default function ProtectedContent({
     result: conditionsData?.result,
   });
 
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1);
+    refetch();
+  };
+
   if (data?.data?.result) {
     return (
       <SectionsRenderer sections={data?.data?.sections} layout={pageLayout} />
+    );
+  }
+
+  if (hasError(conditionsData) && account && isLoggedIn) {
+    return (
+      <Container>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} sm={8}>
+            <Stack spacing={3} my={4} alignItems="center">
+              <Alert severity="error" sx={{ width: '100%' }}>
+                <Typography variant="body1">
+                  {conditionsData && 'errorMessage' in conditionsData && conditionsData.errorMessage ? conditionsData.errorMessage : (
+                    <FormattedMessage 
+                      id="error.checking.conditions" 
+                      defaultMessage="There was an error while checking your assets. Please try again."
+                    />
+                  )}
+                </Typography>
+              </Alert>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                startIcon={<RefreshIcon />}
+                onClick={handleRetry}
+              >
+                <FormattedMessage id="retry" defaultMessage="Retry" />
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Container>
     );
   }
 
@@ -61,6 +111,8 @@ export default function ProtectedContent({
             result={conditionsData?.result}
             partialResults={conditionsData?.partialResults}
             balances={conditionsData?.balances}
+            isLoading={isCheckingConditions}
+            onRetry={handleRetry}
           />
         </Grid>
       </Grid>

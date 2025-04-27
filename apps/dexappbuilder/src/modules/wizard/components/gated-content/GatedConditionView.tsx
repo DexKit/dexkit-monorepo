@@ -4,14 +4,18 @@ import {
   GatedPageLayout,
 } from '@dexkit/ui/modules/wizard/types';
 import Check from '@mui/icons-material/Check';
+import Close from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Security from '@mui/icons-material/Security';
 import {
   Alert,
   AlertTitle,
   Box,
+  Button,
   Card,
   CardContent,
+  CircularProgress,
   Divider,
   Grid,
   Paper,
@@ -38,6 +42,8 @@ export function GatedConditionView({
   isLoggedIn,
   layout,
   isEdit,
+  isLoading,
+  onRetry,
 }: {
   layout?: GatedPageLayout;
   conditions?: GatedCondition[];
@@ -47,6 +53,8 @@ export function GatedConditionView({
   partialResults?: { [key: number]: boolean };
   balances?: { [key: number]: string };
   isEdit?: boolean;
+  isLoading?: boolean;
+  onRetry?: () => void;
 }) {
   const renderStatus = (index: number) => {
     if (isEdit) {
@@ -77,6 +85,56 @@ export function GatedConditionView({
       );
     }
 
+    if (isLoading) {
+      return (
+        <Paper
+          sx={{
+            px: 0.5,
+            py: 0.25,
+            border: (theme) => `2px solid ${theme.palette.info.main}`,
+          }}
+          variant="outlined"
+        >
+          <Typography variant="body2" color="info.dark">
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <CircularProgress size={16} color="info" />{' '}
+              <Box
+                component="span"
+                sx={{ color: (theme) => theme.palette.info.main }}
+              >
+                <FormattedMessage id="verifying" defaultMessage="Verifying..." />
+              </Box>
+            </Stack>
+          </Typography>
+        </Paper>
+      );
+    }
+
+    if (balances && balances[index] === "Error") {
+      return (
+        <Paper
+          sx={{
+            px: 0.5,
+            py: 0.25,
+            border: (theme) => `2px solid ${theme.palette.warning.main}`,
+          }}
+          variant="outlined"
+        >
+          <Typography variant="body2" color="warning.dark">
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <InfoIcon fontSize="inherit" color="warning" />{' '}
+              <Box
+                component="span"
+                sx={{ color: (theme) => theme.palette.warning.dark }}
+              >
+                <FormattedMessage id="error.checking" defaultMessage="Error checking" />
+              </Box>
+            </Stack>
+          </Typography>
+        </Paper>
+      );
+    }
+
     return partialResults &&
       partialResults[index] &&
       partialResults[index] === true ? (
@@ -93,9 +151,9 @@ export function GatedConditionView({
             <Check fontSize="inherit" color="success" />{' '}
             <Box
               component="span"
-              sx={{ color: (theme) => theme.palette.error.dark }}
+              sx={{ color: (theme) => theme.palette.success.dark }}
             >
-              <FormattedMessage id="pending" defaultMessage="Pending" />
+              <FormattedMessage id="verified" defaultMessage="Verified" />
             </Box>
           </Stack>
         </Typography>
@@ -111,12 +169,12 @@ export function GatedConditionView({
       >
         <Typography variant="body2" color="error.main">
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            <InfoIcon fontSize="inherit" color="error" />{' '}
+            <Close fontSize="inherit" color="error" />{' '}
             <Box
               component="span"
               sx={{ color: (theme) => theme.palette.error.dark }}
             >
-              <FormattedMessage id="pending" defaultMessage="Pending" />
+              <FormattedMessage id="not.verified" defaultMessage="Not verified" />
             </Box>
           </Stack>
         </Typography>
@@ -278,6 +336,39 @@ export function GatedConditionView({
 
   const theme = useTheme();
 
+  const renderLoading = () => (
+    <Box display="flex" justifyContent="center" alignItems="center" my={4} width="100%">
+      <Stack spacing={2} alignItems="center">
+        <CircularProgress size={60} />
+        <Typography variant="h6" color="text.secondary">
+          <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <FormattedMessage id="please.wait" defaultMessage="Please wait while we verify your assets on the blockchain." />
+        </Typography>
+      </Stack>
+    </Box>
+  );
+
+  const renderRetryButton = () => {
+    if (!onRetry) return null;
+    
+    return (
+      <Box display="flex" justifyContent="center" mt={3}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          startIcon={<RefreshIcon />}
+          onClick={onRetry}
+        >
+          <FormattedMessage id="retry.verification" defaultMessage="Retry verification" />
+        </Button>
+      </Box>
+    );
+  };
+
+  const hasErrors = balances && Object.values(balances).some(balance => balance === "Error");
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -342,86 +433,117 @@ export function GatedConditionView({
           ) : (
             <FormattedMessage
               id="access.requirements.description.gated.view.conditions"
-              defaultMessage="To access this private page, please ensure that you meet all the conditions below, as defined by the page owner:"
+              defaultMessage="To access this private page, ensure you meet all the conditions below defined by the page owner:"
             />
           )}
         </Alert>
       </Grid>
       <Grid item xs={12}>
         {account && isLoggedIn ? (
-          <Grid container spacing={2}>
-            {(conditions || []).map((condition, index) => (
-              <Grid item xs={12} key={index}>
-                <Box>
-                  <Stack spacing={2}>
-                    {index !== 0 && (
-                      <Paper
-                        sx={{
-                          py: 0.5,
-                          backgroundColor:
-                            theme.palette.action.disabledBackground,
-                        }}
-                      >
-                        <Typography
-                          variant="body1"
-                          textAlign="center"
-                          textTransform="uppercase"
-                          fontWeight="bold"
-                        >
-                          {isEdit ? (
-                            <FormattedMessage
-                              id="role.connector.message"
-                              defaultMessage="Rule Connector: {condition}"
-                              values={{
-                                condition: (
-                                  <Typography
-                                    variant="inherit"
-                                    component="span"
-                                    fontWeight="400"
-                                  >
-                                    {condition.condition === 'or' ? (
-                                      <FormattedMessage
-                                        id="or"
-                                        defaultMessage="Or"
-                                      />
-                                    ) : (
-                                      <FormattedMessage
-                                        id="and"
-                                        defaultMessage="And"
-                                      />
-                                    )}
-                                  </Typography>
-                                ),
-                              }}
-                            />
-                          ) : condition.condition === 'or' ? (
-                            <FormattedMessage id="or" defaultMessage="Or" />
-                          ) : (
-                            <FormattedMessage id="and" defaultMessage="And" />
-                          )}
-                        </Typography>
-                      </Paper>
-                    )}
+          isLoading ? (
+            renderLoading()
+          ) : (
+            <>
+              <Grid container spacing={2}>
+                {(conditions || []).map((condition, index) => (
+                  <Grid item xs={12} key={index}>
+                    <Box>
+                      <Stack spacing={2}>
+                        {index !== 0 && (
+                          <Paper
+                            sx={{
+                              py: 0.5,
+                              backgroundColor: (theme) =>
+                                condition.condition === 'or'
+                                  ? alpha(theme.palette.warning.light, 0.2)
+                                  : alpha(theme.palette.info.light, 0.2),
+                              border: (theme) =>
+                                `1px solid ${
+                                  condition.condition === 'or'
+                                    ? theme.palette.warning.main
+                                    : theme.palette.info.main
+                                }`,
+                            }}
+                          >
+                            <Typography
+                              variant="body1"
+                              textAlign="center"
+                              textTransform="uppercase"
+                              fontWeight="bold"
+                              color={(theme) =>
+                                condition.condition === 'or'
+                                  ? theme.palette.warning.dark
+                                  : theme.palette.info.dark
+                              }
+                            >
+                              {isEdit ? (
+                                <FormattedMessage
+                                  id="role.connector.message"
+                                  defaultMessage="Rule Connector: {condition}"
+                                  values={{
+                                    condition: (
+                                      <Typography
+                                        variant="inherit"
+                                        component="span"
+                                        fontWeight="400"
+                                      >
+                                        {condition.condition === 'or' ? (
+                                          <FormattedMessage
+                                            id="or"
+                                            defaultMessage="O"
+                                          />
+                                        ) : (
+                                          <FormattedMessage
+                                            id="and"
+                                            defaultMessage="Y"
+                                          />
+                                        )}
+                                      </Typography>
+                                    ),
+                                  }}
+                                />
+                              ) : condition.condition === 'or' ? (
+                                <FormattedMessage id="or" defaultMessage="O" />
+                              ) : (
+                                <FormattedMessage id="and" defaultMessage="Y" />
+                              )}
+                            </Typography>
+                          </Paper>
+                        )}
 
-                    <Card>
-                      <CardContent>
-                        <Stack spacing={2}>
-                          <Typography variant="body1" fontWeight="bold">
-                            <FormattedMessage
-                              id="condition.index"
-                              defaultMessage="Condition {index}"
-                              values={{ index: index + 1 }}
-                            />
-                          </Typography>
-                          {renderCondition(condition, index)}
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                  </Stack>
-                </Box>
+                        <Card
+                          sx={{
+                            border: (theme) =>
+                              partialResults && partialResults[index]
+                                ? `1px solid ${theme.palette.success.main}`
+                                : undefined,
+                            boxShadow: (theme) =>
+                              partialResults && partialResults[index]
+                                ? `0 0 8px ${alpha(theme.palette.success.main, 0.4)}`
+                                : undefined,
+                          }}
+                        >
+                          <CardContent>
+                            <Stack spacing={2}>
+                              <Typography variant="body1" fontWeight="bold">
+                                <FormattedMessage
+                                  id="condition.index"
+                                  defaultMessage="Condition {index}"
+                                  values={{ index: index + 1 }}
+                                />
+                              </Typography>
+                              {renderCondition(condition, index)}
+                            </Stack>
+                          </CardContent>
+                        </Card>
+                      </Stack>
+                    </Box>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
+              {hasErrors && renderRetryButton()}
+            </>
+          )
         ) : (
           <Stack justifyContent={'center'} alignItems={'center'}>
             <Box sx={{ maxWidth: '500px' }}>

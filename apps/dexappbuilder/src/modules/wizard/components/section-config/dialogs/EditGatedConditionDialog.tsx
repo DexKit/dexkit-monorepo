@@ -32,7 +32,7 @@ const GatedCoditionSchema = Yup.object().shape({
   chainId: Yup.number(),
   decimals: Yup.number(),
   protocol: Yup.string(),
-  tokenId: Yup.string(),
+  tokenId: Yup.string().nullable(),
   amount: Yup.string().required(),
 });
 
@@ -241,7 +241,6 @@ export default function EditGatedConditionDialog({
                           setFieldValue('condition.chainId', coll.chainId);
                           setFieldValue('condition.symbol', coll.name);
                           setFieldValue('condition.name', coll.name);
-                          // We identify protocol to then check if we need to add token Id
                           getAssetProtocol(
                             getProviderByChainId(coll.chainId),
                             coll.contractAddress,
@@ -287,6 +286,12 @@ export default function EditGatedConditionDialog({
                           />
                         }
                         fullWidth
+                        helperText={
+                          <FormattedMessage
+                            id="token.id.helper"
+                            defaultMessage="Can be left blank to allow any ID of this collection"
+                          />
+                        }
                       />
                     </Grid>
                   )}
