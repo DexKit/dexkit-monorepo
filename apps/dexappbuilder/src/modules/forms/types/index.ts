@@ -26,14 +26,6 @@ export type TemplateInstance = {
   address: string;
 };
 
-export type DeployableContract = {
-  name: string;
-  description: string;
-  publisherIcon: string;
-  publisherName: string;
-  slug: string;
-};
-
 export type DeployedContract = {
   name: string;
   contractAddress: string;

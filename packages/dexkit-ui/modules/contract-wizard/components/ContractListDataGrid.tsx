@@ -2,17 +2,17 @@ import {
   NETWORK_EXPLORER,
   NETWORK_NAME,
   NETWORK_SLUG,
-} from '@dexkit/core/constants/networks';
-import { truncateAddress } from '@dexkit/core/utils';
-import Link from '@dexkit/ui/components/AppLink';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
-import Settings from '@mui/icons-material/SettingsOutlined';
-import VisibilityOff from '@mui/icons-material/VisibilityOffOutlined';
-import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
-import { IconButton, Tooltip } from '@mui/material';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+} from "@dexkit/core/constants/networks";
+import { truncateAddress } from "@dexkit/core/utils";
+import Link from "@dexkit/ui/components/AppLink";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+import Settings from "@mui/icons-material/SettingsOutlined";
+import VisibilityOff from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
+import { IconButton, Tooltip } from "@mui/material";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import {
   DataGrid,
   GridCallbackDetails,
@@ -21,22 +21,32 @@ import {
   GridRowSelectionModel,
   GridSortModel,
   GridToolbar,
-} from '@mui/x-data-grid';
-import { useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+} from "@mui/x-data-grid";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   LIST_DEPLOYED_CONTRACTS,
   useContractVisibility,
   useListDeployedContracts,
-} from '../hooks';
+} from "../hooks";
 
 export interface ContractListDataGridProps {
+  hideFormButton?: boolean;
   showHidden: boolean;
+  onClickContract?: ({
+    address,
+    network,
+  }: {
+    address: string;
+    network: string;
+  }) => void;
 }
 
 export default function ContractListDataGrid({
+  hideFormButton,
   showHidden,
+  onClickContract,
 }: ContractListDataGridProps) {
   const { account } = useWeb3React();
 
@@ -61,7 +71,7 @@ export default function ContractListDataGrid({
       ...queryOptions,
       filter: {
         ...queryOptions?.filter,
-        owner: account?.toLowerCase() || '',
+        owner: account?.toLowerCase() || "",
         hide: showHidden ? undefined : false,
       },
     });
@@ -71,7 +81,7 @@ export default function ContractListDataGrid({
 
   useEffect(() => {
     setRowCountState((prevRowCountState: number) =>
-      data?.total !== undefined ? data?.total : prevRowCountState,
+      data?.total !== undefined ? data?.total : prevRowCountState
     );
   }, [data?.total, setRowCountState]);
 
@@ -86,7 +96,7 @@ export default function ContractListDataGrid({
             : [],
       });
     },
-    [queryOptions],
+    [queryOptions]
   );
 
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
@@ -97,7 +107,7 @@ export default function ContractListDataGrid({
     (filterModel: GridFilterModel) => {
       let filter = {
         ...queryOptions?.filter,
-        owner: account?.toLowerCase() || '',
+        owner: account?.toLowerCase() || "",
       };
 
       const firstFilter = filterModel.items[0];
@@ -108,9 +118,9 @@ export default function ContractListDataGrid({
           q: filterModel.quickFilterValues[0],
         };
       } else if (
-        firstFilter?.field === 'name' &&
-        firstFilter?.operator === 'contains' &&
-        firstFilter?.value !== ''
+        firstFilter?.field === "name" &&
+        firstFilter?.operator === "contains" &&
+        firstFilter?.value !== ""
       ) {
         filter = {
           ...filter,
@@ -126,7 +136,7 @@ export default function ContractListDataGrid({
 
       setQueryOptions({ ...queryOptions, filter });
     },
-    [queryOptions, account],
+    [queryOptions, account]
   );
 
   const { mutateAsync: toggleVisibility } = useContractVisibility();
@@ -145,14 +155,14 @@ export default function ContractListDataGrid({
 
   const columns: GridColDef[] = [
     {
-      field: 'name',
-      headerName: 'Name',
+      field: "name",
+      headerName: "Name",
       minWidth: 200,
       flex: 1,
     },
     {
-      field: 'createdAt',
-      headerName: 'Created At',
+      field: "createdAt",
+      headerName: "Created At",
       minWidth: 200,
       flex: 1,
       valueGetter: ({ row }) => {
@@ -160,21 +170,21 @@ export default function ContractListDataGrid({
       },
     },
     {
-      field: 'type',
-      headerName: 'Type',
+      field: "type",
+      headerName: "Type",
       width: 150,
     },
     {
-      field: 'chainId',
-      headerName: 'Network',
+      field: "chainId",
+      headerName: "Network",
       width: 110,
       valueGetter: ({ row }) => {
         return NETWORK_NAME(row.chainId);
       },
     },
     {
-      field: 'contractAddress',
-      headerName: 'Address',
+      field: "contractAddress",
+      headerName: "Address",
       width: 160,
       renderCell: (params: any) => (
         <Link
@@ -188,47 +198,75 @@ export default function ContractListDataGrid({
       ),
     },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      headerName: "Actions",
       width: 240,
       renderCell: ({ row }) => {
         return (
-          <Stack direction={'row'} spacing={1}>
-            <IconButton
-              LinkComponent={Link}
-              href={`/contract/${NETWORK_SLUG(row.chainId)}/${
-                row.contractAddress
-              }`}
-              size="small"
-            >
-              <Tooltip
-                title={
-                  <FormattedMessage
-                    id="config.contract"
-                    defaultMessage="Config Contract"
-                  />
+          <Stack direction={"row"} spacing={1}>
+            {onClickContract ? (
+              <IconButton
+                onClick={() =>
+                  onClickContract({
+                    address: row.contractAddress,
+                    network: NETWORK_SLUG(row.chainId) as string,
+                  })
                 }
+                size="small"
               >
-                <Settings />
-              </Tooltip>
-            </IconButton>
-            <IconButton
-              LinkComponent={Link}
-              href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`}
-              target="_blank"
-              size="small"
-            >
-              <Tooltip
-                title={
-                  <FormattedMessage
-                    id="create.form"
-                    defaultMessage="Create form"
-                  />
-                }
+                <Tooltip
+                  title={
+                    <FormattedMessage
+                      id="config.contract"
+                      defaultMessage="Config Contract"
+                    />
+                  }
+                >
+                  <Settings />
+                </Tooltip>
+              </IconButton>
+            ) : (
+              <IconButton
+                LinkComponent={Link}
+                href={`/contract/${NETWORK_SLUG(row.chainId)}/${
+                  row.contractAddress
+                }`}
+                size="small"
               >
-                <PostAddOutlinedIcon />
-              </Tooltip>
-            </IconButton>
+                <Tooltip
+                  title={
+                    <FormattedMessage
+                      id="config.contract"
+                      defaultMessage="Config Contract"
+                    />
+                  }
+                >
+                  <Settings />
+                </Tooltip>
+              </IconButton>
+            )}
+
+            {hideFormButton ? (
+              <></>
+            ) : (
+              <IconButton
+                LinkComponent={Link}
+                href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`}
+                target="_blank"
+                size="small"
+              >
+                <Tooltip
+                  title={
+                    <FormattedMessage
+                      id="create.form"
+                      defaultMessage="Create form"
+                    />
+                  }
+                >
+                  <PostAddOutlinedIcon />
+                </Tooltip>
+              </IconButton>
+            )}
             <IconButton onClick={handleHideContract(row.id)}>
               {row.hide ? (
                 <Tooltip
@@ -260,13 +298,13 @@ export default function ContractListDataGrid({
 
   const handleChangeRowSelectionModel = (
     rowSelectionModel: GridRowSelectionModel,
-    details: GridCallbackDetails<any>,
+    details: GridCallbackDetails<any>
   ) => {
     setRowSelectionModel(rowSelectionModel);
   };
 
   return (
-    <Box sx={{ width: '100%', height: 450 }}>
+    <Box sx={{ width: "100%", height: 450 }}>
       <DataGrid
         rows={data?.data || []}
         rowCount={rowCountState}

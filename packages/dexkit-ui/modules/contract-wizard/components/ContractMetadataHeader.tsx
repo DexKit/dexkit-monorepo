@@ -29,6 +29,7 @@ import { THIRDWEB_CONTRACTTYPE_TO_NAME } from "@dexkit/ui/constants/thirdweb";
 import { useContractCollection } from "@dexkit/ui/modules/nft/hooks/collection";
 import { useMemo } from "react";
 import Link from "../../../components/AppLink";
+import { PageHeader } from "../../../components/PageHeader";
 
 const Img = styled(Image)({});
 
@@ -38,6 +39,8 @@ interface Props {
   contractTypeV2?: string;
   network?: string;
   hidePublicPageUrl?: boolean;
+  onGoBack?: () => void;
+  showPageHeader?: boolean;
 }
 
 export function ContractMetadataHeader({
@@ -46,6 +49,8 @@ export function ContractMetadataHeader({
   network,
   contractTypeV2,
   hidePublicPageUrl,
+  showPageHeader,
+  onGoBack,
 }: Props) {
   const { data: contract } = useContract(address);
   const { data } = useContractMetadata(contract);
@@ -103,6 +108,26 @@ export function ContractMetadataHeader({
 
   return (
     <Grid container spacing={2}>
+      {showPageHeader && (
+        <Grid item xs={12}>
+          <PageHeader
+            onGoBackCallbackMobile={onGoBack}
+            useBackMenu={true}
+            breadcrumbs={[
+              {
+                caption:
+                  metadata?.name === "AirdropERC20Claimable" &&
+                  serverMetadata?.name
+                    ? serverMetadata?.name
+                    : metadata?.name || serverMetadata?.name,
+                uri: `/forms/deploy`,
+                active: true,
+              },
+            ]}
+          />
+        </Grid>
+      )}
+
       <Grid item xs={12}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

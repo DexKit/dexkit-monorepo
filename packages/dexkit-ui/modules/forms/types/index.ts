@@ -117,3 +117,11 @@ export type ContractFormParams = {
   };
   abi: AbiFragment[];
 };
+
+export type DeployableContract = {
+  name: string;
+  description: string;
+  publisherIcon: string;
+  publisherName: string;
+  slug: string;
+};
