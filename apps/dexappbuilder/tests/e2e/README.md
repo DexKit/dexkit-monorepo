@@ -100,4 +100,4 @@ If you encounter errors:
 - [Playwright Documentation](https://playwright.dev/)
 - [MetaMask Documentation](https://docs.metamask.io/)
 - [ThirdWeb Documentation](https://portal.thirdweb.com/)
-- [Brave Browser](https://brave.com/)
+- [Brave Browser](https://brave.com/) 
