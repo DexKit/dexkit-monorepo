@@ -29,7 +29,10 @@ import { LoginAppButton } from 'src/components/LoginAppButton';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 const ImportContractDialog = dynamic(
-  () => import('@/modules/forms/components/dialogs/ImportContractDialog'),
+  () =>
+    import(
+      '@dexkit/ui/modules/contract-wizard/components/dialogs/ImportContractDialog'
+    ),
 );
 
 import Link from '@dexkit/ui/components/AppLink';

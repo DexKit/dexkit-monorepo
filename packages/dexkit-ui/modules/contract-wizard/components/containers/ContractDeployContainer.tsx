@@ -1,4 +1,4 @@
-import GenericForm from '@dexkit/web3forms/components/GenericForm';
+import GenericForm from "@dexkit/web3forms/components/GenericForm";
 import {
   Avatar,
   Box,
@@ -18,62 +18,71 @@ import {
   Skeleton,
   Stack,
   Typography,
-} from '@mui/material';
-import AuthMainLayout from 'src/components/layouts/authMain';
+} from "@mui/material";
 
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
-import { DexkitApiProvider } from '@dexkit/core/providers';
+import { DexkitApiProvider } from "@dexkit/core/providers";
 
-import { useSaveContractDeployed } from '@/modules/forms/hooks';
-import { ChainId } from '@dexkit/core';
-import { NETWORKS, NETWORK_SLUG } from '@dexkit/core/constants/networks';
+import { ChainId } from "@dexkit/core";
+import { NETWORKS, NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import {
   getBlockExplorerUrl,
   getNormalizedUrl,
   parseChainId,
   truncateAddress,
-} from '@dexkit/core/utils';
+} from "@dexkit/core/utils";
 import {
   AppDialogTitle,
   useActiveChainIds,
   useDexKitContext,
   useSwitchNetworkMutation,
-} from '@dexkit/ui';
-import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { myAppsApi } from '@dexkit/ui/constants/api';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+} from "@dexkit/ui";
+import { PageHeader } from "@dexkit/ui/components/PageHeader";
+import { myAppsApi } from "@dexkit/ui/constants/api";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import useThirdwebContractMetadataQuery, {
   useDeployThirdWebContractMutation,
   useFormConfigParamsQuery,
-} from '@dexkit/web3forms/hooks';
-import { useTrustedForwarders } from '@dexkit/web3forms/hooks/useTrustedForwarders';
-import CheckCircle from '@mui/icons-material/CheckCircle';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import {
-  GetStaticPaths,
-  GetStaticPathsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-} from 'next';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
-import { getAppConfig } from 'src/services/app';
+} from "@dexkit/web3forms/hooks";
+import { useTrustedForwarders } from "@dexkit/web3forms/hooks/useTrustedForwarders";
+import CheckCircle from "@mui/icons-material/CheckCircle";
 
-export default function DeployPage() {
+import { useSnackbar } from "notistack";
+import { FormattedMessage, useIntl } from "react-intl";
+import { THIRDWEB_CLIENT_ID } from "../../../../constants/thirdweb";
+import { useSaveContractDeployed } from "../../../forms/hooks";
+
+interface Props {
+  slug: string;
+  creator: string;
+  onGoBack: () => void;
+  onGoToContract: ({
+    address,
+    network,
+  }: {
+    address: string;
+    network: string;
+  }) => void;
+  onGoToListContracts: () => void;
+  hideButtonForm?: boolean;
+}
+
+export default function ContractDeployContainer({
+  slug,
+  creator,
+  onGoBack,
+  onGoToContract,
+  onGoToListContracts,
+  hideButtonForm,
+}: Props) {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
-
-  const { query } = useRouter();
-
-  const { slug, creator } = query;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
 
   const [selectedChainId, setSelectedChainId] = useState<ChainId>(
-    ChainId.Ethereum,
+    ChainId.Ethereum
   );
 
   useEffect(() => {
@@ -113,7 +122,7 @@ export default function DeployPage() {
 
   const handleSubmit = useCallback(
     async (values: any, formValues: any) => {
-      const params = values['params'];
+      const params = values["params"];
 
       if (hasChainDiff) {
         try {
@@ -123,20 +132,20 @@ export default function DeployPage() {
 
           enqueueSnackbar(
             formatMessage({
-              id: 'network.switched',
-              defaultMessage: 'Network changed',
+              id: "network.switched",
+              defaultMessage: "Network changed",
             }),
-            { variant: 'success' },
+            { variant: "success" }
           );
 
           return;
         } catch (err) {
           enqueueSnackbar(
             formatMessage({
-              id: 'error.while.switching.network',
-              defaultMessage: 'Error while switching network',
+              id: "error.while.switching.network",
+              defaultMessage: "Error while switching network",
             }),
-            { variant: 'error' },
+            { variant: "error" }
           );
         }
       }
@@ -160,7 +169,7 @@ export default function DeployPage() {
         if (result) {
           setContractAddress(result.address);
 
-          const name = params['name'] || formValues?.name;
+          const name = params["name"] || formValues?.name;
 
           if (chainId) {
             saveContractDeployedMutation.mutateAsync({
@@ -184,18 +193,18 @@ export default function DeployPage() {
 
         enqueueSnackbar(
           formatMessage({
-            id: 'contract.deployed.successfully',
-            defaultMessage: 'Contract deployed successfully',
+            id: "contract.deployed.successfully",
+            defaultMessage: "Contract deployed successfully",
           }),
-          { variant: 'success' },
+          { variant: "success" }
         );
       } catch (err) {
         enqueueSnackbar(
           formatMessage({
-            id: 'error.while.deploying.contract',
-            defaultMessage: 'Error while deploying contract',
+            id: "error.while.deploying.contract",
+            defaultMessage: "Error while deploying contract",
           }),
-          { variant: 'error' },
+          { variant: "error" }
         );
       }
 
@@ -207,7 +216,7 @@ export default function DeployPage() {
       selectedChainId,
       hasChainDiff,
       affiliateReferral,
-    ],
+    ]
   );
 
   const [contractAddress, setContractAddress] = useState<string>();
@@ -220,7 +229,7 @@ export default function DeployPage() {
 
   const handleChangeChainId = (
     event: SelectChangeEvent<number>,
-    child: ReactNode,
+    child: ReactNode
   ) => {
     setSelectedChainId(parseChainId(event.target.value));
   };
@@ -287,37 +296,71 @@ export default function DeployPage() {
                 />
               </Typography>
             </Box>
-            <Stack direction={'row'} spacing={1} justifyContent={'center'}>
-              <Button
-                href={`/contract/${NETWORK_SLUG(
-                  selectedChainId,
-                )}/${contractAddress}`}
-                variant="contained"
-              >
-                <FormattedMessage
-                  id="manage.contract"
-                  defaultMessage="Manage Contract"
-                />
-              </Button>
-              <Button
-                href={`/forms/create?contractAddress=${contractAddress}&chainId=${selectedChainId}`}
-                variant="contained"
-              >
-                <FormattedMessage
-                  id="create.form"
-                  defaultMessage="Create form"
-                />
-              </Button>
-              <Button href={`/forms/contracts/list`} variant="contained">
-                <FormattedMessage
-                  id="view.contracts"
-                  defaultMessage="View contracts"
-                />
-              </Button>
+            <Stack direction={"row"} spacing={1} justifyContent={"center"}>
+              {onGoToContract ? (
+                <Button
+                  onClick={() =>
+                    onGoToContract({
+                      address: contractAddress as string,
+                      network: NETWORK_SLUG(selectedChainId) as string,
+                    })
+                  }
+                  variant="contained"
+                >
+                  <FormattedMessage
+                    id="manage.contract"
+                    defaultMessage="Manage Contract"
+                  />
+                </Button>
+              ) : (
+                <Button
+                  href={`/contract/${NETWORK_SLUG(
+                    selectedChainId
+                  )}/${contractAddress}`}
+                  variant="contained"
+                >
+                  <FormattedMessage
+                    id="manage.contract"
+                    defaultMessage="Manage Contract"
+                  />
+                </Button>
+              )}
+
+              {hideButtonForm ? (
+                <></>
+              ) : (
+                <Button
+                  href={`/forms/create?contractAddress=${contractAddress}&chainId=${selectedChainId}`}
+                  variant="contained"
+                >
+                  <FormattedMessage
+                    id="create.form"
+                    defaultMessage="Create form"
+                  />
+                </Button>
+              )}
+              {onGoToListContracts ? (
+                <Button
+                  onClick={() => onGoToListContracts()}
+                  variant="contained"
+                >
+                  <FormattedMessage
+                    id="view.contracts"
+                    defaultMessage="View contracts"
+                  />
+                </Button>
+              ) : (
+                <Button href={`/forms/contracts/list`} variant="contained">
+                  <FormattedMessage
+                    id="view.contracts"
+                    defaultMessage="View contracts"
+                  />
+                </Button>
+              )}
             </Stack>
             <Button
               href={`${getBlockExplorerUrl(
-                selectedChainId,
+                selectedChainId
               )}/address/${contractAddress}`}
               target="_blank"
               variant="outlined"
@@ -334,10 +377,12 @@ export default function DeployPage() {
         <Container>
           <Stack spacing={2}>
             <PageHeader
+              onGoBackCallbackMobile={onGoBack}
+              useBackMenu={true}
               breadcrumbs={[
                 {
                   caption: <FormattedMessage id="home" defaultMessage="Home" />,
-                  uri: '/',
+                  uri: "/",
                 },
                 {
                   caption: (
@@ -346,7 +391,7 @@ export default function DeployPage() {
                       defaultMessage="DexContract"
                     />
                   ),
-                  uri: '/forms',
+                  uri: "/forms",
                 },
                 {
                   caption: (
@@ -355,7 +400,7 @@ export default function DeployPage() {
                       defaultMessage="Manage Contracts"
                     />
                   ),
-                  uri: '/forms/contracts',
+                  uri: "/forms/contracts",
                 },
                 {
                   caption: (
@@ -390,7 +435,7 @@ export default function DeployPage() {
                           {thirdwebMetadataQuery.data?.logo ? (
                             <Avatar
                               src={getNormalizedUrl(
-                                thirdwebMetadataQuery.data?.logo,
+                                thirdwebMetadataQuery.data?.logo
                               )}
                             />
                           ) : (
@@ -431,13 +476,13 @@ export default function DeployPage() {
                                     publisher: (
                                       <Link
                                         href={`${getBlockExplorerUrl(
-                                          chainId,
+                                          chainId
                                         )}/address/${thirdwebMetadataQuery.data
                                           ?.publisher}`}
                                         target="_blank"
                                       >
                                         {truncateAddress(
-                                          thirdwebMetadataQuery.data?.publisher,
+                                          thirdwebMetadataQuery.data?.publisher
                                         )}
                                       </Link>
                                     ),
@@ -463,8 +508,8 @@ export default function DeployPage() {
                             spacing={1}
                           >
                             <Avatar
-                              src={NETWORKS[selectedChainId]?.imageUrl || ''}
-                              style={{ width: 'auto', height: '1rem' }}
+                              src={NETWORKS[selectedChainId]?.imageUrl || ""}
+                              style={{ width: "auto", height: "1rem" }}
                             />
                             <Typography variant="body1">
                               {NETWORKS[selectedChainId]?.name}
@@ -487,7 +532,7 @@ export default function DeployPage() {
                             <Box mr={2}>
                               <Avatar
                                 src={network.imageUrl}
-                                sx={{ width: '1.5rem', height: '1.5rem' }}
+                                sx={{ width: "1.5rem", height: "1.5rem" }}
                               />
                             </Box>
                             <ListItemText primary={network.name} />
@@ -529,35 +574,3 @@ export default function DeployPage() {
     </>
   );
 }
-
-(DeployPage as any).getLayout = function getLayout(page: any) {
-  return <AuthMainLayout>{page}</AuthMainLayout>;
-};
-
-type Params = {
-  site?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
-  const configResponse = await getAppConfig(params?.site, 'no-page-defined');
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      ...configResponse,
-    },
-    revalidate: 3000,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<
-  Params
-> = ({}: GetStaticPathsContext) => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};

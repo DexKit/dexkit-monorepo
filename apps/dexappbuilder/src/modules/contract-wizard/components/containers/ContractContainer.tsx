@@ -60,9 +60,16 @@ const ContractClaimableAirdropErc20Container = dynamic(
 interface Props {
   address: string;
   network: string;
+  showPageHeader?: boolean;
+  onGoBack?: () => void;
 }
 
-export function ContractContainer({ address, network }: Props) {
+export function ContractContainer({
+  address,
+  network,
+  showPageHeader,
+  onGoBack,
+}: Props) {
   const { data } = useContractType(address);
 
   const { data: contract } = useContract(address);
@@ -147,6 +154,8 @@ export function ContractContainer({ address, network }: Props) {
           network={network}
           contractType={data}
           contractTypeV2={contractType}
+          showPageHeader={showPageHeader}
+          onGoBack={onGoBack}
         />
       </Grid>
       {chainId !== undefined && providerChainId !== chainId ? (

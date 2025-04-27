@@ -1,7 +1,10 @@
-
 import { ChainId } from '@dexkit/core';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { TemplateInstance } from '../types';
+
+import { saveContractDeploy } from '@dexkit/ui/modules/forms/services';
+
+export { saveContractDeploy };
 
 export async function createForm({
   creatorAddress,
@@ -21,7 +24,7 @@ export async function createForm({
   return await myAppsApi.post(
     '/forms/create',
     { creatorAddress, params, name, description, templateId },
-    { },
+    {},
   );
 }
 
@@ -41,7 +44,7 @@ export async function updateForm({
   return await myAppsApi.post(
     `/forms/${id}`,
     { name, description, params },
-    { },
+    {},
   );
 }
 
@@ -52,7 +55,7 @@ export async function getForm({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/${id}`, {  });
+  return await myAppsApi.get(`/forms/${id}`, {});
 }
 
 export async function createFormTemplate({
@@ -71,7 +74,7 @@ export async function createFormTemplate({
   return await myAppsApi.post(
     '/forms/templates/create',
     { name, description, bytecode, abi },
-    {  },
+    {},
   );
 }
 
@@ -93,7 +96,7 @@ export async function updateFormTemplate({
   return await myAppsApi.post(
     `/forms/templates/${id}`,
     { name, description, bytecode, abi },
-    {  },
+    {},
   );
 }
 
@@ -104,7 +107,7 @@ export async function getFormTemplate({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/templates/${id}`, {  });
+  return await myAppsApi.get(`/forms/templates/${id}`, {});
 }
 
 export async function listFormTemplates({
@@ -131,7 +134,6 @@ export async function listForms({
   signal?: AbortSignal;
 }) {
   return await myAppsApi.get(`/forms`, {
-
     params: { creatorAddress, query },
   });
 }
@@ -177,43 +179,5 @@ export async function deleteForm({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.delete(`/forms/${id}`, {
-  
-  });
-}
-
-export async function saveContractDeploy({
-  contractAddress,
-  name,
-  type,
-  chainId,
-  metadata,
-  createdAtTx,
-  owner,
-  referral,
-}: {
-  contractAddress: string;
-  name?: string;
-  type?: string;
-  chainId: number;
-  owner?: string;
-  createdAtTx?: string;
-  referral?: string;
-  metadata?: {
-    name?: string;
-    description?: string;
-    symbol?: string;
-    image?: string;
-  };
-}) {
-  return await myAppsApi.post(`/forms/deploy`, {
-    name,
-    contractAddress,
-    type,
-    createdAtTx,
-    chainId,
-    referral,
-    metadata: JSON.stringify(metadata),
-    owner,
-  });
+  return await myAppsApi.delete(`/forms/${id}`, {});
 }

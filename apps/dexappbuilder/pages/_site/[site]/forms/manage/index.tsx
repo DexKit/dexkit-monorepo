@@ -48,8 +48,8 @@ export default function FormsAccountPage() {
               {
                 caption: (
                   <FormattedMessage
-                    id="dexgenerator"
-                    defaultMessage="DexGenerator"
+                    id="dexcontracts"
+                    defaultMessage="DexContracts"
                   />
                 ),
                 uri: '/forms',
