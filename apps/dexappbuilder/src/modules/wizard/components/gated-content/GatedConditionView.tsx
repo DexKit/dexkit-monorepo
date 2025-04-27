@@ -135,6 +135,31 @@ export function GatedConditionView({
       );
     }
 
+    if (balances && balances[index] === "Any token") {
+      return (
+        <Paper
+          sx={{
+            px: 0.5,
+            py: 0.25,
+            border: (theme) => `2px solid ${theme.palette.success.main}`,
+          }}
+          variant="outlined"
+        >
+          <Typography variant="body2" color="success.dark">
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <Check fontSize="inherit" color="success" />{' '}
+              <Box
+                component="span"
+                sx={{ color: (theme) => theme.palette.success.dark }}
+              >
+                <FormattedMessage id="any.token" defaultMessage="Any token" />
+              </Box>
+            </Stack>
+          </Typography>
+        </Paper>
+      );
+    }
+
     return partialResults &&
       partialResults[index] &&
       partialResults[index] === true ? (
@@ -246,7 +271,14 @@ export function GatedConditionView({
                         fontWeight="400"
                         component="span"
                       >
-                        {balances[index]}
+                        {balances[index] === "Any token" ? (
+                          <FormattedMessage 
+                            id="any.token.collection" 
+                            defaultMessage="Any token of this collection" 
+                          />
+                        ) : (
+                          balances[index]
+                        )}
                       </Typography>
                     ),
                   }}
@@ -319,7 +351,14 @@ export function GatedConditionView({
                         variant="inherit"
                         component="span"
                       >
-                        {balances[index]}
+                        {balances[index] === "Any token" ? (
+                          <FormattedMessage 
+                            id="any.token.collection" 
+                            defaultMessage="Any token of this collection" 
+                          />
+                        ) : (
+                          balances[index]
+                        )}
                       </Typography>
                     ),
                   }}

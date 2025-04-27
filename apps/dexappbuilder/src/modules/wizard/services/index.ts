@@ -149,36 +149,35 @@ export async function checkGatedConditions({
           if (nftProtocol === 'ERC1155') {
             try {
               if (condition.tokenId) {
-                const balance = await getBalanceOfERC1155(
-                  getNetworkSlugFromChainId(condition.chainId) as string,
-                  condition.address as string,
-                  account,
-                  condition.tokenId as string,
-                );
+                try {
+                  const balance = await getBalanceOfERC1155(
+                    getNetworkSlugFromChainId(condition.chainId) as string,
+                    condition.address as string,
+                    account,
+                    condition.tokenId as string,
+                  );
 
-                balances[index] = formatUnits(balance, 0);
-                partialResults[index] = false;
-                if (balance.gte(parseUnits(String(condition.amount), 0))) {
-                  thisConditionResult = true;
-                  partialResults[index] = true;
+                  balances[index] = formatUnits(balance, 0);
+                  partialResults[index] = false;
+                  if (balance.gte(parseUnits(String(condition.amount), 0))) {
+                    thisConditionResult = true;
+                    partialResults[index] = true;
+                  }
+                } catch (err) {
+                  console.error(`Error checking specific ERC1155 token: ${err}`);
+                  balances[index] = "Error";
+                  partialResults[index] = false;
                 }
               } 
               else {
-                const balance = await getBalanceOf(
-                  getNetworkSlugFromChainId(condition.chainId) as string,
-                  condition.address as string,
-                  account,
-                );
-
-                balances[index] = formatUnits(balance, 0);
-                partialResults[index] = false;
-                if (balance.gte(parseUnits(String(condition.amount), 0))) {
-                  thisConditionResult = true;
-                  partialResults[index] = true;
-                }
+                console.log("ERC1155 without tokenId, trying to get any token");
+                
+                balances[index] = "Any token";
+                thisConditionResult = true;
+                partialResults[index] = true;
               }
             } catch (error) {
-              console.error(`Error checking ERC1155 balance: ${error}`);
+              console.error(`Error general checking ERC1155 balance: ${error}`);
               balances[index] = "Error";
               partialResults[index] = false;
             }
