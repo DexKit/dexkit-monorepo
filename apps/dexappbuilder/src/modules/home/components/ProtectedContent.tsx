@@ -13,10 +13,13 @@ import { Alert, Button, Container, Grid, Stack, Typography } from '@mui/material
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useProtectedAppConfig } from 'src/hooks/app';
 
-const hasError = (data: any): boolean => {
-  return data && 'error' in data && data.error === true;
+const hasError = (data: { sections?: AppPageSection[] } | null | undefined): boolean => {
+  if (!data) return true;
+  if (!data.sections) return true;
+  return false;
 };
 
 export default function ProtectedContent({
@@ -49,7 +52,7 @@ export default function ProtectedContent({
     account,
   });
   
-  const { data } = useProtectedAppConfig({
+  const { data: protectedConfigResponse } = useProtectedAppConfig({
     isProtected,
     domain: site,
     slug,
@@ -62,13 +65,13 @@ export default function ProtectedContent({
     refetch();
   };
 
-  if (data?.data?.result) {
+  if (protectedConfigResponse?.sections) {
     return (
-      <SectionsRenderer sections={data?.data?.sections} layout={pageLayout} />
+      <SectionsRenderer sections={protectedConfigResponse.sections} layout={pageLayout} />
     );
   }
 
-  if (hasError(conditionsData) && account && isLoggedIn) {
+  if (hasError(protectedConfigResponse) && account && isLoggedIn) {
     return (
       <Container>
         <Grid container justifyContent="center">

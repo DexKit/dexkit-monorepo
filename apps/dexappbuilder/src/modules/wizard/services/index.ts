@@ -170,14 +170,51 @@ export async function checkGatedConditions({
                 }
               } 
               else {
-                console.log("ERC1155 without specific tokenId - using alternative verification");
                 
-                balances[index] = "Any token";
-                thisConditionResult = true;
-                partialResults[index] = true;
+                try {
+                  let hasAnyToken = false;
+                  
+                  const sampleRanges = [
+                    ['0', '1', '2', '3', '4', '5'],
+                    ['10', '20', '50', '100'],
+                    ['1000', '10000']
+                  ];
+                  
+                  for (const range of sampleRanges) {
+                    if (hasAnyToken) break;
+                    
+                    for (const tokenId of range) {
+                      const balance = await getBalanceOfERC1155(
+                        getNetworkSlugFromChainId(condition.chainId) as string,
+                        condition.address as string,
+                        account,
+                        tokenId
+                      );
+                      
+                      if (balance.gt(0)) {
+                        hasAnyToken = true;
+                        balances[index] = "Has token ID " + tokenId;
+                        break;
+                      }
+                    }
+                  }
+                  
+                  if (hasAnyToken) {
+                    thisConditionResult = true;
+                    partialResults[index] = true;
+                  } else {
+                    balances[index] = "No tokens found";
+                    thisConditionResult = false;
+                    partialResults[index] = false;
+                  }
+                } catch (error) {
+                  console.error(`Error checking any ERC1155 token: ${error}`);
+                  balances[index] = "Error";
+                  partialResults[index] = false;
+                }
               }
             } catch (error) {
-              console.error(`Error general checking ERC1155 balance: ${error}`);
+              console.error(`General error checking ERC1155 balance: ${error}`);
               balances[index] = "Error";
               partialResults[index] = false;
             }
@@ -218,7 +255,7 @@ export function getGatedConditionsText({
   conditions: GatedCondition[];
 }) {
   let text =
-    'You  to unlock this content you need to meet the follow gated conditions: ';
+    'You need to meet the following gated conditions to unlock this content: ';
   if (conditions) {
     for (const condition of conditions) {
       if (!condition.condition) {
