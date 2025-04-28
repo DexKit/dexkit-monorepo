@@ -31,6 +31,7 @@ import { GamificationPoint } from '../types';
 import { generateCSSVarsTheme } from '../utils';
 
 export const TOKEN_LIST_URL = 'TOKEN_LIST_URL';
+export const PROTECTED_CONFIG_QUERY = 'PROTECTED_CONFIG_QUERY';
 
 export function useTokenListUrl(url?: string) {
   return useQuery([TOKEN_LIST_URL, url], async () => {
@@ -110,8 +111,30 @@ export function useCheckGatedConditions({
         return null;
       }
 
+      if (!account) {
+        return { 
+          result: false, 
+          balances: {}, 
+          partialResults: {} 
+        };
+      }
+
       try {
         const data = await checkGatedConditions({ account, conditions });
+
+        const hasAnyTokenCondition = Object.values(data.balances || {})
+          .some(balance => balance === "Any token");
+        
+        if (hasAnyTokenCondition) {
+          
+          const allConditionsMet = Object.values(data.partialResults || {})
+            .every(result => result === true);
+            
+          if (allConditionsMet && !data.result) {
+            data.result = true;
+          }
+        }
+        
         return data;
       } catch (error) {
         console.error("Error verifying gated conditions", error);
@@ -136,9 +159,10 @@ export function useCheckGatedConditions({
       retry: 2,
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
       keepPreviousData: true,
-      staleTime: 30000,
+      staleTime: 10000,
       onSuccess: (data) => {
         if (data && data.result) {
+          queryClient.invalidateQueries([PROTECTED_CONFIG_QUERY]);
           queryClient.invalidateQueries(['GET_PROTECTED_APP_CONFIG']);
         }
       },
