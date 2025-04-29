@@ -324,7 +324,7 @@ export default function EditSectionDialog({
       <Divider />
       <DialogContent>
         <PanelGroup direction="horizontal">
-          <Panel defaultSize={40} minSize={30}>
+          <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
             {!sectionType && (
               <SectionSelector
                 onClickSection={(s) => {
