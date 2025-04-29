@@ -36,6 +36,7 @@ import Check from '@mui/icons-material/Check';
 import Edit from '@mui/icons-material/Edit';
 import { isDeepEqual } from '@mui/x-data-grid/internals';
 import { useSnackbar } from 'notistack';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { BuilderKit } from '../../../constants';
 import PreviewPagePlatform from '../../PreviewPagePlatform';
 import { SectionFormRender } from '../SectionFormRender';
@@ -50,6 +51,30 @@ interface Props {
   index: number;
   section?: AppPageSection;
   builderKit?: BuilderKit;
+}
+
+function ResizeHandle() {
+  return (
+    <PanelResizeHandle
+      style={{
+        width: '8px',
+        background: 'transparent',
+        cursor: 'col-resize',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        style={{
+          width: '4px',
+          height: '40px',
+          backgroundColor: '#e0e0e0',
+          borderRadius: '2px',
+        }}
+      />
+    </PanelResizeHandle>
+  );
 }
 
 export default function EditSectionDialog({
@@ -298,8 +323,8 @@ export default function EditSectionDialog({
       />
       <Divider />
       <DialogContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={5} lg={5} xl={4}>
+        <PanelGroup direction="horizontal">
+          <Panel defaultSize={40} minSize={30}>
             {!sectionType && (
               <SectionSelector
                 onClickSection={(s) => {
@@ -350,89 +375,11 @@ export default function EditSectionDialog({
                 {renderSectionType(sectionType)}
               </Stack>
             )}
-          </Grid>
+          </Panel>
 
-          {/* <Grid item xs={8}>
-            <FormControl fullWidth>
-              <InputLabel>
-                <FormattedMessage
-                  id="section.type"
-                  defaultMessage="Section type"
-                />
-              </InputLabel>
-              <Select
-                label={
-                  <FormattedMessage
-                    id="section.type"
-                    defaultMessage="Section type"
-                  />
-                }
-                fullWidth
-                value={sectionType}
-                onChange={handleChangeSectionType}
-              >
-                <MenuItem value="video">
-                  <FormattedMessage id="video" defaultMessage="Video" />
-                </MenuItem>
-                {builderKit !== BuilderKit.Swap && (
-                  <MenuItem value="call-to-action">
-                    <FormattedMessage
-                      id="call.to.action"
-                      defaultMessage="Call to action"
-                    />
-                  </MenuItem>
-                )}
-                {builderKit !== BuilderKit.Swap && (
-                  <MenuItem value="featured">
-                    <FormattedMessage id="featured" defaultMessage="Featured" />
-                  </MenuItem>
-                )}
-                {builderKit !== BuilderKit.Swap && (
-                  <MenuItem value="collections">
-                    <FormattedMessage
-                      id="featured"
-                      defaultMessage="Collections"
-                    />
-                  </MenuItem>
-                )}
-                {builderKit !== BuilderKit.NFT && (
-                  <MenuItem value="swap">
-                    <FormattedMessage id="swap" defaultMessage="Swap" />
-                  </MenuItem>
-                )}
-                {builderKit !== BuilderKit.Swap && (
-                  <MenuItem value="asset-store">
-                    <FormattedMessage
-                      id="nft.store"
-                      defaultMessage="NFT store"
-                    />
-                  </MenuItem>
-                )}
-                <MenuItem value="markdown">
-                  <FormattedMessage id="markdown" defaultMessage="Markdown" />
-                </MenuItem>
-                <MenuItem value="wallet">
-                  <FormattedMessage id="wallet" defaultMessage="Wallet" />
-                </MenuItem>
-                <MenuItem value="contract">
-                  <FormattedMessage id="contract" defaultMessage="Contract" />
-                </MenuItem>
-                <MenuItem value="user-contract-form">
-                  <FormattedMessage
-                    id="User contract form"
-                    defaultMessage="User contract form"
-                  />
-                </MenuItem>
-                <MenuItem value="exchange">
-                  <FormattedMessage id="exchange" defaultMessage="Exchange" />
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid> */}
-          {/*<Grid item xs={6}>
-            {renderSectionType(sectionType)}
-          </Grid>*/}
-          <Grid item xs={12} sm={6} md={7} lg={7} xl={8}>
+          <ResizeHandle />
+
+          <Panel defaultSize={60} minSize={40}>
             <PreviewPagePlatform
               key={sectionType}
               sections={sectionType ? [changedSection as AppPageSection] : []}
@@ -446,8 +393,8 @@ export default function EditSectionDialog({
               }
               disabled={true}
             />
-          </Grid>
-        </Grid>
+          </Panel>
+        </PanelGroup>
       </DialogContent>
     </Dialog>
   );
