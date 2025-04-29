@@ -10,7 +10,7 @@ import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Alert, Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
@@ -42,11 +42,13 @@ export default function ProtectedContent({
   const { account } = useWeb3React();
   const { isLoggedIn } = useAuth();
   const [retryCount, setRetryCount] = useState(0);
+  const [showError, setShowError] = useState(false);
   
   const { 
     data: conditionsData, 
     isLoading: isCheckingConditions,
     refetch,
+    isError,
   } = useCheckGatedConditions({
     conditions,
     account,
@@ -62,8 +64,24 @@ export default function ProtectedContent({
 
   const handleRetry = () => {
     setRetryCount(prev => prev + 1);
+    setShowError(false);
     refetch();
   };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (hasError(protectedConfigResponse) && account && isLoggedIn && !isCheckingConditions) {
+      timer = setTimeout(() => {
+        setShowError(true);
+      }, 1500);
+    } else {
+      setShowError(false);
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [protectedConfigResponse, account, isLoggedIn, isCheckingConditions]);
 
   if (protectedConfigResponse?.sections) {
     return (
@@ -71,11 +89,11 @@ export default function ProtectedContent({
     );
   }
 
-  if (hasError(protectedConfigResponse) && account && isLoggedIn) {
-    return (
-      <Container>
-        <Grid container justifyContent="center">
-          <Grid item xs={12} sm={8}>
+  return (
+    <Container>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} sm={8}>
+          {showError && hasError(protectedConfigResponse) && account && isLoggedIn && (
             <Stack spacing={3} my={4} alignItems="center">
               <Alert severity="error" sx={{ width: '100%' }}>
                 <Typography variant="body1">
@@ -96,16 +114,8 @@ export default function ProtectedContent({
                 <FormattedMessage id="retry" defaultMessage="Retry" />
               </Button>
             </Stack>
-          </Grid>
-        </Grid>
-      </Container>
-    );
-  }
-
-  return (
-    <Container>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} sm={8}>
+          )}
+          
           <GatedConditionView
             account={account}
             conditions={conditions}
