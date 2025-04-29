@@ -1,5 +1,12 @@
 # @dexkit/widgets
 
+## 0.12.0
+
+### Minor Changes
+
+- 528512d: Hide transak button
+- 742d40d: Fixed provider
+
 ## 0.11.0
 
 ### Minor Changes
