@@ -100,6 +100,7 @@
     "react-qr-code": "^2.0.15",
     "react-query": "^3.34.19",
     "react-resizable": "^3.0.4",
+    "react-resizable-panels": "^2.1.9",
     "react-syntax-highlighter": "^15.5.0",
     "react-twitter-widgets": "^1.11.0",
     "react-window": "^1.8.7",

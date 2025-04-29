@@ -479,10 +479,20 @@ export function GatedConditionView({
       </Grid>
       <Grid item xs={12}>
         {account && isLoggedIn ? (
-          isLoading ? (
+          isLoading && (!conditions || conditions.length === 0) ? (
             renderLoading()
           ) : (
             <>
+              {isLoading && (
+                <Box display="flex" justifyContent="center" mb={3}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <CircularProgress size={24} />
+                    <Typography variant="body1" color="text.secondary">
+                      <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+                    </Typography>
+                  </Stack>
+                </Box>
+              )}
               <Grid container spacing={2}>
                 {(conditions || []).map((condition, index) => (
                   <Grid item xs={12} key={index}>
