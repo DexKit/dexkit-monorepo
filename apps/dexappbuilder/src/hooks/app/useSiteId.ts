@@ -1,9 +1,8 @@
-import { useContext } from 'react';
-import { AppConfigContext } from '../../contexts';
+import { useSiteId as useSiteIdUI } from '@dexkit/ui/hooks/useSiteId';
 /**
  * Site id from active app. If is DexAppBuilder this will return null
  * @returns 
  */
 export function useSiteId() {
-  return useContext(AppConfigContext).siteId;
+  return useSiteIdUI();
 }

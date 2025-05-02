@@ -4,7 +4,6 @@ import { AppWizardConfigContext } from '../../../contexts';
 
 import { QUERY_ADMIN_WHITELABEL_CONFIG_NAME } from 'src/hooks/whitelabel';
 
-import { GatedCondition } from '@dexkit/ui/modules/wizard/types';
 import { getAccessToken } from '@dexkit/ui/services/auth';
 import { myAppsApi } from 'src/services/whitelabel';
 
@@ -14,9 +13,7 @@ import {
 } from '@dexkit/ui/modules/wizard/hooks/ranking';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import {
-  GatedConditionsResult,
   addPermissionsMemberSite,
-  checkGatedConditions,
   createSiteRankingVersion,
   deleteAppRanking,
   deleteAppVersion,
@@ -32,6 +29,10 @@ import { generateCSSVarsTheme } from '../utils';
 
 export const TOKEN_LIST_URL = 'TOKEN_LIST_URL';
 export const PROTECTED_CONFIG_QUERY = 'PROTECTED_CONFIG_QUERY';
+
+import { useCheckGatedConditions } from '@dexkit/ui/hooks/gatedConditions';
+
+export { useCheckGatedConditions };
 
 export function useTokenListUrl(url?: string) {
   return useQuery([TOKEN_LIST_URL, url], async () => {
@@ -93,81 +94,6 @@ export function usePreviewThemeFromConfig({
   ]);
 
   return selectedTheme;
-}
-
-export function useCheckGatedConditions({
-  conditions,
-  account,
-}: {
-  conditions?: GatedCondition[];
-  account?: string;
-}) {
-  const queryClient = useQueryClient();
-  
-  return useQuery<GatedConditionsResult | null>(
-    ['GET_CHECKED_GATED_CONDITIONS', account, conditions],
-    async () => {
-      if (!conditions) {
-        return null;
-      }
-
-      if (!account) {
-        return { 
-          result: false, 
-          balances: {}, 
-          partialResults: {} 
-        };
-      }
-
-      try {
-        const data = await checkGatedConditions({ account, conditions });
-
-        const hasAnyTokenCondition = Object.values(data.balances || {})
-          .some(balance => balance === "Any token");
-        
-        if (hasAnyTokenCondition) {
-          
-          const allConditionsMet = Object.values(data.partialResults || {})
-            .every(result => result === true);
-            
-          if (allConditionsMet && !data.result) {
-            data.result = true;
-          }
-        }
-        
-        return data;
-      } catch (error) {
-        console.error("Error verifying gated conditions", error);
-        const balances: { [key: number]: string } = {};
-        const partialResults: { [key: number]: boolean } = {};
-        
-        conditions.forEach((_, index) => {
-          balances[index] = "Error";
-          partialResults[index] = false;
-        });
-        
-        return { 
-          result: false, 
-          balances, 
-          partialResults,
-          error: true,
-          errorMessage: "An error occurred while verifying your assets. Please try again."
-        };
-      }
-    },
-    {
-      retry: 2,
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-      keepPreviousData: true,
-      staleTime: 10000,
-      onSuccess: (data) => {
-        if (data && data.result) {
-          queryClient.invalidateQueries([PROTECTED_CONFIG_QUERY]);
-          queryClient.invalidateQueries(['GET_PROTECTED_APP_CONFIG']);
-        }
-      },
-    },
-  );
 }
 
 export function useSendSiteConfirmationLinkMutation() {
