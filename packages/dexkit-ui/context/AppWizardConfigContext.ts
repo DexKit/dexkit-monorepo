@@ -1,6 +1,6 @@
 import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import React from "react";
-import defaultAppConfig from "../constants/app.json";
+import defaultAppConfig from "../config/app.json";
 
 interface IAppWizardConfigContext {
   wizardConfig: AppConfig;

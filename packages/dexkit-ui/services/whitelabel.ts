@@ -44,3 +44,19 @@ export async function getProtectedAppConfig(queryParameters: {
     },
   });
 }
+/**
+ * Get config by name or domain, at least one of these parameters should be passed
+ * @param queryParameters
+ * @returns
+ */
+export async function getSitemapConfig(queryParameters: {
+  domain?: string;
+  slug?: string;
+}) {
+  return await myAppsApi.get<ConfigResponse>(`/site/sitemap`, {
+    params: {
+      domain: queryParameters.domain,
+      slug: queryParameters.slug,
+    },
+  });
+}

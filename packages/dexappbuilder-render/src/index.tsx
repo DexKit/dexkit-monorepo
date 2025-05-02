@@ -1,6 +1,6 @@
 import React from "react";
 
-import defaultAppConfig from "@dexkit/ui/constants/app.json";
+import defaultAppConfig from "@dexkit/ui/config/app.json";
 import { AppConfigContext as AppUIConfigContext } from "@dexkit/ui/context/AppConfigContext";
 import type { AssetAPI } from "@dexkit/ui/modules/nft/types";
 import { GatedPageLayout } from "@dexkit/ui/modules/wizard/types";
@@ -36,10 +36,23 @@ import { SectionsRenderer } from "@dexkit/dexappbuilder-viewer/components/Sectio
 import AuthMainLayout from "@dexkit/ui/components/layouts/authMain";
 import MainLayout from "@dexkit/ui/components/layouts/main";
 import { SessionProvider } from "next-auth/react";
+
+export { getTheme };
+
+export interface PageProps {
+  appConfig: AppConfig;
+  appNFT: AssetAPI;
+  siteId: number | undefined;
+  dehydratedState: DehydratedState;
+  site?: string;
+  appPage?: string;
+  appLocaleMessages?: Record<string, string> | null;
+}
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
+interface MyAppProps extends AppProps<PageProps> {
   emotionCache?: EmotionCache;
 }
 
@@ -53,15 +66,7 @@ export function DexAppBuilderRender({ appProps }: { appProps: MyAppProps }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const { appConfig, appNFT, siteId, site, appPage, appLocaleMessages } =
-    pageProps as {
-      appConfig: AppConfig;
-      appNFT: AssetAPI;
-      siteId: number | undefined;
-      dehydratedState: DehydratedState;
-      site?: string;
-      appPage?: string;
-      appLocaleMessages?: Record<string, string> | null;
-    };
+    pageProps;
 
   const [queryClient] = React.useState(
     new QueryClient({

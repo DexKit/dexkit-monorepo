@@ -1,5 +1,3 @@
-import type { GetStaticProps, GetStaticPropsContext } from "next";
-
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import {
@@ -9,36 +7,29 @@ import {
 import { GET_ASSETS_ORDERBOOK } from "@dexkit/ui/modules/nft/hooks";
 import { getDKAssetOrderbook } from "@dexkit/ui/modules/nft/services";
 import { fetchMultipleAssetForQueryClient } from "@dexkit/ui/modules/nft/services/query";
+
 //import { getAppConfigBySlug } from "@dexkit/ui/services/app/getAppConfigbySlug";
 import getLocaleMessages from "@dexkit/ui/services/i18n";
 
-import config from "../../public/config/app.kittygotchi.json";
+import config from "../public/config/app.kittygotchi.json";
 
-function CustomPage(props: CustomPageProps) {
+function Home(props: CustomPageProps) {
   return <RenderCustomPage {...props} />;
 }
 
-type Params = {
-  page?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
-  // uncomment if you wanna use dexappbuilder config directly from builder, using the slug
+Home.getInitialProps = async () => {
   //const configResponse = await getAppConfigBySlug('myapp', params?.page);
   //const { appConfig } = configResponse;
+  const queryClient = new QueryClient();
   const appConfig = config;
+  const homePage = appConfig.pages["home"];
 
   const appLocaleMessages = await getLocaleMessages(appConfig.locale);
   const configResponse = {
     appConfig,
     appLocaleMessages: JSON.stringify(appLocaleMessages),
-    appPage: params?.page,
+    appPage: homePage,
   };
-  //@ts-ignore
-  const homePage = appConfig.pages[params?.page || ""];
 
   if (!homePage) {
     return {
@@ -55,21 +46,21 @@ export const getStaticProps: GetStaticProps = async ({
       : homePage?.gatedConditions && homePage.gatedConditions.length > 0
   ) {
     return {
-      props: {
-        isProtected: true,
-        sections: [],
-        result: false,
-        layout: homePage?.layout || {},
-        conditions: homePage?.gatedConditions,
-        gatedLayout: homePage?.gatedPageLayout || {},
-        site: null,
-        page: params?.page,
-        balances: {},
-        partialResults: {},
-        ...configResponse,
-      },
+      isProtected: true,
+      sections: [],
+      result: false,
+      layout: homePage?.layout || {},
+      conditions: homePage?.gatedConditions,
+      gatedLayout: homePage?.gatedPageLayout || {},
+      site: null,
+      page: homePage,
+      balances: {},
+      partialResults: {},
+      ...configResponse,
     };
   }
+  console.log(homePage);
+
   const sections = homePage?.sections || [];
 
   await fetchMultipleAssetForQueryClient({
@@ -89,23 +80,13 @@ export const getStaticProps: GetStaticProps = async ({
   }
 
   return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      page: params?.page,
-      layout: homePage?.layout || null,
-      sections: sections,
-      site: null,
-      ...configResponse,
-    },
-    revalidate: 60,
+    dehydratedState: dehydrate(queryClient),
+    page: homePage,
+    layout: homePage?.layout || null,
+    sections: sections,
+    site: null,
+    ...configResponse,
   };
 };
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: "blocking", // false or 'blocking'
-  };
-}
-
-export default CustomPage;
+export default Home;

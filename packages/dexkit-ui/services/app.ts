@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import defaultAppConfig from "../constants/app.json";
+import defaultAppConfig from "../config/app.json";
 import { AppConfig } from "../modules/wizard/types/config";
 
 import { experimental_extendTheme as extendTheme } from "@mui/material/styles";

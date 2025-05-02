@@ -16,6 +16,7 @@
     "dev:whitelabel": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=dexappbuilder",
     "dev:coinleague": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=coinleague",
     "dev:dexappadmin": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=dexappadmin",
+    "dev:wallet-example": "turbo run dev --parallel --filter=wallet-example",
     "storybook": "turbo run storybook",
     "storybook:ui": "turbo run storybook --filter=@dexkit/ui",
     "storybook:web3forms": "turbo run storybook --filter=@dexkit/web3forms",

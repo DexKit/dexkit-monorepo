@@ -1,0 +1,239 @@
+{
+  "name": "Mutant Bored Apes",
+  "email": "info@dexkit.com",
+  "locale": "en-US",
+  "currency": "usd",
+  "theme": "boredape",
+  "domain": "https://www.mutantboredapes.dexkit.com",
+  "logo": {
+    "url": "/assets/images/mutantboredape-logo.png",
+    "height": 50,
+    "width": 150
+  },
+  "favicon_url": "/assets/mutantboredape/favicon.ico",
+  "social": [{ "type": "twitter", "handle": "BoredApeYC" }],
+  "transak": {
+    "enabled": true
+  },
+  "fees": [
+    {
+      "amount_percentage": 0.05,
+      "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+    }
+  ],
+  "format": {
+    "date": "MM/DD/YYYY",
+    "datetime": "MM/DD/YYYY HH:mm:ss"
+  },
+  "collections": [
+    {
+      "image": "/assets/mutantboredape/banner.png",
+      "name": "Mutant Ape Yacht Club",
+      "backgroundImage": "/assets/mutantboredape/banner.png",
+      "chainId": 1,
+      "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+      "description": "",
+      "uri": "mutantboredapes"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "Test tokens",
+      "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+      "keywords": ["faucet", "test"],
+      "tags": {
+        "faucet": {
+          "name": "Faucet token for testing on ropsten",
+          "description": "ERC20 tokens for testing"
+        }
+      },
+      "timestamp": "2020-06-12T00:00:00+00:00",
+      "tokens": [
+        {
+          "chainId": 1,
+          "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "symbol": "USDT",
+          "name": "Tether",
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 1,
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "symbol": "USDC",
+          "name": "USDC",
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 1,
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "symbol": "DAI",
+          "name": "DAI",
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xfab46e002bbf0b4509813474841e0716e6730136",
+          "symbol": "FAU",
+          "name": "FaucetToken",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 4,
+          "address": "0xFab46E002BbF0b4509813474841E0716E6730136",
+          "symbol": "FAU",
+          "name": "FaucetToken",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xad6d458402f60fd3bd25163575031acdce07538d",
+          "symbol": "DAI",
+          "name": "DAI Stable Coin",
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xc778417e063141139fce010982780140aa0cd5ab",
+          "symbol": "WETH",
+          "name": "Wrapped Ether",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["weth", "test"]
+        },
+        {
+          "chainId": 137,
+          "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "symbol": "WMATIC",
+          "name": "Wrapped Matic",
+          "decimals": 18,
+          "logoURI": "https://polygonscan.com/token/images/wMatic_32.png",
+          "tags": ["polygon", "wrapped token"]
+        },
+        {
+          "chainId": 80001,
+          "address": "0xa6fa4fb5f76172d178d61b04b0ecd319c5d1c0aa",
+          "symbol": "WETH",
+          "name": "Wrapped ETH",
+          "decimals": 18,
+          "logoURI": "https://polygonscan.com/token/images/wMatic_32.png",
+          "tags": ["polygon", "wrapped token"]
+        },
+        {
+          "chainId": 137,
+          "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "symbol": "USDC",
+          "name": "USD Coin",
+          "decimals": 6,
+          "logoURI": "https://polygonscan.com/token/images/centre-usdc_32.png",
+          "tags": ["polygon", "stable coin"]
+        }
+      ],
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+      }
+    }
+  ],
+  "pages": {
+    "home": {
+      "sections": [
+        {
+          "type": "featured",
+          "title": "Mutant Ape Yacht Club",
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "tokenId": "15545"
+            },
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "tokenId": "4849"
+            },
+            {
+              "type": "collection",
+              "title": "Mutant Ape Yacht Club",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "backgroundImageUrl": "/assets/mutantboredape/banner.png"
+            }
+          ]
+        },
+        {
+          "type": "collections",
+          "items": [
+            {
+              "featured": true,
+              "type": "collection",
+              "title": "Mutant Ape Yacht Club",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "backgroundImageUrl": "/assets/mutantboredape/banner.png"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "title": "Marketplace",
+          "videoUrl": "https://www.youtube.com/embed/9UxtgAkNG1k",
+          "embedType": "youtube"
+        },
+        {
+          "variant": "dark",
+          "type": "call-to-action",
+          "title": "Mutant Ape Yacht Club",
+          "subtitle": "See your favourite mutant apes",
+          "button": {
+            "title": "See all",
+            "url": "/collections"
+          },
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "tokenId": "15545"
+            },
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+              "tokenId": "4849"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Mutant Ape Yacht Club",
+      "description": "The MUTANT APE YACHT CLUB is a collection of up to 20,000 Mutant Apes that can only be created by exposing an existing Bored Ape to a vial of MUTANT SERUM or by minting a Mutant Ape in the public sale.",
+      "images": [
+        {
+          "url": "https://mutantboredapes.dexkit.com/assets/mutantboredape/banner.png",
+          "width": 800,
+          "height": 600,
+          "alt": "MutantApeYachtClub",
+          "type": "image/png"
+        }
+      ]
+    }
+  }
+}

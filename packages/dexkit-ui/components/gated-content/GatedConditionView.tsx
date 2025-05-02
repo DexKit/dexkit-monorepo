@@ -1,13 +1,13 @@
-import { getNetworkSlugFromChainId } from '@dexkit/core/utils/blockchain';
+import { getNetworkSlugFromChainId } from "@dexkit/core/utils/blockchain";
 import {
   GatedCondition,
   GatedPageLayout,
-} from '@dexkit/ui/modules/wizard/types';
-import Check from '@mui/icons-material/Check';
-import Close from '@mui/icons-material/Close';
-import InfoIcon from '@mui/icons-material/Info';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import Security from '@mui/icons-material/Security';
+} from "@dexkit/ui/modules/wizard/types";
+import Check from "@mui/icons-material/Check";
+import Close from "@mui/icons-material/Close";
+import InfoIcon from "@mui/icons-material/Info";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import Security from "@mui/icons-material/Security";
 import {
   Alert,
   AlertTitle,
@@ -24,14 +24,14 @@ import {
   alpha,
   styled,
   useTheme,
-} from '@mui/material';
-import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+} from "@mui/material";
+import { FormattedMessage } from "react-intl";
+import LoginAppButton from "../LoginAppButton";
 
-const CustomImage = styled('img')(({ theme }) => ({
-  width: '100%',
-  height: 'auto',
-  display: 'block',
+const CustomImage = styled("img")(({ theme }) => ({
+  width: "100%",
+  height: "auto",
+  display: "block",
 }));
 
 export function GatedConditionView({
@@ -72,7 +72,7 @@ export function GatedConditionView({
               <InfoIcon
                 fontSize="inherit"
                 sx={{ color: (theme) => theme.palette.info.dark }}
-              />{' '}
+              />{" "}
               <Box
                 component="span"
                 sx={{ color: (theme) => theme.palette.info.main }}
@@ -97,12 +97,15 @@ export function GatedConditionView({
         >
           <Typography variant="body2" color="info.dark">
             <Stack direction="row" alignItems="center" spacing={0.5}>
-              <CircularProgress size={16} color="info" />{' '}
+              <CircularProgress size={16} color="info" />{" "}
               <Box
                 component="span"
                 sx={{ color: (theme) => theme.palette.info.main }}
               >
-                <FormattedMessage id="verifying" defaultMessage="Verifying..." />
+                <FormattedMessage
+                  id="verifying"
+                  defaultMessage="Verifying..."
+                />
               </Box>
             </Stack>
           </Typography>
@@ -122,12 +125,15 @@ export function GatedConditionView({
         >
           <Typography variant="body2" color="warning.dark">
             <Stack direction="row" alignItems="center" spacing={0.5}>
-              <InfoIcon fontSize="inherit" color="warning" />{' '}
+              <InfoIcon fontSize="inherit" color="warning" />{" "}
               <Box
                 component="span"
                 sx={{ color: (theme) => theme.palette.warning.dark }}
               >
-                <FormattedMessage id="error.checking" defaultMessage="Error checking" />
+                <FormattedMessage
+                  id="error.checking"
+                  defaultMessage="Error checking"
+                />
               </Box>
             </Stack>
           </Typography>
@@ -147,7 +153,7 @@ export function GatedConditionView({
         >
           <Typography variant="body2" color="success.dark">
             <Stack direction="row" alignItems="center" spacing={0.5}>
-              <Check fontSize="inherit" color="success" />{' '}
+              <Check fontSize="inherit" color="success" />{" "}
               <Box
                 component="span"
                 sx={{ color: (theme) => theme.palette.success.dark }}
@@ -173,7 +179,7 @@ export function GatedConditionView({
       >
         <Typography variant="body2" color="success.dark">
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Check fontSize="inherit" color="success" />{' '}
+            <Check fontSize="inherit" color="success" />{" "}
             <Box
               component="span"
               sx={{ color: (theme) => theme.palette.success.dark }}
@@ -194,12 +200,15 @@ export function GatedConditionView({
       >
         <Typography variant="body2" color="error.main">
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Close fontSize="inherit" color="error" />{' '}
+            <Close fontSize="inherit" color="error" />{" "}
             <Box
               component="span"
               sx={{ color: (theme) => theme.palette.error.dark }}
             >
-              <FormattedMessage id="not.verified" defaultMessage="Not verified" />
+              <FormattedMessage
+                id="not.verified"
+                defaultMessage="Not verified"
+              />
             </Box>
           </Stack>
         </Typography>
@@ -208,7 +217,7 @@ export function GatedConditionView({
   };
 
   const renderCondition = (condition: GatedCondition, index: number) => {
-    if (condition.type === 'collection') {
+    if (condition.type === "collection") {
       return (
         <Stack spacing={1}>
           <Typography color="text.secondary" fontWeight="bold" variant="body2">
@@ -223,10 +232,10 @@ export function GatedConditionView({
                     component="span"
                   >
                     {getNetworkSlugFromChainId(
-                      condition.chainId,
-                    )?.toUpperCase()}{' '}
+                      condition.chainId
+                    )?.toUpperCase()}{" "}
                     - {condition.symbol}
-                    {condition.protocol === 'ERC1155' && condition.tokenId
+                    {condition.protocol === "ERC1155" && condition.tokenId
                       ? `- ID - ${condition.tokenId}`
                       : null}
                   </Typography>
@@ -254,7 +263,7 @@ export function GatedConditionView({
                 />
               </b>
             </Typography>
-            <Divider orientation="vertical" sx={{ height: '1rem' }} />
+            <Divider orientation="vertical" sx={{ height: "1rem" }} />
             {balances && balances[index] && (
               <Typography
                 color="text.secondary"
@@ -272,9 +281,9 @@ export function GatedConditionView({
                         component="span"
                       >
                         {balances[index] === "Any token" ? (
-                          <FormattedMessage 
-                            id="any.token.collection" 
-                            defaultMessage="Any token of this collection" 
+                          <FormattedMessage
+                            id="any.token.collection"
+                            defaultMessage="Any token of this collection"
                           />
                         ) : (
                           balances[index]
@@ -291,7 +300,7 @@ export function GatedConditionView({
       );
     }
 
-    if (condition.type === 'coin') {
+    if (condition.type === "coin") {
       return (
         <Stack spacing={1}>
           <Typography color="text.secondary" variant="body2" fontWeight="bold">
@@ -334,7 +343,7 @@ export function GatedConditionView({
               />
             </Typography>
 
-            <Divider orientation="vertical" sx={{ height: '1rem' }} />
+            <Divider orientation="vertical" sx={{ height: "1rem" }} />
             {balances && balances[index] && (
               <Typography
                 color="text.secondary"
@@ -352,9 +361,9 @@ export function GatedConditionView({
                         component="span"
                       >
                         {balances[index] === "Any token" ? (
-                          <FormattedMessage 
-                            id="any.token.collection" 
-                            defaultMessage="Any token of this collection" 
+                          <FormattedMessage
+                            id="any.token.collection"
+                            defaultMessage="Any token of this collection"
                           />
                         ) : (
                           balances[index]
@@ -376,14 +385,26 @@ export function GatedConditionView({
   const theme = useTheme();
 
   const renderLoading = () => (
-    <Box display="flex" justifyContent="center" alignItems="center" my={4} width="100%">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      my={4}
+      width="100%"
+    >
       <Stack spacing={2} alignItems="center">
         <CircularProgress size={60} />
         <Typography variant="h6" color="text.secondary">
-          <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+          <FormattedMessage
+            id="verifying.assets"
+            defaultMessage="Verifying your assets..."
+          />
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <FormattedMessage id="please.wait" defaultMessage="Please wait while we verify your assets on the blockchain." />
+          <FormattedMessage
+            id="please.wait"
+            defaultMessage="Please wait while we verify your assets on the blockchain."
+          />
         </Typography>
       </Stack>
     </Box>
@@ -391,22 +412,26 @@ export function GatedConditionView({
 
   const renderRetryButton = () => {
     if (!onRetry) return null;
-    
+
     return (
       <Box display="flex" justifyContent="center" mt={3}>
-        <Button 
-          variant="contained" 
-          color="primary" 
+        <Button
+          variant="contained"
+          color="primary"
           startIcon={<RefreshIcon />}
           onClick={onRetry}
         >
-          <FormattedMessage id="retry.verification" defaultMessage="Retry verification" />
+          <FormattedMessage
+            id="retry.verification"
+            defaultMessage="Retry verification"
+          />
         </Button>
       </Box>
     );
   };
 
-  const hasErrors = balances && Object.values(balances).some(balance => balance === "Error");
+  const hasErrors =
+    balances && Object.values(balances).some((balance) => balance === "Error");
 
   return (
     <Grid container spacing={2}>
@@ -414,44 +439,44 @@ export function GatedConditionView({
         <Box
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? 'rgba(0,0,0, 0.2)'
+              theme.palette.mode === "light"
+                ? "rgba(0,0,0, 0.2)"
                 : alpha(theme.palette.common.white, 0.1),
             borderRadius: (theme) => theme.shape.borderRadius / 4,
             backgroundImage: (theme) =>
               layout?.frontImageDark || layout?.frontImage
                 ? `url('${
-                    theme.palette.mode === 'light'
+                    theme.palette.mode === "light"
                       ? layout?.frontImage
                       : layout?.frontImageDark || layout?.frontImage
                   }')`
                 : undefined,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
           }}
         >
           <Stack
-            justifyContent={'center'}
-            alignContent={'center'}
-            alignItems={'center'}
+            justifyContent={"center"}
+            alignContent={"center"}
+            alignItems={"center"}
             sx={{
               height: layout?.frontImageHeight,
               maxHeight: 300,
               minHeight: 50,
             }}
           >
-            {((theme.palette.mode === 'light' && !layout?.frontImage) ||
-              (theme.palette.mode === 'dark' &&
+            {((theme.palette.mode === "light" && !layout?.frontImage) ||
+              (theme.palette.mode === "dark" &&
                 !(layout?.frontImage || layout?.frontImageDark))) && (
               <Security
                 sx={{
                   fontSize: 80,
                   color: (theme) =>
                     theme.palette.getContrastText(
-                      theme.palette.mode === 'light'
-                        ? 'rgba(0,0,0, 0.2)'
-                        : alpha(theme.palette.common.white, 0.1),
+                      theme.palette.mode === "light"
+                        ? "rgba(0,0,0, 0.2)"
+                        : alpha(theme.palette.common.white, 0.1)
                     ),
                 }}
               />
@@ -488,7 +513,10 @@ export function GatedConditionView({
                   <Stack direction="row" spacing={2} alignItems="center">
                     <CircularProgress size={24} />
                     <Typography variant="body1" color="text.secondary">
-                      <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+                      <FormattedMessage
+                        id="verifying.assets"
+                        defaultMessage="Verifying your assets..."
+                      />
                     </Typography>
                   </Stack>
                 </Box>
@@ -503,12 +531,12 @@ export function GatedConditionView({
                             sx={{
                               py: 0.5,
                               backgroundColor: (theme) =>
-                                condition.condition === 'or'
+                                condition.condition === "or"
                                   ? alpha(theme.palette.warning.light, 0.2)
                                   : alpha(theme.palette.info.light, 0.2),
                               border: (theme) =>
                                 `1px solid ${
-                                  condition.condition === 'or'
+                                  condition.condition === "or"
                                     ? theme.palette.warning.main
                                     : theme.palette.info.main
                                 }`,
@@ -520,7 +548,7 @@ export function GatedConditionView({
                               textTransform="uppercase"
                               fontWeight="bold"
                               color={(theme) =>
-                                condition.condition === 'or'
+                                condition.condition === "or"
                                   ? theme.palette.warning.dark
                                   : theme.palette.info.dark
                               }
@@ -536,7 +564,7 @@ export function GatedConditionView({
                                         component="span"
                                         fontWeight="400"
                                       >
-                                        {condition.condition === 'or' ? (
+                                        {condition.condition === "or" ? (
                                           <FormattedMessage
                                             id="or"
                                             defaultMessage="O"
@@ -551,7 +579,7 @@ export function GatedConditionView({
                                     ),
                                   }}
                                 />
-                              ) : condition.condition === 'or' ? (
+                              ) : condition.condition === "or" ? (
                                 <FormattedMessage id="or" defaultMessage="O" />
                               ) : (
                                 <FormattedMessage id="and" defaultMessage="Y" />
@@ -568,7 +596,10 @@ export function GatedConditionView({
                                 : undefined,
                             boxShadow: (theme) =>
                               partialResults && partialResults[index]
-                                ? `0 0 8px ${alpha(theme.palette.success.main, 0.4)}`
+                                ? `0 0 8px ${alpha(
+                                    theme.palette.success.main,
+                                    0.4
+                                  )}`
                                 : undefined,
                           }}
                         >
@@ -594,8 +625,8 @@ export function GatedConditionView({
             </>
           )
         ) : (
-          <Stack justifyContent={'center'} alignItems={'center'}>
-            <Box sx={{ maxWidth: '500px' }}>
+          <Stack justifyContent={"center"} alignItems={"center"}>
+            <Box sx={{ maxWidth: "500px" }}>
               <LoginAppButton />
             </Box>
           </Stack>

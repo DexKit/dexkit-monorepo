@@ -3,15 +3,18 @@ import { myAppsApi as myAppsApiUI } from '@dexkit/ui/constants/api';
 import { PageTemplateResponse } from '@dexkit/ui/modules/whitelabel/types';
 import type { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { getAccessToken, getAccessTokenAndRefresh, getRefreshAccessToken } from '@dexkit/ui/services/auth';
+import {
+  getAccessToken,
+  getAccessTokenAndRefresh,
+  getRefreshAccessToken,
+} from '@dexkit/ui/services/auth';
 import axios from 'axios';
 import type {
   ConfigResponse,
   PageTemplateFormData,
   SiteResponse,
-  WhitelabelFormData
+  WhitelabelFormData,
 } from '../types/whitelabel';
-
 
 //const MY_APPS_ENDPOINT = 'https://dexkitapi-8oo4v.ondigitalocean.app';
 //const MY_APPS_ENDPOINT = 'http://localhost:3001';
@@ -25,8 +28,6 @@ import type {
  */
 
 export const myAppsApi = myAppsApiUI;
-
-
 
 export const testAppsApi = axios.create({
   baseURL: 'http://localhost:3001',
@@ -52,7 +53,7 @@ testAppsApi.interceptors.request.use(
     } catch {
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 testAppsApi.interceptors.response.use(
@@ -69,7 +70,7 @@ testAppsApi.interceptors.response.use(
       return Promise.reject(error);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 /*myAppsApi.interceptors.request.use(
@@ -135,7 +136,7 @@ export async function getConfigsByOwner(owner: string) {
  */
 export async function getPageTemplateById(id: string) {
   return await myAppsApi.get<PageTemplateResponse>(
-    `/site/page-template/id/${id}`
+    `/site/page-template/id/${id}`,
   );
 }
 
@@ -146,27 +147,8 @@ export async function getPageTemplateById(id: string) {
  */
 export async function getPageTemplatesByOwner(owner: string) {
   return await myAppsApi.get<PageTemplateResponse[]>(
-    `/site/page-template/${owner}`
+    `/site/page-template/${owner}`,
   );
-}
-
-/**
- * Get config by name or domain, at least one of these parameters should be passed
- * @param queryParameters
- * @returns
- */
-export async function getConfig(queryParameters: {
-  domain?: string;
-  slug?: string;
-  appPage?: string;
-}) {
-  return await myAppsApi.get<SiteResponse>(`/site`, {
-    params: {
-      domain: queryParameters.domain,
-      slug: queryParameters.slug,
-      ['app-page']: queryParameters.appPage,
-    },
-  });
 }
 
 /**
@@ -179,23 +161,6 @@ export async function getTemplateConfig(queryParameters: {
   slug?: string;
 }) {
   return await myAppsApi.get<ConfigResponse>(`/site/template`, {
-    params: {
-      domain: queryParameters.domain,
-      slug: queryParameters.slug,
-    },
-  });
-}
-
-/**
- * Get config by name or domain, at least one of these parameters should be passed
- * @param queryParameters
- * @returns
- */
-export async function getSitemapConfig(queryParameters: {
-  domain?: string;
-  slug?: string;
-}) {
-  return await myAppsApi.get<ConfigResponse>(`/site/sitemap`, {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,
@@ -231,8 +196,12 @@ export async function getProtectedAppConfig(queryParameters: {
   slug?: string;
   appPage?: string;
 }) {
-
-  return await myAppsApi.get<{ sections: AppPageSection[], result: boolean, balances: { [key: number]: string }, partialResults: { [key: number]: boolean } }>(`/site/protected`, {
+  return await myAppsApi.get<{
+    sections: AppPageSection[];
+    result: boolean;
+    balances: { [key: number]: string };
+    partialResults: { [key: number]: boolean };
+  }>(`/site/protected`, {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,
@@ -277,8 +246,7 @@ export async function getTemplateSites(queryParameters: {
  * @returns
  */
 export async function getSiteMetadata({ slug }: { slug: string }) {
-  return await myAppsApi.get<SiteResponse>(`/site/metadata/${slug}`
-  );
+  return await myAppsApi.get<SiteResponse>(`/site/metadata/${slug}`);
 }
 
 export async function deleteConfig(slug: string) {
@@ -286,7 +254,6 @@ export async function deleteConfig(slug: string) {
     params: { slug },
   });
 }
-
 
 export async function getDomainConfigStatus(domain: string) {
   return await myAppsApi.get<ConfigResponse[]>(`/site/domain-status`, {
@@ -313,20 +280,20 @@ export async function setupDomainConfig(domain: string) {
 
 export async function upsertWhitelabelAsset(
   siteId: number,
-  nft: CollectionOwnershipNFTFormType
+  nft: CollectionOwnershipNFTFormType,
 ) {
   return await myAppsApi.post<ConfigResponse[]>(
     `/contract/upsert/whitelabel/asset`,
-    { siteId, nft }
+    { siteId, nft },
   );
 }
 
 export async function upsertSiteMetadata(
   siteId: number,
-  siteMedata: SiteMetadata
+  siteMedata: SiteMetadata,
 ) {
   return await myAppsApi.post<SiteResponse[]>(
     `/site/upsert/metadata/${siteId}`,
-    { ...siteMedata }
+    { ...siteMedata },
   );
 }

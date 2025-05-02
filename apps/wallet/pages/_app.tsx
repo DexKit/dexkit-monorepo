@@ -1,37 +1,28 @@
 import { EmotionCache } from "@emotion/react";
-import { DehydratedState } from "@tanstack/react-query";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import theme from "src/theme";
-
 import type {} from "@mui/material/themeCssVarsAugmentation";
-const clientSideEmotionCache = createEmotionCache();
 
-import type { AssetAPI } from "@dexkit/ui/modules/nft/types";
-import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
-
-import createEmotionCache from "src/createEmotionCache";
-
-import { DexAppBuilderRender } from "@dexkit/dexappbuilder-render";
+import {
+  DexAppBuilderRender,
+  PageProps,
+  getTheme,
+} from "@dexkit/dexappbuilder-render";
+import { setupTheme } from "@dexkit/ui/services/app";
 // Client-side cache, shared for the whole session of the user in the browser.
 
-interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
+interface MyAppProps extends AppProps<PageProps> {
   emotionCache?: EmotionCache;
 }
 
-interface PageProps {
-  appConfig: AppConfig;
-  appNFT: AssetAPI;
-  siteId: number | undefined;
-  dehydratedState: DehydratedState;
-  site?: string;
-  appPage?: string;
-  loading?: boolean;
-  appLocaleMessages?: Record<string, string> | null;
-}
-
 export default function MyApp(props: MyAppProps) {
+  const { pageProps } = props;
+
+  const { appConfig } = pageProps;
+
+  const theme = setupTheme({ appConfig, getTheme });
+
   return (
     <>
       <Head>
