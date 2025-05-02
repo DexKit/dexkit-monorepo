@@ -1,4 +1,3 @@
-import OrdersTable from "@dexkit/exchange/components/OrdersTable";
 import TradingGraph from "@dexkit/exchange/components/TradingGraph";
 import { GET_GECKOTERMINAL_NETWORK } from "@dexkit/exchange/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -131,14 +130,14 @@ function ExchangeSection() {
                     showSwaps={showSwaps}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/*<Grid item xs={12}>
                   <OrdersTable
                     account={account}
                     chainId={chainId}
                     signer={signer}
                     active={isActive}
                   />
-                </Grid>
+                </Grid>*/}
               </Grid>
             </Grid>
           </Grid>
@@ -188,14 +187,14 @@ function ExchangeSection() {
                 showSwaps={showSwaps}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/*   <Grid item xs={12}>
               <OrdersTable
                 account={account}
                 chainId={chainId}
                 signer={signer}
                 active={isActive}
               />
-            </Grid>
+            </Grid>*/}
           </Grid>
         </Grid>
       </Grid>
