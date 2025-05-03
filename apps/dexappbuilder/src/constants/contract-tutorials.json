@@ -1,0 +1,177 @@
+{
+  "DropERC1155": {
+    "name": "Edition Drop",
+    "videos": [
+      {
+        "id": "iLHgctqdaT8",
+        "title": "Using Thirdweb Edition Drop smart contract with DexAppBuilder"
+      },
+      {
+        "id": "KJle-Q_qK5Y",
+        "title": "Tutorial | Deploy Thirdweb Edition Drop smart contract with DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "Edition Drop allows you to create multiple NFTs from the same asset using the ERC1155 standard.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/edition-drop"
+    }
+  },
+  "TokenERC1155": {
+    "name": "Edition",
+    "videos": [
+      {
+        "id": "FV832caR6MU",
+        "title": "Using Edition (ERC1155) Contract with DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "Edition allows you to create multiple copies of the same NFT using the ERC1155 standard.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/edition"
+    }
+  },
+  "TokenERC721": {
+    "name": "NFT Collection",
+    "videos": [
+      {
+        "id": "36pmIP7qvg8",
+        "title": "Creating NFT Collection with DexAppBuilder"
+      },
+      {
+        "id": "dx_2PU6JRlw",
+        "title": "Manage NFT Collection in DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "NFT Collection allows you to create unique NFTs on the ERC721 standard without the drop mechanism.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/nft-collection"
+    }
+  },
+  "DropERC721": {
+    "name": "NFT Drop",
+    "videos": [
+      {
+        "id": "0IP1tZZ3KVw",
+        "title": "Deploy and Use NFT Drop with DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "NFT Drop is ideal when you want to release a collection of unique NFTs using the ERC721A Standard.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/nft-drop"
+    }
+  },
+  "TokenERC20": {
+    "name": "Token",
+    "videos": [
+      {
+        "id": "cK10-fd4eGM",
+        "title": "Creating ERC20 Token with DexAppBuilder"
+      },
+      {
+        "id": "4Ex-wV8DWgk",
+        "title": "Managing Your ERC20 Token in DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "The Token contract is suited for creating a digital currency and is compliant with the ERC20 standard.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/token"
+    }
+  },
+  "DropERC20": {
+    "name": "Token Drop",
+    "videos": [
+      {
+        "id": "mnGlv7l_E24",
+        "title": "Deploy and Use Token Drop with DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "Token Drop allows you to release ERC20 tokens that users can claim under specific conditions.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/token-drop"
+    }
+  },
+  "AirdropERC20": {
+    "name": "Token Airdrop",
+    "videos": [
+      {
+        "id": "Uhu0VipVBzE",
+        "title": "Creating Token Airdrops with DexAppBuilder"
+      }
+    ],
+    "documentation": {
+      "description": "Token Airdrop allows you to distribute ERC20 tokens to multiple wallet addresses in a single transaction.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/airdroperc20"
+    }
+  },
+  "Pack": {
+    "name": "Pack",
+    "videos": [],
+    "documentation": {
+      "description": "Pack allows you to bundle multiple tokens (ERC20, ERC721, ERC1155) together into a single NFT that can be opened.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/pack"
+    }
+  },
+  "Split": {
+    "name": "Split",
+    "videos": [],
+    "documentation": {
+      "description": "Split allows you to distribute funds automatically between multiple recipients according to predefined percentages.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/split"
+    }
+  },
+  "NFTStake": {
+    "name": "StakeERC721",
+    "videos": [],
+    "documentation": {
+      "description": "StakeERC721 allows users to stake their NFTs and earn ERC20 token rewards based on staking duration.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/stakeerc721"
+    }
+  },
+  "TokenStake": {
+    "name": "StakeERC20",
+    "videos": [],
+    "documentation": {
+      "description": "StakeERC20 allows users to stake their ERC20 tokens and earn rewards based on staking duration.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/stakeerc20"
+    }
+  },
+  "Multiwrap": {
+    "name": "Multiwrap",
+    "videos": [],
+    "documentation": {
+      "description": "Multiwrap allows you to wrap multiple ERC20, ERC721, and ERC1155 tokens into a single NFT container.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/multiwrap"
+    }
+  },
+  "AirdropERC721": {
+    "name": "NFT Airdrop",
+    "videos": [],
+    "documentation": {
+      "description": "NFT Airdrop allows you to distribute ERC721 NFTs to multiple wallet addresses in a single transaction.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/airdroperc721"
+    }
+  },
+  "AirdropERC1155": {
+    "name": "Edition Airdrop",
+    "videos": [],
+    "documentation": {
+      "description": "Edition Airdrop allows you to distribute ERC1155 tokens to multiple wallet addresses in a single transaction.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/airdroperc1155"
+    }
+  },
+  "VoteERC20": {
+    "name": "Vote",
+    "videos": [],
+    "documentation": {
+      "description": "Vote enables on-chain governance for your project with proposals that token holders can vote on.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/vote"
+    }
+  },
+  "MarketplaceV3": {
+    "name": "Marketplace",
+    "videos": [],
+    "documentation": {
+      "description": "A Marketplace is a contract where you can buy and sell NFTs, similar to platforms like OpenSea or Rarible.",
+      "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/marketplace"
+    }
+  }
+}
