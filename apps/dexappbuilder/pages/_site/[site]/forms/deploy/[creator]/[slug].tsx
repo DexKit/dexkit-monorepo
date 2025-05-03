@@ -415,13 +415,17 @@ export default function DeployPage() {
                               src={getNormalizedUrl(
                                 thirdwebMetadataQuery.data?.logo,
                               )}
+                              sx={{
+                                width: { xs: '2rem', sm: '3rem' },
+                                height: { xs: '2rem', sm: '3rem' }
+                              }}
                             />
                           ) : (
                             <Skeleton
                               variant="circular"
                               sx={(theme) => ({
-                                height: theme.spacing(6),
-                                width: theme.spacing(6),
+                                height: { xs: theme.spacing(2), sm: theme.spacing(6) },
+                                width: { xs: theme.spacing(2), sm: theme.spacing(6) },
                               })}
                             />
                           )}
