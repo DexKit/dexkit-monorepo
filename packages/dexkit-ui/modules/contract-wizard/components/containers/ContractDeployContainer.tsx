@@ -3,6 +3,9 @@ import {
   Avatar,
   Box,
   Button,
+  Card,
+  CardContent,
+  CardMedia,
   CircularProgress,
   Container,
   Dialog,
@@ -17,7 +20,7 @@ import {
   SelectChangeEvent,
   Skeleton,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
@@ -48,10 +51,27 @@ import useThirdwebContractMetadataQuery, {
 import { useTrustedForwarders } from "@dexkit/web3forms/hooks/useTrustedForwarders";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
+import contractTutorials from "../../../../../../apps/dexappbuilder/src/constants/contract-tutorials.json";
 import { THIRDWEB_CLIENT_ID } from "../../../../constants/thirdweb";
 import { useSaveContractDeployed } from "../../../forms/hooks";
+
+interface TutorialVideo {
+  id: string;
+  title: string;
+}
+interface ContractDocumentation {
+  description: string;
+  url: string;
+}
+interface ContractTutorial {
+  name: string;
+  videos: TutorialVideo[];
+  documentation: ContractDocumentation;
+}
 
 interface Props {
   slug: string;
@@ -78,6 +98,10 @@ export default function ContractDeployContainer({
 }: Props) {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
+
+  const contractTutorial: ContractTutorial | undefined = slug ? 
+    (contractTutorials as Record<string, ContractTutorial>)[slug as string] : 
+    undefined;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
 
@@ -216,6 +240,13 @@ export default function ContractDeployContainer({
       selectedChainId,
       hasChainDiff,
       affiliateReferral,
+      chainId,
+      enqueueSnackbar,
+      formatMessage,
+      saveContractDeployedMutation,
+      slug,
+      switchNetworkMutation,
+      thirdWebDeployMutation
     ]
   );
 
@@ -437,13 +468,17 @@ export default function ContractDeployContainer({
                               src={getNormalizedUrl(
                                 thirdwebMetadataQuery.data?.logo
                               )}
+                              sx={{
+                                width: { xs: '2rem', sm: '3rem' },
+                                height: { xs: '2rem', sm: '3rem' }
+                              }}
                             />
                           ) : (
                             <Skeleton
                               variant="circular"
                               sx={(theme) => ({
-                                height: theme.spacing(6),
-                                width: theme.spacing(6),
+                                height: { xs: theme.spacing(2), sm: theme.spacing(6) },
+                                width: { xs: theme.spacing(2), sm: theme.spacing(6) },
                               })}
                             />
                           )}
@@ -565,6 +600,71 @@ export default function ContractDeployContainer({
                       }
                     />
                   </Grid>
+                  
+                  {contractTutorial && (
+                    <Grid item xs={12}>
+                      <Paper elevation={0} sx={{ p: 2, mt: 2, bgcolor: 'background.paper' }}>
+                        <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+                          <FormattedMessage 
+                            id="learn.more.about.contract" 
+                            defaultMessage="Learn more about {contractName}" 
+                            values={{ contractName: contractTutorial.name }} 
+                          />
+                        </Typography>
+                        
+                        <Grid container spacing={3}>
+                          {contractTutorial.videos.length > 0 && contractTutorial.videos.map((video, index) => (
+                            <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 6} key={video.id}>
+                              <Card>
+                                <CardMedia
+                                  component="iframe"
+                                  height="200"
+                                  src={`https://www.youtube.com/embed/${video.id}`}
+                                  title={video.title}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                                <CardContent>
+                                  <Typography variant="subtitle1" gutterBottom>
+                                    <YouTubeIcon color="error" sx={{ mr: 1, verticalAlign: 'middle' }} />
+                                    {video.title}
+                                  </Typography>
+                                </CardContent>
+                              </Card>
+                            </Grid>
+                          ))}
+                          
+                          <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 12}>
+                            <Card sx={{ height: '100%' }}>
+                              <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                  <MenuBookIcon color="primary" sx={{ mr: 1, verticalAlign: 'middle' }} />
+                                  <FormattedMessage id="documentation" defaultMessage="Documentation" />
+                                </Typography>
+                                <Box sx={{ my: 2 }}>
+                                  <Typography variant="body2" paragraph>
+                                    {contractTutorial.documentation.description}
+                                  </Typography>
+                                </Box>
+                                <Button 
+                                  variant="outlined" 
+                                  component={Link} 
+                                  href={contractTutorial.documentation.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  startIcon={<MenuBookIcon />}
+                                  fullWidth
+                                >
+                                  <FormattedMessage id="view.documentation" defaultMessage="View documentation" />
+                                </Button>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                  )}
                 </Grid>
               </Box>
             )}
