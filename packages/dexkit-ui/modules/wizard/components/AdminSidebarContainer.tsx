@@ -266,6 +266,15 @@ export default function AdminSidebarContainer({
                 />
               ),
             },
+            {
+              id: "analytics.referrals",
+              title: (
+                <FormattedMessage
+                  id="referrals"
+                  defaultMessage="Referrals"
+                />
+              ),
+            },
           ]}
         />
         <Divider />

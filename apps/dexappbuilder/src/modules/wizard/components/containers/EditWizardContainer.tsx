@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import Close from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import LinkIcon from '@mui/icons-material/Link';
 import Divider from '@mui/material/Divider';
 import { NextSeo } from 'next-seo';
@@ -110,6 +110,8 @@ const CreateContractContainer = dynamic(
 
 const ListContractContainer = dynamic(() => import('./ListContractContainer'));
 
+const ReferralsContainer = dynamic(() => import('./ReferralsContainer'));
+
 interface Props {
   site?: SiteResponse | null;
 }
@@ -126,6 +128,7 @@ export enum ActiveMenu {
   Seo = 'layout.seo',
   Analytics = 'layout.analytics',
   UserEventAnalytics = 'analytics.events',
+  Referrals = 'analytics.referrals',
   MarketplaceFees = 'fees.marketplace.fees',
   AppVersion = 'settings.version',
   SwapFees = 'swap-fees',
@@ -402,7 +405,7 @@ export function EditWizardContainer({ site }: Props) {
                 <FormattedMessage id="menu" defaultMessage="Menu" />
               </Typography>
               <IconButton onClick={handleClosePreview}>
-                <Close />
+                <CloseIcon />
               </IconButton>
             </Stack>
           </Box>
@@ -809,6 +812,10 @@ export function EditWizardContainer({ site }: Props) {
                       <UserEventAnalyticsContainer siteId={site?.id} />
                     )}
 
+                    {activeMenu === ActiveMenu.Referrals && config && (
+                      <ReferralsContainer siteId={site?.id} />
+                    )}
+
                     {activeMenu === ActiveMenu.Integrations && config && (
                       <IntegrationsWizardContainer siteId={site?.id} />
                     )}
@@ -826,9 +833,9 @@ export function EditWizardContainer({ site }: Props) {
                     {/*DexContract*/}
                     {activeMenu === ActiveMenu.CreateContract && (
                       <CreateContractContainer
-                        onGoToContract={({ address, network }) => {
-                          setContractAddress(address);
-                          setContractNetwork(network);
+                        onGoToContract={(params: { address: string; network: string }) => {
+                          setContractAddress(params.address);
+                          setContractNetwork(params.network);
                           setActiveMenu(ActiveMenu.ManageContract);
                         }}
                         onGoToListContracts={() =>
