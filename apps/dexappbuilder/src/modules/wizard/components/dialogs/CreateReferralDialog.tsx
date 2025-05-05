@@ -42,9 +42,16 @@ export default function CreateReferralDialog({
   useEffect(() => {
     const getSiteUrl = async () => {
       try {
-        setBaseUrl(window.location.origin);
+        const origin = window.location.origin;
+        
+        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+          setBaseUrl('https://yourdapp.dexkit.app');
+        } else {
+          setBaseUrl(origin);
+        }
       } catch (error) {
         console.error('Error getting site URL:', error);
+        setBaseUrl('https://yourdapp.dexkit.app');
       }
     };
     
@@ -75,7 +82,7 @@ export default function CreateReferralDialog({
     baseUrl: baseUrl,
   };
 
-  const handleSubmit = useCallback(async (values: FormValues, { setSubmitting }: any) => {
+  const handleSubmit = useCallback(async (values: FormValues, { setSubmitting, resetForm }: any) => {
     try {
       if (!siteId) {
         throw new Error('Site ID is required');
@@ -86,17 +93,11 @@ export default function CreateReferralDialog({
         name: values.name
       });
       
-      enqueueSnackbar(
-        formatMessage({
-          id: 'referral.created',
-          defaultMessage: 'Referral link created successfully'
-        }),
-        { variant: 'success' }
-      );
-      
       if (onSuccess) {
         onSuccess();
       }
+      
+      resetForm();
       
       if (dialogProps.onClose) {
         dialogProps.onClose({}, 'escapeKeyDown');
@@ -169,7 +170,7 @@ export default function CreateReferralDialog({
                   <TextField
                     label={formatMessage({ id: 'referral.preview', defaultMessage: 'Preview' })}
                     fullWidth
-                    value={`${values.baseUrl}?ref=${values.name}`}
+                    value={`${baseUrl}?ref=${values.name}`}
                     InputProps={{
                       readOnly: true,
                     }}

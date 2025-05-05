@@ -8,7 +8,9 @@ import {
   Container,
   Grid,
   Stack,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useSnackbar } from 'notistack';
@@ -28,6 +30,8 @@ interface ReferralsContainerProps {
 export default function ReferralsContainer({ siteId }: ReferralsContainerProps) {
   const { formatMessage } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const referralsQuery = useReferralsQuery({ siteId });
@@ -44,12 +48,12 @@ export default function ReferralsContainer({ siteId }: ReferralsContainerProps) 
     enqueueSnackbar(
       formatMessage({
         id: 'referral.created.success',
-        defaultMessage: 'Referral link created successfully',
+        defaultMessage: 'Referral link created successfully'
       }),
       { variant: 'success' }
     );
+    
     setRefreshTrigger(prev => prev + 1);
-    setIsCreateDialogOpen(false);
   }, [enqueueSnackbar, formatMessage]);
 
   return (
@@ -57,9 +61,10 @@ export default function ReferralsContainer({ siteId }: ReferralsContainerProps) 
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Stack
-            direction="row"
+            direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
-            alignItems="center"
+            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            spacing={2}
             marginBottom={2}
           >
             <Typography variant="h4">
@@ -68,9 +73,18 @@ export default function ReferralsContainer({ siteId }: ReferralsContainerProps) 
             <Button
               variant="contained"
               color="primary"
-              startIcon={<AddCircleIcon />}
+              startIcon={!isMobile ? <AddCircleIcon /> : undefined}
+              size={isMobile ? "small" : "medium"}
               onClick={handleOpenCreateDialog}
+              sx={{
+                alignSelf: { xs: 'flex-end', sm: 'auto' },
+                px: { xs: 2, sm: 3 },
+                py: { xs: 1, sm: 1.5 }
+              }}
             >
+              {isMobile ? (
+                <AddCircleIcon sx={{ mr: 0.5 }} fontSize="small" />
+              ) : null}
               <FormattedMessage
                 id="create.referral.link"
                 defaultMessage="Create Referral Link"

@@ -4,13 +4,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import {
   Box,
+  Button,
   Card,
   Chip,
   CircularProgress,
+  Divider,
+  Grid,
   IconButton,
+  List,
+  Paper,
   Stack,
   Tooltip,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
@@ -25,7 +32,7 @@ const useCopyToClipboard = (): [(text: string) => void, boolean] => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text)
         .then(() => setCopied(true))
-        .catch(err => console.error('Error copying to clipboard:', err));
+        .catch(err => console.error('Error al copiar al portapapeles:', err));
     } else {
       const textArea = document.createElement('textarea');
       textArea.value = text;
@@ -37,7 +44,7 @@ const useCopyToClipboard = (): [(text: string) => void, boolean] => {
         document.execCommand('copy');
         setCopied(true);
       } catch (err) {
-        console.error('Error copying to clipboard:', err);
+        console.error('Error al copiar al portapapeles:', err);
       }
       document.body.removeChild(textArea);
     }
@@ -58,12 +65,136 @@ interface ReferralsTableProps {
   refreshTrigger?: number;
 }
 
+const MobileReferralsList = ({ 
+  referrals, 
+  onCopyLink, 
+  onDeleteClick 
+}: { 
+  referrals: Referral[], 
+  onCopyLink: (url: string) => void, 
+  onDeleteClick: (referral: Referral) => void 
+}) => {
+  const { formatMessage } = useIntl();
+  
+  if (referrals.length === 0) {
+    return (
+      <Box p={2} textAlign="center">
+        <Typography color="text.secondary">
+          <FormattedMessage 
+            id="no.referrals" 
+            defaultMessage="No referral links found" 
+          />
+        </Typography>
+      </Box>
+    );
+  }
+  
+  return (
+    <List disablePadding>
+      {referrals.map((referral) => (
+        <Box key={referral.id} mb={2}>
+          <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
+            <Box px={2} py={1.5}>
+              <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+                <Chip 
+                  size="small" 
+                  label={referral.name} 
+                  color="primary" 
+                  variant="outlined" 
+                  sx={{ maxWidth: '50%', overflow: 'hidden' }}
+                />
+                <Box flexGrow={1} />
+                <Tooltip title={formatMessage({ id: 'delete', defaultMessage: 'Delete' })}>
+                  <IconButton
+                    size="small"
+                    onClick={() => onDeleteClick(referral)}
+                    color="error"
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              
+              <Stack spacing={0.5} mb={1.5}>
+                <Typography variant="caption" color="text.secondary">
+                  <FormattedMessage id="referral.link" defaultMessage="Referral Link" />
+                </Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography 
+                    variant="body2" 
+                    noWrap 
+                    sx={{ 
+                      maxWidth: '60%', 
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
+                    {referral.url}
+                  </Typography>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<ContentCopyIcon fontSize="small" />}
+                    onClick={() => onCopyLink(referral.url)}
+                    sx={{ minWidth: 'auto', px: 1 }}
+                  >
+                    <FormattedMessage id="copy" defaultMessage="Copy" />
+                  </Button>
+                </Stack>
+              </Stack>
+              
+              <Divider />
+              
+              <Box mt={1.5}>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary" display="block">
+                      <FormattedMessage id="visits" defaultMessage="Visits" />
+                    </Typography>
+                    <Typography variant="body2" fontWeight="medium">
+                      {referral.visits}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary" display="block">
+                      <FormattedMessage id="conversions" defaultMessage="Conversions" />
+                    </Typography>
+                    <Typography variant="body2" fontWeight="medium">
+                      {referral.conversions}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary" display="block">
+                      <FormattedMessage id="conversion.rate" defaultMessage="Conv. Rate" />
+                    </Typography>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <Typography variant="body2" fontWeight="medium">
+                        {referral.conversionRate}%
+                      </Typography>
+                      <TrendingUpIcon 
+                        fontSize="small" 
+                        color={Number(referral.conversionRate) > 0 ? "success" : "error"} 
+                      />
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+      ))}
+    </List>
+  );
+};
+
 export default function ReferralsTable({ 
   siteId, 
   refreshTrigger = 0 
 }: ReferralsTableProps) {
   const { formatMessage } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [copyToClipboard] = useCopyToClipboard();
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [referralToDelete, setReferralToDelete] = useState<Referral | null>(null);
@@ -109,6 +240,8 @@ export default function ReferralsTable({
           }),
           { variant: 'success' }
         );
+        
+        referralsQuery.refetch();
       } catch (error) {
         console.error('Error deleting referral:', error);
         enqueueSnackbar(
@@ -185,7 +318,10 @@ export default function ReferralsTable({
       renderCell: (params: GridRenderCellParams<Referral>) => (
         <Stack direction="row" spacing={0.5} alignItems="center">
           <Typography variant="body2">{params.value}%</Typography>
-          <TrendingUpIcon fontSize="small" color="success" />
+          <TrendingUpIcon 
+            fontSize="small" 
+            color={Number(params.value) > 0 ? "success" : "error"} 
+          />
         </Stack>
       ),
     },
@@ -221,6 +357,12 @@ export default function ReferralsTable({
           <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
             <CircularProgress />
           </Box>
+        ) : isMobile ? (
+          <MobileReferralsList 
+            referrals={referralsQuery.data || []} 
+            onCopyLink={handleCopyLink}
+            onDeleteClick={handleDeleteClick}
+          />
         ) : (
           <DataGrid
             autoHeight
