@@ -22,10 +22,17 @@ const CustomImage = styled('img')(({ theme }) => ({
   aspectRatio: '1/1',
 }));
 
-const CustomImageIcon = styled(Image)(({ theme }) => ({
-  height: theme.spacing(6),
-  width: theme.spacing(6),
-}));
+const CustomImageIcon = styled(Image)`
+  ${({ theme }) => `
+    height: ${theme.spacing(3)};
+    width: ${theme.spacing(3)};
+    
+    ${theme.breakpoints.up('sm')} {
+      height: ${theme.spacing(5)};
+      width: ${theme.spacing(5)};
+    }
+  `}
+`;
 
 export interface MetadataUpdateFormProps {
   data?: ContractMetadataFormType;
@@ -78,10 +85,11 @@ export default function MetadataUpdateForm({
                       setShowMediaDialog(true);
                     }}
                     sx={{
-                      width: '100%',
-                      height: '100%',
-                      aspectRatio: '1/1',
-                      p: 2,
+                      width: { xs: '100%', sm: '100%' },
+                      height: { xs: '100px', sm: '100%' },
+                      maxHeight: { xs: '100px', sm: 'unset' },
+                      aspectRatio: { xs: 'unset', sm: '1/1' },
+                      p: { xs: 1, sm: 2 },
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
