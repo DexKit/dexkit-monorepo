@@ -21,14 +21,16 @@ import {
 import { CopyText } from '@dexkit/ui/components/CopyText';
 
 import { beautifyUnderscoreCase } from '@dexkit/core/utils';
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { useQueryClient } from '@tanstack/react-query';
+
 import { SiteResponse } from '../../../../types/whitelabel';
 import {
   default as CheckDomainDialog,
   default as DeployDomainDialog,
 } from '../dialogs/CheckDomainDialog';
-import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
+import { PremiumAppBuilder } from '../PremiumAppBuilder';
 import DomainSection, { DomainSectionForm } from '../sections/DomainSection';
 interface Props {
   config: AppConfig;
@@ -97,7 +99,7 @@ export default function DomainWizardContainer({
             queryClient.invalidateQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
           },
           onError: console.log,
-        },
+        }
       );
     }
     setIsDeploySignOpen(true);
@@ -120,7 +122,7 @@ export default function DomainWizardContainer({
           vertical: 'bottom',
           horizontal: 'right',
         },
-      },
+      }
     );
   };
 
@@ -136,7 +138,7 @@ export default function DomainWizardContainer({
           vertical: 'bottom',
           horizontal: 'right',
         },
-      },
+      }
     );
   };
 
@@ -148,7 +150,7 @@ export default function DomainWizardContainer({
         {
           onError: handleDeployCheckError,
           onSuccess: handleDeployCheckSuccess,
-        },
+        }
       );
     }
   };
@@ -176,13 +178,13 @@ export default function DomainWizardContainer({
       formatMessage({
         id: 'info.wizard.title.domain.records.setup',
         defaultMessage: 'Domain records setup info',
-      }),
+      })
     );
     setContentInfo(
       formatMessage({
         id: 'info.wizard.content.cname',
         defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the \"Check Deploy Status\" button. If the status shows as \"VERIFIED\" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace \"@\" with the subdomain value. If you encounter any issues, please contact our support channels.`,
-      }),
+      })
     );
   }, []);
 
@@ -244,6 +246,7 @@ export default function DomainWizardContainer({
         isSuccess={verifyDomainMutation.isSuccess}
         error={verifyDomainMutation.error}
       />
+
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Stack>
@@ -253,7 +256,7 @@ export default function DomainWizardContainer({
             <Typography variant={'body2'}>
               <FormattedMessage
                 id="set.custom.domain.container.description"
-                defaultMessage="Set a custom domain for your app"
+                defaultMessage="Set a custom domain for your app. This is a premium feature"
               />
             </Typography>
           </Stack>
@@ -425,12 +428,16 @@ export default function DomainWizardContainer({
                           </Typography>
                         </Stack>
                       </Stack>
-                    ),
+                    )
                   )}
                 </Grid>
               )}
           </>
         )}
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <PremiumAppBuilder />
 
         <Grid item xs={12}>
           <Divider />

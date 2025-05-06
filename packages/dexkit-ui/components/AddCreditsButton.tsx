@@ -9,15 +9,19 @@ const AddCreditDialog = dynamic(
 
 import Add from "@mui/icons-material/Add";
 import { Button, ButtonProps } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 export interface AddCreditsButtonProps {
   ButtonProps?: ButtonProps;
+  initialAmount?: string;
+  buttonText?: ReactNode;
 }
 
 export default function AddCreditsButton({
   ButtonProps,
+  initialAmount,
+  buttonText,
 }: AddCreditsButtonProps) {
   const [open, setOpen] = useState(false);
 
@@ -39,6 +43,7 @@ export default function AddCreditsButton({
             maxWidth: "sm",
             fullWidth: true,
           }}
+          initialAmount={initialAmount}
         />
       )}
 
@@ -49,7 +54,11 @@ export default function AddCreditsButton({
         onClick={handleOpen}
         {...ButtonProps}
       >
-        <FormattedMessage id="add.credits" defaultMessage="Add credits" />
+        {buttonText ? (
+          buttonText
+        ) : (
+          <FormattedMessage id="add.credits" defaultMessage="Add credits" />
+        )}
       </Button>
     </>
   );

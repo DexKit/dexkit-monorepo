@@ -10,7 +10,7 @@ import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
 import { useCallback, useState } from "react";
 import AdminSidebarMenu from "./AdminSidebarMenu";
-
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import { useAppConfig } from "../../../hooks";
 
@@ -77,6 +77,7 @@ export default function AdminSidebarContainer({
             {
               id: "settings.domain",
               title: <FormattedMessage id="domains" defaultMessage="Domain" />,
+              icon: <WorkspacePremiumIcon />,
             },
             {
               id: "settings.team",
