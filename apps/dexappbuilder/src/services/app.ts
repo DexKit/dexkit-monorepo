@@ -105,7 +105,7 @@ export async function getAppConfig(
 
   if (site?.includes('localhost:')) {
     const [slug] = site?.split('.') || [];
-    // const slug = 'tiago-exchange';
+    //const slug = 'kit';
 
     if (slug) {
       const configResponse = (await getConfig({ slug, appPage })).data;
@@ -168,8 +168,10 @@ export async function getAppConfig(
 
   console.error(`Could not find configuration for site: ${site}`);
   const defaultAppConfig = (await import('../../config/app.json')).default;
-  const defaultAppLocaleMessages = await getLocaleMessages(defaultAppConfig.locale);
-  
+  const defaultAppLocaleMessages = await getLocaleMessages(
+    defaultAppConfig.locale,
+  );
+
   return {
     appConfig: defaultAppConfig as AppConfig,
     appLocaleMessages: defaultAppLocaleMessages,
@@ -178,7 +180,6 @@ export async function getAppConfig(
     slug: null,
     appPage,
   };
-
 }
 
 export async function getAppSitemapConfig(site?: string): Promise<{
@@ -311,12 +312,11 @@ export async function getAppSitemapConfig(site?: string): Promise<{
 
   console.error(`Could not find sitemap configuration for site: ${site}`);
   const defaultAppConfig = (await import('../../config/app.json')).default;
-  
+
   return {
     appConfig: defaultAppConfig as AppConfig,
     appNFT: null,
     siteId: null,
-    slug: null
+    slug: null,
   };
-
 }
