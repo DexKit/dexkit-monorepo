@@ -103,7 +103,7 @@ export default function DeviceDistributionChart({ filters }: DeviceDistributionC
             innerRadius={0}
             fill="#8884d8"
             dataKey="value"
-            label={({ name, value }) => `${name.charAt(0)}: ${value}%`}
+            label={({ name, value }: { name: string; value: number }) => `${name.charAt(0)}: ${value}%`}
             paddingAngle={2}
           >
             {data.map((entry, index) => (
@@ -111,7 +111,7 @@ export default function DeviceDistributionChart({ filters }: DeviceDistributionC
             ))}
           </Pie>
           <Tooltip 
-            formatter={(value) => [`${value}%`, 'Percentage']}
+            formatter={(value: number) => [`${value}%`, 'Percentage']}
           />
           <Legend 
             layout="horizontal" 
