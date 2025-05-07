@@ -1,5 +1,12 @@
 # @dexkit/ui
 
+## 0.22.0
+
+### Minor Changes
+
+- 528512d: Hide transak button
+- 742d40d: Fixed provider
+
 ## 0.21.0
 
 ### Minor Changes

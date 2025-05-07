@@ -1,5 +1,18 @@
 # dexappbuilder
 
+## 0.2.0
+
+### Minor Changes
+
+- 528512d: Hide transak button
+
+### Patch Changes
+
+- Updated dependencies [528512d]
+- Updated dependencies [742d40d]
+  - @dexkit/widgets@0.12.0
+  - @dexkit/ui@0.22.0
+
 ## 0.23.0
 
 ### Minor Changes
