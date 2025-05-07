@@ -1,5 +1,14 @@
 # @dexkit/ui
 
+## 0.22.0
+
+### Minor Changes
+
+- f738705: Porting dexcontracts to inside dapps to make it easy to manage contracts
+- dd35937: Move admin app to your own specific app
+- 528512d: Hide transak button
+- 742d40d: Fixed provider
+
 ## 0.21.0
 
 ### Minor Changes

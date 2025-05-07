@@ -1,6 +1,6 @@
 {
   "name": "dexappadmin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -38,7 +38,6 @@
     "@mui/material": "5.14.11",
     "thirdweb": "^5.93.15",
     "react-admin": "4.14.1"
-    
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
