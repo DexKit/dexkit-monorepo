@@ -5,18 +5,15 @@ import {
 
 import { EXCHANGE_NOTIFICATION_TYPES } from '@dexkit/exchange/constants/messages';
 import { DexkitProvider } from '@dexkit/ui/components/DexkitProvider';
-import { ThemeMode } from '@dexkit/ui/constants/enum';
-import { COMMON_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
+import { COMMON_NOTIFICATION_TYPES, WHITELABEL_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
 import { useLocale } from '@dexkit/ui/hooks/useLocale';
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { setupSEO, setupTheme } from '@dexkit/ui/services/app';
 import { useAtom } from 'jotai';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { WHITELABEL_NOTIFICATION_TYPES } from 'src/constants/messages';
+import { useEffect, useState } from 'react';
 import { useAppConfig } from 'src/hooks/app/useAppConfig';
 import { useSiteId } from 'src/hooks/app/useSiteId';
-import { useThemeMode } from 'src/hooks/app/useThemeMode';
 import {
   assetsAtom,
   currencyUserAtom,
@@ -28,16 +25,17 @@ import {
   transactionsAtomV2,
 } from 'src/state/atoms';
 import { getTheme } from 'src/theme';
-import defaultAppConfig from '../../config/app.json';
 import { loadLocaleMessages } from '../utils/intl';
 
 export interface AppMarketplaceContextProps {
   children: React.ReactNode | React.ReactNode[];
   appLocaleMessages?: Record<string, string> | null;
+  appPage?: string;
 }
 
 export function AppMarketplaceProvider({
   children,
+  appPage,
   appLocaleMessages,
 }: AppMarketplaceContextProps) {
   const appConfig = useAppConfig();
@@ -47,7 +45,6 @@ export function AppMarketplaceProvider({
   const { locale, onChangeLocale } = useLocale();
 
   const [ref, setRef] = useAtom(referralAtom);
-  const { mode } = useThemeMode();
 
   const [messages, setMessages] = useState<any | null>(appLocaleMessages);
 
@@ -61,108 +58,9 @@ export function AppMarketplaceProvider({
     }
   }, [router.query.ref]);
 
-  const theme = useMemo(() => {
-    let tempTheme = getTheme({
-      name: defaultAppConfig.theme,
-    })?.theme;
-    let fontFamily;
-    if (appConfig?.font) {
-      fontFamily = `'${appConfig.font.family}', ${appConfig.font.category}`;
-    }
+  const theme = setupTheme({ appConfig, getTheme });
 
-    if (appConfig) {
-      tempTheme = getTheme({
-        name: appConfig.theme,
-      })?.theme;
-    }
-
-    if (appConfig && appConfig.theme === 'custom') {
-      let customTheme = {
-        dark: {},
-        light: {},
-      };
-      if (appConfig.customTheme) {
-        const parsedCustomTheme = JSON.parse(appConfig.customTheme);
-        if (parsedCustomTheme.palette.mode === ThemeMode.light) {
-          customTheme.light = parsedCustomTheme;
-        } else {
-          customTheme.dark = parsedCustomTheme;
-        }
-      }
-
-      if (mode === ThemeMode.light && appConfig.customThemeLight) {
-        customTheme.light = JSON.parse(appConfig.customThemeLight);
-      }
-      if (mode === ThemeMode.dark && appConfig.customThemeDark) {
-        customTheme.dark = JSON.parse(appConfig.customThemeDark);
-      }
-
-      if (customTheme) {
-        return fontFamily
-          ? extendTheme({
-              typography: {
-                fontFamily,
-              },
-              colorSchemes: {
-                ...customTheme,
-              },
-            })
-          : extendTheme({
-              colorSchemes: {
-                ...customTheme,
-              },
-            });
-      }
-    }
-
-    let temp: any = tempTheme;
-
-    delete temp['vars'];
-
-    return fontFamily
-      ? extendTheme({
-          ...temp,
-          typography: {
-            fontFamily,
-          },
-        })
-      : extendTheme({ ...temp });
-  }, [appConfig]);
-
-  const SEO = useMemo(() => {
-    const config = appConfig;
-
-    if (config) {
-      const seoConfig: any = {
-        defaultTitle: config.seo?.home?.title || config.name,
-        titleTemplate: `${config.name} | %s`,
-        description: config.seo?.home?.description,
-        canonical: config.domain,
-        openGraph: {
-          type: 'website',
-          description: config.seo?.home?.description || '',
-          locale: config.locale || 'en_US',
-          url: config.domain,
-          site_name: config.name,
-          images: config.seo?.home?.images,
-        },
-      };
-
-      if (config.social) {
-        for (let social of config.social) {
-          if (social.type === 'twitter') {
-            seoConfig.twitter = {
-              handle: `@${social.handle}`,
-              site: `@${social.handle}`,
-              cardType: 'summary_large_image',
-            };
-          }
-        }
-      }
-
-      return seoConfig;
-    }
-  }, [appConfig]);
+  const SEO = setupSEO({ appConfig, appPage });
 
   return (
     <DexkitProvider

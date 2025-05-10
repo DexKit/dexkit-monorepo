@@ -1,0 +1,718 @@
+{
+  "name": "DexAppBuilder",
+  "email": "info@dexkit.com",
+  "locale": "en-US",
+  "currency": "usd",
+  "theme": "kittygotchi",
+  "defaultThemeMode": "light",
+  "domain": "https://dexappbuilder.dexkit.com",
+  "logo": {
+    "url": "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/images/logo/dexappbuilder.png",
+    "height": 48,
+    "width": 300
+  },
+  "logoDark": {
+    "url": "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/images/logo/dexappbuilder-dark.png",
+    "height": 48,
+    "width": 300
+  },
+  "favicon_url": "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/images/logo/favicon.ico",
+  "social": [
+    { "type": "twitter", "handle": "dexkit" },
+    { "type": "instagram", "handle": "dexkit.io" },
+    { "type": "linkedin", "handle": "dexkit" },
+    { "type": "youtube", "handle": "UC1R-ZwZQPP_C0sauNPmcX9A" }
+  ],
+  "transak": { "enabled": true },
+  "fees": [
+    {
+      "amount_percentage": 1,
+      "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+    }
+  ],
+  "swapFees": {
+    "amount_percentage": 0.3,
+    "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+  },
+  "format": { "date": "MM/DD/YYYY", "datetime": "MM/DD/YYYY HH:mm:ss" },
+  "footerMenuTree": [
+    {
+      "type": "External",
+      "href": "https://dexkit.com/contact-us",
+      "name": "Contact us"
+    },
+    { "type": "page", "href": "/admin/app-version", "name": "App version" }
+  ],
+  "menuTree": [
+    { "type": "Page", "href": "/", "name": "Home" },
+    { "type": "Page", "href": "/solutions", "name": "Solutions" },
+    {
+      "type": "Menu",
+      "href": "",
+      "name": "App Builder",
+      "children": [
+        { "type": "Page", "href": "/admin/create", "name": "Build App" },
+        { "type": "Page", "href": "/admin", "name": "Manage Apps" },
+        {
+          "type": "Menu",
+          "href": "",
+          "name": "Quick Builder App",
+          "children": [
+            {
+              "type": "Page",
+              "href": "/admin/quick-builder/swap",
+              "name": "Build Swap"
+            },
+            {
+              "type": "Page",
+              "href": "/admin/quick-builder/exchange",
+              "name": "Build Exchange"
+            },
+            {
+              "type": "Page",
+              "href": "/admin/quick-builder/wallet",
+              "name": "Build Wallet"
+            },
+            {
+              "type": "Page",
+              "href": "/admin/quick-builder/nft-store",
+              "name": "Build NFT Store"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Menu",
+      "href": "/dexcontracts",
+      "name": "DexContracts",
+      "children": [
+        {
+          "type": "Page",
+          "href": "/dexcontracts",
+          "name": "About DexContracts"
+        },
+        {
+          "type": "Page",
+          "href": "/forms/contracts/create",
+          "name": "Deploy Contract"
+        },
+        {
+          "type": "Page",
+          "href": "/forms/contracts/list",
+          "name": "Manage Contracts"
+        },
+        {
+          "type": "Page",
+          "href": "/forms/create",
+          "name": "Create Contract Form"
+        },
+        {
+          "type": "Page",
+          "href": "/forms/manage",
+          "name": "Manage Contract Forms"
+        }
+      ]
+    },
+    {
+      "type": "Menu",
+      "href": "",
+      "name": "Buy KIT",
+      "children": [
+        {
+          "type": "Page",
+          "href": "/token/buy/ethereum/kit",
+          "name": "on Ethereum"
+        },
+        { "type": "Page", "href": "/token/buy/bsc/kit", "name": "on BSC" },
+        {
+          "type": "Page",
+          "href": "/token/buy/polygon/kit",
+          "name": "on Polygon"
+        }
+      ]
+    },
+    {
+      "type": "Menu",
+      "href": "",
+      "name": "Support",
+      "children": [
+        {
+          "type": "External",
+          "href": "https://docs.dexkit.com/defi-products/dexappbuilder/creating-my-first-app",
+          "name": "Docs"
+        },
+        {
+          "type": "External",
+          "href": "https://dexkit.atlassian.net/servicedesk/customer/portals",
+          "name": "Help Center"
+        },
+        {
+          "type": "External",
+          "href": "https://dexkit.canny.io/feature-requests",
+          "name": "Request Feature"
+        },
+        {
+          "type": "External",
+          "href": "https://discord.com/invite/FnkrFAY7Za",
+          "name": "Discord"
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "image": "/assets/kittygotchi/banner_eth.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_eth.svg",
+      "chainId": 1,
+      "contractAddress": "0xe76591AD590765e9Ab9EdE82BEa274aFcF5Ce703",
+      "description": "",
+      "uri": "kittygotchieth"
+    },
+    {
+      "image": "/assets/kittygotchi/banner_bsc.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_bsc.svg",
+      "chainId": 56,
+      "contractAddress": "0xf44112926506318e3Aace4381B2D76791D980Ac3",
+      "description": "",
+      "uri": "kittygotchibsc"
+    },
+    {
+      "image": "/assets/kittygotchi/banner_polygon.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_polygon.svg",
+      "chainId": 137,
+      "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+      "description": "",
+      "uri": "kittygotchi"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "DexKit Token List",
+      "timestamp": "2022-09-13T22:11:02.673Z",
+      "version": { "major": 0, "minor": 0, "patch": 1 },
+      "tags": {},
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/images/logo.png",
+      "keywords": ["dexkit", "default"],
+      "tokens": [
+        {
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "chainId": 1,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x7866E48C74CbFB8183cd1a929cd9b95a7a5CB4F4",
+          "chainId": 1,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+          "name": "DexKit",
+          "symbol": "KIT"
+        },
+        {
+          "address": "0x4D0Def42Cf57D6f27CD4983042a55dce1C9F853c",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+          "name": "DexKit",
+          "symbol": "KIT"
+        },
+        {
+          "address": "0x314593fa9a2fa16432913dBcCC96104541d32D11",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+          "name": "DexKit",
+          "symbol": "KIT"
+        },
+        {
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "chainId": 1,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "chainId": 1,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+          "chainId": 1,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+          "chainId": 10,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x4200000000000000000000000000000000000006",
+          "chainId": 10,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Token",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "Binance-Peg USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x55d398326f99059fF775485246999027B3197955",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/bnb.jpg",
+          "name": "WBNB Token",
+          "symbol": "WBNB"
+        },
+        {
+          "address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "chainId": 137,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+          "chainId": 137,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/polygon.jpg",
+          "name": "Wrapped Matic",
+          "symbol": "WMATIC"
+        },
+        {
+          "address": "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+          "chainId": 250,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/ftm.jpg",
+          "name": "Wrapped Fantom",
+          "symbol": "WFTM"
+        },
+        {
+          "address": "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+          "chainId": 43114,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+          "chainId": 43114,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/avax.jpg",
+          "name": "Wrapped AVAX",
+          "symbol": "WAVAX"
+        },
+        {
+          "address": "0x50b7545627a5162F82A992c33b87aDc75187B218",
+          "chainId": 43114,
+          "decimals": 8,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/wbtc.jpg",
+          "name": "Wrapped BTC",
+          "symbol": "WBTC"
+        },
+        {
+          "address": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/weth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+          "chainId": 8453,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x4200000000000000000000000000000000000006",
+          "chainId": 8453,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/weth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+          "chainId": 8453,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+          "chainId": 11155111,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "home": {
+      "title": "Home",
+      "key": "home",
+      "uri": "/",
+      "sections": [
+        {
+          "type": "custom",
+          "data": "{\"id\":\"dv5fth\",\"version\":1,\"rows\":[{\"id\":\"iqbfc2\",\"cells\":[{\"id\":\"ppitcx\",\"size\":5,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"05mu6r\",\"cells\":[{\"id\":\"j7j5nh\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":164,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"wtimsg\",\"cells\":[{\"id\":\"y2c6ym\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":454,\"height\":373,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man.png\",\"alt\":\"Man on the computer\",\"priority\":true, \"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"6gcyaf\",\"cells\":[{\"id\":\"x5z3u1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":89,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"ofaoyh\",\"size\":7,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"arhegb\",\"cells\":[{\"id\":\"36oksc\",\"size\":10,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"dtdrl0\",\"cells\":[{\"id\":\"obg02u\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2}},\"rows\":[{\"id\":\"osy2wi\",\"cells\":[{\"id\":\"eh0hpj\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":72,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"82yqgm\",\"cells\":[{\"id\":\"h3plhk\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"HEADINGS/HEADING-ONE\",\"children\":[{\"text\":\"Your\\nNo-Code/Low-Code Web3 DApp Toolkit\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":44},\"SetLineHeight\":{\"lineHeight\":1.3}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"j9jcqi\",\"cells\":[{\"id\":\"n4c2z6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Tap into the potential of Web3 with DexAppBuilder. Easily create decentralized applications (DApps) without the coding headaches. Join us now to revolutionize your DApp development journey on Web3!\",\"SetFontSize\":{\"fontSize\":16}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"u7qdcb\",\"cells\":[{\"id\":\"e1p3dy\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Note: This entire page was created using DexAppBuilder.\",\"EMPHASIZE/EM\":true,\"SetFontSize\":{\"fontSize\":14}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"0zvd5f\",\"cells\":[{\"id\":\"3z8qw7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Start for free\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":24}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"zen7u9\",\"cells\":[{\"id\":\"7slrb1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"uj5ha1\",\"cells\":[{\"id\":\"8yl1y3\",\"size\":3,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD MY APP\",\"color\":\"primary\",\"fullWidth\":false,\"size\":\"large\",\"variant\":\"contained\",\"action\":\"Open page\",\"pageUri\":\"/admin/create\"}},\"rows\":[],\"inline\":null},{\"id\":\"kzutaq\",\"size\":3,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"VIEW TEMPLATES\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/site/templates\"}},\"rows\":[],\"inline\":null},{\"id\":\"bkgwfl\",\"size\":6,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"zxscpb\",\"cells\":[{\"id\":\"m6hrr7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"2ab5c7\",\"size\":2,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":46,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"r4rton\",\"cells\":[{\"id\":\"i3wfpr\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":78,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "title": "Initial section ",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"dv5fth\",\"version\":1,\"rows\":[{\"id\":\"iqbfc2\",\"cells\":[{\"id\":\"yn4wj2\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":89,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"whlva1\",\"size\":4,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"1kggqi\",\"cells\":[{\"id\":\"sc2yey\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":454,\"height\":373,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man.png\",\"alt\":\"Man on the computer\",\"priority\":true, \"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"r3zw8t\",\"cells\":[{\"id\":\"cdimc9\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"HEADINGS/HEADING-ONE\",\"children\":[{\"text\":\"Your\\nNo-Code/Low-Code Web3 DApp Toolkit\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":44},\"SetLineHeight\":{\"lineHeight\":1.5}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"vg96ut\",\"cells\":[{\"id\":\"jz1jqj\",\"size\":11,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Tap into the potential of Web3 with DexAppBuilder! Easily create decentralized applications (DApps) without the coding headaches. Join us now to revolutionize your DApp development journey on Web3!\",\"SetFontSize\":{\"fontSize\":16}}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"z1ccxs\",\"size\":1,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"19q73s\",\"cells\":[{\"id\":\"fh3kf8\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Note: This entire page was created using DexAppBuilder.\",\"EMPHASIZE/EM\":true,\"SetFontSize\":{\"fontSize\":14}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"kjf8p8\",\"cells\":[{\"id\":\"0trgs1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Start for free\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"gh2ihf\",\"cells\":[{\"id\":\"ser5gq\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"54b8kf\",\"cells\":[{\"id\":\"uss9uw\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD MY APP\",\"color\":\"primary\",\"fullWidth\":false,\"size\":\"large\",\"variant\":\"contained\",\"action\":\"Open page\",\"pageUri\":\"/admin/create\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"w5c5t5\",\"cells\":[{\"id\":\"ghy9ua\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"tpagiy\",\"cells\":[{\"id\":\"rpclzg\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"VIEW TEMPLATES\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/site/templates\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"jd7xua\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":89,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "title": "Initial section (mobile)",
+          "hideMobile": false,
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"dv5fth\",\"version\":1,\"rows\":[{\"id\":\"z1fyji\",\"cells\":[{\"id\":\"0hk7n4\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"aacwuj\",\"cells\":[{\"id\":\"d9jvrp\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"3zs6na\",\"cells\":[{\"id\":\"3xwzcz\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"7olncv\",\"cells\":[{\"id\":\"u91cca\",\"size\":3,\"dataI18n\":{},\"rows\":[{\"id\":\"oge6cx\",\"cells\":[{\"id\":\"5ynrpk\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"w51r7o\",\"cells\":[{\"id\":\"pi5eww\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/1%20%28small%29.png\",\"alt\":\"DApp builder white label\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"5g1axd\",\"cells\":[{\"id\":\"y2g7vq\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"DApp builder \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"white label\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"elmjp4\",\"cells\":[{\"id\":\"606wya\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"nshqmj\",\"cells\":[{\"id\":\"ma7ohq\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/5.png\",\"alt\":\"Multi-blockchain support\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"g3cl0g\",\"cells\":[{\"id\":\"7je2dm\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Multi-blockchain \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"support\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"81hhjq\",\"size\":3,\"dataI18n\":{},\"rows\":[{\"id\":\"9bj6l8\",\"cells\":[{\"id\":\"pc1gaf\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"1k8i4p\",\"cells\":[{\"id\":\"xe1q7c\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/2.png\",\"alt\":\"Simple and intuitive\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"un9s6o\",\"cells\":[{\"id\":\"vifcn1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Simple and \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"intuitive\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"vfm7wi\",\"cells\":[{\"id\":\"l93rud\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"k9y91n\",\"cells\":[{\"id\":\"tlfiw4\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/6.png\",\"alt\":\"Gated content\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"3l7hq8\",\"cells\":[{\"id\":\"s1hswx\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Gated \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"content\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"cedlif\",\"size\":3,\"dataI18n\":{},\"rows\":[{\"id\":\"6o32q8\",\"cells\":[{\"id\":\"fxlv12\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"nfu65r\",\"cells\":[{\"id\":\"pxhn18\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/3.png\",\"alt\":\"Versatile customization system\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"7zver2\",\"cells\":[{\"id\":\"8uftih\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Versatile \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"customization\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"wvbc10\",\"cells\":[{\"id\":\"irinxi\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"vbsxhc\",\"cells\":[{\"id\":\"nvqd0b\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/7.png\",\"alt\":\"Widgets\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"ne9bim\",\"cells\":[{\"id\":\"tehlvp\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Widgets\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"r7edyt\",\"size\":3,\"dataI18n\":{},\"rows\":[{\"id\":\"19s3dn\",\"cells\":[{\"id\":\"rxelac\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"zf1x4w\",\"cells\":[{\"id\":\"0a059x\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/4.png\",\"alt\":\"User-defined web domain\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"181ycq\",\"cells\":[{\"id\":\"xj935l\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"User-defined\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\" web domain\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"kmg2bs\",\"cells\":[{\"id\":\"itqupa\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2,\"direction\":\"column\",\"position\":\"center\"}},\"rows\":[{\"id\":\"3ozqtb\",\"cells\":[{\"id\":\"05jujw\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":100,\"height\":100,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/8.png\",\"alt\":\"AI integrations\",\"position\":\"center\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"47xypc\",\"cells\":[{\"id\":\"evoor4\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"AI \",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":20},\"text\":\"integrations\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"qlxdv3\",\"cells\":[{\"id\":\"jhqxyu\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "Platform features",
+          "hideMobile": true
+        },
+        {
+          "type": "showcase",
+          "settings": {
+            "alignItems": "left",
+            "itemsSpacing": 2,
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "items": [
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/1.png",
+                "title": "DApp builder white label",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/2.png",
+                "title": "Simple and intuitive",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/3.png",
+                "title": "Versatile customization ",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/4.png",
+                "title": "User-defined web domain",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/5.png",
+                "title": "Multi-blockchain support",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/6.png",
+                "title": "Gated content",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/7.png",
+                "title": "Widgets",
+                "actionType": "link",
+                "page": ""
+              },
+              {
+                "type": "image",
+                "url": "",
+                "imageUrl": "https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/8.png",
+                "title": "AI integrations",
+                "actionType": "link",
+                "page": ""
+              }
+            ]
+          },
+          "hideDesktop": true,
+          "hideMobile": false
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"dv5fth\",\"version\":1,\"rows\":[{\"id\":\"ao3dn3\",\"cells\":[{\"id\":\"2qbw0i\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"bq1g2n\",\"cells\":[{\"id\":\"cvyhwl\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":34,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"alv0qs\",\"cells\":[{\"id\":\"6y3urw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Transform your idea into reality on Web3\",\"SetFontSize\":{\"fontSize\":26}},{\"text\":\" \"}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"text\":\" in 3 simple steps:\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":34}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"4yhxsa\",\"cells\":[{\"id\":\"kwq2xi\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":34,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"zyo6pk\",\"cells\":[{\"id\":\"vg7w6r\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"78zmdn\",\"cells\":[{\"id\":\"lfjlma\",\"size\":2,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"okku8x\",\"size\":8,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":706,\"height\":82,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Steps_new.png\",\"alt\":\"Steps\",\"position\":\"center\"}},\"rows\":[],\"inline\":null},{\"id\":\"wxecg2\",\"size\":2,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"s05j2i\",\"cells\":[{\"id\":\"78t7h1\",\"size\":1,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"n52e7v\",\"size\":3,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Think of an idea \",\"SetFontSize\":{\"fontSize\":21},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"for your DApp\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"a8kvjz\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"Build your DApp\",\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"with DexAppBuilder\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"ie4mko\",\"size\":3,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Share your DApp \",\"SetFontSize\":{\"fontSize\":21},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"with the world\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"5t0du7\",\"size\":1,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"c0uq7f\",\"cells\":[{\"id\":\"tx13wp\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":46,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "Steps ",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"dv5fth\",\"version\":1,\"rows\":[{\"id\":\"yuzwiv\",\"cells\":[{\"id\":\"d0bhyq\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":30,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"t2ejlv\",\"size\":4,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"cps2t3\",\"cells\":[{\"id\":\"bb9v7o\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Transform your idea \",\"SetFontSize\":{\"fontSize\":26},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"SetFontSize\":{\"fontSize\":26},\"text\":\"into reality on Web3\",\"SetLineHeight\":{\"lineHeight\":1}}]},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"center\"},\"children\":[{\"text\":\"in 3 simple steps:\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":34}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rpoli4\",\"cells\":[{\"id\":\"g1jde0\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"jwb952\",\"cells\":[{\"id\":\"f05aza\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2}},\"rows\":[{\"id\":\"g15lbk\",\"cells\":[{\"id\":\"82btjp\",\"size\":4,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":71,\"height\":82,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Step%201.png\",\"alt\":\"Step 1\"}},\"rows\":[],\"inline\":null},{\"id\":\"9wmnu7\",\"size\":7,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Think of an idea \",\"SetFontSize\":{\"fontSize\":21},\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"left\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"left\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"SetLineHeight\":{\"lineHeight\":1.2},\"text\":\"for your dApp\"}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"icmx51\",\"size\":1,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"a49g6e\",\"cells\":[{\"id\":\"t7rw5s\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2}},\"rows\":[{\"id\":\"89ultj\",\"cells\":[{\"id\":\"zp7bmp\",\"size\":4,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":71,\"height\":82,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Step%202.png\",\"alt\":\"Step 2\"}},\"rows\":[],\"inline\":null},{\"id\":\"pb7gb8\",\"size\":8,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"Build your dApp \",\"SetLineHeight\":{\"lineHeight\":1.2}}],\"data\":{\"align\":\"left\"}},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"left\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"with DexAppBuilder\",\"SetLineHeight\":{\"lineHeight\":1}}]}]}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"0zaq1i\",\"cells\":[{\"id\":\"27wk3r\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2}},\"rows\":[{\"id\":\"ybj4yv\",\"cells\":[{\"id\":\"o5l1xb\",\"size\":4,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":71,\"height\":82,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Step%203.png\",\"alt\":\"Step 3\"}},\"rows\":[],\"inline\":null},{\"id\":\"rxfvc0\",\"size\":7,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"left\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"text\":\"Share your dApp \",\"SetLineHeight\":{\"lineHeight\":1.2}}]},{\"type\":\"PARAGRAPH/PARAGRAPH\",\"data\":{\"align\":\"left\"},\"children\":[{\"SetFontSize\":{\"fontSize\":21},\"SetLineHeight\":{\"lineHeight\":1.2},\"text\":\"with the world\"}]}]}},\"rows\":[],\"inline\":null},{\"id\":\"2fve05\",\"size\":1,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"gsogbv\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":30,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "title": "Steps (mobile) ",
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"4ow8qu\",\"version\":1,\"rows\":[{\"id\":\"v8rs2k\",\"cells\":[{\"id\":\"xmmfuj\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"1mmttr\",\"cells\":[{\"id\":\"lcqfqu\",\"size\":6,\"dataI18n\":{},\"rows\":[{\"id\":\"m0ia9n\",\"cells\":[{\"id\":\"4s51fh\",\"size\":2,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":39,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"ecoyoz\",\"size\":10,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"5blqe2\",\"cells\":[{\"id\":\"9ovvhn\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":2}},\"rows\":[{\"id\":\"skelwi\",\"cells\":[{\"id\":\"0tvwpm\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":50,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"bimvp3\",\"cells\":[{\"id\":\"y6dh01\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Looking for design inspiration?\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":34}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf6pzk\",\"cells\":[{\"id\":\"ahrwvm\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Get inspired by these DApps built by our community.\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":26}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"cxp3iv\",\"cells\":[{\"id\":\"0q564a\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"zjo7gk\",\"cells\":[{\"id\":\"uspxnr\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"VIEW DAPPS\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/site\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"oi1mo7\",\"cells\":[{\"id\":\"yaiyrg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":50,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"z683zh\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"r2yeaz\",\"cells\":[{\"id\":\"eb7sl1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":59,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"gemcfr\",\"cells\":[{\"id\":\"ifi8xg\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":1028,\"height\":411,\"padding\":4,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/dApps.png\",\"alt\":\"Examples\",\"position\":\"start\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"19npry\",\"cells\":[{\"id\":\"2oxds5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":60,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "View dApps",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"4ow8qu\",\"version\":1,\"rows\":[{\"id\":\"v8rs2k\",\"cells\":[{\"id\":\"xmmfuj\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"1mmttr\",\"cells\":[{\"id\":\"lcqfqu\",\"size\":8,\"dataI18n\":{},\"rows\":[{\"id\":\"m0ia9n\",\"cells\":[{\"id\":\"4s51fh\",\"size\":7,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":23,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"i5cv49\",\"size\":5,\"dataI18n\":{},\"rows\":[{\"id\":\"r1gnnz\",\"cells\":[{\"id\":\"uxzp5b\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"1mlilu\",\"cells\":[{\"id\":\"rgg27e\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Looking for design inspiration?\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":34}}],\"data\":{\"align\":\"left\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"hune0w\",\"cells\":[{\"id\":\"4qoyq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Get inspired by these DApps built by our community.\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"SetFontSize\":{\"fontSize\":26}}],\"data\":{\"align\":\"left\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"gytx3m\",\"cells\":[{\"id\":\"9wgktc\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"7t8a1b\",\"cells\":[{\"id\":\"m1iv8r\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"VIEW DAPPS\",\"variant\":\"contained\",\"size\":\"large\", \"action\":\"Open page\",\"pageUri\":\"/site\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"nvltwf\",\"cells\":[{\"id\":\"s1c3l8\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":52,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"paqhf5\",\"cells\":[{\"id\":\"hh1qyl\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"gemcfr\",\"cells\":[{\"id\":\"ifi8xg\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":1028,\"height\":411,\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/dApps.png\",\"alt\":\"Examples\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"2is1cr\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"3w5s0f\",\"cells\":[{\"id\":\"t3pp3j\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "View dApps (mobile)",
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"61fbb4\",\"version\":1,\"rows\":[{\"id\":\"weasol\",\"cells\":[{\"id\":\"ehv55n\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"q62l4m\",\"cells\":[{\"id\":\"17rdei\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"llvfvy\",\"cells\":[{\"id\":\"4rk1km\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":51,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"bu3lfd\",\"cells\":[{\"id\":\"4qnd0y\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Want to learn more about using DexAppBuilder?\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":30}},{\"text\":\" \"}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"4ygtv5\",\"cells\":[{\"id\":\"r4y7m7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Explore our documentation and join our Discord community. \\nAsk questions and connect with other users.\",\"SetFontSize\":{\"fontSize\":22}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"lu5eyf\",\"cells\":[{\"id\":\"8bcv3l\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"g6sa3x\",\"cells\":[{\"id\":\"uav6hk\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"k6335k\",\"size\":2,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"JOIN DISCORD\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open link\",\"href\":\"https://discord.gg/FnkrFAY7Za\",\"targetBlank\":true}},\"rows\":[],\"inline\":null},{\"id\":\"0fcjes\",\"size\":2,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"EXPLORE DOCS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open link\",\"href\":\"https://docs.dexkit.com/defi-products/nft-marketplace/creating-my-first-marketplace\",\"targetBlank\":true}},\"rows\":[],\"inline\":null},{\"id\":\"8z6pqg\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]},{\"id\":\"yre0y0\",\"cells\":[{\"id\":\"k4il3i\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":64,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "Final section ",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"61fbb4\",\"version\":1,\"rows\":[{\"id\":\"3zag9b\",\"cells\":[{\"id\":\"2njt8t\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"34jany\",\"size\":4,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"25e16y\",\"cells\":[{\"id\":\"lm6j7m\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Want to learn more about using DexAppBuilder?\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":30}},{\"text\":\" \"}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"4ygtv5\",\"cells\":[{\"id\":\"r4y7m7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Explore our documentation and join our Discord community. \\nAsk questions and connect with other users.\",\"SetFontSize\":{\"fontSize\":22}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"i8irry\",\"cells\":[{\"id\":\"rdkx1t\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"g6sa3x\",\"cells\":[{\"id\":\"c2lbay\",\"size\":6,\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"0jy9q6\",\"cells\":[{\"id\":\"uvsj6w\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"JOIN DISCORD\",\"variant\":\"contained\",\"size\":\"large\",\"fullWidth\":false,\"action\":\"Open link\",\"href\":\"https://discord.gg/FnkrFAY7Za\",\"targetBlank\":true}},\"rows\":[],\"inline\":null}]},{\"id\":\"i8kchx\",\"cells\":[{\"id\":\"8bwsgx\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"9vqle2\",\"cells\":[{\"id\":\"ts8yuj\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"EXPLORE DOCS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open link\",\"href\":\"https://docs.dexkit.com/defi-products/dexappbuilder/creating-my-first-app\",\"targetBlank\":true}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"8z6pqg\",\"size\":6,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"yo0j1r\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "title": "Final section (mobile)",
+          "hideDesktop": true
+        }
+      ]
+    },
+    "solutions": {
+      "sections": [
+        {
+          "title": "Initial section_solutions",
+          "type": "custom",
+          "data": "{\"id\":\"0kz23j\",\"version\":1,\"rows\":[{\"id\":\"9j7he3\",\"cells\":[{\"id\":\"1h14df\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"7dx4gg\",\"cells\":[{\"id\":\"diykqw\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"dajcna\",\"cells\":[{\"id\":\"b42623\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":66,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"d6e8fb\",\"cells\":[{\"id\":\"u1tqix\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Explore DexAppBuilder's Solutions \",\"SetFontSize\":{\"fontSize\":44},\"EMPHASIZE/STRONG\":true,\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"u18um9\",\"cells\":[{\"id\":\"mw7oa7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Create your custom DApp by smoothly integrating DexAppBuilder's solutions.\",\"SetFontSize\":{\"fontSize\":24}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"i62ouk\",\"cells\":[{\"id\":\"b79eg3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":50,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"4thx6w\",\"cells\":[{\"id\":\"plax42\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":495,\"height\":345,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man_Solutions2.png\",\"alt\":\"Man_Solutions\", \"priority\":true}},\"rows\":[],\"inline\":null}]},{\"id\":\"ema0bf\",\"cells\":[{\"id\":\"87uu15\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":71,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "hideMobile": true
+        },
+        {
+          "title": "Initial section_solutions (mobile)",
+          "type": "custom",
+          "data": "{\"id\":\"0kz23j\",\"version\":1,\"rows\":[{\"id\":\"9j7he3\",\"cells\":[{\"id\":\"1h14df\",\"size\":9,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"7dx4gg\",\"cells\":[{\"id\":\"ylovk9\",\"size\":5,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":71,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"h0sb7w\",\"size\":7,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"d6e8fb\",\"cells\":[{\"id\":\"u1tqix\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Explore DexAppBuilder's Solutions \",\"SetFontSize\":{\"fontSize\":44},\"EMPHASIZE/STRONG\":true,\"SetLineHeight\":{\"lineHeight\":1.2}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"u18um9\",\"cells\":[{\"id\":\"mw7oa7\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Create your custom DApp by smoothly integrating DexAppBuilder's solutions.\",\"SetFontSize\":{\"fontSize\":24}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"i62ouk\",\"cells\":[{\"id\":\"b79eg3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":50,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"4thx6w\",\"cells\":[{\"id\":\"plax42\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":495,\"height\":345,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man_Solutions2.png\",\"alt\":\"Man_Solutions\", \"priority\":true}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"tkoy68\",\"size\":3,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":71,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "hideMobile": false,
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"f86tk7\",\"cells\":[{\"id\":\"2wqow5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"w6lsi0\",\"cells\":[{\"id\":\"7f654w\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":10}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":322,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexSwap.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Facilitate token swapping within your DApp.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Swap crypto.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Swap tokens in 0x liquidity pools.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"74we0x\",\"cells\":[{\"id\":\"nklvcn\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• \",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(85, 87, 92, 1)\"}},{\"SetFontSize\":{\"fontSize\":20},\"text\":\"Add liquidity to pools to earn fees.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD SWAP APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/swap\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"r4qp43\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"515uth\",\"cells\":[{\"id\":\"sbdu51\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":106,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"yuqaq1\",\"cells\":[{\"id\":\"p1nysl\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Best prices in real-time (liquidity from multiple sources)\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"mpgyra\",\"cells\":[{\"id\":\"xrv52g\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Optimizing gas fees\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"dylbtc\",\"cells\":[{\"id\":\"sg54g2\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"3izy8y\",\"cells\":[{\"id\":\"m7kyde\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexSwap.png\",\"alt\":\"Laptop_DexSwap\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexSwap2",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"f86tk7\",\"cells\":[{\"id\":\"2wqow5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"w6lsi0\",\"cells\":[{\"id\":\"7f654w\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":4}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":322,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexSwap.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Facilitate token swapping within your DApp.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Swap crypto.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Swap tokens in 0x liquidity pools.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"74we0x\",\"cells\":[{\"id\":\"nklvcn\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Add liquidity to pools to earn fees.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD SWAP APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/swap\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"r4qp43\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3npkyx\",\"cells\":[{\"id\":\"n06giq\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Best prices in real-time (liquidity from multiple sources)\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ywmn94\",\"cells\":[{\"id\":\"gs4pr5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Optimizing gas fees\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexSwap.png\",\"alt\":\"Laptop_DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"f9amvq\",\"cells\":[{\"id\":\"16zji5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":53,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexSwap2 (mobile)",
+          "hideMobile": false,
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"gulq0r\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3npkyx\",\"cells\":[{\"id\":\"wdfs6k\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":10}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":524,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexExchangePro.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Enable users to conveniently trade assets on your DApp.\",\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• \",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(85, 87, 92, 1)\"}},{\"SetFontSize\":{\"fontSize\":20},\"text\":\"Trade securely without intermediaries. \"}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• \",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(85, 87, 92, 1)\"}},{\"SetFontSize\":{\"fontSize\":20},\"text\":\"Access advanced view features with real-time charts and trading tools.\"}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD EXCHANGE APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/exchange\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"csbl58\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"fw8qoi\",\"cells\":[{\"id\":\"wtkfhw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":103,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Total control over your funds\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Zero-fee limit orders\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"74mdwx\",\"cells\":[{\"id\":\"wlwgw0\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Easy wallet creation via Google, Discord, or Twitter accounts\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexExchangePr.png\",\"alt\":\"Laptop_DexExchangePro\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"2ccpv5\",\"cells\":[{\"id\":\"myed9i\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":62,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexExchangePro2",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"gulq0r\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3npkyx\",\"cells\":[{\"id\":\"wdfs6k\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":4}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":524,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexExchangePro.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Enable users to conveniently trade assets on your DApp.\",\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Trade securely without intermediaries. \",\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Access advanced view features with real-time charts and trading tools.\",\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD EXCHANGE APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/exchange\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"csbl58\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Total control over your funds\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Zero-fee limit orders\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"74mdwx\",\"cells\":[{\"id\":\"wlwgw0\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Easy wallet creation via Google, Discord, or Twitter accounts\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexExchangePr.png\",\"alt\":\"Laptop_DexExchangePro\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"f9amvq\",\"cells\":[{\"id\":\"16zji5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":53,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexExchangePro2 (mobile)",
+          "hideMobile": false,
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"it8w28\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"ipwedv\",\"cells\":[{\"id\":\"c9je1f\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":10}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":342,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexWallet.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Provide an easy-to-use crypto wallet on your DApp for users to manage their crypto and NFTs.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Manage cryptos and NFTs in one place.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Access the option to purchase fiat currencies through ramps.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD WALLET APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/wallet\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"lusbeh\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"fw8qoi\",\"cells\":[{\"id\":\"wtkfhw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":95,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Secure and simple solution\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Multi-blockchain support\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexWallet.png\",\"alt\":\"Laptop_DexWallet\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexWallet",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"it8w28\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"ipwedv\",\"cells\":[{\"id\":\"c9je1f\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":4}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":342,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexWallet.png\",\"alt\":\"DexSwap\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Provide an easy-to-use crypto wallet on your DApp for users to manage their crypto and NFTs.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Manage cryptos and NFTs in one place.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Access the option to purchase fiat currencies through ramps.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD WALLET APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/wallet\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"lusbeh\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Secure and simple solution\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Multi-blockchain support\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexWallet.png\",\"alt\":\"Laptop_DexWallet\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"f9amvq\",\"cells\":[{\"id\":\"16zji5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":53,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexWallet2 (mobile)",
+          "hideMobile": false,
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"iuhqwm\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3npkyx\",\"cells\":[{\"id\":\"trgh53\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":10}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":428,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexNFTStore.png\",\"alt\":\"DexNFTStore\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Maximize your NFT sales with a Shopify-like platform.\",\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Create your own NFT e-commerce platform without difficulty.\",\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Upload NFTs, define pricing, and manage NFT orders.\",\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD NFT STORE APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/nft-store\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"3qf1i8\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"fw8qoi\",\"cells\":[{\"id\":\"wtkfhw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":98,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Specific focus on NFTs\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Easy setup and management of your NFT store\",\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x5265bde27f57e738be6c1f6ab3544e82cdc92a8f/Laptop_DexNFT%20Store.png\",\"alt\":\"Laptop_DexWallet\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexNFTStore2",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"7i30bh\",\"version\":1,\"rows\":[{\"id\":\"dsijik\",\"cells\":[{\"id\":\"iuhqwm\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3npkyx\",\"cells\":[{\"id\":\"trgh53\",\"size\":12,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":4}},\"rows\":[{\"id\":\"ham3o9\",\"cells\":[{\"id\":\"iih0m0\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":428,\"height\":105,\"position\":\"start\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexNFTStore.png\",\"alt\":\"DexNFTStore\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"0sk2ix\",\"cells\":[{\"id\":\"jvblq6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Maximize your NFT sales with a Shopify-like platform.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"ds03kq\",\"cells\":[{\"id\":\"jmx1kw\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"rf94at\",\"cells\":[{\"id\":\"9erx8b\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Create your own NFT e-commerce platform without difficulty.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"y16ikf\",\"cells\":[{\"id\":\"yj8kuo\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Upload NFTs, define pricing, and manage NFT orders.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"a2n0xq\",\"cells\":[{\"id\":\"hac227\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":20,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"vqzivp\",\"cells\":[{\"id\":\"xs0uz2\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"BUILD NFT STORE APP\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/admin/quick-builder/nft-store\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null},{\"id\":\"3qf1i8\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"jp1fvx\",\"cells\":[{\"id\":\"grvft3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Specific focus on NFTs\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"sl655o\",\"cells\":[{\"id\":\"zmob34\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ Easy setup and management of your NFT store\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7u6dh7\",\"cells\":[{\"id\":\"aagwmg\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":43,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"xkdoul\",\"cells\":[{\"id\":\"i8ek4w\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x5265bde27f57e738be6c1f6ab3544e82cdc92a8f/Laptop_DexNFT%20Store.png\",\"alt\":\"Laptop_DexWallet\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"f9amvq\",\"cells\":[{\"id\":\"16zji5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":53,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexNFTStore2 (mobile)",
+          "hideMobile": false,
+          "hideDesktop": true
+        }
+      ],
+      "title": "Solutions",
+      "uri": "/solutions",
+      "key": "solutions"
+    },
+    "dexcontracts": {
+      "sections": [
+        {
+          "title": "Initial section_tools",
+          "type": "custom",
+          "data": "{\"id\":\"ynkd6v\",\"version\":1,\"rows\":[{\"id\":\"4jjmlo\",\"cells\":[{\"id\":\"cywz0f\",\"size\":12,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"j1qxmf\",\"cells\":[{\"id\":\"xgjgvz\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":68,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"8idsq4\",\"cells\":[{\"id\":\"b8hpp5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Harness DexAppBuilder's tools\",\"SetFontSize\":{\"fontSize\":44},\"EMPHASIZE/STRONG\":true,\"SetLineHeight\":{\"lineHeight\":1}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"n1djnw\",\"cells\":[{\"id\":\"d2dns8\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Enhance your DApp building journey with DexAppBuilder's tools.\",\"SetFontSize\":{\"fontSize\":24}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"tj8z0l\",\"cells\":[{\"id\":\"wuutdi\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":52,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"0fi6gl\",\"cells\":[{\"id\":\"hoir2f\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":455,\"height\":367,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man_Tools.png\",\"alt\":\"Man_Tools\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"yt6tqa\",\"cells\":[{\"id\":\"9dfjf1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":68,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}]}",
+          "hideMobile": true
+        },
+        {
+          "title": "Initial section_tools (mobile)",
+          "type": "custom",
+          "data": "{\"id\":\"ynkd6v\",\"version\":1,\"rows\":[{\"id\":\"4jjmlo\",\"cells\":[{\"id\":\"phucsi\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":68,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null},{\"id\":\"ia70on\",\"size\":4,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"8idsq4\",\"cells\":[{\"id\":\"b8hpp5\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Harness DexAppBuilder's tools\",\"SetFontSize\":{\"fontSize\":44},\"EMPHASIZE/STRONG\":true,\"SetLineHeight\":{\"lineHeight\":1.2}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"9djx14\",\"cells\":[{\"id\":\"8nhhv3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Enhance your DApp building journey with DexAppBuilder's tools.\",\"SetFontSize\":{\"fontSize\":24}}],\"data\":{\"align\":\"center\"}}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"8fe0xd\",\"cells\":[{\"id\":\"px74i3\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":68,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"dca81i\",\"cells\":[{\"id\":\"wxsigd\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":455,\"height\":367,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Man_Tools.png\",\"alt\":\"Man_Tools\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"829eli\",\"size\":4,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":52,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}]}",
+          "hideDesktop": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"4r2doc\",\"version\":1,\"rows\":[{\"id\":\"9j844o\",\"cells\":[{\"id\":\"w6vhzv\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"tmpxxp\",\"cells\":[{\"id\":\"zekenp\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":10}},\"rows\":[{\"id\":\"tzsjoh\",\"cells\":[{\"id\":\"zlwg3r\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":447,\"height\":105,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexGenerator.png\",\"alt\":\"DexGenerator\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"deczfb\",\"cells\":[{\"id\":\"nrmmww\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Effortlessly incorporate smart contracts to enhance functionalities within your DApp.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"x9mbgy\",\"cells\":[{\"id\":\"vv2ghx\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"4nd0wm\",\"cells\":[{\"id\":\"qud6on\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Generate  your own tokens and issue NFTs on blockchain easily.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"kp5ivr\",\"cells\":[{\"id\":\"0n2cj1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Initiate token and NFT airdrops.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7jw1ct\",\"cells\":[{\"id\":\"ivvqcu\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Simplify smart contract interaction through UI generation by importing ABI only.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"vu4ww4\",\"cells\":[{\"id\":\"3qhexd\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"7pub01\",\"cells\":[{\"id\":\"s41q6t\",\"size\":6,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"DEPLOY CONTRACT\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/contracts/create\"}},\"rows\":[],\"inline\":null},{\"id\":\"tj483y\",\"size\":6,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"CREATE CONTRACT FORMS\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/create\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"fpenuc\",\"cells\":[{\"id\":\"gfdncl\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"isulyu\",\"cells\":[{\"id\":\"gf9muk\",\"size\":6,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"MANAGE CONTRACTS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/contracts/list\"}},\"rows\":[],\"inline\":null},{\"id\":\"zjq12r\",\"size\":6,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"MANAGE CONTRACT FORMS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/manage\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"m51eeu\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"3817pn\",\"cells\":[{\"id\":\"6zihja\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":195,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"dh34o1\",\"cells\":[{\"id\":\"spujw9\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ AI integration for NFT image generation using natural language.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"nq6vlw\",\"cells\":[{\"id\":\"6t3azi\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":69,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"zxk8fx\",\"cells\":[{\"id\":\"kr6qud\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexGenerator.png\",\"alt\":\"Laptop_DexGenerator\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexContracts",
+          "hideMobile": true
+        },
+        {
+          "type": "custom",
+          "data": "{\"id\":\"4r2doc\",\"version\":1,\"rows\":[{\"id\":\"9j844o\",\"cells\":[{\"id\":\"51zm2l\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/layout/background\",\"version\":1},\"dataI18n\":{\"default\":{\"modeFlag\":3,\"backgroundColor\":{\"r\":221,\"g\":225,\"b\":248,\"a\":1}}},\"rows\":[{\"id\":\"tmpxxp\",\"cells\":[{\"id\":\"utdkz7\",\"size\":6,\"plugin\":{\"id\":\"stack\",\"version\":1},\"dataI18n\":{\"default\":{\"padding\":4}},\"rows\":[{\"id\":\"tzsjoh\",\"cells\":[{\"id\":\"zlwg3r\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":447,\"height\":105,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Image_DexGenerator.png\",\"alt\":\"DexGenerator\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"deczfb\",\"cells\":[{\"id\":\"nrmmww\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Effortlessly incorporate smart contracts to enhance functionalities within your DApp.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"x9mbgy\",\"cells\":[{\"id\":\"vv2ghx\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"Features:\",\"SetColor\":{\"color\":\"rgba(18, 28, 84, 1)\"},\"EMPHASIZE/STRONG\":true,\"SetFontSize\":{\"fontSize\":22}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"4nd0wm\",\"cells\":[{\"id\":\"qud6on\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Generate  your own tokens and issue NFTs on blockchain easily.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"kp5ivr\",\"cells\":[{\"id\":\"0n2cj1\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Initiate token and NFT airdrops.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"7jw1ct\",\"cells\":[{\"id\":\"ivvqcu\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"• Simplify smart contract interaction through UI generation by importing ABI only.\",\"SetFontSize\":{\"fontSize\":20},\"SetColor\":{\"color\":\"rgba(0, 0, 0, 1)\"}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"vu4ww4\",\"cells\":[{\"id\":\"3qhexd\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"7pub01\",\"cells\":[{\"id\":\"nn5mxr\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"DEPLOY CONTRACT\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/contracts/create\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"6unqkj\",\"cells\":[{\"id\":\"wxj7t6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"iyqsdd\",\"cells\":[{\"id\":\"5v67qf\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"MANAGE CONTRACTS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/contracts/list\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"814gni\",\"cells\":[{\"id\":\"1erm8v\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"kx8smu\",\"cells\":[{\"id\":\"1crpmf\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"CREATE CONTRACT FORMS\",\"variant\":\"contained\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/create\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"llntxb\",\"cells\":[{\"id\":\"f56q6n\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"tln1i2\",\"cells\":[{\"id\":\"o4g7jd\",\"size\":12,\"plugin\":{\"id\":\"button-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"text\":\"MANAGE CONTRACT FORMS\",\"variant\":\"outlined\",\"size\":\"large\",\"action\":\"Open page\",\"pageUri\":\"/forms/manage\"}},\"rows\":[],\"inline\":null}]}],\"inline\":null},{\"id\":\"toea4t\",\"size\":6,\"plugin\":{\"id\":\"container\",\"version\":1},\"dataI18n\":{\"default\":null},\"rows\":[{\"id\":\"dh34o1\",\"cells\":[{\"id\":\"spujw9\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/slate\",\"version\":1},\"dataI18n\":{\"default\":{\"slate\":[{\"type\":\"PARAGRAPH/PARAGRAPH\",\"children\":[{\"text\":\"☑ AI integration for NFT image generation using natural language.\",\"SetColor\":{\"color\":\"rgba(40, 42, 46, 1)\"},\"SetLineHeight\":{\"lineHeight\":1.2},\"SetFontSize\":{\"fontSize\":20}}]}]}},\"rows\":[],\"inline\":null}]},{\"id\":\"nq6vlw\",\"cells\":[{\"id\":\"6t3azi\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":24,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]},{\"id\":\"zxk8fx\",\"cells\":[{\"id\":\"kr6qud\",\"size\":12,\"plugin\":{\"id\":\"image-dexkit-plugin\",\"version\":1},\"dataI18n\":{\"default\":{\"width\":496,\"height\":324,\"position\":\"center\",\"padding\":0,\"borderRadius\":0,\"src\":\"https://dexkit-storage.nyc3.digitaloceanspaces.com/dexkit/media-library/account/0x8cd665bbf8d5000d69201fa3a67dae2013d3ac9e/Laptop_DexGenerator.png\",\"alt\":\"Laptop_DexGenerator\"}},\"rows\":[],\"inline\":null}]},{\"id\":\"lwu2pz\",\"cells\":[{\"id\":\"mijlx6\",\"size\":12,\"plugin\":{\"id\":\"ory/editor/core/content/spacer\",\"version\":1},\"dataI18n\":{\"default\":{\"height\":78,\"hideInDesktop\":false,\"hideInMobile\":false}},\"rows\":[],\"inline\":null}]}],\"inline\":null}]}],\"inline\":null}]}]}",
+          "title": "DexContracts (mobile)",
+          "hideDesktop": true
+        }
+      ],
+      "title": "DexContracts",
+      "uri": "/dexcontracts",
+      "key": "dexcontracts"
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "DexAppBuilder",
+      "description": "DexAppBuilder: use our decentralized app builder to create your app in seconds. You are able to display your nfts, sell them, profit from nft sales, earn from swap fees. Options are endless",
+      "images": [
+        {
+          "url": "https://dexappbuilder.dexkit.com/assets/images/dexappbuilder_seo.png",
+          "alt": "DexAppBuilder: create crypto apps easily",
+          "type": "image/png"
+        }
+      ]
+    }
+  },
+  "social_custom": []
+}

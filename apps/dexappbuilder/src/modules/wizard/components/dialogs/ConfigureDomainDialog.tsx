@@ -11,9 +11,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { copyToClipboard } from '@dexkit/core/utils/browser';
 import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
+import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { CopyIconButton } from '../../../../components/CopyIconButton';
-import { ConfigResponse } from '../../../../types/whitelabel';
 
 interface Props {
   dialogProps: DialogProps;

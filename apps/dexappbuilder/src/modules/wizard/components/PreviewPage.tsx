@@ -1,11 +1,11 @@
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import MainLayout from 'src/components/layouts/main';
 
+import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 import {
   AppConfig,
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
-import { SectionsRenderer } from './sections/SectionsRenderer';
 interface Props {
   sections?: AppPageSection[];
   disabled?: boolean;
