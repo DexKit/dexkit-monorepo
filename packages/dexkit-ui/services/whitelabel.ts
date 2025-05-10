@@ -1,5 +1,5 @@
 import { myAppsApi } from "../constants/api";
-import { ConfigResponse } from "../modules/wizard/types/config";
+import { SiteResponse } from "../modules/wizard/types/config";
 import { AppPageSection } from "../modules/wizard/types/section";
 
 /**
@@ -12,7 +12,7 @@ export async function getConfig(queryParameters: {
   slug?: string;
   appPage?: string;
 }) {
-  return await myAppsApi.get<ConfigResponse>(`/site`, {
+  return await myAppsApi.get<SiteResponse>(`/site`, {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,
@@ -53,7 +53,7 @@ export async function getSitemapConfig(queryParameters: {
   domain?: string;
   slug?: string;
 }) {
-  return await myAppsApi.get<ConfigResponse>(`/site/sitemap`, {
+  return await myAppsApi.get<SiteResponse>(`/site/sitemap`, {
     params: {
       domain: queryParameters.domain,
       slug: queryParameters.slug,

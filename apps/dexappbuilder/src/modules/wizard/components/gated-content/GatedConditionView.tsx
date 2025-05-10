@@ -1,4 +1,5 @@
 import { getNetworkSlugFromChainId } from '@dexkit/core/utils/blockchain';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import {
   GatedCondition,
   GatedPageLayout,
@@ -22,17 +23,9 @@ import {
   Stack,
   Typography,
   alpha,
-  styled,
   useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
-
-const CustomImage = styled('img')(({ theme }) => ({
-  width: '100%',
-  height: 'auto',
-  display: 'block',
-}));
 
 export function GatedConditionView({
   conditions,
@@ -102,7 +95,10 @@ export function GatedConditionView({
                 component="span"
                 sx={{ color: (theme) => theme.palette.info.main }}
               >
-                <FormattedMessage id="verifying" defaultMessage="Verifying..." />
+                <FormattedMessage
+                  id="verifying"
+                  defaultMessage="Verifying..."
+                />
               </Box>
             </Stack>
           </Typography>
@@ -110,7 +106,7 @@ export function GatedConditionView({
       );
     }
 
-    if (balances && balances[index] === "Error") {
+    if (balances && balances[index] === 'Error') {
       return (
         <Paper
           sx={{
@@ -127,7 +123,10 @@ export function GatedConditionView({
                 component="span"
                 sx={{ color: (theme) => theme.palette.warning.dark }}
               >
-                <FormattedMessage id="error.checking" defaultMessage="Error checking" />
+                <FormattedMessage
+                  id="error.checking"
+                  defaultMessage="Error checking"
+                />
               </Box>
             </Stack>
           </Typography>
@@ -135,7 +134,7 @@ export function GatedConditionView({
       );
     }
 
-    if (balances && balances[index] === "Any token") {
+    if (balances && balances[index] === 'Any token') {
       return (
         <Paper
           sx={{
@@ -199,7 +198,10 @@ export function GatedConditionView({
               component="span"
               sx={{ color: (theme) => theme.palette.error.dark }}
             >
-              <FormattedMessage id="not.verified" defaultMessage="Not verified" />
+              <FormattedMessage
+                id="not.verified"
+                defaultMessage="Not verified"
+              />
             </Box>
           </Stack>
         </Typography>
@@ -271,10 +273,10 @@ export function GatedConditionView({
                         fontWeight="400"
                         component="span"
                       >
-                        {balances[index] === "Any token" ? (
-                          <FormattedMessage 
-                            id="any.token.collection" 
-                            defaultMessage="Any token of this collection" 
+                        {balances[index] === 'Any token' ? (
+                          <FormattedMessage
+                            id="any.token.collection"
+                            defaultMessage="Any token of this collection"
                           />
                         ) : (
                           balances[index]
@@ -351,10 +353,10 @@ export function GatedConditionView({
                         variant="inherit"
                         component="span"
                       >
-                        {balances[index] === "Any token" ? (
-                          <FormattedMessage 
-                            id="any.token.collection" 
-                            defaultMessage="Any token of this collection" 
+                        {balances[index] === 'Any token' ? (
+                          <FormattedMessage
+                            id="any.token.collection"
+                            defaultMessage="Any token of this collection"
                           />
                         ) : (
                           balances[index]
@@ -376,14 +378,26 @@ export function GatedConditionView({
   const theme = useTheme();
 
   const renderLoading = () => (
-    <Box display="flex" justifyContent="center" alignItems="center" my={4} width="100%">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      my={4}
+      width="100%"
+    >
       <Stack spacing={2} alignItems="center">
         <CircularProgress size={60} />
         <Typography variant="h6" color="text.secondary">
-          <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+          <FormattedMessage
+            id="verifying.assets"
+            defaultMessage="Verifying your assets..."
+          />
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <FormattedMessage id="please.wait" defaultMessage="Please wait while we verify your assets on the blockchain." />
+          <FormattedMessage
+            id="please.wait"
+            defaultMessage="Please wait while we verify your assets on the blockchain."
+          />
         </Typography>
       </Stack>
     </Box>
@@ -391,22 +405,26 @@ export function GatedConditionView({
 
   const renderRetryButton = () => {
     if (!onRetry) return null;
-    
+
     return (
       <Box display="flex" justifyContent="center" mt={3}>
-        <Button 
-          variant="contained" 
-          color="primary" 
+        <Button
+          variant="contained"
+          color="primary"
           startIcon={<RefreshIcon />}
           onClick={onRetry}
         >
-          <FormattedMessage id="retry.verification" defaultMessage="Retry verification" />
+          <FormattedMessage
+            id="retry.verification"
+            defaultMessage="Retry verification"
+          />
         </Button>
       </Box>
     );
   };
 
-  const hasErrors = balances && Object.values(balances).some(balance => balance === "Error");
+  const hasErrors =
+    balances && Object.values(balances).some((balance) => balance === 'Error');
 
   return (
     <Grid container spacing={2}>
@@ -488,7 +506,10 @@ export function GatedConditionView({
                   <Stack direction="row" spacing={2} alignItems="center">
                     <CircularProgress size={24} />
                     <Typography variant="body1" color="text.secondary">
-                      <FormattedMessage id="verifying.assets" defaultMessage="Verifying your assets..." />
+                      <FormattedMessage
+                        id="verifying.assets"
+                        defaultMessage="Verifying your assets..."
+                      />
                     </Typography>
                   </Stack>
                 </Box>
@@ -568,7 +589,10 @@ export function GatedConditionView({
                                 : undefined,
                             boxShadow: (theme) =>
                               partialResults && partialResults[index]
-                                ? `0 0 8px ${alpha(theme.palette.success.main, 0.4)}`
+                                ? `0 0 8px ${alpha(
+                                    theme.palette.success.main,
+                                    0.4,
+                                  )}`
                                 : undefined,
                           }}
                         >

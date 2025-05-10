@@ -2,7 +2,10 @@ import { Network } from '@dexkit/core/types';
 import { isAddressEqual } from '@dexkit/core/utils/blockchain';
 import { AppConfirmDialog } from '@dexkit/ui';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
+import {
+  AppConfig,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
 import Delete from '@mui/icons-material/Delete';
 import Search from '@mui/icons-material/Search';
 import { Box, Container, IconButton, InputAdornment } from '@mui/material';
@@ -14,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { SiteResponse } from 'src/types/whitelabel';
+
 import { Token } from '../../../../types/blockchain';
 import { StepperButtonProps } from '../../types';
 import { TOKEN_KEY } from '../../utils';

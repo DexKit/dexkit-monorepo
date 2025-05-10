@@ -2,6 +2,10 @@ import type { CollectionOwnershipNFTFormType } from '@/modules/contract-wizard/t
 import { myAppsApi as myAppsApiUI } from '@dexkit/ui/constants/api';
 import { PageTemplateResponse } from '@dexkit/ui/modules/whitelabel/types';
 import type { SiteMetadata } from '@dexkit/ui/modules/wizard/types';
+import {
+  ConfigResponse,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import {
   getAccessToken,
@@ -10,9 +14,7 @@ import {
 } from '@dexkit/ui/services/auth';
 import axios from 'axios';
 import type {
-  ConfigResponse,
   PageTemplateFormData,
-  SiteResponse,
   WhitelabelFormData,
 } from '../types/whitelabel';
 

@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useContext, useMemo } from 'react';
-import { AppWizardConfigContext } from '../../../contexts';
+import { useMemo } from 'react';
 
 import { QUERY_ADMIN_WHITELABEL_CONFIG_NAME } from 'src/hooks/whitelabel';
 
@@ -32,7 +31,9 @@ export const PROTECTED_CONFIG_QUERY = 'PROTECTED_CONFIG_QUERY';
 
 import { useCheckGatedConditions } from '@dexkit/ui/hooks/gatedConditions';
 
-export { useCheckGatedConditions };
+import { useAppWizardConfig } from '@dexkit/ui/hooks/app/useAppWizardConfig';
+
+export { useAppWizardConfig, useCheckGatedConditions };
 
 export function useTokenListUrl(url?: string) {
   return useQuery([TOKEN_LIST_URL, url], async () => {
@@ -42,11 +43,6 @@ export function useTokenListUrl(url?: string) {
 
     return await getTokenList(url);
   });
-}
-
-export function useAppWizardConfig() {
-  const { wizardConfig, setWizardConfig } = useContext(AppWizardConfigContext);
-  return { wizardConfig, setWizardConfig };
 }
 
 export function usePreviewThemeFromConfig({

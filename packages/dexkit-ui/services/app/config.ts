@@ -12,7 +12,7 @@ export async function getAppConfig(
   appNFT?: AssetAPI | null;
   siteId?: number | null;
   slug?: string | null;
-  appLocaleMessages?: Record<string, string> | null;
+  appLocaleMessages?: Record<string, string> | null | string;
 }> {
   /**/
   if (site === "boredapes.dexkit.com") {
@@ -57,7 +57,9 @@ export async function getAppConfig(
       const configResponse = (await getConfig({ slug: slug[1], appPage })).data;
       if (configResponse) {
         const appConfig = JSON.parse(configResponse.config) as AppConfig;
-        const appLocaleMessages = await getLocaleMessages(appConfig.locale);
+        const appLocaleMessages = JSON.stringify(
+          await getLocaleMessages(appConfig.locale)
+        );
 
         return {
           appConfig,
@@ -82,7 +84,9 @@ export async function getAppConfig(
       ).data;
       if (configResponse) {
         const appConfig = JSON.parse(configResponse.config) as AppConfig;
-        const appLocaleMessages = await getLocaleMessages(appConfig.locale);
+        const appLocaleMessages = JSON.stringify(
+          await getLocaleMessages(appConfig.locale)
+        );
 
         return {
           appConfig,
@@ -112,7 +116,9 @@ export async function getAppConfig(
       if (configResponse) {
         const appConfig = JSON.parse(configResponse.config) as AppConfig;
 
-        const appLocaleMessages = await getLocaleMessages(appConfig.locale);
+        const appLocaleMessages = JSON.stringify(
+          await getLocaleMessages(appConfig.locale)
+        );
 
         return {
           appConfig,
@@ -125,7 +131,9 @@ export async function getAppConfig(
     }
     const appConfigJson = (await import("../../config/app.json")).default;
     const appConfig = appConfigJson as AppConfig;
-    const appLocaleMessages = await getLocaleMessages(appConfig.locale);
+    const appLocaleMessages = JSON.stringify(
+      await getLocaleMessages(appConfig.locale)
+    );
 
     return Promise.resolve({
       appConfig: appConfigJson as AppConfig,
@@ -153,7 +161,9 @@ export async function getAppConfig(
   const configResponse = (await getConfig({ domain: site, appPage })).data;
   if (configResponse) {
     const appConfig = JSON.parse(configResponse.config) as AppConfig;
-    const appLocaleMessages = await getLocaleMessages(appConfig.locale);
+    const appLocaleMessages = JSON.stringify(
+      await getLocaleMessages(appConfig.locale)
+    );
 
     return {
       appConfig,
@@ -167,8 +177,8 @@ export async function getAppConfig(
 
   console.error(`Could not find configuration for site: ${site}`);
   const defaultAppConfig = (await import("../../config/app.json")).default;
-  const defaultAppLocaleMessages = await getLocaleMessages(
-    defaultAppConfig.locale
+  const defaultAppLocaleMessages = JSON.stringify(
+    await getLocaleMessages(defaultAppConfig.locale)
   );
 
   return {

@@ -2,8 +2,8 @@ import React from 'react';
 
 import MainLayout from '@dexkit/ui/components/layouts/main';
 import { AuthProvider } from '@dexkit/ui/providers/authProvider';
+import { ConfigWizardProvider } from '@dexkit/ui/providers/configWizardProvider';
 import { NoSsr } from '@mui/material';
-import { ConfigWizardProvider } from '../../providers/configWizardProvider';
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[];
