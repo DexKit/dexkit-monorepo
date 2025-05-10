@@ -59,7 +59,7 @@ export default function NotificationsTab() {
   const handleConfirm = async () => {
     try {
       await markAllAsRead({
-        ids: notifications?.items.map((item) => item.id) ?? [],
+        ids: notifications?.items.map((item: any) => item.id) ?? [],
       });
       enqueueSnackbar(
         <FormattedMessage

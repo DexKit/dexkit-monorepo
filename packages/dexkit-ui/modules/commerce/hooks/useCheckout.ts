@@ -18,7 +18,7 @@ export default function useCheckout(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get<CheckoutFormType>(`/checkouts/${params.id}`))
+      return (await instance.get(`/checkouts/${params.id}`))
         .data;
     },
     {

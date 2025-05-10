@@ -165,6 +165,12 @@ export const COMMON_NOTIFICATION_TYPES: { [key: string]: AppNotificationType } =
     id: "withdraw.rewards.amount.from.contractName",
     icon: "shortcut",
   },
+  depositRewards: {
+    type: "depositRewards",
+    message: "Deposit {amount} {symbol} rewards for {contractName}",
+    id: "deposit.rewards.amount.for.contractName",
+    icon: "shortcut",
+  },
   depositRewardTokens: {
     type: "depositRewardTokens",
     message: "Deposit rewards ({amount}) for {contractName}",

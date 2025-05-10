@@ -1,7 +1,10 @@
 {
   "name": "@dexkit/widgets",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": false,
+  "engines": {
+    "node": "22.14.0"
+  },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "start-storybook -p 6006 --quiet",
@@ -40,7 +43,7 @@
     "storybook": "^6.5.16",
     "tsconfig": "*",
     "tsup": "^6.5.0",
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   },
   "publishConfig": {
     "access": "public"

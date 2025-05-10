@@ -2,7 +2,6 @@ import { DexkitApiProvider } from "@dexkit/core/providers";
 import { GridSortModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { ProductFormType } from "../types";
 
 export const GET_PRODUCT_LIST = "GET_PRODUCT_LIST";
 
@@ -29,14 +28,7 @@ export default function useProductList(params: {
 
       delete newParams["sortModel"];
 
-      return (
-        await instance.get<{
-          items: ProductFormType[];
-          totalItems: number;
-          totalPages: number;
-          currentPage: number;
-        }>("/products", { params: newParams })
-      ).data;
+      return (await instance.get("/products", { params: newParams })).data;
     },
     {
       refetchOnMount: "always",

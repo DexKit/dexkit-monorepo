@@ -1,9 +1,9 @@
 import { useEnsNameQuery } from "@dexkit/core/hooks";
 import { Coin } from "@dexkit/core/types";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import SendIcon from "@mui/icons-material/Send";
 import Token from "@mui/icons-material/Token";
-import WalletIcon from "@mui/icons-material/Wallet";
 import {
   Autocomplete,
   AutocompleteChangeReason,
@@ -203,18 +203,7 @@ export function EvmSendForm({
         label={<FormattedMessage id="amount" defaultMessage="Amount" />}
       />
       {!account ? (
-        <Button
-          onClick={onConnectWallet}
-          startIcon={<WalletIcon />}
-          variant="contained"
-          color="primary"
-          size="large"
-        >
-          <FormattedMessage
-            id="connect.wallet"
-            defaultMessage="Connect wallet"
-          />
-        </Button>
+        <ConnectButton variant="contained" color="primary" size="large" />
       ) : isChainDiff ? (
         <Button
           onClick={() =>

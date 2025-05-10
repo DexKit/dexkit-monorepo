@@ -5,7 +5,6 @@ import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { useApproveForAll } from "@dexkit/ui/modules/contract-wizard/hooks/thirdweb";
 import { StakeErc155PageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import Token from "@mui/icons-material/Token";
 import {
   Box,
@@ -30,13 +29,69 @@ import {
 } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import moment from "moment";
-import { SyntheticEvent, useMemo, useState } from "react";
+import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import SelectNFTEditionClaimDialog from "../dialogs/SelectNFTEditionClaimDialog";
 import SelectNFTEditionDialog from "../dialogs/SelectNFTEditionDialog";
 
 export interface StakeErc1155SectionProps {
   section: StakeErc155PageSection;
+}
+
+function useContractMetadata(contract: any) {
+  const [metadata, setMetadata] = useState<any>(undefined);
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!contract) return;
+
+    let isMounted = true;
+    setLoading(true);
+
+    const fetchMetadata = async () => {
+      try {
+        const result = await contract.metadata.get();
+        if (isMounted) {
+          setMetadata(result);
+          setError(null);
+        }
+      } catch (err: any) {
+        console.warn("Error loading metadata:", err.message);
+        if (isMounted) {
+          setError(err);
+          setMetadata({ 
+            name: "Staking Contract", 
+            description: "Metadata not available"
+          });
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      if (isMounted && loading) {
+        setError(new Error("The IPFS connection has expired. Using basic contract information."));
+        setMetadata({ 
+          name: "Staking Contract", 
+          description: "Metadata not available due to IPFS timeout" 
+        });
+        setLoading(false);
+      }
+    }, 15000);
+
+    fetchMetadata();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [contract, loading]);
+
+  return { metadata, error, loading };
 }
 
 export default function StakeErc1155Section({
@@ -78,7 +133,7 @@ export default function StakeErc1155Section({
     }
 
     return [[] as number[], BigNumber.from(0)];
-  }, [stakeInfo, rewardTokenBalance]);
+  }, [stakeInfo]);
 
   const { data: rewardRatio } = useContractRead(
     contract,
@@ -117,95 +172,141 @@ export default function StakeErc1155Section({
 
   const { data: stakingTokenContract } = useContract(stakingAddress, "custom");
 
-  const contractInfo = useAsyncMemo(
-    async () => {
-      return await contract?.metadata.get();
-    },
-    undefined,
-    [contract]
-  );
+  const { metadata: contractInfo, error: contractInfoError } = useContractMetadata(contract);
+
+  useEffect(() => {
+    if (contractInfoError) {
+      console.warn("Metadata error:", contractInfoError.message);
+    }
+  }, [contractInfoError]);
 
   const { watchTransactionDialog, createNotification } = useDexKitContext();
 
   const stakeNftMutation = useMutation(
     async ({ tokenId, amount }: { tokenId: string; amount: BigNumber }) => {
-      let values = {
-        nft: tokenId,
-        amount: amount?.toNumber().toString(),
-        name: contractInfo?.name || "",
-      };
+      try {
+        let values = {
+          nft: tokenId,
+          amount: amount?.toNumber().toString(),
+          name: contractInfo?.name || "Staking Contract",
+        };
 
-      watchTransactionDialog.open("stakeEdition", values);
+        watchTransactionDialog.open("stakeEdition", values);
 
-      let call = contract?.prepare("stake", [tokenId, amount]);
+        let call = contract?.prepare("stake", [tokenId, amount]);
 
-      const tx = await call?.send();
+        const tx = await call?.send();
 
-      if (tx?.hash && chainId) {
-        createNotification({
-          type: "transaction",
-          subtype: "stakeEdition",
-          values: values,
-          metadata: { hash: tx.hash, chainId },
+        if (tx?.hash && chainId) {
+          createNotification({
+            type: "transaction",
+            subtype: "stakeEdition",
+            values: values,
+            metadata: { hash: tx.hash, chainId },
+          });
+
+          watchTransactionDialog.watch(tx.hash);
+        }
+
+        await trackUserEvent.mutateAsync({
+          event: UserEvents.stakeErc1155,
+          chainId,
+          hash: tx?.hash,
+          metadata: JSON.stringify({
+            tokenId,
+            amount: amount.toString(),
+            stakeAddress: address,
+            account,
+          }),
         });
 
-        watchTransactionDialog.watch(tx.hash);
+        return await tx?.wait();
+      } catch (error: any) {
+        console.error("Error during staking:", error);
+        
+        let errorMessage = error.message || 'Unknown error during staking';
+        
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
+           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+          errorMessage = 'Transaction cancelled.';
+        } else if (errorMessage.includes('MetaMask Tx Signature')) {
+          errorMessage = 'Transaction cancelled.';
+        } else if (errorMessage.includes('TRANSACTION ERROR') || errorMessage.includes('TRANSACTION INFORMATION')) {
+          if (errorMessage.includes('User denied transaction signature')) {
+            errorMessage = 'Transaction cancelled.';
+          } else {
+            const reasonMatch = errorMessage.match(/Reason: (.+?)(?=\s*╔|$)/);
+            errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
+          }
+        }
+        
+        watchTransactionDialog.setError(new Error(errorMessage));
+        throw error;
       }
-
-      await trackUserEvent.mutateAsync({
-        event: UserEvents.stakeErc1155,
-        chainId,
-        hash: tx?.hash,
-        metadata: JSON.stringify({
-          tokenId,
-          amount: amount.toString(),
-          stakeAddress: address,
-          account,
-        }),
-      });
-
-      return await tx?.wait();
     }
   );
 
   const unstakeRewardsMutation = useMutation(
     async ({ tokenId, amount }: { tokenId: string; amount: BigNumber }) => {
-      let call = contract?.prepare("withdraw", [tokenId, amount]);
+      try {
+        let call = contract?.prepare("withdraw", [tokenId, amount]);
 
-      let values = {
-        nft: tokenId,
-        amount: amount?.toNumber().toString(),
-        name: contractInfo?.name || "",
-      };
+        let values = {
+          nft: tokenId,
+          amount: amount?.toNumber().toString(),
+          name: contractInfo?.name || "Staking Contract",
+        };
 
-      watchTransactionDialog.open("unstakeEdition", values);
+        watchTransactionDialog.open("unstakeEdition", values);
 
-      const tx = await call?.send();
+        const tx = await call?.send();
 
-      if (tx?.hash && chainId) {
-        createNotification({
-          type: "transaction",
-          subtype: "unstakeEdition",
-          values: values,
-          metadata: { hash: tx.hash, chainId },
+        if (tx?.hash && chainId) {
+          createNotification({
+            type: "transaction",
+            subtype: "unstakeEdition",
+            values: values,
+            metadata: { hash: tx.hash, chainId },
+          });
+
+          watchTransactionDialog.watch(tx.hash);
+        }
+
+        await trackUserEvent.mutateAsync({
+          event: UserEvents.unstakeErc1155,
+          chainId,
+          hash: tx?.hash,
+          metadata: JSON.stringify({
+            tokenId,
+            amount: amount.toString(),
+            stakeAddress: address,
+            account,
+          }),
         });
 
-        watchTransactionDialog.watch(tx.hash);
+        return await tx?.wait();
+      } catch (error: any) {
+        console.error("Error during unstaking:", error);
+        
+        let errorMessage = error.message || 'Unknown error during unstaking';
+        
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
+           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+          errorMessage = 'Transaction cancelled.';
+        } else if (errorMessage.includes('MetaMask Tx Signature')) {
+          errorMessage = 'Transaction cancelled.';
+        } else if (errorMessage.includes('TRANSACTION ERROR') || errorMessage.includes('TRANSACTION INFORMATION')) {
+          if (errorMessage.includes('User denied transaction signature')) {
+            errorMessage = 'Transaction cancelled.';
+          } else {
+            const reasonMatch = errorMessage.match(/Reason: (.+?)(?=\s*╔|$)/);
+            errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
+          }
+        }
+        
+        watchTransactionDialog.setError(new Error(errorMessage));
+        throw error;
       }
-
-      await trackUserEvent.mutateAsync({
-        event: UserEvents.unstakeErc1155,
-        chainId,
-        hash: tx?.hash,
-        metadata: JSON.stringify({
-          tokenId,
-          amount: amount.toString(),
-          stakeAddress: address,
-          account,
-        }),
-      });
-
-      return await tx?.wait();
     }
   );
 
@@ -213,42 +314,76 @@ export default function StakeErc1155Section({
 
   const claimRewardsMutation = useMutation(
     async ({ tokenId }: { tokenId: string }) => {
-      let call = contract?.prepare("claimRewards", [tokenId]);
+      try {
+        let call = contract?.prepare("claimRewards", [tokenId]);
 
-      let values = {
-        nft: tokenId,
-        name: contractInfo?.name || "",
-      };
+        let values = {
+          nft: tokenId,
+          name: contractInfo?.name || "Staking Contract",
+        };
 
-      watchTransactionDialog.open("claimEditionRewards", values);
+        watchTransactionDialog.open("claimEditionRewards", values);
 
-      const tx = await call?.send();
+        const tx = await call?.send();
 
-      if (tx?.hash && chainId) {
-        createNotification({
-          type: "transaction",
-          subtype: "claimEditionRewards",
-          values: values,
-          metadata: { hash: tx.hash, chainId },
-        });
+        if (tx?.hash && chainId) {
+          createNotification({
+            type: "transaction",
+            subtype: "claimEditionRewards",
+            values: values,
+            metadata: { hash: tx.hash, chainId },
+          });
 
-        watchTransactionDialog.watch(tx.hash);
+          watchTransactionDialog.watch(tx.hash);
+        }
+
+        const res = await tx?.wait();
+
+        try {
+          await trackUserEvent.mutateAsync({
+            event: UserEvents.stakeClaimErc1155,
+            chainId,
+            hash: tx?.hash,
+            metadata: JSON.stringify({
+              tokenId,
+              stakeAddress: address,
+              account,
+            }),
+          });
+        } catch (trackError) {
+          console.error("Error tracking claim event:", trackError);
+        }
+
+        return res;
+      } catch (error: any) {
+        console.error("Error during claim rewards:", error);
+        
+        if (error.code === -32002) {
+          watchTransactionDialog.setError(new Error("There is already a pending request in the wallet. Please resolve that request first."));
+        } else if (error.code === 4001) {
+          watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
+        } else if (
+          error.message && (
+            error.message.includes("429") || 
+            error.message.includes("rate limit") || 
+            error.message.includes("too many requests")
+          )
+        ) {
+          watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
+        } else if (
+          error.message && (
+            error.message.includes("timeout") || 
+            error.message.includes("timed out") ||
+            error.message.includes("exceeded") ||
+            error.message.includes("server error")
+          )
+        ) {
+          watchTransactionDialog.setError(new Error("Timeout exceeded. The transaction could not be completed, but you can try again. Your rewards are safe."));
+        } else {
+          watchTransactionDialog.setError(error);
+        }
+        throw error;
       }
-
-      const res = await tx?.wait();
-
-      await trackUserEvent.mutateAsync({
-        event: UserEvents.stakeClaimErc1155,
-        chainId,
-        hash: tx?.hash,
-        metadata: JSON.stringify({
-          tokenId,
-          stakeAddress: address,
-          account,
-        }),
-      });
-
-      return res;
     }
   );
 
@@ -277,7 +412,7 @@ export default function StakeErc1155Section({
         refetchStakeInfo();
         refetchRewardTokenBalance();
       } catch (err) {
-        watchTransactionDialog.setError(err as any);
+        console.debug("Handled error in stakeNftMutation");
       }
     }
 
@@ -295,7 +430,7 @@ export default function StakeErc1155Section({
         refetchStakeInfo();
         refetchRewardTokenBalance();
       } catch (err) {
-        watchTransactionDialog.setError(err as any);
+        console.debug("Handled error in unstakeRewardsMutation");
       }
     }
 
@@ -318,7 +453,12 @@ export default function StakeErc1155Section({
       await claimRewardsMutation.mutateAsync({ tokenId });
       refetchRewardTokenBalance();
     } catch (err) {
-      watchTransactionDialog.setError(err as any);
+      console.error("Error during claim:", err);
+      if ((err as any)?.message?.includes("User Events") || (err as any)?.message?.includes("500")) {
+        console.log("Transaction successful but user-events error");
+        refetchRewardTokenBalance();
+        refetchStakeInfo();
+      }
     }
   };
 

@@ -3,7 +3,7 @@ import { Button, Grid, Pagination, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useAssetListFromCollection } from "../../../../../apps/nft-marketplace-premium/src/hooks/collection";
+import { useAssetListFromCollection } from "../../../../../apps/dexappbuilder/src/hooks/collection";
 import { BaseAssetCard } from "./BaseAssetCard";
 
 interface Props {

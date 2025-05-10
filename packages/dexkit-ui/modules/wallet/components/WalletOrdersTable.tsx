@@ -1,22 +1,21 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Wallet } from "@mui/icons-material";
 import {
-    Box,
-    Button,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
+import { ConnectButton } from "../../../components/ConnectButton";
 import CloseCircle from "../../../components/icons/CloseCircle";
-import { useConnectWalletDialog } from "../../../hooks";
 import { useCurrency } from "../../../hooks/currency";
+import { useWalletConnect } from "../../../hooks/wallet";
 import { OrderBookItem } from "../../nft/types";
 import WalletOrdersTableRow from "./WalletOrdersTableRow";
 
@@ -28,10 +27,10 @@ export function WalletOrdersTable({ orders }: Props) {
   const { currency } = useCurrency();
   const { isActive } = useWeb3React();
 
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
 
   const handleConnectWallet = () => {
-    connectWalletDialog.setOpen(true);
+    connectWallet();
   };
 
   const renderRows = useCallback(() => {
@@ -69,16 +68,7 @@ export function WalletOrdersTable({ orders }: Props) {
                     />
                   </Typography>
                 </Box>
-                <Button
-                  onClick={handleConnectWallet}
-                  variant="contained"
-                  startIcon={<Wallet />}
-                >
-                  <FormattedMessage
-                    id="connect.wallet"
-                    defaultMessage="Connect Wallet"
-                  />
-                </Button>
+                <ConnectButton variant="contained" />
               </Stack>
             </Box>
           </TableCell>

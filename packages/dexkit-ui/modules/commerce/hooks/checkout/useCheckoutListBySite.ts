@@ -21,12 +21,7 @@ export default function useCheckoutListBySite(params: {
       }
 
       return (
-        await instance.get<{
-          items: Checkout[];
-          totalItems: number;
-          totalPages: number;
-          currentPage: number;
-        }>(`/checkouts/by-site/${params.siteId}`, { params })
+        await instance.get(`/checkouts/by-site/${params.siteId}`, { params })
       ).data;
     },
     {

@@ -8,7 +8,6 @@ import {
   parseChainId,
 } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import Wallet from "@mui/icons-material/Wallet";
 import {
   Alert,
   Avatar,
@@ -62,6 +61,7 @@ import ConfirmPaymentDialog from "../dialogs/ConfirmPaymentDialog";
 const validEmail = z.string().email();
 
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
+import { ConnectButton } from "../../../../components/ConnectButton";
 import { useSiteReceiver } from "../../hooks/useSiteReceiver";
 
 export default function PaymentCard() {
@@ -198,7 +198,6 @@ export default function PaymentCard() {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    provider,
     onConfirm: () => {},
     onSubmit: async (hash, params) => {
       setHash(hash);
@@ -260,6 +259,7 @@ export default function PaymentCard() {
           address: site?.owner,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
+          chainId: chainId as number,
         });
       } catch (err) {}
     }
@@ -329,17 +329,7 @@ export default function PaymentCard() {
       );
     }
 
-    return (
-      <Button
-        onClick={handleConnectWallet}
-        startIcon={<Wallet />}
-        fullWidth
-        variant="contained"
-        size="large"
-      >
-        <FormattedMessage id="connect.wallet" defaultMessage="Connect wallet" />
-      </Button>
-    );
+    return <ConnectButton variant="contained" size="large" />;
   };
 
   const handleChangeNetwork = (

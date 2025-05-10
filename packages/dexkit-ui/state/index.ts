@@ -1,4 +1,4 @@
-import { Asset } from "@dexkit/core/types/nft";
+import type { Asset } from "@dexkit/core/types/nft";
 import { atomWithStorage } from "jotai/utils";
 import { ThemeMode } from "../constants/enum";
 

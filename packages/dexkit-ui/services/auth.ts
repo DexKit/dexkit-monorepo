@@ -96,7 +96,7 @@ export async function loginApp({
   chainId,
 }: {
   address: string;
-  signature: string;
+  signature: `0x${string}`;
   chainId?: number;
   siteId?: number;
   referral?: string;

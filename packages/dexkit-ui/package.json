@@ -1,8 +1,11 @@
 {
   "name": "@dexkit/ui",
   "private": false,
-  "version": "0.20.0",
+  "version": "0.21.0",
   "license": "MIT",
+  "engines": {
+    "node": "22.14.0"
+  },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
@@ -30,14 +33,15 @@
     "ts-loader": "^9.4.2",
     "tsconfig": "*",
     "tsup": "^6.5.0",
-    "typescript": "^5.4.4",
+    "typescript": "5.4.3",
     "vite": "^4.2.1"
   },
   "dependencies": {
     "@dexkit/core": "*",
-    "@dexkit/evm-chains": "^1.14",
+    "@dexkit/evm-chains": "1.15.2",
     "@dexkit/wallet-connectors": "*",
     "@mui/x-data-grid": "^6.16.1",
+    "@noble/curves": "^1.8.1",
     "@transak/transak-sdk": "^3.0.1",
     "decimal.js": "^10.4.3",
     "papaparse": "^5.4.1",

@@ -87,7 +87,6 @@ function SendContainer({ paymentURL }: Props) {
                     ? Number(paymentUrlParsed?.amount)
                     : undefined
                 }
-                provider={provider}
                 coins={evmCoins}
                 to={paymentUrlParsed?.to}
                 onChangePaymentUrl={onChangePayment}

@@ -1,19 +1,19 @@
-
 import { ChainId, CoinTypes } from '@dexkit/core/constants';
-import { ERC20Abi } from '@dexkit/core/constants/abis';
 import { NETWORK_PROVIDER } from '@dexkit/core/constants/networkProvider';
 import { Coin, EvmCoin } from '@dexkit/core/types';
-import { parseUnits } from '@dexkit/core/utils/ethers/parseUnits';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
 import { useMutation } from '@tanstack/react-query';
-import type { providers } from 'ethers';
-import { Contract } from 'ethers';
+import { getContract, sendTransaction } from "thirdweb";
+import { defineChain } from "thirdweb/chains";
+import { transfer } from "thirdweb/extensions/erc20";
+import { useActiveAccount } from "thirdweb/react";
+import { parseUnits } from 'viem';
 
 export function useEvmTransferMutation({
-  provider,
   onSubmit,
   onConfirm,
 }: {
-  provider?: providers.Web3Provider;
+
   onSubmit?: (
     hash: string,
     params: {
@@ -31,13 +31,20 @@ export function useEvmTransferMutation({
     }
   ) => void;
 }) {
-  return useMutation(
-    async (params: { coin: EvmCoin; amount: number; address: string }) => {
-      const { coin, amount, address } = params;
+  const activeAccount = useActiveAccount();
 
-      if (!provider) {
-        throw new Error('no provider');
+
+  return useMutation(
+    async (params: { coin: EvmCoin; amount: number; address: string, chainId: number }) => {
+      const { coin, amount, address, chainId } = params;
+
+
+
+      if (!activeAccount) {
+        throw new Error('no address set');
       }
+
+
       let toAddress: string | null = address;
       if (address.split('.').length > 1) {
         const networkProvider = NETWORK_PROVIDER(ChainId.Ethereum)
@@ -52,47 +59,56 @@ export function useEvmTransferMutation({
       }
 
       if (coin.coinType === CoinTypes.EVM_ERC20) {
-        const contract = new Contract(
-          coin.contractAddress,
-          ERC20Abi,
-          provider.getSigner()
-        );
+        // get a contract
+        const contract = getContract({
+          // the client you have created via `createThirdwebClient()`
+          client,
+          // the chain the contract is deployed on
+          chain: defineChain(chainId),
+          // the contract's address
+          address: coin.contractAddress,
+        });
 
-        const tx = await contract.transfer(
-          toAddress,
-          parseUnits(amount.toString(), coin.decimals)
-        );
+        const transaction = await transfer({
+          contract,
+          to: toAddress,
+          amount: parseUnits(amount.toString(), coin.decimals).toString()
+        });
+
+        const tx = await sendTransaction({ transaction, account: activeAccount });
+
 
         if (onSubmit) {
-          onSubmit(tx.hash, params);
+          onSubmit(tx.transactionHash, params);
         }
 
-        const txResult = await tx.wait();
         if (onConfirm) {
-          onConfirm(tx.hash, params);
+          onConfirm(tx.transactionHash, params);
         }
-        return txResult;
+        return tx.transactionHash;
       }
 
       if (coin.coinType === CoinTypes.EVM_NATIVE) {
-        const signer = provider.getSigner();
-        const tx = await signer.sendTransaction({
+
+
+        const tx = await activeAccount.sendTransaction({
           to: toAddress,
-          value: parseUnits(amount.toString(), coin.decimals)
+          value: parseUnits(amount.toString(), coin.decimals),
+          chainId
         })
 
+
+
         if (onSubmit) {
-          onSubmit(tx.hash, params);
+          onSubmit(tx.transactionHash, params);
         }
 
-        const txResult = await tx.wait();
         if (onConfirm) {
-          onConfirm(tx.hash, params);
+          onConfirm(tx.transactionHash, params);
         }
 
-        return txResult;
+        return tx.transactionHash;
       }
     }
   );
 }
-

@@ -10,8 +10,8 @@ import {
   useAuthUserQuery,
   useLoginAccountMutation,
 } from "@dexkit/ui/hooks/auth";
-import { useConnectWalletDialog } from "../hooks";
-import Wallet from "./icons/Wallet";
+import { useWalletConnect } from "../hooks/wallet";
+import { ConnectButton } from "./ConnectButton";
 
 export interface LoginAppButtonProps {
   onLogin?: () => void;
@@ -27,11 +27,9 @@ export default function LoginAppButton({
   const { account, isActive } = useWeb3React();
   const userQuery = useAuthUserQuery();
   const { user } = useAuth();
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
   const loginMutation = useLoginAccountMutation();
-  const handleOpenConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(true);
-  };
+
   const handleLogin = async () => {
     await loginMutation.mutateAsync();
     userQuery.refetch();
@@ -79,19 +77,11 @@ export default function LoginAppButton({
           </Typography>
         </Alert>
         <Stack alignItems="center" justifyContent="center">
-          <Button
+          <ConnectButton
             variant="outlined"
             color="inherit"
-            onClick={handleOpenConnectWalletDialog}
-            startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
-          >
-            <FormattedMessage
-              id="connect.wallet"
-              defaultMessage="Connect Wallet"
-              description="Connect wallet button"
-            />
-          </Button>
+          />
         </Stack>
       </Stack>
     );

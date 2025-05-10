@@ -1,10 +1,4 @@
-import {
-  ChainId,
-  useApproveToken,
-  useErc20BalanceQuery,
-  useTokenAllowanceQuery,
-} from "@dexkit/core";
-import { UserEvents } from "@dexkit/core/constants/userEvents";
+import { ChainId, useErc20BalanceQuery } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import {
   formatBigNumber,
@@ -12,19 +6,14 @@ import {
   isAddressEqual,
 } from "@dexkit/core/utils";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
+import { useSwitchNetworkMutation } from "@dexkit/ui/hooks";
 import {
-  useDexKitContext,
-  useSwitchNetworkMutation,
-  useWaitTransactionConfirmation,
-} from "@dexkit/ui/hooks";
-import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
-import { useSignTypeData } from "@dexkit/ui/hooks/web3/useSignTypeData";
-import { SUPPORTED_GASLESS_CHAIN } from "@dexkit/ui/modules/swap/constants";
-import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
+  useSendTxMutation,
+  useZrxPriceQuery,
+  useZrxQuoteQuery,
+} from "@dexkit/ui/hooks/zrx";
+import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useIsGaslessSupportedToken } from "@dexkit/ui/modules/swap/hooks/useIsGaslessSupportedToken";
-import { ZeroExGaslessQuoteResponse } from "@dexkit/ui/modules/swap/types";
-import { isNativeInSell } from "@dexkit/ui/modules/swap/utils";
-import { AppNotificationType } from "@dexkit/ui/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -40,16 +29,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
+
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
+import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
+import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
+import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import type { providers } from "ethers";
-import { BigNumber, utils } from "ethers";
+import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { EXCHANGE_NOTIFICATION_TYPES } from "../../../constants/messages";
-import { useZrxQuoteQuery } from "../../../hooks/zrx";
-import { useMarketTradeGaslessExec } from "../../../hooks/zrx/useMarketTradeGaslessExec";
 import { useMarketTradeGaslessState } from "../../../hooks/zrx/useMarketTradeGaslessState";
-import { getZrxExchangeAddress } from "../../../utils";
 import LazyDecimalInput from "../LazyDecimalInput";
 import ReviewMarketOrderDialog from "../ReviewMarketOrderDialog";
 
@@ -84,10 +73,7 @@ export default function MarketForm({
   useGasless,
   isActive,
 }: MarketBuyFormProps) {
-  const { createNotification } = useDexKitContext();
   const [showReview, setShowReview] = useState(false);
-  const [gaslessTrades, setGaslessTrades] = useGaslessTrades();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -97,7 +83,6 @@ export default function MarketForm({
     setAnchorEl(null);
   };
   const [selectedQuoteToken, setSelectedQuoteToken] = useState<Token>();
-
   const quoteToken = useMemo(() => {
     if (selectedQuoteToken) {
       return selectedQuoteToken;
@@ -124,7 +109,7 @@ export default function MarketForm({
     provider,
     contractAddress: baseToken?.address,
   });
-
+  const [gaslessTrades] = useGaslessTrades();
   const quoteTokenBalanceQuery = useErc20BalanceQuery({
     account,
     provider,
@@ -156,20 +141,10 @@ export default function MarketForm({
     return "0.0";
   }, [quoteTokenBalance, baseToken]);
 
-  //const [quote, setQuote] = useState<ZeroExQuoteResponse>();
-
-  const approveMutation = useApproveToken();
-  const amountToTrade =
+  const kitAmount =
     amount && Number(amount) > 0
       ? parseUnits(amount, baseToken.decimals).toString()
       : undefined;
-
-  const sideToBuy: any = {};
-  if (side === "buy") {
-    sideToBuy.buyAmount = amountToTrade;
-  } else {
-    sideToBuy.sellAmount = amountToTrade;
-  }
 
   const isTokenGaslessSupported = useIsGaslessSupportedToken({
     chainId,
@@ -177,296 +152,141 @@ export default function MarketForm({
     sellToken: side === "buy" ? quoteToken.address : baseToken.address,
   });
 
-  const canGasless = useMemo(() => {
-    if (
-      isTokenGaslessSupported &&
-      useGasless &&
-      chainId &&
-      SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
-      !isNativeInSell({
-        side,
-        sellToken: {
-          address: side === "buy" ? baseToken.address : quoteToken.address,
-        },
-        buyToken: {
-          address: side === "buy" ? quoteToken.address : baseToken.address,
-        },
-      })
-    ) {
-      return true;
-    }
-    return false;
-  }, [useGasless, chainId, quoteToken?.address, baseToken?.address, side]);
+  const canGasless = useCanGasless({
+    enabled: !!useGasless && isTokenGaslessSupported,
+    side,
+    sellToken: baseToken,
+    chainId: chainId!,
+    buyToken: quoteToken,
+  });
 
-  const quoteQuery = useZrxQuoteQuery({
-    chainId,
+  const priceQuery = useZrxPriceQuery({
     params: {
-      ...sideToBuy,
-      buyToken: side === "buy" ? baseToken.address : quoteToken.address,
-      sellToken: side === "buy" ? quoteToken.address : baseToken.address,
+      sellAmount: kitAmount,
+      buyToken: quoteToken.address,
+      sellToken: baseToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
-      skipValidation: showReview ? false : true,
-      slippagePercentage: slippage,
-      takerAddress: account,
+      slippageBps: slippage ? slippage * 100 * 100 : 100,
+      taker: account || "",
       feeRecipient,
-      buyTokenPercentageFee,
-      acceptedTypes: "metatransaction_v2",
-      feeType: "volume",
-      feeSellTokenPercentage: buyTokenPercentageFee,
+      chainId: chainId!,
     },
     useGasless: canGasless,
   });
 
-  const marketTradeGasless = useMarketTradeGaslessExec({
-    onNotification: createNotification,
+  const price = priceQuery.data;
+
+  const quoteQuery = useZrxQuoteQuery({
+    params: {
+      sellAmount: side === "buy" ? price?.buyAmount : price?.sellAmount,
+      buyToken: side === "buy" ? baseToken.address : quoteToken.address,
+      sellToken: side === "buy" ? quoteToken.address : baseToken.address,
+      affiliateAddress: affiliateAddress ? affiliateAddress : "",
+      slippageBps: slippage ? slippage * 100 * 100 : 100,
+      taker: account || "",
+      chainId: chainId!,
+      swapFeeRecipient: feeRecipient || ZEROEX_AFFILIATE_ADDRESS,
+      swapFeeBps: buyTokenPercentageFee
+        ? buyTokenPercentageFee * 100 * 100
+        : 30,
+      swapFeeToken: getSwapFeeTokenAddress({
+        sellTokenAddress: side === "buy" ? price?.buyAmount : price?.sellAmount,
+        buyTokenAddress:
+          side === "buy" ? quoteToken.address : baseToken.address,
+      }),
+      tradeSurplusRecipient: ZEROEX_AFFILIATE_ADDRESS,
+    },
+    useGasless: canGasless,
   });
 
   const quote = quoteQuery.data;
 
-  const tokenAllowanceQuery = useTokenAllowanceQuery({
-    account,
-    provider,
-    spender: getZrxExchangeAddress(chainId),
-    tokenAddress: quote?.sellTokenAddress,
-  });
-
   const [formattedCost, hasSufficientBalance] = useMemo(() => {
-    if (side === "buy" && quote && quoteTokenBalance && quoteToken) {
+    if (side === "buy" && price && quoteTokenBalance && quoteToken) {
       const total = formatBigNumber(
-        BigNumber.from(quote.sellAmount),
+        BigNumber.from(price.buyAmount),
         quoteToken.decimals
       );
 
-      const hasAmount = quoteTokenBalance.gte(BigNumber.from(quote.sellAmount));
+      const hasAmount = quoteTokenBalance.gte(BigNumber.from(price.buyAmount));
 
       return [total, hasAmount];
     }
 
     if (
       side === "sell" &&
-      quote &&
+      price &&
       baseTokenBalance &&
       baseToken &&
       quoteToken
     ) {
       const total = formatBigNumber(
-        BigNumber.from(quote.buyAmount),
+        BigNumber.from(price.buyAmount),
         quoteToken.decimals
       );
 
-      const hasAmount = baseTokenBalance.gte(BigNumber.from(quote.sellAmount));
+      const hasAmount = baseTokenBalance.gte(BigNumber.from(price.sellAmount));
 
       return [total, hasAmount];
     }
 
     return ["0.0", false];
-  }, [quote, quoteTokenBalance, quoteToken, side, baseToken, baseTokenBalance]);
+  }, [price, quoteTokenBalance, quoteToken, side, baseToken, baseTokenBalance]);
 
   const [hash, setHash] = useState<string>();
   const [tradeHash, setTradeHash] = useState<string>();
-  const [approvalSignature, setApprovalSignature] = useState<string>();
-  const trackUserEvent = useTrackUserEventsMutation();
-  const gaslessTradeStatus = useMarketTradeGaslessState({ chainId, tradeHash });
+  const gaslessTradeStatus = useMarketTradeGaslessState({
+    chainId,
+    tradeHash,
+    canGasless,
+  });
 
-  const waitTxResult = useWaitTransactionConfirmation({
-    transactionHash: hash,
+  const sendTxMutation = useSendTxMutation({
+    chainId,
+    quote,
+    canGasless,
     provider,
+    quoteQuery,
+    side,
+    sellToken: side === "buy" ? quoteToken : baseToken,
+    buyAmount: side === "buy" ? amount! : formattedCost,
+    buyToken: side === "buy" ? baseToken : quoteToken,
+    sellAmount: side === "buy" ? formattedCost : amount!,
   });
 
-  const signTypeDataMutation = useSignTypeData();
-
-  const sendTxMutation = useMutation(async () => {
-    if (amount && chainId && quote) {
-      if (canGasless) {
-        const data = quote as ZeroExGaslessQuoteResponse;
-
-        if (data.trade) {
-          const { eip712, type } = data.trade;
-          const signature = await signTypeDataMutation.mutateAsync({
-            domain: eip712.domain,
-            value: eip712.message,
-            primaryType: eip712.primaryType,
-            types: eip712.types,
-          });
-          if (signature) {
-            const sign = utils.splitSignature(signature);
-            const trade = {
-              type: type,
-              eip712: eip712,
-              signature: {
-                v: sign.v,
-                r: sign.r,
-                s: sign.s,
-                signatureType: 2,
-              },
-            };
-
-            let approval;
-            if (approvalSignature) {
-              const signAppr = utils.splitSignature(approvalSignature);
-              const { eip712: eip721Appr, type: ApprType } = data.approval;
-              approval = {
-                type: ApprType,
-                eip712: eip721Appr,
-                signature: {
-                  v: signAppr.v,
-                  r: signAppr.r,
-                  s: signAppr.s,
-                  signatureType: 2,
-                },
-              };
-            }
-            const trHash = await marketTradeGasless.mutateAsync({
-              trade: trade,
-              approval: approval,
-              quote: data,
-              chainId,
-              sellToken: baseToken,
-              buyToken: quoteToken,
-              side,
-            });
-            if (trHash) {
-              const subType = side == "buy" ? "marketBuy" : "marketSell";
-              const messageType = EXCHANGE_NOTIFICATION_TYPES[
-                subType
-              ] as AppNotificationType;
-
-              gaslessTrades.push({
-                type: subType,
-                chainId,
-                tradeHash: trHash,
-                icon: messageType.icon,
-                values: {
-                  sellAmount: amount,
-                  sellTokenSymbol: baseToken.symbol.toUpperCase(),
-                  buyAmount: formattedCost,
-                  buyTokenSymbol: quoteToken.symbol.toUpperCase(),
-                },
-              });
-              // We use this on gasless trade updater to issue swap trades notifications
-              setGaslessTrades(gaslessTrades);
-
-              setTradeHash(trHash);
-            }
-          }
-        }
-      } else {
-        let res = await provider?.getSigner().sendTransaction({
-          data: quote?.data,
-          to: quote?.to,
-          value: BigNumber.from(quote?.value),
-        });
-        const subType = side == "buy" ? "marketBuy" : "marketSell";
-        const messageType = EXCHANGE_NOTIFICATION_TYPES[
-          subType
-        ] as AppNotificationType;
-        createNotification({
-          type: "transaction",
-          icon: messageType.icon,
-          subtype: subType,
-          metadata: {
-            hash: res?.hash,
-            chainId: chainId,
-          },
-          values: {
-            sellAmount: amount,
-            sellTokenSymbol: baseToken.symbol.toUpperCase(),
-            buyAmount: formattedCost,
-            buyTokenSymbol: quoteToken.symbol.toUpperCase(),
-          },
-        });
-        trackUserEvent.mutate({
-          event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
-          hash: res?.hash,
-          chainId,
-          metadata: JSON.stringify({
-            quote,
-          }),
-        });
-
-        setHash(res?.hash);
-      }
-    }
-  });
-
-  const handleCloseReview = () => {
-    baseTokenBalanceQuery.refetch();
-    quoteTokenBalanceQuery.refetch();
+  const handleCloseReview = useCallback(() => {
     setShowReview(false);
+    setHash(undefined);
     setTradeHash(undefined);
-    setApprovalSignature(undefined);
-  };
-
-  const handleApprove = async () => {
-    if (canGasless) {
-      const gaslessQuote = quoteQuery.data as ZeroExGaslessQuoteResponse;
-      if (gaslessQuote?.approval && gaslessQuote?.approval.isRequired) {
-        if (gaslessQuote.approval.isGasslessAvailable) {
-          const { eip712 } = gaslessQuote.approval;
-          const signature = await signTypeDataMutation.mutateAsync({
-            domain: eip712.domain,
-            value: eip712.message,
-            primaryType: eip712.primaryType,
-            types: eip712.types,
-          });
-          if (signature) {
-            setApprovalSignature(signature);
-          }
-        } else {
-          await approveMutation.mutateAsync({
-            onSubmited: (hash: string) => {},
-            amount: BigNumber.from(quote?.sellAmount),
-            provider,
-            spender: getZrxExchangeAddress(chainId),
-            tokenContract: quote?.sellTokenAddress,
-          });
-          tokenAllowanceQuery.refetch();
-        }
-      }
-    } else {
-      await approveMutation.mutateAsync({
-        onSubmited: (hash: string) => {},
-        amount: BigNumber.from(quote?.sellAmount),
-        provider,
-        spender: getZrxExchangeAddress(chainId),
-        tokenContract: quote?.sellTokenAddress,
-      });
-      tokenAllowanceQuery.refetch();
-    }
-  };
+  }, [setShowReview, setHash, setTradeHash]);
 
   const handleConfirm = async () => {
     await sendTxMutation.mutateAsync();
+
+    if (!canGasless) {
+      handleCloseReview();
+    }
   };
 
   const handleExecute = () => {
     setShowReview(true);
   };
 
-  const { chainId: providerChainId, connector } = useWeb3React();
+  const { chainId: providerChainId } = useWeb3React();
   const switchNetworkMutation = useSwitchNetworkMutation();
 
-  const isApproval = useMemo(() => {
-    if (canGasless) {
-      const gaslessQuote = quoteQuery.data as ZeroExGaslessQuoteResponse;
-      if (gaslessQuote?.approval) {
-        return gaslessQuote?.approval?.isRequired && !approvalSignature;
-      }
-    } else {
+  const renderActionButton = useCallback(() => {
+    if (!providerChainId) {
       return (
-        tokenAllowanceQuery.data !== null &&
-        tokenAllowanceQuery.data?.lt(BigNumber.from(quote?.sellAmount || "0"))
+        <ConnectButton
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+        />
       );
     }
-  }, [
-    tokenAllowanceQuery.data,
-    quote?.sellAmount,
-    canGasless,
-    approvalSignature,
-    quoteQuery.data,
-  ]);
 
-  const renderActionButton = useCallback(() => {
     if (providerChainId && chainId && providerChainId !== chainId) {
       return (
         <Button
@@ -488,9 +308,9 @@ export default function MarketForm({
     }
     let errorMsg = null;
 
-    if (quoteQuery?.isError) {
-      if (quoteQuery?.error) {
-        const errorResponse = (quoteQuery?.error as any)?.response;
+    if (priceQuery?.isError) {
+      if (priceQuery?.error) {
+        const errorResponse = (priceQuery?.error as any)?.response;
 
         if (
           errorResponse?.data.validationErrors &&
@@ -508,19 +328,21 @@ export default function MarketForm({
     return (
       <Button
         disabled={
-          quoteQuery.isLoading || !hasSufficientBalance || quoteQuery.isError
+          priceQuery.isFetching || !hasSufficientBalance || priceQuery.isError
         }
         size="large"
         fullWidth
         startIcon={
-          quoteQuery.isLoading ? <CircularProgress size={"small"} /> : undefined
+          priceQuery.isFetching ? (
+            <CircularProgress size={"small"} />
+          ) : undefined
         }
         variant="contained"
         onClick={handleExecute}
       >
         {errorMsg ? (
           <>{errorMsg}</>
-        ) : quoteQuery.isLoading ? (
+        ) : priceQuery.isFetching ? (
           <FormattedMessage
             id="loading.quote"
             defaultMessage="Loading quote..."
@@ -554,14 +376,17 @@ export default function MarketForm({
       </Button>
     );
   }, [
-    chainId,
-    side,
-    connector,
     providerChainId,
-    baseToken,
-    quoteToken,
-    handleExecute,
+    chainId,
+    priceQuery.isError,
+    priceQuery.isFetching,
+    priceQuery?.error,
     hasSufficientBalance,
+    amount,
+    side,
+    quoteToken.symbol,
+    baseToken.symbol,
+    switchNetworkMutation,
   ]);
 
   return (
@@ -573,39 +398,19 @@ export default function MarketForm({
           fullWidth: true,
           onClose: handleCloseReview,
         }}
-        isApproving={
-          approveMutation.isLoading || signTypeDataMutation.isLoading
-        }
-        isApproval={isApproval}
         chainId={chainId}
-        price={quote?.price}
         pendingHash={gaslessTradeStatus?.successTxGasless?.hash}
         hash={hash || gaslessTradeStatus?.confirmedTxGasless?.hash}
         reasonFailedGasless={gaslessTradeStatus?.reasonFailedGasless}
         quoteToken={quoteToken}
         baseToken={baseToken}
-        baseAmount={
-          quote?.sellAmount
-            ? BigNumber.from(
-                side === "buy" ? quote?.buyAmount : quote?.sellAmount
-              )
-            : undefined
-        }
-        quoteAmount={
-          quote?.sellAmount
-            ? BigNumber.from(
-                side === "buy" ? quote?.sellAmount : quote?.buyAmount
-              )
-            : undefined
-        }
+        baseAmount={BigNumber.from(price?.sellAmount || 0)}
+        quoteAmount={BigNumber.from(price?.buyAmount || 0)}
         side={side}
         isPlacingOrder={
-          sendTxMutation.isLoading ||
-          waitTxResult.isFetching ||
-          gaslessTradeStatus?.isLoadingStatusGasless
+          sendTxMutation.isLoading || (canGasless && gaslessTrades.length > 0)
         }
         onConfirm={handleConfirm}
-        onApprove={handleApprove}
         canGasless={canGasless}
       />
       <Box>
@@ -613,7 +418,11 @@ export default function MarketForm({
           <Grid item xs={12}>
             <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            sx={{ visibility: provider ? "visible" : "hidden" }}
+          >
             {side === "buy" ? (
               <Typography variant="body2">
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
@@ -627,7 +436,10 @@ export default function MarketForm({
                 )}
               </Typography>
             ) : (
-              <Typography variant="body2">
+              <Typography
+                variant="body2"
+                sx={{ visibility: account ? "visible" : "hidden" }}
+              >
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
                 {baseTokenBalanceQuery.isLoading ? (
                   <Skeleton sx={{ minWidth: "50px" }} />
@@ -668,7 +480,7 @@ export default function MarketForm({
                       alignItems={"center"}
                     >
                       <Typography color="text.secondary">
-                        {quoteQuery.isLoading ? (
+                        {priceQuery.isFetching ? (
                           <Skeleton sx={{ minWidth: "50px" }} />
                         ) : (
                           <>{formattedCost}</>
@@ -717,7 +529,7 @@ export default function MarketForm({
                     </Box>
                   ) : (
                     <Typography color="text.secondary">
-                      {quoteQuery.isLoading ? (
+                      {quoteQuery.isFetching ? (
                         <Skeleton sx={{ minWidth: "50px" }} />
                       ) : (
                         <>

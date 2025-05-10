@@ -10,6 +10,6 @@ const API_ENDPOINT = `${DEXKIT_UI_BASE_API_URL}`;
 export async function getApiCoinPlatforms({ keyword, network, signal }: { keyword?: string, network?: string, signal?: AbortSignal }) {
   return await axios.get<DkApiPlatformCoin[]>(
     `${API_ENDPOINT}/coin/search-platforms`,
-    { signal, params: { keyword, network } }
+    { params: { keyword, network } }
   );
 }

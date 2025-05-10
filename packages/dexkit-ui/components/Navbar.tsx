@@ -52,7 +52,6 @@ import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDial
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
   useAuthUserQuery,
-  useConnectWalletDialog,
   useCurrency,
   useDexKitContext,
   useDrawerIsOpen,
@@ -89,9 +88,6 @@ function Navbar({ appConfig, isPreview }: Props) {
     useState<null | HTMLElement>(null);
 
   const openMenu = Boolean(anchorMenuEl);
-
-  const connectWalletDialog = useConnectWalletDialog();
-
   const selectNetworkDialog = useSelectNetworkDialog();
 
   const handleCloseSelectNetworkDialog = () => {
@@ -100,10 +96,6 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const handleOpenSelectNetworkDialog = () => {
     selectNetworkDialog.setIsOpen(true);
-  };
-
-  const handleOpenConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(true);
   };
 
   const handleCloseMenu = () => {

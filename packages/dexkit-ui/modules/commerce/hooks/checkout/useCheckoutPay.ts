@@ -40,7 +40,7 @@ export default function useCheckoutPay() {
         params.senderEmail = senderEmail;
       }
 
-      return (await instance.post<Order>(`/checkouts/${id}/pay`, params)).data;
+      return (await instance.post(`/checkouts/${id}/pay`, params)).data;
     }
   );
 }

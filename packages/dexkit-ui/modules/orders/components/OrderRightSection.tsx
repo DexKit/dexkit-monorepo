@@ -59,7 +59,7 @@ interface Props {
 }
 
 function OrderRightSection({ order }: Props) {
-  const { account, provider, chainId } = useWeb3React();
+  const { account, provider, chainId, signer } = useWeb3React();
   const { data: asset } = useAsset(order?.nftToken, order?.nftTokenId);
   const { data: metadata } = useAssetMetadata(asset);
 
@@ -76,7 +76,7 @@ function OrderRightSection({ order }: Props) {
 
   const { createNotification, watchTransactionDialog } = useDexKitContext();
 
-  const nftSwapSdk = useSwapSdkV4(provider, chainId);
+  const nftSwapSdk = useSwapSdkV4({provider, chainId, signer});
 
   const switchNetwork = useSwitchNetwork();
 

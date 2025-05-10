@@ -9,7 +9,6 @@ import {
 } from "@dexkit/core/utils";
 import { useConnectWalletDialog, useSwitchNetworkMutation } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import Wallet from "@mui/icons-material/Wallet";
 import {
   Alert,
   Avatar,
@@ -47,6 +46,7 @@ import { Formik } from "formik";
 import { useSnackbar } from "notistack";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { ConnectButton } from "../../../../components/ConnectButton";
 import { CHECKOUT_TOKENS } from "../../constants";
 import useCheckoutNetworks from "../../hooks/checkout/useCheckoutNetworks";
 import useCheckoutPay from "../../hooks/checkout/useCheckoutPay";
@@ -104,7 +104,6 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    provider,
     onConfirm: () => {},
     onSubmit: async (hash, params) => {
       setHash(hash);
@@ -151,7 +150,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
 
   const initialValues = useMemo(() => {
     const result = (userCheckout.data?.items ?? ([] as CheckoutItem[])).reduce(
-      (prev, curr: CheckoutItem) => {
+      (prev: any, curr: CheckoutItem) => {
         prev[curr.id] = {
           quantity: curr.quantity,
           price: curr.price,
@@ -180,7 +179,9 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
 
     if (userCheckout.data) {
       return sumItems(
-        userCheckout.data.items.map((c) => new Decimal(c.price).mul(c.quantity))
+        userCheckout.data.items.map((c: any) =>
+          new Decimal(c.price).mul(c.quantity)
+        )
       );
     }
 
@@ -216,7 +217,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
 
   const { data: availNetworks } = useCheckoutNetworks();
 
-  const chainIds = availNetworks?.map((n) => n.chainId) ?? [];
+  const chainIds = availNetworks?.map((n: any) => n.chainId) ?? [];
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
@@ -314,17 +315,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
       );
     }
 
-    return (
-      <Button
-        onClick={handleConnectWallet}
-        startIcon={<Wallet />}
-        fullWidth
-        variant="contained"
-        size="large"
-      >
-        <FormattedMessage id="connect.wallet" defaultMessage="Connect wallet" />
-      </Button>
-    );
+    return <ConnectButton size="large" variant="contained" />;
   };
 
   const handleChangeToken = (token: Token | null) => {
@@ -353,6 +344,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
           address: userCheckout.data?.owner,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
+          chainId: chainId as number,
         });
       } catch (err) {}
     }

@@ -16,6 +16,8 @@ import { useRouter } from "next/router";
 interface Props {
   breadcrumbs: { caption: React.ReactNode; uri: string; active?: boolean }[];
   showTitleOnDesktop?: boolean;
+  useBackMenu?: boolean;
+  onGoBackCallbackMobile?: () => void;
 }
 
 const CustomLink = styled(Link)({
@@ -23,7 +25,12 @@ const CustomLink = styled(Link)({
   textDecoration: "none",
 });
 
-export function PageHeader({ breadcrumbs, showTitleOnDesktop }: Props) {
+export function PageHeader({
+  breadcrumbs,
+  showTitleOnDesktop,
+  onGoBackCallbackMobile,
+  useBackMenu,
+}: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
@@ -53,14 +60,18 @@ export function PageHeader({ breadcrumbs, showTitleOnDesktop }: Props) {
 
   return (
     <Stack spacing={showTitleOnDesktop ? 2 : undefined}>
-      {isMobile ? (
+      {isMobile || useBackMenu ? (
         <Stack
           direction="row"
           spacing={1}
           alignItems="center"
           alignContent="center"
         >
-          <IconButton onClick={handleGoBack}>
+          <IconButton
+            onClick={
+              onGoBackCallbackMobile ? onGoBackCallbackMobile : handleGoBack
+            }
+          >
             <ArrowBackIcon />
           </IconButton>
 

@@ -86,28 +86,23 @@ function SwitchNetworkSelect({
           : undefined
       }
     >
-      {Object.keys(NETWORKS)
-        .filter((k) => activeChainIds.includes(Number(k)))
-        .filter((key) => {
-          return !NETWORKS[parseChainId(key)].testnet;
-        })
-        .map((key) => (
-          <MenuItem value={parseChainId(key)} key={parseChainId(key)}>
-            <ListItemIcon>
-              <Avatar
-                sx={{ width: "1rem", height: "1rem" }}
-                src={NETWORKS[parseChainId(key)].imageUrl}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                NETWORKS[parseChainId(key)]
-                  ? NETWORKS[parseChainId(key)].name
-                  : undefined
-              }
+      {activeChainIds.map((key) => (
+        <MenuItem value={parseChainId(key)} key={parseChainId(key)}>
+          <ListItemIcon>
+            <Avatar
+              sx={{ width: "1rem", height: "1rem" }}
+              src={NETWORKS[parseChainId(key)].imageUrl}
             />
-          </MenuItem>
-        ))}
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              NETWORKS[parseChainId(key)]
+                ? NETWORKS[parseChainId(key)].name
+                : undefined
+            }
+          />
+        </MenuItem>
+      ))}
     </Select>
   );
 }

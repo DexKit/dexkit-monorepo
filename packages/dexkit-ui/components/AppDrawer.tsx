@@ -3,7 +3,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Drawer,
   IconButton,
@@ -27,13 +26,11 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { FormattedMessage } from "react-intl";
 
 import DrawerMenu from "./DrawerMenu";
-import Wallet from "./icons/Wallet";
 
 import { useIsMobile } from "@dexkit/core/hooks";
 import WalletContent from "@dexkit/ui/components/WalletContent";
 import {
   useAuthUserQuery,
-  useConnectWalletDialog,
   useCurrency,
   useLocale,
   useShowSelectCurrency,
@@ -50,6 +47,8 @@ import Link from "./AppLink";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
 import { useRouter } from "next/router";
+import { useWalletConnect } from "../hooks/wallet";
+import { ConnectButton } from "./ConnectButton";
 
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
@@ -71,12 +70,10 @@ interface Props {
 
 function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
-
-  const connectWalletDialog = useConnectWalletDialog();
-
+  const { connectWallet } = useWalletConnect();
   const handleConnectWallet = () => {
+    connectWallet();
     onClose();
-    connectWalletDialog.setOpen(true);
   };
 
   const { locale } = useLocale();
@@ -166,20 +163,13 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           <Box>
             {!isActive ? (
               <Box p={2}>
-                <Button
+                <ConnectButton
                   variant="outlined"
                   color="inherit"
-                  onClick={handleConnectWallet}
-                  startIcon={<Wallet />}
+                  onConnectWallet={handleConnectWallet}
                   endIcon={<ChevronRightIcon />}
                   fullWidth
-                >
-                  <FormattedMessage
-                    id="connect.wallet"
-                    defaultMessage="Connect Wallet"
-                    description="Connect wallet button"
-                  />
-                </Button>
+                />
               </Box>
             ) : (
               <Stack spacing={2}>

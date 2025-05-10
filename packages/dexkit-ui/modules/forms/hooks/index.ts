@@ -1,7 +1,9 @@
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { cloneForm, getForm, listForms } from "../services";
-import { ContractFormParams } from "../types";
-
+import axios from "axios";
+import { DEPLOYABLE_CONTRACTS_URL } from "../constants";
+import { cloneForm, getForm, listForms, saveContractDeploy } from "../services";
+import { ContractFormParams, DeployableContract } from "../types";
 export type ContractFormData = {
   id: number;
   creatorAddress: string;
@@ -71,9 +73,58 @@ export function useListFormsQuery({
             creatorAddress: form.creatorAddress,
             params: JSON.parse(form.rawData),
             templateId: form.template?.id,
-          } as ContractFormData)
+          }) as ContractFormData
       );
     },
     { enabled: creatorAddress !== undefined }
+  );
+}
+
+export const DEPLOYABLE_CONTRACTS_QUERY = "DEPLOYABLE_CONTRACTS_QUERY";
+
+export function useDeployableContractsQuery() {
+  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({}) => {
+    return (await axios.get<DeployableContract[]>(DEPLOYABLE_CONTRACTS_URL))
+      .data;
+  });
+}
+
+export function useSaveContractDeployed() {
+  const { account } = useWeb3React();
+
+  return useMutation(
+    async ({
+      contractAddress,
+      name,
+      chainId,
+      type,
+      metadata,
+      createdAtTx,
+      referral,
+    }: {
+      contractAddress: string;
+      name?: string;
+      type?: string;
+      chainId: number;
+      createdAtTx?: string;
+      referral?: string;
+      metadata?: {
+        name?: string;
+        description?: string;
+        symbol?: string;
+        image?: string;
+      };
+    }) => {
+      return await saveContractDeploy({
+        contractAddress,
+        name,
+        chainId,
+        type,
+        metadata,
+        owner: account?.toLowerCase(),
+        createdAtTx,
+        referral,
+      });
+    }
   );
 }

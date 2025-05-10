@@ -4,6 +4,9 @@
   "private": true,
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "22.14.0"
+  },
   "dependencies": {
     "eslint": "^7.23.0",
     "eslint-config-next": "13.0.0",
@@ -12,7 +15,7 @@
     "eslint-config-turbo": "latest"
   },
   "devDependencies": {
-    "typescript": "^5.4.4"
+    "typescript": "5.4.3"
   },
   "publishConfig": {
     "access": "public"

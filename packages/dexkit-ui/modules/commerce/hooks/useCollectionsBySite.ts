@@ -20,12 +20,7 @@ export default function useCollectionsBySite(params: {
       }
 
       return (
-        await instance.get<{
-          items: ProductCollectionType[];
-          totalItems: number;
-          totalPages: number;
-          currentPage: number;
-        }>(`/product-collections/by-site/${params.siteId}`, { params })
+        await instance.get(`/product-collections/by-site/${params.siteId}`, { params })
       ).data;
     },
     { refetchOnWindowFocus: true, refetchOnMount: true }

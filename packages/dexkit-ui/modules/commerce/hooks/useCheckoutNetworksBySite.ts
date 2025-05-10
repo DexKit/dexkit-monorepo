@@ -14,7 +14,7 @@ export default function useCheckoutNetworksBySite({ id }: { id: number }) {
         throw new Error("no instance");
       }
 
-      return (await instance.get<number[]>(`/checkouts-networks/by-site/${id}`))
+      return (await instance.get(`/checkouts-networks/by-site/${id}`))
         .data;
     },
     { refetchOnWindowFocus: true, refetchOnMount: true }

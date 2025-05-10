@@ -8,7 +8,21 @@ export function GET_EVM_CHAIN_IMAGE({ chainId }: { chainId: number }) {
 
 }
 
-export const EVM_CHAIN_IMAGES: { [key: number]: { imageUrl?: string, coinImageUrl?: string } } =
+export function GET_EVM_CHAIN_ICON({ chainId, allChains }: { chainId: number, allChains: { icon?: string, chainId: number }[] }) {
+
+  if (chainId === 25) {
+    return 'https://raw.githubusercontent.com/DexKit/dexkit-evm-chains/refs/heads/main/assets/evm-chain-icons/cronos.png'
+  }
+
+  if (chainId === 534352) {
+    return 'https://raw.githubusercontent.com/DexKit/dexkit-evm-chains/refs/heads/main/assets/evm-chain-icons/scroll.png'
+  }
+
+  const chainIndex = allChains.findIndex(n => n.chainId == chainId);
+  return allChains[chainIndex]?.icon ? `https://raw.githubusercontent.com/DexKit/dexkit-evm-chains/refs/heads/main/assets/evm-chain-icons/${allChains[chainIndex]?.icon}.png` : undefined;
+}
+
+export const EVM_CHAIN_IMAGES: { [key: number]: { imageUrl?: string, coinImageUrl?: string, icon?: string } } =
 {
 
   [ChainId.Ethereum]: {

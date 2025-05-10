@@ -1,23 +1,23 @@
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    Drawer,
-    FormControlLabel,
-    FormGroup,
-    Grid,
-    IconButton,
-    InputAdornment,
-    NoSsr,
-    Stack,
-    Tab,
-    Tabs,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  IconButton,
+  InputAdornment,
+  NoSsr,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { AppErrorBoundary } from "@dexkit/ui/components/AppErrorBoundary";
@@ -417,13 +417,10 @@ function CollectionSection({ section }: CollectionSectionProps) {
 }
 
 function Wrapper({ section }: CollectionSectionProps) {
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
-    <ThirdwebSDKProvider
-      activeChain={section.config.network}
-      signer={provider?.getSigner()}
-    >
+    <ThirdwebSDKProvider activeChain={section.config.network} signer={signer}>
       <CollectionSection section={section} />
     </ThirdwebSDKProvider>
   );

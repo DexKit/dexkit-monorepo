@@ -64,7 +64,7 @@ export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
             canceled = true;
           };
 
-          getReceipt(hash)?.then((receipt) => {
+          getReceipt(hash)?.then((receipt: any) => {
             if (!canceled) {
               if (receipt?.confirmations > 0) {
                 const newTx = pendingTransactions[hash];

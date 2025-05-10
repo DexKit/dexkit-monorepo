@@ -35,7 +35,6 @@ export function TransferCoinButton() {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: tokens.map(convertTokenToEvmCoin),
           }}
         />

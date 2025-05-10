@@ -1,0 +1,4345 @@
+{
+  ".step.theme.info": {
+    "defaultMessage": "Choose swap app theme and font."
+  },
+  "0x.api": {
+    "defaultMessage": "0x API"
+  },
+  "0x.dashboard": {
+    "defaultMessage": "0x Dashboard"
+  },
+  "0x.is.a.decentralized.exchange.protocol.description": {
+    "defaultMessage": "0x is a decentralized exchange protocol on Ethereum, enabling peer-to-peer trading of various digital assets through open standards and smart contracts. This API key is used for the swap and limit order features."
+  },
+  "Airdrop": {
+    "defaultMessage": "Airdrop"
+  },
+  "Airdrop token": {
+    "defaultMessage": "Airdrop token"
+  },
+  "Airdropped token": {
+    "defaultMessage": "Airdropped Token"
+  },
+  "Allow.list.file": {
+    "defaultMessage": "Allow list file"
+  },
+  "Amount": {
+    "defaultMessage": "Amount"
+  },
+  "Amount in": {
+    "defaultMessage": "Amount In"
+  },
+  "Amount.nft": {
+    "defaultMessage": "Amount NFT"
+  },
+  "Analytics": {
+    "defaultMessage": "Analytics"
+  },
+  "Choose app font": {
+    "defaultMessage": "Choose app font"
+  },
+  "Claiming not available": {
+    "defaultMessage": "Claiming not available"
+  },
+  "Create forms": {
+    "defaultMessage": "Create forms"
+  },
+  "Create.Order": {
+    "defaultMessage": "Create Order"
+  },
+  "Created": {
+    "defaultMessage": "Created"
+  },
+  "Deploy": {
+    "defaultMessage": "Deploy"
+  },
+  "Edit claimers": {
+    "defaultMessage": "Edit claimers"
+  },
+  "Export": {
+    "defaultMessage": "Export"
+  },
+  "Free": {
+    "defaultMessage": "Free"
+  },
+  "From": {
+    "defaultMessage": "From"
+  },
+  "ID": {
+    "defaultMessage": "ID"
+  },
+  "Listing": {
+    "defaultMessage": "Listing"
+  },
+  "Network": {
+    "defaultMessage": "Network",
+    "description": "Network caption"
+  },
+  "New.page": {
+    "defaultMessage": "New page"
+  },
+  "Open.claim": {
+    "defaultMessage": "Open claim"
+  },
+  "Price": {
+    "defaultMessage": "Price"
+  },
+  "SEO": {
+    "defaultMessage": "SEO"
+  },
+  "Save": {
+    "defaultMessage": "Save"
+  },
+  "Switch Network": {
+    "defaultMessage": "Switch Network"
+  },
+  "Update": {
+    "defaultMessage": "Update"
+  },
+  "You.are.not.eligible.to.mint.at.this.time.": {
+    "defaultMessage": "You are not eligible to mint at this time."
+  },
+  "Your token was created successfully": {
+    "defaultMessage": "Your token was created successfully"
+  },
+  "a.record": {
+    "defaultMessage": "A Record"
+  },
+  "abi": {
+    "defaultMessage": "ABI"
+  },
+  "accept": {
+    "defaultMessage": "Accept",
+    "description": "Accept"
+  },
+  "access.darkblock.to.get.more.information": {
+    "defaultMessage": "Access darkblock to get more information"
+  },
+  "access.requirements": {
+    "defaultMessage": "Access Requirements"
+  },
+  "access.requirements.description.gated.view.conditions": {
+    "defaultMessage": "To access this private page, please ensure that you meet all the conditions below, as defined by the page owner:"
+  },
+  "access.requirements.message": {
+    "defaultMessage": "Access requirements message"
+  },
+  "access.the.0x.dashboard.to.get.your.api.key": {
+    "defaultMessage": "Access the 0x dashboard to get your API Key"
+  },
+  "accordion.details": {
+    "defaultMessage": "Details",
+    "description": "Details in the nft accordion"
+  },
+  "account": {
+    "defaultMessage": "Account"
+  },
+  "account.which.you.signed.message.to.authenticate.to.app": {
+    "defaultMessage": "Account which you signed message to authenticate to app"
+  },
+  "accounts": {
+    "defaultMessage": "Accounts"
+  },
+  "action.type": {
+    "defaultMessage": "Action type"
+  },
+  "actions": {
+    "defaultMessage": "Actions"
+  },
+  "add": {
+    "defaultMessage": "Add"
+  },
+  "add.accounts.and.manage.their.permissions": {
+    "defaultMessage": "Add accounts and manage their permissions"
+  },
+  "add.addresses.to.airdrop": {
+    "defaultMessage": "Add addresses to airdrop"
+  },
+  "add.app.ranking": {
+    "defaultMessage": "Add app ranking"
+  },
+  "add.app.version": {
+    "defaultMessage": "Add app version"
+  },
+  "add.attribute": {
+    "defaultMessage": "Add attribute"
+  },
+  "add.claim.condition": {
+    "defaultMessage": "Add claim condition"
+  },
+  "add.collection": {
+    "defaultMessage": "Add collection"
+  },
+  "add.collection.to.your.app": {
+    "defaultMessage": "Add collection to your app"
+  },
+  "add.condition": {
+    "defaultMessage": "Add condition"
+  },
+  "add.custom": {
+    "defaultMessage": "Add Custom"
+  },
+  "add.custom.section": {
+    "defaultMessage": "Add custom section"
+  },
+  "add.fee": {
+    "defaultMessage": "Edit fee"
+  },
+  "add.fees.to.your.marketplace": {
+    "defaultMessage": "Add fees to your marketplace"
+  },
+  "add.gated.conditions": {
+    "defaultMessage": "Add gated conditions"
+  },
+  "add.item": {
+    "defaultMessage": "Add item"
+  },
+  "add.items": {
+    "defaultMessage": "Add items"
+  },
+  "add.leaderboard": {
+    "defaultMessage": "Add leaderboard"
+  },
+  "add.leaderboards.to.your.app": {
+    "defaultMessage": "Add leaderboards to your app"
+  },
+  "add.member": {
+    "defaultMessage": "Add member"
+  },
+  "add.menu": {
+    "defaultMessage": "Add menu"
+  },
+  "add.network": {
+    "defaultMessage": "Add Network"
+  },
+  "add.networks": {
+    "defaultMessage": "Add Networks"
+  },
+  "add.nft": {
+    "defaultMessage": "Add nft"
+  },
+  "add.payment.method": {
+    "defaultMessage": "Add Payment Method"
+  },
+  "add.ref.to.track.referrals": {
+    "defaultMessage": "Append ref to your url to track referrals on your events. Ex: yourSite.com?ref=your-referral"
+  },
+  "add.rule": {
+    "defaultMessage": "Add rule"
+  },
+  "add.section": {
+    "defaultMessage": "Add Section"
+  },
+  "add.team.members.to.read.and.do.updates": {
+    "defaultMessage": "Add team members to update your app"
+  },
+  "add.versions.to.your.app": {
+    "defaultMessage": "Add versions to your app"
+  },
+  "add.versions.to.your.app.for.backup.and.to.enable.rollback": {
+    "defaultMessage": "Add versions to your app for backup and to enable rollback"
+  },
+  "adding.app.ranking": {
+    "defaultMessage": "Adding app ranking"
+  },
+  "adding.app.version": {
+    "defaultMessage": "Adding app version"
+  },
+  "adding.member": {
+    "defaultMessage": "Adding Member"
+  },
+  "adding.ranking": {
+    "defaultMessage": "Adding ranking"
+  },
+  "adding.version": {
+    "defaultMessage": "Adding version"
+  },
+  "address": {
+    "defaultMessage": "Address"
+  },
+  "addresses": {
+    "defaultMessage": "Addresses"
+  },
+  "adjust.marketplace.fees.title": {
+    "defaultMessage": "Adjust your app's Marketplace fees"
+  },
+  "adjust.your.app.swap.fees.title": {
+    "defaultMessage": "Adjust your app's Swap fees"
+  },
+  "admin": {
+    "defaultMessage": "Admin"
+  },
+  "admin.setup.description": {
+    "defaultMessage": "Start your own crypto site/marketplace in seconds. Start now being a crypto enterpreneur in two steps: create wallet, fill name of your marketplace and you are ready to go."
+  },
+  "advanced": {
+    "defaultMessage": "Advanced",
+    "description": "Make listing advanced accordion"
+  },
+  "advanced.info": {
+    "defaultMessage": "Only the address entered below can buy this listing. If empty, any account can buy this listing."
+  },
+  "ai.assistant": {
+    "defaultMessage": "AI Assistant"
+  },
+  "airdrop": {
+    "defaultMessage": "Airdrop"
+  },
+  "airdrop.claim.token.seo.title.message": {
+    "defaultMessage": "Airdrop of {tokenSymbol} on {network}"
+  },
+  "airdrop.claimable.contract": {
+    "defaultMessage": "Airdrop Claimable Contract"
+  },
+  "airdrop.requirements": {
+    "defaultMessage": "Airdrop requirements"
+  },
+  "airdrop.token.seo.description.message": {
+    "defaultMessage": "Claim aidrop of {tokenSymbol} on {network}"
+  },
+  "airdrop.user.info": {
+    "defaultMessage": "Airdrop for users that complete profile and connect to both Discord and Twitter"
+  },
+  "airdrop.user.info.completed": {
+    "defaultMessage": "Airdrop campaign completed"
+  },
+  "airdrop.user.info.web.submmit": {
+    "defaultMessage": "Note: You need to be on Rio de Janeiro to claim this airdrop"
+  },
+  "align.items": {
+    "defaultMessage": "Align Items"
+  },
+  "all": {
+    "defaultMessage": "All"
+  },
+  "amount": {
+    "defaultMessage": "Amount"
+  },
+  "amount.exceeds.the.amount.staked": {
+    "defaultMessage": "Amount exceeds the amount staked"
+  },
+  "amount.exceeds.the.balance": {
+    "defaultMessage": "Amount exceeds the balance"
+  },
+  "amount.exceeds.the.nft.balance": {
+    "defaultMessage": "amount exceeds the NFT balance"
+  },
+  "amount.nfts.selected.to.stake": {
+    "defaultMessage": "NFTs {tokens} are selected to stake"
+  },
+  "amount.of.tokenId.is.selected.to.unstake": {
+    "defaultMessage": "{amount} of \"#{tokenId}\" is selected to unstake"
+  },
+  "amount.tokens.selected.to.stake": {
+    "defaultMessage": "NFTs \"{tokens}\" is selected to stake"
+  },
+  "analytics": {
+    "defaultMessage": "Analytics"
+  },
+  "analytics.wizard.description": {
+    "defaultMessage": "Add Google Analytics to your app"
+  },
+  "and": {
+    "defaultMessage": "And"
+  },
+  "animation.url": {
+    "defaultMessage": "Animation URL"
+  },
+  "api.key": {
+    "defaultMessage": "API Key"
+  },
+  "app.builder.setup": {
+    "defaultMessage": "App Builder Setup"
+  },
+  "app.leaderboard.removed": {
+    "defaultMessage": "App leaderboard removed"
+  },
+  "app.leaderboard.updated": {
+    "defaultMessage": "App leaderboard updated"
+  },
+  "app.name": {
+    "defaultMessage": "App name"
+  },
+  "app.ranking": {
+    "defaultMessage": "App ranking"
+  },
+  "app.ranking.updated": {
+    "defaultMessage": "App ranking updated"
+  },
+  "app.removed": {
+    "defaultMessage": "App removed"
+  },
+  "app.version": {
+    "defaultMessage": "App version"
+  },
+  "app.version.removed": {
+    "defaultMessage": "App version removed"
+  },
+  "app.version.set": {
+    "defaultMessage": "App version set"
+  },
+  "app.version.updated": {
+    "defaultMessage": "App version updated"
+  },
+  "app.versions": {
+    "defaultMessage": "App versions"
+  },
+  "approve": {
+    "defaultMessage": "Approve"
+  },
+  "approve.asset.description": {
+    "defaultMessage": "to App"
+  },
+  "approve.asset.title": {
+    "defaultMessage": "Approve Asset"
+  },
+  "apps": {
+    "defaultMessage": "Apps"
+  },
+  "are.you.sure.you.want.to.delete.this.account": {
+    "defaultMessage": "Account to remove: {account}"
+  },
+  "artificial.inteligence": {
+    "defaultMessage": "Artificial Inteligence"
+  },
+  "asset": {
+    "defaultMessage": "Asset"
+  },
+  "asset.will.be.added.to.favorites": {
+    "defaultMessage": "This asset will be added to your favorites"
+  },
+  "attributes": {
+    "defaultMessage": "Attributes",
+    "description": "Attributes accordion"
+  },
+  "auto.slippage": {
+    "defaultMessage": "Auto Slippage"
+  },
+  "available.amount": {
+    "defaultMessage": "Available Amount"
+  },
+  "available.balance": {
+    "defaultMessage": "Available Balance"
+  },
+  "available.balance.amount": {
+    "defaultMessage": "Available amount: {amount}"
+  },
+  "available.to.sell": {
+    "defaultMessage": "Available to sell: {quantity}"
+  },
+  "availclaimableable.rewards": {
+    "defaultMessage": "Claimable rewards"
+  },
+  "back": {
+    "defaultMessage": "Back"
+  },
+  "back.to.home": {
+    "defaultMessage": "Back to Home"
+  },
+  "back.to.leaderboard.list": {
+    "defaultMessage": "Back to leaderboard List"
+  },
+  "back.to.nft.list": {
+    "defaultMessage": "Back to NFT List"
+  },
+  "background.color": {
+    "defaultMessage": "Background Color"
+  },
+  "background.image": {
+    "defaultMessage": "Background image"
+  },
+  "backgroundImage": {
+    "defaultMessage": "Background Image"
+  },
+  "balance": {
+    "defaultMessage": "Balance"
+  },
+  "billing": {
+    "defaultMessage": "Billing"
+  },
+  "bio": {
+    "defaultMessage": "Bio"
+  },
+  "block.explorer": {
+    "defaultMessage": "Block explorer"
+  },
+  "boost.number": {
+    "defaultMessage": "Boost Number"
+  },
+  "boost.percentage": {
+    "defaultMessage": "Boost Percentage"
+  },
+  "border.radius": {
+    "defaultMessage": "Border Radius"
+  },
+  "browser.not.support.video.tage": {
+    "defaultMessage": "Your browser does not support the video tag."
+  },
+  "builder.kits.description": {
+    "defaultMessage": "Select a kit to preview features for building your app."
+  },
+  "burn": {
+    "defaultMessage": "Burn"
+  },
+  "burn.token": {
+    "defaultMessage": "Burn Token"
+  },
+  "button.cation": {
+    "defaultMessage": "Button caption"
+  },
+  "button.title": {
+    "defaultMessage": "Button Title"
+  },
+  "button.url": {
+    "defaultMessage": "Button URL"
+  },
+  "buy": {
+    "defaultMessage": "Buy"
+  },
+  "buy.and.sell": {
+    "defaultMessage": "Buy and sell"
+  },
+  "buy.app": {
+    "defaultMessage": "Buy App"
+  },
+  "buy.asset": {
+    "defaultMessage": "Buy Asset",
+    "description": "Buy asset title"
+  },
+  "buy.now": {
+    "defaultMessage": "Buy now"
+  },
+  "buy.on.platform": {
+    "defaultMessage": "Buy on {platform}",
+    "description": "Buy asset button text"
+  },
+  "buy.token.page": {
+    "defaultMessage": "Buy token page"
+  },
+  "buyer.address": {
+    "defaultMessage": "Buyer address",
+    "description": "Buyer address input label"
+  },
+  "bytecode": {
+    "defaultMessage": "Bytecode"
+  },
+  "call.label": {
+    "defaultMessage": "Call label"
+  },
+  "call.on.view": {
+    "defaultMessage": "Call on view"
+  },
+  "call.to.action": {
+    "defaultMessage": "Call to Action"
+  },
+  "cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "cancel.listing": {
+    "defaultMessage": "Cancel listing"
+  },
+  "cancel.selection": {
+    "defaultMessage": "Cancel Selection"
+  },
+  "careful.with.scripts": {
+    "defaultMessage": "Be careful with scripts and html that you use here"
+  },
+  "carousel": {
+    "defaultMessage": "Carousel"
+  },
+  "carousel.image.aspectRatio": {
+    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+  },
+  "center": {
+    "defaultMessage": "Center"
+  },
+  "chainId": {
+    "defaultMessage": "Chain ID"
+  },
+  "changelog-dev": {
+    "defaultMessage": "Dev Changelog"
+  },
+  "changes.unsaved": {
+    "defaultMessage": "Changes unsaved"
+  },
+  "check.deploy.status": {
+    "defaultMessage": "Check deploy Status"
+  },
+  "check.out.our.dev.changelog.for.more.technical.updates": {
+    "defaultMessage": "Checkout dev changelog for more technical updates"
+  },
+  "check.out.our.video.changelog.from.dexappbuilder.with.last.updates": {
+    "defaultMessage": "Checkout video changelog with last updates"
+  },
+  "checked.successfully": {
+    "defaultMessage": "Checked successfully"
+  },
+  "checking.domain": {
+    "defaultMessage": "Checking domain"
+  },
+  "checking.eligibility": {
+    "defaultMessage": "Checking eligibility..."
+  },
+  "checkout": {
+    "defaultMessage": "Checkout"
+  },
+  "choose.app.theme.color.for.each.mode ": {
+    "defaultMessage": "Choose app theme color for each mode"
+  },
+  "choose.default.settings.for.exchange.interface": {
+    "defaultMessage": "Choose default settings for exchange interface"
+  },
+  "choose.default.settings.for.swap.interface": {
+    "defaultMessage": "Choose default settings for swap interface"
+  },
+  "choose.default.tokens.on.wallet.app": {
+    "defaultMessage": "Choose default tokens on your wallet app."
+  },
+  "choose.network": {
+    "defaultMessage": "Choose Network"
+  },
+  "choose.your.theme": {
+    "defaultMessage": "Choose your theme"
+  },
+  "claim.airdrop": {
+    "defaultMessage": "Claim airdrop"
+  },
+  "claim.amount": {
+    "defaultMessage": "Claim amount"
+  },
+  "claim.conditions": {
+    "defaultMessage": "claim.conditions"
+  },
+  "claim.erc20.tokens.from.contractName": {
+    "defaultMessage": "Claim ERC20 Tokens from {contractName}"
+  },
+  "claim.erc721.tokens.from.contractName": {
+    "defaultMessage": "Claim ERC721 Tokens from {contractName}"
+  },
+  "claim.free": {
+    "defaultMessage": "Claim free"
+  },
+  "claim.kit.airdrop": {
+    "defaultMessage": "Claim KIT airdrop"
+  },
+  "claim.nfts": {
+    "defaultMessage": "Claim NFTs"
+  },
+  "claim.rewards": {
+    "defaultMessage": "Claim rewards"
+  },
+  "claim.submitted.wait.for.transaction.confirm.onchain.to.receive.airdropped.kit": {
+    "defaultMessage": "Your claim has been submitted. Please wait for the transaction to be confirmed on the blockchain to receive your airdropped KIT!"
+  },
+  "claim.tokens": {
+    "defaultMessage": "Claim tokens"
+  },
+  "claimable.rewards": {
+    "defaultMessage": "Claimable rewards"
+  },
+  "claimed": {
+    "defaultMessage": "Claimed"
+  },
+  "claimed.supply": {
+    "defaultMessage": "Claimed supply"
+  },
+  "claiming.not.available": {
+    "defaultMessage": "Claiming not available"
+  },
+  "clain.priceToMint": {
+    "defaultMessage": "Claim ({priceToMint})"
+  },
+  "clear.all": {
+    "defaultMessage": "Clear all"
+  },
+  "clear.filters": {
+    "defaultMessage": "Clear filters to see nft's"
+  },
+  "clear.filters.to.see.nft.drops": {
+    "defaultMessage": "Clear filters to see nft drop's"
+  },
+  "click.on.nft.to.manage.and.set.claim.conditions.": {
+    "defaultMessage": "Click on NFTs to start manage and set claim conditons."
+  },
+  "clone": {
+    "defaultMessage": "Clone"
+  },
+  "clone.page": {
+    "defaultMessage": "Clone page"
+  },
+  "clone.section": {
+    "defaultMessage": "Clone section"
+  },
+  "close": {
+    "defaultMessage": "Close"
+  },
+  "close.modal": {
+    "defaultMessage": "Close modal"
+  },
+  "cname": {
+    "defaultMessage": "CNAME"
+  },
+  "code": {
+    "defaultMessage": "Code"
+  },
+  "coin": {
+    "defaultMessage": "Coin"
+  },
+  "collapse": {
+    "defaultMessage": "Collapse"
+  },
+  "collected": {
+    "defaultMessage": "Collected"
+  },
+  "collection": {
+    "defaultMessage": "Collection"
+  },
+  "collection.address": {
+    "defaultMessage": "Collection address"
+  },
+  "collection.background.image": {
+    "defaultMessage": "Collection background image"
+  },
+  "collection.created": {
+    "defaultMessage": "Collection created"
+  },
+  "collection.created.error": {
+    "defaultMessage": "Collection created error"
+  },
+  "collection.image": {
+    "defaultMessage": "Collection image"
+  },
+  "collection.metadata.error": {
+    "defaultMessage": "Collection metadata error"
+  },
+  "collection.metadata.not.saved": {
+    "defaultMessage": "Your collection metadata was not saved"
+  },
+  "collection.metadata.saved": {
+    "defaultMessage": "Collection metadata saved"
+  },
+  "collection.preview": {
+    "defaultMessage": "Collection preview"
+  },
+  "collection.removed": {
+    "defaultMessage": "Collection removed"
+  },
+  "collection.saved": {
+    "defaultMessage": "Collection saved"
+  },
+  "collection.without.orders": {
+    "defaultMessage": "Collection without listings. Came back later!"
+  },
+  "collections": {
+    "defaultMessage": "Collections"
+  },
+  "coming.soon": {
+    "defaultMessage": "Coming soon"
+  },
+  "complete.profile": {
+    "defaultMessage": "Complete Profile"
+  },
+  "complete.profile.info": {
+    "defaultMessage": "Please complete your profile by clicking on complete profile"
+  },
+  "complete.socials info": {
+    "defaultMessage": "Please connect your socials medias"
+  },
+  "complete.user.profile": {
+    "defaultMessage": "Complete user profile"
+  },
+  "condition": {
+    "defaultMessage": "Condition"
+  },
+  "condition.amount": {
+    "defaultMessage": "Condition amount"
+  },
+  "condition.amount.in": {
+    "defaultMessage": "Condition amount in"
+  },
+  "condition.amount.nft": {
+    "defaultMessage": "Condition amount NFT"
+  },
+  "condition.amount.out": {
+    "defaultMessage": "Condition amount out"
+  },
+  "condition.index.value": {
+    "defaultMessage": "Condition {index}"
+  },
+  "config.sent": {
+    "defaultMessage": "Config sent"
+  },
+  "configure.0x.text": {
+    "defaultMessage": "Ensure a smooth experience by configuring your 0x API key for access to our swap and exchange services."
+  },
+  "configure.domain": {
+    "defaultMessage": "Configure Domain"
+  },
+  "confirm": {
+    "defaultMessage": "Confirm"
+  },
+  "confirm.sign.message": {
+    "defaultMessage": "Please, sign the message on your wallet"
+  },
+  "confirm.swap": {
+    "defaultMessage": "Confirm swap"
+  },
+  "confirm.transaction": {
+    "defaultMessage": "Confirm Transaction"
+  },
+  "congrats.you.claimed.your.kit.airdrop": {
+    "defaultMessage": "Congrats you claimed your KIT airdrop"
+  },
+  "connect.account": {
+    "defaultMessage": "Connect account"
+  },
+  "connect.discord": {
+    "defaultMessage": "Connect Discord"
+  },
+  "connect.now": {
+    "defaultMessage": "Connect now"
+  },
+  "connect.social.media": {
+    "defaultMessage": "Connect social media"
+  },
+  "connect.socials": {
+    "defaultMessage": "Connect socials"
+  },
+  "connect.twitter": {
+    "defaultMessage": "Connect Twitter"
+  },
+  "connect.wallet": {
+    "defaultMessage": "Connect wallet"
+  },
+  "connect.wallet.to.see.apps.associated.with.your.account": {
+    "defaultMessage": "Connect wallet to see apps associated with your account"
+  },
+  "connect.wallet.to.see.contracts.associated.with.your.account": {
+    "defaultMessage": "Connect wallet to see contracts associated with your account"
+  },
+  "connect.wallet.to.start.create.collections": {
+    "defaultMessage": "Connect wallet to start create collections"
+  },
+  "connected.wallet.not.authorized.to.access.this.account.switch.to.account.that.owns.this.account": {
+    "defaultMessage": "Connected wallet not authorized to access this app. Switch to account that owns this app and login"
+  },
+  "contact.us": {
+    "defaultMessage": "Contact us",
+    "description": "Contact us"
+  },
+  "continue": {
+    "defaultMessage": "Continue"
+  },
+  "contract": {
+    "defaultMessage": "Contract"
+  },
+  "contract.address": {
+    "defaultMessage": "Contract Address"
+  },
+  "contract.deployed": {
+    "defaultMessage": "Contract deployed"
+  },
+  "contract.deployed.succefully": {
+    "defaultMessage": "Contract deployed successfully"
+  },
+  "contract.deployed.successfully": {
+    "defaultMessage": "Contract deployed successfully"
+  },
+  "contract.generator": {
+    "defaultMessage": "Contract generator"
+  },
+  "contract.instances": {
+    "defaultMessage": "Contract instances"
+  },
+  "contract.is.not.supported.yet": {
+    "defaultMessage": "Contract not supported yet"
+  },
+  "contract.not.supported": {
+    "defaultMessage": "Contract not supported"
+  },
+  "contract.templates": {
+    "defaultMessage": "Contract Templates"
+  },
+  "contract.type": {
+    "defaultMessage": "Contract Type"
+  },
+  "contract.wizard": {
+    "defaultMessage": "Contract Wizard"
+  },
+  "contract.wizard.description": {
+    "defaultMessage": "Easily create your digital collectibles (NFTs) using AI image generation tools and create them on the blockchain of your choice in one click."
+  },
+  "contracts": {
+    "defaultMessage": "Contracts"
+  },
+  "contracts.you.deployed": {
+    "defaultMessage": "Contracts you deployed"
+  },
+  "copied": {
+    "defaultMessage": "Copied!",
+    "description": "Copied text"
+  },
+  "copy": {
+    "defaultMessage": "Copy",
+    "description": "Copy text"
+  },
+  "copy.address": {
+    "defaultMessage": "Copy address",
+    "description": "Copy text"
+  },
+  "create": {
+    "defaultMessage": "Create"
+  },
+  "create.a.form.to.interact.with.your.new.contract": {
+    "defaultMessage": "Create a form to interact with your new contract"
+  },
+  "create.an.exchange.with.our.quick.app.builder.in.seconds": {
+    "defaultMessage": "Create an advanced crypto limit order exchange app in seconds using our quick app builder"
+  },
+  "create.and.manage.your.collections": {
+    "defaultMessage": "Create and manage your collections"
+  },
+  "create.app": {
+    "defaultMessage": "Create app"
+  },
+  "create.claim.conditions": {
+    "defaultMessage": "Create claim conditions"
+  },
+  "create.collection": {
+    "defaultMessage": "Create Collection"
+  },
+  "create.custom.form": {
+    "defaultMessage": "Create custom form"
+  },
+  "create.form": {
+    "defaultMessage": "Create form"
+  },
+  "create.forms.to interact.with.contracts": {
+    "defaultMessage": "Create forms to interact with contracts"
+  },
+  "create.image": {
+    "defaultMessage": "Generate AI Image"
+  },
+  "create.leaderboards.and.gamify.your.app": {
+    "defaultMessage": "Create leaderboards from your events and gamify your app"
+  },
+  "create.listing": {
+    "defaultMessage": "Create Listing"
+  },
+  "create.marketplace.title": {
+    "defaultMessage": "Create your crypto site/marketplace in seconds."
+  },
+  "create.menu": {
+    "defaultMessage": "Create menu"
+  },
+  "create.metadata": {
+    "defaultMessage": "Create metadata"
+  },
+  "create.nft": {
+    "defaultMessage": "Create NFT"
+  },
+  "create.nft.order": {
+    "defaultMessage": "Create NFT order"
+  },
+  "create.nft.store.app": {
+    "defaultMessage": "Create nft store app"
+  },
+  "create.nfts": {
+    "defaultMessage": "Create NFTs"
+  },
+  "create.offer": {
+    "defaultMessage": "Create Offer"
+  },
+  "create.one.to.start.selling.NFTs.or.crypto": {
+    "defaultMessage": "Create one App to start trade NFTs or crypto"
+  },
+  "create.order": {
+    "defaultMessage": "Create Order"
+  },
+  "create.page": {
+    "defaultMessage": "Create page"
+  },
+  "create.submenu": {
+    "defaultMessage": "Create submenu"
+  },
+  "create.swap.app": {
+    "defaultMessage": "Create swap app"
+  },
+  "create.swap.title": {
+    "defaultMessage": "Create your crypto site/swap in seconds."
+  },
+  "create.template.pages": {
+    "defaultMessage": "Create template pages"
+  },
+  "create.user.profile": {
+    "defaultMessage": "Create user profile"
+  },
+  "create.wallet.app": {
+    "defaultMessage": "Create wallet app"
+  },
+  "create.your.app": {
+    "defaultMessage": "Create your App"
+  },
+  "created.by": {
+    "defaultMessage": "Created by"
+  },
+  "created.by.address": {
+    "defaultMessage": "Created by: {address}"
+  },
+  "creating.a.listing": {
+    "defaultMessage": "Creating a listing"
+  },
+  "creating.an.offer": {
+    "defaultMessage": "Creating an offer"
+  },
+  "creating.collection": {
+    "defaultMessage": "Saving collection metadata"
+  },
+  "creating.collection.check.wallet": {
+    "defaultMessage": "Creating collection on chain. Check wallet and accept transaction!"
+  },
+  "creating.nft": {
+    "defaultMessage": "Creating NFT"
+  },
+  "creating.nft.on.server": {
+    "defaultMessage": "Creating NFT on chain and saving metadata"
+  },
+  "creating.nfts": {
+    "defaultMessage": "Saving NFTs metadata"
+  },
+  "creating.nfts.check.wallet": {
+    "defaultMessage": "Creating NFTs on chain. Check wallet and accept transaction!"
+  },
+  "creating.site.metadata": {
+    "defaultMessage": "Creating site metadata"
+  },
+  "creating.token": {
+    "defaultMessage": "Creating Token"
+  },
+  "creating.user.profile": {
+    "defaultMessage": "Creating user profile"
+  },
+  "creator": {
+    "defaultMessage": "Creator"
+  },
+  "creator.address": {
+    "defaultMessage": "Creator: {address}"
+  },
+  "credit.history": {
+    "defaultMessage": "Credit History"
+  },
+  "credited": {
+    "defaultMessage": "Credited"
+  },
+  "credits": {
+    "defaultMessage": "Credits"
+  },
+  "credits.below0.50": {
+    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+  },
+  "credits.expire.oneYear": {
+    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+  },
+  "crypto.app.setup": {
+    "defaultMessage": "Crypto App Setup"
+  },
+  "csv.file.to.import.on.aidrop.contract": {
+    "defaultMessage": "CSV file to be imported on airdrop contracts"
+  },
+  "currency": {
+    "defaultMessage": "Currency"
+  },
+  "current.app.version": {
+    "defaultMessage": "Current app version"
+  },
+  "current.phase": {
+    "defaultMessage": "Current phase"
+  },
+  "current.phase.ends.in": {
+    "defaultMessage": "Current phase ends in"
+  },
+  "custom": {
+    "defaultMessage": "Custom"
+  },
+  "custom.page.editor": {
+    "defaultMessage": "Custom Page Editor"
+  },
+  "dark": {
+    "defaultMessage": "Dark"
+  },
+  "darkblock": {
+    "defaultMessage": "Darkblock"
+  },
+  "darkblock.io": {
+    "defaultMessage": "Darkblock.io"
+  },
+  "darkblock.one.line.description": {
+    "defaultMessage": "Darkblock is a decentralized protocol that allows content creators to publish and distribute exclusive content to their fans without the need for centralized token-gating platforms. This integration is utilized on the Asset page for the networks supported by Darkblock."
+  },
+  "data": {
+    "defaultMessage": "Data"
+  },
+  "date": {
+    "defaultMessage": "Date"
+  },
+  "decimals": {
+    "defaultMessage": "Decimals"
+  },
+  "default": {
+    "defaultMessage": "Default"
+  },
+  "default.amount.to.send.to.the.contract": {
+    "defaultMessage": "Default amount to send to the contract"
+  },
+  "default.currency": {
+    "defaultMessage": "Default currency"
+  },
+  "default.network": {
+    "defaultMessage": "Default network"
+  },
+  "default.network.info.swap.form": {
+    "defaultMessage": "Default network when wallet is not connected"
+  },
+  "default.slippage.percentage": {
+    "defaultMessage": "Default slippage (0-50%)"
+  },
+  "default.theme.mode": {
+    "defaultMessage": "Default Theme mode"
+  },
+  "default.value": {
+    "defaultMessage": "Default value"
+  },
+  "delete": {
+    "defaultMessage": "Delete"
+  },
+  "delete.account.from.user": {
+    "defaultMessage": "Delete account from user"
+  },
+  "delete.app.leaderboard": {
+    "defaultMessage": "Delete app leaderboard"
+  },
+  "delete.app.version": {
+    "defaultMessage": "Delete app version"
+  },
+  "delete.page": {
+    "defaultMessage": "Delete page {page}"
+  },
+  "denominator": {
+    "defaultMessage": "Denominator"
+  },
+  "deploy": {
+    "defaultMessage": "Deploy"
+  },
+  "deploy.a.collection.to.see.it.here": {
+    "defaultMessage": "Deploy a collection to see it here"
+  },
+  "deploy.contract.template": {
+    "defaultMessage": "Deploy Contract Template"
+  },
+  "deploy.your.own.contract": {
+    "defaultMessage": "Deploy your own contract"
+  },
+  "deploying.contract": {
+    "defaultMessage": "Deploying Contract"
+  },
+  "deploying.domain": {
+    "defaultMessage": "Deploying domain"
+  },
+  "deposit": {
+    "defaultMessage": "Update"
+  },
+  "deposit.reward": {
+    "defaultMessage": "Deposit Reward"
+  },
+  "description": {
+    "defaultMessage": "Description",
+    "description": "Description Accordion"
+  },
+  "detailed": {
+    "defaultMessage": "Detailed"
+  },
+  "details": {
+    "defaultMessage": "Details"
+  },
+  "dev.changelog": {
+    "defaultMessage": "Dev changelog"
+  },
+  "dex.generator": {
+    "defaultMessage": "Dex Generator"
+  },
+  "dexappbuilder.ann.app.bar2": {
+    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+  },
+  "disable.burn": {
+    "defaultMessage": "Disable Burn"
+  },
+  "disable.info": {
+    "defaultMessage": "Disable Info"
+  },
+  "disable.proxy": {
+    "defaultMessage": "Disable proxy"
+  },
+  "disable.secondary.sells": {
+    "defaultMessage": "Disable secondary sells"
+  },
+  "disable.transfer": {
+    "defaultMessage": "Disable Transfer"
+  },
+  "discord.username": {
+    "defaultMessage": "Discord username"
+  },
+  "do.you.really.want.to.clone.this.form": {
+    "defaultMessage": "Do you really want to clone this form?"
+  },
+  "do.you.really.want.to.create.a.nft.info": {
+    "defaultMessage": "Do you really want to create a NFT representing ownership of this app? After you create this NFT you are not able to delete anymore the app! You can sell or transfer this NFT, if you do so, you lose ownership of the app."
+  },
+  "do.you.really.want.to.create.a.nft.store.app": {
+    "defaultMessage": "Do you really want to create a nft store app?"
+  },
+  "do.you.really.want.to.create.a.swap.app": {
+    "defaultMessage": "Do you really want to create a swap app?"
+  },
+  "do.you.really.want.to.create.a.wallet.app": {
+    "defaultMessage": "Do you really want to create a wallet app?"
+  },
+  "do.you.really.want.to.create.these.nfts": {
+    "defaultMessage": "Do you really want to create these NFTs?"
+  },
+  "do.you.really.want.to.create.this.collection": {
+    "defaultMessage": "Do you really want to create this collection?"
+  },
+  "do.you.really.want.to.create.this.form": {
+    "defaultMessage": "Do you really want to create this form?"
+  },
+  "do.you.really.want.to.create.this.token": {
+    "defaultMessage": "Do you really want to create this token?"
+  },
+  "do.you.really.want.to.create.your.user.profile": {
+    "defaultMessage": "Do you really want to create your user profile?"
+  },
+  "do.you.really.want.to.delete.this.page": {
+    "defaultMessage": "Do you really want to delete {page} page?"
+  },
+  "do.you.really.want.to.deploy.this.domain": {
+    "defaultMessage": "Do you really want to deploy this domain: {domain}"
+  },
+  "do.you.really.want.to.edit.this.nfts": {
+    "defaultMessage": "Do you really want to edit this NFT?"
+  },
+  "do.you.really.want.to.remove.this.app": {
+    "defaultMessage": "Do you really want to remove this app"
+  },
+  "do.you.really.want.to.remove.this.app.leaderboard": {
+    "defaultMessage": "Do you really want to remove this app leaderboard {title}"
+  },
+  "do.you.really.want.to.remove.this.app.version": {
+    "defaultMessage": "Do you really want to remove this app version {version}"
+  },
+  "do.you.really.want.to.remove.this.condition": {
+    "defaultMessage": "Do you really want to remove this Condition?"
+  },
+  "do.you.really.want.to.remove.this.form": {
+    "defaultMessage": "Do you really want to remove this form?"
+  },
+  "do.you.really.want.to.remove.this.member": {
+    "defaultMessage": "Do you really want to remove this member {member}"
+  },
+  "do.you.really.want.to.remove.this.nft": {
+    "defaultMessage": "Do you really want to remove this NFT?"
+  },
+  "do.you.really.want.to.remove.this.page.template": {
+    "defaultMessage": "Do you really want to remove this page template #{id}"
+  },
+  "do.you.really.want.to.send.this.app.settings": {
+    "defaultMessage": "Do you really want to send it?"
+  },
+  "do.you.really.want.to.set.to.this.app.version": {
+    "defaultMessage": "Do you really want to set this app to version {version}. Make sure you backup any changes in a new version."
+  },
+  "do.you.really.want.to.update.a.nft.info": {
+    "defaultMessage": "Do you really want to update this NFT representing ownership of this app?"
+  },
+  "do.you.really.want.to.update.this.form": {
+    "defaultMessage": "Do you really want to update this form?"
+  },
+  "do.you.want.to.remove.all.number.tokens": {
+    "defaultMessage": "Do you want to remove all {count} tokens?"
+  },
+  "do.you.want.to.remove.nft": {
+    "defaultMessage": "Do you want to remove this NFT from your favorites?"
+  },
+  "do.you.want.to.remove.this.collection": {
+    "defaultMessage": "Do you want to remove this collection?"
+  },
+  "do.you.want.to.remove.this.section": {
+    "defaultMessage": "Do you want to remove this section?"
+  },
+  "do.you.want.to.remove.this.token": {
+    "defaultMessage": "Do you want to remove this token?"
+  },
+  "domain": {
+    "defaultMessage": "Domain"
+  },
+  "domain.error.propagated": {
+    "defaultMessage": "Domain still not propagated"
+  },
+  "domain.records": {
+    "defaultMessage": "Domain records"
+  },
+  "domains": {
+    "defaultMessage": "Domain"
+  },
+  "down": {
+    "defaultMessage": "Down"
+  },
+  "drop": {
+    "defaultMessage": "Drop"
+  },
+  "drop.details": {
+    "defaultMessage": "Drop details"
+  },
+  "drop.is.starting.soon. Please check back later.": {
+    "defaultMessage": "Drop is starting soon. Please check back later."
+  },
+  "drop.is.starting.soon.please.check.back.later": {
+    "defaultMessage": "Drop is starting soon. Please check back later."
+  },
+  "drop.not.ready.to.mint.yet": {
+    "defaultMessage": "This drop is not ready to be minted yet."
+  },
+  "drops": {
+    "defaultMessage": "Drops"
+  },
+  "drops.are.not.available.for.this.contract": {
+    "defaultMessage": "Drops are not available for this contract"
+  },
+  "drops.not.found": {
+    "defaultMessage": "Drop's not found"
+  },
+  "drops.of.same.collection": {
+    "defaultMessage": "Drops of same collection"
+  },
+  "edit": {
+    "defaultMessage": "Edit"
+  },
+  "edit.app": {
+    "defaultMessage": "Edit App"
+  },
+  "edit.claim.conditions": {
+    "defaultMessage": "Edit claim conditions"
+  },
+  "edit.claimers": {
+    "defaultMessage": "Edit claimers"
+  },
+  "edit.leaderboard": {
+    "defaultMessage": "Edit leaderboard"
+  },
+  "edit.name": {
+    "defaultMessage": "Edit \"{name}\""
+  },
+  "edit.name.name": {
+    "defaultMessage": "Edit \"{name}\""
+  },
+  "edit.nft.id": {
+    "defaultMessage": "Edit NFT {id}"
+  },
+  "edit.nft.metadata": {
+    "defaultMessage": "Edit NFT metadata"
+  },
+  "edit.profile": {
+    "defaultMessage": "Edit profile"
+  },
+  "edit.section": {
+    "defaultMessage": "Edit Section"
+  },
+  "edit.social.description": {
+    "defaultMessage": "Add social media related to your app"
+  },
+  "edit.templateName": {
+    "defaultMessage": "Edit: {templateName}"
+  },
+  "edit.user.profile": {
+    "defaultMessage": "Edit user profile: {username}"
+  },
+  "edit.version": {
+    "defaultMessage": "Edit version"
+  },
+  "editing.nft": {
+    "defaultMessage": "Editing NFT metadata"
+  },
+  "editing.site.metadata": {
+    "defaultMessage": "Editing site metadata"
+  },
+  "email": {
+    "defaultMessage": "Email"
+  },
+  "email.to.receive.notifications": {
+    "defaultMessage": "Email to receive notifications"
+  },
+  "email.verified": {
+    "defaultMessage": "Email verified"
+  },
+  "email.verified.with.success": {
+    "defaultMessage": "Email verified with success"
+  },
+  "empty": {
+    "defaultMessage": "Empty"
+  },
+  "empty.leaderboard": {
+    "defaultMessage": "Empty leaderboard"
+  },
+  "enable.darkblock": {
+    "defaultMessage": "Enable Darkblock Asset"
+  },
+  "enable.darkblock.collection": {
+    "defaultMessage": "Enable Darkblock Collection"
+  },
+  "enable.darkblock.on.asset.page": {
+    "defaultMessage": "Enable Darkblock on Asset page"
+  },
+  "enable.darkblock.on.collection.page": {
+    "defaultMessage": "Enable Darkblock on Collection page"
+  },
+  "enable.drop": {
+    "defaultMessage": "Enable Darkblock"
+  },
+  "enable.fiat": {
+    "defaultMessage": "Enable Fiat"
+  },
+  "enable.searchbar": {
+    "defaultMessage": "Enable searchbar"
+  },
+  "end": {
+    "defaultMessage": "End"
+  },
+  "enter.amount.to.claim": {
+    "defaultMessage": "Enter amount to claim"
+  },
+  "error": {
+    "defaultMessage": "Error"
+  },
+  "error.404": {
+    "defaultMessage": "Error 404"
+  },
+  "error.color": {
+    "defaultMessage": "Error color"
+  },
+  "error.generating.image": {
+    "defaultMessage": "Error generating image"
+  },
+  "error.reason": {
+    "defaultMessage": "Error reason: {value}"
+  },
+  "error.removing.app.leaderboard": {
+    "defaultMessage": "Error on removing app leaderboard"
+  },
+  "error.removing.app.version": {
+    "defaultMessage": "Error on removing app version"
+  },
+  "error.removing.member": {
+    "defaultMessage": "Error on removing member"
+  },
+  "error.set.app.version": {
+    "defaultMessage": "Error on set app version"
+  },
+  "error.updating.app.leaderboard": {
+    "defaultMessage": "Error on updating app leaderboard"
+  },
+  "error.while.deploying.contract": {
+    "defaultMessage": "Error while deploying contract"
+  },
+  "error.while.importing.nft": {
+    "defaultMessage": "Error while importing NFT: {error}"
+  },
+  "error.while.minting": {
+    "defaultMessage": "Error while minting"
+  },
+  "error.while.switching.network": {
+    "defaultMessage": "Error while switching network"
+  },
+  "error.while.tranfer": {
+    "defaultMessage": "Error while transfer"
+  },
+  "events": {
+    "defaultMessage": "Events"
+  },
+  "exchange": {
+    "defaultMessage": "Exchange"
+  },
+  "exchange.app.builder": {
+    "defaultMessage": "Exchange App Builder"
+  },
+  "expiration": {
+    "defaultMessage": "Expiration",
+    "description": "Expiration"
+  },
+  "expire.at": {
+    "defaultMessage": "Expire at"
+  },
+  "expired": {
+    "defaultMessage": "Expired"
+  },
+  "expires.in": {
+    "defaultMessage": "Expires in"
+  },
+  "expiry": {
+    "defaultMessage": "Expiry"
+  },
+  "explore": {
+    "defaultMessage": "Explore",
+    "description": "Collection card explorer button"
+  },
+  "explore.our.new.tool.dexgenerator": {
+    "defaultMessage": "Explore our new tool: DexGenerator"
+  },
+  "explorer": {
+    "defaultMessage": "Explorer"
+  },
+  "exporation": {
+    "defaultMessage": "Expiration"
+  },
+  "export": {
+    "defaultMessage": "Export"
+  },
+  "export.leaderboard": {
+    "defaultMessage": "Export leaderboard"
+  },
+  "export.leaderboard.as.csv": {
+    "defaultMessage": "Export leaderboard as CSV"
+  },
+  "export.leaderboard.as.json": {
+    "defaultMessage": "Export leaderboard as JSON"
+  },
+  "export.leaderboard.csv ": {
+    "defaultMessage": "Export leaderboard csv"
+  },
+  "external": {
+    "defaultMessage": "External"
+  },
+  "external.url": {
+    "defaultMessage": "External URL"
+  },
+  "facebook": {
+    "defaultMessage": "Facebook"
+  },
+  "favicon": {
+    "defaultMessage": "Favicon"
+  },
+  "favicon.helper.explainer": {
+    "defaultMessage": "Small icon that represents a website and is displayed in the browser tab"
+  },
+  "favorite": {
+    "defaultMessage": "Favorite"
+  },
+  "favorites": {
+    "defaultMessage": "Favorites"
+  },
+  "feature": {
+    "defaultMessage": "Feature"
+  },
+  "featured": {
+    "defaultMessage": "Featured"
+  },
+  "fee": {
+    "defaultMessage": "Fees"
+  },
+  "fee.percentage": {
+    "defaultMessage": "Fee percentage"
+  },
+  "fiat.price": {
+    "defaultMessage": "{currency} Price",
+    "description": "Fiat price"
+  },
+  "field.is.invalid": {
+    "defaultMessage": "{field} is invalid"
+  },
+  "field.is.invalid.address": {
+    "defaultMessage": "{field} is invalid address"
+  },
+  "field.is.required": {
+    "defaultMessage": "{field} is required"
+  },
+  "filled": {
+    "defaultMessage": "Filled"
+  },
+  "filter": {
+    "defaultMessage": "Filter"
+  },
+  "filter.by.data": {
+    "defaultMessage": "Filter by date"
+  },
+  "filters": {
+    "defaultMessage": "Filters"
+  },
+  "finish": {
+    "defaultMessage": "Finish"
+  },
+  "floor.price": {
+    "defaultMessage": "Floor price"
+  },
+  "font": {
+    "defaultMessage": "Font"
+  },
+  "footer.menu": {
+    "defaultMessage": "Footer Menu"
+  },
+  "footer.wizard.description": {
+    "defaultMessage": "Create and edit your app's footer menu"
+  },
+  "forbidden": {
+    "defaultMessage": "Forbidden"
+  },
+  "form.created.successfully": {
+    "defaultMessage": "Fomr created successfully"
+  },
+  "form.deleted.successfully": {
+    "defaultMessage": "Form deleted successfully"
+  },
+  "form.name": {
+    "defaultMessage": "Form: {name}"
+  },
+  "form.preview": {
+    "defaultMessage": "Form Preview"
+  },
+  "form.updated": {
+    "defaultMessage": "Form updated"
+  },
+  "formatted.decimal": {
+    "defaultMessage": "Formatted decimal"
+  },
+  "forms": {
+    "defaultMessage": "Forms"
+  },
+  "from": {
+    "defaultMessage": "From",
+    "description": "From"
+  },
+  "front.image": {
+    "defaultMessage": "Front Image"
+  },
+  "front.image.size": {
+    "defaultMessage": "Front image size"
+  },
+  "function.name": {
+    "defaultMessage": "Function name"
+  },
+  "gated.conditions": {
+    "defaultMessage": "Gated conditions"
+  },
+  "general": {
+    "defaultMessage": "General"
+  },
+  "general.information.description": {
+    "defaultMessage": "Input your app's general details"
+  },
+  "generating.image": {
+    "defaultMessage": "Generating Image..."
+  },
+  "generic": {
+    "defaultMessage": "Generic"
+  },
+  "google.analytics.example.tag": {
+    "defaultMessage": "Example of tag: G-LWRHJH7JLF"
+  },
+  "google.analytics.tag": {
+    "defaultMessage": "Google analytics tag"
+  },
+  "height.for.desktop": {
+    "defaultMessage": "Height for desktop"
+  },
+  "height.for.mobile": {
+    "defaultMessage": "Height for mobile"
+  },
+  "height.px": {
+    "defaultMessage": "Height (px)"
+  },
+  "hidden": {
+    "defaultMessage": "Hidden"
+  },
+  "hide": {
+    "defaultMessage": "Hide"
+  },
+  "hide.assets": {
+    "defaultMessage": "Hide Assets"
+  },
+  "hide.collections.on.search": {
+    "defaultMessage": "Hide collections on search"
+  },
+  "hide.drops": {
+    "defaultMessage": "Hide Drops"
+  },
+  "hide.filters": {
+    "defaultMessage": "Hide Filters"
+  },
+  "hide.form.info.tooltip": {
+    "defaultMessage": "Hide form info like: contract address, description and name from the section"
+  },
+  "hide.header": {
+    "defaultMessage": "Hide Header"
+  },
+  "hide.header.form.info": {
+    "defaultMessage": "Hide header form info"
+  },
+  "hide.inputs": {
+    "defaultMessage": "Hide inputs"
+  },
+  "hide.label": {
+    "defaultMessage": "Hide label"
+  },
+  "hide.on.desktop": {
+    "defaultMessage": "Hide on desktop"
+  },
+  "hide.on.mobile": {
+    "defaultMessage": "Hide on mobile"
+  },
+  "hide.powered.by.dexkit": {
+    "defaultMessage": "Hide Powered by DexKit"
+  },
+  "hide.tokens.on.search": {
+    "defaultMessage": "Hide tokens on search"
+  },
+  "highest.sale": {
+    "defaultMessage": "Highest sale"
+  },
+  "hold.kit": {
+    "defaultMessage": "Hold KIT"
+  },
+  "holding.kit.info": {
+    "defaultMessage": "You need to hold 1000 KIT on one of supported networks (ETH, BSC and Polygon) to use this feature!"
+  },
+  "home": {
+    "defaultMessage": "Home"
+  },
+  "id": {
+    "defaultMessage": "Id"
+  },
+  "image": {
+    "defaultMessage": "Image"
+  },
+  "image.url": {
+    "defaultMessage": "Image Url"
+  },
+  "import": {
+    "defaultMessage": "Import"
+  },
+  "import.nft": {
+    "defaultMessage": "Import NFT"
+  },
+  "import.or.favorite.nfts": {
+    "defaultMessage": "Import or favorite NFTs"
+  },
+  "import.token": {
+    "defaultMessage": "Import token"
+  },
+  "import.token.lists": {
+    "defaultMessage": "Import Token lists"
+  },
+  "in.milliseconds": {
+    "defaultMessage": "In milliseconds"
+  },
+  "info.about.custom.section": {
+    "defaultMessage": "Instead of using pre-defined sections, you have the freedom to create a personalized section by effortlessly dragging and dropping functional blocks to design your ideal layout."
+  },
+  "info.alert.description.gated.form.modal": {
+    "defaultMessage": "As the owner of this private web page, please enter the specific conditions that users must meet to access your page. By defining these conditions, you ensure that only eligible users are granted access."
+  },
+  "info.alert.title.filter.ranking.points": {
+    "defaultMessage": "Define and attribute points to each user event to build a ranking"
+  },
+  "info.alert.title.gated.form.modal": {
+    "defaultMessage": "Define access conditions for your private page"
+  },
+  "info.color": {
+    "defaultMessage": "Info Color"
+  },
+  "info.create.collection.dialog": {
+    "defaultMessage": "Please don't close modal or reload app till finish data submission!"
+  },
+  "info.create.collection.page": {
+    "defaultMessage": "Create a collection of NFT's easily using our contract wizard. You now can use our generate AI feature to generate an image for your collection. Please note that you need to hold {holdAmount} KIT in one of our supported networks: BSC, Polygon or Ethereum (Max. 50 images per month). Fill description first and generate image. If you need support or a bigger plan for AI generation please reach us on our <a>dedicated Discord channel</a> or email info@dexkit.com!"
+  },
+  "info.create.nfts": {
+    "defaultMessage": "To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish!"
+  },
+  "info.create.nfts.dialog": {
+    "defaultMessage": "Please don't close modal or reload app till finish data submission!"
+  },
+  "info.edit.nft.dialog": {
+    "defaultMessage": "Please don't close modal or reload app till finish data submission!"
+  },
+  "info.quick.wizard.store.account": {
+    "defaultMessage": "Fill first your store account with the address from where you want to sell your NFTs."
+  },
+  "info.wizard.content.cname": {
+    "defaultMessage": "Deploy your domain, make sure first your domain is not used with other records. After domain successfully added to our system you will receive a CNAME and A record to be added to your DNS provider. After added the CNAME and A record, press button check deploy status, if status VERIFIED, wait for domain to propagate and you will have your marketplace set on your custom domain. Note, if you are on a subdomain, replace @ with subdomain value. Any issue contact our support channels."
+  },
+  "info.wizard.title.domain.records.setup": {
+    "defaultMessage": "Domain records setup info"
+  },
+  "input.type": {
+    "defaultMessage": "Input Type"
+  },
+  "inputs": {
+    "defaultMessage": "Inputs"
+  },
+  "insert.valid.html": {
+    "defaultMessage": "Insert valid HTML"
+  },
+  "instagram": {
+    "defaultMessage": "Instagram"
+  },
+  "insufficient.balance": {
+    "defaultMessage": "Insufficient balance"
+  },
+  "insufficient.funds": {
+    "defaultMessage": "insufficient funds"
+  },
+  "integrations": {
+    "defaultMessage": "Integrations"
+  },
+  "interval": {
+    "defaultMessage": "Interval"
+  },
+  "invalid.address": {
+    "defaultMessage": "Invalid address"
+  },
+  "invalid.price": {
+    "defaultMessage": "Invalid price"
+  },
+  "item.type": {
+    "defaultMessage": "Item type"
+  },
+  "items": {
+    "defaultMessage": "Items"
+  },
+  "items.spacing": {
+    "defaultMessage": "Items spacing"
+  },
+  "kit.airdrop": {
+    "defaultMessage": "KIT Airdrop"
+  },
+  "kit.claim.submitted": {
+    "defaultMessage": "KIT claim submitted"
+  },
+  "label": {
+    "defaultMessage": "Label"
+  },
+  "language": {
+    "defaultMessage": "Language"
+  },
+  "last.version.set": {
+    "defaultMessage": "Last version set"
+  },
+  "layout": {
+    "defaultMessage": "Layout"
+  },
+  "leaderboard": {
+    "defaultMessage": "Leaderboard"
+  },
+  "leaderboard.preview": {
+    "defaultMessage": "Leaderboard preview"
+  },
+  "left": {
+    "defaultMessage": "Left"
+  },
+  "light": {
+    "defaultMessage": "Light"
+  },
+  "link": {
+    "defaultMessage": "Link"
+  },
+  "linkedin.company": {
+    "defaultMessage": "Linkedin company"
+  },
+  "listing.price": {
+    "defaultMessage": "Listing price"
+  },
+  "listing.price.per.item": {
+    "defaultMessage": "Listing price per item"
+  },
+  "listings": {
+    "defaultMessage": "Listings"
+  },
+  "lists": {
+    "defaultMessage": "Lists"
+  },
+  "loading": {
+    "defaultMessage": "Loading"
+  },
+  "lock.inputs": {
+    "defaultMessage": "Lock inputs"
+  },
+  "logged": {
+    "defaultMessage": "Logged"
+  },
+  "login": {
+    "defaultMessage": "Login"
+  },
+  "login.app": {
+    "defaultMessage": "Login app"
+  },
+  "login.app.to.edit.your.user.profile.you.just.need.to.sign.a.message.with.your.wallet": {
+    "defaultMessage": "Login to app to edit your user profile. You just need to sign a message with your wallet"
+  },
+  "login.by.connect.wallet": {
+    "defaultMessage": "Login with your wallet. You will need to sign a message"
+  },
+  "logo": {
+    "defaultMessage": "Logo"
+  },
+  "logo.for.dark.mode": {
+    "defaultMessage": "Logo for dark mode"
+  },
+  "logo.for.light.mode": {
+    "defaultMessage": "Logo for light mode"
+  },
+  "logo.on.desktop": {
+    "defaultMessage": "Logo on desktop"
+  },
+  "logo.on.mobile": {
+    "defaultMessage": "Logo on mobile"
+  },
+  "logout.wallet": {
+    "defaultMessage": "Logout wallet"
+  },
+  "made.with.love.by": {
+    "defaultMessage": "made with ❤️ by",
+    "description": "made with ❤️ by"
+  },
+  "make.at.least.one.form.field.visible.to.see.a.preview": {
+    "defaultMessage": "Make at least one form field visible to see a preview"
+  },
+  "make.offer": {
+    "defaultMessage": "Make Offer",
+    "description": "Make Offer"
+  },
+  "make.token.available.on.the.marketplace": {
+    "defaultMessage": "Make token available on the marketplace"
+  },
+  "manage": {
+    "defaultMessage": "Manage"
+  },
+  "manage.contract": {
+    "defaultMessage": "Manage Contract"
+  },
+  "manage.networks.for.your.app": {
+    "defaultMessage": "Manage networks for your app"
+  },
+  "markdown": {
+    "defaultMessage": "Markdown"
+  },
+  "market.cap": {
+    "defaultMessage": "Market Cap"
+  },
+  "marketplace.domain.added": {
+    "defaultMessage": "Marketplace domain added"
+  },
+  "marketplace.fee": {
+    "defaultMessage": "Marketplace fee"
+  },
+  "marketplace.fees.menu.container": {
+    "defaultMessage": "Marketplace Fees"
+  },
+  "marketplace.fees.title": {
+    "defaultMessage": "Marketplace Fees"
+  },
+  "marketplace.theme": {
+    "defaultMessage": "Marketplace Theme"
+  },
+  "max": {
+    "defaultMessage": "Max"
+  },
+  "max.quantity": {
+    "defaultMessage": "Max quantity"
+  },
+  "max.supply": {
+    "defaultMessage": "Max Supply"
+  },
+  "member": {
+    "defaultMessage": "Member"
+  },
+  "member.added": {
+    "defaultMessage": "Member added"
+  },
+  "member.permission": {
+    "defaultMessage": "Member permissions"
+  },
+  "member.permissions.updated": {
+    "defaultMessage": "Member permissions updated"
+  },
+  "member.removed": {
+    "defaultMessage": "Member removed"
+  },
+  "menu": {
+    "defaultMessage": "Menu"
+  },
+  "metadata": {
+    "defaultMessage": "Metadata"
+  },
+  "mint": {
+    "defaultMessage": "Mint"
+  },
+  "mint.free": {
+    "defaultMessage": "Mint (Free)"
+  },
+  "mint.nft": {
+    "defaultMessage": "Mint NFT"
+  },
+  "mint.price.value": {
+    "defaultMessage": "Mint ({priceToMint})"
+  },
+  "mint.priceToMint": {
+    "defaultMessage": "Mint {priceToMint}"
+  },
+  "mismatch.account.admin.view": {
+    "defaultMessage": "You are connected to {account} but logged as {loggedAccount}. If you want to see apps associated with current connected account, click on"
+  },
+  "move.section.down": {
+    "defaultMessage": "Move section down"
+  },
+  "move.section.up": {
+    "defaultMessage": "Move section up"
+  },
+  "must.have": {
+    "defaultMessage": "Must have"
+  },
+  "my.collections": {
+    "defaultMessage": "My Collections"
+  },
+  "my.contracts": {
+    "defaultMessage": "My contracts"
+  },
+  "my.nfts": {
+    "defaultMessage": "My NFTs"
+  },
+  "my.wallet": {
+    "defaultMessage": "My Wallet"
+  },
+  "name": {
+    "defaultMessage": "Name"
+  },
+  "name.of.your.app": {
+    "defaultMessage": "Name of your app"
+  },
+  "navbar": {
+    "defaultMessage": "Navbar"
+  },
+  "navbar.wizard.description": {
+    "defaultMessage": "Organize your app navbar. You can edit menus and searchbar"
+  },
+  "network": {
+    "defaultMessage": "Network"
+  },
+  "network.info": {
+    "defaultMessage": "Network info"
+  },
+  "network.swap.options.info": {
+    "defaultMessage": "Choose the default tokens and slippage for each network."
+  },
+  "network.switched": {
+    "defaultMessage": "Network changed"
+  },
+  "networks": {
+    "defaultMessage": "Networks"
+  },
+  "new": {
+    "defaultMessage": "New"
+  },
+  "new.ai.features": {
+    "defaultMessage": "New AI Features"
+  },
+  "nft": {
+    "defaultMessage": "NFT"
+  },
+  "nft.already.imported": {
+    "defaultMessage": "NFT already imported"
+  },
+  "nft.amount.of.tokenId.is.selected.to.stake": {
+    "defaultMessage": "{amount} of \"#{tokenId}\" is selected to stake"
+  },
+  "nft.attributes": {
+    "defaultMessage": "NFT attributes"
+  },
+  "nft.collection.airdrop": {
+    "defaultMessage": "NFT Collection Airdrop"
+  },
+  "nft.created": {
+    "defaultMessage": "NFT created"
+  },
+  "nft.description": {
+    "defaultMessage": "NFT description"
+  },
+  "nft.detail": {
+    "defaultMessage": "NFT detail"
+  },
+  "nft.drop": {
+    "defaultMessage": "NFT Drop"
+  },
+  "nft.edition.airdrop": {
+    "defaultMessage": "NFT Edition Airdrop"
+  },
+  "nft.image": {
+    "defaultMessage": "NFT Image"
+  },
+  "nft.imported": {
+    "defaultMessage": "NFT imported"
+  },
+  "nft.metadata": {
+    "defaultMessage": "NFT metadata"
+  },
+  "nft.metadata.error": {
+    "defaultMessage": "NFT metadata error"
+  },
+  "nft.metadata.not.saved": {
+    "defaultMessage": "Your nft metadata was not saved"
+  },
+  "nft.name": {
+    "defaultMessage": "NFT name"
+  },
+  "nft.removed.from.your.favorites": {
+    "defaultMessage": "NFT removed from your favorites"
+  },
+  "nft.store": {
+    "defaultMessage": "NFT store"
+  },
+  "nft.store.quick.builder": {
+    "defaultMessage": "NFT store quick builder"
+  },
+  "nfts": {
+    "defaultMessage": "NFTs"
+  },
+  "nfts.created": {
+    "defaultMessage": "NFTs created"
+  },
+  "nfts.created.close.modal": {
+    "defaultMessage": "NFT created! Close modal"
+  },
+  "nfts.created.error": {
+    "defaultMessage": "NFTs created error"
+  },
+  "nfts.metadata.edited": {
+    "defaultMessage": "NFTs metadata edited"
+  },
+  "nfts.metadata.error": {
+    "defaultMessage": "NFTs metadata error"
+  },
+  "nfts.metadata.not.saved": {
+    "defaultMessage": "Your nfts metadata were not saved"
+  },
+  "nfts.metadata.saved": {
+    "defaultMessage": "NFTs metadata saved"
+  },
+  "nfts.not.found": {
+    "defaultMessage": "NFT's not found"
+  },
+  "nfts.staked": {
+    "defaultMessage": "NFTs staked"
+  },
+  "no.app.leaderboards": {
+    "defaultMessage": "No app leaderboards"
+  },
+  "no.app.versions": {
+    "defaultMessage": "No app versions"
+  },
+  "no.apps": {
+    "defaultMessage": "No Apps"
+  },
+  "no.available.offers": {
+    "defaultMessage": "No Available offers",
+    "description": "No Available offers message"
+  },
+  "no.collections": {
+    "defaultMessage": "No collections"
+  },
+  "no.contracts.found": {
+    "defaultMessage": "No contracts found"
+  },
+  "no.description": {
+    "defaultMessage": "no description"
+  },
+  "no.forms.yet": {
+    "defaultMessage": "No forms yet"
+  },
+  "no.hidden.nfts.found": {
+    "defaultMessage": "No hidden NFTs Found"
+  },
+  "no.listings.yet": {
+    "defaultMessage": "No listings yet"
+  },
+  "no.networks": {
+    "defaultMessage": "No networks"
+  },
+  "no.networks.are.available": {
+    "defaultMessage": "No networks are available"
+  },
+  "no.nfts": {
+    "defaultMessage": "No NFTs"
+  },
+  "no.nfts.found": {
+    "defaultMessage": "No NFTs Found"
+  },
+  "no.offers.yet": {
+    "defaultMessage": "No offers yet"
+  },
+  "no.orders.found": {
+    "defaultMessage": "No Orders Found"
+  },
+  "no.page.templates": {
+    "defaultMessage": "No page templates"
+  },
+  "no.results": {
+    "defaultMessage": "No results",
+    "description": "No Available offers message"
+  },
+  "no.selected.networks": {
+    "defaultMessage": "No selected networks"
+  },
+  "no.team.members": {
+    "defaultMessage": "No team members"
+  },
+  "no.templates.found.for.this.usecase": {
+    "defaultMessage": "No templates found for this usecase"
+  },
+  "no.tokens": {
+    "defaultMessage": "No Tokens"
+  },
+  "no.usage": {
+    "defaultMessage": "No usage"
+  },
+  "no.user.with.this.name": {
+    "defaultMessage": "No user with this name"
+  },
+  "no.wallet.connected": {
+    "defaultMessage": "No Wallet connected"
+  },
+  "not.available": {
+    "defaultMessage": "Not available"
+  },
+  "not.deployed": {
+    "defaultMessage": "Not deployed"
+  },
+  "not.enough.kit": {
+    "defaultMessage": "Not enough KIT"
+  },
+  "not.verified": {
+    "defaultMessage": "Not verified"
+  },
+  "nothing.to.see.here": {
+    "defaultMessage": "Nothing to see here"
+  },
+  "notification.email": {
+    "defaultMessage": "Notification email"
+  },
+  "number": {
+    "defaultMessage": "Number"
+  },
+  "numerator": {
+    "defaultMessage": "Rewards per Unit Time"
+  },
+  "offchain.events": {
+    "defaultMessage": "Offchain events"
+  },
+  "offer": {
+    "defaultMessage": "Offer"
+  },
+  "offers": {
+    "defaultMessage": "Offers"
+  },
+  "onboarding.builder.collections": {
+    "defaultMessage": "Add your highlighted collections to appear on your app's collection page and NFT sections. By featuring collections, you can draw attention to specific NFTs and increase the visibility and sales of these items. This can help promote your app and generate revenue for your business."
+  },
+  "onboarding.builder.domain": {
+    "defaultMessage": "Deploy your app on your own domain to make it accessible to a wider audience. To do so, you'll need to configure your domain settings and follow our step-by-step guide to ensure a smooth deployment process. Once complete, your app will be up and running on your very own domain!"
+  },
+  "onboarding.builder.footer.menu": {
+    "defaultMessage": "Customize your app's footer to provide additional information and improve navigation for your users. You can use page links to direct users to specific pages within your app, or external links to connect users to related resources or information outside of your app. By customizing your footer, you can create a more complete and user-friendly experience for your audience."
+  },
+  "onboarding.builder.general": {
+    "defaultMessage": "Customize your app by editing its name and logos, as well as defining your default currency and language. These settings not only help make your app unique, but also ensure a seamless user experience for your audience."
+  },
+  "onboarding.builder.marketplace.fees": {
+    "defaultMessage": "Set your marketplace fees that will be added on top of NFT sales or offers. By setting fees, you can earn a commission on each sale made on your app's marketplace. This can help generate revenue and sustain the growth and development of your app over time."
+  },
+  "onboarding.builder.menu": {
+    "defaultMessage": "Customize your app's navbar menu links to improve navigation and highlight key features of your app. You can use page links to direct users to specific pages within your app, or external links to connect users to related resources or information outside of your app. By customizing your navbar menu links, you can create a more intuitive and user-friendly experience for your audience"
+  },
+  "onboarding.builder.menu.kits": {
+    "defaultMessage": "Use our KITs to filter tools based on your needs. Choose from ALL to see all available tools, NFT to see non-fungible token-related tools, or Swap to see tools related to swapping. With our KITs, you have the flexibility to customize your app-building experience to your preferences."
+  },
+  "onboarding.builder.ownership": {
+    "defaultMessage": "Get ownership of your app content by creating a non-fungible token (NFT) associated with your app. An NFT is a unique digital asset that represents ownership of a specific piece of content, such as your app. By creating an NFT for your app, you can establish its uniqueness and ownership, helping to protect your intellectual property and increase its value."
+  },
+  "onboarding.builder.pages": {
+    "defaultMessage": "Build pages using our Web3 KITs, which provide you with pre-built templates and components for creating swap interfaces, NFT marketplaces, NFT stores, or even generic pages. With our KITs, you can easily customize your pages and create a unique user experience that aligns with your app's goals and objectives."
+  },
+  "onboarding.builder.preview.app.button": {
+    "defaultMessage": "Preview your app in a modal right after saving your changes. This allows you to see your updates in real time and make any necessary adjustments before publishing your app."
+  },
+  "onboarding.builder.preview.app.link": {
+    "defaultMessage": "Preview your app on the associated DexKit domain, which can be used for both testing and production. This provides you with a unique URL where you can view your app in a web browser and share it with others for feedback or to showcase your finished product. It's a great way to see how your app looks and functions in a real-world environment."
+  },
+  "onboarding.builder.seo": {
+    "defaultMessage": "Customize the SEO fields for each page to improve your app's visibility and search engine rankings. By optimizing fields such as page titles, and descriptions, you can help search engines understand the content of your pages and rank them higher in search results. By customizing your SEO fields, you can attract more traffic to your app and increase your chances of success"
+  },
+  "onboarding.builder.social.media": {
+    "defaultMessage": "Set up your social media profiles for your app to increase its visibility and connect with your audience. By creating a strong social media presence, you can promote your app, build a community around it, and receive valuable feedback from your users."
+  },
+  "onboarding.builder.swap.fees": {
+    "defaultMessage": "Set your swap fees that will be added on top of swap trades. By setting fees, you can earn a commission on each swap trade made on your app's interface. This can help generate revenue and sustain the growth and development of your app over time"
+  },
+  "onboarding.builder.theme": {
+    "defaultMessage": "Select your global theme and font for your app to ensure a consistent and visually appealing experience for your users. By choosing a theme and font that aligns with your brand identity, you can create a cohesive look and feel that strengthens your brand recognition and credibility."
+  },
+  "onboarding.builder.tokens": {
+    "defaultMessage": "Add tokens to be featured on your app's swap component. By featuring tokens, you can draw attention to specific tokens and increase their visibility and trading volume. This can help promote your app and generate revenue for your business."
+  },
+  "onboarding.welcome.dexappbuilder": {
+    "defaultMessage": "'Welcome to DexAppBuilder, the powerful tool that makes it easy to build and edit your own app! With our intuitive interface and robust feature set, you'll be up and running in no time. Whether you're a seasoned developer or just starting out, our comprehensive documentation and dedicated support team are here to help you every step of the way. So let's get started and see all that DexAppBuilder has to offer!"
+  },
+  "onchain.events": {
+    "defaultMessage": "Onchain events"
+  },
+  "only.visible": {
+    "defaultMessage": "Only visible"
+  },
+  "oop.page.not.found": {
+    "defaultMessage": "Oops, page not found"
+  },
+  "oops.nothing.here": {
+    "defaultMessage": "Oops! Nothing here"
+  },
+  "oops.something.went.wrong": {
+    "defaultMessage": "Oops, something went wrong"
+  },
+  "open": {
+    "defaultMessage": "Open"
+  },
+  "open.file": {
+    "defaultMessage": "Open file"
+  },
+  "open.in.new.page": {
+    "defaultMessage": "Open in new page"
+  },
+  "open.url": {
+    "defaultMessage": "Open url"
+  },
+  "or": {
+    "defaultMessage": "Or"
+  },
+  "order": {
+    "defaultMessage": "Order"
+  },
+  "order.created": {
+    "defaultMessage": "Order #{id} Created"
+  },
+  "order.type": {
+    "defaultMessage": "Order type"
+  },
+  "orders": {
+    "defaultMessage": "Orders"
+  },
+  "output": {
+    "defaultMessage": "Output"
+  },
+  "output.type": {
+    "defaultMessage": "Output Type"
+  },
+  "overlay.color": {
+    "defaultMessage": "Overlay color"
+  },
+  "owned.by": {
+    "defaultMessage": "Owned by"
+  },
+  "owner": {
+    "defaultMessage": "Owner"
+  },
+  "owners": {
+    "defaultMessage": "Owners"
+  },
+  "ownership": {
+    "defaultMessage": "Ownership"
+  },
+  "ownership.explainer": {
+    "defaultMessage": "This NFT represents app ownership and editing rights. You can sell or transfer your app ownership through this NFT, hosted on Polygon. Who owns this NFT can edit it."
+  },
+  "ownership.nft.info": {
+    "defaultMessage": "To access this feature, simply hold 1000 KIT tokens on one of our supported networks: ETH, BSC, or Polygon. Note: NFT-associated apps are not clonable."
+  },
+  "ownership.settings.description": {
+    "defaultMessage": "Associate an NFT with your app for ownership control and update site metadata for marketing"
+  },
+  "padding.bottom": {
+    "defaultMessage": "Padding bottom"
+  },
+  "padding.top": {
+    "defaultMessage": "Padding top"
+  },
+  "page": {
+    "defaultMessage": "Page"
+  },
+  "page.preview.title": {
+    "defaultMessage": "{title} page preview"
+  },
+  "page.template": {
+    "defaultMessage": "Page Template"
+  },
+  "page.template.removed": {
+    "defaultMessage": "Page template removed"
+  },
+  "page.templates": {
+    "defaultMessage": "Page templates"
+  },
+  "page.wizard": {
+    "defaultMessage": "Page wizard"
+  },
+  "pages": {
+    "defaultMessage": "Pages"
+  },
+  "pages.wizard.description": {
+    "defaultMessage": "Create and manage your app's pages"
+  },
+  "paper.color": {
+    "defaultMessage": "Paper Color"
+  },
+  "paste": {
+    "defaultMessage": "Paste"
+  },
+  "pay.amount.symbol": {
+    "defaultMessage": "Pay {amount} {tokenSymbol}"
+  },
+  "payment.confirmed": {
+    "defaultMessage": "Payment expired"
+  },
+  "payment.pending": {
+    "defaultMessage": "Payment Pending"
+  },
+  "payments": {
+    "defaultMessage": "Payments"
+  },
+  "per.wallet": {
+    "defaultMessage": "per wallet"
+  },
+  "phases": {
+    "defaultMessage": "Phases"
+  },
+  "plan.details": {
+    "defaultMessage": "Plan details"
+  },
+  "please.confirm.the.transaction.in.your.wallet.and.wait.for.confirmation": {
+    "defaultMessage": "Please, confirm the transaction in your wallet and wait for confirmation"
+  },
+  "please.connect.your.wallet": {
+    "defaultMessage": "Please, connect your wallet to see orders"
+  },
+  "please.connect.your.wallet.to.see.balance": {
+    "defaultMessage": "Please, connect your wallet to see your balance"
+  },
+  "please.create.a.form.to.start.using.it.here": {
+    "defaultMessage": "Please, create a form to start using it here"
+  },
+  "please.create.a.leaderboard.to.start.using.it.here": {
+    "defaultMessage": "Please, create a leaderboard to start using it here"
+  },
+  "please.sign.the.settings.with.your.wallet": {
+    "defaultMessage": "Please, sign the settings with your wallet"
+  },
+  "please.try.again.later": {
+    "defaultMessage": "Please, try again later"
+  },
+  "points": {
+    "defaultMessage": "Points"
+  },
+  "post.offers": {
+    "defaultMessage": "Post offers",
+    "description": "Post offers"
+  },
+  "powered.by.dexkit.info": {
+    "defaultMessage": "To remove the \"Powered by DexKit\" branding, click \"Create NFT\" to associate an NFT with your app."
+  },
+  "preview": {
+    "defaultMessage": "Preview"
+  },
+  "preview.app": {
+    "defaultMessage": "Preview App"
+  },
+  "preview.app.leaderboard": {
+    "defaultMessage": "Preview app leaderboard"
+  },
+  "preview.app.version": {
+    "defaultMessage": "Preview app version"
+  },
+  "preview.page": {
+    "defaultMessage": "Preview page"
+  },
+  "preview.section": {
+    "defaultMessage": "Preview section"
+  },
+  "preview.url": {
+    "defaultMessage": "Preview url"
+  },
+  "price": {
+    "defaultMessage": "Price"
+  },
+  "price.fiat": {
+    "defaultMessage": "Price {currency}"
+  },
+  "price.in.next.phase": {
+    "defaultMessage": "Price in next phase"
+  },
+  "price.per.item": {
+    "defaultMessage": "Price per item",
+    "description": "Price label per item"
+  },
+  "primary.color": {
+    "defaultMessage": "Primary color"
+  },
+  "profile.image": {
+    "defaultMessage": "Profile Image"
+  },
+  "profileImage": {
+    "defaultMessage": "Profile Image"
+  },
+  "provider.not.found": {
+    "defaultMessage": "Provider not found"
+  },
+  "published.by.publisher": {
+    "defaultMessage": "Published by: {publisher}"
+  },
+  "quantity": {
+    "defaultMessage": "Quantity"
+  },
+  "quick.exchange.builder": {
+    "defaultMessage": "Quick Exchange Builder"
+  },
+  "quick.exchange.builder.description": {
+    "defaultMessage": "Elevate your cryptocurrency trading game with our Quick Builder for exchanges. Effortlessly create your exchange platform, tailor it to your needs, and embark on a journey of financial innovation. Explore the possibilities and redefine the way you build exchanges."
+  },
+  "quick.nft.store.builder": {
+    "defaultMessage": "Quick NFT store builder"
+  },
+  "quick.store.builder.title": {
+    "defaultMessage": "Create a NFT store app in seconds using our quick app builder"
+  },
+  "quick.swap.builder": {
+    "defaultMessage": "Quick swap builder"
+  },
+  "quick.swap.builder.description": {
+    "defaultMessage": "Create a crypto wallet for your token. You can configure it to match the brand of your project"
+  },
+  "quick.swap.builder.title": {
+    "defaultMessage": "Create a crypto aggregator app in seconds using our quick app builder"
+  },
+  "quick.swap.wizard.description": {
+    "defaultMessage": "Create a NFT store for your account. Share your store to users easily buy the offers you post. A dedicated store to show your NFTs"
+  },
+  "quick.wallet.builder.title": {
+    "defaultMessage": "Create a crypto wallet in seconds using our quick app builder"
+  },
+  "quick.waççet.builder": {
+    "defaultMessage": "Quick wallet builder"
+  },
+  "quick.wizard.nft.store.welcome.index.message": {
+    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your NFT store. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+  },
+  "quick.wizard.swap.welcome.index.message": {
+    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your crypto aggregator If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+  },
+  "quick.wizard.wallet.welcome.index.message": {
+    "defaultMessage": "Welcome to DexAppBuilder! Here you can quick start your wallet. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+  },
+  "ranking.added": {
+    "defaultMessage": "Ranking added"
+  },
+  "ranking.created": {
+    "defaultMessage": "Ranking created"
+  },
+  "read": {
+    "defaultMessage": "Read"
+  },
+  "receive": {
+    "defaultMessage": "Receive"
+  },
+  "recipient": {
+    "defaultMessage": "Recipient"
+  },
+  "recipient.address.already.in.use": {
+    "defaultMessage": "Recipient address already in use"
+  },
+  "reddit": {
+    "defaultMessage": "Reddit"
+  },
+  "ref.period": {
+    "defaultMessage": "Ref. period"
+  },
+  "remove": {
+    "defaultMessage": "Remove"
+  },
+  "remove.account.from.user": {
+    "defaultMessage": "Remove account from user"
+  },
+  "remove.condition": {
+    "defaultMessage": "Remove condition"
+  },
+  "remove.member": {
+    "defaultMessage": "Remove member"
+  },
+  "remove.nft": {
+    "defaultMessage": "Remove NFT",
+    "description": "Remove nft dialog title"
+  },
+  "remove.section": {
+    "defaultMessage": "Remove section"
+  },
+  "required.field": {
+    "defaultMessage": "required field"
+  },
+  "reset": {
+    "defaultMessage": "Reset"
+  },
+  "reward.per.time.unit": {
+    "defaultMessage": "Reward per time Unit"
+  },
+  "reward.per.unit.time": {
+    "defaultMessage": "Reward per Unit Time"
+  },
+  "reward.ratio": {
+    "defaultMessage": "Reward Ratio"
+  },
+  "reward.time": {
+    "defaultMessage": "Reward time"
+  },
+  "rewards": {
+    "defaultMessage": "Rewards"
+  },
+  "rewards.second": {
+    "defaultMessage": "Rewards/second"
+  },
+  "right": {
+    "defaultMessage": "Right"
+  },
+  "royalty.percentage": {
+    "defaultMessage": "Royalty (%)"
+  },
+  "rule.index.value": {
+    "defaultMessage": "Rule {index}"
+  },
+  "rules": {
+    "defaultMessage": "Rules"
+  },
+  "save": {
+    "defaultMessage": "Save"
+  },
+  "save.collection.metadata": {
+    "defaultMessage": "Save collection metadata"
+  },
+  "save.nfts.metadata": {
+    "defaultMessage": "Save NFTs metadata"
+  },
+  "save.payment": {
+    "defaultMessage": "Save payment"
+  },
+  "save.section": {
+    "defaultMessage": "Save section"
+  },
+  "save.your.row.changes.before.confirm": {
+    "defaultMessage": "Save your row changes before confirm"
+  },
+  "saved.successfully": {
+    "defaultMessage": "Saved successfully"
+  },
+  "scan": {
+    "defaultMessage": "Scan"
+  },
+  "scan.code": {
+    "defaultMessage": "Scan code",
+    "description": "Select currency"
+  },
+  "scan.using.crypto.mobile.app": {
+    "defaultMessage": "Scan QR code using crypto mobile app like Metamask or Trust"
+  },
+  "search": {
+    "defaultMessage": "Search"
+  },
+  "search.default.base.token": {
+    "defaultMessage": "Search default base token"
+  },
+  "search.default.input.token": {
+    "defaultMessage": "Search default input token"
+  },
+  "search.default.output.token": {
+    "defaultMessage": "Search default output token"
+  },
+  "search.for.a.contract": {
+    "defaultMessage": "Search for a contract"
+  },
+  "search.for.a.nft": {
+    "defaultMessage": "Search for a NFT"
+  },
+  "search.for.token": {
+    "defaultMessage": "Search for tokens..."
+  },
+  "search.in.collection": {
+    "defaultMessage": "Search in collection"
+  },
+  "search.in.store": {
+    "defaultMessage": "Search in store"
+  },
+  "search.not.returned.results": {
+    "defaultMessage": "Search not returned results. Try other search words."
+  },
+  "search.token": {
+    "defaultMessage": "Search token"
+  },
+  "search.token.in": {
+    "defaultMessage": "Search token in"
+  },
+  "search.token.out": {
+    "defaultMessage": "Search token out"
+  },
+  "searchbar": {
+    "defaultMessage": "Searchbar"
+  },
+  "secondary.color": {
+    "defaultMessage": "Secondary color"
+  },
+  "section.addItemsPrompt": {
+    "defaultMessage": "Please add items to the section below."
+  },
+  "section.editor": {
+    "defaultMessage": "Section editor"
+  },
+  "see.all": {
+    "defaultMessage": "See all"
+  },
+  "select": {
+    "defaultMessage": "Select"
+  },
+  "select.a.edition": {
+    "defaultMessage": "Select a edition"
+  },
+  "select.a.token": {
+    "defaultMessage": "Select a token",
+    "description": "Select a token message"
+  },
+  "select.a.token.for.your.airdrop": {
+    "defaultMessage": "Select a token for your airdrop"
+  },
+  "select.a.token.to.pay": {
+    "defaultMessage": "Select a token to pay"
+  },
+  "select.all": {
+    "defaultMessage": "Select All"
+  },
+  "select.an.nft": {
+    "defaultMessage": "Select an NFT"
+  },
+  "select.collection": {
+    "defaultMessage": "Select collection"
+  },
+  "select.collections.to.display.in.your.app": {
+    "defaultMessage": "Select collections to display in your app"
+  },
+  "select.currency": {
+    "defaultMessage": "Select currency",
+    "description": "Select currency"
+  },
+  "select.items": {
+    "defaultMessage": "Select items"
+  },
+  "select.language": {
+    "defaultMessage": "Select language",
+    "description": "Select language"
+  },
+  "select.network": {
+    "defaultMessage": "Select Network",
+    "description": "select network dialog title"
+  },
+  "select.nfts": {
+    "defaultMessage": "Select NFTs"
+  },
+  "select.nfts.to.unstake": {
+    "defaultMessage": "Select NFTs to unstake"
+  },
+  "select.or.import.nft": {
+    "defaultMessage": "Select or import a NFT to create an order"
+  },
+  "select.or.import.tokens.for.your.app": {
+    "defaultMessage": "Select or import tokens for your app"
+  },
+  "select.page": {
+    "defaultMessage": "Select page"
+  },
+  "select.plan": {
+    "defaultMessage": "Select Plan"
+  },
+  "select.recipients": {
+    "defaultMessage": "Select"
+  },
+  "select.type": {
+    "defaultMessage": "All"
+  },
+  "selected.addresses.amount": {
+    "defaultMessage": "Selected addresses: {amount}"
+  },
+  "sell": {
+    "defaultMessage": "Sell"
+  },
+  "sell.asset": {
+    "defaultMessage": "Sell asset",
+    "description": "Sell asset dialog title"
+  },
+  "sell.token.page": {
+    "defaultMessage": "Sell token page"
+  },
+  "send": {
+    "defaultMessage": "Send"
+  },
+  "send.settings": {
+    "defaultMessage": "Send settings"
+  },
+  "sending.airdrop.to.your.wallet": {
+    "defaultMessage": "Sending airdrop to your wallet"
+  },
+  "sending.app.settings": {
+    "defaultMessage": "Sending app settings"
+  },
+  "sending.config": {
+    "defaultMessage": "Sending config"
+  },
+  "sending.page.template.data": {
+    "defaultMessage": "Sending page template data"
+  },
+  "sending.page.template.settings": {
+    "defaultMessage": "Sending page template settings"
+  },
+  "sending.user.profile.data": {
+    "defaultMessage": "Complete profile data"
+  },
+  "sent.successfully": {
+    "defaultMessage": "Sent successfully"
+  },
+  "sent.successfully.be.aware.info": {
+    "defaultMessage": "Sent successfully. Be aware that it takes several minutes to update and reflect on the live site."
+  },
+  "seo": {
+    "defaultMessage": "SEO"
+  },
+  "seo.wizard.description": {
+    "defaultMessage": "Configure your app's SEO"
+  },
+  "set.api.key": {
+    "defaultMessage": "Set api key"
+  },
+  "set.app.to.this.version": {
+    "defaultMessage": "Set app to this version"
+  },
+  "set.claim.conditions.to.enable.drop.info": {
+    "defaultMessage": "Set claim conditions to enable the drop. You can edit anytime the claim conditions."
+  },
+  "set.custom.domain.container.description": {
+    "defaultMessage": "Set a custom domain for your app"
+  },
+  "set.integrations.settings.for.your.app": {
+    "defaultMessage": "Integration settings for your app."
+  },
+  "set.up": {
+    "defaultMessage": "Set up"
+  },
+  "settings": {
+    "defaultMessage": "Settings"
+  },
+  "settings.to.configure.store": {
+    "defaultMessage": "Settings to configure your NFT Store"
+  },
+  "setup.your.zrx.configure.0x.text": {
+    "defaultMessage": "Setup your 0x API key for access to our services."
+  },
+  "share": {
+    "defaultMessage": "Share"
+  },
+  "share.image": {
+    "defaultMessage": "Share image"
+  },
+  "share.your.address": {
+    "defaultMessage": "Share your address"
+  },
+  "short.description": {
+    "defaultMessage": "Short description"
+  },
+  "shortbio": {
+    "defaultMessage": "Short Bio"
+  },
+  "show": {
+    "defaultMessage": "Show"
+  },
+  "show.all": {
+    "defaultMessage": "Show all"
+  },
+  "show.token.details": {
+    "defaultMessage": "Show token details"
+  },
+  "showcase": {
+    "defaultMessage": "Showcase Gallery"
+  },
+  "sign.message": {
+    "defaultMessage": "Sign Message",
+    "description": "Sign message dialog title"
+  },
+  "simple": {
+    "defaultMessage": "Simple"
+  },
+  "site.email.not.verified.on.admin.message": {
+    "defaultMessage": "Your app email is not verified. Please verify it using the verification email we sent. If you haven't received the email or need it sent again, request a confirmation email <a>here</a>"
+  },
+  "site.list": {
+    "defaultMessage": "Site list"
+  },
+  "site.list.description": {
+    "defaultMessage": "Start your own site/marketplace/app in seconds. Here you can view and be inspired by other community apps. Start now being a crypto enterpreneur"
+  },
+  "site.metada.image": {
+    "defaultMessage": "Site metadata image"
+  },
+  "site.metadata": {
+    "defaultMessage": "Site metadata"
+  },
+  "site.metadata.created": {
+    "defaultMessage": "Site metadata created"
+  },
+  "site.metadata.created.error": {
+    "defaultMessage": "Site metadata created error"
+  },
+  "site.metadata.edited": {
+    "defaultMessage": "Site metadata edited"
+  },
+  "site.metadata.edited.error": {
+    "defaultMessage": "Site metadata edited error"
+  },
+  "site.subtitle": {
+    "defaultMessage": "Site subtitle"
+  },
+  "site.templates": {
+    "defaultMessage": "Site templates"
+  },
+  "site.templates.description": {
+    "defaultMessage": "Start your own site/marketplace/app in seconds. Here you can view and clone apps with various usecases. Start now being a crypto enterpreneur"
+  },
+  "site.title": {
+    "defaultMessage": "Site title"
+  },
+  "slippage.is.above.one.hundred.percent": {
+    "defaultMessage": "Slippage is above 100%"
+  },
+  "slippage.is.below.zero": {
+    "defaultMessage": "Slippage is below zero"
+  },
+  "social.media": {
+    "defaultMessage": "Social Media"
+  },
+  "social.media.title": {
+    "defaultMessage": "Social Media"
+  },
+  "socials": {
+    "defaultMessage": "Socials"
+  },
+  "sold.out": {
+    "defaultMessage": "Sold out"
+  },
+  "something.went.wrong": {
+    "defaultMessage": "Oops, something went wrong",
+    "description": "Something went wrong error message"
+  },
+  "something.went.wrong.with.section.type.contact.support": {
+    "defaultMessage": "Oops, something went wrong with section type {sectionType}. Contact support",
+    "description": "Something went wrong error message"
+  },
+  "stake": {
+    "defaultMessage": "Stake"
+  },
+  "stake.contract": {
+    "defaultMessage": "Stake Contract"
+  },
+  "start": {
+    "defaultMessage": "Start"
+  },
+  "start.by.connect.wallet": {
+    "defaultMessage": "Connect wallet to account that owns this app: {slug}"
+  },
+  "start.creating.collections": {
+    "defaultMessage": "Start creating collections"
+  },
+  "start.for.free": {
+    "defaultMessage": "Start for free"
+  },
+  "start.posting.offers.collection": {
+    "defaultMessage": "Start posting offers for this collection",
+    "description": "Start posting offers for this collection"
+  },
+  "start.time": {
+    "defaultMessage": "Start Time"
+  },
+  "status": {
+    "defaultMessage": "Status"
+  },
+  "steps.completed.finished.stepper": {
+    "defaultMessage": "All steps completed - you finished swap configuration"
+  },
+  "store.account": {
+    "defaultMessage": "Store account"
+  },
+  "store.without.order": {
+    "defaultMessage": "Store without offers. Came back later!"
+  },
+  "subtitle": {
+    "defaultMessage": "Subtitle"
+  },
+  "success.color": {
+    "defaultMessage": "Success color"
+  },
+  "swap": {
+    "defaultMessage": "Swap"
+  },
+  "swap.apps": {
+    "defaultMessage": "Swap apps"
+  },
+  "swap.fees.menu.container": {
+    "defaultMessage": "Swap Fees"
+  },
+  "swap.fees.title": {
+    "defaultMessage": "Swap Fees"
+  },
+  "swap.quick.builder": {
+    "defaultMessage": "Swap quick builder"
+  },
+  "swap.settings": {
+    "defaultMessage": "Swap Settings"
+  },
+  "swap.step.general.info": {
+    "defaultMessage": "Set general info for your wallet app."
+  },
+  "swap.step.theme.info": {
+    "defaultMessage": "Choose swap app theme and font."
+  },
+  "switch.network": {
+    "defaultMessage": "Switch network"
+  },
+  "switch.network.content.text": {
+    "defaultMessage": "Please, switch to {chainName} network to create listings or offers for this asset",
+    "description": "Switch network dialog content text"
+  },
+  "switch.to.network.network": {
+    "defaultMessage": "Switch to {network} network"
+  },
+  "switch.wallet": {
+    "defaultMessage": "Switch wallet"
+  },
+  "switch.your.wallet.to.another.account.and.click.connect.account": {
+    "defaultMessage": "Switch your wallet to another account and click connect account"
+  },
+  "symbol": {
+    "defaultMessage": "Symbol"
+  },
+  "team": {
+    "defaultMessage": "Team"
+  },
+  "team.management": {
+    "defaultMessage": "Team management"
+  },
+  "template.created": {
+    "defaultMessage": "Contract template updated"
+  },
+  "templates": {
+    "defaultMessage": "Templates"
+  },
+  "text.color": {
+    "defaultMessage": "Text color"
+  },
+  "text.field": {
+    "defaultMessage": "Text field"
+  },
+  "the.amount.cannot.be.zero": {
+    "defaultMessage": "The amount cannot be zero"
+  },
+  "the.buyer.will.pay.percentage.in.fees": {
+    "defaultMessage": "The buyer will pay {price} {symbol} +{percentage} in fees"
+  },
+  "the.nft.has.no.metadata": {
+    "defaultMessage": "The NFT has no metadata"
+  },
+  "theme": {
+    "defaultMessage": "Theme"
+  },
+  "theme.preview": {
+    "defaultMessage": "Theme Preview"
+  },
+  "themes": {
+    "defaultMessage": "Themes"
+  },
+  "thirdweb.contracts": {
+    "defaultMessage": "ThirdWeb Contracts"
+  },
+  "this.app.is.not.clonable": {
+    "defaultMessage": "This app is not clonable."
+  },
+  "this.drop.is.not.ready.to.be.minted": {
+    "defaultMessage": "This drop is not ready to be minted."
+  },
+  "this.drop.is.not.ready.to.be.minted.": {
+    "defaultMessage": "This drop is not ready to be minted."
+  },
+  "this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set": {
+    "defaultMessage": "This drop is not ready to be minted yet. (No claim condition set)"
+  },
+  "this.token.is.available.on.the.marketplace": {
+    "defaultMessage": "This token is available on the marketplace"
+  },
+  "time.unit": {
+    "defaultMessage": "Time unit"
+  },
+  "title": {
+    "defaultMessage": "Title"
+  },
+  "to": {
+    "defaultMessage": "to"
+  },
+  "token": {
+    "defaultMessage": "Token"
+  },
+  "token.added": {
+    "defaultMessage": "Token added"
+  },
+  "token.already.imported": {
+    "defaultMessage": "Token already imported"
+  },
+  "token.created": {
+    "defaultMessage": "Token created"
+  },
+  "token.drop": {
+    "defaultMessage": "Token Drop"
+  },
+  "token.id": {
+    "defaultMessage": "Token ID"
+  },
+  "token.import.info": {
+    "defaultMessage": "You can search tokens on our API or import it directly by contract address"
+  },
+  "token.not.supported": {
+    "defaultMessage": "Token not supported"
+  },
+  "token.standard": {
+    "defaultMessage": "Token Standard"
+  },
+  "token.symbol.message": {
+    "defaultMessage": "Token {tokenSymbol}"
+  },
+  "token.trade": {
+    "defaultMessage": "Token Trade"
+  },
+  "tokenId": {
+    "defaultMessage": "Token Id"
+  },
+  "tokens": {
+    "defaultMessage": "Tokens"
+  },
+  "total": {
+    "defaultMessage": "Total"
+  },
+  "total.cost": {
+    "defaultMessage": "Total cost"
+  },
+  "total.for.airdrop": {
+    "defaultMessage": "Total for Airdrop"
+  },
+  "total.items.to.claim": {
+    "defaultMessage": "Total items to claim"
+  },
+  "total.items.to.claim.per.wallet": {
+    "defaultMessage": "Total items to claim per wallet"
+  },
+  "total.minted": {
+    "defaultMessage": "Total minted"
+  },
+  "total.recipients": {
+    "defaultMessage": "Total recipients"
+  },
+  "total.rewards": {
+    "defaultMessage": "Total Rewards"
+  },
+  "total.staked": {
+    "defaultMessage": "Total staked"
+  },
+  "total.supply": {
+    "defaultMessage": "Total Supply"
+  },
+  "total.to.mint": {
+    "defaultMessage": "Total to mint"
+  },
+  "total.to.receive": {
+    "defaultMessage": "Total to receive"
+  },
+  "total.usd": {
+    "defaultMessage": "Total in USD"
+  },
+  "total.volume": {
+    "defaultMessage": "Total volume"
+  },
+  "tradable": {
+    "defaultMessage": "Tradable"
+  },
+  "trade.token.page": {
+    "defaultMessage": "Trade token page"
+  },
+  "trade.token.seo..title.message": {
+    "defaultMessage": "The easiest way to {orderMarketType} {tokenSymbol} on {network}"
+  },
+  "trade.token.seo.description.message": {
+    "defaultMessage": "Discover the optimal way to {orderMarketType} {tokenSymbol} on the {network}. Our platform ensures swift and secure transactions, making {orderMarketType}ing {tokenSymbol} a breeze. Join now for the ultimate trading experience on the {network}!"
+  },
+  "trade.type": {
+    "defaultMessage": "Trade type"
+  },
+  "trades": {
+    "defaultMessage": "Trades"
+  },
+  "traits": {
+    "defaultMessage": "Traits"
+  },
+  "transaction": {
+    "defaultMessage": "Transaction"
+  },
+  "transaction.confirmed": {
+    "defaultMessage": "Transaction confirmed"
+  },
+  "transaction.cost": {
+    "defaultMessage": "Transaction cost"
+  },
+  "transaction.failed": {
+    "defaultMessage": "Transaction Failed"
+  },
+  "transaction.submitted": {
+    "defaultMessage": "Transaction Submitted"
+  },
+  "transactions": {
+    "defaultMessage": "Transactions"
+  },
+  "transfer": {
+    "defaultMessage": "Transfer"
+  },
+  "transfer.amount.symbol": {
+    "defaultMessage": "Transfer {amount} {symbol}"
+  },
+  "transfer.nft": {
+    "defaultMessage": "Transfer NFT"
+  },
+  "transfering.amount.to.pay": {
+    "defaultMessage": "Transfering amount to pay"
+  },
+  "try.again": {
+    "defaultMessage": "Try again",
+    "description": "Try again"
+  },
+  "try.gain": {
+    "defaultMessage": "Try again"
+  },
+  "twitter": {
+    "defaultMessage": "Twitter"
+  },
+  "twitter.username": {
+    "defaultMessage": "Twitter username"
+  },
+  "type": {
+    "defaultMessage": "Type"
+  },
+  "unclaimed.supply": {
+    "defaultMessage": "Unclaimed Supply"
+  },
+  "unhide": {
+    "defaultMessage": "Unhide"
+  },
+  "unknown.collection": {
+    "defaultMessage": "Unknown collection"
+  },
+  "unknown.name": {
+    "defaultMessage": "Unknown name"
+  },
+  "unknown.token": {
+    "defaultMessage": "Unknown token"
+  },
+  "unlimited": {
+    "defaultMessage": "Unlimited"
+  },
+  "unstake": {
+    "defaultMessage": "Unstake"
+  },
+  "up": {
+    "defaultMessage": "Up"
+  },
+  "update": {
+    "defaultMessage": "Update"
+  },
+  "update.form": {
+    "defaultMessage": "Save form"
+  },
+  "update.metadata": {
+    "defaultMessage": "Update metadata"
+  },
+  "update.nft": {
+    "defaultMessage": "Update NFT"
+  },
+  "update.site.metadata": {
+    "defaultMessage": "Update site metadata?"
+  },
+  "updating.app.ranking": {
+    "defaultMessage": "Updating app ranking"
+  },
+  "updating.app.versions": {
+    "defaultMessage": "Updating app version"
+  },
+  "updating.member.permissions": {
+    "defaultMessage": "Updating member permissions"
+  },
+  "updating.user.profile": {
+    "defaultMessage": "Updating user profile"
+  },
+  "uri": {
+    "defaultMessage": "Uri"
+  },
+  "url": {
+    "defaultMessage": "URL"
+  },
+  "usage.periods": {
+    "defaultMessage": "Usage periods"
+  },
+  "use.home.as.title.not.allowed": {
+    "defaultMessage": "Use Home as title is not allowed for pages"
+  },
+  "usecases": {
+    "defaultMessage": "Use cases"
+  },
+  "user.accounts": {
+    "defaultMessage": "User accounts:"
+  },
+  "user.contract.form": {
+    "defaultMessage": "User contract form"
+  },
+  "user.edit": {
+    "defaultMessage": "User Edit"
+  },
+  "user.event": {
+    "defaultMessage": "User Event"
+  },
+  "user.events.analytics": {
+    "defaultMessage": "User events analytics"
+  },
+  "user.events.analytics.wizard.description": {
+    "defaultMessage": "User events analytics on your app"
+  },
+  "user.login": {
+    "defaultMessage": "User login"
+  },
+  "user.name.variable": {
+    "defaultMessage": "User: {username}"
+  },
+  "user.not.found": {
+    "defaultMessage": "User not found"
+  },
+  "user.profile": {
+    "defaultMessage": "User profile"
+  },
+  "user.profile.value": {
+    "defaultMessage": "User Profile: {username}"
+  },
+  "user.verified.social": {
+    "defaultMessage": "Verified in: {discord} {twitter}"
+  },
+  "username": {
+    "defaultMessage": "Username"
+  },
+  "value": {
+    "defaultMessage": "Value"
+  },
+  "variant": {
+    "defaultMessage": "Variant"
+  },
+  "verified": {
+    "defaultMessage": "Verified"
+  },
+  "verify.discord": {
+    "defaultMessage": "Verify Twitter"
+  },
+  "verifying.domain": {
+    "defaultMessage": "Verifying Domain"
+  },
+  "version": {
+    "defaultMessage": "Version"
+  },
+  "version.added": {
+    "defaultMessage": "Version added"
+  },
+  "video": {
+    "defaultMessage": "Video"
+  },
+  "video.changelog": {
+    "defaultMessage": "Video changelog"
+  },
+  "video.type": {
+    "defaultMessage": "Video Type"
+  },
+  "video.url": {
+    "defaultMessage": "Video URL"
+  },
+  "view": {
+    "defaultMessage": "view"
+  },
+  "view.app": {
+    "defaultMessage": "View App"
+  },
+  "view.apps": {
+    "defaultMessage": "View Apps"
+  },
+  "view.collection": {
+    "defaultMessage": "View collection"
+  },
+  "view.contracts": {
+    "defaultMessage": "View contracts"
+  },
+  "view.details": {
+    "defaultMessage": "View details"
+  },
+  "view.form": {
+    "defaultMessage": "View form"
+  },
+  "view.less": {
+    "defaultMessage": "view less"
+  },
+  "view.more": {
+    "defaultMessage": "view more"
+  },
+  "view.nft": {
+    "defaultMessage": "View NFT"
+  },
+  "view.nft.drop": {
+    "defaultMessage": "View nft drop"
+  },
+  "view.nfts": {
+    "defaultMessage": "View nfts"
+  },
+  "view.on.explorer": {
+    "defaultMessage": "View on explorer"
+  },
+  "view.order": {
+    "defaultMessage": "View Order"
+  },
+  "view.page.templates": {
+    "defaultMessage": "View page templates"
+  },
+  "view.profile": {
+    "defaultMessage": "View profile"
+  },
+  "view.public.page": {
+    "defaultMessage": "View public page"
+  },
+  "view.public.profile": {
+    "defaultMessage": "View public profile"
+  },
+  "view.section": {
+    "defaultMessage": "View section"
+  },
+  "view.site": {
+    "defaultMessage": "View"
+  },
+  "view.site.metadata": {
+    "defaultMessage": "View site metadata"
+  },
+  "view.template": {
+    "defaultMessage": "View template"
+  },
+  "view.token": {
+    "defaultMessage": "View token"
+  },
+  "view.transaction": {
+    "defaultMessage": "View transaction"
+  },
+  "view.user.profile": {
+    "defaultMessage": "View user profile"
+  },
+  "visible.for": {
+    "defaultMessage": "Visible for"
+  },
+  "wait.in.seconds": {
+    "defaultMessage": "Wait in seconds"
+  },
+  "wait.nft.creation.by.dexkit": {
+    "defaultMessage": "Wait for NFT creation by DexKit"
+  },
+  "wait.transaction.to.complete": {
+    "defaultMessage": "Wait transaction to complete"
+  },
+  "waiting.confirmation": {
+    "defaultMessage": "Waiting confirmation"
+  },
+  "wallet": {
+    "defaultMessage": "Wallet"
+  },
+  "wallet.connected.account": {
+    "defaultMessage": "Wallet connected account"
+  },
+  "wallet.is.not.connected": {
+    "defaultMessage": "Wallet is not connected"
+  },
+  "wallet.quick.builder": {
+    "defaultMessage": "Wallet quick builder"
+  },
+  "wallet.section.form.info": {
+    "defaultMessage": "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks"
+  },
+  "wallet.step.theme.info": {
+    "defaultMessage": "Choose wallet app theme and font."
+  },
+  "warning.color": {
+    "defaultMessage": "Warning Color"
+  },
+  "web3forms.deplopy": {
+    "defaultMessage": "DexGenerator"
+  },
+  "width.px": {
+    "defaultMessage": "Width (px)"
+  },
+  "withdraw.rewards": {
+    "defaultMessage": "Withdraw Reward"
+  },
+  "wizard": {
+    "defaultMessage": "Wizard"
+  },
+  "wizard.collections.section.info": {
+    "defaultMessage": "Collections displayed by default on collection list page"
+  },
+  "wizard.welcome.index.message": {
+    "defaultMessage": "Welcome to DexAppBuilder! This is a beta product with constant development and at the moment is offered for free. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+  },
+  "write": {
+    "defaultMessage": "Write"
+  },
+  "you": {
+    "defaultMessage": "you"
+  },
+  "you.are.cloning": {
+    "defaultMessage": "You are cloning site: <b>{site}</b>. Check it live <a>here</a>"
+  },
+  "you.are.cloning.page.message": {
+    "defaultMessage": "You are cloning {page} page"
+  },
+  "you.are.not.eligible.to.mint.at.this.time": {
+    "defaultMessage": "You are not eligible to mint at this time."
+  },
+  "you.are.not.eligible.to.mint.quantity.tokens": {
+    "defaultMessage": "You are not eligible to mint {quantity} tokens."
+  },
+  "you.are.not.eligible.to.mint.tokens.quantity.value": {
+    "defaultMessage": "You are not eligible to mint {quantity} tokens."
+  },
+  "you.are.on.a.network.different.of.the.contract": {
+    "defaultMessage": "You are on a network different of the contract"
+  },
+  "you.are.paying.percentage.in.fees": {
+    "defaultMessage": "You are paying {price} {symbol} + {percentage} in fees"
+  },
+  "you.are.using.a.airdrop.claimable.contract": {
+    "defaultMessage": "You are using a airdrop claimable contract"
+  },
+  "you.are.using.a.stake.contract": {
+    "defaultMessage": "You are using a stake contract"
+  },
+  "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
+    "defaultMessage": "You can deploy contracts from our list and from the community in the future"
+  },
+  "you.do.not.have.enough.balance.for.your.airdrop": {
+    "defaultMessage": "You do not have enough balance for your Airdrop"
+  },
+  "you.dont.have.any.forms": {
+    "defaultMessage": "You don't have any forms yet"
+  },
+  "you.dont.have.any.leaderboards": {
+    "defaultMessage": "You don't have any leaderboards yet"
+  },
+  "you.dont.have.enough.currency.to.mint": {
+    "defaultMessage": "You don't have enough currency to mint."
+  },
+  "you.have.changes.unsaved.do.you.want.to.proceed.without.saving": {
+    "defaultMessage": "You have changes unsaved do you want to proceed without saving?"
+  },
+  "you.need.at.least.one.network.selected": {
+    "defaultMessage": "You need at least one network selected"
+  },
+  "you.need.to.add.or.import.tokens.so.users.can.make.trades": {
+    "defaultMessage": "You need to add or import tokens so users can make trades"
+  },
+  "you.need.to.approve.tokens.for.airdrop": {
+    "defaultMessage": "You need to approve tokens for airdrop"
+  },
+  "you.need.to.hold.kit.value": {
+    "defaultMessage": "You need to hold {value} KIT on one of these networks: BSC, ETH, or Polygon to use this feature"
+  },
+  "you.own": {
+    "defaultMessage": "You own"
+  },
+  "you.pay": {
+    "defaultMessage": "You pay"
+  },
+  "you.receive": {
+    "defaultMessage": "You receive"
+  },
+  "you.selected.more.than.amoount": {
+    "defaultMessage": "You selected {amount} tokens. The limit is {tokenLimit}"
+  },
+  "you.still.dont.have.any.records": {
+    "defaultMessage": "You still don't have any records."
+  },
+  "your.airdrop.balance": {
+    "defaultMessage": "Your airdrop balance"
+  },
+  "your.app.domain.was.added.to.our.system": {
+    "defaultMessage": "Your app domain was added to our system. Please add CNAME to your DNS provider and after that check domain status often till propagate"
+  },
+  "your.app.domain.was.verified.to.our.system": {
+    "defaultMessage": "Your app domain was verified on our system. Wait for domain to propagate and then visit your domain."
+  },
+  "your.balance": {
+    "defaultMessage": "Your balance"
+  },
+  "your.collection.not.created.onchain": {
+    "defaultMessage": "Your collection was not created onchain"
+  },
+  "your.collection.was.created.onchain": {
+    "defaultMessage": "Your collection was created onchain"
+  },
+  "your.collection.was.created.successfully": {
+    "defaultMessage": "Your collection was created successfully"
+  },
+  "your.collections": {
+    "defaultMessage": "your collections"
+  },
+  "your.editions": {
+    "defaultMessage": "Your Editions"
+  },
+  "your.fees.are.above.the.limit": {
+    "defaultMessage": "Your fees ({total}%) are above the limit ({maxFee}%)"
+  },
+  "your.marketplace.settings.was.sent.successfully": {
+    "defaultMessage": "Your config was sent successfully"
+  },
+  "your.nft.not.created": {
+    "defaultMessage": "Your NFT were not created"
+  },
+  "your.nft.not.created.onchain": {
+    "defaultMessage": "Your NFTs were not created onchain"
+  },
+  "your.nft.were.created": {
+    "defaultMessage": "Your NFT were created"
+  },
+  "your.nfts.was.created.successfully": {
+    "defaultMessage": "Your nfts was created successfully"
+  },
+  "your.nfts.was.edited.successfully": {
+    "defaultMessage": "Your nfts was edited successfully"
+  },
+  "your.nfts.were.created.onchain": {
+    "defaultMessage": "Your nfts were created onchain"
+  },
+  "your.order.was.created.successfully": {
+    "defaultMessage": "Your order was created successfully"
+  },
+  "your.payment.is.confirmed": {
+    "defaultMessage": "Your payment is confirmed"
+  },
+  "your.site.metadata.was.created": {
+    "defaultMessage": "Your site metadata was created"
+  },
+  "your.site.metadata.was.edited": {
+    "defaultMessage": "Your site metadata was edited"
+  },
+  "your.site.metadata.was.not.created": {
+    "defaultMessage": "Your site metadata was not created"
+  },
+  "your.site.metadata.was.not.edited": {
+    "defaultMessage": "Your site metadata was not edited"
+  },
+  "your.tokens": {
+    "defaultMessage": "Your tokens"
+  },
+  "your.transaction.requires.10.confirmations.for.full.validation": {
+    "defaultMessage": "Your transaction requires 10 confirmations for full validation"
+  },
+  "your.user.profile.was.created": {
+    "defaultMessage": "Your user profile was created"
+  },
+  "your.user.profile.was.updated": {
+    "defaultMessage": "Your user profile was updated"
+  },
+  "youtube": {
+    "defaultMessage": "Vimeo"
+  },
+  "youtube.channel": {
+    "defaultMessage": "Youtube channel"
+  },
+  "AI": {
+    "defaultMessage": "AI"
+  },
+  "activate": {
+    "defaultMessage": "Activate AI"
+  },
+  "activate.ai": {
+    "defaultMessage": "Activate AI"
+  },
+  "add.credit": {
+    "defaultMessage": "Add Credit"
+  },
+  "add.credits": {
+    "defaultMessage": "Add credits"
+  },
+  "add.image": {
+    "defaultMessage": "Add image"
+  },
+  "add.record": {
+    "defaultMessage": "Add record"
+  },
+  "address.or.ens": {
+    "defaultMessage": "Address or ENS"
+  },
+  "ai.activated": {
+    "defaultMessage": "AI Activated"
+  },
+  "ai.completation": {
+    "defaultMessage": "AI Completation"
+  },
+  "ai.edit": {
+    "defaultMessage": "AI Edit"
+  },
+  "ai.generator": {
+    "defaultMessage": "AI Generator"
+  },
+  "ai.image.generator": {
+    "defaultMessage": "AI Image Generator"
+  },
+  "answer": {
+    "defaultMessage": "Answer:"
+  },
+  "billing.and.usage": {
+    "defaultMessage": "Billing & Usage"
+  },
+  "burn.name.value": {
+    "defaultMessage": "Burn Token \"{tokenName}\""
+  },
+  "burning": {
+    "defaultMessage": "Burning"
+  },
+  "change.cat.head": {
+    "defaultMessage": "ex. Change cat head"
+  },
+  "changing.network": {
+    "defaultMessage": "Changing Network"
+  },
+  "clear": {
+    "defaultMessage": "Clear"
+  },
+  "close.anyway": {
+    "defaultMessage": "Close anyway"
+  },
+  "coin.on.network": {
+    "defaultMessage": "{name} on {network}"
+  },
+  "confirm.the.transaction.on.your.wallet": {
+    "defaultMessage": "Please, confirm the transaction on your wallet",
+    "description": "Transaction dialog message before transaction be confirmed in the wallet"
+  },
+  "confirming": {
+    "defaultMessage": "Confirming"
+  },
+  "connect.wallet.to.see.or.upload.images": {
+    "defaultMessage": "Connect wallet to see or upload images."
+  },
+  "connect.with.email": {
+    "defaultMessage": "Connect with e-mail"
+  },
+  "connect.your.wallet": {
+    "defaultMessage": "Connect Your Wallet"
+  },
+  "credit.card.soming.soon": {
+    "defaultMessage": "Credit Card (Coming Soon)"
+  },
+  "cryptocurrency": {
+    "defaultMessage": "Cryptocurrency"
+  },
+  "delete.column": {
+    "defaultMessage": "Delete column"
+  },
+  "deleting.image": {
+    "defaultMessage": "Deleting image"
+  },
+  "deselect.all": {
+    "defaultMessage": "Deselect All"
+  },
+  "do.you.really.want.to.delete.this.image": {
+    "defaultMessage": "Do you really want to delete this image?"
+  },
+  "do.you.really.want.to.edit.this.image": {
+    "defaultMessage": "Do you really want to edit this image?"
+  },
+  "edit.column": {
+    "defaultMessage": "Edit column"
+  },
+  "edit.image.name": {
+    "defaultMessage": "Edit image name"
+  },
+  "empty.gallery.start.adding.images": {
+    "defaultMessage": "Empty gallery. Start adding images."
+  },
+  "error.try.again": {
+    "defaultMessage": "Error. Try again?"
+  },
+  "error.while.burning": {
+    "defaultMessage": "Error while burning"
+  },
+  "error.while.generating.images": {
+    "defaultMessage": "Error while generating images"
+  },
+  "error.while.transferring": {
+    "defaultMessage": "Error while transferring"
+  },
+  "ex.an.image.of.a.cat": {
+    "defaultMessage": "ex. An image of a cat"
+  },
+  "execute": {
+    "defaultMessage": "Execute"
+  },
+  "execute.transaction": {
+    "defaultMessage": "Execute transaction"
+  },
+  "fix.spelling.and.grammar": {
+    "defaultMessage": "Fix spelling and grammar"
+  },
+  "gallery": {
+    "defaultMessage": "Gallery 1"
+  },
+  "gas.cost": {
+    "defaultMessage": "Gas cost"
+  },
+  "gas.price": {
+    "defaultMessage": "Gas price"
+  },
+  "generate": {
+    "defaultMessage": "Generate"
+  },
+  "generate.image": {
+    "defaultMessage": "Generate image"
+  },
+  "generate.new.text": {
+    "defaultMessage": "Generate new text"
+  },
+  "generate.variant": {
+    "defaultMessage": "Generate variant"
+  },
+  "generate.variants": {
+    "defaultMessage": "Generate Variants"
+  },
+  "generating": {
+    "defaultMessage": "Generating"
+  },
+  "generating.variants": {
+    "defaultMessage": "Generating Variants"
+  },
+  "hide.form.info": {
+    "defaultMessage": "Hide form info"
+  },
+  "image.deleted": {
+    "defaultMessage": "Image deleted"
+  },
+  "images.generated": {
+    "defaultMessage": "Images generated"
+  },
+  "images.notGenerated": {
+    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+  },
+  "improve.writing": {
+    "defaultMessage": "Improve writing"
+  },
+  "invalid address": {
+    "defaultMessage": "Invalid address"
+  },
+  "invalid.file.column.column.is.missing": {
+    "defaultMessage": "Invalid file: column {column} is missing"
+  },
+  "least.recent": {
+    "defaultMessage": "Least recent"
+  },
+  "make.longer": {
+    "defaultMessage": "Make longer"
+  },
+  "make.shorter": {
+    "defaultMessage": "Make shorter"
+  },
+  "max.fee": {
+    "defaultMessage": "Max fee"
+  },
+  "max.image.size": {
+    "defaultMessage": "Max image size: 1 Mb"
+  },
+  "max.priority.fee": {
+    "defaultMessage": "Max priority fee"
+  },
+  "message.you.are.signing": {
+    "defaultMessage": "Message you are signing"
+  },
+  "mint.token.value": {
+    "defaultMessage": "Mint token \"{tokenName}\""
+  },
+  "most.recent": {
+    "defaultMessage": "Most recent"
+  },
+  "network.value": {
+    "defaultMessage": "{network}"
+  },
+  "no.credits": {
+    "defaultMessage": "No Credits"
+  },
+  "no.images": {
+    "defaultMessage": "No Images"
+  },
+  "no.images.found.with.that.name": {
+    "defaultMessage": "No images found with that name."
+  },
+  "nonce": {
+    "defaultMessage": "Nonce"
+  },
+  "not.enough.balance": {
+    "defaultMessage": "Not enough balance"
+  },
+  "notifications": {
+    "defaultMessage": "Notifications",
+    "description": "Notifications"
+  },
+  "num.of.images": {
+    "defaultMessage": "Num. of Images"
+  },
+  "num.of.variant": {
+    "defaultMessage": "Num of variants"
+  },
+  "num.of.variants": {
+    "defaultMessage": "Num. of variants"
+  },
+  "original.image": {
+    "defaultMessage": "Original image"
+  },
+  "owned.by.owner": {
+    "defaultMessage": "Owned by {owner}"
+  },
+  "payment.confirmation.message": {
+    "defaultMessage": "Please wait for 10 confirmations for payment recognition."
+  },
+  "payment.method": {
+    "defaultMessage": "Payment method"
+  },
+  "please.login.with.your.wallet.to.delete.your.image": {
+    "defaultMessage": "Please, login with your wallet to delete your image"
+  },
+  "please.wait.for.the.block.confirmation": {
+    "defaultMessage": "Wait for the block confirmation",
+    "description": "Transaction dialog message after transaction confirmation in the wallet"
+  },
+  "prompt": {
+    "defaultMessage": "Prompt"
+  },
+  "reason": {
+    "defaultMessage": "Reason"
+  },
+  "receive.on.network.value": {
+    "defaultMessage": "Receive on {network}"
+  },
+  "receiver": {
+    "defaultMessage": "Receiver"
+  },
+  "reject": {
+    "defaultMessage": "Reject"
+  },
+  "remove.image": {
+    "defaultMessage": "Remove Image"
+  },
+  "request.sent.successfully": {
+    "defaultMessage": "Request sent successfully"
+  },
+  "save.column": {
+    "defaultMessage": "Save column"
+  },
+  "save.generated.images": {
+    "defaultMessage": "Save generated images?"
+  },
+  "saved": {
+    "defaultMessage": "Saved"
+  },
+  "select.image": {
+    "defaultMessage": "Select Image"
+  },
+  "send.amount": {
+    "defaultMessage": "Send amount"
+  },
+  "sending.request": {
+    "defaultMessage": "Sending request"
+  },
+  "sent.to": {
+    "defaultMessage": "Sent to"
+  },
+  "share.receive.request": {
+    "defaultMessage": "Share receive request"
+  },
+  "sign": {
+    "defaultMessage": "Sign"
+  },
+  "sort.by": {
+    "defaultMessage": "Sort by"
+  },
+  "switch": {
+    "defaultMessage": "Switch",
+    "description": "switch"
+  },
+  "switch.to.network.value": {
+    "defaultMessage": "Switch to {networkName} network"
+  },
+  "the.maximum.is.95": {
+    "defaultMessage": "the maximum is 95"
+  },
+  "the.minimum.is.five": {
+    "defaultMessage": "the minimum is 5"
+  },
+  "transaction.confirm.transaction": {
+    "defaultMessage": "Confirm transaction"
+  },
+  "transaction.failed.reason": {
+    "defaultMessage": "Transaction failed"
+  },
+  "transaction.waiting.confirmation": {
+    "defaultMessage": "Waiting confirmation"
+  },
+  "transfer.name.value": {
+    "defaultMessage": "Transfer NFT {nftName}"
+  },
+  "transferring": {
+    "defaultMessage": "Transferring"
+  },
+  "unlock.the.power.of.artificial.intelligence.by.activating.it": {
+    "defaultMessage": "Unlock the power of artificial intelligence by activating it"
+  },
+  "upload": {
+    "defaultMessage": "Upload"
+  },
+  "uploaded": {
+    "defaultMessage": "Uploaded"
+  },
+  "uploading": {
+    "defaultMessage": "Uploading"
+  },
+  "use": {
+    "defaultMessage": "use"
+  },
+  "use.as.prompt": {
+    "defaultMessage": "use as prompt"
+  },
+  "validating": {
+    "defaultMessage": "Validating"
+  },
+  "validating.ens": {
+    "defaultMessage": "Validating ENS name"
+  },
+  "variants": {
+    "defaultMessage": "Variants"
+  },
+  "view.marketplace": {
+    "defaultMessage": "View Marketplace"
+  },
+  "waiting.payment": {
+    "defaultMessage": "Waiting payment"
+  },
+  "you.are.not.the.owner.of.this.NFT": {
+    "defaultMessage": "You are not the owner of this NFT"
+  },
+  "you.cant.use.the.connected.account.to.burn": {
+    "defaultMessage": "You can't use the connected account to burn"
+  },
+  "you.cant.use.the.connected.account.to.transfer": {
+    "defaultMessage": "You can't use the connected to transfer"
+  },
+  "you.need.to.add.credits.to.use.ai.features": {
+    "defaultMessage": "You need to add credits to use AI features"
+  },
+  "you.own.nfts": {
+    "defaultMessage": "You own {balance} NFTs"
+  },
+  "your.image.was.deleted.successfully": {
+    "defaultMessage": "Your image was deleted successfully"
+  },
+  "your.request.was.sent.successfully": {
+    "defaultMessage": "Your request was sent successfully"
+  },
+  "your.transaction.has.been.confirmed": {
+    "defaultMessage": "Your transaction has been confirmed",
+    "description": "Your transaction has been confirmed"
+  },
+  "24h.volume": {
+    "defaultMessage": "24h volume"
+  },
+  "24h.volume.amount": {
+    "defaultMessage": "24h volume: {amount}"
+  },
+  "Less": {
+    "defaultMessage": "Less"
+  },
+  "No.networks.selected": {
+    "defaultMessage": "No networks selected"
+  },
+  "You will.receive": {
+    "defaultMessage": "You will receive"
+  },
+  "amount.per.token": {
+    "defaultMessage": "Amount per token"
+  },
+  "approve.token.symbol": {
+    "defaultMessage": "Approve {tokenSymbol} on wallet"
+  },
+  "available": {
+    "defaultMessage": "Available"
+  },
+  "available.balance.amount.symbol": {
+    "defaultMessage": "Available balance: {amount} {symbol}"
+  },
+  "base.token": {
+    "defaultMessage": "Base token"
+  },
+  "buy.symbol": {
+    "defaultMessage": "Buy {symbol}"
+  },
+  "buy.token.symbol": {
+    "defaultMessage": "Buy {tokenSymbol}"
+  },
+  "choose.the.networks.that.your.exchange.will.be.enabled": {
+    "defaultMessage": "Choose the networks that your exchange will be enabled"
+  },
+  "cost": {
+    "defaultMessage": "Cost"
+  },
+  "define.the.tokens.and.the.default.pair.for.this.network": {
+    "defaultMessage": "Define the tokens and the default pair for this network"
+  },
+  "edit.networks": {
+    "defaultMessage": "Edit Networks"
+  },
+  "expire": {
+    "defaultMessage": "Expire"
+  },
+  "fee.amount": {
+    "defaultMessage": "Fee amount"
+  },
+  "fee.recipient.address": {
+    "defaultMessage": "Fee recipient address"
+  },
+  "fill.amount": {
+    "defaultMessage": "Fill amount"
+  },
+  "fill.amount.per.token": {
+    "defaultMessage": "Fill amount per token"
+  },
+  "fill.order": {
+    "defaultMessage": "Fill Order"
+  },
+  "fillable.amount": {
+    "defaultMessage": "Fillable amount"
+  },
+  "insufficient": {
+    "defaultMessage": "Insufficient {symbol}"
+  },
+  "insufficient.symbol": {
+    "defaultMessage": "insufficient {symbol}"
+  },
+  "last.price": {
+    "defaultMessage": "Last price"
+  },
+  "last.price.amount": {
+    "defaultMessage": "Last price: {amount}"
+  },
+  "limit": {
+    "defaultMessage": "Limit"
+  },
+  "loading.quote": {
+    "defaultMessage": "Loading quote..."
+  },
+  "market": {
+    "defaultMessage": "Market"
+  },
+  "market.cap.amount": {
+    "defaultMessage": "Market Cap: {amount}"
+  },
+  "market.settings": {
+    "defaultMessage": "Market Settings"
+  },
+  "max.slippage.is.value.percent": {
+    "defaultMessage": "Max slippage is 50 percent"
+  },
+  "more": {
+    "defaultMessage": "More"
+  },
+  "my.orders": {
+    "defaultMessage": "My Orders"
+  },
+  "native.coins.are.not.supported.on.limit.orders": {
+    "defaultMessage": "Native coins are not supported on limited orders"
+  },
+  "order.created.message": {
+    "defaultMessage": "Order created"
+  },
+  "order.failed": {
+    "defaultMessage": "Order failed"
+  },
+  "place.order": {
+    "defaultMessage": "Place Order"
+  },
+  "please.switch.to.networks": {
+    "defaultMessage": "Please, switch to {networks}"
+  },
+  "please.use.wrapped.version.of.native.token": {
+    "defaultMessage": "Please use wrapped version of native token"
+  },
+  "price.change.24h": {
+    "defaultMessage": "Price Change 24h"
+  },
+  "price.change.24h.amount": {
+    "defaultMessage": "Price Change 24h: {amount}"
+  },
+  "quote.token": {
+    "defaultMessage": "Quote token"
+  },
+  "quote.tokens": {
+    "defaultMessage": "Quote tokens"
+  },
+  "review.order": {
+    "defaultMessage": "Review Order"
+  },
+  "search.for.a.token.by.name.symbol.and.address": {
+    "defaultMessage": "Search for a token by name, symbol and address"
+  },
+  "select.a.pair": {
+    "defaultMessage": "Select a pair"
+  },
+  "select.networks": {
+    "defaultMessage": "Select networks"
+  },
+  "select.tokens": {
+    "defaultMessage": "Select tokens"
+  },
+  "selecte.a.pair": {
+    "defaultMessage": "Select a pair"
+  },
+  "sell.symbol": {
+    "defaultMessage": "Sell {symbol}"
+  },
+  "sell.token.symbol": {
+    "defaultMessage": "Sell {tokenSymbol}"
+  },
+  "show.swaps": {
+    "defaultMessage": "Show Swaps"
+  },
+  "side": {
+    "defaultMessage": "Side"
+  },
+  "size": {
+    "defaultMessage": "Size"
+  },
+  "switch.to.network": {
+    "defaultMessage": "Switch to {network}"
+  },
+  "the.base.token.is.required.on.chain": {
+    "defaultMessage": "The quote token is required on {chainName}"
+  },
+  "the.max.fee.is.ten.percent": {
+    "defaultMessage": "The max fee is 10%"
+  },
+  "there.are.no.orders.to.show": {
+    "defaultMessage": "There are no orders to show"
+  },
+  "trade": {
+    "defaultMessage": "Trade"
+  },
+  "unsupported.network": {
+    "defaultMessage": "Unsupported Network"
+  },
+  "you.are.buying": {
+    "defaultMessage": "You are buying"
+  },
+  "you.are.selling": {
+    "defaultMessage": "You are selling"
+  },
+  "your.wallet.is.not.connected": {
+    "defaultMessage": "Your wallet is not connected"
+  },
+  "Unwrap": {
+    "defaultMessage": "Unwrap"
+  },
+  "buy.crypto": {
+    "defaultMessage": "Buy Crypto"
+  },
+  "buy.crypto.with.transak": {
+    "defaultMessage": "Buy crypto with Transak"
+  },
+  "gas.gas": {
+    "defaultMessage": "Gas: {gas} Gwei"
+  },
+  "insufficient.symbol.balance": {
+    "defaultMessage": "Insufficient {symbol} balance"
+  },
+  "network.not.supported.msg": {
+    "defaultMessage": "Network not supported. Please change to a supported network: {networks}"
+  },
+  "network_not_supported": {
+    "defaultMessage": "Network not supported"
+  },
+  "no.coins": {
+    "defaultMessage": "No coins"
+  },
+  "no.coins.found": {
+    "defaultMessage": "No coins found"
+  },
+  "powered.by.dexkit": {
+    "defaultMessage": "Powered by {dexkit}"
+  },
+  "price.impact": {
+    "defaultMessage": "Price impact"
+  },
+  "price.impact.swap.message.info": {
+    "defaultMessage": "Price impact refers to the fluctuation in the price of a coin that happens when a trade takes place. When the price impact is high, it can sometimes lead to buying coins at a price lower than what was initially expected."
+  },
+  "recent": {
+    "defaultMessage": "Recent"
+  },
+  "search.for.a.coin.by.name.symbol.and.address": {
+    "defaultMessage": "Search for a coin by name, symbol and address"
+  },
+  "select.token": {
+    "defaultMessage": "Select token"
+  },
+  "swap.tokens": {
+    "defaultMessage": "Swap Tokens"
+  },
+  "switch.wallet.network": {
+    "defaultMessage": "Switch wallet to {networkName}"
+  },
+  "token.balance": {
+    "defaultMessage": "balance: {balance}"
+  },
+  "transaction.rejected": {
+    "defaultMessage": "Transaction rejected"
+  },
+  "wrap": {
+    "defaultMessage": "Wrap"
+  },
+  "you.send": {
+    "defaultMessage": "You send"
+  }
+}

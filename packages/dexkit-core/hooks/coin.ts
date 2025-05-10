@@ -4,7 +4,6 @@ import { ERC20Abi } from "../constants/abis";
 
 import type { providers } from "ethers";
 
-import { useReadContracts } from "wagmi";
 import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { getERC20TokenAllowance } from "../services";
 import { approveToken, getERC20Balance } from "../services/balances";
@@ -63,9 +62,6 @@ export function useErc20BalanceQueryV2({
   provider,
   chainId,
 }: Erc20BalanceParamsV2) {
-  const { data: balance } = useReadContracts({
-    contracts: [{ address: "0x", abi: ERC20Abi, functionName: "balanceOf" }],
-  });
 
   return useQuery(
     [ERC20_BALANCE_V2, account, contractAddress, chainId],
@@ -136,22 +132,22 @@ export function useTokenAllowanceQuery({
   tokenAddress,
   account,
   spender,
-  provider,
+  signer,
 }: {
   account?: string;
   tokenAddress?: string | null;
   spender?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
 }) {
   return useQuery(
     [TOKEN_ALLOWANCE_QUERY, tokenAddress, account, spender],
     async () => {
-      if (!provider || !tokenAddress || !account || !spender) {
+      if (!signer || !tokenAddress || !account || !spender) {
         return null;
       }
 
       return await getERC20TokenAllowance(
-        provider,
+        signer,
         tokenAddress,
         account,
         spender
@@ -166,14 +162,14 @@ export function useApproveToken() {
     async ({
       spender,
       tokenContract,
-      provider,
+      signer,
       onSubmited,
       amount,
     }: {
       amount?: BigNumber;
       spender?: string;
       tokenContract?: string;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
       onSubmited: (hash: string) => void;
     }) => {
       if (!tokenContract || !spender) {
@@ -184,7 +180,7 @@ export function useApproveToken() {
         tokenContract,
         spender,
         amount,
-        provider,
+        signer,
       });
 
       onSubmited(tx.hash);

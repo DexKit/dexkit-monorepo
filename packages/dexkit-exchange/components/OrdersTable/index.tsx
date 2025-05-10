@@ -1,8 +1,13 @@
 import { ChainId } from "@dexkit/core";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
+import {
+  useDexKitContext,
+  useExecuteTransactionsDialog,
+} from "@dexkit/ui/hooks";
 import { ZrxOrder } from "@dexkit/ui/modules/swap/types";
+import { AppNotificationType } from "@dexkit/ui/types";
 import {
   Box,
-  Button,
   Card,
   Divider,
   Skeleton,
@@ -18,31 +23,23 @@ import {
 import type { providers } from "ethers";
 import { useCallback, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
+import { EXCHANGE_NOTIFICATION_TYPES } from "../../constants/messages";
 import { useExchangeContext } from "../../hooks";
 import { useZrxOrderbook } from "../../hooks/zrx";
 import { useZrxCancelOrderMutation } from "../../hooks/zrx/useZrxCancelOrderMutation";
 import OrdersTableRow from "./OrdersTableRow";
 
-import {
-  useConnectWalletDialog,
-  useDexKitContext,
-  useExecuteTransactionsDialog,
-} from "@dexkit/ui/hooks";
-import { AppNotificationType } from "@dexkit/ui/types";
-import WalletIcon from "@mui/icons-material/Wallet";
-import { EXCHANGE_NOTIFICATION_TYPES } from "../../constants/messages";
-
 export interface OrdersTable {
   chainId?: ChainId;
   account?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   active?: boolean;
 }
 
 export default function OrdersTable({
   chainId,
   account,
-  provider,
+  signer,
   active,
 }: OrdersTable) {
   const { baseToken, quoteToken } = useExchangeContext();
@@ -67,7 +64,7 @@ export default function OrdersTable({
             const result = await cancelOrderMutation.mutateAsync({
               order,
               chainId,
-              provider,
+              signer,
             });
             const subType = "orderCancelled";
             const messageType = EXCHANGE_NOTIFICATION_TYPES[
@@ -100,10 +97,8 @@ export default function OrdersTable({
         },
       ]);
     },
-    [chainId, provider]
+    [chainId, signer]
   );
-
-  const connectWalletDialog = useConnectWalletDialog();
 
   const records = useMemo(() => {
     if (orderbookQuery.data?.records) {
@@ -165,16 +160,7 @@ export default function OrdersTable({
                         defaultMessage="Your wallet is not connected"
                       />
                     </Typography>
-                    <Button
-                      onClick={connectWalletDialog.handleConnectWallet}
-                      startIcon={<WalletIcon />}
-                      variant="contained"
-                    >
-                      <FormattedMessage
-                        id="connect.wallet"
-                        defaultMessage="Connect wallet"
-                      />
-                    </Button>
+                    <ConnectButton variant="contained" />
                   </Stack>
                 </TableCell>
               </TableRow>

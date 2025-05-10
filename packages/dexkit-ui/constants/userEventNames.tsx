@@ -112,28 +112,32 @@ export const USER_OFFCHAIN_EVENT_NAMES: Record<
   string,
   { id: string; defaultMessage: string }
 > = {
+  [UserEvents.connectAccount]: {
+    defaultMessage: "Account Connected",
+    id: "account.connected",
+  },
+  [UserEvents.loginSignMessage]: {
+    defaultMessage: "Account Login",
+    id: "account.login",
+  },
   [UserEvents.postLimitOrder]: {
     defaultMessage: "Post Limit Order",
     id: "post.limit.order",
   },
   [UserEvents.nftERC721List]: {
-    defaultMessage: "Collection listings",
+    defaultMessage: "Collection Listings",
     id: "collection.listings",
   },
   [UserEvents.nftERC721Offer]: {
-    defaultMessage: "Collection offers",
+    defaultMessage: "Collection Offers",
     id: "collection.offers",
   },
   [UserEvents.nftERC1155List]: {
-    defaultMessage: "Edition listings",
+    defaultMessage: "Edition Listings",
     id: "edition.listings",
   },
   [UserEvents.nftERC1155Offer]: {
-    defaultMessage: "Edition offers",
+    defaultMessage: "Edition Offers",
     id: "edition.offers",
-  },
-  [UserEvents.loginSignMessage]: {
-    defaultMessage: "Account Login",
-    id: "account.login",
   },
 };

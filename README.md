@@ -1,73 +1,85 @@
-# Turborepo starter
+<div align="center">
+  <img src="apps/dexappbuilder/public/assets/dexappbuilder/DexAppBuilder-readme.png" alt="DexKit Logo" width="200"/>
+  <h3>Web3 Innovation Hub: DApps Builder & Blockchain Gaming</h3>
+  <em>Building the future of Web3, one block at a time</em>
+</div>
 
-This is an official Yarn v1 starter turborepo.
+## 📦 Projects
 
-## What's inside?
+### [🛠️ DexAppBuilder](apps/dexappbuilder)
+Create powerful Web3 applications without code. If you can click and drag, you can make a DApp! 🪄
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/) as a package manager. It includes the following packages/apps:
+#### Featured DApps built with DexAppBuilder:
+- 🐮 [CyberCows](https://cybercows.dexkit.app/) - NFT Collection with Daily Rewards
+- 🪙 [The Midas Touch](https://themidastouch.dexkit.app/) - Gold-Backed Tokens Platform
+- 💱 [ScaleSwap](https://scaleswap.dexkit.app/) - Streamlined DEX
+- 👹 [The Bestiary](https://thebestiary.dexkit.app/) - Lovecraftian NFT Collection
 
-### Apps and Packages
+### [🎮 Coin League](apps/coinleague)
+The ultimate blockchain price racing game. Compete in real-time races based on cryptocurrency price movements!
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+## 🚀 Getting Started
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+This monorepo uses Yarn as the preferred package manager.
 
-### Utilities
+```bash
+# Clone the repo
+git clone https://github.com/DexKit/dexkit-monorepo.git
+cd dexkit-monorepo
 
-This turborepo has some additional tools already setup for you:
+# Install dependencies
+yarn install
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+# Set up environment variables for DexAppBuilder
+cp apps/dexappbuilder/.env.example apps/dexappbuilder/.env
 
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run dev
+# Set up environment variables for Coin League
+cp apps/coinleague/.env.example apps/coinleague/.env
 ```
 
-### Remote Caching
+### Running Projects
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+#### DexAppBuilder:
+```bash
+cd apps/dexappbuilder
+yarn dev
+# Visit http://localhost:3000
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
+#### Coin League:
+```bash
+cd apps/coinleague
+yarn dev
+# Visit http://localhost:3001
 ```
-npx turbo link
-```
 
-## Useful Links
+### General Guidelines:
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-Learn more about the power of Turborepo:
+## 📚 Documentation
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- [DexAppBuilder Documentation](https://docs.dexkit.com/defi-products/dexappbuilder)
+- [Coin League Documentation](https://docs.dexkit.com/gaming/predictions-hub/coin-league)
+
+## 🔗 Links
+
+- [Official Website](https://dexkit.com)
+- [Documentation](https://docs.dexkit.com)
+- [Blog](https://dexkit.com/blog)
+- [Discord Community](https://discord.com/invite/dexkit-official-943552525217435649)
+- [X / Twitter](https://x.com/intent/follow?screen_name=dexkit)
+- [YouTube tutorials](https://www.youtube.com/@DexKit)
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
+</div>

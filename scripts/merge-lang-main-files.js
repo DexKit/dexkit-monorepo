@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const mainApp = JSON.parse(
-  fs.readFileSync(`./apps/nft-marketplace-premium/lang/main.json`)
+  fs.readFileSync(`./apps/dexappbuilder/lang/main.json`)
 );
 const mainUI = JSON.parse(
   fs.readFileSync(`./packages/dexkit-ui/lang/main.json`)
@@ -26,7 +26,7 @@ const combinedMain = {
 };
 
 fs.writeFileSync(
-  `./apps/nft-marketplace-premium/lang/main.json`,
+  `./apps/dexappbuilder/lang/main.json`,
   JSON.stringify(combinedMain, null, 2),
   "utf-8"
 );

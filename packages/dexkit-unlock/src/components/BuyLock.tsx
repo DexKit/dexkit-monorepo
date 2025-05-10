@@ -1,9 +1,9 @@
 import { NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import { useConnectWalletDialog, useSwitchNetworkMutation } from "@dexkit/ui";
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import KeyIcon from "@mui/icons-material/Key";
-import Wallet from "@mui/icons-material/Wallet";
 import {
   Avatar,
   Box,
@@ -221,18 +221,7 @@ export default function BuyLock({
 
               <Grid item xs={12}>
                 <Box display={"flex"} justifyContent={"center"}>
-                  {!account && (
-                    <Button
-                      onClick={handleConnectWallet}
-                      variant="contained"
-                      startIcon={<Wallet />}
-                    >
-                      <FormattedMessage
-                        id="connect.wallet"
-                        defaultMessage="Connect Wallet"
-                      />
-                    </Button>
-                  )}
+                  {!account && <ConnectButton variant="contained" />}
 
                   {account && lockChainId !== chainId && (
                     <Button

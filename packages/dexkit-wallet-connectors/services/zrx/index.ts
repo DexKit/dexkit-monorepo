@@ -5,7 +5,7 @@ import {
   ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
   ZEROEX_QUOTE_ENDPOINT,
   ZEROEX_TOKENS_ENDPOINT,
-  ZERO_EX_URL,
+  ZERO_EX_V2_URL,
 } from "./constants";
 
 import {
@@ -29,7 +29,7 @@ export class ZeroExApiClient {
     }
 
     this.axiosInstance = axios.create({
-      baseURL: ZERO_EX_URL(chainId),
+      baseURL: ZERO_EX_V2_URL(chainId),
       headers,
     });
   }
@@ -40,7 +40,6 @@ export class ZeroExApiClient {
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(ZEROEX_QUOTE_ENDPOINT, {
       params: quote,
-      signal,
     });
 
     return resp.data;
@@ -60,7 +59,6 @@ export class ZeroExApiClient {
     const resp = await this.axiosInstance.get<ZrxOrderbookResponse>(
       ZEROEX_ORDERBOOK_ORDERS_ENDPOINT,
       {
-        signal,
         params: { trader },
       }
     );

@@ -1,20 +1,15 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Wallet from "@mui/icons-material/Wallet";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useConnectWalletDialog } from "../hooks";
+import { ConnectButton } from "./ConnectButton";
 
 interface Props {
   subHeaderMsg?: React.ReactNode | string;
 }
 
 export function ConnectWalletBox({ subHeaderMsg }: Props) {
-  const connectWalletDialog = useConnectWalletDialog();
-
   return (
     <Box py={4}>
       <Stack
@@ -45,19 +40,7 @@ export function ConnectWalletBox({ subHeaderMsg }: Props) {
             )}
           </Typography>
         </Stack>
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={() => connectWalletDialog.setOpen(true)}
-          startIcon={<Wallet />}
-          endIcon={<ChevronRightIcon />}
-        >
-          <FormattedMessage
-            id="connect.wallet"
-            defaultMessage="Connect Wallet"
-            description="Connect wallet button"
-          />
-        </Button>
+        <ConnectButton />
       </Stack>
     </Box>
   );
