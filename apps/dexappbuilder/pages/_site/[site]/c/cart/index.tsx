@@ -57,6 +57,8 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext<Params>) => {
   const configResponse = await getAppConfig(params?.site, 'home');
 
+  console.log(configResponse.siteId);
+
   return {
     props: {
       ...configResponse,

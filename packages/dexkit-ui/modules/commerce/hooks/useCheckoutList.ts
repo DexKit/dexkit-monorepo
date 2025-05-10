@@ -15,11 +15,13 @@ export default function useCheckoutList(params: {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery(
-    [GET_CHECKOUT_LIST, params],
+    [GET_CHECKOUT_LIST, params, params.q],
     async () => {
       if (!instance) {
         throw new Error("no instance");
       }
+
+      console.log(params);
 
       const newParams: any = { ...params };
 
