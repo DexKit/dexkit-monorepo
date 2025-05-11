@@ -1,8 +1,8 @@
-import { Network } from '@dexkit/core/types';
-import { ipfsUriToUrl, parseChainId } from '@dexkit/core/utils';
-import { AppDialogTitle, useDexKitContext } from '@dexkit/ui';
-import { hexToString } from '@dexkit/ui/utils';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import { Network } from "@dexkit/core/types";
+import { ipfsUriToUrl, parseChainId } from "@dexkit/core/utils";
+import { AppDialogTitle, useDexKitContext } from "@dexkit/ui";
+import { hexToString } from "@dexkit/ui/utils";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Avatar,
   Box,
@@ -18,23 +18,23 @@ import {
   Select,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import { isAddress } from 'ethers/lib/utils';
-import { Field, Formik } from 'formik';
-import { TextField } from 'formik-mui';
-import { FormattedMessage } from 'react-intl';
-import { NETWORKS } from 'src/constants/chain';
+import { isAddress } from "ethers/lib/utils";
+import { Field, Formik } from "formik";
+import { TextField } from "formik-mui";
+import { FormattedMessage } from "react-intl";
 
-import { ChainId } from '@dexkit/core';
-import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
-import { Contract } from 'ethers';
-import { useSnackbar } from 'notistack';
-import * as Yup from 'yup';
-import { useImportContract } from '../../hooks';
+import { ChainId } from "@dexkit/core";
+import { NETWORKS } from "@dexkit/core/constants/networks";
+import { getProviderByChainId } from "@dexkit/core/utils/blockchain";
+import { Contract } from "ethers";
+import { useSnackbar } from "notistack";
+import * as Yup from "yup";
+import { useImportContract } from "../../hooks";
 
 const Schema = Yup.object({
-  contractAddress: Yup.string().test('address', (value) => {
+  contractAddress: Yup.string().test("address", (value) => {
     return value !== undefined ? isAddress(value) : true;
   }),
   chainId: Yup.number(),
@@ -52,7 +52,7 @@ export default function ImportContractDialog({
 
   const handleClose = () => {
     if (onClose) {
-      onClose({}, 'backdropClick');
+      onClose({}, "backdropClick");
     }
   };
 
@@ -76,27 +76,27 @@ export default function ImportContractDialog({
       [
         {
           inputs: [],
-          name: 'contractType',
-          outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-          stateMutability: 'pure',
-          type: 'function',
+          name: "contractType",
+          outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+          stateMutability: "pure",
+          type: "function",
         },
       ],
-      provider,
+      provider
     );
 
-    let contractTypeHex = '';
+    let contractTypeHex = "";
 
     try {
       contractTypeHex = await contract.contractType();
     } catch (err) {}
 
-    let contractType = '';
+    let contractType = "";
 
     if (contractTypeHex) {
       contractType = hexToString(contractTypeHex);
     } else {
-      contractType = 'custom';
+      contractType = "custom";
     }
 
     try {
@@ -113,7 +113,7 @@ export default function ImportContractDialog({
           id="contract.imported"
           defaultMessage="Contract imported"
         />,
-        { variant: 'success' },
+        { variant: "success" }
       );
 
       handleClose();
@@ -123,7 +123,7 @@ export default function ImportContractDialog({
           id="error.while.import"
           defaultMessage="Error while import"
         />,
-        { variant: 'error' },
+        { variant: "error" }
       );
     }
   };
@@ -133,9 +133,9 @@ export default function ImportContractDialog({
       {chainId && (
         <Formik
           initialValues={{
-            contractAddress: '',
+            contractAddress: "",
             chainId: chainId,
-            name: '',
+            name: "",
           }}
           onSubmit={handleSubmit}
           validationSchema={Schema}
@@ -170,9 +170,9 @@ export default function ImportContractDialog({
                           >
                             <Avatar
                               src={ipfsUriToUrl(
-                                NETWORKS[values.chainId].imageUrl || '',
+                                NETWORKS[values.chainId].imageUrl || ""
                               )}
-                              style={{ width: 'auto', height: '1rem' }}
+                              style={{ width: "auto", height: "1rem" }}
                             />
                             <Typography variant="body1">
                               {NETWORKS[values.chainId].name}
@@ -189,19 +189,19 @@ export default function ImportContractDialog({
                               <Box
                                 sx={{
                                   width: (theme) => theme.spacing(4),
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  alignContent: 'center',
-                                  justifyContent: 'center',
+                                  display: "flex",
+                                  alignItems: "center",
+                                  alignContent: "center",
+                                  justifyContent: "center",
                                 }}
                               >
                                 <Avatar
                                   src={ipfsUriToUrl(
-                                    (NETWORKS[key] as Network)?.imageUrl || '',
+                                    (NETWORKS[key] as Network)?.imageUrl || ""
                                   )}
                                   sx={{
-                                    width: 'auto',
-                                    height: '1rem',
+                                    width: "auto",
+                                    height: "1rem",
                                   }}
                                 />
                               </Box>

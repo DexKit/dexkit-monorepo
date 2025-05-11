@@ -23,7 +23,7 @@ The ultimate blockchain price racing game. Compete in real-time races based on c
 This monorepo uses Yarn as the preferred package manager.
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/DexKit/dexkit-monorepo.git
 cd dexkit-monorepo
 

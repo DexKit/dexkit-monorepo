@@ -6,6 +6,7 @@ import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboardOutlined";
 
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchangeOutlined";
+import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
 import { useCallback, useState } from "react";
 import AdminSidebarMenu from "./AdminSidebarMenu";
@@ -266,6 +267,57 @@ export default function AdminSidebarContainer({
                 />
               ),
             },
+          ]}
+        />
+        <Divider />
+        <AdminSidebarMenu
+          activeMenuId={activeMenuId}
+          icon={<GavelRoundedIcon />}
+          title={
+            <FormattedMessage id="dexcontracts" defaultMessage="DexContracts" />
+          }
+          open={isMenuToggled("dexcontracts")}
+          onSelectMenuId={onChangeMenu}
+          onToggle={handleToggleMenu("dexcontracts")}
+          isSiteOwner={isSiteOwner}
+          options={[
+            // add builder kits,
+            {
+              id: "create.contracts",
+              title: (
+                <FormattedMessage
+                  id="create.contracts"
+                  defaultMessage="Create contracts"
+                />
+              ),
+            },
+            {
+              id: "manage.contracts",
+              title: (
+                <FormattedMessage
+                  id="manage.contracts"
+                  defaultMessage="Manage contracts"
+                />
+              ),
+            },
+            /* {
+              id: "create.contract.forms",
+              title: (
+                <FormattedMessage
+                  id="create.contract.forms"
+                  defaultMessage="Create contract forms"
+                />
+              ),
+            },
+            {
+              id: "manage.contract.forms",
+              title: (
+                <FormattedMessage
+                  id="manage.contract.forms"
+                  defaultMessage="Manage contract forms"
+                />
+              ),
+            },*/
           ]}
         />
       </Box>

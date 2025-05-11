@@ -1,6 +1,7 @@
-import Admin from "@/modules/admin/components/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { NextPage } from "next";
+
+import Admin from "@/modules/admin/components/Admin";
 import React from "react";
 import { ThirdwebProvider } from "thirdweb/react";
 

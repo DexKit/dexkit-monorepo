@@ -20,6 +20,13 @@ import {
 } from '@dexkit/ui/services/balances';
 import { myAppsApi } from 'src/services/whitelabel';
 import { Token } from '../../../types/blockchain';
+export interface GatedConditionsResult {
+  result: boolean;
+  balances: { [key: number]: string };
+  partialResults: { [key: number]: boolean };
+  error?: boolean;
+  errorMessage?: string;
+}
 
 export async function getTokenList(url: string) {
   const response = await axios.get(url);
@@ -60,7 +67,7 @@ export async function checkGatedConditions({
 }: {
   account?: string;
   conditions: GatedCondition[];
-}) {
+}): Promise<GatedConditionsResult> {
   const balances: { [key: number]: string } = {};
   const partialResults: { [key: number]: boolean } = {};
 
@@ -72,82 +79,174 @@ export async function checkGatedConditions({
   }
 
   if (account && conditions) {
-    let result;
-    for (let index = 0; index < conditions.length; index++) {
-      const condition = conditions[index];
-      let thisCondition = false;
-      // We check all conditions here now
-      if (condition.type === 'coin') {
-        const balance = await getERC20Balance(
-          condition.address,
-          account,
-          getProviderByChainId(condition.chainId),
-        );
-        balances[index] = formatUnits(balance, condition.decimals);
-        partialResults[index] = false;
-        if (
-          balance.gte(parseUnits(String(condition.amount), condition.decimals))
-        ) {
-          thisCondition = true;
-          partialResults[index] = true;
+    let result = false;
+    let firstCondition = true;
+
+    const conditionPromises = conditions.map(async (condition, index) => {
+      try {
+        let thisConditionResult = false;
+        
+        if (condition.type === 'coin') {
+          try {
+            const balance = await getERC20Balance(
+              condition.address,
+              account,
+              getProviderByChainId(condition.chainId),
+            );
+            balances[index] = formatUnits(balance, condition.decimals);
+            partialResults[index] = false;
+            if (
+              balance.gte(parseUnits(String(condition.amount), condition.decimals))
+            ) {
+              thisConditionResult = true;
+              partialResults[index] = true;
+            }
+          } catch (error) {
+            console.error(`Error checking coin balance: ${error}`);
+            balances[index] = "Error";
+            partialResults[index] = false;
+          }
         }
-      }
 
-      let nftProtocol = condition?.protocol;
-      // This condition was added but maybe is not needed
-      if (condition?.type === 'collection' && nftProtocol === undefined) {
-        nftProtocol = (await getAssetProtocol(
-          getProviderByChainId(condition.chainId),
-          condition?.address,
-        )) as 'ERC721' | 'ERC1155';
-      }
+        if (condition.type === 'collection') {
+          let nftProtocol = condition?.protocol;
+          
+          if (nftProtocol === undefined) {
+            try {
+              nftProtocol = (await getAssetProtocol(
+                getProviderByChainId(condition.chainId),
+                condition?.address,
+              )) as 'ERC721' | 'ERC1155';
+            } catch (error) {
+              console.error(`Error detecting NFT protocol: ${error}`);
+              balances[index] = "Error";
+              partialResults[index] = false;
+              return { index, thisConditionResult, condition };
+            }
+          }
 
-      if (condition.type === 'collection' && nftProtocol !== 'ERC1155') {
-        const balance = await getBalanceOf(
-          getNetworkSlugFromChainId(condition.chainId) as string,
-          condition.address as string,
-          account,
-        );
+          if (nftProtocol !== 'ERC1155') {
+            try {
+              const balance = await getBalanceOf(
+                getNetworkSlugFromChainId(condition.chainId) as string,
+                condition.address as string,
+                account,
+              );
 
-        balances[index] = formatUnits(balance, 0);
-        partialResults[index] = false;
-        if (balance.gte(parseUnits(String(condition.amount), 0))) {
-          thisCondition = true;
-          partialResults[index] = true;
+              balances[index] = formatUnits(balance, 0);
+              partialResults[index] = false;
+              if (balance.gte(parseUnits(String(condition.amount), 0))) {
+                thisConditionResult = true;
+                partialResults[index] = true;
+              }
+            } catch (error) {
+              console.error(`Error checking NFT balance: ${error}`);
+              balances[index] = "Error";
+              partialResults[index] = false;
+            }
+          }
+          
+          if (nftProtocol === 'ERC1155') {
+            try {
+              if (condition.tokenId) {
+                try {
+                  const balance = await getBalanceOfERC1155(
+                    getNetworkSlugFromChainId(condition.chainId) as string,
+                    condition.address as string,
+                    account,
+                    condition.tokenId as string,
+                  );
+
+                  balances[index] = formatUnits(balance, 0);
+                  partialResults[index] = false;
+                  if (balance.gte(parseUnits(String(condition.amount), 0))) {
+                    thisConditionResult = true;
+                    partialResults[index] = true;
+                  }
+                } catch (err) {
+                  console.error(`Error checking specific ERC1155 token: ${err}`);
+                  balances[index] = "Error";
+                  partialResults[index] = false;
+                }
+              } 
+              else {
+                
+                try {
+                  let hasAnyToken = false;
+                  
+                  const sampleRanges = [
+                    ['0', '1', '2', '3', '4', '5'],
+                    ['10', '20', '50', '100'],
+                    ['1000', '10000']
+                  ];
+                  
+                  for (const range of sampleRanges) {
+                    if (hasAnyToken) break;
+                    
+                    for (const tokenId of range) {
+                      const balance = await getBalanceOfERC1155(
+                        getNetworkSlugFromChainId(condition.chainId) as string,
+                        condition.address as string,
+                        account,
+                        tokenId
+                      );
+                      
+                      if (balance.gt(0)) {
+                        hasAnyToken = true;
+                        balances[index] = "Has token ID " + tokenId;
+                        break;
+                      }
+                    }
+                  }
+                  
+                  if (hasAnyToken) {
+                    thisConditionResult = true;
+                    partialResults[index] = true;
+                  } else {
+                    balances[index] = "No tokens found";
+                    thisConditionResult = false;
+                    partialResults[index] = false;
+                  }
+                } catch (error) {
+                  console.error(`Error checking any ERC1155 token: ${error}`);
+                  balances[index] = "Error";
+                  partialResults[index] = false;
+                }
+              }
+            } catch (error) {
+              console.error(`General error checking ERC1155 balance: ${error}`);
+              balances[index] = "Error";
+              partialResults[index] = false;
+            }
+          }
         }
-      }
-      if (
-        condition.type === 'collection' &&
-        nftProtocol === 'ERC1155' &&
-        condition.tokenId
-      ) {
-        const balance = await getBalanceOfERC1155(
-          getNetworkSlugFromChainId(condition.chainId) as string,
-          condition.address as string,
-          account,
-          condition.tokenId as string,
-        );
 
-        balances[index] = formatUnits(balance, 0);
+        return { index, thisConditionResult, condition };
+      } catch (error) {
+        console.error(`General error in condition ${index}: ${error}`);
+        balances[index] = "Error";
         partialResults[index] = false;
-        if (balance.gte(parseUnits(String(condition.amount), 0))) {
-          thisCondition = true;
-          partialResults[index] = true;
-        }
+        return { index, thisConditionResult: false, condition };
       }
-      if (!condition.condition) {
-        result = thisCondition;
+    });
+
+    const results = await Promise.all(conditionPromises);
+    
+    results.forEach(({ thisConditionResult, condition }) => {
+      if (firstCondition) {
+        result = thisConditionResult;
+        firstCondition = false;
+      } else if (condition.condition === 'or') {
+        result = result || thisConditionResult;
+      } else if (condition.condition === 'and') {
+        result = result && thisConditionResult;
       }
-      if (condition.condition === 'or') {
-        result = result || thisCondition;
-      }
-      if (condition.condition === 'and') {
-        result = result && thisCondition;
-      }
-    }
+    });
 
     return { result, balances, partialResults };
   }
+  
+  return { result: false, balances, partialResults };
 }
 
 export function getGatedConditionsText({
@@ -156,7 +255,7 @@ export function getGatedConditionsText({
   conditions: GatedCondition[];
 }) {
   let text =
-    'You  to unlock this content you need to meet the follow gated conditions: ';
+    'You need to meet the following gated conditions to unlock this content: ';
   if (conditions) {
     for (const condition of conditions) {
       if (!condition.condition) {
@@ -168,7 +267,6 @@ export function getGatedConditionsText({
         text = `${text} and`;
       }
 
-      // We check all conditions here now
       if (condition.type === 'coin') {
         text = `${text} have ${
           condition.amount
@@ -189,13 +287,12 @@ export function getGatedConditionsText({
       }
       if (
         condition.type === 'collection' &&
-        condition.protocol === 'ERC1155' &&
-        condition.tokenId
+        condition.protocol === 'ERC1155'
       ) {
         text = `${text} have ${
           condition.amount
-        } of collection ${condition.symbol?.toUpperCase()} with id ${
-          condition.tokenId
+        } of collection ${condition.symbol?.toUpperCase()}${
+          condition.tokenId ? ` with id ${condition.tokenId}` : ' (any token id)'
         } with address ${
           condition.address
         } on network ${getNetworkSlugFromChainId(

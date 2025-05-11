@@ -14,7 +14,7 @@ export default function OffChainTab({ siteId }: OffChainTabProps) {
   const offChainColumns = useOffChainColumns();
 
   const [offchainType, setOffchainType] = useState<string>(
-    UserEvents.postLimitOrder,
+    UserEvents.connectAccount,
   );
 
   return (

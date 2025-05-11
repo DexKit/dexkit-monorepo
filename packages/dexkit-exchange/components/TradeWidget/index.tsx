@@ -13,7 +13,6 @@ import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
 import { FormattedMessage } from "react-intl";
 import TradeWidgetTabAlt from "./TradeWidgetTabAlt";
-import { TradeWidgetTabs } from "./TradeWidgetTabs";
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useErc20BalanceQuery } from "@dexkit/core/hooks";
@@ -24,7 +23,6 @@ import { DEFAULT_ZRX_NETWORKS } from "../../constants";
 import { useExchangeContext } from "../../hooks";
 import LimitForm from "./LimitForm";
 import MarketForm from "./SimpleVariant/MarketForm";
-import TradeWidgetTab from "./TradeWidgetTab";
 
 // FIXME: base/quote KIT/USDT
 export interface TradeWidgetProps {
@@ -113,7 +111,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
   }, [baseToken?.address, quoteToken?.address]);
 
   const renderContent = () => {
-    if (
+    /* if (
       (chainId && !availNetworks.includes(chainId)) ||
       !baseToken ||
       !quoteToken
@@ -139,7 +137,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
           </Typography>
         </Stack>
       );
-    }
+    }*/
 
     return (
       <Stack spacing={2}>
@@ -290,7 +288,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
         <Divider />
         <CardContent>
           <Stack spacing={2}>
-            <TradeWidgetTabs
+            {/* <TradeWidgetTabs
               onChange={handleChangeOrderType}
               value={orderType}
               variant="fullWidth"
@@ -303,7 +301,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 value="limit"
                 label={<FormattedMessage id="limit" defaultMessage="Limit" />}
               />
-            </TradeWidgetTabs>
+            </TradeWidgetTabs>*/}
 
             <Paper
               variant="outlined"

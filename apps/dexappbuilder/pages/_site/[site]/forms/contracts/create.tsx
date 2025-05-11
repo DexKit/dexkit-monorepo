@@ -1,12 +1,12 @@
 import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
-import ContractButton from '@/modules/forms/components/ContractButton';
 import {
   useDeployableContractsQuery,
   useInfiniteListDeployedContracts,
 } from '@/modules/forms/hooks';
 import { DexkitApiProvider } from '@dexkit/core/providers';
+import ContractButton from '@dexkit/ui/modules/contract-wizard/components/ContractButton';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { myAppsApi } from '@dexkit/ui/constants/api';

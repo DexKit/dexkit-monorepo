@@ -101,6 +101,15 @@ const AnalyticsWizardContainer = dynamic(
   () => import('./AnalyticsWizardContainer'),
 );
 
+const CreateContractContainer = dynamic(
+  () =>
+    import(
+      '@dexkit/ui/modules/contract-wizard/components/containers/CreateContractContainer'
+    ),
+);
+
+const ListContractContainer = dynamic(() => import('./ListContractContainer'));
+
 interface Props {
   site?: SiteResponse | null;
 }
@@ -126,6 +135,8 @@ export enum ActiveMenu {
   Integrations = 'settings.integrations',
   Rankings = 'analytics.leaderboard',
   Networks = 'data.networks',
+  CreateContract = 'create.contracts',
+  ManageContract = 'manage.contracts',
 }
 
 export type PagesContextType = {
@@ -181,6 +192,10 @@ export function EditWizardContainer({ site }: Props) {
 
   const [selectedKey, setSelectedKey] = useState<string>();
   const [isEditPage, setIsEditPage] = useState(false);
+
+  const [contractAddress, setContractAddress] = useState<string>('');
+  const [contractNetwork, setContractNetwork] = useState<string>('');
+
   const [oldPage, setOldPage] = useState<AppPage>();
 
   const handleCancelEdit = (hasChanges?: boolean) => {
@@ -805,6 +820,30 @@ export function EditWizardContainer({ site }: Props) {
                         onSave={handleSave}
                         onChange={handleChange}
                         onHasChanges={setHasChanges}
+                      />
+                    )}
+
+                    {/*DexContract*/}
+                    {activeMenu === ActiveMenu.CreateContract && (
+                      <CreateContractContainer
+                        onGoToContract={({ address, network }) => {
+                          setContractAddress(address);
+                          setContractNetwork(network);
+                          setActiveMenu(ActiveMenu.ManageContract);
+                        }}
+                        onGoToListContracts={() =>
+                          setActiveMenu(ActiveMenu.ManageContract)
+                        }
+                      />
+                    )}
+                    {activeMenu === ActiveMenu.ManageContract && (
+                      <ListContractContainer
+                        addr={contractAddress}
+                        net={contractNetwork}
+                        onGoBack={() => {
+                          setContractAddress('');
+                          setContractNetwork('');
+                        }}
                       />
                     )}
                   </Stack>
