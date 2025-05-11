@@ -36,6 +36,7 @@ export default function ImportAppConfigDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [jsonContent, setJsonContent] = useState<string | null>(null);
   const [validatedConfig, setValidatedConfig] = useState<AppConfig | null>(null);
+  const [originalJsonData, setOriginalJsonData] = useState<any>(null);
 
   const handleFileChange = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,6 +72,7 @@ export default function ImportAppConfigDialog({
 
         try {
           const jsonData = JSON.parse(fileContent);
+          setOriginalJsonData(jsonData);
           
           const result = appConfigSchema.safeParse(jsonData);
           
@@ -122,78 +124,43 @@ export default function ImportAppConfigDialog({
 
   const handleImport = useCallback(() => {
     if (validatedConfig && currentConfig) {
-      const finalConfig = { ...validatedConfig };
-      
-      finalConfig.name = currentConfig.name;
-      finalConfig.email = currentConfig.email;
-      finalConfig.domain = currentConfig.domain;
-      finalConfig.hide_powered_by = currentConfig.hide_powered_by;
-      
-      if (finalConfig.pages && jsonContent) {
-        try {
-          const originalJsonData = JSON.parse(jsonContent);
+      try {
+        if (originalJsonData) {
+          const finalConfig = JSON.parse(JSON.stringify(originalJsonData));
           
-          if (originalJsonData.pages) {
-            Object.keys(finalConfig.pages).forEach(pageKey => {
-              if (originalJsonData.pages[pageKey]) {
-                const finalPage = finalConfig.pages[pageKey];
-                const originalPage = originalJsonData.pages[pageKey];
-                
-                if (finalPage.sections && originalPage.sections) {
-                  finalPage.sections.forEach((section, index) => {
-                    if (section.type === 'call-to-action' && 
-                        originalPage.sections[index] && 
-                        originalPage.sections[index].type === 'call-to-action') {
-                      
-                      finalPage.sections[index] = originalPage.sections[index];
-                    }
-                  });
-                }
-              }
-            });
-          }
-        } catch (err) {
-          console.error("Error preserving original call-to-action sections:", err);
-        }
-      }
-      
-      onImport(finalConfig, redirectAfterImport);
-    } else if (validatedConfig) {
-      if (jsonContent) {
-        try {
-          const originalJsonData = JSON.parse(jsonContent);
-          const finalConfig = { ...validatedConfig };
-          
-          if (originalJsonData.pages && finalConfig.pages) {
-            Object.keys(finalConfig.pages).forEach(pageKey => {
-              if (originalJsonData.pages[pageKey]) {
-                const finalPage = finalConfig.pages[pageKey];
-                const originalPage = originalJsonData.pages[pageKey];
-                
-                if (finalPage.sections && originalPage.sections) {
-                  finalPage.sections.forEach((section, index) => {
-                    if (section.type === 'call-to-action' && 
-                        originalPage.sections[index] && 
-                        originalPage.sections[index].type === 'call-to-action') {
-                      
-                      finalPage.sections[index] = originalPage.sections[index];
-                    }
-                  });
-                }
-              }
-            });
-          }
+          finalConfig.name = currentConfig.name;
+          finalConfig.email = currentConfig.email;
+          finalConfig.domain = currentConfig.domain;
+          finalConfig.hide_powered_by = currentConfig.hide_powered_by;
           
           onImport(finalConfig, redirectAfterImport);
-        } catch (err) {
-          console.error("Error preserving original call-to-action sections:", err);
-          onImport(validatedConfig, redirectAfterImport);
+        } else {
+          const finalConfig = { ...validatedConfig };
+          finalConfig.name = currentConfig.name;
+          finalConfig.email = currentConfig.email;
+          finalConfig.domain = currentConfig.domain;
+          finalConfig.hide_powered_by = currentConfig.hide_powered_by;
+          
+          onImport(finalConfig, redirectAfterImport);
         }
+      } catch (err) {
+        console.error("Error processing JSON configuration:", err);
+        const finalConfig = { ...validatedConfig };
+        finalConfig.name = currentConfig.name;
+        finalConfig.email = currentConfig.email;
+        finalConfig.domain = currentConfig.domain;
+        finalConfig.hide_powered_by = currentConfig.hide_powered_by;
+        
+        onImport(finalConfig, redirectAfterImport);
+      }
+    } else if (validatedConfig) {
+      if (originalJsonData) {
+        onImport(originalJsonData, redirectAfterImport);
       } else {
         onImport(validatedConfig, redirectAfterImport);
       }
     }
-  }, [onImport, validatedConfig, currentConfig, redirectAfterImport, jsonContent]);
+  }, [onImport, validatedConfig, currentConfig, redirectAfterImport, originalJsonData]);
 
   return (
     <Dialog {...DialogProps}>
