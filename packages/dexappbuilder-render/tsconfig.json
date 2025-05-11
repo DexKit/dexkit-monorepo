@@ -1,15 +1,20 @@
 {
+  "extends": "tsconfig/react-library.json",
   "include": ["src/**/*"],
-  "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "rootDir": "./src",
-    "jsx": "react-jsx",
-    "moduleResolution": "bundler",
-    "module": "Preserve",
-    "declaration": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
-    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"]
-  }
+    "target": "es2021",
+    "lib": [
+      "DOM",
+      "ES6",
+      "DOM.Iterable",
+      "ScriptHost",
+      "ES2016.Array.Include",
+      "ES2021.String"
+    ]
+  },
+  "exclude": ["dist", "build", "node_modules"]
 }
