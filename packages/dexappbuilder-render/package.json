@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build-tsc": "tsc",
     "dev": "tsc -w",
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "release": "changeset publish"
