@@ -20,7 +20,10 @@ import {
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ADMIN_TABLE_LIST } from "../../../constants";
+import ImportAppConfigDialog from "../../dialogs/ImportAppConfigDialog";
 import Menu from "./Menu";
+
+import { useSendConfigMutation } from "@dexkit/ui/modules/whitelabel/hooks/useSendConfigMutation";
 
 interface Props {
   configs: ConfigResponse[];
@@ -29,34 +32,131 @@ interface Props {
 
 export default function MarketplacesTableV2({ configs }: Props) {
   const router = useRouter();
-
+  const { formatMessage } = useIntl();
+  const { enqueueSnackbar } = useSnackbar();
+  const isMobile = useIsMobile();
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 10,
+    pageSize: 5,
   });
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [rowId, setRowId] = useState<GridRowId | null>(null);
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  const [selectedConfig, setSelectedConfig] = useState<ConfigResponse | null>(null);
+  const [currentAppConfig, setCurrentAppConfig] = useState<AppConfig | null>(null);
 
-  const { formatMessage } = useIntl();
-
-  const isMobile = useIsMobile();
-
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [rowId, setRowId] = useState<GridRowId>();
+  const sendConfigMutation = useSendConfigMutation({
+    options: {
+      // Eliminamos estos callbacks para evitar mensajes duplicados
+      // ya que manejamos los mensajes en el handleImportConfig
+    },
+  });
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setRowId(undefined);
+    setRowId(null);
   };
 
-  const [showRemove, setShowRemove] = useState(false);
-
-  const handleCloseRemove = () => {
-    setShowRemove(false);
+  const handleImport = (id: GridRowId) => {
+    const config = configs.find((c) => c.id === Number(id));
+    
+    if (config) {
+      const currentAppConfig = JSON.parse(config.config) as AppConfig;
+      setSelectedConfig(config);
+      setCurrentAppConfig(currentAppConfig);
+      setShowImportDialog(true);
+    }
+    
+    handleCloseMenu();
   };
 
-  const { enqueueSnackbar } = useSnackbar();
+  const handleCloseImportDialog = () => {
+    setShowImportDialog(false);
+  };
+
+  const handleImportConfig = (importedConfig: AppConfig, shouldRedirect = true) => {
+    if (selectedConfig) {
+      console.log("Importing configuration for:", selectedConfig.slug);
+      
+      try {
+        const configString = JSON.stringify(importedConfig);
+        console.log("Configuration is valid JSON");
+        
+        enqueueSnackbar(
+          formatMessage({
+            defaultMessage: "Sending configuration...",
+            id: "sending.configuration",
+          }),
+          { variant: "info" }
+        );
+
+        sendConfigMutation.mutate(
+          {
+            config: configString,
+            slug: selectedConfig.slug,
+          },
+          {
+            onError: (error) => {
+              console.error("Import error details:", error);
+              enqueueSnackbar(
+                `${formatMessage({
+                  defaultMessage: "Error importing configuration",
+                  id: "error.importing.configuration",
+                })}: ${error.message || "Unknown error"}. ${formatMessage({
+                  defaultMessage: "Check if the server is running correctly.",
+                  id: "check.server.running",
+                })}`,
+                { 
+                  variant: "error",
+                  autoHideDuration: 8000
+                }
+              );
+            },
+            onSuccess: () => {
+              enqueueSnackbar(
+                formatMessage({
+                  defaultMessage: "Configuration imported successfully",
+                  id: "config.imported.successfully",
+                }),
+                { variant: "success" }
+              );
+              
+              if (shouldRedirect && selectedConfig?.slug) {
+                setTimeout(() => {
+                  router.push(`/admin/edit/${selectedConfig.slug}`);
+                }, 1000);
+              } else {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error preparing configuration:", error);
+        enqueueSnackbar(
+          formatMessage({
+            defaultMessage: "Error preparing configuration for import",
+            id: "error.preparing.configuration",
+          }),
+          { variant: "error" }
+        );
+      }
+    } else {
+      console.error("No DApp selected for import");
+      enqueueSnackbar(
+        formatMessage({
+          defaultMessage: "No DApp selected for import",
+          id: "no.dapp.selected",
+        }),
+        { variant: "error" }
+      );
+    }
+  };
 
   const handleExport = (id: GridRowId) => {
-    const config = configs.find((c) => c.id === id);
+    const config = configs.find((c) => c.id === Number(id));
 
     if (config) {
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -79,7 +179,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
   };
 
   const handlePreview = (id: GridRowId) => {
-    const config = configs.find((c) => c.id === id);
+    const config = configs.find((c) => c.id === Number(id));
 
     if (config) {
       window.open(
@@ -91,10 +191,12 @@ export default function MarketplacesTableV2({ configs }: Props) {
   };
 
   const handleEdit = (id: GridRowId) => {
-    const config = configs.find((c) => c.id === id);
+    const config = configs.find((c) => c.id === Number(id));
     handleCloseMenu();
 
-    router.push(`/admin/edit/${config?.slug}`);
+    if (config) {
+      router.push(`/admin/edit/${config?.slug}`);
+    }
   };
 
   const handleDeleteSuccess = () => {
@@ -155,12 +257,15 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const handleRemove = (id: GridRowId) => {
     setIsOpen(true);
-    setSelectedId(id as number);
+    setSelectedId(Number(id));
     handleCloseMenu();
   };
 
   const handleAction = (action: string, id: GridRowId) => {
     switch (action) {
+      case "import":
+        handleImport(id);
+        break;
       case "export":
         handleExport(id);
         break;
@@ -371,6 +476,19 @@ export default function MarketplacesTableV2({ configs }: Props) {
           defaultMessage="Do you really want to remove this app"
         />
       </AppConfirmDialog>
+      
+      <ImportAppConfigDialog
+        DialogProps={{
+          open: showImportDialog,
+          onClose: handleCloseImportDialog,
+          maxWidth: "sm",
+          fullWidth: true,
+        }}
+        onImport={handleImportConfig}
+        currentConfig={currentAppConfig || undefined}
+        redirectAfterImport={true}
+      />
+      
       <Menu
         anchorEl={anchorEl}
         onAction={handleMenuAction}
