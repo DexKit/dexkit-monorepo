@@ -22,8 +22,6 @@ export function useSendConfigMutation({
   return useMutation<ConfigResponse, Error, SendConfigVariables>({
     mutationFn: async ({ config, slug }) => {
       try {
-        console.log(`Updating config for: ${slug}`);
-
         const response = await myAppsApi.post('/site/create-site', {
           config,
           slug,

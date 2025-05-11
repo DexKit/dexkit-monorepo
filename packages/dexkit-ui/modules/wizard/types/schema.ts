@@ -137,13 +137,50 @@ const analyticsSchema = z.object({
   gtag: z.string().optional(),
 });
 
-const appPageSectionSchema = z.object({
-  type: z.string(),
-  name: z.string().optional(),
-  data: z.string().optional(),
-  config: z.any().optional(),
-  contract: z.any().optional(),
+const sectionItemSchema = z.union([
+  z.object({
+    type: z.literal('asset'),
+    title: z.string(),
+    chainId: z.number(),
+    contractAddress: z.string(),
+    tokenId: z.string()
+  }),
+  z.object({
+    type: z.literal('collection'),
+    variant: z.enum(['default', 'simple']),
+    featured: z.boolean().optional(),
+    title: z.string(),
+    subtitle: z.string(),
+    backgroundImageUrl: z.string(),
+    chainId: z.number(),
+    contractAddress: z.string()
+  })
+]);
+
+const callToActionSectionSchema = z.object({
+  type: z.literal('call-to-action'),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  button: z.object({
+    title: z.string(),
+    url: z.string(),
+    openInNewPage: z.boolean().optional()
+  }),
+  items: z.array(sectionItemSchema).optional(),
+  variant: z.enum(['light', 'dark']).optional(),
+  name: z.string().optional()
 });
+
+const appPageSectionSchema = z.union([
+  z.object({
+    type: z.string(),
+    name: z.string().optional(),
+    data: z.string().optional(),
+    config: z.any().optional(),
+    contract: z.any().optional(),
+  }),
+  callToActionSectionSchema
+]);
 
 const gatedConditionSchema = z.object({
   type: z.enum(["collection", "coin", "multiCollection"]).optional(),
@@ -225,4 +262,7 @@ export const appConfigSchema = z.object({
   themeMode: z.nativeEnum(ThemeMode).optional(),
 });
 
-export type AppConfigSchema = z.infer<typeof appConfigSchema>; 
+export type AppConfigSchema = z.infer<typeof appConfigSchema>;
+
+export const CallToActionSectionSchema = callToActionSectionSchema;
+export const SectionItemSchema = sectionItemSchema; 

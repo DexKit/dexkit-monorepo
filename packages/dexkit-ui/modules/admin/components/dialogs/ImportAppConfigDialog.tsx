@@ -5,7 +5,6 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Alert,
   Button,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -13,7 +12,6 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  FormControlLabel,
   Stack,
   Typography
 } from "@mui/material";
@@ -38,11 +36,6 @@ export default function ImportAppConfigDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [jsonContent, setJsonContent] = useState<string | null>(null);
   const [validatedConfig, setValidatedConfig] = useState<AppConfig | null>(null);
-  
-  const [preserveName, setPreserveName] = useState(true);
-  const [preserveEmail, setPreserveEmail] = useState(true);
-  const [preserveDomain, setPreserveDomain] = useState(true);
-  const [preservePoweredBy, setPreservePoweredBy] = useState(true);
 
   const handleFileChange = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,27 +124,76 @@ export default function ImportAppConfigDialog({
     if (validatedConfig && currentConfig) {
       const finalConfig = { ...validatedConfig };
       
-      if (preserveName) {
-        finalConfig.name = currentConfig.name;
-      }
+      finalConfig.name = currentConfig.name;
+      finalConfig.email = currentConfig.email;
+      finalConfig.domain = currentConfig.domain;
+      finalConfig.hide_powered_by = currentConfig.hide_powered_by;
       
-      if (preserveEmail) {
-        finalConfig.email = currentConfig.email;
-      }
-      
-      if (preserveDomain) {
-        finalConfig.domain = currentConfig.domain;
-      }
-      
-      if (preservePoweredBy) {
-        finalConfig.hide_powered_by = currentConfig.hide_powered_by;
+      if (finalConfig.pages && jsonContent) {
+        try {
+          const originalJsonData = JSON.parse(jsonContent);
+          
+          if (originalJsonData.pages) {
+            Object.keys(finalConfig.pages).forEach(pageKey => {
+              if (originalJsonData.pages[pageKey]) {
+                const finalPage = finalConfig.pages[pageKey];
+                const originalPage = originalJsonData.pages[pageKey];
+                
+                if (finalPage.sections && originalPage.sections) {
+                  finalPage.sections.forEach((section, index) => {
+                    if (section.type === 'call-to-action' && 
+                        originalPage.sections[index] && 
+                        originalPage.sections[index].type === 'call-to-action') {
+                      
+                      finalPage.sections[index] = originalPage.sections[index];
+                    }
+                  });
+                }
+              }
+            });
+          }
+        } catch (err) {
+          console.error("Error preserving original call-to-action sections:", err);
+        }
       }
       
       onImport(finalConfig, redirectAfterImport);
     } else if (validatedConfig) {
-      onImport(validatedConfig, redirectAfterImport);
+      if (jsonContent) {
+        try {
+          const originalJsonData = JSON.parse(jsonContent);
+          const finalConfig = { ...validatedConfig };
+          
+          if (originalJsonData.pages && finalConfig.pages) {
+            Object.keys(finalConfig.pages).forEach(pageKey => {
+              if (originalJsonData.pages[pageKey]) {
+                const finalPage = finalConfig.pages[pageKey];
+                const originalPage = originalJsonData.pages[pageKey];
+                
+                if (finalPage.sections && originalPage.sections) {
+                  finalPage.sections.forEach((section, index) => {
+                    if (section.type === 'call-to-action' && 
+                        originalPage.sections[index] && 
+                        originalPage.sections[index].type === 'call-to-action') {
+                      
+                      finalPage.sections[index] = originalPage.sections[index];
+                    }
+                  });
+                }
+              }
+            });
+          }
+          
+          onImport(finalConfig, redirectAfterImport);
+        } catch (err) {
+          console.error("Error preserving original call-to-action sections:", err);
+          onImport(validatedConfig, redirectAfterImport);
+        }
+      } else {
+        onImport(validatedConfig, redirectAfterImport);
+      }
     }
-  }, [onImport, validatedConfig, currentConfig, preserveName, preserveEmail, preserveDomain, preservePoweredBy, redirectAfterImport]);
+  }, [onImport, validatedConfig, currentConfig, redirectAfterImport, jsonContent]);
 
   return (
     <Dialog {...DialogProps}>
@@ -212,85 +254,12 @@ export default function ImportAppConfigDialog({
             </Alert>
           )}
           {validatedConfig && !error && !isLoading && (
-            <>
-              <Alert severity="success" sx={{ mt: 2 }}>
-                <FormattedMessage
-                  id="config.valid.ready.to.import"
-                  defaultMessage="Configuration valid and ready to import"
-                />
-              </Alert>
-              
-              {currentConfig && (
-                <Stack spacing={1} mt={2}>
-                  <Typography variant="subtitle2">
-                    <FormattedMessage 
-                      id="preserve.fields"
-                      defaultMessage="Preserve original fields:"
-                    />
-                  </Typography>
-                  
-                  <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={preserveName}
-                        onChange={(e) => setPreserveName(e.target.checked)}
-                      />
-                    }
-                    label={
-                      <FormattedMessage 
-                        id="preserve.app.name"
-                        defaultMessage="App name"
-                      />
-                    }
-                  />
-                  
-                  <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={preserveEmail}
-                        onChange={(e) => setPreserveEmail(e.target.checked)}
-                      />
-                    }
-                    label={
-                      <FormattedMessage 
-                        id="preserve.email"
-                        defaultMessage="Email"
-                      />
-                    }
-                  />
-                  
-                  <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={preserveDomain}
-                        onChange={(e) => setPreserveDomain(e.target.checked)}
-                      />
-                    }
-                    label={
-                      <FormattedMessage 
-                        id="preserve.domain"
-                        defaultMessage="Domain"
-                      />
-                    }
-                  />
-                  
-                  <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={preservePoweredBy}
-                        onChange={(e) => setPreservePoweredBy(e.target.checked)}
-                      />
-                    }
-                    label={
-                      <FormattedMessage 
-                        id="preserve.powered.by"
-                        defaultMessage="Hide powered by setting"
-                      />
-                    }
-                  />
-                </Stack>
-              )}
-            </>
+            <Alert severity="success" sx={{ mt: 2 }}>
+              <FormattedMessage
+                id="config.valid.ready.to.import"
+                defaultMessage="Configuration valid and ready to import"
+              />
+            </Alert>
           )}
         </Stack>
       </DialogContent>

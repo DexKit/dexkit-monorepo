@@ -6,8 +6,12 @@ import { AppConfirmDialog, AppLink } from "@dexkit/ui";
 import { useDeleteMyAppMutation } from "@dexkit/ui/modules/whitelabel/hooks/useDeleteMyAppMutation";
 import {
   AppConfig,
+  AppPage,
   ConfigResponse,
 } from "@dexkit/ui/modules/wizard/types/config";
+import {
+  AppPageSection
+} from "@dexkit/ui/modules/wizard/types/section";
 import MoreVert from "@mui/icons-material/MoreVert";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import {
@@ -47,8 +51,6 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const sendConfigMutation = useSendConfigMutation({
     options: {
-      // Eliminamos estos callbacks para evitar mensajes duplicados
-      // ya que manejamos los mensajes en el handleImportConfig
     },
   });
 
@@ -76,11 +78,34 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const handleImportConfig = (importedConfig: AppConfig, shouldRedirect = true) => {
     if (selectedConfig) {
-      console.log("Importing configuration for:", selectedConfig.slug);
-      
       try {
+        if (importedConfig.pages) {
+          (Object.values(importedConfig.pages) as AppPage[]).forEach((page) => {
+            if (page.sections) {
+              page.sections.forEach((section: AppPageSection) => {
+                if (section.type !== 'call-to-action') return;
+                
+                if (!section.items) {
+                  section.items = [];
+                }
+                
+                if (!section.button) {
+                  section.button = {
+                    title: 'Click here',
+                    url: '#',
+                    openInNewPage: false
+                  };
+                }
+                
+                if (!section.variant) {
+                  section.variant = 'light';
+                }
+              });
+            }
+          });
+        }
+        
         const configString = JSON.stringify(importedConfig);
-        console.log("Configuration is valid JSON");
         
         enqueueSnackbar(
           formatMessage({
@@ -97,7 +122,6 @@ export default function MarketplacesTableV2({ configs }: Props) {
           },
           {
             onError: (error) => {
-              console.error("Import error details:", error);
               enqueueSnackbar(
                 `${formatMessage({
                   defaultMessage: "Error importing configuration",
@@ -134,7 +158,6 @@ export default function MarketplacesTableV2({ configs }: Props) {
           }
         );
       } catch (error) {
-        console.error("Error preparing configuration:", error);
         enqueueSnackbar(
           formatMessage({
             defaultMessage: "Error preparing configuration for import",
@@ -144,7 +167,6 @@ export default function MarketplacesTableV2({ configs }: Props) {
         );
       }
     } else {
-      console.error("No DApp selected for import");
       enqueueSnackbar(
         formatMessage({
           defaultMessage: "No DApp selected for import",

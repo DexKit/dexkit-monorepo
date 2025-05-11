@@ -41,12 +41,12 @@ interface Props {
   section: AppPageSection;
   useLazy?: boolean;
 }
-/**
- * This function it is to be used inside SectionRender
- * @param param0
- * @returns
- */
+
 export function SectionToRender({ section }: Props) {
+  if (!section) {
+    return null;
+  }
+
   if (section.type === "featured") {
     return <FeaturedSection title={section.title} items={section.items} />;
   } else if (section.type === "video") {

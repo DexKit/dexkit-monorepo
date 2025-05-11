@@ -141,8 +141,6 @@ export function useDepositRewardTokensMutation({
       console.warn('Error getting reward token address:', contractError);
     }
     
-    console.log(`Depositing rewards for contract: ${contractName}`);
-    
     let values = {
       amount: formatUnits(amount, rewardDecimals),
       contractName: contractName,
@@ -262,10 +260,8 @@ export function useThirdwebApprove({
     try {
       const allowance = await contract.allowance(address);
       currentAllowance = BigNumber.from(allowance.value);
-      console.log('Current allowance:', allowance.displayValue, 'Requested amount:', amount);
       
       if (currentAllowance.gte(BigNumber.from(amount))) {
-        console.log('Sufficient approval already exists, avoiding unnecessary approval');
         return { success: true, message: 'Sufficient approval already exists' };
       }
     } catch (error) {
@@ -274,7 +270,6 @@ export function useThirdwebApprove({
 
     const safeMaxApprovalAmount = "115792089237316195423570985008687907853269984665640564039457000000000000000000";
     
-    console.log('Requesting new approval with maximum safe value');
     watchTransactionDialog.open('approve', values);
 
     try {
@@ -303,7 +298,6 @@ export function useThirdwebApprove({
       
       if (errorMessage.includes('out-of-bounds') || errorMessage.includes('overflow')) {
         try {
-          console.log('Error in value out of bounds. Trying with a smaller value...');
           const smallerApprovalAmount = "1000000000000000000000000000000000000";
           const newCall = await contract.erc20.setAllowance.prepare(address, smallerApprovalAmount);
           const newTx = await newCall.send();
