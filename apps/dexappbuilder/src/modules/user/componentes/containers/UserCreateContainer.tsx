@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useUpsertUserMutation } from '../../hooks';
-import { UserOptions } from '../../types/ai';
+import { UserOptions } from '@dexkit/ui/types/ai';
 import UpsertUserDialog from '../dialogs/UpsertuserDialog';
 import UserGeneralForm from '../forms/UserGeneralForm';
 
