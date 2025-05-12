@@ -1,3 +1,11 @@
+import { Asset } from "@dexkit/core/types/nft";
+
+export interface ExtendedAsset extends Asset {
+  imageUrl?: string;
+  name?: string;
+  networkId?: string;
+}
+
 export type UserOptions = {
   username?: string;
   bio?: string;
@@ -7,6 +15,7 @@ export type UserOptions = {
   discordVerified?: boolean;
   twitterVerified?: boolean;
   createdOnSiteId?: number;
+  profileNft?: Asset;
 };
 
 export type FeatUsageItem = {

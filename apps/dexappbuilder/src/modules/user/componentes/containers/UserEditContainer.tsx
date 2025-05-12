@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import { UserOptions } from '@dexkit/ui/types/ai';
 import Close from '@mui/icons-material/Close';
 import Visibility from '@mui/icons-material/Visibility';
 import {
@@ -29,6 +28,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuthUserQuery, useUpsertUserMutation } from '../../hooks';
+import { UserOptions } from '../../types';
 import UpsertUserDialog from '../dialogs/UpsertuserDialog';
 import UserGeneralForm from '../forms/UserGeneralForm';
 import { UserAccounts } from '../UserAccounts';

@@ -1,20 +1,30 @@
 import {
+  Box,
   Button,
+  Chip,
   Divider,
   Grid,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
   Stack,
   styled,
-  Typography,
+  Typography
 } from '@mui/material';
 import { Field, Formik } from 'formik';
 import { TextField } from 'formik-mui';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { ExtendedAsset } from '@dexkit/ui/types/ai';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import CollectionsIcon from '@mui/icons-material/Collections';
 import ImageIcon from '@mui/icons-material/Image';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
 import { getUsernameExists } from '../../services';
+import { DirectNftSelector } from '../DirectNftSelector';
 const MediaDialog = dynamic(() => import('@dexkit/ui/components/mediaDialog'));
 
 export interface UserForm {
@@ -23,9 +33,10 @@ export interface UserForm {
   backgroundImageURL?: string;
   bio?: string;
   shortBio?: string;
+  profileNft?: ExtendedAsset;
 }
 
-const FormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
+const FormSchema = Yup.object().shape({
   username: Yup.string()
     .required()
     .test(
@@ -45,15 +56,16 @@ const FormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
   backgroundImageURL: Yup.string().url(),
   bio: Yup.string(),
   shortBio: Yup.string(),
+  profileNft: Yup.mixed(),
 });
 
-const EditFormSchema: Yup.SchemaOf<UserForm> = Yup.object().shape({
+const EditFormSchema = Yup.object().shape({
   username: Yup.string().required(),
-
   profileImageURL: Yup.string().url(),
   backgroundImageURL: Yup.string().url(),
   bio: Yup.string(),
   shortBio: Yup.string(),
+  profileNft: Yup.mixed(),
 });
 
 interface Props {
@@ -64,18 +76,28 @@ interface Props {
 }
 
 const EmptyImageBackground = styled(ImageIcon)(({ theme }) => ({
-  height: theme.spacing(20),
-  width: theme.spacing(20),
+  height: theme.spacing(15),
+  width: theme.spacing(15),
+  color: theme.palette.text.secondary,
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.action.hover,
+  borderRadius: theme.shape.borderRadius,
 }));
 
 const BackgroundImage = styled('img')(({ theme }) => ({
-  height: theme.spacing(10),
-  width: theme.spacing(10),
+  height: theme.spacing(15),
+  width: theme.spacing(15),
+  objectFit: "contain",
+  borderRadius: theme.shape.borderRadius,
 }));
 
 const EmptyImageProfile = styled(ImageIcon)(({ theme }) => ({
-  height: theme.spacing(10),
-  width: theme.spacing(10),
+  height: theme.spacing(15),
+  width: theme.spacing(15),
+  color: theme.palette.text.secondary,
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.action.hover,
+  borderRadius: theme.shape.borderRadius,
 }));
 
 export default function UserGeneralForm({
@@ -85,6 +107,28 @@ export default function UserGeneralForm({
 }: Props) {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
+  const [openNftSelector, setOpenNftSelector] = useState(false);
+  const [profileMenuAnchor, setProfileMenuAnchor] = useState<null | HTMLElement>(null);
+  
+  const handleProfileClick = (event: MouseEvent<HTMLElement>) => {
+    setProfileMenuAnchor(event.currentTarget);
+  };
+  
+  const handleMenuClose = () => {
+    setProfileMenuAnchor(null);
+  };
+  
+  const handleSelectFromGallery = () => {
+    setMediaFieldToEdit('profileImageURL');
+    setOpenMediaDialog(true);
+    handleMenuClose();
+  };
+  
+  const handleSelectFromNFTs = () => {
+    setOpenNftSelector(true);
+    handleMenuClose();
+  };
+  
   return (
     <>
       <Stack>
@@ -96,6 +140,7 @@ export default function UserGeneralForm({
               backgroundImageURL: '',
               bio: '',
               shortBio: '',
+              profileNft: undefined,
             }
           }
           onSubmit={(values, helpers) => {
@@ -132,6 +177,32 @@ export default function UserGeneralForm({
                 />
               )}
 
+              <DirectNftSelector
+                open={openNftSelector}
+                onClose={() => setOpenNftSelector(false)}
+                selectedNft={values.profileNft}
+                onSelect={(nft) => {
+                  try {
+                    const imageUrl = nft.imageUrl || nft.metadata?.image || '';
+                    
+                    setFieldValue('profileNft', nft);
+                    setFieldValue('profileImageURL', imageUrl);
+                    
+                    if (onChange) {
+                      onChange({
+                        ...values,
+                        profileNft: nft,
+                        profileImageURL: imageUrl,
+                      });
+                    }
+                  } catch (error) {
+                    console.error("Error selecting NFT:", error);
+                  }
+                  
+                  setOpenNftSelector(false);
+                }}
+              />
+
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Field
@@ -154,18 +225,76 @@ export default function UserGeneralForm({
                       defaultMessage="Profile Image"
                     />
                   </Typography>
-                  <Button
-                    onClick={() => {
-                      setOpenMediaDialog(true);
-                      setMediaFieldToEdit('profileImageURL');
-                    }}
-                  >
-                    {values.profileImageURL ? (
-                      <BackgroundImage src={values.profileImageURL} />
-                    ) : (
-                      <EmptyImageProfile />
-                    )}
-                  </Button>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                    <Button
+                      onClick={handleProfileClick}
+                      sx={{ 
+                        p: 0, 
+                        borderRadius: 1,
+                        '&:hover': {
+                          opacity: 0.8,
+                          boxShadow: 2
+                        }
+                      }}
+                    >
+                      {values.profileImageURL ? (
+                        <BackgroundImage src={values.profileImageURL} />
+                      ) : (
+                        <EmptyImageProfile />
+                      )}
+                    </Button>
+                    
+                    <Menu
+                      anchorEl={profileMenuAnchor}
+                      open={Boolean(profileMenuAnchor)}
+                      onClose={handleMenuClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
+                    >
+                      <MenuItem onClick={handleSelectFromGallery}>
+                        <ListItemIcon>
+                          <AddPhotoAlternateIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <FormattedMessage 
+                            id="select.from.gallery" 
+                            defaultMessage="Select from Gallery"
+                          />
+                        </ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={handleSelectFromNFTs}>
+                        <ListItemIcon>
+                          <CollectionsIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <FormattedMessage 
+                            id="select.from.nfts" 
+                            defaultMessage="Select from NFTs"
+                          />
+                        </ListItemText>
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                  {values.profileNft && (
+                    <Typography variant="caption" color="textSecondary" sx={{ mt: 1, display: 'block' }}>
+                      {values.profileNft.metadata?.name || values.profileNft.name || values.profileNft.collectionName}
+                      {values.profileNft.networkId && (
+                        <Chip 
+                          size="small"
+                          label={values.profileNft.networkId.charAt(0).toUpperCase() + values.profileNft.networkId.slice(1)}
+                          color="primary"
+                          variant="outlined"
+                          sx={{ ml: 1 }}
+                        />
+                      )}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="body2">
@@ -174,18 +303,28 @@ export default function UserGeneralForm({
                       defaultMessage="Background Image"
                     />
                   </Typography>
-                  <Button
-                    onClick={() => {
-                      setOpenMediaDialog(true);
-                      setMediaFieldToEdit('backgroundImageURL');
-                    }}
-                  >
-                    {values.backgroundImageURL ? (
-                      <BackgroundImage src={values.backgroundImageURL} />
-                    ) : (
-                      <EmptyImageBackground />
-                    )}
-                  </Button>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                    <Button
+                      onClick={() => {
+                        setOpenMediaDialog(true);
+                        setMediaFieldToEdit('backgroundImageURL');
+                      }}
+                      sx={{ 
+                        p: 0, 
+                        borderRadius: 1,
+                        '&:hover': {
+                          opacity: 0.8,
+                          boxShadow: 2
+                        }
+                      }}
+                    >
+                      {values.backgroundImageURL ? (
+                        <BackgroundImage src={values.backgroundImageURL} />
+                      ) : (
+                        <EmptyImageBackground />
+                      )}
+                    </Button>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <Field

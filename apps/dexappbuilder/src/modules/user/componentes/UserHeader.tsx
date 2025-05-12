@@ -36,6 +36,14 @@ export function UserHeader(props: Props) {
   } = props;
   const theme = useTheme();
 
+  const isNftImage = profileImageURL && (
+    profileImageURL.includes('metadata.ens.domains') || 
+    profileImageURL.includes('ipfs') || 
+    profileImageURL.includes('arweave') ||
+    profileImageURL.startsWith('data:') ||
+    !profileImageURL.startsWith('/')
+  );
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -53,14 +61,30 @@ export function UserHeader(props: Props) {
               position: 'absolute',
               bottom: theme.spacing(-2),
               left: theme.spacing(3),
+              width: theme.spacing(14),
+              height: theme.spacing(14),
+              borderRadius: '50%',
+              overflow: 'hidden',
             })}
           >
-            <Image
-              src={profileImageURL}
-              alt={bio || ' '}
-              width={14 * 8}
-              height={14 * 8}
-            />
+            {isNftImage ? (
+              <img
+                src={profileImageURL}
+                alt={bio || ' '}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <Image
+                src={profileImageURL}
+                alt={bio || ' '}
+                width={14 * 8}
+                height={14 * 8}
+              />
+            )}
           </Box>
         ) : (
           <Avatar
