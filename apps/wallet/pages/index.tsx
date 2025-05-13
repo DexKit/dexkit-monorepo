@@ -11,6 +11,7 @@ import { fetchMultipleAssetForQueryClient } from "@dexkit/ui/modules/nft/service
 //import { getAppConfigBySlug } from "@dexkit/ui/services/app/getAppConfigbySlug";
 import getLocaleMessages from "@dexkit/ui/services/i18n";
 
+import { AppPage } from "@dexkit/ui/modules/wizard/types/config";
 import config from "../public/config/app.kittygotchi.json";
 
 function Home(props: CustomPageProps) {
@@ -22,7 +23,7 @@ Home.getInitialProps = async () => {
   //const { appConfig } = configResponse;
   const queryClient = new QueryClient();
   const appConfig = config;
-  const homePage = appConfig.pages["home"];
+  const homePage = appConfig.pages["home"] as AppPage;
 
   const appLocaleMessages = await getLocaleMessages(appConfig.locale);
   const configResponse = {
@@ -59,7 +60,6 @@ Home.getInitialProps = async () => {
       ...configResponse,
     };
   }
-  console.log(homePage);
 
   const sections = homePage?.sections || [];
 

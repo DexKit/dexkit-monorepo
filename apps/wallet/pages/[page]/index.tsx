@@ -12,6 +12,7 @@ import { fetchMultipleAssetForQueryClient } from "@dexkit/ui/modules/nft/service
 //import { getAppConfigBySlug } from "@dexkit/ui/services/app/getAppConfigbySlug";
 import getLocaleMessages from "@dexkit/ui/services/i18n";
 
+import { AppPage } from "@dexkit/ui/modules/wizard/types/config";
 import config from "../../public/config/app.kittygotchi.json";
 
 function CustomPage(props: CustomPageProps) {
@@ -38,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({
     appPage: params?.page,
   };
   //@ts-ignore
-  const homePage = appConfig.pages[params?.page || ""];
+  const homePage = appConfig.pages[params?.page || ""] as AppPage;
 
   if (!homePage) {
     return {

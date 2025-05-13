@@ -29,7 +29,7 @@
     "build:dexappadmin": "turbo run build --filter=@dexkit/@dexkit/dexappbuilder-render  --filter=dexappadmin",
     "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:coinleague": "turbo run build --parallel --filter=coinleague",
-    "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",
+    "build:wallet": "turbo run build --parallel --filter=wallet-example",
     "build:ui": "turbo run build --parallel --filter=@dexkit/ui",
     "build:dexviewer": "turbo run build --parallel --filter=@dexkit/dexappbuilder-viewer",
     "remove-node-modules": "./scripts/bash/remove-node-modules.sh",
