@@ -83,6 +83,22 @@ export function upsertUser(user: UserOptions) {
   return myAppsApi.post(`/user/upsert`, user);
 }
 
+export function validateNFTOwnership({
+  nftChainId,
+  nftAddress,
+  nftId,
+}: {
+  nftChainId: number;
+  nftAddress: string;
+  nftId: string;
+}) {
+  return axios.post(`/api/user/validate-nft-ownership`, {
+    nftChainId,
+    nftAddress,
+    nftId,
+  });
+}
+
 export function getUserConnectTwitter() {
   return axios.get(`/api/auth/twitter`);
 }

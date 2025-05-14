@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -8,6 +9,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Snackbar,
   Stack,
   styled,
   Typography
@@ -23,6 +25,7 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import ImageIcon from '@mui/icons-material/Image';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
+import { useValidateNFTOwnershipMutation } from '../../hooks';
 import { getUsernameExists } from '../../services';
 import { DirectNftSelector } from '../DirectNftSelector';
 const MediaDialog = dynamic(() => import('@dexkit/ui/components/mediaDialog'));
@@ -34,6 +37,9 @@ export interface UserForm {
   bio?: string;
   shortBio?: string;
   profileNft?: ExtendedAsset;
+  nftChainId?: number;
+  nftAddress?: string;
+  nftId?: string;
 }
 
 const FormSchema = Yup.object().shape({
@@ -57,6 +63,9 @@ const FormSchema = Yup.object().shape({
   bio: Yup.string(),
   shortBio: Yup.string(),
   profileNft: Yup.mixed(),
+  nftChainId: Yup.number(),
+  nftAddress: Yup.string(),
+  nftId: Yup.string(),
 });
 
 const EditFormSchema = Yup.object().shape({
@@ -66,6 +75,9 @@ const EditFormSchema = Yup.object().shape({
   bio: Yup.string(),
   shortBio: Yup.string(),
   profileNft: Yup.mixed(),
+  nftChainId: Yup.number(),
+  nftAddress: Yup.string(),
+  nftId: Yup.string(),
 });
 
 interface Props {
@@ -109,6 +121,8 @@ export default function UserGeneralForm({
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
   const [openNftSelector, setOpenNftSelector] = useState(false);
   const [profileMenuAnchor, setProfileMenuAnchor] = useState<null | HTMLElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const validateNFTMutation = useValidateNFTOwnershipMutation();
   
   const handleProfileClick = (event: MouseEvent<HTMLElement>) => {
     setProfileMenuAnchor(event.currentTarget);
@@ -129,6 +143,10 @@ export default function UserGeneralForm({
     handleMenuClose();
   };
   
+  const handleErrorClose = () => {
+    setError(null);
+  };
+  
   return (
     <>
       <Stack>
@@ -141,12 +159,36 @@ export default function UserGeneralForm({
               bio: '',
               shortBio: '',
               profileNft: undefined,
+              nftChainId: undefined,
+              nftAddress: '',
+              nftId: '',
             }
           }
           onSubmit={(values, helpers) => {
-            if (onSubmit) {
-              onSubmit(values as UserForm);
-              helpers.resetForm({ values });
+            if (values.nftChainId && values.nftAddress && values.nftId) {
+              validateNFTMutation.mutate(
+                {
+                  nftChainId: values.nftChainId,
+                  nftAddress: values.nftAddress,
+                  nftId: values.nftId
+                },
+                {
+                  onSuccess: () => {
+                    if (onSubmit) {
+                      onSubmit(values as UserForm);
+                      helpers.resetForm({ values });
+                    }
+                  },
+                  onError: (error: any) => {
+                    setError(error.message || 'Error validating NFT');
+                  },
+                }
+              );
+            } else {
+              if (onSubmit) {
+                onSubmit(values as UserForm);
+                helpers.resetForm({ values });
+              }
             }
           }}
           validationSchema={initialValues ? EditFormSchema : FormSchema}
@@ -167,6 +209,12 @@ export default function UserGeneralForm({
                   onConfirmSelectFile={(file) => {
                     if (mediaFieldToEdit && file) {
                       setFieldValue(mediaFieldToEdit, file.url);
+                      if (mediaFieldToEdit === 'profileImageURL') {
+                        setFieldValue('profileNft', undefined);
+                        setFieldValue('nftChainId', undefined);
+                        setFieldValue('nftAddress', '');
+                        setFieldValue('nftId', '');
+                      }
                       if (onChange) {
                         onChange({ ...values, [mediaFieldToEdit]: file.url });
                       }
@@ -184,22 +232,49 @@ export default function UserGeneralForm({
                 onSelect={(nft) => {
                   try {
                     const imageUrl = nft.imageUrl || nft.metadata?.image || '';
+                    const chainId = nft.chainId || Number(nft.networkId);
+                    const address = nft.contractAddress || (nft as any).address;
+                    const tokenId = String(nft.id);
                     
-                    setFieldValue('profileNft', nft);
-                    setFieldValue('profileImageURL', imageUrl);
-                    
-                    if (onChange) {
-                      onChange({
-                        ...values,
-                        profileNft: nft,
-                        profileImageURL: imageUrl,
-                      });
+                    if (!address) {
+                      throw new Error('The selected NFT does not have a valid contract address');
                     }
-                  } catch (error) {
-                    console.error("Error selecting NFT:", error);
+                    
+                    validateNFTMutation.mutate(
+                      {
+                        nftChainId: chainId,
+                        nftAddress: address,
+                        nftId: tokenId
+                      },
+                      {
+                        onSuccess: (data) => {
+                          setFieldValue('profileNft', nft);
+                          setFieldValue('profileImageURL', imageUrl);
+                          setFieldValue('nftChainId', chainId);
+                          setFieldValue('nftAddress', address);
+                          setFieldValue('nftId', tokenId);
+                          
+                          if (onChange) {
+                            onChange({
+                              ...values,
+                              profileNft: nft,
+                              profileImageURL: imageUrl,
+                              nftChainId: chainId,
+                              nftAddress: address,
+                              nftId: tokenId,
+                            });
+                          }
+                          
+                          setError(null);
+                        },
+                        onError: (error: any) => {
+                          setError(error.message || 'Error validating NFT');
+                        },
+                      }
+                    );
+                  } catch (error: any) {
+                    setError(error.message || 'Error selecting NFT');
                   }
-                  
-                  setOpenNftSelector(false);
                 }}
               />
 
@@ -293,6 +368,15 @@ export default function UserGeneralForm({
                           sx={{ ml: 1 }}
                         />
                       )}
+                      {values.nftAddress && values.nftId && (
+                        <Chip 
+                          size="small"
+                          label="NFT"
+                          color="secondary"
+                          variant="outlined"
+                          sx={{ ml: 1 }}
+                        />
+                      )}
                     </Typography>
                   )}
                 </Grid>
@@ -354,16 +438,31 @@ export default function UserGeneralForm({
                 <Grid item xs={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
-                      disabled={!isValid}
+                      disabled={!isValid || validateNFTMutation.isLoading}
                       onClick={submitForm}
                       variant="contained"
                       color="primary"
                     >
-                      <FormattedMessage id="save" defaultMessage="Save" />
+                      {validateNFTMutation.isLoading ? (
+                        <FormattedMessage id="validating" defaultMessage="Validating..." />
+                      ) : (
+                        <FormattedMessage id="save" defaultMessage="Save" />
+                      )}
                     </Button>
                   </Stack>
                 </Grid>
               </Grid>
+              
+              <Snackbar 
+                open={error !== null} 
+                autoHideDuration={6000} 
+                onClose={handleErrorClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              >
+                <Alert onClose={handleErrorClose} severity="error" sx={{ width: '100%' }}>
+                  {error}
+                </Alert>
+              </Snackbar>
             </form>
           )}
         </Formik>

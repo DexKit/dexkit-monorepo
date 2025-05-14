@@ -125,7 +125,7 @@ function NftCard({ nft, isSelected, onClick }: NftCardProps) {
             domain = urlParts[2];
           }
         } catch (e) {
-          console.error('Error processing image URL:', e);
+          // Error processing image URL
         }
       }
       return `https://${domain}${url}`;
@@ -314,6 +314,12 @@ export function DirectNftSelector({ open, onClose, onSelect, selectedNft }: Dire
   const [page, setPage] = useState(1);
   const itemsPerPage = 24;
 
+  useEffect(() => {
+    if (open && account) {
+      fetchNfts();
+    }
+  }, [open, account]);
+
   const fetchNfts = async () => {
     if (!account) return;
 
@@ -329,7 +335,7 @@ export function DirectNftSelector({ open, onClose, onSelect, selectedNft }: Dire
           networks: networks
         }
       });
-
+      
       if (response.data && response.data.length) {
         const assets = response.data
           .map((a: any) => a.assets)
@@ -370,19 +376,12 @@ export function DirectNftSelector({ open, onClose, onSelect, selectedNft }: Dire
         setNfts([]);
       }
     } catch (error) {
-      console.error("Error fetching NFTs:", error);
       setError("Error loading NFTs. Please try again.");
       setNfts([]);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (open && account) {
-      fetchNfts();
-    }
-  }, [open, account]);
 
   const toggleNetwork = (networkId: string) => {
     setSelectedNetworks(prev => {

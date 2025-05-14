@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AuthProvider } from '@dexkit/ui/providers/authProvider';
+import { NftProfileValidator } from '../../modules/user/componentes/NftProfileValidator';
 import { ConfigWizardProvider } from '../../providers/configWizardProvider';
 import MainLayout from './main';
 
@@ -10,10 +11,6 @@ interface Props {
   disablePadding?: boolean;
   disableAutoLogin?: boolean;
 }
-/**
- * Use Auth Main Layout when you need authentication feature
- * @returns
- */
 const AuthMainLayout: React.FC<Props> = ({
   children,
   noSsr,
@@ -23,6 +20,7 @@ const AuthMainLayout: React.FC<Props> = ({
   return (
     <ConfigWizardProvider>
       <AuthProvider disableAutoLogin={disableAutoLogin}>
+        <NftProfileValidator checkIntervalSeconds={300} />
         <MainLayout noSsr={noSsr} disablePadding={disablePadding}>
           {children}
         </MainLayout>

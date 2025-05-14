@@ -16,6 +16,9 @@ export type UserOptions = {
   twitterVerified?: boolean;
   createdOnSiteId?: number;
   profileNft?: Asset;
+  nftChainId?: number;
+  nftAddress?: string;
+  nftId?: string;
 };
 
 export type FeatUsageItem = {

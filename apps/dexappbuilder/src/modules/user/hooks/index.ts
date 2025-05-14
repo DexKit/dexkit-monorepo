@@ -15,6 +15,7 @@ import {
   postUserAddAccount,
   postUserRemoveAccount,
   upsertUser,
+  validateNFTOwnership,
 } from '../services';
 
 export function useClaimCampaignMutation({
@@ -163,5 +164,52 @@ export function useAuthUserQuery() {
       return userRequest.data;
     }
     return null;
+  });
+}
+
+export function useValidateNFTOwnershipMutation() {
+  const { isLoggedIn } = useAuth();
+  const loginMutation = useLoginAccountMutation();
+  
+  return useMutation(async ({ 
+    nftChainId, 
+    nftAddress, 
+    nftId 
+  }: { 
+    nftChainId: number; 
+    nftAddress: string; 
+    nftId: string 
+  }) => {
+    if (!isLoggedIn) {
+      try {
+        await loginMutation.mutateAsync();
+      } catch (loginError) {
+        throw new Error('Could not authenticate to validate NFT');
+      }
+    }
+    
+    try {
+      if (!nftChainId || !nftAddress || !nftId) {
+        throw new Error('Missing required parameters to validate NFT');
+      }
+      
+      const response = await validateNFTOwnership({ 
+        nftChainId, 
+        nftAddress, 
+        nftId 
+      });
+      
+      if (!response.data.success) {
+        throw new Error(response.data.message || 'You are not the owner of this NFT');
+      }
+      
+      return response.data;
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          error.message || 
+                          'Unknown error validating NFT';
+      throw new Error(errorMessage);
+    }
   });
 }
