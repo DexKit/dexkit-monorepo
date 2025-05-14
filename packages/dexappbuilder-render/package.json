@@ -21,7 +21,7 @@
     "@dexkit/ui": "*"
   },
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "publishConfig": {
     "access": "public"

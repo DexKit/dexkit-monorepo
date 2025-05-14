@@ -15,7 +15,7 @@
     "build"
   ],
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "browser": {
     "child_process": false,
