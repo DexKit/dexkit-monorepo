@@ -29,6 +29,7 @@ import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
 import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { getWindowUrl } from '@/modules/common/utils/browser';
+import { ErrorBoundaryUI } from '@dexkit/ui/components/ErrorBoundary';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Filter, FilterAlt } from '@mui/icons-material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -232,53 +233,51 @@ const CoinLeagueIndex: NextPage = () => {
       )}
       <MainLayout>
         <Stack spacing={2}>
-          <TickerTapeTV />
-
-          <Stack
-            direction="row"
-            alignItems="center"
-            alignContent="center"
-            justifyContent="space-between"
-          >
-            <AppPageHeader
-              breadcrumbs={[
-                {
-                  caption: <FormattedMessage id="home" defaultMessage="Home" />,
-                  uri: '/',
-                },
-                {
-                  caption: (
-                    <FormattedMessage
-                      id="coin.league"
-                      defaultMessage="Coin League"
-                    />
-                  ),
-                  uri: '/coinleague',
-                  active: true,
-                },
-              ]}
-            />
-
-            <IconButton
-              sx={{ display: { xs: 'flex', sm: 'none' } }}
-              onClick={handleOpenFilters}
+          <ErrorBoundaryUI>
+            <TickerTapeTV />
+          </ErrorBoundaryUI>
+          <ErrorBoundaryUI>
+            <Stack
+              direction="row"
+              alignItems="center"
+              alignContent="center"
+              justifyContent="space-between"
             >
-              <FilterAlt />
-            </IconButton>
-          </Stack>
+              <AppPageHeader
+                breadcrumbs={[
+                  {
+                    caption: (
+                      <FormattedMessage id="home" defaultMessage="Home" />
+                    ),
+                    uri: '/',
+                  },
+                  {
+                    caption: (
+                      <FormattedMessage
+                        id="coin.league"
+                        defaultMessage="Coin League"
+                      />
+                    ),
+                    uri: '/coinleague',
+                    active: true,
+                  },
+                ]}
+              />
 
-          <ButtonBase
-            sx={{ width: '100%', display: 'block' }}
-            onClick={handleOpenCreateGame}
-          >
-            <Paper sx={{ p: 2 }}>
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="space-between"
-                alignItems="center"
-                alignContent="center"
+              <IconButton
+                sx={{ display: { xs: 'flex', sm: 'none' } }}
+                onClick={handleOpenFilters}
               >
+                <FilterAlt />
+              </IconButton>
+            </Stack>
+          </ErrorBoundaryUI>
+          <ErrorBoundaryUI>
+            <ButtonBase
+              sx={{ width: '100%', display: 'block' }}
+              onClick={handleOpenCreateGame}
+            >
+              <Paper sx={{ p: 2 }}>
                 <Stack
                   direction="row"
                   spacing={2}
@@ -286,179 +285,193 @@ const CoinLeagueIndex: NextPage = () => {
                   alignItems="center"
                   alignContent="center"
                 >
-                  <Avatar
-                    sx={(theme) => ({
-                      backgroundColor: theme.palette.background.default,
-                    })}
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    alignContent="center"
                   >
-                    <GameController color="action" />
-                  </Avatar>
-                  <Box>
-                    <Typography align="left" variant="body1">
-                      <FormattedMessage
-                        id="create.game"
-                        defaultMessage="Create Game"
-                      />
-                    </Typography>
-                    <Typography
-                      align="left"
-                      variant="body2"
-                      color="textSecondary"
+                    <Avatar
+                      sx={(theme) => ({
+                        backgroundColor: theme.palette.background.default,
+                      })}
                     >
-                      <FormattedMessage
-                        id="coin.league"
-                        defaultMessage="Coin League"
-                      />
-                    </Typography>
-                  </Box>
+                      <GameController color="action" />
+                    </Avatar>
+                    <Box>
+                      <Typography align="left" variant="body1">
+                        <FormattedMessage
+                          id="create.game"
+                          defaultMessage="Create Game"
+                        />
+                      </Typography>
+                      <Typography
+                        align="left"
+                        variant="body2"
+                        color="textSecondary"
+                      >
+                        <FormattedMessage
+                          id="coin.league"
+                          defaultMessage="Coin League"
+                        />
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <ChevronRightIcon />
                 </Stack>
-                <ChevronRightIcon />
-              </Stack>
-            </Paper>
-          </ButtonBase>
-
-          <AppFilterDrawer
-            drawerProps={{ open: showFilters, onClose: handleCloseFilters }}
-            icon={<Filter />}
-            title={<FormattedMessage id="filters" defaultMessage="Filters" />}
-          >
-            {renderForm()}
-          </AppFilterDrawer>
-
-          <Stack
-            spacing={2}
-            sx={{
-              alignItems: 'center',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: { xs: 'flex-end', sm: 'space-between' },
-            }}
-          >
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs
-                value={status}
-                onChange={handleChangeStatus}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab
-                  value={CoinLeagueGameStatus.All}
-                  label={<FormattedMessage id="all" defaultMessage="All" />}
-                />
-                <Tab
-                  value={CoinLeagueGameStatus.Waiting}
-                  label={
-                    <FormattedMessage id="waiting" defaultMessage="Waiting" />
-                  }
-                />
-                <Tab
-                  value={CoinLeagueGameStatus.Started}
-                  label={
-                    <FormattedMessage id="started" defaultMessage="Started" />
-                  }
-                />
-                <Tab
-                  value={CoinLeagueGameStatus.Ended}
-                  label={<FormattedMessage id="ended" defaultMessage="Ended" />}
-                />
-                <Tab
-                  value={CoinLeagueGameStatus.Aborted}
-                  label={
-                    <FormattedMessage id="aborted" defaultMessage="Aborted" />
-                  }
-                />
-              </Tabs>
-            </Box>
-            <Stack
-              direction="row"
-              alignItems="center"
-              alignContent="center"
-              spacing={2}
+              </Paper>
+            </ButtonBase>
+          </ErrorBoundaryUI>
+          <ErrorBoundaryUI>
+            <AppFilterDrawer
+              drawerProps={{ open: showFilters, onClose: handleCloseFilters }}
+              icon={<Filter />}
+              title={<FormattedMessage id="filters" defaultMessage="Filters" />}
             >
-              <IconButton onClick={handleShowGrid}>
-                {showTable ? <GridViewIcon /> : <TableRowsIcon />}
-              </IconButton>
-              <Select
-                name="orderByGame"
-                value={gameFilters.orderByGame}
-                size="small"
-                sx={{ width: { xs: '100%', sm: 'auto' } }}
-                onChange={handleChangeOrderBy}
-              >
-                {GET_GAME_ORDER_OPTIONS.map((o, index) => (
-                  <MenuItem key={index} value={o.value}>
-                    <FormattedMessage
-                      id={o.messageId}
-                      defaultMessage={o.defaultMessage}
-                    />
-                  </MenuItem>
-                ))}
-              </Select>
-            </Stack>
-          </Stack>
+              {renderForm()}
+            </AppFilterDrawer>
+          </ErrorBoundaryUI>
+          <ErrorBoundaryUI>
+            <Stack
+              spacing={2}
+              sx={{
+                alignItems: 'center',
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: { xs: 'flex-end', sm: 'space-between' },
+              }}
+            >
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                  value={status}
+                  onChange={handleChangeStatus}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  <Tab
+                    value={CoinLeagueGameStatus.All}
+                    label={<FormattedMessage id="all" defaultMessage="All" />}
+                  />
+                  <Tab
+                    value={CoinLeagueGameStatus.Waiting}
+                    label={
+                      <FormattedMessage id="waiting" defaultMessage="Waiting" />
+                    }
+                  />
+                  <Tab
+                    value={CoinLeagueGameStatus.Started}
+                    label={
+                      <FormattedMessage id="started" defaultMessage="Started" />
+                    }
+                  />
+                  <Tab
+                    value={CoinLeagueGameStatus.Ended}
+                    label={
+                      <FormattedMessage id="ended" defaultMessage="Ended" />
+                    }
+                  />
+                  <Tab
+                    value={CoinLeagueGameStatus.Aborted}
+                    label={
+                      <FormattedMessage id="aborted" defaultMessage="Aborted" />
+                    }
+                  />
+                </Tabs>
+              </Box>
 
-          <Box>
-            <Grid container spacing={2}>
-              {!isMobile && (
-                <Grid item xs={12} sm={2} sx={{ width: '100%' }}>
-                  <Collapse in>
-                    <Card>
-                      <CardContent>{renderForm()}</CardContent>
-                    </Card>
-                  </Collapse>
-                </Grid>
-              )}
-              <Grid item xs={12} sm={10}>
-                {gamesQuery.isLoading &&
-                  (showTable ? (
-                    <TableSkeleton cols={4} rows={4} />
-                  ) : (
-                    <GamesGridSkeleton />
+              <Stack
+                direction="row"
+                alignItems="center"
+                alignContent="center"
+                spacing={2}
+              >
+                <IconButton onClick={handleShowGrid}>
+                  {showTable ? <GridViewIcon /> : <TableRowsIcon />}
+                </IconButton>
+                <Select
+                  name="orderByGame"
+                  value={gameFilters.orderByGame}
+                  size="small"
+                  sx={{ width: { xs: '100%', sm: 'auto' } }}
+                  onChange={handleChangeOrderBy}
+                >
+                  {GET_GAME_ORDER_OPTIONS.map((o, index) => (
+                    <MenuItem key={index} value={o.value}>
+                      <FormattedMessage
+                        id={o.messageId}
+                        defaultMessage={o.defaultMessage}
+                      />
+                    </MenuItem>
                   ))}
-                {gamesQuery.data && gamesQuery.data.length > 0 ? (
-                  showTable ? (
-                    <GamesTable
-                      chainId={gameChainId}
-                      games={gamesQuery.data}
-                      onShare={handleShare}
-                      onShowMetadata={handleShowMetadata}
-                      affiliate={affiliate as string}
-                    />
-                  ) : (
-                    <GamesGrid
-                      chainId={gameChainId}
-                      games={gamesQuery.data}
-                      onShare={handleShare}
-                      onShowMetadata={handleShowMetadata}
-                      affiliate={affiliate as string}
-                    />
-                  )
-                ) : (
-                  <Box sx={{ py: 4 }}>
-                    <Stack>
-                      <Box>
-                        <Typography align="center" variant="h5">
-                          <FormattedMessage
-                            id="no.games"
-                            defaultMessage="No games"
-                          />
-                        </Typography>
-                        <Typography
-                          align="center"
-                          variant="body1"
-                          color="textSecondary"
-                        >
-                          <FormattedMessage
-                            id="no.games.available"
-                            defaultMessage="No games available"
-                          />
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </Box>
+                </Select>
+              </Stack>
+            </Stack>
+          </ErrorBoundaryUI>
+          <ErrorBoundaryUI>
+            <Box>
+              <Grid container spacing={2}>
+                {!isMobile && (
+                  <Grid item xs={12} sm={2} sx={{ width: '100%' }}>
+                    <Collapse in>
+                      <Card>
+                        <CardContent>{renderForm()}</CardContent>
+                      </Card>
+                    </Collapse>
+                  </Grid>
                 )}
+                <Grid item xs={12} sm={10}>
+                  {gamesQuery.isLoading &&
+                    (showTable ? (
+                      <TableSkeleton cols={4} rows={4} />
+                    ) : (
+                      <GamesGridSkeleton />
+                    ))}
+                  {gamesQuery.data && gamesQuery.data.length > 0 ? (
+                    showTable ? (
+                      <GamesTable
+                        chainId={gameChainId}
+                        games={gamesQuery.data}
+                        onShare={handleShare}
+                        onShowMetadata={handleShowMetadata}
+                        affiliate={affiliate as string}
+                      />
+                    ) : (
+                      <GamesGrid
+                        chainId={gameChainId}
+                        games={gamesQuery.data}
+                        onShare={handleShare}
+                        onShowMetadata={handleShowMetadata}
+                        affiliate={affiliate as string}
+                      />
+                    )
+                  ) : (
+                    <Box sx={{ py: 4 }}>
+                      <Stack>
+                        <Box>
+                          <Typography align="center" variant="h5">
+                            <FormattedMessage
+                              id="no.games"
+                              defaultMessage="No games"
+                            />
+                          </Typography>
+                          <Typography
+                            align="center"
+                            variant="body1"
+                            color="textSecondary"
+                          >
+                            <FormattedMessage
+                              id="no.games.available"
+                              defaultMessage="No games available"
+                            />
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Box>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </ErrorBoundaryUI>
         </Stack>
       </MainLayout>
     </>
