@@ -27,8 +27,8 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useAuthUserQuery, useUpsertUserMutation } from '../../hooks';
 import { UserOptions } from '@dexkit/ui/types/ai';
+import { useAuthUserQuery, useUpsertUserMutation } from '../../hooks';
 import UpsertUserDialog from '../dialogs/UpsertuserDialog';
 import UserGeneralForm from '../forms/UserGeneralForm';
 import { UserAccounts } from '../UserAccounts';
@@ -85,8 +85,27 @@ export function UserEditContainer({
 
   const handleConfirmSendConfig = async () => {
     setShowConfirmUpsertUser(false);
-    setShowUpsertUser(true);
-    upsertUserMutation.mutate(userForm);
+    if (userForm) {
+      await handleDirectSubmit(userForm);
+    }
+  };
+
+  const handleFormSubmit = (formValues: UserOptions) => {
+    if (formValues.nftChainId && formValues.nftAddress && formValues.nftId && formValues.profileNft) {
+      setUserForm(formValues);
+      handleDirectSubmit(formValues);
+    } else {
+      setUserForm(formValues);
+      setShowConfirmUpsertUser(true);
+    }
+  };
+
+  const handleDirectSubmit = async (formData: UserOptions) => {
+    await upsertUserMutation.mutateAsync(formData);
+  };
+
+  const handleGeneralSubmit = (val: UserOptions) => {
+    handleFormSubmit(val);
   };
 
   const renderMenu = () => (
@@ -308,10 +327,7 @@ export function UserEditContainer({
                   </Typography>
                   <UserGeneralForm
                     initialValues={user}
-                    onSubmit={(val) => {
-                      setUserForm(val);
-                      setShowConfirmUpsertUser(true);
-                    }}
+                    onSubmit={handleGeneralSubmit}
                   />
                 </>
               )}

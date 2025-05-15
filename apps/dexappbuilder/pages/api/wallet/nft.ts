@@ -42,6 +42,8 @@ export default async function handler(
               return {
                 ...asset,
                 dbAssetId: dbAssetIdValue,
+                dbId: dbAssetIdValue,
+                id: asset.id || asset.tokenId,
               };
             },
           );

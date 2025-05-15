@@ -132,33 +132,38 @@ export default function UserGeneralForm({
   const [profileMenuAnchor, setProfileMenuAnchor] =
     useState<null | HTMLElement>(null);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const validateNFTMutation = useValidateNFTOwnershipMutation();
   const setNftProfileMutation = useSetNftProfileMutation();
-  const { account, provider } = useWeb3React();
-
+  const { account, provider, signMessage } = useWeb3React();
+  
   const handleProfileClick = (event: MouseEvent<HTMLElement>) => {
     setProfileMenuAnchor(event.currentTarget);
   };
-
+  
   const handleMenuClose = () => {
     setProfileMenuAnchor(null);
   };
-
+  
   const handleSelectFromGallery = () => {
     setMediaFieldToEdit('profileImageURL');
     setOpenMediaDialog(true);
     handleMenuClose();
   };
-
+  
   const handleSelectFromNFTs = () => {
     setOpenNftSelector(true);
     handleMenuClose();
   };
-
+  
   const handleErrorClose = () => {
     setError(null);
   };
-
+  
+  const handleSuccessClose = () => {
+    setSuccess(null);
+  };
+  
   return (
     <>
       <Stack>
@@ -189,111 +194,121 @@ export default function UserGeneralForm({
               if (
                 values.profileNft &&
                 values.dbAssetId &&
-                account &&
-                provider
+                account
               ) {
-                const nftForMessage = values.profileNft as ExtendedAsset;
-                const contractAddress =
-                  nftForMessage.contractAddress ||
-                  (nftForMessage as any).address;
-                const tokenIdForMessage = values.nftId;
+                try {
+                  const nftForMessage = values.profileNft as ExtendedAsset;
+                  const contractAddress =
+                    nftForMessage.contractAddress ||
+                    (nftForMessage as any).address;
+                  const tokenIdForMessage = values.nftId;
 
-                let chainIdForMessageCalc: number | undefined;
-                let networkSlugForMessage: string | undefined;
+                  let chainIdForMessageCalc: number | undefined;
+                  let networkSlugForMessage: string | undefined;
 
-                if (typeof nftForMessage.chainId === 'number') {
-                  chainIdForMessageCalc = nftForMessage.chainId;
-                } else if (typeof nftForMessage.chainId === 'string') {
-                  const parsedChainId = parseInt(nftForMessage.chainId, 10);
-                  if (!isNaN(parsedChainId)) {
-                    chainIdForMessageCalc = parsedChainId;
-                  }
-                }
-
-                if (chainIdForMessageCalc === undefined) {
-                  if (typeof nftForMessage.networkId === 'number') {
-                    chainIdForMessageCalc = nftForMessage.networkId;
-                  } else if (typeof nftForMessage.networkId === 'string') {
-                    const parsedNetworkIdAsChainId = parseInt(
-                      nftForMessage.networkId,
-                      10,
-                    );
-                    if (!isNaN(parsedNetworkIdAsChainId)) {
-                      chainIdForMessageCalc = parsedNetworkIdAsChainId;
-                    } else {
-                      console.warn(
-                        'Cannot derive numeric chainId from networkId slug:',
-                        nftForMessage.networkId,
-                      );
+                  if (typeof nftForMessage.chainId === 'number') {
+                    chainIdForMessageCalc = nftForMessage.chainId;
+                  } else if (typeof nftForMessage.chainId === 'string') {
+                    const parsedChainId = parseInt(nftForMessage.chainId, 10);
+                    if (!isNaN(parsedChainId)) {
+                      chainIdForMessageCalc = parsedChainId;
                     }
                   }
-                }
 
-                if (
-                  chainIdForMessageCalc !== undefined &&
-                  !isNaN(chainIdForMessageCalc)
-                ) {
-                  networkSlugForMessage = getNetworkSlugFromChainId(
-                    chainIdForMessageCalc,
-                  );
-                } else {
+                  if (chainIdForMessageCalc === undefined) {
+                    if (typeof nftForMessage.networkId === 'number') {
+                      chainIdForMessageCalc = nftForMessage.networkId;
+                    } else if (typeof nftForMessage.networkId === 'string') {
+                      const parsedNetworkIdAsChainId = parseInt(
+                        nftForMessage.networkId,
+                        10,
+                      );
+                      if (!isNaN(parsedNetworkIdAsChainId)) {
+                        chainIdForMessageCalc = parsedNetworkIdAsChainId;
+                      } else {
+                        console.warn(
+                          'Cannot derive numeric chainId from networkId slug:',
+                          nftForMessage.networkId,
+                        );
+                      }
+                    }
+                  }
+
                   if (
-                    typeof nftForMessage.networkId === 'string' &&
-                    isNaN(parseInt(nftForMessage.networkId, 10))
+                    chainIdForMessageCalc !== undefined &&
+                    !isNaN(chainIdForMessageCalc)
                   ) {
-                    networkSlugForMessage = nftForMessage.networkId;
+                    networkSlugForMessage = getNetworkSlugFromChainId(
+                      chainIdForMessageCalc,
+                    );
                   } else {
+                    if (
+                      typeof nftForMessage.networkId === 'string' &&
+                      isNaN(parseInt(nftForMessage.networkId, 10))
+                    ) {
+                      networkSlugForMessage = nftForMessage.networkId;
+                    } else {
+                      setError(
+                        'Could not determine a valid chain ID or network slug for the NFT to sign the message.',
+                      );
+                      console.error(
+                        'PFP Sign Message Error: Invalid or missing chain/network identifiers',
+                        nftForMessage,
+                      );
+                      return false;
+                    }
+                  }
+
+                  if (!networkSlugForMessage) {
                     setError(
-                      'Could not determine a valid chain ID or network slug for the NFT to sign the message.',
+                      'Could not determine a valid network slug for the NFT to sign the message.',
                     );
                     console.error(
-                      'PFP Sign Message Error: Invalid or missing chain/network identifiers',
+                      'Error signature: Could not determine network',
                       nftForMessage,
                     );
                     return false;
                   }
-                }
 
-                if (!networkSlugForMessage) {
-                  setError(
-                    'Could not determine a valid network identifier for the NFT message signature.',
-                  );
-                  console.error(
-                    'PFP Sign Message Error: Network slug could not be determined.',
-                    nftForMessage,
-                  );
-                  return false;
-                }
+                  if (!contractAddress || !tokenIdForMessage) {
+                    setError(
+                      'Missing NFT contract address or token ID to sign the PFP confirmation message.',
+                    );
+                    console.error(
+                      'Error firma PFP: Missing contract address or token ID',
+                      { contractAddress, tokenIdForMessage },
+                    );
+                    return false;
+                  }
 
-                if (!contractAddress || !tokenIdForMessage) {
-                  setError(
-                    'Missing NFT contract address or token ID to sign the PFP confirmation message.',
-                  );
-                  console.error(
-                    'PFP Sign Message Error: Missing contract or token ID',
-                    { contractAddress, tokenIdForMessage },
-                  );
-                  return false;
-                }
+                  const message = `I confirm that I own NFT ${contractAddress}:${tokenIdForMessage} on ${networkSlugForMessage} network and want to use it as my profile picture.`;
+                  console.log('Signing message:', message);
 
-                const message = `I confirm that I own NFT ${contractAddress}:${tokenIdForMessage} on ${networkSlugForMessage} network and want to use it as my profile picture.`;
-
-                try {
-                  const signer = provider.getSigner();
-                  const signature = await signer.signMessage(message);
+                  const signature = await signMessage({ message });
+                  console.log('Successfully signed, saving to database...');
 
                   await setNftProfileMutation.mutateAsync({
                     nftId: values.dbAssetId,
                     signature,
                   });
+                  console.log('NFT configured correctly as PFP');
+                  setSuccess('NFT configured correctly as profile picture. The Ethereum and NFT badges will be visible in your profile.');
                   return true;
                 } catch (err: any) {
                   console.error('Error in setPfpNft:', err);
-                  setError(
-                    err.data?.message ||
-                      err.message ||
-                      'Failed to sign message or set NFT as PFP.',
-                  );
+                  const errorMessage = err.data?.message || 
+                    err.message || 
+                    'Error signing the message or setting the NFT as PFP.';
+                  
+                  if (errorMessage.includes('user rejected') || errorMessage.includes('User rejected')) {
+                    setError('You rejected the message signature. This NFT cannot be used as a profile picture without confirming ownership.');
+                  } else if (errorMessage.includes('unknown account') || errorMessage.includes('UNSUPPORTED_OPERATION')) {
+                    setError('Your wallet is not connected correctly or does not have access to your accounts. Please reconnect your wallet and ensure your account is unlocked.');
+                  } else if (errorMessage.includes('already processing')) {
+                    setError('There is already a signature request in progress. Please complete that transaction first or reload the page.');
+                  } else {
+                    setError(errorMessage);
+                  }
                   return false;
                 }
               }
@@ -307,34 +322,34 @@ export default function UserGeneralForm({
                   nftAddress: values.nftAddress,
                   nftId: values.nftId,
                 });
-                await mainUpsert();
+                
                 const pfpSuccess = await setPfpNft();
+                
                 if (pfpSuccess) {
+                  await mainUpsert();
                   helpers.resetForm({ values });
+                  if (!success) {
+                    setSuccess('Profile saved correctly');
+                  }
+                } else {
+                  throw new Error('Could not set the NFT as profile picture. Signature rejected or failed.');
                 }
               } catch (validationOrPfpError: any) {
                 console.error(
-                  'Error during NFT validation or PFP set:',
+                  'Error during NFT validation or PFP configuration:',
                   validationOrPfpError,
                 );
                 setError(
                   validationOrPfpError.data?.message ||
                     validationOrPfpError.message ||
-                    'An error occurred.',
+                    'An error occurred while validating the NFT or setting it as a profile picture.',
                 );
               }
             } else {
               try {
                 await mainUpsert();
-                if (
-                  values.dbAssetId &&
-                  !values.profileNft &&
-                  account &&
-                  provider &&
-                  values.username
-                ) {
-                }
                 helpers.resetForm({ values });
+                setSuccess('Profile saved correctly');
               } catch (upsertError: any) {
                 console.error(
                   'Error during main upsert (no NFT):',
@@ -423,7 +438,7 @@ export default function UserGeneralForm({
                         nft,
                       );
                     }
-
+                    
                     if (!address) {
                       throw new Error(
                         'The selected NFT does not have a valid contract address',
@@ -434,7 +449,7 @@ export default function UserGeneralForm({
                         'The selected NFT does not have a valid chainId',
                       );
                     }
-
+                    
                     validateNFTMutation.mutate(
                       {
                         nftChainId: chainId,
@@ -449,7 +464,7 @@ export default function UserGeneralForm({
                           setFieldValue('nftAddress', address);
                           setFieldValue('nftId', tokenId);
                           setFieldValue('dbAssetId', parsedDbAssetId);
-
+                          
                           if (onChange) {
                             onChange({
                               ...values,
@@ -510,8 +525,8 @@ export default function UserGeneralForm({
                   <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                     <Button
                       onClick={handleProfileClick}
-                      sx={{
-                        p: 0,
+                      sx={{ 
+                        p: 0, 
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
@@ -525,7 +540,7 @@ export default function UserGeneralForm({
                         <EmptyImageProfile />
                       )}
                     </Button>
-
+                    
                     <Menu
                       anchorEl={profileMenuAnchor}
                       open={Boolean(profileMenuAnchor)}
@@ -544,8 +559,8 @@ export default function UserGeneralForm({
                           <AddPhotoAlternateIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage
-                            id="select.from.gallery"
+                          <FormattedMessage 
+                            id="select.from.gallery" 
                             defaultMessage="Select from Gallery"
                           />
                         </ListItemText>
@@ -555,8 +570,8 @@ export default function UserGeneralForm({
                           <CollectionsIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage
-                            id="select.from.nfts"
+                          <FormattedMessage 
+                            id="select.from.nfts" 
                             defaultMessage="Select from NFTs"
                           />
                         </ListItemText>
@@ -573,7 +588,7 @@ export default function UserGeneralForm({
                         values.profileNft.name ||
                         values.profileNft.collectionName}
                       {values.profileNft.networkId && (
-                        <Chip
+                        <Chip 
                           size="small"
                           label={
                             typeof values.profileNft.networkId === 'string'
@@ -589,7 +604,7 @@ export default function UserGeneralForm({
                         />
                       )}
                       {values.nftAddress && values.nftId && (
-                        <Chip
+                        <Chip 
                           size="small"
                           label="NFT"
                           color="secondary"
@@ -613,8 +628,8 @@ export default function UserGeneralForm({
                         setOpenMediaDialog(true);
                         setMediaFieldToEdit('backgroundImageURL');
                       }}
-                      sx={{
-                        p: 0,
+                      sx={{ 
+                        p: 0, 
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
@@ -680,10 +695,10 @@ export default function UserGeneralForm({
                   </Stack>
                 </Grid>
               </Grid>
-
-              <Snackbar
-                open={error !== null}
-                autoHideDuration={6000}
+              
+              <Snackbar 
+                open={error !== null} 
+                autoHideDuration={6000} 
                 onClose={handleErrorClose}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
@@ -695,6 +710,22 @@ export default function UserGeneralForm({
                   {error}
                 </Alert>
               </Snackbar>
+              {success && (
+                <Snackbar 
+                  open={success !== null} 
+                  autoHideDuration={6000} 
+                  onClose={handleSuccessClose}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                  <Alert
+                    onClose={handleSuccessClose}
+                    severity="success"
+                    sx={{ width: '100%' }}
+                  >
+                    {success}
+                  </Alert>
+                </Snackbar>
+              )}
             </form>
           )}
         </Formik>
