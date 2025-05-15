@@ -12,7 +12,7 @@ import {
   Snackbar,
   Stack,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Field, Formik } from 'formik';
 import { TextField } from 'formik-mui';
@@ -27,7 +27,10 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import ImageIcon from '@mui/icons-material/Image';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
-import { useSetNftProfileMutation, useValidateNFTOwnershipMutation } from '../../hooks';
+import {
+  useSetNftProfileMutation,
+  useValidateNFTOwnershipMutation,
+} from '../../hooks';
 import { getUsernameExists } from '../../services';
 import { DirectNftSelector } from '../DirectNftSelector';
 
@@ -105,7 +108,7 @@ const EmptyImageBackground = styled(ImageIcon)(({ theme }) => ({
 const BackgroundImage = styled('img')(({ theme }) => ({
   height: theme.spacing(15),
   width: theme.spacing(15),
-  objectFit: "contain",
+  objectFit: 'contain',
   borderRadius: theme.shape.borderRadius,
 }));
 
@@ -126,35 +129,36 @@ export default function UserGeneralForm({
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
   const [openNftSelector, setOpenNftSelector] = useState(false);
-  const [profileMenuAnchor, setProfileMenuAnchor] = useState<null | HTMLElement>(null);
+  const [profileMenuAnchor, setProfileMenuAnchor] =
+    useState<null | HTMLElement>(null);
   const [error, setError] = useState<string | null>(null);
   const validateNFTMutation = useValidateNFTOwnershipMutation();
   const setNftProfileMutation = useSetNftProfileMutation();
   const { account, provider } = useWeb3React();
-  
+
   const handleProfileClick = (event: MouseEvent<HTMLElement>) => {
     setProfileMenuAnchor(event.currentTarget);
   };
-  
+
   const handleMenuClose = () => {
     setProfileMenuAnchor(null);
   };
-  
+
   const handleSelectFromGallery = () => {
     setMediaFieldToEdit('profileImageURL');
     setOpenMediaDialog(true);
     handleMenuClose();
   };
-  
+
   const handleSelectFromNFTs = () => {
     setOpenNftSelector(true);
     handleMenuClose();
   };
-  
+
   const handleErrorClose = () => {
     setError(null);
   };
-  
+
   return (
     <>
       <Stack>
@@ -182,9 +186,16 @@ export default function UserGeneralForm({
             };
 
             const setPfpNft = async () => {
-              if (values.profileNft && values.dbAssetId && account && provider) {
+              if (
+                values.profileNft &&
+                values.dbAssetId &&
+                account &&
+                provider
+              ) {
                 const nftForMessage = values.profileNft as ExtendedAsset;
-                const contractAddress = nftForMessage.contractAddress || (nftForMessage as any).address;
+                const contractAddress =
+                  nftForMessage.contractAddress ||
+                  (nftForMessage as any).address;
                 const tokenIdForMessage = values.nftId;
 
                 let chainIdForMessageCalc: number | undefined;
@@ -200,85 +211,140 @@ export default function UserGeneralForm({
                 }
 
                 if (chainIdForMessageCalc === undefined) {
-                    if (typeof nftForMessage.networkId === 'number') {
-                        chainIdForMessageCalc = nftForMessage.networkId;
-                    } else if (typeof nftForMessage.networkId === 'string') {
-                        const parsedNetworkIdAsChainId = parseInt(nftForMessage.networkId, 10);
-                        if (!isNaN(parsedNetworkIdAsChainId)) {
-                            chainIdForMessageCalc = parsedNetworkIdAsChainId;
-                        } else {
-                            console.warn('Cannot derive numeric chainId from networkId slug:', nftForMessage.networkId);
-                        }
+                  if (typeof nftForMessage.networkId === 'number') {
+                    chainIdForMessageCalc = nftForMessage.networkId;
+                  } else if (typeof nftForMessage.networkId === 'string') {
+                    const parsedNetworkIdAsChainId = parseInt(
+                      nftForMessage.networkId,
+                      10,
+                    );
+                    if (!isNaN(parsedNetworkIdAsChainId)) {
+                      chainIdForMessageCalc = parsedNetworkIdAsChainId;
+                    } else {
+                      console.warn(
+                        'Cannot derive numeric chainId from networkId slug:',
+                        nftForMessage.networkId,
+                      );
                     }
-                }
-
-                if (chainIdForMessageCalc !== undefined && !isNaN(chainIdForMessageCalc)) {
-                  networkSlugForMessage = getNetworkSlugFromChainId(chainIdForMessageCalc);
-                } else {
-                  if (typeof nftForMessage.networkId === 'string' && isNaN(parseInt(nftForMessage.networkId,10))){
-                      networkSlugForMessage = nftForMessage.networkId;
-                  } else {
-                     setError('Could not determine a valid chain ID or network slug for the NFT to sign the message.');
-                     console.error("PFP Sign Message Error: Invalid or missing chain/network identifiers", nftForMessage);
-                     return false;
                   }
                 }
-                
-                if (!networkSlugForMessage) {
-                    setError('Could not determine a valid network identifier for the NFT message signature.');
-                    console.error("PFP Sign Message Error: Network slug could not be determined.", nftForMessage);
+
+                if (
+                  chainIdForMessageCalc !== undefined &&
+                  !isNaN(chainIdForMessageCalc)
+                ) {
+                  networkSlugForMessage = getNetworkSlugFromChainId(
+                    chainIdForMessageCalc,
+                  );
+                } else {
+                  if (
+                    typeof nftForMessage.networkId === 'string' &&
+                    isNaN(parseInt(nftForMessage.networkId, 10))
+                  ) {
+                    networkSlugForMessage = nftForMessage.networkId;
+                  } else {
+                    setError(
+                      'Could not determine a valid chain ID or network slug for the NFT to sign the message.',
+                    );
+                    console.error(
+                      'PFP Sign Message Error: Invalid or missing chain/network identifiers',
+                      nftForMessage,
+                    );
                     return false;
+                  }
+                }
+
+                if (!networkSlugForMessage) {
+                  setError(
+                    'Could not determine a valid network identifier for the NFT message signature.',
+                  );
+                  console.error(
+                    'PFP Sign Message Error: Network slug could not be determined.',
+                    nftForMessage,
+                  );
+                  return false;
                 }
 
                 if (!contractAddress || !tokenIdForMessage) {
-                  setError('Missing NFT contract address or token ID to sign the PFP confirmation message.');
-                  console.error("PFP Sign Message Error: Missing contract or token ID", { contractAddress, tokenIdForMessage });
+                  setError(
+                    'Missing NFT contract address or token ID to sign the PFP confirmation message.',
+                  );
+                  console.error(
+                    'PFP Sign Message Error: Missing contract or token ID',
+                    { contractAddress, tokenIdForMessage },
+                  );
                   return false;
                 }
-                
+
                 const message = `I confirm that I own NFT ${contractAddress}:${tokenIdForMessage} on ${networkSlugForMessage} network and want to use it as my profile picture.`;
-                
+
                 try {
                   const signer = provider.getSigner();
                   const signature = await signer.signMessage(message);
-                  
-                  await setNftProfileMutation.mutateAsync({ 
+
+                  await setNftProfileMutation.mutateAsync({
                     nftId: values.dbAssetId,
-                    signature 
+                    signature,
                   });
-                  return true; 
+                  return true;
                 } catch (err: any) {
-                  console.error("Error in setPfpNft:", err);
-                  setError(err.data?.message || err.message || 'Failed to sign message or set NFT as PFP.');
-                  return false; 
+                  console.error('Error in setPfpNft:', err);
+                  setError(
+                    err.data?.message ||
+                      err.message ||
+                      'Failed to sign message or set NFT as PFP.',
+                  );
+                  return false;
                 }
               }
-              return true; 
+              return true;
             };
 
             if (values.nftChainId && values.nftAddress && values.nftId) {
               try {
-                await validateNFTMutation.mutateAsync(
-                  { nftChainId: values.nftChainId, nftAddress: values.nftAddress, nftId: values.nftId }
-                );
-                await mainUpsert(); 
+                await validateNFTMutation.mutateAsync({
+                  nftChainId: values.nftChainId,
+                  nftAddress: values.nftAddress,
+                  nftId: values.nftId,
+                });
+                await mainUpsert();
                 const pfpSuccess = await setPfpNft();
                 if (pfpSuccess) {
                   helpers.resetForm({ values });
                 }
               } catch (validationOrPfpError: any) {
-                console.error("Error during NFT validation or PFP set:", validationOrPfpError);
-                setError(validationOrPfpError.data?.message || validationOrPfpError.message || 'An error occurred.');
+                console.error(
+                  'Error during NFT validation or PFP set:',
+                  validationOrPfpError,
+                );
+                setError(
+                  validationOrPfpError.data?.message ||
+                    validationOrPfpError.message ||
+                    'An error occurred.',
+                );
               }
             } else {
               try {
                 await mainUpsert();
-                if (values.dbAssetId && !values.profileNft && account && provider && values.username) {
+                if (
+                  values.dbAssetId &&
+                  !values.profileNft &&
+                  account &&
+                  provider &&
+                  values.username
+                ) {
                 }
                 helpers.resetForm({ values });
               } catch (upsertError: any) {
-                 console.error("Error during main upsert (no NFT):", upsertError);
-                 setError(upsertError.data?.message || upsertError.message || 'An error occurred while saving profile.');
+                console.error(
+                  'Error during main upsert (no NFT):',
+                  upsertError,
+                );
+                setError(
+                  upsertError.data?.message ||
+                    upsertError.message ||
+                    'An error occurred while saving profile.',
+                );
               }
             }
           }}
@@ -308,8 +374,8 @@ export default function UserGeneralForm({
                         setFieldValue('dbAssetId', undefined);
                       }
                       if (onChange) {
-                        onChange({ 
-                          ...values, 
+                        onChange({
+                          ...values,
                           [mediaFieldToEdit]: file.url,
                           ...(mediaFieldToEdit === 'profileImageURL' && {
                             profileNft: undefined,
@@ -317,7 +383,7 @@ export default function UserGeneralForm({
                             nftAddress: '',
                             nftId: '',
                             dbAssetId: undefined,
-                          })
+                          }),
                         });
                       }
                     }
@@ -337,9 +403,9 @@ export default function UserGeneralForm({
                     const imageUrl = nft.imageUrl || nft.metadata?.image || '';
                     const chainId = nft.chainId || Number(nft.networkId);
                     const address = nft.contractAddress || (nft as any).address;
-                    const tokenId = String(nft.id); 
-                    
-                    const dbAssetIdFromNft = (nft as any).dbAssetId; 
+                    const tokenId = String(nft.id);
+
+                    const dbAssetIdFromNft = nft.dbId;
                     let parsedDbAssetId: number | undefined = undefined;
 
                     if (typeof dbAssetIdFromNft === 'number') {
@@ -350,20 +416,31 @@ export default function UserGeneralForm({
                         parsedDbAssetId = tempId;
                       }
                     }
-                    
+
                     if (parsedDbAssetId === undefined) {
-                      console.warn('Warning: dbAssetId not found or invalid on selected NFT object. PFP set via signature might fail.', nft);
+                      console.warn(
+                        'Warning: dbAssetId not found or invalid on selected NFT object. PFP set via signature might fail.',
+                        nft,
+                      );
                     }
 
                     if (!address) {
-                      throw new Error('The selected NFT does not have a valid contract address');
+                      throw new Error(
+                        'The selected NFT does not have a valid contract address',
+                      );
                     }
                     if (isNaN(chainId)) {
-                      throw new Error('The selected NFT does not have a valid chainId');
+                      throw new Error(
+                        'The selected NFT does not have a valid chainId',
+                      );
                     }
-                    
+
                     validateNFTMutation.mutate(
-                      { nftChainId: chainId, nftAddress: address, nftId: tokenId },
+                      {
+                        nftChainId: chainId,
+                        nftAddress: address,
+                        nftId: tokenId,
+                      },
                       {
                         onSuccess: () => {
                           setFieldValue('profileNft', nft);
@@ -371,7 +448,7 @@ export default function UserGeneralForm({
                           setFieldValue('nftChainId', chainId);
                           setFieldValue('nftAddress', address);
                           setFieldValue('nftId', tokenId);
-                          setFieldValue('dbAssetId', parsedDbAssetId); 
+                          setFieldValue('dbAssetId', parsedDbAssetId);
 
                           if (onChange) {
                             onChange({
@@ -386,15 +463,21 @@ export default function UserGeneralForm({
                           }
                         },
                         onError: (error: any) => {
-                          setError(error.message || 'Error validating NFT ownership on selection.');
+                          setError(
+                            error.message ||
+                              'Error validating NFT ownership on selection.',
+                          );
                           setFieldValue('profileNft', undefined);
-                          setFieldValue('profileImageURL', initialValues?.profileImageURL || '');
+                          setFieldValue(
+                            'profileImageURL',
+                            initialValues?.profileImageURL || '',
+                          );
                           setFieldValue('nftChainId', undefined);
                           setFieldValue('nftAddress', '');
                           setFieldValue('nftId', '');
                           setFieldValue('dbAssetId', undefined);
                         },
-                      }
+                      },
                     );
                   } catch (e: any) {
                     setError(e.message || 'Error processing selected NFT.');
@@ -427,13 +510,13 @@ export default function UserGeneralForm({
                   <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                     <Button
                       onClick={handleProfileClick}
-                      sx={{ 
-                        p: 0, 
+                      sx={{
+                        p: 0,
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
-                          boxShadow: 2
-                        }
+                          boxShadow: 2,
+                        },
                       }}
                     >
                       {values.profileImageURL ? (
@@ -442,7 +525,7 @@ export default function UserGeneralForm({
                         <EmptyImageProfile />
                       )}
                     </Button>
-                    
+
                     <Menu
                       anchorEl={profileMenuAnchor}
                       open={Boolean(profileMenuAnchor)}
@@ -461,8 +544,8 @@ export default function UserGeneralForm({
                           <AddPhotoAlternateIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage 
-                            id="select.from.gallery" 
+                          <FormattedMessage
+                            id="select.from.gallery"
                             defaultMessage="Select from Gallery"
                           />
                         </ListItemText>
@@ -472,8 +555,8 @@ export default function UserGeneralForm({
                           <CollectionsIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage 
-                            id="select.from.nfts" 
+                          <FormattedMessage
+                            id="select.from.nfts"
                             defaultMessage="Select from NFTs"
                           />
                         </ListItemText>
@@ -481,19 +564,32 @@ export default function UserGeneralForm({
                     </Menu>
                   </Box>
                   {values.profileNft && (
-                    <Typography variant="caption" color="textSecondary" sx={{ mt: 1, display: 'block' }}>
-                      {values.profileNft.metadata?.name || values.profileNft.name || values.profileNft.collectionName}
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      sx={{ mt: 1, display: 'block' }}
+                    >
+                      {values.profileNft.metadata?.name ||
+                        values.profileNft.name ||
+                        values.profileNft.collectionName}
                       {values.profileNft.networkId && (
-                        <Chip 
+                        <Chip
                           size="small"
-                          label={typeof values.profileNft.networkId === 'string' ? values.profileNft.networkId.charAt(0).toUpperCase() + values.profileNft.networkId.slice(1) : values.profileNft.networkId}
+                          label={
+                            typeof values.profileNft.networkId === 'string'
+                              ? values.profileNft.networkId
+                                  .charAt(0)
+                                  .toUpperCase() +
+                                values.profileNft.networkId.slice(1)
+                              : values.profileNft.networkId
+                          }
                           color="primary"
                           variant="outlined"
                           sx={{ ml: 1 }}
                         />
                       )}
                       {values.nftAddress && values.nftId && (
-                        <Chip 
+                        <Chip
                           size="small"
                           label="NFT"
                           color="secondary"
@@ -517,13 +613,13 @@ export default function UserGeneralForm({
                         setOpenMediaDialog(true);
                         setMediaFieldToEdit('backgroundImageURL');
                       }}
-                      sx={{ 
-                        p: 0, 
+                      sx={{
+                        p: 0,
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
-                          boxShadow: 2
-                        }
+                          boxShadow: 2,
+                        },
                       }}
                     >
                       {values.backgroundImageURL ? (
@@ -562,13 +658,21 @@ export default function UserGeneralForm({
                 <Grid item xs={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
-                      disabled={!isValid || validateNFTMutation.isLoading || setNftProfileMutation.isLoading}
+                      disabled={
+                        !isValid ||
+                        validateNFTMutation.isLoading ||
+                        setNftProfileMutation.isLoading
+                      }
                       onClick={submitForm}
                       variant="contained"
                       color="primary"
                     >
-                      {validateNFTMutation.isLoading || setNftProfileMutation.isLoading ? (
-                        <FormattedMessage id="saving.profile" defaultMessage="Saving..." />
+                      {validateNFTMutation.isLoading ||
+                      setNftProfileMutation.isLoading ? (
+                        <FormattedMessage
+                          id="saving.profile"
+                          defaultMessage="Saving..."
+                        />
                       ) : (
                         <FormattedMessage id="save" defaultMessage="Save" />
                       )}
@@ -576,14 +680,18 @@ export default function UserGeneralForm({
                   </Stack>
                 </Grid>
               </Grid>
-              
-              <Snackbar 
-                open={error !== null} 
-                autoHideDuration={6000} 
+
+              <Snackbar
+                open={error !== null}
+                autoHideDuration={6000}
                 onClose={handleErrorClose}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
-                <Alert onClose={handleErrorClose} severity="error" sx={{ width: '100%' }}>
+                <Alert
+                  onClose={handleErrorClose}
+                  severity="error"
+                  sx={{ width: '100%' }}
+                >
                   {error}
                 </Alert>
               </Snackbar>
