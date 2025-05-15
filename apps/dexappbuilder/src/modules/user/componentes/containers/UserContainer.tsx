@@ -128,12 +128,12 @@ export function UserContainer({ username }: { username?: string }) {
           )}
 
           <Grid item xs={12}>
-            <UserHeader 
-              {...user} 
-              profileNft={user?.profileNft}
-              nftChainId={user?.nftChainId} 
-              nftAddress={user?.nftAddress}
-              nftId={user?.nftId}
+            <UserHeader
+              {...user}
+              profileNft={user?.nftProfile}
+              nftChainId={user?.nftProfile?.chainId as number}
+              nftAddress={user?.nftProfile?.address}
+              nftId={user?.nftProfile?.tokenId}
             />
           </Grid>
           <Grid item xs={12}>

@@ -1,4 +1,5 @@
 import { Asset } from "@dexkit/core/types/nft";
+import { AssetAPI } from "../../modules/nft/types";
 
 export interface ExtendedAsset extends Asset {
   imageUrl?: string;
@@ -15,7 +16,7 @@ export type UserOptions = {
   discordVerified?: boolean;
   twitterVerified?: boolean;
   createdOnSiteId?: number;
-  profileNft?: Asset;
+  nftProfile?: AssetAPI;
   nftChainId?: number;
   nftAddress?: string;
   nftId?: string;
