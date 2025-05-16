@@ -14,10 +14,11 @@ export interface ValidationResult {
 export function useNftProfileValidator(intervalSeconds = 300) {
   const { account, isActive } = useWeb3React();
   const userQuery = useAuthUserQuery();
-  const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+  const [validationResult, setValidationResult] =
+    useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const hasNftProfile = !!userQuery.data?.profileNft;
+  const hasNftProfile = !!userQuery.data?.nftProfile;
 
   const validateNow = async () => {
     if (!isActive || !account || !hasNftProfile) {
@@ -28,7 +29,7 @@ export function useNftProfileValidator(intervalSeconds = 300) {
     try {
       const response = await axios.get('/api/user/validate-nft-profile');
       setValidationResult(response.data);
-      
+
       if (!response.data.success) {
         userQuery.refetch();
       }
@@ -36,7 +37,7 @@ export function useNftProfileValidator(intervalSeconds = 300) {
       setValidationResult({
         success: false,
         message: 'Error validating NFT property',
-        error: error?.message || 'Unknown error'
+        error: error?.message || 'Unknown error',
       });
     } finally {
       setIsValidating(false);
@@ -55,7 +56,7 @@ export function useNftProfileValidator(intervalSeconds = 300) {
     }
 
     const intervalId = setInterval(validateNow, intervalSeconds * 1000);
-    
+
     return () => {
       clearInterval(intervalId);
     };
@@ -65,6 +66,6 @@ export function useNftProfileValidator(intervalSeconds = 300) {
     validationResult,
     isValidating,
     validateNow,
-    hasNftProfile
+    hasNftProfile,
   };
 }

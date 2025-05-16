@@ -91,7 +91,7 @@ export function UserEditContainer({
   };
 
   const handleFormSubmit = (formValues: UserOptions) => {
-    if (formValues.nftChainId && formValues.nftAddress && formValues.nftId && formValues.profileNft) {
+    if (formValues.nftChainId && formValues.nftAddress && formValues.nftId) {
       setUserForm(formValues);
       handleDirectSubmit(formValues);
     } else {
