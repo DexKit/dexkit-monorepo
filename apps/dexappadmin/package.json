@@ -15,7 +15,7 @@
     "build"
   ],
   "engines": {
-    "node": "22.14.0"
+    "node": "22.15.0"
   },
   "browser": {
     "child_process": false,
@@ -38,7 +38,6 @@
     "@mui/material": "5.14.11",
     "thirdweb": "^5.93.15",
     "react-admin": "4.14.1"
-    
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
