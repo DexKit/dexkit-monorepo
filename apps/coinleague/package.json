@@ -23,7 +23,7 @@
     "build"
   ],
   "engines": {
-    "node": "22.15.0"
+    "node": "22.15.1"
   },
   "browser": {
     "child_process": false,
