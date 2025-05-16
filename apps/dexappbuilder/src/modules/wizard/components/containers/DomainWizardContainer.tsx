@@ -25,6 +25,8 @@ import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG } from '@dexkit/ui/constants/featPayments';
+import { useActiveFeatUsage } from '@dexkit/ui/hooks/payments';
 import { SiteResponse } from '../../../../types/whitelabel';
 import {
   default as CheckDomainDialog,
@@ -58,6 +60,14 @@ export default function DomainWizardContainer({
   const [domainData, setDomainData] = useState<DomainSectionForm>();
   const verifyDomainMutation = useVerifyDomainMutation();
   const deployDomainMutation = useSetupDomainConfigMutation();
+
+  const activeFeatUsageQuery = useActiveFeatUsage({
+    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+  });
+
+  const isPaid = activeFeatUsageQuery.data
+    ? activeFeatUsageQuery?.data?.active
+    : undefined;
 
   const handleSubmitGeneral = (form: DomainSectionForm) => {
     setDomainData(form);
@@ -99,7 +109,7 @@ export default function DomainWizardContainer({
             queryClient.invalidateQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
           },
           onError: console.log,
-        }
+        },
       );
     }
     setIsDeploySignOpen(true);
@@ -122,7 +132,7 @@ export default function DomainWizardContainer({
           vertical: 'bottom',
           horizontal: 'right',
         },
-      }
+      },
     );
   };
 
@@ -138,7 +148,7 @@ export default function DomainWizardContainer({
           vertical: 'bottom',
           horizontal: 'right',
         },
-      }
+      },
     );
   };
 
@@ -150,7 +160,7 @@ export default function DomainWizardContainer({
         {
           onError: handleDeployCheckError,
           onSuccess: handleDeployCheckSuccess,
-        }
+        },
       );
     }
   };
@@ -178,13 +188,13 @@ export default function DomainWizardContainer({
       formatMessage({
         id: 'info.wizard.title.domain.records.setup',
         defaultMessage: 'Domain records setup info',
-      })
+      }),
     );
     setContentInfo(
       formatMessage({
         id: 'info.wizard.content.cname',
         defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the \"Check Deploy Status\" button. If the status shows as \"VERIFIED\" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace \"@\" with the subdomain value. If you encounter any issues, please contact our support channels.`,
-      })
+      }),
     );
   }, []);
 
@@ -428,7 +438,7 @@ export default function DomainWizardContainer({
                           </Typography>
                         </Stack>
                       </Stack>
-                    )
+                    ),
                   )}
                 </Grid>
               )}
@@ -448,6 +458,7 @@ export default function DomainWizardContainer({
             onHasChanges={onHasChanges}
             initialValues={domainData}
             onSubmit={handleSubmitGeneral}
+            disableForm={!isPaid}
           />
         </Grid>
       </Grid>

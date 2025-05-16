@@ -1,7 +1,6 @@
 import { AppDialogTitle } from "@dexkit/ui";
 import FormikDecimalInput from "@dexkit/ui/components/FormikDecimalInput";
 import {
-  useActiveFeatUsage,
   useBuyCreditsCheckout,
   useCryptoCheckout,
   useSubscription,
@@ -111,7 +110,6 @@ export default function AddCreditDialog({
   };
 
   const subscriptionQuery = useSubscription();
-  const activeFeatUsageQuery = useActiveFeatUsage();
 
   const isVisible = useIsBalanceVisible();
 
@@ -124,19 +122,14 @@ export default function AddCreditDialog({
   };
 
   const credits = useMemo(() => {
-    if (activeFeatUsageQuery.data && subscriptionQuery.data) {
-      return new Decimal(activeFeatUsageQuery.data?.available)
-        .minus(new Decimal(activeFeatUsageQuery.data?.used))
-        .add(
-          new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
-            new Decimal(subscriptionQuery.data?.creditsUsed)
-          )
-        )
-        .toNumber();
+    if (subscriptionQuery.data) {
+      return new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
+        new Decimal(subscriptionQuery.data?.creditsUsed)
+      );
     }
 
     return 0;
-  }, [activeFeatUsageQuery.data, subscriptionQuery.data]);
+  }, [subscriptionQuery.data]);
 
   const renderContent = () => {
     if (cryptoCheckout.data || buyCreditsCheckout.data) {

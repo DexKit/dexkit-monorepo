@@ -1,9 +1,14 @@
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
+  CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+  CUSTOM_DOMAINS_PRICE,
+} from '@dexkit/ui/constants/featPayments';
+import {
   useActiveFeatUsage,
   usePlanCheckoutMutation,
   useSubscription,
 } from '@dexkit/ui/hooks/payments';
+import { Alert } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
@@ -14,7 +19,9 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 export function PremiumAppBuilder() {
   const subscriptionQuery = useSubscription();
-  const activeFeatUsageQuery = useActiveFeatUsage();
+  const activeFeatUsageQuery = useActiveFeatUsage({
+    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+  });
   const { mutateAsync: checkoutPlan, isLoading } = usePlanCheckoutMutation();
   // we check if user has plan, if not subscribe. This should if done once
   useEffect(() => {
@@ -28,19 +35,18 @@ export function PremiumAppBuilder() {
   }, [subscriptionQuery.data]);
 
   const credits = useMemo(() => {
-    if (activeFeatUsageQuery.data && subscriptionQuery.data) {
-      return new Decimal(activeFeatUsageQuery.data?.available)
-        .minus(new Decimal(activeFeatUsageQuery.data?.used))
-        .add(
-          new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
-            new Decimal(subscriptionQuery.data?.creditsUsed)
-          )
-        )
+    if (subscriptionQuery.data) {
+      return new Decimal(subscriptionQuery.data?.creditsAvailable)
+        .minus(new Decimal(subscriptionQuery.data?.creditsUsed))
         .toNumber();
     }
 
     return 0;
-  }, [activeFeatUsageQuery.data, subscriptionQuery.data]);
+  }, [subscriptionQuery.data]);
+
+  const isPaid = activeFeatUsageQuery.data
+    ? activeFeatUsageQuery?.data?.active
+    : undefined;
 
   return (
     <>
@@ -57,7 +63,7 @@ export function PremiumAppBuilder() {
               <FormattedMessage id="credits" defaultMessage="Credits" />
             </Typography>
             <Typography variant="body1">
-              {activeFeatUsageQuery.data && subscriptionQuery.data ? (
+              {subscriptionQuery.data ? (
                 <FormattedNumber
                   style="currency"
                   currencyDisplay="narrowSymbol"
@@ -75,33 +81,55 @@ export function PremiumAppBuilder() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        {credits < 50 && (
-          <AddCreditsButton
-            buttonText={
-              <FormattedMessage
-                id="pay.custom.domain.feature"
-                defaultMessage="Add 50 USD credits to pay feature"
-              />
-            }
-          />
-        )}
-
-        {credits >= 50 && (
-          <Button variant={'contained'}>
+      <Grid item xs={12} container spacing={2}>
+        <Grid item>
+          {credits < CUSTOM_DOMAINS_PRICE && (
+            <AddCreditsButton
+              buttonText={
+                <FormattedMessage
+                  id="pay.custom.domain.feature.for.this.month"
+                  defaultMessage="Add {price} USD credits to pay feature for this month"
+                  values={{ price: CUSTOM_DOMAINS_PRICE }}
+                />
+              }
+            />
+          )}
+        </Grid>
+        <Grid item>
+          <Button
+            variant={'contained'}
+            disabled={credits < CUSTOM_DOMAINS_PRICE}
+            size="small"
+          >
             <FormattedMessage
               id="unlock.custom.domain.feature"
               defaultMessage="Unlock custom domain feature"
             />
           </Button>
-        )}
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Typography>
-          Feature Paid for this month. Make sure to have 50 usd credits for next
-          month
-        </Typography>
-      </Grid>
+      {!isPaid && (
+        <Grid item xs={12}>
+          <Alert severity="warning">
+            <FormattedMessage
+              id="premium.feature.warning.message"
+              defaultMessage="This is a premium feature please enable it to start using it. Enabling a custom domain costs {price} usd monthly, please make sure you have always credits to not disrupt the service."
+              values={{ price: CUSTOM_DOMAINS_PRICE }}
+            />
+          </Alert>
+        </Grid>
+      )}
+      {isPaid && (
+        <Grid item xs={12}>
+          <Typography variant="subtitle1">
+            <FormattedMessage
+              id="premium.feature.is.paid.message"
+              defaultMessage="Feature Paid for this month. Make sure to have {price} usd credits for
+            next month"
+            />
+          </Typography>
+        </Grid>
+      )}
     </>
   );
 }
