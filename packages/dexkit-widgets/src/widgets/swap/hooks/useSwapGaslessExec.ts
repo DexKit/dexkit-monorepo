@@ -44,7 +44,7 @@ export function useSwapGaslessExec() {
         });
         if (tradeHash) {
           gaslessTrades.push({
-            type: "swap",
+            type: UserEvents.swap,
             chainId,
             tradeHash,
             values: {
