@@ -171,7 +171,7 @@ export default function PagesWizardContainer({
             <Typography variant="body2">
               <FormattedMessage
                 id="pages.wizard.description"
-                defaultMessage="Create and manage your app's pages"
+                defaultMessage="Create and manage your app pages"
               />
             </Typography>
           </Stack>

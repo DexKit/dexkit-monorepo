@@ -1,18 +1,18 @@
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import {
+  Box,
   DialogTitle,
   IconButton,
   Stack,
   TextField,
-  Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 
 import { useIsMobile } from '@dexkit/core';
 import { CustomEditorSection } from '@dexkit/ui/modules/wizard/types/section';
 import Check from '@mui/icons-material/CheckOutlined';
-import { KeyboardEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
@@ -35,118 +35,93 @@ export function AppDialogPageEditorTitle({
   index,
 }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
-
+  const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSave = () => {
-    setIsEditMode(false);
-
-    if (onSave && index !== undefined) {
-      onSave({ ...section, name, type: 'custom', data: section?.data }, index);
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      if (isEditMode) {
-        handleSave();
-      }
-    }
-    if (e.key === 'Escape' && onClose) {
-      onClose();
-    }
-  };
-
-  const handleCancel = () => {
-    setIsEditMode(false);
-  };
-
-  const isMobile = useIsMobile();
-
   const renderSectionName = () => {
-    if (name) {
-      return name;
-    }
-
     if (section?.name) {
       return section.name;
     }
 
-    if (section?.title) {
-      return section.title;
+    if (name) {
+      return name;
     }
 
     return (
-      <FormattedMessage id="unnamed.section" defaultMessage="Unnamed section" />
+      <FormattedMessage
+        id="unnamed.section"
+        defaultMessage="Unnamed Section"
+      />
     );
   };
 
   return (
     <DialogTitle
-      sx={{
-        zIndex: (theme) => theme.zIndex.modal + 1,
+      sx={(theme) => ({
+        paddingLeft: 0,
+        paddingRight: 0,
         display: 'flex',
-        justifyContent: 'space-between',
-        p: 2,
         alignItems: 'center',
-        alignContent: 'center',
-      }}
+        justifyContent: 'space-between',
+      })}
     >
       <Stack
-        direction="row"
         spacing={1}
-        alignItems="center"
-        alignContent="center"
+        direction={isMobile ? 'column' : 'row'}
+        alignItems={isMobile ? 'flex-start' : 'center'}
+        sx={{ width: isMobile ? '90%' : 'auto' }}
       >
-        {isEditMode ? (
-          <>
-            <Typography variant="inherit">
-              <FormattedMessage
-                id="section.editor"
-                defaultMessage="Section editor"
-              />{' '}
-            </Typography>
+        {isEditMode && (
+          <Box
+            sx={{
+              paddingTop: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <TextField
-              variant="standard"
-              value={name}
-              onKeyDown={handleKeyDown}
-              onBlur={handleCancel}
+              sx={{ flex: 1 }}
               inputRef={(ref) => (inputRef.current = ref)}
-              onChange={(ev) => onChangeName(ev.target.value)}
+              value={name}
+              variant="standard"
+              size={isMobile ? "small" : "medium"}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setIsEditMode(false);
+                }
+                if (e.key === 'Escape') {
+                  setIsEditMode(false);
+                }
+              }}
+              onChange={(e) => {
+                onChangeName(e.target.value);
+              }}
             />
-            {isMobile && (
-              <>
-                <IconButton onClick={handleCancel}>
-                  <Tooltip
-                    title={
-                      <FormattedMessage id="save" defaultMessage="cancel" />
-                    }
-                  >
-                    <CloseIcon />
-                  </Tooltip>
-                </IconButton>
-                <IconButton onClick={handleSave}>
-                  <Tooltip
-                    title={<FormattedMessage id="save" defaultMessage="Save" />}
-                  >
-                    <Check />
-                  </Tooltip>
-                </IconButton>
-              </>
-            )}
-          </>
-        ) : (
+            <IconButton
+              onClick={() => {
+                setIsEditMode(false);
+              }}
+              size={isMobile ? "small" : "medium"}
+            >
+              <Check fontSize={isMobile ? "small" : "medium"} />
+            </IconButton>
+          </Box>
+        )}
+        {!isEditMode && (
           <>
-            <Typography variant="inherit">
+            <Typography variant={isMobile ? "h6" : "inherit"} sx={isMobile ? { fontSize: '1.1rem' } : undefined}>
               <FormattedMessage
                 id="edit.section.name"
                 defaultMessage="Edit section: {name}"
                 values={{
                   name: (
                     <Typography
-                      variant="inherit"
+                      variant={isMobile ? "h6" : "inherit"}
                       fontWeight="400"
                       component="span"
+                      sx={isMobile ? { fontSize: '1.1rem' } : undefined}
                     >
                       {renderSectionName()}
                     </Typography>
@@ -163,15 +138,21 @@ export function AppDialogPageEditorTitle({
                   inputRef.current?.focus();
                 }, 200);
               }}
+              size={isMobile ? "small" : "medium"}
             >
-              <EditIcon />
+              <EditIcon fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
           </>
         )}
       </Stack>
       {onClose && (
-        <IconButton disabled={disableClose} onClick={onClose}>
-          <CloseIcon />
+        <IconButton
+          disabled={disableClose}
+          onClick={onClose}
+          size={isMobile ? "small" : "medium"}
+          sx={{ position: isMobile ? 'absolute' : 'static', right: isMobile ? 8 : 'auto', top: isMobile ? 8 : 'auto' }}
+        >
+          <CloseIcon fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
       )}
     </DialogTitle>

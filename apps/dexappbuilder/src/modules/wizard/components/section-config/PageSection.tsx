@@ -156,6 +156,7 @@ export default function PageSection({
           isVisible={isVisible}
           anchorEl={anchorEl}
           onClose={handleCloseMenu}
+          onAction={onAction}
         />
       )}
       <Box
@@ -175,19 +176,23 @@ export default function PageSection({
             : undefined,
           transform: CSS.Translate.toString(transform),
           zIndex: isDragging ? (theme) => theme.zIndex.snackbar + 1 : undefined,
+          borderRadius: 1,
+          mb: 0.5,
+          width: '100%',
+          mx: 0
         }}
         ref={setNodeRef}
       >
         <CardActionArea onClick={() => onAction('edit')}>
-          <Box sx={{ py: 1, px: 2 }}>
+          <Box sx={{ py: 0.5, px: 0.75 }}>
             <Stack
-              spacing={2}
+              spacing={isMobile ? 0.5 : 0.75}
               alignItems="center"
               justifyContent="space-between"
               direction="row"
             >
               <Stack
-                spacing={2}
+                spacing={isMobile ? 1 : 2}
                 alignItems="center"
                 justifyContent="space-between"
                 direction="row"
@@ -200,7 +205,7 @@ export default function PageSection({
                     />
                   }
                 >
-                  <DragIndicatorIcon {...listeners} {...attributes} />
+                  <DragIndicatorIcon {...listeners} {...attributes} sx={isMobile ? { fontSize: '1.2rem' } : undefined} />
                 </Tooltip>
                 <Box>
                   {isEdit ? (
@@ -213,6 +218,7 @@ export default function PageSection({
                         variant="standard"
                         size="small"
                         onKeyDown={handleKeyDown}
+                        sx={isMobile ? { '.MuiInputBase-input': { fontSize: '0.85rem' } } : undefined}
                       />
                       {isMobile && (
                         <>
@@ -220,13 +226,13 @@ export default function PageSection({
                             size="small"
                             onClick={handleStopPropagation(handleSave)}
                           >
-                            <CheckOutlined />
+                            <CheckOutlined fontSize="small" />
                           </IconButton>
                           <IconButton
                             size="small"
                             onClick={handleStopPropagation(handleCancel)}
                           >
-                            <CloseOutlined />
+                            <CloseOutlined fontSize="small" />
                           </IconButton>
                         </>
                       )}
@@ -234,7 +240,7 @@ export default function PageSection({
                   ) : (
                     <Box>
                       <Link
-                        variant="body1"
+                        variant={isMobile ? "body2" : "body1"}
                         underline="none"
                         sx={{ cursor: 'pointer' }}
                         // onClick={handleStopPropagation(handleEdit)}
@@ -243,7 +249,11 @@ export default function PageSection({
                         {title}
                       </Link>
 
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant={isMobile ? "caption" : "body2"}
+                        color="text.secondary"
+                        sx={isMobile ? { display: 'block', maxWidth: '140px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } : undefined}
+                      >
                         {subtitle}
                       </Typography>
                     </Box>
@@ -252,7 +262,7 @@ export default function PageSection({
               </Stack>
               <Stack direction="row" spacing={0.5} alignItems="center">
                 {expand && section ? (
-                  <Box pr={4}>
+                  <Box pr={isMobile ? 0 : 4}>
                     <PageSectionMenuStack
                       hideDesktop={section?.hideDesktop}
                       hideMobile={section?.hideMobile}
@@ -262,8 +272,11 @@ export default function PageSection({
                     />
                   </Box>
                 ) : (
-                  <IconButton onClick={handleOpenMenu}>
-                    <MoreVert />
+                  <IconButton
+                    onClick={handleOpenMenu}
+                    size={isMobile ? "small" : "medium"}
+                  >
+                    <MoreVert fontSize={isMobile ? "small" : "medium"} />
                   </IconButton>
                 )}
               </Stack>

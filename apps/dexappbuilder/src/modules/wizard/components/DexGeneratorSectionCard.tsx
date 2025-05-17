@@ -16,6 +16,7 @@ export interface DexGeneratorSectionCardProps {
   onClick: () => void;
   type?: string;
   chainId?: number;
+  isMobile?: boolean;
 }
 
 export default function DexGeneratorSectionCard({
@@ -25,28 +26,48 @@ export default function DexGeneratorSectionCard({
   onClick,
   type,
   chainId,
+  isMobile,
 }: DexGeneratorSectionCardProps) {
   return (
     <Card>
       <CardActionArea onClick={onClick}>
-        <CardContent>
+        <CardContent sx={isMobile ? { padding: '8px 12px' } : {}}>
           <Stack
-            spacing={2}
+            spacing={isMobile ? 1 : 2}
             alignItems="center"
             justifyContent="space-between"
             direction="row"
           >
             <Box>
               {type && (
-                <Typography variant="caption" color="primary" component="div">
+                <Typography
+                  variant="caption"
+                  color="primary"
+                  component="div"
+                  sx={isMobile ? { fontSize: '0.7rem' } : {}}
+                >
                   {type.toUpperCase()}
                 </Typography>
               )}
-              <Typography variant="body1" fontWeight="bold">
+              <Typography
+                variant={isMobile ? "body2" : "body1"}
+                fontWeight="bold"
+                sx={isMobile ? { fontSize: '0.85rem' } : {}}
+              >
                 {name}
               </Typography>
             </Box>
-            <Chip label={NETWORK_NAME(chainId)} />
+            <Chip
+              label={NETWORK_NAME(chainId)}
+              size={isMobile ? "small" : "medium"}
+              sx={isMobile ? {
+                height: '20px',
+                '& .MuiChip-label': {
+                  fontSize: '0.7rem',
+                  padding: '0 6px'
+                }
+              } : {}}
+            />
           </Stack>
         </CardContent>
       </CardActionArea>

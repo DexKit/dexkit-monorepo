@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {
@@ -45,15 +46,29 @@ export default function PagesPagination({
   onChange,
   onChangePage,
 }: PagesPaginationProps) {
+  const isMobile = useIsMobile();
+
   return (
     <Stack
       direction="row"
       alignItems="center"
-      spacing={2}
-      justifyContent="flex-end"
+      spacing={isMobile ? 0.1 : 0.5}
+      justifyContent="flex-start"
+      sx={{
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        '& > *': {
+          fontSize: isMobile ? '0.75rem' : 'inherit'
+        },
+        mt: isMobile ? 0.25 : 0.5,
+        pl: 0,
+        ml: -1
+      }}
     >
-      <Typography variant="body1">
-        <FormattedMessage id="rows.per.page" defaultMessage="Rows per page:" />
+      <Typography variant={isMobile ? "caption" : "body1"} sx={{ mr: isMobile ? 0.1 : 0.25 }}>
+        <FormattedMessage
+          id={isMobile ? "rows.per.page.short" : "rows.per.page"}
+          defaultMessage={isMobile ? "Rows:" : "Rows per page:"}
+        />
       </Typography>
       <Select
         size="small"
@@ -63,6 +78,14 @@ export default function PagesPagination({
         onChange={(e: SelectChangeEvent<number>) =>
           onChange(e.target.value as number)
         }
+        sx={{
+          minWidth: isMobile ? 35 : 55,
+          mr: isMobile ? 0.25 : 0.5,
+          '& .MuiSelect-select': {
+            py: isMobile ? 0.1 : 'inherit',
+            px: isMobile ? 0.1 : 'inherit'
+          }
+        }}
       >
         {PAGE_SIZES.map((size, index) => (
           <MenuItem value={size} key={index}>
@@ -70,31 +93,39 @@ export default function PagesPagination({
           </MenuItem>
         ))}
       </Select>
-      <Typography>
-        <FormattedMessage
-          id="one.of.items"
-          defaultMessage="{from} - {to} of {total} pages"
-          values={{
-            total: count,
-            from,
-            to,
-          }}
-        />
+      <Typography variant={isMobile ? "caption" : "body2"}>
+        {isMobile ? (
+          `${from}-${to}/${count}`
+        ) : (
+          <FormattedMessage
+            id="one.of.items"
+            defaultMessage="{from} - {to} of {total} pages"
+            values={{
+              total: count,
+              from,
+              to,
+            }}
+          />
+        )}
       </Typography>
-      <IconButton
-        size="small"
-        disabled={page === 0}
-        onClick={() => onChangePage(page - 1)}
-      >
-        <KeyboardArrowLeftIcon />
-      </IconButton>
-      <IconButton
-        size="small"
-        disabled={shouldDisableNextButton(count, pageSize, page)}
-        onClick={() => onChangePage(page + 1)}
-      >
-        <KeyboardArrowRightIcon />
-      </IconButton>
+      <Stack direction="row" spacing={0}>
+        <IconButton
+          size="small"
+          disabled={page === 0}
+          onClick={() => onChangePage(page - 1)}
+          sx={{ p: isMobile ? 0.1 : 0.25 }}
+        >
+          <KeyboardArrowLeftIcon fontSize={isMobile ? "small" : "medium"} />
+        </IconButton>
+        <IconButton
+          size="small"
+          disabled={shouldDisableNextButton(count, pageSize, page)}
+          onClick={() => onChangePage(page + 1)}
+          sx={{ p: isMobile ? 0.1 : 0.25 }}
+        >
+          <KeyboardArrowRightIcon fontSize={isMobile ? "small" : "medium"} />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 }

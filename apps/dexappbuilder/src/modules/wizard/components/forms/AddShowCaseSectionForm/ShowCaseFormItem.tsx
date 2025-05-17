@@ -45,6 +45,7 @@ export interface ShowCaseFormItemProps {
   disableUp?: boolean;
   disableDown?: boolean;
   onSelectImage: () => void;
+  isMobile?: boolean;
 }
 
 export default function ShowCaseFormItem({

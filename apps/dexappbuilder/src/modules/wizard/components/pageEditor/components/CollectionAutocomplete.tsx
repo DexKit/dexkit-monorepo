@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import { getChainName } from '@dexkit/core/utils/blockchain';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
@@ -12,6 +13,7 @@ interface Props {
 export function CollectionAutocomplete(props: Props) {
   const { data } = props;
   const { wizardConfig } = useAppWizardConfig();
+  const isMobile = useIsMobile();
 
   const formValue = data.data;
   const collections =
@@ -29,7 +31,12 @@ export function CollectionAutocomplete(props: Props) {
   return (
     <Autocomplete
       id="collection"
-      sx={{ width: 300 }}
+      sx={{
+        width: '100%',
+        '& .MuiAutocomplete-inputRoot': {
+          fontSize: isMobile ? '0.9rem' : undefined
+        }
+      }}
       inputValue={formValue?.name ? formValue.name : ''}
       options={collections}
       autoHighlight
@@ -50,10 +57,14 @@ export function CollectionAutocomplete(props: Props) {
       renderOption={(props, option) => (
         <Box
           component="li"
-          sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+          sx={{
+            '& > img': { mr: 2, flexShrink: 0 },
+            fontSize: isMobile ? '0.9rem' : undefined,
+            py: isMobile ? 1 : undefined
+          }}
           {...props}
         >
-          <img loading="lazy" width="20" src={`${option.image}`} alt="" />
+          <img loading="lazy" width={isMobile ? "16" : "20"} src={`${option.image}`} alt="" />
           {option.name} - {getChainName(option.chainId)}
         </Box>
       )}
@@ -62,6 +73,7 @@ export function CollectionAutocomplete(props: Props) {
           {...params}
           label="Choose a collection"
           fullWidth
+          size={isMobile ? "small" : "medium"}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'off', // disable autocomplete and autofill

@@ -61,6 +61,7 @@ export interface PagesProps {
   activeSection?: PageSectionKey;
   site?: string;
   previewUrl?: string;
+  isMobile?: boolean;
 }
 
 export default function Pages({
@@ -79,6 +80,7 @@ export default function Pages({
   onChangeName,
   site,
   previewUrl,
+  isMobile,
 }: PagesProps) {
   const [query, setQuery] = useState('');
 
@@ -307,15 +309,25 @@ export default function Pages({
     <>
       {renderPreviewDialog()}
       {renderPageLayoutDialog()}
-      <Box sx={{ px: { sm: 4 } }}>
-        <Grid container spacing={2}>
+      <Box sx={{ px: { xs: 0, sm: 1 }, ml: -0.75 }}>
+        <Grid container spacing={isMobile ? 0.25 : 0.5}>
           <Grid item xs={12}>
             <Button
               variant="contained"
               onClick={onAddPage}
-              size="small"
-              startIcon={<Add />}
-              sx={{ my: 2 }}
+              size={isMobile ? "small" : "medium"}
+              startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+              sx={{
+                my: isMobile ? 0.25 : 0.5,
+                ml: 0,
+                px: isMobile ? 0.5 : 1,
+                '& .MuiButton-startIcon': {
+                  marginRight: isMobile ? 0.25 : 0.5,
+                  "& > *:nth-of-type(1)": {
+                    fontSize: isMobile ? 16 : 20,
+                  }
+                }
+              }}
             >
               <FormattedMessage id="New.page" defaultMessage="New page" />
             </Button>
@@ -326,8 +338,10 @@ export default function Pages({
                 direction="row"
                 alignItems="center"
                 justifyContent="space-between"
+                spacing={isMobile ? 0.25 : 0.5}
+                sx={{ pl: 0 }}
               >
-                <Typography fontWeight="500" variant="h6">
+                <Typography fontWeight="500" variant={isMobile ? "subtitle1" : "h6"}>
                   <FormattedMessage id="page.list" defaultMessage="Page list" />
                 </Typography>
                 <LazyTextField
@@ -344,10 +358,13 @@ export default function Pages({
                     InputProps: {
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Search />
+                          <Search fontSize={isMobile ? "small" : "medium"} />
                         </InputAdornment>
                       ),
                     },
+                    sx: {
+                      maxWidth: isMobile ? '120px' : 'auto',
+                    }
                   }}
                 />
               </Stack>
@@ -355,9 +372,9 @@ export default function Pages({
           </Grid>
           <Grid item xs={12}>
             <Box>
-              <Grid container spacing={2}>
+              <Grid container spacing={isMobile ? 0.25 : 0.5}>
                 {pageList.map((pageKey, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.25 : 0.5 }}>
                     <Page
                       pageKey={pageKey}
                       page={pages[pageKey]}

@@ -9,8 +9,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Stack,
-  Typography,
+  Stack
 } from '@mui/material';
 
 import {
@@ -50,12 +49,12 @@ function getSectionType(
       title:
         !section.name && !section.title
           ? formatMessage({
-              id: 'unnamed.section',
-              defaultMessage: 'Unnamed Section',
-            })
+            id: 'unnamed.section',
+            defaultMessage: 'Unnamed Section',
+          })
           : section.name
-          ? section.name
-          : section.title || '',
+            ? section.name
+            : section.title || '',
       icon: config.icon,
     };
   }
@@ -211,7 +210,7 @@ export default function PageSections({
       }
 
       return (
-        <Grid item xs={12} key={`${JSON.stringify(section)}-${section.index}`}>
+        <Grid item xs={12} key={`${JSON.stringify(section)}-${section.index}`} sx={{ mb: isMobile ? 0.5 : 1 }}>
           <PageSection
             showTopDroppable={section.index === 0}
             index={section.index}
@@ -251,149 +250,201 @@ export default function PageSections({
   };
 
   return (
-    <Box>
-      <Stack spacing={2}>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      autoScroll={{
+        threshold: {
+          x: 0,
+          y: 0.1,
+        },
+      }}
+    >
+      <Stack spacing={0}>
         <PageSectionsHeader
           onClose={onClose}
-          onPreview={onPreview}
           onClone={onClone}
-          onEditTitle={(title) => {
-            if (pageKey) {
-              onEditTitle(pageKey, title);
-            }
-          }}
-          page={page}
+          onEditTitle={(title) => onEditTitle(pageKey || '', title)}
           onEditLayout={onEditLayout}
+          onPreview={onPreview}
+          page={page}
         />
-
-        <Box py={2}>
-          <Stack spacing={2} direction="row">
-            <Box maxWidth={'xs'}>
-              <Button
-                variant="outlined"
-                onClick={onAddSection}
-                startIcon={<Add />}
-              >
-                <FormattedMessage
-                  id="add.section"
-                  defaultMessage="Add section"
-                />
-              </Button>
-            </Box>
-
-            <Box maxWidth={'xs'}>
-              <Button
-                variant="outlined"
-                onClick={onAddCustomSection}
-                startIcon={<Add />}
-              >
-                <FormattedMessage
-                  id="add.custom.section"
-                  defaultMessage="Add custom section"
-                />
-              </Button>
-            </Box>
-          </Stack>
-        </Box>
-
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={2}
-          justifyContent="space-between"
-        >
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography fontWeight="500" variant="h6">
-              <FormattedMessage
-                id="page.sections"
-                defaultMessage="Page sections"
-              />
-            </Typography>
-            <IconButton onClick={() => setShowFilters((value) => !value)}>
-              {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
-            </IconButton>
-          </Stack>
-
-          <LazyTextField
-            onChange={handleChangeQuery}
-            value={query}
-            TextFieldProps={{
-              size: 'small',
-              variant: 'standard',
-              value: query,
-              placeholder: formatMessage({
-                id: 'search.dots',
-                defaultMessage: 'Search...',
-              }),
-              InputProps: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Stack>
-
-        {showFilters && (
-          <Collapse in={showFilters}>
-            <Card>
-              <Box p={2}>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel shrink>
-                        <FormattedMessage
-                          id="section.type"
-                          defaultMessage="Section Type"
-                        />
-                      </InputLabel>
-                      <SectionTypeAutocomplete
-                        sectionType={sectionType}
-                        setSectionType={setSectionType}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <VisibilityAutocomplete
-                      onChange={(desktop, mobile) => {
-                        setHideDesktop(desktop);
-                        setHideMobile(mobile);
+        <Box sx={{ px: 0, width: '100%', ml: -0.75 }}>
+          <Stack spacing={isMobile ? 0.25 : 0.5}>
+            <Stack spacing={isMobile ? 0.25 : 0.5} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
+              <Grid container spacing={isMobile ? 0.25 : 0.5}>
+                <Grid item xs={12} sm={isMobile ? 12 : 6}>
+                  <Stack
+                    spacing={0.25}
+                    direction="row"
+                    justifyContent="flex-start"
+                    sx={{ pl: 0 }}
+                  >
+                    <Button
+                      size={isMobile ? "small" : "medium"}
+                      startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+                      onClick={onAddSection}
+                      variant="outlined"
+                      sx={{
+                        minWidth: isMobile ? '48%' : 'auto',
+                        px: isMobile ? 0.25 : 0.5,
+                        '& .MuiButton-startIcon': {
+                          marginRight: isMobile ? 0.25 : 0.5,
+                          "& > *:nth-of-type(1)": {
+                            fontSize: isMobile ? 16 : 20,
+                          }
+                        },
+                        '& .MuiButton-label': {
+                          whiteSpace: 'nowrap'
+                        }
                       }}
-                      desktop={hideDesktop}
-                      mobile={hideMobile}
-                    />
-                  </Grid>
+                    >
+                      {isMobile ? (
+                        <FormattedMessage
+                          id="add.section.short"
+                          defaultMessage="Section"
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id="add.section"
+                          defaultMessage="Add section"
+                        />
+                      )}
+                    </Button>
+                    <Button
+                      size={isMobile ? "small" : "medium"}
+                      startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+                      onClick={onAddCustomSection}
+                      variant="outlined"
+                      sx={{
+                        minWidth: isMobile ? '48%' : 'auto',
+                        px: isMobile ? 0.25 : 0.5,
+                        '& .MuiButton-startIcon': {
+                          marginRight: isMobile ? 0.25 : 0.5,
+                          "& > *:nth-of-type(1)": {
+                            fontSize: isMobile ? 16 : 20,
+                          }
+                        },
+                        '& .MuiButton-label': {
+                          whiteSpace: 'nowrap'
+                        }
+                      }}
+                    >
+                      {isMobile ? (
+                        <FormattedMessage
+                          id="add.custom.short"
+                          defaultMessage="Custom"
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id="add.custom.section"
+                          defaultMessage="Add custom section"
+                        />
+                      )}
+                    </Button>
+                  </Stack>
                 </Grid>
-              </Box>
-            </Card>
-          </Collapse>
-        )}
-
-        <Box>
-          <DndContext onDragEnd={handleDragEnd}>
-            <Grid container spacing={2}>
-              {renderSections()}
-              <Grid item xs={12}>
-                <SectionsPagination
-                  pageSize={pageSize}
-                  from={offset}
-                  to={limit}
-                  onChange={(pageSize) => {
-                    setCurrPage(0);
-                    setPageSize(pageSize);
-                  }}
-                  onChangePage={(page: number) => setCurrPage(page)}
-                  count={filteredSections.length}
-                  pageCount={pageList.length}
-                  page={currPage}
-                />
+                <Grid item xs={12} sm={isMobile ? 12 : 6}>
+                  <Stack
+                    spacing={0.25}
+                    direction="row"
+                    sx={{ width: '100%', pl: 0 }}
+                    justifyContent="flex-start"
+                  >
+                    <Stack
+                      spacing={0.25}
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="flex-start"
+                    >
+                      <LazyTextField
+                        value={query}
+                        onChange={handleChangeQuery}
+                        TextFieldProps={{
+                          size: isMobile ? "small" : "medium",
+                          sx: {
+                            minWidth: isMobile ? '85%' : 'auto',
+                            mr: 0.25,
+                          },
+                          InputProps: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <Search />
+                              </InputAdornment>
+                            ),
+                          },
+                          placeholder: formatMessage({
+                            id: 'search',
+                            defaultMessage: 'Search',
+                          }),
+                        }}
+                      />
+                    </Stack>
+                    <IconButton onClick={() => setShowFilters(!showFilters)} size={isMobile ? "small" : "medium"} sx={{ p: 0.25 }}>
+                      {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
+                    </IconButton>
+                  </Stack>
+                </Grid>
               </Grid>
-            </Grid>
-          </DndContext>
+            </Stack>
+
+            {showFilters && (
+              <Collapse in={showFilters}>
+                <Card>
+                  <Box p={2}>
+                    <Grid container spacing={2} alignItems="center" justifyContent="flex-start">
+                      <Grid item xs={12} sm={4}>
+                        <FormControl fullWidth>
+                          <InputLabel shrink>
+                            <FormattedMessage
+                              id="section.type"
+                              defaultMessage="Section Type"
+                            />
+                          </InputLabel>
+                          <SectionTypeAutocomplete
+                            sectionType={sectionType}
+                            setSectionType={setSectionType}
+                          />
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <VisibilityAutocomplete
+                          onChange={(desktop, mobile) => {
+                            setHideDesktop(desktop);
+                            setHideMobile(mobile);
+                          }}
+                          desktop={hideDesktop}
+                          mobile={hideMobile}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Card>
+              </Collapse>
+            )}
+
+            <Box>
+              <Grid container spacing={0}>
+                {renderSections()}
+                <Grid item xs={12}>
+                  <SectionsPagination
+                    pageSize={pageSize}
+                    from={offset}
+                    to={limit}
+                    onChange={(pageSize) => {
+                      setCurrPage(0);
+                      setPageSize(pageSize);
+                    }}
+                    onChangePage={(page: number) => setCurrPage(page)}
+                    count={filteredSections.length}
+                    pageCount={pageList.length}
+                    page={currPage}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </Stack>
         </Box>
       </Stack>
-    </Box>
+    </DndContext>
   );
 }

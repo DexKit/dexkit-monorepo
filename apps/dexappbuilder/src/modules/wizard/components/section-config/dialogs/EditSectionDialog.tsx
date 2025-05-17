@@ -221,8 +221,61 @@ export default function EditSectionDialog({
     setName(e.target.value);
   };
 
+  const renderPreview = () => (
+    <PreviewPagePlatform
+      key={sectionType}
+      sections={sectionType ? [changedSection as AppPageSection] : []}
+      title={
+        <b>
+          <FormattedMessage
+            id={'preview.section'}
+            defaultMessage={'Preview section'}
+          />
+        </b>
+      }
+      disabled={true}
+    />
+  );
+
+  const renderSectionHeader = () => (
+    <Grid container alignItems={'center'} sx={{ pl: isMobile ? 1 : 3 }}>
+      <Grid item xs={3}>
+        <IconButton
+          aria-label="back"
+          size={isMobile ? "medium" : "large"}
+          onClick={handleClose}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={7}>
+        <Box display={'flex'} justifyContent={'center'}>
+          <Stack
+            justifyContent={'center'}
+            direction={'row'}
+            alignItems={'center'}
+            spacing={1}
+          >
+            {sectionMetadata?.icon}
+
+            <Typography variant="subtitle1">
+              {' '}
+              {(sectionMetadata?.titleId &&
+                formatMessage({
+                  id: sectionMetadata?.titleId,
+                  defaultMessage:
+                    sectionMetadata?.titleDefaultMessage,
+                })) ||
+                ''}
+            </Typography>
+          </Stack>
+        </Box>
+      </Grid>
+    </Grid>
+  );
+
   return (
-    <Dialog {...dialogProps} onClose={handleClose}>
+    <Dialog {...dialogProps} onClose={handleClose} maxWidth="lg" fullWidth>
       <AppDialogTitle
         title={
           <Stack
@@ -323,78 +376,57 @@ export default function EditSectionDialog({
       />
       <Divider />
       <DialogContent>
-        <PanelGroup direction="horizontal">
-          <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
-            {!sectionType && (
-              <SectionSelector
-                onClickSection={(s) => {
-                  setSectionType(s.sectionType);
-                  setChangedSection(undefined);
-                }}
-              />
-            )}
+        {isMobile ? (
+          <Stack spacing={2} sx={{ maxHeight: 'calc(100vh - 180px)', overflow: 'auto' }}>
+            <Box sx={{ mb: 2 }}>
+              {!sectionType && (
+                <SectionSelector
+                  onClickSection={(s) => {
+                    setSectionType(s.sectionType);
+                    setChangedSection(undefined);
+                  }}
+                />
+              )}
+              {sectionType && (
+                <Stack spacing={2}>
+                  {renderSectionHeader()}
+                  {renderSectionType(sectionType)}
+                </Stack>
+              )}
+            </Box>
+
             {sectionType && (
-              <Stack spacing={2}>
-                <Grid container alignItems={'center'} sx={{ pl: 3 }}>
-                  <Grid item xs={3}>
-                    <IconButton
-                      aria-label="delete"
-                      size="large"
-                      onClick={() => {
-                        setSectionType(undefined);
-                      }}
-                    >
-                      <ArrowBackIosIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Box display={'flex'} justifyContent={'center'}>
-                      <Stack
-                        justifyContent={'center'}
-                        direction={'row'}
-                        alignItems={'center'}
-                        spacing={1}
-                      >
-                        {sectionMetadata?.icon}
-
-                        <Typography variant="subtitle1">
-                          {' '}
-                          {(sectionMetadata?.titleId &&
-                            formatMessage({
-                              id: sectionMetadata?.titleId,
-                              defaultMessage:
-                                sectionMetadata?.titleDefaultMessage,
-                            })) ||
-                            ''}
-                        </Typography>
-                      </Stack>
-                    </Box>
-                  </Grid>
-                </Grid>
-
-                {renderSectionType(sectionType)}
-              </Stack>
+              <Box sx={{ mt: 2 }}>
+                {renderPreview()}
+              </Box>
             )}
-          </Panel>
+          </Stack>
+        ) : (
+          <PanelGroup direction="horizontal">
+            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
+              {!sectionType && (
+                <SectionSelector
+                  onClickSection={(s) => {
+                    setSectionType(s.sectionType);
+                    setChangedSection(undefined);
+                  }}
+                />
+              )}
+              {sectionType && (
+                <Stack spacing={2}>
+                  {renderSectionHeader()}
+                  {renderSectionType(sectionType)}
+                </Stack>
+              )}
+            </Panel>
 
-          <ResizeHandle />
+            <ResizeHandle />
 
-          <Panel defaultSize={60} minSize={40}>
-            <PreviewPagePlatform
-              key={sectionType}
-              sections={sectionType ? [changedSection as AppPageSection] : []}
-              title={
-                <b>
-                  <FormattedMessage
-                    id={'preview.section'}
-                    defaultMessage={'Preview section'}
-                  />
-                </b>
-              }
-              disabled={true}
-            />
-          </Panel>
-        </PanelGroup>
+            <Panel defaultSize={60} minSize={40}>
+              {renderPreview()}
+            </Panel>
+          </PanelGroup>
+        )}
       </DialogContent>
     </Dialog>
   );

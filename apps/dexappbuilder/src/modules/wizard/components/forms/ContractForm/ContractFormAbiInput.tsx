@@ -1,4 +1,5 @@
 import { inputMapping } from '@/modules/wizard/utils';
+import { useIsMobile } from '@dexkit/core';
 import PasteIconButton from '@dexkit/ui/components/PasteIconButton';
 import { AbiFragment, ContractFormParams } from '@dexkit/web3forms/types';
 import { normalizeAbi } from '@dexkit/web3forms/utils';
@@ -15,7 +16,7 @@ export interface ContractFormAbiInputProps {
 
 function ContractFormAbiInput({ abiStr }: ContractFormAbiInputProps) {
   const { setFieldValue } = useFormikContext<ContractFormParams>();
-
+  const isMobile = useIsMobile();
   const { enqueueSnackbar } = useSnackbar();
 
   const handlePaste = (data: string) => {
@@ -34,10 +35,23 @@ function ContractFormAbiInput({ abiStr }: ContractFormAbiInputProps) {
     <TextField
       fullWidth
       multiline
-      rows={3}
+      rows={isMobile ? 1 : 3}
       value={abiStr}
       disabled
       label={<FormattedMessage id="abi" defaultMessage="ABI" />}
+      size={isMobile ? "small" : "medium"}
+      margin={isMobile ? "dense" : "normal"}
+      inputProps={{
+        style: isMobile ? { fontSize: '0.85rem', padding: '6px 10px' } : {}
+      }}
+      InputLabelProps={isMobile ? {
+        style: { fontSize: '0.85rem' }
+      } : {}}
+      sx={isMobile ? {
+        '& .MuiInputBase-root': {
+          minHeight: '35px'
+        }
+      } : {}}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -46,7 +60,7 @@ function ContractFormAbiInput({ abiStr }: ContractFormAbiInputProps) {
             >
               <Box>
                 <PasteIconButton
-                  icon={<FileCopyIcon />}
+                  icon={<FileCopyIcon fontSize={isMobile ? "small" : "medium"} />}
                   onPaste={handlePaste}
                 />
               </Box>

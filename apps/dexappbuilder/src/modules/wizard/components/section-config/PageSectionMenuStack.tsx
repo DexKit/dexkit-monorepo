@@ -1,5 +1,6 @@
+import { useIsMobile } from '@dexkit/core';
 import { IconButton, Stack, Tooltip } from '@mui/material';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SECTION_MENU_OPTIONS } from '../../constants/sections';
 
@@ -21,17 +22,20 @@ export default function PageSectionMenuStack({
     return SECTION_MENU_OPTIONS({ hideMobile, hideDesktop, isVisible });
   }, [hideMobile, hideDesktop, isVisible]);
 
+  const isMobile = useIsMobile();
+
   return (
-    <Stack direction="row" spacing={0.5} alignItems="center">
+    <Stack direction="row" spacing={isMobile ? 0 : 0.5} alignItems="center">
       {menuArr.map((item, index) =>
         item.value === 'show.section' || item.value === 'hide.section' ? (
           <IconButton
             key={index}
+            size={isMobile ? "small" : "medium"}
             onClick={(e) => {
               e.stopPropagation();
-
               onToggleVisibilty();
             }}
+            sx={isMobile ? { padding: '4px' } : undefined}
           >
             <Tooltip
               title={
@@ -41,17 +45,20 @@ export default function PageSectionMenuStack({
                 />
               }
             >
-              {item.icon}
+              {React.cloneElement(item.icon, {
+                fontSize: isMobile ? "small" : "medium"
+              })}
             </Tooltip>
           </IconButton>
         ) : (
           <IconButton
             key={index}
+            size={isMobile ? "small" : "medium"}
             onClick={(e) => {
               e.stopPropagation();
-
               onAction(item.value);
             }}
+            sx={isMobile ? { padding: '4px' } : undefined}
           >
             <Tooltip
               title={
@@ -61,7 +68,9 @@ export default function PageSectionMenuStack({
                 />
               }
             >
-              {item.icon}
+              {React.cloneElement(item.icon, {
+                fontSize: isMobile ? "small" : "medium"
+              })}
             </Tooltip>
           </IconButton>
         )

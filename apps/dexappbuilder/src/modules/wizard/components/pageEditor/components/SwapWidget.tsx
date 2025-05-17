@@ -1,7 +1,8 @@
 import { SwapConfig } from '@/modules/swap/types';
-import { ChainId } from '@dexkit/core';
+import { ChainId, useIsMobile } from '@dexkit/core';
 import { useActiveChainIds } from '@dexkit/ui';
 import { SwapWidget as Swap } from '@dexkit/widgets/src/widgets/swap';
+import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useCurrency } from 'src/hooks/currency';
 import { useSwapState } from '../../../../../hooks/swap';
@@ -16,6 +17,7 @@ function SwapWidget(props: Props) {
   const { isEditMode, formData } = props;
   const defaultChainId = formData?.defaultChainId;
   const configByChain = formData?.configByChain;
+  const isMobile = useIsMobile();
 
   const [chainId, setChainId] = useState<number>();
 
@@ -30,19 +32,33 @@ function SwapWidget(props: Props) {
   const swapState = useSwapState();
 
   return (
-    <Swap
-      {...swapState}
-      activeChainIds={activeChainIds}
-      renderOptions={{
-        ...swapState.renderOptions,
-
-        configsByChain: configByChain ? configByChain : {},
-        defaultChainId: chainId || ChainId.Ethereum,
-        currency,
-        zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
-        transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
-      }}
-    />
+    <Box sx={{
+      width: '100%',
+      maxWidth: isMobile ? '100%' : '450px',
+      mx: 'auto',
+      '& .MuiPaper-root': {
+        borderRadius: isMobile ? 1 : undefined,
+      },
+      '& .MuiTextField-root': {
+        fontSize: isMobile ? '0.9rem' : undefined
+      },
+      '& .MuiButton-root': {
+        minHeight: isMobile ? '44px' : undefined
+      }
+    }}>
+      <Swap
+        {...swapState}
+        activeChainIds={activeChainIds}
+        renderOptions={{
+          ...swapState.renderOptions,
+          configsByChain: configByChain ? configByChain : {},
+          defaultChainId: chainId || ChainId.Ethereum,
+          currency,
+          zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
+          transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
+        }}
+      />
+    </Box>
   );
 }
 

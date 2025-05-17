@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import { PreviewPortal } from 'src/components/PreviewPortal';
 
+import { useIsMobile } from '@dexkit/core';
 import {
   AppConfig,
   PageSectionsLayout,
@@ -36,6 +37,7 @@ export default function PreviewPagePlatform({
   layout,
 }: Props) {
   const [previewPlatform, setPreviewPlatform] = useState<any>('desktop');
+  const isMobile = useIsMobile();
 
   const pagePreview = (
     <PreviewPage
@@ -56,7 +58,7 @@ export default function PreviewPagePlatform({
         justifyContent={'center'}
         alignContent={'center'}
         spacing={2}
-        sx={{ pb: 2, pt: 2, backgroundColor: 'background.default' }}
+        sx={{ pb: isMobile ? 1 : 2, pt: isMobile ? 1 : 2, backgroundColor: 'background.default' }}
       >
         {title ? title : null}
         <PreviewPlatformType
@@ -64,12 +66,12 @@ export default function PreviewPagePlatform({
           setType={(newType) => setPreviewPlatform(newType)}
         />
       </Stack>
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: isMobile ? 1 : 2 }}>
         {previewPlatform === 'desktop' &&
           (enableOverflow ? (
             <Box
               sx={{
-                maxHeight: '500px',
+                maxHeight: isMobile ? '300px' : '500px',
                 overflow: 'auto',
               }}
             >
@@ -84,7 +86,21 @@ export default function PreviewPagePlatform({
             alignItems={'center'}
             alignContent={'center'}
           >
-            <PreviewPortal page={page} site={site} index={index} />
+            {page && site ? (
+              <PreviewPortal page={page} site={site} index={index} />
+            ) : (
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: '375px',
+                  border: '1px solid #ccc',
+                  borderRadius: '16px',
+                  overflow: 'hidden'
+                }}
+              >
+                {pagePreview}
+              </Box>
+            )}
           </Stack>
         )}
       </Box>

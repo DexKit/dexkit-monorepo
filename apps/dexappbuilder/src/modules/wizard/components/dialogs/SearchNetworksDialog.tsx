@@ -180,10 +180,10 @@ export default function SearchNetworksDialog({
               spacing={2}
               sx={{ p: 2 }}
             >
-              <IconButton disabled={true} onClick={() => {}}>
+              <IconButton disabled={true} onClick={() => { }}>
                 <KeyboardArrowLeftIcon />
               </IconButton>
-              <IconButton disabled={true} onClick={() => {}}>
+              <IconButton disabled={true} onClick={() => { }}>
                 <KeyboardArrowRightIcon />
               </IconButton>
             </Stack>

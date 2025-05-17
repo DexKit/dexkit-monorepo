@@ -5,6 +5,7 @@ import {
   AppConfig,
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
+import { Box } from '@mui/material';
 import { SectionsRenderer } from './sections/SectionsRenderer';
 interface Props {
   sections?: AppPageSection[];
@@ -23,26 +24,39 @@ export default function PreviewPage({
   appConfig,
   layout,
 }: Props) {
-  const renderSections = () => {
-    // return (sections || []).map((section, key) => {
-    //   if (previewPlatform === 'mobile' && section?.hideMobile) {
-    //     return null;
-    //   }
-    //   if (previewPlatform === 'desktop' && section?.hideDesktop) {
-    //     return null;
-    //   }
-
-    //   return <SectionRender section={section} key={key} />;
-    // });
-    return <SectionsRenderer layout={layout} sections={sections ?? []} />;
-  };
-  if (withLayout) {
-    return (
-      <MainLayout disablePadding appConfigProps={appConfig} isPreview={true}>
-        {renderSections() || null}{' '}
-      </MainLayout>
-    );
-  } else {
-    return <>{renderSections() || null}</>;
+  if (!sections) {
+    return null;
   }
+
+  const content = (
+    <Box sx={{
+      m: 0,
+      p: 0,
+      width: '100%',
+      maxWidth: '100%',
+      overflow: 'hidden'
+    }}>
+      <SectionsRenderer
+        sections={sections.filter(
+          (s) => {
+            if (!s) return true;
+
+            const shouldHideOnDesktop = s.hideDesktop && previewPlatform === 'desktop';
+            const shouldHideOnMobile = s.hideMobile && previewPlatform === 'mobile';
+
+            return !(shouldHideOnDesktop || shouldHideOnMobile);
+          }
+        )}
+        layout={layout}
+      />
+    </Box>
+  );
+
+  return withLayout ? (
+    <MainLayout disablePadding isPreview={true}>
+      {content}
+    </MainLayout>
+  ) : (
+    content
+  );
 }

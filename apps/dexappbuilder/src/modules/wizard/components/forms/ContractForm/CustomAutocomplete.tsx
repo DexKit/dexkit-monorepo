@@ -15,6 +15,7 @@ import {
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { useIsMobile } from '@dexkit/core';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
@@ -37,12 +38,13 @@ export default function CustomAutocomplete({
   isLoading,
 }: Props) {
   const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleFocus = () => {
     setOpen(true);
   };
 
-  const handleBlur = () => {};
+  const handleBlur = () => { };
 
   const { formatMessage } = useIntl();
 
@@ -53,8 +55,8 @@ export default function CustomAutocomplete({
   const renderContent = () => {
     if (options.length === 0) {
       return (
-        <Stack justifyContent="center" alignItems="center" sx={{ py: 2 }}>
-          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+        <Stack justifyContent="center" alignItems="center" sx={{ py: isMobile ? 1 : 2 }}>
+          <Typography variant={isMobile ? "body2" : "body1"} sx={{ fontWeight: 600 }}>
             <FormattedMessage id="no.results" defaultMessage="No results" />
           </Typography>
         </Stack>
@@ -62,25 +64,34 @@ export default function CustomAutocomplete({
     }
 
     return isLoading ? (
-      <List>
+      <List dense={isMobile}>
         <ListItem>
           <ListItemText primary={<Skeleton />} />
         </ListItem>
         <ListItem>
           <ListItemText primary={<Skeleton />} />
         </ListItem>
-        <ListItem>
-          <ListItemText primary={<Skeleton />} />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary={<Skeleton />} />
-        </ListItem>
+        {!isMobile && (
+          <>
+            <ListItem>
+              <ListItemText primary={<Skeleton />} />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary={<Skeleton />} />
+            </ListItem>
+          </>
+        )}
       </List>
     ) : (
-      <List disablePadding>
+      <List disablePadding dense={isMobile}>
         {options.map((opt, key) => (
           <ListItemButton key={key} onClick={() => onChange(opt.value)}>
-            <ListItemText primary={opt.label} />
+            <ListItemText
+              primary={opt.label}
+              primaryTypographyProps={{
+                variant: isMobile ? "body2" : "body1"
+              }}
+            />
           </ListItemButton>
         ))}
       </List>
@@ -101,7 +112,7 @@ export default function CustomAutocomplete({
           }}
         >
           <Stack>
-            <Box sx={{ p: 1 }}>
+            <Box sx={{ p: isMobile ? 0.5 : 1 }}>
               <LazyTextField
                 TextFieldProps={{
                   fullWidth: true,
@@ -110,10 +121,11 @@ export default function CustomAutocomplete({
                     defaultMessage: 'Search for a contract',
                   }),
                   size: 'small',
+                  margin: isMobile ? "dense" : "normal",
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search color="primary" />
+                        <Search color="primary" fontSize={isMobile ? "small" : "medium"} />
                       </InputAdornment>
                     ),
                   },

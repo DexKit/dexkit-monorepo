@@ -1,4 +1,5 @@
 import { useSearchSwapTokens } from '@/modules/swap/hooks';
+import { useIsMobile } from '@dexkit/core';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { getChainSlug } from '@dexkit/core/utils/blockchain';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -28,6 +29,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
     props;
 
   const [search, setSearch] = useState<string>('');
+  const isMobile = useIsMobile();
 
   const tokensQuery = useSearchSwapTokens({
     keyword: search,
@@ -56,6 +58,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
           {...params}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          size={isMobile ? "small" : "medium"}
           label={
             focus ? (
               <FormattedMessage id="token.s" defaultMessage="Token(s)" />
@@ -70,29 +73,38 @@ export function SearchMultiTokenAutocomplete(props: Props) {
             focus
               ? undefined
               : formatMessage({
-                  id: 'search.tokens',
-                  defaultMessage: 'Search tokens',
-                })
+                id: 'search.tokens',
+                defaultMessage: 'Search tokens',
+              })
           }
           onChange={(ev) => setSearch(ev.currentTarget.value)}
+          sx={{
+            '& .MuiInputBase-input': {
+              fontSize: isMobile ? '0.9rem' : undefined
+            }
+          }}
         />
       )}
-      limitTags={2}
+      limitTags={isMobile ? 1 : 2}
       multiple
       value={value}
       onChange={(e, value) => onChange(value)}
       getOptionLabel={(opt) =>
-        `${opt.name} (${opt.symbol.toUpperCase()}) - ${
-          NETWORKS[opt.chainId].name
+        `${opt.name} (${opt.symbol.toUpperCase()}) - ${NETWORKS[opt.chainId]?.name || 'Unknown Network'
         }`
       }
       renderTags={(tagValue, getTagProps) => {
         return tagValue.map((option, index) => (
           <Chip
             {...getTagProps({ index })}
-            avatar={<Avatar src={option.logoURI} />}
+            avatar={<Avatar src={option.logoURI} sx={{ width: isMobile ? 18 : 24, height: isMobile ? 18 : 24 }} />}
             key={index}
             label={option.name}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? '0.8rem' : undefined,
+              height: isMobile ? '24px' : undefined
+            }}
           />
         ));
       }}
@@ -103,21 +115,31 @@ export function SearchMultiTokenAutocomplete(props: Props) {
             <Checkbox
               icon={icon}
               checkedIcon={checkedIcon}
-              style={{ marginRight: 8 }}
+              style={{ marginRight: 8, padding: isMobile ? 4 : 8 }}
+              size={isMobile ? "small" : "medium"}
               checked={selected}
             />
-            <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ fontSize: isMobile ? '0.85rem' : undefined }}>
               <Avatar
                 src={option.logoURI}
-                sx={{ width: '1rem', height: '1rem' }}
+                sx={{ width: isMobile ? '0.8rem' : '1rem', height: isMobile ? '0.8rem' : '1rem' }}
               />
               <span>
                 {option.name} ({option.symbol.toUpperCase()}) -{' '}
-                {NETWORKS[option.chainId].name}
+                {NETWORKS[option.chainId]?.name || 'Unknown Network'}
               </span>
             </Stack>
           </li>
         );
+      }}
+      sx={{
+        '& .MuiAutocomplete-inputRoot': {
+          fontSize: isMobile ? '0.9rem' : undefined
+        },
+        '& .MuiAutocomplete-option': {
+          minHeight: isMobile ? '36px' : undefined,
+          padding: isMobile ? '4px 8px' : undefined
+        }
       }}
     />
   );

@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import { useIsMobile } from '@dexkit/core';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyOutlined';
 import LinkOutlined from '@mui/icons-material/LinkOutlined';
 import LockIcon from '@mui/icons-material/LockOutlined';
@@ -40,24 +41,24 @@ export default function Page({
   previewUrl,
 }: PageProps) {
   const handleMouseDown: any = (e: MouseEvent) => e.stopPropagation();
+  const isMobile = useIsMobile();
 
   const handleAction = (callback: () => void) => {
     return (e: React.MouseEvent) => {
       e.stopPropagation();
-
       callback();
     };
   };
 
   return (
     <Card>
-      <CardActionArea sx={{ px: 2, py: 1 }} onClick={onSelect}>
+      <CardActionArea sx={{ px: isMobile ? 1 : 2, py: isMobile ? 0.5 : 1 }} onClick={onSelect}>
         <Stack
           alignItems="center"
           justifyContent="space-between"
           direction="row"
         >
-          <Typography variant="body1" color="text.primary">
+          <Typography variant={isMobile ? "body2" : "body1"} color="text.primary">
             {page.title}
           </Typography>
           <Stack
@@ -65,11 +66,13 @@ export default function Page({
             justifyContent="center"
             direction="row"
             mr={{ sm: 4, xs: 0 }}
-            spacing={1}
+            spacing={isMobile ? 0 : 1}
           >
             <IconButton
               onClick={handleAction(onPreview)}
               onMouseDown={handleMouseDown}
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: isMobile ? 0.5 : 1 }}
             >
               <Tooltip
                 title={
@@ -79,10 +82,14 @@ export default function Page({
                   />
                 }
               >
-                <Visibility />
+                <Visibility fontSize={isMobile ? "small" : "medium"} />
               </Tooltip>
             </IconButton>
-            <IconButton onClick={handleAction(onClone)}>
+            <IconButton
+              onClick={handleAction(onClone)}
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: isMobile ? 0.5 : 1 }}
+            >
               <Tooltip
                 title={
                   <FormattedMessage
@@ -91,7 +98,7 @@ export default function Page({
                   />
                 }
               >
-                <ContentCopyIcon />
+                <ContentCopyIcon fontSize={isMobile ? "small" : "medium"} />
               </Tooltip>
             </IconButton>
             <IconButton
@@ -100,6 +107,8 @@ export default function Page({
               onClick={(e) => e.stopPropagation()}
               href={`${previewUrl}/${pageKey}`}
               target="_blank"
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: isMobile ? 0.5 : 1 }}
             >
               <Tooltip
                 title={
@@ -109,7 +118,7 @@ export default function Page({
                   />
                 }
               >
-                <LinkOutlined />
+                <LinkOutlined fontSize={isMobile ? "small" : "medium"} />
               </Tooltip>
             </IconButton>
             {pageKey !== 'home' && (
@@ -118,6 +127,8 @@ export default function Page({
                 color={
                   page.enableGatedConditions === true ? 'success' : undefined
                 }
+                size={isMobile ? "small" : "medium"}
+                sx={{ p: isMobile ? 0.5 : 1 }}
               >
                 <Tooltip
                   title={
@@ -134,16 +145,20 @@ export default function Page({
                     )
                   }
                 >
-                  <LockIcon />
+                  <LockIcon fontSize={isMobile ? "small" : "medium"} />
                 </Tooltip>
               </IconButton>
             )}
 
-            <IconButton onClick={handleAction(onRemove)}>
+            <IconButton
+              onClick={handleAction(onRemove)}
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: isMobile ? 0.5 : 1 }}
+            >
               <Tooltip
                 title={<FormattedMessage id="Delete" defaultMessage="Delete" />}
               >
-                <DeleteOutlined color="error" />
+                <DeleteOutlined fontSize={isMobile ? "small" : "medium"} color="error" />
               </Tooltip>
             </IconButton>
           </Stack>

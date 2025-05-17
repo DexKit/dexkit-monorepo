@@ -102,8 +102,8 @@ export default function EditPageSectionsLayoutDialog({
         layout
           ? layout
           : {
-              type: 'list',
-            }
+            type: 'list',
+          }
       }
       onSubmit={handleSubmit}
     >
