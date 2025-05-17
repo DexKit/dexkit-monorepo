@@ -14,7 +14,7 @@
     "generate-lang-files": "turbo run generate-lang-files --filter=dexappbuilder",
     "publish-packages": "changeset publish",
     "dev:whitelabel": "turbo run dev --parallel --filter=dexappbuilder",
-    "dev:coinleague": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=coinleague",
+    "dev:coinleague": "turbo run dev --parallel --filter=coinleague",
     "dev:dexappadmin": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=dexappadmin",
     "dev:wallet-example": "turbo run dev --parallel --filter=wallet-example",
     "storybook": "turbo run storybook",

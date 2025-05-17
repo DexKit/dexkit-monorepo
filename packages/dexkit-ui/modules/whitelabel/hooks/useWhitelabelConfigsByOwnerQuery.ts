@@ -14,11 +14,21 @@ export const useWhitelabelConfigsByOwnerQuery = ({
   owner,
 }: ConfigsByOwnerParams) => {
   return useQuery([QUERY_WHITELABEL_CONFIGS_BY_OWNER_NAME, owner], async () => {
-    if (!owner) return;
+    if (!owner) {
+      return [];
+    }
 
-    return (await getConfigsByOwner(owner)).data.map((resp) => ({
-      ...resp,
-      appConfig: JSON.parse(resp.config) as AppConfig,
-    }));
+    try {
+      const response = await getConfigsByOwner(owner);
+      return response.data.map((resp) => ({
+        ...resp,
+        appConfig: JSON.parse(resp.config) as AppConfig,
+      }));
+    } catch (error) {
+      console.error("Error fetching configs by owner:", error);
+      return [];
+    }
+  }, {
+    refetchOnWindowFocus: false
   });
 };

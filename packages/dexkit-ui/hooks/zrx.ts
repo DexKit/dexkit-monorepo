@@ -4,7 +4,7 @@ import { Token } from "@dexkit/core/types";
 import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { concat, Hex, maxUint256, numberToHex, size } from "viem";
+import { Hex, concat, maxUint256, numberToHex, size } from "viem";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
@@ -15,11 +15,11 @@ import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 import { ZeroExApiClient } from "../modules/swap/services/zrxClient";
 import {
   SignatureType,
-  txMutationParams,
   ZeroExGaslessQuoteResponse,
   ZeroExQuote,
   ZeroExQuoteGasless,
   ZeroExQuoteResponse,
+  txMutationParams,
 } from "../modules/swap/types";
 import { SiteContext } from "../providers/SiteProvider";
 import { AppNotificationType } from "../types";
@@ -467,7 +467,8 @@ export const useSendTxMutation = (p: txMutationParams) => {
         });
 
         trackUserEvent.mutate({
-          event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
+          // event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
+          event: UserEvents.swap,
           hash: hash?.transactionHash,
           chainId,
           metadata: JSON.stringify({

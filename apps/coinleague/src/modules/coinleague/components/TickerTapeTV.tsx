@@ -6,7 +6,7 @@ import { PriceFeeds } from '../constants';
 
 function TickerTapeTV() {
   const symbols = PriceFeeds[ChainId.Polygon]
-    .concat(PriceFeeds[ChainId.BSC])
+    // .concat(PriceFeeds[ChainId.BSC])
     .filter((s) => s.tv)
     .map((s) => {
       return {
