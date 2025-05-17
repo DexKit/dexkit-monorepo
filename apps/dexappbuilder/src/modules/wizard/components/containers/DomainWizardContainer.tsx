@@ -21,14 +21,17 @@ import {
 import { CopyText } from '@dexkit/ui/components/CopyText';
 
 import { beautifyUnderscoreCase } from '@dexkit/core/utils';
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
+import {
+  AppConfig,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
 import { useQueryClient } from '@tanstack/react-query';
-import { SiteResponse } from '../../../../types/whitelabel';
+
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import {
   default as CheckDomainDialog,
   default as DeployDomainDialog,
 } from '../dialogs/CheckDomainDialog';
-import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 import DomainSection, { DomainSectionForm } from '../sections/DomainSection';
 interface Props {
   config: AppConfig;

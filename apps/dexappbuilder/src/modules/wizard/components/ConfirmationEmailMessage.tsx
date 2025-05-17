@@ -3,7 +3,8 @@ import Alert from '@mui/material/Alert';
 import dynamic from 'next/dynamic';
 import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SiteResponse } from 'src/types/whitelabel';
+
+import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useSendSiteConfirmationLinkMutation } from '../hooks';
 const ActionMutationDialog = dynamic(
   () => import('@dexkit/ui/components/dialogs/ActionMutationDialog'),

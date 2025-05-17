@@ -2,9 +2,10 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import { Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SiteResponse } from '../../../../types/whitelabel';
-import AddMemberFormDialog from '../dialogs/AddMemberFormDialog';
+
 import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
+import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
+import AddMemberFormDialog from '../dialogs/AddMemberFormDialog';
 import { PermissionsAccordionForm } from '../forms/PermissionsAccordionForm';
 interface Props {
   site?: SiteResponse | null;

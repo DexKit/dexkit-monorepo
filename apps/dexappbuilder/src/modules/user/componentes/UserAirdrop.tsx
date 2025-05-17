@@ -17,9 +17,10 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
 
 import AppMutationDialog from '@dexkit/ui/components/dialogs/AppMutationDialog';
+
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import {
   useAuthUserQuery,
   useClaimCampaignMutation,

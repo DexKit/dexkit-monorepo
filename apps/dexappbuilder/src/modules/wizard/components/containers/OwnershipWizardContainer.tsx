@@ -11,8 +11,11 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useAccountHoldDexkitQuery } from '@dexkit/ui/hooks/account';
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { SiteResponse } from 'src/types/whitelabel';
+import {
+  AppConfig,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
+
 import OwnershipSection from '../sections/OwnershipSection';
 import SiteMetadataSection from '../sections/SiteMetadataSection';
 import HidePoweredContainer from './HidePoweredContainer';

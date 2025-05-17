@@ -18,6 +18,7 @@ const nextConfig = {
     '@dexkit/web3forms',
     '@dexkit/wallet-connectors',
     '@dexkit/dexappbuilder-viewer',
+    '@dexkit/dexappbuilder-render',
     '@dexkit/exchange',
     '@react-page/editor',
     '@uiw/react-md-editor',

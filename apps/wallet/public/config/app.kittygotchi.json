@@ -1,0 +1,394 @@
+{
+  "name": "Kittygotchi",
+  "email": "info@dexkit.com",
+  "locale": "en-US",
+  "currency": "usd",
+  "theme": "kittygotchi",
+  "domain": "https://www.kittygotchi.com",
+  "logo": {
+    "url": "/assets/images/market-logo.svg",
+    "height": "50",
+    "width": "150"
+  },
+  "favicon_url": "",
+  "social": [
+    { "type": "instagram", "handle": "dexkit.io" },
+    { "type": "twitter", "handle": "dexkit" }
+  ],
+  "transak": {
+    "enabled": true
+  },
+  "fees": [
+    {
+      "amount_percentage": 1,
+      "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+    }
+  ],
+  "swapFees": {
+    "amount_percentage": 0.3,
+    "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+  },
+  "format": {
+    "date": "MM/DD/YYYY",
+    "datetime": "MM/DD/YYYY HH:mm:ss"
+  },
+  "collections": [
+    {
+      "image": "/assets/kittygotchi/banner_eth.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_eth.svg",
+      "chainId": 1,
+      "contractAddress": "0xe76591AD590765e9Ab9EdE82BEa274aFcF5Ce703",
+      "description": "",
+      "uri": "kittygotchieth"
+    },
+    {
+      "image": "/assets/kittygotchi/banner_bsc.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_bsc.svg",
+      "chainId": 56,
+      "contractAddress": "0xf44112926506318e3Aace4381B2D76791D980Ac3",
+      "description": "",
+      "uri": "kittygotchibsc"
+    },
+    {
+      "image": "/assets/kittygotchi/banner_polygon.svg",
+      "name": "Kittygotchi",
+      "backgroundImage": "/assets/kittygotchi/banner_polygon.svg",
+      "chainId": 137,
+      "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+      "description": "",
+      "uri": "kittygotchi"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "DexKit Token List",
+      "timestamp": "2022-09-13T22:11:02.673Z",
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 1
+      },
+      "tags": {},
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/images/logo.png",
+      "keywords": ["dexkit", "default"],
+      "tokens": [
+        {
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "chainId": 1,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "chainId": 1,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "chainId": 1,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+          "chainId": 1,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+          "chainId": 10,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x4200000000000000000000000000000000000006",
+          "chainId": 10,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Token",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "Binance-Peg USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x55d398326f99059fF775485246999027B3197955",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/bnb.jpg",
+          "name": "WBNB Token",
+          "symbol": "WBNB"
+        },
+        {
+          "address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "chainId": 137,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+          "chainId": 137,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "chainId": 137,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/polygon.jpg",
+          "name": "Wrapped Matic",
+          "symbol": "WMATIC"
+        },
+        {
+          "address": "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+          "chainId": 250,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/eth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        },
+        {
+          "address": "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          "chainId": 250,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/ftm.jpg",
+          "name": "Wrapped Fantom",
+          "symbol": "WFTM"
+        },
+        {
+          "address": "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI"
+        },
+        {
+          "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+          "chainId": 43114,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        {
+          "address": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+          "chainId": 43114,
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
+          "name": "Tether USD",
+          "symbol": "USDT"
+        },
+        {
+          "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/avax.jpg",
+          "name": "Wrapped AVAX",
+          "symbol": "WAVAX"
+        },
+        {
+          "address": "0x50b7545627a5162F82A992c33b87aDc75187B218",
+          "chainId": 43114,
+          "decimals": 8,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/wbtc.jpg",
+          "name": "Wrapped BTC",
+          "symbol": "WBTC"
+        },
+        {
+          "address": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+          "chainId": 43114,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/weth.jpg",
+          "name": "Wrapped Ether",
+          "symbol": "WETH"
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "home": {
+      "title": "Home",
+      "key": "home",
+      "uri": "/",
+      "sections": [
+        {
+          "type": "featured",
+          "title": "Kittygotchi Marketplace",
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "tokenId": "42"
+            },
+            {
+              "type": "asset",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "tokenId": "50"
+            },
+            {
+              "type": "collection",
+              "title": "Kittygotchi",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "backgroundImageUrl": "/assets/kittygotchi/banner.svg"
+            }
+          ]
+        },
+        {
+          "type": "collections",
+          "title": "Featured Collections",
+          "items": [
+            {
+              "featured": true,
+              "type": "collection",
+              "title": "Kittygotchi",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "backgroundImageUrl": "/assets/kittygotchi/banner_polygon.svg"
+            },
+            {
+              "type": "collection",
+              "title": "Kittygotchi",
+              "chainId": 56,
+              "contractAddress": "0xf44112926506318e3Aace4381B2D76791D980Ac3",
+              "backgroundImageUrl": "/assets/kittygotchi/banner_bsc.svg"
+            },
+            {
+              "type": "collection",
+              "title": "Kittygotchi",
+              "chainId": 1,
+              "contractAddress": "0xe76591AD590765e9Ab9EdE82BEa274aFcF5Ce703",
+              "backgroundImageUrl": "/assets/kittygotchi/banner_eth.svg"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "title": "Marketplace Features",
+          "videoUrl": "https://www.youtube.com/embed/9UxtgAkNG1k",
+          "embedType": "youtube"
+        },
+        {
+          "variant": "dark",
+          "type": "call-to-action",
+          "title": "Kittygotchi",
+          "subtitle": "See your kitties on ETH, BSC and Polygon networks",
+          "button": {
+            "title": "See all",
+            "url": "/collections"
+          },
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "tokenId": "42"
+            },
+            {
+              "type": "asset",
+              "chainId": 137,
+              "contractAddress": "0xEA88540adb1664999524d1a698cb84F6C922D2A1",
+              "tokenId": "50"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Kittygotchi",
+      "description": "Kittygochi collection: create cute Kitty, make it unique, feed him to earn attack, speed, and defense, he will be here for you. Your Kitty gives you special powers on DexKit Dashboard",
+      "images": [
+        {
+          "url": "https://www.kittygotchi.com/assets/kittygotchi/kittygotchi_banner.jpg",
+          "width": 800,
+          "height": 600,
+          "alt": "Kittygotchi",
+          "type": "image/jpeg"
+        }
+      ]
+    }
+  },
+  "footerMenuTree": [
+    {
+      "type": "External",
+      "href": "https://dexkit.com/contact-us",
+      "name": "Contact us"
+    }
+  ]
+}

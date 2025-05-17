@@ -1,0 +1,239 @@
+{
+  "name": "Crypto punks",
+  "email": "info@dexkit.com",
+  "locale": "en-US",
+  "currency": "usd",
+  "theme": "cryptopunk",
+  "domain": "https://www.cryptopunks.dexkit.com",
+  "logo": {
+    "url": "/assets/images/cryptopunks-logo.png",
+    "height": 50,
+    "width": 150
+  },
+  "favicon_url": "",
+  "social": [{ "type": "twitter", "handle": "larvalabs" }],
+  "transak": {
+    "enabled": true
+  },
+  "fees": [
+    {
+      "amount_percentage": 0.05,
+      "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
+    }
+  ],
+  "format": {
+    "date": "MM/DD/YYYY",
+    "datetime": "MM/DD/YYYY HH:mm:ss"
+  },
+  "collections": [
+    {
+      "image": "/assets/cryptopunk/banner.png",
+      "name": "Crypto Punks",
+      "backgroundImage": "/assets/cryptopunk/banner.png",
+      "chainId": 1,
+      "contractAddress": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+      "description": "",
+      "uri": "cryptopunks"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "Test tokens",
+      "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+      "keywords": ["faucet", "test"],
+      "tags": {
+        "faucet": {
+          "name": "Faucet token for testing on ropsten",
+          "description": "ERC20 tokens for testing"
+        }
+      },
+      "timestamp": "2020-06-12T00:00:00+00:00",
+      "tokens": [
+        {
+          "chainId": 1,
+          "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "symbol": "USDT",
+          "name": "Tether",
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 1,
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "symbol": "USDC",
+          "name": "USDC",
+          "decimals": 6,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 1,
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "symbol": "DAI",
+          "name": "DAI",
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "tags": ["stable coin"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xfab46e002bbf0b4509813474841e0716e6730136",
+          "symbol": "FAU",
+          "name": "FaucetToken",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 4,
+          "address": "0xFab46E002BbF0b4509813474841E0716E6730136",
+          "symbol": "FAU",
+          "name": "FaucetToken",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xad6d458402f60fd3bd25163575031acdce07538d",
+          "symbol": "DAI",
+          "name": "DAI Stable Coin",
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+          "tags": ["faucet", "test"]
+        },
+        {
+          "chainId": 3,
+          "address": "0xc778417e063141139fce010982780140aa0cd5ab",
+          "symbol": "WETH",
+          "name": "Wrapped Ether",
+          "decimals": 18,
+          "logoURI": "ipfs://QmUSNbwUxUYNMvMksKypkgWs8unSm8dX2GjCPBVGZ7GGMr",
+          "tags": ["weth", "test"]
+        },
+        {
+          "chainId": 137,
+          "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "symbol": "WMATIC",
+          "name": "Wrapped Matic",
+          "decimals": 18,
+          "logoURI": "https://polygonscan.com/token/images/wMatic_32.png",
+          "tags": ["polygon", "wrapped token"]
+        },
+        {
+          "chainId": 80001,
+          "address": "0xa6fa4fb5f76172d178d61b04b0ecd319c5d1c0aa",
+          "symbol": "WETH",
+          "name": "Wrapped ETH",
+          "decimals": 18,
+          "logoURI": "https://polygonscan.com/token/images/wMatic_32.png",
+          "tags": ["polygon", "wrapped token"]
+        },
+        {
+          "chainId": 137,
+          "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "symbol": "USDC",
+          "name": "USD Coin",
+          "decimals": 6,
+          "logoURI": "https://polygonscan.com/token/images/centre-usdc_32.png",
+          "tags": ["polygon", "stable coin"]
+        }
+      ],
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+      }
+    }
+  ],
+  "pages": {
+    "home": {
+      "sections": [
+        {
+          "type": "featured",
+          "title": "Crypto Punks",
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB",
+              "tokenId": "9998"
+            },
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB",
+              "tokenId": "8857"
+            },
+            {
+              "type": "collection",
+              "title": "Crypto Punks",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+              "backgroundImageUrl": "/assets/cryptopunk/banner.png"
+            }
+          ]
+        },
+        {
+          "type": "collections",
+          "items": [
+            {
+              "featured": true,
+              "type": "collection",
+              "title": "Crypto Punks",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+              "backgroundImageUrl": "/assets/cryptopunk/banner.png"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "title": "Marketplace",
+          "videoUrl": "https://www.youtube.com/embed/9UxtgAkNG1k",
+          "embedType": "youtube"
+        },
+        {
+          "variant": "dark",
+          "type": "call-to-action",
+          "title": "Crypto Punks",
+          "subtitle": "See your favourite punks",
+          "button": {
+            "title": "See all",
+            "url": "/collections"
+          },
+          "items": [
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+              "tokenId": "9998"
+            },
+            {
+              "type": "asset",
+              "chainId": 1,
+              "contractAddress": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+              "tokenId": "8857"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Crypto Punks",
+      "description": "CryptoPunks launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. They have been featured in places like The New York Times, Christie’s of London, Art|Basel Miami, and The PBS NewsHour..",
+      "images": [
+        {
+          "url": "https://www.cryptopunks.dexkit.com/assets/cryptopunk/banner.png",
+          "width": 800,
+          "height": 600,
+          "alt": "CryptoPunks",
+          "type": "image/png"
+        }
+      ]
+    }
+  }
+}

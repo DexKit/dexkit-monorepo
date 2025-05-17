@@ -31,7 +31,9 @@ import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useThemeMode } from 'src/hooks/app';
-import { SiteResponse } from '../../../../types/whitelabel';
+
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
+import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
 import {
   useAppVersionListQuery,
   useAppVersionQuery,
@@ -40,7 +42,6 @@ import {
 } from '../../hooks';
 import { generateCSSVarsTheme } from '../../utils';
 import AddAppVersionFormDialog from '../dialogs/AddAppVersionFormDialog';
-import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 const PreviewPageDialog = dynamic(() => import('../dialogs/PreviewPageDialog'));
 
 interface AppVersion {
