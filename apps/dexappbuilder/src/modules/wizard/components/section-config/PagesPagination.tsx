@@ -53,7 +53,7 @@ export default function PagesPagination({
       direction="row"
       alignItems="center"
       spacing={isMobile ? 0.1 : 0.5}
-      justifyContent="flex-start"
+      justifyContent="flex-end"
       sx={{
         flexWrap: isMobile ? 'wrap' : 'nowrap',
         '& > *': {
@@ -61,7 +61,8 @@ export default function PagesPagination({
         },
         mt: isMobile ? 0.25 : 0.5,
         pl: 0,
-        ml: -1
+        ml: isMobile ? 'auto' : 'auto',
+        width: '100%'
       }}
     >
       <Typography variant={isMobile ? "caption" : "body1"} sx={{ mr: isMobile ? 0.1 : 0.25 }}>

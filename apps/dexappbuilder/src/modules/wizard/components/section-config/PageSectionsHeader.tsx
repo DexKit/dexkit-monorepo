@@ -24,6 +24,7 @@ export interface PageSectionsHeaderProps {
   onEditTitle: (title: string) => void;
   onEditLayout: () => void;
   page: AppPage;
+  pageKey?: string;
 }
 
 export default function PageSectionsHeader({
@@ -33,6 +34,7 @@ export default function PageSectionsHeader({
   onEditTitle,
   onEditLayout,
   page,
+  pageKey,
 }: PageSectionsHeaderProps) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
@@ -69,13 +71,14 @@ export default function PageSectionsHeader({
       alignItems="center"
       spacing={isMobile ? 0.25 : 0.5}
       sx={{
-        px: 0,
+        px: isMobile ? 0 : 0,
         pt: 0,
         pb: isMobile ? 0.25 : 0.25,
+        mt: isMobile ? -2 : 0,
         flexWrap: isMobile ? 'wrap' : 'nowrap',
         width: '100%',
         justifyContent: 'flex-start',
-        ml: -0.5
+        ml: !isMobile ? 0 : undefined
       }}
     >
       <Stack
@@ -91,7 +94,7 @@ export default function PageSectionsHeader({
         <IconButton onClick={onClose} sx={{ p: 0 }}>
           <ArrowBack color="primary" fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
-        {isEditTitle ? (
+        {isEditTitle && pageKey !== 'home' ? (
           <TextField
             inputRef={(ref) => (inputRef.current = ref)}
             value={title}
@@ -121,16 +124,18 @@ export default function PageSectionsHeader({
               py: 0,
               borderRadius: (theme) => theme.shape.borderRadius / 2,
               '&: hover': {
-                backgroundColor: (theme) =>
+                backgroundColor: pageKey === 'home' ? 'transparent' : (theme) =>
                   alpha(theme.palette.primary.main, 0.1),
               },
+              pointerEvents: pageKey === 'home' ? 'none' : 'auto',
             }}
-            onClick={handleEdit}
+            onClick={pageKey !== 'home' ? handleEdit : undefined}
+            disabled={pageKey === 'home'}
           >
             <Typography
               variant={isMobile ? "h6" : "h5"}
               sx={{
-                cursor: 'pointer',
+                cursor: pageKey === 'home' ? 'default' : 'pointer',
               }}
             >
               {page?.title}
@@ -153,9 +158,11 @@ export default function PageSectionsHeader({
         direction="row"
         spacing={isMobile ? 0.25 : 0.5}
         sx={{
-          ml: isMobile ? 0 : 'auto !important',
+          ml: 'auto !important',
           flexWrap: isMobile ? 'wrap' : 'nowrap',
-          justifyContent: isMobile ? 'flex-start' : 'flex-end'
+          justifyContent: 'flex-end',
+          width: isMobile ? '100%' : 'auto',
+          pr: isMobile ? 0 : 0
         }}
       >
         <Button
@@ -164,7 +171,7 @@ export default function PageSectionsHeader({
           size={isMobile ? "small" : "medium"}
           sx={{
             minWidth: isMobile ? 'auto' : undefined,
-            px: isMobile ? 0.25 : 0.5
+            px: isMobile ? 0.5 : 0.5
           }}
         >
           <FormattedMessage id="preview" defaultMessage="Preview" />
@@ -175,7 +182,7 @@ export default function PageSectionsHeader({
           size={isMobile ? "small" : "medium"}
           sx={{
             minWidth: isMobile ? 'auto' : undefined,
-            px: isMobile ? 0.25 : 0.5
+            px: isMobile ? 2 : 2
           }}
         >
           <FormattedMessage id="edit.layout" defaultMessage="Edit layout" />

@@ -259,7 +259,7 @@ export default function PageSections({
         },
       }}
     >
-      <Stack spacing={0}>
+      <Stack spacing={0} sx={{ width: '100%' }}>
         <PageSectionsHeader
           onClose={onClose}
           onClone={onClone}
@@ -267,17 +267,25 @@ export default function PageSections({
           onEditLayout={onEditLayout}
           onPreview={onPreview}
           page={page}
+          pageKey={pageKey}
         />
-        <Box sx={{ px: 0, width: '100%', ml: -0.75 }}>
-          <Stack spacing={isMobile ? 0.25 : 0.5}>
-            <Stack spacing={isMobile ? 0.25 : 0.5} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
-              <Grid container spacing={isMobile ? 0.25 : 0.5}>
+        <Box sx={{
+          width: '100%',
+          px: 0,
+          ml: 0
+        }}>
+          <Stack spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%' }}>
+            <Stack spacing={isMobile ? 0.5 : 0.5} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
+              <Grid container spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%', px: isMobile ? 0 : 0 }}>
                 <Grid item xs={12} sm={isMobile ? 12 : 6}>
                   <Stack
                     spacing={0.25}
                     direction="row"
-                    justifyContent="flex-start"
-                    sx={{ pl: 0 }}
+                    justifyContent="space-between"
+                    sx={{
+                      width: '100%',
+                      ml: isMobile ? -2 : 0
+                    }}
                   >
                     <Button
                       size={isMobile ? "small" : "medium"}
@@ -285,8 +293,9 @@ export default function PageSections({
                       onClick={onAddSection}
                       variant="outlined"
                       sx={{
-                        minWidth: isMobile ? '48%' : 'auto',
-                        px: isMobile ? 0.25 : 0.5,
+                        flex: 1,
+                        maxWidth: 'calc(50% - 2px)',
+                        px: isMobile ? 1 : 1,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
                           "& > *:nth-of-type(1)": {
@@ -316,8 +325,9 @@ export default function PageSections({
                       onClick={onAddCustomSection}
                       variant="outlined"
                       sx={{
-                        minWidth: isMobile ? '48%' : 'auto',
-                        px: isMobile ? 0.25 : 0.5,
+                        flex: 1,
+                        maxWidth: 'calc(50% - 2px)',
+                        px: isMobile ? 1 : 1,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
                           "& > *:nth-of-type(1)": {
@@ -343,42 +353,44 @@ export default function PageSections({
                     </Button>
                   </Stack>
                 </Grid>
-                <Grid item xs={12} sm={isMobile ? 12 : 6}>
+                <Grid item xs={12} sm={isMobile ? 12 : 6} sx={{ mt: isMobile ? 0.5 : 0 }}>
                   <Stack
                     spacing={0.25}
                     direction="row"
-                    sx={{ width: '100%', pl: 0 }}
-                    justifyContent="flex-start"
+                    sx={{ width: '100%', ml: isMobile ? 0 : 0 }}
+                    justifyContent="flex-end"
+                    alignItems="center"
                   >
-                    <Stack
-                      spacing={0.25}
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="flex-start"
-                    >
+                    <Box sx={{ width: 'auto' }}>
                       <LazyTextField
                         value={query}
                         onChange={handleChangeQuery}
                         TextFieldProps={{
                           size: isMobile ? "small" : "medium",
+                          variant: 'standard',
                           sx: {
-                            minWidth: isMobile ? '85%' : 'auto',
-                            mr: 0.25,
+                            width: '100%',
+                            maxWidth: isMobile ? '130px' : '200px',
+                            '& .MuiInputBase-root': {
+                              fontSize: isMobile ? '0.875rem' : 'inherit',
+                              height: isMobile ? undefined : '40px',
+                              alignItems: 'center'
+                            }
                           },
                           InputProps: {
                             startAdornment: (
                               <InputAdornment position="start">
-                                <Search />
+                                <Search fontSize={isMobile ? "small" : "medium"} />
                               </InputAdornment>
                             ),
                           },
                           placeholder: formatMessage({
-                            id: 'search',
-                            defaultMessage: 'Search',
+                            id: 'search.dots',
+                            defaultMessage: 'Search...',
                           }),
                         }}
                       />
-                    </Stack>
+                    </Box>
                     <IconButton onClick={() => setShowFilters(!showFilters)} size={isMobile ? "small" : "medium"} sx={{ p: 0.25 }}>
                       {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
                     </IconButton>
@@ -387,8 +399,10 @@ export default function PageSections({
               </Grid>
             </Stack>
 
+            {isMobile && <Box sx={{ height: 20 }} />}
+
             {showFilters && (
-              <Collapse in={showFilters}>
+              <Collapse in={showFilters} sx={{ width: '100%' }}>
                 <Card>
                   <Box p={2}>
                     <Grid container spacing={2} alignItems="center" justifyContent="flex-start">
@@ -422,10 +436,10 @@ export default function PageSections({
               </Collapse>
             )}
 
-            <Box>
-              <Grid container spacing={0}>
+            <Box sx={{ width: '100%', mt: isMobile ? 8 : 1 }}>
+              <Grid container spacing={0} sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}>
                 {renderSections()}
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <SectionsPagination
                     pageSize={pageSize}
                     from={offset}

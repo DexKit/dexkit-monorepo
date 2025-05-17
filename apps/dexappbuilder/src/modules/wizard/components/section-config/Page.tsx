@@ -51,14 +51,21 @@ export default function Page({
   };
 
   return (
-    <Card>
-      <CardActionArea sx={{ px: isMobile ? 1 : 2, py: isMobile ? 0.5 : 1 }} onClick={onSelect}>
+    <Card sx={{ width: isMobile ? 'calc(100% - 8px)' : '100%' }}>
+      <CardActionArea sx={{ px: isMobile ? 1 : 2, py: isMobile ? 1.5 : 1 }} onClick={onSelect}>
         <Stack
           alignItems="center"
           justifyContent="space-between"
           direction="row"
         >
-          <Typography variant={isMobile ? "body2" : "body1"} color="text.primary">
+          <Typography
+            variant={isMobile ? "body1" : "body1"}
+            color="text.primary"
+            sx={{
+              fontWeight: isMobile ? 500 : 400,
+              fontSize: isMobile ? '0.95rem' : undefined
+            }}
+          >
             {page.title}
           </Typography>
           <Stack
@@ -72,7 +79,7 @@ export default function Page({
               onClick={handleAction(onPreview)}
               onMouseDown={handleMouseDown}
               size={isMobile ? "small" : "medium"}
-              sx={{ p: isMobile ? 0.5 : 1 }}
+              sx={{ p: isMobile ? 0.75 : 1 }}
             >
               <Tooltip
                 title={
@@ -82,13 +89,13 @@ export default function Page({
                   />
                 }
               >
-                <Visibility fontSize={isMobile ? "small" : "medium"} />
+                <Visibility fontSize={isMobile ? "medium" : "medium"} />
               </Tooltip>
             </IconButton>
             <IconButton
               onClick={handleAction(onClone)}
               size={isMobile ? "small" : "medium"}
-              sx={{ p: isMobile ? 0.5 : 1 }}
+              sx={{ p: isMobile ? 0.75 : 1 }}
             >
               <Tooltip
                 title={
@@ -98,7 +105,7 @@ export default function Page({
                   />
                 }
               >
-                <ContentCopyIcon fontSize={isMobile ? "small" : "medium"} />
+                <ContentCopyIcon fontSize={isMobile ? "medium" : "medium"} />
               </Tooltip>
             </IconButton>
             <IconButton
@@ -108,7 +115,7 @@ export default function Page({
               href={`${previewUrl}/${pageKey}`}
               target="_blank"
               size={isMobile ? "small" : "medium"}
-              sx={{ p: isMobile ? 0.5 : 1 }}
+              sx={{ p: isMobile ? 0.75 : 1 }}
             >
               <Tooltip
                 title={
@@ -118,7 +125,7 @@ export default function Page({
                   />
                 }
               >
-                <LinkOutlined fontSize={isMobile ? "small" : "medium"} />
+                <LinkOutlined fontSize={isMobile ? "medium" : "medium"} />
               </Tooltip>
             </IconButton>
             {pageKey !== 'home' && (
@@ -128,7 +135,7 @@ export default function Page({
                   page.enableGatedConditions === true ? 'success' : undefined
                 }
                 size={isMobile ? "small" : "medium"}
-                sx={{ p: isMobile ? 0.5 : 1 }}
+                sx={{ p: isMobile ? 0.75 : 1 }}
               >
                 <Tooltip
                   title={
@@ -145,22 +152,24 @@ export default function Page({
                     )
                   }
                 >
-                  <LockIcon fontSize={isMobile ? "small" : "medium"} />
+                  <LockIcon fontSize={isMobile ? "medium" : "medium"} />
                 </Tooltip>
               </IconButton>
             )}
 
-            <IconButton
-              onClick={handleAction(onRemove)}
-              size={isMobile ? "small" : "medium"}
-              sx={{ p: isMobile ? 0.5 : 1 }}
-            >
-              <Tooltip
-                title={<FormattedMessage id="Delete" defaultMessage="Delete" />}
+            {pageKey !== 'home' && (
+              <IconButton
+                onClick={handleAction(onRemove)}
+                size={isMobile ? "small" : "medium"}
+                sx={{ p: isMobile ? 0.75 : 1 }}
               >
-                <DeleteOutlined fontSize={isMobile ? "small" : "medium"} color="error" />
-              </Tooltip>
-            </IconButton>
+                <Tooltip
+                  title={<FormattedMessage id="Delete" defaultMessage="Delete" />}
+                >
+                  <DeleteOutlined fontSize={isMobile ? "medium" : "medium"} color="error" />
+                </Tooltip>
+              </IconButton>
+            )}
           </Stack>
         </Stack>
       </CardActionArea>

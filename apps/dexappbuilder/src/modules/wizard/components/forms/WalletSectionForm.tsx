@@ -38,13 +38,13 @@ export default function WalletSectionForm({
         <Box p={isMobile ? 1 : 2}>
           <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
             <Typography variant={isMobile ? "body2" : "body1"}>
-              <FormattedMessage
-                id={'wallet.section.form.info'}
-                defaultMessage={
-                  "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks"
-                }
-              ></FormattedMessage>
-              .
+            <FormattedMessage
+              id={'wallet.section.form.info'}
+              defaultMessage={
+                "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks"
+              }
+            ></FormattedMessage>
+            .
             </Typography>
           </Alert>
         </Box>

@@ -159,7 +159,7 @@ export default function PagesSectionPage({
       />
 
       <Stack spacing={2}>
-        <Box px={8} pt={2}>
+        <Box px={0} pt={1}>
           <Pages
             pages={pages}
             onSwap={onSwap}

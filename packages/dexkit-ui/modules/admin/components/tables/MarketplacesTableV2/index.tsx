@@ -41,7 +41,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
   const isMobile = useIsMobile();
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 5,
+    pageSize: isMobile ? 5 : 10,
   });
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [rowId, setRowId] = useState<GridRowId | null>(null);
@@ -61,14 +61,14 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
   const handleImport = (id: GridRowId) => {
     const config = configs.find((c) => c.id === Number(id));
-    
+
     if (config) {
       const currentAppConfig = JSON.parse(config.config) as AppConfig;
       setSelectedConfig(config);
       setCurrentAppConfig(currentAppConfig);
       setShowImportDialog(true);
     }
-    
+
     handleCloseMenu();
   };
 
@@ -84,11 +84,11 @@ export default function MarketplacesTableV2({ configs }: Props) {
             if (page.sections) {
               page.sections.forEach((section: AppPageSection) => {
                 if (section.type !== 'call-to-action') return;
-                
+
                 if (!section.items) {
                   section.items = [];
                 }
-                
+
                 if (!section.button) {
                   section.button = {
                     title: 'Click here',
@@ -96,7 +96,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
                     openInNewPage: false
                   };
                 }
-                
+
                 if (!section.variant) {
                   section.variant = 'light';
                 }
@@ -104,9 +104,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
             }
           });
         }
-        
+
         const configString = JSON.stringify(importedConfig);
-        
+
         enqueueSnackbar(
           formatMessage({
             defaultMessage: "Sending configuration...",
@@ -130,7 +130,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
                   defaultMessage: "Check if the server is running correctly.",
                   id: "check.server.running",
                 })}`,
-                { 
+                {
                   variant: "error",
                   autoHideDuration: 8000
                 }
@@ -144,7 +144,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
                 }),
                 { variant: "success" }
               );
-              
+
               if (shouldRedirect && selectedConfig?.slug) {
                 setTimeout(() => {
                   router.push(`/admin/edit/${selectedConfig.slug}`);
@@ -319,7 +319,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           <Typography
             sx={(theme) => ({
               fontSize: isMobile
-                ? theme.typography.fontSize * 1.25
+                ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
             })}
             fontWeight="500"
@@ -330,13 +330,13 @@ export default function MarketplacesTableV2({ configs }: Props) {
       },
       field: "name",
       headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
-      minWidth: 200,
+      minWidth: isMobile ? 120 : 200,
       renderCell: (params) => {
         return (
           <Typography
             sx={(theme) => ({
               fontSize: isMobile
-                ? theme.typography.fontSize * 1.25
+                ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
             })}
             fontWeight="400"
@@ -358,7 +358,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           <Typography
             sx={(theme) => ({
               fontSize: isMobile
-                ? theme.typography.fontSize * 1.25
+                ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
             })}
             fontWeight="500"
@@ -370,7 +370,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
       field: "domain",
       flex: 1,
       headerName: formatMessage({ id: "domain", defaultMessage: "Domain" }),
-      minWidth: 200,
+      minWidth: isMobile ? 120 : 200,
       renderCell: ({ row }) => {
         const appConfig: AppConfig = JSON.parse(row.config);
 
@@ -379,7 +379,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
             <AppLink
               sx={(theme) => ({
                 fontSize: isMobile
-                  ? theme.typography.fontSize * 1.25
+                  ? theme.typography.fontSize * 1.1
                   : theme.typography.fontSize,
               })}
               href={row.previewUrl}
@@ -394,7 +394,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
             <AppLink
               sx={(theme) => ({
                 fontSize: isMobile
-                  ? theme.typography.fontSize * 1.25
+                  ? theme.typography.fontSize * 1.1
                   : theme.typography.fontSize,
               })}
               href={appConfig.domain}
@@ -416,7 +416,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           <Typography
             sx={(theme) => ({
               fontSize: isMobile
-                ? theme.typography.fontSize * 1.25
+                ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
             })}
             fontWeight="500"
@@ -426,7 +426,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
         );
       },
       flex: 1,
-      minWidth: isMobile ? 150 : undefined,
+      minWidth: isMobile ? 80 : undefined,
+      maxWidth: isMobile ? 60 : undefined,
+      width: isMobile ? 60 : undefined,
       headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
       headerAlign: "center",
       renderCell: ({ row, id }) => {
@@ -437,8 +439,13 @@ export default function MarketplacesTableV2({ configs }: Props) {
                 setAnchorEl(e.currentTarget);
                 setRowId(id);
               }}
+              size={isMobile ? "medium" : "large"}
+              sx={{
+                mx: 'auto',
+                p: isMobile ? 0.5 : 1
+              }}
             >
-              <MoreVert />
+              <MoreVert fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
           );
         }
@@ -471,7 +478,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
     },
   ];
 
-  const onFilterChange = useCallback((filterModel: GridFilterModel) => {}, []);
+  const onFilterChange = useCallback((filterModel: GridFilterModel) => { }, []);
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
@@ -498,7 +505,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
           defaultMessage="Do you really want to remove this app"
         />
       </AppConfirmDialog>
-      
+
       <ImportAppConfigDialog
         DialogProps={{
           open: showImportDialog,
@@ -510,7 +517,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
         currentConfig={currentAppConfig || undefined}
         redirectAfterImport={true}
       />
-      
+
       <Menu
         anchorEl={anchorEl}
         onAction={handleMenuAction}
@@ -530,16 +537,53 @@ export default function MarketplacesTableV2({ configs }: Props) {
           toolbar: {
             showQuickFilter: true,
           },
-          pagination: { sx: { mx: 0.75 } },
+          pagination: { sx: { mx: isMobile ? 0 : 0.75 } },
+          cell: {
+            sx: {
+              alignItems: 'center',
+              justifyContent: isMobile ? 'center' : undefined,
+              fontSize: isMobile ? '0.8rem' : 'inherit'
+            }
+          }
         }}
         sortModel={sortModel}
         onPaginationModelChange={setPaginationModel}
         filterMode="server"
         onFilterModelChange={onFilterChange}
         onSortModelChange={handleSortModelChange}
-        pageSizeOptions={[5, 10, 25, 50]}
+        pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
         disableRowSelectionOnClick
         loading={false}
+        sx={{
+          '& .MuiDataGrid-main': {
+            width: isMobile ? 'calc(100vw - 20px)' : '100%',
+            overflowX: isMobile ? 'auto' : 'hidden',
+            ml: isMobile ? -0.5 : 0,
+            mr: isMobile ? -1.5 : 0,
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            width: isMobile ? 'max-content' : '100%',
+            minWidth: isMobile ? '100%' : 'auto'
+          },
+          '& .MuiDataGrid-cell': {
+            padding: isMobile ? '8px 6px' : '16px',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            fontSize: isMobile ? '0.8rem' : 'inherit',
+            overflowX: 'hidden',
+            textOverflow: 'ellipsis'
+          },
+          '& .MuiDataGrid-row': {
+            maxHeight: 'none !important',
+            minHeight: isMobile ? '50px !important' : '52px !important'
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            minHeight: isMobile ? '45px !important' : '56px'
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: isMobile ? '6px 6px' : '16px'
+          }
+        }}
       />
     </>
   );

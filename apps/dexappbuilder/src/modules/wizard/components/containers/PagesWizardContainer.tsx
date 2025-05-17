@@ -161,7 +161,7 @@ export default function PagesWizardContainer({
           </Typography>
         </Stack>
       </AppConfirmDialog>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
         <Grid item xs={12}>
           <Stack direction="column">
             <Typography fontWeight="bold" variant="h6">
@@ -197,7 +197,7 @@ export default function PagesWizardContainer({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Stack spacing={1} direction="row" justifyContent="flex-end">
+          <Stack spacing={1} direction="row" justifyContent="flex-end" sx={{ pr: 2 }}>
             <Button
               onClick={handleCancel}
               disabled={!hasSectionChanges && !hasPageChanges}

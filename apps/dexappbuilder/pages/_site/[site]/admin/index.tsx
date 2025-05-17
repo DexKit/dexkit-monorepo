@@ -130,7 +130,13 @@ export const AdminIndexPage: NextPage = () => {
 
     if (configs && configs.length > 0) {
       return (
-        <TableContainer sx={{ overflowX: 'auto' }}>
+        <TableContainer sx={{
+          overflowX: 'auto',
+          ...(isMobile && {
+            mx: -0.5,
+            width: 'calc(100% + 8px)'
+          })
+        }}>
           <MarketplacesTableV2
             configs={configs}
             onConfigureDomain={handleShowConfigureDomain}
@@ -229,7 +235,7 @@ export const AdminIndexPage: NextPage = () => {
         }}
         config={selectedConfig}
       />
-      <Container maxWidth={'xl'} sx={{ px: isMobile ? 1 : 3 }}>
+      <Container maxWidth={'xl'} sx={{ px: isMobile ? 0.5 : 3 }}>
         <Grid container spacing={isMobile ? 1 : 2}>
           <Grid item xs={12}>
             <PageHeader
@@ -260,7 +266,7 @@ export const AdminIndexPage: NextPage = () => {
             <MismatchAccount />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontSize: isMobile ? '1.1rem' : undefined }}>
+            <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontSize: isMobile ? '1.1rem' : undefined, px: isMobile ? 1 : 0 }}>
               <FormattedMessage id="my.apps.upper" defaultMessage="My Apps" />
             </Typography>
           </Grid>
@@ -283,7 +289,8 @@ export const AdminIndexPage: NextPage = () => {
                 sx={{
                   mb: isMobile ? 1 : 0,
                   py: isMobile ? 1 : undefined,
-                  fontSize: isMobile ? '0.875rem' : undefined
+                  fontSize: isMobile ? '0.875rem' : undefined,
+                  maxHeight: isMobile ? '40px' : undefined
                 }}
               >
                 <FormattedMessage id="new.app" defaultMessage="New App" />
@@ -309,7 +316,8 @@ export const AdminIndexPage: NextPage = () => {
                 sx={{
                   '& .MuiInputBase-root': {
                     borderRadius: theme.shape.borderRadius,
-                    fontSize: '0.875rem'
+                    fontSize: '0.875rem',
+                    height: '40px'
                   }
                 }}
               />}
@@ -320,10 +328,14 @@ export const AdminIndexPage: NextPage = () => {
             <Divider sx={{ py: isMobile ? 0.5 : 1 }} />
           </Grid>
           <Grid item xs={12}>
-            <Grid container spacing={isMobile ? 1 : 3} justifyContent="center">
-              <Grid item xs={12} sm={10} md={9} lg={8}>
+            <Grid container spacing={isMobile ? 0 : 3} justifyContent="center">
+              <Grid item xs={12} sm={10} md={9} lg={8} sx={{
+                px: isMobile ? 0.5 : undefined,
+                mx: isMobile ? 'auto' : undefined,
+                maxWidth: isMobile ? 'calc(100% - 4px)' : undefined
+              }}>
                 <Box>
-                  <Stack spacing={isMobile ? 1 : 3}>
+                  <Stack spacing={isMobile ? 0.5 : 3}>
                     {!isMobile && <Box px={3}>
                       <Stack justifyContent="flex-end" direction="row">
                         <TextField

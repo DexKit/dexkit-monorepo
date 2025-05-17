@@ -75,7 +75,7 @@ export default function Pages({
   onUpdatePageLayout,
   onUpdateGatedConditions,
   onRemovePage,
-  onEditTitle,
+  onEditTitle: originalOnEditTitle,
   onAddPage,
   onChangeName,
   site,
@@ -83,6 +83,13 @@ export default function Pages({
   isMobile,
 }: PagesProps) {
   const [query, setQuery] = useState('');
+
+  const onEditTitle = (page: string, title: string) => {
+    if (page === 'home') {
+      return;
+    }
+    originalOnEditTitle(page, title);
+  };
 
   const handleChangeQuery = (value: string) => {
     setQuery(value);
@@ -275,12 +282,12 @@ export default function Pages({
 
   if (selectedKey !== undefined && isEditPage) {
     return (
-      <Box px={{ sm: 4 }}>
+      <Box px={{ sm: 0 }}>
         {renderPreviewDialog()}
         {renderPageLayoutDialog()}
         <Grid container spacing={2}>
           {isEditPage && (
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ pl: 0, pr: 0 }}>
               <PageSections
                 onAddSection={handleAdd(selectedKey)}
                 onAddCustomSection={handleAdd(selectedKey, true)}
@@ -309,7 +316,12 @@ export default function Pages({
     <>
       {renderPreviewDialog()}
       {renderPageLayoutDialog()}
-      <Box sx={{ px: { xs: 0, sm: 1 }, ml: -0.75 }}>
+      <Box sx={{
+        px: { xs: 0, sm: 0 },
+        ml: isMobile ? -2 : 0,
+        mr: isMobile ? 4 : 0,
+        maxWidth: isMobile ? 'calc(100% - 16px)' : '100%'
+      }}>
         <Grid container spacing={isMobile ? 0.25 : 0.5}>
           <Grid item xs={12}>
             <Button
@@ -319,8 +331,8 @@ export default function Pages({
               startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
               sx={{
                 my: isMobile ? 0.25 : 0.5,
-                ml: 0,
-                px: isMobile ? 0.5 : 1,
+                ml: isMobile ? -0.5 : -0.5,
+                px: isMobile ? 1 : 1,
                 '& .MuiButton-startIcon': {
                   marginRight: isMobile ? 0.25 : 0.5,
                   "& > *:nth-of-type(1)": {
@@ -333,7 +345,7 @@ export default function Pages({
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Box>
+            <Box sx={{ pr: isMobile ? 1 : 0 }}>
               <Stack
                 direction="row"
                 alignItems="center"
@@ -363,7 +375,12 @@ export default function Pages({
                       ),
                     },
                     sx: {
-                      maxWidth: isMobile ? '120px' : 'auto',
+                      maxWidth: isMobile ? '130px' : 'auto',
+                      '& .MuiInputBase-root': {
+                        fontSize: isMobile ? '0.875rem' : 'inherit',
+                        height: isMobile ? undefined : '40px',
+                        alignItems: 'center'
+                      }
                     }
                   }}
                 />
@@ -371,10 +388,10 @@ export default function Pages({
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Box>
-              <Grid container spacing={isMobile ? 0.25 : 0.5}>
+            <Box sx={{ pr: isMobile ? 1 : 0 }}>
+              <Grid container spacing={isMobile ? 1 : 0.5} sx={{ ml: isMobile ? -0.5 : 0, width: isMobile ? 'calc(100% - 16px)' : '100%', pr: isMobile ? 2 : 0, pl: 0 }}>
                 {pageList.map((pageKey, index) => (
-                  <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.25 : 0.5 }}>
+                  <Grid item xs={12} key={index} sx={{ mb: isMobile ? 1 : 0.5, pr: isMobile ? 1 : 0 }}>
                     <Page
                       pageKey={pageKey}
                       page={pages[pageKey]}
@@ -390,8 +407,8 @@ export default function Pages({
               </Grid>
             </Box>
           </Grid>
-          <Grid item xs={12}>
-            <Box>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ width: '100%', pr: isMobile ? 1 : 0 }}>
               <PagesPagination
                 pageSize={pageSize}
                 from={offset}

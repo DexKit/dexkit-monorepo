@@ -52,16 +52,16 @@ export function VideoSection({ embedType, title, videoUrl }: Props) {
                 border: "none"
               }
             }}>
-              {renderVideo()}
+            {renderVideo()}
             </Box>
           </Grid>
 
           {!isMobile && (
             <Grid item xs={12} sx={{ mt: 2 }}>
-              <Typography variant="h5" align="center">
-                {title}
-              </Typography>
-            </Grid>
+            <Typography variant="h5" align="center">
+              {title}
+            </Typography>
+          </Grid>
           )}
         </Grid>
       </Container>

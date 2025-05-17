@@ -150,11 +150,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 function TourButton() {
@@ -362,7 +362,12 @@ export function EditWizardContainer({ site }: Props) {
       <AdminSidebarContainer
         activeBuilderKit={activeBuilderKit}
         isSiteOwner={isAddressEqual(site?.owner, account)}
-        onChangeMenu={(menuId: string) => handleChangeTab(menuId as ActiveMenu)}
+        onChangeMenu={(menuId: string) => {
+          handleChangeTab(menuId as ActiveMenu);
+          if (window.innerWidth < 960) {
+            handleCloseMenu();
+          }
+        }}
         activeMenuId={activeMenu as string}
         commerceEnabled={wizardConfig.commerce?.enabled}
       />
@@ -661,7 +666,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -676,7 +681,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -761,7 +766,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 

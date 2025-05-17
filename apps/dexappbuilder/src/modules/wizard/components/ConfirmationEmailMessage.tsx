@@ -1,10 +1,12 @@
-import { Stack, Typography } from '@mui/material';
+import { useIsMobile } from '@dexkit/core';
+import { Stack, Typography, useTheme } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import dynamic from 'next/dynamic';
 import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SiteResponse } from 'src/types/whitelabel';
 import { useSendSiteConfirmationLinkMutation } from '../hooks';
+
 const ActionMutationDialog = dynamic(
   () => import('@dexkit/ui/components/dialogs/ActionMutationDialog'),
 );
@@ -16,6 +18,8 @@ export function ConfirmationEmailMessage({
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const siteConfirmationMutation = useSendSiteConfirmationLinkMutation();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleHere = (chunks: any): ReactNode => (
     <a
@@ -24,6 +28,11 @@ export function ConfirmationEmailMessage({
         e.preventDefault();
         setOpen(true);
         siteConfirmationMutation.mutate({ siteId: site?.id });
+      }}
+      style={{
+        color: theme.palette.primary.main,
+        fontWeight: 'bold',
+        textDecoration: 'underline'
       }}
     >
       {chunks}
@@ -50,14 +59,31 @@ export function ConfirmationEmailMessage({
         />
       )}
 
-      <Alert severity="warning">
+      <Alert
+        severity="warning"
+        sx={{
+          '& .MuiAlert-icon': {
+            fontSize: isMobile ? '1rem' : '1.25rem',
+            marginRight: isMobile ? 0.5 : 1,
+            alignItems: 'center',
+            padding: isMobile ? '8px 0' : undefined
+          },
+          padding: isMobile ? '0 8px' : undefined
+        }}
+      >
         <Stack
           direction={'row'}
           alignContent={'center'}
           alignItems={'center'}
-          spacing={2}
+          spacing={isMobile ? 1 : 2}
         >
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'caption' : 'body2'}
+            sx={{
+              fontSize: isMobile ? '0.75rem' : undefined,
+              lineHeight: isMobile ? 1.3 : undefined
+            }}
+          >
             <FormattedMessage
               id="site.email.not.verified.on.admin.message"
               defaultMessage="Your app email is not verified. Please verify it using the verification email we sent.

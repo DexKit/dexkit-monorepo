@@ -87,7 +87,7 @@ export default function PreviewPagePlatform({
             alignContent={'center'}
           >
             {page && site ? (
-              <PreviewPortal page={page} site={site} index={index} />
+            <PreviewPortal page={page} site={site} index={index} />
             ) : (
               <Box
                 sx={{
