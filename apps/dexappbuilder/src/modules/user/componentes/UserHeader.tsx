@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { ShareButton } from '@dexkit/ui/components/ShareButton';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Verified from '@mui/icons-material/Verified';
-import { IconButton, Stack, Tooltip, useTheme } from '@mui/material';
+import { Chip, IconButton, Stack, Tooltip, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
 
@@ -22,6 +22,10 @@ interface Props {
   shortBio?: string;
   createdBy?: string;
   twitterUsername?: string;
+  profileNft?: any;
+  nftChainId?: number;
+  nftAddress?: string;
+  nftId?: string;
 }
 
 export function UserHeader(props: Props) {
@@ -33,8 +37,136 @@ export function UserHeader(props: Props) {
     username,
     twitterVerified,
     discordVerified,
+    profileNft,
+    nftChainId,
+    nftAddress,
+    nftId,
   } = props;
   const theme = useTheme();
+
+  const isNftImage = 
+    (!!profileNft || !!nftChainId || !!nftAddress || !!nftId) ||
+    (profileImageURL && (
+    profileImageURL.includes('metadata.ens.domains') || 
+    profileImageURL.includes('ipfs') || 
+    profileImageURL.includes('arweave') ||
+    profileImageURL.startsWith('data:') ||
+    !profileImageURL.startsWith('/')
+    ));
+    
+  const NETWORK_COLORS: Record<string, string> = {
+    'ethereum': '#627EEA',
+    'polygon': '#8247E5',
+    'arbitrum': '#23A7E0',
+    'base': '#0052FF',
+    'optimism': '#FF0420',
+    'bsc': '#F0B90B',
+    'Ethereum': '#627EEA',
+    'Polygon': '#8247E5',
+    'Arbitrum': '#23A7E0',
+    'Base': '#0052FF',
+    'Optimism': '#FF0420',
+    'BNB Chain': '#F0B90B',
+  };
+
+  console.log('UserHeader NFT props:', { 
+    nftChainId, 
+    nftAddress, 
+    nftId, 
+    hasProfileNft: !!profileNft,
+    profileNftData: profileNft,
+    isNftImage
+  });
+
+  const getNetworkIdFromChainId = (chainId?: number): string => {
+    if (!chainId) return '';
+    
+    switch (chainId) {
+      case 1:
+        return 'ethereum';
+      case 137:
+        return 'polygon';
+      case 42161:
+        return 'arbitrum';
+      case 8453:
+        return 'base';
+      case 10:
+        return 'optimism';
+      case 56:
+      case 97:
+        return 'bsc';
+      default:
+        return '';
+    }
+  };
+
+  const getNetworkName = (chainId?: number): string => {
+    if (!chainId) return '';
+    
+    switch (chainId) {
+      case 1:
+        return 'Ethereum';
+      case 137:
+        return 'Polygon';
+      case 42161:
+        return 'Arbitrum';
+      case 8453:
+        return 'Base';
+      case 10:
+        return 'Optimism';
+      case 56:
+      case 97:
+        return 'BNB Chain';
+      default:
+        return `Chain ${chainId}`;
+    }
+  };
+
+  const getNetworkColor = (chainId?: number): string => {
+    if (!chainId) return '#627EEA';
+    
+    switch (chainId) {
+      case 1:
+        return '#627EEA';
+      case 137:
+        return '#8247E5';
+      case 42161:
+        return '#23A7E0';
+      case 8453:
+        return '#0052FF';
+      case 10:
+        return '#FF0420';
+      case 56:
+      case 97:
+        return '#F0B90B';
+      default:
+        return '#627EEA';
+    }
+  };
+
+  const nftName = profileNft?.metadata?.name || profileNft?.name || profileNft?.collectionName || "";
+  
+  let networkName = "";
+  if (typeof profileNft?.networkId === 'string') {
+    networkName = profileNft.networkId.charAt(0).toUpperCase() + profileNft.networkId.slice(1);
+  } else if (nftChainId) {
+    networkName = getNetworkName(nftChainId);
+  }
+  
+  let networkColor = "#627EEA";
+  if (networkName in NETWORK_COLORS) {
+    networkColor = NETWORK_COLORS[networkName];
+  } else if (networkName.toLowerCase() in NETWORK_COLORS) {
+    networkColor = NETWORK_COLORS[networkName.toLowerCase()];
+  }
+
+  const networkId = getNetworkIdFromChainId(nftChainId);
+
+  const networkInfo = networkId ? {
+    id: networkId,
+    name: networkName,
+    color: networkColor
+  } : null;
 
   return (
     <Grid container spacing={2}>
@@ -53,14 +185,30 @@ export function UserHeader(props: Props) {
               position: 'absolute',
               bottom: theme.spacing(-2),
               left: theme.spacing(3),
+              width: theme.spacing(14),
+              height: theme.spacing(14),
+              borderRadius: '50%',
+              overflow: 'hidden',
             })}
           >
-            <Image
-              src={profileImageURL}
-              alt={bio || ' '}
-              width={14 * 8}
-              height={14 * 8}
-            />
+            {isNftImage ? (
+              <img
+                src={profileImageURL}
+                alt={bio || ' '}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <Image
+                src={profileImageURL}
+                alt={bio || ' '}
+                width={14 * 8}
+                height={14 * 8}
+              />
+            )}
           </Box>
         ) : (
           <Avatar
@@ -113,6 +261,45 @@ export function UserHeader(props: Props) {
           <ShareButton />
         </Stack>
       </Grid>
+      
+      {isNftImage && (
+        <Grid item xs={12}>
+          <Stack direction="row" spacing={1} alignItems="center" mt={0.5} mb={1}>
+            {nftName && (
+              <Typography variant="caption" component="div">
+                {nftName}
+              </Typography>
+            )}
+            
+            {networkName && (
+              <Chip
+                label={networkName}
+                size="small"
+                sx={{
+                  bgcolor: networkColor,
+                  color: 'white',
+                  fontSize: '0.75rem',
+                  height: '22px',
+                  fontWeight: 'bold',
+                }}
+              />
+            )}
+            
+            <Chip
+              label="NFT"
+              color="secondary"
+              size="small"
+              variant="outlined"
+              sx={{
+                fontSize: '0.75rem',
+                height: '22px',
+                fontWeight: 'bold',
+              }}
+            />
+          </Stack>
+        </Grid>
+      )}
+      
       {shortBio && (
         <Grid item xs={12}>
           <Typography

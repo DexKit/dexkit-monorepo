@@ -14,7 +14,9 @@ import {
   getUserConnectTwitter,
   postUserAddAccount,
   postUserRemoveAccount,
+  setNftProfile,
   upsertUser,
+  validateNFTOwnership,
 } from '../services';
 
 export function useClaimCampaignMutation({
@@ -159,9 +161,91 @@ export function useAuthUserQuery() {
   const { isLoggedIn } = useAuth();
   return useQuery([GET_AUTH_USER, account, isLoggedIn], async () => {
     if (account && isLoggedIn) {
-      const userRequest = await getUserByAccount();
-      return userRequest.data;
+      try {
+        const userRequest = await getUserByAccount();
+        return userRequest.data || null;
+      } catch (error) {
+        console.error('Error fetching auth user:', error);
+        return null;
+      }
     }
     return null;
   });
+}
+
+export function useValidateNFTOwnershipMutation() {
+  const { isLoggedIn } = useAuth();
+  const loginMutation = useLoginAccountMutation();
+
+  return useMutation(
+    async ({
+      nftChainId,
+      nftAddress,
+      nftId,
+    }: {
+      nftChainId: number;
+      nftAddress: string;
+      nftId: string;
+    }) => {
+      if (!isLoggedIn) {
+        try {
+          await loginMutation.mutateAsync();
+        } catch (loginError) {
+          throw new Error('Could not authenticate to validate NFT');
+        }
+      }
+
+      try {
+        if (!nftChainId || !nftAddress || !nftId) {
+          throw new Error('Missing required parameters to validate NFT');
+        }
+
+        const response = await validateNFTOwnership({
+          nftChainId,
+          nftAddress,
+          nftId,
+        });
+
+        if (!response.data.success) {
+          throw new Error(
+            response.data.message || 'You are not the owner of this NFT',
+          );
+        }
+
+        return response.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          error.message ||
+          'Unknown error validating NFT';
+        throw new Error(errorMessage);
+      }
+    },
+  );
+}
+
+export function useSetNftProfileMutation() {
+  const queryClient = useQueryClient();
+  const { isLoggedIn } = useAuth();
+  const loginMutation = useLoginAccountMutation();
+
+  return useMutation(
+    async (data: { nftId: number; signature: string }) => {
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
+      const response = await setNftProfile(data);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([GET_AUTH_USER]);
+      },
+      onError: (error: any) => {
+        console.error('Error setting NFT profile:', error);
+        throw error;
+      },
+    },
+  );
 }
