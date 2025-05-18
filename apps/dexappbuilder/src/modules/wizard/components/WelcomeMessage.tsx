@@ -69,20 +69,20 @@ export function WelcomeMessage() {
             color: theme.palette.mode === 'dark' ? theme.palette.info.light : undefined
           }}
         >
-          <FormattedMessage
-            id="wizard.welcome.index.message.dexappbuilder"
-            defaultMessage="Welcome to DexAppBuilder! Our beta product is constantly evolving and currently available for free. For support, join our <a>Discord channel</a>. Explore our <d>docs</d> for whitelabels.<br></br> Need a custom solution? Email us at <b>info@dexkit.com</b>. We're here to help!"
-            values={{
-              //@ts-ignore
-              a: handleHrefDiscord,
-              //@ts-ignore
-              d: handleHrefDocs,
-              //@ts-ignore
+      <FormattedMessage
+        id="wizard.welcome.index.message.dexappbuilder"
+        defaultMessage="Welcome to DexAppBuilder! Our beta product is constantly evolving and currently available for free. For support, join our <a>Discord channel</a>. Explore our <d>docs</d> for whitelabels.<br></br> Need a custom solution? Email us at <b>info@dexkit.com</b>. We're here to help!"
+        values={{
+          //@ts-ignore
+          a: handleHrefDiscord,
+          //@ts-ignore
+          d: handleHrefDocs,
+          //@ts-ignore
               b: (chunks) => <b style={{ color: theme.palette.info.light }}>{chunks}</b>,
-              //@ts-ignore
-              br: (chunks) => <br />,
-            }}
-          />
+          //@ts-ignore
+          br: (chunks) => <br />,
+        }}
+      />
         </Typography>
       </Stack>
     </Alert>

@@ -8,6 +8,7 @@ interface Props {
   amountPercentage: number;
   onRemove?: (index: number) => void;
   index: number;
+  isMobile?: boolean;
 }
 
 export function FeesSectionItem({
@@ -15,6 +16,7 @@ export function FeesSectionItem({
   onRemove,
   amountPercentage,
   recipient,
+  isMobile,
 }: Props) {
   const handleRemove = () => {
     if (onRemove) {
@@ -23,25 +25,29 @@ export function FeesSectionItem({
   };
 
   return (
-    <Paper sx={{ px: 2, py: 1 }}>
+    <Paper sx={{ px: isMobile ? 1.5 : 2, py: isMobile ? 0.75 : 1 }}>
       <Stack
-        spacing={2}
+        spacing={isMobile ? 1 : 2}
         direction="row"
         alignItems="center"
         alignContent="center"
         justifyContent="space-between"
       >
         <Stack
-          spacing={1}
+          spacing={isMobile ? 0.5 : 1}
           direction="row"
           alignItems="center"
           alignContent="center"
         >
-          <Typography variant="body1">{amountPercentage}%</Typography>
-          <Typography variant="body1">{truncateAddress(recipient)}</Typography>
+          <Typography variant={isMobile ? "body2" : "body1"}>
+            {amountPercentage}%
+          </Typography>
+          <Typography variant={isMobile ? "body2" : "body1"} sx={{ wordBreak: 'break-all' }}>
+            {truncateAddress(recipient)}
+          </Typography>
         </Stack>
         <IconButton size="small" onClick={handleRemove}>
-          <CloseIcon fontSize="small" />
+          <CloseIcon fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
       </Stack>
     </Paper>

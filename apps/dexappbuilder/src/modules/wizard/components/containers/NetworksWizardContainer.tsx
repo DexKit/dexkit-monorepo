@@ -43,7 +43,7 @@ export default function NetworksWizardContainer({
     if (
       activeChainIds.length === currentActive.length &&
       activeChainIds.filter((c) => currentActive.includes(c)).length ===
-        activeChainIds.length
+      activeChainIds.length
     ) {
       if (onHasChanges) {
         onHasChanges(false);

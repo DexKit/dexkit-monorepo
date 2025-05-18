@@ -15,7 +15,9 @@ import {
   Switch,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -67,6 +69,8 @@ export default function ThemeWizardContainer({
   showSwap,
 }: Props) {
   const [selectedThemeId, setSelectedThemeId] = useState<string>(config.theme);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [selectedThemeMode, setSelectedThemeMode] = useState<ThemeMode>(
     config.defaultThemeMode || ThemeMode.light,
@@ -331,7 +335,7 @@ export default function ThemeWizardContainer({
         )}
       </Head>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12}>
           <Box>
             <Stack>
@@ -351,10 +355,10 @@ export default function ThemeWizardContainer({
           <Divider />
         </Grid>
         <Grid item xs={12} sx={{ height: '100%' }}>
-          <Grid container spacing={2} alignItems="stretch">
+          <Grid container spacing={isMobile ? 1 : 2} alignItems="stretch">
             <Grid item xs={12} sm={6}>
               <Box>
-                <Stack spacing={2}>
+                <Stack spacing={isMobile ? 1.5 : 2}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="choose.app.theme.color.for.each.mode "
@@ -366,8 +370,9 @@ export default function ThemeWizardContainer({
                     <Select
                       labelId="theme-mode-label"
                       id="theme-mode"
-                      sx={{ maxWidth: '150px' }}
+                      sx={{ maxWidth: isMobile ? '120px' : '150px' }}
                       fullWidth
+                      size={isMobile ? "small" : "medium"}
                       value={selectedThemeMode}
                       onChange={(ev) => {
                         setSelectedThemeMode(ev.target.value as ThemeMode);
@@ -398,7 +403,7 @@ export default function ThemeWizardContainer({
                       legacyTheme={config?.customTheme}
                     />
                   </Box>
-                  <Box>
+                  <Box sx={{ mt: isMobile ? 2 : 0 }}>
                     <Typography variant="body2" color="text.secondary">
                       <FormattedMessage
                         id="default.theme.mode"
@@ -409,13 +414,16 @@ export default function ThemeWizardContainer({
                       direction="row"
                       alignContent="center"
                       alignItems="center"
+                      spacing={isMobile ? 0.5 : 1}
+                      sx={{ mt: isMobile ? 0.5 : 1 }}
                     >
-                      <Typography variant="body1">
+                      <Typography variant={isMobile ? "body2" : "body1"}>
                         {' '}
                         <FormattedMessage id="light" defaultMessage={'Light'} />
                       </Typography>
                       <Switch
                         defaultChecked={defaultThemeMode === ThemeMode.dark}
+                        size={isMobile ? "small" : "medium"}
                         onChange={() => {
                           if (defaultThemeMode === 'dark') {
                             setDefaultThemeMode(ThemeMode.light);
@@ -424,13 +432,13 @@ export default function ThemeWizardContainer({
                           }
                         }}
                       />
-                      <Typography variant="body1">
+                      <Typography variant={isMobile ? "body2" : "body1"}>
                         {' '}
                         <FormattedMessage id="dark" defaultMessage={'Dark'} />
                       </Typography>
                     </Stack>
                   </Box>
-                  <Stack spacing={1}>
+                  <Stack spacing={isMobile ? 0.5 : 1}>
                     <Typography variant="body2">
                       <FormattedMessage
                         id="Choose app font"
@@ -444,10 +452,11 @@ export default function ThemeWizardContainer({
                       value={selectedFont?.family}
                       onChange={handleSelectedFont}
                       options={Fonts.items.map((f) => f.family)}
+                      size={isMobile ? "small" : "medium"}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          sx={{ maxWidth: '350px' }}
+                          sx={{ maxWidth: isMobile ? '100%' : '350px' }}
                           label={
                             <FormattedMessage
                               id={'font'}

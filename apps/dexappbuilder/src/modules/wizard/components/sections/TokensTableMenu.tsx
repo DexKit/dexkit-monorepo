@@ -18,6 +18,7 @@ export interface TokensTableMenuProps {
   token?: TokenWhitelabelApp;
   onClose: () => void;
   appUrl?: string;
+  isMobile?: boolean;
 }
 
 export default function TokensTableMenu({
@@ -25,6 +26,7 @@ export default function TokensTableMenu({
   onClose,
   token,
   appUrl,
+  isMobile,
 }: TokensTableMenuProps) {
   return (
     <Menu
@@ -46,7 +48,11 @@ export default function TokensTableMenu({
               defaultMessage="Token pages"
             />
           }
-          primaryTypographyProps={{ variant: 'body2', fontWeight: 'bold' }}
+          primaryTypographyProps={{
+            variant: isMobile ? 'body2' : 'body1',
+            fontWeight: 'bold',
+            fontSize: isMobile ? '0.875rem' : undefined
+          }}
         />
       </ListItem>
       <Divider />
@@ -58,14 +64,18 @@ export default function TokensTableMenu({
           token?.chainId,
         )}/${token?.symbol}`}
         target="_blank"
+        dense={isMobile}
       >
         <ListItemIcon>
-          <FileOpenOutlinedIcon />
+          <FileOpenOutlinedIcon fontSize={isMobile ? "small" : "medium"} />
         </ListItemIcon>
         <ListItemText
           primary={
             <FormattedMessage id="buy.token" defaultMessage="Buy token" />
           }
+          primaryTypographyProps={{
+            fontSize: isMobile ? '0.875rem' : undefined
+          }}
         />
       </MenuItem>
       <MenuItem
@@ -76,14 +86,18 @@ export default function TokensTableMenu({
           token?.chainId,
         )}/${token?.symbol}`}
         target="_blank"
+        dense={isMobile}
       >
         <ListItemIcon>
-          <FileOpenOutlinedIcon />
+          <FileOpenOutlinedIcon fontSize={isMobile ? "small" : "medium"} />
         </ListItemIcon>
         <ListItemText
           primary={
             <FormattedMessage id="sell.token" defaultMessage="Sell token" />
           }
+          primaryTypographyProps={{
+            fontSize: isMobile ? '0.875rem' : undefined
+          }}
         />
       </MenuItem>
       <MenuItem
@@ -94,14 +108,18 @@ export default function TokensTableMenu({
           token?.chainId,
         )}/${token?.symbol}`}
         target="_blank"
+        dense={isMobile}
       >
         <ListItemIcon>
-          <FileOpenOutlinedIcon />
+          <FileOpenOutlinedIcon fontSize={isMobile ? "small" : "medium"} />
         </ListItemIcon>
         <ListItemText
           primary={
             <FormattedMessage id="trade.token" defaultMessage="Trade token" />
           }
+          primaryTypographyProps={{
+            fontSize: isMobile ? '0.875rem' : undefined
+          }}
         />
       </MenuItem>
     </Menu>

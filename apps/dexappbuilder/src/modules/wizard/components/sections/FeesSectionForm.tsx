@@ -24,9 +24,10 @@ interface Props {
   onSubmit?: (values: FeeForm) => void;
   onCancel?: () => void;
   fees: FeeForm[];
+  isMobile?: boolean;
 }
 
-export default function FeesSectionForm({ onSubmit, onCancel, fees }: Props) {
+export default function FeesSectionForm({ onSubmit, onCancel, fees, isMobile }: Props) {
   const { formatMessage } = useIntl();
 
   const handleSubmit = (values: FeeForm, helpers: FormikHelpers<FeeForm>) => {
@@ -50,9 +51,9 @@ export default function FeesSectionForm({ onSubmit, onCancel, fees }: Props) {
   });
 
   return (
-    <Paper sx={{ p: 2 }}>
+    <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 1.5 : 2}>
           <Grid item xs={12}>
             <TextField
               label={
@@ -68,6 +69,22 @@ export default function FeesSectionForm({ onSubmit, onCancel, fees }: Props) {
                   ? formik.errors.recipient
                   : undefined
               }
+              InputProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined,
+                }
+              }}
+              InputLabelProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined,
+                }
+              }}
+              FormHelperTextProps={{
+                style: {
+                  fontSize: isMobile ? '0.75rem' : undefined,
+                }
+              }}
+              size={isMobile ? "small" : "medium"}
             />
           </Grid>
           <Grid item xs={12}>
@@ -89,6 +106,22 @@ export default function FeesSectionForm({ onSubmit, onCancel, fees }: Props) {
                   ? formik.errors.amountPercentage
                   : undefined
               }
+              InputProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined,
+                }
+              }}
+              InputLabelProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined,
+                }
+              }}
+              FormHelperTextProps={{
+                style: {
+                  fontSize: isMobile ? '0.75rem' : undefined,
+                }
+              }}
+              size={isMobile ? "small" : "medium"}
             />
           </Grid>
           <Grid item xs={12}>
@@ -98,10 +131,21 @@ export default function FeesSectionForm({ onSubmit, onCancel, fees }: Props) {
                 type="submit"
                 variant="contained"
                 color="primary"
+                size={isMobile ? "small" : "medium"}
+                sx={{
+                  fontSize: isMobile ? "0.875rem" : undefined,
+                  py: isMobile ? 0.75 : undefined,
+                }}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
-              <Button onClick={onCancel}>
+              <Button
+                onClick={onCancel}
+                size={isMobile ? "small" : "medium"}
+                sx={{
+                  fontSize: isMobile ? "0.875rem" : undefined,
+                }}
+              >
                 <FormattedMessage id="cancel" defaultMessage="Cancel" />
               </Button>
             </Stack>

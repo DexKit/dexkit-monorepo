@@ -8,6 +8,9 @@ import {
   Grid,
   Stack,
   Typography,
+  styled,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
@@ -40,15 +43,37 @@ import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { QueryClient, dehydrate, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAppConfig } from 'src/services/app';
+
+const MobileButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  marginBottom: '8px',
+  borderRadius: '6px',
+  minHeight: '42px',
+  fontSize: '0.85rem',
+}));
+
+const MobileCheckboxLabel = styled(FormControlLabel)(({ theme }) => ({
+  marginLeft: 0,
+  marginTop: '4px',
+  '.MuiFormControlLabel-label': {
+    fontSize: '0.85rem',
+  },
+}));
 
 export default function FormsListContractsPage() {
   const { isActive } = useWeb3React();
   const { isLoggedIn } = useAuth();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [forceRerender, setForceRerender] = useState(false);
+
+  useEffect(() => {
+    setForceRerender(true);
+  }, [isMobile]);
 
   const [showHidden, setShowHidden] = useState(false);
-
   const [showImport, setShowImport] = useState(false);
 
   const queryClient = useQueryClient();
@@ -61,6 +86,109 @@ export default function FormsListContractsPage() {
   const handleOpen = () => {
     setShowImport(true);
   };
+
+  const MobileView = () => (
+    <Box sx={{ width: '100%' }}>
+      <Stack spacing={1.5} sx={{ width: '100%', mb: 2 }}>
+        <MobileButton
+          href="/forms/contracts/create"
+          LinkComponent={Link}
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+        >
+          <FormattedMessage
+            id="new.contract"
+            defaultMessage="New contract"
+          />
+        </MobileButton>
+        <MobileButton
+          onClick={handleOpen}
+          startIcon={<FileDownloadOutlinedIcon />}
+          variant="outlined"
+          color="primary"
+        >
+          <FormattedMessage
+            id="import.contract"
+            defaultMessage="Import Contract"
+          />
+        </MobileButton>
+        <MobileCheckboxLabel
+          control={
+            <Checkbox
+              checked={showHidden}
+              onChange={(e) => setShowHidden(e.target.checked)}
+              size="small"
+            />
+          }
+          label={
+            <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+              <FormattedMessage
+                id="show.hidden"
+                defaultMessage="Show Hidden"
+              />
+            </Typography>
+          }
+        />
+      </Stack>
+    </Box>
+  );
+
+  const DesktopView = () => (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      spacing={2}
+      sx={{ width: '100%', mb: 2 }}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={2}
+      >
+        <Button
+          href="/forms/contracts/create"
+          LinkComponent={Link}
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+          size="medium"
+        >
+          <FormattedMessage
+            id="new.contract"
+            defaultMessage="New contract"
+          />
+        </Button>
+        <Button
+          onClick={handleOpen}
+          startIcon={<FileDownloadOutlinedIcon />}
+          variant="outlined"
+          color="primary"
+          size="medium"
+        >
+          <FormattedMessage
+            id="import.contract"
+            defaultMessage="Import Contract"
+          />
+        </Button>
+      </Stack>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={showHidden}
+            onChange={(e) => setShowHidden(e.target.checked)}
+          />
+        }
+        label={
+          <FormattedMessage
+            id="show.hidden"
+            defaultMessage="Show Hidden"
+          />
+        }
+      />
+    </Stack>
+  );
 
   return (
     <>
@@ -75,8 +203,15 @@ export default function FormsListContractsPage() {
         />
       )}
 
-      <Container maxWidth={'xl'}>
-        <Stack spacing={2}>
+      <Container
+        maxWidth="xl"
+        disableGutters={isMobile}
+        sx={{
+          px: isMobile ? 1 : 2,
+          overflowX: 'hidden'
+        }}
+      >
+        <Stack spacing={isMobile ? 1 : 2}>
           <PageHeader
             breadcrumbs={[
               {
@@ -104,10 +239,17 @@ export default function FormsListContractsPage() {
               },
             ]}
           />
-          <Box>
-            <Grid container spacing={2}>
+          <Box sx={{ width: '100%' }}>
+            <Grid container spacing={isMobile ? 1 : 2}>
               <Grid item xs={12}>
-                <Typography variant="h5">
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                    fontWeight: 600,
+                    mb: 0.5
+                  }}
+                >
                   <FormattedMessage
                     id="my.deployed.contracts"
                     defaultMessage="My deployed contracts"
@@ -115,67 +257,26 @@ export default function FormsListContractsPage() {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Box>
-                  <Stack
-                    alignItems="center"
-                    justifyContent="space-between"
-                    direction="row"
-                    spacing={2}
-                  >
-                    <Stack alignItems="center" direction="row" spacing={2}>
-                      <Button
-                        href="/forms/contracts/create"
-                        LinkComponent={Link}
-                        startIcon={<AddIcon />}
-                        variant="contained"
-                        color="primary"
-                      >
-                        <FormattedMessage
-                          id="new.contract"
-                          defaultMessage="New contract"
-                        />
-                      </Button>
-                      <Button
-                        onClick={handleOpen}
-                        startIcon={<FileDownloadOutlinedIcon />}
-                        variant="outlined"
-                        color="primary"
-                      >
-                        <FormattedMessage
-                          id="import.contract"
-                          defaultMessage="Import Contract"
-                        />
-                      </Button>
-                    </Stack>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={showHidden}
-                          onChange={(e) => setShowHidden(e.target.checked)}
-                        />
-                      }
-                      label={
-                        <FormattedMessage
-                          id="show.hidden"
-                          defaultMessage="Show Hidden"
-                        />
-                      }
-                    />
-                  </Stack>
-                </Box>
+                {isMobile ? <MobileView /> : <DesktopView />}
               </Grid>
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ overflowX: 'hidden', width: '100%' }}>
                 {isActive ? (
                   isLoggedIn ? (
-                    <Container>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        overflowX: 'hidden',
+                        maxWidth: '100vw'
+                      }}
+                    >
                       <ContractListDataGrid
                         showHidden={showHidden}
-                        key={showHidden ? 'hidden' : 'visible'}
+                        key={`${showHidden ? 'hidden' : 'visible'}-${forceRerender ? 'rerendered' : 'initial'}`}
                       />
-                    </Container>
+                    </Box>
                   ) : (
                     <Stack justifyContent={'center'} alignItems={'center'}>
                       <Box sx={{ maxWidth: '500px' }}>
@@ -233,7 +334,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

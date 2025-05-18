@@ -32,13 +32,26 @@ export default function CreateContractContainer({
           <Box>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h4">
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                    fontWeight: 600,
+                    mb: 0.5
+                  }}
+                >
                   <FormattedMessage
                     id="deploy.your.contract"
                     defaultMessage="Deploy your contract"
                   />
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: { xs: '0.8rem', sm: '0.875rem' }
+                  }}
+                >
                   <FormattedMessage
                     id="easily.integrate.contracts.on.your.app.using.dexcontract.component"
                     defaultMessage="Easily integrate contracts on your app using dexcontract component"
@@ -57,7 +70,7 @@ export default function CreateContractContainer({
                 {!slug && (
                   <Grid container spacing={2}>
                     {deployableContractsQuery.data?.map((contract, key) => (
-                      <Grid item xs={12} sm={4} key={key}>
+                      <Grid item xs={6} sm={4} key={key}>
                         <ContractButton
                           title={contract.name}
                           description={contract.description}

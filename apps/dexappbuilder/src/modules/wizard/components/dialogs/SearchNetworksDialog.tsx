@@ -21,6 +21,8 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -39,12 +41,37 @@ interface SearchNetworksDialogProps {
 
 const PAGE_SIZE = 5;
 
+const NETWORK_ICONS: Record<number, string> = {
+  592: '/assets/images/icons/astar.png',
+  25: '/assets/images/icons/cronos.png',
+  100: '/assets/images/icons/gnosis.png',
+  13371: '/assets/images/icons/immutable-zkevm.png',
+  2222: '/assets/images/icons/kava.png',
+  59144: '/assets/images/icons/linea.png',
+  5000: '/assets/images/icons/mantle.png',
+  1284: '/assets/images/icons/moonbeam.png',
+  1101: '/assets/images/icons/polygon-zkevm.png',
+  534352: '/assets/images/icons/scroll.png',
+  1329: '/assets/images/icons/sei.png',
+  146: '/assets/images/icons/sonic.png',
+  1923: '/assets/images/icons/swell.png',
+  324: '/assets/images/icons/zksync.png',
+  314: '/assets/images/icons/filecoin.png',
+  33139: '/assets/images/icons/apechain.png',
+  33111: '/assets/images/icons/apechain.png',
+  14: '/assets/images/icons/flare.png',
+  80094: '/assets/images/icons/berachain.png',
+  130: '/assets/images/icons/unichain.png'
+};
+
 export default function SearchNetworksDialog({
   DialogProps,
   onSelect,
   excludeChainIds,
 }: SearchNetworksDialogProps) {
   const { onClose } = DialogProps;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [queryText, setQueryText] = useState('');
 
   const [selectedNetworks, setSelectedNetworks] = useState<any[]>([]);
@@ -92,6 +119,14 @@ export default function SearchNetworksDialog({
     setSelectedNetworks([]);
   };
 
+  const getNetworkIcon = (chainId: number) => {
+    const customIcon = NETWORK_ICONS[chainId];
+    if (customIcon) {
+      return customIcon;
+    }
+    return GET_EVM_CHAIN_IMAGE({ chainId });
+  };
+
   return (
     <Dialog {...DialogProps}>
       <AppDialogTitle
@@ -102,19 +137,30 @@ export default function SearchNetworksDialog({
       />
       <DialogContent dividers sx={{ p: 0 }}>
         <Stack>
-          <Box sx={{ p: 2 }}>
+          <Box sx={{ p: isMobile ? 1.5 : 2 }}>
             <TextField
               label="Search"
               value={queryText}
               onChange={(e) => setQueryText(e.target.value)}
               fullWidth
+              size={isMobile ? "small" : "medium"}
+              InputProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined
+                }
+              }}
+              InputLabelProps={{
+                style: {
+                  fontSize: isMobile ? '0.875rem' : undefined
+                }
+              }}
             />
           </Box>
           <Divider />
           {networks && networks.length === 0 && (
-            <Stack sx={{ p: 2 }}>
+            <Stack sx={{ p: isMobile ? 1.5 : 2 }}>
               <Box>
-                <Typography textAlign="center" variant="h5">
+                <Typography textAlign="center" variant={isMobile ? "h6" : "h5"}>
                   <FormattedMessage
                     id="no.networks"
                     defaultMessage="No networks"
@@ -122,7 +168,7 @@ export default function SearchNetworksDialog({
                 </Typography>
                 <Typography
                   textAlign="center"
-                  variant="body1"
+                  variant={isMobile ? "body2" : "body1"}
                   color="text.secondary"
                 >
                   <FormattedMessage
@@ -146,18 +192,38 @@ export default function SearchNetworksDialog({
           <List disablePadding>
             {EVM_CHAINS.filter((c) => !excludeChainIds.includes(c.chainId)).map(
               (network, id) => (
-                <ListItem key={id}>
-                  <Stack direction="row" alignItems={'center'}>
-                    <ListItemIcon>
+                <ListItem key={id} sx={{ px: isMobile ? 1 : 2, py: isMobile ? 0.75 : 1 }}>
+                  <Stack direction="row" alignItems={'center'} spacing={isMobile ? 1 : 2}>
+                    <ListItemIcon sx={{ minWidth: isMobile ? 40 : 56 }}>
                       <Avatar
                         alt={network.name}
-                        src={GET_EVM_CHAIN_IMAGE({ chainId: network.chainId })}
+                        src={getNetworkIcon(network.chainId)}
+                        sx={{
+                          width: isMobile ? 32 : 40,
+                          height: isMobile ? 32 : 40,
+                        }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary={network.name} />
+                    <ListItemText
+                      primary={network.name}
+                      primaryTypographyProps={{
+                        fontSize: isMobile ? '0.875rem' : undefined,
+                        fontWeight: 500
+                      }}
+                    />
                     {network?.testnet && (
-                      <ListItemIcon sx={{ pl: 1 }}>
-                        <Chip label={'testnet'} size="small" />
+                      <ListItemIcon sx={{ pl: isMobile ? 0.5 : 1, minWidth: 'auto' }}>
+                        <Chip
+                          label={'testnet'}
+                          size="small"
+                          sx={{
+                            height: isMobile ? '20px' : '24px',
+                            '& .MuiChip-label': {
+                              px: 0.75,
+                              fontSize: isMobile ? '0.675rem' : '0.75rem'
+                            }
+                          }}
+                        />
                       </ListItemIcon>
                     )}
                   </Stack>
@@ -166,6 +232,7 @@ export default function SearchNetworksDialog({
                       onClick={handleToggleNetwork(network)}
                       checked={isSelected(network)}
                       value={isSelected(network)}
+                      size={isMobile ? "small" : "medium"}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -190,11 +257,25 @@ export default function SearchNetworksDialog({
           )}
         </Stack>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleConfirm} variant="contained">
+      <DialogActions sx={{ px: isMobile ? 2 : 3, py: isMobile ? 1.5 : 2 }}>
+        <Button
+          onClick={handleConfirm}
+          variant="contained"
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            fontSize: isMobile ? '0.875rem' : undefined,
+            py: isMobile ? 0.75 : undefined
+          }}
+        >
           <FormattedMessage id="save" defaultMessage="Save" />
         </Button>
-        <Button onClick={handleClose}>
+        <Button
+          onClick={handleClose}
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            fontSize: isMobile ? '0.875rem' : undefined
+          }}
+        >
           <FormattedMessage id="cancel" defaultMessage="Cancel" />
         </Button>
       </DialogActions>

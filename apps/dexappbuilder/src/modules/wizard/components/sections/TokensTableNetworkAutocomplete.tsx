@@ -9,11 +9,13 @@ import { useIntl } from 'react-intl';
 export interface TokensTableNetworkAutocompleteProps {
   selectedNetwoks: Network[];
   onChange: (selectedNetwoks: Network[]) => void;
+  isMobile?: boolean;
 }
 
 export default function TokensTableNetworkAutocomplete({
   selectedNetwoks,
   onChange,
+  isMobile,
 }: TokensTableNetworkAutocompleteProps) {
   const { activeChainIds } = useActiveChainIds();
 
@@ -35,7 +37,8 @@ export default function TokensTableNetworkAutocomplete({
       }}
       options={networks}
       value={selectedNetwoks}
-      limitTags={2}
+      limitTags={isMobile ? 1 : 2}
+      size={isMobile ? "small" : "medium"}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -44,10 +47,21 @@ export default function TokensTableNetworkAutocomplete({
             selectedNetwoks.length > 0
               ? ''
               : formatMessage({
-                  id: 'select.network.alt',
-                  defaultMessage: 'Select network',
-                })
+                id: 'select.network.alt',
+                defaultMessage: 'Select network',
+              })
           }
+          InputProps={{
+            ...params.InputProps,
+            style: {
+              fontSize: isMobile ? '0.875rem' : undefined,
+            },
+          }}
+          InputLabelProps={{
+            style: {
+              fontSize: isMobile ? '0.875rem' : undefined,
+            },
+          }}
         />
       )}
       getOptionLabel={(opt) => opt.name}

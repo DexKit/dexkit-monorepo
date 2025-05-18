@@ -11,9 +11,10 @@ interface Props {
   fee?: SwapFeeForm;
   onSave: (fees: SwapFeeForm) => void;
   onRemove: () => void;
+  isMobile?: boolean;
 }
 
-export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
+export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const handleSubmit = (values: SwapFeeForm) => {
@@ -26,39 +27,40 @@ export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
   const handleCancel = () => setIsFormOpen(false);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={isMobile ? 1.5 : 2}>
       {isFormOpen ? (
         <SwapFeesSectionForm
           fee={fee}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+          isMobile={isMobile}
         />
       ) : (
         <>
           {fee && (
-            <Paper sx={{ px: 2, py: 1 }}>
+            <Paper sx={{ px: isMobile ? 1.5 : 2, py: isMobile ? 0.75 : 1 }}>
               <Stack
-                spacing={2}
+                spacing={isMobile ? 1 : 2}
                 direction="row"
                 alignItems="center"
                 alignContent="center"
                 justifyContent="space-between"
               >
                 <Stack
-                  spacing={1}
+                  spacing={isMobile ? 0.5 : 1}
                   direction="row"
                   alignItems="center"
                   alignContent="center"
                 >
-                  <Typography variant="body1">
+                  <Typography variant={isMobile ? "body2" : "body1"}>
                     {fee.amountPercentage || 0}%
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant={isMobile ? "body2" : "body1"} sx={{ wordBreak: 'break-all' }}>
                     {truncateAddress(fee.recipient)}
                   </Typography>
                 </Stack>
                 <IconButton size="small" onClick={onRemove}>
-                  <Close fontSize="small" />
+                  <Close fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
               </Stack>
             </Paper>
@@ -67,7 +69,12 @@ export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
           <Button
             variant="outlined"
             onClick={handleOpenForm}
-            startIcon={<Edit />}
+            startIcon={<Edit fontSize={isMobile ? "small" : "medium"} />}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined
+            }}
           >
             <FormattedMessage id="add.fee" defaultMessage="Edit fee" />
           </Button>

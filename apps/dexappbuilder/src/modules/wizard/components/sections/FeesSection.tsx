@@ -11,9 +11,10 @@ interface Props {
   fees: FeeForm[];
   onSave: (fees: FeeForm) => void;
   onRemove: (index: number) => void;
+  isMobile?: boolean;
 }
 
-export default function FeesSection({ fees, onSave, onRemove }: Props) {
+export default function FeesSection({ fees, onSave, onRemove, isMobile }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const handleSubmit = (values: FeeForm) => {
@@ -30,9 +31,9 @@ export default function FeesSection({ fees, onSave, onRemove }: Props) {
   }, [String(fees)]);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={isMobile ? 1.5 : 2}>
       {isFeesAboveLimit && (
-        <Alert severity="error">
+        <Alert severity="error" sx={{ fontSize: isMobile ? "0.75rem" : undefined }}>
           <FormattedMessage
             id="your.fees.are.above.the.limit"
             defaultMessage="Your fees ({total}%) are above the limit ({maxFee}%)"
@@ -50,11 +51,12 @@ export default function FeesSection({ fees, onSave, onRemove }: Props) {
           amountPercentage={fee.amountPercentage}
           recipient={fee.recipient}
           onRemove={onRemove}
+          isMobile={isMobile}
         />
       ))}
 
       {fees.length === 0 && (
-        <Alert severity="info">
+        <Alert severity="info" sx={{ fontSize: isMobile ? "0.75rem" : undefined }}>
           <FormattedMessage
             id="add.fees.to.your.marketplace"
             defaultMessage="Add fees to your marketplace"
@@ -66,13 +68,19 @@ export default function FeesSection({ fees, onSave, onRemove }: Props) {
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           fees={fees}
+          isMobile={isMobile}
         />
       ) : (
         <Button
           variant="outlined"
           disabled={isFeesAboveLimit}
           onClick={handleOpenForm}
-          startIcon={<AddIcon />}
+          startIcon={<AddIcon fontSize={isMobile ? "small" : "medium"} />}
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            fontSize: isMobile ? "0.875rem" : undefined,
+            py: isMobile ? 0.75 : undefined
+          }}
         >
           <FormattedMessage id="add.fee" defaultMessage="Add fee" />
         </Button>

@@ -276,7 +276,7 @@ export default function PageSections({
         }}>
           <Stack spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%' }}>
             <Stack spacing={isMobile ? 0.5 : 0.5} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
-              <Grid container spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%', px: isMobile ? 0 : 0 }}>
+              <Grid container spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%', px: isMobile ? 0 : 0, pb: isMobile ? 0 : 2 }}>
                 <Grid item xs={12} sm={isMobile ? 12 : 6}>
                   <Stack
                     spacing={0.25}
@@ -296,6 +296,8 @@ export default function PageSections({
                         flex: 1,
                         maxWidth: 'calc(50% - 2px)',
                         px: isMobile ? 1 : 1,
+                        pb: isMobile ? undefined : 1.5,
+                        pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
                           "& > *:nth-of-type(1)": {
@@ -328,6 +330,8 @@ export default function PageSections({
                         flex: 1,
                         maxWidth: 'calc(50% - 2px)',
                         px: isMobile ? 1 : 1,
+                        pb: isMobile ? undefined : 1.5,
+                        pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
                           "& > *:nth-of-type(1)": {
@@ -371,6 +375,7 @@ export default function PageSections({
                           sx: {
                             width: '100%',
                             maxWidth: isMobile ? '130px' : '200px',
+                            pb: isMobile ? undefined : 1,
                             '& .MuiInputBase-root': {
                               fontSize: isMobile ? '0.875rem' : 'inherit',
                               height: isMobile ? undefined : '40px',
@@ -391,7 +396,7 @@ export default function PageSections({
                         }}
                       />
                     </Box>
-                    <IconButton onClick={() => setShowFilters(!showFilters)} size={isMobile ? "small" : "medium"} sx={{ p: 0.25 }}>
+                    <IconButton onClick={() => setShowFilters(!showFilters)} size={isMobile ? "small" : "medium"} sx={{ p: 0.25, mb: isMobile ? undefined : 1 }}>
                       {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
                     </IconButton>
                   </Stack>

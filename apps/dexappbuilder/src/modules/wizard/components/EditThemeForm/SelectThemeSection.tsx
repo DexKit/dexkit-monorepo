@@ -1,4 +1,4 @@
-import { Box, Grid, SupportedColorScheme } from '@mui/material';
+import { Box, Grid, SupportedColorScheme, useMediaQuery, useTheme } from '@mui/material';
 import { useField } from 'formik';
 import { useMemo } from 'react';
 import { getTheme, themes } from 'src/theme';
@@ -17,6 +17,9 @@ export default function SelectThemeSection({
   customThemeDark,
   customThemeLight,
 }: SelectThemeSectionProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const availThemes = useMemo(() => {
     return Object.keys(themes)
       .map((key) => {
@@ -61,11 +64,11 @@ export default function SelectThemeSection({
 
   return (
     <Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         {availThemes.map(
           (entry) =>
             entry && (
-              <Grid item xs={12} sm={6} key={entry.key}>
+              <Grid item xs={6} sm={6} key={entry.key}>
                 <WizardThemeButton
                   selected={props.value === entry.key}
                   name={entry.name}

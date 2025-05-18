@@ -1,4 +1,5 @@
 import { AppConfig, MenuTree } from '@dexkit/ui/modules/wizard/types/config';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -21,6 +22,8 @@ export default function FooterMenuWizardContainer({
   onChange,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [menu, setMenu] = useState<MenuTree[]>(config.footerMenuTree || []);
 
   const handleSave = () => {
@@ -48,7 +51,7 @@ export default function FooterMenuWizardContainer({
   }, [onHasChanges, hasChanged]);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 2}>
       <Grid item xs={12}>
         <Stack>
           <Typography variant={'h6'}>

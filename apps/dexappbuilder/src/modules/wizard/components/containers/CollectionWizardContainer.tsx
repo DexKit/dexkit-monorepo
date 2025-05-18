@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 
 import { isAddressEqual } from '@dexkit/core/utils/blockchain';
 import Alert from '@mui/material/Alert';
@@ -44,6 +44,8 @@ export default function CollectionWizardContainer({
   onSave,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { formatMessage } = useIntl();
   const [previewCollection, setPreviewCollection] = useAtom(collectionAtom);
   const [hasChanged, setHashChanged] = useState(false);
@@ -193,13 +195,13 @@ export default function CollectionWizardContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 2}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1}>
+          <Typography variant="h6">
             <FormattedMessage id="collections" defaultMessage="Collections" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography variant="body2">
             <FormattedMessage
               id="select.collections.to.display.in.your.app"
               defaultMessage="Select collections to display in your app"
@@ -211,7 +213,7 @@ export default function CollectionWizardContainer({
         <Divider />
       </Grid>
       <Grid item xs={12}>
-        <Alert severity="info">
+        <Alert severity="info" sx={{ fontSize: isMobile ? "0.75rem" : undefined }}>
           <FormattedMessage
             id="wizard.collections.section.info"
             defaultMessage="Collections displayed by default on collection list page"
@@ -226,6 +228,7 @@ export default function CollectionWizardContainer({
           onRemove={handleRemoveCollection}
           onEdit={handleEditCollection}
           onSelectEdit={handleCollectionSelectEdit}
+          isMobile={isMobile}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -246,6 +249,12 @@ export default function CollectionWizardContainer({
             color="primary"
             onClick={handleSave}
             disabled={!hasChanged}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+              px: isMobile ? 2 : undefined,
+            }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>

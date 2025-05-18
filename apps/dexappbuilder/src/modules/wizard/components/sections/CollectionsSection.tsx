@@ -26,6 +26,7 @@ interface Props {
   onRemove: (collection: AppCollection) => void;
   onEdit: (form: Form) => void;
   onSelectEdit: (form: Form) => void;
+  isMobile?: boolean;
 }
 
 export default function CollectionsSection({
@@ -35,6 +36,7 @@ export default function CollectionsSection({
   onRemove,
   onEdit,
   onSelectEdit,
+  isMobile,
 }: Props) {
   const setPreviewCollection = useUpdateAtom(collectionAtom);
 
@@ -74,7 +76,8 @@ export default function CollectionsSection({
   }, []);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isCurrentMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const currentIsMobile = isMobile !== undefined ? isMobile : isCurrentMobile;
 
   const handleEdit = useCallback(
     (collection: AppCollection) => {
@@ -94,11 +97,11 @@ export default function CollectionsSection({
 
       setShowForm(true);
 
-      if (!isMobile) {
+      if (!currentIsMobile) {
         setPreviewCollection(collection);
       }
     },
-    [onSelectEdit, isMobile],
+    [onSelectEdit, currentIsMobile],
   );
 
   const handlePreview = (collection: AppCollection) => {
@@ -134,9 +137,9 @@ export default function CollectionsSection({
           defaultMessage="Do you want to remove this collection?"
         />
       </AppConfirmDialog>
-      <Stack spacing={2}>
+      <Stack spacing={currentIsMobile ? 1.5 : 2}>
         {!showForm && collections !== undefined && collections?.length > 0 ? (
-          <Stack spacing={2}>
+          <Stack spacing={currentIsMobile ? 1.5 : 2}>
             {collections?.map(
               (collection: AppCollection, index: Key | null | undefined) => (
                 <CollectionsSectionItem
@@ -147,12 +150,13 @@ export default function CollectionsSection({
                   onEdit={handleEdit}
                   onPreview={handlePreview}
                   disabled={showForm}
+                  isMobile={currentIsMobile}
                 />
               ),
             )}
           </Stack>
         ) : (
-          <Alert severity="info">
+          <Alert severity="info" sx={{ fontSize: currentIsMobile ? "0.75rem" : undefined }}>
             <FormattedMessage
               id="add.collection.to.your.app"
               defaultMessage="Add collection to your app"
@@ -162,11 +166,12 @@ export default function CollectionsSection({
 
         {showForm && (
           <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: currentIsMobile ? 1.5 : 2 }}>
               <CollectionsSectionForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
+                isMobile={currentIsMobile}
               />
             </Paper>
           </Grid>
@@ -178,7 +183,12 @@ export default function CollectionsSection({
             variant="outlined"
             onClick={handleShowForm}
             color="primary"
-            startIcon={<AddIcon />}
+            startIcon={<AddIcon fontSize={currentIsMobile ? "small" : "medium"} />}
+            size={currentIsMobile ? "small" : "medium"}
+            sx={{
+              fontSize: currentIsMobile ? "0.875rem" : undefined,
+              py: currentIsMobile ? 0.75 : undefined
+            }}
           >
             <FormattedMessage
               id="add.collection"
