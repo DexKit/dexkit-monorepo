@@ -1,5 +1,23 @@
 # @dexkit/ui
 
+## 0.13.0
+
+### Minor Changes
+
+- 8d99dd6: add user connect event
+- 742d40d: Fixed provider
+- 9e686ed: Remove limit orders from exchange component
+
+### Patch Changes
+
+- Updated dependencies [45d6bed]
+- Updated dependencies [f738705]
+- Updated dependencies [dd35937]
+- Updated dependencies [8d99dd6]
+- Updated dependencies [528512d]
+- Updated dependencies [742d40d]
+  - @dexkit/ui@0.22.0
+
 ## 0.12.0
 
 ### Minor Changes

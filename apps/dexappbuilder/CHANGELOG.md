@@ -1,5 +1,29 @@
 # dexappbuilder
 
+## 0.25.0
+
+### Minor Changes
+
+- e482378: Added support for contract tutorials on the deployment page. Implemented Card components to display YouTube videos and related documentation on DexContracts
+- f738705: Porting dexcontracts to inside dapps to make it easy to manage contracts
+- dd35937: Move admin app to your own specific app
+- 8d99dd6: add user connect event
+- 9e686ed: Remove limit orders from exchange component
+
+### Patch Changes
+
+- e482378: Implemented contract tutorials on the deployment page. Added Card components to display YouTube videos and related documentation, improving the user learning experience.
+- Updated dependencies [45d6bed]
+- Updated dependencies [f738705]
+- Updated dependencies [dd35937]
+- Updated dependencies [8d99dd6]
+- Updated dependencies [528512d]
+- Updated dependencies [742d40d]
+- Updated dependencies [9e686ed]
+  - @dexkit/ui@0.22.0
+  - @dexkit/dexappbuilder-viewer@0.8.0
+  - @dexkit/widgets@0.12.0
+
 ## 0.24.0
 
 ### Minor Changes
