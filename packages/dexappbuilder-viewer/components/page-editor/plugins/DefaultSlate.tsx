@@ -73,7 +73,7 @@ const lineHeightSlate = pluginFactories.createComponentPlugin<{
   object: "mark", // mark is like a span, other options are inline and block
   icon: <FormatLineSpacingIcon />, // an icon to show
   label: "Set line height",
-  Component: "div", // the component to render
+  Component: "span", // the component to render
   getStyle: ({ lineHeight }) => ({ lineHeight }),
   controls: {
     // identical to custom cell plugins123
