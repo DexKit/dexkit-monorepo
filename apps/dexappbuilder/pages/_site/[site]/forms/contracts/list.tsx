@@ -28,7 +28,7 @@ import {
   GetStaticProps,
   GetStaticPropsContext,
 } from 'next';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 const ImportContractDialog = dynamic(
@@ -39,6 +39,7 @@ const ImportContractDialog = dynamic(
 );
 
 import Link from '@dexkit/ui/components/AppLink';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { QueryClient, dehydrate, useQueryClient } from '@tanstack/react-query';

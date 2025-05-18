@@ -10,11 +10,11 @@ import { useAtom } from 'jotai';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { SiteResponse } from 'src/types/whitelabel';
 
 import {
   AppCollection,
   AppConfig,
+  SiteResponse,
 } from '@dexkit/ui/modules/wizard/types/config';
 import { collectionAtom } from '../../state';
 import { CollectionPreviewPaper } from '../sections/CollectionPreviewPaper';

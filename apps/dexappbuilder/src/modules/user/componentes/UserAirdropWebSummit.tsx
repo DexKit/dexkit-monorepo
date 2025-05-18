@@ -1,5 +1,6 @@
 import { ChainId } from '@dexkit/core';
 import { useIsMobile } from '@dexkit/core/hooks';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import AppMutationDialog from '@dexkit/ui/components/dialogs/AppMutationDialog';
 import { useAuth, useDexKitContext } from '@dexkit/ui/hooks';
 import { getBlockExplorerUrl } from '@dexkit/widgets/src/utils';
@@ -11,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
 
 import { useClaimCampaignMutation, useUserClaimCampaignQuery } from '../hooks';
 import UserCreateDialog from './dialogs/UserCreateDialog';

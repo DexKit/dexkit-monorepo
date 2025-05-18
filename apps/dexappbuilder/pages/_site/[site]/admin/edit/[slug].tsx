@@ -24,12 +24,13 @@ import SecurityIcon from '@mui/icons-material/Security';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+
 import { LoginButton } from 'src/components/LoginButton';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { AdminContext } from '@dexkit/ui/context/AdminContext';
 
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { useAdminWhitelabelConfigQuery } from 'src/hooks/whitelabel';

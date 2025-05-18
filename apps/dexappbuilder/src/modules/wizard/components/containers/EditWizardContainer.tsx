@@ -29,13 +29,16 @@ import {
   useSendConfigMutation,
 } from '../../../../hooks/whitelabel';
 
-import { SiteResponse } from '../../../../types/whitelabel';
 import { useAppWizardConfig } from '../../hooks';
 
 import { isAddressEqual } from '@dexkit/core/utils';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
-import { AppConfig, AppPage } from '@dexkit/ui/modules/wizard/types/config';
+import {
+  AppConfig,
+  AppPage,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import TourIcon from '@mui/icons-material/Tour';
 import { TourProvider, useTour } from '@reactour/tour';

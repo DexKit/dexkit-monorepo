@@ -10,7 +10,6 @@ import {
   useAuthUserQuery,
   useLoginAccountMutation,
 } from "@dexkit/ui/hooks/auth";
-import { useWalletConnect } from "../hooks/wallet";
 import { ConnectButton } from "./ConnectButton";
 
 export interface LoginAppButtonProps {
@@ -27,7 +26,6 @@ export default function LoginAppButton({
   const { account, isActive } = useWeb3React();
   const userQuery = useAuthUserQuery();
   const { user } = useAuth();
-  const { connectWallet } = useWalletConnect();
   const loginMutation = useLoginAccountMutation();
 
   const handleLogin = async () => {
