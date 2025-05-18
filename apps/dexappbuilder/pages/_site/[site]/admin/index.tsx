@@ -4,10 +4,12 @@ import ConfigureDomainDialog from '@/modules/wizard/components/dialogs/Configure
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
 import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
 import MarketplacesTableV2 from '@dexkit/ui/modules/admin/components/tables/MarketplacesTableV2';
+import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -34,14 +36,13 @@ import {
 } from 'next';
 import { ChangeEvent, ReactNode, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { DEXKIT_DISCORD_SUPPORT_CHANNEL, WIZARD_DOCS_URL } from 'src/constants';
 
 import { useConnectWalletDialog } from 'src/hooks/app';
 import { useWhitelabelConfigsByOwnerQuery } from 'src/hooks/whitelabel';
 import { getAppConfig } from 'src/services/app';
-import { ConfigResponse } from 'src/types/whitelabel';
 
 export const AdminIndexPage: NextPage = () => {
   const { isActive } = useWeb3React();

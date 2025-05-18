@@ -1,0 +1,29 @@
+{
+  "name": "@dexkit/dexappbuilder-render",
+  "private": false,
+  "type": "module",
+  "version": "0.0.1",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -w",
+    "lint": "TIMING=1 eslint \"**/*.ts*\"",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "tsconfig": "*",
+    "typescript": "5.4.3"
+  },
+  "dependencies": {
+    "@dexkit/dexappbuilder-viewer": "*",
+    "@dexkit/evm-chains": "^1.15.2",
+    "@dexkit/ui": "*"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

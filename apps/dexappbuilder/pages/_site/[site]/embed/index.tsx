@@ -8,9 +8,9 @@ import MainLayout from '../../../../src/components/layouts/main';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { getAppConfig } from '../../../../src/services/app';
 
-import ProtectedContent from '@/modules/home/components/ProtectedContent';
 import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
 
+import ProtectedContent from '@dexkit/dexappbuilder-viewer/components/ProtectedContent';
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
   GatedCondition,
