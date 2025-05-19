@@ -76,6 +76,12 @@ export default function SeoSectionForm({
     [onSubmit],
   );
 
+  const defaultImageUrl = '/assets/kittygotchi/kittygotchi_banner.jpg';
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = defaultImageUrl;
+  };
+
   return (
     <>
       {initialValues && (
@@ -207,7 +213,11 @@ export default function SeoSectionForm({
                         size={isMobile ? "small" : "medium"}
                         sx={{ p: 0, mt: 0.5 }}
                       >
-                        <CustomImage src={values.shareImageUrl} />
+                        <CustomImage
+                          src={values.shareImageUrl || defaultImageUrl}
+                          onError={handleImageError}
+                          alt="Share image preview"
+                        />
                       </Button>
                     </Box>
                   </Grid>
