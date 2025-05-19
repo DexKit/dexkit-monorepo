@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectProps } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { NETWORKS } from '../constants/chain';
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
 export function NetworkSelectDropdown(props: Props) {
   const { chainId, onChange, labelId, activeChainIds, size: propSize } = props;
   const isMobile = useIsMobile();
+  const theme = useTheme();
   const size = propSize || (isMobile ? "small" : "medium");
 
   return (
@@ -42,7 +44,10 @@ export function NetworkSelectDropdown(props: Props) {
           >
             <Avatar
               src={NETWORKS[value].imageUrl || ''}
-              style={{ width: 'auto', height: isMobile ? '0.85rem' : '1rem' }}
+              sx={{
+                width: 'auto',
+                height: isMobile ? theme.spacing(1.7) : theme.spacing(2)
+              }}
             />
             <Typography variant={isMobile ? "body2" : "body1"}>
               {NETWORKS[value].name}
@@ -70,7 +75,7 @@ export function NetworkSelectDropdown(props: Props) {
                   src={(NETWORKS[key] as Network)?.imageUrl || ''}
                   sx={{
                     width: 'auto',
-                    height: isMobile ? '0.85rem' : '1rem',
+                    height: isMobile ? theme.spacing(1.7) : theme.spacing(2),
                   }}
                 />
               </Box>

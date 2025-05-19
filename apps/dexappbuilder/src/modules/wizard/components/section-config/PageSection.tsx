@@ -8,6 +8,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 import React, { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
@@ -146,6 +147,7 @@ export default function PageSection({
   };
 
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   return (
     <>
@@ -160,39 +162,39 @@ export default function PageSection({
         />
       )}
       <Box
-        sx={(theme) => ({
+        sx={{
           display: Boolean(activeNode) && showTopDroppable ? 'block' : 'none',
-          height: 2,
+          height: theme.spacing(0.25),
           position: 'static',
           bgcolor: isOverTop ? theme.palette.primary.main : 'rgba(0,0,0,0)',
-        })}
+        }}
         ref={setNodeRefDropTop}
       />
 
       <Card
         sx={{
           border: active
-            ? (theme) => `2px solid ${theme.palette.primary.main}`
+            ? `2px solid ${theme.palette.primary.main}`
             : undefined,
           transform: CSS.Translate.toString(transform),
-          zIndex: isDragging ? (theme) => theme.zIndex.snackbar + 1 : undefined,
-          borderRadius: 1,
-          mb: 0.5,
+          zIndex: isDragging ? theme.zIndex.snackbar + 1 : undefined,
+          borderRadius: theme.shape.borderRadius / 8,
+          mb: theme.spacing(0.5),
           width: '100%',
           mx: 0
         }}
         ref={setNodeRef}
       >
         <CardActionArea onClick={() => onAction('edit')}>
-          <Box sx={{ py: 0.5, px: 0.75 }}>
+          <Box sx={{ py: theme.spacing(0.5), px: theme.spacing(0.75) }}>
             <Stack
-              spacing={isMobile ? 0.5 : 0.75}
+              spacing={isMobile ? theme.spacing(0.5) : theme.spacing(0.75)}
               alignItems="center"
               justifyContent="space-between"
               direction="row"
             >
               <Stack
-                spacing={isMobile ? 1 : 2}
+                spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                 alignItems="center"
                 justifyContent="space-between"
                 direction="row"
@@ -205,11 +207,11 @@ export default function PageSection({
                     />
                   }
                 >
-                  <DragIndicatorIcon {...listeners} {...attributes} sx={isMobile ? { fontSize: '1.2rem' } : undefined} />
+                  <DragIndicatorIcon {...listeners} {...attributes} sx={isMobile ? { fontSize: theme.typography.fontSize * 1.2 } : undefined} />
                 </Tooltip>
                 <Box>
                   {isEdit ? (
-                    <Stack direction="row" alignItems="center" spacing={0.5}>
+                    <Stack direction="row" alignItems="center" spacing={theme.spacing(0.5)}>
                       <TextField
                         value={name}
                         inputRef={(ref) => (inputRef.current = ref)}
@@ -218,7 +220,7 @@ export default function PageSection({
                         variant="standard"
                         size="small"
                         onKeyDown={handleKeyDown}
-                        sx={isMobile ? { '.MuiInputBase-input': { fontSize: '0.85rem' } } : undefined}
+                        sx={isMobile ? { '.MuiInputBase-input': { fontSize: theme.typography.caption.fontSize } } : undefined}
                       />
                       {isMobile && (
                         <>
@@ -252,7 +254,13 @@ export default function PageSection({
                       <Typography
                         variant={isMobile ? "caption" : "body2"}
                         color="text.secondary"
-                        sx={isMobile ? { display: 'block', maxWidth: '140px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } : undefined}
+                        sx={isMobile ? {
+                          display: 'block',
+                          maxWidth: theme.spacing(17.5),
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        } : undefined}
                       >
                         {subtitle}
                       </Typography>
@@ -260,9 +268,9 @@ export default function PageSection({
                   )}
                 </Box>
               </Stack>
-              <Stack direction="row" spacing={0.5} alignItems="center">
+              <Stack direction="row" spacing={theme.spacing(0.5)} alignItems="center">
                 {expand && section ? (
-                  <Box pr={isMobile ? 0 : 4}>
+                  <Box pr={isMobile ? 0 : theme.spacing(4)}>
                     <PageSectionMenuStack
                       hideDesktop={section?.hideDesktop}
                       hideMobile={section?.hideMobile}
@@ -295,12 +303,12 @@ export default function PageSection({
         )}
       </Card>
       <Box
-        sx={(theme) => ({
+        sx={{
           display: Boolean(activeNode) ? 'block' : 'none',
-          height: 2,
+          height: theme.spacing(0.25),
           position: 'static',
           bgcolor: isOverBottom ? theme.palette.primary.main : 'rgba(0,0,0,0)',
-        })}
+        }}
         ref={setNodeRefDropBottom}
       />
     </>

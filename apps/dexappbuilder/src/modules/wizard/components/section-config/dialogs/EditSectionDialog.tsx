@@ -17,9 +17,10 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha,
+  alpha
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import {
   ChangeEvent,
   FocusEvent,
@@ -54,10 +55,11 @@ interface Props {
 }
 
 function ResizeHandle() {
+  const theme = useTheme();
   return (
     <PanelResizeHandle
       style={{
-        width: '8px',
+        width: theme.spacing(1),
         background: 'transparent',
         cursor: 'col-resize',
         display: 'flex',
@@ -67,10 +69,10 @@ function ResizeHandle() {
     >
       <div
         style={{
-          width: '4px',
-          height: '40px',
+          width: theme.spacing(0.5),
+          height: theme.spacing(5),
           backgroundColor: '#e0e0e0',
-          borderRadius: '2px',
+          borderRadius: theme.shape.borderRadius / 4,
         }}
       />
     </PanelResizeHandle>
@@ -204,6 +206,7 @@ export default function EditSectionDialog({
   }, [sectionType]);
 
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleKeyDown = (e: KeyboardEvent) => {
     e.stopPropagation();
@@ -238,7 +241,7 @@ export default function EditSectionDialog({
   );
 
   const renderSectionHeader = () => (
-    <Grid container alignItems={'center'} sx={{ pl: isMobile ? 1 : 3 }}>
+    <Grid container alignItems={'center'} sx={{ pl: isMobile ? theme.spacing(1) : theme.spacing(3) }}>
       <Grid item xs={3}>
         <IconButton
           aria-label="back"
@@ -254,7 +257,7 @@ export default function EditSectionDialog({
             justifyContent={'center'}
             direction={'row'}
             alignItems={'center'}
-            spacing={1}
+            spacing={theme.spacing(1)}
           >
             {sectionMetadata?.icon}
 
@@ -279,7 +282,7 @@ export default function EditSectionDialog({
       <AppDialogTitle
         title={
           <Stack
-            spacing={1}
+            spacing={theme.spacing(1)}
             direction={'row'}
             alignContent={'center'}
             alignItems={'center'}
@@ -298,12 +301,12 @@ export default function EditSectionDialog({
               </Box>
             ) : (
               <Stack
-                spacing={2}
+                spacing={theme.spacing(2)}
                 direction={'row'}
                 alignContent={'center'}
                 alignItems={'center'}
               >
-                <Typography variant="inherit">
+                <Typography variant={isMobile ? "subtitle1" : "inherit"}>
                   <FormattedMessage
                     id="add.section"
                     defaultMessage="Add Section"
@@ -318,6 +321,9 @@ export default function EditSectionDialog({
                     id: 'section.name',
                     defaultMessage: 'Section name',
                   })}
+                  InputProps={{
+                    style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                  }}
                 />
               </Stack>
             )}
@@ -333,14 +339,16 @@ export default function EditSectionDialog({
                   id: 'section.name',
                   defaultMessage: 'Section name',
                 })}
+                InputProps={{
+                  style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                }}
               />
             )}
             {isEdit && !isEditName && (
               <ButtonBase
                 sx={{
-                  px: 1,
-                  py: 0.25,
-
+                  px: theme.spacing(1),
+                  py: theme.spacing(0.25),
                   borderRadius: (theme) => theme.shape.borderRadius / 2,
                   '&: hover': {
                     backgroundColor: (theme) =>
@@ -377,8 +385,8 @@ export default function EditSectionDialog({
       <Divider />
       <DialogContent>
         {isMobile ? (
-          <Stack spacing={2} sx={{ maxHeight: 'calc(100vh - 180px)', overflow: 'auto' }}>
-            <Box sx={{ mb: 2 }}>
+          <Stack spacing={theme.spacing(2)} sx={{ maxHeight: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'auto' }}>
+            <Box sx={{ mb: theme.spacing(2) }}>
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {
@@ -396,14 +404,14 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: 2 }}>
+              <Box sx={{ mt: theme.spacing(2) }}>
                 {renderPreview()}
               </Box>
             )}
           </Stack>
         ) : (
           <PanelGroup direction="horizontal">
-            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
+            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: `calc(100vh - ${theme.spacing(22.5)})` }}>
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {

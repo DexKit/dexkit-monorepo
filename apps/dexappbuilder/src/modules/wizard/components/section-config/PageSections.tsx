@@ -9,7 +9,8 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Stack
+  Stack,
+  useTheme
 } from '@mui/material';
 
 import {
@@ -97,6 +98,7 @@ export default function PageSections({
   onPreview,
 }: PageSectionsProps) {
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const [hideDesktop, setHideDesktop] = useState(false);
   const [hideMobile, setHideMobile] = useState(false);
@@ -210,7 +212,7 @@ export default function PageSections({
       }
 
       return (
-        <Grid item xs={12} key={`${JSON.stringify(section)}-${section.index}`} sx={{ mb: isMobile ? 0.5 : 1 }}>
+        <Grid item xs={12} key={`${JSON.stringify(section)}-${section.index}`} sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
           <PageSection
             showTopDroppable={section.index === 0}
             index={section.index}
@@ -274,17 +276,17 @@ export default function PageSections({
           px: 0,
           ml: 0
         }}>
-          <Stack spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%' }}>
-            <Stack spacing={isMobile ? 0.5 : 0.5} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
-              <Grid container spacing={isMobile ? 0.5 : 0.5} sx={{ width: '100%', px: isMobile ? 0 : 0, pb: isMobile ? 0 : 2 }}>
+          <Stack spacing={theme.spacing(0.5)} sx={{ width: '100%' }}>
+            <Stack spacing={theme.spacing(0.5)} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
+              <Grid container spacing={theme.spacing(0.5)} sx={{ width: '100%', px: isMobile ? 0 : 0, pb: isMobile ? 0 : theme.spacing(2) }}>
                 <Grid item xs={12} sm={isMobile ? 12 : 6}>
                   <Stack
-                    spacing={0.25}
+                    spacing={theme.spacing(0.25)}
                     direction="row"
                     justifyContent="space-between"
                     sx={{
                       width: '100%',
-                      ml: isMobile ? -2 : 0
+                      ml: isMobile ? theme.spacing(-2) : 0
                     }}
                   >
                     <Button
@@ -357,7 +359,7 @@ export default function PageSections({
                     </Button>
                   </Stack>
                 </Grid>
-                <Grid item xs={12} sm={isMobile ? 12 : 6} sx={{ mt: isMobile ? 0.5 : 0 }}>
+                <Grid item xs={12} sm={isMobile ? 12 : 6} sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}>
                   <Stack
                     spacing={0.25}
                     direction="row"

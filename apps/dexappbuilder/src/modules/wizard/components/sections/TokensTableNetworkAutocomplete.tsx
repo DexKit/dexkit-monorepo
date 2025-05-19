@@ -2,7 +2,7 @@ import { NETWORKS } from '@dexkit/core/constants/networks';
 import { Network } from '@dexkit/core/types';
 import { parseChainId } from '@dexkit/core/utils';
 import { useActiveChainIds } from '@dexkit/ui';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
@@ -18,6 +18,7 @@ export default function TokensTableNetworkAutocomplete({
   isMobile,
 }: TokensTableNetworkAutocompleteProps) {
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
@@ -54,12 +55,12 @@ export default function TokensTableNetworkAutocomplete({
           InputProps={{
             ...params.InputProps,
             style: {
-              fontSize: isMobile ? '0.875rem' : undefined,
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
             },
           }}
           InputLabelProps={{
             style: {
-              fontSize: isMobile ? '0.875rem' : undefined,
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
             },
           }}
         />

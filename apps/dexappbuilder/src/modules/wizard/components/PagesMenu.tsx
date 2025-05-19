@@ -98,7 +98,7 @@ export default function PagesMenu({
             sx={{
               fontSize: isMobile ? "0.875rem" : undefined,
               py: isMobile ? 0.75 : undefined,
-              minHeight: isMobile ? "32px" : undefined,
+              minHeight: isMobile ? theme.spacing(4) : undefined,
             }}
           >
             <FormattedMessage

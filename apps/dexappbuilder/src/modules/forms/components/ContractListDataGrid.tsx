@@ -39,11 +39,11 @@ import {
 } from '../hooks';
 
 const MobileIconButton = styled(IconButton)(({ theme }) => ({
-  padding: '4px',
-  marginLeft: '2px',
-  marginRight: '2px',
+  padding: theme.spacing(0.5),
+  marginLeft: theme.spacing(0.25),
+  marginRight: theme.spacing(0.25),
   '& svg': {
-    fontSize: '1rem',
+    fontSize: theme.typography.body1.fontSize,
   }
 }));
 
@@ -175,13 +175,13 @@ export default function ContractListDataGrid({
       <Typography
         variant="body2"
         fontWeight="medium"
-        sx={{ fontSize: '0.8rem', lineHeight: 1.2, mb: 0.5 }}
+        sx={{ fontSize: theme.typography.caption.fontSize, lineHeight: 1.2, mb: 0.5 }}
       >
         {params.row.name}
       </Typography>
       <Typography
         variant="caption"
-        sx={{ fontSize: '0.7rem', display: 'block', color: 'text.secondary' }}
+        sx={{ fontSize: theme.typography.caption.fontSize, display: 'block', color: 'text.secondary' }}
       >
         {new Date(params.row.createdAt).toLocaleDateString()}
       </Typography>
@@ -348,70 +348,70 @@ export default function ContractListDataGrid({
   const mobileStyles = {
     '.MuiDataGrid-root': {
       border: 'none',
-      borderRadius: '8px',
+      borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
       width: '100%',
     },
     '.MuiDataGrid-columnHeader': {
-      fontSize: '0.75rem',
-      padding: '6px 4px',
-      minHeight: '40px !important',
-      maxHeight: '40px !important',
+      fontSize: theme.typography.caption.fontSize,
+      padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
+      minHeight: `${theme.spacing(5)} !important`,
+      maxHeight: `${theme.spacing(5)} !important`,
     },
     '.MuiDataGrid-columnHeaderTitle': {
       fontWeight: 'bold',
-      fontSize: '0.75rem',
+      fontSize: theme.typography.caption.fontSize,
     },
     '.MuiDataGrid-row': {
-      minHeight: '60px !important',
-      maxHeight: '90px !important',
+      minHeight: `${theme.spacing(7.5)} !important`,
+      maxHeight: `${theme.spacing(11.25)} !important`,
     },
     '.MuiDataGrid-cell': {
-      fontSize: '0.75rem',
-      padding: '6px 4px',
+      fontSize: theme.typography.caption.fontSize,
+      padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
       lineHeight: 1.2,
     },
     '.MuiDataGrid-virtualScroller': {
       overflow: 'visible',
     },
     '.MuiDataGrid-toolbarContainer': {
-      padding: '4px',
+      padding: theme.spacing(0.5),
     },
     '.MuiDataGrid-toolbarContainer button': {
-      padding: '4px',
+      padding: theme.spacing(0.5),
     },
     '.MuiDataGrid-toolbarContainer .MuiInputBase-root': {
-      height: '32px',
-      fontSize: '0.75rem',
+      height: theme.spacing(4),
+      fontSize: theme.typography.caption.fontSize,
     },
     '.MuiTablePagination-root': {
       overflow: 'hidden',
-      fontSize: '0.75rem',
+      fontSize: theme.typography.caption.fontSize,
     },
     '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
-      fontSize: '0.7rem',
+      fontSize: theme.typography.caption.fontSize,
     },
     '.MuiDataGrid-columnHeaders': {
-      height: '40px !important',
-      minHeight: '40px !important',
-      maxHeight: '40px !important',
+      height: `${theme.spacing(5)} !important`,
+      minHeight: `${theme.spacing(5)} !important`,
+      maxHeight: `${theme.spacing(5)} !important`,
     }
   };
 
   return (
     <Box sx={{
       width: '100%',
-      height: { xs: 360, sm: 450 },
+      height: { xs: theme.spacing(45), sm: theme.spacing(56.25) },
       '& .MuiDataGrid-cell': {
-        fontSize: { xs: '0.75rem', sm: '0.875rem' },
+        fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
       '& .MuiDataGrid-columnHeader': {
-        fontSize: { xs: '0.75rem', sm: '0.875rem' },
+        fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
       '& .MuiDataGrid-columnHeaders': {
-        height: isMobile ? '40px !important' : '56px !important',
-        minHeight: isMobile ? '40px !important' : '56px !important',
-        maxHeight: isMobile ? '40px !important' : '56px !important',
+        height: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(7)} !important`,
+        minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(7)} !important`,
+        maxHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(7)} !important`,
       },
       ...(isMobile ? mobileStyles : {}),
     }}>

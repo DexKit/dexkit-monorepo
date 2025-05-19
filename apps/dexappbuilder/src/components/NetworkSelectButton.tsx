@@ -10,6 +10,7 @@ import { ButtonProps } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 export function NetworkSelectButton(props: Props) {
   const { onChange, chainId, size: propSize } = props;
   const isMobile = useIsMobile();
+  const theme = useTheme();
   const size = propSize || (isMobile ? "small" : "medium");
 
   const [showSelectSwapNetworkDialog, setShowSelectSwapNetwork] =
@@ -57,10 +59,10 @@ export function NetworkSelectButton(props: Props) {
         startIcon={
           <Avatar
             src={getChainLogoImage(chainId)}
-            sx={(theme) => ({
+            sx={{
               width: 'auto',
               height: isMobile ? theme.spacing(2) : theme.spacing(3),
-            })}
+            }}
             alt={getChainName(chainId) || ''}
           />
         }

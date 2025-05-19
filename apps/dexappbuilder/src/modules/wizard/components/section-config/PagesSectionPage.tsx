@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, useTheme } from '@mui/material';
 import { SupportedColorScheme } from '@mui/material/styles';
 
 import {
@@ -69,6 +69,7 @@ export default function PagesSectionPage({
   previewUrl,
 }: Props) {
   const [showAddPage, setShowAddPage] = useState(false);
+  const theme = useTheme();
 
   const handleAddPage = () => {
     setShowAddPage(true);
@@ -158,8 +159,8 @@ export default function PagesSectionPage({
         onSubmit={handleSubmitGatedConditions}
       />
 
-      <Stack spacing={2}>
-        <Box px={0} pt={1}>
+      <Stack spacing={theme.spacing(2)}>
+        <Box px={0} pt={theme.spacing(1)}>
           <Pages
             pages={pages}
             onSwap={onSwap}

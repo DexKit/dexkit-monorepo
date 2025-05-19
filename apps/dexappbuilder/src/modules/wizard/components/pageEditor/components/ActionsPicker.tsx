@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
+import { useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +19,7 @@ export const PagesPicker = connectField<{
   const { wizardConfig } = useAppWizardConfig();
   const pages = wizardConfig.pages;
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const allPages = useMemo(() => {
     return { ...pages, ...CORE_PAGES };
@@ -30,7 +32,7 @@ export const PagesPicker = connectField<{
       <InputLabel
         id="pages-picker-label"
         sx={{
-          fontSize: isMobile ? '0.9rem' : undefined
+          fontSize: isMobile ? theme.typography.body2.fontSize : undefined
         }}
       >
         {props.label}
@@ -43,8 +45,8 @@ export const PagesPicker = connectField<{
         size={isMobile ? "small" : "medium"}
         sx={{
           '& .MuiSelect-select': {
-            fontSize: isMobile ? '0.9rem' : undefined,
-            py: isMobile ? 1.5 : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+            py: isMobile ? theme.spacing(1.5) : undefined
           }
         }}
         label={<FormattedMessage id={'pages'} defaultMessage={'Pages'} />}
@@ -55,8 +57,8 @@ export const PagesPicker = connectField<{
             value={allPages[pk].uri}
             key={key}
             sx={{
-              fontSize: isMobile ? '0.9rem' : undefined,
-              minHeight: isMobile ? '32px' : undefined
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+              minHeight: isMobile ? theme.spacing(4) : undefined
             }}
           >
             {allPages[pk].title}

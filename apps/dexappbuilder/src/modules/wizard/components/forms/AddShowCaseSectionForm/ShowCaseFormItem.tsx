@@ -29,6 +29,7 @@ import {
   SelectChangeEvent,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Field, useField } from 'formik';
 import { Select, TextField } from 'formik-mui';
@@ -56,8 +57,10 @@ export default function ShowCaseFormItem({
   disableUp,
   disableDown,
   onSelectImage,
+  isMobile,
 }: ShowCaseFormItemProps) {
   const { wizardConfig } = useAppWizardConfig();
+  const theme = useTheme();
 
   const { activeChainIds } = useActiveChainIds();
 
@@ -134,11 +137,11 @@ export default function ShowCaseFormItem({
       <Paper
         sx={(theme) => ({
           borderColor: itemMeta.error ? theme.palette.error.main : undefined,
-          p: 2,
+          p: theme.spacing(2),
         })}
       >
         {imgMeta.error}
-        <Grid container spacing={2}>
+        <Grid container spacing={theme.spacing(2)}>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <Field
@@ -166,7 +169,7 @@ export default function ShowCaseFormItem({
           </Grid>
           {itemMeta.value.type === 'image' && (
             <Grid item xs={12}>
-              <Grid container spacing={2}>
+              <Grid container spacing={theme.spacing(2)}>
                 <Grid item xs={12}>
                   <Field
                     fullWidth
@@ -277,7 +280,7 @@ export default function ShowCaseFormItem({
           )}
           {itemMeta.value.type === 'asset' && (
             <Grid item xs={12}>
-              <Grid container spacing={2}>
+              <Grid container spacing={theme.spacing(2)}>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
                     <Field
@@ -290,13 +293,13 @@ export default function ShowCaseFormItem({
                             direction="row"
                             alignItems="center"
                             alignContent="center"
-                            spacing={1}
+                            spacing={theme.spacing(1)}
                           >
                             <Avatar
                               src={ipfsUriToUrl(
                                 NETWORKS[value]?.imageUrl || '',
                               )}
-                              style={{ width: 'auto', height: '1rem' }}
+                              style={{ width: 'auto', height: theme.spacing(2) }}
                             />
                             <Typography variant="body1">
                               {NETWORKS[value]?.name}
@@ -312,7 +315,7 @@ export default function ShowCaseFormItem({
                             <ListItemIcon>
                               <Box
                                 sx={{
-                                  width: (theme) => theme.spacing(4),
+                                  width: theme.spacing(4),
                                   display: 'flex',
                                   alignItems: 'center',
                                   alignContent: 'center',
@@ -323,7 +326,7 @@ export default function ShowCaseFormItem({
                                   src={ipfsUriToUrl(network?.imageUrl || '')}
                                   sx={{
                                     width: 'auto',
-                                    height: '1rem',
+                                    height: theme.spacing(2),
                                   }}
                                 />
                               </Box>
@@ -365,7 +368,7 @@ export default function ShowCaseFormItem({
           )}
           {itemMeta.value.type === 'collection' && (
             <Grid item xs={12}>
-              <Grid container spacing={2}>
+              <Grid container spacing={theme.spacing(2)}>
                 <Grid item xs={12}>
                   <Field
                     fullWidth
@@ -425,13 +428,13 @@ export default function ShowCaseFormItem({
                             direction="row"
                             alignItems="center"
                             alignContent="center"
-                            spacing={1}
+                            spacing={theme.spacing(1)}
                           >
                             <Avatar
                               src={ipfsUriToUrl(
                                 NETWORKS[value]?.imageUrl || '',
                               )}
-                              style={{ width: 'auto', height: '1rem' }}
+                              style={{ width: 'auto', height: theme.spacing(2) }}
                             />
                             <Typography variant="body1">
                               {NETWORKS[value]?.name}
@@ -447,7 +450,7 @@ export default function ShowCaseFormItem({
                             <ListItemIcon>
                               <Box
                                 sx={{
-                                  width: (theme) => theme.spacing(4),
+                                  width: theme.spacing(4),
                                   display: 'flex',
                                   alignItems: 'center',
                                   alignContent: 'center',
@@ -458,7 +461,7 @@ export default function ShowCaseFormItem({
                                   src={ipfsUriToUrl(network?.imageUrl || '')}
                                   sx={{
                                     width: 'auto',
-                                    height: '1rem',
+                                    height: theme.spacing(2),
                                   }}
                                 />
                               </Box>
@@ -487,7 +490,7 @@ export default function ShowCaseFormItem({
           )}
           <Grid item xs={12}>
             <Box>
-              <Stack spacing={1} alignItems="center" direction="row">
+              <Stack spacing={theme.spacing(1)} alignItems="center" direction="row">
                 <Button
                   onClick={() => setIsEditing(false)}
                   startIcon={<Check />}
@@ -518,12 +521,12 @@ export default function ShowCaseFormItem({
     <Paper
       sx={(theme) => ({
         borderColor: itemMeta.error ? theme.palette.error.main : undefined,
-        p: 2,
+        p: theme.spacing(2),
       })}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack
-          spacing={2}
+          spacing={theme.spacing(2)}
           direction="row"
           alignItems="center"
           justifyContent="space-between"
@@ -562,7 +565,7 @@ export default function ShowCaseFormItem({
         </Stack>
 
         <Stack
-          spacing={0.5}
+          spacing={theme.spacing(0.5)}
           direction="row"
           alignItems="center"
           justifyContent="space-between"

@@ -62,21 +62,21 @@ export default function ContractButton({
       targetBlank={targetBlank}
       disabled={disabled}
       sx={{
-        p: { xs: 1.5, sm: 2 },
+        p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
         width: '100%',
         textAlign: 'left',
         display: 'block',
       }}
     >
-      <Box sx={{ minHeight: { xs: '5rem', sm: '6rem' } }}>
+      <Box sx={{ minHeight: { xs: theme.spacing(6.25), sm: theme.spacing(7.5) } }}>
         <Typography
           gutterBottom
           variant="body1"
           sx={{
-            fontWeight: 600,
-            fontSize: { xs: '0.9rem', sm: '1rem' },
+            fontWeight: theme.typography.fontWeightBold,
+            fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
             lineHeight: { xs: 1.2, sm: 1.5 },
-            mb: 1
+            mb: theme.spacing(1)
           }}
         >
           {title}
@@ -85,7 +85,7 @@ export default function ContractButton({
           variant="body2"
           color="text.secondary"
           sx={{
-            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
             lineHeight: { xs: 1.3, sm: 1.5 },
             display: '-webkit-box',
             overflow: 'hidden',
@@ -97,9 +97,9 @@ export default function ContractButton({
         </Typography>
       </Box>
 
-      <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mt: 1 }}>
-        <Avatar src={creator.imageUrl} sx={{ height: { xs: '0.9rem', sm: '1rem' }, width: { xs: '0.9rem', sm: '1rem' } }} />
-        <Typography variant="caption" sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>{creator.name}</Typography>
+      <Stack direction="row" alignItems="center" spacing={theme.spacing(0.5)} sx={{ mt: theme.spacing(1) }}>
+        <Avatar src={creator.imageUrl} sx={{ height: { xs: theme.spacing(1.125), sm: theme.spacing(1.25) }, width: { xs: theme.spacing(1.125), sm: theme.spacing(1.25) } }} />
+        <Typography variant="caption" sx={{ fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.caption.fontSize } }}>{creator.name}</Typography>
       </Stack>
     </Paper>
   );

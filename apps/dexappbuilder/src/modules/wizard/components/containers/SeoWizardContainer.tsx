@@ -76,14 +76,27 @@ export default function SeoWizardContainer({
   }, [currentPage]);
 
   return (
-    <Box sx={{ width: '100%', mx: isMobile ? -0.5 : 0 }}>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
+    <Box sx={{ width: '100%', mx: isMobile ? theme.spacing(-0.5) : 0 }}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Stack spacing={isMobile ? 0.5 : 1}>
-            <Typography variant="h6">
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="SEO" defaultMessage="SEO" />
             </Typography>
-            <Typography variant="body2">
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="seo.wizard.description"
                 defaultMessage="Configure your app's SEO"

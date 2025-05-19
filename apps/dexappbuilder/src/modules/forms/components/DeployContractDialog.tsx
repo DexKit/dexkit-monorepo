@@ -1,16 +1,17 @@
 import { AppDialogTitle } from '@dexkit/ui/components';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Dialog,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
@@ -39,6 +40,7 @@ export default function DeployContractDialog({
   name,
   description,
 }: DeployContractDialogProps) {
+  const theme = useTheme();
   const { onClose } = DialogProps;
 
   const { chainId } = useWeb3React();
@@ -75,14 +77,14 @@ export default function DeployContractDialog({
       />
       <Divider />
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={theme.spacing(2)}>
           {contractAddress && deployChainId && templateId && tx ? (
             <Grid item xs={12}>
               <Card variant="outlined">
                 <CardContent>
-                  <Stack spacing={2} justifyContent="center">
+                  <Stack spacing={theme.spacing(2)} justifyContent="center">
                     <Stack direction="row" justifyContent="center">
-                      <CheckCircleIcon color="success" />
+                      <CheckCircleIcon color="success" fontSize="large" />
                     </Stack>
                     <Box>
                       <Typography align="center" variant="h5">

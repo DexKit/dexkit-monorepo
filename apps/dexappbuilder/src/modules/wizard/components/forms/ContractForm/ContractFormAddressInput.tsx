@@ -10,7 +10,7 @@ import { useScanContractAbiMutation } from '@dexkit/web3forms/hooks';
 import { AbiFragment, ContractFormParams } from '@dexkit/web3forms/types';
 import { normalizeAbi } from '@dexkit/web3forms/utils';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import { CircularProgress, IconButton, InputAdornment, useTheme } from '@mui/material';
 import { providers } from 'ethers';
 import { useFormikContext } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -29,6 +29,7 @@ export default function ContractFormAddressInput({
 }: ContractFormAddressInputProps) {
   const { setFieldValue, values } = useFormikContext<ContractFormParams>();
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const scanContractAbiMutation = useScanContractAbiMutation();
 
@@ -159,21 +160,24 @@ export default function ContractFormAddressInput({
             inputProps: {
               onFocus: handleFocus,
               onBlur: handleBlur,
-              style: isMobile ? { fontSize: '0.85rem', padding: '6px 10px' } : {}
+              style: isMobile ? {
+                fontSize: theme.typography.body2.fontSize,
+                padding: `${theme.spacing(0.75)} ${theme.spacing(1.25)}`
+              } : {}
             },
             InputLabelProps: isMobile ? {
-              style: { fontSize: '0.85rem' }
+              style: { fontSize: theme.typography.body2.fontSize }
             } : {},
             sx: isMobile ? {
               '& .MuiInputBase-root': {
-                minHeight: '35px'
+                minHeight: theme.spacing(4.375)
               }
             } : {},
             InputProps: {
               autoComplete: 'off',
               endAdornment: scanContractAbiMutation.isLoading ? (
                 <InputAdornment position="end">
-                  <CircularProgress color="inherit" size={isMobile ? "0.7rem" : "1rem"} />
+                  <CircularProgress color="inherit" size={isMobile ? theme.spacing(1.75) : theme.spacing(2.5)} />
                 </InputAdornment>
               ) : (
                 <IconButton
@@ -181,7 +185,7 @@ export default function ContractFormAddressInput({
                   size="small"
                   color="primary"
                   onClick={handleRefresh}
-                  sx={isMobile ? { padding: '2px' } : {}}
+                  sx={isMobile ? { padding: theme.spacing(0.25) } : {}}
                 >
                   <RefreshIcon fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>

@@ -3,7 +3,7 @@ import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { useAccountHoldDexkitQuery } from '@dexkit/ui/hooks/account';
 import Check from '@mui/icons-material/Check';
 import Visibility from '@mui/icons-material/Visibility';
-import { Alert, Button, Grid, Stack, Typography } from '@mui/material';
+import { Alert, Button, Grid, Stack, Typography, styled } from '@mui/material';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -15,9 +15,17 @@ import * as Yup from 'yup';
 import CreateWhitelabelDialog from '../dialogs/CreateWhitelabelNFTDialog';
 import OwnershipNFTForm from '../forms/OwnershipNFTForm';
 
+const MobileButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  borderRadius: '6px',
+  minHeight: '42px',
+  fontSize: '0.85rem',
+}));
+
 interface Props {
   id: number;
   nft?: AssetAPI;
+  isMobile?: boolean;
 }
 
 export const CollectionItemSchema = Yup.object().shape({
@@ -33,7 +41,7 @@ export const CollectionItemSchema = Yup.object().shape({
   ),
 });
 
-export default function OwnershipSection({ id, nft }: Props) {
+export default function OwnershipSection({ id, nft, isMobile }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [showConfirmSendConfig, setShowConfirmSendConfig] = useState(false);
@@ -69,14 +77,19 @@ export default function OwnershipSection({ id, nft }: Props) {
         }}
       >
         <Stack>
-          <Typography variant="h5" align="center">
+          <Typography variant={isMobile ? "subtitle1" : "h5"} align="center" sx={{ fontWeight: 600 }}>
             {nft ? (
               <FormattedMessage id="update.nft" defaultMessage="Update NFT" />
             ) : (
               <FormattedMessage id="create.nft" defaultMessage="Create NFT" />
             )}
           </Typography>
-          <Typography variant="body1" align="center" color="textSecondary">
+          <Typography
+            variant={isMobile ? "body2" : "body1"}
+            align="center"
+            color="textSecondary"
+            sx={{ fontSize: isMobile ? '0.85rem' : 'inherit' }}
+          >
             {nft ? (
               <FormattedMessage
                 id="do.you.really.want.to.update.a.nft.info"
@@ -109,65 +122,108 @@ export default function OwnershipSection({ id, nft }: Props) {
         initialValues={
           nft
             ? {
-                name: nft.name,
-                image: nft.imageUrl,
-                description: nft.description,
-                attributes: nft.rawData
-                  ? JSON.parse(nft.rawData)?.attributes || []
-                  : [],
-              }
+              name: nft.name,
+              image: nft.imageUrl,
+              description: nft.description,
+              attributes: nft.rawData
+                ? JSON.parse(nft.rawData)?.attributes || []
+                : [],
+            }
             : {}
         }
         onSubmit={handleSubmitCollectionItemsForm}
         validationSchema={CollectionItemSchema}
       >
         {({ submitForm, isValid, dirty }) => (
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1.5 : 2}>
             <Grid item xs={12}>
-              <OwnershipNFTForm isDisabled={isHoldingKitQuery.data === false} />
+              <OwnershipNFTForm
+                isDisabled={isHoldingKitQuery.data === false}
+              />
             </Grid>
 
             <Grid item xs={12}>
-              <Stack spacing={1} direction="row" justifyContent="flex-end">
-                {nft && (
+              {isMobile ? (
+                <Stack spacing={1.5} direction="column" sx={{ width: '100%' }}>
+                  {nft && (
+                    <MobileButton
+                      startIcon={<Visibility />}
+                      onClick={() =>
+                        router.push(
+                          `/asset/polygon/${nft.address}/${nft.tokenId}`,
+                        )
+                      }
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                    >
+                      <FormattedMessage id="view.nft" defaultMessage="View NFT" />
+                    </MobileButton>
+                  )}
+                  <MobileButton
+                    startIcon={<Check />}
+                    disabled={!isValid || !isHoldingKitQuery.data || !dirty}
+                    onClick={submitForm}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    {nft ? (
+                      <FormattedMessage
+                        id="update.nft"
+                        defaultMessage="Update NFT"
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="create.nft"
+                        defaultMessage="Create NFT"
+                      />
+                    )}
+                  </MobileButton>
+                </Stack>
+              ) : (
+                <Stack spacing={1} direction="row" justifyContent="flex-end">
+                  {nft && (
+                    <Button
+                      startIcon={<Visibility />}
+                      onClick={() =>
+                        router.push(
+                          `/asset/polygon/${nft.address}/${nft.tokenId}`,
+                        )
+                      }
+                      variant="contained"
+                      color="primary"
+                    >
+                      <FormattedMessage id="view.nft" defaultMessage="View NFT" />
+                    </Button>
+                  )}
                   <Button
-                    startIcon={<Visibility />}
-                    onClick={() =>
-                      router.push(
-                        `/asset/polygon/${nft.address}/${nft.tokenId}`,
-                      )
-                    }
+                    startIcon={<Check />}
+                    disabled={!isValid || !isHoldingKitQuery.data || !dirty}
+                    onClick={submitForm}
+                    type="submit"
                     variant="contained"
                     color="primary"
                   >
-                    <FormattedMessage id="view.nft" defaultMessage="View NFT" />
+                    {nft ? (
+                      <FormattedMessage
+                        id="update.nft"
+                        defaultMessage="Update NFT"
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="create.nft"
+                        defaultMessage="Create NFT"
+                      />
+                    )}
                   </Button>
-                )}
-                <Button
-                  startIcon={<Check />}
-                  disabled={!isValid || !isHoldingKitQuery.data || !dirty}
-                  onClick={submitForm}
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  {nft ? (
-                    <FormattedMessage
-                      id="update.nft"
-                      defaultMessage="Update NFT"
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id="create.nft"
-                      defaultMessage="Create NFT"
-                    />
-                  )}
-                </Button>
-              </Stack>
+                </Stack>
+              )}
             </Grid>
             {isHoldingKitQuery.data !== true && false && (
               <Grid item xs={12} container justifyContent="flex-end">
-                <Alert severity="info">
+                <Alert severity="info" sx={{ fontSize: isMobile ? '0.85rem' : 'inherit' }}>
                   <FormattedMessage
                     id="holding.kit.info"
                     defaultMessage="You need to hold 1000 KIT on one of supported networks (ETH, BSC and Polygon) to use this feature! "

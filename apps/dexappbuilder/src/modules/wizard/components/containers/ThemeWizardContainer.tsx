@@ -335,30 +335,41 @@ export default function ThemeWizardContainer({
         )}
       </Head>
 
-      <Grid container spacing={isMobile ? 1 : 2}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Box>
-            <Stack>
-              <Typography variant="h6">
-                <FormattedMessage id="theme" defaultMessage="Theme" />
-              </Typography>
-              <Typography variant={'body2'}>
-                <FormattedMessage
-                  id="choose.your.theme"
-                  defaultMessage="Choose your theme"
-                />
-              </Typography>
-            </Stack>
-          </Box>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
+              <FormattedMessage id="theme" defaultMessage="Theme" />
+            </Typography>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
+              <FormattedMessage
+                id="choose.your.theme"
+                defaultMessage="Choose your theme"
+              />
+            </Typography>
+          </Stack>
         </Grid>
         <Grid item xs={12}>
           <Divider />
         </Grid>
         <Grid item xs={12} sx={{ height: '100%' }}>
-          <Grid container spacing={isMobile ? 1 : 2} alignItems="stretch">
+          <Grid container spacing={isMobile ? 1.5 : 3} alignItems="stretch">
             <Grid item xs={12} sm={6}>
               <Box>
-                <Stack spacing={isMobile ? 1.5 : 2}>
+                <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="choose.app.theme.color.for.each.mode "
@@ -370,7 +381,7 @@ export default function ThemeWizardContainer({
                     <Select
                       labelId="theme-mode-label"
                       id="theme-mode"
-                      sx={{ maxWidth: isMobile ? '120px' : '150px' }}
+                      sx={{ maxWidth: isMobile ? theme.spacing(15) : theme.spacing(18.75) }}
                       fullWidth
                       size={isMobile ? "small" : "medium"}
                       value={selectedThemeMode}
@@ -403,7 +414,7 @@ export default function ThemeWizardContainer({
                       legacyTheme={config?.customTheme}
                     />
                   </Box>
-                  <Box sx={{ mt: isMobile ? 2 : 0 }}>
+                  <Box sx={{ mt: isMobile ? theme.spacing(2) : 0 }}>
                     <Typography variant="body2" color="text.secondary">
                       <FormattedMessage
                         id="default.theme.mode"
@@ -414,8 +425,8 @@ export default function ThemeWizardContainer({
                       direction="row"
                       alignContent="center"
                       alignItems="center"
-                      spacing={isMobile ? 0.5 : 1}
-                      sx={{ mt: isMobile ? 0.5 : 1 }}
+                      spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
+                      sx={{ mt: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
                     >
                       <Typography variant={isMobile ? "body2" : "body1"}>
                         {' '}
@@ -438,7 +449,7 @@ export default function ThemeWizardContainer({
                       </Typography>
                     </Stack>
                   </Box>
-                  <Stack spacing={isMobile ? 0.5 : 1}>
+                  <Stack spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
                     <Typography variant="body2">
                       <FormattedMessage
                         id="Choose app font"
@@ -456,7 +467,7 @@ export default function ThemeWizardContainer({
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          sx={{ maxWidth: isMobile ? '100%' : '350px' }}
+                          sx={{ maxWidth: isMobile ? '100%' : theme.spacing(43.75) }}
                           label={
                             <FormattedMessage
                               id={'font'}
@@ -472,7 +483,7 @@ export default function ThemeWizardContainer({
             </Grid>
             <Grid item xs={12} sm={6} sx={{ height: '100%' }}>
               <Box position="relative" sx={{ height: '100%' }}>
-                <Box mb={2}>
+                <Box mb={theme.spacing(2)}>
                   <Button
                     onClick={handleOpenMenu}
                     variant="contained"
@@ -508,10 +519,25 @@ export default function ThemeWizardContainer({
                 color="primary"
                 onClick={handleSave}
                 disabled={!themeChanged}
+                size={isMobile ? "small" : "medium"}
+                sx={{
+                  fontSize: isMobile ? "0.875rem" : undefined,
+                  py: isMobile ? 0.75 : undefined,
+                  px: isMobile ? 2 : undefined,
+                }}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
-              <Button startIcon={<Cancel />} onClick={handleCancelEdit}>
+              <Button
+                startIcon={<Cancel />}
+                onClick={handleCancelEdit}
+                size={isMobile ? "small" : "medium"}
+                sx={{
+                  fontSize: isMobile ? "0.875rem" : undefined,
+                  py: isMobile ? 0.75 : undefined,
+                  px: isMobile ? 2 : undefined,
+                }}
+              >
                 <FormattedMessage id="cancel" defaultMessage="Cancel" />
               </Button>
             </Stack>

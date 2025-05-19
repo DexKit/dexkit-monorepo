@@ -57,9 +57,15 @@ const MobileButton = styled(Button)(({ theme }) => ({
 
 const MobileCheckboxLabel = styled(FormControlLabel)(({ theme }) => ({
   marginLeft: 0,
-  marginTop: '4px',
+  marginRight: 0,
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
   '.MuiFormControlLabel-label': {
     fontSize: '0.85rem',
+    marginLeft: theme.spacing(0.5),
+    flexGrow: 1,
   },
 }));
 
@@ -120,10 +126,19 @@ export default function FormsListContractsPage() {
               checked={showHidden}
               onChange={(e) => setShowHidden(e.target.checked)}
               size="small"
+              sx={{ padding: theme.spacing(0.5) }}
             />
           }
           label={
-            <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: theme.typography.caption.fontSize,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
               <FormattedMessage
                 id="show.hidden"
                 defaultMessage="Show Hidden"

@@ -64,12 +64,12 @@ export function ConfirmationEmailMessage({
         severity="warning"
         sx={{
           '& .MuiAlert-icon': {
-            fontSize: isMobile ? '1rem' : '1.25rem',
-            marginRight: isMobile ? 0.5 : 1,
+            fontSize: isMobile ? theme.typography.body2.fontSize : theme.typography.h6.fontSize,
+            marginRight: isMobile ? theme.spacing(0.5) : theme.spacing(1),
             alignItems: 'center',
-            padding: isMobile ? '8px 0' : undefined
+            padding: isMobile ? theme.spacing(1, 0) : undefined
           },
-          padding: isMobile ? '0 8px' : undefined
+          padding: isMobile ? theme.spacing(0, 1) : undefined
         }}
       >
         <Stack
@@ -81,7 +81,7 @@ export function ConfirmationEmailMessage({
           <Typography
             variant={isMobile ? 'caption' : 'body2'}
             sx={{
-              fontSize: isMobile ? '0.75rem' : undefined,
+              fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
               lineHeight: isMobile ? 1.3 : undefined
             }}
           >

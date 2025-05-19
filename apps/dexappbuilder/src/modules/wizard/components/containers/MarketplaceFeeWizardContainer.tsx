@@ -75,16 +75,29 @@ export default function MarketplaceFeeWizardContainer({
   };
 
   return (
-    <Grid container spacing={isMobile ? 1.5 : 2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack spacing={isMobile ? 0.5 : 1}>
-          <Typography variant="h6">
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontWeight: 600,
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              mb: 0.5
+            }}
+          >
             <FormattedMessage
               id="marketplace.fees.title"
               defaultMessage="Marketplace Fees"
             />
           </Typography>
-          <Typography variant="body2">
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="adjust.marketplace.fees.title"
               defaultMessage="Adjust your app's Marketplace fees"
@@ -115,9 +128,9 @@ export default function MarketplaceFeeWizardContainer({
             disabled={!hasChanged}
             size={isMobile ? "small" : "medium"}
             sx={{
-              fontSize: isMobile ? "0.875rem" : undefined,
-              py: isMobile ? 0.75 : undefined,
-              px: isMobile ? 2 : undefined,
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+              py: isMobile ? theme.spacing(0.75) : undefined,
+              px: isMobile ? theme.spacing(2) : undefined,
             }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />

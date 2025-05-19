@@ -14,6 +14,7 @@ import {
   Slider,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Field, useField } from 'formik';
@@ -49,6 +50,7 @@ export default function SlideItem({
   isMobile,
 }: SlideItemProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const theme = useTheme();
 
   const [props, meta, helpers] = useField<CarouselSlide>(`slides[${index}]`);
 
@@ -71,20 +73,20 @@ export default function SlideItem({
     return (
       <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
         <Alert severity="info" sx={isMobile ? {
-          fontSize: '0.7rem',
+          fontSize: theme.typography.caption.fontSize,
           py: 0,
-          px: 1,
-          mb: 1,
-          '& .MuiAlert-icon': { fontSize: '0.9rem', marginRight: '6px' },
-          '& .MuiAlert-message': { padding: '4px 0' }
-        } : { mb: 1 }}>
+          px: theme.spacing(1),
+          mb: theme.spacing(1),
+          '& .MuiAlert-icon': { fontSize: theme.typography.caption.fontSize, marginRight: theme.spacing(0.75) },
+          '& .MuiAlert-message': { padding: theme.spacing(0.5, 0) }
+        } : { mb: theme.spacing(1) }}>
           <FormattedMessage
             id="carousel.image.aspectRatio"
             defaultMessage="The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
           />
         </Alert>
 
-        <Grid container spacing={isMobile ? 0.5 : 1}>
+        <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
           <Grid item xs={12}>
             <Field
               component={TextField}
@@ -96,13 +98,13 @@ export default function SlideItem({
               InputLabelProps={{
                 shrink: true,
                 style: isMobile ? {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
               inputProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem',
-                  padding: '4px 10px 4px 4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)} ${theme.spacing(0.5)} ${theme.spacing(0.5)}`
                 } : {}
               }}
               size={isMobile ? "small" : "medium"}
@@ -110,12 +112,12 @@ export default function SlideItem({
               InputProps={{
                 shrink: true,
                 style: isMobile ? {
-                  fontSize: '0.8rem',
-                  height: '35px'
+                  fontSize: theme.typography.caption.fontSize,
+                  height: theme.spacing(4.375)
                 } : {},
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={onSelectImage} size={isMobile ? "small" : "medium"} edge="end" sx={isMobile ? { padding: '2px' } : {}}>
+                    <IconButton onClick={onSelectImage} size={isMobile ? "small" : "medium"} edge="end" sx={isMobile ? { padding: theme.spacing(0.25) } : {}}>
                       <Image fontSize={isMobile ? "small" : "medium"} />
                     </IconButton>
                   </InputAdornment>
@@ -123,9 +125,9 @@ export default function SlideItem({
               }}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 }
               } : {}}
             />
@@ -141,20 +143,20 @@ export default function SlideItem({
               margin="dense"
               inputProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem',
-                  padding: '4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 }
               } : {}}
             />
@@ -169,20 +171,20 @@ export default function SlideItem({
               margin="dense"
               inputProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem',
-                  padding: '4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 }
               } : {}}
             />
@@ -201,18 +203,18 @@ export default function SlideItem({
               name={`slides[${index}].overlayColor`}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 },
                 '& input': {
-                  fontSize: '0.8rem',
-                  padding: '4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0.5)
                 },
                 '& label': {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 },
-                margin: '4px 0'
+                margin: `${theme.spacing(0.5)} 0`
               } : {}}
             />
           </Grid>
@@ -226,25 +228,25 @@ export default function SlideItem({
               name={`slides[${index}].textColor`}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 },
                 '& input': {
-                  fontSize: '0.8rem',
-                  padding: '4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0.5)
                 },
                 '& label': {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 },
-                margin: '4px 0'
+                margin: `${theme.spacing(0.5)} 0`
               } : {}}
             />
           </Grid>
 
           <Grid item xs={12} sx={{ mt: isMobile ? 0 : 1 }}>
-            <Box sx={{ px: 1 }}>
-              <Typography variant="caption" sx={isMobile ? { fontSize: '0.7rem' } : {}}>
+            <Box sx={{ px: theme.spacing(1) }}>
+              <Typography variant="caption" sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}>
                 <FormattedMessage id="overlay.percentage" defaultMessage="Overlay percentage" />: {perProps.value || 0}%
               </Typography>
               <Slider
@@ -255,7 +257,7 @@ export default function SlideItem({
                   }
                 }}
                 size={isMobile ? "small" : "medium"}
-                sx={{ padding: '6px 0' }}
+                sx={{ padding: `${theme.spacing(0.75)} 0` }}
               />
             </Box>
           </Grid>
@@ -275,20 +277,20 @@ export default function SlideItem({
               margin="dense"
               inputProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem',
-                  padding: '4px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
                 style: isMobile ? {
-                  fontSize: '0.8rem'
+                  fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem',
-                  padding: '0 4px'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: `0 ${theme.spacing(0.5)}`
                 }
               } : {}}
             />
@@ -299,12 +301,12 @@ export default function SlideItem({
               size={isMobile ? "small" : "medium"}
               sx={isMobile ? {
                 '& .MuiInputBase-root': {
-                  height: '35px',
-                  fontSize: '0.8rem'
+                  height: theme.spacing(4.375),
+                  fontSize: theme.typography.caption.fontSize
                 },
                 '& .MuiSelect-select': {
-                  padding: '4px 8px',
-                  fontSize: '0.8rem'
+                  padding: theme.spacing(0.5),
+                  fontSize: theme.typography.caption.fontSize
                 }
               } : {}}
             >
@@ -320,8 +322,8 @@ export default function SlideItem({
                 }
                 size={isMobile ? "small" : "medium"}
                 sx={isMobile ? {
-                  fontSize: '0.8rem',
-                  '& .MuiInputLabel-root': { fontSize: '0.8rem' }
+                  fontSize: theme.typography.caption.fontSize,
+                  '& .MuiInputLabel-root': { fontSize: theme.typography.caption.fontSize }
                 } : {}}
               >
                 <MenuItem value="link">
@@ -341,12 +343,12 @@ export default function SlideItem({
                 size={isMobile ? "small" : "medium"}
                 sx={isMobile ? {
                   '& .MuiInputBase-root': {
-                    height: '35px',
-                    fontSize: '0.8rem'
+                    height: theme.spacing(4.375),
+                    fontSize: theme.typography.caption.fontSize
                   },
                   '& .MuiSelect-select': {
-                    padding: '4px 8px',
-                    fontSize: '0.8rem'
+                    padding: theme.spacing(0.5),
+                    fontSize: theme.typography.caption.fontSize
                   }
                 } : {}}
               >
@@ -357,8 +359,8 @@ export default function SlideItem({
                   label={<FormattedMessage id="page" defaultMessage="Page" />}
                   size={isMobile ? "small" : "medium"}
                   sx={isMobile ? {
-                    fontSize: '0.8rem',
-                    '& .MuiInputLabel-root': { fontSize: '0.8rem' }
+                    fontSize: theme.typography.caption.fontSize,
+                    '& .MuiInputLabel-root': { fontSize: theme.typography.caption.fontSize }
                   } : {}}
                 >
                   {allPages.map((page, key) => (
@@ -378,35 +380,35 @@ export default function SlideItem({
                 margin="dense"
                 inputProps={{
                   style: isMobile ? {
-                    fontSize: '0.8rem',
-                    padding: '4px'
+                    fontSize: theme.typography.caption.fontSize,
+                    padding: theme.spacing(0.5)
                   } : {}
                 }}
                 InputLabelProps={{
                   style: isMobile ? {
-                    fontSize: '0.8rem'
+                    fontSize: theme.typography.caption.fontSize
                   } : {}
                 }}
                 sx={isMobile ? {
                   '& .MuiInputBase-root': {
-                    height: '35px',
-                    fontSize: '0.8rem',
-                    padding: '0 4px'
+                    height: theme.spacing(4.375),
+                    fontSize: theme.typography.caption.fontSize,
+                    padding: `0 ${theme.spacing(0.5)}`
                   }
                 } : {}}
               />
             )}
           </Grid>
 
-          <Grid item xs={12} sx={{ mt: 1 }}>
-            <Stack spacing={1} alignItems="center" direction="row">
+          <Grid item xs={12} sx={{ mt: theme.spacing(1) }}>
+            <Stack spacing={theme.spacing(1)} alignItems="center" direction="row">
               <Button
                 onClick={() => setIsEditing(false)}
                 startIcon={<Check fontSize={isMobile ? "small" : "medium"} />}
                 size="small"
                 variant="outlined"
                 disabled={Boolean(imgMeta.error)}
-                sx={isMobile ? { fontSize: '0.7rem', padding: '2px 8px' } : {}}
+                sx={isMobile ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
@@ -416,7 +418,7 @@ export default function SlideItem({
                 startIcon={<Delete fontSize={isMobile ? "small" : "medium"} />}
                 onClick={onRemove}
                 size="small"
-                sx={isMobile ? { fontSize: '0.7rem', padding: '2px 8px' } : {}}
+                sx={isMobile ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
               >
                 <FormattedMessage id="remove" defaultMessage="Remove" />
               </Button>
@@ -430,7 +432,7 @@ export default function SlideItem({
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <Stack
-        spacing={isMobile ? 1 : 2}
+        spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
@@ -438,14 +440,14 @@ export default function SlideItem({
         <Avatar
           variant="rounded"
           src={meta.value.imageUrl}
-          sx={isMobile ? { width: 28, height: 28 } : {}}
+          sx={isMobile ? { width: theme.spacing(3.5), height: theme.spacing(3.5) } : {}}
         />
         {meta.value.title && (
           <Box>
             <Typography
               variant={isMobile ? "caption" : "body1"}
               fontWeight="bold"
-              sx={isMobile ? { fontSize: '0.8rem' } : {}}
+              sx={isMobile ? { fontSize: theme.typography.body2.fontSize } : {}}
             >
               {meta.value.title}
             </Typography>
@@ -453,7 +455,7 @@ export default function SlideItem({
               <Typography
                 variant={isMobile ? "caption" : "body2"}
                 color="text.secondary"
-                sx={isMobile ? { fontSize: '0.7rem' } : {}}
+                sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
               >
                 {meta.value.subtitle}
               </Typography>
@@ -463,7 +465,7 @@ export default function SlideItem({
       </Stack>
 
       <Stack
-        spacing={isMobile ? 0 : 0.5}
+        spacing={isMobile ? 0 : theme.spacing(0.5)}
         direction="row"
         alignItems="center"
         justifyContent="space-between"

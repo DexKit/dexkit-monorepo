@@ -51,13 +51,26 @@ export default function FooterMenuWizardContainer({
   }, [onHasChanges, hasChanged]);
 
   return (
-    <Grid container spacing={isMobile ? 1.5 : 2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="footer.menu" defaultMessage="Footer Menu" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="footer.wizard.description"
               defaultMessage="Create and edit your app's footer menu"
@@ -81,6 +94,12 @@ export default function FooterMenuWizardContainer({
             color="primary"
             onClick={handleSave}
             disabled={!hasChanged}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+              px: isMobile ? 2 : undefined,
+            }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>

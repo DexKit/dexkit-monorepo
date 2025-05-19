@@ -76,7 +76,7 @@ export default function PageEditorDialog({
       maxWidth={isMobile ? undefined : "xl"}
       fullWidth={!isMobile}
     >
-      <Box sx={{ paddingLeft: isMobile ? 1 : 4 }}>
+      <Box sx={{ paddingLeft: isMobile ? theme.spacing(1) : theme.spacing(4) }}>
         <AppDialogPageEditorTitle
           section={section}
           onClose={handleClose}
@@ -88,10 +88,10 @@ export default function PageEditorDialog({
       </Box>
       <DialogContent>
         <Box sx={{
-          paddingLeft: isMobile ? 0 : 25,
-          paddingRight: isMobile ? 0 : 25,
-          paddingTop: isMobile ? 1 : 5,
-          height: isMobile ? 'calc(100vh - 150px)' : 'auto',
+          paddingLeft: isMobile ? 0 : theme.spacing(12.5),
+          paddingRight: isMobile ? 0 : theme.spacing(12.5),
+          paddingTop: isMobile ? theme.spacing(1) : theme.spacing(5),
+          height: isMobile ? `calc(100vh - ${theme.spacing(18.75)})` : 'auto',
           overflow: 'auto'
         }}>
           <PageEditor
@@ -102,9 +102,9 @@ export default function PageEditorDialog({
           />
         </Box>
       </DialogContent>
-      <DialogActions sx={{ padding: isMobile ? 2 : 'inherit', justifyContent: isMobile ? 'center' : 'flex-end' }}>
+      <DialogActions sx={{ padding: isMobile ? theme.spacing(2) : 'inherit', justifyContent: isMobile ? 'center' : 'flex-end' }}>
         <Stack
-          sx={{ paddingRight: isMobile ? 0 : 10 }}
+          sx={{ paddingRight: isMobile ? 0 : theme.spacing(5) }}
           direction={'row'}
           spacing={2}
           width={isMobile ? '100%' : 'auto'}

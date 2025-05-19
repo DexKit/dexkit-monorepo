@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { EVM_CHAINS } from '@dexkit/evm-chains/constants';
@@ -29,6 +29,8 @@ export default function NetworksWizardContainer({
   config,
   onHasChanges,
 }: NetworksWizardContainerProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { formatMessage } = useIntl();
   const [hasChanged, setHasChanged] = useState(false);
 
@@ -168,13 +170,26 @@ export default function NetworksWizardContainer({
         />
       )}
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 1.5 : 3}>
           <Grid item xs={12}>
-            <Stack>
-              <Typography variant={'h6'}>
+            <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+              <Typography
+                variant={isMobile ? 'h6' : 'h5'}
+                sx={{
+                  fontSize: isMobile ? '1.15rem' : '1.5rem',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}
+              >
                 <FormattedMessage id="networks" defaultMessage="Networks" />
               </Typography>
-              <Typography variant={'body2'}>
+              <Typography
+                variant={isMobile ? 'body2' : 'body1'}
+                color="text.secondary"
+                sx={{
+                  fontSize: isMobile ? '0.85rem' : 'inherit',
+                }}
+              >
                 <FormattedMessage
                   id="manage.networks.for.your.app"
                   defaultMessage="Manage networks for your app"
@@ -188,7 +203,7 @@ export default function NetworksWizardContainer({
           <Grid item xs={12}>
             <Grid
               container
-              spacing={2}
+              spacing={isMobile ? 1 : 2}
               alignItems="center"
               justifyContent="space-between"
             >
@@ -197,6 +212,12 @@ export default function NetworksWizardContainer({
                   onClick={handleAddNetwork}
                   variant="contained"
                   startIcon={<Add />}
+                  size={isMobile ? "small" : "medium"}
+                  sx={{
+                    fontSize: isMobile ? "0.875rem" : undefined,
+                    py: isMobile ? 0.75 : undefined,
+                    px: isMobile ? 2 : undefined,
+                  }}
                 >
                   <FormattedMessage
                     id="add.network"
@@ -209,18 +230,28 @@ export default function NetworksWizardContainer({
                   <Box>
                     <Stack spacing={1} direction="row">
                       <Button
-                        size="small"
+                        size={isMobile ? "small" : "medium"}
                         onClick={handleDelete}
                         variant="outlined"
                         startIcon={<Delete />}
                         color="error"
+                        sx={{
+                          fontSize: isMobile ? "0.875rem" : undefined,
+                          py: isMobile ? 0.75 : undefined,
+                          px: isMobile ? 2 : undefined,
+                        }}
                       >
                         <FormattedMessage id="remove" defaultMessage="Remove" />
                       </Button>
                       <Button
-                        size="small"
+                        size={isMobile ? "small" : "medium"}
                         onClick={handleCancel}
                         startIcon={<Close />}
+                        sx={{
+                          fontSize: isMobile ? "0.875rem" : undefined,
+                          py: isMobile ? 0.75 : undefined,
+                          px: isMobile ? 2 : undefined,
+                        }}
                       >
                         <FormattedMessage id="cancel" defaultMessage="Cancel" />
                       </Button>
@@ -228,10 +259,15 @@ export default function NetworksWizardContainer({
                   </Box>
                 ) : (
                   <Button
-                    size="small"
+                    size={isMobile ? "small" : "medium"}
                     onClick={handleEdit}
                     variant="outlined"
                     startIcon={<Edit />}
+                    sx={{
+                      fontSize: isMobile ? "0.875rem" : undefined,
+                      py: isMobile ? 0.75 : undefined,
+                      px: isMobile ? 2 : undefined,
+                    }}
                   >
                     <FormattedMessage id="edit" defaultMessage="Edit" />
                   </Button>
@@ -242,13 +278,20 @@ export default function NetworksWizardContainer({
           <Grid item xs={12}>
             {currentActive.length === 0 && (
               <Stack
-                sx={{ p: 2 }}
+                sx={{ p: isMobile ? 1 : 2 }}
                 justifyContent={'center'}
                 alignContent={'center'}
                 alignItems={'center'}
               >
                 <Box>
-                  <Typography textAlign="center" variant="h5">
+                  <Typography
+                    textAlign="center"
+                    variant={isMobile ? 'subtitle1' : 'h5'}
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: isMobile ? '1.1rem' : '1.5rem'
+                    }}
+                  >
                     <FormattedMessage
                       id="no.selected.networks"
                       defaultMessage="No selected networks"
@@ -256,8 +299,11 @@ export default function NetworksWizardContainer({
                   </Typography>
                   <Typography
                     textAlign="center"
-                    variant="body1"
+                    variant={isMobile ? 'body2' : 'body1'}
                     color="text.secondary"
+                    sx={{
+                      fontSize: isMobile ? '0.85rem' : 'inherit',
+                    }}
                   >
                     <FormattedMessage
                       id="you.need.at.least.one.network.selected"
@@ -293,6 +339,12 @@ export default function NetworksWizardContainer({
                 color="primary"
                 onClick={handleSave}
                 disabled={!hasChanged || currentActive.length === 0}
+                size={isMobile ? "small" : "medium"}
+                sx={{
+                  fontSize: isMobile ? "0.875rem" : undefined,
+                  py: isMobile ? 0.75 : undefined,
+                  px: isMobile ? 2 : undefined,
+                }}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>

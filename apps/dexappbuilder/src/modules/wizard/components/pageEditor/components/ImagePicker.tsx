@@ -1,4 +1,4 @@
-import { ButtonBase, Container, Stack, alpha, styled } from '@mui/material';
+import { ButtonBase, Container, Stack, alpha, styled, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
@@ -24,10 +24,11 @@ export const ImagePicker = connectField<{
 }>((props) => {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const isMobile = useIsMobile();
+  const theme = useTheme();
   const { formRef, onChange } = useForm();
 
   return (
-    <Container sx={{ mb: isMobile ? 0.5 : 1, px: isMobile ? 0 : undefined }}>
+    <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : undefined }}>
       <MediaDialog
         dialogProps={{
           open: openMediaDialog,
@@ -56,10 +57,10 @@ export const ImagePicker = connectField<{
             setOpenMediaDialog(true);
           }}
           sx={{
-            height: (theme) => theme.spacing(isMobile ? 20 : 24),
-            width: (theme) => theme.spacing(isMobile ? 20 : 24),
-            borderRadius: (theme) => theme.shape.borderRadius / 2,
-            backgroundColor: (theme) =>
+            height: theme.spacing(isMobile ? 20 : 24),
+            width: theme.spacing(isMobile ? 20 : 24),
+            borderRadius: theme.shape.borderRadius / 2,
+            backgroundColor:
               theme.palette.mode === 'light'
                 ? 'rgba(0,0,0, 0.2)'
                 : alpha(theme.palette.common.white, 0.1),
@@ -69,13 +70,17 @@ export const ImagePicker = connectField<{
             sx={{
               alignItems: 'center',
               justifyContent: 'center',
-              p: isMobile ? 1 : 2,
+              p: isMobile ? theme.spacing(1) : theme.spacing(2),
             }}
           >
             {props.value ? (
               <CustomImage src={props.value} />
             ) : (
-              <CustomImageIcon sx={{ fontSize: isMobile ? '2.5rem' : '3rem' }} />
+              <CustomImageIcon sx={{
+                fontSize: isMobile
+                  ? `${theme.typography.fontSize * 2.5}px`
+                  : `${theme.typography.fontSize * 3}px`
+              }} />
             )}
           </Stack>
         </ButtonBase>

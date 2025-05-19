@@ -4,6 +4,7 @@ import MainLayout from '@dexkit/ui/components/layouts/main';
 import { AuthProvider } from '@dexkit/ui/providers/authProvider';
 import { ConfigWizardProvider } from '@dexkit/ui/providers/configWizardProvider';
 import { NoSsr } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[];
@@ -23,6 +24,8 @@ const PreviewAuthLayout: React.FC<Props> = ({
   disableAutoLogin,
   disableLayout,
 }) => {
+  const theme = useTheme();
+
   if (!disableLayout) {
     return (
       <ConfigWizardProvider>

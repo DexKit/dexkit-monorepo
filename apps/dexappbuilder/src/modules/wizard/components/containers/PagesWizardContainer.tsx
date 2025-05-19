@@ -7,6 +7,8 @@ import {
   Typography,
   createTheme,
   responsiveFontSizes,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -43,6 +45,8 @@ export default function PagesWizardContainer({
   onChange,
   previewUrl,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [pages, setPages] = useState<{ [key: string]: AppPage }>(
     structuredClone(config.pages),
   );
@@ -161,14 +165,26 @@ export default function PagesWizardContainer({
           </Typography>
         </Stack>
       </AppConfirmDialog>
-      <Grid container spacing={2} sx={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
+      <Grid container spacing={isMobile ? 1.5 : 3} sx={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
         <Grid item xs={12}>
-          <Stack direction="column">
-            <Typography fontWeight="bold" variant="h6">
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="pages" defaultMessage="Pages" />
             </Typography>
-
-            <Typography variant="body2">
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="pages.wizard.description"
                 defaultMessage="Create and manage your app pages"
@@ -197,10 +213,16 @@ export default function PagesWizardContainer({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Stack spacing={1} direction="row" justifyContent="flex-end" sx={{ pr: 2 }}>
+          <Stack spacing={1} direction="row" justifyContent="flex-end" sx={{ pr: theme.spacing(2) }}>
             <Button
               onClick={handleCancel}
               disabled={!hasSectionChanges && !hasPageChanges}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
+              }}
             >
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
@@ -209,6 +231,12 @@ export default function PagesWizardContainer({
               color="primary"
               onClick={handleSave}
               disabled={!hasSectionChanges && !hasPageChanges}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
+              }}
             >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>

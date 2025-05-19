@@ -10,6 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 const PAGE_SIZES = [5, 10, 25, 50];
 
@@ -47,24 +48,25 @@ export default function SectionsPagination({
   onChangePage,
 }: SectionsPaginationProps) {
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   return (
     <Stack
       direction="row"
       alignItems="center"
-      spacing={isMobile ? 0.1 : 0.5}
+      spacing={isMobile ? theme.spacing(0.1) : theme.spacing(0.5)}
       justifyContent="flex-end"
       sx={{
         flexWrap: isMobile ? 'wrap' : 'nowrap',
         '& > *': {
-          fontSize: isMobile ? '0.75rem' : 'inherit'
+          fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit'
         },
-        mt: isMobile ? 0.25 : 0.5,
-        pr: isMobile ? 2 : 1,
+        mt: isMobile ? theme.spacing(0.25) : theme.spacing(0.5),
+        pr: isMobile ? theme.spacing(2) : theme.spacing(1),
         ml: 0
       }}
     >
-      <Typography variant={isMobile ? "caption" : "body1"} sx={{ mr: isMobile ? 0.1 : 0.25 }}>
+      <Typography variant={isMobile ? "caption" : "body1"} sx={{ mr: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}>
         <FormattedMessage
           id={isMobile ? "rows.per.page.short" : "rows.per.page"}
           defaultMessage={isMobile ? "Rows:" : "Rows per page:"}
@@ -79,11 +81,11 @@ export default function SectionsPagination({
           onChange(e.target.value as number)
         }
         sx={{
-          minWidth: isMobile ? 35 : 55,
-          mr: isMobile ? 0.25 : 0.5,
+          minWidth: isMobile ? theme.spacing(4.375) : theme.spacing(6.875),
+          mr: isMobile ? theme.spacing(0.25) : theme.spacing(0.5),
           '& .MuiSelect-select': {
-            py: isMobile ? 0.1 : 'inherit',
-            px: isMobile ? 0.1 : 'inherit'
+            py: isMobile ? theme.spacing(0.1) : 'inherit',
+            px: isMobile ? theme.spacing(0.1) : 'inherit'
           }
         }}
       >
@@ -113,7 +115,7 @@ export default function SectionsPagination({
           size="small"
           disabled={page === 0}
           onClick={() => onChangePage(page - 1)}
-          sx={{ p: isMobile ? 0.1 : 0.25 }}
+          sx={{ p: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}
         >
           <KeyboardArrowLeftIcon fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
@@ -121,7 +123,7 @@ export default function SectionsPagination({
           size="small"
           disabled={shouldDisableNextButton(count, pageSize, page)}
           onClick={() => onChangePage(page + 1)}
-          sx={{ p: isMobile ? 0.1 : 0.25 }}
+          sx={{ p: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}
         >
           <KeyboardArrowRightIcon fontSize={isMobile ? "small" : "medium"} />
         </IconButton>

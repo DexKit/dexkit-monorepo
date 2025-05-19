@@ -9,6 +9,7 @@ import {
   AppConfig,
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
+import { useTheme } from '@mui/material/styles';
 import PreviewPage from './PreviewPage';
 import { PreviewPlatformType } from './PreviewPlatformType';
 interface Props {
@@ -38,6 +39,7 @@ export default function PreviewPagePlatform({
 }: Props) {
   const [previewPlatform, setPreviewPlatform] = useState<any>('desktop');
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const pagePreview = (
     <PreviewPage
@@ -71,7 +73,7 @@ export default function PreviewPagePlatform({
           (enableOverflow ? (
             <Box
               sx={{
-                maxHeight: isMobile ? '300px' : '500px',
+                maxHeight: isMobile ? theme.spacing(37.5) : theme.spacing(62.5), // 300px/500px
                 overflow: 'auto',
               }}
             >
@@ -87,14 +89,14 @@ export default function PreviewPagePlatform({
             alignContent={'center'}
           >
             {page && site ? (
-            <PreviewPortal page={page} site={site} index={index} />
+              <PreviewPortal page={page} site={site} index={index} />
             ) : (
               <Box
                 sx={{
                   width: '100%',
                   maxWidth: '375px',
-                  border: '1px solid #ccc',
-                  borderRadius: '16px',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: theme.shape.borderRadius * 2,
                   overflow: 'hidden'
                 }}
               >

@@ -1,5 +1,5 @@
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { Divider, Grid, Stack, Typography } from '@mui/material';
+import { Divider, Grid, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { StepperButtonProps } from '../../types';
@@ -22,6 +22,8 @@ export default function GeneralWizardContainer({
   onHasChanges,
   stepperButtonProps,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [generalData, setGeneralData] = useState<GeneralSectionForm>();
 
   const handleSubmitGeneral = (form: GeneralSectionForm) => {
@@ -100,13 +102,26 @@ export default function GeneralWizardContainer({
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontWeight: 600,
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="general" defaultMessage="General" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="general.information.description"
               defaultMessage="Input your app's general details"

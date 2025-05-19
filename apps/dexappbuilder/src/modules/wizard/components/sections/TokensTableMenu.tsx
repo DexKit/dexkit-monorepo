@@ -7,6 +7,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  useTheme,
 } from '@mui/material';
 import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
@@ -28,6 +29,8 @@ export default function TokensTableMenu({
   appUrl,
   isMobile,
 }: TokensTableMenuProps) {
+  const theme = useTheme();
+
   return (
     <Menu
       id="long-menu"
@@ -50,8 +53,8 @@ export default function TokensTableMenu({
           }
           primaryTypographyProps={{
             variant: isMobile ? 'body2' : 'body1',
-            fontWeight: 'bold',
-            fontSize: isMobile ? '0.875rem' : undefined
+            fontWeight: theme.typography.fontWeightBold,
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined
           }}
         />
       </ListItem>
@@ -74,7 +77,7 @@ export default function TokensTableMenu({
             <FormattedMessage id="buy.token" defaultMessage="Buy token" />
           }
           primaryTypographyProps={{
-            fontSize: isMobile ? '0.875rem' : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined
           }}
         />
       </MenuItem>
@@ -96,7 +99,7 @@ export default function TokensTableMenu({
             <FormattedMessage id="sell.token" defaultMessage="Sell token" />
           }
           primaryTypographyProps={{
-            fontSize: isMobile ? '0.875rem' : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined
           }}
         />
       </MenuItem>
@@ -118,7 +121,7 @@ export default function TokensTableMenu({
             <FormattedMessage id="trade.token" defaultMessage="Trade token" />
           }
           primaryTypographyProps={{
-            fontSize: isMobile ? '0.875rem' : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined
           }}
         />
       </MenuItem>

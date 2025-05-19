@@ -5,6 +5,7 @@ import {
   MenuItem,
   Menu as MuiMenu,
   Typography,
+  useTheme
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { ADMIN_TABLE_LIST } from "../../../constants";
@@ -18,6 +19,7 @@ export interface MenuProps {
 
 export default function Menu({ anchorEl, open, onClose, onAction }: MenuProps) {
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleAction = (action: string) => {
     return () => {
@@ -34,9 +36,9 @@ export default function Menu({ anchorEl, open, onClose, onAction }: MenuProps) {
       slotProps={{
         paper: {
           sx: {
-            minWidth: isMobile ? 200 : 220,
+            minWidth: isMobile ? theme.spacing(25) : theme.spacing(27.5),
             '& .MuiList-root': {
-              padding: isMobile ? '4px 0' : '8px 0',
+              padding: isMobile ? theme.spacing(0.5, 0) : theme.spacing(1, 0),
             }
           }
         }
@@ -48,11 +50,11 @@ export default function Menu({ anchorEl, open, onClose, onAction }: MenuProps) {
             key={index}
             onClick={handleAction(item.value)}
             sx={{
-              py: isMobile ? 1.5 : 1,
-              px: isMobile ? 2 : 1.5
+              py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+              px: isMobile ? theme.spacing(2) : theme.spacing(1.5)
             }}
           >
-            <ListItemIcon sx={{ minWidth: isMobile ? 36 : 40 }}>{item.icon}</ListItemIcon>
+            <ListItemIcon sx={{ minWidth: isMobile ? theme.spacing(4.5) : theme.spacing(5) }}>{item.icon}</ListItemIcon>
             <Typography>
               <ListItemText
                 primary={
@@ -63,7 +65,7 @@ export default function Menu({ anchorEl, open, onClose, onAction }: MenuProps) {
                 }
                 primaryTypographyProps={{
                   sx: {
-                    fontSize: isMobile ? '0.9rem' : 'inherit'
+                    fontSize: isMobile ? theme.typography.body2.fontSize : 'inherit'
                   }
                 }}
               />

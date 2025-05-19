@@ -152,7 +152,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
             alignItems="flex-start"
             justifyContent="flex-start"
             wrap="wrap"
-            sx={{ height: '18rem' }}
+            sx={{ height: (theme) => theme.spacing(36) }}
           >
             {availNetworks.map((network, key) => (
               <Grid item key={key}>

@@ -1,5 +1,5 @@
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
-import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
+/* import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';*/
 import ConfigureDomainDialog from '@/modules/wizard/components/dialogs/ConfigureDomainDialog';
 import { useDebounce, useIsMobile } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
@@ -118,7 +118,7 @@ export const AdminIndexPage: NextPage = () => {
     if (isActive && !isLoggedIn) {
       return (
         <Box justifyContent={'center'} display={'flex'}>
-          <Box sx={{ maxWidth: '400px', width: '100%' }}>
+          <Box sx={{ maxWidth: theme => theme.spacing(50), width: 1 }}>
             <LoginAppButton />
           </Box>
         </Box>
@@ -260,9 +260,9 @@ export const AdminIndexPage: NextPage = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
             <WelcomeMessage />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <MismatchAccount />
           </Grid>

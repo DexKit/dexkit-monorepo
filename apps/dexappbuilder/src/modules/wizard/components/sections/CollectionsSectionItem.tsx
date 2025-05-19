@@ -15,6 +15,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
@@ -37,10 +38,12 @@ export default function CollectionsSectionItem({
   disabled,
   isMobile,
 }: Props) {
+  const theme = useTheme();
+
   return (
     <Card>
-      <Box sx={{ p: isMobile ? 1.5 : 2, m: 0 }}>
-        <Grid container spacing={isMobile ? 1 : 2}>
+      <Box sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2), m: 0 }}>
+        <Grid container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
           <Grid item xs={4}>
             <Box
               sx={{
@@ -57,15 +60,15 @@ export default function CollectionsSectionItem({
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  borderRadius: (theme) => theme.spacing(0.5),
+                  borderRadius: theme.spacing(0.5),
                 }}
               />
             </Box>
           </Grid>
           <Grid item xs={8}>
-            <Stack spacing={isMobile ? 0.75 : 1} alignItems="flex-start">
+            <Stack spacing={isMobile ? theme.spacing(0.75) : theme.spacing(1)} alignItems="flex-start">
               <Box>
-                <Typography variant={isMobile ? "subtitle1" : "h5"} sx={{ fontWeight: isMobile ? "bold" : undefined }}>
+                <Typography variant={isMobile ? "subtitle1" : "h5"} sx={{ fontWeight: isMobile ? theme.typography.fontWeightBold : undefined }}>
                   {collection.name}
                 </Typography>
                 <Typography
@@ -89,7 +92,7 @@ export default function CollectionsSectionItem({
                 direction="row"
                 alignItems="center"
                 alignContent="center"
-                spacing={1}
+                spacing={theme.spacing(1)}
               >
                 <Button
                   size="small"
@@ -141,7 +144,7 @@ export default function CollectionsSectionItem({
               alignItems="center"
               alignContent="center"
               justifyContent="center"
-              spacing={isMobile ? 0.5 : 1}
+              spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
               flexWrap={isMobile ? "wrap" : "nowrap"}
             >
               <Button
@@ -150,9 +153,9 @@ export default function CollectionsSectionItem({
                 disabled={disabled}
                 onClick={() => onEdit(collection)}
                 sx={{
-                  fontSize: isMobile ? "0.75rem" : undefined,
-                  py: isMobile ? 0.5 : undefined,
-                  px: isMobile ? 1 : undefined,
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
                   minWidth: isMobile ? "auto" : undefined,
                 }}
               >
@@ -164,9 +167,9 @@ export default function CollectionsSectionItem({
                 disabled={disabled}
                 onClick={() => onRemove(collection)}
                 sx={{
-                  fontSize: isMobile ? "0.75rem" : undefined,
-                  py: isMobile ? 0.5 : undefined,
-                  px: isMobile ? 1 : undefined,
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
                   minWidth: isMobile ? "auto" : undefined,
                 }}
               >
@@ -178,9 +181,9 @@ export default function CollectionsSectionItem({
                 disabled={disabled}
                 onClick={() => onPreview(collection)}
                 sx={{
-                  fontSize: isMobile ? "0.75rem" : undefined,
-                  py: isMobile ? 0.5 : undefined,
-                  px: isMobile ? 1 : undefined,
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
                   minWidth: isMobile ? "auto" : undefined,
                 }}
               >

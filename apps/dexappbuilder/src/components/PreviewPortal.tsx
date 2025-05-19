@@ -5,6 +5,7 @@ import {
   Stack,
   Typography,
   styled,
+  useTheme
 } from '@mui/material';
 import { useMemo, useState } from 'react';
 
@@ -12,10 +13,10 @@ import { getWindowUrl } from '@dexkit/core/utils/browser';
 import '@react-page/editor/lib/index.css';
 import { FormattedMessage } from 'react-intl';
 
-const PreviewIframe = styled('iframe')(() => ({
+const PreviewIframe = styled('iframe')(({ theme }) => ({
   border: 'none',
-  height: '500px',
-  width: '500px',
+  height: theme.spacing(62.5), // 500px
+  width: theme.spacing(62.5), // 500px
 }));
 
 export interface PreviewPortalProps {
@@ -25,6 +26,7 @@ export interface PreviewPortalProps {
 }
 
 export const PreviewPortal = ({ index, site, page }: PreviewPortalProps) => {
+  const theme = useTheme();
   const [contentRef, setContentRef] = useState<HTMLIFrameElement | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -58,9 +60,9 @@ export const PreviewPortal = ({ index, site, page }: PreviewPortalProps) => {
               right: 0,
               bottom: 0,
             }}
-            spacing={2}
+            spacing={theme.spacing(2)}
           >
-            <CircularProgress size="3rem" color="primary" />
+            <CircularProgress size={theme.spacing(4.5)} color="primary" />
             <Typography textAlign="center">
               <FormattedMessage
                 id="loading.content"

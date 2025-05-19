@@ -44,12 +44,12 @@ export default function ViewNetworkInfoDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ p: isMobile ? 2 : 3 }}>
-        <Stack spacing={isMobile ? 1.5 : 2}>
+      <DialogContent sx={{ p: isMobile ? theme.spacing(2) : theme.spacing(3) }}>
+        <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
           <Stack
             justifyContent="space-between"
             direction={isMobile ? "column" : "row"}
-            spacing={isMobile ? 0.5 : 0}
+            spacing={isMobile ? theme.spacing(0.5) : 0}
           >
             <Typography variant={isMobile ? "body2" : "body1"} fontWeight="500">
               <FormattedMessage id="name" defaultMessage="name" />
@@ -61,7 +61,7 @@ export default function ViewNetworkInfoDialog({
           <Stack
             justifyContent="space-between"
             direction={isMobile ? "column" : "row"}
-            spacing={isMobile ? 0.5 : 0}
+            spacing={isMobile ? theme.spacing(0.5) : 0}
           >
             <Typography variant={isMobile ? "body2" : "body1"} fontWeight="500">
               <FormattedMessage id="symbol" defaultMessage="Symbol" />
@@ -73,7 +73,7 @@ export default function ViewNetworkInfoDialog({
           <Stack
             justifyContent="space-between"
             direction={isMobile ? "column" : "row"}
-            spacing={isMobile ? 0.5 : 0}
+            spacing={isMobile ? theme.spacing(0.5) : 0}
           >
             <Typography variant={isMobile ? "body2" : "body1"} fontWeight="500">
               <FormattedMessage id="chainId" defaultMessage="ChainId" />
@@ -85,7 +85,7 @@ export default function ViewNetworkInfoDialog({
           <Stack
             justifyContent="space-between"
             direction={isMobile ? "column" : "row"}
-            spacing={isMobile ? 0.5 : 0}
+            spacing={isMobile ? theme.spacing(0.5) : 0}
           >
             <Typography variant={isMobile ? "body2" : "body1"} fontWeight="500">
               <FormattedMessage id="decimals" defaultMessage="Decimals" />

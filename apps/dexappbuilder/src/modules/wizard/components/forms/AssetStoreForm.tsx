@@ -5,6 +5,7 @@ import {
   LinearProgress,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
@@ -49,6 +50,7 @@ export default function AssetStoreForm({
   onChange,
 }: Props) {
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   return (
     <Formik
@@ -74,7 +76,7 @@ export default function AssetStoreForm({
             isValid={isValid}
             onChange={onChange}
           />
-          <Grid container spacing={isMobile ? 1.5 : 2}>
+          <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
             <Grid item xs={12}>
               <Field
                 component={TextField}
@@ -163,8 +165,8 @@ export default function AssetStoreForm({
               </CompletationProvider>
             </Grid>
             <Grid item xs={12}>
-              <Stack spacing={isMobile ? 1 : 2}>
-                <Box pl={isMobile ? 1 : 2}>
+              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
                   <Typography variant={isMobile ? "caption" : "body2"}>
                     <FormattedMessage
                       id="profile.image"
@@ -182,8 +184,8 @@ export default function AssetStoreForm({
               </Stack>
             </Grid>
             <Grid item xs={12}>
-              <Stack spacing={isMobile ? 1 : 2}>
-                <Box pl={isMobile ? 1 : 2}>
+              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
                   <Typography variant={isMobile ? "caption" : "body2"}>
                     <FormattedMessage
                       id="background.image"
@@ -203,7 +205,7 @@ export default function AssetStoreForm({
             {isSubmitting && <LinearProgress />}
             {onSubmit && (
               <Grid item xs={12}>
-                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end">
                   {onCancel && (
                     <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
                       <FormattedMessage id="cancel" defaultMessage="Cancel" />

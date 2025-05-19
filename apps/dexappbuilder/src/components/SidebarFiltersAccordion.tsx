@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   Divider,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -19,6 +20,8 @@ export default function SidebarFiltersAccordion({
   children,
   expanded,
 }: Props) {
+  const theme = useTheme();
+
   return (
     <Accordion
       sx={{ borderRightWidth: 0, borderLeftWidth: 0, borderBottomWidth: 0 }}
@@ -27,7 +30,12 @@ export default function SidebarFiltersAccordion({
       defaultExpanded={expanded}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography sx={{ fontWeight: 600 }} variant="body1">
+        <Typography
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium
+          }}
+          variant="body1"
+        >
           {title}
         </Typography>
       </AccordionSummary>

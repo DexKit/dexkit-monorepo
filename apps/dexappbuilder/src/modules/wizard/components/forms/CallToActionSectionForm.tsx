@@ -180,7 +180,7 @@ export default function CallToActionSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
+      <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
         <Grid item xs={12}>
           <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
             <InputLabel>
@@ -330,7 +330,7 @@ export default function CallToActionSectionForm({
         </Grid>
         {!showAddItem &&
           items.map((item, index) => (
-            <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
+            <Grid item xs={12} key={index} sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -343,7 +343,7 @@ export default function CallToActionSectionForm({
           ))}
         {showAddItem ? (
           <Grid item xs={12}>
-            <Paper sx={{ p: isMobile ? 1 : 2 }}>
+            <Paper sx={{ p: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
               <AddItemForm
                 item={
                   selectedItemIndex === -1
@@ -365,9 +365,9 @@ export default function CallToActionSectionForm({
               size={isMobile ? "small" : "medium"}
               sx={{
                 '& .MuiButton-startIcon': {
-                  marginRight: isMobile ? 2 : 4,
+                  marginRight: isMobile ? theme.spacing(2) : theme.spacing(4),
                   "& > *:nth-of-type(1)": {
-                    fontSize: isMobile ? 16 : 20,
+                    fontSize: isMobile ? theme.typography.fontSize * 1.1 : theme.typography.fontSize * 1.4,
                   }
                 }
               }}
@@ -378,7 +378,7 @@ export default function CallToActionSectionForm({
         )}
 
         <Grid item xs={12}>
-          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
+          <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} direction="row" justifyContent="flex-end">
             <Button
               onClick={onCancel}
               size={isMobile ? "small" : "medium"}

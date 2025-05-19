@@ -31,7 +31,7 @@ import '@react-page/plugins-video/lib/index.css';
 import '@react-page/plugins-spacer/lib/index.css';
 import ExtendedSpacer from './plugins/ExtendedSpacerPlugin';
 
-import { Box, Stack, Theme } from '@mui/material';
+import { Box, Stack, Theme, useTheme } from '@mui/material';
 import { BuilderKit } from '../../constants';
 import AssetAltPlugin from './plugins/AssetAltPlugin';
 import AssetListPlugin from './plugins/AssetListPlugin';
@@ -173,6 +173,7 @@ interface Props {
 export default function PageEditor(props: Props) {
   const { readOnly, onChange, value, theme, builderKit } = props;
   const isMobile = useIsMobile();
+  const muiTheme = useTheme();
 
   const onChangeValue = (val: Value | null) => {
     if (onChange) {
@@ -199,16 +200,16 @@ export default function PageEditor(props: Props) {
       <Box
         sx={{
           overflow: 'auto',
-          pb: isMobile ? 12 : 8,
+          pb: isMobile ? muiTheme.spacing(12) : muiTheme.spacing(8),
           height: '100%',
           '& .react-page-cell-insert-new': {
             zIndex: '1100 !important'
           },
           '& .react-page-cell-insert-new button': {
-            width: isMobile ? '36px !important' : 'auto',
-            height: isMobile ? '36px !important' : 'auto',
-            minWidth: isMobile ? '36px !important' : 'auto',
-            padding: isMobile ? '4px !important' : 'auto',
+            width: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            height: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            minWidth: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            padding: isMobile ? `${muiTheme.spacing(0.5)} !important` : 'auto',
           }
         }}
       >

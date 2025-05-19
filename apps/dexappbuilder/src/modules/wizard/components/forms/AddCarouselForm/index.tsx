@@ -1,5 +1,5 @@
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
-import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { Field, FieldArray, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { FormattedMessage } from 'react-intl';
@@ -87,6 +87,7 @@ export default function AddCarouselForm({
   const [openDialog, setOpenDialog] = useState(false);
   const [index, setIndex] = useState(-1);
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleSelectImage = (index: number) => {
     return () => {
@@ -150,7 +151,7 @@ export default function AddCarouselForm({
                 }
               />
             </DexkitApiProvider.Provider>
-            <Grid container spacing={isMobile ? 0.5 : 1}>
+            <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
               <Grid item xs={12} md={6}>
                 <Field
                   label={
@@ -170,29 +171,29 @@ export default function AddCarouselForm({
                   }
                   inputProps={{
                     style: isMobile ? {
-                      fontSize: '0.85rem',
-                      padding: '8px 6px'
+                      fontSize: theme.typography.body2.fontSize,
+                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
                     } : {}
                   }}
                   InputLabelProps={{
                     style: isMobile ? {
-                      fontSize: '0.85rem'
+                      fontSize: theme.typography.body2.fontSize
                     } : {}
                   }}
                   sx={isMobile ? {
                     '& .MuiInputBase-root': {
-                      height: '35px',
-                      padding: '0 8px'
+                      height: theme.spacing(4.375),
+                      padding: `0 ${theme.spacing(1)}`
                     },
                     '& .MuiFormHelperText-root': {
-                      fontSize: '0.7rem',
-                      marginTop: '2px'
+                      fontSize: theme.typography.caption.fontSize,
+                      marginTop: theme.spacing(0.25)
                     }
                   } : {}}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Grid container spacing={isMobile ? 0.5 : 1}>
+                <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
                   <Grid item xs={6}>
                     <Field
                       label={
@@ -209,19 +210,19 @@ export default function AddCarouselForm({
                       margin="dense"
                       inputProps={{
                         style: isMobile ? {
-                          fontSize: '0.85rem',
-                          padding: '8px 6px'
+                          fontSize: theme.typography.body2.fontSize,
+                          padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
                         } : {}
                       }}
                       InputLabelProps={{
                         style: isMobile ? {
-                          fontSize: '0.85rem'
+                          fontSize: theme.typography.body2.fontSize
                         } : {}
                       }}
                       sx={isMobile ? {
                         '& .MuiInputBase-root': {
-                          height: '35px',
-                          padding: '0 8px'
+                          height: theme.spacing(4.375),
+                          padding: `0 ${theme.spacing(1)}`
                         }
                       } : {}}
                     />
@@ -240,12 +241,12 @@ export default function AddCarouselForm({
                       name="height.desktop"
                       size={isMobile ? "small" : "medium"}
                       margin="dense"
-                      inputProps={{ style: isMobile ? { fontSize: '0.85rem' } : {} }}
-                      InputLabelProps={{ style: isMobile ? { fontSize: '0.85rem' } : {} }}
+                      inputProps={{ style: isMobile ? { fontSize: theme.typography.body2.fontSize } : {} }}
+                      InputLabelProps={{ style: isMobile ? { fontSize: theme.typography.body2.fontSize } : {} }}
                       sx={isMobile ? {
                         '& .MuiInputBase-root': {
-                          height: '35px',
-                          padding: '0 8px'
+                          height: theme.spacing(4.375),
+                          padding: `0 ${theme.spacing(1)}`
                         }
                       } : {}}
                     />
@@ -254,12 +255,12 @@ export default function AddCarouselForm({
               </Grid>
               {values.slides.length === 0 && (
                 <Grid item xs={12}>
-                  <Paper sx={{ p: isMobile ? 0.5 : 1 }}>
+                  <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
                     <Stack
-                      sx={{ p: isMobile ? 0.5 : 1 }}
+                      sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
                       alignItems="center"
                       justifyContent="center"
-                      spacing={isMobile ? 0.5 : 1}
+                      spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
                     >
                       <ViewStreamIcon fontSize={isMobile ? "medium" : "large"} />
                       <Box>
@@ -273,7 +274,7 @@ export default function AddCarouselForm({
                           color="text.secondary"
                           align="center"
                           variant={isMobile ? "caption" : "body1"}
-                          sx={isMobile ? { fontSize: '0.75rem' } : {}}
+                          sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
                         >
                           <FormattedMessage
                             id="section.addItemsPrompt"
@@ -314,10 +315,10 @@ export default function AddCarouselForm({
                 <FieldArray
                   name="slides"
                   render={(arrayHelpers) => (
-                    <Grid container spacing={isMobile ? 0.5 : 1}>
+                    <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
                       {values.slides.map((_, index, arr) => (
                         <Grid item xs={12} key={index}>
-                          <Paper sx={{ p: isMobile ? 0.5 : 1 }}>
+                          <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
                             <SlideItem
                               index={index}
                               onRemove={arrayHelpers.handleRemove(index)}
@@ -346,7 +347,7 @@ export default function AddCarouselForm({
                           } as CarouselSlide)}
                           variant="outlined"
                           size={isMobile ? "small" : "medium"}
-                          sx={isMobile ? { mt: 0.5, py: 0.5 } : {}}
+                          sx={isMobile ? { mt: theme.spacing(0.5), py: theme.spacing(0.5) } : {}}
                         >
                           <FormattedMessage id="add" defaultMessage="Add" />
                         </Button>
@@ -357,9 +358,9 @@ export default function AddCarouselForm({
               </Grid>
               {!disableButtons && (
                 <Grid item xs={12}>
-                  <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{ mt: 0.5 }}>
+                  <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
                     {onCancel && (
-                      <Button onClick={onCancel} size={isMobile ? "small" : "medium"} sx={isMobile ? { py: 0.5 } : {}}>
+                      <Button onClick={onCancel} size={isMobile ? "small" : "medium"} sx={isMobile ? { py: theme.spacing(0.5) } : {}}>
                         <FormattedMessage id="cancel" defaultMessage="Cancel" />
                       </Button>
                     )}
@@ -369,7 +370,7 @@ export default function AddCarouselForm({
                       variant="contained"
                       onClick={submitForm}
                       size={isMobile ? "small" : "medium"}
-                      sx={isMobile ? { py: 0.5 } : {}}
+                      sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                     >
                       <FormattedMessage id="save" defaultMessage="Save" />
                     </Button>

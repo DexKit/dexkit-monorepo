@@ -4,7 +4,7 @@ import { NETWORKS } from '@dexkit/core/constants/networks';
 import { getChainSlug } from '@dexkit/core/utils/blockchain';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
-import { Avatar, Checkbox, Chip, Stack } from '@mui/material';
+import { Avatar, Checkbox, Chip, Stack, useTheme } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import React, { useMemo, useState } from 'react';
@@ -30,6 +30,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
 
   const [search, setSearch] = useState<string>('');
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const tokensQuery = useSearchSwapTokens({
     keyword: search,
@@ -80,7 +81,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
           onChange={(ev) => setSearch(ev.currentTarget.value)}
           sx={{
             '& .MuiInputBase-input': {
-              fontSize: isMobile ? '0.9rem' : undefined
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined
             }
           }}
         />
@@ -97,13 +98,16 @@ export function SearchMultiTokenAutocomplete(props: Props) {
         return tagValue.map((option, index) => (
           <Chip
             {...getTagProps({ index })}
-            avatar={<Avatar src={option.logoURI} sx={{ width: isMobile ? 18 : 24, height: isMobile ? 18 : 24 }} />}
+            avatar={<Avatar src={option.logoURI} sx={{
+              width: isMobile ? theme.spacing(2.25) : theme.spacing(3),
+              height: isMobile ? theme.spacing(2.25) : theme.spacing(3)
+            }} />}
             key={index}
             label={option.name}
             size={isMobile ? "small" : "medium"}
             sx={{
-              fontSize: isMobile ? '0.8rem' : undefined,
-              height: isMobile ? '24px' : undefined
+              fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+              height: isMobile ? theme.spacing(3) : undefined
             }}
           />
         ));
@@ -115,14 +119,24 @@ export function SearchMultiTokenAutocomplete(props: Props) {
             <Checkbox
               icon={icon}
               checkedIcon={checkedIcon}
-              style={{ marginRight: 8, padding: isMobile ? 4 : 8 }}
+              style={{
+                marginRight: theme.spacing(1),
+                padding: isMobile ? theme.spacing(0.5) : theme.spacing(1)
+              }}
               size={isMobile ? "small" : "medium"}
               checked={selected}
             />
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ fontSize: isMobile ? '0.85rem' : undefined }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={theme.spacing(1)}
+              sx={{ fontSize: isMobile ? theme.typography.caption.fontSize : undefined }}>
               <Avatar
                 src={option.logoURI}
-                sx={{ width: isMobile ? '0.8rem' : '1rem', height: isMobile ? '0.8rem' : '1rem' }}
+                sx={{
+                  width: isMobile ? theme.spacing(1) : theme.spacing(1.25),
+                  height: isMobile ? theme.spacing(1) : theme.spacing(1.25)
+                }}
               />
               <span>
                 {option.name} ({option.symbol.toUpperCase()}) -{' '}
@@ -134,11 +148,11 @@ export function SearchMultiTokenAutocomplete(props: Props) {
       }}
       sx={{
         '& .MuiAutocomplete-inputRoot': {
-          fontSize: isMobile ? '0.9rem' : undefined
+          fontSize: isMobile ? theme.typography.body2.fontSize : undefined
         },
         '& .MuiAutocomplete-option': {
-          minHeight: isMobile ? '36px' : undefined,
-          padding: isMobile ? '4px 8px' : undefined
+          minHeight: isMobile ? theme.spacing(4.5) : undefined,
+          padding: isMobile ? `${theme.spacing(0.5)} ${theme.spacing(1)}` : undefined
         }
       }}
     />

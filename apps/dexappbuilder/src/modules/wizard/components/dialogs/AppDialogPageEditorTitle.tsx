@@ -6,7 +6,8 @@ import {
   IconButton,
   Stack,
   TextField,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material';
 
 import { useIsMobile } from '@dexkit/core';
@@ -36,6 +37,7 @@ export function AppDialogPageEditorTitle({
 }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
   const isMobile = useIsMobile();
+  const theme = useTheme();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const renderSectionName = () => {
@@ -74,7 +76,7 @@ export function AppDialogPageEditorTitle({
         {isEditMode && (
           <Box
             sx={{
-              paddingTop: 1,
+              paddingTop: theme.spacing(1),
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
@@ -111,7 +113,7 @@ export function AppDialogPageEditorTitle({
         )}
         {!isEditMode && (
           <>
-            <Typography variant={isMobile ? "h6" : "inherit"} sx={isMobile ? { fontSize: '1.1rem' } : undefined}>
+            <Typography variant={isMobile ? "h6" : "inherit"} sx={isMobile ? { fontSize: theme.typography.h6.fontSize } : undefined}>
               <FormattedMessage
                 id="edit.section.name"
                 defaultMessage="Edit section: {name}"
@@ -121,7 +123,7 @@ export function AppDialogPageEditorTitle({
                       variant={isMobile ? "h6" : "inherit"}
                       fontWeight="400"
                       component="span"
-                      sx={isMobile ? { fontSize: '1.1rem' } : undefined}
+                      sx={isMobile ? { fontSize: theme.typography.h6.fontSize } : undefined}
                     >
                       {renderSectionName()}
                     </Typography>
@@ -150,7 +152,7 @@ export function AppDialogPageEditorTitle({
           disabled={disableClose}
           onClick={onClose}
           size={isMobile ? "small" : "medium"}
-          sx={{ position: isMobile ? 'absolute' : 'static', right: isMobile ? 8 : 'auto', top: isMobile ? 8 : 'auto' }}
+          sx={{ position: isMobile ? 'absolute' : 'static', right: isMobile ? theme.spacing(1) : 'auto', top: isMobile ? theme.spacing(1) : 'auto' }}
         >
           <CloseIcon fontSize={isMobile ? "small" : "medium"} />
         </IconButton>

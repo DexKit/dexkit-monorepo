@@ -1,5 +1,6 @@
 import { useIsMobile } from '@dexkit/core';
 import { getChainName } from '@dexkit/core/utils/blockchain';
+import { useTheme } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -14,6 +15,7 @@ export function CollectionAutocomplete(props: Props) {
   const { data } = props;
   const { wizardConfig } = useAppWizardConfig();
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const formValue = data.data;
   const collections =
@@ -34,7 +36,7 @@ export function CollectionAutocomplete(props: Props) {
       sx={{
         width: '100%',
         '& .MuiAutocomplete-inputRoot': {
-          fontSize: isMobile ? '0.9rem' : undefined
+          fontSize: isMobile ? theme.typography.body2.fontSize : undefined
         }
       }}
       inputValue={formValue?.name ? formValue.name : ''}
@@ -58,13 +60,13 @@ export function CollectionAutocomplete(props: Props) {
         <Box
           component="li"
           sx={{
-            '& > img': { mr: 2, flexShrink: 0 },
-            fontSize: isMobile ? '0.9rem' : undefined,
-            py: isMobile ? 1 : undefined
+            '& > img': { mr: theme.spacing(2), flexShrink: 0 },
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+            py: isMobile ? theme.spacing(1) : undefined
           }}
           {...props}
         >
-          <img loading="lazy" width={isMobile ? "16" : "20"} src={`${option.image}`} alt="" />
+          <img loading="lazy" width={isMobile ? theme.spacing(2) : theme.spacing(2.5)} src={`${option.image}`} alt="" />
           {option.name} - {getChainName(option.chainId)}
         </Box>
       )}

@@ -137,9 +137,9 @@ export default function CollectionsSection({
           defaultMessage="Do you want to remove this collection?"
         />
       </AppConfirmDialog>
-      <Stack spacing={currentIsMobile ? 1.5 : 2}>
+      <Stack spacing={currentIsMobile ? theme.spacing(1.5) : theme.spacing(2)}>
         {!showForm && collections !== undefined && collections?.length > 0 ? (
-          <Stack spacing={currentIsMobile ? 1.5 : 2}>
+          <Stack spacing={currentIsMobile ? theme.spacing(1.5) : theme.spacing(2)}>
             {collections?.map(
               (collection: AppCollection, index: Key | null | undefined) => (
                 <CollectionsSectionItem
@@ -156,7 +156,7 @@ export default function CollectionsSection({
             )}
           </Stack>
         ) : (
-          <Alert severity="info" sx={{ fontSize: currentIsMobile ? "0.75rem" : undefined }}>
+          <Alert severity="info" sx={{ fontSize: currentIsMobile ? theme.typography.caption.fontSize : undefined }}>
             <FormattedMessage
               id="add.collection.to.your.app"
               defaultMessage="Add collection to your app"
@@ -166,7 +166,7 @@ export default function CollectionsSection({
 
         {showForm && (
           <Grid item xs={12}>
-            <Paper sx={{ p: currentIsMobile ? 1.5 : 2 }}>
+            <Paper sx={{ p: currentIsMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
               <CollectionsSectionForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
@@ -186,8 +186,8 @@ export default function CollectionsSection({
             startIcon={<AddIcon fontSize={currentIsMobile ? "small" : "medium"} />}
             size={currentIsMobile ? "small" : "medium"}
             sx={{
-              fontSize: currentIsMobile ? "0.875rem" : undefined,
-              py: currentIsMobile ? 0.75 : undefined
+              fontSize: currentIsMobile ? theme.typography.body2.fontSize : undefined,
+              py: currentIsMobile ? theme.spacing(0.75) : undefined
             }}
           >
             <FormattedMessage

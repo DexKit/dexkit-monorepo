@@ -86,7 +86,7 @@ export default function MenuSection(props: Props) {
   };
 
   return (
-    <Stack spacing={isMobile ? 1.5 : 2}>
+    <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
       {isAddOpen && (
         <EditMenuPageDialog
           dialogProps={{
@@ -107,7 +107,7 @@ export default function MenuSection(props: Props) {
         startIcon={<AddIcon fontSize={isMobile ? "small" : "medium"} />}
         size={isMobile ? "medium" : "medium"}
         sx={{
-          py: isMobile ? 1 : 1.5,
+          py: isMobile ? theme.spacing(1) : theme.spacing(1.5),
           alignSelf: 'flex-start',
         }}
       >

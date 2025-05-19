@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Alert, Button, Stack } from '@mui/material';
+import { Alert, Button, Stack, useTheme } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { MAX_FEES } from '../../constants';
@@ -16,6 +16,7 @@ interface Props {
 
 export default function FeesSection({ fees, onSave, onRemove, isMobile }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const theme = useTheme();
 
   const handleSubmit = (values: FeeForm) => {
     onSave(values);
@@ -31,9 +32,9 @@ export default function FeesSection({ fees, onSave, onRemove, isMobile }: Props)
   }, [String(fees)]);
 
   return (
-    <Stack spacing={isMobile ? 1.5 : 2}>
+    <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
       {isFeesAboveLimit && (
-        <Alert severity="error" sx={{ fontSize: isMobile ? "0.75rem" : undefined }}>
+        <Alert severity="error" sx={{ fontSize: isMobile ? theme.typography.caption.fontSize : undefined }}>
           <FormattedMessage
             id="your.fees.are.above.the.limit"
             defaultMessage="Your fees ({total}%) are above the limit ({maxFee}%)"
@@ -56,7 +57,7 @@ export default function FeesSection({ fees, onSave, onRemove, isMobile }: Props)
       ))}
 
       {fees.length === 0 && (
-        <Alert severity="info" sx={{ fontSize: isMobile ? "0.75rem" : undefined }}>
+        <Alert severity="info" sx={{ fontSize: isMobile ? theme.typography.caption.fontSize : undefined }}>
           <FormattedMessage
             id="add.fees.to.your.marketplace"
             defaultMessage="Add fees to your marketplace"
@@ -78,8 +79,8 @@ export default function FeesSection({ fees, onSave, onRemove, isMobile }: Props)
           startIcon={<AddIcon fontSize={isMobile ? "small" : "medium"} />}
           size={isMobile ? "small" : "medium"}
           sx={{
-            fontSize: isMobile ? "0.875rem" : undefined,
-            py: isMobile ? 0.75 : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+            py: isMobile ? theme.spacing(0.75) : undefined
           }}
         >
           <FormattedMessage id="add.fee" defaultMessage="Add fee" />

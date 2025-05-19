@@ -351,13 +351,26 @@ export default function TokenWizardContainer({
           defaultMessage="Are you sure you want to delete the token(s)?"
         />
       </AppConfirmDialog>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Stack spacing={isMobile ? 0.5 : 1}>
-            <Typography variant="h6">
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="tokens" defaultMessage="Tokens" />
             </Typography>
-            <Typography variant="body2">
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="select.or.import.tokens.for.your.app"
                 defaultMessage="Select or import tokens for your app"
@@ -378,6 +391,7 @@ export default function TokenWizardContainer({
               sx={{
                 fontSize: isMobile ? "0.875rem" : undefined,
                 py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
               }}
             >
               <FormattedMessage
@@ -391,13 +405,13 @@ export default function TokenWizardContainer({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Grid justifyContent="center" container spacing={isMobile ? 1 : 2}>
+          <Grid justifyContent="center" container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
             <Grid item xs={12} sm={9}>
-              <Box pt={isMobile ? 1 : 2}>
+              <Box pt={isMobile ? theme.spacing(1) : theme.spacing(2)}>
                 <Grid
                   container
                   alignItems="flex-end"
-                  spacing={isMobile ? 1 : 2}
+                  spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                   justifyContent="space-between"
                 >
                   <Grid item xs={12} sm={4}>
@@ -411,8 +425,8 @@ export default function TokenWizardContainer({
                     <Box>
                       <Stack
                         direction={isMobile ? "column" : "row"}
-                        spacing={isMobile ? 1 : 2}
-                        sx={{ mt: isMobile ? 1 : 0 }}
+                        spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
+                        sx={{ mt: isMobile ? theme.spacing(1) : 0 }}
                       >
                         {selection.length > 0 && (
                           <Button
@@ -422,8 +436,8 @@ export default function TokenWizardContainer({
                             onClick={handleRemoveTokens}
                             size={isMobile ? "small" : "medium"}
                             sx={{
-                              fontSize: isMobile ? "0.875rem" : undefined,
-                              py: isMobile ? 0.75 : undefined,
+                              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+                              py: isMobile ? theme.spacing(0.75) : undefined,
                             }}
                           >
                             <FormattedMessage
@@ -442,10 +456,10 @@ export default function TokenWizardContainer({
                             }),
                             InputProps: {
                               style: {
-                                fontSize: isMobile ? '0.875rem' : undefined,
+                                fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
                               },
                               startAdornment: (
-                                <InputAdornment sx={{ pr: 1 }} position="start">
+                                <InputAdornment sx={{ pr: theme.spacing(1) }} position="start">
                                   <Search fontSize={isMobile ? "small" : "medium"} />
                                 </InputAdornment>
                               ),
@@ -472,7 +486,7 @@ export default function TokenWizardContainer({
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Grid justifyContent="center" container spacing={isMobile ? 1 : 2}>
+              <Grid justifyContent="center" container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
                 <Grid item xs={12} sm={9}>
                   <TokensTable
                     tokens={tokens}
@@ -513,6 +527,8 @@ export default function TokenWizardContainer({
                 size={isMobile ? "small" : "medium"}
                 sx={{
                   fontSize: isMobile ? "0.875rem" : undefined,
+                  py: isMobile ? 0.75 : undefined,
+                  px: isMobile ? 2 : undefined,
                 }}
               >
                 <FormattedMessage id="cancel" defaultMessage="Cancel" />

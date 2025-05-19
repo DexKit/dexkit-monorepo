@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Container, Grid, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -25,6 +25,8 @@ import { getAppConfig } from 'src/services/app';
 
 export default function FormsContractsPage() {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const deployableContractsQuery = useDeployableContractsQuery();
 
@@ -101,29 +103,36 @@ export default function FormsContractsPage() {
             ]}
           />
           <Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={isMobile ? 1.5 : 3}>
               <Grid item xs={12}>
-                <Typography variant="h4">
-                  <FormattedMessage
-                    id="deploy.your.contract"
-                    defaultMessage="Deploy your contract"
-                  />
-                </Typography>
-                {/* <Typography variant="body1" color="text.secondary">
-                  <FormattedMessage
-                    id="you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future"
-                    defaultMessage="You can deploy contracts from our list and from the community in the future"
-                  />
-            </Typography>*/}
+                <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+                  <Typography
+                    variant={isMobile ? 'h6' : 'h5'}
+                    sx={{
+                      fontSize: isMobile ? '1.15rem' : '1.5rem',
+                      fontWeight: 600,
+                      mb: 0.5
+                    }}
+                  >
+                    <FormattedMessage
+                      id="deploy.your.contract"
+                      defaultMessage="Deploy your contract"
+                    />
+                  </Typography>
+                  <Typography
+                    variant={isMobile ? 'body2' : 'body1'}
+                    color="text.secondary"
+                    sx={{
+                      fontSize: isMobile ? '0.85rem' : 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="deploy.contract.description"
+                      defaultMessage="You can deploy contracts from our available templates"
+                    />
+                  </Typography>
+                </Stack>
               </Grid>
-              {/*    <Grid item xs={12}>
-                <Typography variant="h5">
-                  <FormattedMessage
-                    id="thirdweb.contracts"
-                    defaultMessage="ThirdWeb Contracts"
-                  />
-                </Typography>
-              </Grid>*/}
               <Grid item xs={12}>
                 <Grid container spacing={2}>
                   {deployableContractsQuery.data?.map((contract, key) => (

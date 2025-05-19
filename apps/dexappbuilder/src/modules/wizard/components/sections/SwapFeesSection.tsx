@@ -1,7 +1,7 @@
 import { truncateAddress } from '@dexkit/core/utils/blockchain';
 import Close from '@mui/icons-material/Close';
 import Edit from '@mui/icons-material/Edit';
-import { Button, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SwapFeeForm } from '../../types';
@@ -16,6 +16,7 @@ interface Props {
 
 export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const theme = useTheme();
 
   const handleSubmit = (values: SwapFeeForm) => {
     onSave(values);
@@ -27,7 +28,7 @@ export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Pro
   const handleCancel = () => setIsFormOpen(false);
 
   return (
-    <Stack spacing={isMobile ? 1.5 : 2}>
+    <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
       {isFormOpen ? (
         <SwapFeesSectionForm
           fee={fee}
@@ -38,16 +39,16 @@ export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Pro
       ) : (
         <>
           {fee && (
-            <Paper sx={{ px: isMobile ? 1.5 : 2, py: isMobile ? 0.75 : 1 }}>
+            <Paper sx={{ px: isMobile ? theme.spacing(1.5) : theme.spacing(2), py: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}>
               <Stack
-                spacing={isMobile ? 1 : 2}
+                spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                 direction="row"
                 alignItems="center"
                 alignContent="center"
                 justifyContent="space-between"
               >
                 <Stack
-                  spacing={isMobile ? 0.5 : 1}
+                  spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
                   direction="row"
                   alignItems="center"
                   alignContent="center"
@@ -72,8 +73,8 @@ export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Pro
             startIcon={<Edit fontSize={isMobile ? "small" : "medium"} />}
             size={isMobile ? "small" : "medium"}
             sx={{
-              fontSize: isMobile ? "0.875rem" : undefined,
-              py: isMobile ? 0.75 : undefined
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+              py: isMobile ? theme.spacing(0.75) : undefined
             }}
           >
             <FormattedMessage id="add.fee" defaultMessage="Edit fee" />

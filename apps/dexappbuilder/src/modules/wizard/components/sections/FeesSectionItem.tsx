@@ -1,6 +1,6 @@
 import { truncateAddress } from '@dexkit/core/utils/blockchain';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Paper, Stack, Typography } from '@mui/material';
+import { IconButton, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { memo } from 'react';
 
 interface Props {
@@ -18,6 +18,8 @@ export function FeesSectionItem({
   recipient,
   isMobile,
 }: Props) {
+  const theme = useTheme();
+
   const handleRemove = () => {
     if (onRemove) {
       onRemove(index);
@@ -25,16 +27,16 @@ export function FeesSectionItem({
   };
 
   return (
-    <Paper sx={{ px: isMobile ? 1.5 : 2, py: isMobile ? 0.75 : 1 }}>
+    <Paper sx={{ px: isMobile ? theme.spacing(1.5) : theme.spacing(2), py: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}>
       <Stack
-        spacing={isMobile ? 1 : 2}
+        spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
         direction="row"
         alignItems="center"
         alignContent="center"
         justifyContent="space-between"
       >
         <Stack
-          spacing={isMobile ? 0.5 : 1}
+          spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
           direction="row"
           alignItems="center"
           alignContent="center"

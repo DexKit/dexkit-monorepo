@@ -93,20 +93,20 @@ export default function NetworksContainerList({
                 }}
               >
                 <Stack direction="row" alignItems="center" spacing={isMobileView ? 1 : 2}>
-                  <ListItemIcon sx={{ minWidth: isMobileView ? 40 : 56 }}>
+                  <ListItemIcon sx={{ minWidth: isMobileView ? theme.spacing(5) : theme.spacing(7) }}>
                     <Avatar
                       alt={network.name}
                       src={getNetworkIcon(network.chainId)}
                       sx={{
-                        width: isMobileView ? 32 : 40,
-                        height: isMobileView ? 32 : 40,
+                        width: isMobileView ? theme.spacing(4) : theme.spacing(5),
+                        height: isMobileView ? theme.spacing(4) : theme.spacing(5),
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primaryTypographyProps={{
                       marginTop: 0,
-                      fontSize: isMobileView ? '0.875rem' : undefined,
+                      fontSize: isMobileView ? theme.typography.body2.fontSize : undefined,
                       fontWeight: 500
                     }}
                     primary={network.name}
@@ -117,10 +117,10 @@ export default function NetworksContainerList({
                         label={'testnet'}
                         size="small"
                         sx={{
-                          height: isMobileView ? '20px' : '24px',
+                          height: isMobileView ? theme.spacing(2.5) : theme.spacing(3),
                           '& .MuiChip-label': {
                             px: 0.75,
-                            fontSize: isMobileView ? '0.675rem' : '0.75rem'
+                            fontSize: isMobileView ? theme.typography.caption.fontSize : theme.typography.body2.fontSize
                           }
                         }}
                       />

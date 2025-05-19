@@ -4,7 +4,7 @@ import PasteIconButton from '@dexkit/ui/components/PasteIconButton';
 import { AbiFragment, ContractFormParams } from '@dexkit/web3forms/types';
 import { normalizeAbi } from '@dexkit/web3forms/utils';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import { Box, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { Box, InputAdornment, TextField, Tooltip, useTheme } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { useSnackbar } from 'notistack';
 import { memo } from 'react';
@@ -18,6 +18,7 @@ function ContractFormAbiInput({ abiStr }: ContractFormAbiInputProps) {
   const { setFieldValue } = useFormikContext<ContractFormParams>();
   const isMobile = useIsMobile();
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
 
   const handlePaste = (data: string) => {
     try {
@@ -42,14 +43,17 @@ function ContractFormAbiInput({ abiStr }: ContractFormAbiInputProps) {
       size={isMobile ? "small" : "medium"}
       margin={isMobile ? "dense" : "normal"}
       inputProps={{
-        style: isMobile ? { fontSize: '0.85rem', padding: '6px 10px' } : {}
+        style: isMobile ? {
+          fontSize: theme.typography.body2.fontSize,
+          padding: `${theme.spacing(0.75)} ${theme.spacing(1.25)}`
+        } : {}
       }}
       InputLabelProps={isMobile ? {
-        style: { fontSize: '0.85rem' }
+        style: { fontSize: theme.typography.body2.fontSize }
       } : {}}
       sx={isMobile ? {
         '& .MuiInputBase-root': {
-          minHeight: '35px'
+          minHeight: theme.spacing(4.375)
         }
       } : {}}
       InputProps={{

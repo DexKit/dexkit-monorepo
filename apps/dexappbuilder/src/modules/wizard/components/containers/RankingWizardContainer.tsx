@@ -14,11 +14,12 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useCallback, useEffect, useState } from 'react';
 
-import { useDebounce } from '@dexkit/core';
+import { useDebounce, useIsMobile } from '@dexkit/core';
 import {
   GET_APP_RANKINGS_QUERY,
   useAppRankingListQuery,
@@ -106,23 +107,36 @@ function ExpandableCell({ value }: GridRenderCellParams) {
 }
 
 function EmptyRankings() {
+  const isMobile = useIsMobile();
+  const theme = useTheme();
+
   return (
     <Stack
-      py={2}
+      py={isMobile ? 1 : 2}
       justifyContent="center"
       alignContent="center"
       alignItems="center"
     >
-      <LeaderboardIcon fontSize="inherit" sx={{ fontSize: '3rem' }} />
+      <LeaderboardIcon
+        fontSize="inherit"
+        sx={{ fontSize: isMobile ? theme.typography.h4.fontSize : theme.typography.h3.fontSize }}
+      />
 
-      <Stack>
-        <Typography textAlign="center" variant="h5">
+      <Stack spacing={isMobile ? 0.5 : 1}>
+        <Typography
+          textAlign="center"
+          variant={isMobile ? "h6" : "h5"}
+        >
           <FormattedMessage
             id="no.leaderboard"
             defaultMessage="No leaderboard"
           />
         </Typography>
-        <Typography textAlign="center" variant="body1" color="text.secondary">
+        <Typography
+          textAlign="center"
+          variant={isMobile ? "caption" : "body2"}
+          color="text.secondary"
+        >
           <FormattedMessage
             id="add.leaderboards.to.your.app"
             defaultMessage="Add leaderboards to your app"
@@ -141,6 +155,8 @@ function AppRankingList({
   onClickExport,
 }: TableProps) {
   const [query, setQuery] = useState('');
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const [queryOptions, setQueryOptions] = useState<any>({
     filter: {},
@@ -150,7 +166,7 @@ function AppRankingList({
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 10,
+    pageSize: isMobile ? 5 : 10,
   });
 
   const lazyQuery = useDebounce(query, 500);
@@ -202,93 +218,107 @@ function AppRankingList({
     setQueryOptions({ ...queryOptions, filter });
   }, []);
 
-  const columns: GridColDef[] = [
-    {
-      field: 'title',
-      headerName: 'Title',
-      flex: 1,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Created at',
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+  const getColumns = (): GridColDef[] => {
+    const baseColumns: GridColDef[] = [
+      {
+        field: 'title',
+        headerName: 'Title',
+        flex: isMobile ? 0.5 : 1,
+        minWidth: isMobile ? 80 : 150,
       },
-      flex: 1,
-    },
-    {
-      sortable: false,
-      disableColumnMenu: true,
-      disableReorder: true,
-      field: 'description',
-      headerName: 'Description',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams) => (
-        <ExpandableCell {...params} />
-      ),
-    },
-    {
-      sortable: false,
-      disableColumnMenu: true,
-      disableReorder: true,
-      field: 'actions',
-      headerName: 'Actions',
-      width: 240,
-      renderCell: ({ row }) => {
-        return (
-          <Stack direction="row" spacing={1}>
-            <IconButton
-              onClick={async (e) => {
-                e.stopPropagation();
-
-                onClickPreview({ ranking: row });
-                await refetch();
-              }}
-            >
-              <Tooltip
-                title={
-                  <FormattedMessage id="preview" defaultMessage="Preview" />
-                }
-              >
-                <VisibilityIcon />
-              </Tooltip>
-            </IconButton>
-
-            <IconButton
-              onClick={async (e) => {
-                e.stopPropagation();
-                onClickExport({ ranking: row });
-                await refetch();
-              }}
-            >
-              <Tooltip
-                title={<FormattedMessage id="export" defaultMessage="Export" />}
-              >
-                <FileDownloadIcon />
-              </Tooltip>
-            </IconButton>
-
-            <IconButton
-              color={'error'}
-              onClick={async (e) => {
-                e.stopPropagation();
-                onClickDelete({ ranking: row });
-                await refetch();
-              }}
-            >
-              <Tooltip
-                title={
-                  <FormattedMessage id={'delete'} defaultMessage={'Delete'} />
-                }
-              >
-                <DeleteIcon />
-              </Tooltip>
-            </IconButton>
-          </Stack>
-        );
+      {
+        field: 'createdAt',
+        headerName: 'Created at',
+        valueGetter: ({ row }) => {
+          return new Date(row.createdAt).toLocaleString();
+        },
+        flex: isMobile ? 0.5 : 1,
+        minWidth: isMobile ? 80 : 150,
       },
-    },
-  ];
+      {
+        sortable: false,
+        disableColumnMenu: true,
+        disableReorder: true,
+        field: 'description',
+        headerName: 'Description',
+        flex: isMobile ? 0.5 : 1,
+        minWidth: isMobile ? 80 : 150,
+        renderCell: (params: GridRenderCellParams) => (
+          <ExpandableCell {...params} />
+        ),
+      },
+      {
+        sortable: false,
+        disableColumnMenu: true,
+        disableReorder: true,
+        field: 'actions',
+        headerName: 'Actions',
+        width: isMobile ? 96 : 240,
+        renderCell: ({ row }) => {
+          return (
+            <Stack direction="row" spacing={isMobile ? 0.5 : 1}>
+              <IconButton
+                size={isMobile ? "small" : "medium"}
+                onClick={async (e) => {
+                  e.stopPropagation();
+
+                  onClickPreview({ ranking: row });
+                  await refetch();
+                }}
+              >
+                <Tooltip
+                  title={
+                    <FormattedMessage id="preview" defaultMessage="Preview" />
+                  }
+                >
+                  <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
+                </Tooltip>
+              </IconButton>
+              <IconButton
+                size={isMobile ? "small" : "medium"}
+                onClick={async (e) => {
+                  e.stopPropagation();
+
+                  onClickExport({ ranking: row });
+                  await refetch();
+                }}
+              >
+                <Tooltip
+                  title={
+                    <FormattedMessage id="export" defaultMessage="Export" />
+                  }
+                >
+                  <FileDownloadIcon fontSize={isMobile ? "small" : "medium"} />
+                </Tooltip>
+              </IconButton>
+
+              <IconButton
+                size={isMobile ? "small" : "medium"}
+                color={'error'}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  onClickDelete({ ranking: row });
+                  await refetch();
+                }}
+              >
+                <Tooltip
+                  title={
+                    <FormattedMessage id={'delete'} defaultMessage={'Delete'} />
+                  }
+                >
+                  <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
+                </Tooltip>
+              </IconButton>
+            </Stack>
+          );
+        },
+      },
+    ];
+
+    return baseColumns;
+  };
+
+  const columns = getColumns();
 
   const rows = (data?.data as any) || [];
 
@@ -298,7 +328,7 @@ function AppRankingList({
     <>
       <DataGrid
         autoHeight
-        rowHeight={100}
+        rowHeight={isMobile ? 80 : 100}
         key={data?.total}
         sortingOrder={['asc', 'desc']}
         slots={{
@@ -337,7 +367,7 @@ function AppRankingList({
         onFilterModelChange={onFilterChange}
         sortModel={[{ field: queryOptions.sortField, sort: queryOptions.sort }]}
         onSortModelChange={handleSortModelChange}
-        pageSizeOptions={[5, 10, 25, 50]}
+        pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
         loading={isLoading}
         rowSelectionModel={rowSelection}
         disableRowSelectionOnClick
@@ -357,6 +387,30 @@ function AppRankingList({
           },
           '& .MuiDataGrid-columnHeader:focus-within': {
             outline: 'none !important',
+          },
+          '& .MuiDataGrid-row': {
+            maxHeight: 'none !important',
+            minHeight: isMobile ? `${theme.spacing(7.5)} !important` : 'auto',
+          },
+          '& .MuiDataGrid-cell': {
+            padding: isMobile ? theme.spacing(1, 0.5) : theme.spacing(2),
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit',
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(7)} !important`,
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: isMobile ? theme.spacing(0.5) : theme.spacing(2),
+          },
+          '& .MuiDataGrid-main': {
+            width: isMobile ? `calc(100vw - ${theme.spacing(4)})` : '100%',
+            overflowX: isMobile ? 'auto' : 'hidden',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            width: isMobile ? 'max-content' : '100%',
+            minWidth: isMobile ? '100%' : 'auto',
           },
           border: 'none',
           '--DataGrid-overlayHeight': '150px', // disable cell selection style
@@ -480,6 +534,8 @@ export default function RankingWizardContainer({
   };
 
   const [open, setOpen] = useState(true);
+
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -616,16 +672,29 @@ export default function RankingWizardContainer({
       )}
 
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 1.5 : 3}>
           <Grid item xs={12}>
-            <Stack>
-              <Typography variant={'h6'}>
+            <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+              <Typography
+                variant={isMobile ? 'h6' : 'h5'}
+                sx={{
+                  fontSize: isMobile ? '1.15rem' : '1.5rem',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}
+              >
                 <FormattedMessage
                   id="leaderboard"
                   defaultMessage="Leaderboard"
                 />
               </Typography>
-              <Typography variant={'body2'}>
+              <Typography
+                variant={isMobile ? 'body2' : 'body1'}
+                color="text.secondary"
+                sx={{
+                  fontSize: isMobile ? '0.85rem' : 'inherit',
+                }}
+              >
                 <FormattedMessage
                   id="create.leaderboards.and.gamify.your.app"
                   defaultMessage="Create leaderboards from your events and gamify your app"
@@ -651,6 +720,12 @@ export default function RankingWizardContainer({
                       setOpenAddRanking(true);
                     }}
                     startIcon={<Add />}
+                    size={isMobile ? "small" : "medium"}
+                    sx={{
+                      fontSize: isMobile ? "0.875rem" : undefined,
+                      py: isMobile ? 0.75 : undefined,
+                      px: isMobile ? 2 : undefined,
+                    }}
                   >
                     <FormattedMessage
                       id="new.leaderboard"

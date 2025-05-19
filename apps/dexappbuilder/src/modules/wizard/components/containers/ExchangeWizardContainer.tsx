@@ -4,6 +4,7 @@ import { DexkitExchangeSettings } from '@dexkit/exchange/types';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { ExchangePageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { useMediaQuery, useTheme as useMuiTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -14,6 +15,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { StepperButtonProps } from '../../types';
 import { StepperButtons } from '../steppers/StepperButtons';
+
 interface Props {
   config: AppConfig;
   theme: Omit<Theme, 'palette'> & CssVarsTheme;
@@ -31,6 +33,8 @@ export default function ExchangeWizardContainer({
   isOnStepper,
   stepperButtonProps,
 }: Props) {
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
   const { activeChainIds } = useActiveChainIds();
 
   const [exchangeFormData, setExchangeFormData] = useState<
@@ -110,13 +114,26 @@ export default function ExchangeWizardContainer({
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant="subtitle2">
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="exchange" defaultMessage="Exchange" />
           </Typography>
-          <Typography variant="body2">
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="choose.default.settings.for.exchange.interface"
               defaultMessage="Choose default settings for exchange interface"
@@ -129,7 +146,7 @@ export default function ExchangeWizardContainer({
       </Grid>
       <Grid item xs={12}>
         <ExchangeSettingsForm
-          onCancel={() => {}}
+          onCancel={() => { }}
           activeChainIds={activeChainIds}
           saveOnChange
           onChange={handleOnChange}
@@ -155,7 +172,17 @@ export default function ExchangeWizardContainer({
           />
         ) : (
           <Stack spacing={1} direction="row" justifyContent="flex-end">
-            <Button variant="contained" color="primary" onClick={handleSave}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
+              }}
+            >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
           </Stack>

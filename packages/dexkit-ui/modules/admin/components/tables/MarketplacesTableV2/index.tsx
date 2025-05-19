@@ -10,10 +10,10 @@ import {
   ConfigResponse,
 } from "@dexkit/ui/modules/wizard/types/config";
 import {
-  AppPageSection
+  AppPageSection,
 } from "@dexkit/ui/modules/wizard/types/section";
 import MoreVert from "@mui/icons-material/MoreVert";
-import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { IconButton, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -39,6 +39,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
   const { formatMessage } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
   const isMobile = useIsMobile();
+  const theme = useTheme();
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: isMobile ? 5 : 10,
@@ -537,12 +538,12 @@ export default function MarketplacesTableV2({ configs }: Props) {
           toolbar: {
             showQuickFilter: true,
           },
-          pagination: { sx: { mx: isMobile ? 0 : 0.75 } },
+          pagination: { sx: { mx: isMobile ? 0 : theme.spacing(0.75) } },
           cell: {
             sx: {
               alignItems: 'center',
               justifyContent: isMobile ? 'center' : undefined,
-              fontSize: isMobile ? '0.8rem' : 'inherit'
+              fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit'
             }
           }
         }}
@@ -556,32 +557,32 @@ export default function MarketplacesTableV2({ configs }: Props) {
         loading={false}
         sx={{
           '& .MuiDataGrid-main': {
-            width: isMobile ? 'calc(100vw - 20px)' : '100%',
+            width: isMobile ? `calc(100vw - ${theme.spacing(2.5)})` : '100%',
             overflowX: isMobile ? 'auto' : 'hidden',
-            ml: isMobile ? -0.5 : 0,
-            mr: isMobile ? -1.5 : 0,
+            ml: isMobile ? theme.spacing(-0.5) : 0,
+            mr: isMobile ? theme.spacing(-1.5) : 0,
           },
           '& .MuiDataGrid-virtualScroller': {
             width: isMobile ? 'max-content' : '100%',
             minWidth: isMobile ? '100%' : 'auto'
           },
           '& .MuiDataGrid-cell': {
-            padding: isMobile ? '8px 6px' : '16px',
+            padding: isMobile ? theme.spacing(1, 0.75) : theme.spacing(2),
             whiteSpace: 'normal',
             wordBreak: 'break-word',
-            fontSize: isMobile ? '0.8rem' : 'inherit',
+            fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit',
             overflowX: 'hidden',
             textOverflow: 'ellipsis'
           },
           '& .MuiDataGrid-row': {
             maxHeight: 'none !important',
-            minHeight: isMobile ? '50px !important' : '52px !important'
+            minHeight: isMobile ? `${theme.spacing(6.25)} !important` : `${theme.spacing(6.5)} !important`
           },
           '& .MuiDataGrid-columnHeaders': {
-            minHeight: isMobile ? '45px !important' : '56px'
+            minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7)
           },
           '& .MuiDataGrid-columnHeader': {
-            padding: isMobile ? '6px 6px' : '16px'
+            padding: isMobile ? theme.spacing(0.75) : theme.spacing(2)
           }
         }}
       />

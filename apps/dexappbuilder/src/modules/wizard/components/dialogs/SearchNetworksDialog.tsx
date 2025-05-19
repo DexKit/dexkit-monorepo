@@ -137,7 +137,7 @@ export default function SearchNetworksDialog({
       />
       <DialogContent dividers sx={{ p: 0 }}>
         <Stack>
-          <Box sx={{ p: isMobile ? 1.5 : 2 }}>
+          <Box sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
             <TextField
               label="Search"
               value={queryText}
@@ -146,19 +146,19 @@ export default function SearchNetworksDialog({
               size={isMobile ? "small" : "medium"}
               InputProps={{
                 style: {
-                  fontSize: isMobile ? '0.875rem' : undefined
+                  fontSize: isMobile ? theme.typography.body2.fontSize : undefined
                 }
               }}
               InputLabelProps={{
                 style: {
-                  fontSize: isMobile ? '0.875rem' : undefined
+                  fontSize: isMobile ? theme.typography.body2.fontSize : undefined
                 }
               }}
             />
           </Box>
           <Divider />
           {networks && networks.length === 0 && (
-            <Stack sx={{ p: isMobile ? 1.5 : 2 }}>
+            <Stack sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
               <Box>
                 <Typography textAlign="center" variant={isMobile ? "h6" : "h5"}>
                   <FormattedMessage
@@ -192,35 +192,35 @@ export default function SearchNetworksDialog({
           <List disablePadding>
             {EVM_CHAINS.filter((c) => !excludeChainIds.includes(c.chainId)).map(
               (network, id) => (
-                <ListItem key={id} sx={{ px: isMobile ? 1 : 2, py: isMobile ? 0.75 : 1 }}>
-                  <Stack direction="row" alignItems={'center'} spacing={isMobile ? 1 : 2}>
-                    <ListItemIcon sx={{ minWidth: isMobile ? 40 : 56 }}>
+                <ListItem key={id} sx={{ px: isMobile ? theme.spacing(1) : theme.spacing(2), py: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}>
+                  <Stack direction="row" alignItems={'center'} spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                    <ListItemIcon sx={{ minWidth: isMobile ? theme.spacing(5) : theme.spacing(7) }}>
                       <Avatar
                         alt={network.name}
                         src={getNetworkIcon(network.chainId)}
                         sx={{
-                          width: isMobile ? 32 : 40,
-                          height: isMobile ? 32 : 40,
+                          width: isMobile ? theme.spacing(4) : theme.spacing(5),
+                          height: isMobile ? theme.spacing(4) : theme.spacing(5),
                         }}
                       />
                     </ListItemIcon>
                     <ListItemText
                       primary={network.name}
                       primaryTypographyProps={{
-                        fontSize: isMobile ? '0.875rem' : undefined,
+                        fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
                         fontWeight: 500
                       }}
                     />
                     {network?.testnet && (
-                      <ListItemIcon sx={{ pl: isMobile ? 0.5 : 1, minWidth: 'auto' }}>
+                      <ListItemIcon sx={{ pl: isMobile ? theme.spacing(0.5) : theme.spacing(1), minWidth: 'auto' }}>
                         <Chip
                           label={'testnet'}
                           size="small"
                           sx={{
-                            height: isMobile ? '20px' : '24px',
+                            height: isMobile ? theme.spacing(2.5) : theme.spacing(3),
                             '& .MuiChip-label': {
-                              px: 0.75,
-                              fontSize: isMobile ? '0.675rem' : '0.75rem'
+                              px: theme.spacing(0.75),
+                              fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize
                             }
                           }}
                         />
@@ -245,7 +245,7 @@ export default function SearchNetworksDialog({
               justifyContent="space-between"
               direction="row"
               spacing={2}
-              sx={{ p: 2 }}
+              sx={{ p: theme.spacing(2) }}
             >
               <IconButton disabled={true} onClick={() => { }}>
                 <KeyboardArrowLeftIcon />
@@ -257,14 +257,14 @@ export default function SearchNetworksDialog({
           )}
         </Stack>
       </DialogContent>
-      <DialogActions sx={{ px: isMobile ? 2 : 3, py: isMobile ? 1.5 : 2 }}>
+      <DialogActions sx={{ px: isMobile ? theme.spacing(2) : theme.spacing(3), py: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
         <Button
           onClick={handleConfirm}
           variant="contained"
           size={isMobile ? "small" : "medium"}
           sx={{
-            fontSize: isMobile ? '0.875rem' : undefined,
-            py: isMobile ? 0.75 : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+            py: isMobile ? theme.spacing(0.75) : undefined
           }}
         >
           <FormattedMessage id="save" defaultMessage="Save" />
@@ -273,7 +273,7 @@ export default function SearchNetworksDialog({
           onClick={handleClose}
           size={isMobile ? "small" : "medium"}
           sx={{
-            fontSize: isMobile ? '0.875rem' : undefined
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined
           }}
         >
           <FormattedMessage id="cancel" defaultMessage="Cancel" />

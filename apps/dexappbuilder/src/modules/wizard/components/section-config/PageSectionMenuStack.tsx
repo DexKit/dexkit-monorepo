@@ -1,5 +1,5 @@
 import { useIsMobile } from '@dexkit/core';
-import { IconButton, Stack, Tooltip } from '@mui/material';
+import { IconButton, Stack, Tooltip, useTheme } from '@mui/material';
 import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SECTION_MENU_OPTIONS } from '../../constants/sections';
@@ -23,9 +23,10 @@ export default function PageSectionMenuStack({
   }, [hideMobile, hideDesktop, isVisible]);
 
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   return (
-    <Stack direction="row" spacing={isMobile ? 0 : 0.5} alignItems="center">
+    <Stack direction="row" spacing={isMobile ? 0 : theme.spacing(0.5)} alignItems="center">
       {menuArr.map((item, index) =>
         item.value === 'show.section' || item.value === 'hide.section' ? (
           <IconButton
@@ -35,7 +36,7 @@ export default function PageSectionMenuStack({
               e.stopPropagation();
               onToggleVisibilty();
             }}
-            sx={isMobile ? { padding: '4px' } : undefined}
+            sx={isMobile ? { padding: theme.spacing(0.5) } : undefined}
           >
             <Tooltip
               title={
@@ -58,7 +59,7 @@ export default function PageSectionMenuStack({
               e.stopPropagation();
               onAction(item.value);
             }}
-            sx={isMobile ? { padding: '4px' } : undefined}
+            sx={isMobile ? { padding: theme.spacing(0.5) } : undefined}
           >
             <Tooltip
               title={

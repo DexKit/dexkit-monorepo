@@ -7,6 +7,7 @@ import {
   Chip,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 export interface DexGeneratorSectionCardProps {
@@ -28,10 +29,12 @@ export default function DexGeneratorSectionCard({
   chainId,
   isMobile,
 }: DexGeneratorSectionCardProps) {
+  const theme = useTheme();
+
   return (
     <Card>
       <CardActionArea onClick={onClick}>
-        <CardContent sx={isMobile ? { padding: '8px 12px' } : {}}>
+        <CardContent sx={isMobile ? { padding: theme.spacing(1, 1.5) } : {}}>
           <Stack
             spacing={isMobile ? 1 : 2}
             alignItems="center"
@@ -44,7 +47,7 @@ export default function DexGeneratorSectionCard({
                   variant="caption"
                   color="primary"
                   component="div"
-                  sx={isMobile ? { fontSize: '0.7rem' } : {}}
+                  sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
                 >
                   {type.toUpperCase()}
                 </Typography>
@@ -52,7 +55,7 @@ export default function DexGeneratorSectionCard({
               <Typography
                 variant={isMobile ? "body2" : "body1"}
                 fontWeight="bold"
-                sx={isMobile ? { fontSize: '0.85rem' } : {}}
+                sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
               >
                 {name}
               </Typography>
@@ -61,10 +64,10 @@ export default function DexGeneratorSectionCard({
               label={NETWORK_NAME(chainId)}
               size={isMobile ? "small" : "medium"}
               sx={isMobile ? {
-                height: '20px',
+                height: theme.spacing(2.5),
                 '& .MuiChip-label': {
-                  fontSize: '0.7rem',
-                  padding: '0 6px'
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0, 0.75)
                 }
               } : {}}
             />
