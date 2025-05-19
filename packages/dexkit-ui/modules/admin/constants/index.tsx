@@ -1,6 +1,7 @@
 import Delete from '@mui/icons-material/DeleteOutlined';
 import Edit from '@mui/icons-material/EditOutlined';
 import FileDownload from '@mui/icons-material/FileDownloadOutlined';
+import FileUpload from '@mui/icons-material/FileUploadOutlined';
 import React from 'react';
 
 export const ADMIN_TABLE_LIST: {
@@ -17,6 +18,11 @@ export const ADMIN_TABLE_LIST: {
     value: 'edit',
     icon: <Edit />,
     text: { id: 'edit', defaultMessage: 'Edit' },
+  },
+  {
+    value: 'import',
+    icon: <FileUpload />,
+    text: { id: 'import', defaultMessage: 'Import' },
   },
   {
     value: 'export',

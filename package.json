@@ -14,7 +14,7 @@
     "generate-lang-files": "turbo run generate-lang-files --filter=dexappbuilder",
     "publish-packages": "changeset publish",
     "dev:whitelabel": "turbo run dev --parallel --filter=dexappbuilder",
-    "dev:coinleague": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=coinleague",
+    "dev:coinleague": "turbo run dev --parallel --filter=coinleague",
     "dev:dexappadmin": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=dexappadmin",
     "storybook": "turbo run storybook",
     "storybook:ui": "turbo run storybook --filter=@dexkit/ui",
@@ -46,7 +46,7 @@
     "turbo": "^1.11.3"
   },
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",

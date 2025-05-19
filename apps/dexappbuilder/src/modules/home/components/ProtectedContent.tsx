@@ -68,7 +68,6 @@ export default function ProtectedContent({
     refetch();
   };
 
-  // Retrasar la visualización del error para evitar parpadeos
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (hasError(protectedConfigResponse) && account && isLoggedIn && !isCheckingConditions) {
@@ -91,7 +90,6 @@ export default function ProtectedContent({
     );
   }
 
-  // Siempre mostrar las condiciones mientras se verifica
   return (
     <Container>
       <Grid container justifyContent="center">

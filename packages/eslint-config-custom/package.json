@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "dependencies": {
     "eslint": "^7.23.0",

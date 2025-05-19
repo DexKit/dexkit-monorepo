@@ -12,14 +12,21 @@ interface Props {
   disabled?: boolean;
 }
 
-interface Props {
-  section: CallToActionAppPageSection;
-  disabled?: boolean;
-}
-
 export function CallToActionSection({ section, disabled }: Props) {
+  if (!section || typeof section !== 'object') {
+    return null;
+  }
+
   const renderItems = () => {
+    if (!section.items || !Array.isArray(section.items) || section.items.length === 0) {
+      return null;
+    }
+    
     return section.items.map((item, index: number) => {
+      if (!item || typeof item !== 'object') {
+        return null;
+      }
+
       if (item.type === "asset" && item.tokenId !== undefined) {
         return (
           <Grid item xs={6} sm={3} key={index}>
@@ -45,6 +52,7 @@ export function CallToActionSection({ section, disabled }: Props) {
           </Grid>
         );
       }
+      return null;
     });
   };
 
@@ -71,23 +79,23 @@ export function CallToActionSection({ section, disabled }: Props) {
                   variant="body1"
                   color={section.variant === "dark" ? "secondary" : "primary"}
                 >
-                  {section?.subtitle}
+                  {section.subtitle}
                 </Typography>
                 <Typography color="inherit" variant="h2">
-                  {section?.title}
+                  {section.title}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Button
                   LinkComponent={Link}
-                  target={section?.button?.openInNewPage ? "_blank" : undefined}
+                  target={section.button?.openInNewPage ? "_blank" : undefined}
                   href={
-                    disabled ? "javascript:void(0)" : section?.button?.url || ""
+                    disabled ? "javascript:void(0)" : section.button?.url || ""
                   }
                   variant="contained"
                   color="primary"
                 >
-                  {section?.button?.title || ""}
+                  {section.button?.title || ""}
                 </Button>
               </Grid>
             </Grid>

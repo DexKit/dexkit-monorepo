@@ -15,7 +15,7 @@
     "build"
   ],
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "browser": {
     "child_process": false,
@@ -36,8 +36,8 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "5.14.11",
     "@mui/material": "5.14.11",
-    "react-admin": "4.14.1",
-    "thirdweb": "^5.93.15"
+    "thirdweb": "^5.93.15",
+    "react-admin": "4.14.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
