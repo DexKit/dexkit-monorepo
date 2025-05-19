@@ -11,8 +11,11 @@ import { FormattedMessage } from 'react-intl';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useSendConfigMutation } from 'src/hooks/whitelabel';
 
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { SiteResponse } from 'src/types/whitelabel';
+import {
+  AppConfig,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
+
 import theDefaultConfig from '../../../../../../config/quick.wallet.default.app.json';
 import { PreviewAppButton } from '../../PreviewAppButton';
 import { WelcomeMessage } from '../../WelcomeMessage';

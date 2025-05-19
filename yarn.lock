@@ -3980,7 +3980,7 @@
     "@devtools-ds/themes" "^1.2.1"
     clsx "1.1.0"
 
-"@dexkit/evm-chains@1.15.2":
+"@dexkit/evm-chains@1.15.2", "@dexkit/evm-chains@^1.15.2":
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/@dexkit/evm-chains/-/evm-chains-1.15.2.tgz#217d0853fff639cb2dbd4d2153c041f5f66488b9"
   integrity sha512-lYcBIhmPDv5fs3T8t+iqWwJ7AKpxzBTiohsrm/W4L0KGyq3YbhOmCV2qdj0m8JxoOJJSTLAfF89QEqOnU5q7Qw==

@@ -22,12 +22,13 @@ import { CopyText } from '@dexkit/ui/components/CopyText';
 
 import { beautifyUnderscoreCase } from '@dexkit/core/utils';
 import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
-import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { useQueryClient } from '@tanstack/react-query';
-
 import { CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG } from '@dexkit/ui/constants/featPayments';
 import { useActiveFeatUsage } from '@dexkit/ui/hooks/payments';
-import { SiteResponse } from '../../../../types/whitelabel';
+import {
+  AppConfig,
+  SiteResponse,
+} from '@dexkit/ui/modules/wizard/types/config';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   default as CheckDomainDialog,
   default as DeployDomainDialog,

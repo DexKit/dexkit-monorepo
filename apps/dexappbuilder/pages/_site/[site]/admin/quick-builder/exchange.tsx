@@ -1,5 +1,6 @@
 import ExchangeStepperContainer from '@/modules/wizard/components/steppers/containers/ExchangeStepperContainer';
 import { AuthProvider } from '@dexkit/ui/providers/authProvider';
+import { ConfigWizardProvider } from '@dexkit/ui/providers/configWizardProvider';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   GetStaticPaths,
@@ -13,7 +14,7 @@ import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { useWhitelabelConfigQuery } from 'src/hooks/whitelabel';
-import { ConfigWizardProvider } from 'src/providers/configWizardProvider';
+
 import { getAppConfig } from 'src/services/app';
 
 export const ExchangeQuickBuilderPage: NextPage = () => {
