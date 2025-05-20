@@ -141,3 +141,10 @@ export function useActiveFeatUsage({ slug }: { slug: string }) {
     { refetchInterval: 5000 }
   );
 }
+
+export function useActivatePremiumMutation() {
+  const { instance } = useContext(DexkitApiProvider);
+  return useMutation(async ({ siteId }: { siteId?: number }) => {
+    return instance?.post("/premium-appbuilder/charge-amount", { siteId });
+  });
+}

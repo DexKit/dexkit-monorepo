@@ -1,34 +1,43 @@
+import { useEditSiteId } from '@dexkit/ui';
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
-  CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+  CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   CUSTOM_DOMAINS_PRICE,
 } from '@dexkit/ui/constants/featPayments';
 import {
+  useActivatePremiumMutation,
   useActiveFeatUsage,
   usePlanCheckoutMutation,
   useSubscription,
 } from '@dexkit/ui/hooks/payments';
-import { Alert } from '@mui/material';
+import { Alert, CircularProgress } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import Decimal from 'decimal.js';
+import { useSnackbar } from 'notistack';
 import { useEffect, useMemo } from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
 export function PremiumAppBuilder() {
   const subscriptionQuery = useSubscription();
+  const snackBar = useSnackbar();
+  const { formatMessage } = useIntl();
+  const { editSiteId } = useEditSiteId();
   const activeFeatUsageQuery = useActiveFeatUsage({
-    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   });
-  const { mutateAsync: checkoutPlan, isLoading } = usePlanCheckoutMutation();
+  const { mutateAsync: checkoutPlan } = usePlanCheckoutMutation();
+  const premiumActivateMutation = useActivatePremiumMutation();
   // we check if user has plan, if not subscribe. This should if done once
   useEffect(() => {
     async function subscribePlan() {
       if (!subscriptionQuery.data) {
-        await checkoutPlan({ plan: 'free' });
-        await subscriptionQuery.refetch();
+        try {
+          await checkoutPlan({ plan: 'free' });
+          await subscriptionQuery.refetch();
+        } catch {}
       }
     }
     subscribePlan();
@@ -47,6 +56,35 @@ export function PremiumAppBuilder() {
   const isPaid = activeFeatUsageQuery.data
     ? activeFeatUsageQuery?.data?.active
     : undefined;
+
+  const handleUnlockDomainFeature = async () => {
+    try {
+      await premiumActivateMutation.mutateAsync({
+        siteId: editSiteId,
+      });
+      snackBar.enqueueSnackbar(
+        formatMessage({
+          id: 'feature.unlocked',
+          defaultMessage: 'Feature unlocked',
+        }),
+        { variant: 'success' },
+      );
+      await activeFeatUsageQuery.refetch();
+      await subscriptionQuery.refetch();
+    } catch (e) {
+      snackBar.enqueueSnackbar(
+        formatMessage(
+          {
+            id: 'error.unlocking.feature.try.again.error.msg',
+            defaultMessage:
+              'Error unlocking feature. try again! Error: {errorMsg}',
+          },
+          { errorMsg: (e as Error)?.message },
+        ),
+        { variant: 'error' },
+      );
+    }
+  };
 
   return (
     <>
@@ -95,18 +133,28 @@ export function PremiumAppBuilder() {
             />
           )}
         </Grid>
-        <Grid item>
-          <Button
-            variant={'contained'}
-            disabled={credits < CUSTOM_DOMAINS_PRICE}
-            size="small"
-          >
-            <FormattedMessage
-              id="unlock.custom.domain.feature"
-              defaultMessage="Unlock custom domain feature"
-            />
-          </Button>
-        </Grid>
+        {!isPaid && (
+          <Grid item>
+            <Button
+              variant={'contained'}
+              startIcon={
+                premiumActivateMutation.isLoading && <CircularProgress />
+              }
+              disabled={
+                credits < CUSTOM_DOMAINS_PRICE ||
+                premiumActivateMutation.isLoading ||
+                activeFeatUsageQuery.isLoading
+              }
+              onClick={handleUnlockDomainFeature}
+              size="small"
+            >
+              <FormattedMessage
+                id="unlock.custom.domain.feature"
+                defaultMessage="Unlock custom domain feature"
+              />
+            </Button>
+          </Grid>
+        )}
       </Grid>
       {!isPaid && (
         <Grid item xs={12}>
@@ -124,8 +172,9 @@ export function PremiumAppBuilder() {
           <Typography variant="subtitle1">
             <FormattedMessage
               id="premium.feature.is.paid.message"
-              defaultMessage="Feature Paid for this month. Make sure to have {price} usd credits for
-            next month"
+              defaultMessage="Feature paid for this month. Make sure to have {price} usd credits for
+            next month."
+              values={{ price: CUSTOM_DOMAINS_PRICE }}
             />
           </Typography>
         </Grid>
