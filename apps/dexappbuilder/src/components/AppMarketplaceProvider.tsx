@@ -7,6 +7,7 @@ import { EXCHANGE_NOTIFICATION_TYPES } from '@dexkit/exchange/constants/messages
 import { DexkitProvider } from '@dexkit/ui/components/DexkitProvider';
 import { COMMON_NOTIFICATION_TYPES, WHITELABEL_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
 import { useLocale } from '@dexkit/ui/hooks/useLocale';
+import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { setupSEO, setupTheme } from '@dexkit/ui/services/app';
 import { useAtom } from 'jotai';
 import { DefaultSeo } from 'next-seo';
@@ -31,16 +32,22 @@ export interface AppMarketplaceContextProps {
   children: React.ReactNode | React.ReactNode[];
   appLocaleMessages?: Record<string, string> | null;
   appPage?: string;
+  appConfig?: AppConfig;
 }
 
 export function AppMarketplaceProvider({
   children,
   appPage,
   appLocaleMessages,
+  appConfig: propsAppConfig,
 }: AppMarketplaceContextProps) {
-  const appConfig = useAppConfig();
+  const hookAppConfig = useAppConfig();
   const siteId = useSiteId();
   const router = useRouter();
+
+  const appConfig = propsAppConfig || hookAppConfig;
+
+  console.log("AppMarketplaceProvider - appConfig:", appConfig);
 
   const { locale, onChangeLocale } = useLocale();
 
