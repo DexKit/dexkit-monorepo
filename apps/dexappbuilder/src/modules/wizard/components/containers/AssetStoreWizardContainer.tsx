@@ -1,7 +1,7 @@
 import { AssetStoreContainer } from '@/modules/nft/components/container/AssetStoreContainer';
 import { StepperButtonProps } from '@dexkit/ui/modules/wizard/types';
 import { AssetStorePageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { Alert } from '@mui/material';
+import { Alert, useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -11,6 +11,7 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
+  useTheme,
 } from '@mui/material/styles';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -36,6 +37,8 @@ export default function AssetStoreWizardContainer({
   isOnStepper,
   stepperButtonProps,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isValid, setIsValid] = useState<boolean>(false);
   const [formData, setFormData] = useState<AssetStoreOptions | undefined>(
     (
@@ -84,13 +87,26 @@ export default function AssetStoreWizardContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'subtitle2'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="nft.store" defaultMessage="NFT store" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="settings.to.configure.store"
               defaultMessage="Settings to configure your NFT Store"
@@ -134,7 +150,17 @@ export default function AssetStoreWizardContainer({
           />
         ) : (
           <Stack spacing={1} direction="row" justifyContent="flex-end">
-            <Button variant="contained" color="primary" onClick={handleSave}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
+              }}
+            >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
           </Stack>

@@ -28,14 +28,16 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import Link from 'next/link';
 import { ADMIN_FORMS_ACTION_LIST } from '../constants/actions';
 import { useCloseFormMutation, useDeleteFormMutation } from '../hooks';
 
 const NoResultsStack = () => {
+  const theme = useTheme();
   return (
-    <Stack py={2} alignItems="center" justifyItems="center" spacing={1}>
+    <Stack py={theme.spacing(2)} alignItems="center" justifyItems="center" spacing={theme.spacing(1)}>
       <Box>
         <Typography align="center" variant="h5">
           <FormattedMessage id="no.forms" defaultMessage="No Forms" />
@@ -209,9 +211,8 @@ export default function AccountFormsTable({
       return (
         <IconButton
           LinkComponent={Link}
-          href={`${getBlockExplorerUrl(row.params.chainId)}/address/${
-            row.params.contractAddress
-          }`}
+          href={`${getBlockExplorerUrl(row.params.chainId)}/address/${row.params.contractAddress
+            }`}
           target="_blank"
         >
           {menuItem.icon}

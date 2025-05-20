@@ -1,7 +1,7 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { Box, Tab, Tooltip } from '@mui/material';
+import { Box, Tab, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -32,6 +32,8 @@ export default function OwnershipWizardContainer({
   onHasChanges,
   site,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { data } = useAccountHoldDexkitQuery();
 
   const [value, setValue] = useState('1');
@@ -41,9 +43,9 @@ export default function OwnershipWizardContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Tooltip
             placement="top-start"
             title={
@@ -55,12 +57,25 @@ export default function OwnershipWizardContainer({
               />
             }
           >
-            <Typography variant={'h6'}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="ownership" defaultMessage="Ownership" />
             </Typography>
           </Tooltip>
 
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="ownership.settings.description"
               defaultMessage="Associate an NFT with your app for ownership control and update site metadata for marketing"
@@ -74,8 +89,20 @@ export default function OwnershipWizardContainer({
 
       <Grid item xs={12}>
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <Box sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            '.MuiTabs-flexContainer': {
+              flexWrap: isMobile ? 'wrap' : 'nowrap',
+            },
+            '.MuiTab-root': {
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+              padding: isMobile ? theme.spacing(1, 1.5) : undefined,
+              minWidth: isMobile ? 'auto' : undefined,
+              flex: isMobile ? '1 1 auto' : undefined,
+            },
+          }}>
+            <TabList onChange={handleChange} aria-label="ownership tabs" variant={isMobile ? "scrollable" : "standard"}>
               <Tab
                 label={
                   <FormattedMessage
@@ -96,10 +123,18 @@ export default function OwnershipWizardContainer({
               />
             </TabList>
           </Box>
-          <TabPanel value="1">
+          <TabPanel value="1" sx={{ padding: isMobile ? theme.spacing(1, 0) : undefined }}>
             <Grid item xs={12}>
               {data === false && (
-                <Alert severity="warning">
+                <Alert
+                  severity="warning"
+                  sx={{
+                    fontSize: isMobile ? '0.85rem' : 'inherit',
+                    '& .MuiAlert-message': {
+                      padding: isMobile ? theme.spacing(0.5) : undefined
+                    }
+                  }}
+                >
                   <FormattedMessage
                     id="ownership.nft.info"
                     defaultMessage="To access this feature, simply hold 1000 KIT tokens on one of our supported networks: ETH, BSC, or Polygon.
@@ -112,7 +147,7 @@ export default function OwnershipWizardContainer({
 
             <Grid item xs={12}>
               {site?.id !== undefined && (
-                <OwnershipSection id={site.id} nft={site.nft} />
+                <OwnershipSection id={site.id} nft={site.nft} isMobile={isMobile} />
               )}
             </Grid>
             <Grid item xs={12}>
@@ -126,7 +161,7 @@ export default function OwnershipWizardContainer({
               )}
             </Grid>
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel value="2" sx={{ padding: isMobile ? theme.spacing(1, 0) : undefined }}>
             <SiteMetadataSection
               id={site?.id}
               slug={site?.slug}

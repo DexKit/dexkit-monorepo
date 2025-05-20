@@ -8,7 +8,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import RedditIcon from '@mui/icons-material/Reddit';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { Box, Container, styled } from '@mui/material';
+import { Box, Container, styled, useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -123,6 +123,8 @@ export default function SocialWizardContainer({
   onChange,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
 
@@ -200,16 +202,29 @@ export default function SocialWizardContainer({
                 }}
               />
             )}
-            <Grid container spacing={2}>
+            <Grid container spacing={isMobile ? 1.5 : 3}>
               <Grid item xs={12}>
-                <Stack>
-                  <Typography variant={'h6'}>
+                <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+                  <Typography
+                    variant={isMobile ? 'h6' : 'h5'}
+                    sx={{
+                      fontSize: isMobile ? '1.15rem' : '1.5rem',
+                      fontWeight: 600,
+                      mb: 0.5
+                    }}
+                  >
                     <FormattedMessage
                       id="social.media.title"
                       defaultMessage="Social Media"
                     />
                   </Typography>
-                  <Typography variant={'body2'}>
+                  <Typography
+                    variant={isMobile ? 'body2' : 'body1'}
+                    color="text.secondary"
+                    sx={{
+                      fontSize: isMobile ? '0.85rem' : 'inherit',
+                    }}
+                  >
                     <FormattedMessage
                       id="edit.social.description"
                       defaultMessage="Add social media related to your app"
@@ -433,6 +448,12 @@ export default function SocialWizardContainer({
                     variant="contained"
                     color="primary"
                     onClick={submitForm}
+                    size={isMobile ? "small" : "medium"}
+                    sx={{
+                      fontSize: isMobile ? "0.875rem" : undefined,
+                      py: isMobile ? 0.75 : undefined,
+                      px: isMobile ? 2 : undefined,
+                    }}
                   >
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </Button>

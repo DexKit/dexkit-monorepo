@@ -145,7 +145,7 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
         getRowId={(row) => String(row.id)}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
-        sx={{ height: 300 }}
+        sx={{ height: (theme) => theme.spacing(37.5) }}
         slots={{
           noRowsOverlay: noRowsOverlay(
             <FormattedMessage id="no.orders" defaultMessage="No Orders" />,

@@ -15,6 +15,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
@@ -25,6 +26,7 @@ interface Props {
   onEdit: (collection: AppCollection) => void;
   onPreview: (collection: AppCollection) => void;
   disabled?: boolean;
+  isMobile?: boolean;
 }
 
 export default function CollectionsSectionItem({
@@ -34,11 +36,14 @@ export default function CollectionsSectionItem({
   onEdit,
   onPreview,
   disabled,
+  isMobile,
 }: Props) {
+  const theme = useTheme();
+
   return (
     <Card>
-      <Box sx={{ p: 2, m: 0 }}>
-        <Grid container spacing={2}>
+      <Box sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2), m: 0 }}>
+        <Grid container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
           <Grid item xs={4}>
             <Box
               sx={{
@@ -55,18 +60,20 @@ export default function CollectionsSectionItem({
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  borderRadius: (theme) => theme.spacing(0.5),
+                  borderRadius: theme.spacing(0.5),
                 }}
               />
             </Box>
           </Grid>
           <Grid item xs={8}>
-            <Stack spacing={1} alignItems="flex-start">
+            <Stack spacing={isMobile ? theme.spacing(0.75) : theme.spacing(1)} alignItems="flex-start">
               <Box>
-                <Typography variant="h5">{collection.name}</Typography>
+                <Typography variant={isMobile ? "subtitle1" : "h5"} sx={{ fontWeight: isMobile ? theme.typography.fontWeightBold : undefined }}>
+                  {collection.name}
+                </Typography>
                 <Typography
                   gutterBottom
-                  variant="body2"
+                  variant={isMobile ? "caption" : "body2"}
                   color="textSecondary"
                   sx={{
                     overflow: 'hidden',
@@ -85,7 +92,7 @@ export default function CollectionsSectionItem({
                 direction="row"
                 alignItems="center"
                 alignContent="center"
-                spacing={1}
+                spacing={theme.spacing(1)}
               >
                 <Button
                   size="small"
@@ -137,29 +144,48 @@ export default function CollectionsSectionItem({
               alignItems="center"
               alignContent="center"
               justifyContent="center"
-              spacing={1}
+              spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
+              flexWrap={isMobile ? "wrap" : "nowrap"}
             >
               <Button
                 size="small"
-                startIcon={<Edit color="inherit" />}
+                startIcon={<Edit color="inherit" fontSize={isMobile ? "small" : "medium"} />}
                 disabled={disabled}
                 onClick={() => onEdit(collection)}
+                sx={{
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
+                  minWidth: isMobile ? "auto" : undefined,
+                }}
               >
                 <FormattedMessage id="edit" defaultMessage="Edit" />
               </Button>
               <Button
                 size="small"
-                startIcon={<Delete color="inherit" />}
+                startIcon={<Delete color="inherit" fontSize={isMobile ? "small" : "medium"} />}
                 disabled={disabled}
                 onClick={() => onRemove(collection)}
+                sx={{
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
+                  minWidth: isMobile ? "auto" : undefined,
+                }}
               >
                 <FormattedMessage id="remove" defaultMessage="Remove" />
               </Button>
               <Button
                 size="small"
-                startIcon={<VisibilityIcon color="inherit" />}
+                startIcon={<VisibilityIcon color="inherit" fontSize={isMobile ? "small" : "medium"} />}
                 disabled={disabled}
                 onClick={() => onPreview(collection)}
+                sx={{
+                  fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+                  py: isMobile ? theme.spacing(0.5) : undefined,
+                  px: isMobile ? theme.spacing(1) : undefined,
+                  minWidth: isMobile ? "auto" : undefined,
+                }}
               >
                 <FormattedMessage id="preview" defaultMessage="Preview" />
               </Button>

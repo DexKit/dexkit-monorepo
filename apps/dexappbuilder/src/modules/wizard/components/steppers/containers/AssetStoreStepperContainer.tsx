@@ -21,7 +21,7 @@ import { PreviewAppButton } from '../../PreviewAppButton';
 import SignConfigDialog from '../../dialogs/SignConfigDialog';
 import AssetStoreStepper from '../AssetStoreStepper.tsx';
 
-import { WelcomeMessage } from '../../WelcomeMessage';
+/* import { WelcomeMessage } from '../../WelcomeMessage'; */
 const defaultConfig = theDefaultConfig as unknown as AppConfig;
 
 interface Props {
@@ -160,9 +160,9 @@ export default function AssetStoreStepperContainer({ site }: Props) {
             />
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={12}>
+        {/* <Grid item xs={12} sm={12}>
           <WelcomeMessage />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={12}>
           <Stack direction={'row'} justifyContent={'space-between'}>
             {!isMobile && (

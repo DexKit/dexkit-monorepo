@@ -32,7 +32,8 @@ interface Props {
 const WrapperLayout: React.FC<{
   appConfig: AppConfig;
   children?: React.ReactNode | React.ReactNode[];
-}> = ({ children, appConfig }) => {
+  isPreview?: boolean;
+}> = ({ children, appConfig, isPreview }) => {
   const isDrawerOpen = useDrawerIsOpen();
   const isMobileUI = useIsMobile();
 
@@ -105,6 +106,7 @@ const MainLayout: React.FC<Props> = ({
 
   const defaultAppConfig = useAppConfig();
   const appNFT = useAppNFT();
+
   const appConfig = useMemo(() => {
     if (appConfigProps) {
       return appConfigProps;
@@ -113,10 +115,9 @@ const MainLayout: React.FC<Props> = ({
     }
   }, [defaultAppConfig, appConfigProps]);
 
-  //NOTE: NOT remove this, this syncs MUI internal theme with APP theme
   useEffect(() => {
     setMode(mode);
-  }, [mode]);
+  }, [mode, setMode]);
 
   const isDrawerOpen = useDrawerIsOpen();
 
@@ -157,7 +158,7 @@ const MainLayout: React.FC<Props> = ({
       {!mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
       {!mobileView && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
 
-      <WrapperLayout appConfig={appConfig}>
+      <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
         {mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
@@ -188,7 +189,7 @@ const MainLayout: React.FC<Props> = ({
           </ErrorBoundary>
         </Box>
 
-        <Box>
+        <Box className="preview-footer">
           <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
         </Box>
       </WrapperLayout>

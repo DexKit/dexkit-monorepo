@@ -8,6 +8,8 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -59,6 +61,9 @@ export default function DomainWizardContainer({
   const [domainData, setDomainData] = useState<DomainSectionForm>();
   const verifyDomainMutation = useVerifyDomainMutation();
   const deployDomainMutation = useSetupDomainConfigMutation();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSubmitGeneral = (form: DomainSectionForm) => {
     setDomainData(form);
@@ -184,7 +189,7 @@ export default function DomainWizardContainer({
     setContentInfo(
       formatMessage({
         id: 'info.wizard.content.cname',
-        defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the \"Check Deploy Status\" button. If the status shows as \"VERIFIED\" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace \"@\" with the subdomain value. If you encounter any issues, please contact our support channels.`,
+        defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the "Check Deploy Status" button. If the status shows as "VERIFIED" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace "@" with the subdomain value. If you encounter any issues, please contact our support channels.`,
       }),
     );
   }, []);
@@ -247,13 +252,26 @@ export default function DomainWizardContainer({
         isSuccess={verifyDomainMutation.isSuccess}
         error={verifyDomainMutation.error}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 3} sx={{ px: isMobile ? 1 : 0, pt: isMobile ? 1 : 0 }}>
         <Grid item xs={12}>
-          <Stack>
-            <Typography variant={'h6'}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontWeight: 600,
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="domain" defaultMessage="Domain" />
             </Typography>
-            <Typography variant={'body2'}>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="set.custom.domain.container.description"
                 defaultMessage="Set a custom domain for your app"
@@ -329,11 +347,13 @@ export default function DomainWizardContainer({
             <Grid item xs={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
-                  <FormattedMessage id="cname" defaultMessage="CNAME" />{' '}
+                  <FormattedMessage id="cname" defaultMessage="CNAME" />{': '}
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
                   <Typography>
-                    {' '}
+                    {
+                      ' '
+                    }
                     <FormattedMessage id="name" defaultMessage="name" />:
                   </Typography>
                   <Typography sx={{ fontWeight: 'bold' }}>
@@ -354,11 +374,13 @@ export default function DomainWizardContainer({
             <Grid item xs={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
-                  <FormattedMessage id="a.record" defaultMessage="A Record" />{' '}
+                  <FormattedMessage id="a.record" defaultMessage="A Record" />{': '}
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
                   <Typography>
-                    {' '}
+                    {
+                      ' '
+                    }
                     <FormattedMessage id="name" defaultMessage="name" />:
                   </Typography>
                   <Typography sx={{ fontWeight: 'bold' }}>
@@ -395,7 +417,9 @@ export default function DomainWizardContainer({
                         </Typography>
                         <Stack direction={'row'} spacing={1}>
                           <Typography>
-                            {' '}
+                            {
+                              ' '
+                            }
                             <FormattedMessage id="name" defaultMessage="name" />
                             :
                           </Typography>

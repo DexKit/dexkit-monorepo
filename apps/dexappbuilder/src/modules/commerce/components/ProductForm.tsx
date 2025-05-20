@@ -217,9 +217,9 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
           >
             <Stack
               sx={{
-                height: 150,
-                maxHeight: 300,
-                minHeight: 50,
+                height: (theme) => theme.spacing(18.75),
+                maxHeight: (theme) => theme.spacing(37.5),
+                minHeight: (theme) => theme.spacing(6.25),
                 width: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -327,7 +327,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 <FormHelperText sx={{ m: 0 }}>
                   <FormattedMessage
                     id="turn.off.to.set.the.item.msg"
-                    defaultMessage="Turn off to set the item as “Inactive” and hide it from the store."
+                    defaultMessage={'Turn off to set the item as Inactive and hide it from the store.'}
                   />
                 </FormHelperText>
               </FormControl>
@@ -387,7 +387,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                       execute: async (
                         state: ExecuteState,
                         api: TextAreaTextApi,
-                      ) => {},
+                      ) => { },
                     },
                   ]}
                 />

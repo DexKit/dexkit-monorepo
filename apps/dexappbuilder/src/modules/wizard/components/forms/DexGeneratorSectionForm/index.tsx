@@ -1,4 +1,5 @@
 import { useListDeployedContracts } from '@/modules/forms/hooks';
+import { useIsMobile } from '@dexkit/core';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
 
 import { DeployedContract } from '@/modules/forms/types';
@@ -59,6 +60,7 @@ export default function DexGeneratorSectionForm({
 }: DexGeneratorSectionFormProps) {
   const { account } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
+  const isMobile = useIsMobile();
   const [type, setType] = useState<string>('all');
   const [contract, setContract] = useState<DeployedContract | undefined>(
     section?.contract,
@@ -338,10 +340,10 @@ export default function DexGeneratorSectionForm({
 
   return (
     <Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         {!contract && (
           <Grid item xs={12}>
-            <FormControl fullWidth>
+            <FormControl fullWidth size={isMobile ? "small" : "medium"}>
               <InputLabel>
                 <FormattedMessage id="network" defaultMessage="Network" />
               </InputLabel>
@@ -353,6 +355,7 @@ export default function DexGeneratorSectionForm({
                 fullWidth
                 value={chainId}
                 onChange={handleChangeChainId}
+                size={isMobile ? "small" : "medium"}
                 renderValue={(value: number) => {
                   if (value === -1) {
                     return <FormattedMessage id="all" defaultMessage="All" />;
@@ -371,9 +374,9 @@ export default function DexGeneratorSectionForm({
                             (n) => n.chainId === parseChainId(value),
                           )?.imageUrl || '',
                         )}
-                        style={{ width: 'auto', height: '1rem' }}
+                        style={{ width: 'auto', height: isMobile ? '0.8rem' : '1rem' }}
                       />
-                      <Typography variant="body1">
+                      <Typography variant={isMobile ? "caption" : "body1"}>
                         {
                           networks.find(
                             (n) => n.chainId === parseChainId(value),
@@ -395,10 +398,15 @@ export default function DexGeneratorSectionForm({
                     <ListItemIcon>
                       <Avatar
                         src={ipfsUriToUrl(n?.imageUrl || '')}
-                        style={{ width: '1rem', height: '1rem' }}
+                        style={{ width: isMobile ? '0.8rem' : '1rem', height: isMobile ? '0.8rem' : '1rem' }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary={n.name} />
+                    <ListItemText
+                      primary={n.name}
+                      primaryTypographyProps={{
+                        variant: isMobile ? "caption" : "body1"
+                      }}
+                    />
                   </MenuItem>
                 ))}
               </Select>
@@ -407,18 +415,20 @@ export default function DexGeneratorSectionForm({
         )}
 
         <Grid item xs={12}>
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1 : 2}>
             <Grid item xs>
               <LazyTextField
                 TextFieldProps={{
                   size: 'small',
                   fullWidth: true,
+                  margin: isMobile ? "dense" : "normal",
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search />
+                        <Search fontSize={isMobile ? "small" : "medium"} />
                       </InputAdornment>
                     ),
+                    style: isMobile ? { fontSize: '0.85rem' } : {}
                   },
                 }}
                 onChange={handleChange}
@@ -444,6 +454,10 @@ export default function DexGeneratorSectionForm({
                   fullWidth
                   value={type}
                   onChange={handleChangeType}
+                  sx={isMobile ? {
+                    '& .MuiInputBase-input': { fontSize: '0.85rem' },
+                    '& .MuiInputLabel-root': { fontSize: '0.85rem' }
+                  } : {}}
                 >
                   <MenuItem value="all">
                     <FormattedMessage id="all" defaultMessage="All" />
@@ -461,16 +475,16 @@ export default function DexGeneratorSectionForm({
 
         {!contract && (
           <Grid item xs={12}>
-            <Grid container spacing={2}>
+            <Grid container spacing={isMobile ? 0.5 : 2}>
               <Grid item xs={12}>
-                <Box sx={{ overflowY: 'scroll', maxHeight: '20rem' }}>
-                  <Grid container spacing={2}>
+                <Box sx={{ overflowY: 'scroll', maxHeight: isMobile ? '15rem' : '20rem' }}>
+                  <Grid container spacing={isMobile ? 0.5 : 2}>
                     {listContractsQuery.data?.data.length === 0 && (
                       <Grid item xs={12}>
-                        <Box sx={{ py: 2 }}>
+                        <Box sx={{ py: isMobile ? 1 : 2 }}>
                           <Stack alignItems="center">
-                            <Error fontSize="large" />
-                            <Typography align="center" variant="h5">
+                            <Error fontSize={isMobile ? "small" : "large"} />
+                            <Typography align="center" variant={isMobile ? "body2" : "h5"}>
                               <FormattedMessage
                                 id="no.contracts.found"
                                 defaultMessage="No contracts found"
@@ -488,6 +502,7 @@ export default function DexGeneratorSectionForm({
                           chainId={c.chainId}
                           name={c.name}
                           onClick={() => handleClick(c)}
+                          isMobile={isMobile}
                         />
                       </Grid>
                     ))}
@@ -497,8 +512,8 @@ export default function DexGeneratorSectionForm({
               <Grid item xs={12}>
                 <Box>
                   <Stack direction="row" spacing={1} justifyContent="flex-end">
-                    <IconButton disabled={page === 0} onClick={handlePrev}>
-                      <KeyboardArrowLeftIcon />
+                    <IconButton disabled={page === 0} onClick={handlePrev} size={isMobile ? "small" : "medium"}>
+                      <KeyboardArrowLeftIcon fontSize={isMobile ? "small" : "medium"} />
                     </IconButton>
                     <IconButton
                       disabled={
@@ -506,21 +521,22 @@ export default function DexGeneratorSectionForm({
                         listContractsQuery.data.data.length !== 10
                       }
                       onClick={handleNext}
+                      size={isMobile ? "small" : "medium"}
                     >
-                      <KeyboardArrowRightIcon />{' '}
+                      <KeyboardArrowRightIcon fontSize={isMobile ? "small" : "medium"} />{' '}
                     </IconButton>
                   </Stack>
                 </Box>
               </Grid>
               {listContractsQuery.isLoading &&
-                new Array(5).fill(null).map((_, index) => (
+                new Array(isMobile ? 3 : 5).fill(null).map((_, index) => (
                   <Grid item xs={12} key={index}>
                     <Card>
-                      <CardContent>
-                        <Typography variant="h5">
+                      <CardContent sx={isMobile ? { padding: '8px 12px' } : {}}>
+                        <Typography variant={isMobile ? "body1" : "h5"}>
                           <Skeleton />
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant={isMobile ? "caption" : "body1"}>
                           <Skeleton />
                         </Typography>
                       </CardContent>

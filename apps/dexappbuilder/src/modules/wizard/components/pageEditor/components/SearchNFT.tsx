@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import { getChainName } from '@dexkit/core/utils/blockchain';
 import { CircularProgress } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -21,6 +22,8 @@ export function SearchNFT(props: Props) {
   const router = useRouter();
   const [search, setSearch] = useState<string>();
   const searchQuery = useSearchAssets(search, collections);
+  const isMobile = useIsMobile();
+
   const assets =
     searchQuery?.data?.map((value) => {
       return {
@@ -37,7 +40,12 @@ export function SearchNFT(props: Props) {
   return (
     <Autocomplete
       id="search-nft-component"
-      sx={{ width: 300 }}
+      sx={{
+        width: '100%',
+        '& .MuiAutocomplete-inputRoot': {
+          fontSize: isMobile ? '0.9rem' : undefined
+        }
+      }}
       options={assets}
       autoHighlight
       filterOptions={(x) => x}
@@ -54,10 +62,14 @@ export function SearchNFT(props: Props) {
       renderOption={(props, option) => (
         <Box
           component="li"
-          sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+          sx={{
+            '& > img': { mr: 2, flexShrink: 0 },
+            fontSize: isMobile ? '0.85rem' : undefined,
+            py: isMobile ? 1 : undefined
+          }}
           {...props}
         >
-          <img loading="lazy" width="20" src={`${option.image}`} alt="" />
+          <img loading="lazy" width={isMobile ? "16" : "20"} src={`${option.image}`} alt="" />
           {getChainName(option.chainId)} - ({option.name}) - #{option.id || ''}
         </Box>
       )}
@@ -66,6 +78,7 @@ export function SearchNFT(props: Props) {
           <TextField
             {...params}
             label={textSearch || 'Search a NFT'}
+            size={isMobile ? "small" : "medium"}
             onChange={(ev) => setSearch(ev.currentTarget.value)}
             inputProps={{
               ...params.inputProps,
@@ -73,7 +86,7 @@ export function SearchNFT(props: Props) {
               endAdornment: (
                 <React.Fragment>
                   {searchQuery.isLoading ? (
-                    <CircularProgress color="inherit" size={20} />
+                    <CircularProgress color="inherit" size={isMobile ? 16 : 20} />
                   ) : null}
                   {params.InputProps.endAdornment}
                 </React.Fragment>

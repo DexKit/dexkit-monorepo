@@ -14,6 +14,7 @@ import {
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import Close from '@mui/icons-material/Close';
 import LinkIcon from '@mui/icons-material/Link';
+import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import { NextSeo } from 'next-seo';
 import dynamic from 'next/dynamic';
@@ -51,9 +52,9 @@ import { OnboardBuilderSteps } from '../../constants/onboard/steps';
 import SiteWizardProvider from '../../providers/SiteWizardProvider';
 import { isFirstVisitOnEditWizardAtom } from '../../state';
 import BuilderKitMenu from '../BuilderKitMenu';
-import { ConfirmationEmailMessage } from '../ConfirmationEmailMessage';
+/* import { ConfirmationEmailMessage } from '../ConfirmationEmailMessage'; */
 import { PreviewAppButton } from '../PreviewAppButton';
-import { WelcomeMessage } from '../WelcomeMessage';
+/* import { WelcomeMessage } from '../WelcomeMessage'; */
 import SignConfigDialog from '../dialogs/SignConfigDialog';
 import RankingWizardContainer from './RankingWizardContainer';
 
@@ -153,11 +154,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 function TourButton() {
@@ -365,7 +366,12 @@ export function EditWizardContainer({ site }: Props) {
       <AdminSidebarContainer
         activeBuilderKit={activeBuilderKit}
         isSiteOwner={isAddressEqual(site?.owner, account)}
-        onChangeMenu={(menuId: string) => handleChangeTab(menuId as ActiveMenu)}
+        onChangeMenu={(menuId: string) => {
+          handleChangeTab(menuId as ActiveMenu);
+          if (window.innerWidth < 960) {
+            handleCloseMenu();
+          }
+        }}
         activeMenuId={activeMenu as string}
         commerceEnabled={wizardConfig.commerce?.enabled}
       />
@@ -499,54 +505,55 @@ export function EditWizardContainer({ site }: Props) {
         isEdit={true}
       />
       <Container maxWidth={'xl'}>
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 0.5 : 2}>
           <Grid item xs={12}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              alignContent="center"
-              justifyContent="space-between"
-            >
-              <PageHeader
-                breadcrumbs={[
-                  {
-                    caption: (
-                      <FormattedMessage id="admin" defaultMessage="Admin" />
-                    ),
-                    uri: '/admin',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage
-                        id="manage.apps"
-                        defaultMessage="Manage Apps"
-                      />
-                    ),
-                    uri: '/admin',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage
-                        id="edit.app"
-                        defaultMessage="Edit App"
-                      />
-                    ),
-                    uri: '/admin/edit',
-                    active: true,
-                  },
-                ]}
-              />
-            </Stack>
+            {!isMobile && (
+              <Stack
+                direction="row"
+                alignItems="center"
+                alignContent="center"
+                justifyContent="space-between"
+              >
+                <PageHeader
+                  breadcrumbs={[
+                    {
+                      caption: (
+                        <FormattedMessage id="admin" defaultMessage="Admin" />
+                      ),
+                      uri: '/admin',
+                    },
+                    {
+                      caption: (
+                        <FormattedMessage
+                          id="manage.apps"
+                          defaultMessage="Manage Apps"
+                        />
+                      ),
+                      uri: '/admin',
+                    },
+                    {
+                      caption: (
+                        <FormattedMessage
+                          id="edit.app"
+                          defaultMessage="Edit App"
+                        />
+                      ),
+                      uri: '/admin/edit',
+                      active: true,
+                    },
+                  ]}
+                />
+              </Stack>
+            )}
           </Grid>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
-          </Grid>
-
+          </Grid> */}
           <Grid item xs={12} sm={12}>
             <Stack direction={'row'} justifyContent={'space-between'}>
-              {!isMobile && (
+              {!isMobile ? (
                 <Stack direction={'row'} alignItems={'center'} spacing={2}>
                   <Typography variant="h5">
                     <FormattedMessage id="edit.app" defaultMessage="Edit App" />
@@ -554,32 +561,39 @@ export function EditWizardContainer({ site }: Props) {
 
                   {/* <TourButton />*/}
                 </Stack>
+              ) : (
+                <>
+                  <Typography variant="h5">
+                    <FormattedMessage id="edit.app" defaultMessage="Edit App" />
+                  </Typography>
+                  <Button
+                    onClick={handleShowMenu}
+                    size="small"
+                    variant="outlined"
+                    startIcon={<MenuIcon />}
+                  >
+                    <FormattedMessage id="menu" defaultMessage="Menu" />
+                  </Button>
+                </>
               )}
-
-              {isMobile && (
-                <Button
-                  onClick={handleShowMenu}
-                  size="small"
-                  variant="outlined"
-                >
-                  <FormattedMessage id="menu" defaultMessage="Menu" />
-                </Button>
-              )}
+              {/* Verification email no longer required
               {!site?.emailVerified && isLoggedIn && (
                 <ConfirmationEmailMessage site={site} />
-              )}
+              )} */}
             </Stack>
           </Grid>
           <Grid item xs={12} sm={12}>
             <Stack
               direction={'row'}
-              spacing={1}
+              spacing={isMobile ? 0.5 : 1}
               justifyContent={'space-between'}
             >
-              <BuilderKitMenu
-                menu={activeBuilderKit}
-                onChangeMenu={(menu) => setActiveBuilderKit(menu)}
-              />
+              {!isMobile && (
+                <BuilderKitMenu
+                  menu={activeBuilderKit}
+                  onChangeMenu={(menu) => setActiveBuilderKit(menu)}
+                />
+              )}
               <Stack direction={'row'} alignItems={'center'} spacing={2}>
                 <PreviewAppButton
                   appConfig={wizardConfig}
@@ -664,7 +678,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -679,7 +693,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -764,7 +778,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 

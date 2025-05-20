@@ -7,10 +7,12 @@ import {
   Paper,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Field, FieldArray, Formik } from 'formik';
 import { FormattedMessage } from 'react-intl';
 
+import { useIsMobile } from '@dexkit/core';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import {
   ShowCaseItem,
@@ -109,6 +111,8 @@ export default function AddShowCaseSectionForm({
 
   const [openDialog, setOpenDialog] = useState(false);
   const [index, setIndex] = useState(-1);
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleSelectImage = (index: number) => {
     return () => {
@@ -128,20 +132,20 @@ export default function AddShowCaseSectionForm({
         initialValues={
           data
             ? {
-                ...data,
-                items: data.items || [],
-                alignItems: data.alignItems || 'left',
-                itemsSpacing: data.itemsSpacing || 2,
-                paddingTop: data.paddingTop || 0,
-                paddingBottom: data.paddingBottom || 0,
-              }
+              ...data,
+              items: data.items || [],
+              alignItems: data.alignItems || 'left',
+              itemsSpacing: data.itemsSpacing || 2,
+              paddingTop: data.paddingTop || 0,
+              paddingBottom: data.paddingBottom || 0,
+            }
             : {
-                alignItems: 'left',
-                itemsSpacing: 2,
-                paddingTop: 0,
-                paddingBottom: 0,
-                items: [],
-              }
+              alignItems: 'left',
+              itemsSpacing: 2,
+              paddingTop: 0,
+              paddingBottom: 0,
+              items: [],
+            }
         }
         onSubmit={handleSubmit}
         validate={(values: ShowCaseParams) => {
@@ -175,8 +179,8 @@ export default function AddShowCaseSectionForm({
                 }
               />
             </DexkitApiProvider.Provider>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
+            <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
+              <Grid item xs={12} md={6}>
                 <FormControl fullWidth>
                   <Field
                     component={Select}
@@ -188,6 +192,19 @@ export default function AddShowCaseSectionForm({
                         defaultMessage="Align Items"
                       />
                     }
+                    size={isMobile ? "small" : "medium"}
+                    sx={isMobile ? {
+                      '& .MuiInputBase-root': {
+                        height: theme.spacing(4.375),
+                        fontSize: theme.typography.body2.fontSize
+                      },
+                      '& .MuiSelect-select': {
+                        padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`
+                      },
+                      '& .MuiFormLabel-root': {
+                        fontSize: theme.typography.body2.fontSize
+                      }
+                    } : {}}
                   >
                     <MenuItem value="left">
                       <FormattedMessage id="left" defaultMessage="Left" />
@@ -201,7 +218,7 @@ export default function AddShowCaseSectionForm({
                   </Field>
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Field
                   component={TextField}
                   fullWidth
@@ -213,9 +230,28 @@ export default function AddShowCaseSectionForm({
                       defaultMessage="Items spacing"
                     />
                   }
+                  size={isMobile ? "small" : "medium"}
+                  margin={isMobile ? "dense" : "normal"}
+                  inputProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize,
+                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
+                    } : {}
+                  }}
+                  InputLabelProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize
+                    } : {}
+                  }}
+                  sx={isMobile ? {
+                    '& .MuiInputBase-root': {
+                      height: theme.spacing(4.375),
+                      padding: `0 ${theme.spacing(1)}`
+                    }
+                  } : {}}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Field
                   component={TextField}
                   fullWidth
@@ -227,9 +263,28 @@ export default function AddShowCaseSectionForm({
                       defaultMessage="Padding top"
                     />
                   }
+                  size={isMobile ? "small" : "medium"}
+                  margin={isMobile ? "dense" : "normal"}
+                  inputProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize,
+                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
+                    } : {}
+                  }}
+                  InputLabelProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize
+                    } : {}
+                  }}
+                  sx={isMobile ? {
+                    '& .MuiInputBase-root': {
+                      height: theme.spacing(4.375),
+                      padding: `0 ${theme.spacing(1)}`
+                    }
+                  } : {}}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Field
                   component={TextField}
                   fullWidth
@@ -241,20 +296,39 @@ export default function AddShowCaseSectionForm({
                       defaultMessage="Padding bottom"
                     />
                   }
+                  size={isMobile ? "small" : "medium"}
+                  margin={isMobile ? "dense" : "normal"}
+                  inputProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize,
+                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
+                    } : {}
+                  }}
+                  InputLabelProps={{
+                    style: isMobile ? {
+                      fontSize: theme.typography.body2.fontSize
+                    } : {}
+                  }}
+                  sx={isMobile ? {
+                    '& .MuiInputBase-root': {
+                      height: theme.spacing(4.375),
+                      padding: `0 ${theme.spacing(1)}`
+                    }
+                  } : {}}
                 />
               </Grid>
               {values.items.length === 0 && (
                 <Grid item xs={12}>
-                  <Paper sx={{ p: 2 }}>
+                  <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}>
                     <Stack
-                      sx={{ p: 2 }}
+                      sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}
                       alignItems="center"
                       justifyContent="center"
-                      spacing={2}
+                      spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
                     >
-                      <ViewStreamIcon fontSize="large" />
+                      <ViewStreamIcon fontSize={isMobile ? "medium" : "large"} />
                       <Box>
-                        <Typography align="center" variant="h5">
+                        <Typography align="center" variant={isMobile ? "body1" : "h5"}>
                           <FormattedMessage
                             id="add.items"
                             defaultMessage="Add items"
@@ -263,7 +337,8 @@ export default function AddShowCaseSectionForm({
                         <Typography
                           color="text.secondary"
                           align="center"
-                          variant="body1"
+                          variant={isMobile ? "caption" : "body1"}
+                          sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
                         >
                           <FormattedMessage
                             id="section.addItemsPrompt"
@@ -284,6 +359,8 @@ export default function AddShowCaseSectionForm({
                               page: '',
                             } as ShowCaseItem)}
                             variant="outlined"
+                            size={isMobile ? "small" : "medium"}
+                            sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                           >
                             <FormattedMessage
                               id="add.item"
@@ -301,7 +378,7 @@ export default function AddShowCaseSectionForm({
                 <FieldArray
                   name="items"
                   render={(arrayHelpers) => (
-                    <Grid container spacing={2}>
+                    <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
                       {values.items.map((_, index, arr) => (
                         <Grid item xs={12} key={index}>
                           <ShowCaseFormItem
@@ -312,6 +389,7 @@ export default function AddShowCaseSectionForm({
                             disableDown={index === arr.length - 1}
                             disableUp={index === 0}
                             onSelectImage={handleSelectImage(index)}
+                            isMobile={isMobile}
                           />
                         </Grid>
                       ))}
@@ -327,6 +405,8 @@ export default function AddShowCaseSectionForm({
                               page: '',
                             } as ShowCaseItem)}
                             variant="outlined"
+                            size={isMobile ? "small" : "medium"}
+                            sx={isMobile ? { mt: theme.spacing(0.5), py: theme.spacing(0.5) } : {}}
                           >
                             <FormattedMessage id="add" defaultMessage="Add" />
                           </Button>
@@ -338,9 +418,13 @@ export default function AddShowCaseSectionForm({
               </Grid>
               {!disableButtons && (
                 <Grid item xs={12}>
-                  <Stack direction="row" spacing={1} justifyContent="flex-end">
+                  <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
                     {onCancel && (
-                      <Button onClick={onCancel}>
+                      <Button
+                        onClick={onCancel}
+                        size={isMobile ? "small" : "medium"}
+                        sx={isMobile ? { py: theme.spacing(0.5) } : {}}
+                      >
                         <FormattedMessage id="cancel" defaultMessage="Cancel" />
                       </Button>
                     )}
@@ -349,6 +433,8 @@ export default function AddShowCaseSectionForm({
                       disabled={!isValid || isSubmitting}
                       variant="contained"
                       onClick={submitForm}
+                      size={isMobile ? "small" : "medium"}
+                      sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                     >
                       <FormattedMessage id="save" defaultMessage="Save" />
                     </Button>

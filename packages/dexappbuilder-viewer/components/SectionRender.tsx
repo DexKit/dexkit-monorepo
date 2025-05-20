@@ -1,5 +1,6 @@
 import LazyComponent from "@dexkit/ui/components/LazyComponent";
 import type { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import dynamic from "next/dynamic";
 const CodeSection = dynamic(() => import("./sections/CodeSection"));
 const CollectionSection = dynamic(() => import("./sections/CollectionSection"));
@@ -99,6 +100,9 @@ export function SectionToRender({ section }: Props) {
 }
 
 export function SectionRender({ section, useLazy }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   if (!section?.type) {
     return <></>;
   }
@@ -107,9 +111,31 @@ export function SectionRender({ section, useLazy }: Props) {
 
   if (getSection) {
     if (useLazy) {
-      return <LazyComponent>{getSection}</LazyComponent>;
+      return (
+        <Box sx={{
+          px: 0,
+          py: 0,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch'
+        }}>
+          <LazyComponent>{getSection}</LazyComponent>
+        </Box>
+      );
     } else {
-      return <div>{getSection}</div>;
+      return (
+        <Box sx={{
+          px: 0,
+          py: 0,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch'
+        }}>
+          {getSection}
+        </Box>
+      );
     }
   }
 

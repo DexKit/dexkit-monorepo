@@ -1,11 +1,14 @@
 import Check from '@mui/icons-material/Check';
 import {
+  Box,
   Button,
   Divider,
   Grid,
   Stack,
   styled,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Field, Formik, FormikHelpers } from 'formik';
 import { TextField } from 'formik-mui';
@@ -27,6 +30,11 @@ const FormSchema: Yup.SchemaOf<SeoForm> = Yup.object().shape({
 const CustomImage = styled('img')(({ theme }) => ({
   height: theme.spacing(20),
   width: theme.spacing(40),
+  objectFit: 'contain',
+  [theme.breakpoints.down('sm')]: {
+    height: theme.spacing(15),
+    width: theme.spacing(30),
+  },
 }));
 
 interface Props {
@@ -56,6 +64,8 @@ export default function SeoSectionForm({
   onSubmit,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
   const handleSubmit = useCallback(
@@ -65,6 +75,12 @@ export default function SeoSectionForm({
     },
     [onSubmit],
   );
+
+  const defaultImageUrl = '/assets/kittygotchi/kittygotchi_banner.jpg';
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = defaultImageUrl;
+  };
 
   return (
     <>
@@ -95,94 +111,143 @@ export default function SeoSectionForm({
                   setOpenMediaDialog(false);
                 }}
               />
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <CompletationProvider
-                    onCompletation={(output) => setFieldValue('title', output)}
-                    initialPrompt={values.title}
-                  >
-                    {({ inputAdornment, ref }) => (
-                      <Field
-                        component={TextField}
-                        type="text"
-                        label={
-                          <FormattedMessage id="title" defaultMessage="Title" />
-                        }
-                        inputRef={ref}
-                        name="title"
-                        fullWidth
-                        InputProps={{
-                          endAdornment: inputAdornment('end'),
-                        }}
-                      />
-                    )}
-                  </CompletationProvider>
-                </Grid>
-                <Grid item xs={12}>
-                  <CompletationProvider
-                    onCompletation={(output) =>
-                      setFieldValue('description', output)
-                    }
-                    initialPrompt={values.description}
-                    multiline
-                  >
-                    {({ inputAdornment, ref }) => (
-                      <Field
-                        component={TextField}
-                        type="text"
-                        multiline
-                        rows={5}
-                        label={
-                          <FormattedMessage
-                            id="description"
-                            defaultMessage="Description"
-                          />
-                        }
-                        inputRef={ref}
-                        InputProps={{
-                          endAdornment: inputAdornment('end'),
-                        }}
-                        name="description"
-                        fullWidth
-                      />
-                    )}
-                  </CompletationProvider>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body2">
-                    <FormattedMessage
-                      id="share.image"
-                      defaultMessage="Share image"
-                    />
-                  </Typography>
-                  <Button
-                    onClick={() => {
-                      setOpenMediaDialog(true);
-                      setMediaFieldToEdit('shareImageUrl');
-                    }}
-                  >
-                    <CustomImage src={values.shareImageUrl} />
-                  </Button>
-                </Grid>
-                <Grid item xs={12}>
-                  <Divider />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Stack spacing={1} direction="row" justifyContent="flex-end">
-                    <Button
-                      startIcon={<Check />}
-                      disabled={!isValid || !dirty}
-                      onClick={submitForm}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
+              <Box sx={{
+                width: '100%',
+                pl: isMobile ? 0 : undefined,
+                maxWidth: isMobile ? '100%' : undefined,
+              }}>
+                <Grid container spacing={isMobile ? 1.5 : 2}>
+                  <Grid item xs={12}>
+                    <CompletationProvider
+                      onCompletation={(output) => setFieldValue('title', output)}
+                      initialPrompt={values.title}
                     >
-                      <FormattedMessage id="save" defaultMessage="Save" />
-                    </Button>
-                  </Stack>
+                      {({ inputAdornment, ref }) => (
+                        <Field
+                          component={TextField}
+                          type="text"
+                          label={
+                            <FormattedMessage id="title" defaultMessage="Title" />
+                          }
+                          inputRef={ref}
+                          name="title"
+                          fullWidth
+                          InputProps={{
+                            endAdornment: inputAdornment('end'),
+                            style: {
+                              fontSize: isMobile ? '0.875rem' : undefined,
+                              padding: isMobile ? '10px 8px' : undefined,
+                            }
+                          }}
+                          InputLabelProps={{
+                            style: {
+                              fontSize: isMobile ? '0.875rem' : undefined,
+                            }
+                          }}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: isMobile ? 1 : undefined,
+                            }
+                          }}
+                        />
+                      )}
+                    </CompletationProvider>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CompletationProvider
+                      onCompletation={(output) =>
+                        setFieldValue('description', output)
+                      }
+                      initialPrompt={values.description}
+                      multiline
+                    >
+                      {({ inputAdornment, ref }) => (
+                        <Field
+                          component={TextField}
+                          type="text"
+                          multiline
+                          rows={isMobile ? 4 : 5}
+                          label={
+                            <FormattedMessage
+                              id="description"
+                              defaultMessage="Description"
+                            />
+                          }
+                          inputRef={ref}
+                          InputProps={{
+                            endAdornment: inputAdornment('end'),
+                            style: {
+                              fontSize: isMobile ? '0.875rem' : undefined,
+                              padding: isMobile ? '10px 8px' : undefined,
+                            }
+                          }}
+                          InputLabelProps={{
+                            style: {
+                              fontSize: isMobile ? '0.875rem' : undefined,
+                            }
+                          }}
+                          name="description"
+                          fullWidth
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: isMobile ? 1 : undefined,
+                            }
+                          }}
+                        />
+                      )}
+                    </CompletationProvider>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
+                      <FormattedMessage
+                        id="share.image"
+                        defaultMessage="Share image"
+                      />
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+                      <Button
+                        onClick={() => {
+                          setOpenMediaDialog(true);
+                          setMediaFieldToEdit('shareImageUrl');
+                        }}
+                        size={isMobile ? "small" : "medium"}
+                        sx={{ p: 0, mt: 0.5 }}
+                      >
+                        <CustomImage
+                          src={values.shareImageUrl || defaultImageUrl}
+                          onError={handleImageError}
+                          alt="Share image preview"
+                        />
+                      </Button>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Stack spacing={1} direction="row" justifyContent="flex-end">
+                      <Button
+                        startIcon={<Check fontSize={isMobile ? "small" : "medium"} />}
+                        disabled={!isValid || !dirty}
+                        onClick={submitForm}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size={isMobile ? "small" : "medium"}
+                        sx={{
+                          fontSize: isMobile ? '0.875rem' : undefined,
+                          py: isMobile ? 0.75 : undefined,
+                          px: isMobile ? 2 : undefined,
+                          borderRadius: isMobile ? 1 : undefined,
+                        }}
+                      >
+                        <FormattedMessage id="save" defaultMessage="Save" />
+                      </Button>
+                    </Stack>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </Box>
             </>
           )}
         </Formik>

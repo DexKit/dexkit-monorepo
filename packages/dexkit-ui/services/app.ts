@@ -13,35 +13,36 @@ export function setupTheme({
   getTheme: ({ name }: { name: string }) => any;
 }) {
   return useMemo(() => {
+    const safeAppConfig = appConfig || defaultAppConfig;
+
     let tempTheme = getTheme({
       name: defaultAppConfig.theme,
     })?.theme;
+
     let fontFamily;
-    if (appConfig?.font) {
-      fontFamily = `'${appConfig.font.family}', ${appConfig.font.category}`;
+    if (safeAppConfig?.font) {
+      fontFamily = `'${safeAppConfig.font.family}', ${safeAppConfig.font.category}`;
     }
 
-    if (appConfig) {
-      tempTheme = getTheme({
-        name: appConfig.theme,
-      })?.theme;
-    }
+    tempTheme = getTheme({
+      name: safeAppConfig.theme || defaultAppConfig.theme,
+    })?.theme;
 
-    if (appConfig && appConfig.theme === "custom") {
+    if (safeAppConfig && safeAppConfig.theme === "custom") {
       let customTheme = {
         dark: {},
         light: {},
       };
 
-      if (appConfig?.customThemeLight) {
-        customTheme.light = JSON.parse(appConfig.customThemeLight);
+      if (safeAppConfig?.customThemeLight) {
+        customTheme.light = JSON.parse(safeAppConfig.customThemeLight);
       }
-      if (appConfig?.customThemeDark) {
-        customTheme.dark = JSON.parse(appConfig.customThemeDark);
+      if (safeAppConfig?.customThemeDark) {
+        customTheme.dark = JSON.parse(safeAppConfig.customThemeDark);
       }
       //@deprecated remove customTheme later
-      if (appConfig?.customTheme) {
-        const parsedCustomTheme = JSON.parse(appConfig.customTheme);
+      if (safeAppConfig?.customTheme) {
+        const parsedCustomTheme = JSON.parse(safeAppConfig.customTheme);
         if (parsedCustomTheme?.palette?.mode === ThemeMode.light) {
           customTheme.light = parsedCustomTheme;
         } else {
@@ -52,32 +53,42 @@ export function setupTheme({
       if (customTheme) {
         return fontFamily
           ? extendTheme({
-              typography: {
-                fontFamily,
-              },
-              colorSchemes: {
-                ...customTheme,
-              },
-            })
+            typography: {
+              fontFamily,
+            },
+            colorSchemes: {
+              ...customTheme,
+            },
+          })
           : extendTheme({
-              colorSchemes: {
-                ...customTheme,
-              },
-            });
+            colorSchemes: {
+              ...customTheme,
+            },
+          });
       }
     }
 
     let temp: any = tempTheme;
 
-    delete temp["vars"];
+    if (temp) {
+      delete temp["vars"];
+    } else {
+      temp = getTheme({
+        name: "default-theme",
+      })?.theme;
+
+      if (temp) {
+        delete temp["vars"];
+      }
+    }
 
     return fontFamily
       ? extendTheme({
-          ...temp,
-          typography: {
-            fontFamily,
-          },
-        })
+        ...temp,
+        typography: {
+          fontFamily,
+        },
+      })
       : extendTheme({ ...temp });
   }, [appConfig]);
 }
@@ -90,30 +101,30 @@ export function setupSEO({
   appPage?: string;
 }) {
   return useMemo(() => {
-    const config = appConfig;
+    const safeAppConfig = appConfig || defaultAppConfig;
 
-    if (config) {
-      if (config.seo && appPage && config.seo[appPage]) {
-        const pageSeo = config.seo[appPage];
+    if (safeAppConfig) {
+      if (safeAppConfig.seo && appPage && safeAppConfig.seo[appPage]) {
+        const pageSeo = safeAppConfig.seo[appPage];
         const seoConfig: any = {
           defaultTitle:
-            pageSeo?.title || config.seo?.home?.title || config.name,
-          titleTemplate: `${config.name} | %s`,
-          description: pageSeo?.description || config.seo?.home?.description,
-          canonical: config.domain,
+            pageSeo?.title || safeAppConfig.seo?.home?.title || safeAppConfig.name,
+          titleTemplate: `${safeAppConfig.name} | %s`,
+          description: pageSeo?.description || safeAppConfig.seo?.home?.description,
+          canonical: safeAppConfig.domain,
           openGraph: {
             type: "website",
             description:
-              pageSeo?.description || config.seo?.home?.description || "",
-            locale: config.locale || "en_US",
-            url: config.domain,
-            site_name: config.name,
-            images: pageSeo?.images || config.seo?.home?.images,
+              pageSeo?.description || safeAppConfig.seo?.home?.description || "",
+            locale: safeAppConfig.locale || "en_US",
+            url: safeAppConfig.domain,
+            site_name: safeAppConfig.name,
+            images: pageSeo?.images || safeAppConfig.seo?.home?.images,
           },
         };
 
-        if (config.social) {
-          for (let social of config.social) {
+        if (safeAppConfig.social) {
+          for (let social of safeAppConfig.social) {
             if (social.type === "twitter") {
               seoConfig.twitter = {
                 handle: `@${social.handle}`,
@@ -126,22 +137,22 @@ export function setupSEO({
         return seoConfig;
       } else {
         const seoConfig: any = {
-          defaultTitle: config.seo?.home?.title || config.name,
-          titleTemplate: `${config.name} | %s`,
-          description: config.seo?.home?.description,
-          canonical: config.domain,
+          defaultTitle: safeAppConfig.seo?.home?.title || safeAppConfig.name,
+          titleTemplate: `${safeAppConfig.name} | %s`,
+          description: safeAppConfig.seo?.home?.description,
+          canonical: safeAppConfig.domain,
           openGraph: {
             type: "website",
-            description: config.seo?.home?.description || "",
-            locale: config.locale || "en_US",
-            url: config.domain,
-            site_name: config.name,
-            images: config.seo?.home?.images,
+            description: safeAppConfig.seo?.home?.description || "",
+            locale: safeAppConfig.locale || "en_US",
+            url: safeAppConfig.domain,
+            site_name: safeAppConfig.name,
+            images: safeAppConfig.seo?.home?.images,
           },
         };
 
-        if (config.social) {
-          for (let social of config.social) {
+        if (safeAppConfig.social) {
+          for (let social of safeAppConfig.social) {
             if (social.type === "twitter") {
               seoConfig.twitter = {
                 handle: `@${social.handle}`,

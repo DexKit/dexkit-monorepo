@@ -92,13 +92,13 @@ export default function SiteMetadataSection({ id, slug, siteMetadata }: Props) {
         initialValues={
           siteMetadata
             ? {
-                title: siteMetadata.title,
-                subtitle: siteMetadata.subtitle,
-                imageURL: siteMetadata.imageURL,
-                description: siteMetadata.description,
-                chainIds: siteMetadata.chainIds,
-                usecases: siteMetadata.usecases,
-              }
+              title: siteMetadata.title,
+              subtitle: siteMetadata.subtitle,
+              imageURL: siteMetadata.imageURL,
+              description: siteMetadata.description,
+              chainIds: siteMetadata.chainIds,
+              usecases: siteMetadata.usecases,
+            }
             : { title: '', subtitle: '', description: '', imageURL: '' }
         }
         onSubmit={handleSubmitCollectionItemsForm}

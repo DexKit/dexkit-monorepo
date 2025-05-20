@@ -184,7 +184,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
             router.push(`/u/account/commerce/checkouts/${row.id}`);
           }}
           sx={{
-            height: 300,
+            height: (theme) => theme.spacing(37.5), // 300px / 8 = 37.5
             '& .MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -201,7 +201,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
               outline: 'none !important',
             },
             border: 'none',
-            '--DataGrid-overlayHeight': '150px', // disable cell selection style
+            '--DataGrid-overlayHeight': '150px', // Mantenemos el valor original debido a limitaciones con template literals
             '.MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -240,7 +240,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
                 id="create.checkouts.to.see.it.here"
                 defaultMessage="Create checkouts to see it here"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: (theme) => theme.typography.h1.fontSize }}>
                 <ShoppingCartCheckoutIcon fontSize="inherit" />
               </Box>,
             ),
@@ -254,7 +254,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
                 id="create.checkouts.to.see.it.here"
                 defaultMessage="Create checkouts to see it here"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: (theme) => theme.typography.h1.fontSize }}>
                 <ShoppingCartCheckoutIcon fontSize="inherit" />
               </Box>,
             ),

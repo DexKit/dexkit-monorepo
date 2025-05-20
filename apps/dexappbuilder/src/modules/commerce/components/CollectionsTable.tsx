@@ -9,7 +9,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CategoryType } from '../types';
 
-import { Box, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import { LoadingOverlay } from './LoadingOverlay';
 import { noRowsOverlay } from './NoRowsOverlay';
 
@@ -29,10 +29,11 @@ const AppConfirmDialog = dynamic(
   () => import('@dexkit/ui/components/AppConfirmDialog'),
 );
 
-export interface CollectionsTableProps {}
+export interface CollectionsTableProps { }
 
-export default function CollectionsTable({}: CollectionsTableProps) {
+export default function CollectionsTable({ }: CollectionsTableProps) {
   const [query, setQuery] = useState('');
+  const theme = useTheme();
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
     { field: 'name', sort: 'asc' },
@@ -240,7 +241,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
                 id="create.a.collection.to.see.it.here"
                 defaultMessage="Create a collection to see it here"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                 <LabelIcon fontSize="inherit" />
               </Box>,
             ),
@@ -254,7 +255,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
                 id="add.collections.to.your.store"
                 defaultMessage="Add collections to your store"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                 <LabelIcon fontSize="inherit" />
               </Box>,
             ),
@@ -264,7 +265,7 @@ export default function CollectionsTable({}: CollectionsTableProps) {
           onSortModelChange={setSortModel}
           sortingMode="server"
           sx={{
-            height: 300,
+            height: theme.spacing(37.5),
             '& .MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -281,11 +282,10 @@ export default function CollectionsTable({}: CollectionsTableProps) {
               outline: 'none !important',
             },
             border: 'none',
-            '--DataGrid-overlayHeight': '150px', // disable cell selection style
+            '--DataGrid-overlayHeight': '150px',
             '.MuiDataGrid-cell:focus': {
               outline: 'none',
             },
-            // pointer cursor on ALL rows
             '& .MuiDataGrid-row:hover': {
               cursor: 'pointer',
             },

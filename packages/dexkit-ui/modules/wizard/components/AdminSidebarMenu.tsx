@@ -1,3 +1,4 @@
+import { useIsMobile } from "@dexkit/core";
 import {
   Collapse,
   List,
@@ -13,7 +14,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   '&.Mui-selected': {
-    backgroundColor: theme.palette.mode === 'dark' 
+    backgroundColor: theme.palette.mode === 'dark'
       ? theme.palette.action.selected
       : theme.palette.grey[100],
     '&:hover': {
@@ -30,8 +31,8 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  color: theme.palette.mode === 'dark' 
-    ? theme.palette.text.primary 
+  color: theme.palette.mode === 'dark'
+    ? theme.palette.text.primary
     : 'inherit'
 }));
 
@@ -69,6 +70,7 @@ export default function AdminSidebarMenu({
   options,
 }: AdminSidebarMenuProps) {
   const [openMenus, setOpenMenu] = useState<{ [key: string]: boolean }>({});
+  const isMobile = useIsMobile();
 
   const handleToggleMenu = useCallback((menu: string) => {
     return () => {
@@ -105,7 +107,15 @@ export default function AdminSidebarMenu({
                   <StyledListItemButton
                     key={o.id}
                     selected={activeMenuId === o.id}
-                    onClick={() => onSelectMenuId(o.id)}
+                    onClick={() => {
+                      onSelectMenuId(o.id);
+                      // En móviles, cerrar el menú después de seleccionar una opción
+                      if (isMobile) {
+                        onToggle();
+                        // También cerramos los submenús
+                        setOpenMenu({});
+                      }
+                    }}
                   >
                     <StyledListItemIcon />
                     <ListItemText sx={{ ml: 4 }} primary={o.title} />
@@ -121,7 +131,15 @@ export default function AdminSidebarMenu({
         <StyledListItemButton
           key={opt.id}
           selected={activeMenuId === opt.id}
-          onClick={() => onSelectMenuId(opt.id)}
+          onClick={() => {
+            onSelectMenuId(opt.id);
+            // En móviles, cerrar el menú después de seleccionar una opción
+            if (isMobile) {
+              onToggle();
+              // También cerramos los submenús
+              setOpenMenu({});
+            }
+          }}
         >
           <StyledListItemIcon />
           <ListItemText primary={opt.title} />
@@ -137,12 +155,12 @@ export default function AdminSidebarMenu({
         <ListItemText
           primary={title}
           secondary={subtitle}
-          secondaryTypographyProps={{ 
+          secondaryTypographyProps={{
             variant: "caption",
-            sx: { 
-              color: theme => theme.palette.mode === 'dark' 
-                ? theme.palette.text.secondary 
-                : 'inherit' 
+            sx: {
+              color: theme => theme.palette.mode === 'dark'
+                ? theme.palette.text.secondary
+                : 'inherit'
             }
           }}
         />

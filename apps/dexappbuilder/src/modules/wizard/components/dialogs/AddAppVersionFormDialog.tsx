@@ -4,6 +4,9 @@ import {
   DialogActions,
   DialogContent,
   DialogProps,
+  styled,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,6 +19,11 @@ import { FormattedMessage } from 'react-intl';
 import * as Yup from 'yup';
 import { useAddAppVersionMutation } from '../../hooks';
 import SendAddAppVersionDialog from './SendAddAppVersionDialog';
+
+const MobileButton = styled(Button)(({ theme }) => ({
+  fontSize: '0.85rem',
+  padding: theme.spacing(0.75, 1.5),
+}));
 
 interface Props {
   dialogProps: DialogProps;
@@ -42,6 +50,8 @@ export default function AddVersionFormDialog({
   description,
   versionId,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { onClose } = dialogProps;
   const [open, setOpen] = useState(false);
   const mutationAddVersion = useAddAppVersionMutation();
@@ -100,10 +110,10 @@ export default function AddVersionFormDialog({
           {({ submitForm }) => (
             <Form>
               <DialogContent dividers>
-                <Grid container spacing={2}>
+                <Grid container spacing={isMobile ? 1.5 : 2}>
                   <Grid item xs={12}>
                     <Box>
-                      <Stack spacing={2}>
+                      <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
                           component={TextField}
                           name="version"
@@ -113,13 +123,25 @@ export default function AddVersionFormDialog({
                               defaultMessage={'Version'}
                             />
                           }
+                          variant="outlined"
+                          size={isMobile ? "small" : "medium"}
+                          InputLabelProps={{
+                            style: {
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            },
+                          }}
+                          InputProps={{
+                            style: {
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            },
+                          }}
                         />
                       </Stack>
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <Box>
-                      <Stack spacing={2}>
+                      <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
                           component={TextField}
                           name="description"
@@ -129,6 +151,20 @@ export default function AddVersionFormDialog({
                               defaultMessage={'Description'}
                             />
                           }
+                          variant="outlined"
+                          size={isMobile ? "small" : "medium"}
+                          multiline
+                          rows={isMobile ? 3 : 4}
+                          InputLabelProps={{
+                            style: {
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            },
+                          }}
+                          InputProps={{
+                            style: {
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            },
+                          }}
                         />
                       </Stack>
                     </Box>
@@ -138,21 +174,49 @@ export default function AddVersionFormDialog({
 
               <DialogActions>
                 <Grid item xs={12}>
-                  <Stack spacing={1} direction="row" justifyContent="flex-end">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={submitForm}
-                    >
-                      <FormattedMessage id="save" defaultMessage="Save" />
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleClose}
-                    >
-                      <FormattedMessage id="cancel" defaultMessage="cancel" />
-                    </Button>
+                  <Stack
+                    spacing={1}
+                    direction={isMobile ? "column-reverse" : "row"}
+                    justifyContent={isMobile ? "stretch" : "flex-end"}
+                    sx={{ width: isMobile ? '100%' : 'auto', px: isMobile ? 1 : 0 }}
+                  >
+                    {isMobile ? (
+                      <>
+                        <MobileButton
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          onClick={handleClose}
+                        >
+                          <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                        </MobileButton>
+                        <MobileButton
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          onClick={submitForm}
+                        >
+                          <FormattedMessage id="save" defaultMessage="Save" />
+                        </MobileButton>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={submitForm}
+                        >
+                          <FormattedMessage id="save" defaultMessage="Save" />
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleClose}
+                        >
+                          <FormattedMessage id="cancel" defaultMessage="cancel" />
+                        </Button>
+                      </>
+                    )}
                   </Stack>
                 </Grid>
               </DialogActions>

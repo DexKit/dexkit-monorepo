@@ -10,6 +10,7 @@ import DexGeneratorTokenDropForm from './DexGeneratorTokenDropForm';
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
+import { useIsMobile } from '@dexkit/core';
 import Link from '@dexkit/ui/components/AppLink';
 import {
   DexGeneratorPageSection,
@@ -39,6 +40,7 @@ export default function DexGeneratorContractForm({
   contract,
 }: DexGeneratorContractFormProps) {
   const { network, address, contractType, name } = params;
+  const isMobile = useIsMobile();
 
   const handleChange = (section: DexGeneratorPageSectionType) => {
     onChange({ type: 'dex-generator-section', contract, section });
@@ -155,17 +157,21 @@ export default function DexGeneratorContractForm({
 
   return (
     <Box>
-      <Stack sx={{ p: 2 }} spacing={2}>
+      <Stack sx={{ p: isMobile ? 1 : 2 }} spacing={isMobile ? 1 : 2}>
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
         >
-          <Stack spacing={1} direction="row" alignItems="center">
+          <Stack spacing={isMobile ? 0.5 : 1} direction="row" alignItems="center">
             <IconButton size="small" onClick={onCancel}>
-              <ArrowBack />
+              <ArrowBack fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography
+              variant={isMobile ? "body2" : "subtitle1"}
+              fontWeight="bold"
+              sx={isMobile ? { fontSize: '0.85rem' } : {}}
+            >
               <FormattedMessage
                 id="edit.name"
                 defaultMessage='Edit "{name}"'
@@ -176,9 +182,11 @@ export default function DexGeneratorContractForm({
 
           <Stack alignItems="center" direction="row">
             <Link target="_blank" href={`/contract/${network}/${address}`}>
-              <FormattedMessage id="admin" defaultMessage="Admin" />{' '}
+              <Typography variant={isMobile ? "caption" : "body2"}>
+                <FormattedMessage id="admin" defaultMessage="Admin" />{' '}
+              </Typography>
             </Link>
-            <OpenInNewIcon fontSize="inherit" color="primary" />
+            <OpenInNewIcon fontSize={isMobile ? "small" : "inherit"} color="primary" />
           </Stack>
         </Stack>
         <Divider />

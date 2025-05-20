@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { CategoryType } from '../types';
 
 import Delete from '@mui/icons-material/Delete';
-import { Box, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import Link from '@mui/material/Link';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
@@ -29,6 +29,7 @@ export default function CategoryTable({ query, onShare }: CategoryTableProps) {
     page: 0,
     pageSize: 5,
   });
+  const theme = useTheme();
 
   const { data, isLoading, refetch } = useCategoryList({
     limit: paginationModel.pageSize,
@@ -140,7 +141,7 @@ export default function CategoryTable({ query, onShare }: CategoryTableProps) {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
-          sx={{ height: 300 }}
+          sx={{ height: theme.spacing(37.5) }}
           slots={{
             noRowsOverlay: noRowsOverlay(
               <FormattedMessage

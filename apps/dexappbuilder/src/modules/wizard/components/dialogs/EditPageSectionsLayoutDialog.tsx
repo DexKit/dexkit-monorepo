@@ -12,6 +12,7 @@ import {
   MenuItem,
   Radio,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Field, Formik } from 'formik';
 import { RadioGroup, Select } from 'formik-mui';
@@ -29,6 +30,7 @@ export default function EditPageSectionsLayoutDialog({
   layout,
 }: EditPageSectionsLayoutDialogProps) {
   const { onClose } = DialogProps;
+  const theme = useTheme();
 
   const handleClose = () => {
     if (onClose) {
@@ -102,8 +104,8 @@ export default function EditPageSectionsLayoutDialog({
         layout
           ? layout
           : {
-              type: 'list',
-            }
+            type: 'list',
+          }
       }
       onSubmit={handleSubmit}
     >
@@ -117,9 +119,9 @@ export default function EditPageSectionsLayoutDialog({
               />
             }
             onClose={handleClose}
-            sx={{ px: 4, py: 2 }}
+            sx={{ px: theme.spacing(4), py: theme.spacing(2) }}
           />
-          <DialogContent dividers sx={{ p: 4 }}>
+          <DialogContent dividers sx={{ p: theme.spacing(4) }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <FormControl fullWidth>
@@ -146,7 +148,7 @@ export default function EditPageSectionsLayoutDialog({
               ) : undefined}
             </Grid>
           </DialogContent>
-          <DialogActions sx={{ px: 4, py: 2 }}>
+          <DialogActions sx={{ px: theme.spacing(4), py: theme.spacing(2) }}>
             <Button onClick={handleClose}>
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>

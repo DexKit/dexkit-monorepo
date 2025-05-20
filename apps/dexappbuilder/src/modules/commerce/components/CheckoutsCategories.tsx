@@ -11,7 +11,7 @@ import { CategoryType } from '../types';
 
 import useDeleteCategory from '@dexkit/ui/modules/commerce/hooks/useDeleteCategory';
 import Delete from '@mui/icons-material/DeleteOutline';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useSnackbar } from 'notistack';
 import useCategoryList from '../hooks/useCategoryList';
@@ -28,10 +28,11 @@ const AppConfirmDialog = dynamic(
 
 import useDeleteManyCategories from '@dexkit/ui/modules/commerce/hooks/useDeleteManyCategories';
 
-export interface CategoriesTableProps {}
+export interface CategoriesTableProps { }
 
-export default function CategoriesTable({}: CategoriesTableProps) {
+export default function CategoriesTable({ }: CategoriesTableProps) {
   const [query, setQuery] = useState('');
+  const theme = useTheme();
 
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
     [],
@@ -237,7 +238,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
           sx={{
-            height: 300,
+            height: (theme) => theme.spacing(37.5), // 300px / 8 = 37.5
             '& .MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -309,7 +310,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
                 id="create.a.category.to.see.it.here"
                 defaultMessage="Create a category to see it here"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                 <AppsIcon fontSize="inherit" />
               </Box>,
             ),
@@ -323,7 +324,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
                 id="create.a.category.to.see.it.here"
                 defaultMessage="Create a category to see it here"
               />,
-              <Box sx={{ fontSize: '3rem' }}>
+              <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                 <AppsIcon fontSize="inherit" />
               </Box>,
             ),
