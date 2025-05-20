@@ -1,9 +1,11 @@
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel } from 'formik-mui';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -31,6 +33,9 @@ export default function HidePoweredContainer({
   hasNFT,
 }: Props) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Formik
       initialValues={{
@@ -44,7 +49,36 @@ export default function HidePoweredContainer({
     >
       {({ submitForm }) => (
         <Form>
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1.5 : 3}>
+            <Grid item xs={12}>
+              <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+                <Typography
+                  variant={isMobile ? 'h6' : 'h5'}
+                  sx={{
+                    fontSize: isMobile ? '1.15rem' : '1.5rem',
+                    fontWeight: 600,
+                    mb: 0.5
+                  }}
+                >
+                  <FormattedMessage id="branding" defaultMessage="Branding" />
+                </Typography>
+                <Typography
+                  variant={isMobile ? 'body2' : 'body1'}
+                  color="text.secondary"
+                  sx={{
+                    fontSize: isMobile ? '0.85rem' : 'inherit',
+                  }}
+                >
+                  <FormattedMessage
+                    id="manage.branding.options"
+                    defaultMessage="Manage branding options for your application"
+                  />
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
             <Grid item xs={12}>
               {!hasNFT && isDisabled && (
                 <Alert severity={'warning'}>
@@ -78,6 +112,12 @@ export default function HidePoweredContainer({
                   variant="contained"
                   color="primary"
                   onClick={submitForm}
+                  size={isMobile ? "small" : "medium"}
+                  sx={{
+                    fontSize: isMobile ? "0.875rem" : undefined,
+                    py: isMobile ? 0.75 : undefined,
+                    px: isMobile ? 2 : undefined,
+                  }}
                 >
                   <FormattedMessage id="save" defaultMessage="Save" />
                 </Button>

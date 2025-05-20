@@ -24,6 +24,7 @@ export interface PageSectionsHeaderProps {
   onEditTitle: (title: string) => void;
   onEditLayout: () => void;
   page: AppPage;
+  pageKey?: string;
 }
 
 export default function PageSectionsHeader({
@@ -33,6 +34,7 @@ export default function PageSectionsHeader({
   onEditTitle,
   onEditLayout,
   page,
+  pageKey,
 }: PageSectionsHeaderProps) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
@@ -64,16 +66,40 @@ export default function PageSectionsHeader({
   const isMobile = useIsMobile();
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <IconButton onClick={onClose} sx={{ pl: 0, ml: 0 }}>
-          <ArrowBack color="primary" />
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={isMobile ? 0.25 : 0.5}
+      sx={{
+        px: isMobile ? 0 : 0,
+        pt: 0,
+        pb: isMobile ? 0.25 : 0.25,
+        mt: isMobile ? -2 : 0,
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        width: '100%',
+        justifyContent: 'flex-start',
+        ml: !isMobile ? 0 : undefined
+      }}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={0.25}
+        sx={{
+          width: isMobile ? '100%' : 'auto',
+          mb: isMobile ? 0.25 : 0,
+          justifyContent: 'flex-start'
+        }}
+      >
+        <IconButton onClick={onClose} sx={{ p: 0 }}>
+          <ArrowBack color="primary" fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
-        {isEditTitle ? (
+        {isEditTitle && pageKey !== 'home' ? (
           <TextField
             inputRef={(ref) => (inputRef.current = ref)}
             value={title}
             variant="standard"
+            size={isMobile ? "small" : "medium"}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleSave();
@@ -83,49 +109,85 @@ export default function PageSectionsHeader({
               }
             }}
             onChange={handleChange}
+            fullWidth={isMobile}
+            sx={{
+              maxWidth: isMobile ? 'calc(100% - 60px)' : undefined,
+              '& .MuiInputBase-input': {
+                fontSize: isMobile ? '1.1rem' : '1.5rem'
+              }
+            }}
           />
         ) : (
           <ButtonBase
             sx={{
-              px: 1,
-              py: 0.25,
-
+              px: 0.25,
+              py: 0,
               borderRadius: (theme) => theme.shape.borderRadius / 2,
               '&: hover': {
-                backgroundColor: (theme) =>
+                backgroundColor: pageKey === 'home' ? 'transparent' : (theme) =>
                   alpha(theme.palette.primary.main, 0.1),
               },
+              pointerEvents: pageKey === 'home' ? 'none' : 'auto',
             }}
-            onClick={handleEdit}
+            onClick={pageKey !== 'home' ? handleEdit : undefined}
+            disabled={pageKey === 'home'}
           >
             <Typography
-              variant="h5"
+              variant={isMobile ? "h6" : "h5"}
               sx={{
-                cursor: 'pointer',
+                cursor: pageKey === 'home' ? 'default' : 'pointer',
               }}
             >
               {page?.title}
             </Typography>
           </ButtonBase>
         )}
+        {isEditTitle && isMobile && (
+          <Stack direction="row" alignItems="center" spacing={0.25}>
+            <IconButton size="small" onClick={handleSave}>
+              <Check fontSize="small" />
+            </IconButton>
+            <IconButton size="small" onClick={handleCancel}>
+              <Close fontSize="small" />
+            </IconButton>
+          </Stack>
+        )}
       </Stack>
-      {isEditTitle && isMobile && (
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          <IconButton size="small" onClick={handleSave}>
-            <Check />
-          </IconButton>
-          <IconButton size="small" onClick={handleCancel}>
-            <Close />
-          </IconButton>
-        </Stack>
-      )}
 
-      <Button onClick={onPreview} startIcon={<Visibility />}>
-        <FormattedMessage id="preview" defaultMessage="Preview" />
-      </Button>
-      <Button startIcon={<Dashboard />} onClick={onEditLayout}>
-        <FormattedMessage id="edit.layout" defaultMessage="Edit layout" />
-      </Button>
+      <Stack
+        direction="row"
+        spacing={isMobile ? 0.25 : 0.5}
+        sx={{
+          ml: 'auto !important',
+          flexWrap: isMobile ? 'wrap' : 'nowrap',
+          justifyContent: 'flex-end',
+          width: isMobile ? '100%' : 'auto',
+          pr: isMobile ? 0 : 0
+        }}
+      >
+        <Button
+          onClick={onPreview}
+          startIcon={<Visibility fontSize={isMobile ? "small" : "medium"} />}
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            minWidth: isMobile ? 'auto' : undefined,
+            px: isMobile ? 0.5 : 0.5
+          }}
+        >
+          <FormattedMessage id="preview" defaultMessage="Preview" />
+        </Button>
+        <Button
+          startIcon={<Dashboard fontSize={isMobile ? "small" : "medium"} />}
+          onClick={onEditLayout}
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            minWidth: isMobile ? 'auto' : undefined,
+            px: isMobile ? 2 : 2
+          }}
+        >
+          <FormattedMessage id="edit.layout" defaultMessage="Edit layout" />
+        </Button>
+      </Stack>
     </Stack>
   );
 }

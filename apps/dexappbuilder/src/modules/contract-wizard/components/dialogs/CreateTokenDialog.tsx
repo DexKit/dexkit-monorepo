@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
@@ -33,6 +34,7 @@ export default function CreateTokenDialog({
   contractAddress,
 }: Props) {
   const { onClose } = dialogProps;
+  const theme = useTheme();
 
   const handleClose = () => {
     if (onClose) {
@@ -60,7 +62,7 @@ export default function CreateTokenDialog({
             alignItems="center"
             alignContent="center"
           >
-            {isLoading && <CircularProgress color="primary" size="2rem" />}
+            {isLoading && <CircularProgress color="primary" size={theme.spacing(4)} />}
             {isDone && <CheckCircle color="success" fontSize="large" />}
             {isLoading && (
               <Box>

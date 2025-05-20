@@ -1,7 +1,7 @@
 import { useInfiniteListDeployedContracts } from '@/modules/forms/hooks';
 import { getContractImplementation } from '@/modules/wizard/services';
 import { inputMapping } from '@/modules/wizard/utils';
-import { ChainId } from '@dexkit/core';
+import { ChainId, useIsMobile } from '@dexkit/core';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
@@ -10,7 +10,7 @@ import { useScanContractAbiMutation } from '@dexkit/web3forms/hooks';
 import { AbiFragment, ContractFormParams } from '@dexkit/web3forms/types';
 import { normalizeAbi } from '@dexkit/web3forms/utils';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import { CircularProgress, IconButton, InputAdornment, useTheme } from '@mui/material';
 import { providers } from 'ethers';
 import { useFormikContext } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -28,6 +28,8 @@ export default function ContractFormAddressInput({
   fetchOnMount,
 }: ContractFormAddressInputProps) {
   const { setFieldValue, values } = useFormikContext<ContractFormParams>();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const scanContractAbiMutation = useScanContractAbiMutation();
 
@@ -53,7 +55,7 @@ export default function ContractFormAddressInput({
                 contractAddress: value,
                 provider: jsonProvider,
               });
-            } catch (err) {}
+            } catch (err) { }
 
             if (isAddress(implementationAddress)) {
               address = implementationAddress;
@@ -153,12 +155,29 @@ export default function ContractFormAddressInput({
               />
             ),
             fullWidth: true,
-            inputProps: { onFocus: handleFocus, onBlur: handleBlur },
+            size: isMobile ? "small" : "medium",
+            margin: isMobile ? "dense" : "normal",
+            inputProps: {
+              onFocus: handleFocus,
+              onBlur: handleBlur,
+              style: isMobile ? {
+                fontSize: theme.typography.body2.fontSize,
+                padding: `${theme.spacing(0.75)} ${theme.spacing(1.25)}`
+              } : {}
+            },
+            InputLabelProps: isMobile ? {
+              style: { fontSize: theme.typography.body2.fontSize }
+            } : {},
+            sx: isMobile ? {
+              '& .MuiInputBase-root': {
+                minHeight: theme.spacing(4.375)
+              }
+            } : {},
             InputProps: {
               autoComplete: 'off',
               endAdornment: scanContractAbiMutation.isLoading ? (
                 <InputAdornment position="end">
-                  <CircularProgress color="inherit" size="1rem" />
+                  <CircularProgress color="inherit" size={isMobile ? theme.spacing(1.75) : theme.spacing(2.5)} />
                 </InputAdornment>
               ) : (
                 <IconButton
@@ -166,8 +185,9 @@ export default function ContractFormAddressInput({
                   size="small"
                   color="primary"
                   onClick={handleRefresh}
+                  sx={isMobile ? { padding: theme.spacing(0.25) } : {}}
                 >
-                  <RefreshIcon />
+                  <RefreshIcon fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
               ),
             },

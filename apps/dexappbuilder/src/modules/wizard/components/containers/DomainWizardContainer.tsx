@@ -8,6 +8,8 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -22,7 +24,7 @@ import { CopyText } from '@dexkit/ui/components/CopyText';
 
 import { beautifyUnderscoreCase } from '@dexkit/core/utils';
 import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
-import { CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG } from '@dexkit/ui/constants/featPayments';
+import { CUSTOM_DOMAINS_AND_SIGNATURE_FEAT } from '@dexkit/ui/constants/featPayments';
 import { useActiveFeatUsage } from '@dexkit/ui/hooks/payments';
 import {
   AppConfig,
@@ -63,12 +65,14 @@ export default function DomainWizardContainer({
   const deployDomainMutation = useSetupDomainConfigMutation();
 
   const activeFeatUsageQuery = useActiveFeatUsage({
-    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT_FREE_PLAN_SLUG,
+    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   });
 
   const isPaid = activeFeatUsageQuery.data
     ? activeFeatUsageQuery?.data?.active
     : undefined;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSubmitGeneral = (form: DomainSectionForm) => {
     setDomainData(form);
@@ -194,7 +198,7 @@ export default function DomainWizardContainer({
     setContentInfo(
       formatMessage({
         id: 'info.wizard.content.cname',
-        defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the \"Check Deploy Status\" button. If the status shows as \"VERIFIED\" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace \"@\" with the subdomain value. If you encounter any issues, please contact our support channels.`,
+        defaultMessage: `Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the "Check Deploy Status" button. If the status shows as "VERIFIED" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace "@" with the subdomain value. If you encounter any issues, please contact our support channels.`,
       }),
     );
   }, []);
@@ -257,14 +261,30 @@ export default function DomainWizardContainer({
         isSuccess={verifyDomainMutation.isSuccess}
         error={verifyDomainMutation.error}
       />
-
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={isMobile ? 1.5 : 3}
+        sx={{ px: isMobile ? 1 : 0, pt: isMobile ? 1 : 0 }}
+      >
         <Grid item xs={12}>
-          <Stack>
-            <Typography variant={'h6'}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontWeight: 600,
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                mb: 0.5,
+              }}
+            >
               <FormattedMessage id="domain" defaultMessage="Domain" />
             </Typography>
-            <Typography variant={'body2'}>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="set.custom.domain.container.description"
                 defaultMessage="Set a custom domain for your app. This is a premium feature"
@@ -340,7 +360,8 @@ export default function DomainWizardContainer({
             <Grid item xs={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
-                  <FormattedMessage id="cname" defaultMessage="CNAME" />{' '}
+                  <FormattedMessage id="cname" defaultMessage="CNAME" />
+                  {': '}
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
                   <Typography>
@@ -365,7 +386,8 @@ export default function DomainWizardContainer({
             <Grid item xs={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
-                  <FormattedMessage id="a.record" defaultMessage="A Record" />{' '}
+                  <FormattedMessage id="a.record" defaultMessage="A Record" />
+                  {': '}
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
                   <Typography>
@@ -448,7 +470,9 @@ export default function DomainWizardContainer({
         <Grid item xs={12}>
           <Divider />
         </Grid>
-        <PremiumAppBuilder />
+        <Grid item xs={12}>
+          <PremiumAppBuilder />
+        </Grid>
 
         <Grid item xs={12}>
           <Divider />

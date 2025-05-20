@@ -7,6 +7,8 @@ import {
   Select,
   Stack,
   TextField,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import { FormattedMessage } from 'react-intl';
@@ -46,6 +48,9 @@ export default function VideoSectionForm({
   section,
   onChange,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleSubmit = (values: Form, helpers: FormikHelpers<Form>) => {
     if (onSave) {
       onSave({
@@ -60,10 +65,10 @@ export default function VideoSectionForm({
   const formik = useFormik({
     initialValues: section
       ? {
-          videoType: section.embedType,
-          videoUrl: section.videoUrl,
-          title: section.title,
-        }
+        videoType: section.embedType,
+        videoUrl: section.videoUrl,
+        title: section.title,
+      }
       : { videoType: 'youtube', videoUrl: '', title: '' },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
@@ -82,9 +87,9 @@ export default function VideoSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 2}>
         <Grid item xs={12}>
-          <FormControl fullWidth required>
+          <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
             <InputLabel>
               <FormattedMessage id="video.type" defaultMessage="Video Type" />
             </InputLabel>
@@ -109,6 +114,7 @@ export default function VideoSectionForm({
         </Grid>
         <Grid item xs={12}>
           <TextField
+            size={isMobile ? "small" : "medium"}
             label={<FormattedMessage id="title" defaultMessage="Title" />}
             fullWidth
             name="title"
@@ -123,6 +129,7 @@ export default function VideoSectionForm({
         </Grid>
         <Grid item xs={12}>
           <TextField
+            size={isMobile ? "small" : "medium"}
             label={
               <FormattedMessage id="video.url" defaultMessage="Video URL" />
             }
@@ -147,21 +154,31 @@ export default function VideoSectionForm({
           sx={{
             display:
               formik.values.videoType === 'youtube' &&
-              videoUrl &&
-              formik.isValid
+                videoUrl &&
+                formik.isValid
                 ? 'block'
                 : 'none',
+            mt: isMobile ? 1 : 2,
+            '& iframe': {
+              maxWidth: '100%',
+              height: isMobile ? '180px' : 'auto'
+            }
           }}
         >
           <LazyYoutubeFrame url={videoUrl} />
         </Grid>
 
         <Grid item xs={12}>
-          <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <Button onClick={onCancel}>
+          <Stack spacing={2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 0 }}>
+            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
-            <Button type="submit" variant="contained" color="primary">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size={isMobile ? "small" : "medium"}
+            >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
           </Stack>

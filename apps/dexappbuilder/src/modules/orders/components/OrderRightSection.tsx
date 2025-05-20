@@ -527,10 +527,10 @@ function OrderRightSection({ order }: Props) {
               spacing={0.5}
             >
               <Tooltip title={token?.name || ''}>
-                <img
+                <Box component="img"
                   alt={token?.name}
                   src={ipfsUriToUrl(token?.logoURI || '')}
-                  style={{ width: 'auto', height: '1rem' }}
+                  sx={{ width: 'auto', height: (theme) => theme.spacing(2) }}
                 />
               </Tooltip>
               <Typography sx={{ fontWeight: 600 }} variant="h6">

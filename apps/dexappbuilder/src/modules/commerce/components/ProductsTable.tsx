@@ -6,6 +6,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import {
   DataGrid,
@@ -52,10 +53,11 @@ const PreviewProductDialog = dynamic(
     ),
 );
 
-export interface ProducstTableProps {}
+export interface ProducstTableProps { }
 
-export default function ProductsTable({}: ProducstTableProps) {
+export default function ProductsTable({ }: ProducstTableProps) {
   const [query, setQuery] = useState('');
+  const theme = useTheme(); 
 
   const [productName, setProductName] = useState<string>();
 
@@ -481,7 +483,7 @@ export default function ProductsTable({}: ProducstTableProps) {
             }}
             sortingMode="server"
             sx={{
-              height: 300,
+              height: theme.spacing(37.5), // 300px / 8 = 37.5
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
               },
@@ -519,7 +521,7 @@ export default function ProductsTable({}: ProducstTableProps) {
                   id="create.products.to.see.it.here"
                   defaultMessage="Create products to see it here"
                 />,
-                <Box sx={{ fontSize: '3rem' }}>
+                <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                   <ShoppingBagIcon fontSize="inherit" />
                 </Box>,
               ),
@@ -533,7 +535,7 @@ export default function ProductsTable({}: ProducstTableProps) {
                   id="create.products.to.see.it.here"
                   defaultMessage="Create products to see it here"
                 />,
-                <Box sx={{ fontSize: '3rem' }}>
+                <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
                   <ShoppingBagIcon fontSize="inherit" />
                 </Box>,
               ),

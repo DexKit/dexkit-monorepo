@@ -1,7 +1,7 @@
 import { truncateAddress } from '@dexkit/core/utils/blockchain';
 import Close from '@mui/icons-material/Close';
 import Edit from '@mui/icons-material/Edit';
-import { Button, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SwapFeeForm } from '../../types';
@@ -11,10 +11,12 @@ interface Props {
   fee?: SwapFeeForm;
   onSave: (fees: SwapFeeForm) => void;
   onRemove: () => void;
+  isMobile?: boolean;
 }
 
-export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
+export default function SwapFeesSection({ fee, onSave, onRemove, isMobile }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const theme = useTheme();
 
   const handleSubmit = (values: SwapFeeForm) => {
     onSave(values);
@@ -26,39 +28,40 @@ export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
   const handleCancel = () => setIsFormOpen(false);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
       {isFormOpen ? (
         <SwapFeesSectionForm
           fee={fee}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+          isMobile={isMobile}
         />
       ) : (
         <>
           {fee && (
-            <Paper sx={{ px: 2, py: 1 }}>
+            <Paper sx={{ px: isMobile ? theme.spacing(1.5) : theme.spacing(2), py: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}>
               <Stack
-                spacing={2}
+                spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                 direction="row"
                 alignItems="center"
                 alignContent="center"
                 justifyContent="space-between"
               >
                 <Stack
-                  spacing={1}
+                  spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
                   direction="row"
                   alignItems="center"
                   alignContent="center"
                 >
-                  <Typography variant="body1">
+                  <Typography variant={isMobile ? "body2" : "body1"}>
                     {fee.amountPercentage || 0}%
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant={isMobile ? "body2" : "body1"} sx={{ wordBreak: 'break-all' }}>
                     {truncateAddress(fee.recipient)}
                   </Typography>
                 </Stack>
                 <IconButton size="small" onClick={onRemove}>
-                  <Close fontSize="small" />
+                  <Close fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
               </Stack>
             </Paper>
@@ -67,7 +70,12 @@ export default function SwapFeesSection({ fee, onSave, onRemove }: Props) {
           <Button
             variant="outlined"
             onClick={handleOpenForm}
-            startIcon={<Edit />}
+            startIcon={<Edit fontSize={isMobile ? "small" : "medium"} />}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+              py: isMobile ? theme.spacing(0.75) : undefined
+            }}
           >
             <FormattedMessage id="add.fee" defaultMessage="Edit fee" />
           </Button>

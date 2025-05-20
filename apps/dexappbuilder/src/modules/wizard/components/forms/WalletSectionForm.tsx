@@ -1,11 +1,10 @@
+import { useIsMobile } from '@dexkit/core';
 import {
   AppPageSection,
   WalletPageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
-import { Alert, Box } from '@mui/material';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
+import { Alert, Box, Button, Grid, Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import '@uiw/react-markdown-preview/markdown.css';
 import '@uiw/react-md-editor/markdown-editor.css';
 import { useEffect } from 'react';
@@ -24,6 +23,8 @@ export default function WalletSectionForm({
   onChange,
   onCancel,
 }: Props) {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     onChange({
       ...section,
@@ -32,10 +33,11 @@ export default function WalletSectionForm({
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 2}>
       <Grid item xs={12}>
-        <Box p={2}>
-          <Alert severity="info">
+        <Box p={isMobile ? 1 : 2}>
+          <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
+            <Typography variant={isMobile ? "body2" : "body1"}>
             <FormattedMessage
               id={'wallet.section.form.info'}
               defaultMessage={
@@ -43,12 +45,13 @@ export default function WalletSectionForm({
               }
             ></FormattedMessage>
             .
+            </Typography>
           </Alert>
         </Box>
       </Grid>
       <Grid item xs={12}>
-        <Stack spacing={2} direction="row" justifyContent="flex-end">
-          <Button onClick={onCancel}>
+        <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
+          <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
             <FormattedMessage id="cancel" defaultMessage="Cancel" />
           </Button>
           <Button
@@ -60,6 +63,7 @@ export default function WalletSectionForm({
             }
             variant="contained"
             color="primary"
+            size={isMobile ? "small" : "medium"}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>

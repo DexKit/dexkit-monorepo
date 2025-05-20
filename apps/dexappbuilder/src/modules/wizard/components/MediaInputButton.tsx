@@ -43,8 +43,8 @@ export function MediaInputButton({ name, label }: MediaInputButtonProps) {
         images={
           ipfsFileListQuery.data
             ? ipfsFileListQuery.data.pages
-                .map((p) => p.items.map((f) => f))
-                .flat()
+              .map((p) => p.items.map((f) => f))
+              .flat()
             : []
         }
         hasMore={ipfsFileListQuery.hasNextPage}
@@ -68,7 +68,7 @@ export function MediaInputButton({ name, label }: MediaInputButtonProps) {
             src={getNormalizedUrl(values[name])}
             alt=""
             style={{
-              border: `1px solid ${theme.palette.divider}`,
+              border: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
               display: 'block',
               height: '100%',
               width: '100%',
@@ -84,7 +84,7 @@ export function MediaInputButton({ name, label }: MediaInputButtonProps) {
               width: '100%',
               aspectRatio: '1/1',
               borderRadius: '50%',
-              border: (theme) => `1px solid ${theme.palette.divider}`,
+              border: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
             }}
           >
             <Stack
@@ -93,12 +93,13 @@ export function MediaInputButton({ name, label }: MediaInputButtonProps) {
               sx={{
                 height: '100%',
                 width: '100%',
-                color: (theme) => theme.palette.text.secondary,
+                color: theme.palette.text.secondary,
               }}
               alignContent="center"
+              spacing={theme.spacing(0.5)}
             >
-              <ImageIcon color="inherit" />
-              <Typography color="inherit" variant="caption">
+              <ImageIcon color="inherit" fontSize="small" />
+              <Typography color="inherit" variant="caption" sx={{ fontSize: theme.typography.caption.fontSize }}>
                 <FormattedMessage id="image" defaultMessage="Image" />
               </Typography>
             </Stack>

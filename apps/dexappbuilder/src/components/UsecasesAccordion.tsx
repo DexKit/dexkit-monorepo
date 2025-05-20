@@ -7,6 +7,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
@@ -20,8 +21,10 @@ export function UsecasesAccordion({
   selectedUsecases,
   defaultExpanded,
 }: Props) {
+  const theme = useTheme();
+
   return (
-    <Stack spacing={2} sx={{ pt: 2 }}>
+    <Stack spacing={2} sx={{ pt: theme.spacing(2) }}>
       <Accordion defaultExpanded={defaultExpanded}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -33,7 +36,7 @@ export function UsecasesAccordion({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List sx={{ maxHeight: '400px', overflow: 'auto' }}>
+          <List sx={{ maxHeight: theme.spacing(50), overflow: 'auto' }}>
             {Object.values(UseCases).map((use, key) => (
               <ListItem
                 key={key}

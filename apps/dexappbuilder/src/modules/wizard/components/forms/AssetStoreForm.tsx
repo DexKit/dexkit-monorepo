@@ -5,12 +5,14 @@ import {
   LinearProgress,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import * as Yup from 'yup';
 
 import { ImageFormUpload } from '@/modules/contract-wizard/components/ImageFormUpload';
+import { useIsMobile } from '@dexkit/core';
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import { FormattedMessage } from 'react-intl';
 import ChangeListener from '../ChangeListener';
@@ -47,6 +49,9 @@ export default function AssetStoreForm({
   onSubmit,
   onChange,
 }: Props) {
+  const isMobile = useIsMobile();
+  const theme = useTheme();
+
   return (
     <Formik
       initialValues={{ ...item }}
@@ -71,7 +76,7 @@ export default function AssetStoreForm({
             isValid={isValid}
             onChange={onChange}
           />
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
             <Grid item xs={12}>
               <Field
                 component={TextField}
@@ -84,6 +89,7 @@ export default function AssetStoreForm({
                   />
                 }
                 name="storeAccount"
+                size={isMobile ? "small" : "medium"}
               />
             </Grid>
             <Grid item xs={12}>
@@ -102,6 +108,7 @@ export default function AssetStoreForm({
                     name="name"
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
+                    size={isMobile ? "small" : "medium"}
                   />
                 )}
               </CompletationProvider>
@@ -125,6 +132,7 @@ export default function AssetStoreForm({
                     }
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
+                    size={isMobile ? "small" : "medium"}
                   />
                 )}
               </CompletationProvider>
@@ -151,14 +159,15 @@ export default function AssetStoreForm({
                     name="description"
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
+                    size={isMobile ? "small" : "medium"}
                   />
                 )}
               </CompletationProvider>
             </Grid>
             <Grid item xs={12}>
-              <Stack spacing={2}>
-                <Box pl={2}>
-                  <Typography variant="caption">
+              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                  <Typography variant={isMobile ? "caption" : "body2"}>
                     <FormattedMessage
                       id="profile.image"
                       defaultMessage="Profile Image"
@@ -175,9 +184,9 @@ export default function AssetStoreForm({
               </Stack>
             </Grid>
             <Grid item xs={12}>
-              <Stack spacing={2}>
-                <Box pl={2}>
-                  <Typography variant="caption">
+              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                  <Typography variant={isMobile ? "caption" : "body2"}>
                     <FormattedMessage
                       id="background.image"
                       defaultMessage="Background image"
@@ -196,9 +205,9 @@ export default function AssetStoreForm({
             {isSubmitting && <LinearProgress />}
             {onSubmit && (
               <Grid item xs={12}>
-                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end">
                   {onCancel && (
-                    <Button onClick={onCancel}>
+                    <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
                       <FormattedMessage id="cancel" defaultMessage="Cancel" />
                     </Button>
                   )}
@@ -206,6 +215,7 @@ export default function AssetStoreForm({
                     disabled={!isValid}
                     variant="contained"
                     onClick={submitForm}
+                    size={isMobile ? "small" : "medium"}
                   >
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </Button>

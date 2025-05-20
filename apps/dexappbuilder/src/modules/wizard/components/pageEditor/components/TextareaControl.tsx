@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import { Stack } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
@@ -11,10 +12,18 @@ interface Props {
 export function TextareaControl(props: Props) {
   const { formatMessage } = useIntl();
   const { data } = props;
+  const isMobile = useIsMobile();
 
   return (
-    <Stack spacing={2}>
-      <Alert severity="warning">
+    <Stack spacing={isMobile ? 1 : 2}>
+      <Alert
+        severity="warning"
+        sx={{
+          '& .MuiAlert-message': {
+            fontSize: isMobile ? '0.85rem' : undefined
+          }
+        }}
+      >
         <FormattedMessage
           id={'careful.with.scripts'}
           defaultMessage={'Be careful with scripts and html that you use here'}
@@ -27,7 +36,12 @@ export function TextareaControl(props: Props) {
           id: 'insert.valid.html',
           defaultMessage: 'Insert valid HTML',
         })}
-        minRows={5}
+        minRows={isMobile ? 3 : 5}
+        style={{
+          padding: isMobile ? '8px' : '12px',
+          fontSize: isMobile ? '0.9rem' : '1rem',
+          fontFamily: 'inherit'
+        }}
         onChange={(ev) => {
           data.onChange({ html: ev.currentTarget.value });
         }}

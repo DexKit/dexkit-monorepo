@@ -23,6 +23,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 import NextLink from 'next/link';
@@ -58,6 +59,7 @@ export default function FormInfoCard({
   templateId,
   contractAddress,
 }: FormInfoCardProps) {
+  const theme = useTheme();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [showConfirming, setShowConfirming] = useState(false);
@@ -96,7 +98,7 @@ export default function FormInfoCard({
       </AppConfirmDialog>
       <Card>
         <CardContent>
-          <Stack spacing={2}>
+          <Stack spacing={theme.spacing(2)}>
             <Box>
               <Typography variant="h5">
                 {isLoading ? <Skeleton /> : name}
@@ -106,12 +108,12 @@ export default function FormInfoCard({
               </Typography>
             </Box>
             <Stack
-              spacing={0.5}
+              spacing={theme.spacing(0.5)}
               direction="row"
               alignItems="center"
               alignContent="center"
             >
-              <Avatar sx={{ width: '1rem', height: '1rem' }} />
+              <Avatar sx={{ width: theme.spacing(2), height: theme.spacing(2) }} />
               <Link
                 component={NextLink}
                 href={`/forms/account/${creatorAddress}`}
@@ -121,7 +123,7 @@ export default function FormInfoCard({
               </Link>
             </Stack>
             <Stack
-              spacing={1}
+              spacing={theme.spacing(1)}
               direction="row"
               alignItems="center"
               alignContent="center"

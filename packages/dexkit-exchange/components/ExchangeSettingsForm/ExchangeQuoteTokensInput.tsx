@@ -1,4 +1,4 @@
-import { ChainId, TOKEN_ICON_URL } from "@dexkit/core";
+import { ChainId, TOKEN_ICON_URL, useIsMobile } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import TokenIcon from "@mui/icons-material/Token";
 import {
@@ -21,13 +21,18 @@ export interface ExchangeQuoteTokensInputProps {
   label?: React.ReactNode;
   tokens: Token[];
   chainId?: ChainId;
+  size?: "small" | "medium";
 }
 
 export default function ExchangeQuoteTokensInput({
   label,
   tokens,
   chainId,
+  size: propSize,
 }: ExchangeQuoteTokensInputProps) {
+  const isMobile = useIsMobile();
+  const size = propSize || (isMobile ? "small" : "medium");
+
   const [field, meta, helpers] = useField<Token[] | undefined>(
     `defaultTokens.${chainId}.quoteTokens`
   );
@@ -80,6 +85,7 @@ export default function ExchangeQuoteTokensInput({
       fullWidth
       onChange={handleChange}
       multiple
+      size={size}
       isOptionEqualToValue={(opt, value) =>
         opt.chainId === value.chainId &&
         isAddressEqual(opt.address, value.address)
@@ -93,13 +99,16 @@ export default function ExchangeQuoteTokensInput({
                   ? opt.logoURI
                   : TOKEN_ICON_URL(opt.address, opt.chainId)
               }
+              sx={{ width: isMobile ? "1.5rem" : "2rem", height: isMobile ? "1.5rem" : "2rem" }}
             >
-              <TokenIcon />
+              <TokenIcon fontSize={isMobile ? "small" : "medium"} />
             </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={opt.symbol.toUpperCase()}
             secondary={opt.name}
+            primaryTypographyProps={{ variant: isMobile ? "body2" : "body1" }}
+            secondaryTypographyProps={{ variant: isMobile ? "caption" : "body2" }}
           />
         </MenuItem>
       )}
@@ -108,18 +117,19 @@ export default function ExchangeQuoteTokensInput({
           <Chip
             icon={
               <Avatar
-                sx={{ height: "1rem", width: "1rem" }}
+                sx={{ height: isMobile ? "0.85rem" : "1rem", width: isMobile ? "0.85rem" : "1rem" }}
                 src={
                   option.logoURI
                     ? option.logoURI
                     : TOKEN_ICON_URL(option.address, option.chainId)
                 }
               >
-                <TokenIcon />
+                <TokenIcon fontSize="small" />
               </Avatar>
             }
             variant="outlined"
             label={option.symbol.toUpperCase()}
+            size={isMobile ? "small" : "medium"}
             {...getTagProps({ index })}
           />
         ))
@@ -131,6 +141,7 @@ export default function ExchangeQuoteTokensInput({
             key={params.inputProps.value?.toString()}
             {...params}
             label={label}
+            size={size}
           />
         );
       }}

@@ -1,7 +1,7 @@
 import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,6 +17,8 @@ export default function PagesMenu({
   pages: { [key: string]: AppPage };
   onClickMenu: (slug: string) => void;
 }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -40,10 +42,10 @@ export default function PagesMenu({
     <div>
       {pageKeys.length > 1 ? (
         <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems={'center'}
-          spacing={2}
+          direction={isMobile ? "column" : "row"}
+          justifyContent={isMobile ? "flex-start" : "center"}
+          alignItems={isMobile ? "flex-start" : "center"}
+          spacing={isMobile ? 1 : 2}
         >
           <Button
             id="pages-show-button"
@@ -51,14 +53,19 @@ export default function PagesMenu({
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            endIcon={open ? <ExpandLessIcon fontSize={isMobile ? "small" : "medium"} /> : <ExpandMoreIcon fontSize={isMobile ? "small" : "medium"} />}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+            }}
           >
             <FormattedMessage
               id={'select.page'}
               defaultMessage={'Select page'}
             />
           </Button>
-          <Typography>
+          <Typography variant={isMobile ? "body2" : "body1"}>
             <b>
               <FormattedMessage
                 id={currentPage?.key || 'home'}
@@ -68,7 +75,7 @@ export default function PagesMenu({
           </Typography>
         </Stack>
       ) : (
-        <Typography>
+        <Typography variant={isMobile ? "body2" : "body1"}>
           <FormattedMessage
             id={currentPage?.key || 'home'}
             defaultMessage={currentPage?.title || 'Home'}
@@ -88,6 +95,11 @@ export default function PagesMenu({
           <MenuItem
             onClick={() => onClickItemMenu(pages[page]?.key || 'home')}
             key={key}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+              minHeight: isMobile ? theme.spacing(4) : undefined,
+            }}
           >
             <FormattedMessage
               id={pages[page]?.key || 'home'}

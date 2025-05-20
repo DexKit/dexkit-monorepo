@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Box, Stack, useMediaQuery, useTheme } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
 import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
@@ -23,6 +23,9 @@ export default function SeoSection({
   pages,
   setCurrentPage,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const onViewPage = (slug: string) => {
     if (pages[slug]) {
       setCurrentPage(pages[slug]);
@@ -34,17 +37,24 @@ export default function SeoSection({
   };
 
   return (
-    <Stack spacing={2}>
-      <PagesMenu
-        onClickMenu={onViewPage}
-        pages={pages}
-        currentPage={currentPage}
-      />
-      <SeoSectionForm
-        initialValues={seoForm[currentPage.key as string]}
-        onHasChanges={onHasChanges}
-        onSubmit={handleSave}
-      />
-    </Stack>
+    <Box sx={{
+      width: '100%',
+      px: isMobile ? 0.5 : 0
+    }}>
+      <Stack spacing={isMobile ? 1.5 : 2}>
+        <Box sx={{ mb: isMobile ? 0.5 : 1 }}>
+          <PagesMenu
+            onClickMenu={onViewPage}
+            pages={pages}
+            currentPage={currentPage}
+          />
+        </Box>
+        <SeoSectionForm
+          initialValues={seoForm[currentPage.key as string]}
+          onHasChanges={onHasChanges}
+          onSubmit={handleSave}
+        />
+      </Stack>
+    </Box>
   );
 }

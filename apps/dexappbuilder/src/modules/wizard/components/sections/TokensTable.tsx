@@ -32,6 +32,7 @@ export interface TokensTableProps {
   onDisableFeatured: (key: string) => void;
   selection: string[];
   onChangeSelection: (selection: string[]) => void;
+  isMobile?: boolean;
 }
 
 interface TokenWhitelabelAppWithIndex {
@@ -48,6 +49,7 @@ export default function TokensTable({
   onChangeSelection,
   onDisableFeatured,
   selection,
+  isMobile,
 }: TokensTableProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -122,7 +124,7 @@ export default function TokensTable({
     return [
       paginationModel.page * paginationModel.pageSize,
       paginationModel.page * paginationModel.pageSize +
-        paginationModel.pageSize,
+      paginationModel.pageSize,
     ];
   }, [paginationModel, JSON.stringify(filteredTokens)]);
 
@@ -158,34 +160,34 @@ export default function TokensTable({
         field: 'Token',
         flex: 1,
         renderHeader: () => (
-          <Typography>
+          <Typography variant={isMobile ? "body2" : "body1"}>
             <FormattedMessage id="token" defaultMessage="Token" />
           </Typography>
         ),
         renderCell: ({ row, value }) => {
           return (
             <Stack
-              sx={{ py: 1 }}
+              sx={{ py: isMobile ? 1 : 1 }}
               direction="row"
               alignItems="center"
-              spacing={2}
+              spacing={isMobile ? 1 : 2}
             >
               <Avatar
                 sx={(theme) => ({
-                  width: theme.spacing(4),
-                  height: theme.spacing(4),
+                  width: theme.spacing(isMobile ? 3 : 4),
+                  height: theme.spacing(isMobile ? 3 : 4),
                 })}
                 src={row.token.logoURI}
               />
-              <Box>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography fontWeight="400" variant="body1">
+              <Box sx={{ minHeight: isMobile ? '52px' : 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <Stack direction="row" alignItems="center" spacing={isMobile ? 0.5 : 1}>
+                  <Typography fontWeight="400" variant={isMobile ? "body2" : "body1"}>
                     {row.token.name}{' '}
                     <Typography
                       color="text.secondary"
                       variant="caption"
                       component="span"
-                      sx={{ ml: 1.5 }}
+                      sx={{ ml: isMobile ? 0.5 : 1.5 }}
                     >
                       {row.token.symbol.toUpperCase()}
                     </Typography>
@@ -194,8 +196,23 @@ export default function TokensTable({
                     <MoreHoriz fontSize="small" />
                   </IconButton>
                 </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Chip label={getChainName(row.token.chainId)} size="small" />
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ mt: isMobile ? 0.5 : 0 }}
+                >
+                  <Chip
+                    label={getChainName(row.token.chainId)}
+                    size="small"
+                    sx={{
+                      height: isMobile ? '20px' : '24px',
+                      '& .MuiChip-label': {
+                        px: 0.75,
+                        fontSize: isMobile ? '0.675rem' : '0.75rem'
+                      }
+                    }}
+                  />
                   {row.token.tradable && (
                     <Chip
                       label={
@@ -205,6 +222,13 @@ export default function TokensTable({
                         />
                       }
                       size="small"
+                      sx={{
+                        height: isMobile ? '20px' : '24px',
+                        '& .MuiChip-label': {
+                          px: 0.75,
+                          fontSize: isMobile ? '0.675rem' : '0.75rem'
+                        }
+                      }}
                     />
                   )}
                 </Stack>
@@ -215,14 +239,14 @@ export default function TokensTable({
         disableColumnMenu: true,
       },
       {
-        flex: 0.5,
+        flex: isMobile ? 0.3 : 0.5,
         field: 'Highlight',
         disableColumnMenu: true,
         disableReorder: true,
         sortable: false,
         renderHeader: () => (
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Typography variant="inherit">
+            <Typography variant={isMobile ? "body2" : "inherit"}>
               <FormattedMessage id="highlight" defaultMessage="Highlight" />
             </Typography>
             <Tooltip
@@ -234,7 +258,7 @@ export default function TokensTable({
               }
               placement="top"
             >
-              <InfoOutlined fontSize="inherit" sx={{ color: 'grey.400' }} />
+              <InfoOutlined fontSize={isMobile ? "small" : "inherit"} sx={{ color: 'grey.400' }} />
             </Tooltip>
           </Stack>
         ),
@@ -243,19 +267,20 @@ export default function TokensTable({
             <Switch
               checked={!Boolean(row.token.disableFeatured)}
               onClick={handleDisableFeatured(row.token)}
+              size={isMobile ? "small" : "medium"}
             />
           );
         },
       },
       {
-        flex: 0.2,
+        flex: isMobile ? 0.2 : 0.2,
         field: 'assign',
         disableColumnMenu: true,
         disableReorder: true,
         sortable: false,
         renderHeader: () => (
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Typography variant="inherit">
+            <Typography variant={isMobile ? "body2" : "inherit"}>
               <FormattedMessage id="assign" defaultMessage="Assign" />
             </Typography>
             <Tooltip
@@ -267,7 +292,7 @@ export default function TokensTable({
               }
               placement="top"
             >
-              <InfoOutlined fontSize="inherit" sx={{ color: 'grey.400' }} />
+              <InfoOutlined fontSize={isMobile ? "small" : "inherit"} sx={{ color: 'grey.400' }} />
             </Tooltip>
           </Stack>
         ),
@@ -276,6 +301,7 @@ export default function TokensTable({
             <Switch
               checked={Boolean(row.token.tradable)}
               onClick={handleMakeTradable(row.token)}
+              size={isMobile ? "small" : "medium"}
             />
           );
         },
@@ -300,7 +326,7 @@ export default function TokensTable({
       //   },
       // },
     ] as GridColDef<TokenWhitelabelAppWithIndex>[];
-  }, []);
+  }, [isMobile]);
 
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
     [],
@@ -313,6 +339,7 @@ export default function TokensTable({
         anchorEl={anchorEl}
         onClose={handleCloseMenu}
         token={selectedToken}
+        isMobile={isMobile}
       />
       <DataGrid
         sx={{
@@ -332,6 +359,10 @@ export default function TokensTable({
             outline: 'none !important',
           },
           border: 'none',
+          fontSize: isMobile ? '0.875rem' : undefined,
+          '& .MuiDataGrid-cell': {
+            py: isMobile ? 0.5 : 1
+          }
         }}
         sortingOrder={['asc', 'desc']}
         columns={columns}
@@ -340,7 +371,7 @@ export default function TokensTable({
         rowCount={filteredTokens.length}
         checkboxSelection
         getRowId={(row) => TOKEN_KEY(row.token as any)}
-        rowHeight={70}
+        rowHeight={isMobile ? 75 : 70}
         onSortModelChange={setSortModel}
         sortModel={sortModel}
         pageSizeOptions={[5, 10, 25, 50]}
@@ -353,6 +384,7 @@ export default function TokensTable({
         onRowSelectionModelChange={(rowSelection) =>
           onChangeSelection(rowSelection as string[])
         }
+        density={isMobile ? "comfortable" : "standard"}
       />
     </>
   );

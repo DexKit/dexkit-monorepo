@@ -18,7 +18,7 @@ import {
 
 import theDefaultConfig from '../../../../../../config/quick.swap.default.app.json';
 import { PreviewAppButton } from '../../PreviewAppButton';
-import { WelcomeMessage } from '../../WelcomeMessage';
+/* import { WelcomeMessage } from '../../WelcomeMessage'; */
 import SignConfigDialog from '../../dialogs/SignConfigDialog';
 import SwapStepper from '../SwapStepper/SwapStepper';
 const defaultConfig = theDefaultConfig as unknown as AppConfig;
@@ -160,9 +160,9 @@ export default function SwapStepperContainer({ site }: Props) {
             />
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={12}>
+        {/* <Grid item xs={12} sm={12}>
           <WelcomeMessage />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={12}>
           <Stack direction={'row'} justifyContent={'space-between'}>
             {!isMobile && (

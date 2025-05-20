@@ -1,5 +1,5 @@
 import { getContractImplementation } from '@/modules/wizard/services';
-import { ChainId } from '@dexkit/core';
+import { ChainId, useIsMobile } from '@dexkit/core';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { parseChainId } from '@dexkit/core/utils';
 import { useActiveChainIds } from '@dexkit/ui';
@@ -12,6 +12,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Typography,
 } from '@mui/material';
 
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
@@ -31,6 +32,7 @@ export interface Props {
 function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
   const { values } = useFormikContext<ContractFormParams>();
   const { activeChainIds } = useActiveChainIds();
+  const isMobile = useIsMobile();
 
   const rpcJsonQuery = useJsonRpcProvider({ chainId: values.chainId });
 
@@ -43,7 +45,7 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
             contractAddress: values.contractAddress,
           });
           return isAddress(implAddr);
-        } catch (err) {}
+        } catch (err) { }
       }
 
       return false;
@@ -53,25 +55,50 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
   );
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 0.5 : 2}>
       {isProxyContract && (
         <Grid item xs={12}>
           <FormControlLabel
             label={
-              <FormattedMessage
-                id="disable.proxy"
-                defaultMessage="Disable proxy"
-              />
+              <Typography variant={isMobile ? "caption" : "body2"}>
+                <FormattedMessage
+                  id="disable.proxy"
+                  defaultMessage="Disable proxy"
+                />
+              </Typography>
             }
             control={
-              <Field type="checkbox" component={Checkbox} name="disableProxy" />
+              <Field type="checkbox" component={Checkbox} name="disableProxy" size={isMobile ? "small" : "medium"} />
             }
+            sx={isMobile ? { margin: '-8px 0 -8px -8px' } : {}}
           />
         </Grid>
       )}
 
-      <Grid item>
-        <FormControl>
+      <Grid item xs={12}>
+        <Typography
+          variant={isMobile ? "caption" : "subtitle1"}
+          fontWeight="500"
+          sx={isMobile ? {
+            margin: '0 0 2px 0',
+            fontSize: '0.85rem',
+            marginLeft: '-4px'
+          } : {}}
+        >
+          <FormattedMessage id="contract" defaultMessage="Contract" />
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12} md={isMobile ? 12 : 3} sx={isMobile ? { pb: 0.5, pt: 0 } : {}}>
+        <FormControl fullWidth size={isMobile ? "small" : "medium"} sx={isMobile ? {
+          '& .MuiInputBase-root': {
+            minHeight: '35px',
+            fontSize: '0.85rem'
+          },
+          '& .MuiInputLabel-root': {
+            fontSize: '0.85rem'
+          }
+        } : {}}>
           <InputLabel shrink>
             <FormattedMessage id="network" defaultMessage="Network" />
           </InputLabel>
@@ -82,6 +109,7 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
             InputLabelProps={{ shrink: true }}
             label={<FormattedMessage id="network" defaultMessage="Network" />}
             fullWidth
+            size={isMobile ? "small" : "medium"}
           >
             {Object.keys(NETWORKS)
               .filter((n) => activeChainIds.includes(Number(n)))
@@ -93,13 +121,13 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
           </Field>
         </FormControl>
       </Grid>
-      <Grid item xs>
+      <Grid item xs={12} md={isMobile ? 12 : 9} sx={isMobile ? { py: 0.5 } : {}}>
         <ContractFormAddressInput
           chainId={chainId}
           fetchOnMount={fetchOnMount}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={isMobile ? { pt: 0.5 } : {}}>
         <ContractFormAbiInput abiStr={JSON.stringify(abi, null, 2) || ''} />
       </Grid>
     </Grid>

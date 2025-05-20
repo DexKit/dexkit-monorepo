@@ -1,4 +1,4 @@
-import { Autocomplete, Chip, TextField } from '@mui/material';
+import { Autocomplete, Chip, TextField, useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
@@ -18,6 +18,8 @@ const VisibilityAutocomplete = ({
   desktop,
   mobile,
 }: VisibilityAutocompleteProps) => {
+  const theme = useTheme();
+
   const handleSelectionChange = (
     event: any,
     newValue: { id: string; label: string }[]
@@ -57,6 +59,10 @@ const VisibilityAutocomplete = ({
             label={option.label}
             {...getTagProps({ index })}
             key={index}
+            sx={{
+              mr: theme.spacing(0.5),
+              fontSize: theme.typography.caption.fontSize
+            }}
           />
         ))
       }
@@ -65,15 +71,18 @@ const VisibilityAutocomplete = ({
           placeholder={
             !desktop && !mobile
               ? formatMessage({
-                  id: 'display.on.device',
-                  defaultMessage: 'Display on Device',
-                })
+                id: 'display.on.device',
+                defaultMessage: 'Display on Device',
+              })
               : undefined
           }
           {...params}
           variant="standard"
         />
       )}
+      ListboxProps={{
+        sx: { maxHeight: theme.spacing(40) }
+      }}
     />
   );
 };

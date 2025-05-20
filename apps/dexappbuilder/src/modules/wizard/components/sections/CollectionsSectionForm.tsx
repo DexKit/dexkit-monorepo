@@ -24,7 +24,6 @@ import { Network } from '@dexkit/core/types';
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
 import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
 import { useActiveChainIds } from '@dexkit/ui';
-import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -45,6 +44,10 @@ export interface Form {
 const CustomImage = styled('img')(({ theme }) => ({
   height: theme.spacing(20),
   width: theme.spacing(40),
+  [theme.breakpoints.down('sm')]: {
+    height: theme.spacing(15),
+    width: theme.spacing(30),
+  },
 }));
 
 const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
@@ -66,12 +69,14 @@ interface Props {
   onSubmit?: (form: Form) => void;
   onCancel?: () => void;
   initialValues?: Form;
+  isMobile?: boolean;
 }
 
 export default function CollectionsSectionForm({
   onSubmit,
   onCancel,
   initialValues,
+  isMobile,
 }: Props) {
   const { activeChainIds } = useActiveChainIds();
 
@@ -88,14 +93,14 @@ export default function CollectionsSectionForm({
     initialValues: initialValues
       ? initialValues
       : {
-          chainId: 1,
-          contractAddress: '',
-          name: '',
-          backgroundUrl: '',
-          description: '',
-          imageUrl: '',
-          disableSecondarySells: false,
-        },
+        chainId: 1,
+        contractAddress: '',
+        name: '',
+        backgroundUrl: '',
+        description: '',
+        imageUrl: '',
+        disableSecondarySells: false,
+      },
     validationSchema: FormSchema,
     validateOnChange: true,
     onSubmit: handleSubmit,
@@ -121,10 +126,10 @@ export default function CollectionsSectionForm({
           setOpenMediaDialog(false);
         }}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 2}>
         <Grid item xs={12}>
-          <FormControl required fullWidth>
-            <InputLabel>
+          <FormControl required fullWidth size={isMobile ? "small" : "medium"}>
+            <InputLabel sx={{ fontSize: isMobile ? "0.875rem" : undefined }}>
               <FormattedMessage id="chainId" defaultMessage="Chain ID" />
             </InputLabel>
             <Select
@@ -137,6 +142,7 @@ export default function CollectionsSectionForm({
               value={formik.values.chainId}
               fullWidth
               name="chainId"
+              sx={{ fontSize: isMobile ? "0.875rem" : undefined }}
               renderValue={(params) => (
                 <Stack
                   direction="row"
@@ -148,9 +154,9 @@ export default function CollectionsSectionForm({
                     src={ipfsUriToUrl(
                       NETWORKS[formik.values.chainId].imageUrl || '',
                     )}
-                    style={{ width: 'auto', height: '1rem' }}
+                    style={{ width: 'auto', height: isMobile ? '0.75rem' : '1rem' }}
                   />
-                  <Typography variant="body1">
+                  <Typography variant={isMobile ? "body2" : "body1"}>
                     {NETWORKS[formik.values.chainId].name}
                   </Typography>
                 </Stack>
@@ -162,11 +168,12 @@ export default function CollectionsSectionForm({
                   <MenuItem
                     key={index}
                     value={(NETWORKS[key] as Network).chainId}
+                    sx={{ fontSize: isMobile ? "0.875rem" : undefined }}
                   >
                     <ListItemIcon>
                       <Box
                         sx={{
-                          width: (theme) => theme.spacing(6),
+                          width: (theme) => theme.spacing(isMobile ? 4 : 6),
                           display: 'flex',
                           alignItems: 'center',
                           alignContent: 'center',
@@ -177,7 +184,7 @@ export default function CollectionsSectionForm({
                           src={(NETWORKS[key] as Network).imageUrl}
                           sx={(theme) => ({
                             width: 'auto',
-                            height: theme.spacing(4),
+                            height: theme.spacing(isMobile ? 3 : 4),
                           })}
                           alt={(NETWORKS[key] as Network).name}
                         />
@@ -187,6 +194,12 @@ export default function CollectionsSectionForm({
                     <ListItemText
                       primary={(NETWORKS[key] as Network).name}
                       secondary={(NETWORKS[key] as Network).symbol}
+                      primaryTypographyProps={{
+                        fontSize: isMobile ? "0.875rem" : undefined
+                      }}
+                      secondaryTypographyProps={{
+                        fontSize: isMobile ? "0.75rem" : undefined
+                      }}
                     />
                   </MenuItem>
                 ))}
@@ -212,6 +225,22 @@ export default function CollectionsSectionForm({
                 ? formik.errors.contractAddress
                 : undefined
             }
+            size={isMobile ? "small" : "medium"}
+            InputProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            InputLabelProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            FormHelperTextProps={{
+              style: {
+                fontSize: isMobile ? '0.75rem' : undefined,
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -226,97 +255,134 @@ export default function CollectionsSectionForm({
             helperText={
               Boolean(formik.errors.name) ? formik.errors.name : undefined
             }
+            size={isMobile ? "small" : "medium"}
+            InputProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            InputLabelProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            FormHelperTextProps={{
+              style: {
+                fontSize: isMobile ? '0.75rem' : undefined,
+              }
+            }}
           />
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="body2">
+          <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
             <FormattedMessage
               id="collection.image"
               defaultMessage="Collection image"
             />
           </Typography>
-          <Button
-            onClick={() => {
-              setOpenMediaDialog(true);
-              setMediaFieldToEdit('imageUrl');
-            }}
-          >
-            <CustomImage src={formik.values.imageUrl} />
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+            <Button
+              onClick={() => {
+                setOpenMediaDialog(true);
+                setMediaFieldToEdit('imageUrl');
+              }}
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: 0 }}
+            >
+              <CustomImage src={formik.values.imageUrl} />
+            </Button>
+          </Box>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="body2">
+          <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
             <FormattedMessage
-              id="collection.background.image"
-              defaultMessage="Collection background image"
+              id="background.image"
+              defaultMessage="Background image"
             />
           </Typography>
-          <Button
-            onClick={() => {
-              setOpenMediaDialog(true);
-              setMediaFieldToEdit('backgroundUrl');
-            }}
-          >
-            <CustomImage src={formik.values.backgroundUrl} />
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+            <Button
+              onClick={() => {
+                setOpenMediaDialog(true);
+                setMediaFieldToEdit('backgroundUrl');
+              }}
+              size={isMobile ? "small" : "medium"}
+              sx={{ p: 0 }}
+            >
+              <CustomImage src={formik.values.backgroundUrl} />
+            </Button>
+          </Box>
         </Grid>
-
         <Grid item xs={12}>
-          <CompletationProvider
-            onCompletation={(output) =>
-              formik.setFieldValue('description', output)
-            }
-            initialPrompt={formik.values.description}
-            multiline
-          >
-            {({ inputAdornment, ref }) => (
-              <TextField
-                multiline
-                rows={3}
-                name="description"
-                onChange={formik.handleChange}
-                value={formik.values.description}
-                fullWidth
-                type="url"
-                label={
-                  <FormattedMessage
-                    id="description"
-                    defaultMessage="Description"
-                  />
-                }
-                inputRef={ref}
-                error={Boolean(formik.errors.description)}
-                helperText={
-                  Boolean(formik.errors.description)
-                    ? formik.errors.description
-                    : undefined
-                }
-                InputProps={{
-                  endAdornment: inputAdornment('end'),
-                }}
+          <TextField
+            name="description"
+            onChange={formik.handleChange}
+            value={formik.values.description}
+            fullWidth
+            label={
+              <FormattedMessage
+                id="description"
+                defaultMessage="Description"
               />
-            )}
-          </CompletationProvider>
+            }
+            multiline
+            rows={isMobile ? 3 : 4}
+            size={isMobile ? "small" : "medium"}
+            InputProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            InputLabelProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            name="uri"
+            onChange={formik.handleChange}
+            value={formik.values.uri}
+            fullWidth
+            label={<FormattedMessage id="uri" defaultMessage="URI" />}
+            size={isMobile ? "small" : "medium"}
+            InputProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+            InputLabelProps={{
+              style: {
+                fontSize: isMobile ? '0.875rem' : undefined,
+              }
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
             control={
               <Switch
                 checked={formik.values.disableSecondarySells}
-                onChange={() =>
+                onChange={(e) => {
                   formik.setFieldValue(
                     'disableSecondarySells',
-                    !formik.values.disableSecondarySells,
-                  )
-                }
+                    e.target.checked,
+                  );
+                }}
+                color="primary"
+                size={isMobile ? "small" : "medium"}
               />
             }
             label={
-              <FormattedMessage
-                id={'disable.secondary.sells'}
-                defaultMessage={'Disable secondary sells'}
-              ></FormattedMessage>
+              <Typography variant={isMobile ? "body2" : "body1"}>
+                <FormattedMessage
+                  id="disable.secondary.sells"
+                  defaultMessage="Disable secondary sells"
+                />
+              </Typography>
             }
           />
         </Grid>
@@ -327,10 +393,21 @@ export default function CollectionsSectionForm({
               type="submit"
               variant="contained"
               color="primary"
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+              }}
             >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
-            <Button onClick={onCancel}>
+            <Button
+              onClick={onCancel}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+              }}
+            >
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
           </Stack>

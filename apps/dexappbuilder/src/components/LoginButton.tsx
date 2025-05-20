@@ -1,7 +1,7 @@
 import { useAuthUserQuery } from '@/modules/user/hooks';
 import { useAuth, useLoginAccountMutation } from '@dexkit/ui/hooks/auth';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -14,6 +14,7 @@ interface Props {
 }
 
 export function LoginButton({ onLogin, allowAlwaysConnectLogin }: Props) {
+  const theme = useTheme();
   const { account } = useWeb3React();
   const userQuery = useAuthUserQuery();
   const { user } = useAuth();
@@ -61,7 +62,7 @@ export function LoginButton({ onLogin, allowAlwaysConnectLogin }: Props) {
         loginMutation.isLoading ||
         (isSameUserAccount && !allowAlwaysConnectLogin)
       }
-      startIcon={loginMutation.isLoading && <CircularProgress />}
+      startIcon={loginMutation.isLoading && <CircularProgress size={theme.spacing(2.25)} />}
       onClick={handleLogin}
     >
       {buttonMsg()}

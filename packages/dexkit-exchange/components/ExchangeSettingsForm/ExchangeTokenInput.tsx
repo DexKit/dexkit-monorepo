@@ -1,4 +1,4 @@
-import { TOKEN_ICON_URL } from "@dexkit/core";
+import { TOKEN_ICON_URL, useIsMobile } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import TokenIcon from "@mui/icons-material/Token";
 import {
@@ -8,7 +8,7 @@ import {
   ListItemAvatar,
   ListItemText,
   MenuItem,
-  TextField,
+  TextField
 } from "@mui/material";
 import React from "react";
 
@@ -19,15 +19,19 @@ export interface ExchangeTokenInputProps {
   tokens: Token[];
   label?: React.ReactNode;
   name: string;
+  size?: "small" | "medium";
 }
 
 export default function ExchangeTokenInput({
   tokens,
   label,
   name,
+  size: propSize,
 }: ExchangeTokenInputProps) {
   const { errors } = useFormikContext<any>();
   const [field, meta, helpers] = useField<Token | undefined>(name);
+  const isMobile = useIsMobile();
+  const size = propSize || (isMobile ? "small" : "medium");
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -47,6 +51,7 @@ export default function ExchangeTokenInput({
       options={tokens}
       fullWidth
       onChange={handleChange}
+      size={size}
       isOptionEqualToValue={(opt, value) =>
         opt?.chainId === value?.chainId &&
         isAddressEqual(opt?.address, value?.address)
@@ -60,13 +65,16 @@ export default function ExchangeTokenInput({
                   ? opt.logoURI
                   : TOKEN_ICON_URL(opt.address, opt.chainId)
               }
+              sx={{ width: isMobile ? "1.5rem" : "2rem", height: isMobile ? "1.5rem" : "2rem" }}
             >
-              <TokenIcon />
+              <TokenIcon fontSize={isMobile ? "small" : "medium"} />
             </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={opt.symbol.toUpperCase()}
             secondary={opt.name}
+            primaryTypographyProps={{ variant: isMobile ? "body2" : "body1" }}
+            secondaryTypographyProps={{ variant: isMobile ? "caption" : "body2" }}
           />
         </MenuItem>
       )}
@@ -76,21 +84,22 @@ export default function ExchangeTokenInput({
           <TextField
             {...params}
             label={label}
+            size={size}
             InputProps={{
               ...params.InputProps,
               startAdornment: field.value ? (
                 <InputAdornment position="end">
                   <Avatar
-                    sx={{ width: "1rem", height: "1rem" }}
+                    sx={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
                     src={
                       field.value.logoURI
                         ? field.value.logoURI
                         : field.value
-                        ? TOKEN_ICON_URL(
+                          ? TOKEN_ICON_URL(
                             field.value.address,
                             field.value.chainId
                           )
-                        : undefined
+                          : undefined
                     }
                   />
                 </InputAdornment>

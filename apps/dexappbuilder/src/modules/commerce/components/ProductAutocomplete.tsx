@@ -6,6 +6,7 @@ import {
   ListItemAvatar,
   ListItemText,
   TextField,
+  useTheme,
 } from '@mui/material';
 import { useField } from 'formik';
 import { ChangeEvent, useState } from 'react';
@@ -20,6 +21,7 @@ export default function ProductAutocomplete({
   name,
 }: ProductAutocompleteProps) {
   const [props, meta, helpers] = useField<string>(`${name}.productId`);
+  const theme = useTheme();
 
   const [query, setQuery] = useState('');
 
@@ -41,7 +43,7 @@ export default function ProductAutocomplete({
     <Autocomplete
       options={products?.items ?? []}
       value={product ?? null}
-      sx={{ minWidth: { sm: '300px' } }}
+      sx={{ minWidth: { sm: theme.spacing(37.5) } }}
       getOptionLabel={(t) => t.name}
       isOptionEqualToValue={(opt, value) => opt.id === value.id}
       onChange={(e, value, reason) => {
@@ -53,7 +55,7 @@ export default function ProductAutocomplete({
           <ListItemAvatar>
             <Avatar
               src={opt.imageUrl ?? ''}
-              sx={{ width: '1.5rem', height: '1.5rem' }}
+              sx={{ width: theme.spacing(3), height: theme.spacing(3) }}
               variant="rounded"
             />
           </ListItemAvatar>

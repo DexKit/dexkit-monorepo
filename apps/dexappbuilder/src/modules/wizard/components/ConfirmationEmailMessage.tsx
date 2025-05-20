@@ -1,4 +1,5 @@
-import { Stack, Typography } from '@mui/material';
+import { useIsMobile } from '@dexkit/core';
+import { Stack, Typography, useTheme } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import dynamic from 'next/dynamic';
 import { ReactNode, useState } from 'react';
@@ -6,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useSendSiteConfirmationLinkMutation } from '../hooks';
+
 const ActionMutationDialog = dynamic(
   () => import('@dexkit/ui/components/dialogs/ActionMutationDialog'),
 );
@@ -17,6 +19,8 @@ export function ConfirmationEmailMessage({
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const siteConfirmationMutation = useSendSiteConfirmationLinkMutation();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleHere = (chunks: any): ReactNode => (
     <a
@@ -25,6 +29,11 @@ export function ConfirmationEmailMessage({
         e.preventDefault();
         setOpen(true);
         siteConfirmationMutation.mutate({ siteId: site?.id });
+      }}
+      style={{
+        color: theme.palette.primary.main,
+        fontWeight: 'bold',
+        textDecoration: 'underline'
       }}
     >
       {chunks}
@@ -51,14 +60,31 @@ export function ConfirmationEmailMessage({
         />
       )}
 
-      <Alert severity="warning">
+      <Alert
+        severity="warning"
+        sx={{
+          '& .MuiAlert-icon': {
+            fontSize: isMobile ? theme.typography.body2.fontSize : theme.typography.h6.fontSize,
+            marginRight: isMobile ? theme.spacing(0.5) : theme.spacing(1),
+            alignItems: 'center',
+            padding: isMobile ? theme.spacing(1, 0) : undefined
+          },
+          padding: isMobile ? theme.spacing(0, 1) : undefined
+        }}
+      >
         <Stack
           direction={'row'}
           alignContent={'center'}
           alignItems={'center'}
-          spacing={2}
+          spacing={isMobile ? 1 : 2}
         >
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'caption' : 'body2'}
+            sx={{
+              fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
+              lineHeight: isMobile ? 1.3 : undefined
+            }}
+          >
             <FormattedMessage
               id="site.email.not.verified.on.admin.message"
               defaultMessage="Your app email is not verified. Please verify it using the verification email we sent.

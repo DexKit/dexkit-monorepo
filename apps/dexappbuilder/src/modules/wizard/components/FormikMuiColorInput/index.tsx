@@ -1,3 +1,4 @@
+import { SxProps, Theme } from '@mui/material';
 import { useField } from 'formik';
 import {
   MuiColorInput,
@@ -11,6 +12,7 @@ export interface FormikMuiColorInputProps {
   label: React.ReactNode;
   fullWidth: boolean;
   format?: MuiColorInputFormat;
+  sx?: SxProps<Theme>;
 }
 
 export default function FormikMuiColorInput({
@@ -18,6 +20,7 @@ export default function FormikMuiColorInput({
   fullWidth,
   label,
   format,
+  sx,
 }: FormikMuiColorInputProps) {
   const [props, meta, helpers] = useField<MuiColorInputValue>(name);
 
@@ -32,6 +35,7 @@ export default function FormikMuiColorInput({
       format={format ? format : 'hex'}
       onChange={handleChange}
       value={props.value}
+      sx={sx}
     />
   );
 }
