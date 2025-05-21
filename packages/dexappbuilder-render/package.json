@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@dexkit/dexappbuilder-viewer": "*",
+    "@dexkit/unlock-widget": "*",
     "@dexkit/evm-chains": "^1.15.2",
     "@dexkit/ui": "*"
   },

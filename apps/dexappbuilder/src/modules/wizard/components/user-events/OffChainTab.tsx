@@ -1,51 +1,30 @@
-import { UserEvents } from '@dexkit/core/constants/userEvents';
-import { USER_OFFCHAIN_EVENT_NAMES } from '@dexkit/ui/constants/userEventNames';
-import { Grid, MenuItem, Select } from '@mui/material';
-import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { CountFilter } from '@dexkit/ui/hooks/userEvents';
+import { Grid } from '@mui/material';
 import useOffChainColumns from '../../hooks/useOffChainColumns';
 import OffChainDataGrid from './OffChainDataGrid';
 
 export interface OffChainTabProps {
   siteId?: number;
+  type: string;
+  filters?: CountFilter;
 }
 
-export default function OffChainTab({ siteId }: OffChainTabProps) {
+export default function OffChainTab({
+  siteId,
+  type,
+  filters,
+}: OffChainTabProps) {
   const offChainColumns = useOffChainColumns();
-
-  const [offchainType, setOffchainType] = useState<string>(
-    UserEvents.connectAccount,
-  );
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Select
-              value={offchainType}
-              onChange={(event) => setOffchainType(event.target.value)}
-            >
-              {Object.keys(USER_OFFCHAIN_EVENT_NAMES).map((key) => (
-                <MenuItem key={key} value={key}>
-                  <FormattedMessage
-                    id={USER_OFFCHAIN_EVENT_NAMES[key].id}
-                    defaultMessage={
-                      USER_OFFCHAIN_EVENT_NAMES[key].defaultMessage
-                    }
-                  />
-                </MenuItem>
-              ))}
-            </Select>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
         <OffChainDataGrid
           siteId={siteId}
-          key={offchainType}
-          columns={offChainColumns[offchainType]}
-          type={offchainType}
+          key={JSON.stringify(filters)}
+          columns={offChainColumns[type]}
+          filters={filters}
+          type={type}
         />
       </Grid>
     </Grid>

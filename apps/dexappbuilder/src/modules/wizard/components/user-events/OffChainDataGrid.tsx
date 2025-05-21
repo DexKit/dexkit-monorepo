@@ -1,5 +1,5 @@
 import { myAppsApi } from '@dexkit/ui/constants/api';
-import { useUserEventsList } from '@dexkit/ui/hooks/userEvents';
+import { CountFilter, useUserEventsList } from '@dexkit/ui/hooks/userEvents';
 import {
   DataGrid,
   GridColDef,
@@ -13,17 +13,22 @@ export interface OffChainDataGridProps {
   siteId?: number;
   columns: GridColDef[];
   type: string;
+  filters?: CountFilter;
 }
 
 export default function OffChainDataGrid({
   siteId,
   columns,
   type,
+  filters,
 }: OffChainDataGridProps) {
   const [queryOptions, setQueryOptions] = useState<any>({
     filter: {
       hash: null,
       type,
+      createdAt: { gte: filters?.start, lte: filters?.end },
+      referral: filters?.referral ? filters.referral : undefined,
+      from: filters?.from ? filters.from : undefined,
     },
   });
 
