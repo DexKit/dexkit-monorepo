@@ -3,6 +3,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { FeatUsage, Subscription } from "../types/ai";
 
+interface ServerParams {
+  skip?: number;
+  take?: number;
+  sort?: string[];
+  filter?: string;
+}
+
 export const SUBSCRIPTION_QUERY = "SUBSCRIPTION_QUERY";
 
 export function useSubscription() {
@@ -30,11 +37,11 @@ export function useBuyCreditsCheckout() {
 
 export const CREDIT_HISTORY = "CREDIT_HISTORY";
 
-export function useCreditHistory() {
+export function useCreditHistory(params: ServerParams) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CREDIT_HISTORY], async () => {
-    return (await instance?.get("/payments/credit-history"))?.data;
+    return (await instance?.get("/payments/credit-history", { params }))?.data;
   });
 }
 

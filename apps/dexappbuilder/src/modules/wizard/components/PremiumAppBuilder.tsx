@@ -68,6 +68,8 @@ export function PremiumAppBuilder({ isHidePowered }: Props) {
     ? activeFeatUsageQuery?.data?.active
     : undefined;
 
+  console.log(activeFeatUsageQuery.data);
+
   const handleUnlockDomainFeature = async () => {
     try {
       await premiumActivateMutation.mutateAsync({

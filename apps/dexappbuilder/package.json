@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
