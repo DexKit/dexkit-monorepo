@@ -1,4 +1,4 @@
-import { useEditSiteId } from '@dexkit/ui';
+import { AppConfirmDialog, useEditSiteId } from '@dexkit/ui';
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
   CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
@@ -7,6 +7,7 @@ import {
 import {
   useActivatePremiumMutation,
   useActiveFeatUsage,
+  useDisablePremiumMutation,
   usePlanCheckoutMutation,
   useSubscription,
 } from '@dexkit/ui/hooks/payments';
@@ -15,13 +16,20 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
+import { useQueryClient } from '@tanstack/react-query';
 import Decimal from 'decimal.js';
 import { useSnackbar } from 'notistack';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { QUERY_ADMIN_WHITELABEL_CONFIG_NAME } from 'src/hooks/whitelabel';
 
-export function PremiumAppBuilder() {
+interface Props {
+  isHidePowered?: boolean;
+}
+
+export function PremiumAppBuilder({ isHidePowered }: Props) {
   const subscriptionQuery = useSubscription();
+  const queryClient = useQueryClient();
   const snackBar = useSnackbar();
   const { formatMessage } = useIntl();
   const { editSiteId } = useEditSiteId();
@@ -30,6 +38,9 @@ export function PremiumAppBuilder() {
   });
   const { mutateAsync: checkoutPlan } = usePlanCheckoutMutation();
   const premiumActivateMutation = useActivatePremiumMutation();
+  const disabelPremiumMutation = useDisablePremiumMutation();
+  const [openConfirmDisable, setOpenConfirmDisable] = useState(false);
+
   // we check if user has plan, if not subscribe. This should if done once
   useEffect(() => {
     async function subscribePlan() {
@@ -86,9 +97,53 @@ export function PremiumAppBuilder() {
     }
   };
 
+  const handleDisableFeature = async () => {
+    setOpenConfirmDisable(false);
+    try {
+      await disabelPremiumMutation.mutateAsync({
+        siteId: editSiteId,
+      });
+      snackBar.enqueueSnackbar(
+        formatMessage({
+          id: 'feature.disabled',
+          defaultMessage: 'Feature disabled',
+        }),
+        { variant: 'success' },
+      );
+      await activeFeatUsageQuery.refetch();
+      await subscriptionQuery.refetch();
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME],
+      });
+    } catch (e) {
+      snackBar.enqueueSnackbar(
+        formatMessage(
+          {
+            id: 'error.disabling.feature.try.again.error.msg',
+            defaultMessage:
+              'Error disabling feature. try again! Error: {errorMsg}',
+          },
+          { errorMsg: (e as Error)?.message },
+        ),
+        { variant: 'error' },
+      );
+    }
+  };
+
   return (
     <>
-      {' '}
+      <AppConfirmDialog
+        DialogProps={{
+          open: openConfirmDisable,
+          onClose: () => setOpenConfirmDisable(false),
+        }}
+        onConfirm={handleDisableFeature}
+      >
+        <FormattedMessage
+          id="do.you.really.want.to.disable.this.feature"
+          defaultMessage="Do you really want to disable this feature?"
+        />
+      </AppConfirmDialog>
       <Grid item xs={12}>
         <Grid
           container
@@ -148,35 +203,65 @@ export function PremiumAppBuilder() {
               onClick={handleUnlockDomainFeature}
               size="small"
             >
-              <FormattedMessage
-                id="unlock.custom.domain.feature"
-                defaultMessage="Unlock custom domain feature"
-              />
+              {isHidePowered ? (
+                <FormattedMessage
+                  id="unlock.powered.by.feature"
+                  defaultMessage="Unlock powered by feature"
+                />
+              ) : (
+                <FormattedMessage
+                  id="unlock.custom.domain.feature"
+                  defaultMessage="Unlock custom domain feature"
+                />
+              )}
             </Button>
           </Grid>
         )}
+        {!isPaid && (
+          <Grid item xs={12}>
+            <Alert severity="warning">
+              <FormattedMessage
+                id="premium.feature.warning.message"
+                defaultMessage="This is a premium feature please enable it to start using it. Enabling a {feature} costs {price} usd monthly, please make sure you have always credits to not disrupt the service."
+                values={{
+                  price: CUSTOM_DOMAINS_PRICE,
+                  feature: isHidePowered ? 'powered by' : 'custom domain',
+                }}
+              />
+            </Alert>
+          </Grid>
+        )}
       </Grid>
-      {!isPaid && (
-        <Grid item xs={12}>
-          <Alert severity="warning">
-            <FormattedMessage
-              id="premium.feature.warning.message"
-              defaultMessage="This is a premium feature please enable it to start using it. Enabling a custom domain costs {price} usd monthly, please make sure you have always credits to not disrupt the service."
-              values={{ price: CUSTOM_DOMAINS_PRICE }}
-            />
-          </Alert>
-        </Grid>
-      )}
+
       {isPaid && (
         <Grid item xs={12}>
-          <Typography variant="subtitle1">
-            <FormattedMessage
-              id="premium.feature.is.paid.message"
-              defaultMessage="Feature paid for this month. Make sure to have {price} usd credits for
+          <Grid item>
+            <Typography variant="subtitle1">
+              <FormattedMessage
+                id="premium.feature.is.paid.message"
+                defaultMessage="Feature paid for this month. Make sure to have {price} usd credits for
             next month."
-              values={{ price: CUSTOM_DOMAINS_PRICE }}
-            />
-          </Typography>
+                values={{ price: CUSTOM_DOMAINS_PRICE }}
+              />
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              variant={'contained'}
+              color="error"
+              startIcon={
+                disabelPremiumMutation.isLoading && <CircularProgress />
+              }
+              disabled={
+                disabelPremiumMutation.isLoading ||
+                activeFeatUsageQuery.isLoading
+              }
+              onClick={() => setOpenConfirmDisable(true)}
+              size="small"
+            >
+              <FormattedMessage id="disable" defaultMessage="Disable" />
+            </Button>
+          </Grid>
         </Grid>
       )}
     </>

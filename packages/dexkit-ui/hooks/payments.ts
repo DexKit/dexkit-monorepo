@@ -148,3 +148,10 @@ export function useActivatePremiumMutation() {
     return instance?.post("/premium-appbuilder/charge-amount", { siteId });
   });
 }
+
+export function useDisablePremiumMutation() {
+  const { instance } = useContext(DexkitApiProvider);
+  return useMutation(async ({ siteId }: { siteId?: number }) => {
+    return instance?.post("/premium-appbuilder/disable", { siteId });
+  });
+}

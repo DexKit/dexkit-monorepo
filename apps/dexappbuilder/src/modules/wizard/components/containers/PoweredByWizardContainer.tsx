@@ -42,6 +42,19 @@ export default function PoweredByWizardContainer({
       <Grid item xs={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5,
+            }}
+          >
+            <FormattedMessage
+              id="powered.by.dexkit"
+              defaultMessage="Powered by DexKit"
+            />
+          </Typography>
+          <Typography
             variant={isMobile ? 'body2' : 'body1'}
             color="text.secondary"
             sx={{
@@ -59,7 +72,7 @@ export default function PoweredByWizardContainer({
         <Divider />
       </Grid>
       <Grid item xs={12}>
-        <PremiumAppBuilder />
+        <PremiumAppBuilder isHidePowered={true} />
       </Grid>
 
       <Grid item xs={12}>
