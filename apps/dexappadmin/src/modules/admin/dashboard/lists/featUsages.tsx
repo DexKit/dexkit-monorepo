@@ -13,6 +13,8 @@ const FeatUsagesList = () => (
   >
     <Datagrid rowClick="edit">
       <TextField source="account" />
+      <TextField source="slug" />
+      <TextField source="site.slug" />
       <BooleanField source="active" />
     </Datagrid>
   </List>
