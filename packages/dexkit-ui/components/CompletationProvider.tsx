@@ -5,8 +5,8 @@ import CompletationContext from "../context/CompletationContext";
 
 import dynamic from "next/dynamic";
 import { FormattedMessage } from "react-intl";
-import { TextImproveAction } from "../constants/ai";
 import { useCompletation } from "../hooks/ai";
+import { AI_MODEL, TextImproveAction } from "../types/ai";
 
 const MediaDialog = dynamic(() => import("./mediaDialog"), {
   ssr: false,
@@ -26,6 +26,8 @@ export interface CompletationProviderProps {
   initialPrompt?: string;
   multiline?: boolean;
   messages?: { role: string; content: string }[];
+  filteredActions?: TextImproveAction[];
+  withContext?: boolean;
 }
 
 export default function CompletationProvider({
@@ -34,13 +36,17 @@ export default function CompletationProvider({
   initialPrompt,
   multiline,
   messages,
+  filteredActions,
+  withContext,
 }: CompletationProviderProps) {
   const [showAiComp, setShowAiComp] = useState(false);
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [defaultPrompt, setDefaultPrompt] = useState("");
   const ref = useRef<HTMLInputElement | null>(null);
   const completationMutation = useCompletation();
-
+  const promptHistory = useRef<{ role: string; content: string }[] | null>(
+    null
+  );
   const handleOpenComp = (event: MouseEvent<HTMLButtonElement>) => {
     setShowAiComp(true);
   };
@@ -89,33 +95,47 @@ export default function CompletationProvider({
           return `Make this text shorter: "${prompt}".`;
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
+        case TextImproveAction.GENERATE_CODE:
+          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code. Return only the JSON and nothing else for"${prompt}".`;
       }
     },
     []
   );
 
   const handleGenerate = useCallback(
-    async (prompt: string, action?: TextImproveAction) => {
+    async (prompt: string, action?: TextImproveAction, model?: AI_MODEL) => {
       if (action && action === TextImproveAction.GENERATE_IMAGE) {
         setDefaultPrompt(prompt);
         setOpenMediaDialog(true);
       } else if (action) {
-        const actionPrompt = getPromptByAction(prompt, action);
+        const actionPrompt = promptHistory.current
+          ? prompt
+          : getPromptByAction(prompt, action);
+
         if (actionPrompt) {
-          const promptMessages = messages
-            ? [...messages, { role: "user", content: actionPrompt }]
-            : [
-                {
-                  role: "user",
-                  content:
-                    "You are an assistant. Do not return text with quotes",
-                },
-                { role: "user", content: actionPrompt },
-              ];
+          const promptMessages = messages ||
+            promptHistory.current || [
+              {
+                role: "user",
+                content:
+                  "You are an assistant. Do not return text with quotes nor special characters.",
+              },
+            ];
+
+          promptMessages.push({
+            role: "user",
+            content: actionPrompt,
+          });
 
           await completationMutation.mutateAsync({
             messages: promptMessages,
+            action,
+            model,
           });
+
+          if (withContext) {
+            promptHistory.current = promptMessages;
+          }
         }
       }
     },
@@ -157,6 +177,7 @@ export default function CompletationProvider({
           onConfirm={handleConfirmCompletation}
           initialPrompt={initialPrompt}
           multiline={multiline}
+          filteredActions={filteredActions}
         />
       )}
       {children({ ref, open: handleCompletation, inputAdornment })}

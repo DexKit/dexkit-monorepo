@@ -1,29 +1,30 @@
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Alert,
   Box,
   Button,
   CircularProgress,
   Divider,
+  MenuItem,
+  Select,
   Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
-import { Field, Formik } from "formik";
-
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { FormattedMessage } from "react-intl";
-
-import { TextField } from "formik-mui";
-
 import { Decimal } from "decimal.js";
-
+import { Field, Formik } from "formik";
+import { TextField } from "formik-mui";
 import { MouseEvent, useMemo, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import * as Yup from "yup";
-import { TextImproveAction } from "../../constants/ai";
+import { aiModelsItems } from "../../constants/ai";
 import { useActiveFeatUsage, useSubscription } from "../../hooks/payments";
+import { AI_MODEL, AI_MODEL_TYPE, TextImproveAction } from "../../types/ai";
+import { stringToJson } from "../../utils";
 import AIOptionsMenu from "../AIOptionsMenu";
 import AddCreditsButton from "../AddCreditsButton";
+import CodeSection from "../CodeSection";
 import PaywallBackdrop from "../PaywallBackdrop";
 import ImproveTextActionList from "./ImproveTextActionList";
 
@@ -35,11 +36,16 @@ const FormScheme = Yup.object({
 });
 
 export interface CompletationFormProps {
-  onGenerate: (prompt: string, action?: TextImproveAction) => Promise<void>;
+  onGenerate: (
+    prompt: string,
+    action?: TextImproveAction,
+    model?: AI_MODEL
+  ) => Promise<void>;
   output?: string;
   initialPrompt?: string;
   onConfirm: () => void;
   multiline?: boolean;
+  filteredActions?: TextImproveAction[];
 }
 
 export default function CompletationForm({
@@ -48,19 +54,21 @@ export default function CompletationForm({
   initialPrompt,
   onConfirm,
   multiline,
+  filteredActions,
 }: CompletationFormProps) {
   const handleSubmit = async ({
     prompt,
     action,
+    model,
   }: {
     prompt: string;
     action?: TextImproveAction;
+    model: AI_MODEL;
   }) => {
-    await onGenerate(prompt, action);
+    await onGenerate(prompt, action, model);
   };
 
   const { data: sub } = useSubscription();
-
   const { data: featUsage } = useActiveFeatUsage();
 
   const total = useMemo(() => {
@@ -88,6 +96,10 @@ export default function CompletationForm({
     setAnchorEl(null);
   };
 
+  const [selectedAiModelType, setSelectedAiModelType] = useState<
+    AI_MODEL_TYPE | undefined
+  >(undefined);
+
   return (
     <>
       <AIOptionsMenu
@@ -95,7 +107,11 @@ export default function CompletationForm({
       />
       <Box sx={{ position: "relative", p: 2 }}>
         <Formik
-          initialValues={{ prompt: initialPrompt ? initialPrompt : "" }}
+          initialValues={{
+            prompt: initialPrompt ? initialPrompt : "",
+            action: undefined,
+            model: AI_MODEL.GPT_3_5_TURBO,
+          }}
           onSubmit={handleSubmit}
           validationSchema={FormScheme}
         >
@@ -141,8 +157,37 @@ export default function CompletationForm({
                       </>
                     )}
                   </Typography>
+                  {output &&
+                    values.action === TextImproveAction.GENERATE_CODE &&
+                    typeof stringToJson(output) === "object" && (
+                      <Box
+                        mt={12}
+                        position="relative"
+                        sx={{ transform: "translate(0,0)" }}
+                      >
+                        <CodeSection
+                          section={{
+                            type: "code-page-section",
+                            config: {
+                              html: stringToJson(output)?.html,
+                              js: stringToJson(output)?.js,
+                              css: stringToJson(output)?.css,
+                            },
+                          }}
+                        />
+                      </Box>
+                    )}
                   {output && (
                     <Stack spacing={2}>
+                      {values.action === TextImproveAction.GENERATE_CODE &&
+                        typeof stringToJson(output) !== "object" && (
+                          <Alert severity="warning">
+                            <FormattedMessage
+                              id="code.malformatted"
+                              defaultMessage="The response from the AI model is not properly formatted! It's recommended to copy and paste the response into a code editor manually."
+                            />
+                          </Alert>
+                        )}
                       <Stack direction="row" spacing={1}>
                         <Button
                           variant="contained"
@@ -170,18 +215,46 @@ export default function CompletationForm({
               <Box>
                 <ImproveTextActionList
                   value={values.action}
-                  onChange={(value: string) => {
-                    if (value === values.action) {
+                  onChange={(item) => {
+                    if (item.action === values.action) {
+                      setSelectedAiModelType(undefined);
                       return setFieldValue("action", undefined);
                     }
-                    setFieldValue("action", value);
+                    setSelectedAiModelType(item.type);
+                    setFieldValue("action", item.action);
                   }}
                   disabled={total === 0}
+                  filteredActions={filteredActions}
                 />
               </Box>
               <Divider />
-              <Box>
-                <Stack direction="row" justifyContent="flex-end" spacing={1}>
+
+              <Stack direction="row" justifyContent="space-between">
+                <Field name="model">
+                  {({ field }: any) => (
+                    <Select
+                      {...field}
+                      color="primary"
+                      sx={{ minWidth: 200 }}
+                      disabled={values.action === undefined}
+                    >
+                      {aiModelsItems
+                        .filter(
+                          (model) =>
+                            selectedAiModelType === undefined ||
+                            model.type === selectedAiModelType
+                        )
+                        .map((model) => {
+                          return (
+                            <MenuItem key={model.model} value={model.model}>
+                              {model.model}
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
+                  )}
+                </Field>
+                <Stack direction="row" spacing={1}>
                   <Button
                     onClick={handleClick}
                     startIcon={<ExpandMoreIcon />}
@@ -207,7 +280,7 @@ export default function CompletationForm({
                     <FormattedMessage id="confirm" defaultMessage="Confirm" />
                   </Button>
                 </Stack>
-              </Box>
+              </Stack>
             </Stack>
           )}
         </Formik>

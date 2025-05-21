@@ -2,7 +2,7 @@ import LazyComponent from "@dexkit/ui/components/LazyComponent";
 import type { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import dynamic from "next/dynamic";
-const CodeSection = dynamic(() => import("./sections/CodeSection"));
+const CodeSection = dynamic(() => import("@dexkit/ui/components/CodeSection"));
 const CollectionSection = dynamic(() => import("./sections/CollectionSection"));
 const DexGeneratorSection = dynamic(
   () => import("./sections/DexGeneratorSection")

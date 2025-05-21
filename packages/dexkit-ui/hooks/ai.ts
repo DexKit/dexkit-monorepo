@@ -4,17 +4,27 @@ import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import { useIntl } from "react-intl";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
-import { ImageGenerate } from "../types/ai";
+import { AI_MODEL, ImageGenerate, TextImproveAction } from "../types/ai";
 import { dataURItoBlob } from "../utils/image";
 
 export function useCompletation() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(
-    async ({ messages }: { messages: { role: string; content: string }[] }) => {
+    async ({
+      messages,
+      action,
+      model,
+    }: {
+      messages: { role: string; content: string }[];
+      action?: TextImproveAction;
+      model?: AI_MODEL;
+    }) => {
       return (
         await instance?.post("/ai/completation", {
           messages,
+          action,
+          model,
         })
       )?.data;
     }
@@ -66,9 +76,8 @@ export function useGenVariants() {
   const { instance } = useContext(DexkitApiProvider);
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
-      return (
-        await instance?.post("/ai/image/variants", { url, numImages })
-      )?.data;
+      return (await instance?.post("/ai/image/variants", { url, numImages }))
+        ?.data;
     }
   );
 }
