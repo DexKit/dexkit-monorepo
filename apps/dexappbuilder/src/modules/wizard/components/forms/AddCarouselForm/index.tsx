@@ -1,5 +1,5 @@
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
-import { Box, Button, Grid, Paper, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Button, Container, Grid, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { Field, FieldArray, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { FormattedMessage } from 'react-intl';
@@ -102,6 +102,7 @@ export default function AddCarouselForm({
   };
 
   return (
+    <Container maxWidth="lg" sx={{ py: 2 }}>
     <>
       <Formik
         initialValues={
@@ -382,5 +383,6 @@ export default function AddCarouselForm({
         )}
       </Formik>
     </>
+    </Container>
   );
 }

@@ -6,20 +6,34 @@ import { useFormikContext } from "formik";
 export interface FormActionsProps {
   onSubmit: () => void;
   onCancel: () => void;
+  isMobile?: boolean;
+  isSmallDevice?: boolean;
 }
 
-export default function FormActions({ onCancel, onSubmit }: FormActionsProps) {
+export default function FormActions({
+  onCancel,
+  onSubmit,
+  isMobile = false,
+}: FormActionsProps) {
   const { isValid } = useFormikContext();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1 : 2}>
       <Grid item xs={12}>
         <Box>
-          <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <Button onClick={onCancel}>
+          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 2 }}>
+            <Button
+              onClick={onCancel}
+              size={isMobile ? "small" : "medium"}
+            >
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
-            <Button disabled={!isValid} onClick={onSubmit} variant="contained">
+            <Button
+              disabled={!isValid}
+              onClick={onSubmit}
+              variant="contained"
+              size={isMobile ? "small" : "medium"}
+            >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
           </Stack>

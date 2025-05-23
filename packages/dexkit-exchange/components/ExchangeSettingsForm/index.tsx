@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  Container,
   Divider,
   FormControl,
   FormHelperText,
@@ -260,6 +261,8 @@ export default function ExchangeSettingsForm({
   }, []);
 
   return (
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
     <Formik
       initialValues={
         settings
@@ -640,14 +643,19 @@ export default function ExchangeSettingsForm({
                 }}
               />
             </Grid>
-            {(!saveOnChange || showSaveButton) && (
-              <Grid item xs={12}>
-                <FormActions onSubmit={submitForm} onCancel={onCancel} />
-              </Grid>
+                {showSaveButton && (
+                  <FormActions
+                    onSubmit={submitForm}
+                    onCancel={onCancel}
+                    isSmallDevice={isSmallDevice}
+                    isMobile={isMobile}
+                  />
             )}
           </Grid>
         </>
       )}
     </Formik>
+      </Box>
+    </Container>
   );
 }

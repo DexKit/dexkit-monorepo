@@ -59,8 +59,8 @@ export function TokenTradeConfigForm({
   }, [formData, onChange]);
 
   return (
-    <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2 }}>
-      <Grid container spacing={isMobile ? 2 : 2}>
+    <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2, pb: 2 }}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
           {isMobile ? (
             // Versión móvil: Checkboxes en columna
@@ -269,31 +269,25 @@ export function TokenTradeConfigForm({
 
         <Grid item xs={12}>
           <TextField
-            inputProps={{ type: 'number', min: 0, max: 50, step: 0.01 }}
-            InputLabelProps={{ shrink: true }}
-            label={
-              <FormattedMessage
-                id="default.slippage.percentage"
-                defaultMessage="Default slippage (0-50%)"
-              />
-            }
+            label={<FormattedMessage id="slippage" defaultMessage="Slippage (%)" />}
+            type="number"
+            fullWidth
             value={formData?.slippage}
-            onChange={(event: any) => {
-              let value = event.target.value;
-              if (value < 0) {
-                value = 0;
-              }
-              if (value > 50) {
-                value = 50;
-              }
-
+            onChange={(ev) =>
               setFormData({
                 ...formData,
-                slippage: parseInt(value),
-              });
+                slippage: Number(ev.target.value),
+              })
+            }
+            InputProps={{
+              inputProps: {
+                min: 0.1,
+                max: 50,
+                step: 0.1,
+              },
             }}
-            fullWidth
             size={isMobile ? "small" : "medium"}
+            sx={{ marginBottom: isMobile ? 1 : 2 }}
           />
         </Grid>
       </Grid>
