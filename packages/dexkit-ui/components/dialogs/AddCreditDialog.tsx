@@ -164,7 +164,7 @@ export default function AddCreditDialog({
             <Typography variant="h5">
               {isVisible ? (
                 <FormattedNumber
-                  value={credits}
+                  value={Number(credits.toString())}
                   style="currency"
                   currency="USD"
                 />
