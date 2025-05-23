@@ -20,13 +20,13 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@unlock-protocol/unlock-js": "^0.45.1",
-    "@dexkit/ui": "*"
+    "@dexkit/ui": "*",
+    "@unlock-protocol/unlock-js": "^0.45.1"
   }
 }

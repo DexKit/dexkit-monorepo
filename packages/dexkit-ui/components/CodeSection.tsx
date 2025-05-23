@@ -1,15 +1,16 @@
 import { CodePageSection } from "@dexkit/ui/modules/wizard/types/section";
-import { Widget } from "../Widget";
+import { useEffect } from "react";
+import { Widget } from "./Widget";
 
 export interface CodeSectionProps {
   section: CodePageSection;
 }
 
-export default function CodeSection({ section }: CodeSectionProps) {
-  const { js, css, html } = section.config;
+export default function CodeSection(props: any) {
+  const { js, css, html } = props.section.config;
 
-  /* useEffect(() => {
-    const script = document.createElement('script');
+  useEffect(() => {
+    const script = document.createElement("script");
 
     script.innerHTML = js;
     script.async = true;
@@ -19,12 +20,11 @@ export default function CodeSection({ section }: CodeSectionProps) {
     return () => {
       document.body.removeChild(script);
     };
-  }, [js]);*/
+  }, [js]);
 
   return (
     <>
       {css && <Widget htmlString={`<style>${css}</style>`} />}
-      {js && <Widget htmlString={`<script>${js}<script>`} />}
       {html && <Widget htmlString={html} />}
     </>
   );

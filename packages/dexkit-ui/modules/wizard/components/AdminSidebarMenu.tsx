@@ -6,34 +6,29 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import React, { useCallback, useState } from "react";
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  '&.Mui-selected': {
-    backgroundColor: theme.palette.mode === 'dark'
-      ? theme.palette.action.selected
-      : theme.palette.grey[100],
-    '&:hover': {
-      backgroundColor: theme.palette.mode === 'dark'
-        ? theme.palette.action.hover
-        : theme.palette.grey[200],
-    }
+  "&.Mui-selected": {
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? theme.palette.action.selected
+        : theme.palette.grey[100],
+    "&:hover": {
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? theme.palette.action.hover
+          : theme.palette.grey[200],
+    },
   },
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark'
-      ? theme.palette.action.hover
-      : theme.palette.grey[100],
-  }
 }));
 
 const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  color: theme.palette.mode === 'dark'
-    ? theme.palette.text.primary
-    : 'inherit'
+  color: theme.palette.mode === "dark" ? theme.palette.text.primary : "inherit",
 }));
 
 export interface AdminSidebarMenuProps {
@@ -118,6 +113,7 @@ export default function AdminSidebarMenu({
                     }}
                   >
                     <StyledListItemIcon />
+
                     <ListItemText sx={{ ml: 4 }} primary={o.title} />
                   </StyledListItemButton>
                 ))}
@@ -143,6 +139,7 @@ export default function AdminSidebarMenu({
         >
           <StyledListItemIcon />
           <ListItemText primary={opt.title} />
+          {opt.icon && <StyledListItemIcon>{opt.icon}</StyledListItemIcon>}
         </StyledListItemButton>
       );
     });
@@ -158,10 +155,11 @@ export default function AdminSidebarMenu({
           secondaryTypographyProps={{
             variant: "caption",
             sx: {
-              color: theme => theme.palette.mode === 'dark'
-                ? theme.palette.text.secondary
-                : 'inherit'
-            }
+              color: (theme) =>
+                theme.palette.mode === "dark"
+                  ? theme.palette.text.secondary
+                  : "inherit",
+            },
           }}
         />
         {open ? <ExpandLess /> : <ExpandMore />}

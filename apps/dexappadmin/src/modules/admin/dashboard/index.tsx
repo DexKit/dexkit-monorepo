@@ -1,26 +1,28 @@
 // in src/admin/App.jsx
-import { Admin, Resource, ShowGuesser } from 'react-admin';
-import { AuthProvider } from './authProvider';
+import { Admin, Resource, ShowGuesser } from "react-admin";
+import { AuthProvider } from "./authProvider";
 
-import dataProvider from './dataProvider';
-import { AssetEdit } from './edits/asset';
-import { CollectionEdit } from './edits/collection';
-import { CreditGrantEdit } from './edits/credit-grant-edit';
-import { FeatPriceEdit } from './edits/feat-price-edit';
-import { SiteEdit } from './edits/site';
-import { AssetList } from './lists/asset';
-import { CoinList } from './lists/coin';
-import { CoinPlatformList } from './lists/coinPlatform';
-import { CollectionList } from './lists/collection';
-import CreditGrantsList from './lists/credit-grants';
-import FeatPricesList from './lists/feat-prices';
-import { SiteList } from './lists/site';
-import { UserEventList } from './lists/userEvents';
-import MyLoginPage from './pages/loginPage';
-import { AssetShow } from './shows/asset';
-import { CoinShow } from './shows/coin';
-import { CoinPlatformShow } from './shows/coinPlatform';
-import { CollectionShow } from './shows/collection';
+import dataProvider from "./dataProvider";
+import { AssetEdit } from "./edits/asset";
+import { CollectionEdit } from "./edits/collection";
+import { CreditGrantEdit } from "./edits/credit-grant-edit";
+import { FeatEdit } from "./edits/feat-edit";
+import { FeatUsageEdit } from "./edits/feat-usage-edit";
+import { SiteEdit } from "./edits/site";
+import { AssetList } from "./lists/asset";
+import { CoinList } from "./lists/coin";
+import { CoinPlatformList } from "./lists/coinPlatform";
+import { CollectionList } from "./lists/collection";
+import CreditGrantsList from "./lists/credit-grants";
+import FeatsList from "./lists/feats";
+import FeatUsagesList from "./lists/featUsages";
+import { SiteList } from "./lists/site";
+import { UserEventList } from "./lists/userEvents";
+import MyLoginPage from "./pages/loginPage";
+import { AssetShow } from "./shows/asset";
+import { CoinShow } from "./shows/coin";
+import { CoinPlatformShow } from "./shows/coinPlatform";
+import { CollectionShow } from "./shows/collection";
 
 const App = () => (
   <Admin
@@ -43,16 +45,13 @@ const App = () => (
       list={CoinPlatformList}
       show={CoinPlatformShow}
     />
+    <Resource name="feature" list={FeatsList} edit={FeatEdit} />
     <Resource
-      name="feature-prices"
-      list={FeatPricesList}
-      edit={FeatPriceEdit}
-    />
-    <Resource
-      name="credit-grants"
+      name="credit-grant"
       list={CreditGrantsList}
       edit={CreditGrantEdit}
     />
+    <Resource name="feature-usage" list={FeatUsagesList} edit={FeatUsageEdit} />
   </Admin>
 );
 

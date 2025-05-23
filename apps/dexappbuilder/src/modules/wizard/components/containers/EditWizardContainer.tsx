@@ -73,6 +73,10 @@ const UserEventAnalyticsContainer = dynamic(
 const OwnershipWizardContainer = dynamic(
   () => import('./OwnershipWizardContainer'),
 );
+
+const PoweredByWizardContainer = dynamic(
+  () => import('./PoweredByWizardContainer'),
+);
 const CollectionWizardContainer = dynamic(
   () => import('./CollectionWizardContainer'),
 );
@@ -136,6 +140,7 @@ export enum ActiveMenu {
   Collections = 'data.collections',
   Tokens = 'data.tokens',
   Ownership = 'settings.ownership',
+  PoweredBy = 'settings.powered.by',
   Integrations = 'settings.integrations',
   Rankings = 'analytics.leaderboard',
   Networks = 'data.networks',
@@ -154,11 +159,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => { },
-  setIsEditPage: () => { },
-  setOldPage: () => { },
+  setSelectedKey: () => {},
+  setIsEditPage: () => {},
+  setOldPage: () => {},
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => { },
+  handleCancelEdit: (hasChanges?: boolean) => {},
 });
 
 function TourButton() {
@@ -678,7 +683,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -691,9 +696,18 @@ export function EditWizardContainer({ site }: Props) {
                       />
                     )}
 
+                    {activeMenu === ActiveMenu.PoweredBy && config && (
+                      <PoweredByWizardContainer
+                        config={config}
+                        onSave={handleSave}
+                        onHasChanges={setHasChanges}
+                        site={site}
+                      />
+                    )}
+
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -778,7 +792,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 

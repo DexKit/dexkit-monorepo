@@ -26,7 +26,7 @@ function DexGeneratorTokenErc20Form({
 }: DexGeneratorTokenErc20FormProps) {
   const { network, address } = params;
 
-  const handleSubmit = ({}: FormType) => {};
+  const handleSubmit = ({ }: FormType) => { };
 
   const handleValidate = (form: FormType) => {
     if (section) {
@@ -43,7 +43,13 @@ function DexGeneratorTokenErc20Form({
   return (
     <Formik
       initialValues={
-        section && section.type === 'token' ? section.settings : {}
+        section && section.type === 'token' ? section.settings : {
+
+          disableBurn: false,
+          disableInfo: false,
+          disableMint: false,
+          disableTransfer: false
+        }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}
@@ -56,7 +62,7 @@ function DexGeneratorTokenErc20Form({
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={values.disableBurn}
+                      checked={values?.disableBurn}
                       onChange={(e) =>
                         setFieldValue('disableBurn', e.target.checked)
                       }

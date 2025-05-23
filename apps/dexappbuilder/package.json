@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -138,6 +138,6 @@
     "jest-environment-jsdom": "^29.0.1",
     "pre-push": "^0.1.4",
     "ts-node": "^10.9.1",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   }
 }
