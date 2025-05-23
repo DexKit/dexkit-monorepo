@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   FormControl,
   Grid,
   MenuItem,
@@ -127,324 +128,294 @@ export default function AddShowCaseSectionForm({
   };
 
   return (
-    <>
-      <Formik
-        initialValues={
-          data
-            ? {
-              ...data,
-              items: data.items || [],
-              alignItems: data.alignItems || 'left',
-              itemsSpacing: data.itemsSpacing || 2,
-              paddingTop: data.paddingTop || 0,
-              paddingBottom: data.paddingBottom || 0,
-            }
-            : {
-              alignItems: 'left',
-              itemsSpacing: 2,
-              paddingTop: 0,
-              paddingBottom: 0,
-              items: [],
-            }
-        }
-        onSubmit={handleSubmit}
-        validate={(values: ShowCaseParams) => {
-          if (saveOnChange) {
-            onChange(values);
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+        <Formik
+          initialValues={
+            data
+              ? {
+                ...data,
+                items: data.items || [],
+                alignItems: data.alignItems || 'left',
+                itemsSpacing: data.itemsSpacing || 2,
+                paddingTop: data.paddingTop || 0,
+                paddingBottom: data.paddingBottom || 0,
+              }
+              : {
+                alignItems: 'left',
+                itemsSpacing: 2,
+                paddingTop: 0,
+                paddingBottom: 0,
+                items: [],
+              }
           }
-        }}
-        validateOnBlur
-        validateOnChange
-        validationSchema={toFormikValidationSchema(FormSchema)}
-      >
-        {({
-          submitForm,
-          isValid,
-          values,
-          isSubmitting,
-          setFieldValue,
-          errors,
-        }) => (
-          <>
-            <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-              <MediaDialog
-                dialogProps={{
-                  open: openDialog,
-                  maxWidth: 'lg',
-                  fullWidth: true,
-                  onClose: handleClose,
-                }}
-                onConfirmSelectFile={(file) =>
-                  setFieldValue(`items[${index}].imageUrl`, file.url)
-                }
-              />
-            </DexkitApiProvider.Provider>
-            <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
-              <Grid item xs={12} md={6}>
-                <FormControl fullWidth>
-                  <Field
-                    component={Select}
-                    name="alignItems"
-                    fullWidth
-                    label={
-                      <FormattedMessage
-                        id="align.items"
-                        defaultMessage="Align Items"
-                      />
-                    }
-                    size={isMobile ? "small" : "medium"}
-                    sx={isMobile ? {
-                      '& .MuiInputBase-root': {
-                        height: theme.spacing(4.375),
-                        fontSize: theme.typography.body2.fontSize
-                      },
-                      '& .MuiSelect-select': {
-                        padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`
-                      },
-                      '& .MuiFormLabel-root': {
-                        fontSize: theme.typography.body2.fontSize
+          onSubmit={handleSubmit}
+          validate={(values: ShowCaseParams) => {
+            if (saveOnChange) {
+              onChange(values);
+            }
+          }}
+          validateOnBlur
+          validateOnChange
+          validationSchema={toFormikValidationSchema(FormSchema)}
+        >
+          {({
+            submitForm,
+            isValid,
+            values,
+            isSubmitting,
+            setFieldValue,
+            errors,
+          }) => (
+            <>
+              <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
+                <MediaDialog
+                  dialogProps={{
+                    open: openDialog,
+                    maxWidth: 'lg',
+                    fullWidth: true,
+                    onClose: handleClose,
+                  }}
+                  onConfirmSelectFile={(file) =>
+                    setFieldValue(`items[${index}].imageUrl`, file.url)
+                  }
+                />
+              </DexkitApiProvider.Provider>
+              <Box sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={6}>
+                    <FormControl fullWidth>
+                      <Field
+                        component={Select}
+                        name="alignItems"
+                        fullWidth
+                        label={
+                          <FormattedMessage
+                            id="align.items"
+                            defaultMessage="Align Items"
+                          />
+                        }
+                        size="medium"
+                        sx={{
+                          '& .MuiInputBase-root': {
+                            height: 56
+                          },
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'rgba(255, 255, 255, 0.23)'
+                          }
+                        }}
+                      >
+                        <MenuItem value="left">
+                          <FormattedMessage id="left" defaultMessage="Left" />
+                        </MenuItem>
+                        <MenuItem value="center">
+                          <FormattedMessage id="center" defaultMessage="Center" />
+                        </MenuItem>
+                        <MenuItem value="right">
+                          <FormattedMessage id="right" defaultMessage="Right" />
+                        </MenuItem>
+                      </Field>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Field
+                      component={TextField}
+                      fullWidth
+                      name="itemsSpacing"
+                      type="number"
+                      label={
+                        <FormattedMessage
+                          id="items.spacing"
+                          defaultMessage="Items spacing"
+                        />
                       }
-                    } : {}}
-                  >
-                    <MenuItem value="left">
-                      <FormattedMessage id="left" defaultMessage="Left" />
-                    </MenuItem>
-                    <MenuItem value="center">
-                      <FormattedMessage id="center" defaultMessage="Center" />
-                    </MenuItem>
-                    <MenuItem value="right">
-                      <FormattedMessage id="right" defaultMessage="Right" />
-                    </MenuItem>
-                  </Field>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  name="itemsSpacing"
-                  type="number"
-                  label={
-                    <FormattedMessage
-                      id="items.spacing"
-                      defaultMessage="Items spacing"
+                      size="medium"
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          height: 56
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgba(255, 255, 255, 0.23)'
+                        }
+                      }}
                     />
-                  }
-                  size={isMobile ? "small" : "medium"}
-                  margin={isMobile ? "dense" : "normal"}
-                  inputProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize,
-                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
-                    } : {}
-                  }}
-                  InputLabelProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize
-                    } : {}
-                  }}
-                  sx={isMobile ? {
-                    '& .MuiInputBase-root': {
-                      height: theme.spacing(4.375),
-                      padding: `0 ${theme.spacing(1)}`
-                    }
-                  } : {}}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  name="paddingTop"
-                  type="number"
-                  label={
-                    <FormattedMessage
-                      id="padding.top"
-                      defaultMessage="Padding top"
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Field
+                      component={TextField}
+                      fullWidth
+                      name="paddingTop"
+                      type="number"
+                      label={
+                        <FormattedMessage
+                          id="padding.top"
+                          defaultMessage="Padding top"
+                        />
+                      }
+                      size="medium"
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          height: 56
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgba(255, 255, 255, 0.23)'
+                        }
+                      }}
                     />
-                  }
-                  size={isMobile ? "small" : "medium"}
-                  margin={isMobile ? "dense" : "normal"}
-                  inputProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize,
-                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
-                    } : {}
-                  }}
-                  InputLabelProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize
-                    } : {}
-                  }}
-                  sx={isMobile ? {
-                    '& .MuiInputBase-root': {
-                      height: theme.spacing(4.375),
-                      padding: `0 ${theme.spacing(1)}`
-                    }
-                  } : {}}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  name="paddingBottom"
-                  type="number"
-                  label={
-                    <FormattedMessage
-                      id="padding.bottom"
-                      defaultMessage="Padding bottom"
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Field
+                      component={TextField}
+                      fullWidth
+                      name="paddingBottom"
+                      type="number"
+                      label={
+                        <FormattedMessage
+                          id="padding.bottom"
+                          defaultMessage="Padding bottom"
+                        />
+                      }
+                      size="medium"
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          height: 56
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgba(255, 255, 255, 0.23)'
+                        }
+                      }}
                     />
-                  }
-                  size={isMobile ? "small" : "medium"}
-                  margin={isMobile ? "dense" : "normal"}
-                  inputProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize,
-                      padding: `${theme.spacing(1)} ${theme.spacing(0.75)}`
-                    } : {}
-                  }}
-                  InputLabelProps={{
-                    style: isMobile ? {
-                      fontSize: theme.typography.body2.fontSize
-                    } : {}
-                  }}
-                  sx={isMobile ? {
-                    '& .MuiInputBase-root': {
-                      height: theme.spacing(4.375),
-                      padding: `0 ${theme.spacing(1)}`
-                    }
-                  } : {}}
-                />
-              </Grid>
-              {values.items.length === 0 && (
-                <Grid item xs={12}>
-                  <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}>
-                    <Stack
-                      sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}
-                      alignItems="center"
-                      justifyContent="center"
-                      spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
-                    >
-                      <ViewStreamIcon fontSize={isMobile ? "medium" : "large"} />
-                      <Box>
-                        <Typography align="center" variant={isMobile ? "body1" : "h5"}>
-                          <FormattedMessage
-                            id="add.items"
-                            defaultMessage="Add items"
-                          />
-                        </Typography>
-                        <Typography
-                          color="text.secondary"
-                          align="center"
-                          variant={isMobile ? "caption" : "body1"}
-                          sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+                  </Grid>
+                  {values.items.length === 0 && (
+                    <Grid item xs={12}>
+                      <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}>
+                        <Stack
+                          sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}
+                          alignItems="center"
+                          justifyContent="center"
+                          spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
                         >
-                          <FormattedMessage
-                            id="section.addItemsPrompt"
-                            defaultMessage="Please add items to the section below."
+                          <ViewStreamIcon fontSize={isMobile ? "medium" : "large"} />
+                          <Box>
+                            <Typography align="center" variant={isMobile ? "body1" : "h5"}>
+                              <FormattedMessage
+                                id="add.items"
+                                defaultMessage="Add items"
+                              />
+                            </Typography>
+                            <Typography
+                              color="text.secondary"
+                              align="center"
+                              variant={isMobile ? "caption" : "body1"}
+                              sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+                            >
+                              <FormattedMessage
+                                id="section.addItemsPrompt"
+                                defaultMessage="Please add items to the section below."
+                              />
+                            </Typography>
+                          </Box>
+                          <FieldArray
+                            name="items"
+                            render={(arrayHelpers) => (
+                              <Button
+                                onClick={arrayHelpers.handlePush({
+                                  type: 'image',
+                                  url: '',
+                                  imageUrl: '',
+                                  title: '',
+                                  actionType: 'link',
+                                  page: '',
+                                } as ShowCaseItem)}
+                                variant="outlined"
+                                size={isMobile ? "small" : "medium"}
+                                sx={isMobile ? { py: theme.spacing(0.5) } : {}}
+                              >
+                                <FormattedMessage
+                                  id="add.item"
+                                  defaultMessage="Add item"
+                                />
+                              </Button>
+                            )}
                           />
-                        </Typography>
-                      </Box>
-                      <FieldArray
-                        name="items"
-                        render={(arrayHelpers) => (
+                        </Stack>
+                      </Paper>
+                    </Grid>
+                  )}
+
+                  <Grid item xs={12}>
+                    <FieldArray
+                      name="items"
+                      render={(arrayHelpers) => (
+                        <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
+                          {values.items.map((_, index, arr) => (
+                            <Grid item xs={12} key={index}>
+                              <ShowCaseFormItem
+                                index={index}
+                                onUp={arrayHelpers.handleSwap(index, index - 1)}
+                                onDown={arrayHelpers.handleSwap(index, index + 1)}
+                                onRemove={arrayHelpers.handleRemove(index)}
+                                disableDown={index === arr.length - 1}
+                                disableUp={index === 0}
+                                onSelectImage={handleSelectImage(index)}
+                                isMobile={isMobile}
+                              />
+                            </Grid>
+                          ))}
+                          {values.items.length > 0 && (
+                            <Grid item xs={12}>
+                              <Button
+                                onClick={arrayHelpers.handlePush({
+                                  type: 'image',
+                                  url: '',
+                                  imageUrl: '',
+                                  title: '',
+                                  actionType: 'link',
+                                  page: '',
+                                } as ShowCaseItem)}
+                                variant="outlined"
+                                size={isMobile ? "small" : "medium"}
+                                sx={isMobile ? { mt: theme.spacing(0.5), py: theme.spacing(0.5) } : {}}
+                              >
+                                <FormattedMessage id="add" defaultMessage="Add" />
+                              </Button>
+                            </Grid>
+                          )}
+                        </Grid>
+                      )}
+                    />
+                  </Grid>
+                  {!disableButtons && (
+                    <Grid item xs={12}>
+                      <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
+                        {onCancel && (
                           <Button
-                            onClick={arrayHelpers.handlePush({
-                              type: 'image',
-                              url: '',
-                              imageUrl: '',
-                              title: '',
-                              actionType: 'link',
-                              page: '',
-                            } as ShowCaseItem)}
-                            variant="outlined"
+                            onClick={onCancel}
                             size={isMobile ? "small" : "medium"}
                             sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                           >
-                            <FormattedMessage
-                              id="add.item"
-                              defaultMessage="Add item"
-                            />
+                            <FormattedMessage id="cancel" defaultMessage="Cancel" />
                           </Button>
                         )}
-                      />
-                    </Stack>
-                  </Paper>
-                </Grid>
-              )}
 
-              <Grid item xs={12}>
-                <FieldArray
-                  name="items"
-                  render={(arrayHelpers) => (
-                    <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
-                      {values.items.map((_, index, arr) => (
-                        <Grid item xs={12} key={index}>
-                          <ShowCaseFormItem
-                            index={index}
-                            onUp={arrayHelpers.handleSwap(index, index - 1)}
-                            onDown={arrayHelpers.handleSwap(index, index + 1)}
-                            onRemove={arrayHelpers.handleRemove(index)}
-                            disableDown={index === arr.length - 1}
-                            disableUp={index === 0}
-                            onSelectImage={handleSelectImage(index)}
-                            isMobile={isMobile}
-                          />
-                        </Grid>
-                      ))}
-                      {values.items.length > 0 && (
-                        <Grid item xs={12}>
-                          <Button
-                            onClick={arrayHelpers.handlePush({
-                              type: 'image',
-                              url: '',
-                              imageUrl: '',
-                              title: '',
-                              actionType: 'link',
-                              page: '',
-                            } as ShowCaseItem)}
-                            variant="outlined"
-                            size={isMobile ? "small" : "medium"}
-                            sx={isMobile ? { mt: theme.spacing(0.5), py: theme.spacing(0.5) } : {}}
-                          >
-                            <FormattedMessage id="add" defaultMessage="Add" />
-                          </Button>
-                        </Grid>
-                      )}
+                        <Button
+                          disabled={!isValid || isSubmitting}
+                          variant="contained"
+                          onClick={submitForm}
+                          size={isMobile ? "small" : "medium"}
+                          sx={isMobile ? { py: theme.spacing(0.5) } : {}}
+                        >
+                          <FormattedMessage id="save" defaultMessage="Save" />
+                        </Button>
+                      </Stack>
                     </Grid>
                   )}
-                />
-              </Grid>
-              {!disableButtons && (
-                <Grid item xs={12}>
-                  <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
-                    {onCancel && (
-                      <Button
-                        onClick={onCancel}
-                        size={isMobile ? "small" : "medium"}
-                        sx={isMobile ? { py: theme.spacing(0.5) } : {}}
-                      >
-                        <FormattedMessage id="cancel" defaultMessage="Cancel" />
-                      </Button>
-                    )}
-
-                    <Button
-                      disabled={!isValid || isSubmitting}
-                      variant="contained"
-                      onClick={submitForm}
-                      size={isMobile ? "small" : "medium"}
-                      sx={isMobile ? { py: theme.spacing(0.5) } : {}}
-                    >
-                      <FormattedMessage id="save" defaultMessage="Save" />
-                    </Button>
-                  </Stack>
                 </Grid>
-              )}
-            </Grid>
-          </>
-        )}
-      </Formik>
-    </>
+              </Box>
+            </>
+          )}
+        </Formik>
+      </Box>
+    </Container>
   );
 }

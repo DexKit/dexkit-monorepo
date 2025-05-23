@@ -5,7 +5,7 @@ import LazyTextField from '@dexkit/ui/components/LazyTextField';
 import { DeployedContract } from '@/modules/forms/types';
 import { ipfsUriToUrl, parseChainId } from '@dexkit/core/utils';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
-import { DexGeneratorPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { DexGeneratorPageSection, ReferralPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Error from '@mui/icons-material/Error';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -36,12 +36,14 @@ import { FormattedMessage } from 'react-intl';
 import { NETWORKS } from 'src/constants/chain';
 
 import { getChainSlug } from '@dexkit/core/utils/blockchain';
+import LinkIcon from '@mui/icons-material/Link';
 import {
   DEX_GENERATOR_CONTRACT_TYPES,
   DEX_GENERATOR_CONTRACT_TYPES_AVAIL,
 } from '../../../constants';
 import DexGeneratorSectionCard from '../../DexGeneratorSectionCard';
 import DexGeneratorContractForm from './DexGeneratorContractForm';
+import DexGeneratorReferralForm from './DexGeneratorReferralForm';
 
 export interface DexGeneratorSectionFormProps {
   onSave: (section: DexGeneratorPageSection) => void;
@@ -319,9 +321,13 @@ export default function DexGeneratorSectionForm({
 
   const handleSave = useCallback(() => {
     if (currSection) {
-      onSave(currSection);
+      if (currSection.section && 'type' in currSection.section && currSection.section.type === 'referral') {
+        onSave(currSection);
+      } else if (contract) {
+        onSave(currSection);
+      }
     }
-  }, [onSave, currSection]);
+  }, [onSave, currSection, contract]);
 
   const handleChangeType = (e: SelectChangeEvent) => {
     setType(e.target.value);
@@ -336,6 +342,20 @@ export default function DexGeneratorSectionForm({
 
   const handleChangeChainId = (e: SelectChangeEvent<number>) => {
     return setChainId(parseChainId(e.target.value));
+  };
+
+  const handleCreateReferralSection = () => {
+    handleChangeSection({
+      type: 'dex-generator-section',
+      section: {
+        type: 'referral',
+        title: '',
+        subtitle: '',
+        config: {
+          showStats: true,
+        },
+      } as ReferralPageSection,
+    });
   };
 
   return (
@@ -582,7 +602,7 @@ export default function DexGeneratorSectionForm({
                   <FormattedMessage id="cancel" defaultMessage="Cancel" />
                 </Button>
                 <Button
-                  disabled={!contract}
+                  disabled={!contract && !(currSection?.section && 'type' in currSection.section && currSection.section.type === 'referral')}
                   onClick={handleSave}
                   variant="contained"
                   color="primary"
@@ -593,6 +613,32 @@ export default function DexGeneratorSectionForm({
             </Box>
           </Grid>
         )}
+        {currSection?.section && 'type' in currSection.section && currSection.section.type === 'referral' && (
+          <Box mt={2}>
+            <DexGeneratorReferralForm
+              onChange={(section) => {
+                handleChangeSection({
+                  ...currSection,
+                  section: section as any,
+                });
+              }}
+              section={currSection.section as ReferralPageSection}
+            />
+          </Box>
+        )}
+        <Grid item xs={12}>
+          <Box>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleCreateReferralSection}
+              startIcon={<LinkIcon />}
+              sx={{ mt: 2 }}
+            >
+              <FormattedMessage id="create.referral.section" defaultMessage="Create Referral Section" />
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

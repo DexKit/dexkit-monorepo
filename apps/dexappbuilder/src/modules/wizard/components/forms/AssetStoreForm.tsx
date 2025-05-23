@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   LinearProgress,
+  Paper,
   Stack,
   Typography,
   useTheme,
@@ -53,6 +54,7 @@ export default function AssetStoreForm({
   const theme = useTheme();
 
   return (
+    <Paper sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
     <Formik
       initialValues={{ ...item }}
       onSubmit={(values) => {
@@ -90,6 +92,7 @@ export default function AssetStoreForm({
                 }
                 name="storeAccount"
                 size={isMobile ? "small" : "medium"}
+                  margin={isMobile ? "dense" : "normal"}
               />
             </Grid>
             <Grid item xs={12}>
@@ -109,6 +112,7 @@ export default function AssetStoreForm({
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
                     size={isMobile ? "small" : "medium"}
+                      margin={isMobile ? "dense" : "normal"}
                   />
                 )}
               </CompletationProvider>
@@ -133,6 +137,7 @@ export default function AssetStoreForm({
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
                     size={isMobile ? "small" : "medium"}
+                      margin={isMobile ? "dense" : "normal"}
                   />
                 )}
               </CompletationProvider>
@@ -160,6 +165,7 @@ export default function AssetStoreForm({
                     inputRef={ref}
                     InputProps={{ endAdornment: inputAdornment('end') }}
                     size={isMobile ? "small" : "medium"}
+                      margin={isMobile ? "dense" : "normal"}
                   />
                 )}
               </CompletationProvider>
@@ -205,7 +211,7 @@ export default function AssetStoreForm({
             {isSubmitting && <LinearProgress />}
             {onSubmit && (
               <Grid item xs={12}>
-                <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end">
+                  <Stack direction="row" spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} justifyContent="flex-end" sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
                   {onCancel && (
                     <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
                       <FormattedMessage id="cancel" defaultMessage="Cancel" />
@@ -226,5 +232,6 @@ export default function AssetStoreForm({
         </Form>
       )}
     </Formik>
+    </Paper>
   );
 }

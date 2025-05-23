@@ -22,7 +22,7 @@ import { SECTIONS_TYPE_DATA_ICONS } from '@dexkit/dexappbuilder-viewer/constants
 
 export { SECTIONS_TYPE_DATA_ICONS };
 
-export const SECTION_TYPES_DATA = [
+export const SECTION_TYPES_DATA: SectionMetadata[] = [
   {
     type: 'video',
     titleId: 'video',
@@ -186,10 +186,18 @@ export const SECTION_TYPES_DATA = [
     type: 'commerce',
     titleId: 'commerce',
     titleDefaultMessage: 'Commerce',
-    category: 'resources',
-    description: 'Dexkit Commerce',
-    icon: <CollectionsIcon fontSize="large" />,
+    category: 'web3',
+    description: 'Add commerce functionality to your site',
+    icon: <StorefrontIcon fontSize="large" />,
   },
+  /* {
+    type: 'referral',
+    titleId: 'referral.program',
+    titleDefaultMessage: 'Referral Program',
+    category: 'web3',
+    description: 'Create a referral section for users to share their referral links and track statistics',
+    icon: <LinkIcon fontSize="large" />,
+  }, */
 ] as SectionMetadata[];
 
 export const SectionCategory = [

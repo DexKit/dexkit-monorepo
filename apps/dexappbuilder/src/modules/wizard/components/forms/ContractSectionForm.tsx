@@ -2,8 +2,8 @@ import {
   AppPageSection,
   ContractPageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
-import { Grid } from '@mui/material';
 import { ContractFormParams } from '@dexkit/web3forms/types';
+import { Box, Container, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import ContractForm from './ContractForm';
 
@@ -41,17 +41,21 @@ export function ContractSectionForm({
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <ContractForm
-          params={section?.config}
-          onCancel={onCancel}
-          onSave={handleSaveData}
-          onChange={handleChangeData}
-          updateOnChange={true}
-          showSaveButton
-        />
-      </Grid>
-    </Grid>
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <ContractForm
+              params={section?.config}
+              onCancel={onCancel}
+              onSave={handleSaveData}
+              onChange={handleChangeData}
+              updateOnChange={true}
+              showSaveButton
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }
