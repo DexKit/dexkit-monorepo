@@ -174,7 +174,6 @@ export default function GamificationPointForm({
     <>
       <Formik
         onSubmit={async (values, helper) => {
-          console.log(values);
           if (values) {
             await mutationAddRanking.mutateAsync(
               {
