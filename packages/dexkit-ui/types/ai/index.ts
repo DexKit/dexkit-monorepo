@@ -73,14 +73,17 @@ export type FeatUsage = {
 
 export enum AI_MODEL {
   GPT_3_5_TURBO = "gpt-3.5-turbo",
+  GPT_4_1 = "gpt-4.1",
   DALL_E_2 = "dall-e-2",
-  CLAUDE_3_5_SONNET_LATEST = "claude-3-5-sonnet-latest",
+  CLAUDE_4_SONNET = "claude-sonnet-4-0",
   GEMINI_2_0_FLASH = "gemini-2.0-flash",
 }
 
 export enum AI_MODEL_TYPE {
   TEXT = "text",
   IMAGE = "image",
+  CODE = "code"
+
 }
 
 export type AIModelItem = {

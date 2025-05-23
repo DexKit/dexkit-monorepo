@@ -54,11 +54,15 @@ export const aiModelsItems: AIModelItem[] = [
     type: AI_MODEL_TYPE.IMAGE,
   },
   {
-    model: AI_MODEL.CLAUDE_3_5_SONNET_LATEST,
-    type: AI_MODEL_TYPE.TEXT,
+    model: AI_MODEL.CLAUDE_4_SONNET,
+    type: AI_MODEL_TYPE.CODE,
   },
   {
+    model: AI_MODEL.GPT_4_1,
+    type: AI_MODEL_TYPE.CODE,
+  },
+ /* {
     model: AI_MODEL.GEMINI_2_0_FLASH,
     type: AI_MODEL_TYPE.TEXT,
-  },
+  },*/
 ];

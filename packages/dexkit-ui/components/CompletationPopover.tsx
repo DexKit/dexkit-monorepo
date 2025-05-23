@@ -23,6 +23,7 @@ export interface CompletationPopoverProps {
   onConfirm: () => void;
   multiline?: boolean;
   filteredActions?: TextImproveAction[];
+  selectedAction?: TextImproveAction;
 }
 
 export default function CompletationPopover({
@@ -34,6 +35,7 @@ export default function CompletationPopover({
   onGenerate,
   onConfirm,
   multiline,
+  selectedAction,
   filteredActions,
 }: CompletationPopoverProps) {
   const subQuery = useSubscription();
@@ -79,6 +81,7 @@ export default function CompletationPopover({
             initialPrompt={initialPrompt}
             multiline={multiline}
             filteredActions={filteredActions}
+            selectedAction={selectedAction}
           />
         ) : subQuery.isSuccess ? (
           <Stack sx={{ p: 2 }} spacing={2} alignItems="center">

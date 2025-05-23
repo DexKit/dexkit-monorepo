@@ -77,23 +77,23 @@ function CodeSectionForm({
   const theme = useTheme();
 
   const [showAsFullScreen, setShowAsFullScreen] = useState<string>();
-  
+
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const debouncedSetFieldValue = useCallback((
-    name: string, 
-    value: string, 
+    name: string,
+    value: string,
     setFieldValue: (name: string, value: string, shouldValidate?: boolean) => void
   ) => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
-    
+
     debounceTimeoutRef.current = setTimeout(() => {
       setFieldValue(name, value, false);
     }, 300);
   }, []);
-  
+
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
@@ -104,11 +104,11 @@ function CodeSectionForm({
 
   const renderInput = useCallback(
     ({ extensions, value, name }: InputParam,
-    setFieldValue: (
-      name: string,
-      value: string,
-      shouldValidate?: boolean,
-    ) => void,
+      setFieldValue: (
+        name: string,
+        value: string,
+        shouldValidate?: boolean,
+      ) => void,
     ) => {
       return (
         <>
@@ -226,7 +226,7 @@ function CodeSectionForm({
       ) => void,
     ) => {
       const activeNode = nodes.find(n => n.name === currTab);
-      
+
       return (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -287,6 +287,26 @@ function CodeSectionForm({
     ];
   }, []);
 
+
+  function getOutput({ html, js, css }: { html?: string, js?: string, css?: string }) {
+    let output: { html?: string, js?: string, css?: string } = {};
+    if (html) {
+      output.html = html;
+    }
+    if (js) {
+      output.js = js;
+    }
+    if (css) {
+      output.css = css;
+    }
+    if (output?.html || output?.js || output?.css) {
+      return JSON.stringify(output)
+    }
+    return null
+  }
+
+
+
   return (
     <Formik
       initialValues={{
@@ -333,7 +353,10 @@ function CodeSectionForm({
                     setFieldValue('css', code.css);
                   }}
                   filteredActions={[TextImproveAction.GENERATE_CODE]}
+                  selectedAction={TextImproveAction.GENERATE_CODE}
                   withContext
+                  multiline
+                  output={getOutput({ html: values.html || '', js: values.js, css: values.css })}
                   initialPrompt={''}
                 >
                   {({ inputAdornment, ref }) => {
