@@ -307,6 +307,7 @@ export function useAddAppRankingMutation() {
       from,
       to,
       description,
+      groupByReferral,
       rankingId,
       settings,
     }: {
@@ -314,6 +315,7 @@ export function useAddAppRankingMutation() {
       title?: string;
       description?: string;
       rankingId?: number;
+      groupByReferral?: boolean;
       settings?: GamificationPoint[];
       from?: string;
       to?: string;
@@ -326,6 +328,7 @@ export function useAddAppRankingMutation() {
           siteId,
           title,
           description,
+          groupByReferral,
           rankingId,
           settings,
           from,
@@ -336,6 +339,7 @@ export function useAddAppRankingMutation() {
           siteId,
           title,
           description,
+          groupByReferral,
           settings,
         });
       }

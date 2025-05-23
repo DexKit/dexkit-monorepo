@@ -8,4 +8,5 @@ export interface AppRanking {
   from: string;
   to: string;
   settings: GamificationPoint[];
+  groupByReferral?: boolean;
 }
