@@ -12,6 +12,7 @@ const RankingSection = dynamic(() => import("./sections/RankingSection"));
 const TokenTradeSection = dynamic(() => import("./sections/TokenTradeSection"));
 const CarouselSection = dynamic(() => import("./sections/CarouselSection"));
 const ShowCaseSection = dynamic(() => import("./sections/ShowCaseSection"));
+const ReferralSection = dynamic(() => import("./sections/ReferralSection"));
 
 const ExchangeSection = dynamic(() => import("./sections/ExchangeSection"));
 const AssetStoreSection = dynamic(() => import("./sections/AssetStoreSection"));
@@ -96,6 +97,8 @@ export function SectionToRender({ section }: Props) {
     return <ShowCaseSection section={section} />;
   } else if (section.type === "commerce") {
     return <CommerceSection section={section} />;
+  } else if (section.type === "referral") {
+    return <ReferralSection section={section} />;
   }
 }
 
