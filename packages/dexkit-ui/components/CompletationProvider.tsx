@@ -17,7 +17,7 @@ const CompletationPopover = dynamic(() => import("./CompletationPopover"), {
 });
 
 export interface CompletationProviderProps {
-  children: ({ }: {
+  children: ({}: {
     ref: React.MutableRefObject<HTMLElement | null>;
     inputAdornment: (position: "start" | "end") => React.ReactNode;
     open: () => void;
@@ -48,9 +48,9 @@ export default function CompletationProvider({
   const [defaultPrompt, setDefaultPrompt] = useState("");
   const ref = useRef<HTMLInputElement | null>(null);
   const completationMutation = useCompletation();
-  const promptHistory = useRef<{ role: string; content: string }[] | null>(null
+  const promptHistory = useRef<{ role: string; content: string }[] | null>(
+    null
     //  initialOutput ? {role: 'user', content: `You generated this last output: ${initialOutput}`} : null
-
   );
   const handleOpenComp = (event: MouseEvent<HTMLButtonElement>) => {
     setShowAiComp(true);
@@ -88,7 +88,11 @@ export default function CompletationProvider({
   );
 
   const getPromptByAction = useCallback(
-    (prompt: string, action: TextImproveAction, outputContext?: string | null) => {
+    (
+      prompt: string,
+      action: TextImproveAction,
+      outputContext?: string | null
+    ) => {
       switch (action) {
         case TextImproveAction.GENERATE:
           return `Generate a text based for: "${prompt}".`;
@@ -101,7 +105,7 @@ export default function CompletationProvider({
         case TextImproveAction.MAKE_LONGER:
           return `Make this text longer: "${prompt}".`;
         case TextImproveAction.GENERATE_CODE:
-          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code. Return only the JSON and nothing else for"${prompt}". ${outputContext ? `Use this JSON code as context: ${outputContext}. Use Max 10000 words.` : ''}`;
+          return `Generate a JSON (and only a JSON enclosed in brackets) with html, js (optional) and css (optional) code. Return only the JSON and nothing else for"${prompt}". Use max 8000 tokens. ${outputContext ? `Use this JSON code as context: ${outputContext}.` : ""}`;
       }
     },
     []
@@ -182,7 +186,6 @@ export default function CompletationProvider({
           onConfirm={handleConfirmCompletation}
           initialPrompt={initialPrompt}
           selectedAction={selectedAction}
-
           multiline={multiline}
           filteredActions={filteredActions}
         />
