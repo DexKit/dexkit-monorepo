@@ -1,6 +1,7 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useDexKitContext } from '@dexkit/ui/hooks';
 import { useUserEventsList } from '@dexkit/ui/hooks/userEvents';
+import { useAppRankingQuery } from '@dexkit/ui/modules/wizard/hooks/ranking';
 import { ReferralPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import CodeIcon from '@mui/icons-material/Code';
@@ -9,6 +10,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LinkIcon from '@mui/icons-material/Link';
 import MoneyIcon from '@mui/icons-material/Money';
+import NumbersIcon from '@mui/icons-material/Numbers';
 import PeopleIcon from '@mui/icons-material/People';
 import {
   Alert,
@@ -46,12 +48,12 @@ export interface ReferralSectionProps {
   isPreview?: boolean;
 }
 
-// Define point values for different event types
-const DEFAULT_EVENT_POINTS = {
-  'connect': 1,
-  'swap': 5,
-  'default': 1
-};
+interface GeneratedRanking {
+  account: string;
+  points: number;
+  totalEvents: number;
+  eventsCount: { [key: string]: number };
+}
 
 export default function ReferralSection({ section, isPreview = false }: ReferralSectionProps) {
   const theme = useTheme();
@@ -66,6 +68,12 @@ export default function ReferralSection({ section, isPreview = false }: Referral
   const sectionRef = useRef(section);
   const isVisible = useRef(true);
   const isInitialized = useRef(false);
+  const selectedRankingId = useMemo(() => section?.config?.rankingId, [section?.config?.rankingId]);
+
+  const selectedLeaderboardQuery = useAppRankingQuery({
+    rankingId: selectedRankingId
+  });
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       isVisible.current = document.visibilityState === 'visible';
@@ -108,12 +116,6 @@ export default function ReferralSection({ section, isPreview = false }: Referral
     return !isPreview && isVisible.current && tabValue === 1;
   }, [tabValue, isPreview]);
 
-  const EVENT_POINTS = useMemo(() => ({
-    connect: sectionRef.current?.config?.pointsConfig?.connect || DEFAULT_EVENT_POINTS.connect,
-    swap: sectionRef.current?.config?.pointsConfig?.swap || DEFAULT_EVENT_POINTS.swap,
-    default: sectionRef.current?.config?.pointsConfig?.default || DEFAULT_EVENT_POINTS.default
-  }), [sectionRef.current?.config?.pointsConfig]);
-
   const referralLink = useMemo(() => {
     if (!account) return '';
 
@@ -126,30 +128,31 @@ export default function ReferralSection({ section, isPreview = false }: Referral
 
   const referralFilter = useMemo(() => {
     if (isPreview || !account) return null;
-    return { referral: account.toLowerCase() };
+    const lowerAccount = account.toLowerCase();
+    return { referral: lowerAccount };
   }, [account, isPreview]);
 
   const { data: referralEventsData, isLoading: loadingReferralEvents } = useUserEventsList({
     instance,
     siteId,
     filter: referralFilter,
-    pageSize: 1000
+    pageSize: 1000,
   });
 
   const { data: allEventsData, isLoading: loadingAllEvents } = useUserEventsList({
     instance,
     siteId,
-    pageSize: 1000
+    pageSize: 1000,
   });
 
   const emptyStats = useMemo(() => ({
     totalReferrals: 0,
     uniqueUsers: 0,
     totalPoints: 0,
-    dailyStats: []
+    ranking: 0
   }), []);
 
-  const emptyLeaderboard = useMemo(() => [], []);
+  const emptyLeaderboard = useMemo<GeneratedRanking[]>(() => [], []);
 
   const handleCopy = () => {
     if (referralLink) {
@@ -178,102 +181,70 @@ export default function ReferralSection({ section, isPreview = false }: Referral
     setPage(0);
   };
 
-  const referralStats = useMemo(() => {
-    if (isPreview) return emptyStats;
-
-    if (!referralEventsData || !referralEventsData.data) {
-      return emptyStats;
-    }
-
-    const uniqueUsers = new Set();
-    let totalPoints = 0;
-
-    const dailyUserEvents = new Map();
-
-    referralEventsData.data.forEach(event => {
-      if (event.from) {
-        uniqueUsers.add(event.from.toLowerCase());
-
-        const date = new Date(event.createdAt).toISOString().split('T')[0];
-        const userDateKey = `${event.from.toLowerCase()}-${date}-${event.type || 'default'}`;
-
-        if (!dailyUserEvents.has(userDateKey)) {
-          dailyUserEvents.set(userDateKey, true);
-
-          const pointValue = event.type &&
-            (EVENT_POINTS[event.type as keyof typeof EVENT_POINTS] || EVENT_POINTS.default) ||
-            EVENT_POINTS.default;
-          totalPoints += pointValue;
-        }
-      }
-    });
-
-    const dailyData = Array.from(dailyUserEvents.keys()).map(key => {
-      const [user, date, eventType] = key.split('-');
-      return { user, date, eventType };
-    });
-
-    return {
-      totalReferrals: referralEventsData.data.length,
-      uniqueUsers: uniqueUsers.size,
-      totalPoints,
-      dailyStats: dailyData
-    };
-  }, [referralEventsData, EVENT_POINTS, isPreview, emptyStats]);
-
-  const leaderboardData = useMemo(() => {
+  const generatedRanking = useMemo<GeneratedRanking[]>(() => {
     if (isPreview) return emptyLeaderboard;
 
-    if (!allEventsData || !allEventsData.data) {
-      return [];
+    if (selectedLeaderboardQuery.data?.data && selectedLeaderboardQuery.data.data.length > 0) {
+      const sortedLeaderboard = [...selectedLeaderboardQuery.data.data]
+        .sort((a, b) => b.points - a.points)
+        .map(item => {
+          const typedItem = item as any;
+          return {
+            account: item.account,
+            points: item.points,
+            totalEvents: typedItem.totalEvents || 0,
+            eventsCount: typedItem.eventsCount || {}
+          } as GeneratedRanking;
+        });
+
+      return sortedLeaderboard;
     }
 
-    const referrerMap = new Map();
+    return [];
+  }, [selectedLeaderboardQuery.data, isPreview, emptyLeaderboard]);
 
-    allEventsData.data.forEach(event => {
-      if (event.referral && event.from) {
-        const referrer = event.referral.toLowerCase();
-        const user = event.from.toLowerCase();
-        const date = new Date(event.createdAt).toISOString().split('T')[0];
-        const eventType = event.type || 'default';
-        const userDateKey = `${user}-${date}-${eventType}`;
+  const referralStats = useMemo(() => {
+    if (isPreview || !account) return emptyStats;
 
-        if (!referrerMap.has(referrer)) {
-          referrerMap.set(referrer, {
-            address: referrer,
-            points: 0,
-            uniqueUsers: new Set(),
-            processedEvents: new Set()
+    if (selectedLeaderboardQuery.data?.data && selectedLeaderboardQuery.data.data.length > 0) {
+      const leaderboardEntry = selectedLeaderboardQuery.data.data.find(
+        entry => entry.account.toLowerCase() === account.toLowerCase()
+      );
+
+      if (leaderboardEntry) {
+        const sortedLeaderboard = [...selectedLeaderboardQuery.data.data].sort((a, b) => b.points - a.points);
+        const userRankingPos = sortedLeaderboard.findIndex(
+          entry => entry.account.toLowerCase() === account.toLowerCase()
+        ) + 1;
+
+        const uniqueUsers = new Set();
+        if (referralEventsData && referralEventsData.data) {
+          referralEventsData.data.forEach(event => {
+            if (event.from) {
+              uniqueUsers.add(event.from.toLowerCase());
+            }
           });
         }
 
-        const referrerData = referrerMap.get(referrer);
+        const typedEntry = leaderboardEntry as any;
 
-        if (!referrerData.processedEvents.has(userDateKey)) {
-          referrerData.processedEvents.add(userDateKey);
-          referrerData.uniqueUsers.add(user);
+        const stats = {
+          totalReferrals: typedEntry.totalEvents || 0,
+          uniqueUsers: uniqueUsers.size,
+          totalPoints: leaderboardEntry.points,
+          ranking: userRankingPos
+        };
 
-          const eventTypeKey = eventType as string;
-          const pointValue = eventTypeKey === 'connect' ? EVENT_POINTS.connect :
-            eventTypeKey === 'swap' ? EVENT_POINTS.swap :
-              EVENT_POINTS.default;
-          referrerData.points += pointValue;
-        }
+        return stats;
       }
-    });
+    }
 
-    return Array.from(referrerMap.values())
-      .map(data => ({
-        address: data.address,
-        points: data.points,
-        referrals: data.uniqueUsers.size
-      }))
-      .sort((a, b) => b.points - a.points);
-  }, [allEventsData, EVENT_POINTS, isPreview, emptyLeaderboard]);
+    return emptyStats;
+  }, [selectedLeaderboardQuery.data, referralEventsData, account, isPreview, emptyStats]);
 
   const formatForAirdrop = () => {
-    const csvContent = leaderboardData
-      .map(item => `${item.address},${item.points}`)
+    const csvContent = generatedRanking
+      .map(item => `${item.account},${item.points},${item.totalEvents}`)
       .join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -290,11 +261,7 @@ export default function ReferralSection({ section, isPreview = false }: Referral
     const jsonData = {
       appId: siteId,
       exportDate: new Date().toISOString(),
-      leaderboard: leaderboardData.map(item => ({
-        address: item.address,
-        points: item.points,
-        referrals: item.referrals
-      }))
+      leaderboard: generatedRanking
     };
 
     const jsonContent = JSON.stringify(jsonData, null, 2);
@@ -310,10 +277,11 @@ export default function ReferralSection({ section, isPreview = false }: Referral
   };
 
   const {
-    showStats = true
+    showStats = true,
+    showLeaderboard = true
   } = useMemo(() => sectionRef.current?.config || {}, [sectionRef.current?.config]);
 
-  if (!isPreview && (loading || loadingReferralEvents || loadingAllEvents)) {
+  if (!isPreview && (loading || loadingReferralEvents || loadingAllEvents || selectedLeaderboardQuery.isLoading)) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
         <CircularProgress />
@@ -339,30 +307,32 @@ export default function ReferralSection({ section, isPreview = false }: Referral
       </Box>
 
       {isPreview ? (
-      <Card>
-        <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          centered
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
-        >
-          <Tab
-            label={<FormattedMessage id="your.referral" defaultMessage="Your Referral" />}
-            icon={<LinkIcon />}
-            iconPosition="start"
-          />
-          <Tab
-            label={<FormattedMessage id="leaderboard" defaultMessage="Leaderboard" />}
-            icon={<EmojiEventsIcon />}
-            iconPosition="start"
-          />
-        </Tabs>
+        <Card>
+          <Tabs
+            value={tabValue}
+            onChange={handleTabChange}
+            centered
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
+          >
+            <Tab
+              label={<FormattedMessage id="your.referral" defaultMessage="Your Referral" />}
+              icon={<LinkIcon />}
+              iconPosition="start"
+            />
+            {showLeaderboard && (
+              <Tab
+                label={<FormattedMessage id="leaderboard" defaultMessage="Leaderboard" />}
+                icon={<EmojiEventsIcon />}
+                iconPosition="start"
+              />
+            )}
+          </Tabs>
 
-        <CardContent>
+          <CardContent>
             {tabValue === 0 ? (
-            <>
+              <>
                 <Alert severity="info" sx={{ mb: 2 }}>
-                    <FormattedMessage
+                  <FormattedMessage
                     id="referral.info"
                     defaultMessage="Share your referral link with friends. You'll earn points for every user that connects and uses the app through your link."
                   />
@@ -400,7 +370,7 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                       </Typography>
 
                       <Grid container spacing={3} sx={{ mt: 1 }}>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={3}>
                           <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
                             <Stack direction="row" spacing={2} alignItems="center">
                               <PeopleIcon color="primary" fontSize="large" />
@@ -416,7 +386,23 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={3}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <NumbersIcon color="primary" fontSize="large" />
+                              <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  <FormattedMessage id="ranking" defaultMessage="Ranking" />
+                                </Typography>
+                                <Typography variant="h5">
+                                  0
+                                </Typography>
+                              </Box>
+                            </Stack>
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} sm={3}>
                           <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
                             <Stack direction="row" spacing={2} alignItems="center">
                               <MoneyIcon color="primary" fontSize="large" />
@@ -432,7 +418,7 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={3}>
                           <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
                             <Stack direction="row" spacing={2} alignItems="center">
                               <EmojiEventsIcon color="primary" fontSize="large" />
@@ -479,7 +465,7 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                           <FormattedMessage id="address" defaultMessage="Address" />
                         </TableCell>
                         <TableCell align="right">
-                          <FormattedMessage id="referrals" defaultMessage="Referrals" />
+                          <FormattedMessage id="events" defaultMessage="Events" />
                         </TableCell>
                         <TableCell align="right">
                           <FormattedMessage id="points" defaultMessage="Points" />
@@ -490,11 +476,11 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                       <TableRow>
                         <TableCell colSpan={4} align="center">
                           <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
-                      <FormattedMessage
+                            <FormattedMessage
                               id="no.referrals.yet"
                               defaultMessage="No referrals recorded yet."
-                      />
-                    </Typography>
+                            />
+                          </Typography>
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -517,11 +503,13 @@ export default function ReferralSection({ section, isPreview = false }: Referral
               icon={<LinkIcon />}
               iconPosition="start"
             />
-            <Tab
-              label={<FormattedMessage id="leaderboard" defaultMessage="Leaderboard" />}
-              icon={<EmojiEventsIcon />}
-              iconPosition="start"
-            />
+            {showLeaderboard && (
+              <Tab
+                label={<FormattedMessage id="leaderboard" defaultMessage="Leaderboard" />}
+                icon={<EmojiEventsIcon />}
+                iconPosition="start"
+              />
+            )}
           </Tabs>
 
           <CardContent>
@@ -534,119 +522,139 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                   />
                 </Alert>
 
-                    <TextField
-                      fullWidth
+                <TextField
+                  fullWidth
                   label={<FormattedMessage id="your.referral.link" defaultMessage="Your Referral Link" />}
-                      value={referralLink}
-                      InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
+                  value={referralLink}
+                  InputProps={{
+                    readOnly: true,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
                           edge="end"
-                              onClick={handleCopy}
+                          onClick={handleCopy}
                           disabled={!referralLink}
-                            >
-                              <ContentCopyIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                        >
+                          <ContentCopyIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   sx={{ mb: 2 }}
-                    />
+                />
 
-                  {showStats && (
-                    <>
-                      <Divider sx={{ my: 3 }} />
+                {showStats && (
+                  <>
+                    <Divider sx={{ my: 3 }} />
 
-                      <Box>
-                        <Typography variant="h6" gutterBottom>
-                          <FormattedMessage id="referral.stats" defaultMessage="Referral Statistics" />
-                        </Typography>
+                    <Box>
+                      <Typography variant="h6" gutterBottom>
+                        <FormattedMessage id="referral.stats" defaultMessage="Referral Statistics" />
+                      </Typography>
 
-                        <Grid container spacing={3} sx={{ mt: 1 }}>
-                          <Grid item xs={12} sm={4}>
-                            <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
-                              <Stack direction="row" spacing={2} alignItems="center">
-                                <PeopleIcon color="primary" fontSize="large" />
-                                <Box>
-                                  <Typography variant="body2" color="text.secondary">
-                                    <FormattedMessage id="unique.users" defaultMessage="Unique Users" />
-                                  </Typography>
-                                  <Typography variant="h5">
-                                    {referralStats.uniqueUsers}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                            </Paper>
-                          </Grid>
-
-                          <Grid item xs={12} sm={4}>
-                            <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
-                              <Stack direction="row" spacing={2} alignItems="center">
-                                <MoneyIcon color="primary" fontSize="large" />
-                                <Box>
-                                  <Typography variant="body2" color="text.secondary">
-                                    <FormattedMessage id="total.events" defaultMessage="Total Events" />
-                                  </Typography>
-                                  <Typography variant="h5">
-                                    {referralStats.totalReferrals}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                            </Paper>
-                          </Grid>
-
-                          <Grid item xs={12} sm={4}>
-                            <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
-                              <Stack direction="row" spacing={2} alignItems="center">
-                                <EmojiEventsIcon color="primary" fontSize="large" />
-                                <Box>
-                                  <Typography variant="body2" color="text.secondary">
-                                    <FormattedMessage id="total.points" defaultMessage="Total Points" />
-                                  </Typography>
-                                  <Typography variant="h5">
-                                    {referralStats.totalPoints}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                            </Paper>
-                          </Grid>
+                      <Grid container spacing={3} sx={{ mt: 1 }}>
+                        <Grid item xs={12} sm={3}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <PeopleIcon color="primary" fontSize="large" />
+                              <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  <FormattedMessage id="unique.users" defaultMessage="Unique Users" />
+                                </Typography>
+                                <Typography variant="h5">
+                                  {referralStats.uniqueUsers}
+                                </Typography>
+                              </Box>
+                            </Stack>
+                          </Paper>
                         </Grid>
-                      </Box>
-                    </>
-                  )}
-                </>
+
+                        <Grid item xs={12} sm={3}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <NumbersIcon color="primary" fontSize="large" />
+                              <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  <FormattedMessage id="ranking" defaultMessage="Ranking" />
+                                </Typography>
+                                <Typography variant="h5">
+                                  {referralStats.ranking > 0 ? referralStats.ranking : '-'}
+                                </Typography>
+                              </Box>
+                            </Stack>
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} sm={3}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <MoneyIcon color="primary" fontSize="large" />
+                              <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  <FormattedMessage id="total.events" defaultMessage="Total Events" />
+                                </Typography>
+                                <Typography variant="h5">
+                                  {referralStats.totalReferrals}
+                                </Typography>
+                              </Box>
+                            </Stack>
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} sm={3}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: theme.palette.background.default }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <EmojiEventsIcon color="primary" fontSize="large" />
+                              <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  <FormattedMessage id="total.points" defaultMessage="Total Points" />
+                                </Typography>
+                                <Typography variant="h5">
+                                  {referralStats.totalPoints}
+                                </Typography>
+                              </Box>
+                            </Stack>
+                          </Paper>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </>
+                )}
+              </>
             ) : (
               <>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">
-                    <FormattedMessage id="app.leaderboard" defaultMessage="App Leaderboard" />
-                </Typography>
+                  <Typography variant="h6">
+                    {selectedLeaderboardQuery.data?.ranking?.title ? (
+                      selectedLeaderboardQuery.data.ranking.title
+                    ) : (
+                      <FormattedMessage id="app.leaderboard" defaultMessage="App Leaderboard" />
+                    )}
+                  </Typography>
                   <Stack direction="row" spacing={1}>
                     <Button
                       startIcon={<CodeIcon />}
                       onClick={exportAsJson}
-                      disabled={leaderboardData.length === 0}
+                      disabled={generatedRanking.length === 0}
                       size="small"
                     >
                       <FormattedMessage id="export.json" defaultMessage="Export JSON" />
                     </Button>
-                <Button
-                  startIcon={<DownloadIcon />}
-                  onClick={formatForAirdrop}
-                      disabled={leaderboardData.length === 0}
+                    <Button
+                      startIcon={<DownloadIcon />}
+                      onClick={formatForAirdrop}
+                      disabled={generatedRanking.length === 0}
                       size="small"
-                >
+                    >
                       <FormattedMessage id="export.csv" defaultMessage="Export CSV" />
-                </Button>
-              </Stack>
+                    </Button>
+                  </Stack>
                 </Box>
 
-              <TableContainer component={Paper} variant="outlined">
+                <TableContainer component={Paper} variant="outlined">
                   <Table>
-                  <TableHead>
-                    <TableRow>
+                    <TableHead>
+                      <TableRow>
                         <TableCell>
                           <FormattedMessage id="rank" defaultMessage="Rank" />
                         </TableCell>
@@ -654,56 +662,63 @@ export default function ReferralSection({ section, isPreview = false }: Referral
                           <FormattedMessage id="address" defaultMessage="Address" />
                         </TableCell>
                         <TableCell align="right">
-                          <FormattedMessage id="referrals" defaultMessage="Referrals" />
+                          <FormattedMessage id="events" defaultMessage="Events" />
                         </TableCell>
                         <TableCell align="right">
                           <FormattedMessage id="points" defaultMessage="Points" />
                         </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                      {leaderboardData.length === 0 ? (
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {generatedRanking.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={4} align="center">
                             <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
-                              <FormattedMessage
-                                id="no.referrals.yet"
-                                defaultMessage="No referrals recorded yet."
-                              />
+                              {!selectedRankingId ? (
+                                <FormattedMessage
+                                  id="leaderboard.not.configured"
+                                  defaultMessage="Leaderboard not configured."
+                                />
+                              ) : (
+                                <FormattedMessage
+                                  id="no.referrals.yet"
+                                  defaultMessage="No referrals recorded yet."
+                                />
+                              )}
                             </Typography>
                           </TableCell>
                         </TableRow>
                       ) : (
-                        leaderboardData
+                        generatedRanking
                           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                           .map((item, index) => (
-                            <TableRow key={item.address}>
+                            <TableRow key={item.account}>
                               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                              <TableCell>{truncateAddress(item.address)}</TableCell>
-                              <TableCell align="right">{item.referrals}</TableCell>
+                              <TableCell>{truncateAddress(item.account)}</TableCell>
+                              <TableCell align="right">{item.totalEvents}</TableCell>
                               <TableCell align="right">{item.points}</TableCell>
-                      </TableRow>
+                            </TableRow>
                           ))
-                    )}
-                  </TableBody>
-                </Table>
+                      )}
+                    </TableBody>
+                  </Table>
                 </TableContainer>
 
-                {leaderboardData.length > 0 && (
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={leaderboardData.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                {generatedRanking.length > 0 && (
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={generatedRanking.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
                 )}
               </>
-          )}
-        </CardContent>
-      </Card>
+            )}
+          </CardContent>
+        </Card>
       )}
 
       <Snackbar

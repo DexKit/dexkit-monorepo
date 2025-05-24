@@ -353,6 +353,8 @@ export default function DexGeneratorSectionForm({
         subtitle: '',
         config: {
           showStats: true,
+          showLeaderboard: true,
+          rankingId: undefined,
         },
       } as ReferralPageSection,
     });
