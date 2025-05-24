@@ -2,6 +2,7 @@ import { SiteAction } from '@dexkit/core/constants/permissions';
 import { beautifyCamelCase, truncateAddress } from '@dexkit/core/utils';
 import { AppConfirmDialog } from '@dexkit/ui/components';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { styled, useMediaQuery, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -34,6 +35,11 @@ interface Props {
   }[];
 }
 
+const MobileButton = styled(Button)(({ theme }) => ({
+  fontSize: '0.85rem',
+  padding: theme.spacing(0.75, 1.5),
+}));
+
 function initPerms({ defaultValue }: { defaultValue: boolean }) {
   const perms: { [key: string]: boolean } = {};
   // we initially only add member
@@ -59,6 +65,8 @@ function buildPermissionSchema() {
 const PermissionsSchema = buildPermissionSchema();
 
 export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState('');
@@ -152,7 +160,12 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>
+            <Typography
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+                wordBreak: 'break-word'
+              }}
+            >
               <FormattedMessage id={'member'} defaultMessage={'Member'} />{' '}
               {truncateAddress(member.accountId)}
             </Typography>
@@ -179,8 +192,9 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
                 <Form>
                   <Box
                     display={'flex'}
+                    flexDirection={isMobile ? 'column' : 'row'}
                     justifyContent={'space-between'}
-                    sx={{ pb: 2 }}
+                    sx={{ pb: 2, gap: isMobile ? theme.spacing(1) : 0 }}
                   >
                     <FormControlLabel
                       control={
@@ -198,60 +212,114 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
                               (v) => v === true,
                             )
                           }
+                          size={isMobile ? "small" : "medium"}
                         />
                       }
-                      label="Toggle all"
+                      label={
+                        <Typography sx={{ fontSize: isMobile ? '0.85rem' : 'inherit' }}>
+                          Toggle all
+                        </Typography>
+                      }
                     />
-                    <Button
-                      variant="contained"
-                      color={'error'}
-                      onClick={() => {
-                        setOpenConfirmRemove(true);
-                        setMemberToRemove(member.accountId);
-                      }}
-                    >
-                      <FormattedMessage
-                        id={'remove.member'}
-                        defaultMessage={'Remove member'}
-                      />
-                    </Button>
+                    {isMobile ? (
+                      <MobileButton
+                        variant="contained"
+                        color={'error'}
+                        size="small"
+                        fullWidth
+                        onClick={() => {
+                          setOpenConfirmRemove(true);
+                          setMemberToRemove(member.accountId);
+                        }}
+                      >
+                        <FormattedMessage
+                          id={'remove.member'}
+                          defaultMessage={'Remove member'}
+                        />
+                      </MobileButton>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color={'error'}
+                        onClick={() => {
+                          setOpenConfirmRemove(true);
+                          setMemberToRemove(member.accountId);
+                        }}
+                      >
+                        <FormattedMessage
+                          id={'remove.member'}
+                          defaultMessage={'Remove member'}
+                        />
+                      </Button>
+                    )}
                   </Box>
 
-                  <Grid container spacing={2}>
+                  <Grid container spacing={isMobile ? 1 : 2}>
                     {Object.values(SiteAction).map((action, key) => (
-                      <Grid item xs={6} key={key}>
+                      <Grid item xs={12} sm={6} key={key}>
                         <Field
                           component={CheckboxWithLabel}
                           type="checkbox"
                           name={action}
-                          Label={{ label: beautifyCamelCase(action) }}
+                          Label={{
+                            label: (
+                              <Typography sx={{ fontSize: isMobile ? '0.85rem' : 'inherit' }}>
+                                {beautifyCamelCase(action)}
+                              </Typography>
+                            )
+                          }}
                         />
                       </Grid>
                     ))}
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
                     <Stack
                       spacing={1}
-                      direction="row"
-                      justifyContent="flex-end"
+                      direction={isMobile ? "column" : "row"}
+                      justifyContent={isMobile ? "stretch" : "flex-end"}
                     >
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={submitForm}
-                      >
-                        <FormattedMessage id="save" defaultMessage="Save" />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          resetForm();
-                        }}
-                      >
-                        <FormattedMessage id="cancel" defaultMessage="cancel" />
-                      </Button>
+                      {isMobile ? (
+                        <>
+                          <MobileButton
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={submitForm}
+                          >
+                            <FormattedMessage id="save" defaultMessage="Save" />
+                          </MobileButton>
+                          <MobileButton
+                            variant="outlined"
+                            color="primary"
+                            fullWidth
+                            onClick={() => {
+                              resetForm();
+                            }}
+                          >
+                            <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                          </MobileButton>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={submitForm}
+                          >
+                            <FormattedMessage id="save" defaultMessage="Save" />
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              resetForm();
+                            }}
+                          >
+                            <FormattedMessage id="cancel" defaultMessage="cancel" />
+                          </Button>
+                        </>
+                      )}
                     </Stack>
                   </Grid>
                 </Form>

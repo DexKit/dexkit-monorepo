@@ -14,8 +14,9 @@
     "generate-lang-files": "turbo run generate-lang-files --filter=dexappbuilder",
     "publish-packages": "changeset publish",
     "dev:whitelabel": "turbo run dev --parallel --filter=dexappbuilder",
-    "dev:coinleague": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=coinleague",
+    "dev:coinleague": "turbo run dev --parallel --filter=coinleague",
     "dev:dexappadmin": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" turbo run dev --parallel --filter=dexappadmin",
+    "dev:wallet-example": "turbo run dev --parallel --filter=wallet-example",
     "storybook": "turbo run storybook",
     "storybook:ui": "turbo run storybook --filter=@dexkit/ui",
     "storybook:web3forms": "turbo run storybook --filter=@dexkit/web3forms",
@@ -24,11 +25,11 @@
     "bundle:widgets": "turbo run bundle:widgets",
     "build:packages": "turbo run build --parallel",
     "build:parallel": "turbo run build --parallel",
-    "build:whitelabel": "turbo run build --filter=@dexkit/unlock-widget --filter=dexappbuilder",
-    "build:dexappadmin": "turbo run build --filter=dexappadmin",
+    "build:whitelabel": "turbo run build --filter=@dexkit/unlock-widget --filter=@dexkit/@dexkit/dexappbuilder-render --filter=dexappbuilder ",
+    "build:dexappadmin": "turbo run build --filter=@dexkit/@dexkit/dexappbuilder-render  --filter=dexappadmin",
     "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:coinleague": "turbo run build --parallel --filter=coinleague",
-    "build:wallet": "turbo run build --parallel --filter=dexkit-wallet",
+    "build:wallet": "turbo run build --parallel --filter=wallet-example",
     "build:ui": "turbo run build --parallel --filter=@dexkit/ui",
     "build:dexviewer": "turbo run build --parallel --filter=@dexkit/dexappbuilder-viewer",
     "remove-node-modules": "./scripts/bash/remove-node-modules.sh",
@@ -46,7 +47,7 @@
     "turbo": "^1.11.3"
   },
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",
@@ -68,6 +69,9 @@
     "react-dom": "^18.2.0",
     "react-intl": "^5.24.8",
     "uint8arrays": "3.1.1"
+  },
+  "resolutions": {
+    "ethereumjs-abi": "0.6.8"
   },
   "packageManager": "yarn@1.22.18",
   "main": "index.js",

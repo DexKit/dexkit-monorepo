@@ -5,6 +5,7 @@ import { ChainId } from '@dexkit/core/constants';
 import { useActiveChainIds } from '@dexkit/ui';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { SwapPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -14,6 +15,7 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
+  useTheme,
 } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -40,6 +42,8 @@ export default function SwapWizardContainer({
   isOnStepper,
   stepperButtonProps,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { activeChainIds } = useActiveChainIds();
   const [swapFormData, setSwapFormData] = useState<SwapConfig | undefined>(
     (
@@ -136,13 +140,26 @@ export default function SwapWizardContainer({
   const currency = useCurrency();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="tokens" defaultMessage="Tokens" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="choose.default.settings.for.swap.interface"
               defaultMessage="Choose default settings for swap interface"
@@ -199,7 +216,17 @@ export default function SwapWizardContainer({
           />
         ) : (
           <Stack spacing={1} direction="row" justifyContent="flex-end">
-            <Button variant="contained" color="primary" onClick={handleSave}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                fontSize: isMobile ? "0.875rem" : undefined,
+                py: isMobile ? 0.75 : undefined,
+                px: isMobile ? 2 : undefined,
+              }}
+            >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>
           </Stack>

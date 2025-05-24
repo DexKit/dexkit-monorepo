@@ -17,10 +17,12 @@ import {
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ViewCarousel from '@mui/icons-material/ViewCarousel';
 import WalletIcon from '@mui/icons-material/Wallet';
-import { SvgIconTypeMap } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 
-export const SECTION_TYPES_DATA = [
+import { SECTIONS_TYPE_DATA_ICONS } from '@dexkit/dexappbuilder-viewer/constants/section';
+
+export { SECTIONS_TYPE_DATA_ICONS };
+
+export const SECTION_TYPES_DATA: SectionMetadata[] = [
   {
     type: 'video',
     titleId: 'video',
@@ -184,37 +186,19 @@ export const SECTION_TYPES_DATA = [
     type: 'commerce',
     titleId: 'commerce',
     titleDefaultMessage: 'Commerce',
-    category: 'resources',
-    description: 'Dexkit Commerce',
-    icon: <CollectionsIcon fontSize="large" />,
+    category: 'web3',
+    description: 'Add commerce functionality to your site',
+    icon: <StorefrontIcon fontSize="large" />,
   },
+  /* {
+    type: 'referral',
+    titleId: 'referral.program',
+    titleDefaultMessage: 'Referral Program',
+    category: 'web3',
+    description: 'Create a referral section for users to share their referral links and track statistics',
+    icon: <LinkIcon fontSize="large" />,
+  }, */
 ] as SectionMetadata[];
-
-export const SECTIONS_TYPE_DATA_ICONS: {
-  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string;
-  };
-} = {
-  video: VideocamIcon,
-  'token-trade': TokenIcon,
-  'call-to-action': CallToActionIcon,
-  featured: FeaturedVideoIcon,
-  swap: SwapHorizIcon,
-  exchange: ShowChartIcon,
-  'asset-store': StorefrontIcon,
-  collections: CollectionsIcon,
-  wallet: WalletIcon,
-  contract: GavelIcon,
-  'user-contract-form': DynamicFormIcon,
-  markdown: TextSnippetIcon,
-  'code-page-section': CodeIcon,
-  collection: CollectionsIcon,
-  'dex-generator-section': GavelIcon,
-  'asset-section': Token,
-  ranking: LeaderboardIcon,
-  carousel: ViewCarousel,
-  showcase: CollectionsIcon,
-};
 
 export const SectionCategory = [
   {

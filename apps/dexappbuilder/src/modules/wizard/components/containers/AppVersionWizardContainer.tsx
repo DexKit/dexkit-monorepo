@@ -5,13 +5,17 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import {
+  Box,
   Button,
   Divider,
   Grid,
   Link,
   Stack,
+  styled,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {
@@ -31,7 +35,9 @@ import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useThemeMode } from 'src/hooks/app';
-import { SiteResponse } from '../../../../types/whitelabel';
+
+import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
+import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
 import {
   useAppVersionListQuery,
   useAppVersionQuery,
@@ -40,8 +46,14 @@ import {
 } from '../../hooks';
 import { generateCSSVarsTheme } from '../../utils';
 import AddAppVersionFormDialog from '../dialogs/AddAppVersionFormDialog';
-import InfoDialog from '@dexkit/ui/components/dialogs/InfoDialog';
 const PreviewPageDialog = dynamic(() => import('../dialogs/PreviewPageDialog'));
+
+const MobileButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  borderRadius: '6px',
+  minHeight: '42px',
+  fontSize: '0.85rem',
+}));
 
 interface AppVersion {
   id: number;
@@ -57,6 +69,7 @@ interface TableProps {
   onClickSetVersion({ version }: { version: AppVersion }): void;
   onClickPreview({ version }: { version: AppVersion }): void;
   versions?: AppVersion[];
+  isMobile?: boolean;
 }
 
 interface Props {
@@ -142,11 +155,14 @@ export function PreviewVersionDialog({
 
 function ExpandableCell({ value }: GridRenderCellParams) {
   const [expanded, setExpanded] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const displayLimit = isMobile ? 50 : 100;
 
   return (
     <div>
-      {expanded ? value : value.slice(0, 100)}&nbsp;
-      {value.length > 100 && (
+      {expanded ? value : value.slice(0, displayLimit)}&nbsp;
+      {value.length > displayLimit && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link
           type="button"
@@ -162,21 +178,46 @@ function ExpandableCell({ value }: GridRenderCellParams) {
 }
 
 function EmptyVersions() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Stack
-      spacing={1}
+      spacing={isMobile ? 1 : 2}
       justifyContent={'center'}
       alignContent={'center'}
       alignItems={'center'}
+      sx={{
+        py: isMobile ? theme.spacing(3) : theme.spacing(4),
+        textAlign: 'center'
+      }}
     >
-      <WorkHistoryIcon sx={{ fontSize: '50px' }} />
-      <Typography variant="h6">
+      <WorkHistoryIcon
+        sx={{
+          fontSize: isMobile ? '40px' : '50px',
+          color: theme.palette.text.secondary
+        }}
+      />
+      <Typography
+        variant={isMobile ? 'subtitle1' : 'h6'}
+        sx={{
+          fontWeight: 600,
+          fontSize: isMobile ? '1.1rem' : '1.25rem'
+        }}
+      >
         <FormattedMessage
           id={'no.app.versions'}
           defaultMessage={'No app versions'}
         />
       </Typography>
-      <Typography variant="subtitle1">
+      <Typography
+        variant={isMobile ? 'body2' : 'subtitle1'}
+        sx={{
+          fontSize: isMobile ? '0.85rem' : 'inherit',
+          maxWidth: isMobile ? '80%' : 'inherit',
+          color: theme.palette.text.secondary
+        }}
+      >
         <FormattedMessage
           id={'add.versions.to.your.app'}
           defaultMessage={'Add versions to your app'}
@@ -192,14 +233,16 @@ function AppVersions({
   onClickEdit,
   onClickPreview,
   onClickSetVersion,
+  isMobile,
 }: TableProps) {
   const [queryOptions, setQueryOptions] = useState<any>({
     filter: {},
   });
+  const theme = useTheme();
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 10,
+    pageSize: isMobile ? 5 : 10,
   });
 
   const { data, isLoading } = useAppVersionListQuery({
@@ -216,6 +259,15 @@ function AppVersions({
     );
   }, [data?.total, setRowCountState]);
 
+  useEffect(() => {
+    if (isMobile) {
+      setPaginationModel((prev) => ({
+        ...prev,
+        pageSize: 5,
+      }));
+    }
+  }, [isMobile]);
+
   const handleSortModelChange = useCallback((sortModel: GridSortModel) => {
     // Here you save the data you need from the sort model
     setQueryOptions({
@@ -225,7 +277,7 @@ function AppVersions({
           ? [sortModel[0].field, sortModel[0].sort]
           : [],
     });
-  }, []);
+  }, [queryOptions]);
 
   const onFilterChange = useCallback((filterModel: GridFilterModel) => {
     // Here you save the data you need from the filter model
@@ -238,11 +290,95 @@ function AppVersions({
     }
 
     setQueryOptions({ ...queryOptions, filter });
-  }, []);
+  }, [queryOptions]);
 
-  const columns: GridColDef[] = [
+  const mobileColumns: GridColDef[] = [
+    {
+      field: 'version',
+      headerName: 'Version',
+      flex: 1,
+      minWidth: 100,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 160,
+      renderCell: ({ row }) => {
+        return (
+          <Stack direction={'row'} spacing={0.5}>
+            <Tooltip
+              title={
+                <FormattedMessage
+                  id={'preview.app.version'}
+                  defaultMessage={'Preview app version'}
+                />
+              }
+            >
+              <IconButton
+                onClick={() => onClickPreview({ version: row })}
+                size="small"
+                sx={{ padding: theme.spacing(0.5) }}
+              >
+                <PreviewIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title={
+                <FormattedMessage
+                  id={'edit.version'}
+                  defaultMessage={'Edit version'}
+                />
+              }
+            >
+              <IconButton
+                onClick={() => onClickEdit({ version: row })}
+                size="small"
+                sx={{ padding: theme.spacing(0.5) }}
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title={
+                <FormattedMessage
+                  id={'set.app.to.this.version'}
+                  defaultMessage={'Set app to this version'}
+                />
+              }
+            >
+              <IconButton
+                onClick={() => onClickSetVersion({ version: row })}
+                size="small"
+                sx={{ padding: theme.spacing(0.5) }}
+              >
+                <SettingsBackupRestoreIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title={
+                <FormattedMessage
+                  id={'delete.app.version'}
+                  defaultMessage={'Delete app version'}
+                />
+              }
+            >
+              <IconButton
+                color={'error'}
+                onClick={() => onClickDelete({ version: row })}
+                size="small"
+                sx={{ padding: theme.spacing(0.5) }}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        );
+      },
+    },
+  ];
+
+  const desktopColumns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
-
     {
       field: 'createdAt',
       headerName: 'Created At',
@@ -336,7 +472,7 @@ function AppVersions({
         autoHeight
         slots={{ toolbar: GridToolbar, noRowsOverlay: EmptyVersions }}
         rows={rows}
-        columns={columns}
+        columns={isMobile ? mobileColumns : desktopColumns}
         rowCount={rowCountState}
         paginationModel={paginationModel}
         paginationMode="server"
@@ -354,16 +490,27 @@ function AppVersions({
         filterMode="server"
         onFilterModelChange={onFilterChange}
         onSortModelChange={handleSortModelChange}
-        pageSizeOptions={[5, 10, 25, 50]}
+        pageSizeOptions={isMobile ? [5] : [5, 10, 25, 50]}
         disableRowSelectionOnClick
         loading={isLoading}
-        sx={{ '--DataGrid-overlayHeight': '150px' }}
+        sx={{
+          '--DataGrid-overlayHeight': '150px',
+          '& .MuiDataGrid-cell': {
+            fontSize: isMobile ? '0.85rem' : 'inherit',
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            fontSize: isMobile ? '0.85rem' : 'inherit',
+            fontWeight: 'bold',
+          }
+        }}
       />
     </>
   );
 }
 
 export default function AppVersionWizardContainer({ site }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { enqueueSnackbar } = useSnackbar();
   const [openInfo, setOpenInfo] = useState(false);
   const [openAddVersion, setOpenAddVersion] = useState(false);
@@ -570,13 +717,26 @@ export default function AppVersionWizardContainer({ site }: Props) {
         siteId={site?.id}
       />
 
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Stack>
-            <Typography variant={'h6'}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
               <FormattedMessage id="version" defaultMessage="Version" />
             </Typography>
-            <Typography variant={'body2'}>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="ddd.versions.to.your.app.to.back.up.and.revert.to.previous.versions"
                 defaultMessage="Add versions to your app to back up and revert to previous versions"
@@ -592,7 +752,12 @@ export default function AppVersionWizardContainer({ site }: Props) {
         {site?.lastVersionSet && (
           <Grid item xs={12}>
             <Stack>
-              <Typography variant={'body2'}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: isMobile ? '0.85rem' : 'inherit',
+                }}
+              >
                 <FormattedMessage
                   id="last.version.set"
                   defaultMessage="Last version set"
@@ -604,26 +769,43 @@ export default function AppVersionWizardContainer({ site }: Props) {
         )}
 
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setOpenAddVersion(true);
-            }}
-          >
-            <FormattedMessage
-              id={'add.app.version'}
-              defaultMessage={'Add app version'}
-            />
-          </Button>
+          {isMobile ? (
+            <MobileButton
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => {
+                setOpenAddVersion(true);
+              }}
+              sx={{ mt: theme.spacing(0.5) }}
+            >
+              <FormattedMessage id={'add.app.version'} defaultMessage={'ADD APP VERSION'} />
+            </MobileButton>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setOpenAddVersion(true);
+              }}
+            >
+              <FormattedMessage
+                id={'add.app.version'}
+                defaultMessage={'Add app version'}
+              />
+            </Button>
+          )}
         </Grid>
         <Grid item xs={12}>
-          <AppVersions
-            site={site}
-            onClickDelete={handleClickDelete}
-            onClickEdit={handleClickEdit}
-            onClickSetVersion={handleSetVersion}
-            onClickPreview={handlePreviewVersion}
-          />
+          <Box sx={{ overflowX: isMobile ? 'hidden' : 'visible', width: '100%' }}>
+            <AppVersions
+              site={site}
+              onClickDelete={handleClickDelete}
+              onClickEdit={handleClickEdit}
+              onClickSetVersion={handleSetVersion}
+              onClickPreview={handlePreviewVersion}
+              isMobile={isMobile}
+            />
+          </Box>
         </Grid>
       </Grid>
     </>

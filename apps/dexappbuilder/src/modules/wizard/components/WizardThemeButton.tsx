@@ -5,6 +5,8 @@ import {
   Paper,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { memo } from 'react';
 
@@ -22,6 +24,9 @@ interface Props {
 }
 
 function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleClick = () => {
     if (onClick) {
       onClick(id);
@@ -33,7 +38,7 @@ function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
       component={ButtonBase}
       sx={{
         width: '100%',
-        p: 1,
+        p: isMobile ? 1.5 : 1,
         flexDirection: 'column',
         alignItems: 'flex-start',
         borderColor: (theme) =>
@@ -45,63 +50,57 @@ function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
       }}
       onClick={handleClick}
     >
-      <Stack spacing={0.5} justifyContent="flex-start" alignItems="flex-start">
-        <Typography variant="body2">{name}</Typography>
-        <AvatarGroup>
+      <Stack
+        spacing={isMobile ? 1 : 0.5}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        width="100%"
+      >
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: selected ? 'bold' : 'normal',
+            width: '100%',
+            textAlign: 'left'
+          }}
+        >
+          {name}
+        </Typography>
+        <AvatarGroup sx={{ width: '100%', justifyContent: 'flex-start' }}>
           <Avatar
             sx={{
               backgroundColor: colors?.primary,
               color: colors?.primary,
-              height: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
-              width: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
+              height: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              width: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              border: isMobile ? '1px solid rgba(255,255,255,0.2)' : undefined,
             }}
           />
           <Avatar
             sx={{
               backgroundColor: colors?.secondary,
               color: colors?.secondary,
-              height: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
-              width: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
+              height: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              width: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              border: isMobile ? '1px solid rgba(255,255,255,0.2)' : undefined,
             }}
           />
           <Avatar
             sx={{
               backgroundColor: colors?.text,
               color: colors?.text,
-              height: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
-              width: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
+              height: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              width: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              border: isMobile ? '1px solid rgba(255,255,255,0.2)' : undefined,
             }}
           />
           <Avatar
             sx={{
               backgroundColor: colors?.background,
               color: colors?.background,
-              height: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
-              width: (theme) => ({
-                xs: theme.spacing(4),
-                sm: theme.spacing(5),
-              }),
+              height: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              width: isMobile ? theme.spacing(3.5) : theme.spacing(5),
+              border: isMobile ? '1px solid rgba(255,255,255,0.2)' : undefined,
             }}
           />
         </AvatarGroup>

@@ -10,6 +10,7 @@ export interface PageSectionMenuProps {
   hideDesktop?: boolean;
   anchorEl: HTMLElement | null;
   onClose: () => void;
+  onAction: (action: string) => void;
 }
 
 export default function PageSectionMenu({
@@ -18,15 +19,25 @@ export default function PageSectionMenu({
   isVisible,
   anchorEl,
   onClose,
+  onAction,
 }: PageSectionMenuProps) {
   const menuArr = useMemo(() => {
     return SECTION_MENU_OPTIONS({ hideMobile, hideDesktop, isVisible });
   }, [hideMobile, hideDesktop, isVisible]);
 
+  const handleMenuItemClick = (action: string) => {
+    onAction(action);
+    onClose();
+  };
+
   return (
     <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
       {menuArr.map((menu, index) => (
-        <MenuItem value={menu.value} key={index}>
+        <MenuItem
+          value={menu.value}
+          key={index}
+          onClick={() => handleMenuItemClick(menu.value)}
+        >
           <ListItemIcon>{menu.icon}</ListItemIcon>
           <ListItemText
             primary={

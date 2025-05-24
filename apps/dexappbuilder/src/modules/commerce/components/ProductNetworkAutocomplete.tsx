@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { Field } from 'formik';
 import { Select } from 'formik-mui';
 import { useMemo } from 'react';
@@ -23,6 +24,7 @@ export default function ProductNetworkAutocomplete({
   name,
 }: ProductNetworkAutocompleteProps) {
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
 
   const options = useMemo(() => {
     return Object.keys(NETWORKS)
@@ -33,13 +35,13 @@ export default function ProductNetworkAutocomplete({
           <Box mr={2}>
             <Avatar
               src={network.imageUrl}
-              sx={{ width: '1.5rem', height: '1.5rem' }}
+              sx={{ width: (theme) => theme.spacing(3), height: (theme) => theme.spacing(3) }}
             />
           </Box>
           <ListItemText primary={network.name} />
         </MenuItem>
       ));
-  }, [activeChainIds]);
+  }, [activeChainIds, theme]);
 
   return (
     <FormControl fullWidth>
@@ -57,7 +59,7 @@ export default function ProductNetworkAutocomplete({
             >
               <Avatar
                 src={NETWORKS[value]?.imageUrl || ''}
-                style={{ width: 'auto', height: '1rem' }}
+                sx={{ width: 'auto', height: (theme) => theme.spacing(2) }}
               />
               <Typography variant="body1">{NETWORKS[value]?.name}</Typography>
             </Stack>

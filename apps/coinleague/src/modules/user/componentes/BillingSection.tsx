@@ -1,6 +1,5 @@
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
-  useActiveFeatUsage,
   usePlanCheckoutMutation,
   usePlanPrices,
 } from '@dexkit/ui/hooks/payments';
@@ -34,7 +33,6 @@ export default function BillingSection() {
   const { mutateAsync: checkoutPlan, isLoading } = usePlanCheckoutMutation();
 
   const subscriptionQuery = useSubscription();
-  const activeFeatUsageQuery = useActiveFeatUsage();
 
   const handleCheckout = (plan: string) => {
     return async () => {
@@ -46,7 +44,6 @@ export default function BillingSection() {
 
       if (plan === 'free') {
         await subscriptionQuery.refetch();
-        await activeFeatUsageQuery.refetch();
       }
     };
   };
@@ -69,19 +66,14 @@ export default function BillingSection() {
   const planPricesQuery = usePlanPrices();
 
   const credits = useMemo(() => {
-    if (activeFeatUsageQuery.data && subscriptionQuery.data) {
-      return new Decimal(activeFeatUsageQuery.data?.available)
-        .minus(new Decimal(activeFeatUsageQuery.data?.used))
-        .add(
-          new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
-            new Decimal(subscriptionQuery.data?.creditsUsed),
-          ),
-        )
+    if (subscriptionQuery.data) {
+      return new Decimal(subscriptionQuery.data?.creditsAvailable)
+        .minus(new Decimal(subscriptionQuery.data?.creditsUsed))
         .toNumber();
     }
 
     return 0;
-  }, [activeFeatUsageQuery.data, subscriptionQuery.data]);
+  }, [subscriptionQuery.data]);
 
   return (
     <>
@@ -132,7 +124,7 @@ export default function BillingSection() {
                   <FormattedMessage id="credits" defaultMessage="Credits" />
                 </Typography>
                 <Typography variant="body1">
-                  {activeFeatUsageQuery.data && subscriptionQuery.data ? (
+                  {subscriptionQuery.data ? (
                     <FormattedNumber
                       style="currency"
                       currencyDisplay="narrowSymbol"

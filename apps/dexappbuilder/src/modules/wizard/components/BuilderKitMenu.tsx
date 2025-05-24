@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Tooltip from '@mui/material/Tooltip';
+import { useTheme } from '@mui/material/styles';
 import { BuilderKit } from '../constants';
 
 interface Props {
@@ -17,6 +18,7 @@ export default function BuilderKitMenu(props: Props) {
   const { menu, onChangeMenu } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const theme = useTheme();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,6 +48,9 @@ export default function BuilderKitMenu(props: Props) {
           endIcon={<ExpandMoreIcon />}
           size="small"
           onClick={handleClick}
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium
+          }}
         >
           <FormattedMessage id={menu.toLowerCase()} defaultMessage={menu} />
         </Button>
@@ -66,6 +71,9 @@ export default function BuilderKitMenu(props: Props) {
               handleClose();
             }}
             key={k}
+            sx={{
+              padding: theme.spacing(1, 2)
+            }}
           >
             <FormattedMessage id={m.toLowerCase()} defaultMessage={m} />
           </MenuItem>

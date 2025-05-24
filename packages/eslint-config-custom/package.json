@@ -5,17 +5,17 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "dependencies": {
     "eslint": "^7.23.0",
     "eslint-config-next": "13.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "7.31.8",
-    "eslint-config-turbo": "latest"
+    "eslint-config-turbo": "latest",
+    "eslint-plugin-react": "7.31.8"
   },
   "devDependencies": {
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   },
   "publishConfig": {
     "access": "public"

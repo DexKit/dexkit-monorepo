@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AddIcon from '@mui/icons-material/Add';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import MenuItemTree from './MenuItemTree';
@@ -19,6 +20,8 @@ interface Props {
 export default function MenuSection(props: Props) {
   const { menu, onSetMenu, pages } = props;
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const onAddMenu = (item: MenuTree, fIndex?: number) => {
     const newMenu = [...menu, item];
@@ -83,7 +86,7 @@ export default function MenuSection(props: Props) {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
       {isAddOpen && (
         <EditMenuPageDialog
           dialogProps={{
@@ -101,7 +104,12 @@ export default function MenuSection(props: Props) {
       <Button
         variant="outlined"
         onClick={handleAddMenuPage}
-        startIcon={<AddIcon />}
+        startIcon={<AddIcon fontSize={isMobile ? "small" : "medium"} />}
+        size={isMobile ? "medium" : "medium"}
+        sx={{
+          py: isMobile ? theme.spacing(1) : theme.spacing(1.5),
+          alignSelf: 'flex-start',
+        }}
       >
         <FormattedMessage id="add.menu" defaultMessage="Add menu" />
       </Button>

@@ -7,6 +7,7 @@ import {
   Chip,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 export interface DexGeneratorSectionCardProps {
@@ -16,6 +17,7 @@ export interface DexGeneratorSectionCardProps {
   onClick: () => void;
   type?: string;
   chainId?: number;
+  isMobile?: boolean;
 }
 
 export default function DexGeneratorSectionCard({
@@ -25,28 +27,50 @@ export default function DexGeneratorSectionCard({
   onClick,
   type,
   chainId,
+  isMobile,
 }: DexGeneratorSectionCardProps) {
+  const theme = useTheme();
+
   return (
     <Card>
       <CardActionArea onClick={onClick}>
-        <CardContent>
+        <CardContent sx={isMobile ? { padding: theme.spacing(1, 1.5) } : {}}>
           <Stack
-            spacing={2}
+            spacing={isMobile ? 1 : 2}
             alignItems="center"
             justifyContent="space-between"
             direction="row"
           >
             <Box>
               {type && (
-                <Typography variant="caption" color="primary" component="div">
+                <Typography
+                  variant="caption"
+                  color="primary"
+                  component="div"
+                  sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+                >
                   {type.toUpperCase()}
                 </Typography>
               )}
-              <Typography variant="body1" fontWeight="bold">
+              <Typography
+                variant={isMobile ? "body2" : "body1"}
+                fontWeight="bold"
+                sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+              >
                 {name}
               </Typography>
             </Box>
-            <Chip label={NETWORK_NAME(chainId)} />
+            <Chip
+              label={NETWORK_NAME(chainId)}
+              size={isMobile ? "small" : "medium"}
+              sx={isMobile ? {
+                height: theme.spacing(2.5),
+                '& .MuiChip-label': {
+                  fontSize: theme.typography.caption.fontSize,
+                  padding: theme.spacing(0, 0.75)
+                }
+              } : {}}
+            />
           </Stack>
         </CardContent>
       </CardActionArea>

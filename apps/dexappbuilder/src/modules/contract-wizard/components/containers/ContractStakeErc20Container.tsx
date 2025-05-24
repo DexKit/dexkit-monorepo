@@ -157,7 +157,6 @@ export default function ContractStakeErc20Container({
     try {
       const currentAllowance = allowance?.value || BigNumber.from(0);
       if (currentAllowance.lt(amountParsed)) {
-        console.log('Insufficient allowance. Requesting approval...');
         await approve({ amount });
       }
 
@@ -167,7 +166,6 @@ export default function ContractStakeErc20Container({
         });
         
         if (result && 'requiresApproval' in result && result.requiresApproval) {
-          console.log('Additional approval required. Retrying process...');
           await approve({ amount: amountParsed.mul(1000).toString() });
           
           await depositRewardTokensMutation.mutateAsync({

@@ -19,6 +19,7 @@ interface Props {
   initialValues?: DomainSectionForm;
   onSubmit?: (form: DomainSectionForm) => void;
   onHasChanges: (hasChanges: boolean) => void;
+  disableForm?: boolean;
 }
 
 export default function DomainSection({
@@ -26,20 +27,21 @@ export default function DomainSection({
   onHasChanges,
   initialValues,
   isEdit,
+  disableForm,
 }: Props) {
   const [isEditing, setIsEditing] = useState(true);
 
   const handleSubmit = useCallback(
     (
       values: DomainSectionForm,
-      formikHelpers: FormikHelpers<DomainSectionForm>
+      formikHelpers: FormikHelpers<DomainSectionForm>,
     ) => {
       if (onSubmit) {
         onSubmit(values);
         setIsEditing(false);
       }
     },
-    [onSubmit]
+    [onSubmit],
   );
 
   const formik = useFormik<DomainSectionForm>({
@@ -89,7 +91,7 @@ export default function DomainSection({
             <Grid item xs={12}>
               <Stack spacing={1} direction="row" justifyContent="flex-end">
                 <Button
-                  disabled={!formik.isValid || !formik.dirty}
+                  disabled={!formik.isValid || !formik.dirty || disableForm}
                   type="submit"
                   variant="contained"
                   color="primary"

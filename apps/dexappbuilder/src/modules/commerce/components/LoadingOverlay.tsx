@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography, useTheme } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 export function LoadingOverlay() {
+  const theme = useTheme();
   return (
     <Stack
       py={2}
@@ -11,7 +12,7 @@ export function LoadingOverlay() {
       justifyContent="center"
       sx={{ height: '100%' }}
     >
-      <CircularProgress size="1rem" color="primary" />
+      <CircularProgress size={theme.spacing(2)} color="primary" />
       <Box>
         <Typography align="center" variant="h5">
           <FormattedMessage id="loading" defaultMessage="Loading" />

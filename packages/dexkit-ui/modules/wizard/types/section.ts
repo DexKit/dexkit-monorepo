@@ -40,7 +40,8 @@ export type SectionType =
   | "carousel"
   | "showcase"
   | "plugin"
-  | "commerce";
+  | "commerce"
+  | "referral";
 
 export interface PageSection {
   type: SectionType;
@@ -435,7 +436,8 @@ export type DexGeneratorPageSectionType =
   | StakeErc20PageSection
   | StakeErc155PageSection
   | CollectionPageSection
-  | ClaimAirdropErc20PageSection;
+  | ClaimAirdropErc20PageSection
+  | ReferralPageSection;
 
 export interface DexGeneratorPageSection extends PageSection {
   type: "dex-generator-section";
@@ -469,7 +471,8 @@ export type AppPageSection =
   | CarouselPageSection
   | ShowCasePageSection
   | PluginPageSection
-  | CommercePageSection;
+  | CommercePageSection
+  | ReferralPageSection;
 
 export interface SectionMetadata {
   type: SectionType;
@@ -480,4 +483,18 @@ export interface SectionMetadata {
   category?: "all" | "cryptocurrency" | "resources" | "low-code" | "nft";
   description?: string | React.ReactNode;
   icon?: string | React.ReactNode;
+}
+
+export interface ReferralPageSection extends PageSection {
+  type: "referral";
+  title?: string;
+  subtitle?: string;
+  config?: {
+    showStats?: boolean;
+    pointsConfig?: {
+      connect: number;
+      swap: number;
+      default: number;
+    };
+  };
 }

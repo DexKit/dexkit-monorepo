@@ -61,3 +61,21 @@ export async function splitSignature(signatureHex: Hex) {
     return result;
   }
 }
+
+export const stringToJson = (str: string) => {
+  try {
+    const cleanString = str.replace(/`([\s\S]*?)`/g, (_, content) => {
+      const escaped = content
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "")
+        .replace(/\r/g, "")
+        .replace(/\$/g, "\\$");
+      return `"${escaped}"`;
+    });
+
+    return JSON.parse(cleanString);
+  } catch (e) {
+    return str;
+  }
+};

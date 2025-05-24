@@ -75,7 +75,7 @@ const tokens: Token[] = [
     name: 'Tether USD',
     symbol: 'USDT',
   },
-  {
+  /* {
     address: '0x04068DA6C83AFCFA0e13ba15A6696662335D5B75',
     chainId: 250,
     decimals: 6,
@@ -83,7 +83,7 @@ const tokens: Token[] = [
       'https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg',
     name: 'USD Coin',
     symbol: 'USDC',
-  },
+  },*/
   {
     address: '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
     chainId: 43114,
@@ -139,6 +139,33 @@ const tokens: Token[] = [
     name: 'USDC',
     symbol: 'USDC',
   },
+  {
+    address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+    chainId: 8453,
+    decimals: 6,
+    logoURI:
+      'https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg',
+    name: 'USDC',
+    symbol: 'USDC',
+  },
+  {
+    address: '0x4300000000000000000000000000000000000003',
+    chainId: 81457,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/dexkit/icons/master/token/dai.jpg',
+    name: 'USDB',
+    symbol: 'USDB',
+  },
+  {
+    address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+    chainId: 42161,
+    decimals: 6,
+    logoURI:
+      'https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg',
+    name: 'USDC',
+    symbol: 'USDC',
+  },
 ];
 
 export default function CheckoutPage({ id }: CheckoutPageProps) {
@@ -155,9 +182,9 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
         ?.map((item: any) =>
           BigNumber.from(item.amount).mul(
             BigNumber.from(item.price).mul(
-              BigNumber.from('10').pow(token?.decimals),
-            ),
-          ),
+              BigNumber.from('10').pow(token?.decimals)
+            )
+          )
         )
         .reduce((prev: any, curr: any) => {
           return prev.add(curr);
@@ -193,7 +220,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
         return await tx.wait();
       }
-    },
+    }
   );
 
   const { enqueueSnackbar } = useSnackbar();
@@ -226,7 +253,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
             id="error.while.tranfer"
             defaultMessage="Error while transfer"
           />,
-          { variant: 'error' },
+          { variant: 'error' }
         );
       }
     }
@@ -291,7 +318,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
   const handleChangeNetwork = (
     e: SelectChangeEvent<number>,
-    child: ReactNode,
+    child: ReactNode
   ) => {
     const newChainId = e.target.value as number;
 
@@ -453,7 +480,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                     {total &&
                       ethers.utils.formatUnits(
                         total,
-                        token?.decimals || 6,
+                        token?.decimals || 6
                       )}{' '}
                     USD
                   </Typography>
@@ -500,7 +527,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                               <Avatar
                                 src={ipfsUriToUrl(
                                   networks.find((n) => n.chainId === chainId)
-                                    ?.imageUrl || '',
+                                    ?.imageUrl || ''
                                 )}
                                 style={{ width: '1rem', height: '1rem' }}
                               />
@@ -565,7 +592,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                         {balanceQuery.data ? (
                           ethers.utils.formatUnits(
                             balanceQuery.data,
-                            token?.decimals,
+                            token?.decimals
                           )
                         ) : (
                           <Skeleton />

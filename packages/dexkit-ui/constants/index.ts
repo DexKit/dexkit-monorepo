@@ -27,7 +27,7 @@ export const LANGUAGES: Language[] = [
   { name: 'English (US)', locale: 'en-US' },
   { name: 'Português (BR)', locale: 'pt-BR' },
   { name: 'Español (ES)', locale: 'es-ES' },
-  { name: 'Deutsch (IT)', locale: 'de-DE' },
+  { name: 'Deutsch (DE)', locale: 'de-DE' },
   { name: 'Français (FR)', locale: 'fr-FR' },
   { name: 'Italiano (IT)', locale: 'it-IT' },
   { name: 'Norsk (NO)', locale: 'nn-NO' },
@@ -45,7 +45,7 @@ export const CURRENCIES: Currency[] = [
   { symbol: 'ngn', name: 'Nigerian Naira' },
   { symbol: 'chf', name: 'Swiss Franc' },
   { symbol: 'usd', name: 'US Dollar' },
-  { symbol: 'vef', name: 'Venezuelan Bolívar Fuerte' },
+  { symbol: 'ves', name: 'Venezuelan Bolívar' },
 ];
 
 export const MIN_KIT_HOLDING_AI_GENERATION = '1000';

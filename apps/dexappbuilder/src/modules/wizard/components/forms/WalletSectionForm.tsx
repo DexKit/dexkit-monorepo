@@ -1,11 +1,10 @@
+import { useIsMobile } from '@dexkit/core';
 import {
   AppPageSection,
   WalletPageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
-import { Alert, Box } from '@mui/material';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
+import { Alert, Box, Button, Container, Grid, Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import '@uiw/react-markdown-preview/markdown.css';
 import '@uiw/react-md-editor/markdown-editor.css';
 import { useEffect } from 'react';
@@ -24,6 +23,8 @@ export default function WalletSectionForm({
   onChange,
   onCancel,
 }: Props) {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     onChange({
       ...section,
@@ -32,39 +33,43 @@ export default function WalletSectionForm({
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Box p={2}>
-          <Alert severity="info">
-            <FormattedMessage
-              id={'wallet.section.form.info'}
-              defaultMessage={
-                "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks"
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Grid container spacing={isMobile ? 1.5 : 2}>
+        <Grid item xs={12}>
+          <Box p={isMobile ? 1 : 2}>
+            <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
+              <Typography variant={isMobile ? "body2" : "body1"}>
+                <FormattedMessage
+                  id={'wallet.section.form.info'}
+                  defaultMessage={
+                    "Wallet section don't accepts configs at the moment. In next updates, you will be able to customize buttons and networks."
+                  }
+                />
+              </Typography>
+            </Alert>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
+            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
+              <FormattedMessage id="cancel" defaultMessage="Cancel" />
+            </Button>
+            <Button
+              onClick={() =>
+                onSave({
+                  ...section,
+                  type: 'wallet',
+                })
               }
-            ></FormattedMessage>
-            .
-          </Alert>
-        </Box>
+              variant="contained"
+              color="primary"
+              size={isMobile ? "small" : "medium"}
+            >
+              <FormattedMessage id="save" defaultMessage="Save" />
+            </Button>
+          </Stack>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Stack spacing={2} direction="row" justifyContent="flex-end">
-          <Button onClick={onCancel}>
-            <FormattedMessage id="cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button
-            onClick={() =>
-              onSave({
-                ...section,
-                type: 'wallet',
-              })
-            }
-            variant="contained"
-            color="primary"
-          >
-            <FormattedMessage id="save" defaultMessage="Save" />
-          </Button>
-        </Stack>
-      </Grid>
-    </Grid>
+    </Container>
   );
 }

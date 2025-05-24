@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  Container,
   Divider,
   FormControl,
   FormHelperText,
@@ -19,12 +20,14 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Field, Formik, getIn } from "formik";
 
 import FormikDecimalInput from "@dexkit/ui/components/FormikDecimalInput";
 
-import { ChainId } from "@dexkit/core";
+import { ChainId, useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import {
@@ -101,6 +104,9 @@ export default function ExchangeSettingsForm({
   };
 
   const [chainId, setChainId] = useState<ChainId>(ChainId.Ethereum);
+  const isMobile = useIsMobile();
+  const theme = useTheme();
+  const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event: SelectChangeEvent<ChainId>) => {
     if (typeof event.target.value === "number") {
@@ -255,21 +261,23 @@ export default function ExchangeSettingsForm({
   }, []);
 
   return (
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
     <Formik
       initialValues={
         settings
           ? settings
           : {
-              defaultNetwork: ChainId.Ethereum,
-              defaultPairs: DEFAULT_TOKENS,
-              quoteTokens: [],
-              defaultTokens: getInitialTokens(),
-              affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-              defaultSlippage: {},
-              zrxApiKey: "",
-              buyTokenPercentageFee: 0.0,
-              availNetworks: networks.map((n) => n.chainId),
-            }
+            defaultNetwork: ChainId.Ethereum,
+            defaultPairs: DEFAULT_TOKENS,
+            quoteTokens: [],
+            defaultTokens: getInitialTokens(),
+            affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
+            defaultSlippage: {},
+            zrxApiKey: "",
+            buyTokenPercentageFee: 0.0,
+            availNetworks: networks.map((n) => n.chainId),
+          }
       }
       onSubmit={handleSubmit}
       validationSchema={ExchangeSettingsSchema}
@@ -290,7 +298,7 @@ export default function ExchangeSettingsForm({
           {saveOnChange && onChange && (
             <SaveOnChangeListener onSave={onChange} onValidate={onValidate} />
           )}
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1.5 : 2}>
             {/* <Grid item xs={12}>
               <Field
                 component={TextField}
@@ -306,8 +314,8 @@ export default function ExchangeSettingsForm({
             </Grid> */}
 
             <Grid item xs={12}>
-              <Paper sx={{ p: 2 }}>
-                <Stack spacing={2}>
+              <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                <Stack spacing={isMobile ? 1.5 : 2}>
                   <Field
                     component={FormikSelect}
                     label={
@@ -318,6 +326,7 @@ export default function ExchangeSettingsForm({
                     }
                     name="defaultNetwork"
                     fullWidth
+                    size={isMobile ? "small" : "medium"}
                     renderValue={(value: ChainId) => {
                       return (
                         <Stack
@@ -328,9 +337,9 @@ export default function ExchangeSettingsForm({
                         >
                           <Avatar
                             src={ipfsUriToUrl(NETWORKS[value].imageUrl || "")}
-                            style={{ width: "auto", height: "1rem" }}
+                            style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
                           />
-                          <Typography variant="body1">
+                          <Typography variant={isMobile ? "body2" : "body1"}>
                             {NETWORKS[value].name}
                           </Typography>
                         </Stack>
@@ -344,10 +353,15 @@ export default function ExchangeSettingsForm({
                             src={ipfsUriToUrl(
                               NETWORKS[n.chainId].imageUrl || ""
                             )}
-                            style={{ width: "1rem", height: "1rem" }}
+                            style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
                           />
                         </ListItemIcon>
-                        <ListItemText primary={n.name} />
+                        <ListItemText
+                          primary={n.name}
+                          primaryTypographyProps={{
+                            variant: isMobile ? "body2" : "body1"
+                          }}
+                        />
                       </MenuItem>
                     ))}
                   </Field>
@@ -356,7 +370,7 @@ export default function ExchangeSettingsForm({
                     alignItems="center"
                     direction="row"
                   >
-                    <Typography variant="subtitle2">
+                    <Typography variant={isMobile ? "caption" : "subtitle2"}>
                       <FormattedMessage
                         id="choose.the.networks.that.your.exchange.will.be.enabled"
                         defaultMessage="Choose the networks that your exchange will be enabled"
@@ -375,14 +389,14 @@ export default function ExchangeSettingsForm({
                           onClick={handleShowSelectNetworks}
                           size="small"
                         >
-                          <Edit fontSize="small" />
+                          <Edit fontSize={isMobile ? "small" : "medium"} />
                         </IconButton>
                       </Tooltip>
                     )}
                   </Stack>
                   <Divider />
                   <Box>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={isMobile ? 1 : 2}>
                       {values.availNetworks.length > 0 ? (
                         networks
                           .filter((network) =>
@@ -406,9 +420,9 @@ export default function ExchangeSettingsForm({
                       ) : (
                         <Grid item xs={12}>
                           <Box>
-                            <Stack spacing={2} alignItems="center">
+                            <Stack spacing={isMobile ? 1 : 2} alignItems="center">
                               <Typography
-                                variant="body2"
+                                variant={isMobile ? "caption" : "body2"}
                                 color="text.secondary"
                               >
                                 <FormattedMessage
@@ -419,6 +433,7 @@ export default function ExchangeSettingsForm({
                               <Button
                                 onClick={handleShowSelectNetworks}
                                 variant="outlined"
+                                size={isMobile ? "small" : "medium"}
                               >
                                 <FormattedMessage
                                   id="select.networks"
@@ -435,10 +450,10 @@ export default function ExchangeSettingsForm({
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              <Paper sx={{ p: 2 }}>
-                <Grid container spacing={2}>
+              <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                <Grid container spacing={isMobile ? 1.5 : 2}>
                   <Grid item xs={12}>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth size={isMobile ? "small" : "medium"}>
                       <InputLabel>
                         <FormattedMessage
                           id="network"
@@ -468,9 +483,9 @@ export default function ExchangeSettingsForm({
                                 src={ipfsUriToUrl(
                                   NETWORKS[value].imageUrl || ""
                                 )}
-                                style={{ width: "auto", height: "1rem" }}
+                                style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
                               />
-                              <Typography variant="body1">
+                              <Typography variant={isMobile ? "body2" : "body1"}>
                                 {NETWORKS[value].name}
                               </Typography>
                             </Stack>
@@ -488,18 +503,25 @@ export default function ExchangeSettingsForm({
                                   src={ipfsUriToUrl(
                                     NETWORKS[n.chainId].imageUrl || ""
                                   )}
-                                  style={{ width: "1rem", height: "1rem" }}
+                                  style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
                                 />
                               </ListItemIcon>
-                              <ListItemText primary={n.name} />
+                              <ListItemText
+                                primary={n.name}
+                                primaryTypographyProps={{
+                                  variant: isMobile ? "body2" : "body1"
+                                }}
+                              />
                             </MenuItem>
                           ))}
                       </Select>
                       <FormHelperText>
-                        <FormattedMessage
-                          id="define.the.tokens.and.the.default.pair.for.this.network"
-                          defaultMessage="Define the tokens and the default pair for this network"
-                        />
+                        <Typography variant={isMobile ? "caption" : "body2"}>
+                          <FormattedMessage
+                            id="define.the.tokens.and.the.default.pair.for.this.network"
+                            defaultMessage="Define the tokens and the default pair for this network"
+                          />
+                        </Typography>
                       </FormHelperText>
                     </FormControl>
                   </Grid>
@@ -578,32 +600,13 @@ export default function ExchangeSettingsForm({
                         );
                       }}
                       fullWidth
+                      size={isMobile ? "small" : "medium"}
                     />
-
-                    {/*<FormikDecimalInput
-                      name={`defaultSlippage.${String(chainId)}.slippage`}
-                      decimals={2}
-                      maxDigits={3}
-                      TextFieldProps={{
-                        fullWidth: true,
-                        label: (
-                          <FormattedMessage
-                            id="default.slippage"
-                            defaultMessage="Default Slippage"
-                          />
-                        ),
-                        InputProps: {
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        },
-                      }}
-                    />*/}
                   </Grid>
                 </Grid>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={isSmallDevice ? 12 : 9}>
               <Field
                 component={TextField}
                 label={
@@ -614,10 +617,11 @@ export default function ExchangeSettingsForm({
                 }
                 fullWidth
                 name="feeRecipientAddress"
+                size={isMobile ? "small" : "medium"}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={isSmallDevice ? 12 : 3}>
               <FormikDecimalInput
                 name="buyTokenPercentageFee"
                 decimals={2}
@@ -635,17 +639,23 @@ export default function ExchangeSettingsForm({
                       <InputAdornment position="end">%</InputAdornment>
                     ),
                   },
+                  size: isMobile ? "small" : "medium",
                 }}
               />
             </Grid>
-            {(!saveOnChange || showSaveButton) && (
-              <Grid item xs={12}>
-                <FormActions onSubmit={submitForm} onCancel={onCancel} />
-              </Grid>
+                {showSaveButton && (
+                  <FormActions
+                    onSubmit={submitForm}
+                    onCancel={onCancel}
+                    isSmallDevice={isSmallDevice}
+                    isMobile={isMobile}
+                  />
             )}
           </Grid>
         </>
       )}
     </Formik>
+      </Box>
+    </Container>
   );
 }

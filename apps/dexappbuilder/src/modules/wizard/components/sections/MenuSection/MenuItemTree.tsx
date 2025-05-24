@@ -18,6 +18,8 @@ import {
   ListItemText,
   Stack,
   SvgIcon,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
@@ -75,6 +77,8 @@ export default function MenuItemTree({
   renderEdit,
   renderSelectIcon,
 }: MenuItemTreeProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [expanded, setExpanded] = useState(true);
 
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -173,22 +177,22 @@ export default function MenuItemTree({
   const renderOptions = () => {
     return (
       <Stack
-        spacing={0.5}
+        spacing={isMobile ? 0.25 : 0.5}
         alignItems="center"
         alignContent="center"
         direction="row"
       >
-        <IconButton onClick={() => setIsOpenEdit(true)}>
-          <Edit />
+        <IconButton onClick={() => setIsOpenEdit(true)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+          <Edit fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
-        <IconButton disabled={disableUp} onClick={onUp}>
-          <ArrowUpward />
+        <IconButton disabled={disableUp} onClick={onUp} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+          <ArrowUpward fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
-        <IconButton disabled={disableDown} onClick={onDown}>
-          <ArrowDownward />
+        <IconButton disabled={disableDown} onClick={onDown} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+          <ArrowDownward fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
-        <IconButton onClick={onRemove}>
-          <Delete />
+        <IconButton onClick={onRemove} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+          <Delete fontSize={isMobile ? "small" : "medium"} />
         </IconButton>
       </Stack>
     );
@@ -205,17 +209,31 @@ export default function MenuItemTree({
           )}
         {isOpenEdit &&
           renderEdit(handleConfirmEdit, handleCloseEdit, isOpenEdit, item)}
-        <ListItem sx={{ pl: depth * 2 }}>
-          <ListItemIcon>
-            <IconButton onClick={handleShowSelectIcon}>
-              {item.data?.iconName ? (
-                <Icon>{item.data?.iconName}</Icon>
-              ) : (
-                <Image />
-              )}
-            </IconButton>
-          </ListItemIcon>
-          <ListItemText primary={item.name} />
+        <ListItem
+          sx={{
+            pl: depth * 2,
+            py: isMobile ? 0.5 : 1,
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mb: isMobile ? 1 : 0 }}>
+            <ListItemIcon sx={{ minWidth: isMobile ? 40 : 56 }}>
+              <IconButton onClick={handleShowSelectIcon} size={isMobile ? "small" : "medium"}>
+                {item.data?.iconName ? (
+                  <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
+                ) : (
+                  <Image fontSize={isMobile ? "small" : "medium"} />
+                )}
+              </IconButton>
+            </ListItemIcon>
+            <ListItemText
+              primary={item.name}
+              primaryTypographyProps={{
+                variant: isMobile ? 'body2' : 'body1'
+              }}
+            />
+          </Box>
           {renderOptions()}
         </ListItem>
       </>
@@ -233,17 +251,31 @@ export default function MenuItemTree({
           )}
         {isOpenEdit &&
           renderEdit(handleConfirmEdit, handleCloseEdit, isOpenEdit, item)}
-        <ListItem sx={{ pl: depth * 2 }}>
-          <ListItemIcon>
-            <IconButton onClick={handleShowSelectIcon}>
-              {item.data?.iconName ? (
-                <Icon>{item.data?.iconName}</Icon>
-              ) : (
-                <Image />
-              )}
-            </IconButton>
-          </ListItemIcon>
-          <ListItemText primary={item.name} />
+        <ListItem
+          sx={{
+            pl: depth * 2,
+            py: isMobile ? 0.5 : 1,
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mb: isMobile ? 1 : 0 }}>
+            <ListItemIcon sx={{ minWidth: isMobile ? 40 : 56 }}>
+              <IconButton onClick={handleShowSelectIcon} size={isMobile ? "small" : "medium"}>
+                {item.data?.iconName ? (
+                  <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
+                ) : (
+                  <Image fontSize={isMobile ? "small" : "medium"} />
+                )}
+              </IconButton>
+            </ListItemIcon>
+            <ListItemText
+              primary={item.name}
+              primaryTypographyProps={{
+                variant: isMobile ? 'body2' : 'body1'
+              }}
+            />
+          </Box>
           {renderOptions()}
         </ListItem>
       </>
@@ -277,40 +309,59 @@ export default function MenuItemTree({
             disableMenu={depth === 2}
           />
         )}
-        <ListItem sx={{ pl: depth * 2 }}>
-          <ListItemIcon>
-            <IconButton onClick={handleShowSelectIcon}>
-              {item.data?.iconName ? (
-                <Icon>{item.data?.iconName}</Icon>
-              ) : (
-                <Image />
-              )}
-            </IconButton>
-          </ListItemIcon>
-          <ListItemText primary={item.name} />
+        <ListItem
+          sx={{
+            pl: depth * 2,
+            py: isMobile ? 0.5 : 1,
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mb: isMobile ? 1 : 0 }}>
+            <ListItemIcon sx={{ minWidth: isMobile ? 40 : 56 }}>
+              <IconButton onClick={handleShowSelectIcon} size={isMobile ? "small" : "medium"}>
+                {item.data?.iconName ? (
+                  <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
+                ) : (
+                  <Image fontSize={isMobile ? "small" : "medium"} />
+                )}
+              </IconButton>
+            </ListItemIcon>
+            <ListItemText
+              primary={item.name}
+              primaryTypographyProps={{
+                variant: isMobile ? 'body2' : 'body1'
+              }}
+            />
+          </Box>
           <Stack
-            spacing={0.5}
+            spacing={isMobile ? 0.25 : 0.5}
             alignItems="center"
             alignContent="center"
             direction="row"
+            sx={{ flexWrap: isMobile ? 'wrap' : 'nowrap' }}
           >
-            <IconButton onClick={() => setIsOpenEdit(true)}>
-              <Edit />
+            <IconButton onClick={() => setIsOpenEdit(true)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              <Edit fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton disabled={disableUp} onClick={onUp}>
-              <ArrowUpward />
+            <IconButton disabled={disableUp} onClick={onUp} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              <ArrowUpward fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton disabled={disableDown} onClick={onDown}>
-              <ArrowDownward />
+            <IconButton disabled={disableDown} onClick={onDown} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              <ArrowDownward fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton onClick={onRemove}>
-              <Delete />
+            <IconButton onClick={onRemove} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              <Delete fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton onClick={() => setOpenAdd(true)}>
-              <Add />
+            <IconButton onClick={() => setOpenAdd(true)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              <Add fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton onClick={() => setExpanded((value) => !value)}>
-              {expanded ? <ExpandLess /> : <ExpandMore />}
+            <IconButton onClick={() => setExpanded((value) => !value)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+              {expanded ? (
+                <ExpandLess fontSize={isMobile ? "small" : "medium"} />
+              ) : (
+                <ExpandMore fontSize={isMobile ? "small" : "medium"} />
+              )}
             </IconButton>
           </Stack>
         </ListItem>

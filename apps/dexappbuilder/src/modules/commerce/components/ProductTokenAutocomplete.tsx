@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
+  useTheme,
 } from '@mui/material';
 import { useField } from 'formik';
 import { useMemo } from 'react';
@@ -22,6 +23,7 @@ export default function ProductTokenAutocomplete({
 }: ProductTokenAutocompleteProps) {
   const [props, meta, helpers] = useField<any>(prefix);
   const [propsField, metaField, helpersField] = useField<string>(name);
+  const theme = useTheme();
 
   const tokens = useTokenList({
     chainId: props.value.chainId,
@@ -42,7 +44,7 @@ export default function ProductTokenAutocomplete({
     <Autocomplete
       options={tokens}
       value={value}
-      sx={{ minWidth: { sm: '300px' } }}
+      sx={{ minWidth: { sm: theme.spacing(37.5) } }}
       getOptionLabel={(t) => t.name}
       onChange={(e, value, reason) => {
         helpersField.setValue(value?.address ?? '');
@@ -51,7 +53,7 @@ export default function ProductTokenAutocomplete({
       renderOption={(params, opt) => (
         <ListItem {...params}>
           <ListItemIcon>
-            <Avatar sx={{ width: '1rem', height: '1rem' }} src={opt.logoURI} />
+            <Avatar sx={{ width: theme.spacing(2), height: theme.spacing(2) }} src={opt.logoURI} />
           </ListItemIcon>
           <ListItemText primary={opt.name} />
         </ListItem>

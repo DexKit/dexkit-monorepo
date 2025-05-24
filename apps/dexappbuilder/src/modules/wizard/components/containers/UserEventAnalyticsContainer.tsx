@@ -37,7 +37,10 @@ import {
 } from '@dexkit/core/constants/userEvents';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useActiveChainIds, useCollectionByApi } from '@dexkit/ui';
-import { USER_EVENT_NAMES } from '@dexkit/ui/constants/userEventNames';
+import {
+  USER_EVENT_NAMES,
+  USER_OFFCHAIN_EVENT_NAMES,
+} from '@dexkit/ui/constants/userEventNames';
 import {
   Accordion,
   AccordionDetails,
@@ -56,6 +59,7 @@ import { GridFilterModel, GridSortModel } from '@mui/x-data-grid/models';
 import { GridColDef } from '@mui/x-data-grid';
 
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
@@ -80,7 +84,6 @@ import CountNftDropsCard from '../user-events/CountNftDropsCard';
 import CountTokenDropsByGroupCard from '../user-events/CountTokenDropsByGroupCard';
 import OffChainTab from '../user-events/OffChainTab';
 import UserEventsTable from '../user-events/UserEventsTable';
-
 interface RenderGroupProps {
   group: string;
 }
@@ -309,6 +312,8 @@ interface Props {
 }
 
 export default function UserEventAnalyticsContainer({ siteId }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [value, setValue] = useState('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -333,11 +338,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
       siteId,
       start: moment().subtract(30, 'days').format(),
       end: moment().format(),
-      type: '',
+      type: value === '1' ? '' : UserEvents.connectAccount,
       chainId: 0,
       referral: undefined,
     }),
-    [siteId],
+    [siteId, value],
   );
 
   const [filters, setFilters] = useState<CountFilter>(DEFAULT_VALUES);
@@ -363,13 +368,26 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
         }}
         event={event}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Stack>
-            <Typography variant={'h6'}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5,
+              }}
+            >
               <FormattedMessage id="events" defaultMessage="Events" />
             </Typography>
-            <Typography variant={'body2'}>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
               <FormattedMessage
                 id="view.user.interaction.data.within.your.dApp.to.gain.insights"
                 defaultMessage="View user interaction data within your DApp to gain insights"
@@ -1356,7 +1374,180 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                 </Grid>
               </TabPanel>
               <TabPanel value="2">
-                <OffChainTab siteId={siteId} />
+                <Grid item xs={12}>
+                  <Box>
+                    <Formik
+                      initialValues={DEFAULT_VALUES}
+                      onSubmit={handleSubmitFilters}
+                      validationSchema={toFormikValidationSchema(FilterSchema)}
+                    >
+                      {({
+                        values,
+                        submitForm,
+                        isValid,
+                        isSubmitting,
+                        setFieldValue,
+                        setValues,
+                        errors,
+                        touched,
+                        resetForm,
+                      }) => (
+                        <>
+                          <ChangeListener
+                            isValid={isValid}
+                            onChange={(vals: any) => {
+                              setFilters(vals);
+                            }}
+                            values={values}
+                          />
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={4}>
+                              <FormControl fullWidth>
+                                <Field
+                                  fullWidth
+                                  component={Select}
+                                  name="type"
+                                  displayEmpty
+                                  notched
+                                  inputLabel={{ shrink: true }}
+                                  label={
+                                    <FormattedMessage
+                                      id="event.type"
+                                      defaultMessage="Event Type"
+                                    />
+                                  }
+                                >
+                                  {Object.keys(USER_OFFCHAIN_EVENT_NAMES).map(
+                                    (key) => (
+                                      <MenuItem key={key} value={key}>
+                                        <FormattedMessage
+                                          id={USER_OFFCHAIN_EVENT_NAMES[key].id}
+                                          defaultMessage={
+                                            USER_OFFCHAIN_EVENT_NAMES[key]
+                                              .defaultMessage
+                                          }
+                                        />
+                                      </MenuItem>
+                                    ),
+                                  )}
+                                </Field>
+                              </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                              <DateTimePicker
+                                label={
+                                  <FormattedMessage
+                                    id="start"
+                                    defaultMessage="Start"
+                                  />
+                                }
+                                value={moment(values.start)}
+                                onChange={(value: Moment | null) => {
+                                  if (value) {
+                                    setFieldValue('start', value?.format());
+                                  }
+                                }}
+                                renderInput={(props) => (
+                                  <MuiTextField {...props} fullWidth />
+                                )}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                              <DateTimePicker
+                                label={
+                                  <FormattedMessage
+                                    id="end"
+                                    defaultMessage="End"
+                                  />
+                                }
+                                value={moment(values.end)}
+                                onChange={(value: Moment | null) => {
+                                  if (value) {
+                                    setFieldValue('end', value?.format());
+                                  }
+                                }}
+                                renderInput={(props) => (
+                                  <MuiTextField {...props} fullWidth />
+                                )}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4}>
+                              <Field
+                                component={TextField}
+                                name="referral"
+                                onChange={(e: any) => {
+                                  setFieldValue('referral', e.target.value);
+                                }}
+                                label={
+                                  <FormattedMessage
+                                    id="referral"
+                                    defaultMessage="Referral"
+                                  />
+                                }
+                                fullWidth
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                              <Field
+                                component={TextField}
+                                name="from"
+                                label={
+                                  <FormattedMessage
+                                    id="from"
+                                    defaultMessage="From"
+                                  />
+                                }
+                                fullWidth
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Box>
+                                <Stack
+                                  spacing={2}
+                                  alignItems="center"
+                                  direction="row"
+                                >
+                                  {/* <Button
+                                          onClick={submitForm}
+                                          disabled={!isValid || isSubmitting}
+                                          variant="contained"
+                                        >
+                                          <FormattedMessage
+                                            id="filter"
+                                            defaultMessage="Filter"
+                                          />
+                                        </Button> */}
+                                  <Button
+                                    onClick={async () => {
+                                      resetForm();
+                                      await submitForm();
+                                    }}
+                                    disabled={
+                                      !isValid || isSubmitting || !touched
+                                    }
+                                    variant="outlined"
+                                  >
+                                    <FormattedMessage
+                                      id="reset.filters"
+                                      defaultMessage="Reset filters"
+                                    />
+                                  </Button>
+                                </Stack>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </>
+                      )}
+                    </Formik>
+                  </Box>
+                </Grid>
+                <OffChainTab
+                  siteId={siteId}
+                  key={JSON.stringify(filters)}
+                  type={(filters.type as string) || UserEvents.connectAccount}
+                  filters={filters}
+                />
               </TabPanel>
             </TabContext>
           </Box>

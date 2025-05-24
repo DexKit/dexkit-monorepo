@@ -3,10 +3,8 @@ import MainLayout from '../../../../src/components/layouts/main';
 
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 
-import { getAppConfig } from '../../../../src/services/app';
-
-import ProtectedContent from '@/modules/home/components/ProtectedContent';
 import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
+import ProtectedContent from '@dexkit/dexappbuilder-viewer/components/ProtectedContent';
 
 import { GET_ASSETS_ORDERBOOK } from '@dexkit/ui/modules/nft/hooks';
 import { getDKAssetOrderbook } from '@dexkit/ui/modules/nft/services';
@@ -17,6 +15,7 @@ import {
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { getAppConfig } from '@dexkit/ui/services/app/config';
 import { SessionProvider } from 'next-auth/react';
 import AuthMainLayout from 'src/components/layouts/authMain';
 

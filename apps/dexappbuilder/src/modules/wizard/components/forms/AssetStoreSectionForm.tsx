@@ -2,6 +2,7 @@ import {
   AppPageSection,
   AssetStorePageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
+import { Box, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AssetStoreForm from './AssetStoreForm';
 
@@ -27,6 +28,8 @@ export function AssetStoreSectionForm({
   }, [data]);
 
   return (
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
     <AssetStoreForm
       item={data}
       onChange={(d) => setData(d)}
@@ -39,5 +42,7 @@ export function AssetStoreSectionForm({
       }}
       onCancel={onCancel}
     />
+      </Box>
+    </Container>
   );
 }

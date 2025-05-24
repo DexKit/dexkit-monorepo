@@ -296,8 +296,8 @@ export function SectionsRenderer({ sections, layout }: Props) {
                   isMobile
                     ? 'horizontal'
                     : layout.layout?.desktop.position === 'side'
-                    ? 'vertical'
-                    : 'horizontal'
+                      ? 'vertical'
+                      : 'horizontal'
                 }
                 onChange={(e, value: string) => {
                   setTab(value);
@@ -322,5 +322,14 @@ export function SectionsRenderer({ sections, layout }: Props) {
     );
   }
 
-  return <>{sectionsToRender}</>;
+  return <Box sx={{
+    width: '100%',
+    mx: 0,
+    px: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch'
+  }}>
+    {sectionsToRender}
+  </Box>;
 }

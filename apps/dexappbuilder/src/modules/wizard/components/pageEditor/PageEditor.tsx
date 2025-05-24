@@ -1,11 +1,8 @@
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 
 // The editor core
-import Editor, {
-  BottomToolbar,
-  BottomToolbarProps,
-  Value,
-} from '@react-page/editor';
+import { useIsMobile } from '@dexkit/core';
+import Editor, { Value } from '@react-page/editor';
 
 // import the main css, uncomment this: (this is commented in the example because of https://github.com/vercel/next.js/issues/19717)
 import '@react-page/editor/lib/index.css';
@@ -34,7 +31,7 @@ import '@react-page/plugins-video/lib/index.css';
 import '@react-page/plugins-spacer/lib/index.css';
 import ExtendedSpacer from './plugins/ExtendedSpacerPlugin';
 
-import { Theme, styled } from '@mui/material';
+import { Box, Stack, Theme, useTheme } from '@mui/material';
 import { BuilderKit } from '../../constants';
 import AssetAltPlugin from './plugins/AssetAltPlugin';
 import AssetListPlugin from './plugins/AssetListPlugin';
@@ -58,6 +55,7 @@ import TokenTradePlugin from './plugins/TokenTradePlugin';
 import UserContractFormPlugin from './plugins/UserContractFormPlugin';
 import WidgetPlugin from './plugins/WidgetPlugin';
 
+import CustomPageEditorToolbar from './CustomPageEditorToolbar';
 import CarouselPlugin from './plugins/CarouselPlugin';
 import ShowCasePlugin from './plugins/ShowCasePlugin';
 
@@ -164,20 +162,6 @@ const swapPlugins = [
   // ExchangePlugin,
 ];
 
-// https://github.com/react-page/react-page/issues/970
-const BottomToolbarStyled = styled(BottomToolbar)({
-  '&, & > *': {
-    // Passed to MuiPaper
-    zIndex: `1200 !important`,
-  },
-});
-
-const CustomToolbar = memo<BottomToolbarProps>((props) => {
-  return <BottomToolbarStyled {...props} />;
-});
-
-CustomToolbar.displayName = 'CustomToolbar';
-
 interface Props {
   readOnly?: boolean;
   value?: string | undefined | null;
@@ -188,6 +172,8 @@ interface Props {
 
 export default function PageEditor(props: Props) {
   const { readOnly, onChange, value, theme, builderKit } = props;
+  const isMobile = useIsMobile();
+  const muiTheme = useTheme();
 
   const onChangeValue = (val: Value | null) => {
     if (onChange) {
@@ -210,17 +196,34 @@ export default function PageEditor(props: Props) {
   }, [builderKit]);
 
   return (
-    <Editor
-      components={{
-        BottomToolbar: CustomToolbar,
-      }}
-      //@ts-ignore
-      cellPlugins={plugins}
-      value={JSON.parse(value || 'null')}
-      onChange={onChangeValue}
-      readOnly={readOnly}
-      //@ts-ignore
-      uiTheme={theme}
-    />
+    <Stack sx={{ width: '100%', height: '100%' }}>
+      <Box
+        sx={{
+          overflow: 'auto',
+          pb: isMobile ? muiTheme.spacing(12) : muiTheme.spacing(8),
+          height: '100%',
+          '& .react-page-cell-insert-new': {
+            zIndex: '1100 !important'
+          },
+          '& .react-page-cell-insert-new button': {
+            width: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            height: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            minWidth: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
+            padding: isMobile ? `${muiTheme.spacing(0.5)} !important` : 'auto',
+          }
+        }}
+      >
+        <Editor
+          components={{
+            BottomToolbar: CustomPageEditorToolbar,
+          }}
+          cellPlugins={plugins}
+          value={JSON.parse(value || 'null')}
+          onChange={onChangeValue}
+          readOnly={readOnly}
+          uiTheme={theme as any}
+        />
+      </Box>
+    </Stack>
   );
 }

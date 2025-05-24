@@ -84,6 +84,7 @@ export function useAppRankingQuery({
       id: number;
       title: string;
       description: string;
+      groupByReferral?: boolean;
     };
     data: {
       account: string;

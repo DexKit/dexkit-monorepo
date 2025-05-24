@@ -6,13 +6,13 @@ import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboardOutlined";
 
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchangeOutlined";
+import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useCallback, useState } from "react";
-import AdminSidebarMenu from "./AdminSidebarMenu";
-
-import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import { useAppConfig } from "../../../hooks";
+import AdminSidebarMenu from "./AdminSidebarMenu";
 
 export enum BuilderKit {
   ALL = "All Kits",
@@ -77,6 +77,15 @@ export default function AdminSidebarContainer({
             {
               id: "settings.domain",
               title: <FormattedMessage id="domains" defaultMessage="Domain" />,
+              icon: <WorkspacePremiumIcon />,
+            },
+            {
+              id: "settings.powered.by",
+              title: (
+                <FormattedMessage id="powered.by" defaultMessage="Powered by" />
+              ),
+              icon: <WorkspacePremiumIcon />,
+              onlyOwner: true,
             },
             {
               id: "settings.team",

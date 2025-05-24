@@ -7,6 +7,8 @@ import {
   Link,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import dynamic from 'next/dynamic';
@@ -35,6 +37,8 @@ export default function IntegrationsWizardContainer({
   siteId,
 }: IntegrationsWizardContainerProps) {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { slug } = router.query;
 
@@ -82,18 +86,31 @@ export default function IntegrationsWizardContainer({
 
   return (
     <Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12} sm={8}>
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1.5 : 3}>
             <Grid item xs={12}>
-              <Stack>
-                <Typography variant="h6">
+              <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+                <Typography
+                  variant={isMobile ? 'h6' : 'h5'}
+                  sx={{
+                    fontSize: isMobile ? '1.15rem' : '1.5rem',
+                    fontWeight: 600,
+                    mb: 0.5
+                  }}
+                >
                   <FormattedMessage
                     id="integrations"
                     defaultMessage="Integrations"
                   />
                 </Typography>
-                <Typography variant="body2">
+                <Typography
+                  variant={isMobile ? 'body2' : 'body1'}
+                  color="text.secondary"
+                  sx={{
+                    fontSize: isMobile ? '0.85rem' : 'inherit',
+                  }}
+                >
                   <FormattedMessage
                     id="set.integrations.settings.for.your.app"
                     defaultMessage="Integrate external resources and enable additional features to expand your app."
@@ -106,7 +123,13 @@ export default function IntegrationsWizardContainer({
             </Grid>
 
             <Grid item xs={12}>
-              <Typography>
+              <Typography
+                variant={isMobile ? 'subtitle1' : 'h6'}
+                sx={{
+                  fontWeight: 600,
+                  fontSize: isMobile ? '1rem' : '1.25rem',
+                }}
+              >
                 <FormattedMessage
                   id="external.resources"
                   defaultMessage="External resources"
@@ -160,8 +183,11 @@ export default function IntegrationsWizardContainer({
                         <Grid item xs={12}>
                           <Typography
                             gutterBottom
-                            variant="h6"
-                            fontWeight="bold"
+                            variant={isMobile ? 'subtitle1' : 'h6'}
+                            sx={{
+                              fontWeight: 600,
+                              fontSize: isMobile ? '1rem' : '1.25rem',
+                            }}
                           >
                             <FormattedMessage
                               id="darkblock"
@@ -170,9 +196,12 @@ export default function IntegrationsWizardContainer({
                           </Typography>
                           <Typography
                             gutterBottom
-                            variant="body2"
+                            variant={isMobile ? 'body2' : 'body1'}
                             color="text.secondary"
-                            sx={{ mb: 2 }}
+                            sx={{
+                              mb: 2,
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            }}
                           >
                             <FormattedMessage
                               id="darkblock.one.line.description"
@@ -181,16 +210,25 @@ export default function IntegrationsWizardContainer({
                           </Typography>
                           <Typography
                             gutterBottom
-                            variant="body2"
+                            variant={isMobile ? 'body2' : 'body1'}
                             color="text.secondary"
-                            sx={{ mb: 2 }}
+                            sx={{
+                              mb: 2,
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            }}
                           >
                             <FormattedMessage
                               id="darkblock.one.line.description.two"
                               defaultMessage="In DexAppBuilder, the integration with Darkblock is utilized on the NFTs page (individual asset or collection) for the networks supported by Darkblock."
                             />
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography
+                            variant={isMobile ? 'body2' : 'body1'}
+                            color="text.secondary"
+                            sx={{
+                              fontSize: isMobile ? '0.85rem' : 'inherit',
+                            }}
+                          >
                             <FormattedMessage
                               id="access.darkblock.to.get.more.information"
                               defaultMessage="Access darkblock to get more information"
@@ -214,7 +252,13 @@ export default function IntegrationsWizardContainer({
               </Card>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body1">
+              <Typography
+                variant={isMobile ? 'subtitle1' : 'h6'}
+                sx={{
+                  fontWeight: 600,
+                  fontSize: isMobile ? '1rem' : '1.25rem',
+                }}
+              >
                 <FormattedMessage
                   id="additional.features"
                   defaultMessage="Additional features"

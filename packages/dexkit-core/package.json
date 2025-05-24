@@ -4,7 +4,7 @@
   "version": "0.17.0",
   "license": "MIT",
   "engines": {
-    "node": "22.14.0"
+    "node": "22.x"
   },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
@@ -15,7 +15,7 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@dexkit/evm-chains": "1.15.2",

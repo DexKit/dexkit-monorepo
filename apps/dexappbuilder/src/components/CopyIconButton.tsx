@@ -1,16 +1,19 @@
-import { IconButton, IconButtonProps, Tooltip } from '@mui/material';
-import { useState, MouseEvent } from 'react';
+import { IconButton, IconButtonProps, Tooltip, useTheme } from '@mui/material';
+import { MouseEvent, useState } from 'react';
 
 interface Props {
   iconButtonProps: IconButtonProps;
   tooltip?: string;
   activeTooltip?: string;
   children?: React.ReactNode | React.ReactNode[];
+  tooltipDuration?: number;
 }
 
 export function CopyIconButton(props: Props) {
-  const { tooltip, activeTooltip, iconButtonProps, children } = props;
+  const { tooltip, activeTooltip, iconButtonProps, children, tooltipDuration } = props;
   const { onClick } = iconButtonProps;
+  const theme = useTheme();
+  const defaultDuration = theme.transitions.duration.standard * 2; // 500ms aprox
 
   const [currentTooltip, setCurrentTooltip] = useState<string>(tooltip || '');
 
@@ -19,7 +22,7 @@ export function CopyIconButton(props: Props) {
     setCurrentTooltip(activeTooltip || '');
     setTimeout(() => {
       setCurrentTooltip(tooltip || '');
-    }, 500);
+    }, tooltipDuration || defaultDuration);
   };
 
   return (
