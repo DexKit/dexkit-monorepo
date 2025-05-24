@@ -1,5 +1,11 @@
 # @dexkit/wallet-connectors
 
+## 0.6.0
+
+### Minor Changes
+
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
 ## 0.5.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @dexkit/ui
 
+## 0.14.0
+
+### Minor Changes
+
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
+### Patch Changes
+
+- Updated dependencies [c6eb0f1]
+- Updated dependencies [653b345]
+- Updated dependencies [54b163d]
+  - @dexkit/ui@0.23.0
+  - @dexkit/core@0.18.0
+
 ## 0.13.0
 
 ### Minor Changes
