@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import AnalyticsIcon from "@mui/icons-material/AnalyticsOutlined";
@@ -328,9 +328,121 @@ export default function AdminSidebarContainer({
             },*/
           ]}
         />
+        {isSiteOwner && (
+          <>
+            <Box
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? theme.palette.background.default
+                    : theme.palette.grey[100],
+              }}
+            >
+              {commerceEnabled && (
+                <AdminSidebarMenu
+                  activeMenuId={activeMenuId}
+                  icon={<ShoppingCart />}
+                  title={
+                    <FormattedMessage
+                      id="e.commerce"
+                      defaultMessage="E-Commerce"
+                    />
+                  }
+                  open={isMenuToggled("commerce")}
+                  onSelectMenuId={onChangeMenu}
+                  onToggle={handleToggleMenu("commerce")}
+                  isSiteOwner={isSiteOwner}
+                  options={[
+                    // add builder kits,
+                    {
+                      id: "commerce.dashboard",
+                      title: (
+                        <FormattedMessage
+                          id="dashboard"
+                          defaultMessage="Dashboard"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.notifications",
+                      title: (
+                        <FormattedMessage
+                          id="notifications"
+                          defaultMessage="Notifications"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.settings",
+                      title: (
+                        <FormattedMessage
+                          id="settings"
+                          defaultMessage="Settings"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.orders",
+                      title: (
+                        <FormattedMessage id="orders" defaultMessage="Orders" />
+                      ),
+                    },
+                    {
+                      id: "commerce.products",
+                      title: (
+                        <FormattedMessage
+                          id="products"
+                          defaultMessage="Products"
+                        />
+                      ),
+                      options: [
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="items"
+                              defaultMessage="Items"
+                            />
+                          ),
+                          id: "commerce.products.items",
+                        },
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="categories"
+                              defaultMessage="Categories"
+                            />
+                          ),
+                          id: "commerce.products.categories",
+                        },
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="collections"
+                              defaultMessage="Collections"
+                            />
+                          ),
+                          id: "commerce.products.collections",
+                        },
+                      ],
+                    },
+                    {
+                      id: "commerce.checkouts",
+                      title: (
+                        <FormattedMessage
+                          id="checkouts"
+                          defaultMessage="Checkouts"
+                        />
+                      ),
+                    },
+                  ]}
+                />
+              )}
+            </Box>
+          </>
+        )}
       </Box>
 
-      {isSiteOwner && (
+      {/*isSiteOwner && (
         <>
           {commerceEnabled && (
             <Typography variant="body1" fontWeight="bold">
@@ -448,7 +560,7 @@ export default function AdminSidebarContainer({
             )}
           </Box>
         </>
-      )}
+      )*/}
     </Stack>
   );
 }

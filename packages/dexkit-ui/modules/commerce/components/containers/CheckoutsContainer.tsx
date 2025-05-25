@@ -3,10 +3,23 @@ import { FormattedMessage } from "react-intl";
 
 import ShareDialogV2 from "@dexkit/ui/components/dialogs/ShareDialogV2";
 import Add from "@mui/icons-material/Add";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import CheckoutsTable from "../CheckoutsTable";
 import DashboardLayout from "../layouts/DashboardLayout";
 import useParams from "./hooks/useParams";
+
+import { Formik } from "formik";
+import useCreateCheckout from "../../hooks/useCreateCheckout";
+import { CheckoutFormType } from "../../types";
+
+import { useSnackbar } from "notistack";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import { CheckoutSchema } from "../../schemas";
+import { ShareType } from "./types";
+import { generateShareLink } from "./utils";
+
+const AddCheckoutDialog = dynamic(() => import("./dialogs/AddCheckoutDialog"));
 
 export default function CheckoutsContainer() {
   const [url, setUrl] = useState<string>();
@@ -19,9 +32,57 @@ export default function CheckoutsContainer() {
     setUrl(undefined);
   };
 
-  const handleShareContent = (value: string) => {};
+  const handleShareContent = (value: string) => {
+    const msg = `There is the checkout link: ${url}`;
+
+    let link = "";
+
+    if (
+      ["telegram", "whatsapp", "facebook", "email", "pinterest", "x"].includes(
+        value
+      ) &&
+      url
+    ) {
+      link = generateShareLink(msg, url, value as ShareType);
+
+      window.open(link, "_blank");
+    }
+  };
 
   const { setContainer } = useParams();
+
+  const [showCreate, setShowCreate] = useState(false);
+
+  const handleCloseCreate = () => {
+    setShowCreate(false);
+  };
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { mutateAsync, isLoading } = useCreateCheckout();
+
+  const handleSubmit = async (values: CheckoutFormType) => {
+    try {
+      const result = await mutateAsync({
+        title: values.title,
+        description: values.description,
+      });
+
+      enqueueSnackbar(
+        <FormattedMessage
+          id="checkout.created"
+          defaultMessage="Checkout created"
+        />,
+        {
+          variant: "success",
+        }
+      );
+
+      setContainer("commerce.checkouts.edit", { id: result.id });
+    } catch (err) {
+      enqueueSnackbar(String(err), { variant: "error" });
+    }
+  };
 
   return (
     <>
@@ -36,6 +97,21 @@ export default function CheckoutsContainer() {
           }}
           onClick={handleShareContent}
         />
+      )}
+
+      {showCreate && (
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={{ title: "", description: "" }}
+          validationSchema={toFormikValidationSchema(CheckoutSchema)}
+        >
+          {({ errors }) => (
+            <AddCheckoutDialog
+              DialogProps={{ open: showCreate, onClose: handleCloseCreate }}
+              isLoading={isLoading}
+            />
+          )}
+        </Formik>
       )}
 
       <DashboardLayout page="checkouts">
@@ -61,7 +137,7 @@ export default function CheckoutsContainer() {
               variant="contained"
               startIcon={<Add />}
               onClick={() => {
-                setContainer("commerce.checkouts.create");
+                setShowCreate(true);
               }}
             >
               <FormattedMessage

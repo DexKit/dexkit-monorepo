@@ -3,14 +3,11 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
 import {
   convertTokenToEvmCoin,
+  getBlockExplorerUrl,
   ipfsUriToUrl,
   parseChainId,
 } from "@dexkit/core/utils";
-import {
-  useActiveChainIds,
-  useConnectWalletDialog,
-  useSwitchNetworkMutation,
-} from "@dexkit/ui";
+import { useConnectWalletDialog, useSwitchNetworkMutation } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Alert,
@@ -26,6 +23,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Link,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -70,8 +68,6 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
   const userCheckout = useUserCheckout({ id });
 
   // const { data: availNetworks } = useUserCheckoutNetworks({ id: id as string });
-
-  const { activeChainIds } = useActiveChainIds();
 
   const [open, setOpen] = useState(false);
 
@@ -558,19 +554,17 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                           );
                         }}
                       >
-                        {networks
-                          .filter((n) => activeChainIds.includes(n.chainId))
-                          .map((n) => (
-                            <MenuItem key={n.chainId} value={n.chainId}>
-                              <ListItemIcon>
-                                <Avatar
-                                  src={ipfsUriToUrl(n?.imageUrl || "")}
-                                  style={{ width: "1rem", height: "1rem" }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText primary={n.name} />
-                            </MenuItem>
-                          ))}
+                        {networks.map((n) => (
+                          <MenuItem key={n.chainId} value={n.chainId}>
+                            <ListItemIcon>
+                              <Avatar
+                                src={ipfsUriToUrl(n?.imageUrl || "")}
+                                style={{ width: "1rem", height: "1rem" }}
+                              />
+                            </ListItemIcon>
+                            <ListItemText primary={n.name} />
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   )}
@@ -590,6 +584,23 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                         defaultMessage="Select a token to pay"
                       />
                     </Alert>
+                  )}
+
+                  {token && (
+                    <Typography variant="caption" color="text.secondary">
+                      <FormattedMessage
+                        id="token.on.explorer"
+                        defaultMessage="Token on explorer:"
+                      />{" "}
+                      <Link
+                        target="_blank"
+                        href={`${getBlockExplorerUrl(
+                          token?.chainId
+                        )}/address/${token?.address}`}
+                      >
+                        <FormattedMessage id="view" defaultMessage="view" />
+                      </Link>
+                    </Typography>
                   )}
 
                   {userCheckout.data?.requireEmail && (

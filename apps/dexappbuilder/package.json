@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=12288\" next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=160000\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -108,6 +108,7 @@
     "remark-gfm": "^3.0.1",
     "sharp": "^0.30.7",
     "slugify": "^1.6.5",
+    "swiper": "^11.2.4",
     "thirdweb": "^5.93.15",
     "uint8arrays": "3.1.1",
     "viem": "2.x",

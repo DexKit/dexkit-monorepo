@@ -73,6 +73,71 @@ export default {
           },
         })
       ).data;
+    } else if (resource === "orders") {
+      const data = (
+        await myAppsApi.get("/orders/admin/list", {
+          params: {
+            skip: (page - 1) * perPage,
+            take: perPage,
+            sort: field ? [field, order] : undefined,
+            filter: params.filter,
+          },
+        })
+      ).data;
+
+      return { data: data, total: data.length };
+    } else if (resource === "products") {
+      const data = (
+        await myAppsApi.get("/products/admin/list", {
+          params: {
+            skip: (page - 1) * perPage,
+            take: perPage,
+            sort: field ? [field, order] : undefined,
+            filter: params.filter,
+          },
+        })
+      ).data;
+
+      return { data: data, total: data.length };
+    } else if (resource === "product-category") {
+      const data = (
+        await myAppsApi.get("/product-category/admin/list", {
+          params: {
+            skip: (page - 1) * perPage,
+            take: perPage,
+            sort: field ? [field, order] : undefined,
+            filter: params.filter,
+          },
+        })
+      ).data;
+
+      return { data: data, total: data.length };
+    } else if (resource === "checkouts") {
+      const data = (
+        await myAppsApi.get("/checkouts/admin/list", {
+          params: {
+            skip: (page - 1) * perPage,
+            take: perPage,
+            sort: field ? [field, order] : undefined,
+            filter: params.filter,
+          },
+        })
+      ).data;
+
+      return { data: data, total: data.length };
+    } else if (resource === "notifications") {
+      const data = (
+        await myAppsApi.get("/notifications/admin/list", {
+          params: {
+            skip: (page - 1) * perPage,
+            take: perPage,
+            sort: field ? [field, order] : undefined,
+            filter: params.filter,
+          },
+        })
+      ).data;
+
+      return { data: data, total: data.length };
     }
 
     return (
@@ -85,8 +150,6 @@ export default {
         },
       })
     ).data;
-
-    return { data: [], total: 0 };
   },
 
   getOne: async (resource: any, params: any) => {
@@ -116,6 +179,27 @@ export default {
         data: (
           await myAppsApi.get(`/payments/admin/feature-usage/${params.id}`)
         ).data,
+      };
+    } else if (resource === "products") {
+      return {
+        data: (await myAppsApi.get(`/products/${params.id}`)).data,
+      };
+    } else if (resource === "orders") {
+      return {
+        data: (await myAppsApi.get(`/orders/${params.id}/admin`)).data,
+      };
+    } else if (resource === "product-category") {
+      return {
+        data: (await myAppsApi.get(`/product-category/${params.id}/admin`))
+          .data,
+      };
+    } else if (resource === "checkouts") {
+      return {
+        data: (await myAppsApi.get(`/checkouts/${params.id}`)).data,
+      };
+    } else if (resource === "notifications") {
+      return {
+        data: (await myAppsApi.get(`/notifications/${params.id}/admin`)).data,
       };
     }
 

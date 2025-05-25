@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
+import { EcommerceCredits } from "../EcommerceCredits";
 import DashboardLayout from "../layouts/DashboardLayout";
 import CheckoutGeneralSettingsForm from "./forms/CheckoutGeneralSettingsForm";
 import CheckoutNetworksUpdateForm from "./forms/CheckoutNetworksUpdateForm";
@@ -28,6 +29,9 @@ export default function SettingsContainer() {
                   defaultMessage="Adjust your e-commerce settings."
                 />
               </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <EcommerceCredits />
             </Grid>
             <Grid item xs={12}>
               <Divider />
