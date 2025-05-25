@@ -6,6 +6,7 @@ import DynamicFormIcon from '@mui/icons-material/DynamicForm';
 import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 import GavelIcon from '@mui/icons-material/Gavel';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LinkIcon from '@mui/icons-material/Link';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
@@ -189,6 +190,15 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     category: 'web3',
     description: 'Add commerce functionality to your site',
     icon: <StorefrontIcon fontSize="large" />,
+  },
+  {
+    type: 'referral',
+    titleId: 'referral.program',
+    titleDefaultMessage: 'Referral Program',
+    category: 'web3',
+    description:
+      'Create a referral section for users to share their referral links and track statistics',
+    icon: <LinkIcon fontSize="large" />,
   },
   /* {
     type: 'referral',

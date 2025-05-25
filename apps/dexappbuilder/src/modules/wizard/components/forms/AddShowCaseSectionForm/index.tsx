@@ -134,20 +134,20 @@ export default function AddShowCaseSectionForm({
           initialValues={
             data
               ? {
-                ...data,
-                items: data.items || [],
-                alignItems: data.alignItems || 'left',
-                itemsSpacing: data.itemsSpacing || 2,
-                paddingTop: data.paddingTop || 0,
-                paddingBottom: data.paddingBottom || 0,
-              }
+                  ...data,
+                  items: data.items || [],
+                  alignItems: data.alignItems || 'left',
+                  itemsSpacing: data.itemsSpacing || 2,
+                  paddingTop: data.paddingTop || 0,
+                  paddingBottom: data.paddingBottom || 0,
+                }
               : {
-                alignItems: 'left',
-                itemsSpacing: 2,
-                paddingTop: 0,
-                paddingBottom: 0,
-                items: [],
-              }
+                  alignItems: 'left',
+                  itemsSpacing: 2,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  items: [],
+                }
           }
           onSubmit={handleSubmit}
           validate={(values: ShowCaseParams) => {
@@ -198,18 +198,21 @@ export default function AddShowCaseSectionForm({
                         size="medium"
                         sx={{
                           '& .MuiInputBase-root': {
-                            height: 56
+                            height: 56,
                           },
                           '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'rgba(255, 255, 255, 0.23)'
-                          }
+                            borderColor: 'rgba(255, 255, 255, 0.23)',
+                          },
                         }}
                       >
                         <MenuItem value="left">
                           <FormattedMessage id="left" defaultMessage="Left" />
                         </MenuItem>
                         <MenuItem value="center">
-                          <FormattedMessage id="center" defaultMessage="Center" />
+                          <FormattedMessage
+                            id="center"
+                            defaultMessage="Center"
+                          />
                         </MenuItem>
                         <MenuItem value="right">
                           <FormattedMessage id="right" defaultMessage="Right" />
@@ -232,11 +235,11 @@ export default function AddShowCaseSectionForm({
                       size="medium"
                       sx={{
                         '& .MuiInputBase-root': {
-                          height: 56
+                          height: 56,
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'rgba(255, 255, 255, 0.23)'
-                        }
+                          borderColor: 'rgba(255, 255, 255, 0.23)',
+                        },
                       }}
                     />
                   </Grid>
@@ -255,11 +258,11 @@ export default function AddShowCaseSectionForm({
                       size="medium"
                       sx={{
                         '& .MuiInputBase-root': {
-                          height: 56
+                          height: 56,
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'rgba(255, 255, 255, 0.23)'
-                        }
+                          borderColor: 'rgba(255, 255, 255, 0.23)',
+                        },
                       }}
                     />
                   </Grid>
@@ -278,26 +281,39 @@ export default function AddShowCaseSectionForm({
                       size="medium"
                       sx={{
                         '& .MuiInputBase-root': {
-                          height: 56
+                          height: 56,
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'rgba(255, 255, 255, 0.23)'
-                        }
+                          borderColor: 'rgba(255, 255, 255, 0.23)',
+                        },
                       }}
                     />
                   </Grid>
                   {values.items.length === 0 && (
                     <Grid item xs={12}>
-                      <Paper sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}>
+                      <Paper
+                        sx={{
+                          p: isMobile ? theme.spacing(0.5) : theme.spacing(2),
+                        }}
+                      >
                         <Stack
-                          sx={{ p: isMobile ? theme.spacing(0.5) : theme.spacing(2) }}
+                          sx={{
+                            p: isMobile ? theme.spacing(0.5) : theme.spacing(2),
+                          }}
                           alignItems="center"
                           justifyContent="center"
-                          spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
+                          spacing={
+                            isMobile ? theme.spacing(0.5) : theme.spacing(2)
+                          }
                         >
-                          <ViewStreamIcon fontSize={isMobile ? "medium" : "large"} />
+                          <ViewStreamIcon
+                            fontSize={isMobile ? 'medium' : 'large'}
+                          />
                           <Box>
-                            <Typography align="center" variant={isMobile ? "body1" : "h5"}>
+                            <Typography
+                              align="center"
+                              variant={isMobile ? 'body1' : 'h5'}
+                            >
                               <FormattedMessage
                                 id="add.items"
                                 defaultMessage="Add items"
@@ -306,8 +322,15 @@ export default function AddShowCaseSectionForm({
                             <Typography
                               color="text.secondary"
                               align="center"
-                              variant={isMobile ? "caption" : "body1"}
-                              sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+                              variant={isMobile ? 'caption' : 'body1'}
+                              sx={
+                                isMobile
+                                  ? {
+                                      fontSize:
+                                        theme.typography.caption.fontSize,
+                                    }
+                                  : {}
+                              }
                             >
                               <FormattedMessage
                                 id="section.addItemsPrompt"
@@ -328,7 +351,7 @@ export default function AddShowCaseSectionForm({
                                   page: '',
                                 } as ShowCaseItem)}
                                 variant="outlined"
-                                size={isMobile ? "small" : "medium"}
+                                size={isMobile ? 'small' : 'medium'}
                                 sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                               >
                                 <FormattedMessage
@@ -347,13 +370,21 @@ export default function AddShowCaseSectionForm({
                     <FieldArray
                       name="items"
                       render={(arrayHelpers) => (
-                        <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
+                        <Grid
+                          container
+                          spacing={
+                            isMobile ? theme.spacing(0.5) : theme.spacing(2)
+                          }
+                        >
                           {values.items.map((_, index, arr) => (
                             <Grid item xs={12} key={index}>
                               <ShowCaseFormItem
                                 index={index}
                                 onUp={arrayHelpers.handleSwap(index, index - 1)}
-                                onDown={arrayHelpers.handleSwap(index, index + 1)}
+                                onDown={arrayHelpers.handleSwap(
+                                  index,
+                                  index + 1,
+                                )}
                                 onRemove={arrayHelpers.handleRemove(index)}
                                 disableDown={index === arr.length - 1}
                                 disableUp={index === 0}
@@ -374,10 +405,20 @@ export default function AddShowCaseSectionForm({
                                   page: '',
                                 } as ShowCaseItem)}
                                 variant="outlined"
-                                size={isMobile ? "small" : "medium"}
-                                sx={isMobile ? { mt: theme.spacing(0.5), py: theme.spacing(0.5) } : {}}
+                                size={isMobile ? 'small' : 'medium'}
+                                sx={
+                                  isMobile
+                                    ? {
+                                        mt: theme.spacing(0.5),
+                                        py: theme.spacing(0.5),
+                                      }
+                                    : {}
+                                }
                               >
-                                <FormattedMessage id="add" defaultMessage="Add" />
+                                <FormattedMessage
+                                  id="add"
+                                  defaultMessage="Add"
+                                />
                               </Button>
                             </Grid>
                           )}
@@ -387,14 +428,22 @@ export default function AddShowCaseSectionForm({
                   </Grid>
                   {!disableButtons && (
                     <Grid item xs={12}>
-                      <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
+                      <Stack
+                        direction="row"
+                        spacing={theme.spacing(1)}
+                        justifyContent="flex-end"
+                        sx={{ mt: theme.spacing(0.5) }}
+                      >
                         {onCancel && (
                           <Button
                             onClick={onCancel}
-                            size={isMobile ? "small" : "medium"}
+                            size={isMobile ? 'small' : 'medium'}
                             sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                           >
-                            <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                            <FormattedMessage
+                              id="cancel"
+                              defaultMessage="Cancel"
+                            />
                           </Button>
                         )}
 
@@ -402,7 +451,7 @@ export default function AddShowCaseSectionForm({
                           disabled={!isValid || isSubmitting}
                           variant="contained"
                           onClick={submitForm}
-                          size={isMobile ? "small" : "medium"}
+                          size={isMobile ? 'small' : 'medium'}
                           sx={isMobile ? { py: theme.spacing(0.5) } : {}}
                         >
                           <FormattedMessage id="save" defaultMessage="Save" />

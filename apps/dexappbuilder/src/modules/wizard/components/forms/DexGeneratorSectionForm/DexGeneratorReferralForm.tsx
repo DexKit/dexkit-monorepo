@@ -1,17 +1,22 @@
+import { useAppRankingListQuery } from '@dexkit/ui/modules/wizard/hooks/ranking';
 import { ReferralPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { SiteContext } from '@dexkit/ui/providers/SiteProvider';
 import {
-  Box,
   Divider,
+  FormControl,
   FormControlLabel,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
-  Slider,
+  Select,
+  SelectChangeEvent,
   Switch,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Formik, FormikProps } from 'formik';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export interface DexGeneratorReferralFormProps {
@@ -23,6 +28,8 @@ interface ReferralFormValues {
   title: string;
   subtitle: string;
   showStats: boolean;
+  showLeaderboard: boolean;
+  rankingId?: number;
   pointsConfig: {
     connect: number;
     swap: number;
@@ -35,16 +42,31 @@ export default function DexGeneratorReferralForm({
   section,
 }: DexGeneratorReferralFormProps) {
   const formikRef = useRef<FormikProps<ReferralFormValues>>(null);
+  const { siteId } = useContext(SiteContext);
+
+  // Fetch available leaderboards
+  const leaderboardsQuery = useAppRankingListQuery({
+    siteId,
+    pageSize: 100,
+  });
 
   const initialValues = {
     title: section?.title || '',
     subtitle: section?.subtitle || '',
-    showStats: section?.config?.showStats !== undefined ? section.config.showStats : true,
+    showStats:
+      section?.config?.showStats !== undefined
+        ? section.config.showStats
+        : true,
+    showLeaderboard:
+      section?.config?.showLeaderboard !== undefined
+        ? section.config.showLeaderboard
+        : true,
+    rankingId: section?.config?.rankingId,
     pointsConfig: {
       connect: section?.config?.pointsConfig?.connect || 1,
       swap: section?.config?.pointsConfig?.swap || 5,
-      default: section?.config?.pointsConfig?.default || 1
-    }
+      default: section?.config?.pointsConfig?.default || 1,
+    },
   };
 
   useEffect(() => {
@@ -52,12 +74,20 @@ export default function DexGeneratorReferralForm({
       formikRef.current.setValues({
         title: section.title || '',
         subtitle: section.subtitle || '',
-        showStats: section.config?.showStats !== undefined ? section.config.showStats : true,
+        showStats:
+          section.config?.showStats !== undefined
+            ? section.config.showStats
+            : true,
+        showLeaderboard:
+          section.config?.showLeaderboard !== undefined
+            ? section.config.showLeaderboard
+            : true,
+        rankingId: section.config?.rankingId,
         pointsConfig: {
           connect: section.config?.pointsConfig?.connect || 1,
           swap: section.config?.pointsConfig?.swap || 5,
-          default: section.config?.pointsConfig?.default || 1
-        }
+          default: section.config?.pointsConfig?.default || 1,
+        },
       });
     }
   }, [section]);
@@ -69,7 +99,9 @@ export default function DexGeneratorReferralForm({
       subtitle: values.subtitle,
       config: {
         showStats: values.showStats,
-        pointsConfig: values.pointsConfig
+        showLeaderboard: values.showLeaderboard,
+        rankingId: values.rankingId,
+        pointsConfig: values.pointsConfig,
       },
     };
     onChange(updatedSection);
@@ -79,59 +111,52 @@ export default function DexGeneratorReferralForm({
     <Formik
       innerRef={formikRef}
       initialValues={initialValues}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
       enableReinitialize
     >
       {({ values, setFieldValue }) => {
-        const handleChange = (field: string) => (
-          event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        ) => {
-          const value = event.target.value;
-          setFieldValue(field, value);
-
-          // Use setTimeout to ensure the value is updated in the Formik state
-          setTimeout(() => {
-            handleUpdateSection({
-              ...values,
-              [field]: value
-            });
-          }, 0);
-        };
-
-        const handleSwitchChange = (field: string) => (
-          event: React.ChangeEvent<HTMLInputElement>
-        ) => {
-          const value = event.target.checked;
-          setFieldValue(field, value);
-
-          // Use setTimeout to ensure the value is updated in the Formik state
-          setTimeout(() => {
-            handleUpdateSection({
-              ...values,
-              [field]: value
-            });
-          }, 0);
-        };
-
-        const handlePointChange = (field: string) => (
-          event: Event,
-          value: number | number[],
-          activeThumb: number
-        ) => {
-          if (typeof value === 'number') {
-            setFieldValue(`pointsConfig.${field}`, value);
+        const handleChange =
+          (field: string) =>
+          (
+            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+          ) => {
+            const value = event.target.value;
+            setFieldValue(field, value);
 
             // Use setTimeout to ensure the value is updated in the Formik state
             setTimeout(() => {
               handleUpdateSection({
                 ...values,
-                pointsConfig: {
-                  ...values.pointsConfig,
-                  [field]: value
-                }
+                [field]: value,
               });
             }, 0);
-          }
+          };
+
+        const handleSwitchChange =
+          (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            const value = event.target.checked;
+            setFieldValue(field, value);
+
+            // Use setTimeout to ensure the value is updated in the Formik state
+            setTimeout(() => {
+              handleUpdateSection({
+                ...values,
+                [field]: value,
+              });
+            }, 0);
+          };
+
+        const handleLeaderboardChange = (event: SelectChangeEvent<unknown>) => {
+          const value = event.target.value;
+          setFieldValue('rankingId', value === '' ? undefined : Number(value));
+
+          // Use setTimeout to ensure the value is updated in the Formik state
+          setTimeout(() => {
+            handleUpdateSection({
+              ...values,
+              rankingId: value === '' ? undefined : Number(value),
+            });
+          }, 0);
         };
 
         return (
@@ -150,7 +175,9 @@ export default function DexGeneratorReferralForm({
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label={<FormattedMessage id="subtitle" defaultMessage="Subtitle" />}
+                label={
+                  <FormattedMessage id="subtitle" defaultMessage="Subtitle" />
+                }
                 name="subtitle"
                 value={values.subtitle}
                 onChange={(e) => {
@@ -177,14 +204,35 @@ export default function DexGeneratorReferralForm({
             </Grid>
 
             <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={values.showLeaderboard}
+                    onChange={handleSwitchChange('showLeaderboard')}
+                    name="showLeaderboard"
+                  />
+                }
+                label={
+                  <FormattedMessage
+                    id="show.leaderboard"
+                    defaultMessage="Enable Leaderboard Tab"
+                  />
+                }
+              />
+            </Grid>
+
+            <Grid item xs={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="subtitle1" gutterBottom>
-                <FormattedMessage id="points.configuration" defaultMessage="Points Configuration" />
+                <FormattedMessage
+                  id="leaderboard.configuration"
+                  defaultMessage="Leaderboard Configuration"
+                />
               </Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 <FormattedMessage
-                  id="points.configuration.description"
-                  defaultMessage="Configure how many points users earn for different actions. Points are counted once per user per day for each action."
+                  id="leaderboard.configuration.description"
+                  defaultMessage="Select a leaderboard to display statistics and ranking for your referral program."
                 />
               </Typography>
             </Grid>
@@ -193,141 +241,55 @@ export default function DexGeneratorReferralForm({
               <Paper variant="outlined" sx={{ p: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Typography variant="body2" gutterBottom>
-                      <FormattedMessage id="connect.wallet.points" defaultMessage="Connect Wallet Points" />
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                      <Box sx={{ flexGrow: 1, mr: 2 }}>
-                        <Slider
-                          value={values.pointsConfig.connect}
-                          min={1}
-                          max={10}
-                          step={1}
-                          marks
-                          onChange={handlePointChange('connect')}
-                          valueLabelDisplay="auto"
+                    <FormControl fullWidth>
+                      <InputLabel id="leaderboard-select-label">
+                        <FormattedMessage
+                          id="select.leaderboard"
+                          defaultMessage="Select Leaderboard"
                         />
-                      </Box>
-                      <Box sx={{ minWidth: 50 }}>
-                        <TextField
-                          value={values.pointsConfig.connect}
-                          type="number"
-                          size="small"
-                          inputProps={{
-                            min: 1,
-                            max: 10,
-                            step: 1
-                          }}
-                          onChange={(e) => {
-                            const value = Math.min(10, Math.max(1, parseInt(e.target.value) || 1));
-                            setFieldValue('pointsConfig.connect', value);
-                            setTimeout(() => {
-                              handleUpdateSection({
-                                ...values,
-                                pointsConfig: {
-                                  ...values.pointsConfig,
-                                  connect: value
-                                }
-                              });
-                            }, 0);
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Typography variant="body2" gutterBottom>
-                      <FormattedMessage id="swap.points" defaultMessage="Swap Points" />
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                      <Box sx={{ flexGrow: 1, mr: 2 }}>
-                        <Slider
-                          value={values.pointsConfig.swap}
-                          min={1}
-                          max={20}
-                          step={1}
-                          marks={[
-                            { value: 1, label: '1' },
-                            { value: 5, label: '5' },
-                            { value: 10, label: '10' },
-                            { value: 15, label: '15' },
-                            { value: 20, label: '20' },
-                          ]}
-                          onChange={handlePointChange('swap')}
-                          valueLabelDisplay="auto"
-                        />
-                      </Box>
-                      <Box sx={{ minWidth: 50 }}>
-                        <TextField
-                          value={values.pointsConfig.swap}
-                          type="number"
-                          size="small"
-                          inputProps={{
-                            min: 1,
-                            max: 20,
-                            step: 1
-                          }}
-                          onChange={(e) => {
-                            const value = Math.min(20, Math.max(1, parseInt(e.target.value) || 1));
-                            setFieldValue('pointsConfig.swap', value);
-                            setTimeout(() => {
-                              handleUpdateSection({
-                                ...values,
-                                pointsConfig: {
-                                  ...values.pointsConfig,
-                                  swap: value
-                                }
-                              });
-                            }, 0);
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Typography variant="body2" gutterBottom>
-                      <FormattedMessage id="default.points" defaultMessage="Default Points (Other Actions)" />
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                      <Box sx={{ flexGrow: 1, mr: 2 }}>
-                        <Slider
-                          value={values.pointsConfig.default}
-                          min={1}
-                          max={10}
-                          step={1}
-                          marks
-                          onChange={handlePointChange('default')}
-                          valueLabelDisplay="auto"
-                        />
-                      </Box>
-                      <Box sx={{ minWidth: 50 }}>
-                        <TextField
-                          value={values.pointsConfig.default}
-                          type="number"
-                          size="small"
-                          inputProps={{
-                            min: 1,
-                            max: 10,
-                            step: 1
-                          }}
-                          onChange={(e) => {
-                            const value = Math.min(10, Math.max(1, parseInt(e.target.value) || 1));
-                            setFieldValue('pointsConfig.default', value);
-                            setTimeout(() => {
-                              handleUpdateSection({
-                                ...values,
-                                pointsConfig: {
-                                  ...values.pointsConfig,
-                                  default: value
-                                }
-                              });
-                            }, 0);
-                          }}
-                        />
-                      </Box>
-                    </Box>
+                      </InputLabel>
+                      <Select
+                        labelId="leaderboard-select-label"
+                        id="leaderboard-select"
+                        value={values.rankingId ?? ''}
+                        onChange={handleLeaderboardChange}
+                        label={
+                          <FormattedMessage
+                            id="select.leaderboard"
+                            defaultMessage="Select Leaderboard"
+                          />
+                        }
+                      >
+                        <MenuItem value="">
+                          <em>
+                            <FormattedMessage id="none" defaultMessage="None" />
+                          </em>
+                        </MenuItem>
+                        {!leaderboardsQuery.isLoading &&
+                          leaderboardsQuery.data?.data.map((leaderboard) => (
+                            <MenuItem
+                              key={leaderboard.id}
+                              value={leaderboard.id}
+                            >
+                              {leaderboard.title}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                      {(!leaderboardsQuery.data?.data ||
+                        leaderboardsQuery.data?.data.length === 0) &&
+                        !leaderboardsQuery.isLoading && (
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ mt: 1 }}
+                          >
+                            <FormattedMessage
+                              id="create.leaderboard.first"
+                              defaultMessage="You need to create a leaderboard in the Gamification section first."
+                            />
+                          </Typography>
+                        )}
+                    </FormControl>
                   </Grid>
                 </Grid>
               </Paper>
@@ -337,4 +299,4 @@ export default function DexGeneratorReferralForm({
       }}
     </Formik>
   );
-} 
+}

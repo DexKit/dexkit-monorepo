@@ -491,6 +491,8 @@ export interface ReferralPageSection extends PageSection {
   subtitle?: string;
   config?: {
     showStats?: boolean;
+    showLeaderboard?: boolean;
+    rankingId?: number;
     pointsConfig?: {
       connect: number;
       swap: number;

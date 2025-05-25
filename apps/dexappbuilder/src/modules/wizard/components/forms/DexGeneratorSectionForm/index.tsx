@@ -5,7 +5,10 @@ import LazyTextField from '@dexkit/ui/components/LazyTextField';
 import { DeployedContract } from '@/modules/forms/types';
 import { ipfsUriToUrl, parseChainId } from '@dexkit/core/utils';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
-import { DexGeneratorPageSection, ReferralPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import {
+  DexGeneratorPageSection,
+  ReferralPageSection,
+} from '@dexkit/ui/modules/wizard/types/section';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Error from '@mui/icons-material/Error';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -321,7 +324,11 @@ export default function DexGeneratorSectionForm({
 
   const handleSave = useCallback(() => {
     if (currSection) {
-      if (currSection.section && 'type' in currSection.section && currSection.section.type === 'referral') {
+      if (
+        currSection.section &&
+        'type' in currSection.section &&
+        currSection.section.type === 'referral'
+      ) {
         onSave(currSection);
       } else if (contract) {
         onSave(currSection);
@@ -353,6 +360,8 @@ export default function DexGeneratorSectionForm({
         subtitle: '',
         config: {
           showStats: true,
+          showLeaderboard: true,
+          rankingId: undefined,
         },
       } as ReferralPageSection,
     });
@@ -363,7 +372,7 @@ export default function DexGeneratorSectionForm({
       <Grid container spacing={isMobile ? 1 : 2}>
         {!contract && (
           <Grid item xs={12}>
-            <FormControl fullWidth size={isMobile ? "small" : "medium"}>
+            <FormControl fullWidth size={isMobile ? 'small' : 'medium'}>
               <InputLabel>
                 <FormattedMessage id="network" defaultMessage="Network" />
               </InputLabel>
@@ -375,7 +384,7 @@ export default function DexGeneratorSectionForm({
                 fullWidth
                 value={chainId}
                 onChange={handleChangeChainId}
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 renderValue={(value: number) => {
                   if (value === -1) {
                     return <FormattedMessage id="all" defaultMessage="All" />;
@@ -394,9 +403,12 @@ export default function DexGeneratorSectionForm({
                             (n) => n.chainId === parseChainId(value),
                           )?.imageUrl || '',
                         )}
-                        style={{ width: 'auto', height: isMobile ? '0.8rem' : '1rem' }}
+                        style={{
+                          width: 'auto',
+                          height: isMobile ? '0.8rem' : '1rem',
+                        }}
                       />
-                      <Typography variant={isMobile ? "caption" : "body1"}>
+                      <Typography variant={isMobile ? 'caption' : 'body1'}>
                         {
                           networks.find(
                             (n) => n.chainId === parseChainId(value),
@@ -418,13 +430,16 @@ export default function DexGeneratorSectionForm({
                     <ListItemIcon>
                       <Avatar
                         src={ipfsUriToUrl(n?.imageUrl || '')}
-                        style={{ width: isMobile ? '0.8rem' : '1rem', height: isMobile ? '0.8rem' : '1rem' }}
+                        style={{
+                          width: isMobile ? '0.8rem' : '1rem',
+                          height: isMobile ? '0.8rem' : '1rem',
+                        }}
                       />
                     </ListItemIcon>
                     <ListItemText
                       primary={n.name}
                       primaryTypographyProps={{
-                        variant: isMobile ? "caption" : "body1"
+                        variant: isMobile ? 'caption' : 'body1',
                       }}
                     />
                   </MenuItem>
@@ -441,14 +456,14 @@ export default function DexGeneratorSectionForm({
                 TextFieldProps={{
                   size: 'small',
                   fullWidth: true,
-                  margin: isMobile ? "dense" : "normal",
+                  margin: isMobile ? 'dense' : 'normal',
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search fontSize={isMobile ? "small" : "medium"} />
+                        <Search fontSize={isMobile ? 'small' : 'medium'} />
                       </InputAdornment>
                     ),
-                    style: isMobile ? { fontSize: '0.85rem' } : {}
+                    style: isMobile ? { fontSize: '0.85rem' } : {},
                   },
                 }}
                 onChange={handleChange}
@@ -474,10 +489,14 @@ export default function DexGeneratorSectionForm({
                   fullWidth
                   value={type}
                   onChange={handleChangeType}
-                  sx={isMobile ? {
-                    '& .MuiInputBase-input': { fontSize: '0.85rem' },
-                    '& .MuiInputLabel-root': { fontSize: '0.85rem' }
-                  } : {}}
+                  sx={
+                    isMobile
+                      ? {
+                          '& .MuiInputBase-input': { fontSize: '0.85rem' },
+                          '& .MuiInputLabel-root': { fontSize: '0.85rem' },
+                        }
+                      : {}
+                  }
                 >
                   <MenuItem value="all">
                     <FormattedMessage id="all" defaultMessage="All" />
@@ -497,14 +516,22 @@ export default function DexGeneratorSectionForm({
           <Grid item xs={12}>
             <Grid container spacing={isMobile ? 0.5 : 2}>
               <Grid item xs={12}>
-                <Box sx={{ overflowY: 'scroll', maxHeight: isMobile ? '15rem' : '20rem' }}>
+                <Box
+                  sx={{
+                    overflowY: 'scroll',
+                    maxHeight: isMobile ? '15rem' : '20rem',
+                  }}
+                >
                   <Grid container spacing={isMobile ? 0.5 : 2}>
                     {listContractsQuery.data?.data.length === 0 && (
                       <Grid item xs={12}>
                         <Box sx={{ py: isMobile ? 1 : 2 }}>
                           <Stack alignItems="center">
-                            <Error fontSize={isMobile ? "small" : "large"} />
-                            <Typography align="center" variant={isMobile ? "body2" : "h5"}>
+                            <Error fontSize={isMobile ? 'small' : 'large'} />
+                            <Typography
+                              align="center"
+                              variant={isMobile ? 'body2' : 'h5'}
+                            >
                               <FormattedMessage
                                 id="no.contracts.found"
                                 defaultMessage="No contracts found"
@@ -532,8 +559,14 @@ export default function DexGeneratorSectionForm({
               <Grid item xs={12}>
                 <Box>
                   <Stack direction="row" spacing={1} justifyContent="flex-end">
-                    <IconButton disabled={page === 0} onClick={handlePrev} size={isMobile ? "small" : "medium"}>
-                      <KeyboardArrowLeftIcon fontSize={isMobile ? "small" : "medium"} />
+                    <IconButton
+                      disabled={page === 0}
+                      onClick={handlePrev}
+                      size={isMobile ? 'small' : 'medium'}
+                    >
+                      <KeyboardArrowLeftIcon
+                        fontSize={isMobile ? 'small' : 'medium'}
+                      />
                     </IconButton>
                     <IconButton
                       disabled={
@@ -541,9 +574,11 @@ export default function DexGeneratorSectionForm({
                         listContractsQuery.data.data.length !== 10
                       }
                       onClick={handleNext}
-                      size={isMobile ? "small" : "medium"}
+                      size={isMobile ? 'small' : 'medium'}
                     >
-                      <KeyboardArrowRightIcon fontSize={isMobile ? "small" : "medium"} />{' '}
+                      <KeyboardArrowRightIcon
+                        fontSize={isMobile ? 'small' : 'medium'}
+                      />{' '}
                     </IconButton>
                   </Stack>
                 </Box>
@@ -553,10 +588,10 @@ export default function DexGeneratorSectionForm({
                   <Grid item xs={12} key={index}>
                     <Card>
                       <CardContent sx={isMobile ? { padding: '8px 12px' } : {}}>
-                        <Typography variant={isMobile ? "body1" : "h5"}>
+                        <Typography variant={isMobile ? 'body1' : 'h5'}>
                           <Skeleton />
                         </Typography>
-                        <Typography variant={isMobile ? "caption" : "body1"}>
+                        <Typography variant={isMobile ? 'caption' : 'body1'}>
                           <Skeleton />
                         </Typography>
                       </CardContent>
@@ -602,7 +637,14 @@ export default function DexGeneratorSectionForm({
                   <FormattedMessage id="cancel" defaultMessage="Cancel" />
                 </Button>
                 <Button
-                  disabled={!contract && !(currSection?.section && 'type' in currSection.section && currSection.section.type === 'referral')}
+                  disabled={
+                    !contract &&
+                    !(
+                      currSection?.section &&
+                      'type' in currSection.section &&
+                      currSection.section.type === 'referral'
+                    )
+                  }
                   onClick={handleSave}
                   variant="contained"
                   color="primary"
@@ -613,19 +655,21 @@ export default function DexGeneratorSectionForm({
             </Box>
           </Grid>
         )}
-        {currSection?.section && 'type' in currSection.section && currSection.section.type === 'referral' && (
-          <Box mt={2}>
-            <DexGeneratorReferralForm
-              onChange={(section) => {
-                handleChangeSection({
-                  ...currSection,
-                  section: section as any,
-                });
-              }}
-              section={currSection.section as ReferralPageSection}
-            />
-          </Box>
-        )}
+        {currSection?.section &&
+          'type' in currSection.section &&
+          currSection.section.type === 'referral' && (
+            <Box mt={2}>
+              <DexGeneratorReferralForm
+                onChange={(section) => {
+                  handleChangeSection({
+                    ...currSection,
+                    section: section as any,
+                  });
+                }}
+                section={currSection.section as ReferralPageSection}
+              />
+            </Box>
+          )}
         <Grid item xs={12}>
           <Box>
             <Button
@@ -635,7 +679,10 @@ export default function DexGeneratorSectionForm({
               startIcon={<LinkIcon />}
               sx={{ mt: 2 }}
             >
-              <FormattedMessage id="create.referral.section" defaultMessage="Create Referral Section" />
+              <FormattedMessage
+                id="create.referral.section"
+                defaultMessage="Create Referral Section"
+              />
             </Button>
           </Box>
         </Grid>

@@ -62,6 +62,8 @@ export default function RankingSection({ section }: RankingSectionProps) {
   const rows = queryRanking.data?.data ? queryRanking.data?.data : [];
   const ranking = queryRanking.data?.ranking;
 
+  console.log(ranking);
+
   const columns = useMemo(() => {
     return [
       {
