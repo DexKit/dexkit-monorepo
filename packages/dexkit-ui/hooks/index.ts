@@ -1,9 +1,5 @@
-import {
-  TransactionStatus
-} from "@dexkit/core/constants";
-import {
-  AppTransaction
-} from "@dexkit/core/types";
+import { TransactionStatus } from "@dexkit/core/constants";
+import { AppTransaction } from "@dexkit/core/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -12,21 +8,20 @@ import { atom, useAtom } from "jotai";
 
 import { useContext, useMemo } from "react";
 
-import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { ThemeMode } from "../constants/enum";
 import {
   AppConfigContext,
   AppWizardConfigContext,
 } from "../context/AppConfigContext";
 
-import { userThemeModeAtom } from "../state";
 
-import { isHexString } from '@dexkit/core/utils/ethers/isHexString';
+import { isHexString } from "@dexkit/core/utils/ethers/isHexString";
 import type { providers } from "ethers";
 import { AdminContext } from "../context/AdminContext";
 
-import { useAccount } from 'wagmi';
+import { defineChain } from "thirdweb/chains";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { useThemeMode } from './theme/useThemeMode';
 import { useAppConfig } from './useAppConfig';
 import { useDexKitContext } from './useDexKitContext';
 import { useLocale } from './useLocale';
@@ -34,52 +29,23 @@ import { useLocale } from './useLocale';
 export * from "./auth";
 export * from "./blockchain";
 export * from "./currency";
-export * from './ui';
+export * from "./ui";
 
-export * from './useDexkitContextState';
+export * from "./useDexkitContextState";
 
+export * from "./useWatchTransactionsDialog";
 
-export * from './useWatchTransactionsDialog';
-
-
-export { useAppConfig, useDexKitContext, useLocale };
+export { useAppConfig, useDexKitContext, useLocale, useThemeMode };
 
 export function useAppNFT() {
   return useContext(AppConfigContext).appNFT;
 }
-
-const DARK_SCHEME_QUERY = "(prefers-color-scheme: dark)";
-
-export function useThemeMode() {
-  const systemPrefersDark = useMediaQuery(DARK_SCHEME_QUERY);
-  const [userMode, setThemeMode] = useAtom(userThemeModeAtom);
-  const appConfig = useAppConfig();
-
-  const mode = useMemo(() => {
-    if (userMode) {
-      return userMode;
-    }
-    if (appConfig.defaultThemeMode) {
-      return appConfig.defaultThemeMode;
-    }
-    return systemPrefersDark ? ThemeMode.dark : ThemeMode.light;
-  }, [userMode, appConfig, systemPrefersDark]);
-
-  return { mode: mode, setThemeMode, userMode };
-}
-
-
 
 // Wizard App config context needs to be initialized on widgets that needs wizard to customize
 export function useAppWizardConfig() {
   const { wizardConfig, setWizardConfig } = useContext(AppWizardConfigContext);
   return { wizardConfig, setWizardConfig };
 }
-
-
-
-
-
 
 export function useNotifications() {
   const { chainId } = useWeb3React();
@@ -127,29 +93,17 @@ export function useNotifications() {
 }
 
 export function useSwitchNetworkMutation() {
-  const { connector } = useAccount();
+  const switchChain = useSwitchActiveWalletChain();
 
   return useMutation<unknown, Error, { chainId: number }>(
     async ({ chainId }) => {
-      if (connector && connector.switchChain) {
-        await connector.switchChain({ chainId })
-
-
-        //  const response = await switchNetwork(connector, chainId);
-        return null
-      }
+      await switchChain(defineChain(chainId))
+      //  const response = await switchNetwork(connector, chainId);
+      return null
     }
+
   );
 }
-
-
-
-
-
-
-
-
-
 
 const showSelectIsOpenAtom = atom(false);
 
@@ -167,10 +121,6 @@ export function useDrawerIsOpen() {
   return { isOpen, setIsOpen };
 }
 
-
-
-
-
 const showAppTransactionsAtom = atom(false);
 
 export function useShowAppTransactions() {
@@ -178,7 +128,6 @@ export function useShowAppTransactions() {
 
   return { isOpen, setIsOpen };
 }
-
 
 export const WAIT_TRANSACTION_QUERY = "WAIT_TRANSACTION_QUERY";
 
@@ -213,20 +162,8 @@ export function useWaitTransactionConfirmation({
   );
 }
 
-
-
 export function useEditSiteId() {
   const { editSiteId } = useContext(AdminContext);
 
-  return { editSiteId }
+  return { editSiteId };
 }
-
-
-
-
-
-
-
-
-
-

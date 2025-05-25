@@ -6,7 +6,7 @@ import { Token } from "@dexkit/core/types";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import {
   ZEROEX_ORDERBOOK_ENDPOINT,
-  ZERO_EX_URL,
+  ZERO_EX_V1_URL,
 } from "@dexkit/ui/modules/swap/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -35,7 +35,7 @@ export function useSendLimitOrderMutation() {
       expirationTime,
       makerAmount,
       makerToken,
-      provider,
+      signer,
       takerAmount,
       takerToken,
       chainId,
@@ -44,7 +44,7 @@ export function useSendLimitOrderMutation() {
       expirationTime: number;
       makerAmount: string;
       makerToken: string;
-      provider: providers.Web3Provider;
+      signer: providers.JsonRpcSigner;
       takerAmount: string;
       takerToken: string;
       chainId: ChainId;
@@ -60,13 +60,13 @@ export function useSendLimitOrderMutation() {
         expirationTime,
         makerAmount: new BigNumber(makerAmount),
         makerToken,
-        provider,
+        signer,
         takerAmount: new BigNumber(takerAmount),
         takerToken,
       });
 
       const resp = await axios.post(
-        `${ZERO_EX_URL(chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}`,
+        `${ZERO_EX_V1_URL(chainId)}${ZEROEX_ORDERBOOK_ENDPOINT}`,
         signedOrder,
         context.zrxApiKey
           ? { headers: { "0x-api-key": context.zrxApiKey } }
@@ -118,7 +118,7 @@ export function useExchangeContextState(params: {
 }): DexkitExchangeContextState {
   const { settings } = params;
 
-  const { account, provider } = useWeb3React();
+  const { account, signer, provider } = useWeb3React();
 
   const [defaultChain, setDefaultChain] = useState<ChainId>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -176,6 +176,7 @@ export function useExchangeContextState(params: {
     quoteTokens,
     tokens: {},
     chainId: currChainId,
+    signer,
     provider,
     account,
     container: settings?.container,

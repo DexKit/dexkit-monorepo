@@ -39,7 +39,9 @@ export type SectionType =
   | "claim-airdrop-token-erc-20"
   | "carousel"
   | "showcase"
-  | "plugin";
+  | "plugin"
+  | "commerce"
+  | "referral";
 
 export interface PageSection {
   type: SectionType;
@@ -385,6 +387,45 @@ export interface ShowCasePageSection extends PageSection {
   settings: ShowCaseParams;
 }
 
+export type CommerceContentBase = {};
+
+export type CommerceCollectionContent = CommerceContentBase & {
+  type: "collection";
+  id: string;
+};
+
+export type CommerceCheckoutContent = CommerceContentBase & {
+  type: "checkout";
+  id: string;
+};
+
+export type CommerceSingleProductContent = CommerceContentBase & {
+  type: "single-product";
+  id: string;
+};
+
+export type CommerceStoreContent = CommerceContentBase & {
+  type: "store";
+  params: {
+    emailRequired: boolean;
+  };
+};
+
+export type CommerceContent =
+  | CommerceCollectionContent
+  | CommerceCheckoutContent
+  | CommerceStoreContent
+  | CommerceSingleProductContent;
+
+export type CommerceSettings = {
+  content: CommerceContent;
+};
+
+export interface CommercePageSection extends PageSection {
+  type: "commerce";
+  settings: CommerceSettings;
+}
+
 export type DexGeneratorPageSectionType =
   | TokenDropPageSection
   | NftDropPageSection
@@ -395,7 +436,8 @@ export type DexGeneratorPageSectionType =
   | StakeErc20PageSection
   | StakeErc155PageSection
   | CollectionPageSection
-  | ClaimAirdropErc20PageSection;
+  | ClaimAirdropErc20PageSection
+  | ReferralPageSection;
 
 export interface DexGeneratorPageSection extends PageSection {
   type: "dex-generator-section";
@@ -428,7 +470,9 @@ export type AppPageSection =
   | TokenTradePageSection
   | CarouselPageSection
   | ShowCasePageSection
-  | PluginPageSection;
+  | PluginPageSection
+  | CommercePageSection
+  | ReferralPageSection;
 
 export interface SectionMetadata {
   type: SectionType;
@@ -439,4 +483,20 @@ export interface SectionMetadata {
   category?: "all" | "cryptocurrency" | "resources" | "low-code" | "nft";
   description?: string | React.ReactNode;
   icon?: string | React.ReactNode;
+}
+
+export interface ReferralPageSection extends PageSection {
+  type: "referral";
+  title?: string;
+  subtitle?: string;
+  config?: {
+    showStats?: boolean;
+    showLeaderboard?: boolean;
+    rankingId?: number;
+    pointsConfig?: {
+      connect: number;
+      swap: number;
+      default: number;
+    };
+  };
 }

@@ -34,7 +34,7 @@ import ReviewMarketOrderDialog from "./ReviewMarketOrderDialog";
 export interface MarketSellFormProps {
   quoteToken: Token;
   baseToken: Token;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   account?: string;
   baseTokenBalance?: BigNumber;
   quoteTokenBalance?: BigNumber;
@@ -50,7 +50,7 @@ export default function MarketSellForm({
   quoteToken,
   baseToken,
   account,
-  provider,
+  signer,
   baseTokenBalance,
   affiliateAddress,
   quoteTokenBalance,
@@ -96,9 +96,9 @@ export default function MarketSellForm({
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
-    provider,
+    signer,
     spender: getZrxExchangeAddress(chainId),
-    tokenAddress: quote?.sellTokenAddress,
+    tokenAddress: quote?.sellToken,
   });
 
   useEffect(() => {
@@ -109,9 +109,10 @@ export default function MarketSellForm({
           buyToken: quoteToken.address,
           affiliateAddress: affiliateAddress ? affiliateAddress : "",
           sellAmount: parseUnits(amount, baseToken.decimals).toString(),
-          skipValidation: true,
           slippagePercentage: 0.01,
           feeRecipient,
+          taker: account!,
+          chainId: chainId!,
           buyTokenPercentageFee: buyTokenPercentageFee
             ? buyTokenPercentageFee / 100
             : undefined,
@@ -130,13 +131,13 @@ export default function MarketSellForm({
 
   const waitTxResult = useWaitTransactionConfirmation({
     transactionHash: hash,
-    provider,
+    signer,
   });
   const trackUserEvent = useTrackUserEventsMutation();
 
   const sendTxMutation = useMutation(async () => {
-    if (amount) {
-      let res = await provider?.getSigner().sendTransaction({
+    if (amount && signer) {
+      let res = await signer?.sendTransaction({
         data: quote?.data,
         to: quote?.to,
         value: BigNumber.from(quote?.value),
@@ -191,9 +192,9 @@ export default function MarketSellForm({
     await approveMutation.mutateAsync({
       onSubmited: (hash: string) => {},
       amount: BigNumber.from(quote?.sellAmount),
-      provider,
-      spender: getZrxExchangeAddress(chainId),
-      tokenContract: quote?.sellTokenAddress,
+      signer,
+      spender: quote?.issues.allowance.spender,
+      tokenContract: quote?.sellToken,
     });
   };
 

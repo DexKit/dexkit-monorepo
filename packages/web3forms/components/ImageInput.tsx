@@ -38,8 +38,11 @@ export function ImageInput({ name, label }: ImageInputProps) {
         onClick={handleToggle}
         sx={{
           display: "block",
-          height: "100%",
-          width: "100%",
+          height: { xs: "100px", sm: "100%" },
+          width: { xs: "100px", sm: "100%" },
+          maxHeight: { xs: "100px", sm: "unset" },
+          maxWidth: { xs: "100px", sm: "unset" },
+          margin: { xs: "0 auto", sm: "unset" },
           aspectRatio: "1/1",
           borderRadius: "50%",
         }}
@@ -77,7 +80,7 @@ export function ImageInput({ name, label }: ImageInputProps) {
               }}
               alignContent="center"
             >
-              <ImageIcon color="inherit" />
+              <ImageIcon sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }} color="inherit" />
               <Typography color="inherit" variant="caption">
                 <FormattedMessage id="image" defaultMessage="Image" />
               </Typography>

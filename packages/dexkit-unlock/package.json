@@ -6,7 +6,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": "22.x"
   },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
@@ -20,13 +20,13 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "typescript": "^5.4.4"
+    "typescript": "5.8.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@unlock-protocol/unlock-js": "^0.45.1",
-    "@dexkit/ui": "*"
+    "@dexkit/ui": "*",
+    "@unlock-protocol/unlock-js": "^0.45.1"
   }
 }

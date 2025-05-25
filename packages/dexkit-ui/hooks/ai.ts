@@ -3,18 +3,31 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import { useIntl } from "react-intl";
+import { useEditSiteId } from ".";
 import { GenerateImagesContext } from "../context/GenerateImagesContext";
-import { ImageGenerate } from "../types/ai";
+import { AI_MODEL, ImageGenerate, TextImproveAction } from "../types/ai";
 import { dataURItoBlob } from "../utils/image";
 
 export function useCompletation() {
+  const { editSiteId } = useEditSiteId();
   const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(
-    async ({ messages }: { messages: { role: string; content: string }[] }) => {
+    async ({
+      messages,
+      action,
+      model,
+    }: {
+      messages: { role: string; content: string }[];
+      action?: TextImproveAction;
+      model?: AI_MODEL;
+    }) => {
       return (
-        await instance?.post<{ output: string }>("/ai/completation", {
+        await instance?.post("/ai/completation", {
           messages,
+          action,
+          model,
+          siteId: editSiteId
         })
       )?.data;
     }
@@ -23,12 +36,13 @@ export function useCompletation() {
 
 export function useImageGenerate() {
   const { instance } = useContext(DexkitApiProvider);
+  const { editSiteId } = useEditSiteId();
 
   const { enqueueSnackbar } = useSnackbar();
 
   return useMutation(
     async (body: ImageGenerate) => {
-      return (await instance?.post<string[]>("/ai/image/generate", body))?.data;
+      return (await instance?.post("/ai/image/generate", {...body, siteId: editSiteId}))?.data;
     },
     {
       onError: (err) => {
@@ -64,17 +78,18 @@ export function useSaveImages() {
 
 export function useGenVariants() {
   const { instance } = useContext(DexkitApiProvider);
+  const { editSiteId } = useEditSiteId();
   return useMutation(
     async ({ url, numImages }: { url: string; numImages: number }) => {
-      return (
-        await instance?.post<string[]>("/ai/image/variants", { url, numImages })
-      )?.data;
+      return (await instance?.post("/ai/image/variants", { url, numImages, siteId: editSiteId }))
+        ?.data;
     }
   );
 }
 
 export function useEditImage() {
   const { instance } = useContext(DexkitApiProvider);
+  const { editSiteId } = useEditSiteId();
 
   return useMutation(
     async ({
@@ -103,7 +118,7 @@ export function useEditImage() {
         form.append("model", model);
       }
 
-      return (await instance?.post<string[]>("/ai/image/edit", form))?.data;
+      return (await instance?.post("/ai/image/edit", {...form, siteId: editSiteId}))?.data;
     }
   );
 }

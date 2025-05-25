@@ -33,7 +33,7 @@ import ReviewMarketOrderDialog from "./ReviewMarketOrderDialog";
 export interface MarketBuyFormProps {
   quoteToken: Token;
   baseToken: Token;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   account?: string;
   baseTokenBalance?: BigNumber;
   quoteTokenBalance?: BigNumber;
@@ -49,7 +49,7 @@ export default function MarketBuyForm({
   baseToken: baseToken,
   quoteToken: quoteToken,
   account,
-  provider,
+  signer,
   baseTokenBalance,
   affiliateAddress,
   quoteTokenBalance,
@@ -97,7 +97,7 @@ export default function MarketBuyForm({
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
-    provider,
+    signer,
     spender: getZrxExchangeAddress(chainId),
     tokenAddress: quote?.sellTokenAddress,
   });
@@ -127,12 +127,12 @@ export default function MarketBuyForm({
   const trackUserEvent = useTrackUserEventsMutation();
   const waitTxResult = useWaitTransactionConfirmation({
     transactionHash: hash,
-    provider,
+    signer,
   });
 
   const sendTxMutation = useMutation(async () => {
-    if (amount) {
-      let res = await provider?.getSigner().sendTransaction({
+    if (amount && signer) {
+      let res = await signer?.sendTransaction({
         data: quote?.data,
         to: quote?.to,
         value: BigNumber.from(quote?.value),
@@ -177,7 +177,7 @@ export default function MarketBuyForm({
     await approveMutation.mutateAsync({
       onSubmited: (hash: string) => {},
       amount: BigNumber.from(quote?.sellAmount),
-      provider,
+      signer,
       spender: getZrxExchangeAddress(chainId),
       tokenContract: quote?.sellTokenAddress,
     });

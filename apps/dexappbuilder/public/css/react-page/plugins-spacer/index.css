@@ -1,0 +1,32 @@
+.react-page-plugins-content-spacer {
+  border-bottom: none;
+  position: relative;
+}
+
+.react-page-editable .react-page-plugins-content-spacer {
+  outline: 1px dashed var(--minBlack);
+}
+
+.react-page-editable-mode-preview .react-page-plugins-content-spacer {
+  outline: none;
+}
+
+.react-page-plugins-content-spacer
+  > .react-resizable
+  > .react-resizable-handle:before,
+.react-page-plugins-content-spacer
+  > .react-resizable
+  > .react-resizable-handle:hover:before {
+  content: ' ';
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  cursor: n-resize;
+  line-height: 12px;
+  font-size: 1.5em;
+  height: 24px;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9pbmRleC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxtQkFBbUI7RUFDbkIsa0JBQWtCO0FBQ3BCOztBQUVBO0VBQ0UsbUNBQW1DO0FBQ3JDOztBQUNBO0VBQ0UsYUFBYTtBQUNmOztBQUVBOzs7Ozs7RUFNRSxZQUFZO0VBQ1osa0JBQWtCO0VBQ2xCLGtCQUFrQjtFQUNsQixXQUFXO0VBQ1gsU0FBUztFQUNULFFBQVE7RUFDUixnQkFBZ0I7RUFDaEIsaUJBQWlCO0VBQ2pCLGdCQUFnQjtFQUNoQixZQUFZO0FBQ2QiLCJmaWxlIjoiaW5kZXguY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnJlYWN0LXBhZ2UtcGx1Z2lucy1jb250ZW50LXNwYWNlciB7XG4gIGJvcmRlci1ib3R0b206IG5vbmU7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbn1cblxuLnJlYWN0LXBhZ2UtZWRpdGFibGUgLnJlYWN0LXBhZ2UtcGx1Z2lucy1jb250ZW50LXNwYWNlciB7XG4gIG91dGxpbmU6IDFweCBkYXNoZWQgdmFyKC0tbWluQmxhY2spO1xufVxuLnJlYWN0LXBhZ2UtZWRpdGFibGUtbW9kZS1wcmV2aWV3IC5yZWFjdC1wYWdlLXBsdWdpbnMtY29udGVudC1zcGFjZXIge1xuICBvdXRsaW5lOiBub25lO1xufVxuXG4ucmVhY3QtcGFnZS1wbHVnaW5zLWNvbnRlbnQtc3BhY2VyXG4gID4gLnJlYWN0LXJlc2l6YWJsZVxuICA+IC5yZWFjdC1yZXNpemFibGUtaGFuZGxlOmJlZm9yZSxcbi5yZWFjdC1wYWdlLXBsdWdpbnMtY29udGVudC1zcGFjZXJcbiAgPiAucmVhY3QtcmVzaXphYmxlXG4gID4gLnJlYWN0LXJlc2l6YWJsZS1oYW5kbGU6aG92ZXI6YmVmb3JlIHtcbiAgY29udGVudDogJyAnO1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgd2lkdGg6IDEwMCU7XG4gIGJvdHRvbTogMDtcbiAgcmlnaHQ6IDA7XG4gIGN1cnNvcjogbi1yZXNpemU7XG4gIGxpbmUtaGVpZ2h0OiAxMnB4O1xuICBmb250LXNpemU6IDEuNWVtO1xuICBoZWlnaHQ6IDI0cHg7XG59XG4iXX0= */

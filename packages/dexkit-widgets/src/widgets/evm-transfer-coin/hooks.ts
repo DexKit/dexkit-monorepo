@@ -8,10 +8,10 @@ import { Contract, providers } from 'ethers';
 
 
 export function useEvmTransferMutation({
-  provider,
+  signer,
   onSubmit,
 }: {
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSubmit?: (
     hash: string,
     params: {
@@ -25,7 +25,7 @@ export function useEvmTransferMutation({
     async (params: { coin: EvmCoin; amount: number; address: string }) => {
       const { coin, amount, address } = params;
 
-      if (!provider) {
+      if (!signer) {
         return;
       }
 
@@ -33,7 +33,7 @@ export function useEvmTransferMutation({
         const contract = new Contract(
           coin.contractAddress,
           ERC20Abi,
-          provider.getSigner()
+          signer
         );
 
         const tx = await contract.transfer(

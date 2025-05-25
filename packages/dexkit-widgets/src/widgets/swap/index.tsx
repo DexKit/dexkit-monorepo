@@ -4,7 +4,7 @@ import {
   GET_NATIVE_TOKEN,
 } from "@dexkit/core/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { usePlatformCoinSearch } from "../../hooks/api";
@@ -14,28 +14,25 @@ const SwapSettingsDialog = dynamic(
 );
 const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 
-// declare global {
-//   function renderSwapWidget(id: string, options: RenderOptions): void;
-// }
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { useUserGaslessSettings } from "@dexkit/ui/modules/swap/hooks/useUserGaslessSettings";
 import SwitchNetworkDialog from "../../components/SwitchNetworkDialog";
 import { SUPPORTED_GASLESS_CHAIN } from "../../constants";
-import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
-import { useErc20ApproveMutation } from "./hooks";
-import { useSwapExec } from "./hooks/useSwapExec";
-import { useSwapGaslessExec } from "./hooks/useSwapGaslessExec";
 import { useSwapProvider } from "./hooks/useSwapProvider";
 import { useSwapState } from "./hooks/useSwapState";
 import { NotificationCallbackParams, RenderOptions } from "./types";
 
 import SwapConfirmMatchaDialog from "./matcha/SwapConfirmMatchaDialog";
 
+import { parseChainId } from "@dexkit/core/utils";
+import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
+import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
 import Swap from "./Swap";
 import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
+import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import SwapMatcha from "./matcha/SwapMatcha";
 import SwapSelectCoinMatchaDialog from "./matcha/SwapSelectCoinMatchaDialog";
 import SwapConfirmUniswapDialog from "./uniswap/SwapConfirmUniswapDialog";
@@ -79,6 +76,7 @@ export function SwapWidget({
 }: SwapWidgetProps) {
   const {
     provider,
+    signer,
     account,
     isActive,
     isActivating,
@@ -102,14 +100,7 @@ export function SwapWidget({
     variant,
   } = options;
 
-  const execSwapMutation = useSwapExec({ onNotification });
-
-  const execSwapGaslessMutation = useSwapGaslessExec({
-    zeroExApiKey,
-  });
-
   const [selectedChainId, setSelectedChainId] = useState<ChainId>();
-
   const [showWarningDialog, setShowWarningDialog] = useState(false);
   const [selectedToken, setSelecteToken] = useState<Token>();
 
@@ -135,8 +126,6 @@ export function SwapWidget({
     }
   }, [selectedChainId, useGasless, userGasless]);
 
-  const approveMutation = useErc20ApproveMutation({ onNotification });
-
   const handleChangeSelectedNetwork = (chainId: ChainId) => {
     setSelectedChainId(chainId);
   };
@@ -158,12 +147,12 @@ export function SwapWidget({
     sellTokenBalance,
     insufficientBalance,
     showConfirmSwap,
+    setShowConfirmSwap,
     showSettings,
     isQuoting,
     isProviderReady,
     recentTokens,
     quoteFor,
-    handleConnectWallet,
     handleOpenSelectToken,
     handleSwapTokens,
     handleSelectToken: handleSelectTokenState,
@@ -183,18 +172,14 @@ export function SwapWidget({
     gaslessSwapState,
     execSwapState,
   } = useSwapState({
-    execGaslessMutation: execSwapGaslessMutation,
     zeroExApiKey,
     isGasless: isGasless,
     selectedChainId,
     connectedChainId,
-    execMutation: execSwapMutation,
-    approveMutation,
     provider: swapProvider,
-    connectorProvider: provider,
+    signer,
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
-    onConnectWallet,
     onShowTransactions,
     account,
     swapFees,
@@ -205,7 +190,6 @@ export function SwapWidget({
     transakApiKey,
     currency,
     variant,
-
     defaultBuyToken:
       selectedChainId && configsByChain[selectedChainId]
         ? convertOldTokenToNew(configsByChain[selectedChainId].buyToken)
@@ -215,9 +199,15 @@ export function SwapWidget({
         ? convertOldTokenToNew(configsByChain[selectedChainId].sellToken)
         : undefined,
   });
-
   const [query, setQuery] = useState("");
-
+  const [gaslessTrades] = useGaslessTrades();
+  const canGasless = useCanGasless({
+    enabled: !!isGasless && !!userGasless,
+    buyToken: buyToken!,
+    sellToken: sellToken!,
+    side: quoteFor!,
+    chainId: chainId!,
+  });
   const searchQuery = usePlatformCoinSearch({
     keyword: query,
     network: chainId && NETWORKS[chainId] ? NETWORKS[chainId].slug : undefined,
@@ -261,15 +251,6 @@ export function SwapWidget({
             ...apiCoinToTokens(searchQuery.data),
           ];
 
-          if (query !== "") {
-            tokens = tokens.filter(
-              (c) =>
-                c.name.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.symbol.toLowerCase().search(query?.toLowerCase()) > -1 ||
-                c.address.toLowerCase().search(query?.toLowerCase()) > -1
-            );
-          }
-
           let tokensCopy = [
             ...tokens
               .filter((t) => t)
@@ -312,8 +293,17 @@ export function SwapWidget({
     handleSelectTokenState(token);
   };
 
+  const handleConfirmSwap = useCallback(async () => {
+    await handleConfirmExecSwap.mutateAsync();
+    !canGasless && handleCloseConfirmSwap();
+  }, [handleConfirmExecSwap, canGasless, handleCloseConfirmSwap]);
+
   const filteredChainIds = useMemo(() => {
-    return activeChainIds.filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(k));
+    return Object.keys(NETWORKS)
+      .filter((k) => activeChainIds.includes(Number(k)))
+      .filter((k) => SUPPORTED_SWAP_CHAIN_IDS.includes(Number(k)))
+      .filter((key) => !NETWORKS[parseChainId(key)].testnet)
+      .map((key) => Number(key));
   }, [activeChainIds]);
 
   const renderDialogComponent = () => {
@@ -414,7 +404,6 @@ export function SwapWidget({
           disableNotificationsButton={disableNotificationsButton}
           chainId={chainId}
           selectedChainId={selectedChainId}
-          activeChainIds={filteredChainIds}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
           clickOnMax={clickOnMax}
@@ -423,7 +412,6 @@ export function SwapWidget({
           sellToken={sellToken}
           onSelectToken={handleOpenSelectToken}
           onSwapTokens={handleSwapTokens}
-          onConnectWallet={handleConnectWallet}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
           networkName={
@@ -462,7 +450,6 @@ export function SwapWidget({
           priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
           priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           chainId={chainId}
-          activeChainIds={filteredChainIds}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
           clickOnMax={clickOnMax}
@@ -471,7 +458,6 @@ export function SwapWidget({
           sellToken={sellToken}
           onSelectToken={handleOpenSelectToken}
           onSwapTokens={handleSwapTokens}
-          onConnectWallet={handleConnectWallet}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
           networkName={
@@ -514,7 +500,6 @@ export function SwapWidget({
         sellToken={sellToken}
         onSelectToken={handleOpenSelectToken}
         onSwapTokens={handleSwapTokens}
-        onConnectWallet={handleConnectWallet}
         sellAmount={sellAmount}
         buyAmount={buyAmount}
         networkName={
@@ -555,13 +540,13 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
-          isApproving={approveMutation.isLoading}
+          isConfirming={handleConfirmExecSwap.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
           successTxGasless={gaslessSwapState.successTxGasless}
           confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-          onConfirm={handleConfirmExecSwap}
+          onConfirm={handleConfirmSwap}
           execSwapState={execSwapState}
           execType={execType}
           chainId={chainId}
@@ -583,13 +568,13 @@ export function SwapWidget({
           }}
           quote={quote}
           isQuoting={isQuoting}
-          isApproving={approveMutation.isLoading}
+          isConfirming={handleConfirmExecSwap.isLoading}
           isLoadingSignGasless={isLoadingSignGasless}
           isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
           reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
           successTxGasless={gaslessSwapState.successTxGasless}
           confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-          onConfirm={handleConfirmExecSwap}
+          onConfirm={handleConfirmSwap}
           execSwapState={execSwapState}
           execType={execType}
           chainId={chainId}
@@ -610,13 +595,13 @@ export function SwapWidget({
         }}
         quote={quote}
         isQuoting={isQuoting}
-        isApproving={approveMutation.isLoading}
+        isConfirming={handleConfirmExecSwap.isLoading}
         isLoadingSignGasless={isLoadingSignGasless}
-        isLoadingStatusGasless={gaslessSwapState.isLoadingStatusGasless}
+        isLoadingStatusGasless={gaslessTrades.length > 0}
         reasonFailedGasless={gaslessSwapState.reasonFailedGasless}
         successTxGasless={gaslessSwapState.successTxGasless}
         confirmedTxGasless={gaslessSwapState.confirmedTxGasless}
-        onConfirm={handleConfirmExecSwap}
+        onConfirm={handleConfirmSwap}
         execSwapState={execSwapState}
         execType={execType}
         chainId={chainId}
@@ -709,29 +694,3 @@ export function SwapWidget({
     </>
   );
 }
-
-// globalThis.renderSwapWidget = function renderSwapWidget(
-//   id: string,
-//   options: RenderOptions
-// ) {
-//   const container = document.getElementById(id);
-
-//   const root = createRoot(container!); // createRoot(container!) if you use TypeScript
-
-//   root.render(
-//     <DexkitContextProvider>
-//       {({
-//         handleNotification,
-//         handleConnectWallet,
-//         handleShowTransactions,
-//       }) => (
-//         <SwapWidget
-//           renderOptions={options}
-//           onNotification={handleNotification}
-//           onConnectWallet={handleConnectWallet}
-//           onShowTransactions={handleShowTransactions}
-//         />
-//       )}
-//     </DexkitContextProvider>
-//   );
-// };

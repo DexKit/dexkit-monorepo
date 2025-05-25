@@ -12,9 +12,7 @@ import {
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
 import { FormattedMessage } from "react-intl";
-import BuyForm from "./BuyForm";
 import TradeWidgetTabAlt from "./TradeWidgetTabAlt";
-import { TradeWidgetTabs } from "./TradeWidgetTabs";
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useErc20BalanceQuery } from "@dexkit/core/hooks";
@@ -23,9 +21,8 @@ import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { DEFAULT_ZRX_NETWORKS } from "../../constants";
 import { useExchangeContext } from "../../hooks";
-import SellForm from "./SellForm";
+import LimitForm from "./LimitForm";
 import MarketForm from "./SimpleVariant/MarketForm";
-import TradeWidgetTab from "./TradeWidgetTab";
 
 // FIXME: base/quote KIT/USDT
 export interface TradeWidgetProps {
@@ -40,6 +37,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
     buyTokenPercentageFee,
     affiliateAddress,
     chainId,
+    signer,
     provider,
     account,
     availNetworks,
@@ -89,12 +87,6 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
     setOrderSide(value);
   };
 
-  const baseTokenBalanceQuery = useErc20BalanceQuery({
-    account,
-    provider,
-    contractAddress: baseToken?.address,
-  });
-
   const quoteTokenBalanceQuery = useErc20BalanceQuery({
     account,
     provider,
@@ -119,7 +111,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
   }, [baseToken?.address, quoteToken?.address]);
 
   const renderContent = () => {
-    if (
+    /* if (
       (chainId && !availNetworks.includes(chainId)) ||
       !baseToken ||
       !quoteToken
@@ -145,7 +137,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
           </Typography>
         </Stack>
       );
-    }
+    }*/
 
     return (
       <Stack spacing={2}>
@@ -218,41 +210,21 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
           </Stack>
         ) : (
           <>
-            {orderSide === "buy" &&
-            orderType == "limit" &&
-            quoteToken &&
-            baseToken ? (
-              <BuyForm
-                key={`buy-${baseToken.address}-${quoteToken.address}`}
+            {orderType == "limit" && quoteToken && baseToken && (
+              <LimitForm
+                key={`limit-${baseToken.address}-${quoteToken.address}`}
                 baseToken={baseToken}
                 slippage={slippage}
                 quoteToken={quoteToken}
                 quoteTokenBalance={quoteTokenBalanceQuery.data}
                 feeRecipient={feeRecipient}
                 maker={account}
-                provider={provider}
+                signer={signer}
                 affiliateAddress={affiliateAddress}
                 chainId={chainId}
+                side={orderSide}
               />
-            ) : null}
-            {orderSide === "sell" &&
-            orderType === "limit" &&
-            quoteToken &&
-            baseToken ? (
-              <SellForm
-                key={`sell-${baseToken.address}-${quoteToken.address}`}
-                slippage={slippage}
-                quoteToken={quoteToken}
-                baseToken={baseToken}
-                baseTokenBalance={baseTokenBalanceQuery.data}
-                provider={provider}
-                feeRecipient={feeRecipient}
-                buyTokenPercentageFee={buyTokenPercentageFee}
-                maker={account}
-                affiliateAddress={affiliateAddress}
-                chainId={chainId}
-              />
-            ) : null}
+            )}
           </>
         )}
 
@@ -316,7 +288,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
         <Divider />
         <CardContent>
           <Stack spacing={2}>
-            <TradeWidgetTabs
+            {/* <TradeWidgetTabs
               onChange={handleChangeOrderType}
               value={orderType}
               variant="fullWidth"
@@ -329,7 +301,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 value="limit"
                 label={<FormattedMessage id="limit" defaultMessage="Limit" />}
               />
-            </TradeWidgetTabs>
+            </TradeWidgetTabs>*/}
 
             <Paper
               variant="outlined"

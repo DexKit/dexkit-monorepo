@@ -233,7 +233,7 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
 }
 
 export default function Wrapper(props: Props) {
-  const { provider } = useWeb3React();
+  const { signer } = useWeb3React();
 
   return (
     <>
@@ -253,7 +253,7 @@ export default function Wrapper(props: Props) {
       <ThirdwebSDKProvider
         clientId={THIRDWEB_CLIENT_ID}
         activeChain={getChainIdFromSlug(props.network as string)?.chainId}
-        signer={provider?.getSigner()}
+        signer={signer}
       >
         <TokenPageContainer {...props} />
       </ThirdwebSDKProvider>

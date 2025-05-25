@@ -11,7 +11,7 @@ export async function getForm({
   id: number;
   signal?: AbortSignal;
 }) {
-  return await myAppsApi.get(`/forms/${id}`, { signal });
+  return await myAppsApi.get(`/forms/${id}`, {});
 }
 
 export async function listForms({
@@ -24,7 +24,42 @@ export async function listForms({
   signal?: AbortSignal;
 }) {
   return await myAppsApi.get(`/forms`, {
-    signal,
     params: { creatorAddress, query },
+  });
+}
+
+export async function saveContractDeploy({
+  contractAddress,
+  name,
+  type,
+  chainId,
+  metadata,
+  createdAtTx,
+  owner,
+  referral,
+}: {
+  contractAddress: string;
+  name?: string;
+  type?: string;
+  chainId: number;
+  owner?: string;
+  createdAtTx?: string;
+  referral?: string;
+  metadata?: {
+    name?: string;
+    description?: string;
+    symbol?: string;
+    image?: string;
+  };
+}) {
+  return await myAppsApi.post(`/forms/deploy`, {
+    name,
+    contractAddress,
+    type,
+    createdAtTx,
+    chainId,
+    referral,
+    metadata: JSON.stringify(metadata),
+    owner,
   });
 }

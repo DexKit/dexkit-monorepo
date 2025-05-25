@@ -5,7 +5,7 @@ let refreshedWasCalled = false;
 
 const AUTH_ENDPOINT = process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT
   ? `${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/auth`
-  : "http://localhost:5000/auth";
+  : "http://localhost:3001/auth";
 
 /**
  * send config to server
@@ -96,7 +96,7 @@ export async function loginApp({
   chainId,
 }: {
   address: string;
-  signature: string;
+  signature: `0x${string}`;
   chainId?: number;
   siteId?: number;
   referral?: string;

@@ -1,7 +1,12 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { providers } from "ethers";
-import { BigNumber, Contract, ContractFactory, ContractInterface } from "ethers";
+import {
+  BigNumber,
+  Contract,
+  ContractFactory,
+  ContractInterface,
+} from "ethers";
 import { useSnackbar } from "notistack";
 import { useIntl } from "react-intl";
 
@@ -12,7 +17,6 @@ import axios from "axios";
 import { ChainId } from "@dexkit/core/constants";
 
 import { ETHER_SCAN_API_URL } from "../constants";
-
 
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
@@ -29,7 +33,7 @@ import {
 export interface UseContractCallMutationOptions {
   contractAddress?: string;
   abi: ContractInterface;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onSuccess?: (data: { name: string; result: any }) => void;
 }
 
@@ -45,7 +49,7 @@ export interface UseContractCallMutationParams {
 export function useContractCallMutation({
   contractAddress,
   abi,
-  provider,
+  signer,
   onSuccess,
 }: UseContractCallMutationOptions) {
   const { enqueueSnackbar } = useSnackbar();
@@ -62,20 +66,16 @@ export function useContractCallMutation({
     }: UseContractCallMutationParams) => {
       let contract: Contract;
 
-      let currProvider = rpcProvider ? rpcProvider : provider;
+      let currProvider = rpcProvider ? rpcProvider : signer;
 
-      if (!contractAddress || !provider) {
+      if (!contractAddress || !signer) {
         throw new Error("no provider");
       }
 
       let cb;
 
       if (call) {
-        contract = new Contract(
-          contractAddress,
-          abi,
-          provider?.getSigner()
-        );
+        contract = new Contract(contractAddress, abi, signer);
       } else {
         contract = new Contract(contractAddress, abi, currProvider);
       }
@@ -122,14 +122,14 @@ export function useContractCallMutation({
 export interface UseContractDeployMutationOptions {
   contractBytecode?: string;
   abi: ContractInterface;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
   onContractCreated?: (contract: Contract) => void;
 }
 
 export function useContractDeployMutation({
   contractBytecode,
   abi,
-  provider,
+  signer,
   onContractCreated,
 }: UseContractDeployMutationOptions) {
   const { enqueueSnackbar } = useSnackbar();
@@ -143,7 +143,7 @@ export function useContractDeployMutation({
       params: ContractDeployParams;
       value: BigNumber;
     }) => {
-      if (!contractBytecode || !provider) {
+      if (!contractBytecode || !signer) {
         return;
       }
 
@@ -152,7 +152,7 @@ export function useContractDeployMutation({
       const factory = new ContractFactory(
         abi,
         contractBytecode,
-        provider.getSigner()
+        signer
       );
 
       let result;
@@ -160,9 +160,7 @@ export function useContractDeployMutation({
       try {
         if (args.length > 0) {
           if (payable) {
-            result = await factory.deploy(...args, {
-              value,
-            });
+            result = await factory.deploy(...args, { value });
           } else {
             result = await factory.deploy(...args);
           }
@@ -233,9 +231,7 @@ export function useCallOnMountFields({
 
       return {};
     },
-    {
-      onSuccess,
-    }
+    { onSuccess }
   );
 }
 
@@ -374,23 +370,27 @@ export function useServerUploadMutation() {
   });
 }
 
-
-
-
 export function useServerUploadMerkleTreeMutation() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async ({ content, merkleProof }: { content: string, merkleProof: string }) => {
-    if (instance) {
-      const res = await instance.post("/account-file/upload-merkle-tree", {
-        metadata: content,
-        merkleProof,
-      });
-      return res.data;
+  return useMutation(
+    async ({
+      content,
+      merkleProof,
+    }: {
+      content: string;
+      merkleProof: string;
+    }) => {
+      if (instance) {
+        const res = await instance.post("/account-file/upload-merkle-tree", {
+          metadata: content,
+          merkleProof,
+        });
+        return res.data;
+      }
     }
-  });
+  );
 }
-
 
 export const IPFS_FILE_LIST_QUERY = "IPFS_FILE_LIST_QUERY";
 
@@ -408,20 +408,15 @@ export function useIpfsFileListQuery({
     async ({ pageParam }) => {
       if (instance) {
         return (
-          await instance.get<{ items: { cid: string }[]; nextCursor?: number }>(
-            "/account-file/ipfs/files",
-            {
-              params: { cursor: pageParam, limit: 12, onlyImages },
-            }
-          )
+          await instance.get("/account-file/ipfs/files", {
+            params: { cursor: pageParam, limit: 12, onlyImages },
+          })
         ).data;
       }
 
       return { items: [], nextCursor: undefined };
     },
-    {
-      getNextPageParam: ({ nextCursor }) => nextCursor,
-    }
+    { getNextPageParam: ({ nextCursor }) => nextCursor }
   );
 }
 
@@ -437,11 +432,7 @@ export function useFormConfigParamsQuery({
   return useQuery<FormConfigParams>(
     [FORM_CONFIG_PARAMS_QUERY, creator, contract],
     async () => {
-
-
       const result = (
-
-
         await axios.get(
           `https://raw.githubusercontent.com/DexKit/assets/main/contracts/${creator}/${contract}.json`
         )
@@ -453,15 +444,19 @@ export function useFormConfigParamsQuery({
   );
 }
 
-export function useDeployThirdWebContractMutation({ clientId }: { clientId: string }) {
-  const { provider, chainId } = useWeb3React();
+export function useDeployThirdWebContractMutation({
+  clientId,
+}: {
+  clientId: string;
+}) {
+  const { signer, chainId } = useWeb3React();
   const [sdk, setSdk] = useState<ThirdwebSDK>();
 
   useEffect(() => {
-    if (provider) {
-      setSdk(new ThirdwebSDK(provider.getSigner(), { clientId }));
+    if (signer) {
+      setSdk(new ThirdwebSDK(signer, { clientId }));
     }
-  }, [provider, chainId]);
+  }, [signer, chainId]);
 
   return useMutation(
     async ({
@@ -483,8 +478,6 @@ export function useDeployThirdWebContractMutation({ clientId }: { clientId: stri
 
           return null;
         });
-
-
 
         const tx = await sdk.deployer.deployPublishedContract.prepare(
           metadata.publisher,
@@ -524,10 +517,9 @@ export default function useThirdwebContractMetadataQuery({
   return useQuery([THIRDWEB_CONTRACT_METADATA, id, creator], async () => {
     let publisher = "deployer.thirdweb.eth";
 
-    if (creator === 'blast' || creator === 'dexkit') {
-      publisher = '0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f';
+    if (creator === "blast" || creator === "dexkit") {
+      publisher = "0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f";
     }
-
 
     const contract = await new ThirdwebSDK("polygon", { clientId })
       .getPublisher()

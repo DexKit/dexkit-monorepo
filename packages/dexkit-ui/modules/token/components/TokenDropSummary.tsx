@@ -77,7 +77,11 @@ export default function TokenDropSummary({
             <FormattedMessage id="decimals" defaultMessage="Decimals" />
           </Typography>
           <Typography variant={isMobile ? "body1" : "h5"}>
-            {supplyQuery.isLoading ? <Skeleton /> : supplyQuery.data?.decimals}
+            {balanceQuery.isLoading ? (
+              <Skeleton />
+            ) : (
+              balanceQuery.data?.decimals
+            )}
           </Typography>
         </Stack>
       )}

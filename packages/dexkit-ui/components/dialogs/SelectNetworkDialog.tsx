@@ -1,24 +1,25 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Radio,
-    Stack,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Radio,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 
+import { useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Network } from "@dexkit/core/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -30,6 +31,8 @@ interface Props {
 }
 
 function SwitchNetworkDialog({ dialogProps }: Props) {
+  const isMobile = useIsMobile();
+
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
   const { chainId: connectedChainId } = useWeb3React();
@@ -60,7 +63,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   };
 
   return (
-    <Dialog {...dialogProps}>
+    <Dialog {...dialogProps} fullScreen={isMobile}>
       <AppDialogTitle
         title={
           <FormattedMessage

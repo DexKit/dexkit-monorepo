@@ -9,7 +9,11 @@ import { EvmCoin, TokenWhitelabelApp } from "@dexkit/core/types";
 
 import { convertTokenToEvmCoin, ipfsUriToUrl } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { UseMutationOptions, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  UseMutationOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import type { providers } from "ethers";
 import { Contract } from "ethers";
 import { useContext, useMemo } from "react";
@@ -161,7 +165,7 @@ export function useAllTokenList({
       }
     }
     if (hideTestnetTokens) {
-      tokenList = tokenList.filter(tk => !NETWORKS[tk.chainId]?.testnet)
+      tokenList = tokenList.filter((tk) => !NETWORKS[tk.chainId]?.testnet);
     }
 
     return [...tokenList] as TokenWhitelabelApp[];
@@ -322,8 +326,8 @@ export default function useContractMetadata(params?: {
       }
 
       return null;
-    })
-
+    }
+  );
 }
 
 export function useTokenData(options?: Omit<UseMutationOptions, any>) {
@@ -331,7 +335,24 @@ export function useTokenData(options?: Omit<UseMutationOptions, any>) {
     async ({ chainId, address }: { chainId: number; address: string }) => {
       return await getTokenData(chainId, address);
     },
-    options,
+    options
   );
 }
 
+export const TOKEN_DATA_QUERY = "TOKEN_DATA_QUERY";
+
+export function useTokenDataQuery({
+  chainId,
+  address,
+}: {
+  chainId: number;
+  address: string;
+}) {
+  return useQuery(
+    [TOKEN_DATA_QUERY, chainId, address],
+    async () => {
+      return await getTokenData(chainId, address);
+    },
+    { refetchOnMount: true, refetchOnWindowFocus: true }
+  );
+}

@@ -1,15 +1,23 @@
-import { ChainId } from "@dexkit/core";
+import { ChainId, useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { parseChainId } from "@dexkit/core/utils";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {
   Avatar,
+  Button,
   IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Popover,
   Stack,
   Tooltip,
   alpha,
   styled,
 } from "@mui/material";
-import { useMemo } from "react";
+import { useState } from "react";
 
 const CustomIconButton = styled(IconButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -28,15 +36,17 @@ export default function SwapNetworkButtons({
   chainId,
   onChangeNetwork,
 }: SwapNetworkButtonsProps) {
-  const networks = useMemo(
-    () =>
-      Object.keys(NETWORKS)
-        .filter((k) => activeChainIds.includes(Number(k)))
-        .filter((key) => {
-          return !NETWORKS[parseChainId(key)].testnet;
-        }),
-    []
-  );
+  const isMobile = useIsMobile();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+  const id = open ? "more-button" : undefined;
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Stack
@@ -49,32 +59,91 @@ export default function SwapNetworkButtons({
         "&::-webkit-scrollbar": { display: "none" },
       }}
     >
-      {networks.map((key) => (
-        <CustomIconButton
-          onClick={() => onChangeNetwork(parseInt(key))}
-          key={key}
-          sx={
-            chainId === parseChainId(key)
-              ? {
-                  border: (theme) => `1px solid ${theme.palette.primary.main}`,
-                  backgroundColor: (theme) =>
-                    alpha(theme.palette.primary.main, 0.1),
+      {activeChainIds
+        .filter((_key, index) => !(!isMobile && index > 7))
+        .map((key) => (
+          <CustomIconButton
+            onClick={() => onChangeNetwork(key)}
+            key={key}
+            sx={
+              chainId === parseChainId(key)
+                ? {
+                    border: (theme) =>
+                      `1px solid ${theme.palette.primary.main}`,
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.1),
+                  }
+                : undefined
+            }
+          >
+            <Tooltip title={NETWORKS[parseChainId(key)].name}>
+              <Avatar
+                sx={{ height: "1rem", width: "1rem" }}
+                src={
+                  NETWORKS[parseChainId(key)]
+                    ? NETWORKS[parseChainId(key)].imageUrl
+                    : undefined
                 }
-              : undefined
-          }
-        >
-          <Tooltip title={NETWORKS[parseChainId(key)].name}>
-            <Avatar
-              sx={{ height: "1rem", width: "1rem" }}
-              src={
-                NETWORKS[parseChainId(key)]
-                  ? NETWORKS[parseChainId(key)].imageUrl
-                  : undefined
-              }
-            />
-          </Tooltip>
-        </CustomIconButton>
-      ))}
+              />
+            </Tooltip>
+          </CustomIconButton>
+        ))}
+      {!isMobile && (
+        <>
+          <Button
+            variant="outlined"
+            onClick={handleClick}
+            endIcon={<KeyboardArrowDownIcon />}
+          >
+            More
+          </Button>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <List>
+              {activeChainIds
+                .filter((_key, index) => index > 7)
+                .map((key) => (
+                  <ListItem disablePadding key={key}>
+                    <MenuItem
+                      onClick={() => onChangeNetwork(key)}
+                      value={parseChainId(key)}
+                      key={parseChainId(key)}
+                      sx={{
+                        width: "100%",
+                        backgroundColor: (theme) =>
+                          chainId === parseChainId(key)
+                            ? alpha(theme.palette.primary.main, 0.1)
+                            : undefined,
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Avatar
+                          sx={{ width: "1rem", height: "1rem" }}
+                          src={NETWORKS[parseChainId(key)].imageUrl}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          NETWORKS[parseChainId(key)]
+                            ? NETWORKS[parseChainId(key)].name
+                            : undefined
+                        }
+                      />
+                    </MenuItem>
+                  </ListItem>
+                ))}
+            </List>
+          </Popover>
+        </>
+      )}
     </Stack>
   );
 }

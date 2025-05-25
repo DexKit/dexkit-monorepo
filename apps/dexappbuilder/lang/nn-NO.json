@@ -1,0 +1,4360 @@
+{
+  "Created": {
+    "defaultMessage": "Created"
+  },
+  "action.type": {
+    "defaultMessage": "Action type"
+  },
+  "add.items": {
+    "defaultMessage": "Add items"
+  },
+  "add.payment.method": {
+    "defaultMessage": "Add Payment Method"
+  },
+  "ai.assistant": {
+    "defaultMessage": "AI Assistant"
+  },
+  "align.items": {
+    "defaultMessage": "Align Items"
+  },
+  "artificial.inteligence": {
+    "defaultMessage": "Artificial Inteligence"
+  },
+  "billing": {
+    "defaultMessage": "Billing"
+  },
+  "button.cation": {
+    "defaultMessage": "Button caption"
+  },
+  "buy.and.sell": {
+    "defaultMessage": "Buy and sell"
+  },
+  "buy.token.page": {
+    "defaultMessage": "Buy token page"
+  },
+  "carousel": {
+    "defaultMessage": "Carousel"
+  },
+  "carousel.image.aspectRatio": {
+    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+  },
+  "center": {
+    "defaultMessage": "Center"
+  },
+  "checkout": {
+    "defaultMessage": "Checkout"
+  },
+  "coming.soon": {
+    "defaultMessage": "Coming soon"
+  },
+  "create.metadata": {
+    "defaultMessage": "Create metadata"
+  },
+  "creating.site.metadata": {
+    "defaultMessage": "Creating site metadata"
+  },
+  "credit.history": {
+    "defaultMessage": "Credit History"
+  },
+  "credited": {
+    "defaultMessage": "Credited"
+  },
+  "credits": {
+    "defaultMessage": "Credits"
+  },
+  "credits.below0.50": {
+    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+  },
+  "credits.expire.oneYear": {
+    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+  },
+  "current.phase": {
+    "defaultMessage": "Current phase"
+  },
+  "current.phase.ends.in": {
+    "defaultMessage": "Current phase ends in"
+  },
+  "dexappbuilder.ann.app.bar2": {
+    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+  },
+  "disable.secondary.sells": {
+    "defaultMessage": "Disable secondary sells"
+  },
+  "editing.site.metadata": {
+    "defaultMessage": "Editing site metadata"
+  },
+  "end": {
+    "defaultMessage": "End"
+  },
+  "error.while.tranfer": {
+    "defaultMessage": "Error while transfer"
+  },
+  "feature": {
+    "defaultMessage": "Feature"
+  },
+  "height.for.desktop": {
+    "defaultMessage": "Height for desktop"
+  },
+  "height.for.mobile": {
+    "defaultMessage": "Height for mobile"
+  },
+  "in.milliseconds": {
+    "defaultMessage": "In milliseconds"
+  },
+  "insufficient.balance": {
+    "defaultMessage": "Insufficient balance"
+  },
+  "interval": {
+    "defaultMessage": "Interval"
+  },
+  "items.spacing": {
+    "defaultMessage": "Items spacing"
+  },
+  "left": {
+    "defaultMessage": "Left"
+  },
+  "new.ai.features": {
+    "defaultMessage": "New AI Features"
+  },
+  "no.description": {
+    "defaultMessage": "no description"
+  },
+  "no.templates.found.for.this.usecase": {
+    "defaultMessage": "No templates found for this usecase"
+  },
+  "no.usage": {
+    "defaultMessage": "No usage"
+  },
+  "not.available": {
+    "defaultMessage": "Not available"
+  },
+  "overlay.color": {
+    "defaultMessage": "Overlay color"
+  },
+  "padding.bottom": {
+    "defaultMessage": "Padding bottom"
+  },
+  "padding.top": {
+    "defaultMessage": "Padding top"
+  },
+  "pay.amount.symbol": {
+    "defaultMessage": "Pay {amount} {tokenSymbol}"
+  },
+  "payment.confirmed": {
+    "defaultMessage": "Payment expired"
+  },
+  "payment.pending": {
+    "defaultMessage": "Payment Pending"
+  },
+  "payments": {
+    "defaultMessage": "Payments"
+  },
+  "plan.details": {
+    "defaultMessage": "Plan details"
+  },
+  "preview.url": {
+    "defaultMessage": "Preview url"
+  },
+  "price.in.next.phase": {
+    "defaultMessage": "Price in next phase"
+  },
+  "ref.period": {
+    "defaultMessage": "Ref. period"
+  },
+  "right": {
+    "defaultMessage": "Right"
+  },
+  "save.payment": {
+    "defaultMessage": "Save payment"
+  },
+  "search.default.base.token": {
+    "defaultMessage": "Search default base token"
+  },
+  "section.addItemsPrompt": {
+    "defaultMessage": "Please add items to the section below."
+  },
+  "select.a.token.to.pay": {
+    "defaultMessage": "Select a token to pay"
+  },
+  "select.plan": {
+    "defaultMessage": "Select Plan"
+  },
+  "sell.token.page": {
+    "defaultMessage": "Sell token page"
+  },
+  "show.token.details": {
+    "defaultMessage": "Show token details"
+  },
+  "showcase": {
+    "defaultMessage": "Showcase Gallery"
+  },
+  "site.metada.image": {
+    "defaultMessage": "Site metadata image"
+  },
+  "site.metadata": {
+    "defaultMessage": "Site metadata"
+  },
+  "site.metadata.created": {
+    "defaultMessage": "Site metadata created"
+  },
+  "site.metadata.created.error": {
+    "defaultMessage": "Site metadata created error"
+  },
+  "site.metadata.edited": {
+    "defaultMessage": "Site metadata edited"
+  },
+  "site.metadata.edited.error": {
+    "defaultMessage": "Site metadata edited error"
+  },
+  "site.subtitle": {
+    "defaultMessage": "Site subtitle"
+  },
+  "site.title": {
+    "defaultMessage": "Site title"
+  },
+  "start": {
+    "defaultMessage": "Start"
+  },
+  "switch.to.network.network": {
+    "defaultMessage": "Switch to {network} network"
+  },
+  "templates": {
+    "defaultMessage": "Templates"
+  },
+  "token.trade": {
+    "defaultMessage": "Token Trade"
+  },
+  "total.usd": {
+    "defaultMessage": "Total in USD"
+  },
+  "trade.token.page": {
+    "defaultMessage": "Trade token page"
+  },
+  "trade.type": {
+    "defaultMessage": "Trade type"
+  },
+  "transfer.amount.symbol": {
+    "defaultMessage": "Transfer {amount} {symbol}"
+  },
+  "transfering.amount.to.pay": {
+    "defaultMessage": "Transfering amount to pay"
+  },
+  "update.metadata": {
+    "defaultMessage": "Update metadata"
+  },
+  "update.site.metadata": {
+    "defaultMessage": "Update site metadata?"
+  },
+  "usage.periods": {
+    "defaultMessage": "Usage periods"
+  },
+  "usecases": {
+    "defaultMessage": "Use cases"
+  },
+  "view.details": {
+    "defaultMessage": "View details"
+  },
+  "view.less": {
+    "defaultMessage": "view less"
+  },
+  "view.more": {
+    "defaultMessage": "view more"
+  },
+  "view.nft.drop": {
+    "defaultMessage": "View nft drop"
+  },
+  "view.site.metadata": {
+    "defaultMessage": "View site metadata"
+  },
+  "waiting.confirmation": {
+    "defaultMessage": "Waiting confirmation"
+  },
+  "you.still.dont.have.any.records": {
+    "defaultMessage": "You still don't have any records."
+  },
+  "your.payment.is.confirmed": {
+    "defaultMessage": "Your payment is confirmed"
+  },
+  "your.site.metadata.was.created": {
+    "defaultMessage": "Your site metadata was created"
+  },
+  "your.site.metadata.was.edited": {
+    "defaultMessage": "Your site metadata was edited"
+  },
+  "your.site.metadata.was.not.created": {
+    "defaultMessage": "Your site metadata was not created"
+  },
+  "your.site.metadata.was.not.edited": {
+    "defaultMessage": "Your site metadata was not edited"
+  },
+  "your.transaction.requires.10.confirmations.for.full.validation": {
+    "defaultMessage": "Your transaction requires 10 confirmations for full validation"
+  },
+  "AI": {
+    "defaultMessage": "AI"
+  },
+  "activate": {
+    "defaultMessage": "Activate AI"
+  },
+  "activate.ai": {
+    "defaultMessage": "Activate AI"
+  },
+  "add.credit": {
+    "defaultMessage": "Add Credit"
+  },
+  "add.credits": {
+    "defaultMessage": "Add credits"
+  },
+  "ai.activated": {
+    "defaultMessage": "AI Activated"
+  },
+  "ai.completation": {
+    "defaultMessage": "AI Completation"
+  },
+  "ai.edit": {
+    "defaultMessage": "AI Edit"
+  },
+  "ai.generator": {
+    "defaultMessage": "AI Generator"
+  },
+  "ai.image.generator": {
+    "defaultMessage": "AI Image Generator"
+  },
+  "answer": {
+    "defaultMessage": "Answer:"
+  },
+  "billing.and.usage": {
+    "defaultMessage": "Billing & Usage"
+  },
+  "change.cat.head": {
+    "defaultMessage": "ex. Change cat head"
+  },
+  "close.anyway": {
+    "defaultMessage": "Close anyway"
+  },
+  "credit.card.soming.soon": {
+    "defaultMessage": "Credit Card (Coming Soon)"
+  },
+  "cryptocurrency": {
+    "defaultMessage": "Cryptocurrency"
+  },
+  "deselect.all": {
+    "defaultMessage": "Deselect All"
+  },
+  "error.while.generating.images": {
+    "defaultMessage": "Error while generating images"
+  },
+  "ex.an.image.of.a.cat": {
+    "defaultMessage": "ex. An image of a cat"
+  },
+  "fix.spelling.and.grammar": {
+    "defaultMessage": "Fix spelling and grammar"
+  },
+  "generate": {
+    "defaultMessage": "Generate"
+  },
+  "generate.image": {
+    "defaultMessage": "Generate image"
+  },
+  "generate.new.text": {
+    "defaultMessage": "Generate new text"
+  },
+  "generate.variant": {
+    "defaultMessage": "Generate variant"
+  },
+  "generate.variants": {
+    "defaultMessage": "Generate Variants"
+  },
+  "generating": {
+    "defaultMessage": "Generating"
+  },
+  "generating.variants": {
+    "defaultMessage": "Generating Variants"
+  },
+  "images.generated": {
+    "defaultMessage": "Images generated"
+  },
+  "images.notGenerated": {
+    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+  },
+  "improve.writing": {
+    "defaultMessage": "Improve writing"
+  },
+  "make.longer": {
+    "defaultMessage": "Make longer"
+  },
+  "make.shorter": {
+    "defaultMessage": "Make shorter"
+  },
+  "no.credits": {
+    "defaultMessage": "No Credits"
+  },
+  "no.images": {
+    "defaultMessage": "No Images"
+  },
+  "num.of.images": {
+    "defaultMessage": "Num. of Images"
+  },
+  "num.of.variant": {
+    "defaultMessage": "Num of variants"
+  },
+  "num.of.variants": {
+    "defaultMessage": "Num. of variants"
+  },
+  "original.image": {
+    "defaultMessage": "Original image"
+  },
+  "payment.confirmation.message": {
+    "defaultMessage": "Please wait for 10 confirmations for payment recognition."
+  },
+  "payment.method": {
+    "defaultMessage": "Payment method"
+  },
+  "prompt": {
+    "defaultMessage": "Prompt"
+  },
+  "save.generated.images": {
+    "defaultMessage": "Save generated images?"
+  },
+  "saved": {
+    "defaultMessage": "Saved"
+  },
+  "the.maximum.is.95": {
+    "defaultMessage": "the maximum is 95"
+  },
+  "the.minimum.is.five": {
+    "defaultMessage": "the minimum is 5"
+  },
+  "unlock.the.power.of.artificial.intelligence.by.activating.it": {
+    "defaultMessage": "Unlock the power of artificial intelligence by activating it"
+  },
+  "use": {
+    "defaultMessage": "use"
+  },
+  "use.as.prompt": {
+    "defaultMessage": "use as prompt"
+  },
+  "variants": {
+    "defaultMessage": "Variants"
+  },
+  "waiting.payment": {
+    "defaultMessage": "Waiting payment"
+  },
+  "you.need.to.add.credits.to.use.ai.features": {
+    "defaultMessage": "You need to add credits to use AI features"
+  },
+  "add.record": {
+    "defaultMessage": "Legg til post"
+  },
+  "address.or.ens": {
+    "defaultMessage": "Adresse eller ENS"
+  },
+  "burn.name.value": {
+    "defaultMessage": "Brenn token \"{tokenName}\""
+  },
+  "burning": {
+    "defaultMessage": "Brenner"
+  },
+  "changing.network": {
+    "defaultMessage": "Endrer nettverk"
+  },
+  "clear": {
+    "defaultMessage": "Tøm"
+  },
+  "coin.on.network": {
+    "defaultMessage": "{name} på {network}"
+  },
+  "confirm.the.transaction.on.your.wallet": {
+    "defaultMessage": "Vennligst bekreft transaksjonen på lommeboken din",
+    "description": "Transaction dialog message before transaction be confirmed in the wallet"
+  },
+  "confirm.transaction": {
+    "defaultMessage": "Bekreft transaksjon"
+  },
+  "confirming": {
+    "defaultMessage": "Bekrefter"
+  },
+  "connect.with.email": {
+    "defaultMessage": "Koble til med e-post"
+  },
+  "connect.your.wallet": {
+    "defaultMessage": "Connect Your Wallet"
+  },
+  "delete.column": {
+    "defaultMessage": "Slett kolonne"
+  },
+  "edit.column": {
+    "defaultMessage": "Rediger kolonne"
+  },
+  "error.while.burning": {
+    "defaultMessage": "Feil ved brenning"
+  },
+  "error.while.transferring": {
+    "defaultMessage": "Feil ved overføring"
+  },
+  "execute": {
+    "defaultMessage": "Utføre"
+  },
+  "execute.transaction": {
+    "defaultMessage": "Utføre transaksjon"
+  },
+  "gas.cost": {
+    "defaultMessage": "Gas cost"
+  },
+  "gas.price": {
+    "defaultMessage": "Gas price"
+  },
+  "hide.form.info": {
+    "defaultMessage": "Hide form info"
+  },
+  "invalid address": {
+    "defaultMessage": "Invalid address"
+  },
+  "invalid.file.column.column.is.missing": {
+    "defaultMessage": "Invalid file: column {column} is missing"
+  },
+  "max.fee": {
+    "defaultMessage": "Max fee"
+  },
+  "max.priority.fee": {
+    "defaultMessage": "Max priority fee"
+  },
+  "message.you.are.signing": {
+    "defaultMessage": "Message you are signing"
+  },
+  "mint.token.value": {
+    "defaultMessage": "Mint token \"{tokenName}\""
+  },
+  "network.value": {
+    "defaultMessage": "{network}"
+  },
+  "nonce": {
+    "defaultMessage": "Nonce"
+  },
+  "not.enough.balance": {
+    "defaultMessage": "Not enough balance"
+  },
+  "notifications": {
+    "defaultMessage": "Notifications",
+    "description": "Notifications"
+  },
+  "owned.by.owner": {
+    "defaultMessage": "Owned by {owner}"
+  },
+  "please.wait.for.the.block.confirmation": {
+    "defaultMessage": "Wait for the block confirmation",
+    "description": "Transaction dialog message after transaction confirmation in the wallet"
+  },
+  "receive.on.network.value": {
+    "defaultMessage": "Receive on {network}"
+  },
+  "receiver": {
+    "defaultMessage": "Receiver"
+  },
+  "reject": {
+    "defaultMessage": "Reject"
+  },
+  "request.sent.successfully": {
+    "defaultMessage": "Request sent successfully"
+  },
+  "save.column": {
+    "defaultMessage": "Save column"
+  },
+  "send.amount": {
+    "defaultMessage": "Send amount"
+  },
+  "sending.request": {
+    "defaultMessage": "Sending request"
+  },
+  "sent.to": {
+    "defaultMessage": "Sent to"
+  },
+  "share.receive.request": {
+    "defaultMessage": "Share receive request"
+  },
+  "sign": {
+    "defaultMessage": "Sign"
+  },
+  "switch": {
+    "defaultMessage": "Switch",
+    "description": "switch"
+  },
+  "switch.to.network.value": {
+    "defaultMessage": "Switch to {networkName} network"
+  },
+  "transaction.confirm.transaction": {
+    "defaultMessage": "Confirm transaction"
+  },
+  "transaction.failed.reason": {
+    "defaultMessage": "Transaction failed"
+  },
+  "transaction.waiting.confirmation": {
+    "defaultMessage": "Waiting confirmation"
+  },
+  "transfer.name.value": {
+    "defaultMessage": "Transfer NFT {nftName}"
+  },
+  "transferring": {
+    "defaultMessage": "Transferring"
+  },
+  "validating": {
+    "defaultMessage": "Validating"
+  },
+  "validating.ens": {
+    "defaultMessage": "Validating ENS name"
+  },
+  "view.marketplace": {
+    "defaultMessage": "View Marketplace"
+  },
+  "you.are.not.the.owner.of.this.NFT": {
+    "defaultMessage": "You are not the owner of this NFT"
+  },
+  "you.cant.use.the.connected.account.to.burn": {
+    "defaultMessage": "You can't use the connected account to burn"
+  },
+  "you.cant.use.the.connected.account.to.transfer": {
+    "defaultMessage": "You can't use the connected to transfer"
+  },
+  "you.own.nfts": {
+    "defaultMessage": "You own {balance} NFTs"
+  },
+  "your.request.was.sent.successfully": {
+    "defaultMessage": "Your request was sent successfully"
+  },
+  "your.transaction.has.been.confirmed": {
+    "defaultMessage": "Your transaction has been confirmed",
+    "description": "Your transaction has been confirmed"
+  },
+  "24h.volume": {
+    "defaultMessage": "24-timeri volum"
+  },
+  "24h.volume.amount": {
+    "defaultMessage": "24-timers volum: {amount}"
+  },
+  "Less": {
+    "defaultMessage": "Mindre"
+  },
+  "No.networks.selected": {
+    "defaultMessage": "Ingen nettverk valgt"
+  },
+  "You will.receive": {
+    "defaultMessage": "Du vil motta"
+  },
+  "amount.per.token": {
+    "defaultMessage": "Beløp per token"
+  },
+  "approve.token.symbol": {
+    "defaultMessage": "Godkjenn {tokenSymbol} på lommebok"
+  },
+  "available": {
+    "defaultMessage": "Tilgjengelig"
+  },
+  "available.balance.amount.symbol": {
+    "defaultMessage": "Tilgjengelig saldo: {amount} {symbol}"
+  },
+  "base.token": {
+    "defaultMessage": "Base token"
+  },
+  "buy.symbol": {
+    "defaultMessage": "Kjøp {symbol}"
+  },
+  "buy.token.symbol": {
+    "defaultMessage": "Kjøp {tokenSymbol}"
+  },
+  "choose.the.networks.that.your.exchange.will.be.enabled": {
+    "defaultMessage": "Velg nettverkene som utvekslingen din vil være aktivert for"
+  },
+  "cost": {
+    "defaultMessage": "Kostnad"
+  },
+  "define.the.tokens.and.the.default.pair.for.this.network": {
+    "defaultMessage": "Definer tokenene og standardparet for dette nettverket"
+  },
+  "edit.networks": {
+    "defaultMessage": "Rediger nettverk"
+  },
+  "expire": {
+    "defaultMessage": "Utløper"
+  },
+  "fee.amount": {
+    "defaultMessage": "Gebyrbeløp"
+  },
+  "fee.recipient.address": {
+    "defaultMessage": "Gebyrmottakeradresse"
+  },
+  "fill.amount": {
+    "defaultMessage": "Fyll beløp"
+  },
+  "fill.amount.per.token": {
+    "defaultMessage": "Fyll beløp per token"
+  },
+  "fill.order": {
+    "defaultMessage": "Fyll order"
+  },
+  "fillable.amount": {
+    "defaultMessage": "Utfyllbart beløp"
+  },
+  "insufficient": {
+    "defaultMessage": "Insufficient {symbol}"
+  },
+  "insufficient.symbol": {
+    "defaultMessage": "insufficient {symbol}"
+  },
+  "last.price": {
+    "defaultMessage": "Last price"
+  },
+  "last.price.amount": {
+    "defaultMessage": "Last price: {amount}"
+  },
+  "limit": {
+    "defaultMessage": "Limit"
+  },
+  "loading.quote": {
+    "defaultMessage": "Loading quote..."
+  },
+  "market": {
+    "defaultMessage": "Market"
+  },
+  "market.cap.amount": {
+    "defaultMessage": "Market Cap: {amount}"
+  },
+  "market.settings": {
+    "defaultMessage": "Market Settings"
+  },
+  "max.slippage.is.value.percent": {
+    "defaultMessage": "Max slippage is 50 percent"
+  },
+  "more": {
+    "defaultMessage": "More"
+  },
+  "my.orders": {
+    "defaultMessage": "My Orders"
+  },
+  "native.coins.are.not.supported.on.limit.orders": {
+    "defaultMessage": "Native coins are not supported on limited orders"
+  },
+  "order.created.message": {
+    "defaultMessage": "Order created"
+  },
+  "order.failed": {
+    "defaultMessage": "Order failed"
+  },
+  "place.order": {
+    "defaultMessage": "Place Order"
+  },
+  "please.switch.to.networks": {
+    "defaultMessage": "Please, switch to {networks}"
+  },
+  "please.use.wrapped.version.of.native.token": {
+    "defaultMessage": "Please use wrapped version of native token"
+  },
+  "price.change.24h": {
+    "defaultMessage": "Price Change 24h"
+  },
+  "price.change.24h.amount": {
+    "defaultMessage": "Price Change 24h: {amount}"
+  },
+  "quote.token": {
+    "defaultMessage": "Quote token"
+  },
+  "quote.tokens": {
+    "defaultMessage": "Quote tokens"
+  },
+  "review.order": {
+    "defaultMessage": "Review Order"
+  },
+  "search.for.a.token.by.name.symbol.and.address": {
+    "defaultMessage": "Search for a token by name, symbol and address"
+  },
+  "select.a.pair": {
+    "defaultMessage": "Select a pair"
+  },
+  "select.networks": {
+    "defaultMessage": "Select networks"
+  },
+  "select.tokens": {
+    "defaultMessage": "Select tokens"
+  },
+  "selecte.a.pair": {
+    "defaultMessage": "Select a pair"
+  },
+  "sell.symbol": {
+    "defaultMessage": "Sell {symbol}"
+  },
+  "sell.token.symbol": {
+    "defaultMessage": "Sell {tokenSymbol}"
+  },
+  "show.swaps": {
+    "defaultMessage": "Show Swaps"
+  },
+  "side": {
+    "defaultMessage": "Side"
+  },
+  "size": {
+    "defaultMessage": "Size"
+  },
+  "switch.to.network": {
+    "defaultMessage": "Switch to {network}"
+  },
+  "the.base.token.is.required.on.chain": {
+    "defaultMessage": "The quote token is required on {chainName}"
+  },
+  "the.max.fee.is.ten.percent": {
+    "defaultMessage": "The max fee is 10%"
+  },
+  "there.are.no.orders.to.show": {
+    "defaultMessage": "There are no orders to show"
+  },
+  "trade": {
+    "defaultMessage": "Trade"
+  },
+  "unsupported.network": {
+    "defaultMessage": "Unsupported Network"
+  },
+  "you.are.buying": {
+    "defaultMessage": "You are buying"
+  },
+  "you.are.selling": {
+    "defaultMessage": "You are selling"
+  },
+  "your.wallet.is.not.connected": {
+    "defaultMessage": "Your wallet is not connected"
+  },
+  "Unwrap": {
+    "defaultMessage": "Pakk ut"
+  },
+  "buy.crypto": {
+    "defaultMessage": "Kjøp kryptovaluta"
+  },
+  "buy.crypto.with.transak": {
+    "defaultMessage": "Kjøp krypto med Transak"
+  },
+  "gas.gas": {
+    "defaultMessage": "Gas: {gas} Gwei"
+  },
+  "insufficient.symbol.balance": {
+    "defaultMessage": "Insufficient {symbol} balance"
+  },
+  "network.not.supported.msg": {
+    "defaultMessage": "Network not supported. Please change to a supported network: {networks}"
+  },
+  "network_not_supported": {
+    "defaultMessage": "Network not supported"
+  },
+  "no.coins": {
+    "defaultMessage": "No coins"
+  },
+  "no.coins.found": {
+    "defaultMessage": "No coins found"
+  },
+  "powered.by.dexkit": {
+    "defaultMessage": "Powered by {dexkit}"
+  },
+  "price.impact": {
+    "defaultMessage": "Price impact"
+  },
+  "price.impact.swap.message.info": {
+    "defaultMessage": "Price impact refers to the fluctuation in the price of a coin that happens when a trade takes place. When the price impact is high, it can sometimes lead to buying coins at a price lower than what was initially expected."
+  },
+  "recent": {
+    "defaultMessage": "Recent"
+  },
+  "search.for.a.coin.by.name.symbol.and.address": {
+    "defaultMessage": "Search for a coin by name, symbol and address"
+  },
+  "select.token": {
+    "defaultMessage": "Select token"
+  },
+  "swap.tokens": {
+    "defaultMessage": "Swap Tokens"
+  },
+  "switch.wallet.network": {
+    "defaultMessage": "Switch wallet to {networkName}"
+  },
+  "token.balance": {
+    "defaultMessage": "balance: {balance}"
+  },
+  "transaction.rejected": {
+    "defaultMessage": "Transaction rejected"
+  },
+  "wrap": {
+    "defaultMessage": "Wrap"
+  },
+  "you.send": {
+    "defaultMessage": "You send"
+  },
+  "Create forms": {
+    "defaultMessage": "Opprett skjemaer"
+  },
+  "Deploy": {
+    "defaultMessage": "Sett ut"
+  },
+  "Switch Network": {
+    "defaultMessage": "Bytt nettverk"
+  },
+  "address": {
+    "defaultMessage": "Adresse"
+  },
+  "admin.setup.description": {
+    "defaultMessage": "Start din egen kryptoside/markedsplass på sekunder. Start nå som en kryptoentreprenør på to trinn: opprett lommebok, fyll inn navnet på markedsplassen din og du er klar til å gå."
+  },
+  "buy.app": {
+    "defaultMessage": "Kjøp app"
+  },
+  "bytecode": {
+    "defaultMessage": "Bytekode"
+  },
+  "changelog-dev": {
+    "defaultMessage": "Dev endringslogg"
+  },
+  "check.out.our.dev.changelog.for.more.technical.updates": {
+    "defaultMessage": "Sjekk ut dev-endringsloggen for mer tekniske oppdateringer"
+  },
+  "check.out.our.video.changelog.from.dexappbuilder.with.last.updates": {
+    "defaultMessage": "Sjekk ut videologgen med siste oppdateringer"
+  },
+  "choose.a.wallet.to.proceed": {
+    "defaultMessage": "Velg en lommebok for å fortsette"
+  },
+  "choose.wallet": {
+    "defaultMessage": "Velg lommebok"
+  },
+  "connect.wallet.to.see.apps.associated.with.your.account": {
+    "defaultMessage": "Koble lommeboken din til for å se apper knyttet til kontoen din"
+  },
+  "connect.wallet.to.see.contracts.associated.with.your.account": {
+    "defaultMessage": "Koble lommeboken til for å se kontrakter knyttet til kontoen din"
+  },
+  "connected.wallet.not.authorized.to.access.this.account.switch.to.account.that.owns.this.account": {
+    "defaultMessage": "Tilkoblet lommebok har ikke tillatelse til å få tilgang til denne appen. Bytt til kontoen som eier denne appen og logg inn"
+  },
+  "contract.deployed.succefully": {
+    "defaultMessage": "Kontrakt vellykket utsatt"
+  },
+  "contract.deployed.successfully": {
+    "defaultMessage": "Kontrakt vellykket utsatt"
+  },
+  "contract.instances": {
+    "defaultMessage": "Kontraktinstanser"
+  },
+  "contract.templates": {
+    "defaultMessage": "Kontraktmal"
+  },
+  "contract.wizard": {
+    "defaultMessage": "Kontraktveiviser"
+  },
+  "contract.wizard.description": {
+    "defaultMessage": "Opprett enkelt dine digitale samlerobjekter (NFT-er) ved hjelp av AI-bildegenereringsverktøy og opprett dem på valgfri blockchain med ett klikk."
+  },
+  "contracts": {
+    "defaultMessage": "Kontrakter"
+  },
+  "contracts.you.deployed": {
+    "defaultMessage": "Kontrakter du har utsatt"
+  },
+  "create.an.exchange.with.our.quick.app.builder.in.seconds": {
+    "defaultMessage": "Opprett en avansert krypto grenseordreutvekslingsapp på sekunder ved hjelp av vår raske appbygger"
+  },
+  "create.and.manage.your.collections": {
+    "defaultMessage": "Opprett og administrer samlingene dine"
+  },
+  "create.custom.form": {
+    "defaultMessage": "Opprett tilpasset skjema"
+  },
+  "create.forms.to interact.with.contracts": {
+    "defaultMessage": "Opprett skjemaer for å samhandle med kontrakter"
+  },
+  "create.marketplace.title": {
+    "defaultMessage": "Opprett din kryptoside/markedsplass på sekunder."
+  },
+  "create.one.to.start.selling.NFTs.or.crypto": {
+    "defaultMessage": "Opprett en app for å begynne å handle NFT-er eller krypto"
+  },
+  "create.swap.title": {
+    "defaultMessage": "Opprett din kryptoside/swap på sekunder."
+  },
+  "create.template.pages": {
+    "defaultMessage": "Opprett malssider"
+  },
+  "created.by.address": {
+    "defaultMessage": "Opprettet av: {address}"
+  },
+  "creator": {
+    "defaultMessage": "Skaper"
+  },
+  "creator.address": {
+    "defaultMessage": "Skaper: {address}"
+  },
+  "current.app.version": {
+    "defaultMessage": "Gjeldende appversjon"
+  },
+  "custom": {
+    "defaultMessage": "Tilpasset"
+  },
+  "deploy.your.own.contract": {
+    "defaultMessage": "Utsatt din egen kontrakt"
+  },
+  "deploying.contract": {
+    "defaultMessage": "Utsetter kontrakten din"
+  },
+  "dev.changelog": {
+    "defaultMessage": "Endringslogg for utvikleren"
+  },
+  "do.you.really.want.to.create.this.form": {
+    "defaultMessage": "Vil du virkelig opprette dette skjemaet?"
+  },
+  "do.you.really.want.to.create.this.token": {
+    "defaultMessage": "Vil du virkelig opprette denne tokenen?"
+  },
+  "do.you.really.want.to.update.this.form": {
+    "defaultMessage": "Vil du virkelig oppdatere dette skjemaet?"
+  },
+  "drops.of.same.collection": {
+    "defaultMessage": "Slipp fra samme samling"
+  },
+  "edit.templateName": {
+    "defaultMessage": "Rediger: {skjemnavn}"
+  },
+  "email.verified": {
+    "defaultMessage": "E-post bekreftet"
+  },
+  "email.verified.with.success": {
+    "defaultMessage": "E-post bekreftet med suksess"
+  },
+  "error.404": {
+    "defaultMessage": "Feil 404"
+  },
+  "error.while.deploying.contract": {
+    "defaultMessage": "Feil ved distribusjon av kontrakt"
+  },
+  "error.while.switching.network": {
+    "defaultMessage": "Feil ved bytte av nettverk"
+  },
+  "explore.our.new.tool.dexgenerator": {
+    "defaultMessage": "Utforsk vårt nye verktøy: DexGenerator"
+  },
+  "favorites": {
+    "defaultMessage": "Favoritter"
+  },
+  "filled": {
+    "defaultMessage": "Fylt"
+  },
+  "form.deleted.successfully": {
+    "defaultMessage": "Skjema slettet vellykket"
+  },
+  "form.name": {
+    "defaultMessage": "Skjema: {name}"
+  },
+  "form.preview": {
+    "defaultMessage": "Skjemapresentasjon"
+  },
+  "form.updated": {
+    "defaultMessage": "Skjema oppdatert"
+  },
+  "forms": {
+    "defaultMessage": "Skjemaer"
+  },
+  "make.at.least.one.form.field.visible.to.see.a.preview": {
+    "defaultMessage": "Gjør minst én skjemafelt synlig for å se en forhåndsvisning"
+  },
+  "manage.contract": {
+    "defaultMessage": "Administrer kontrakt"
+  },
+  "max.supply": {
+    "defaultMessage": "Maksimal forsyning"
+  },
+  "my.collections": {
+    "defaultMessage": "Mine samlinger"
+  },
+  "my.contracts": {
+    "defaultMessage": "Mine kontrakter"
+  },
+  "my.wallet": {
+    "defaultMessage": "Min lommebok"
+  },
+  "network.switched": {
+    "defaultMessage": "Nettverket endret"
+  },
+  "nft.drop": {
+    "defaultMessage": "NFT-slipp"
+  },
+  "no.apps": {
+    "defaultMessage": "Ingen apper"
+  },
+  "no.forms.yet": {
+    "defaultMessage": "Ingen skjemaer ennå"
+  },
+  "no.page.templates": {
+    "defaultMessage": "Ingen sidemaler"
+  },
+  "no.wallet.connected": {
+    "defaultMessage": "Ingen tilkoblet lommebok"
+  },
+  "oop.page.not.found": {
+    "defaultMessage": "Oops, siden ble ikke funnet"
+  },
+  "order.type": {
+    "defaultMessage": "Bestillings type"
+  },
+  "page.template": {
+    "defaultMessage": "Side mal"
+  },
+  "please.confirm.the.transaction.in.your.wallet.and.wait.for.confirmation": {
+    "defaultMessage": "Vennligst bekreft transaksjonen i lommeboken din og vent på bekreftelse"
+  },
+  "published.by.publisher": {
+    "defaultMessage": "Publisert av: {publisher}"
+  },
+  "quick.exchange.builder.description": {
+    "defaultMessage": "Forbedre din cryptocurrency trading med vår Quick Builder for børser. Lag enkelt din børsplattform, skreddersy den etter dine behov, og begi deg ut på en reise med finansiell innovasjon. Utforsk mulighetene og omdefiner måten du bygger børser på."
+  },
+  "quick.store.builder.title": {
+    "defaultMessage": "Lag en NFT-butikk-app på sekunder ved hjelp av vår hurtige appbygger"
+  },
+  "quick.swap.builder.description": {
+    "defaultMessage": "Lag en krypto lommebok for din token. Du kan konfigurere den slik at den matcher merket til prosjektet ditt"
+  },
+  "quick.swap.builder.title": {
+    "defaultMessage": "Lag en kryptoaggregator app på sekunder ved hjelp av vår hurtige appbygger"
+  },
+  "quick.swap.wizard.description": {
+    "defaultMessage": "Opprett en NFT-butikk for din konto. Del butikken din slik at brukere enkelt kan kjøpe tilbudene du poster. En dedikert butikk for å vise dine NFT-er"
+  },
+  "quick.wallet.builder.title": {
+    "defaultMessage": "Opprett en krypto lommebok på sekunder ved hjelp av vår raske app-bygger"
+  },
+  "select.type": {
+    "defaultMessage": "Alle"
+  },
+  "site.list": {
+    "defaultMessage": "Sideoversikt"
+  },
+  "site.list.description": {
+    "defaultMessage": "Start din egen side/markedsplass/app på sekunder. Her kan du se og la deg inspirere av andre fellesskapsapper. Start nå som en kryptoentreprenør"
+  },
+  "site.templates": {
+    "defaultMessage": "Sidebar-maler"
+  },
+  "site.templates.description": {
+    "defaultMessage": "Start din egen side/markedsplass/app på sekunder. Her kan du se og klone apper med ulike bruksområder. Start nå som en kryptoentreprenør"
+  },
+  "template.created": {
+    "defaultMessage": "Kontraktmaler oppdatert"
+  },
+  "thirdweb.contracts": {
+    "defaultMessage": "ThirdWeb-kontrakter"
+  },
+  "token.drop": {
+    "defaultMessage": "Token Drop"
+  },
+  "traits": {
+    "defaultMessage": "Egenskaper"
+  },
+  "transaction.submitted": {
+    "defaultMessage": "Transaksjon sendt"
+  },
+  "update.form": {
+    "defaultMessage": "Lagre skjema"
+  },
+  "video.changelog": {
+    "defaultMessage": "Videologg"
+  },
+  "view.contracts": {
+    "defaultMessage": "Vis kontrakter"
+  },
+  "view.form": {
+    "defaultMessage": "Vis skjema"
+  },
+  "view.on.explorer": {
+    "defaultMessage": "Vis på utforskeren"
+  },
+  "view.site": {
+    "defaultMessage": "Vis"
+  },
+  "wallets": {
+    "defaultMessage": "Lommebøker"
+  },
+  "web3forms.deplopy": {
+    "defaultMessage": "DexGenerator"
+  },
+  "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
+    "defaultMessage": "Du kan distribuere kontrakter fra vår liste og fra fellesskapet i fremtiden"
+  },
+  ".step.theme.info": {
+    "defaultMessage": "Velg bytte app-tema og skrifttype."
+  },
+  "0x.api": {
+    "defaultMessage": "0x-API"
+  },
+  "0x.dashboard": {
+    "defaultMessage": "0x dashbord"
+  },
+  "0x.is.a.decentralized.exchange.protocol.description": {
+    "defaultMessage": "0x er et desentralisert utvekslingsprotokoll på Ethereum, som muliggjør peer-to-peer-handel av ulike digitale eiendeler gjennom åpne standarder og smarte kontrakter. Denne API-nøkkelen brukes for bytte og grenseordrefunksjoner."
+  },
+  "Airdrop": {
+    "defaultMessage": "Luftslipp"
+  },
+  "Airdrop token": {
+    "defaultMessage": "Luftslipp-token"
+  },
+  "Airdropped token": {
+    "defaultMessage": "Luftslippet token"
+  },
+  "Allow.list.file": {
+    "defaultMessage": "Tillat liste-fil"
+  },
+  "Amount": {
+    "defaultMessage": "Beløp"
+  },
+  "Amount in": {
+    "defaultMessage": "Beløp inn"
+  },
+  "Amount.nft": {
+    "defaultMessage": "Beløp NFT"
+  },
+  "Analytics": {
+    "defaultMessage": "Analyse"
+  },
+  "Choose app font": {
+    "defaultMessage": "Velg app-skrifttype"
+  },
+  "Claiming not available": {
+    "defaultMessage": "Krevering ikke tilgjengelig"
+  },
+  "Create.Order": {
+    "defaultMessage": "Opprett Ordre"
+  },
+  "Edit claimers": {
+    "defaultMessage": "Rediger kravstiller"
+  },
+  "Export": {
+    "defaultMessage": "Eksporter"
+  },
+  "Free": {
+    "defaultMessage": "Gratis"
+  },
+  "From": {
+    "defaultMessage": "Fra"
+  },
+  "ID": {
+    "defaultMessage": "ID"
+  },
+  "Listing": {
+    "defaultMessage": "Oppføring"
+  },
+  "Network": {
+    "defaultMessage": "Nettverk",
+    "description": "Network caption"
+  },
+  "New.page": {
+    "defaultMessage": "Ny side"
+  },
+  "Open.claim": {
+    "defaultMessage": "Åpne krav"
+  },
+  "Price": {
+    "defaultMessage": "Pris"
+  },
+  "SEO": {
+    "defaultMessage": "SEO"
+  },
+  "Save": {
+    "defaultMessage": "Lagre"
+  },
+  "Update": {
+    "defaultMessage": "Oppdater"
+  },
+  "You.are.not.eligible.to.mint.at.this.time.": {
+    "defaultMessage": "Du er ikke kvalifisert til å lage mynter på nåværende tidspunkt."
+  },
+  "Your token was created successfully": {
+    "defaultMessage": "Tokenen din ble opprettet vellykket"
+  },
+  "a.record": {
+    "defaultMessage": "A-post"
+  },
+  "abi": {
+    "defaultMessage": "ABI"
+  },
+  "accept": {
+    "defaultMessage": "Godta",
+    "description": "Accept"
+  },
+  "access.darkblock.to.get.more.information": {
+    "defaultMessage": "Få tilgang til darkblock for å få mer informasjon"
+  },
+  "access.requirements": {
+    "defaultMessage": "Tilgangskrav"
+  },
+  "access.requirements.description.gated.view.conditions": {
+    "defaultMessage": "For å få tilgang til denne private siden, vær vennlig å forsikre deg om at du oppfyller alle betingelsene nedenfor, slik de er definert av sideeieren:"
+  },
+  "access.requirements.message": {
+    "defaultMessage": "Melding om tilgangskrav"
+  },
+  "access.the.0x.dashboard.to.get.your.api.key": {
+    "defaultMessage": "Få tilgang til 0x-dashboardet for å få din API-nøkkel"
+  },
+  "accordion.details": {
+    "defaultMessage": "Detaljer",
+    "description": "Details in the nft accordion"
+  },
+  "account": {
+    "defaultMessage": "Konto"
+  },
+  "account.which.you.signed.message.to.authenticate.to.app": {
+    "defaultMessage": "Konto som du signerte melding for å autentisere til app"
+  },
+  "accounts": {
+    "defaultMessage": "Kontoer"
+  },
+  "actions": {
+    "defaultMessage": "Handlinger"
+  },
+  "add": {
+    "defaultMessage": "Legg til"
+  },
+  "add.accounts.and.manage.their.permissions": {
+    "defaultMessage": "Legg til kontoer og administrer deres tillatelser"
+  },
+  "add.addresses.to.airdrop": {
+    "defaultMessage": "Legg til adresser for airdrop"
+  },
+  "add.app.ranking": {
+    "defaultMessage": "Legg til app rangering"
+  },
+  "add.app.version": {
+    "defaultMessage": "Legg til appversjon"
+  },
+  "add.attribute": {
+    "defaultMessage": "Legg til attributt"
+  },
+  "add.claim.condition": {
+    "defaultMessage": "Legg til kravbetingelse"
+  },
+  "add.collection": {
+    "defaultMessage": "Legg til samling"
+  },
+  "add.collection.to.your.app": {
+    "defaultMessage": "Legg til samling i appen din"
+  },
+  "add.condition": {
+    "defaultMessage": "Legg til betingelse"
+  },
+  "add.custom": {
+    "defaultMessage": "Legg til tilpasset"
+  },
+  "add.custom.section": {
+    "defaultMessage": "Legg til tilpasset seksjon"
+  },
+  "add.fee": {
+    "defaultMessage": "Rediger avgift"
+  },
+  "add.fees.to.your.marketplace": {
+    "defaultMessage": "Legg til avgifter i markedsplassen din"
+  },
+  "add.gated.conditions": {
+    "defaultMessage": "Legg til låste betingelser"
+  },
+  "add.image": {
+    "defaultMessage": "Legg til bilde"
+  },
+  "add.item": {
+    "defaultMessage": "Legg til element"
+  },
+  "add.leaderboard": {
+    "defaultMessage": "Legg til ledertavle"
+  },
+  "add.leaderboards.to.your.app": {
+    "defaultMessage": "Legg til ledertavler i appen din"
+  },
+  "add.member": {
+    "defaultMessage": "Legg til medlem"
+  },
+  "add.menu": {
+    "defaultMessage": "Legg til meny"
+  },
+  "add.network": {
+    "defaultMessage": "Legg til nettverk"
+  },
+  "add.networks": {
+    "defaultMessage": "Legg til nettverk"
+  },
+  "add.nft": {
+    "defaultMessage": "Legg til nft"
+  },
+  "add.ref.to.track.referrals": {
+    "defaultMessage": "Legg til referanse i din URL for å spore henvisninger i arrangementene dine. F.eks.: dittnettsted.com?ref=din-henvisning"
+  },
+  "add.rule": {
+    "defaultMessage": "Legg til regel"
+  },
+  "add.section": {
+    "defaultMessage": "Add Section"
+  },
+  "add.team.members.to.read.and.do.updates": {
+    "defaultMessage": "Legg til teammedlemmer for å oppdatere appen din"
+  },
+  "add.versions.to.your.app": {
+    "defaultMessage": "Legg til versjoner i appen din"
+  },
+  "add.versions.to.your.app.for.backup.and.to.enable.rollback": {
+    "defaultMessage": "Legg til versjoner i appen din for sikkerhetskopiering og å aktivere tilbakerulling"
+  },
+  "adding.app.ranking": {
+    "defaultMessage": "Legger til apprang"
+  },
+  "adding.app.version": {
+    "defaultMessage": "Legger til appversjon"
+  },
+  "adding.member": {
+    "defaultMessage": "Legger til medlem"
+  },
+  "adding.ranking": {
+    "defaultMessage": "Legger til rangering"
+  },
+  "adding.version": {
+    "defaultMessage": "Legger til versjon"
+  },
+  "addresses": {
+    "defaultMessage": "Adresser"
+  },
+  "adjust.marketplace.fees.title": {
+    "defaultMessage": "Juster appens markedsplassavgifter"
+  },
+  "adjust.your.app.swap.fees.title": {
+    "defaultMessage": "Juster appens bytteavgifter"
+  },
+  "admin": {
+    "defaultMessage": "Administrator"
+  },
+  "advanced": {
+    "defaultMessage": "Avansert"
+  },
+  "advanced.info": {
+    "defaultMessage": "Bare den angitte adressen nedenfor kan kjøpe denne oppføringen. Hvis tomt, kan en hvilken som helst konto kjøpe denne oppføringen."
+  },
+  "airdrop": {
+    "defaultMessage": "Luftslipp"
+  },
+  "airdrop.claim.token.seo.title.message": {
+    "defaultMessage": "Airdrop av {tokenSymbol} på {network}"
+  },
+  "airdrop.claimable.contract": {
+    "defaultMessage": "Luftslippbart kontrakt"
+  },
+  "airdrop.requirements": {
+    "defaultMessage": "Airdrop-krav"
+  },
+  "airdrop.token.seo.description.message": {
+    "defaultMessage": "Krev airdrop av {tokenSymbol} på {network}"
+  },
+  "airdrop.user.info": {
+    "defaultMessage": "Airdrop for brukere som fullfører profil og kobler til både Discord og Twitter"
+  },
+  "airdrop.user.info.completed": {
+    "defaultMessage": "Airdrop-kampanje fullført"
+  },
+  "airdrop.user.info.web.submmit": {
+    "defaultMessage": "Merk: Du må være i Rio de Janeiro for å kreve dette airdropet"
+  },
+  "all": {
+    "defaultMessage": "Alt"
+  },
+  "amount": {
+    "defaultMessage": "Beløp"
+  },
+  "amount.exceeds.the.amount.staked": {
+    "defaultMessage": "Beløpet overstiger det beløpet som er innsats"
+  },
+  "amount.exceeds.the.balance": {
+    "defaultMessage": "Beløpet overstiger balansen"
+  },
+  "amount.exceeds.the.nft.balance": {
+    "defaultMessage": "Beløpet overstiger NFT-balansen"
+  },
+  "amount.nfts.selected.to.stake": {
+    "defaultMessage": "NFT-er {tokens} er valgt for innsats"
+  },
+  "amount.of.tokenId.is.selected.to.unstake": {
+    "defaultMessage": "{beløp} av \"#{tokenId}\" er valgt for å avgi innsats"
+  },
+  "amount.tokens.selected.to.stake": {
+    "defaultMessage": "NFT-er \"{tokens}\" er valgt for innsats"
+  },
+  "analytics": {
+    "defaultMessage": "Analyse"
+  },
+  "analytics.wizard.description": {
+    "defaultMessage": "Legg Google Analytics til appen din"
+  },
+  "and": {
+    "defaultMessage": "Og"
+  },
+  "animation.url": {
+    "defaultMessage": "Animasjons-URL"
+  },
+  "api.key": {
+    "defaultMessage": "API-nøkkel"
+  },
+  "app.builder.setup": {
+    "defaultMessage": "App-byggerinstallasjon"
+  },
+  "app.leaderboard.removed": {
+    "defaultMessage": "App-topplisten fjernet"
+  },
+  "app.leaderboard.updated": {
+    "defaultMessage": "Oppdatert app-toppliste"
+  },
+  "app.name": {
+    "defaultMessage": "Appnavn"
+  },
+  "app.ranking": {
+    "defaultMessage": "App-rangering"
+  },
+  "app.ranking.updated": {
+    "defaultMessage": "App-rangering oppdatert"
+  },
+  "app.removed": {
+    "defaultMessage": "App fjernet"
+  },
+  "app.version": {
+    "defaultMessage": "App-versjon"
+  },
+  "app.version.removed": {
+    "defaultMessage": "App-versjon fjernet"
+  },
+  "app.version.set": {
+    "defaultMessage": "App-versjon satt"
+  },
+  "app.version.updated": {
+    "defaultMessage": "App-versjon oppdatert"
+  },
+  "app.versions": {
+    "defaultMessage": "App-versjoner"
+  },
+  "approve": {
+    "defaultMessage": "Godkjenn"
+  },
+  "approve.asset.description": {
+    "defaultMessage": "til App"
+  },
+  "approve.asset.title": {
+    "defaultMessage": "Godkjenn Asset"
+  },
+  "apps": {
+    "defaultMessage": "Apper"
+  },
+  "are.you.sure.you.want.to.delete.this.account": {
+    "defaultMessage": "Konto som skal fjernes: {account}"
+  },
+  "asset": {
+    "defaultMessage": "Eigedom"
+  },
+  "asset.will.be.added.to.favorites": {
+    "defaultMessage": "Dette aktivumet vil legges til blant favorittene dine"
+  },
+  "attributes": {
+    "defaultMessage": "Egenskaper",
+    "description": "Attributes accordion"
+  },
+  "auto.slippage": {
+    "defaultMessage": "Automatisk glidning"
+  },
+  "available.amount": {
+    "defaultMessage": "Tilgjengelig beløp"
+  },
+  "available.balance": {
+    "defaultMessage": "Tilgjengelig saldo"
+  },
+  "available.balance.amount": {
+    "defaultMessage": "Tilgjengelig beløp: {amount}"
+  },
+  "available.to.sell": {
+    "defaultMessage": "Tilgjengelig for salg: {quantity}"
+  },
+  "availclaimableable.rewards": {
+    "defaultMessage": "Overførbare belønninger"
+  },
+  "back": {
+    "defaultMessage": "Tilbake"
+  },
+  "back.to.home": {
+    "defaultMessage": "Tilbake til Hjem"
+  },
+  "back.to.leaderboard.list": {
+    "defaultMessage": "Tilbake til toppliste"
+  },
+  "back.to.nft.list": {
+    "defaultMessage": "Tilbake til NFT-listen"
+  },
+  "background.color": {
+    "defaultMessage": "Bakgrunnsfarge"
+  },
+  "background.image": {
+    "defaultMessage": "Bakgrunnsbilde"
+  },
+  "backgroundImage": {
+    "defaultMessage": "Bakgrunnsbilde"
+  },
+  "balance": {
+    "defaultMessage": "Balansere"
+  },
+  "bio": {
+    "defaultMessage": "Biografi"
+  },
+  "block.explorer": {
+    "defaultMessage": "Blokkeksplorer"
+  },
+  "boost.number": {
+    "defaultMessage": "Fremhev nummer"
+  },
+  "boost.percentage": {
+    "defaultMessage": "Fremhev prosentandel"
+  },
+  "border.radius": {
+    "defaultMessage": "Kantradius"
+  },
+  "browser.not.support.video.tage": {
+    "defaultMessage": "Nettleseren din støtter ikke videomerke."
+  },
+  "builder.kits.description": {
+    "defaultMessage": "Velg en pakke for å forhåndsvise funksjonene for å bygge appen din."
+  },
+  "burn": {
+    "defaultMessage": "Brenne"
+  },
+  "burn.token": {
+    "defaultMessage": "Brenne Token"
+  },
+  "button.title": {
+    "defaultMessage": "Knappetittel"
+  },
+  "button.url": {
+    "defaultMessage": "Knapp-URL"
+  },
+  "buy": {
+    "defaultMessage": "Kjøpe",
+    "description": "Buy asset button text"
+  },
+  "buy.asset": {
+    "defaultMessage": "Kjøp Asset",
+    "description": "Buy asset title"
+  },
+  "buy.now": {
+    "defaultMessage": "Kjøp nå"
+  },
+  "buy.on.platform": {
+    "defaultMessage": "Kjøp på {plattform}",
+    "description": "Buy asset button text"
+  },
+  "buyer.address": {
+    "defaultMessage": "Kjøpers adresse",
+    "description": "Buyer address input label"
+  },
+  "call.label": {
+    "defaultMessage": "Ringetikett"
+  },
+  "call.on.view": {
+    "defaultMessage": "Ring ved visning"
+  },
+  "call.to.action": {
+    "defaultMessage": "Handlingsoppfordring"
+  },
+  "cancel": {
+    "defaultMessage": "Avbryt"
+  },
+  "cancel.listing": {
+    "defaultMessage": "Avbryt oppføring"
+  },
+  "cancel.selection": {
+    "defaultMessage": "Avbryt valg"
+  },
+  "careful.with.scripts": {
+    "defaultMessage": "Vær forsiktig med skript og html du bruker her"
+  },
+  "chainId": {
+    "defaultMessage": "Kjede-ID"
+  },
+  "changes.unsaved": {
+    "defaultMessage": "Endringer lagret ikke"
+  },
+  "check.deploy.status": {
+    "defaultMessage": "Sjekk distribusjonsstatus"
+  },
+  "checked.successfully": {
+    "defaultMessage": "Sjekket vellykket"
+  },
+  "checking.domain": {
+    "defaultMessage": "Sjekker domenet"
+  },
+  "checking.eligibility": {
+    "defaultMessage": "Sjekker kvalifisering..."
+  },
+  "choose.app.theme.color.for.each.mode ": {
+    "defaultMessage": "Velg app-fargetema for hver modus"
+  },
+  "choose.default.settings.for.exchange.interface": {
+    "defaultMessage": "Velg standardinnstillinger for byttegrensesnitt"
+  },
+  "choose.default.settings.for.swap.interface": {
+    "defaultMessage": "Velg standardinnstillinger for byttgrensesnitt"
+  },
+  "choose.default.tokens.on.wallet.app": {
+    "defaultMessage": "Velg standardtokener på lommebok-appen din."
+  },
+  "choose.network": {
+    "defaultMessage": "Velg nettverk"
+  },
+  "choose.your.theme": {
+    "defaultMessage": "Velg ditt tema"
+  },
+  "claim.airdrop": {
+    "defaultMessage": "Claim airdrop"
+  },
+  "claim.amount": {
+    "defaultMessage": "Kravbeløp"
+  },
+  "claim.conditions": {
+    "defaultMessage": "krav.betingelser"
+  },
+  "claim.erc20.tokens.from.contractName": {
+    "defaultMessage": "Krev ERC20-tokener fra {contractName}"
+  },
+  "claim.erc721.tokens.from.contractName": {
+    "defaultMessage": "Krev ERC721-tokener fra {contractName}"
+  },
+  "claim.free": {
+    "defaultMessage": "Krev gratis"
+  },
+  "claim.kit.airdrop": {
+    "defaultMessage": "Krev KIT-airdrop"
+  },
+  "claim.nfts": {
+    "defaultMessage": "Krev NFT-er"
+  },
+  "claim.rewards": {
+    "defaultMessage": "Krev belønninger"
+  },
+  "claim.submitted.wait.for.transaction.confirm.onchain.to.receive.airdropped.kit": {
+    "defaultMessage": "Kravet ditt er sendt inn. Vennligst vent på at transaksjonen bekreftes på blockchain for å motta KIT-en som ble sendt nedluftet!"
+  },
+  "claim.tokens": {
+    "defaultMessage": "Krev tokener"
+  },
+  "claimable.rewards": {
+    "defaultMessage": "Overførbare belønninger"
+  },
+  "claimed": {
+    "defaultMessage": "Krevd"
+  },
+  "claimed.supply": {
+    "defaultMessage": "Krevd forsyning"
+  },
+  "claiming.not.available": {
+    "defaultMessage": "Kreving ikke tilgjengelig"
+  },
+  "clain.priceToMint": {
+    "defaultMessage": "Krav ({priceToMint})"
+  },
+  "clear.all": {
+    "defaultMessage": "Tøm alle"
+  },
+  "clear.filters": {
+    "defaultMessage": "Fjern filtrene for å se nft'ene"
+  },
+  "clear.filters.to.see.nft.drops": {
+    "defaultMessage": "Fjern filtrene for å se nft-dukkene"
+  },
+  "click.on.nft.to.manage.and.set.claim.conditions.": {
+    "defaultMessage": "Klikk på NFT-ar for å starte å handtere og setje krav tilstandar."
+  },
+  "clone": {
+    "defaultMessage": "Kopier"
+  },
+  "clone.page": {
+    "defaultMessage": "Kopier side"
+  },
+  "clone.section": {
+    "defaultMessage": "Kopier seksjon"
+  },
+  "close": {
+    "defaultMessage": "Lukk"
+  },
+  "close.modal": {
+    "defaultMessage": "Lukk modal"
+  },
+  "cname": {
+    "defaultMessage": "Kategorinavn"
+  },
+  "code": {
+    "defaultMessage": "Kode"
+  },
+  "coin": {
+    "defaultMessage": "Mynt"
+  },
+  "collapse": {
+    "defaultMessage": "Kollaps"
+  },
+  "collected": {
+    "defaultMessage": "Samla"
+  },
+  "collection": {
+    "defaultMessage": "Samling"
+  },
+  "collection.address": {
+    "defaultMessage": "Samling-adresse"
+  },
+  "collection.background.image": {
+    "defaultMessage": "Bakgrunnsbilete for samling"
+  },
+  "collection.created": {
+    "defaultMessage": "Samling laga"
+  },
+  "collection.created.error": {
+    "defaultMessage": "Feil med å lage samling"
+  },
+  "collection.image": {
+    "defaultMessage": "Bilete for samling"
+  },
+  "collection.metadata.error": {
+    "defaultMessage": "Feil med samlingsmetadata"
+  },
+  "collection.metadata.not.saved": {
+    "defaultMessage": "Samlingsmetadataen din vart ikkje lagra"
+  },
+  "collection.metadata.saved": {
+    "defaultMessage": "Samlingsmetadata lagra"
+  },
+  "collection.preview": {
+    "defaultMessage": "Forhåndsvis samling"
+  },
+  "collection.removed": {
+    "defaultMessage": "Samling fjerna"
+  },
+  "collection.saved": {
+    "defaultMessage": "Samling lagra"
+  },
+  "collection.without.orders": {
+    "defaultMessage": "Samling utan eiendomar. Kom tilbake seinare!"
+  },
+  "collections": {
+    "defaultMessage": "Samlingar"
+  },
+  "complete.profile": {
+    "defaultMessage": "Fullfør profil"
+  },
+  "complete.profile.info": {
+    "defaultMessage": "Fullfør profilen din ved å klikke på fullfør profil"
+  },
+  "complete.socials info": {
+    "defaultMessage": "Vennligst koble til dine sosiale medium"
+  },
+  "complete.user.profile": {
+    "defaultMessage": "Fullfør brukerprofil"
+  },
+  "condition": {
+    "defaultMessage": "Tilstand"
+  },
+  "condition.amount": {
+    "defaultMessage": "Tilstandsbeløp"
+  },
+  "condition.amount.in": {
+    "defaultMessage": "Tilstandsbeløp i"
+  },
+  "condition.amount.nft": {
+    "defaultMessage": "Tilstandsbeløp NFT"
+  },
+  "condition.amount.out": {
+    "defaultMessage": "Tilstandsbeløp ut"
+  },
+  "condition.index.value": {
+    "defaultMessage": "Tilstand {index}"
+  },
+  "config.sent": {
+    "defaultMessage": "Konfigurasjon sendt"
+  },
+  "configure.0x.text": {
+    "defaultMessage": "Sørg for ein smidig oppleving ved å konfigurere 0x API-nykkelen din for tilgang til våre bytte- og børs-tenester."
+  },
+  "configure.domain": {
+    "defaultMessage": "Konfigurer domene"
+  },
+  "confirm": {
+    "defaultMessage": "Bekreft"
+  },
+  "confirm.sign.message": {
+    "defaultMessage": "Ver vennleg å signere meldinga på lommeboka di"
+  },
+  "confirm.swap": {
+    "defaultMessage": "Bekreft bytte",
+    "description": "Confirm swap"
+  },
+  "congrats.you.claimed.your.kit.airdrop": {
+    "defaultMessage": "Gratulerer, du har kravd KIT-luftslippet ditt"
+  },
+  "connect.account": {
+    "defaultMessage": "Koble til konto"
+  },
+  "connect.discord": {
+    "defaultMessage": "Koble til Discord"
+  },
+  "connect.now": {
+    "defaultMessage": "Koble til no"
+  },
+  "connect.social.media": {
+    "defaultMessage": "Koble til sosiale medium"
+  },
+  "connect.socials": {
+    "defaultMessage": "Koble til sosialt"
+  },
+  "connect.twitter": {
+    "defaultMessage": "Koble til Twitter"
+  },
+  "connect.wallet": {
+    "defaultMessage": "Koble til lommebok",
+    "description": "Connect wallet button"
+  },
+  "connect.wallet.to.see.or.upload.images": {
+    "defaultMessage": "Koble til lommeboka for å sjå eller laste opp bilete."
+  },
+  "connect.wallet.to.start.create.collections": {
+    "defaultMessage": "Koble til lommebok for å starte å lage samlingar"
+  },
+  "contact.us": {
+    "defaultMessage": "Kontakt oss",
+    "description": "Contact us"
+  },
+  "continue": {
+    "defaultMessage": "Halde fram"
+  },
+  "contract": {
+    "defaultMessage": "Kontrakt"
+  },
+  "contract.address": {
+    "defaultMessage": "Contract address"
+  },
+  "contract.deployed": {
+    "defaultMessage": "Kontrakt utplassert"
+  },
+  "contract.generator": {
+    "defaultMessage": "Kontraktsbyggjar"
+  },
+  "contract.is.not.supported.yet": {
+    "defaultMessage": "Kontrakt ikkje støtta enno"
+  },
+  "contract.not.supported": {
+    "defaultMessage": "Kontrakt ikkje støtta"
+  },
+  "contract.type": {
+    "defaultMessage": "Kontraktstype"
+  },
+  "copied": {
+    "defaultMessage": "Kopiert!",
+    "description": "Copied text"
+  },
+  "copy": {
+    "defaultMessage": "Kopier",
+    "description": "Copy text"
+  },
+  "copy.address": {
+    "defaultMessage": "Kopier adresse",
+    "description": "Copy text"
+  },
+  "create": {
+    "defaultMessage": "Lag"
+  },
+  "create.a.form.to.interact.with.your.new.contract": {
+    "defaultMessage": "Lag eit skjema for å samhandle med den nye kontrakten din"
+  },
+  "create.app": {
+    "defaultMessage": "Lag applikasjon"
+  },
+  "create.claim.conditions": {
+    "defaultMessage": "Lag kravtilstandar"
+  },
+  "create.collection": {
+    "defaultMessage": "Lag samling"
+  },
+  "create.form": {
+    "defaultMessage": "Lag skjema"
+  },
+  "create.image": {
+    "defaultMessage": "Generer AI-bilete"
+  },
+  "create.leaderboards.and.gamify.your.app": {
+    "defaultMessage": "Lag topplister frå eventa dine og gjør appen til eit spel"
+  },
+  "create.listing": {
+    "defaultMessage": "Lag eiendomsliste"
+  },
+  "create.menu": {
+    "defaultMessage": "Lag meny"
+  },
+  "create.nft": {
+    "defaultMessage": "Create NFT"
+  },
+  "create.nft.order": {
+    "defaultMessage": "Lag NFT-orders"
+  },
+  "create.nft.store.app": {
+    "defaultMessage": "Lag NFT-butikkapp"
+  },
+  "create.nfts": {
+    "defaultMessage": "Lag NFT-ar"
+  },
+  "create.offer": {
+    "defaultMessage": "Lag tilbod"
+  },
+  "create.order": {
+    "defaultMessage": "Lag ordre"
+  },
+  "create.page": {
+    "defaultMessage": "Lag side"
+  },
+  "create.submenu": {
+    "defaultMessage": "Lag undermeny"
+  },
+  "create.swap.app": {
+    "defaultMessage": "Lag bytteapp"
+  },
+  "create.user.profile": {
+    "defaultMessage": "Lag brukerprofil"
+  },
+  "create.wallet.app": {
+    "defaultMessage": "Lag lommebokapp"
+  },
+  "create.your.app": {
+    "defaultMessage": "Lag appen din"
+  },
+  "created.by": {
+    "defaultMessage": "Laga av"
+  },
+  "creating.a.listing": {
+    "defaultMessage": "Lager ein listing"
+  },
+  "creating.an.offer": {
+    "defaultMessage": "Lager eit tilbod"
+  },
+  "creating.collection": {
+    "defaultMessage": "Lagrar samlingsmetadata"
+  },
+  "creating.collection.check.wallet": {
+    "defaultMessage": "Lagar samling på kjede. Sjekk lommeboka og aksepter transaksjon!"
+  },
+  "creating.nft": {
+    "defaultMessage": "Lagar NFT"
+  },
+  "creating.nft.on.server": {
+    "defaultMessage": "Lagar NFT på kjede og lagrar metadata"
+  },
+  "creating.nfts": {
+    "defaultMessage": "Lagra NFT-metadata"
+  },
+  "creating.nfts.check.wallet": {
+    "defaultMessage": "Opprett NFT-er på kjede. Sjekk lommebok og godta transaksjon!"
+  },
+  "creating.token": {
+    "defaultMessage": "Oppretter Token"
+  },
+  "creating.user.profile": {
+    "defaultMessage": "Oppretter brukerprofil"
+  },
+  "crypto.app.setup": {
+    "defaultMessage": "Kryptologgoppsett"
+  },
+  "csv.file.to.import.on.aidrop.contract": {
+    "defaultMessage": "CSV-fil som skal importeres til airdrop-kontrakter"
+  },
+  "currency": {
+    "defaultMessage": "Valuta"
+  },
+  "custom.page.editor": {
+    "defaultMessage": "Egendefinert side-editor"
+  },
+  "dark": {
+    "defaultMessage": "Mørk"
+  },
+  "darkblock": {
+    "defaultMessage": "Mørkeblokk"
+  },
+  "darkblock.io": {
+    "defaultMessage": "Darkblock.io"
+  },
+  "darkblock.one.line.description": {
+    "defaultMessage": "Darkblock er et desentralisert protokoll som lar innholdsskapere publisere og distribuere eksklusivt innhold til sine fans uten behov for sentraliserte token-portplattformer. Denne integrasjonen brukes på Asset-siden for nettverkene som støttes av Darkblock."
+  },
+  "data": {
+    "defaultMessage": "Data"
+  },
+  "date": {
+    "defaultMessage": "Dato"
+  },
+  "decimals": {
+    "defaultMessage": "Desimaler"
+  },
+  "default": {
+    "defaultMessage": "Standard"
+  },
+  "default.amount.to.send.to.the.contract": {
+    "defaultMessage": "Standard beløp å sende til kontrakten"
+  },
+  "default.currency": {
+    "defaultMessage": "Standardvaluta"
+  },
+  "default.network": {
+    "defaultMessage": "Standardnettverk"
+  },
+  "default.network.info.swap.form": {
+    "defaultMessage": "Standardnettverket når lommeboken ikke er tilkoblet"
+  },
+  "default.slippage.percentage": {
+    "defaultMessage": "Standard slippasje (0-50%)"
+  },
+  "default.theme.mode": {
+    "defaultMessage": "Standardtema-modus"
+  },
+  "default.value": {
+    "defaultMessage": "Standardverdi"
+  },
+  "delete": {
+    "defaultMessage": "Slett"
+  },
+  "delete.account.from.user": {
+    "defaultMessage": "Slett konto fra bruker"
+  },
+  "delete.app.leaderboard": {
+    "defaultMessage": "Slett app leaderboard"
+  },
+  "delete.app.version": {
+    "defaultMessage": "Slett appversjon"
+  },
+  "delete.page": {
+    "defaultMessage": "Slette side {page}"
+  },
+  "deleting.image": {
+    "defaultMessage": "Sletter bilde"
+  },
+  "denominator": {
+    "defaultMessage": "Nevner"
+  },
+  "deploy": {
+    "defaultMessage": "Utplassere"
+  },
+  "deploy.a.collection.to.see.it.here": {
+    "defaultMessage": "Implementer en samling for å se den her"
+  },
+  "deploy.contract.template": {
+    "defaultMessage": "Tilpasse kontraktmal"
+  },
+  "deploying.domain": {
+    "defaultMessage": "Utplassering av domenenavn"
+  },
+  "deposit": {
+    "defaultMessage": "Oppdater"
+  },
+  "deposit.reward": {
+    "defaultMessage": "Innskuddsbelønning"
+  },
+  "description": {
+    "defaultMessage": "Beskrivelse"
+  },
+  "detailed": {
+    "defaultMessage": "Detaljert"
+  },
+  "details": {
+    "defaultMessage": "Detaljer"
+  },
+  "dex.generator": {
+    "defaultMessage": "Dex-generator"
+  },
+  "dexappbuilder.ann.app.bar": {
+    "defaultMessage": "Støtt oss på {Giveth} og la tjenesten vår være gratis for alle. {Gitcoin} score 4 og donasjon på Polygon til oss matcher donasjoner!"
+  },
+  "disable.burn": {
+    "defaultMessage": "Deaktiver brenning"
+  },
+  "disable.info": {
+    "defaultMessage": "Deaktiver Info"
+  },
+  "disable.proxy": {
+    "defaultMessage": "Deaktiver proxy"
+  },
+  "disable.transfer": {
+    "defaultMessage": "Deaktiver overføring"
+  },
+  "discord.username": {
+    "defaultMessage": "Discord-brukernavn"
+  },
+  "do.you.really.want.to.clone.this.form": {
+    "defaultMessage": "Vil du virkelig klone dette skjemaet?"
+  },
+  "do.you.really.want.to.create.a.nft.info": {
+    "defaultMessage": "Do you really want to create a NFT representing ownership of this app? After you create this NFT you are not able to delete anymore the app! You can sell or transfer this NFT, if you do so, you lose ownership of the app."
+  },
+  "do.you.really.want.to.create.a.nft.store.app": {
+    "defaultMessage": "Vil du virkelig opprette en nft-butikkapp?"
+  },
+  "do.you.really.want.to.create.a.swap.app": {
+    "defaultMessage": "Vil du virkelig opprette en bytteapp?"
+  },
+  "do.you.really.want.to.create.a.wallet.app": {
+    "defaultMessage": "Vil du virkelig opprette en lommebokapp?"
+  },
+  "do.you.really.want.to.create.these.nfts": {
+    "defaultMessage": "Vil du virkelig opprette disse NFT-ene?"
+  },
+  "do.you.really.want.to.create.this.collection": {
+    "defaultMessage": "Vil du virkelig opprette denne samlingen?"
+  },
+  "do.you.really.want.to.create.your.user.profile": {
+    "defaultMessage": "Vil du virkelig opprette din brukerprofil?"
+  },
+  "do.you.really.want.to.delete.this.image": {
+    "defaultMessage": "Vil du virkelig slette dette bildet?"
+  },
+  "do.you.really.want.to.delete.this.page": {
+    "defaultMessage": "Vil du virkelig slette {page} siden?"
+  },
+  "do.you.really.want.to.deploy.this.domain": {
+    "defaultMessage": "Vil du virkelig utplassere dette domenet: {domain}"
+  },
+  "do.you.really.want.to.edit.this.image": {
+    "defaultMessage": "Vil du virkelig redigere dette bildet?"
+  },
+  "do.you.really.want.to.edit.this.nfts": {
+    "defaultMessage": "Vil du virkelig redigere denne NFT-en?"
+  },
+  "do.you.really.want.to.remove.this.app": {
+    "defaultMessage": "Vil du virkelig fjerne denne appen"
+  },
+  "do.you.really.want.to.remove.this.app.leaderboard": {
+    "defaultMessage": "Vil du virkelig fjerne denne app leaderboarden {title}"
+  },
+  "do.you.really.want.to.remove.this.app.version": {
+    "defaultMessage": "Vil du virkelig fjerne denne appversjonen {version}"
+  },
+  "do.you.really.want.to.remove.this.condition": {
+    "defaultMessage": "Vil du virkelig fjerne denne betingelsen?"
+  },
+  "do.you.really.want.to.remove.this.form": {
+    "defaultMessage": "Vil du virkelig fjerne dette skjemaet?"
+  },
+  "do.you.really.want.to.remove.this.member": {
+    "defaultMessage": "Vil du virkelig fjerne dette medlemmet {member}"
+  },
+  "do.you.really.want.to.remove.this.nft": {
+    "defaultMessage": "Vil du virkelig fjerne denne NFT-en?"
+  },
+  "do.you.really.want.to.remove.this.page.template": {
+    "defaultMessage": "Vil du virkelig fjerne denne sidemalen #{id}"
+  },
+  "do.you.really.want.to.send.this.app.settings": {
+    "defaultMessage": "Vil du virkelig sende det?"
+  },
+  "do.you.really.want.to.set.to.this.app.version": {
+    "defaultMessage": "Vil du virkelig sette denne appen til versjon {version}. Sørg for å sikkerhetskopiere eventuelle endringer i en ny versjon."
+  },
+  "do.you.really.want.to.update.a.nft.info": {
+    "defaultMessage": "Do you really want to update this NFT representing ownership of this app?"
+  },
+  "do.you.want.to.remove.all.number.tokens": {
+    "defaultMessage": "Vil du fjerne alle {count} tokens?"
+  },
+  "do.you.want.to.remove.nft": {
+    "defaultMessage": "Vil du fjerne denne NFT-en fra favorittene dine?"
+  },
+  "do.you.want.to.remove.this.collection": {
+    "defaultMessage": "Vil du fjerne denne samlingen?"
+  },
+  "do.you.want.to.remove.this.section": {
+    "defaultMessage": "Vil du fjerne denne seksjonen?"
+  },
+  "do.you.want.to.remove.this.token": {
+    "defaultMessage": "Vil du fjerne denne tokenen?"
+  },
+  "domain": {
+    "defaultMessage": "Domene"
+  },
+  "domain.error.propagated": {
+    "defaultMessage": "Domenet er fortsatt ikke spredt"
+  },
+  "domain.records": {
+    "defaultMessage": "Domenerecords"
+  },
+  "domains": {
+    "defaultMessage": "Domene"
+  },
+  "down": {
+    "defaultMessage": "Ned"
+  },
+  "drop": {
+    "defaultMessage": "Slipp"
+  },
+  "drop.details": {
+    "defaultMessage": "Slippdetaljer"
+  },
+  "drop.is.starting.soon. Please check back later.": {
+    "defaultMessage": "Slippet begynner snart. Sjekk igjen senere."
+  },
+  "drop.is.starting.soon.please.check.back.later": {
+    "defaultMessage": "Slippet begynner snart. Sjekk igjen senere."
+  },
+  "drop.not.ready.to.mint.yet": {
+    "defaultMessage": "Dette slippet er ikke klart til å bli lagt ut ennå."
+  },
+  "drops": {
+    "defaultMessage": "Slipp"
+  },
+  "drops.are.not.available.for.this.contract": {
+    "defaultMessage": "Slipp er ikke tilgjengelig for denne kontrakten"
+  },
+  "drops.not.found": {
+    "defaultMessage": "Slipp ikke funnet"
+  },
+  "edit": {
+    "defaultMessage": "Redigere"
+  },
+  "edit.app": {
+    "defaultMessage": "Rediger App"
+  },
+  "edit.claim.conditions": {
+    "defaultMessage": "Rediger kravbetingelser"
+  },
+  "edit.claimers": {
+    "defaultMessage": "Rediger kravstillere"
+  },
+  "edit.image.name": {
+    "defaultMessage": "Rediger bilde-navn"
+  },
+  "edit.leaderboard": {
+    "defaultMessage": "Rediger leaderboard"
+  },
+  "edit.name": {
+    "defaultMessage": "Rediger \"{name}\""
+  },
+  "edit.name.name": {
+    "defaultMessage": "Rediger \"{name}\""
+  },
+  "edit.nft.id": {
+    "defaultMessage": "Rediger NFT {id}"
+  },
+  "edit.nft.metadata": {
+    "defaultMessage": "Redigere NFT-metadata"
+  },
+  "edit.profile": {
+    "defaultMessage": "Redigere profil"
+  },
+  "edit.section": {
+    "defaultMessage": "Edit Section"
+  },
+  "edit.social.description": {
+    "defaultMessage": "Legg til sosiale medier relatert til appen din"
+  },
+  "edit.user.profile": {
+    "defaultMessage": "Rediger brukerprofil: {username}"
+  },
+  "edit.version": {
+    "defaultMessage": "Rediger versjon"
+  },
+  "editing.nft": {
+    "defaultMessage": "Redigerer NFT-metadata"
+  },
+  "email": {
+    "defaultMessage": "E-post"
+  },
+  "email.to.receive.notifications": {
+    "defaultMessage": "E-post for å motta varsler"
+  },
+  "empty": {
+    "defaultMessage": "Tomt"
+  },
+  "empty.gallery.start.adding.images": {
+    "defaultMessage": "Tomt galleri. Start med å legge til bilder."
+  },
+  "empty.leaderboard": {
+    "defaultMessage": "Tomt leaderboard"
+  },
+  "enable.darkblock": {
+    "defaultMessage": "Aktiver Darkblock-ressurs"
+  },
+  "enable.darkblock.collection": {
+    "defaultMessage": "Aktiver Darkblock-samling"
+  },
+  "enable.darkblock.on.asset.page": {
+    "defaultMessage": "Aktiver Darkblock på ressurssiden"
+  },
+  "enable.darkblock.on.collection.page": {
+    "defaultMessage": "Aktiver Darkblock på samlingssiden"
+  },
+  "enable.drop": {
+    "defaultMessage": "Aktiver Darkblock"
+  },
+  "enable.fiat": {
+    "defaultMessage": "Aktiver Fiat"
+  },
+  "enable.searchbar": {
+    "defaultMessage": "Aktiver søkefelt"
+  },
+  "enter.amount.to.claim": {
+    "defaultMessage": "Skriv inn beløp som skal kreves"
+  },
+  "error": {
+    "defaultMessage": "Feil"
+  },
+  "error.color": {
+    "defaultMessage": "Feilfarge"
+  },
+  "error.generating.image": {
+    "defaultMessage": "Feil ved generering av bilde"
+  },
+  "error.reason": {
+    "defaultMessage": "Feilårsak: {value}"
+  },
+  "error.removing.app.leaderboard": {
+    "defaultMessage": "Feil ved fjerning av app-leaderboard"
+  },
+  "error.removing.app.version": {
+    "defaultMessage": "Feil ved fjerning av app-versjon"
+  },
+  "error.removing.member": {
+    "defaultMessage": "Feil ved fjerning av medlem"
+  },
+  "error.set.app.version": {
+    "defaultMessage": "Feil ved å angi app-versjon"
+  },
+  "error.try.again": {
+    "defaultMessage": "Feil. Prøv igjen?"
+  },
+  "error.updating.app.leaderboard": {
+    "defaultMessage": "Feil ved oppdatering av app-leaderboard"
+  },
+  "error.while.importing.nft": {
+    "defaultMessage": "Feil mens NFT-importeres: {error}"
+  },
+  "error.while.minting": {
+    "defaultMessage": "Feil ved prøvemynting"
+  },
+  "events": {
+    "defaultMessage": "Arrangementer"
+  },
+  "exchange": {
+    "defaultMessage": "Børs"
+  },
+  "exchange.app.builder": {
+    "defaultMessage": "Bytteapp-bygger"
+  },
+  "expiration": {
+    "defaultMessage": "Utløpsdato",
+    "description": "Expiration"
+  },
+  "expire.at": {
+    "defaultMessage": "Utløp på"
+  },
+  "expired": {
+    "defaultMessage": "Utløpt"
+  },
+  "expires.in": {
+    "defaultMessage": "Utløper om"
+  },
+  "expiry": {
+    "defaultMessage": "Utløpstid"
+  },
+  "explore": {
+    "defaultMessage": "Utforsk",
+    "description": "Collection card explorer button"
+  },
+  "explorer": {
+    "defaultMessage": "Utforsker"
+  },
+  "exporation": {
+    "defaultMessage": "Utløpsdato"
+  },
+  "export": {
+    "defaultMessage": "Eksporter"
+  },
+  "export.leaderboard": {
+    "defaultMessage": "Eksporter leaderboard"
+  },
+  "export.leaderboard.as.csv": {
+    "defaultMessage": "Eksporter leaderboard som CSV"
+  },
+  "export.leaderboard.as.json": {
+    "defaultMessage": "Eksporter leaderboard som JSON"
+  },
+  "export.leaderboard.csv ": {
+    "defaultMessage": "Eksporter leaderboard csv"
+  },
+  "external": {
+    "defaultMessage": "Ekstern"
+  },
+  "external.url": {
+    "defaultMessage": "Ekstern URL"
+  },
+  "facebook": {
+    "defaultMessage": "Facebook"
+  },
+  "favicon": {
+    "defaultMessage": "Favicon"
+  },
+  "favicon.helper.explainer": {
+    "defaultMessage": "Liten ikon som representerer et nettsted og vises i nettlesertabben"
+  },
+  "favorite": {
+    "defaultMessage": "Favoritt"
+  },
+  "featured": {
+    "defaultMessage": "Utvalgt"
+  },
+  "fee": {
+    "defaultMessage": "Avgifter"
+  },
+  "fee.percentage": {
+    "defaultMessage": "Avgiftsprosent"
+  },
+  "fiat.price": {
+    "defaultMessage": "{currency} Pris",
+    "description": "Fiat price"
+  },
+  "field.is.invalid": {
+    "defaultMessage": "{field} er ugyldig"
+  },
+  "field.is.invalid.address": {
+    "defaultMessage": "{field} er ugyldig adresse"
+  },
+  "field.is.required": {
+    "defaultMessage": "{field} kreves"
+  },
+  "filter": {
+    "defaultMessage": "Filtrer"
+  },
+  "filter.by.data": {
+    "defaultMessage": "Filtrer etter dato"
+  },
+  "filters": {
+    "defaultMessage": "Filtre"
+  },
+  "finish": {
+    "defaultMessage": "Fullfør"
+  },
+  "floor.price": {
+    "defaultMessage": "Gulvpris"
+  },
+  "font": {
+    "defaultMessage": "Skrifttype"
+  },
+  "footer.menu": {
+    "defaultMessage": "Footer Menu"
+  },
+  "footer.wizard.description": {
+    "defaultMessage": "Opprett og rediger appens bunntekstmeny"
+  },
+  "forbidden": {
+    "defaultMessage": "Forbudt"
+  },
+  "form.created.successfully": {
+    "defaultMessage": "Skjema opprettet vellykket"
+  },
+  "formatted.decimal": {
+    "defaultMessage": "Formatert desimal"
+  },
+  "from": {
+    "defaultMessage": "Fra",
+    "description": "From"
+  },
+  "front.image": {
+    "defaultMessage": "Frontbilde"
+  },
+  "front.image.size": {
+    "defaultMessage": "Fremre bildestørrelse"
+  },
+  "function.name": {
+    "defaultMessage": "Funksjonsnavn"
+  },
+  "gallery": {
+    "defaultMessage": "Galleri"
+  },
+  "gated.conditions": {
+    "defaultMessage": "Gatede betingelser"
+  },
+  "general": {
+    "defaultMessage": "Generelt"
+  },
+  "general.information.description": {
+    "defaultMessage": "Oppgi appens generelle detaljer"
+  },
+  "generating.image": {
+    "defaultMessage": "Genererer bilde..."
+  },
+  "generic": {
+    "defaultMessage": "Generisk"
+  },
+  "google.analytics.example.tag": {
+    "defaultMessage": "Eksempel på tagg: G-LWRHJH7JLF"
+  },
+  "google.analytics.tag": {
+    "defaultMessage": "Google Analytics-tag"
+  },
+  "height.px": {
+    "defaultMessage": "Høyde (px)"
+  },
+  "hidden": {
+    "defaultMessage": "Skjult"
+  },
+  "hide": {
+    "defaultMessage": "Skjul"
+  },
+  "hide.assets": {
+    "defaultMessage": "Skjul ressurser"
+  },
+  "hide.collections.on.search": {
+    "defaultMessage": "Skjul samlinger i søk"
+  },
+  "hide.drops": {
+    "defaultMessage": "Skjul dropp"
+  },
+  "hide.filters": {
+    "defaultMessage": "Skjul filtre"
+  },
+  "hide.form.info.tooltip": {
+    "defaultMessage": "Skjul forminformasjon som: kontraktsadresse, beskrivelse og navn fra seksjonen"
+  },
+  "hide.header": {
+    "defaultMessage": "Skjul overskrift"
+  },
+  "hide.header.form.info": {
+    "defaultMessage": "Skjul header form info"
+  },
+  "hide.inputs": {
+    "defaultMessage": "Skjul inndata"
+  },
+  "hide.label": {
+    "defaultMessage": "Skjul etikett"
+  },
+  "hide.on.desktop": {
+    "defaultMessage": "Skjul på skrivebord"
+  },
+  "hide.on.mobile": {
+    "defaultMessage": "Skjul på mobil"
+  },
+  "hide.powered.by.dexkit": {
+    "defaultMessage": "Skjul Powered by DexKit"
+  },
+  "hide.tokens.on.search": {
+    "defaultMessage": "Skjul tokens i søk"
+  },
+  "highest.sale": {
+    "defaultMessage": "Høyeste salg"
+  },
+  "hold.kit": {
+    "defaultMessage": "Holde KIT"
+  },
+  "holding.kit.info": {
+    "defaultMessage": "Du må holde 1000 KIT på ett av de støttede nettverkene (ETH, BSC og Polygon) for å bruke denne funksjonen!"
+  },
+  "home": {
+    "defaultMessage": "Hjem"
+  },
+  "id": {
+    "defaultMessage": "ID"
+  },
+  "image": {
+    "defaultMessage": "Bilde"
+  },
+  "image.deleted": {
+    "defaultMessage": "Bilde slettet"
+  },
+  "image.url": {
+    "defaultMessage": "Bilde-URL"
+  },
+  "import": {
+    "defaultMessage": "Importer"
+  },
+  "import.nft": {
+    "defaultMessage": "Importer NFT"
+  },
+  "import.or.favorite.nfts": {
+    "defaultMessage": "Importer eller favoritt NFTer"
+  },
+  "import.token": {
+    "defaultMessage": "Importer Token",
+    "description": "Import token dialog title"
+  },
+  "import.token.lists": {
+    "defaultMessage": "Importer tokenlister"
+  },
+  "info.about.custom.section": {
+    "defaultMessage": "I stedet for å bruke forhåndsdefinerte seksjoner, har du friheten til å opprette en personlig seksjon ved å dra og slippe funksjonelle blokker for å designe din ideelle layout."
+  },
+  "info.alert.description.gated.form.modal": {
+    "defaultMessage": "Som eieren av denne private nettsiden, vennligst oppgi de spesifikke vilkårene som brukerne må oppfylle for å få tilgang til siden din. Ved å definere disse vilkårene sikrer du at bare kvalifiserte brukere får tilgang."
+  },
+  "info.alert.title.filter.ranking.points": {
+    "defaultMessage": "Definer og tildel poeng til hvert brukerarrangement for å bygge en rangering"
+  },
+  "info.alert.title.gated.form.modal": {
+    "defaultMessage": "Definer tilgangsvilkår for din private side"
+  },
+  "info.color": {
+    "defaultMessage": "Infoskjerm"
+  },
+  "info.create.collection.dialog": {
+    "defaultMessage": "Vennligst ikke lukk modalen eller last appen på nytt før datainnlevering er fullført!"
+  },
+  "info.create.collection.page": {
+    "defaultMessage": "Opprett en samling av NFT-er enkelt ved å bruke vår kontraktsveiviser. Du kan nå bruke genereringsfunksjonen vår til å generere et bilde for samlingen din. Vær oppmerksom på at du trenger å holde {holdAmount} KIT i ett av våre støttede nettverk: BSC, Polygon eller Ethereum (Maks. 50 bilder per måned). Fyll ut beskrivelsen først og generer bildet. Hvis du trenger støtte eller en større plan for AI-generering, vennligst kontakt oss på vår <a>dedikerte Discord-kanal</a> eller e-post info@dexkit.com!"
+  },
+  "info.create.nfts": {
+    "defaultMessage": "For å opprette NFT-er er navn og bilde obligatorisk. Når du oppretter NFT-ene, vennligst vent til slutten, det kan ta litt tid å fullføre!"
+  },
+  "info.create.nfts.dialog": {
+    "defaultMessage": "Vennligst ikke lukk modalen eller last appen på nytt før datainnlevering er fullført!"
+  },
+  "info.edit.nft.dialog": {
+    "defaultMessage": "Vennligst ikke lukk modalen eller last appen på nytt før datainnlevering er fullført!"
+  },
+  "info.quick.wizard.store.account": {
+    "defaultMessage": "Fyll først opp butikkontoen din med adressen hvorfra du ønsker å selge NFT-ene dine."
+  },
+  "info.wizard.content.cname": {
+    "defaultMessage": "Depoter domenenavnet ditt, sørg først for at domenenavnet ditt ikke er i bruk med andre oppføringer. Etter at domenet er vellykket lagt til i systemet vårt, vil du motta en CNAME- og en A-oppføring som skal legges til hos DNS-tilbyderen din. Etter at CNAME- og A-oppføringen er lagt til, trykk på knappen for å sjekke depoteringsstatus, hvis status er BEKREFTET, vent til domenet blir spredt og du vil ha markedsplassen satt opp på domenet ditt. Merk, hvis du er på en subdomene, erstatter du @ med subdomeneverdien. I tilfelle problemer, kontakt støtteteamene våre."
+  },
+  "info.wizard.title.domain.records.setup": {
+    "defaultMessage": "Info om oppsett av domeneposter"
+  },
+  "input.type": {
+    "defaultMessage": "Inndatastype"
+  },
+  "inputs": {
+    "defaultMessage": "Inndata"
+  },
+  "insert.valid.html": {
+    "defaultMessage": "Sett inn gyldig HTML"
+  },
+  "instagram": {
+    "defaultMessage": "Instagram"
+  },
+  "insufficient.funds": {
+    "defaultMessage": "Utilstrekkelige midler"
+  },
+  "integrations": {
+    "defaultMessage": "Integrasjoner"
+  },
+  "invalid.address": {
+    "defaultMessage": "Ugyldig adresse"
+  },
+  "invalid.price": {
+    "defaultMessage": "Ugyldig pris"
+  },
+  "item.type": {
+    "defaultMessage": "Elementtype"
+  },
+  "items": {
+    "defaultMessage": "Elementer"
+  },
+  "kit.airdrop": {
+    "defaultMessage": "KIT-luftslipp"
+  },
+  "kit.claim.submitted": {
+    "defaultMessage": "KIT-krav sendt inn"
+  },
+  "label": {
+    "defaultMessage": "Etikett"
+  },
+  "language": {
+    "defaultMessage": "Språk"
+  },
+  "last.version.set": {
+    "defaultMessage": "Siste versjon satt"
+  },
+  "layout": {
+    "defaultMessage": "Utforming"
+  },
+  "leaderboard": {
+    "defaultMessage": "Ledertavle"
+  },
+  "leaderboard.preview": {
+    "defaultMessage": "Forhåndsvisning av ledertavlen"
+  },
+  "least.recent": {
+    "defaultMessage": "Minst nylig"
+  },
+  "light": {
+    "defaultMessage": "Lys"
+  },
+  "link": {
+    "defaultMessage": "Lenkje"
+  },
+  "linkedin.company": {
+    "defaultMessage": "Linkedin-firma"
+  },
+  "listing.price": {
+    "defaultMessage": "Oppføringspris"
+  },
+  "listing.price.per.item": {
+    "defaultMessage": "Oppføringspris per enhet"
+  },
+  "listings": {
+    "defaultMessage": "Oppføringer"
+  },
+  "lists": {
+    "defaultMessage": "Lister"
+  },
+  "loading": {
+    "defaultMessage": "Laster"
+  },
+  "lock.inputs": {
+    "defaultMessage": "Lås inndata"
+  },
+  "logged": {
+    "defaultMessage": "Logget"
+  },
+  "login": {
+    "defaultMessage": "Logg på"
+  },
+  "login.app": {
+    "defaultMessage": "Logg på appen"
+  },
+  "login.app.to.edit.your.user.profile.you.just.need.to.sign.a.message.with.your.wallet": {
+    "defaultMessage": "Logg på appen for å redigere brukerprofilen din. Du trenger bare å signere en melding med lommeboken din"
+  },
+  "login.by.connect.wallet": {
+    "defaultMessage": "Login with your wallet. You will need to sign a message"
+  },
+  "logo": {
+    "defaultMessage": "Logo"
+  },
+  "logo.for.dark.mode": {
+    "defaultMessage": "Logo for dark mode"
+  },
+  "logo.for.light.mode": {
+    "defaultMessage": "Logo for lysmodus"
+  },
+  "logo.on.desktop": {
+    "defaultMessage": "Logo på skrivebord"
+  },
+  "logo.on.mobile": {
+    "defaultMessage": "Logo på mobil"
+  },
+  "logout.wallet": {
+    "defaultMessage": "Logg ut lommeboken"
+  },
+  "made.with.love.by": {
+    "defaultMessage": "Laget med ❤️ av",
+    "description": "made with ❤️ by"
+  },
+  "make.offer": {
+    "defaultMessage": "Gjør tilbud",
+    "description": "Make Offer"
+  },
+  "make.token.available.on.the.marketplace": {
+    "defaultMessage": "Gjør token tilgjengelig på markedsplassen"
+  },
+  "manage": {
+    "defaultMessage": "Administrer"
+  },
+  "manage.networks.for.your.app": {
+    "defaultMessage": "Administrer nettverkene for appen din"
+  },
+  "markdown": {
+    "defaultMessage": "Markdown"
+  },
+  "market.cap": {
+    "defaultMessage": "Markedsverdi"
+  },
+  "marketplace.domain.added": {
+    "defaultMessage": "Markedsplassdomène lagt til"
+  },
+  "marketplace.fee": {
+    "defaultMessage": "Markedsplassavgift"
+  },
+  "marketplace.fees.menu.container": {
+    "defaultMessage": "Markedsplassavgifter"
+  },
+  "marketplace.fees.title": {
+    "defaultMessage": "Markedsplassavgifter"
+  },
+  "marketplace.theme": {
+    "defaultMessage": "Markedsplass-tema"
+  },
+  "max": {
+    "defaultMessage": "Maks"
+  },
+  "max.image.size": {
+    "defaultMessage": "Maks bildestørrelse: 1 Mb"
+  },
+  "max.quantity": {
+    "defaultMessage": "Maks mengde"
+  },
+  "member": {
+    "defaultMessage": "Medlem"
+  },
+  "member.added": {
+    "defaultMessage": "Medlem lagt til"
+  },
+  "member.permission": {
+    "defaultMessage": "Medlemsrettigheter"
+  },
+  "member.permissions.updated": {
+    "defaultMessage": "Medlemsrettigheter oppdatert"
+  },
+  "member.removed": {
+    "defaultMessage": "Medlem fjernet"
+  },
+  "menu": {
+    "defaultMessage": "Meny"
+  },
+  "metadata": {
+    "defaultMessage": "Metadata"
+  },
+  "mint": {
+    "defaultMessage": "Mynt"
+  },
+  "mint.free": {
+    "defaultMessage": "Mint (Gratis)"
+  },
+  "mint.nft": {
+    "defaultMessage": "Lagre NFT"
+  },
+  "mint.price.value": {
+    "defaultMessage": "Mynt ({priceToMint})"
+  },
+  "mint.priceToMint": {
+    "defaultMessage": "Mynt {priceToMint}"
+  },
+  "mismatch.account.admin.view": {
+    "defaultMessage": "Du er tilkopla {account}, men innlogga som {loggedAccount}. Viss du vil sjå appar assosiert med den noverande tilkopla kontoen din, klikk på"
+  },
+  "most.recent": {
+    "defaultMessage": "Mest aktuelle"
+  },
+  "move.section.down": {
+    "defaultMessage": "Flytt seksjon ned"
+  },
+  "move.section.up": {
+    "defaultMessage": "Flytt seksjon opp"
+  },
+  "must.have": {
+    "defaultMessage": "Krevd"
+  },
+  "my.nfts": {
+    "defaultMessage": "Mine NFTar"
+  },
+  "name": {
+    "defaultMessage": "Namn"
+  },
+  "name.of.your.app": {
+    "defaultMessage": "Namn på appen din"
+  },
+  "navbar": {
+    "defaultMessage": "Navigasjonslinje"
+  },
+  "navbar.wizard.description": {
+    "defaultMessage": "Organiser appens navigasjonsrad. Du kan redigere menyer og søkefelt"
+  },
+  "network": {
+    "defaultMessage": "Nettverk"
+  },
+  "network.info": {
+    "defaultMessage": "Nettverksinfo"
+  },
+  "network.swap.options.info": {
+    "defaultMessage": "Vel standardtokens og slippage for kvar nettverk."
+  },
+  "networks": {
+    "defaultMessage": "Nettverk"
+  },
+  "new": {
+    "defaultMessage": "Ny"
+  },
+  "nft": {
+    "defaultMessage": "NFT"
+  },
+  "nft.already.imported": {
+    "defaultMessage": "NFT allereie importert"
+  },
+  "nft.amount.of.tokenId.is.selected.to.stake": {
+    "defaultMessage": "{amount} av \"#{tokenId}\" er valt for å stake"
+  },
+  "nft.attributes": {
+    "defaultMessage": "NFT-attributt"
+  },
+  "nft.collection.airdrop": {
+    "defaultMessage": "NFT-samling Airdrop"
+  },
+  "nft.created": {
+    "defaultMessage": "NFT oppretta"
+  },
+  "nft.description": {
+    "defaultMessage": "NFT-beskrivelse"
+  },
+  "nft.detail": {
+    "defaultMessage": "NFT-detaljar"
+  },
+  "nft.edition.airdrop": {
+    "defaultMessage": "NFT-utgave Airdrop"
+  },
+  "nft.image": {
+    "defaultMessage": "NFT image"
+  },
+  "nft.imported": {
+    "defaultMessage": "NFT importert"
+  },
+  "nft.metadata": {
+    "defaultMessage": "NFT-metadata"
+  },
+  "nft.metadata.error": {
+    "defaultMessage": "NFT-metadatafeil"
+  },
+  "nft.metadata.not.saved": {
+    "defaultMessage": "Din NFT-metadata vart ikkje lagra"
+  },
+  "nft.name": {
+    "defaultMessage": "NFT-namn"
+  },
+  "nft.removed.from.your.favorites": {
+    "defaultMessage": "NFT fjerna frå favorittane dine"
+  },
+  "nft.store": {
+    "defaultMessage": "NFT-butikk"
+  },
+  "nft.store.quick.builder": {
+    "defaultMessage": "NFT-butikkraskbyggjar"
+  },
+  "nfts": {
+    "defaultMessage": "NFTar"
+  },
+  "nfts.created": {
+    "defaultMessage": "NFTar oppretta"
+  },
+  "nfts.created.close.modal": {
+    "defaultMessage": "NFT oppretta! Lukk modal"
+  },
+  "nfts.created.error": {
+    "defaultMessage": "NFTar opprettingsfeil"
+  },
+  "nfts.metadata.edited": {
+    "defaultMessage": "NFTar-metadatar redigerte"
+  },
+  "nfts.metadata.error": {
+    "defaultMessage": "NFTar-metadatarfeil"
+  },
+  "nfts.metadata.not.saved": {
+    "defaultMessage": "Dine NFTs metadata vart ikkje lagra"
+  },
+  "nfts.metadata.saved": {
+    "defaultMessage": "NFTar-metadata lagra"
+  },
+  "nfts.not.found": {
+    "defaultMessage": "Fann ikkje NFT-ane"
+  },
+  "nfts.staked": {
+    "defaultMessage": "NFTar staked"
+  },
+  "no.app.leaderboards": {
+    "defaultMessage": "Ingen app-punktstavler"
+  },
+  "no.app.versions": {
+    "defaultMessage": "Ingen appversjonar"
+  },
+  "no.available.offers": {
+    "defaultMessage": "Ingen tilgjengelege tilbod",
+    "description": "No Available offers message"
+  },
+  "no.collections": {
+    "defaultMessage": "Ingen samlingar"
+  },
+  "no.contracts.found": {
+    "defaultMessage": "Ingen kontraktar funne"
+  },
+  "no.hidden.nfts.found": {
+    "defaultMessage": "Ingen skjulte NFTar funne"
+  },
+  "no.images.found.with.that.name": {
+    "defaultMessage": "Ingen bilete funne med det namnet."
+  },
+  "no.listings.yet": {
+    "defaultMessage": "No listings yet"
+  },
+  "no.networks": {
+    "defaultMessage": "Ingen nettverk"
+  },
+  "no.networks.are.available": {
+    "defaultMessage": "Ingen nettverk er tilgjengelege"
+  },
+  "no.nfts": {
+    "defaultMessage": "Ingen NFTar"
+  },
+  "no.nfts.found": {
+    "defaultMessage": "No NFTs found"
+  },
+  "no.offers.yet": {
+    "defaultMessage": "Ingen tilbod enno"
+  },
+  "no.orders.found": {
+    "defaultMessage": "Ingen ordre funne"
+  },
+  "no.results": {
+    "defaultMessage": "Ingen resultat"
+  },
+  "no.selected.networks": {
+    "defaultMessage": "Ingen valde nettverk"
+  },
+  "no.team.members": {
+    "defaultMessage": "Ingen lagmedlemmar"
+  },
+  "no.tokens": {
+    "defaultMessage": "Ingen tokenar"
+  },
+  "no.user.with.this.name": {
+    "defaultMessage": "Ingen brukar med dette namnet"
+  },
+  "not.deployed": {
+    "defaultMessage": "Ikkje lagra"
+  },
+  "not.enough.kit": {
+    "defaultMessage": "Ikke nok KIT"
+  },
+  "not.verified": {
+    "defaultMessage": "Ikke verifisert"
+  },
+  "nothing.to.see.here": {
+    "defaultMessage": "Ingenting å sjå her"
+  },
+  "notification.email": {
+    "defaultMessage": "Varslings-e-post"
+  },
+  "number": {
+    "defaultMessage": "Nummer"
+  },
+  "numerator": {
+    "defaultMessage": "Belønningar per tidsenhet"
+  },
+  "offchain.events": {
+    "defaultMessage": "Offchain-hendingar"
+  },
+  "offer": {
+    "defaultMessage": "Tilbod"
+  },
+  "offers": {
+    "defaultMessage": "Tilbod"
+  },
+  "onboarding.builder.collections": {
+    "defaultMessage": "Legg til dine markerte samlingar for å visa dei på appen sin samlingsside og NFT-seksjonar. Ved å vise fram samlingar kan du rette merksemda mot spesifikke NFTar og auke synlegheit og sal av desse elementa. Dette kan hjelpe til med å promotere appen din og skape inntekt for verksemda di."
+  },
+  "onboarding.builder.domain": {
+    "defaultMessage": "Deploy appen din på eiga domene for å gjere den tilgjengeleg for eit større publikum. For å gjere dette, må du konfigurere domeneinnstillingane dine og følgje den stegvise rettleiaren vår for å sikre ein smidig utrulling. Når alt er klart, vil appen din vere klar til bruk på ditt eige domene!"
+  },
+  "onboarding.builder.footer.menu": {
+    "defaultMessage": "Tilpass appens bunntekst for å gi ekstra informasjon og forbetre navigasjonen for brukarane dine. Du kan bruke sidelenkar til å rettleie brukarane til spesifikke sider innanfor appen din eller eksterne lenkar for å koble brukarane til relaterte ressursar eller informasjon utanfor appen din. Ved å tilpasse bunnteksten, kan du skape ein meir komplett og brukarvennleg oppleving for målgruppa di."
+  },
+  "onboarding.builder.general": {
+    "defaultMessage": "Tilpass appen din ved å redigere namnet og logoane, samt definere standardvalutaen din og språket. Desse innstillingane hjelper ikkje berre med å gjere appen unik, men sikrar også ein sømlaus brukaroppleving for målgruppa di."
+  },
+  "onboarding.builder.marketplace.fees": {
+    "defaultMessage": "Angi gebyra for marknadsplassen din som blir lagt til på toppen av NFT-salar eller tilbod. Ved å setje gebyr kan du tene ein provisjon på kvar sal som blir gjort på appens marknadsplass. Dette kan bidra til å generere inntekt og støtte veksten og utviklinga av appen di over tid."
+  },
+  "onboarding.builder.menu": {
+    "defaultMessage": "Tilpass appens navigasjonsmenylenkar for å forbetre navigasjonen og framheve viktige funksjonar i appen din. Du kan bruke sidelenkar til å rettleie brukarane til spesifikke sider innanfor appen din eller eksterne lenkar for å koble brukarane til relaterte ressursar eller informasjon utanfor appen din. Ved å tilpasse navigasjonsmenylenkar, kan du skape ein meir intuitiv og brukarvennleg oppleving for målgruppa di"
+  },
+  "onboarding.builder.menu.kits": {
+    "defaultMessage": "Bruk KITa våre til å filtrere verktøy basert på behova dine. Vel mellom ALLE for å sjå alle tilgjengelege verktøy, NFT for å sjå verktøy som ikkje fungible-tokenrelaterte, eller Swap for å sjå verktøy som er relaterte til bytte. Med KITa våre har du moglegheiten til å tilpasse app-byggjeopplevinga di til dine preferansar."
+  },
+  "onboarding.builder.ownership": {
+    "defaultMessage": "Få eigarskap til appinnhaldet ditt ved å lage en non-fungible-token (NFT) knytta til appen din. Ein NFT er eit unikt digitalt eigedokument som representerer eigarskapen til ein bestemt del av innhaldet, som appen din. Ved å lage ein NFT for appen din, kan du etablere unikheita og eigarskapen til appen, noko som bidrar til å beskytte den intellektuelle eigendomen din og auke verdien."
+  },
+  "onboarding.builder.pages": {
+    "defaultMessage": "Bygg sider ved hjelp av våre Web3 KITs, som gir deg førebujetemplates og komponentar for å opprette byttegrensesnitt, NFT-marknadsplassar, NFT-butikkar, eller til og med generiske sider. Med KITa våre kan du enkelt tilpasse sidene dine og opprette ein unik brukaroppleving som er i tråd med appens mål og målsetjingar."
+  },
+  "onboarding.builder.preview.app.button": {
+    "defaultMessage": "Få eit førehandsvisning av appen din i ein modal rett etter at du har lagra endringane. Dette lar deg sjå oppdateringane dine i sanntid og gjere eventuelle nødvendige justeringar før du publiserer appen din."
+  },
+  "onboarding.builder.preview.app.link": {
+    "defaultMessage": "Få ei førehandsvisning av appen din på tilhøyrande DexKit-domene, som kan nyttast både til testing og produksjon. Dette gir deg ein unik URL der du kan sjå appen din i ein nettlesar og dele den med andre for tilbakemeldingar eller for å vise fram det ferdige produktet ditt. Det er ein fin måte å sjå korleis appen din ser ut og fungerer i ein reell verden."
+  },
+  "onboarding.builder.seo": {
+    "defaultMessage": "Tilpass SEO-felta for kvar side for å forbetre synligheten og søkjemotorrangeringane til appen din. Ved å optimalisere felt som sideoverskrifter og -beskrivelsar, kan du hjelpe søkjemotorane med å forstå innhaldet på sidene dine og rangere dei høgare i søkjeresultata. Ved å tilpasse SEO-felta kan du tiltrekke meir trafikk til appen din og auke sjansane dine for suksess"
+  },
+  "onboarding.builder.social.media": {
+    "defaultMessage": "Sett opp sosiale media-profilane for appen din for å auke synligheten og knytte deg til målgruppa di. Ved å skape ein sterk til stadesomheit i sosiale media, kan du promotere appen din, bygge ein fellesskap rundt den og få verdfull tilbakemelding frå brukarane dine."
+  },
+  "onboarding.builder.swap.fees": {
+    "defaultMessage": "Sett svikta som vert lagt til på toppen av svikta. Ved å sette avgifter kan du tene ein provisjon per sviktha bytestrade som vert gjort på grensesnittet til appen din. Dette kan hjelpe med å generere inntekter og oppretthalde veksten og utviklinga av appen din over tid"
+  },
+  "onboarding.builder.theme": {
+    "defaultMessage": "Vel globalt tema og skrifttype for appen din for å sikre ein konsistent og visuelt tiltalande oppleving for brukarane dine. Ved å velje eit tema og ei skrifttype som er i tråd med merkeidentiteten din, kan du skape eit samansett og nyskapande uttrykk som styrkar merkevaren din og truverdignaden."
+  },
+  "onboarding.builder.tokens": {
+    "defaultMessage": "Legg til token som skal visast fram på appen din sin byttekomponent. Ved å vise fram token kan du dra merksemd til spesifikke token og auke synligheten og handelsvolumet deira. Dette kan bidra til å promotere appen din og generere inntekter for bedrifta di."
+  },
+  "onboarding.welcome.dexappbuilder": {
+    "defaultMessage": "'Velkomen til DexAppBuilder, det kraftige verktyet som gjer det enkelt å byggje og redigere din eigen app! Med vårt intuitive grensesnitt og omfattande funksjonssett vil du vere oppe og kjøre på kort tid. Enten du er ein erfaren utviklar eller berre byrjar, er vår omfattande dokumentasjon og dedikerte supportteam her for å hjelpe deg gjennom heile prosessen. Så la oss kome i gang og sjå alt det DexAppBuilder har å tilby!"
+  },
+  "onchain.events": {
+    "defaultMessage": "Onchain-hendingar"
+  },
+  "only.visible": {
+    "defaultMessage": "Berre synleg"
+  },
+  "oops.nothing.here": {
+    "defaultMessage": "Huff! Ingenting her"
+  },
+  "oops.something.went.wrong": {
+    "defaultMessage": "Dass, noko gjekk gale"
+  },
+  "open": {
+    "defaultMessage": "Åpnast"
+  },
+  "open.file": {
+    "defaultMessage": "Åpnast fil"
+  },
+  "open.in.new.page": {
+    "defaultMessage": "Opn i ny fane"
+  },
+  "open.url": {
+    "defaultMessage": "Opn URL"
+  },
+  "or": {
+    "defaultMessage": "or"
+  },
+  "order": {
+    "defaultMessage": "Rekkjefølgje"
+  },
+  "order.created": {
+    "defaultMessage": "Ordre #{id} Oppretta"
+  },
+  "orders": {
+    "defaultMessage": "Ordre"
+  },
+  "output": {
+    "defaultMessage": "Resultat"
+  },
+  "output.type": {
+    "defaultMessage": "Resultattype"
+  },
+  "owned.by": {
+    "defaultMessage": "Eie av"
+  },
+  "owner": {
+    "defaultMessage": "Eigar"
+  },
+  "owners": {
+    "defaultMessage": "Eigarar"
+  },
+  "ownership": {
+    "defaultMessage": "Eigarskap"
+  },
+  "ownership.explainer": {
+    "defaultMessage": "Denne NFT-en representerer app-eige og redigeringsrettar. Du kan selje eller overføre app-eige gjennom denne NFT-en, som er lagra på Polygon. Den som eig denne NFT-en, kan redigere han."
+  },
+  "ownership.nft.info": {
+    "defaultMessage": "To access this feature, simply hold 1000 KIT tokens on one of our supported networks: ETH, BSC, or Polygon. Note: NFT-associated apps are not clonable."
+  },
+  "ownership.settings.description": {
+    "defaultMessage": "Assosier ein NFT med appen din for eigedomskontroll"
+  },
+  "page": {
+    "defaultMessage": "Side"
+  },
+  "page.preview.title": {
+    "defaultMessage": "{tittel} side-førehandsvisning"
+  },
+  "page.template.removed": {
+    "defaultMessage": "Sidemalsfjerna"
+  },
+  "page.templates": {
+    "defaultMessage": "Sidemal"
+  },
+  "page.wizard": {
+    "defaultMessage": "Sidemalvikling"
+  },
+  "pages": {
+    "defaultMessage": "Sider"
+  },
+  "pages.wizard.description": {
+    "defaultMessage": "Oppret og administrer appens sidene"
+  },
+  "paper.color": {
+    "defaultMessage": "Papirfarge"
+  },
+  "paste": {
+    "defaultMessage": "Lim inn"
+  },
+  "per.wallet": {
+    "defaultMessage": "per lommebok"
+  },
+  "phases": {
+    "defaultMessage": "Faser"
+  },
+  "please.connect.your.wallet": {
+    "defaultMessage": "Ver venleg og kopla lommeboka di til for å sjå ordre"
+  },
+  "please.connect.your.wallet.to.see.balance": {
+    "defaultMessage": "Ver venleg og kopla lommeboka di til for å sjå saldoen din"
+  },
+  "please.create.a.form.to.start.using.it.here": {
+    "defaultMessage": "Ver venleg og lag ei form for å byrje å bruke det her"
+  },
+  "please.create.a.leaderboard.to.start.using.it.here": {
+    "defaultMessage": "Ver venleg og lag ei rangeringstabell for å byrje å bruke det her"
+  },
+  "please.login.with.your.wallet.to.delete.your.image": {
+    "defaultMessage": "Ver venleg og logg inn med lommeboken din for å slette bilete ditt"
+  },
+  "please.sign.the.settings.with.your.wallet": {
+    "defaultMessage": "Ver venleg og signér innstillingane dine med lommeboken din"
+  },
+  "please.try.again.later": {
+    "defaultMessage": "Ver venleg og prøv igjen seinare"
+  },
+  "points": {
+    "defaultMessage": "Poeng"
+  },
+  "post.offers": {
+    "defaultMessage": "Send tilbod",
+    "description": "Post offers"
+  },
+  "powered.by.dexkit.info": {
+    "defaultMessage": "To remove the \"Powered by DexKit\" branding, click \"Create NFT\" to associate an NFT with your app."
+  },
+  "preview": {
+    "defaultMessage": "Førehandsvis"
+  },
+  "preview.app": {
+    "defaultMessage": "Førehandsvis app"
+  },
+  "preview.app.leaderboard": {
+    "defaultMessage": "Førehandsvis app-rangeringstabell"
+  },
+  "preview.app.version": {
+    "defaultMessage": "Førehandsvis app-versjon"
+  },
+  "preview.page": {
+    "defaultMessage": "Førehandsvis side"
+  },
+  "preview.section": {
+    "defaultMessage": "Førehandsvis seksjon"
+  },
+  "price": {
+    "defaultMessage": "Pris"
+  },
+  "price.fiat": {
+    "defaultMessage": "Pris {valuta}"
+  },
+  "price.per.item": {
+    "defaultMessage": "Pris per eining",
+    "description": "Price label per item"
+  },
+  "primary.color": {
+    "defaultMessage": "Primærfarge"
+  },
+  "profile.image": {
+    "defaultMessage": "Profilbilete"
+  },
+  "profileImage": {
+    "defaultMessage": "Profilbilete"
+  },
+  "provider.not.found": {
+    "defaultMessage": "Tenesteleverandøren vart ikkje funnen"
+  },
+  "quantity": {
+    "defaultMessage": "Mengde"
+  },
+  "quick.exchange.builder": {
+    "defaultMessage": "Rask Utvekslingsbyggjar"
+  },
+  "quick.nft.store.builder": {
+    "defaultMessage": "Rask NFT-butikkbyggjar"
+  },
+  "quick.swap.builder": {
+    "defaultMessage": "Rask byttebyggjar"
+  },
+  "quick.waççet.builder": {
+    "defaultMessage": "Rask lommebokbyggjar"
+  },
+  "quick.wizard.nft.store.welcome.index.message": {
+    "defaultMessage": "Velkomen til DexAppBuilder! Her kan du byrje raskt med NFT-butikken din. Om du treng støtte, ber vi deg kontakte oss på vår <a>dømde Discord-kanal</a>. Ver venleg og sjekk vår <d>dokumentasjon</d> for kvitmerking. Kontakt oss på e-post <b>info@dexkit.com</b> om du treng ei skreddarsydd løysing som trollmannen ikkje tek seg av."
+  },
+  "quick.wizard.swap.welcome.index.message": {
+    "defaultMessage": "Velkomen til DexAppBuilder! Her kan du raskt starte kryptogregatoren din. Om du treng støtte, ber vi deg kontakte oss på vår <a>dømde Discord-kanal</a>. Ver venleg og sjekk vår <d>dokumentasjon</d> for kvitmerking. Kontakt oss på e-post <b>info@dexkit.com</b> om du treng ei skreddarsydd løysing som trollmannen ikkje tek seg av."
+  },
+  "quick.wizard.wallet.welcome.index.message": {
+    "defaultMessage": "Velkomen til DexAppBuilder! Her kan du raskt starte lommeboka di. Om du treng støtte, ber vi deg kontakte oss på vår <a>dømde Discord-kanal</a>. Ver venleg og sjekk vår <d>dokumentasjon</d> for kvitmerking. Kontakt oss på e-post <b>info@dexkit.com</b> om du treng ei skreddarsydd løysing som trollmannen ikkje tek seg av."
+  },
+  "ranking.added": {
+    "defaultMessage": "Rangering lagt til"
+  },
+  "ranking.created": {
+    "defaultMessage": "Rangering oppretta"
+  },
+  "read": {
+    "defaultMessage": "Les"
+  },
+  "reason": {
+    "defaultMessage": "Årsak"
+  },
+  "receive": {
+    "defaultMessage": "Motta"
+  },
+  "recipient": {
+    "defaultMessage": "Mottakar"
+  },
+  "recipient.address.already.in.use": {
+    "defaultMessage": "Mottakaradresse er allereie i bruk"
+  },
+  "reddit": {
+    "defaultMessage": "Reddit"
+  },
+  "remove": {
+    "defaultMessage": "Fjern"
+  },
+  "remove.account.from.user": {
+    "defaultMessage": "Fjern konto frå brukar"
+  },
+  "remove.condition": {
+    "defaultMessage": "Fjern vilkår"
+  },
+  "remove.image": {
+    "defaultMessage": "Fjern bilete"
+  },
+  "remove.member": {
+    "defaultMessage": "Fjern medlem"
+  },
+  "remove.nft": {
+    "defaultMessage": "Fjern NFT",
+    "description": "Remove nft dialog title"
+  },
+  "remove.section": {
+    "defaultMessage": "Fjern seksjon"
+  },
+  "required.field": {
+    "defaultMessage": "obligatorisk felt"
+  },
+  "reset": {
+    "defaultMessage": "Tilbakestill"
+  },
+  "reward.per.time.unit": {
+    "defaultMessage": "Belønning per tidsenhet"
+  },
+  "reward.per.unit.time": {
+    "defaultMessage": "Belønning per enhetstid"
+  },
+  "reward.ratio": {
+    "defaultMessage": "Belønningsforhold"
+  },
+  "reward.time": {
+    "defaultMessage": "Belønnings tid"
+  },
+  "rewards": {
+    "defaultMessage": "Belønninger"
+  },
+  "rewards.second": {
+    "defaultMessage": "Belønninger/sekund"
+  },
+  "royalty.percentage": {
+    "defaultMessage": "Royalties (%)"
+  },
+  "rule.index.value": {
+    "defaultMessage": "Regel {index}"
+  },
+  "rules": {
+    "defaultMessage": "Regler"
+  },
+  "save": {
+    "defaultMessage": "Lagre"
+  },
+  "save.collection.metadata": {
+    "defaultMessage": "Lagre kolleksjonsmetadata"
+  },
+  "save.nfts.metadata": {
+    "defaultMessage": "Lagre NFT-metadata"
+  },
+  "save.section": {
+    "defaultMessage": "Lagre seksjon"
+  },
+  "save.your.row.changes.before.confirm": {
+    "defaultMessage": "Lagre endringane dine før du stadfestar"
+  },
+  "saved.successfully": {
+    "defaultMessage": "Lagra vellykka"
+  },
+  "scan": {
+    "defaultMessage": "Skanne"
+  },
+  "scan.code": {
+    "defaultMessage": "Skanne kode",
+    "description": "Select currency"
+  },
+  "scan.using.crypto.mobile.app": {
+    "defaultMessage": "Skanne QR-kode ved hjelp av krypto mobilapp som Metamask eller Trust"
+  },
+  "search": {
+    "defaultMessage": "Søk"
+  },
+  "search.default.input.token": {
+    "defaultMessage": "Søk i standard inntakstoken"
+  },
+  "search.default.output.token": {
+    "defaultMessage": "Søk i standard utmatings-token"
+  },
+  "search.for.a.contract": {
+    "defaultMessage": "Søk etter en kontrakt"
+  },
+  "search.for.a.nft": {
+    "defaultMessage": "Søk etter en NFT"
+  },
+  "search.for.token": {
+    "defaultMessage": "Søk etter token..."
+  },
+  "search.in.collection": {
+    "defaultMessage": "Søk i samling"
+  },
+  "search.in.store": {
+    "defaultMessage": "Søk i butikken"
+  },
+  "search.not.returned.results": {
+    "defaultMessage": "Søket gav ingen resultat. Prøv andre søkeord."
+  },
+  "search.token": {
+    "defaultMessage": "Søk token"
+  },
+  "search.token.in": {
+    "defaultMessage": "Søk token inn"
+  },
+  "search.token.out": {
+    "defaultMessage": "Søk token ut"
+  },
+  "searchbar": {
+    "defaultMessage": "Søkefelt"
+  },
+  "secondary.color": {
+    "defaultMessage": "Sekundær farge"
+  },
+  "section.editor": {
+    "defaultMessage": "Seksjonsredigerar"
+  },
+  "see.all": {
+    "defaultMessage": "Sjå alt"
+  },
+  "select": {
+    "defaultMessage": "Velg"
+  },
+  "select.a.edition": {
+    "defaultMessage": "Velg ein utgåve"
+  },
+  "select.a.token": {
+    "defaultMessage": "Velg ein token",
+    "description": "Select a token message"
+  },
+  "select.a.token.for.your.airdrop": {
+    "defaultMessage": "Velg en token for din airdrop"
+  },
+  "select.all": {
+    "defaultMessage": "Velg alle"
+  },
+  "select.an.nft": {
+    "defaultMessage": "Velg ein NFT"
+  },
+  "select.collection": {
+    "defaultMessage": "Velg samling"
+  },
+  "select.collections.to.display.in.your.app": {
+    "defaultMessage": "Velg samlinger for å vise i appen din"
+  },
+  "select.currency": {
+    "defaultMessage": "Velg valuta",
+    "description": "Select currency"
+  },
+  "select.image": {
+    "defaultMessage": "Velg bilete"
+  },
+  "select.items": {
+    "defaultMessage": "Velg element"
+  },
+  "select.language": {
+    "defaultMessage": "Velg språk",
+    "description": "Select language"
+  },
+  "select.network": {
+    "defaultMessage": "Velg nettverk",
+    "description": "select network dialog title"
+  },
+  "select.nfts": {
+    "defaultMessage": "Velg NFTs"
+  },
+  "select.nfts.to.unstake": {
+    "defaultMessage": "Velg NFTer å avslutte"
+  },
+  "select.or.import.nft": {
+    "defaultMessage": "Velg eller importer en NFT for å opprette en ordre"
+  },
+  "select.or.import.tokens.for.your.app": {
+    "defaultMessage": "Velg eller importer tokens til appen din"
+  },
+  "select.page": {
+    "defaultMessage": "Velg side"
+  },
+  "select.recipients": {
+    "defaultMessage": "Velg"
+  },
+  "selected.addresses.amount": {
+    "defaultMessage": "Valgte adresser: {amount}"
+  },
+  "sell": {
+    "defaultMessage": "Selg",
+    "description": "Sell button"
+  },
+  "sell.asset": {
+    "defaultMessage": "Selg eigedom",
+    "description": "Sell asset dialog title"
+  },
+  "send": {
+    "defaultMessage": "Send"
+  },
+  "send.settings": {
+    "defaultMessage": "Send innstillingar"
+  },
+  "sending.airdrop.to.your.wallet": {
+    "defaultMessage": "Sendar airdrop til lommeboka di"
+  },
+  "sending.app.settings": {
+    "defaultMessage": "Sendar app-innstillingar"
+  },
+  "sending.config": {
+    "defaultMessage": "Sending config"
+  },
+  "sending.page.template.data": {
+    "defaultMessage": "Sender sidetemplate data"
+  },
+  "sending.page.template.settings": {
+    "defaultMessage": "Sendar sidetemplate-innstillingar"
+  },
+  "sending.user.profile.data": {
+    "defaultMessage": "Fullfør profildata"
+  },
+  "sent.successfully": {
+    "defaultMessage": "Sendt vellykka"
+  },
+  "sent.successfully.be.aware.info": {
+    "defaultMessage": "Sendt vellykka. Vær klar over at det tar fleire minuttar før det oppdaterer og viser på den live sida."
+  },
+  "seo": {
+    "defaultMessage": "SEO"
+  },
+  "seo.wizard.description": {
+    "defaultMessage": "Konfigurer SEO for appen din"
+  },
+  "set.api.key": {
+    "defaultMessage": "Sett API-nøkkel"
+  },
+  "set.app.to.this.version": {
+    "defaultMessage": "Sett appen til denne versjonen"
+  },
+  "set.claim.conditions.to.enable.drop.info": {
+    "defaultMessage": "Sett kravvilkår for å aktivere utdelinga. Du kan redigere kravvilkåra når som helst."
+  },
+  "set.custom.domain.container.description": {
+    "defaultMessage": "Sett eit tilpassa domene for appen din"
+  },
+  "set.integrations.settings.for.your.app": {
+    "defaultMessage": "Integrasjonsinnstillingar for appen din."
+  },
+  "set.up": {
+    "defaultMessage": "Oppsett"
+  },
+  "settings": {
+    "defaultMessage": "Innstillinger"
+  },
+  "settings.to.configure.store": {
+    "defaultMessage": "Innstillingar for å konfigurere di NFT-butikk"
+  },
+  "setup.your.zrx.configure.0x.text": {
+    "defaultMessage": "Sett opp di 0x API-nøkkel for tilgang til tenestene våre."
+  },
+  "share": {
+    "defaultMessage": "Del",
+    "description": "Menu share option in offers table"
+  },
+  "share.image": {
+    "defaultMessage": "Del bilete"
+  },
+  "share.your.address": {
+    "defaultMessage": "Del adressa di"
+  },
+  "short.description": {
+    "defaultMessage": "Kort beskriving"
+  },
+  "shortbio": {
+    "defaultMessage": "Kort biografi"
+  },
+  "show": {
+    "defaultMessage": "Vis"
+  },
+  "show.all": {
+    "defaultMessage": "Vis alle"
+  },
+  "sign.message": {
+    "defaultMessage": "sign.message"
+  },
+  "simple": {
+    "defaultMessage": "Enkel"
+  },
+  "site.email.not.verified.on.admin.message": {
+    "defaultMessage": "App-e-posten din er ikkje verifisert. Ver vennlig og verifiser han ved hjelp av e-posten vi sendte deg. Dersom du ikkje har motteke e-posten, eller treng å få han sendt på nytt, be om ein stadfestings-e-post <a>her</a>"
+  },
+  "slippage.is.above.one.hundred.percent": {
+    "defaultMessage": "Slippage er over 100%"
+  },
+  "slippage.is.below.zero": {
+    "defaultMessage": "Slippage er under null"
+  },
+  "social.media": {
+    "defaultMessage": "Sosiale medium"
+  },
+  "social.media.title": {
+    "defaultMessage": "Sosiale medium"
+  },
+  "socials": {
+    "defaultMessage": "Sosiale"
+  },
+  "sold.out": {
+    "defaultMessage": "Utseld"
+  },
+  "something.went.wrong": {
+    "defaultMessage": "Oops, noko gjekk gale",
+    "description": "Something went wrong error message"
+  },
+  "something.went.wrong.with.section.type.contact.support": {
+    "defaultMessage": "Oops, noko gjekk gale med seksjonstype {sectionType}. Kontakt brukerstøtte",
+    "description": "Something went wrong error message"
+  },
+  "sort.by": {
+    "defaultMessage": "Sorter etter"
+  },
+  "stake": {
+    "defaultMessage": "Innsats"
+  },
+  "stake.contract": {
+    "defaultMessage": "Stakekontrakt"
+  },
+  "start.by.connect.wallet": {
+    "defaultMessage": "Byrj med å tilkople lommeboka di. Om du ikkje har ei, kan du opprette ein ved å trykke på 'tilkoble lommebok'-knappen og velje vår Discord, Google, Twitter eller e-post-lommebok"
+  },
+  "start.creating.collections": {
+    "defaultMessage": "Start med å lage samlingar"
+  },
+  "start.for.free": {
+    "defaultMessage": "Start gratis"
+  },
+  "start.posting.offers.collection": {
+    "defaultMessage": "Start å poste tilbod for denne samlinga",
+    "description": "Start posting offers for this collection"
+  },
+  "start.time": {
+    "defaultMessage": "Starttid"
+  },
+  "status": {
+    "defaultMessage": "Status"
+  },
+  "steps.completed.finished.stepper": {
+    "defaultMessage": "Alle steg er fullført - du har ferdig konfigurasjonen av byttet"
+  },
+  "store.account": {
+    "defaultMessage": "Butikkonto"
+  },
+  "store.without.order": {
+    "defaultMessage": "Butikk utan tilbod. Kom tilbake seinare!"
+  },
+  "subtitle": {
+    "defaultMessage": "Undertittel"
+  },
+  "success.color": {
+    "defaultMessage": "Suksessfarge"
+  },
+  "swap": {
+    "defaultMessage": "Bytt"
+  },
+  "swap.apps": {
+    "defaultMessage": "Bytteappar"
+  },
+  "swap.fees.menu.container": {
+    "defaultMessage": "Byttingegebyr"
+  },
+  "swap.fees.title": {
+    "defaultMessage": "Byttingebyr"
+  },
+  "swap.quick.builder": {
+    "defaultMessage": "Bygg bytte raskt"
+  },
+  "swap.settings": {
+    "defaultMessage": "Bytteinnstillingar"
+  },
+  "swap.step.general.info": {
+    "defaultMessage": "Sett generell informasjon for lommebokappen din."
+  },
+  "swap.step.theme.info": {
+    "defaultMessage": "Vel bytteapp-tema og skrifttype."
+  },
+  "switch.network": {
+    "defaultMessage": "Skift nettverk"
+  },
+  "switch.network.content.text": {
+    "defaultMessage": "Please, switch to {chainName} network to create listings or offers for this asset",
+    "description": "Switch network dialog content text"
+  },
+  "switch.wallet": {
+    "defaultMessage": "Skift lommebok"
+  },
+  "switch.your.wallet.to.another.account.and.click.connect.account": {
+    "defaultMessage": "Skift lommeboka di til ein annan konto og trykk 'kopple konto'"
+  },
+  "symbol": {
+    "defaultMessage": "Symbol"
+  },
+  "team": {
+    "defaultMessage": "Team"
+  },
+  "team.management": {
+    "defaultMessage": "Teamadministrasjon"
+  },
+  "text.color": {
+    "defaultMessage": "Tekstfarge"
+  },
+  "text.field": {
+    "defaultMessage": "Tekstfelt"
+  },
+  "the.amount.cannot.be.zero": {
+    "defaultMessage": "Beløpet kan ikkje vere null"
+  },
+  "the.buyer.will.pay.percentage.in.fees": {
+    "defaultMessage": "Kjøparen betalar {price} {symbol} +{percentage} i avgifter"
+  },
+  "the.nft.has.no.metadata": {
+    "defaultMessage": "NFT-en har ingen metadata"
+  },
+  "theme": {
+    "defaultMessage": "Tema"
+  },
+  "theme.preview": {
+    "defaultMessage": "Forhåndsvis tema"
+  },
+  "themes": {
+    "defaultMessage": "Tema"
+  },
+  "this.app.is.not.clonable": {
+    "defaultMessage": "Denne appen er ikkje klonbar."
+  },
+  "this.drop.is.not.ready.to.be.minted": {
+    "defaultMessage": "Denne droppen er ikkje klar til å mintast."
+  },
+  "this.drop.is.not.ready.to.be.minted.": {
+    "defaultMessage": "Denne droppen er ikkje klar til å mintast."
+  },
+  "this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set": {
+    "defaultMessage": "Denne droppen er ikkje klar til å mintast enno. (Ingen krav om å ta ut satt)"
+  },
+  "this.token.is.available.on.the.marketplace": {
+    "defaultMessage": "Dette tokenet er tilgjengeleg på marknaden"
+  },
+  "time.unit": {
+    "defaultMessage": "Tidsenhet"
+  },
+  "title": {
+    "defaultMessage": "Tittel"
+  },
+  "to": {
+    "defaultMessage": "til"
+  },
+  "token": {
+    "defaultMessage": "Token"
+  },
+  "token.added": {
+    "defaultMessage": "Token lagt til"
+  },
+  "token.already.imported": {
+    "defaultMessage": "Token allereie importert"
+  },
+  "token.created": {
+    "defaultMessage": "Token oppretta"
+  },
+  "token.id": {
+    "defaultMessage": "Token Id"
+  },
+  "token.import.info": {
+    "defaultMessage": "Du kan søkje etter tokens på API-et vårt eller importere det direkte ved kontraktadressa"
+  },
+  "token.not.supported": {
+    "defaultMessage": "Tokenet støttast ikkje"
+  },
+  "token.standard": {
+    "defaultMessage": "Tokenstandard"
+  },
+  "token.symbol.message": {
+    "defaultMessage": "Token {tokenSymbol}"
+  },
+  "tokenId": {
+    "defaultMessage": "Token-ID"
+  },
+  "tokens": {
+    "defaultMessage": "Tokenar"
+  },
+  "total": {
+    "defaultMessage": "Total"
+  },
+  "total.cost": {
+    "defaultMessage": "Total kostnad"
+  },
+  "total.for.airdrop": {
+    "defaultMessage": "Totalt for luftdropp"
+  },
+  "total.items.to.claim": {
+    "defaultMessage": "Totalt antall emne å ta ut"
+  },
+  "total.items.to.claim.per.wallet": {
+    "defaultMessage": "Totalt antal element å påstå per lommebok"
+  },
+  "total.minted": {
+    "defaultMessage": "Totalt utvunnet"
+  },
+  "total.recipients": {
+    "defaultMessage": "Total mottakere"
+  },
+  "total.rewards": {
+    "defaultMessage": "Totalt Rewards"
+  },
+  "total.staked": {
+    "defaultMessage": "Total staket"
+  },
+  "total.supply": {
+    "defaultMessage": "Total forsyning"
+  },
+  "total.to.mint": {
+    "defaultMessage": "Total å mynte"
+  },
+  "total.to.receive": {
+    "defaultMessage": "Totalt å motta"
+  },
+  "total.volume": {
+    "defaultMessage": "Totalt volum"
+  },
+  "tradable": {
+    "defaultMessage": "Handelbar"
+  },
+  "trade.token.seo..title.message": {
+    "defaultMessage": "Den enkleste måten å {orderMarketType} {tokenSymbol} på {network}"
+  },
+  "trade.token.seo.description.message": {
+    "defaultMessage": "Oppdag den optimale måten å {orderMarketType} {tokenSymbol} på {network}. Plattformen vår sikrer raske og sikre transaksjoner, og gjør {orderMarketType}ing av {tokenSymbol} til en lek. Bli med nå for den ultimate handelsopplevelsen på {network}!"
+  },
+  "trades": {
+    "defaultMessage": "Handler"
+  },
+  "transaction": {
+    "defaultMessage": "Transaksjon"
+  },
+  "transaction.confirmed": {
+    "defaultMessage": "Transaksjon bekreftet"
+  },
+  "transaction.cost": {
+    "defaultMessage": "Transaksjonskostnad"
+  },
+  "transaction.failed": {
+    "defaultMessage": "Transaksjon mislyktes"
+  },
+  "transactions": {
+    "defaultMessage": "Transaksjoner"
+  },
+  "transfer": {
+    "defaultMessage": "Overføre"
+  },
+  "transfer.nft": {
+    "defaultMessage": "Overføre NFT"
+  },
+  "try.again": {
+    "defaultMessage": "Prøv igjen",
+    "description": "Try again"
+  },
+  "try.gain": {
+    "defaultMessage": "Prøv igjen"
+  },
+  "twitter": {
+    "defaultMessage": "Twitter"
+  },
+  "twitter.username": {
+    "defaultMessage": "Twitter brukernavn"
+  },
+  "type": {
+    "defaultMessage": "Type"
+  },
+  "unclaimed.supply": {
+    "defaultMessage": "Ikke kreves supply"
+  },
+  "unhide": {
+    "defaultMessage": "Vise"
+  },
+  "unknown.collection": {
+    "defaultMessage": "Ukjent samling"
+  },
+  "unknown.name": {
+    "defaultMessage": "Ukjent navn"
+  },
+  "unknown.token": {
+    "defaultMessage": "Ukjent token"
+  },
+  "unlimited": {
+    "defaultMessage": "Ubegrenset"
+  },
+  "unstake": {
+    "defaultMessage": "Frigjør innsats"
+  },
+  "up": {
+    "defaultMessage": "Opp"
+  },
+  "update": {
+    "defaultMessage": "Oppdatering"
+  },
+  "update.nft": {
+    "defaultMessage": "Oppdater NFT"
+  },
+  "updating.app.ranking": {
+    "defaultMessage": "Oppdaterer app-rangering"
+  },
+  "updating.app.versions": {
+    "defaultMessage": "Oppdaterer app-versjon"
+  },
+  "updating.member.permissions": {
+    "defaultMessage": "Oppdaterer medlemsrettigheter"
+  },
+  "updating.user.profile": {
+    "defaultMessage": "Oppdaterer brukerprofil"
+  },
+  "upload": {
+    "defaultMessage": "Laste opp"
+  },
+  "uploaded": {
+    "defaultMessage": "Lastet opp"
+  },
+  "uploading": {
+    "defaultMessage": "Laster opp"
+  },
+  "uri": {
+    "defaultMessage": "URI"
+  },
+  "url": {
+    "defaultMessage": "URL"
+  },
+  "use.home.as.title.not.allowed": {
+    "defaultMessage": "Bruk hjem som tittel er ikke tillatt for sider"
+  },
+  "user.accounts": {
+    "defaultMessage": "Brukerkontoer:"
+  },
+  "user.contract.form": {
+    "defaultMessage": "Brukerkontraktskjema"
+  },
+  "user.edit": {
+    "defaultMessage": "Bruker redigere"
+  },
+  "user.event": {
+    "defaultMessage": "Brukerhendelse"
+  },
+  "user.events.analytics": {
+    "defaultMessage": "Brukerhendelser analyser"
+  },
+  "user.events.analytics.wizard.description": {
+    "defaultMessage": "Analyser av brukerhendelser på appen din"
+  },
+  "user.login": {
+    "defaultMessage": "Bruker pålogget"
+  },
+  "user.name.variable": {
+    "defaultMessage": "Bruker: {username}"
+  },
+  "user.not.found": {
+    "defaultMessage": "Bruker ikke funnet"
+  },
+  "user.profile": {
+    "defaultMessage": "Brukerprofil"
+  },
+  "user.profile.value": {
+    "defaultMessage": "Brukerprofil: {username}"
+  },
+  "user.verified.social": {
+    "defaultMessage": "Verifisert i: {discord} {twitter}"
+  },
+  "username": {
+    "defaultMessage": "Brukernavn"
+  },
+  "value": {
+    "defaultMessage": "Verdi"
+  },
+  "variant": {
+    "defaultMessage": "Variant"
+  },
+  "verified": {
+    "defaultMessage": "Verifisert"
+  },
+  "verify.discord": {
+    "defaultMessage": "Bekreft Twitter"
+  },
+  "verifying.domain": {
+    "defaultMessage": "Verifisere domene"
+  },
+  "version": {
+    "defaultMessage": "Versjon"
+  },
+  "version.added": {
+    "defaultMessage": "Versjon lagt til"
+  },
+  "video": {
+    "defaultMessage": "Video"
+  },
+  "video.type": {
+    "defaultMessage": "Videotype"
+  },
+  "video.url": {
+    "defaultMessage": "Videolenke"
+  },
+  "view": {
+    "defaultMessage": "View"
+  },
+  "view.app": {
+    "defaultMessage": "Vis app"
+  },
+  "view.apps": {
+    "defaultMessage": "Vis apper"
+  },
+  "view.collection": {
+    "defaultMessage": "Vis samling"
+  },
+  "view.nft": {
+    "defaultMessage": "Vis NFT"
+  },
+  "view.nfts": {
+    "defaultMessage": "Vis nfts"
+  },
+  "view.order": {
+    "defaultMessage": "Vis Bestill"
+  },
+  "view.page.templates": {
+    "defaultMessage": "Vis sidemaler"
+  },
+  "view.profile": {
+    "defaultMessage": "Vis profil"
+  },
+  "view.public.page": {
+    "defaultMessage": "Vis offentlig side"
+  },
+  "view.public.profile": {
+    "defaultMessage": "Vis offentlig profil"
+  },
+  "view.section": {
+    "defaultMessage": "Vis seksjon"
+  },
+  "view.template": {
+    "defaultMessage": "Vis mal"
+  },
+  "view.token": {
+    "defaultMessage": "Vis token"
+  },
+  "view.transaction": {
+    "defaultMessage": "Vis transaksjon",
+    "description": "View transaction"
+  },
+  "view.user.profile": {
+    "defaultMessage": "Vis brukerprofil"
+  },
+  "visible.for": {
+    "defaultMessage": "Synlig for"
+  },
+  "wait.in.seconds": {
+    "defaultMessage": "Vent i sekunder"
+  },
+  "wait.nft.creation.by.dexkit": {
+    "defaultMessage": "Vent på at NFT opprettes av DexKit"
+  },
+  "wait.transaction.to.complete": {
+    "defaultMessage": "Vent på at transaksjonen fullføres"
+  },
+  "wallet": {
+    "defaultMessage": "Lommebok"
+  },
+  "wallet.connected.account": {
+    "defaultMessage": "Lommebok tilkoblet konto"
+  },
+  "wallet.is.not.connected": {
+    "defaultMessage": "Lommebok er ikke tilkoblet"
+  },
+  "wallet.quick.builder": {
+    "defaultMessage": "Lommebok rask konstruktør"
+  },
+  "wallet.section.form.info": {
+    "defaultMessage": "Lommebokseksjon godtar ikke konfigurasjoner for øyeblikket. I neste oppdatering vil du kunne tilpasse knapper og nettverk"
+  },
+  "wallet.step.theme.info": {
+    "defaultMessage": "Velg lommebokapper tema og skrift."
+  },
+  "warning.color": {
+    "defaultMessage": "Advarselsfarge"
+  },
+  "width.px": {
+    "defaultMessage": "Bredde (px)"
+  },
+  "withdraw.rewards": {
+    "defaultMessage": "Trekke Reward"
+  },
+  "wizard": {
+    "defaultMessage": "Veiviser"
+  },
+  "wizard.collections.section.info": {
+    "defaultMessage": "Samlinger vist som standard på samlingsoversiktssiden"
+  },
+  "wizard.welcome.index.message": {
+    "defaultMessage": "Welcome to DexAppBuilder! This is a beta product with constant development and at the moment is offered for free. If you need support please reach us on our <a>dedicated Discord channel</a>. Please check our <d>docs</d> for whitelabels. Reach us at our email <b>info@dexkit.com</b> if you need a custom solution that the wizard not attend."
+  },
+  "write": {
+    "defaultMessage": "Skrive"
+  },
+  "you": {
+    "defaultMessage": "du"
+  },
+  "you.are.cloning": {
+    "defaultMessage": "Du kloner nettstedet: <b>{site}</b>. Sjekk det live <a>her</a>"
+  },
+  "you.are.cloning.page.message": {
+    "defaultMessage": "Du kloner {side} side"
+  },
+  "you.are.not.eligible.to.mint.at.this.time": {
+    "defaultMessage": "Du er ikke kvalifisert for å prege for øyeblikket."
+  },
+  "you.are.not.eligible.to.mint.quantity.tokens": {
+    "defaultMessage": "Du er ikke kvalifisert for å prege {antall} tokens."
+  },
+  "you.are.not.eligible.to.mint.tokens.quantity.value": {
+    "defaultMessage": "Du er ikke kvalifisert for å prege {antall} tokens."
+  },
+  "you.are.on.a.network.different.of.the.contract": {
+    "defaultMessage": "Du er på et annet nettverk enn kontrakten"
+  },
+  "you.are.paying.percentage.in.fees": {
+    "defaultMessage": "Du betaler {pris} {symbol} + {prosent} i gebyrer"
+  },
+  "you.are.using.a.airdrop.claimable.contract": {
+    "defaultMessage": "Du bruker en luftslipp som kan kreves kontrakt"
+  },
+  "you.are.using.a.stake.contract": {
+    "defaultMessage": "Du bruker en innsatskontrakt"
+  },
+  "you.do.not.have.enough.balance.for.your.airdrop": {
+    "defaultMessage": "Du har ikke nok saldo for din Airdrop"
+  },
+  "you.dont.have.any.forms": {
+    "defaultMessage": "Du har ikke noe skjema ennå"
+  },
+  "you.dont.have.any.leaderboards": {
+    "defaultMessage": "Du har ikke noen lederbord ennå"
+  },
+  "you.dont.have.enough.currency.to.mint": {
+    "defaultMessage": "Du har ikke nok valuta til å prege."
+  },
+  "you.have.changes.unsaved.do.you.want.to.proceed.without.saving": {
+    "defaultMessage": "Du har endringer som ikke er lagret, vil du fortsette uten å lagre?"
+  },
+  "you.need.at.least.one.network.selected": {
+    "defaultMessage": "Du må ha minst ett nettverk valgt"
+  },
+  "you.need.to.add.or.import.tokens.so.users.can.make.trades": {
+    "defaultMessage": "Du må legge til eller importere tokens slik at brukerne kan handle"
+  },
+  "you.need.to.approve.tokens.for.airdrop": {
+    "defaultMessage": "Du må godkjenne tokens for luftslipp"
+  },
+  "you.need.to.hold.kit.value": {
+    "defaultMessage": "Du må eie {verdi} KIT på ett av disse nettverkene: BSC, ETH eller Polygon for å bruke denne funksjonen"
+  },
+  "you.own": {
+    "defaultMessage": "Du eier"
+  },
+  "you.pay": {
+    "defaultMessage": "Du betaler"
+  },
+  "you.receive": {
+    "defaultMessage": "Du mottar"
+  },
+  "you.selected.more.than.amoount": {
+    "defaultMessage": "Du valgte {beløp} tokens. Grensen er {tokenLimit}"
+  },
+  "your.airdrop.balance": {
+    "defaultMessage": "Din luftslipp saldo"
+  },
+  "your.app.domain.was.added.to.our.system": {
+    "defaultMessage": "Din appdomene ble lagt til i systemet vårt. Legg til CNAME i DNS-leverandøren din og etter det sjekker du domenestatus ofte til spredning"
+  },
+  "your.app.domain.was.verified.to.our.system": {
+    "defaultMessage": "Din appdomene ble bekreftet i systemet vårt. Vent mens domenet spres og besøk deretter domenet ditt."
+  },
+  "your.balance": {
+    "defaultMessage": "Your balance"
+  },
+  "your.collection.not.created.onchain": {
+    "defaultMessage": "Samlingen din ble ikke opprettet onchain"
+  },
+  "your.collection.was.created.onchain": {
+    "defaultMessage": "Samlingen din ble opprettet onchain"
+  },
+  "your.collection.was.created.successfully": {
+    "defaultMessage": "Din samling ble opprettet vellykket"
+  },
+  "your.collections": {
+    "defaultMessage": "dine samlinger"
+  },
+  "your.editions": {
+    "defaultMessage": "Dine utgaver"
+  },
+  "your.fees.are.above.the.limit": {
+    "defaultMessage": "Dine avgifter ({total}%) er over grensen ({maxFee}%)"
+  },
+  "your.image.was.deleted.successfully": {
+    "defaultMessage": "Ditt bilde ble slettet vellykket"
+  },
+  "your.marketplace.settings.was.sent.successfully": {
+    "defaultMessage": "Konfigurasjonen din ble sendt vellykket"
+  },
+  "your.nft.not.created": {
+    "defaultMessage": "NFT-ene dine ble ikke opprettet"
+  },
+  "your.nft.not.created.onchain": {
+    "defaultMessage": "NFT-ene dine ble ikke opprettet onchain"
+  },
+  "your.nft.were.created": {
+    "defaultMessage": "Ditt NFT ble opprettet"
+  },
+  "your.nfts.was.created.successfully": {
+    "defaultMessage": "Dine nfts ble opprettet vellykket"
+  },
+  "your.nfts.was.edited.successfully": {
+    "defaultMessage": "Dine nft-ane dine blei endra vellykka"
+  },
+  "your.nfts.were.created.onchain": {
+    "defaultMessage": "Dine nft-ar vart oppretta på kjede"
+  },
+  "your.order.was.created.successfully": {
+    "defaultMessage": "Din ordre vart oppretta vellykka"
+  },
+  "your.tokens": {
+    "defaultMessage": "Dine tokenar"
+  },
+  "your.user.profile.was.created": {
+    "defaultMessage": "Profilen din vart oppretta"
+  },
+  "your.user.profile.was.updated": {
+    "defaultMessage": "Profilen din vart oppdatert"
+  },
+  "youtube": {
+    "defaultMessage": "Vimeo"
+  },
+  "youtube.channel": {
+    "defaultMessage": "Youtube kanal"
+  }
+}

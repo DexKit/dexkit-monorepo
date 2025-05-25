@@ -1,7 +1,8 @@
 import LazyComponent from "@dexkit/ui/components/LazyComponent";
 import type { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import dynamic from "next/dynamic";
-const CodeSection = dynamic(() => import("./sections/CodeSection"));
+const CodeSection = dynamic(() => import("@dexkit/ui/components/CodeSection"));
 const CollectionSection = dynamic(() => import("./sections/CollectionSection"));
 const DexGeneratorSection = dynamic(
   () => import("./sections/DexGeneratorSection")
@@ -11,6 +12,7 @@ const RankingSection = dynamic(() => import("./sections/RankingSection"));
 const TokenTradeSection = dynamic(() => import("./sections/TokenTradeSection"));
 const CarouselSection = dynamic(() => import("./sections/CarouselSection"));
 const ShowCaseSection = dynamic(() => import("./sections/ShowCaseSection"));
+const ReferralSection = dynamic(() => import("./sections/ReferralSection"));
 
 const ExchangeSection = dynamic(() => import("./sections/ExchangeSection"));
 const AssetStoreSection = dynamic(() => import("./sections/AssetStoreSection"));
@@ -33,16 +35,20 @@ const UserContractSection = dynamic(
   () => import("./sections/UserContractSection")
 );
 
+const CommerceSection = dynamic(
+  () => import("@dexkit/ui/modules/commerce/components/CommerceSection")
+);
+
 interface Props {
   section: AppPageSection;
   useLazy?: boolean;
 }
-/**
- * This function it is to be used inside SectionRender
- * @param param0
- * @returns
- */
+
 export function SectionToRender({ section }: Props) {
+  if (!section) {
+    return null;
+  }
+
   if (section.type === "featured") {
     return <FeaturedSection title={section.title} items={section.items} />;
   } else if (section.type === "video") {
@@ -89,10 +95,17 @@ export function SectionToRender({ section }: Props) {
     return <CarouselSection section={section} />;
   } else if (section.type === "showcase") {
     return <ShowCaseSection section={section} />;
+  } else if (section.type === "commerce") {
+    return <CommerceSection section={section} />;
+  } else if (section.type === "referral") {
+    return <ReferralSection section={section} />;
   }
 }
 
 export function SectionRender({ section, useLazy }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   if (!section?.type) {
     return <></>;
   }
@@ -101,9 +114,31 @@ export function SectionRender({ section, useLazy }: Props) {
 
   if (getSection) {
     if (useLazy) {
-      return <LazyComponent>{getSection}</LazyComponent>;
+      return (
+        <Box sx={{
+          px: 0,
+          py: 0,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch'
+        }}>
+          <LazyComponent>{getSection}</LazyComponent>
+        </Box>
+      );
     } else {
-      return <div>{getSection}</div>;
+      return (
+        <Box sx={{
+          px: 0,
+          py: 0,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch'
+        }}>
+          {getSection}
+        </Box>
+      );
     }
   }
 

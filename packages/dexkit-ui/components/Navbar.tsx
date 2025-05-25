@@ -10,37 +10,37 @@ import { useRef, useState } from "react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Avatar,
-    Badge,
-    Box,
-    Button,
-    ButtonBase,
-    Divider,
-    Icon,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    NoSsr,
-    Popover,
-    Stack,
-    useMediaQuery,
-    useTheme,
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  ButtonBase,
+  Divider,
+  Icon,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  NoSsr,
+  Popover,
+  Stack,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import { getChainLogoImage, getChainName } from "@dexkit/core/utils/blockchain";
 import AttachMoney from "@mui/icons-material/AttachMoney";
 import Language from "@mui/icons-material/Language";
-import SettingsIcon from "@mui/icons-material/Settings";
+import NotificationsIcon from "@mui/icons-material/NotificationsOutlined";
+import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import dynamic from "next/dynamic";
 import Image from "next/legacy/image";
 import { FormattedMessage } from "react-intl";
 
 import { WalletButton } from "@dexkit/ui/components/WalletButton";
 
-import Notification from "./icons/Notification";
 import Wallet from "./icons/Wallet";
 
 const SelectNetworkDialog = dynamic(
@@ -51,21 +51,22 @@ import Link from "@dexkit/ui/components/AppLink";
 import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDialog";
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
-    useAuthUserQuery,
-    useConnectWalletDialog,
-    useCurrency,
-    useDexKitContext,
-    useDrawerIsOpen,
-    useLocale,
-    useNotifications,
-    useSelectNetworkDialog,
-    useShowAppTransactions,
-    useShowSelectCurrency,
-    useShowSelectLocale,
-    useThemeMode,
+  useAuthUserQuery,
+  useCurrency,
+  useDexKitContext,
+  useDrawerIsOpen,
+  useLocale,
+  useNotifications,
+  useSelectNetworkDialog,
+  useShowAppTransactions,
+  useShowSelectCurrency,
+  useShowSelectLocale,
+  useThemeMode,
 } from "@dexkit/ui/hooks";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
-import AppProfileMenu from "./AppProfileMenu";
+import { useSiteId } from "../hooks/useSiteId";
+import CommerceCartIconButton from "../modules/commerce/components/CommerceCartIconButton";
+import CommercePopover from "../modules/commerce/components/CommercePopover";
 import { ConnectWalletButton } from "./ConnectWalletButton";
 import NavbarMenu from "./NavbarMenu";
 import { ThemeModeSelector } from "./ThemeModeSelector";
@@ -77,6 +78,7 @@ interface Props {
 
 function Navbar({ appConfig, isPreview }: Props) {
   const { isActive, chainId } = useWeb3React();
+  const siteId = useSiteId();
   const { mode } = useThemeMode();
 
   const buttonRef = useRef<HTMLElement | null>(null);
@@ -88,9 +90,6 @@ function Navbar({ appConfig, isPreview }: Props) {
     useState<null | HTMLElement>(null);
 
   const openMenu = Boolean(anchorMenuEl);
-
-  const connectWalletDialog = useConnectWalletDialog();
-
   const selectNetworkDialog = useSelectNetworkDialog();
 
   const handleCloseSelectNetworkDialog = () => {
@@ -99,10 +98,6 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const handleOpenSelectNetworkDialog = () => {
     selectNetworkDialog.setIsOpen(true);
-  };
-
-  const handleOpenConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(true);
   };
 
   const handleCloseMenu = () => {
@@ -189,10 +184,20 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   return (
     <>
-      <AppProfileMenu
+      {/* <AppProfileMenu
         open={showProfileMenu}
         onClose={handleCloseProfileMenu}
         anchorEl={profileAnchorMenuEl}
+      /> */}
+      <CommercePopover
+        PopoverProps={{
+          open: showProfileMenu,
+          onClose: handleCloseProfileMenu,
+          anchorEl: profileAnchorMenuEl,
+          anchorOrigin: { horizontal: "left", vertical: "bottom" },
+        }}
+        enableCommerce={!appConfig.commerce?.enabled}
+        enableBilling={!siteId}
       />
       <Menu
         id="settings-menu"
@@ -506,6 +511,17 @@ function Navbar({ appConfig, isPreview }: Props) {
                 </Stack>
               )
             )}
+            {isActive && (
+              <ButtonBase
+                onClick={handleShowProfileMenu}
+                sx={{ borderRadius: "50%" }}
+              >
+                <Avatar
+                  sx={{ height: "1.5rem", width: "1.5rem" }}
+                  src={user?.profileImageURL}
+                />
+              </ButtonBase>
+            )}
             <Stack
               direction="row"
               spacing={2}
@@ -547,16 +563,13 @@ function Navbar({ appConfig, isPreview }: Props) {
                 <ConnectWalletButton />
               ) : (
                 <Stack direction="row" alignItems="center" spacing={2}>
-                  <ButtonBase
-                    onClick={handleShowProfileMenu}
-                    sx={{ borderRadius: "50%" }}
-                  >
-                    <Avatar
-                      sx={{ height: "1.5rem", width: "1.5rem" }}
-                      src={user?.profileImageURL}
-                    />
-                  </ButtonBase>
                   <WalletButton />
+
+                  {appConfig.commerce?.enabled && (
+                    <NoSsr>
+                      <CommerceCartIconButton />
+                    </NoSsr>
+                  )}
                   <NoSsr>
                     <IconButton
                       onClick={handleOpenTransactions}
@@ -580,7 +593,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                           filteredUncheckedTransactions.length === 0
                         }
                       >
-                        <Notification />
+                        <NotificationsIcon />
                       </Badge>
                     </IconButton>
                   </NoSsr>
@@ -628,7 +641,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                     filteredUncheckedTransactions.length === 0
                   }
                 >
-                  <Notification />
+                  <NotificationsIcon />
                 </Badge>
               </IconButton>
             </NoSsr>

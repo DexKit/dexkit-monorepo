@@ -131,7 +131,6 @@ export default function TokenErc20Section({ section }: TokenErc20SectionProps) {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: tokens.map(convertTokenToEvmCoin),
             defaultCoin: defaultToken,
           }}

@@ -3,26 +3,32 @@ import {
   NETWORK_FROM_SLUG,
   NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
-import { TokenWhitelabelApp } from "@dexkit/core/types";
+import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import {
+  appMetadata,
+  client,
+  wallets,
+} from "@dexkit/wallet-connectors/thirdweb/client";
 import { DkApiPlatformCoin } from "@dexkit/widgets/src/types/api";
 import {
   NotificationCallbackParams,
   RenderOptions,
 } from "@dexkit/widgets/src/widgets/swap/types";
+import { useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useCallback, useMemo } from "react";
-import {
-  useAppConfig,
-  useConnectWalletDialog,
-  useDexKitContext,
-} from "../../../hooks";
+import { darkTheme, lightTheme, useConnectModal } from "thirdweb/react";
+import { ThemeMode } from "../../../constants/enum";
+import { useAppConfig, useDexKitContext, useThemeMode } from "../../../hooks";
 import { useTokenList } from "../../../hooks/blockchain";
+import { SUPPORTED_GASLESS_CHAIN } from "../constants";
 import { getApiCoinPlatforms } from "../services";
 import { isAutoSlippageAtom, maxSlippageAtom } from "../state";
+import { isNativeInSell } from "../utils";
 
 export function useSwapState() {
   const { chainId } = useWeb3React();
@@ -30,7 +36,8 @@ export function useSwapState() {
   const [maxSlippage, setMaxSlippage] = useAtom(maxSlippageAtom);
 
   const appConfig = useAppConfig();
-
+  const { mode } = useThemeMode();
+  const theme = useTheme();
   const onChangeSlippage = useCallback((value: number) => {
     setMaxSlippage(value);
   }, []);
@@ -129,10 +136,31 @@ export function useSwapState() {
     []
   );
 
-  const connectWalletDialog = useConnectWalletDialog();
+  const colors = {
+    modalBg: theme.palette.background.default,
+    primaryButtonBg: theme.palette.action.active,
+  };
+
+  const { connect, isConnecting } = useConnectModal();
+
+  async function handleConnect() {
+    await connect({
+      client,
+      wallets,
+      appMetadata,
+      size: "compact",
+      showThirdwebBranding: false,
+      theme:
+        mode === ThemeMode.light
+          ? lightTheme({
+              colors,
+            })
+          : darkTheme({ colors }),
+    });
+  }
 
   const onConnectWallet = useCallback(() => {
-    connectWalletDialog.setOpen(true);
+    handleConnect();
   }, []);
 
   const onShowTransactions = useCallback(() => {
@@ -264,3 +292,38 @@ export function usePlatformCoinSearch({
     }
   );
 }
+
+export const useCanGasless = ({
+  enabled,
+  chainId,
+  side,
+  sellToken,
+  buyToken,
+}: {
+  enabled: boolean;
+  chainId: ChainId;
+  side: "buy" | "sell";
+  sellToken: Token;
+  buyToken: Token;
+}): boolean => {
+  if (
+    chainId &&
+    enabled &&
+    sellToken?.address &&
+    buyToken?.address &&
+    SUPPORTED_GASLESS_CHAIN.includes(chainId) &&
+    !isNativeInSell({
+      side,
+      sellToken: {
+        address: sellToken.address,
+      },
+      buyToken: {
+        address: buyToken.address,
+      },
+    })
+  ) {
+    return true;
+  }
+
+  return false;
+};

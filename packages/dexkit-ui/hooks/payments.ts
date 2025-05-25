@@ -2,7 +2,13 @@ import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { FeatUsage, Subscription } from "../types/ai";
-import { CreditGrant, CryptoCheckoutSession } from "../types/payments";
+
+interface ServerParams {
+  skip?: number;
+  take?: number;
+  sort?: string[];
+  filter?: string;
+}
 
 export const SUBSCRIPTION_QUERY = "SUBSCRIPTION_QUERY";
 
@@ -22,7 +28,7 @@ export function useBuyCreditsCheckout() {
 
   return useMutation(async ({ amount }: { amount: number }) => {
     return (
-      await instance?.post<{ url: string }>("/payments/buy-credits-session", {
+      await instance?.post("/payments/buy-credits-session", {
         amount: amount.toString(),
       })
     )?.data;
@@ -31,12 +37,11 @@ export function useBuyCreditsCheckout() {
 
 export const CREDIT_HISTORY = "CREDIT_HISTORY";
 
-export function useCreditHistory() {
+export function useCreditHistory(params: ServerParams) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CREDIT_HISTORY], async () => {
-    return (await instance?.get<CreditGrant[]>("/payments/credit-history"))
-      ?.data;
+    return (await instance?.get("/payments/credit-history", { params }))?.data;
   });
 }
 
@@ -44,12 +49,8 @@ export function useCryptoCheckout() {
   const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(async (params: { intent: string; amount: string }) => {
-    return (
-      await instance?.post<CryptoCheckoutSession>(
-        "/payments/crypto-checkout-session",
-        params
-      )
-    )?.data;
+    return (await instance?.post("/payments/crypto-checkout-session", params))
+      ?.data;
   });
 }
 
@@ -59,9 +60,8 @@ export function useCheckoutItems({ id }: { id: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([CRYPTO_CHECKOUT_ITEMS, id], async () => {
-    return (
-      await instance?.get<any[]>(`/payments/checkout-session/${id}/items`)
-    )?.data;
+    return (await instance?.get(`/payments/checkout-session/${id}/items`))
+      ?.data;
   });
 }
 
@@ -98,11 +98,7 @@ export function useCheckoutData({ id }: { id: string }) {
   return useQuery(
     [CHECKOUT_STATUS, id],
     async () => {
-      return (
-        await instance?.get<CryptoCheckoutSession>(
-          `/payments/checkout-session/${id}`
-        )
-      )?.data;
+      return (await instance?.get(`/payments/checkout-session/${id}`))?.data;
     },
     { refetchInterval: 3000 }
   );
@@ -116,17 +112,7 @@ export function usePlanCosts(slug?: string) {
     if (!slug) {
       return [];
     }
-    return (
-      await instance?.get<
-        {
-          id: number;
-          plan: string;
-          feat: string;
-          model?: string;
-          price: string;
-        }[]
-      >(`/payments/plans/${slug}/costs`)
-    )?.data;
+    return (await instance?.get(`/payments/plans/${slug}/costs`))?.data;
   });
 }
 
@@ -135,11 +121,7 @@ export const PLANS_QUERY = "PLANS_QUERY";
 export function usePlanPrices() {
   const { instance } = useContext(DexkitApiProvider);
   return useQuery([PLANS_QUERY], async () => {
-    return (
-      await instance?.get<{ amount: string; name: string; slug: string }[]>(
-        `/payments/plans`
-      )
-    )?.data;
+    return (await instance?.get(`/payments/plans`))?.data;
   });
 }
 
@@ -148,7 +130,7 @@ export function usePlanCheckoutMutation() {
 
   return useMutation(async ({ plan }: { plan: string }) => {
     return (
-      await instance?.get<{ url: string }>("/payments/checkout-session", {
+      await instance?.get("/payments/checkout-session", {
         params: { plan },
       })
     )?.data;
@@ -156,13 +138,27 @@ export function usePlanCheckoutMutation() {
 }
 export const ACTIVE_FEAT_USAGE_QUERY = "ACTIVE_FEAT_USAGE_QUERY";
 
-export function useActiveFeatUsage() {
+export function useActiveFeatUsage({ slug }: { slug: string }) {
   const { instance } = useContext(DexkitApiProvider);
   return useQuery<FeatUsage>(
     [ACTIVE_FEAT_USAGE_QUERY],
     async () => {
-      return (await instance?.get(`/payments/active-usage`))?.data;
+      return (await instance?.get(`/payments/active-usage/${slug}`))?.data;
     },
     { refetchInterval: 5000 }
   );
+}
+
+export function useActivatePremiumMutation() {
+  const { instance } = useContext(DexkitApiProvider);
+  return useMutation(async ({ siteId }: { siteId?: number }) => {
+    return instance?.post("/premium-appbuilder/charge-amount", { siteId });
+  });
+}
+
+export function useDisablePremiumMutation() {
+  const { instance } = useContext(DexkitApiProvider);
+  return useMutation(async ({ siteId }: { siteId?: number }) => {
+    return instance?.post("/premium-appbuilder/disable", { siteId });
+  });
 }

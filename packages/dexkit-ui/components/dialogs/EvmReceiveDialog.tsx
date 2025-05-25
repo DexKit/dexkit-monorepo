@@ -1,6 +1,7 @@
 import { NETWORK_NAME } from "@dexkit/core/constants/networks";
 import { EvmCoin } from "@dexkit/core/types";
 
+import { useIsMobile } from "@dexkit/core";
 import { Dialog, DialogContent, DialogProps, Divider } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { AppDialogTitle } from "../AppDialogTitle";
@@ -23,6 +24,7 @@ export default function EvmReceiveDialog({
   ENSName,
   defaultCoin,
 }: Props) {
+  const isMobile = useIsMobile();
   const { onClose } = dialogProps;
 
   const handleClose = () => {
@@ -32,7 +34,7 @@ export default function EvmReceiveDialog({
   };
 
   return (
-    <Dialog {...dialogProps}>
+    <Dialog {...dialogProps} fullScreen={isMobile}>
       <AppDialogTitle
         title={
           <FormattedMessage

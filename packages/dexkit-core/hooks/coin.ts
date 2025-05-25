@@ -4,7 +4,7 @@ import { ERC20Abi } from "../constants/abis";
 
 import type { providers } from "ethers";
 
-import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
+import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "../constants";
 import { getERC20TokenAllowance } from "../services";
 import { approveToken, getERC20Balance } from "../services/balances";
 import { isAddressEqual } from "../utils";
@@ -15,15 +15,17 @@ export interface Erc20BalanceParams {
   account?: string;
   contractAddress?: string;
   provider?: providers.BaseProvider;
+  chainId?: ChainId;
 }
 
 export function useErc20BalanceQuery({
   account,
   contractAddress,
   provider,
+  chainId,
 }: Erc20BalanceParams) {
   return useQuery(
-    [ERC20_BALANCE, account, contractAddress],
+    [ERC20_BALANCE, account, contractAddress, chainId],
     async () => {
       if (!contractAddress || !provider || !account) {
         return BigNumber.from(0);
@@ -37,7 +39,50 @@ export function useErc20BalanceQuery({
 
       return (await contract.balanceOf(account)) as BigNumber;
     },
-    { refetchOnMount: "always", refetchOnWindowFocus: "always" }
+    {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      enabled: Boolean(provider),
+    }
+  );
+}
+
+export const ERC20_BALANCE_V2 = "ERC20_BALANCE_V2";
+
+export interface Erc20BalanceParamsV2 {
+  account?: string;
+  contractAddress?: string;
+  provider?: providers.BaseProvider;
+  chainId?: ChainId;
+}
+
+export function useErc20BalanceQueryV2({
+  account,
+  contractAddress,
+  provider,
+  chainId,
+}: Erc20BalanceParamsV2) {
+
+  return useQuery(
+    [ERC20_BALANCE_V2, account, contractAddress, chainId],
+    async () => {
+      if (!contractAddress || !provider || !account) {
+        return BigNumber.from(0);
+      }
+
+      if (isAddressEqual(contractAddress, ZEROEX_NATIVE_TOKEN_ADDRESS)) {
+        return await provider.getBalance(account);
+      }
+
+      const contract = new Contract(contractAddress, ERC20Abi, provider);
+
+      return (await contract.balanceOf(account)) as BigNumber;
+    },
+    {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      enabled: Boolean(provider),
+    }
   );
 }
 
@@ -87,22 +132,22 @@ export function useTokenAllowanceQuery({
   tokenAddress,
   account,
   spender,
-  provider,
+  signer,
 }: {
   account?: string;
   tokenAddress?: string | null;
   spender?: string;
-  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
 }) {
   return useQuery(
     [TOKEN_ALLOWANCE_QUERY, tokenAddress, account, spender],
     async () => {
-      if (!provider || !tokenAddress || !account || !spender) {
+      if (!signer || !tokenAddress || !account || !spender) {
         return null;
       }
 
       return await getERC20TokenAllowance(
-        provider,
+        signer,
         tokenAddress,
         account,
         spender
@@ -117,14 +162,14 @@ export function useApproveToken() {
     async ({
       spender,
       tokenContract,
-      provider,
+      signer,
       onSubmited,
       amount,
     }: {
       amount?: BigNumber;
       spender?: string;
       tokenContract?: string;
-      provider?: providers.Web3Provider;
+      signer?: providers.JsonRpcSigner;
       onSubmited: (hash: string) => void;
     }) => {
       if (!tokenContract || !spender) {
@@ -135,7 +180,7 @@ export function useApproveToken() {
         tokenContract,
         spender,
         amount,
-        provider,
+        signer,
       });
 
       onSubmited(tx.hash);

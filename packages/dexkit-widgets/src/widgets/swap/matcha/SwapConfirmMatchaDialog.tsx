@@ -20,7 +20,10 @@ import AppDialogTitle from "../../../components/AppDialogTitle";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import ErrorIcon from "@mui/icons-material/Error";
 
 import { Token } from "@dexkit/core/types";
@@ -32,7 +35,7 @@ import SwapFeeSummary from "./SwapFeeSummaryMatcha";
 
 export interface SwapConfirmMatchaDialogProps {
   DialogProps: DialogProps;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   chainId?: ChainId;
   execSwapState: ExecSwapState;
   isApproving?: boolean;
@@ -47,12 +50,14 @@ export interface SwapConfirmMatchaDialogProps {
   confirmedTxGasless?: { hash: string };
   sellToken?: Token;
   buyToken?: Token;
+  isConfirming: boolean;
 }
 
 export default function SwapConfirmMatchaDialog({
   DialogProps,
   quote,
   isQuoting,
+  isConfirming,
   chainId,
   onConfirm,
   execSwapState,
@@ -68,6 +73,11 @@ export default function SwapConfirmMatchaDialog({
   buyToken,
 }: SwapConfirmMatchaDialogProps) {
   const { onClose } = DialogProps;
+  const isButtonDisabled =
+    isQuoting ||
+    isLoadingStatusGasless ||
+    isConfirming ||
+    execSwapState === ExecSwapState.gasless_trade_submit;
 
   const handleClose = () => {
     if (onClose) {
@@ -206,14 +216,15 @@ export default function SwapConfirmMatchaDialog({
                           )}{" "}
                           {sellToken?.symbol?.toUpperCase()}
                         </Typography>
-                        <Typography
+                        {/* TODO: Make price dynamic -> Issues created: https://github.com/DexKit/dexkit-monorepo/issues/428 */}
+                        {/* <Typography
                           component="div"
                           textAlign="center"
                           variant="caption"
                           color="text.secondary"
                         >
                           $30.0
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Stack>
                   </Box>
@@ -271,14 +282,15 @@ export default function SwapConfirmMatchaDialog({
                           )}{" "}
                           {buyToken?.symbol?.toUpperCase()}
                         </Typography>
-                        <Typography
+                        {/* TODO: Make price dynamic -> Issues created: https://github.com/DexKit/dexkit-monorepo/issues/428 */}
+                        {/* <Typography
                           component="div"
                           textAlign="center"
                           variant="caption"
                           color="text.secondary"
                         >
                           $30.0
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Stack>
                   </Box>
@@ -376,18 +388,8 @@ export default function SwapConfirmMatchaDialog({
           </Button>
         ) : (
           <Button
-            disabled={
-              isQuoting ||
-              isLoadingStatusGasless ||
-              execSwapState === ExecSwapState.gasless_trade_submit ||
-              isApproving
-            }
-            startIcon={
-              (isQuoting ||
-                isLoadingStatusGasless ||
-                execSwapState === ExecSwapState.gasless_trade_submit ||
-                isApproving) && <CircularProgress size={20} />
-            }
+            disabled={isButtonDisabled}
+            startIcon={isButtonDisabled && <CircularProgress size={20} />}
             onClick={onConfirm}
             variant="contained"
           >

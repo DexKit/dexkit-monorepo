@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "downlevelIteration": true,
+    "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
+    "incremental": true,
+    "typeRoots": [
+      "../../node_modules/@0x/typescript-typings/types",
+      "../../node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/modules/*": ["src/modules/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-sitemap.config.js",
+    "scripts/local-diff.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

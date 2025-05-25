@@ -85,7 +85,6 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
             ENSName,
             account: account,
             chainId: chainId,
-            provider: provider,
             coins: [convertTokenToEvmCoin(token)],
             defaultCoin: convertTokenToEvmCoin(token),
           }}
@@ -191,13 +190,16 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
                   >
                     <FormattedMessage id="receive" defaultMessage="Receive" />
                   </Button>
-                  <TransakWidget
-                    buttonProps={{
-                      color: "inherit",
-                      variant: "outlined",
-                      fullWidth: true,
-                    }}
-                  />
+                  {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+                  {false && (
+                    <TransakWidget
+                      buttonProps={{
+                        color: "inherit",
+                        variant: "outlined",
+                        fullWidth: true,
+                      }}
+                    />
+                  )}
                 </Stack>
               </Grid>
             </Grid>

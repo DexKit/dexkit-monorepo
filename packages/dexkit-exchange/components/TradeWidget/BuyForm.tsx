@@ -132,13 +132,14 @@ export default function BuyForm({
   const handleQuotePrice = useCallback(async () => {
     const quote = await quoteMutation.mutateAsync({
       buyToken: baseToken.address,
+      chainId: chainId!,
       sellToken: quoteToken.address,
       affiliateAddress: affiliateAddress ? affiliateAddress : "",
       buyAmount: parseUnits("1.0", baseToken.decimals).toString(),
-      skipValidation: true,
       slippagePercentage: slippage ? slippage / 100 : 0.01,
       feeRecipient,
       buyTokenPercentageFee,
+      taker: maker || "",
     });
 
     const sellAmount = BigNumber.from(quote?.sellAmount || "0");

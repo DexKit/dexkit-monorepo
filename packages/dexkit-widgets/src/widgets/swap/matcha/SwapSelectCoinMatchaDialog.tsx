@@ -66,7 +66,6 @@ export default function SwapSelectCoinMatchaDialog({
   const { onClose } = DialogProps;
 
   const { formatMessage } = useIntl();
-
   const handleClose = () => {
     if (onClose) {
       onClose({}, "backdropClick");
@@ -200,7 +199,11 @@ export default function SwapSelectCoinMatchaDialog({
             !isOnList && fetchTokenData.data ? fetchTokenData.data : undefined
           }
           tokenBalances={tokenBalances.data}
-          isLoading={tokenBalances.isLoading || fetchTokenData.isLoading}
+          isLoading={
+            tokenBalances.isLoading ||
+            fetchTokenData.isLoading ||
+            isLoadingSearch
+          }
         />
       </DialogContent>
     </Dialog>

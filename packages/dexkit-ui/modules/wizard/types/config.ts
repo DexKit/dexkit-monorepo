@@ -1,6 +1,6 @@
 import type { TokenWhitelabelApp } from "@dexkit/core/types";
 import type { AppWhitelabelType, ThemeMode } from "@dexkit/ui/constants/enum";
-import type { GatedPageLayout } from ".";
+import type { GatedPageLayout, SiteMetadata } from ".";
 import type { AssetAPI } from "../../nft/types";
 import type { AppPageSection } from "./section";
 
@@ -157,6 +157,10 @@ export interface AppToken {
   tokens: TokenWhitelabelApp[];
 }
 
+export interface CommerceConfig {
+  enabled?: boolean;
+}
+
 export interface AppConfig {
   name: string;
   locale?: string;
@@ -217,12 +221,13 @@ export interface AppConfig {
     gtag?: string;
   };
   tokens?: AppToken[];
+  commerce?: CommerceConfig;
 }
-
 export interface ConfigResponse {
   id: number;
   slug: string;
   config: string;
+  isTemplate?: boolean;
   domain: string;
   cname?: string;
   domainStatus?: string;
@@ -230,4 +235,31 @@ export interface ConfigResponse {
   active?: boolean;
   previewUrl?: string;
   nft?: AssetAPI;
+}
+
+export interface SiteResponse {
+  id: number;
+  slug: string;
+  config: string;
+  domain: string;
+  cname?: string;
+  owner?: string;
+  clonable?: string;
+  metadata: SiteMetadata;
+  domainStatus?: string;
+  emailVerified?: boolean;
+  type: AppWhitelabelType;
+  active?: boolean;
+  previewUrl?: string;
+  nft?: AssetAPI;
+  lastVersionSet?: {
+    version: string;
+  };
+  verifyDomainRawData?: string;
+  permissions?: {
+    accountId: string;
+    permissions: {
+      [key: string]: boolean;
+    };
+  }[];
 }

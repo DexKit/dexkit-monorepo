@@ -16,13 +16,14 @@ import { ExecType, SwapSide } from "../types";
 
 import { ChainId } from "@dexkit/core/constants/enums";
 import { NETWORKS } from "@dexkit/core/constants/networks";
-import { useIsMobile } from "@dexkit/core/hooks";
 import { Token } from "@dexkit/core/types";
 import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import {
+  ZeroExGaslessQuoteResponse,
+  ZeroExQuoteResponse,
+} from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import WalletIcon from "@mui/icons-material/Wallet";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { AppNotificationsBadge } from "../../../components/AppNotificationBadge";
 import TransakIcon from "../../../components/icons/TransakIcon";
@@ -38,8 +39,7 @@ export interface SwapMatchaProps {
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    [string, ZeroExQuoteResponse | null] | undefined,
-    any
+    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
@@ -56,7 +56,7 @@ export interface SwapMatchaProps {
   sellAmount: BigNumber;
   buyAmount: BigNumber;
   execType?: ExecType;
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   isExecuting: boolean;
   clickOnMax: boolean;
   sellTokenBalance?: BigNumber;
@@ -68,13 +68,11 @@ export interface SwapMatchaProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
   featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
   onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onConnectWallet: () => void;
   onChangeNetwork: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
   onShowSettings: () => void;
@@ -84,6 +82,7 @@ export interface SwapMatchaProps {
   onSetToken?: (token: Token) => void;
 }
 
+import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
 import { useExecButtonMessage } from "../hooks/useExecButtonMessage";
 import SwapFeeSummaryMatcha from "./SwapFeeSummaryMatcha";
 import SwapSwitchTokensMatchaButton from "./SwapSwitchTokensMatchaButton";
@@ -123,12 +122,10 @@ export default function SwapMatcha({
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
-  onConnectWallet,
   onChangeNetwork,
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
   onToggleChangeNetwork,
   onSetToken,
@@ -148,8 +145,6 @@ export default function SwapMatcha({
     networkName,
     execType,
   });
-
-  const isMobile = useIsMobile();
 
   return (
     <Paper variant="elevation">
@@ -317,7 +312,9 @@ export default function SwapMatcha({
                   />
                 </Alert>
               )}
-              {onShowTransak && insufficientBalance && isActive && (
+              {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+              {/* {onShowTransak && insufficientBalance && isActive && ( */}
+              {false && (
                 <Button
                   startIcon={<TransakIcon />}
                   onClick={onShowTransak}
@@ -345,10 +342,10 @@ export default function SwapMatcha({
                       insufficientBalance ||
                       disabled ||
                       quoteQuery?.isError ||
-                      quoteQuery?.isLoading
+                      quoteQuery?.isFetching
                     }
                     startIcon={
-                      isExecuting || quoteQuery?.isLoading ? (
+                      isExecuting || quoteQuery?.isFetching ? (
                         <CircularProgress color="inherit" size="1rem" />
                       ) : undefined
                     }
@@ -357,18 +354,11 @@ export default function SwapMatcha({
                   </Button>
                 )
               ) : (
-                <Button
-                  onClick={onConnectWallet}
-                  startIcon={<WalletIcon />}
+                <ConnectButton
                   variant="contained"
                   color="primary"
                   size="large"
-                >
-                  <FormattedMessage
-                    id="connect.wallet"
-                    defaultMessage="Connect Wallet"
-                  />
-                </Button>
+                />
               )}
             </Stack>
           </Stack>

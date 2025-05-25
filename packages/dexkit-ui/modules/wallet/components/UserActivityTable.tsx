@@ -51,9 +51,11 @@ export default function UserActivityTable({}: UserActivityTableProps) {
       userActivityQuery.data?.pages &&
       userActivityQuery.data?.pages.length > 0
     ) {
-      return userActivityQuery.data?.pages[page]?.data.map((event, key) => (
-        <UserActivityTableRow event={event} key={`event-${page}-${key}`} />
-      ));
+      return userActivityQuery.data?.pages[page]?.data.map(
+        (event: any, key: number) => (
+          <UserActivityTableRow event={event} key={`event-${page}-${key}`} />
+        )
+      );
     }
   };
 

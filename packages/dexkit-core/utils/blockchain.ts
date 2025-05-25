@@ -6,7 +6,9 @@ import { ChainId } from '@dexkit/core/constants';
 
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
-import { providers } from 'ethers';
+import { client } from '@dexkit/wallet-connectors/thirdweb/client';
+import { ethers5Adapter } from 'thirdweb/adapters/ethers5';
+import { defineChain } from 'thirdweb/chains';
 
 
 export const getNetworks = ({ includeTestnet }: { includeTestnet: boolean }) => {
@@ -72,11 +74,10 @@ export const getNetworkSlugFromChainId = (chainId?: ChainId) => {
 
 export const getProviderByChainId = (chainId?: ChainId) => {
   if (chainId) {
-    if (NETWORKS[chainId].providerRpcUrl) {
-      return new providers.JsonRpcProvider(
-        NETWORKS[chainId].providerRpcUrl
-      );
-    }
+    return ethers5Adapter.provider.toEthers({
+      client,
+      chain: defineChain(chainId),
+    })
   }
 };
 

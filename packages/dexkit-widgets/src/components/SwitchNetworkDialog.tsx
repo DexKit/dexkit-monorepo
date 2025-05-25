@@ -62,29 +62,24 @@ function SwitchNetworkDialog({
       <Divider />
       <DialogContent sx={{ p: 0 }}>
         <List {...ListProps}>
-          {Object.keys(NETWORKS)
-            .filter((k) => activeChainIds.includes(Number(k)))
-            .filter((key) => {
-              return !NETWORKS[parseChainId(key)].testnet;
-            })
-            .map((key) => (
-              <ListItemButton
-                onClick={() => handleChange(parseChainId(key))}
-                selected={parseChainId(key) === chainId}
-                key={parseChainId(key)}
-              >
-                <ListItemAvatar>
-                  <Avatar src={NETWORKS[parseChainId(key)].imageUrl} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    NETWORKS[parseChainId(key)]
-                      ? NETWORKS[parseChainId(key)].name
-                      : undefined
-                  }
-                />
-              </ListItemButton>
-            ))}
+          {activeChainIds.map((key) => (
+            <ListItemButton
+              onClick={() => handleChange(parseChainId(key))}
+              selected={parseChainId(key) === chainId}
+              key={parseChainId(key)}
+            >
+              <ListItemAvatar>
+                <Avatar src={NETWORKS[parseChainId(key)].imageUrl} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  NETWORKS[parseChainId(key)]
+                    ? NETWORKS[parseChainId(key)].name
+                    : undefined
+                }
+              />
+            </ListItemButton>
+          ))}
         </List>
       </DialogContent>
     </Dialog>

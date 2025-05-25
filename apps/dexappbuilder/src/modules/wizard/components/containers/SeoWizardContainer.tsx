@@ -1,0 +1,123 @@
+import {
+  AppConfig,
+  AppPage,
+  PageSeo,
+} from '@dexkit/ui/modules/wizard/types/config';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { SeoForm } from '../../types';
+import SeoSection from '../sections/SeoSection';
+
+interface Props {
+  config: AppConfig;
+  onSave: (config: AppConfig) => void;
+  onHasChanges: (hasChanges: boolean) => void;
+}
+export default function SeoWizardContainer({
+  config,
+  onSave,
+  onHasChanges,
+}: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [currentPage, setCurrentPage] = useState<AppPage>(config.pages['home']);
+  const handleSaveSeoForm = (form: SeoForm, slug: string) => {
+    setSeoForm({ [slug]: form });
+    const seo: { [key: string]: PageSeo } = { ...config.seo };
+    Object.keys(seoForm).forEach((key) => {
+      seo[key] = {
+        title: seoForm[key].title,
+        description: seoForm[key].description,
+        images: [{ url: seoForm[key].shareImageUrl }],
+      };
+    });
+    seo[slug] = {
+      title: form.title,
+      description: form.description,
+      images: [{ url: form.shareImageUrl }],
+    };
+    const newConfig = { ...config, seo };
+    onSave(newConfig);
+  };
+
+  const [seoForm, setSeoForm] = useState<{ [key: string]: SeoForm }>({
+    home: {
+      title: (config.seo && config.seo['home']?.title) || '',
+      description: (config.seo && config.seo['home']?.description) || '',
+      shareImageUrl: (config.seo && config.seo['home']?.images[0].url) || '',
+    },
+  });
+
+  useEffect(() => {
+    setSeoForm({
+      [`${currentPage.key}`]: {
+        title:
+          (config.seo &&
+            currentPage.key &&
+            config.seo[currentPage.key]?.title) ||
+          '',
+        description:
+          (config.seo &&
+            currentPage.key &&
+            config.seo[currentPage.key]?.description) ||
+          '',
+        shareImageUrl:
+          (config.seo &&
+            currentPage.key &&
+            config.seo[currentPage.key]?.images[0].url) ||
+          '',
+      },
+    });
+  }, [currentPage]);
+
+  return (
+    <Box sx={{ width: '100%', mx: isMobile ? theme.spacing(-0.5) : 0 }}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
+        <Grid item xs={12}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
+              <FormattedMessage id="SEO" defaultMessage="SEO" />
+            </Typography>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
+              <FormattedMessage
+                id="seo.wizard.description"
+                defaultMessage="Configure your app's SEO"
+              />
+            </Typography>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
+          <SeoSection
+            seoForm={seoForm}
+            onSave={handleSaveSeoForm}
+            pages={config.pages}
+            onHasChanges={onHasChanges}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

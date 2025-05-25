@@ -17,11 +17,13 @@ export function useTrackUserEventsMutation() {
       metadata,
       hash,
       chainId,
+      from,
     }: {
       event: UserEventsType;
       metadata?: string;
       hash?: string;
       chainId?: number;
+      from?: string;
     }) => {
       return postTrackUserEvent({
         event,
@@ -29,7 +31,7 @@ export function useTrackUserEventsMutation() {
         hash,
         chainId,
         siteId,
-        account,
+        account: account || from,
         userEventURL,
         referral: affiliateReferral,
       });
@@ -132,12 +134,9 @@ export function useTopUserEvents({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number; name: string }[]>(
-          "/user-events/count-by-type",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-by-type", {
+          params: filters,
+        })
       ).data || []
     );
   });
@@ -159,7 +158,7 @@ export function useCountUserEvents({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number }>("/user-events/count", {
+        await instance?.get("/user-events/count", {
           params: filters,
         })
       ).data?.count || Number(0)
@@ -183,7 +182,7 @@ export function useCountEventAccounts({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<{ count: number }>("/user-events/count-accounts", {
+        await instance?.get("/user-events/count-accounts", {
           params: filters,
         })
       ).data?.count || Number(0)
@@ -218,7 +217,7 @@ export function useSwapFeesByToken({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<TokenFeesResult>("/user-events/fees-by-token", {
+        await instance?.get("/user-events/fees-by-token", {
           params: filters,
         })
       ).data || {}
@@ -254,12 +253,9 @@ export function useCountDropCollection({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<DropNFTTokenResult>(
-          "/user-events/count-buy-drop-collection",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-buy-drop-collection", {
+          params: filters,
+        })
       ).data || {}
     );
   });
@@ -294,7 +290,7 @@ export function useCountDropCollectionByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenAccountResult>(
+          await instance?.get(
             "/user-events/count-buy-drop-collection-by-group",
             {
               params: { ...filters, group },
@@ -345,12 +341,9 @@ export function useCountDropTokenByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenDropResult>(
-            "/user-events/count-buy-drop-token",
-            {
-              params: { ...filters, group },
-            }
-          )
+          await instance?.get("/user-events/count-buy-drop-token", {
+            params: { ...filters, group },
+          })
         ).data || {}
       );
     }
@@ -382,12 +375,9 @@ export function useCountDropEditionByGroup({
 
       return (
         (
-          await instance?.get<DropNFTTokenAccountResult>(
-            "/user-events/count-buy-drop-edition-by-group",
-            {
-              params: { ...filters, group },
-            }
-          )
+          await instance?.get("/user-events/count-buy-drop-edition-by-group", {
+            params: { ...filters, group },
+          })
         ).data || {}
       );
     }
@@ -422,12 +412,9 @@ export function useCountDropEdition({ filters }: { filters: CountFilter }) {
 
     return (
       (
-        await instance?.get<DropNFTEditionResult>(
-          "/user-events/count-buy-drop-edition",
-          {
-            params: filters,
-          }
-        )
+        await instance?.get("/user-events/count-buy-drop-edition", {
+          params: filters,
+        })
       ).data || {}
     );
   });

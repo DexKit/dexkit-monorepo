@@ -25,12 +25,12 @@ export default function ContractDeployForm({
   contractBytecode,
   onContractCreated,
 }: ContractDeployFormProps) {
-  const { provider, chainId } = useWeb3React();
+  const { signer, chainId } = useWeb3React();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
   const contractDeployMutation = useContractDeployMutation({
-    provider,
+    signer,
     contractBytecode,
     abi,
     onContractCreated,

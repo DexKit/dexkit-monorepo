@@ -1,9 +1,17 @@
 {
+  "globalEnv": [
+    "NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT",
+    "MARKETPLACE_API_KEY"
+  ],
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "lint": {
       "outputs": []
