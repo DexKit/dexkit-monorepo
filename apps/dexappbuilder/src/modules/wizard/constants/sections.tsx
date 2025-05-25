@@ -19,6 +19,7 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GavelIcon from '@mui/icons-material/Gavel';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LinkIcon from '@mui/icons-material/Link';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import StoreIcon from '@mui/icons-material/Store';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
@@ -220,5 +221,9 @@ export const SECTION_CONFIG: {
   commerce: {
     icon: undefined,
     title: undefined,
+  },
+  'referral': {
+    title: { id: 'referral.program', defaultMessage: 'Referral Program' },
+    icon: <LinkIcon />,
   },
 };

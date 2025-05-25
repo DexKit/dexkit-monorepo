@@ -17,11 +17,18 @@ export const USER_PLANS_QUERY = 'USER_PLANS_QUERY';
 
 export const BILLING_HISTORY_QUERY = 'BILLING_HISTORY_QUERY';
 
-export function useBillingHistoryQuery() {
+interface ServerParams {
+  skip?: number;
+  take?: number;
+  sort?: string[];
+  filter?: string;
+}
+
+export function useBillingHistoryQuery(params: ServerParams) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery([BILLING_HISTORY_QUERY], async () => {
-    return (await instance?.get('/payments/billing-history'))?.data;
+    return (await instance?.get('/payments/billing-history', { params }))?.data;
   });
 }
 

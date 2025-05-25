@@ -24,7 +24,10 @@ import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import { javascript } from '@codemirror/lang-javascript';
 import { AppDialogTitle } from '@dexkit/ui';
+import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import { CodePageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { TextImproveAction } from '@dexkit/ui/types/ai';
+import { stringToJson } from '@dexkit/ui/utils';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import parse from 'html-react-parser';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -74,23 +77,23 @@ function CodeSectionForm({
   const theme = useTheme();
 
   const [showAsFullScreen, setShowAsFullScreen] = useState<string>();
-  
+
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const debouncedSetFieldValue = useCallback((
-    name: string, 
-    value: string, 
+    name: string,
+    value: string,
     setFieldValue: (name: string, value: string, shouldValidate?: boolean) => void
   ) => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
-    
+
     debounceTimeoutRef.current = setTimeout(() => {
       setFieldValue(name, value, false);
     }, 300);
   }, []);
-  
+
   useEffect(() => {
     return () => {
       if (debounceTimeoutRef.current) {
@@ -101,11 +104,11 @@ function CodeSectionForm({
 
   const renderInput = useCallback(
     ({ extensions, value, name }: InputParam,
-    setFieldValue: (
-      name: string,
-      value: string,
-      shouldValidate?: boolean,
-    ) => void,
+      setFieldValue: (
+        name: string,
+        value: string,
+        shouldValidate?: boolean,
+      ) => void,
     ) => {
       return (
         <>
@@ -223,7 +226,7 @@ function CodeSectionForm({
       ) => void,
     ) => {
       const activeNode = nodes.find(n => n.name === currTab);
-      
+
       return (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -284,6 +287,26 @@ function CodeSectionForm({
     ];
   }, []);
 
+
+  function getOutput({ html, js, css }: { html?: string, js?: string, css?: string }) {
+    let output: { html?: string, js?: string, css?: string } = {};
+    if (html) {
+      output.html = html;
+    }
+    if (js) {
+      output.js = js;
+    }
+    if (css) {
+      output.css = css;
+    }
+    if (output?.html || output?.js || output?.css) {
+      return JSON.stringify(output)
+    }
+    return null
+  }
+
+
+
   return (
     <Formik
       initialValues={{
@@ -306,12 +329,41 @@ function CodeSectionForm({
           {renderDialog(inputs(values), setFieldValue, showAsFullScreen)}
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Switch checked={showList} onClick={handleToggle} />}
-                label={
-                  <FormattedMessage id="show.all" defaultMessage="Show all" />
-                }
-              />
+              <Stack
+                alignItems="center"
+                justifyContent="space-between"
+                direction="row"
+                mb={2}
+              >
+                <FormControlLabel
+                  control={<Switch checked={showList} onClick={handleToggle} />}
+                  label={
+                    <FormattedMessage id="show.all" defaultMessage="Show all" />
+                  }
+                />
+                <CompletationProvider
+                  onCompletation={(output) => {
+                    const code = stringToJson(output);
+
+                    if (typeof code !== 'object') {
+                      return;
+                    }
+                    setFieldValue('html', code.html);
+                    setFieldValue('js', code.js);
+                    setFieldValue('css', code.css);
+                  }}
+                  filteredActions={[TextImproveAction.GENERATE_CODE]}
+                  selectedAction={TextImproveAction.GENERATE_CODE}
+                  withContext
+                  multiline
+                  output={getOutput({ html: values.html || '', js: values.js, css: values.css })}
+                  initialPrompt={''}
+                >
+                  {({ inputAdornment, ref }) => {
+                    return <Box ref={ref}>{inputAdornment('start')}</Box>;
+                  }}
+                </CompletationProvider>
+              </Stack>
             </Grid>
             <Grid item xs={12}>
               {showList

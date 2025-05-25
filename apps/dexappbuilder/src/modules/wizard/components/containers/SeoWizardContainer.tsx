@@ -3,6 +3,7 @@ import {
   AppPage,
   PageSeo,
 } from '@dexkit/ui/modules/wizard/types/config';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -22,6 +23,8 @@ export default function SeoWizardContainer({
   onSave,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [currentPage, setCurrentPage] = useState<AppPage>(config.pages['home']);
   const handleSaveSeoForm = (form: SeoForm, slug: string) => {
     setSeoForm({ [slug]: form });
@@ -73,33 +76,48 @@ export default function SeoWizardContainer({
   }, [currentPage]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
-            <FormattedMessage id="SEO" defaultMessage="SEO" />
-          </Typography>
-          <Typography variant={'body2'}>
-            <FormattedMessage
-              id="seo.wizard.description"
-              defaultMessage="Configure your app's SEO"
-            />
-          </Typography>
-        </Stack>
+    <Box sx={{ width: '100%', mx: isMobile ? theme.spacing(-0.5) : 0 }}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
+        <Grid item xs={12}>
+          <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{
+                fontSize: isMobile ? '1.15rem' : '1.5rem',
+                fontWeight: 600,
+                mb: 0.5
+              }}
+            >
+              <FormattedMessage id="SEO" defaultMessage="SEO" />
+            </Typography>
+            <Typography
+              variant={isMobile ? 'body2' : 'body1'}
+              color="text.secondary"
+              sx={{
+                fontSize: isMobile ? '0.85rem' : 'inherit',
+              }}
+            >
+              <FormattedMessage
+                id="seo.wizard.description"
+                defaultMessage="Configure your app's SEO"
+              />
+            </Typography>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
+          <SeoSection
+            seoForm={seoForm}
+            onSave={handleSaveSeoForm}
+            pages={config.pages}
+            onHasChanges={onHasChanges}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
-      <Grid item xs={12}>
-        <SeoSection
-          seoForm={seoForm}
-          onSave={handleSaveSeoForm}
-          pages={config.pages}
-          onHasChanges={onHasChanges}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </Grid>
-    </Grid>
+    </Box>
   );
 }

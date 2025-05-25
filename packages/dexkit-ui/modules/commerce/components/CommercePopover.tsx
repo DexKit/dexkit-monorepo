@@ -7,11 +7,13 @@ import CommerceUserMenu from "./CommerceUserMenu";
 export interface CommercePopoverProps {
   PopoverProps: PopoverProps;
   enableCommerce?: boolean;
+  enableBilling?: boolean;
 }
 
 export default function CommercePopover({
   PopoverProps,
   enableCommerce,
+  enableBilling,
 }: CommercePopoverProps) {
   const logoutMutation = useLogoutAccountMutation();
 
@@ -38,6 +40,13 @@ export default function CommercePopover({
           router.push(`/u/login`);
         }
       }
+      if (action === "billing") {
+        if (user) {
+          router.push(`/u/settings?section=billing`);
+        } else {
+          router.push(`/u/login`);
+        }
+      }
       if (action === "orders") {
         router.push("/c/orders");
       }
@@ -50,6 +59,7 @@ export default function CommercePopover({
     <Popover {...PopoverProps}>
       <CommerceUserMenu
         enableCommerce={enableCommerce}
+        enableBilling={enableBilling}
         onAction={handleAction}
       />
     </Popover>

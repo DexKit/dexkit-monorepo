@@ -10,8 +10,10 @@ import {
   Select,
   Stack,
   TextField,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
-import { FormikHelpers, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -29,27 +31,30 @@ import {
 import * as Yup from 'yup';
 import { PageSectionItem } from '../PageSectionItem';
 import AddItemForm from './AddItemForm';
+
+interface ButtonData {
+  title: string;
+  url: string;
+  openInNewPage?: boolean;
+}
+
 interface Form {
   variant: string;
   type: string;
   title: string;
-  subtitle?: string;
-  button: {
-    title: string;
-    url: string;
-    openInNewPage?: boolean;
-  };
+  subtitle: string;
+  button: ButtonData;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema = Yup.object().shape({
   variant: Yup.string().required(),
   type: Yup.string().required(),
   title: Yup.string().required(),
-  subtitle: Yup.string(),
+  subtitle: Yup.string().required(),
   button: Yup.object().shape({
     title: Yup.string().required(),
     url: Yup.string().required(),
-    openInNewPage: Yup.bool(),
+    openInNewPage: Yup.boolean().optional(),
   }),
 });
 
@@ -66,39 +71,41 @@ export default function CallToActionSectionForm({
   onChange,
   section,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showAddItem, setShowAddItem] = useState(false);
 
   const [items, setItems] = useState<SectionItem[]>(
-    section ? section.items : [],
+    section ? section.items || [] : [],
   );
 
-  const handleSubmit = (values: Form, helpers: FormikHelpers<Form>) => {
+  const handleSubmit = (values: Form) => {
     onSave({
       button: values.button,
       type: 'call-to-action',
       items,
-      subtitle: values?.subtitle as string,
+      subtitle: values.subtitle,
       title: values.title,
       variant: values.variant as PageSectionVariant,
     });
   };
 
-  const formik = useFormik({
+  const formik = useFormik<Form>({
     initialValues: section
       ? {
-          button: section?.button,
-          subtitle: section?.subtitle as string,
-          title: section?.title as string,
-          type: 'call-to-action',
-          variant: section.variant || 'light',
-        }
+        button: section?.button || { title: '', url: '' },
+        subtitle: section?.subtitle || '',
+        title: section?.title || '',
+        type: 'call-to-action',
+        variant: section.variant || 'light',
+      }
       : {
-          title: '',
-          subtitle: '',
-          button: { title: '', url: '' },
-          type: 'call-to-action',
-          variant: 'light',
-        },
+        title: '',
+        subtitle: '',
+        button: { title: '', url: '' },
+        type: 'call-to-action',
+        variant: 'light',
+      },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });
@@ -108,7 +115,7 @@ export default function CallToActionSectionForm({
       button: formik.values.button,
       type: 'call-to-action',
       items,
-      subtitle: formik.values?.subtitle as string,
+      subtitle: formik.values.subtitle,
       title: formik.values.title,
       variant: formik.values.variant as PageSectionVariant,
     });
@@ -173,9 +180,9 @@ export default function CallToActionSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
         <Grid item xs={12}>
-          <FormControl fullWidth required>
+          <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
             <InputLabel>
               <FormattedMessage id="variant" defaultMessage="Variant" />
             </InputLabel>
@@ -206,6 +213,7 @@ export default function CallToActionSectionForm({
             {({ ref, inputAdornment }) => (
               <TextField
                 name="title"
+                size={isMobile ? "small" : "medium"}
                 onChange={formik.handleChange}
                 fullWidth
                 value={formik.values.title}
@@ -230,6 +238,7 @@ export default function CallToActionSectionForm({
             {({ ref, inputAdornment }) => (
               <TextField
                 name="subtitle"
+                size={isMobile ? "small" : "medium"}
                 onChange={formik.handleChange}
                 fullWidth
                 value={formik.values.subtitle}
@@ -258,6 +267,7 @@ export default function CallToActionSectionForm({
             {({ ref, inputAdornment }) => (
               <TextField
                 name="button.title"
+                size={isMobile ? "small" : "medium"}
                 onChange={formik.handleChange}
                 fullWidth
                 value={formik.values.button.title}
@@ -282,6 +292,7 @@ export default function CallToActionSectionForm({
         <Grid item xs={12}>
           <TextField
             name="button.url"
+            size={isMobile ? "small" : "medium"}
             onChange={formik.handleChange}
             fullWidth
             value={formik.values.button.url}
@@ -300,7 +311,7 @@ export default function CallToActionSectionForm({
           <FormControlLabel
             control={
               <Checkbox
-                checked={formik.values.button?.openInNewPage || false}
+                checked={Boolean(formik.values.button.openInNewPage)}
                 onChange={(ev) =>
                   formik.setFieldValue(
                     'button.openInNewPage',
@@ -319,7 +330,7 @@ export default function CallToActionSectionForm({
         </Grid>
         {!showAddItem &&
           items.map((item, index) => (
-            <Grid item xs={12} key={index}>
+            <Grid item xs={12} key={index} sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -332,7 +343,7 @@ export default function CallToActionSectionForm({
           ))}
         {showAddItem ? (
           <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
               <AddItemForm
                 item={
                   selectedItemIndex === -1
@@ -351,6 +362,15 @@ export default function CallToActionSectionForm({
               startIcon={<AddIcon />}
               variant="outlined"
               fullWidth
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                '& .MuiButton-startIcon': {
+                  marginRight: isMobile ? theme.spacing(2) : theme.spacing(4),
+                  "& > *:nth-of-type(1)": {
+                    fontSize: isMobile ? theme.typography.fontSize * 1.1 : theme.typography.fontSize * 1.4,
+                  }
+                }
+              }}
             >
               <FormattedMessage id="add.item" defaultMessage="Add item" />
             </Button>
@@ -358,8 +378,11 @@ export default function CallToActionSectionForm({
         )}
 
         <Grid item xs={12}>
-          <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <Button onClick={onCancel}>
+          <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} direction="row" justifyContent="flex-end">
+            <Button
+              onClick={onCancel}
+              size={isMobile ? "small" : "medium"}
+            >
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
             <Button
@@ -367,6 +390,7 @@ export default function CallToActionSectionForm({
               type="submit"
               variant="contained"
               color="primary"
+              size={isMobile ? "small" : "medium"}
             >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>

@@ -1,6 +1,6 @@
 {
   "name": "dexappadmin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -45,6 +45,6 @@
     "eslint-config-next": "^12.2.3",
     "pre-push": "^0.1.4",
     "ts-node": "^10.9.1",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   }
 }

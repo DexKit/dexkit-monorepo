@@ -17,9 +17,10 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha,
+  alpha
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import {
   ChangeEvent,
   FocusEvent,
@@ -54,10 +55,11 @@ interface Props {
 }
 
 function ResizeHandle() {
+  const theme = useTheme();
   return (
     <PanelResizeHandle
       style={{
-        width: '8px',
+        width: theme.spacing(1),
         background: 'transparent',
         cursor: 'col-resize',
         display: 'flex',
@@ -67,10 +69,10 @@ function ResizeHandle() {
     >
       <div
         style={{
-          width: '4px',
-          height: '40px',
+          width: theme.spacing(0.5),
+          height: theme.spacing(5),
           backgroundColor: '#e0e0e0',
-          borderRadius: '2px',
+          borderRadius: theme.shape.borderRadius / 4,
         }}
       />
     </PanelResizeHandle>
@@ -204,6 +206,7 @@ export default function EditSectionDialog({
   }, [sectionType]);
 
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleKeyDown = (e: KeyboardEvent) => {
     e.stopPropagation();
@@ -221,12 +224,65 @@ export default function EditSectionDialog({
     setName(e.target.value);
   };
 
+  const renderPreview = () => (
+    <PreviewPagePlatform
+      key={sectionType}
+      sections={sectionType ? [changedSection as AppPageSection] : []}
+      title={
+        <b>
+          <FormattedMessage
+            id={'preview.section'}
+            defaultMessage={'Preview section'}
+          />
+        </b>
+      }
+      disabled={true}
+    />
+  );
+
+  const renderSectionHeader = () => (
+    <Grid container alignItems={'center'} sx={{ pl: isMobile ? theme.spacing(1) : theme.spacing(3) }}>
+      <Grid item xs={3}>
+        <IconButton
+          aria-label="back"
+          size={isMobile ? "medium" : "large"}
+          onClick={handleClose}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={7}>
+        <Box display={'flex'} justifyContent={'center'}>
+          <Stack
+            justifyContent={'center'}
+            direction={'row'}
+            alignItems={'center'}
+            spacing={theme.spacing(1)}
+          >
+            {sectionMetadata?.icon}
+
+            <Typography variant="subtitle1">
+              {' '}
+              {(sectionMetadata?.titleId &&
+                formatMessage({
+                  id: sectionMetadata?.titleId,
+                  defaultMessage:
+                    sectionMetadata?.titleDefaultMessage,
+                })) ||
+                ''}
+            </Typography>
+          </Stack>
+        </Box>
+      </Grid>
+    </Grid>
+  );
+
   return (
-    <Dialog {...dialogProps} onClose={handleClose}>
+    <Dialog {...dialogProps} onClose={handleClose} maxWidth="lg" fullWidth>
       <AppDialogTitle
         title={
           <Stack
-            spacing={1}
+            spacing={theme.spacing(1)}
             direction={'row'}
             alignContent={'center'}
             alignItems={'center'}
@@ -245,12 +301,12 @@ export default function EditSectionDialog({
               </Box>
             ) : (
               <Stack
-                spacing={2}
+                spacing={theme.spacing(2)}
                 direction={'row'}
                 alignContent={'center'}
                 alignItems={'center'}
               >
-                <Typography variant="inherit">
+                <Typography variant={isMobile ? "subtitle1" : "inherit"}>
                   <FormattedMessage
                     id="add.section"
                     defaultMessage="Add Section"
@@ -265,6 +321,9 @@ export default function EditSectionDialog({
                     id: 'section.name',
                     defaultMessage: 'Section name',
                   })}
+                  InputProps={{
+                    style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                  }}
                 />
               </Stack>
             )}
@@ -280,14 +339,16 @@ export default function EditSectionDialog({
                   id: 'section.name',
                   defaultMessage: 'Section name',
                 })}
+                InputProps={{
+                  style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                }}
               />
             )}
             {isEdit && !isEditName && (
               <ButtonBase
                 sx={{
-                  px: 1,
-                  py: 0.25,
-
+                  px: theme.spacing(1),
+                  py: theme.spacing(0.25),
                   borderRadius: (theme) => theme.shape.borderRadius / 2,
                   '&: hover': {
                     backgroundColor: (theme) =>
@@ -323,78 +384,57 @@ export default function EditSectionDialog({
       />
       <Divider />
       <DialogContent>
-        <PanelGroup direction="horizontal">
-          <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
-            {!sectionType && (
-              <SectionSelector
-                onClickSection={(s) => {
-                  setSectionType(s.sectionType);
-                  setChangedSection(undefined);
-                }}
-              />
-            )}
+        {isMobile ? (
+          <Stack spacing={theme.spacing(2)} sx={{ maxHeight: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'auto' }}>
+            <Box sx={{ mb: theme.spacing(2) }}>
+              {!sectionType && (
+                <SectionSelector
+                  onClickSection={(s) => {
+                    setSectionType(s.sectionType);
+                    setChangedSection(undefined);
+                  }}
+                />
+              )}
+              {sectionType && (
+                <Stack spacing={2}>
+                  {renderSectionHeader()}
+                  {renderSectionType(sectionType)}
+                </Stack>
+              )}
+            </Box>
+
             {sectionType && (
-              <Stack spacing={2}>
-                <Grid container alignItems={'center'} sx={{ pl: 3 }}>
-                  <Grid item xs={3}>
-                    <IconButton
-                      aria-label="delete"
-                      size="large"
-                      onClick={() => {
-                        setSectionType(undefined);
-                      }}
-                    >
-                      <ArrowBackIosIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Box display={'flex'} justifyContent={'center'}>
-                      <Stack
-                        justifyContent={'center'}
-                        direction={'row'}
-                        alignItems={'center'}
-                        spacing={1}
-                      >
-                        {sectionMetadata?.icon}
-
-                        <Typography variant="subtitle1">
-                          {' '}
-                          {(sectionMetadata?.titleId &&
-                            formatMessage({
-                              id: sectionMetadata?.titleId,
-                              defaultMessage:
-                                sectionMetadata?.titleDefaultMessage,
-                            })) ||
-                            ''}
-                        </Typography>
-                      </Stack>
-                    </Box>
-                  </Grid>
-                </Grid>
-
-                {renderSectionType(sectionType)}
-              </Stack>
+              <Box sx={{ mt: theme.spacing(2) }}>
+                {renderPreview()}
+              </Box>
             )}
-          </Panel>
+          </Stack>
+        ) : (
+          <PanelGroup direction="horizontal">
+            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: `calc(100vh - ${theme.spacing(22.5)})` }}>
+              {!sectionType && (
+                <SectionSelector
+                  onClickSection={(s) => {
+                    setSectionType(s.sectionType);
+                    setChangedSection(undefined);
+                  }}
+                />
+              )}
+              {sectionType && (
+                <Stack spacing={2}>
+                  {renderSectionHeader()}
+                  {renderSectionType(sectionType)}
+                </Stack>
+              )}
+            </Panel>
 
-          <ResizeHandle />
+            <ResizeHandle />
 
-          <Panel defaultSize={60} minSize={40}>
-            <PreviewPagePlatform
-              key={sectionType}
-              sections={sectionType ? [changedSection as AppPageSection] : []}
-              title={
-                <b>
-                  <FormattedMessage
-                    id={'preview.section'}
-                    defaultMessage={'Preview section'}
-                  />
-                </b>
-              }
-              disabled={true}
-            />
-          </Panel>
-        </PanelGroup>
+            <Panel defaultSize={60} minSize={40}>
+              {renderPreview()}
+            </Panel>
+          </PanelGroup>
+        )}
       </DialogContent>
     </Dialog>
   );

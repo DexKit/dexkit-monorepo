@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography, useTheme } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import { useDeployableContractsQuery } from "@dexkit/ui/modules/forms/hooks";
@@ -24,21 +24,35 @@ export default function CreateContractContainer({
   const [slug, setSlug] = useState("");
   const creator = "thirdweb";
   const deployableContractsQuery = useDeployableContractsQuery();
+  const theme = useTheme();
 
   return (
     <>
       <Container>
-        <Stack spacing={2}>
+        <Stack spacing={theme.spacing(2)}>
           <Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={theme.spacing(2)}>
               <Grid item xs={12}>
-                <Typography variant="h4">
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: { xs: theme.typography.h6.fontSize, sm: theme.typography.h5.fontSize },
+                    fontWeight: theme.typography.fontWeightBold,
+                    mb: theme.spacing(0.5)
+                  }}
+                >
                   <FormattedMessage
                     id="deploy.your.contract"
                     defaultMessage="Deploy your contract"
                   />
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize }
+                  }}
+                >
                   <FormattedMessage
                     id="easily.integrate.contracts.on.your.app.using.dexcontract.component"
                     defaultMessage="Easily integrate contracts on your app using dexcontract component"
@@ -55,9 +69,9 @@ export default function CreateContractContainer({
               </Grid>*/}
               <Grid item xs={12}>
                 {!slug && (
-                  <Grid container spacing={2}>
+                  <Grid container spacing={theme.spacing(2)}>
                     {deployableContractsQuery.data?.map((contract, key) => (
-                      <Grid item xs={12} sm={4} key={key}>
+                      <Grid item xs={6} sm={4} key={key}>
                         <ContractButton
                           title={contract.name}
                           description={contract.description}
@@ -74,7 +88,7 @@ export default function CreateContractContainer({
                   </Grid>
                 )}
                 {slug && (
-                  <Grid container spacing={2}>
+                  <Grid container spacing={theme.spacing(2)}>
                     <ContractDeployContainer
                       slug={slug}
                       creator={creator}

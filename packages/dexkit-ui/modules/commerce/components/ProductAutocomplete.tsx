@@ -20,7 +20,7 @@ export interface ProductAutocompleteProps {
 export default function ProductAutocomplete({
   name,
 }: ProductAutocompleteProps) {
-  const [props, meta, helpers] = useField<string>(`${name}.productId`);
+  const [props, meta, helpers] = useField<string>(`${name}`);
 
   const [query, setQuery] = useState("");
 

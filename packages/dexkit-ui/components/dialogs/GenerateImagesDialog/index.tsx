@@ -20,9 +20,8 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useGenVariants, useGenerateImageContext } from "../../../hooks/ai";
 import {
-  useActiveFeatUsage,
   usePlanCheckoutMutation,
-  useSubscription,
+  useSubscription
 } from "../../../hooks/payments";
 import AIOptionsMenu from "../../AIOptionsMenu";
 import AddCreditsButton from "../../AddCreditsButton";
@@ -222,22 +221,18 @@ function GenerateImagesDialog({
     setAnchorEl(null);
   };
 
-  const activeFeatUsageQuery = useActiveFeatUsage();
+
 
   const credits = useMemo(() => {
-    if (activeFeatUsageQuery.data && sub) {
-      return new Decimal(activeFeatUsageQuery.data?.available)
-        .minus(new Decimal(activeFeatUsageQuery.data?.used))
-        .add(
-          new Decimal(sub?.creditsAvailable).minus(
-            new Decimal(sub?.creditsUsed)
-          )
-        )
-        .toNumber();
+    if (sub) {
+      return (new Decimal(sub?.creditsAvailable).minus(
+        new Decimal(sub?.creditsUsed)
+      )
+      ).toNumber();
     }
 
     return 0;
-  }, [activeFeatUsageQuery.data, sub]);
+  }, [sub]);
 
   const handleCloseConfirm = (
     event: {},

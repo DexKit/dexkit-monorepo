@@ -1,4 +1,5 @@
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -20,6 +21,8 @@ export default function MarketplaceFeeWizardContainer({
   onSave,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [fees, setFees] = useState<FeeForm[]>([]);
   const [hasChanged, setHasChanged] = useState(false);
 
@@ -72,16 +75,29 @@ export default function MarketplaceFeeWizardContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontWeight: 600,
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              mb: 0.5
+            }}
+          >
             <FormattedMessage
               id="marketplace.fees.title"
               defaultMessage="Marketplace Fees"
             />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="adjust.marketplace.fees.title"
               defaultMessage="Adjust your app's Marketplace fees"
@@ -97,6 +113,7 @@ export default function MarketplaceFeeWizardContainer({
           fees={fees}
           onSave={handleSaveFees}
           onRemove={handleRemoveFees}
+          isMobile={isMobile}
         />
       </Grid>
       <Grid item xs={12}>
@@ -109,6 +126,12 @@ export default function MarketplaceFeeWizardContainer({
             color="primary"
             onClick={handleSave}
             disabled={!hasChanged}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+              py: isMobile ? theme.spacing(0.75) : undefined,
+              px: isMobile ? theme.spacing(2) : undefined,
+            }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>

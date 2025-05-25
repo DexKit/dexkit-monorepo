@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import { OrderMarketType } from '@dexkit/exchange/constants';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
 import { MarketTradeConfig } from '@dexkit/ui/modules/token/types';
@@ -37,6 +38,7 @@ export function TokenTradeConfigForm({
 }: Props) {
   const { activeChainIds } = useActiveChainIds();
   const [formData, setFormData] = useState<MarketTradeConfig | undefined>(data);
+  const isMobile = useIsMobile();
 
   const sellToken = useMemo(() => {
     if (
@@ -57,56 +59,111 @@ export function TokenTradeConfigForm({
   }, [formData, onChange]);
 
   return (
-    <Container sx={{ pt: 2 }}>
-      <Grid container spacing={2}>
+    <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2, pb: 2 }}>
+      <Grid container spacing={isMobile ? 1.5 : 3}>
         <Grid item xs={12}>
-          <Stack spacing={1} direction={'row'}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData?.showTokenDetails}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                      setFormData({
-                        ...(formData || {}),
-                        showTokenDetails: event.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label={
-                  <FormattedMessage
-                    id={'show.token.details'}
-                    defaultMessage={'Show token details'}
-                  />
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData?.useGasless}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                      setFormData({
-                        ...(formData || {}),
-                        useGasless: event.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label={
-                  <FormattedMessage
-                    id={'use.gasless'}
-                    defaultMessage={'Use gasless'}
-                  />
-                }
-              />
-            </FormGroup>
-          </Stack>
+          {isMobile ? (
+            // Versión móvil: Checkboxes en columna
+            <Stack spacing={0.5} direction="column">
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData?.showTokenDetails}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFormData({
+                          ...(formData || {}),
+                          showTokenDetails: event.target.checked,
+                        });
+                      }}
+                      size={isMobile ? "small" : "medium"}
+                    />
+                  }
+                  label={
+                    <Typography variant={isMobile ? "body2" : "body1"}>
+                      <FormattedMessage
+                        id={'show.token.details'}
+                        defaultMessage={'Show token details'}
+                      />
+                    </Typography>
+                  }
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData?.useGasless}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFormData({
+                          ...(formData || {}),
+                          useGasless: event.target.checked,
+                        });
+                      }}
+                      size={isMobile ? "small" : "medium"}
+                    />
+                  }
+                  label={
+                    <Typography variant={isMobile ? "body2" : "body1"}>
+                      <FormattedMessage
+                        id={'use.gasless'}
+                        defaultMessage={'Use gasless'}
+                      />
+                    </Typography>
+                  }
+                />
+              </FormGroup>
+            </Stack>
+          ) : (
+            // Versión desktop: Checkboxes en fila
+            <Stack spacing={1} direction={'row'}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData?.showTokenDetails}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFormData({
+                          ...(formData || {}),
+                          showTokenDetails: event.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id={'show.token.details'}
+                      defaultMessage={'Show token details'}
+                    />
+                  }
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData?.useGasless}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFormData({
+                          ...(formData || {}),
+                          useGasless: event.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id={'use.gasless'}
+                      defaultMessage={'Use gasless'}
+                    />
+                  }
+                />
+              </FormGroup>
+            </Stack>
+          )}
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size={isMobile ? "small" : "medium"}>
             <InputLabel id="trade-type">
               <FormattedMessage
                 id={'trade.type'}
@@ -149,16 +206,18 @@ export function TokenTradeConfigForm({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Alert severity="info">
-            <FormattedMessage
-              id="network.swap.options.info"
-              defaultMessage="Choose the default token and slippage"
-            />
+          <Alert severity="info" sx={{ py: isMobile ? 0.5 : 1 }}>
+            <Typography variant={isMobile ? "body2" : "body1"}>
+              <FormattedMessage
+                id="network.swap.options.info"
+                defaultMessage="Choose the default token and slippage"
+              />
+            </Typography>
           </Alert>
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <Typography variant="caption">
+            <Typography variant={isMobile ? "caption" : "body2"} sx={{ mb: 0.5 }}>
               <FormattedMessage id="network" defaultMessage="Network" />
             </Typography>
             <NetworkSelectDropdown
@@ -178,6 +237,7 @@ export function TokenTradeConfigForm({
               }
               labelId={'config-per-network'}
               chainId={formData?.baseTokenConfig?.chainId}
+              size={isMobile ? "small" : "medium"}
             />
           </FormControl>
         </Grid>
@@ -203,35 +263,31 @@ export function TokenTradeConfigForm({
                 },
               }));
             }}
+            size={isMobile ? "small" : "medium"}
           />
         </Grid>
 
         <Grid item xs={12}>
           <TextField
-            inputProps={{ type: 'number', min: 0, max: 50, step: 0.01 }}
-            InputLabelProps={{ shrink: true }}
-            label={
-              <FormattedMessage
-                id="default.slippage.percentage"
-                defaultMessage="Default slippage (0-50%)"
-              />
-            }
+            label={<FormattedMessage id="slippage" defaultMessage="Slippage (%)" />}
+            type="number"
+            fullWidth
             value={formData?.slippage}
-            onChange={(event: any) => {
-              let value = event.target.value;
-              if (value < 0) {
-                value = 0;
-              }
-              if (value > 50) {
-                value = 50;
-              }
-
+            onChange={(ev) =>
               setFormData({
                 ...formData,
-                slippage: parseInt(value),
-              });
+                slippage: Number(ev.target.value),
+              })
+            }
+            InputProps={{
+              inputProps: {
+                min: 0.1,
+                max: 50,
+                step: 0.1,
+              },
             }}
-            fullWidth
+            size={isMobile ? "small" : "medium"}
+            sx={{ marginBottom: isMobile ? 1 : 2 }}
           />
         </Grid>
       </Grid>

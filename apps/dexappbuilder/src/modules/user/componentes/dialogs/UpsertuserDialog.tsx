@@ -10,6 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -38,6 +39,7 @@ function UpsertUserDialog({
   isEdit,
 }: Props) {
   const { onClose } = dialogProps;
+  const theme = useTheme();
 
   const router = useRouter();
 
@@ -77,7 +79,7 @@ function UpsertUserDialog({
           alignContent="center"
         >
           {!error && isLoading ? (
-            <CircularProgress size="4rem" color="primary" />
+            <CircularProgress size={theme.spacing(8)} color="primary" />
           ) : !error && isSuccess ? (
             <CheckCircle fontSize="large" color="success" />
           ) : error !== undefined ? (

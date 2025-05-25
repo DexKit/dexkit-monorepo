@@ -23,6 +23,9 @@ export const themes: { [key: string]: ThemeEntry } = {
 };
 
 export function getTheme({ name }: { name: string }) {
-  return themes[name]
+  if (!name || !themes[name]) {
+    return themes['default-theme'];
+  }
 
+  return themes[name];
 }

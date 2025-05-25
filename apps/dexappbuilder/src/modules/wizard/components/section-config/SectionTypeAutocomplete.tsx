@@ -1,5 +1,5 @@
 import { SectionType } from '@dexkit/ui/modules/wizard/types/section';
-import { Autocomplete, ListItemText, Stack, TextField } from '@mui/material';
+import { Autocomplete, ListItemText, Stack, TextField, useTheme } from '@mui/material';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SECTION_CONFIG } from '../../constants/sections';
 
@@ -13,6 +13,7 @@ function SectionTypeAutocomplete({
   setSectionType,
 }: SectionTypeAutocompleteProps) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
 
   const keys = Object.keys(SECTION_CONFIG)
     .map((key) => ({ key, obj: SECTION_CONFIG[key as SectionType] }))
@@ -68,7 +69,7 @@ function SectionTypeAutocomplete({
         if ((option as string) === '') {
           return (
             <li {...props}>
-              <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" spacing={theme.spacing(2)}>
                 <ListItemText
                   primary={<FormattedMessage id="all" defaultMessage="All" />}
                 />
@@ -79,7 +80,7 @@ function SectionTypeAutocomplete({
 
         return (
           <li {...props}>
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" alignItems="center" spacing={theme.spacing(2)}>
               <ListItemText
                 primary={
                   <FormattedMessage
@@ -96,6 +97,9 @@ function SectionTypeAutocomplete({
         );
       }}
       fullWidth
+      ListboxProps={{
+        sx: { maxHeight: theme.spacing(40) }
+      }}
     />
   );
 }

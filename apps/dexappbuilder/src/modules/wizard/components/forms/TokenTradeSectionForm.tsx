@@ -2,7 +2,7 @@ import {
   AppPageSection,
   TokenTradePageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
-import { Button, Grid, Stack } from '@mui/material';
+import { Button, Container, Grid, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -31,6 +31,7 @@ export function TokenTradeSectionForm({
   }, [data]);
 
   return (
+    <Container maxWidth="lg" sx={{ py: 2 }}>
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <TokenTradeConfigForm
@@ -61,5 +62,6 @@ export function TokenTradeSectionForm({
         </Stack>
       </Grid>
     </Grid>
+    </Container>
   );
 }

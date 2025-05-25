@@ -402,17 +402,20 @@ export async function createSiteRankingVersion({
   siteId,
   title,
   description,
+  groupByReferral,
   settings,
 }: {
   siteId: number;
   title?: string;
   description?: string;
+  groupByReferral?: boolean;
   settings?: GamificationPoint[];
 }) {
   return myAppsApi.post(`/site-ranking/create`, {
     title,
     description,
     siteId,
+    groupByReferral,
     settings,
   });
 }
@@ -423,6 +426,7 @@ export async function updateSiteRankingVersion({
   description,
   rankingId,
   settings,
+  groupByReferral,
   from,
   to,
 }: {
@@ -430,6 +434,7 @@ export async function updateSiteRankingVersion({
   title?: string;
   description?: string;
   rankingId?: number;
+  groupByReferral?: boolean;
   settings?: GamificationPoint[];
   from?: string;
   to?: string;
@@ -439,6 +444,7 @@ export async function updateSiteRankingVersion({
     description,
     siteId,
     settings,
+    groupByReferral,
     from,
     to,
   });

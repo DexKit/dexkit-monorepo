@@ -1,5 +1,5 @@
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import Alert from '@mui/material/Alert';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -31,6 +31,9 @@ export default function HidePoweredContainer({
   hasNFT,
 }: Props) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Formik
       initialValues={{
@@ -44,8 +47,11 @@ export default function HidePoweredContainer({
     >
       {({ submitForm }) => (
         <Form>
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1.5 : 3}>
             <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            {/*  <Grid item xs={12}>
               {!hasNFT && isDisabled && (
                 <Alert severity={'warning'}>
                   <FormattedMessage
@@ -54,7 +60,7 @@ export default function HidePoweredContainer({
                   />
                 </Alert>
               )}
-            </Grid>
+            </Grid>*/}
             <Grid item xs={12}>
               <Field
                 component={CheckboxWithLabel}
@@ -78,6 +84,12 @@ export default function HidePoweredContainer({
                   variant="contained"
                   color="primary"
                   onClick={submitForm}
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{
+                    fontSize: isMobile ? '0.875rem' : undefined,
+                    py: isMobile ? 0.75 : undefined,
+                    px: isMobile ? 2 : undefined,
+                  }}
                 >
                   <FormattedMessage id="save" defaultMessage="Save" />
                 </Button>

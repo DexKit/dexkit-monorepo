@@ -1,12 +1,14 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import {
   AppPageSection,
+  ReferralPageSection,
   SectionType,
 } from '@dexkit/ui/modules/wizard/types/section';
 import { SiteContext } from '@dexkit/ui/providers/SiteProvider';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid, Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
 import AddShowCaseSectionForm from '../forms/AddShowCaseSectionForm';
@@ -18,6 +20,7 @@ import CollectionSectionForm from '../forms/CollectionSectionForm';
 import CollectionSectionFormAlt from '../forms/CollectionSectionFormAlt';
 import { ContractSectionForm } from '../forms/ContractSectionForm';
 import DexGeneratorSectionForm from '../forms/DexGeneratorSectionForm';
+import DexGeneratorReferralForm from '../forms/DexGeneratorSectionForm/DexGeneratorReferralForm';
 import ExchangeSectionSettingsForm from '../forms/ExchangeSectionSettingsForm';
 import FeaturedSectionForm from '../forms/FeaturedSectionForm';
 import MDSectionForm from '../forms/MDSectionForm';
@@ -51,6 +54,25 @@ export function SectionFormRender({
   const { siteId } = useContext(SiteContext);
 
   const [showSetApiKey, setShowSetApiKey] = useState(false);
+
+  const [referralSection, setReferralSection] = useState<ReferralPageSection>(
+    section?.type === 'referral'
+      ? section
+      : {
+        type: 'referral',
+        title: '',
+        subtitle: '',
+        config: {
+          showStats: true,
+        },
+      }
+  );
+
+  useEffect(() => {
+    if (section?.type === 'referral') {
+      setReferralSection(section);
+    }
+  }, [section]);
 
   const handleCloseApiKey = () => {
     setShowSetApiKey(false);
@@ -323,6 +345,31 @@ export function SectionFormRender({
         }
         saveOnChange
       />
+    );
+  } else if (sectionType === 'referral') {
+    return (
+      <Box p={2}>
+        <DexGeneratorReferralForm
+          onChange={(updatedSection) => {
+            setReferralSection(updatedSection);
+            onChange(updatedSection);
+          }}
+          section={referralSection}
+        />
+        <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
+          <Button onClick={onClose}>
+            <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              onSave(referralSection);
+            }}
+          >
+            <FormattedMessage id="save" defaultMessage="Save" />
+          </Button>
+        </Stack>
+      </Box>
     );
   }
 

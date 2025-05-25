@@ -1,3 +1,4 @@
+import { useIsMobile } from '@dexkit/core';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {
@@ -9,6 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 const PAGE_SIZES = [5, 10, 25, 50];
 
@@ -45,15 +47,30 @@ export default function SectionsPagination({
   onChange,
   onChangePage,
 }: SectionsPaginationProps) {
+  const isMobile = useIsMobile();
+  const theme = useTheme();
+
   return (
     <Stack
       direction="row"
       alignItems="center"
-      spacing={2}
+      spacing={isMobile ? theme.spacing(0.1) : theme.spacing(0.5)}
       justifyContent="flex-end"
+      sx={{
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        '& > *': {
+          fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit'
+        },
+        mt: isMobile ? theme.spacing(0.25) : theme.spacing(0.5),
+        pr: isMobile ? theme.spacing(2) : theme.spacing(1),
+        ml: 0
+      }}
     >
-      <Typography variant="body1">
-        <FormattedMessage id="rows.per.page" defaultMessage="Rows per page:" />
+      <Typography variant={isMobile ? "caption" : "body1"} sx={{ mr: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}>
+        <FormattedMessage
+          id={isMobile ? "rows.per.page.short" : "rows.per.page"}
+          defaultMessage={isMobile ? "Rows:" : "Rows per page:"}
+        />
       </Typography>
       <Select
         size="small"
@@ -63,6 +80,14 @@ export default function SectionsPagination({
         onChange={(e: SelectChangeEvent<number>) =>
           onChange(e.target.value as number)
         }
+        sx={{
+          minWidth: isMobile ? theme.spacing(4.375) : theme.spacing(6.875),
+          mr: isMobile ? theme.spacing(0.25) : theme.spacing(0.5),
+          '& .MuiSelect-select': {
+            py: isMobile ? theme.spacing(0.1) : 'inherit',
+            px: isMobile ? theme.spacing(0.1) : 'inherit'
+          }
+        }}
       >
         {PAGE_SIZES.map((size, index) => (
           <MenuItem value={size} key={index}>
@@ -70,31 +95,39 @@ export default function SectionsPagination({
           </MenuItem>
         ))}
       </Select>
-      <Typography>
-        <FormattedMessage
-          id="one.of.sections"
-          defaultMessage="{from} - {to} of {total} sections"
-          values={{
-            total: count,
-            from,
-            to,
-          }}
-        />
+      <Typography variant={isMobile ? "caption" : "body2"}>
+        {isMobile ? (
+          `${from}-${to}/${count}`
+        ) : (
+          <FormattedMessage
+            id="one.of.sections"
+            defaultMessage="{from} - {to} of {total} sections"
+            values={{
+              total: count,
+              from,
+              to,
+            }}
+          />
+        )}
       </Typography>
-      <IconButton
-        size="small"
-        disabled={page === 0}
-        onClick={() => onChangePage(page - 1)}
-      >
-        <KeyboardArrowLeftIcon />
-      </IconButton>
-      <IconButton
-        size="small"
-        disabled={shouldDisableNextButton(count, pageSize, page)}
-        onClick={() => onChangePage(page + 1)}
-      >
-        <KeyboardArrowRightIcon />
-      </IconButton>
+      <Stack direction="row" spacing={0}>
+        <IconButton
+          size="small"
+          disabled={page === 0}
+          onClick={() => onChangePage(page - 1)}
+          sx={{ p: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}
+        >
+          <KeyboardArrowLeftIcon fontSize={isMobile ? "small" : "medium"} />
+        </IconButton>
+        <IconButton
+          size="small"
+          disabled={shouldDisableNextButton(count, pageSize, page)}
+          onClick={() => onChangePage(page + 1)}
+          sx={{ p: isMobile ? theme.spacing(0.1) : theme.spacing(0.25) }}
+        >
+          <KeyboardArrowRightIcon fontSize={isMobile ? "small" : "medium"} />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 }

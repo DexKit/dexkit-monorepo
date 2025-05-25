@@ -16,10 +16,10 @@ export default function useProductCollections(params: { id?: string }) {
       }
 
       return (
-        await instance.get<ProductCollectionType[]>(
+        await instance.get(
           `/product/${params.id}/collections`
         )
-      ).data;
+      ).data as ProductCollectionType[];
     },
     {
       refetchOnMount: "always",

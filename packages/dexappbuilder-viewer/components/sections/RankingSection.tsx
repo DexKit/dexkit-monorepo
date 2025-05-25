@@ -60,6 +60,7 @@ export default function RankingSection({ section }: RankingSectionProps) {
   });
 
   const rows = queryRanking.data?.data ? queryRanking.data?.data : [];
+  const ranking = queryRanking.data?.ranking;
 
   const columns = useMemo(() => {
     return [
@@ -74,7 +75,14 @@ export default function RankingSection({ section }: RankingSectionProps) {
 
         flex: 1,
         renderHeader: () => {
-          return <FormattedMessage id="account" defaultMessage="Account" />;
+          return ranking?.groupByReferral ? (
+            <FormattedMessage
+              id="referral.account"
+              defaultMessage="Referral account"
+            />
+          ) : (
+            <FormattedMessage id="account" defaultMessage="Account" />
+          );
         },
         renderCell: ({ row }) => {
           return (
@@ -104,7 +112,7 @@ export default function RankingSection({ section }: RankingSectionProps) {
       account: string;
       points: number;
     }>[];
-  }, []);
+  }, [ranking?.groupByReferral]);
 
   return (
     <Grid container spacing={2}>

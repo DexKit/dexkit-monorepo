@@ -1,10 +1,10 @@
 {
   "name": "dexappbuilder",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=160000\" next dev",
     "prebuild": "node scripts/update-version-json.js",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -41,6 +41,7 @@
     "@date-io/moment": "^2.13.1",
     "@dexkit/core": "*",
     "@dexkit/darkblock-evm-widget": "*",
+    "@dexkit/dexappbuilder-render": "*",
     "@dexkit/dexappbuilder-viewer": "*",
     "@dexkit/evm-chains": "1.15.2",
     "@dexkit/ui": "*",
@@ -107,6 +108,7 @@
     "remark-gfm": "^3.0.1",
     "sharp": "^0.30.7",
     "slugify": "^1.6.5",
+    "swiper": "^11.2.4",
     "thirdweb": "^5.93.15",
     "uint8arrays": "3.1.1",
     "viem": "2.x",
@@ -137,6 +139,6 @@
     "jest-environment-jsdom": "^29.0.1",
     "pre-push": "^0.1.4",
     "ts-node": "^10.9.1",
-    "typescript": "5.4.3"
+    "typescript": "5.8.3"
   }
 }

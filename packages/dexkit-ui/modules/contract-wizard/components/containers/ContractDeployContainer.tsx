@@ -20,7 +20,9 @@ import {
   SelectChangeEvent,
   Skeleton,
   Stack,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
@@ -98,9 +100,11 @@ export default function ContractDeployContainer({
 }: Props) {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const contractTutorial: ContractTutorial | undefined = slug ? 
-    (contractTutorials as Record<string, ContractTutorial>)[slug as string] : 
+  const contractTutorial: ContractTutorial | undefined = slug ?
+    (contractTutorials as Record<string, ContractTutorial>)[slug as string] :
     undefined;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
@@ -276,13 +280,28 @@ export default function ContractDeployContainer({
           <Stack justifyContent="center" alignItems="center" spacing={2}>
             <CircularProgress color="primary" size="4rem" />
             <Box>
-              <Typography variant="h5" align="center">
+              <Typography
+                variant="h5"
+                align="center"
+                sx={{
+                  fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                  lineHeight: { xs: 1.3, sm: 1.5 }
+                }}
+              >
                 <FormattedMessage
                   id="deploying.contract"
                   defaultMessage="Deploying Contract"
                 />
               </Typography>
-              <Typography color="text.secondary" variant="body1" align="center">
+              <Typography
+                color="text.secondary"
+                variant="body1"
+                align="center"
+                sx={{
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
+                  lineHeight: { xs: 1.3, sm: 1.5 }
+                }}
+              >
                 <FormattedMessage
                   id="please.confirm.the.transaction.in.your.wallet.and.wait.for.confirmation"
                   defaultMessage="Please, confirm the transaction in your wallet and wait for confirmation"
@@ -314,13 +333,28 @@ export default function ContractDeployContainer({
               <CheckCircle color="success" fontSize="large" />
             </Stack>
             <Box>
-              <Typography align="center" variant="h5">
+              <Typography
+                align="center"
+                variant="h5"
+                sx={{
+                  fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                  lineHeight: { xs: 1.3, sm: 1.5 }
+                }}
+              >
                 <FormattedMessage
                   id="contract.deployed"
                   defaultMessage="Contract deployed"
                 />
               </Typography>
-              <Typography align="center" color="text.secondary" variant="body1">
+              <Typography
+                align="center"
+                color="text.secondary"
+                variant="body1"
+                sx={{
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
+                  lineHeight: { xs: 1.3, sm: 1.5 }
+                }}
+              >
                 <FormattedMessage
                   id="contract.deployed.succefully"
                   defaultMessage="Contract deployed successfully"
@@ -444,9 +478,8 @@ export default function ContractDeployContainer({
                 },
                 {
                   caption: thirdwebMetadataQuery.data?.displayName,
-                  uri: `/forms/deploy/${
-                    creator as string
-                  }/${thirdwebMetadataQuery.data?.name}`,
+                  uri: `/forms/deploy/${creator as string
+                    }/${thirdwebMetadataQuery.data?.name}`,
                   active: true,
                 },
               ]}
@@ -455,11 +488,11 @@ export default function ContractDeployContainer({
               <Box>
                 <Grid spacing={2} container>
                   <Grid item xs={12}>
-                    <Paper sx={{ p: 2 }}>
+                    <Paper sx={{ p: { xs: 1.5, sm: 2 } }}>
                       <Stack>
                         <Stack
                           direction="row"
-                          spacing={2}
+                          spacing={{ xs: 1, sm: 2 }}
                           alignItems="center"
                           alignContent="center"
                         >
@@ -483,7 +516,13 @@ export default function ContractDeployContainer({
                             />
                           )}
                           <Box sx={{ flex: 1 }}>
-                            <Typography variant="h5">
+                            <Typography
+                              variant="h5"
+                              sx={{
+                                fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                                lineHeight: { xs: 1.3, sm: 1.5 }
+                              }}
+                            >
                               {thirdwebMetadataQuery.data?.displayName ? (
                                 thirdwebMetadataQuery.data?.displayName
                               ) : (
@@ -494,6 +533,10 @@ export default function ContractDeployContainer({
                               gutterBottom
                               color="text.secondary"
                               variant="body1"
+                              sx={{
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                                lineHeight: { xs: 1.3, sm: 1.5 }
+                              }}
                             >
                               {thirdwebMetadataQuery.data?.description ? (
                                 thirdwebMetadataQuery.data?.description
@@ -501,9 +544,15 @@ export default function ContractDeployContainer({
                                 <Skeleton />
                               )}
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography
+                              variant="body1"
+                              sx={{
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                                lineHeight: { xs: 1.3, sm: 1.5 }
+                              }}
+                            >
                               {thirdwebMetadataQuery.data?.publisher &&
-                              getBlockExplorerUrl(chainId) ? (
+                                getBlockExplorerUrl(chainId) ? (
                                 <FormattedMessage
                                   id="published.by.publisher"
                                   defaultMessage="Published by: {publisher}"
@@ -546,7 +595,12 @@ export default function ContractDeployContainer({
                               src={NETWORKS[selectedChainId]?.imageUrl || ""}
                               style={{ width: "auto", height: "1rem" }}
                             />
-                            <Typography variant="body1">
+                            <Typography
+                              variant="body1"
+                              sx={{
+                                fontSize: { xs: '0.875rem', sm: '1rem' }
+                              }}
+                            >
                               {NETWORKS[selectedChainId]?.name}
                             </Typography>
                           </Stack>
@@ -600,18 +654,18 @@ export default function ContractDeployContainer({
                       }
                     />
                   </Grid>
-                  
+
                   {contractTutorial && (
                     <Grid item xs={12}>
-                      <Paper elevation={0} sx={{ p: 2, mt: 2, bgcolor: 'background.paper' }}>
-                        <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-                          <FormattedMessage 
-                            id="learn.more.about.contract" 
-                            defaultMessage="Learn more about {contractName}" 
-                            values={{ contractName: contractTutorial.name }} 
+                      <Paper elevation={0} sx={{ p: { xs: 1.5, sm: 2 }, mt: { xs: 1, sm: 2 }, bgcolor: 'background.paper' }}>
+                        <Typography variant="h6" gutterBottom sx={{ mb: { xs: 1, sm: 2 }, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+                          <FormattedMessage
+                            id="learn.more.about.contract"
+                            defaultMessage="Learn more about {contractName}"
+                            values={{ contractName: contractTutorial.name }}
                           />
                         </Typography>
-                        
+
                         <Grid container spacing={3}>
                           {contractTutorial.videos.length > 0 && contractTutorial.videos.map((video, index) => (
                             <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 6} key={video.id}>
@@ -626,35 +680,59 @@ export default function ContractDeployContainer({
                                   allowFullScreen
                                 />
                                 <CardContent>
-                                  <Typography variant="subtitle1" gutterBottom>
-                                    <YouTubeIcon color="error" sx={{ mr: 1, verticalAlign: 'middle' }} />
+                                  <Typography
+                                    variant="subtitle1"
+                                    gutterBottom
+                                    sx={{
+                                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                                      lineHeight: { xs: 1.2, sm: 1.4 }
+                                    }}
+                                  >
+                                    <YouTubeIcon color="error" sx={{ mr: 1, verticalAlign: 'middle', fontSize: { xs: '1rem', sm: '1.2rem' } }} />
                                     {video.title}
                                   </Typography>
                                 </CardContent>
                               </Card>
                             </Grid>
                           ))}
-                          
+
                           <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 12}>
                             <Card sx={{ height: '100%' }}>
                               <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                <Typography variant="subtitle1" gutterBottom>
-                                  <MenuBookIcon color="primary" sx={{ mr: 1, verticalAlign: 'middle' }} />
+                                <Typography
+                                  variant="subtitle1"
+                                  gutterBottom
+                                  sx={{
+                                    fontSize: { xs: '0.9rem', sm: '1rem' },
+                                    lineHeight: { xs: 1.2, sm: 1.4 }
+                                  }}
+                                >
+                                  <MenuBookIcon color="primary" sx={{ mr: 1, verticalAlign: 'middle', fontSize: { xs: '1rem', sm: '1.2rem' } }} />
                                   <FormattedMessage id="documentation" defaultMessage="Documentation" />
                                 </Typography>
                                 <Box sx={{ my: 2 }}>
-                                  <Typography variant="body2" paragraph>
+                                  <Typography
+                                    variant="body2"
+                                    paragraph
+                                    sx={{
+                                      fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                      lineHeight: { xs: 1.3, sm: 1.5 }
+                                    }}
+                                  >
                                     {contractTutorial.documentation.description}
                                   </Typography>
                                 </Box>
-                                <Button 
-                                  variant="outlined" 
-                                  component={Link} 
+                                <Button
+                                  variant="outlined"
+                                  component={Link}
                                   href={contractTutorial.documentation.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  startIcon={<MenuBookIcon />}
+                                  startIcon={<MenuBookIcon sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }} />}
                                   fullWidth
+                                  sx={{
+                                    fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                                  }}
                                 >
                                   <FormattedMessage id="view.documentation" defaultMessage="View documentation" />
                                 </Button>

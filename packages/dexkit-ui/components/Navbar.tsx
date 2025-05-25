@@ -64,6 +64,7 @@ import {
   useThemeMode,
 } from "@dexkit/ui/hooks";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
+import { useSiteId } from "../hooks/useSiteId";
 import CommerceCartIconButton from "../modules/commerce/components/CommerceCartIconButton";
 import CommercePopover from "../modules/commerce/components/CommercePopover";
 import { ConnectWalletButton } from "./ConnectWalletButton";
@@ -77,6 +78,7 @@ interface Props {
 
 function Navbar({ appConfig, isPreview }: Props) {
   const { isActive, chainId } = useWeb3React();
+  const siteId = useSiteId();
   const { mode } = useThemeMode();
 
   const buttonRef = useRef<HTMLElement | null>(null);
@@ -195,6 +197,7 @@ function Navbar({ appConfig, isPreview }: Props) {
           anchorOrigin: { horizontal: "left", vertical: "bottom" },
         }}
         enableCommerce={!appConfig.commerce?.enabled}
+        enableBilling={!siteId}
       />
       <Menu
         id="settings-menu"

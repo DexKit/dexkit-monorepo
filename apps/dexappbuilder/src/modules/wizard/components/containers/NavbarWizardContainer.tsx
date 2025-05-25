@@ -2,6 +2,7 @@ import { AppConfig, MenuTree } from '@dexkit/ui/modules/wizard/types/config';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -35,6 +36,8 @@ interface Props {
 }
 
 function PagesMenuContainer({ config, onSave, onChange, onHasChanges }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [menu, setMenu] = useState<MenuTree[]>(config.menuTree || []);
 
   const handleSave = () => {
@@ -62,7 +65,7 @@ function PagesMenuContainer({ config, onSave, onChange, onHasChanges }: Props) {
   }, [onHasChanges, hasChanged]);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
         <MenuSection menu={menu} onSetMenu={setMenu} pages={config.pages} />
       </Grid>
@@ -76,6 +79,12 @@ function PagesMenuContainer({ config, onSave, onChange, onHasChanges }: Props) {
             color="primary"
             onClick={handleSave}
             disabled={!hasChanged}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+              px: isMobile ? 2 : undefined,
+            }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>
@@ -91,6 +100,8 @@ function NavbarSearchContainer({
   onChange,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [searchConfig, setSearchConfig] = useState<SearchbarConfig>(
     config?.searchbar || {
       enabled: false,
@@ -113,10 +124,10 @@ function NavbarSearchContainer({
     let diff = config?.searchbar
       ? config?.searchbar
       : {
-          enabled: false,
-          hideCollections: false,
-          hideTokens: false,
-        };
+        enabled: false,
+        hideCollections: false,
+        hideTokens: false,
+      };
 
     if (diff !== searchConfig) {
       return true;
@@ -166,7 +177,7 @@ function NavbarSearchContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
         <FormGroup>
           <FormControlLabel
@@ -225,6 +236,12 @@ function NavbarSearchContainer({
             color="primary"
             onClick={handleSave}
             disabled={!hasChanged}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : undefined,
+              py: isMobile ? 0.75 : undefined,
+              px: isMobile ? 2 : undefined,
+            }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />
           </Button>
@@ -249,6 +266,9 @@ export function NavbarLayoutContainer({
   onChange,
   onHasChanges,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleSubmit = async (values: MenuSettings) => {
     onSave({ ...config, menuSettings: values });
   };
@@ -259,18 +279,18 @@ export function NavbarLayoutContainer({
       initialValues={
         config.menuSettings
           ? {
-              ...config.menuSettings,
-              layout: {
-                type: config.menuSettings.layout?.type || 'navbar',
-                variant: config.menuSettings.layout?.variant || 'default',
-              },
-            }
+            ...config.menuSettings,
+            layout: {
+              type: config.menuSettings.layout?.type || 'navbar',
+              variant: config.menuSettings.layout?.variant || 'default',
+            },
+          }
           : {
-              layout: {
-                type: 'navbar',
-                variant: 'default',
-              },
-            }
+            layout: {
+              type: 'navbar',
+              variant: 'default',
+            },
+          }
       }
       validate={(values: MenuSettings) => {
         onHasChanges(true);
@@ -279,7 +299,7 @@ export function NavbarLayoutContainer({
       validationSchema={toFormikValidationSchema(formSchema)}
     >
       {({ submitForm, values, isValid, isSubmitting }) => (
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 1.5 : 3}>
           <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
               <Field
@@ -336,6 +356,12 @@ export function NavbarLayoutContainer({
                   disabled={!isValid || isSubmitting}
                   onClick={submitForm}
                   variant="contained"
+                  size={isMobile ? "small" : "medium"}
+                  sx={{
+                    fontSize: isMobile ? "0.875rem" : undefined,
+                    py: isMobile ? 0.75 : undefined,
+                    px: isMobile ? 2 : undefined,
+                  }}
                 >
                   <FormattedMessage id="save" defaultMessage="Save" />
                 </Button>
@@ -349,6 +375,8 @@ export function NavbarLayoutContainer({
 }
 
 export default function NavbarWizardContainer(props: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [value, setValue] = useState('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -356,13 +384,26 @@ export default function NavbarWizardContainer(props: Props) {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
+        <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              fontSize: isMobile ? '1.15rem' : '1.5rem',
+              fontWeight: 600,
+              mb: 0.5
+            }}
+          >
             <FormattedMessage id="navbar" defaultMessage="Navbar" />
           </Typography>
-          <Typography variant={'body2'}>
+          <Typography
+            variant={isMobile ? 'body2' : 'body1'}
+            color="text.secondary"
+            sx={{
+              fontSize: isMobile ? '0.85rem' : 'inherit',
+            }}
+          >
             <FormattedMessage
               id="navbar.wizard.description"
               defaultMessage="Organize your app navbar. You can edit menus and searchbar"

@@ -160,7 +160,7 @@ export default function UserOrdersTable({ query, status }: OrdersTableProps) {
         }}
         disableRowSelectionOnClick
         sx={{
-          height: 300,
+          height: theme.spacing(37.5), // 300px / 8 = 37.5
           '& .MuiDataGrid-cell:focus': {
             outline: 'none',
           },
@@ -193,7 +193,7 @@ export default function UserOrdersTable({ query, status }: OrdersTableProps) {
               id="create.orders.to.see.it.here"
               defaultMessage="Create orders to see it here"
             />,
-            <Box sx={{ fontSize: '3rem' }}>
+            <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
               <AssignmentIcon fontSize="inherit" />
             </Box>,
           ),
@@ -204,7 +204,7 @@ export default function UserOrdersTable({ query, status }: OrdersTableProps) {
               id="create.orders.to.see.it.here"
               defaultMessage="Create orders to see it here"
             />,
-            <Box sx={{ fontSize: '3rem' }}>
+            <Box sx={{ fontSize: theme.typography.h1.fontSize }}>
               <AssignmentIcon fontSize="inherit" />
             </Box>,
           ),

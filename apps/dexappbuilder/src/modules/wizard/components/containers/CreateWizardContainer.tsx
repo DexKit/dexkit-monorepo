@@ -39,7 +39,7 @@ import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import ThemePreview from '../ThemePreview';
-import { WelcomeMessage } from '../WelcomeMessage';
+/* import { WelcomeMessage } from '../WelcomeMessage'; */
 import { PagePreviewPaper } from '../sections/PagePreviewPaper';
 const SignConfigDialog = dynamic(() => import('../dialogs/SignConfigDialog'));
 
@@ -285,9 +285,9 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
               )}
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
             <WelcomeMessage />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={12}>
             {/* <Typography variant="body2">
               <FormattedMessage

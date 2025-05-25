@@ -1,4 +1,4 @@
-import { Datagrid, List, NumberField, TextField } from 'react-admin';
+import { Datagrid, List, NumberField, TextField } from "react-admin";
 
 export default function CreditGrantsList() {
   return (
@@ -6,8 +6,8 @@ export default function CreditGrantsList() {
       <Datagrid rowClick="edit">
         <NumberField
           options={{
-            style: 'currency',
-            currency: 'USD',
+            style: "currency",
+            currency: "USD",
             minimumFractionDigits: 2,
           }}
           source="amount"

@@ -1,4 +1,12 @@
-import { Button, Grid, Paper, Stack, TextField } from '@mui/material';
+import {
+  Button,
+  Grid,
+  Paper,
+  Stack,
+  TextField,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -34,6 +42,8 @@ export default function FeaturedSectionForm({
   onChange,
   section,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showAddItem, setShowAddItem] = useState(false);
 
   const [items, setItems] = useState<SectionItem[]>(
@@ -53,11 +63,11 @@ export default function FeaturedSectionForm({
   const formik = useFormik({
     initialValues: section
       ? {
-          title: section.title,
-        }
+        title: section.title,
+      }
       : {
-          title: '',
-        },
+        title: '',
+      },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });
@@ -127,7 +137,7 @@ export default function FeaturedSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1.5 : 2}>
         <Grid item xs={12}>
           <CompletationProvider
             onCompletation={(output: string) => {
@@ -140,6 +150,7 @@ export default function FeaturedSectionForm({
                 name="title"
                 onChange={formik.handleChange}
                 fullWidth
+                size={isMobile ? "small" : "medium"}
                 value={formik.values.title}
                 label={<FormattedMessage id="title" defaultMessage="Title" />}
                 error={Boolean(formik.errors.title)}
@@ -154,7 +165,7 @@ export default function FeaturedSectionForm({
         </Grid>
         {!showAddItem &&
           items.map((item, index) => (
-            <Grid item xs={12} key={index}>
+            <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -167,7 +178,7 @@ export default function FeaturedSectionForm({
           ))}
         {showAddItem ? (
           <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: isMobile ? 1 : 2 }}>
               <AddItemForm
                 item={
                   selectedItemIndex === -1
@@ -186,6 +197,15 @@ export default function FeaturedSectionForm({
               startIcon={<AddIcon />}
               variant="outlined"
               fullWidth
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                '& .MuiButton-startIcon': {
+                  marginRight: isMobile ? 2 : 4,
+                  "& > *:nth-of-type(1)": {
+                    fontSize: isMobile ? 16 : 20,
+                  }
+                }
+              }}
             >
               <FormattedMessage id="add.item" defaultMessage="Add item" />
             </Button>
@@ -193,8 +213,8 @@ export default function FeaturedSectionForm({
         )}
 
         <Grid item xs={12}>
-          <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <Button onClick={onCancel}>
+          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
+            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
             <Button
@@ -202,6 +222,7 @@ export default function FeaturedSectionForm({
               type="submit"
               variant="contained"
               color="primary"
+              size={isMobile ? "small" : "medium"}
             >
               <FormattedMessage id="save" defaultMessage="Save" />
             </Button>

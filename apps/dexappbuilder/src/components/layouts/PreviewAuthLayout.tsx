@@ -1,9 +1,12 @@
 import React from 'react';
 
 import MainLayout from '@dexkit/ui/components/layouts/main';
+import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { AuthProvider } from '@dexkit/ui/providers/authProvider';
+import { ConfigWizardProvider } from '@dexkit/ui/providers/configWizardProvider';
 import { NoSsr } from '@mui/material';
-import { ConfigWizardProvider } from '../../providers/configWizardProvider';
+import { useTheme } from '@mui/material/styles';
+import { AppMarketplaceProvider } from '../AppMarketplaceProvider';
 
 interface Props {
   children?: React.ReactNode | React.ReactNode[];
@@ -11,6 +14,8 @@ interface Props {
   disablePadding?: boolean;
   disableAutoLogin?: boolean;
   disableLayout?: boolean;
+  appConfig?: AppConfig;
+  isPreview?: boolean;
 }
 /**
  * Use Auth Main Layout when you need authentication feature
@@ -22,12 +27,35 @@ const PreviewAuthLayout: React.FC<Props> = ({
   disablePadding,
   disableAutoLogin,
   disableLayout,
+  appConfig,
+  isPreview = true,
 }) => {
+  const theme = useTheme();
+
   if (!disableLayout) {
+    if (appConfig) {
+      return (
+        <ConfigWizardProvider>
+          <AuthProvider disableAutoLogin={disableAutoLogin}>
+            <AppMarketplaceProvider appConfig={appConfig} appPage="home">
+              <MainLayout
+                disablePadding={disablePadding}
+                noSsr={noSsr}
+                isPreview={isPreview}
+                appConfigProps={appConfig}
+              >
+                {children}
+              </MainLayout>
+            </AppMarketplaceProvider>
+          </AuthProvider>
+        </ConfigWizardProvider>
+      );
+    }
+
     return (
       <ConfigWizardProvider>
         <AuthProvider disableAutoLogin={disableAutoLogin}>
-          <MainLayout disablePadding={disablePadding} noSsr={noSsr}>
+          <MainLayout disablePadding={disablePadding} noSsr={noSsr} isPreview={isPreview}>
             {children}
           </MainLayout>
         </AuthProvider>

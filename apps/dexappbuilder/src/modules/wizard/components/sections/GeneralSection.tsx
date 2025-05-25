@@ -1,5 +1,6 @@
 import {
   alpha,
+  Box,
   Button,
   ButtonBase,
   Divider,
@@ -14,11 +15,13 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useTheme
 } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { useIsMobile } from '@dexkit/core/hooks';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
 import { CURRENCIES, LANGUAGES } from '@dexkit/ui/constants';
 import ImageIcon from '@mui/icons-material/Image';
@@ -72,11 +75,19 @@ const CustomImage = styled('img')(({ theme }) => ({
 const NoImage = styled(ImageIcon)(({ theme }) => ({
   height: theme.spacing(20),
   width: theme.spacing(20),
+  [theme.breakpoints.down('sm')]: {
+    height: theme.spacing(16),
+    width: theme.spacing(16),
+  },
 }));
 
 const FaviconImage = styled('img')(({ theme }) => ({
   height: theme.spacing(10),
   width: theme.spacing(10),
+  [theme.breakpoints.down('sm')]: {
+    height: theme.spacing(8),
+    width: theme.spacing(8),
+  },
 }));
 
 function OnChangeListener({
@@ -116,8 +127,9 @@ export default function GeneralSection({
   stepperButtonProps,
 }: Props) {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
-
   const [mediaFieldToEdit, setMediaFieldToEdit] = useState<string>();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const handleSubmit = useCallback(
     (
@@ -174,8 +186,8 @@ export default function GeneralSection({
         }}
       />
 
-      <Stack>
-        <form onSubmit={formik.handleSubmit}>
+      <Stack sx={{ width: '100%', px: isMobile ? 1 : 0 }}>
+        <form onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
           <OnChangeListener
             dirty={formik.dirty}
             values={formik.values}
@@ -183,12 +195,21 @@ export default function GeneralSection({
             isValid={formik.isValid}
             onHasChanges={onHasChanges}
           />
-          <Grid container spacing={3}>
+          <Grid container spacing={isMobile ? 2 : 3} sx={{ width: '100%' }}>
             <Grid item xs={12}>
               <TextField
                 name="name"
-                sx={{ maxWidth: '400px' }}
+                sx={{
+                  width: '100%',
+                  '& .MuiOutlinedInput-root': {
+                    pr: isMobile ? 1 : undefined
+                  },
+                  '& .MuiInputBase-input': {
+                    pr: isMobile ? 1 : undefined
+                  }
+                }}
                 fullWidth
+                size={isMobile ? "small" : "medium"}
                 label={
                   <FormattedMessage id="app.name" defaultMessage="App name" />
                 }
@@ -207,8 +228,17 @@ export default function GeneralSection({
               <TextField
                 type="email"
                 name="email"
-                sx={{ maxWidth: '400px' }}
+                sx={{
+                  width: '100%',
+                  '& .MuiOutlinedInput-root': {
+                    pr: isMobile ? 1 : undefined
+                  },
+                  '& .MuiInputBase-input': {
+                    pr: isMobile ? 1 : undefined
+                  }
+                }}
                 fullWidth
+                size={isMobile ? "small" : "medium"}
                 label={
                   <FormattedMessage
                     id="notification.email"
@@ -228,14 +258,14 @@ export default function GeneralSection({
             </Grid>
             <Grid item xs={12} sm={12}></Grid>
             <Grid item xs={12}>
-              <Typography>
+              <Typography variant={isMobile ? "body1" : undefined}>
                 <b>
                   <FormattedMessage id="logo" defaultMessage="Logo" />
                 </b>
               </Typography>
             </Grid>
-            <Grid item xs={6}>
-              <Stack spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Stack spacing={isMobile ? 1 : 2}>
                 <Typography variant="body2">
                   <FormattedMessage
                     id="logo.for.light.mode"
@@ -245,11 +275,10 @@ export default function GeneralSection({
                 <ButtonBase
                   sx={{
                     position: 'relative',
-                    p: 2,
+                    p: isMobile ? 1 : 2,
                     borderRadius: (theme) => theme.shape.borderRadius / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
-
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'light'
                         ? 'rgba(0,0,0, 0.2)'
@@ -262,9 +291,8 @@ export default function GeneralSection({
                 >
                   <Stack
                     sx={{
-                      height: (theme) => theme.spacing(20),
-
-                      width: (theme) => theme.spacing(20),
+                      height: (theme) => theme.spacing(isMobile ? 16 : 20),
+                      width: (theme) => theme.spacing(isMobile ? 16 : 20),
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
@@ -275,8 +303,8 @@ export default function GeneralSection({
               </Stack>
             </Grid>
 
-            <Grid item xs={6}>
-              <Stack spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Stack spacing={isMobile ? 1 : 2}>
                 <Typography variant="body2">
                   <FormattedMessage
                     id="logo.for.dark.mode"
@@ -286,8 +314,7 @@ export default function GeneralSection({
                 <ButtonBase
                   sx={{
                     backgroundColor: 'black',
-
-                    p: 2,
+                    p: isMobile ? 1 : 2,
                     borderRadius: (theme) => theme.shape.borderRadius / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -300,8 +327,8 @@ export default function GeneralSection({
                 >
                   <Stack
                     sx={{
-                      height: (theme) => theme.spacing(20),
-                      width: (theme) => theme.spacing(20),
+                      height: (theme) => theme.spacing(isMobile ? 16 : 20),
+                      width: (theme) => theme.spacing(isMobile ? 16 : 20),
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
@@ -317,141 +344,176 @@ export default function GeneralSection({
             </Grid>
 
             <Grid item xs={12}>
-              <Stack
-                direction={'row'}
-                spacing={2}
-                alignContent={'center'}
-                alignItems={'center'}
-                sx={{ pt: 3 }}
-              >
-                <Typography variant="body2" sx={{ width: '130px' }}>
+              <Box>
+                <Typography variant="body1" sx={{ mb: isMobile ? 1 : 2 }}>
                   <FormattedMessage
                     id="logo.on.desktop"
                     defaultMessage="Logo on desktop"
                   />
                 </Typography>
-                <TextField
-                  type="number"
-                  name="logoWidth"
-                  sx={{ maxWidth: '150px' }}
-                  label={
-                    <FormattedMessage
-                      id="width.px"
-                      defaultMessage="Width (px)"
+
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item xs={5}>
+                    <TextField
+                      type="number"
+                      name="logoWidth"
+                      size="small"
+                      fullWidth
+                      inputProps={{ min: 0 }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          pr: 0
+                        }
+                      }}
+                      label={
+                        <FormattedMessage
+                          id="width.px"
+                          defaultMessage="Width (px)"
+                        />
+                      }
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.logoWidth}
+                      error={
+                        Boolean(formik.errors.logoWidth) && formik.touched.logoWidth
+                      }
+                      helperText={
+                        Boolean(formik.errors.logoWidth) && formik.touched.logoWidth
+                          ? formik.errors.logoWidth
+                          : undefined
+                      }
                     />
-                  }
-                  InputLabelProps={{ shrink: true }}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.logoWidth}
-                  error={
-                    Boolean(formik.errors.logoWidth) && formik.touched.logoWidth
-                  }
-                  helperText={
-                    Boolean(formik.errors.logoWidth) && formik.touched.logoWidth
-                      ? formik.errors.logoWidth
-                      : undefined
-                  }
-                />
-                <Typography color={'primary'}>x</Typography>
-                <TextField
-                  type="number"
-                  name="logoHeight"
-                  sx={{ maxWidth: '150px' }}
-                  label={
-                    <FormattedMessage
-                      id="height.px"
-                      defaultMessage="Height (px)"
+                  </Grid>
+                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                    <Typography color="primary">x</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <TextField
+                      type="number"
+                      name="logoHeight"
+                      size="small"
+                      fullWidth
+                      inputProps={{ min: 0 }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          pr: 0
+                        }
+                      }}
+                      label={
+                        <FormattedMessage
+                          id="height.px"
+                          defaultMessage="Height (px)"
+                        />
+                      }
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.logoHeight}
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        Boolean(formik.errors.logoHeight) &&
+                        formik.touched.logoHeight
+                      }
+                      helperText={
+                        Boolean(formik.errors.logoHeight) &&
+                          formik.touched.logoHeight
+                          ? formik.errors.logoHeight
+                          : undefined
+                      }
                     />
-                  }
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.logoHeight}
-                  InputLabelProps={{ shrink: true }}
-                  error={
-                    Boolean(formik.errors.logoHeight) &&
-                    formik.touched.logoHeight
-                  }
-                  helperText={
-                    Boolean(formik.errors.logoHeight) &&
-                    formik.touched.logoHeight
-                      ? formik.errors.logoHeight
-                      : undefined
-                  }
-                />
-              </Stack>
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
+
             <Grid item xs={12}>
-              <Stack
-                direction={'row'}
-                spacing={2}
-                alignContent={'center'}
-                alignItems={'center'}
-              >
-                <Typography variant="body2" sx={{ width: '130px' }}>
+              <Box sx={{ mt: isMobile ? 1 : 2 }}>
+                <Typography variant="body1" sx={{ mb: isMobile ? 1 : 2 }}>
                   <FormattedMessage
                     id="logo.on.mobile"
                     defaultMessage="Logo on mobile"
                   />
                 </Typography>
-                <TextField
-                  sx={{ maxWidth: '150px' }}
-                  type="number"
-                  name="logoWidthMobile"
-                  label={
-                    <FormattedMessage
-                      id="width.px"
-                      defaultMessage="Width (px)"
-                    />
-                  }
-                  InputLabelProps={{ shrink: true }}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.logoWidthMobile}
-                  error={
-                    Boolean(formik.errors.logoWidthMobile) &&
-                    formik.touched.logoWidthMobile
-                  }
-                  helperText={
-                    Boolean(formik.errors.logoWidthMobile) &&
-                    formik.touched.logoWidthMobile
-                      ? formik.errors.logoWidthMobile
-                      : undefined
-                  }
-                />
-                <Typography color={'primary'}>x</Typography>
 
-                <TextField
-                  sx={{ maxWidth: '150px' }}
-                  type="number"
-                  name="logoHeightMobile"
-                  label={
-                    <FormattedMessage
-                      id="height.px"
-                      defaultMessage="Height (px)"
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item xs={5}>
+                    <TextField
+                      type="number"
+                      name="logoWidthMobile"
+                      size="small"
+                      fullWidth
+                      inputProps={{ min: 0 }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          pr: 0
+                        }
+                      }}
+                      label={
+                        <FormattedMessage
+                          id="width.px"
+                          defaultMessage="Width (px)"
+                        />
+                      }
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.logoWidthMobile}
+                      error={
+                        Boolean(formik.errors.logoWidthMobile) &&
+                        formik.touched.logoWidthMobile
+                      }
+                      helperText={
+                        Boolean(formik.errors.logoWidthMobile) &&
+                          formik.touched.logoWidthMobile
+                          ? formik.errors.logoWidthMobile
+                          : undefined
+                      }
                     />
-                  }
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.logoHeightMobile}
-                  InputLabelProps={{ shrink: true }}
-                  error={
-                    Boolean(formik.errors.logoHeightMobile) &&
-                    formik.touched.logoHeightMobile
-                  }
-                  helperText={
-                    Boolean(formik.errors.logoHeightMobile) &&
-                    formik.touched.logoHeightMobile
-                      ? formik.errors.logoHeightMobile
-                      : undefined
-                  }
-                />
-              </Stack>
+                  </Grid>
+                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                    <Typography color="primary">x</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <TextField
+                      type="number"
+                      name="logoHeightMobile"
+                      size="small"
+                      fullWidth
+                      inputProps={{ min: 0 }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          pr: 0
+                        }
+                      }}
+                      label={
+                        <FormattedMessage
+                          id="height.px"
+                          defaultMessage="Height (px)"
+                        />
+                      }
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.logoHeightMobile}
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        Boolean(formik.errors.logoHeightMobile) &&
+                        formik.touched.logoHeightMobile
+                      }
+                      helperText={
+                        Boolean(formik.errors.logoHeightMobile) &&
+                          formik.touched.logoHeightMobile
+                          ? formik.errors.logoHeightMobile
+                          : undefined
+                      }
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
-            <Grid item xs={12} sm={12}></Grid>
-            <Grid item xs={12}>
-              <Stack>
-                <Typography>
+
+            <Grid item xs={12} sx={{ mt: isMobile ? 1 : 2 }}>
+              <Box>
+                <Typography variant="body1" sx={{ mb: 1 }}>
                   <Tooltip
                     title={
                       <FormattedMessage
@@ -467,31 +529,38 @@ export default function GeneralSection({
                     </b>
                   </Tooltip>
                 </Typography>
-              </Stack>
+              </Box>
               <Button
                 onClick={() => {
                   setOpenMediaDialog(true);
                   setMediaFieldToEdit('faviconUrl');
                 }}
+                size={isMobile ? "small" : "medium"}
+                sx={{ mt: 1 }}
               >
                 <FaviconImage src={formik.values.faviconUrl} />
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12}></Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>
+
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel sx={{ fontSize: isMobile ? '0.9rem' : undefined }}>
                   <FormattedMessage id="language" defaultMessage="Language" />
                 </InputLabel>
                 <Select
                   name="locale"
                   onChange={formik.handleChange}
                   value={formik.values.locale}
-                  fullWidth
                   label={
                     <FormattedMessage id="language" defaultMessage="Language" />
                   }
                   error={Boolean(formik.errors.locale)}
+                  sx={{
+                    fontSize: isMobile ? '0.9rem' : undefined,
+                    '& .MuiSelect-select': {
+                      pr: 6
+                    }
+                  }}
                 >
                   {LANGUAGES.map((lang, index) => (
                     <MenuItem key={index} value={lang.locale}>
@@ -508,9 +577,10 @@ export default function GeneralSection({
                 )}
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>
+
+            <Grid item xs={12} sx={{ mt: 1 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel sx={{ fontSize: isMobile ? '0.9rem' : undefined }}>
                   <FormattedMessage
                     id="default.currency"
                     defaultMessage="Default currency"
@@ -520,7 +590,6 @@ export default function GeneralSection({
                   name="currency"
                   onChange={formik.handleChange}
                   value={formik.values.currency}
-                  fullWidth
                   label={
                     <FormattedMessage
                       id="default.currency"
@@ -528,6 +597,12 @@ export default function GeneralSection({
                     />
                   }
                   error={Boolean(formik.errors.currency)}
+                  sx={{
+                    fontSize: isMobile ? '0.9rem' : undefined,
+                    '& .MuiSelect-select': {
+                      pr: 6
+                    }
+                  }}
                 >
                   {CURRENCIES.map((curr, index) => (
                     <MenuItem key={index} value={curr.symbol}>
@@ -544,10 +619,12 @@ export default function GeneralSection({
                 )}
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={12} sx={{ mt: 2 }}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={12} sx={{ mt: 2 }}>
               {isOnStepper ? (
                 <StepperButtons
                   {...stepperButtonProps}
@@ -564,16 +641,21 @@ export default function GeneralSection({
                   }
                 />
               ) : (
-                <Stack spacing={1} direction="row" justifyContent="flex-end">
+                <Box sx={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start', width: '100%' }}>
                   <Button
                     disabled={!formik.isValid || !formik.dirty}
                     type="submit"
                     variant="contained"
                     color="primary"
+                    size={isMobile ? "medium" : "large"}
+                    sx={{
+                      width: isMobile ? '100%' : 'auto',
+                      py: 1.5
+                    }}
                   >
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </Button>
-                </Stack>
+                </Box>
               )}
             </Grid>
           </Grid>

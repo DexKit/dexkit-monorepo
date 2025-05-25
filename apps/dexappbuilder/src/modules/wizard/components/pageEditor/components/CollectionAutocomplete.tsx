@@ -1,4 +1,6 @@
+import { useIsMobile } from '@dexkit/core';
 import { getChainName } from '@dexkit/core/utils/blockchain';
+import { useTheme } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -12,6 +14,8 @@ interface Props {
 export function CollectionAutocomplete(props: Props) {
   const { data } = props;
   const { wizardConfig } = useAppWizardConfig();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const formValue = data.data;
   const collections =
@@ -29,7 +33,12 @@ export function CollectionAutocomplete(props: Props) {
   return (
     <Autocomplete
       id="collection"
-      sx={{ width: 300 }}
+      sx={{
+        width: '100%',
+        '& .MuiAutocomplete-inputRoot': {
+          fontSize: isMobile ? theme.typography.body2.fontSize : undefined
+        }
+      }}
       inputValue={formValue?.name ? formValue.name : ''}
       options={collections}
       autoHighlight
@@ -50,10 +59,14 @@ export function CollectionAutocomplete(props: Props) {
       renderOption={(props, option) => (
         <Box
           component="li"
-          sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+          sx={{
+            '& > img': { mr: theme.spacing(2), flexShrink: 0 },
+            fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
+            py: isMobile ? theme.spacing(1) : undefined
+          }}
           {...props}
         >
-          <img loading="lazy" width="20" src={`${option.image}`} alt="" />
+          <img loading="lazy" width={isMobile ? theme.spacing(2) : theme.spacing(2.5)} src={`${option.image}`} alt="" />
           {option.name} - {getChainName(option.chainId)}
         </Box>
       )}
@@ -62,6 +75,7 @@ export function CollectionAutocomplete(props: Props) {
           {...params}
           label="Choose a collection"
           fullWidth
+          size={isMobile ? "small" : "medium"}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'off', // disable autocomplete and autofill
