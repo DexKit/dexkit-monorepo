@@ -19,9 +19,9 @@ export default function useUserProductImages({
     }
 
     return (
-      await instance.get<{ id: string; imageUrl: string }[]>(
+      await instance.get(
         `/products/user/${productId}/images`
       )
-    ).data;
+    ).data as { id: string; imageUrl: string }[];
   });
 }

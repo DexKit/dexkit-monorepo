@@ -73,7 +73,6 @@ export default {
           },
         })
       ).data;
-      return { data: data, total: data.length };
     } else if (resource === "orders") {
       const data = (
         await myAppsApi.get("/orders/admin/list", {
@@ -151,8 +150,6 @@ export default {
         },
       })
     ).data;
-
-    return { data: [], total: 0 };
   },
 
   getOne: async (resource: any, params: any) => {

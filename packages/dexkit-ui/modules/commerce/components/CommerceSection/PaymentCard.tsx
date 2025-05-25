@@ -62,12 +62,15 @@ const validEmail = z.string().email();
 
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { ConnectButton } from "../../../../components/ConnectButton";
+import useCanPayCheckout from "../../hooks/checkout/useCanPayCheckout";
 import { useSiteReceiver } from "../../hooks/useSiteReceiver";
 
 export default function PaymentCard() {
   const { siteId } = useContext(SiteContext);
 
   const { data: receiverData } = useSiteReceiver({ siteId: siteId });
+
+  const { data: canPayCheckoutData } = useCanPayCheckout({ siteId });
 
   const { cartItems, clearCart, requireEmail } = useCommerce();
 
@@ -102,8 +105,6 @@ export default function PaymentCard() {
       .filter((n) => {
         if (n.chainId === 81457) {
           let token = CHECKOUT_TOKENS.find((t) => t.chainId === n.chainId);
-
-          console.log("TEM BLAST", token);
         }
 
         let token = CHECKOUT_TOKENS.find((t) => t.chainId === n.chainId);
@@ -253,10 +254,10 @@ export default function PaymentCard() {
   };
 
   const handleConfirm = async () => {
-    if (token && site?.owner) {
+    if (token && receiverData?.receiver) {
       try {
         await transfer({
-          address: site?.owner,
+          address: receiverData?.receiver,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
           chainId: chainId as number,
@@ -302,7 +303,8 @@ export default function PaymentCard() {
             total.isZero() ||
             showConfirm ||
             !receiverData ||
-            !receiverData?.receiver
+            !receiverData?.receiver ||
+            !canPayCheckoutData?.canPay
           }
           fullWidth
           onClick={handlePay}
@@ -580,12 +582,16 @@ export default function PaymentCard() {
         <Divider />
         <CardContent>
           <Stack spacing={2}>
-            <Alert severity="error">
-              <FormattedMessage
-                id="checkout.is.currently.unavailable"
-                defaultMessage="Checkout is currently unavailable. Please try again later."
-              />
-            </Alert>
+            {!receiverData?.receiver ||
+              (!canPayCheckoutData?.canPay && (
+                <Alert severity="error">
+                  <FormattedMessage
+                    id="checkout.is.currently.unavailable"
+                    defaultMessage="Checkout is currently unavailable. Please try again later."
+                  />
+                </Alert>
+              ))}
+
             {renderPayButton()}
           </Stack>
         </CardContent>

@@ -378,7 +378,7 @@ export function EditWizardContainer({ site }: Props) {
           }
         }}
         activeMenuId={activeMenu as string}
-        commerceEnabled={wizardConfig.commerce?.enabled}
+        commerceEnabled={true}
       />
     );
   };

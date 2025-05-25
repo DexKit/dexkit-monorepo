@@ -24,11 +24,7 @@ export default function useProductImages({
         return null;
       }
 
-      return (
-        await instance.get<{ id: string; imageUrl: string }[]>(
-          `/products/${productId}/images`
-        )
-      ).data;
+      return ((await instance.get(`/products/${productId}/images`)).data as { id: string; imageUrl: string }[]);
     },
     { enabled: !!productId }
   );
