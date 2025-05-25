@@ -1,23 +1,29 @@
 import Delete from "@mui/icons-material/DeleteOutlined";
-import { IconButton, Skeleton, TableCell, TableRow } from "@mui/material";
+import {
+  Avatar,
+  Checkbox,
+  IconButton,
+  Skeleton,
+  TableCell,
+  TableRow,
+} from "@mui/material";
 import Decimal from "decimal.js";
-import { Field, FieldArray, useField } from "formik";
-import { TextField } from "formik-mui";
-import { FormattedNumber } from "react-intl";
+import { FieldArray, useField } from "formik";
 import useProduct from "../../../hooks/useProduct";
-import ProductAutocomplete from "../../ProductAutocomplete";
 
 export interface CheckoutItemsTableRowProps {
   name: string;
   index: number;
+  selected?: boolean;
+  onSelect: () => void;
 }
 
 export default function CheckoutItemsTableRow({
   name,
   index,
+  selected,
+  onSelect,
 }: CheckoutItemsTableRowProps) {
-  const [propsEditable, metaEditable, helpersEditable] =
-    useField<boolean>("editable");
   const [props, meta, helpers] = useField<string>(`${name}.productId`);
   const [propsQtd, metaQtd, helpersQtd] = useField<number | undefined>(
     `${name}.quantity`
@@ -28,45 +34,37 @@ export default function CheckoutItemsTableRow({
   return (
     <TableRow>
       <TableCell>
-        <ProductAutocomplete name={name} />
+        <Checkbox checked={Boolean(selected)} onChange={(e) => onSelect()} />
       </TableCell>
       <TableCell>
-        <Field
-          disabled={propsEditable.value}
-          name={`${name}.quantity`}
-          component={TextField}
-          size="small"
-          type="number"
+        <Avatar
+          variant="rounded"
+          src={product?.imageUrl ?? ""}
+          sx={(theme) => ({
+            width: theme.spacing(5),
+            height: theme.spacing(5),
+          })}
         />
       </TableCell>
+      <TableCell>{product?.name}</TableCell>
+      <TableCell>{propsQtd.value}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton />
         ) : (
-          <FormattedNumber
-            style="currency"
-            minimumFractionDigits={2}
-            maximumFractionDigits={18}
-            currency="usd"
-            value={new Decimal(product?.price ?? "0").toNumber()}
-          />
+          `${new Decimal(product?.price ?? "0").toNumber()} USD`
         )}
       </TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton />
         ) : (
-          propsQtd.value && (
-            <FormattedNumber
-              style="currency"
-              currency="usd"
-              minimumFractionDigits={2}
-              maximumFractionDigits={18}
-              value={new Decimal(product?.price ?? "0")
-                .mul(parseInt(propsQtd.value?.toString() ?? "0").toString())
-                .toNumber()}
-            />
-          )
+          `${
+            propsQtd.value &&
+            new Decimal(product?.price ?? "0")
+              .mul(parseInt(propsQtd.value?.toString() ?? "0").toString())
+              .toNumber()
+          } USD`
         )}
       </TableCell>
       <TableCell>

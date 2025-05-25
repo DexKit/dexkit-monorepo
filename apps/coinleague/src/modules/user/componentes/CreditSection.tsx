@@ -19,7 +19,7 @@ import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import moment from 'moment';
 
 export default function CreditSection() {
-  const { data: credits } = useCreditHistory();
+  const { data: credits } = useCreditHistory({});
 
   const { formatMessage } = useIntl();
 

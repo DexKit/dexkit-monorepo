@@ -12,6 +12,7 @@ import { FormattedMessage } from "react-intl";
 
 export interface CustomToolbarProps extends GridToolbarContainerProps {
   onDelete: () => void;
+  onQueryChange?: (query: string) => void;
   showDelete: boolean;
   placeholder: string;
 }

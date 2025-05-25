@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import AnalyticsIcon from "@mui/icons-material/AnalyticsOutlined";
@@ -6,13 +6,13 @@ import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboardOutlined";
 
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchangeOutlined";
+import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useCallback, useState } from "react";
-import AdminSidebarMenu from "./AdminSidebarMenu";
-
-import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import { useAppConfig } from "../../../hooks";
+import AdminSidebarMenu from "./AdminSidebarMenu";
 
 export enum BuilderKit {
   ALL = "All Kits",
@@ -77,6 +77,15 @@ export default function AdminSidebarContainer({
             {
               id: "settings.domain",
               title: <FormattedMessage id="domains" defaultMessage="Domain" />,
+              icon: <WorkspacePremiumIcon />,
+            },
+            {
+              id: "settings.powered.by",
+              title: (
+                <FormattedMessage id="powered.by" defaultMessage="Powered by" />
+              ),
+              icon: <WorkspacePremiumIcon />,
+              onlyOwner: true,
             },
             {
               id: "settings.team",
@@ -319,9 +328,121 @@ export default function AdminSidebarContainer({
             },*/
           ]}
         />
+        {isSiteOwner && (
+          <>
+            <Box
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? theme.palette.background.default
+                    : theme.palette.grey[100],
+              }}
+            >
+              {commerceEnabled && (
+                <AdminSidebarMenu
+                  activeMenuId={activeMenuId}
+                  icon={<ShoppingCart />}
+                  title={
+                    <FormattedMessage
+                      id="e.commerce"
+                      defaultMessage="E-Commerce"
+                    />
+                  }
+                  open={isMenuToggled("commerce")}
+                  onSelectMenuId={onChangeMenu}
+                  onToggle={handleToggleMenu("commerce")}
+                  isSiteOwner={isSiteOwner}
+                  options={[
+                    // add builder kits,
+                    {
+                      id: "commerce.dashboard",
+                      title: (
+                        <FormattedMessage
+                          id="dashboard"
+                          defaultMessage="Dashboard"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.notifications",
+                      title: (
+                        <FormattedMessage
+                          id="notifications"
+                          defaultMessage="Notifications"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.settings",
+                      title: (
+                        <FormattedMessage
+                          id="settings"
+                          defaultMessage="Settings"
+                        />
+                      ),
+                    },
+                    {
+                      id: "commerce.orders",
+                      title: (
+                        <FormattedMessage id="orders" defaultMessage="Orders" />
+                      ),
+                    },
+                    {
+                      id: "commerce.products",
+                      title: (
+                        <FormattedMessage
+                          id="products"
+                          defaultMessage="Products"
+                        />
+                      ),
+                      options: [
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="items"
+                              defaultMessage="Items"
+                            />
+                          ),
+                          id: "commerce.products.items",
+                        },
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="categories"
+                              defaultMessage="Categories"
+                            />
+                          ),
+                          id: "commerce.products.categories",
+                        },
+                        {
+                          title: (
+                            <FormattedMessage
+                              id="collections"
+                              defaultMessage="Collections"
+                            />
+                          ),
+                          id: "commerce.products.collections",
+                        },
+                      ],
+                    },
+                    {
+                      id: "commerce.checkouts",
+                      title: (
+                        <FormattedMessage
+                          id="checkouts"
+                          defaultMessage="Checkouts"
+                        />
+                      ),
+                    },
+                  ]}
+                />
+              )}
+            </Box>
+          </>
+        )}
       </Box>
 
-      {isSiteOwner && (
+      {/*isSiteOwner && (
         <>
           {commerceEnabled && (
             <Typography variant="body1" fontWeight="bold">
@@ -439,7 +560,7 @@ export default function AdminSidebarContainer({
             )}
           </Box>
         </>
-      )}
+      )*/}
     </Stack>
   );
 }

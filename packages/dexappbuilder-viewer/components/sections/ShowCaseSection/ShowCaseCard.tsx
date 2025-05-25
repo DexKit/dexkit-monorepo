@@ -51,10 +51,10 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
   const contractMetadata = useContractMetadata(
     item.type === "collection"
       ? {
-          chainId: item.chainId,
-          contractAddress: item.contractAddress,
-          provider: providerQuery.data,
-        }
+        chainId: item.chainId,
+        contractAddress: item.contractAddress,
+        provider: providerQuery.data,
+      }
       : undefined
   );
 
@@ -67,8 +67,8 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
             item.actionType && item?.actionType === "link" && item?.url
               ? item.url
               : item.actionType && item.actionType === "page" && item?.page
-              ? item?.page
-              : ""
+                ? item?.page
+                : ""
           }
         >
           {item.imageUrl ? (
@@ -132,9 +132,8 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
       <Card>
         <CardActionArea
           LinkComponent={Link}
-          href={`/collection/${getNetworkSlugFromChainId(item.chainId)}/${
-            item.contractAddress
-          }`}
+          href={`/collection/${getNetworkSlugFromChainId(item.chainId)}/${item.contractAddress
+            }`}
         >
           {item.imageUrl ? (
             <CardMedia image={item.imageUrl} sx={{ aspectRatio: "1/1" }} />
@@ -178,16 +177,14 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
                 )}
               </Typography>
 
-              {item.subtitle ? (
-                item.subtitle
-              ) : <AppExpandableTypography
-                  TypographyProps={{
-                    sx: { textOverflow: "ellipsis", overflow: "hidden" },
-                    variant: "body2",
-                    color: "text.secondary",
-                  }}
-                  value={contractMetadata.data?.name || ""}
-                /> ? (
+              {item.subtitle ? <AppExpandableTypography
+                TypographyProps={{
+                  sx: { textOverflow: "ellipsis", overflow: "hidden" },
+                  variant: "body2",
+                  color: "text.secondary",
+                }}
+                value={contractMetadata.data?.name || ""}
+              /> : (
                 <AppExpandableTypography
                   TypographyProps={{
                     sx: { textOverflow: "ellipsis", overflow: "hidden" },
@@ -196,8 +193,6 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
                   }}
                   value={contractMetadata.data?.description || ""}
                 />
-              ) : (
-                <Skeleton />
               )}
             </Box>
           </Stack>
@@ -210,9 +205,8 @@ export default function ShowCaseCard({ item }: ShowCaseCardProps) {
     <Card>
       <CardActionArea
         LinkComponent={Link}
-        href={`/asset/${getNetworkSlugFromChainId(item.chainId)}/${
-          item.contractAddress
-        }/${item.tokenId}`}
+        href={`/asset/${getNetworkSlugFromChainId(item.chainId)}/${item.contractAddress
+          }/${item.tokenId}`}
       >
         {nftQuery.data?.metadata?.image ? (
           <CardMedia

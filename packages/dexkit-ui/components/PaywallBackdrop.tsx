@@ -3,7 +3,7 @@ import { Backdrop, Box, Button, Stack, Typography } from "@mui/material";
 import Decimal from "decimal.js";
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useActiveFeatUsage, useSubscription } from "../hooks/payments";
+import { useSubscription } from "../hooks/payments";
 import AddCreditDialog from "./dialogs/AddCreditDialog";
 
 export default function PaywallBackdrop() {
@@ -11,22 +11,17 @@ export default function PaywallBackdrop() {
 
   const { data: sub, refetch: refetchSub } = useSubscription();
 
-  const { data: featUsage, refetch: refetchFeatUsage } = useActiveFeatUsage();
 
   const total = useMemo(() => {
-    if (sub && featUsage) {
-      return new Decimal(featUsage?.available)
-        .minus(new Decimal(featUsage?.used))
-        .add(
-          new Decimal(sub?.creditsAvailable).minus(
-            new Decimal(sub?.creditsUsed)
-          )
+    if (sub ) {
+      return  (new Decimal(sub?.creditsAvailable).minus(
+            new Decimal(sub?.creditsUsed))
         )
         .toNumber();
     }
 
     return 0;
-  }, [featUsage, sub]);
+  }, [ sub]);
 
   const [showAddCredits, setShowAddCredits] = useState(false);
   const handleAddCredits = async () => {
@@ -36,7 +31,6 @@ export default function PaywallBackdrop() {
   const handleClose = () => {
     setShowAddCredits(false);
     refetchSub();
-    refetchFeatUsage();
   };
 
   const handleCloseBackdrop = () => {

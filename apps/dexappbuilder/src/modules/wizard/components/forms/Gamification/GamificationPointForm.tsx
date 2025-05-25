@@ -6,7 +6,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { FormattedMessage, useIntl } from 'react-intl';
 import * as Yup from 'yup';
 
@@ -32,24 +33,12 @@ const userEvents = [
     value: UserEvents.loginSignMessage,
   },
   {
+    name: beautifyCamelCase(UserEvents.connectAccount),
+    value: UserEvents.connectAccount,
+  },
+  {
     name: beautifyCamelCase(UserEvents.swap),
     value: UserEvents.swap,
-  },
-  {
-    value: UserEvents.nftAcceptListERC721,
-    name: 'Accept listing ERC721',
-  },
-  {
-    value: UserEvents.nftAcceptListERC1155,
-    name: 'Accept listing ERC1155',
-  },
-  {
-    value: UserEvents.nftAcceptOfferERC721,
-    name: 'Accept offer ERC721',
-  },
-  {
-    value: UserEvents.nftAcceptOfferERC1155,
-    name: 'Accept offer ERC1155',
   },
   {
     value: UserEvents.buyDropCollection,
@@ -58,6 +47,10 @@ const userEvents = [
   {
     value: UserEvents.buyDropEdition,
     name: 'Buy drop edition',
+  },
+  {
+    value: UserEvents.buyDropToken,
+    name: 'Buy drop token',
   },
 ];
 
@@ -79,6 +72,7 @@ const RankingPointsScheme: Yup.SchemaOf<{
 }> = Yup.object().shape({
   from: Yup.date(),
   to: Yup.date(),
+  groupByReferral: Yup.bool(),
   settings: GamificationPointSchema,
 });
 
@@ -92,6 +86,7 @@ interface Props {
   onChange: () => void;
   from?: string;
   to?: string;
+  groupByReferral?: boolean;
   ranking: AppRanking;
   title?: string;
 }
@@ -114,6 +109,7 @@ export default function GamificationPointForm({
   settings,
   from,
   to,
+  groupByReferral,
   ranking,
   title,
 }: Props) {
@@ -185,6 +181,7 @@ export default function GamificationPointForm({
                 rankingId,
                 from: values.from === '' ? moment().format() : values.from,
                 to: values.to === '' ? moment().format() : values.to,
+                groupByReferral: values.groupByReferral ? true : false,
                 settings: values.settings,
                 title,
               },
@@ -202,6 +199,7 @@ export default function GamificationPointForm({
         initialValues={{
           from: from ? localDate({ dateString: from }) : undefined,
           to: to ? localDate({ dateString: to }) : undefined,
+          groupByReferral: groupByReferral,
           settings: settings
             ? typeof settings === 'string'
               ? (JSON.parse(settings) as GamificationPoint[])
@@ -301,6 +299,28 @@ export default function GamificationPointForm({
                             )}
                             value={moment(values.to)}
                             InputProps={{ fullWidth: true }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                defaultChecked={groupByReferral}
+                                onChange={(ev) => {
+                                  console.log(ev.currentTarget.checked);
+                                  setFieldValue(
+                                    'groupByReferral',
+                                    ev.currentTarget.checked,
+                                  );
+                                }}
+                              />
+                            }
+                            label={
+                              <FormattedMessage
+                                id={'group.by.referrals'}
+                                defaultMessage={'Group by Referrals'}
+                              />
+                            }
                           />
                         </Grid>
                       </Grid>

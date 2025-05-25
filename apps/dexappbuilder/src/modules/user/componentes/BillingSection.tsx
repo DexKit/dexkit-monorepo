@@ -1,6 +1,5 @@
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
-  useActiveFeatUsage,
   usePlanCheckoutMutation,
   usePlanPrices,
 } from '@dexkit/ui/hooks/payments';
@@ -11,30 +10,23 @@ import {
   Grid,
   Skeleton,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Typography,
 } from '@mui/material';
 import Decimal from 'decimal.js';
-import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
-import Link from '@dexkit/ui/components/AppLink';
 import { useBillingHistoryQuery, useSubscription } from '../hooks/payments';
 import CreditSection from './CreditSection';
 import PlanDetailsDialog from './dialogs/PlanDetailsDialog';
+import BillingDataGrid from './tables/BillingDataGrid';
 
 export default function BillingSection() {
-  const billingHistoryQuery = useBillingHistoryQuery();
+  const billingHistoryQuery = useBillingHistoryQuery({});
 
   const { mutateAsync: checkoutPlan, isLoading } = usePlanCheckoutMutation();
 
   const subscriptionQuery = useSubscription();
-  const activeFeatUsageQuery = useActiveFeatUsage();
 
   const handleCheckout = (plan: string) => {
     return async () => {
@@ -46,7 +38,7 @@ export default function BillingSection() {
 
       if (plan === 'free') {
         await subscriptionQuery.refetch();
-        await activeFeatUsageQuery.refetch();
+        //  await activeFeatUsageQuery.refetch();
       }
     };
   };
@@ -69,19 +61,14 @@ export default function BillingSection() {
   const planPricesQuery = usePlanPrices();
 
   const credits = useMemo(() => {
-    if (activeFeatUsageQuery.data && subscriptionQuery.data) {
-      return new Decimal(activeFeatUsageQuery.data?.available)
-        .minus(new Decimal(activeFeatUsageQuery.data?.used))
-        .add(
-          new Decimal(subscriptionQuery.data?.creditsAvailable).minus(
-            new Decimal(subscriptionQuery.data?.creditsUsed),
-          ),
-        )
+    if (subscriptionQuery.data) {
+      return new Decimal(subscriptionQuery.data?.creditsAvailable)
+        .minus(new Decimal(subscriptionQuery.data?.creditsUsed))
         .toNumber();
     }
 
     return 0;
-  }, [activeFeatUsageQuery.data, subscriptionQuery.data]);
+  }, [subscriptionQuery.data]);
 
   return (
     <>
@@ -132,7 +119,7 @@ export default function BillingSection() {
                   <FormattedMessage id="credits" defaultMessage="Credits" />
                 </Typography>
                 <Typography variant="body1">
-                  {activeFeatUsageQuery.data && subscriptionQuery.data ? (
+                  {subscriptionQuery.data ? (
                     <FormattedNumber
                       style="currency"
                       currencyDisplay="narrowSymbol"
@@ -199,7 +186,7 @@ export default function BillingSection() {
           <FormattedMessage id="usage.periods" defaultMessage="Usage periods" />
         </Typography>
         <Card>
-          {billingHistoryQuery.data && billingHistoryQuery.data.length > 0 ? (
+          {/*billingHistoryQuery.data && billingHistoryQuery.data.length > 0 ? (
             <Table>
               <TableHead>
                 <TableRow>
@@ -230,7 +217,7 @@ export default function BillingSection() {
                     <TableCell>
                       <Typography>
                         <FormattedNumber
-                          value={new Decimal(period.used).toNumber()}
+                          value={new Decimal(period?.used).toNumber()}
                           style="currency"
                           currencyDisplay="narrowSymbol"
                           currency="USD"
@@ -262,7 +249,10 @@ export default function BillingSection() {
                 />
               </Typography>
             </CardContent>
-          )}
+          )*/}
+        </Card>
+        <Card>
+          <BillingDataGrid />
         </Card>
         <CreditSection />
       </Stack>

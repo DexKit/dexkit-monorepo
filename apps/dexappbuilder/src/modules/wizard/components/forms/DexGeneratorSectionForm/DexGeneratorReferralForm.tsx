@@ -13,7 +13,7 @@ import {
   SelectChangeEvent,
   Switch,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Formik, FormikProps } from 'formik';
 import { useContext, useEffect, useRef } from 'react';
@@ -30,6 +30,11 @@ interface ReferralFormValues {
   showStats: boolean;
   showLeaderboard: boolean;
   rankingId?: number;
+  pointsConfig: {
+    connect: number;
+    swap: number;
+    default: number;
+  };
 }
 
 export default function DexGeneratorReferralForm({
@@ -42,15 +47,26 @@ export default function DexGeneratorReferralForm({
   // Fetch available leaderboards
   const leaderboardsQuery = useAppRankingListQuery({
     siteId,
-    pageSize: 100
+    pageSize: 100,
   });
 
   const initialValues = {
     title: section?.title || '',
     subtitle: section?.subtitle || '',
-    showStats: section?.config?.showStats !== undefined ? section.config.showStats : true,
-    showLeaderboard: section?.config?.showLeaderboard !== undefined ? section.config.showLeaderboard : true,
-    rankingId: section?.config?.rankingId
+    showStats:
+      section?.config?.showStats !== undefined
+        ? section.config.showStats
+        : true,
+    showLeaderboard:
+      section?.config?.showLeaderboard !== undefined
+        ? section.config.showLeaderboard
+        : true,
+    rankingId: section?.config?.rankingId,
+    pointsConfig: {
+      connect: section?.config?.pointsConfig?.connect || 1,
+      swap: section?.config?.pointsConfig?.swap || 5,
+      default: section?.config?.pointsConfig?.default || 1,
+    },
   };
 
   useEffect(() => {
@@ -58,9 +74,20 @@ export default function DexGeneratorReferralForm({
       formikRef.current.setValues({
         title: section.title || '',
         subtitle: section.subtitle || '',
-        showStats: section.config?.showStats !== undefined ? section.config.showStats : true,
-        showLeaderboard: section.config?.showLeaderboard !== undefined ? section.config.showLeaderboard : true,
-        rankingId: section.config?.rankingId
+        showStats:
+          section.config?.showStats !== undefined
+            ? section.config.showStats
+            : true,
+        showLeaderboard:
+          section.config?.showLeaderboard !== undefined
+            ? section.config.showLeaderboard
+            : true,
+        rankingId: section.config?.rankingId,
+        pointsConfig: {
+          connect: section.config?.pointsConfig?.connect || 1,
+          swap: section.config?.pointsConfig?.swap || 5,
+          default: section.config?.pointsConfig?.default || 1,
+        },
       });
     }
   }, [section]);
@@ -73,7 +100,8 @@ export default function DexGeneratorReferralForm({
       config: {
         showStats: values.showStats,
         showLeaderboard: values.showLeaderboard,
-        rankingId: values.rankingId
+        rankingId: values.rankingId,
+        pointsConfig: values.pointsConfig,
       },
     };
     onChange(updatedSection);
@@ -83,39 +111,40 @@ export default function DexGeneratorReferralForm({
     <Formik
       innerRef={formikRef}
       initialValues={initialValues}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
       enableReinitialize
     >
       {({ values, setFieldValue }) => {
-        const handleChange = (field: string) => (
-          event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        ) => {
-          const value = event.target.value;
-          setFieldValue(field, value);
+        const handleChange =
+          (field: string) =>
+          (
+            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+          ) => {
+            const value = event.target.value;
+            setFieldValue(field, value);
 
-          // Use setTimeout to ensure the value is updated in the Formik state
-          setTimeout(() => {
-            handleUpdateSection({
-              ...values,
-              [field]: value
-            });
-          }, 0);
-        };
+            // Use setTimeout to ensure the value is updated in the Formik state
+            setTimeout(() => {
+              handleUpdateSection({
+                ...values,
+                [field]: value,
+              });
+            }, 0);
+          };
 
-        const handleSwitchChange = (field: string) => (
-          event: React.ChangeEvent<HTMLInputElement>
-        ) => {
-          const value = event.target.checked;
-          setFieldValue(field, value);
+        const handleSwitchChange =
+          (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            const value = event.target.checked;
+            setFieldValue(field, value);
 
-          // Use setTimeout to ensure the value is updated in the Formik state
-          setTimeout(() => {
-            handleUpdateSection({
-              ...values,
-              [field]: value
-            });
-          }, 0);
-        };
+            // Use setTimeout to ensure the value is updated in the Formik state
+            setTimeout(() => {
+              handleUpdateSection({
+                ...values,
+                [field]: value,
+              });
+            }, 0);
+          };
 
         const handleLeaderboardChange = (event: SelectChangeEvent<unknown>) => {
           const value = event.target.value;
@@ -125,7 +154,7 @@ export default function DexGeneratorReferralForm({
           setTimeout(() => {
             handleUpdateSection({
               ...values,
-              rankingId: value === '' ? undefined : Number(value)
+              rankingId: value === '' ? undefined : Number(value),
             });
           }, 0);
         };
@@ -146,7 +175,9 @@ export default function DexGeneratorReferralForm({
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label={<FormattedMessage id="subtitle" defaultMessage="Subtitle" />}
+                label={
+                  <FormattedMessage id="subtitle" defaultMessage="Subtitle" />
+                }
                 name="subtitle"
                 value={values.subtitle}
                 onChange={(e) => {
@@ -193,7 +224,10 @@ export default function DexGeneratorReferralForm({
             <Grid item xs={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="subtitle1" gutterBottom>
-                <FormattedMessage id="leaderboard.configuration" defaultMessage="Leaderboard Configuration" />
+                <FormattedMessage
+                  id="leaderboard.configuration"
+                  defaultMessage="Leaderboard Configuration"
+                />
               </Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 <FormattedMessage
@@ -209,32 +243,52 @@ export default function DexGeneratorReferralForm({
                   <Grid item xs={12}>
                     <FormControl fullWidth>
                       <InputLabel id="leaderboard-select-label">
-                        <FormattedMessage id="select.leaderboard" defaultMessage="Select Leaderboard" />
+                        <FormattedMessage
+                          id="select.leaderboard"
+                          defaultMessage="Select Leaderboard"
+                        />
                       </InputLabel>
                       <Select
                         labelId="leaderboard-select-label"
                         id="leaderboard-select"
                         value={values.rankingId ?? ''}
                         onChange={handleLeaderboardChange}
-                        label={<FormattedMessage id="select.leaderboard" defaultMessage="Select Leaderboard" />}
+                        label={
+                          <FormattedMessage
+                            id="select.leaderboard"
+                            defaultMessage="Select Leaderboard"
+                          />
+                        }
                       >
                         <MenuItem value="">
-                          <em><FormattedMessage id="none" defaultMessage="None" /></em>
+                          <em>
+                            <FormattedMessage id="none" defaultMessage="None" />
+                          </em>
                         </MenuItem>
-                        {!leaderboardsQuery.isLoading && leaderboardsQuery.data?.data.map((leaderboard) => (
-                          <MenuItem key={leaderboard.id} value={leaderboard.id}>
-                            {leaderboard.title}
-                          </MenuItem>
-                        ))}
+                        {!leaderboardsQuery.isLoading &&
+                          leaderboardsQuery.data?.data.map((leaderboard) => (
+                            <MenuItem
+                              key={leaderboard.id}
+                              value={leaderboard.id}
+                            >
+                              {leaderboard.title}
+                            </MenuItem>
+                          ))}
                       </Select>
-                      {(!leaderboardsQuery.data?.data || leaderboardsQuery.data?.data.length === 0) && !leaderboardsQuery.isLoading && (
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
-                          <FormattedMessage
-                            id="create.leaderboard.first"
-                            defaultMessage="You need to create a leaderboard in the Gamification section first."
-                          />
-                        </Typography>
-                      )}
+                      {(!leaderboardsQuery.data?.data ||
+                        leaderboardsQuery.data?.data.length === 0) &&
+                        !leaderboardsQuery.isLoading && (
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ mt: 1 }}
+                          >
+                            <FormattedMessage
+                              id="create.leaderboard.first"
+                              defaultMessage="You need to create a leaderboard in the Gamification section first."
+                            />
+                          </Typography>
+                        )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -245,4 +299,4 @@ export default function DexGeneratorReferralForm({
       }}
     </Formik>
   );
-} 
+}

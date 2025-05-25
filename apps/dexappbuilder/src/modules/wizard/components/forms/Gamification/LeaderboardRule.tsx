@@ -31,9 +31,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import CollectionFilterForm from './Filters/CollectionFilterForm';
 import DropCollectionFilterForm from './Filters/DropCollectionFilter';
 import SwapFilterForm from './Filters/SwapFilterForm';
+import TokenDropFilterForm from './Filters/TokenDropFilterForm';
 
 const userEvents = [
-  {
+  /* {
     value: UserEvents.nftAcceptListERC1155,
     name: 'Accept ERC1155 NFT listing ',
   },
@@ -48,22 +49,30 @@ const userEvents = [
   {
     value: UserEvents.nftAcceptOfferERC721,
     name: 'Accept ERC721 NFT offer',
-  },
+  },*/
   {
-    value: UserEvents.buyDropCollection,
-    name: 'Buy NFT drop collection',
-  },
-  {
-    value: UserEvents.buyDropEdition,
-    name: 'Buy NFT drop edition',
-  },
-  {
-    name: 'Sign login message',
-    value: UserEvents.loginSignMessage,
+    name: 'Connect account',
+    value: UserEvents.connectAccount,
   },
   {
     name: beautifyCamelCase(UserEvents.swap),
     value: UserEvents.swap,
+  },
+  {
+    value: UserEvents.buyDropCollection,
+    name: 'Buy collection drop',
+  },
+  {
+    value: UserEvents.buyDropEdition,
+    name: 'Buy edition drop',
+  },
+  {
+    value: UserEvents.buyDropToken,
+    name: 'Buy token drop',
+  },
+  {
+    name: 'Sign login message',
+    value: UserEvents.loginSignMessage,
   },
 ];
 
@@ -167,6 +176,23 @@ export default function LeaderboardRule({
             }
           />
         );
+      case UserEvents.buyDropToken:
+        return (
+          <TokenDropFilterForm
+            item={
+              values?.settings[index]?.filter
+                ? JSON.parse(values?.settings[index]?.filter as string)
+                : undefined
+            }
+            onChange={(item) => {
+              setFieldValue(
+                `settings[${index}].filter`,
+                item ? JSON.stringify(item) : undefined,
+              );
+            }}
+          />
+        );
+
       default:
         break;
     }
@@ -379,7 +405,9 @@ export default function LeaderboardRule({
           </Grid>
           {values.settings[index]?.userEventType &&
             values.settings[index]?.userEventType !==
-              UserEvents.loginSignMessage && (
+              UserEvents.loginSignMessage &&
+            values.settings[index]?.userEventType !==
+              UserEvents.connectAccount && (
               <Grid item xs={12} sm={9}>
                 <Accordion disableGutters>
                   <AccordionSummary

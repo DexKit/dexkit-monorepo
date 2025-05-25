@@ -1,28 +1,10 @@
-import { useCreditHistory } from '@dexkit/ui/hooks/payments';
-import {
-  Alert,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
-import Decimal from 'decimal.js';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { Alert, Card, CardContent, Divider, Typography } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
-import moment from 'moment';
+import CreditsDataGrid from './tables/CreditsDataGrid';
 
 export default function CreditSection() {
-  const { data: credits } = useCreditHistory();
-
-  const { formatMessage } = useIntl();
-
   return (
     <>
       <Typography variant="subtitle1">
@@ -42,7 +24,7 @@ export default function CreditSection() {
           </Alert>
         </CardContent>
         <Divider />
-        <Table>
+        {/* <Table>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -96,7 +78,8 @@ export default function CreditSection() {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+        </Table>*/}
+        <CreditsDataGrid></CreditsDataGrid>
       </Card>
     </>
   );

@@ -69,10 +69,11 @@ export function useEvmTransferMutation({
           address: coin.contractAddress,
         });
 
+
         const transaction = await transfer({
           contract,
           to: toAddress,
-          amount: parseUnits(amount.toString(), coin.decimals).toString()
+          amount: amount
         });
 
         const tx = await sendTransaction({ transaction, account: activeAccount });

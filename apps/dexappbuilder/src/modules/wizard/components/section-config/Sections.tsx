@@ -196,9 +196,18 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     titleId: 'referral.program',
     titleDefaultMessage: 'Referral Program',
     category: 'web3',
-    description: 'Create a referral section for users to share their referral links and track statistics',
+    description:
+      'Create a referral section for users to share their referral links and track statistics',
     icon: <LinkIcon fontSize="large" />,
   },
+  /* {
+    type: 'referral',
+    titleId: 'referral.program',
+    titleDefaultMessage: 'Referral Program',
+    category: 'web3',
+    description: 'Create a referral section for users to share their referral links and track statistics',
+    icon: <LinkIcon fontSize="large" />,
+  }, */
 ] as SectionMetadata[];
 
 export const SectionCategory = [

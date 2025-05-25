@@ -1,3 +1,12 @@
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import CodeIcon from "@mui/icons-material/Code";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import SpellcheckIcon from "@mui/icons-material/Spellcheck";
+
+import NotesIcon from "@mui/icons-material/Notes";
+import ShortTextIcon from "@mui/icons-material/ShortText";
+
+import ImageIcon from "@mui/icons-material/Image";
 import {
   List,
   ListItemButton,
@@ -5,129 +14,119 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-
-import SpellcheckIcon from "@mui/icons-material/Spellcheck";
-
-import NotesIcon from "@mui/icons-material/Notes";
-import ShortTextIcon from "@mui/icons-material/ShortText";
-
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import ImageIcon from "@mui/icons-material/Image";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { TextImproveAction } from "../../constants/ai";
+import { textImproveItems } from "../../constants/ai";
+import { TextImproveAction, TextImproveItem } from "../../types/ai";
 
 export interface ImproveTextActionListProps {
   value?: string;
   disabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: TextImproveItem) => void;
+  filteredActions?: TextImproveAction[];
 }
 
 export default function ImproveTextActionList({
   onChange,
   value,
   disabled,
+  filteredActions,
 }: ImproveTextActionListProps) {
-  const handleClick = (action: string) => {
-    return () => onChange(action);
+  const handleClick = (item: TextImproveItem) => {
+    return () => onChange(item);
   };
-  return (
-    <List disablePadding>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.GENERATE}
-        onClick={handleClick(TextImproveAction.GENERATE)}
-      >
-        <ListItemIcon>
-          <RefreshIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
+
+  const getDynamicContent = (action: string) => {
+    switch (action) {
+      case TextImproveAction.GENERATE:
+        return {
+          label: (
             <FormattedMessage
               id="generate.new.text"
               defaultMessage="Generate new text"
             />
-          }
-        />
-      </ListItemButton>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.IMPROVE_WRITING}
-        onClick={handleClick(TextImproveAction.IMPROVE_WRITING)}
-      >
-        <ListItemIcon>
-          <AutoAwesomeIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
-            <FormattedMessage
-              id="improve.writing"
-              defaultMessage="Improve writing"
-            />
-          }
-        />
-      </ListItemButton>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.IMPROVE_SPELLING}
-        onClick={handleClick(TextImproveAction.IMPROVE_SPELLING)}
-      >
-        <ListItemIcon>
-          <SpellcheckIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
+          ),
+          icon: <RefreshIcon />,
+        };
+      case TextImproveAction.IMPROVE_SPELLING:
+        return {
+          label: (
             <FormattedMessage
               id="fix.spelling.and.grammar"
               defaultMessage="Fix spelling and grammar"
             />
-          }
-        />
-      </ListItemButton>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.MAKE_SHORTER}
-        onClick={handleClick(TextImproveAction.MAKE_SHORTER)}
-      >
-        <ListItemIcon>
-          <ShortTextIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
+          ),
+          icon: <SpellcheckIcon />,
+        };
+      case TextImproveAction.MAKE_SHORTER:
+        return {
+          label: (
             <FormattedMessage id="make.shorter" defaultMessage="Make shorter" />
-          }
-        />
-      </ListItemButton>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.MAKE_LONGER}
-        onClick={handleClick(TextImproveAction.MAKE_LONGER)}
-      >
-        <ListItemIcon>
-          <NotesIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
+          ),
+          icon: <ShortTextIcon />,
+        };
+      case TextImproveAction.MAKE_LONGER:
+        return {
+          label: (
             <FormattedMessage id="make.longer" defaultMessage="Make longer" />
-          }
-        />
-      </ListItemButton>
-      <ListItemButton
-        disabled={disabled}
-        selected={value === TextImproveAction.GENERATE_IMAGE}
-        onClick={handleClick(TextImproveAction.GENERATE_IMAGE)}
-      >
-        <ListItemIcon>
-          <ImageIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary={
+          ),
+          icon: <NotesIcon />,
+        };
+
+      case TextImproveAction.IMPROVE_WRITING:
+        return {
+          label: (
+            <FormattedMessage
+              id="improve.writing"
+              defaultMessage="Improve writing"
+            />
+          ),
+          icon: <AutoAwesomeIcon />,
+        };
+      case TextImproveAction.GENERATE_IMAGE:
+        return {
+          label: (
             <FormattedMessage
               id="generate.image"
               defaultMessage="Generate image"
             />
-          }
-        />
-      </ListItemButton>
+          ),
+          icon: <ImageIcon />,
+        };
+
+      case TextImproveAction.GENERATE_CODE:
+      default:
+        return {
+          label: (
+            <FormattedMessage
+              id="generate.code"
+              defaultMessage="Generate code"
+            />
+          ),
+          icon: <CodeIcon />,
+        };
+    }
+  };
+
+  return (
+    <List disablePadding>
+      {textImproveItems
+        .filter(
+          (item) =>
+            filteredActions === undefined ||
+            filteredActions.includes(item.action)
+        )
+        .map((item) => {
+          return (
+            <ListItemButton
+              key={item.action}
+              disabled={disabled}
+              selected={value === item.action}
+              onClick={handleClick(item)}
+            >
+              <ListItemIcon>{getDynamicContent(item.action).icon}</ListItemIcon>
+              <ListItemText primary={getDynamicContent(item.action).label} />
+            </ListItemButton>
+          );
+        })}
     </List>
   );
 }

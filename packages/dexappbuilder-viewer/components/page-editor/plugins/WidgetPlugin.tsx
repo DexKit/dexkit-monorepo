@@ -1,5 +1,5 @@
+import { Widget } from "@dexkit/ui/components/Widget";
 import type { CellPlugin } from "@react-page/editor";
-import { Widget } from "../../Widget";
 
 type Data = {
   html?: string;

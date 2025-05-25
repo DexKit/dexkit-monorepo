@@ -56,15 +56,47 @@ export const CheckoutSchemaItem = z.object({
   quantity: z.number(),
 });
 
-export const CheckoutSchema = z.object({
-  id: z.string().optional(),
-  title: z.string(),
-  description: z.string(),
-  requireEmail: z.boolean(),
-  requireAddress: z.boolean(),
-  items: z.array(CheckoutSchemaItem).min(1).max(50),
-  editable: z.boolean().default(false),
-});
+export const CheckoutSchema = z
+  .object({
+    id: z.string().optional(),
+    title: z.string().optional(),
+    description: z.string().optional(),
+    requireEmail: z.boolean().optional(),
+    requireAddress: z.boolean().optional(),
+    items: z.array(CheckoutSchemaItem).min(1).max(50).optional(),
+    editable: z.boolean().default(false).optional(),
+  })
+  .superRefine((args, ctx) => {
+    if (args.id !== undefined) {
+      if (!args.title) {
+        ctx.addIssue({ code: "custom", message: "Required", path: ["title"] });
+      }
+
+      if (!args.description) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Required",
+          path: ["description"],
+        });
+      }
+
+      if (!args.items || args.items?.length === 0) {
+        ctx.addIssue({ code: "custom", message: "Required", path: ["items"] });
+      }
+    } else {
+      if (!args.title) {
+        ctx.addIssue({ code: "custom", message: "Required", path: ["title"] });
+      }
+
+      if (!args.description) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Required",
+          path: ["description"],
+        });
+      }
+    }
+  });
 
 export const CheckoutNetworksUpdateSchema = z.object({
   chainIds: z.array(z.number()),

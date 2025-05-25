@@ -18,7 +18,6 @@ import {
 
 import OwnershipSection from '../sections/OwnershipSection';
 import SiteMetadataSection from '../sections/SiteMetadataSection';
-import HidePoweredContainer from './HidePoweredContainer';
 
 interface Props {
   site?: SiteResponse | null;
@@ -150,7 +149,7 @@ export default function OwnershipWizardContainer({
                 <OwnershipSection id={site.id} nft={site.nft} isMobile={isMobile} />
               )}
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               {site?.id !== undefined && (
                 <HidePoweredContainer
                   config={config}
@@ -159,7 +158,7 @@ export default function OwnershipWizardContainer({
                   hasNFT={site?.nft !== undefined}
                 />
               )}
-            </Grid>
+            </Grid>*/}
           </TabPanel>
           <TabPanel value="2" sx={{ padding: isMobile ? theme.spacing(1, 0) : undefined }}>
             <SiteMetadataSection

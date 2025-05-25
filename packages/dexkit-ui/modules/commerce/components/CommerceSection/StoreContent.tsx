@@ -26,7 +26,12 @@ import { SiteContext } from "../../../../providers/SiteProvider";
 import { useCommerceWishlist } from "../../hooks/useCommerceWishlist";
 import FiltersSection from "./FiltersSection";
 
+import { copyToClipboard } from "@dexkit/core/utils";
+import { getWindowUrl } from "@dexkit/core/utils/browser";
 import dynamic from "next/dynamic";
+import { useSnackbar } from "notistack";
+import { ShareType } from "../containers/types";
+import { generateShareLink } from "../containers/utils";
 
 const ShareMenu = dynamic(
   () => import("@dexkit/ui/components/dialogs/ShareMenu")
@@ -135,6 +140,35 @@ export default function StoreContent({}: StoreContentProps) {
     setId(undefined);
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleShareContent = (value: string) => {
+    const url = `${getWindowUrl()}/c/product/${id}`;
+    const msg = `There is the product link: ${url}`;
+
+    let link = "";
+
+    if (
+      ["telegram", "whatsapp", "facebook", "email", "pinterest", "x"].includes(
+        value
+      )
+    ) {
+      link = generateShareLink(msg, url, value as ShareType);
+
+      window.open(link, "_blank");
+    }
+
+    if (value === "copy") {
+      copyToClipboard(url);
+      enqueueSnackbar(
+        <FormattedMessage id="link.copied" defaultMessage="Link copied" />,
+        { variant: "success" }
+      );
+    }
+
+    setAnchorEl(null);
+  };
+
   return (
     <>
       {Boolean(anchorEl) && (
@@ -144,7 +178,7 @@ export default function StoreContent({}: StoreContentProps) {
             open: Boolean(anchorEl),
             onClose: handleCloseMenu,
           }}
-          onClick={() => {}}
+          onClick={handleShareContent}
         />
       )}
 

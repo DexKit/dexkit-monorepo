@@ -6,24 +6,24 @@ import { FormattedMessage } from "react-intl";
 import { Formik } from "formik";
 
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Card,
-    CircularProgress,
-    Divider,
-    Skeleton,
-    Stack,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Card,
+  CircularProgress,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import {
-    CallParams,
-    ContractFormParams,
-    FunctionInput,
-    OutputType,
+  CallParams,
+  ContractFormParams,
+  FunctionInput,
+  OutputType,
 } from "../../types";
 import { getSchemaForInputs } from "../../utils";
 
@@ -138,6 +138,7 @@ export default function ContractFunction({
 
           if (name) {
             if (isBytesLike(values[key])) {
+              //@ts-ignore
               if (!isAddress(values[key])) {
                 const arr = arrayify(values[key]);
 
@@ -371,9 +372,8 @@ export default function ContractFunction({
                       results[name] && (
                         <Button
                           LinkComponent="a"
-                          href={`${getBlockExplorerUrl(chainId)}/tx/${
-                            results[name]
-                          }`}
+                          href={`${getBlockExplorerUrl(chainId)}/tx/${results[name]
+                            }`}
                           target="_blank"
                           size="small"
                           variant="outlined"

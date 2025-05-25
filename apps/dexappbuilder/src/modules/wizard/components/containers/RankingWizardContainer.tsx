@@ -119,14 +119,15 @@ function EmptyRankings() {
     >
       <LeaderboardIcon
         fontSize="inherit"
-        sx={{ fontSize: isMobile ? theme.typography.h4.fontSize : theme.typography.h3.fontSize }}
+        sx={{
+          fontSize: isMobile
+            ? theme.typography.h4.fontSize
+            : theme.typography.h3.fontSize,
+        }}
       />
 
       <Stack spacing={isMobile ? 0.5 : 1}>
-        <Typography
-          textAlign="center"
-          variant={isMobile ? "h6" : "h5"}
-        >
+        <Typography textAlign="center" variant={isMobile ? 'h6' : 'h5'}>
           <FormattedMessage
             id="no.leaderboard"
             defaultMessage="No leaderboard"
@@ -134,7 +135,7 @@ function EmptyRankings() {
         </Typography>
         <Typography
           textAlign="center"
-          variant={isMobile ? "caption" : "body2"}
+          variant={isMobile ? 'caption' : 'body2'}
           color="text.secondary"
         >
           <FormattedMessage
@@ -258,7 +259,7 @@ function AppRankingList({
           return (
             <Stack direction="row" spacing={isMobile ? 0.5 : 1}>
               <IconButton
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 onClick={async (e) => {
                   e.stopPropagation();
 
@@ -271,11 +272,11 @@ function AppRankingList({
                     <FormattedMessage id="preview" defaultMessage="Preview" />
                   }
                 >
-                  <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
+                  <VisibilityIcon fontSize={isMobile ? 'small' : 'medium'} />
                 </Tooltip>
               </IconButton>
               <IconButton
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 onClick={async (e) => {
                   e.stopPropagation();
 
@@ -288,12 +289,12 @@ function AppRankingList({
                     <FormattedMessage id="export" defaultMessage="Export" />
                   }
                 >
-                  <FileDownloadIcon fontSize={isMobile ? "small" : "medium"} />
+                  <FileDownloadIcon fontSize={isMobile ? 'small' : 'medium'} />
                 </Tooltip>
               </IconButton>
 
               <IconButton
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 color={'error'}
                 onClick={async (e) => {
                   e.stopPropagation();
@@ -306,7 +307,7 @@ function AppRankingList({
                     <FormattedMessage id={'delete'} defaultMessage={'Delete'} />
                   }
                 >
-                  <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
+                  <DeleteIcon fontSize={isMobile ? 'small' : 'medium'} />
                 </Tooltip>
               </IconButton>
             </Stack>
@@ -399,7 +400,9 @@ function AppRankingList({
             fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit',
           },
           '& .MuiDataGrid-columnHeaders': {
-            minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(7)} !important`,
+            minHeight: isMobile
+              ? `${theme.spacing(5)} !important`
+              : `${theme.spacing(7)} !important`,
           },
           '& .MuiDataGrid-columnHeader': {
             padding: isMobile ? theme.spacing(0.5) : theme.spacing(2),
@@ -680,7 +683,7 @@ export default function RankingWizardContainer({
                 sx={{
                   fontSize: isMobile ? '1.15rem' : '1.5rem',
                   fontWeight: 600,
-                  mb: 0.5
+                  mb: 0.5,
                 }}
               >
                 <FormattedMessage
@@ -720,9 +723,9 @@ export default function RankingWizardContainer({
                       setOpenAddRanking(true);
                     }}
                     startIcon={<Add />}
-                    size={isMobile ? "small" : "medium"}
+                    size={isMobile ? 'small' : 'medium'}
                     sx={{
-                      fontSize: isMobile ? "0.875rem" : undefined,
+                      fontSize: isMobile ? '0.875rem' : undefined,
                       py: isMobile ? 0.75 : undefined,
                       px: isMobile ? 2 : undefined,
                     }}
@@ -824,6 +827,7 @@ export default function RankingWizardContainer({
                         settings={selectedEditRanking.settings}
                         siteId={siteId}
                         from={selectedEditRanking.from}
+                        groupByReferral={selectedEditRanking?.groupByReferral}
                         to={selectedEditRanking.to}
                         rankingId={selectedEditRanking.id}
                         ranking={selectedEditRanking}

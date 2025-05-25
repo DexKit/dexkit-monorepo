@@ -36,9 +36,7 @@
     "**/*.tsx",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
-    ".next/types/**/*.ts",
-    "../../packages/dexkit-ui/modules/contract-wizard/components/dialogs/ImportContractDialog.tsx",
-    "../../packages/dexappbuilder-viewer/components/SectionsRenderer.tsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

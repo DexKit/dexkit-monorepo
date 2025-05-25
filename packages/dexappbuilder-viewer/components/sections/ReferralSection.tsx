@@ -1,5 +1,5 @@
 import { DexkitApiProvider } from "@dexkit/core/providers";
-import { useDexKitContext } from "@dexkit/ui/hooks";
+import { useDexKitContext, useEditSiteId } from "@dexkit/ui/hooks";
 import { useUserEventsList } from "@dexkit/ui/hooks/userEvents";
 import { useAppRankingQuery } from "@dexkit/ui/modules/wizard/hooks/ranking";
 import { ReferralPageSection } from "@dexkit/ui/modules/wizard/types/section";
@@ -62,7 +62,10 @@ export default function ReferralSection({
 }: ReferralSectionProps) {
   const theme = useTheme();
   const { account, isActive } = useWeb3React();
-  const { siteId, affiliateReferral } = useDexKitContext();
+  const { siteId: siteIdGlobal, affiliateReferral } = useDexKitContext();
+  const { editSiteId } = useEditSiteId();
+  const siteId = siteIdGlobal || editSiteId;
+
   const { instance } = useContext(DexkitApiProvider);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);

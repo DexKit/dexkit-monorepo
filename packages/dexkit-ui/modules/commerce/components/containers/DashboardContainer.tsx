@@ -10,6 +10,7 @@ import { FormattedMessage } from "react-intl";
 
 import useCountOrders from "@dexkit/ui/modules/commerce/hooks/useCountOrders";
 import useTotalRevenue from "@dexkit/ui/modules/commerce/hooks/useTotalRevenue";
+import { EcommerceCredits } from "../EcommerceCredits";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 function Dashboard() {
@@ -30,6 +31,10 @@ function Dashboard() {
           />
         </Typography>
       </Grid>
+      <Grid item xs={12}>
+        <EcommerceCredits />
+      </Grid>
+
       <Grid item xs={12}>
         <Divider />
       </Grid>
