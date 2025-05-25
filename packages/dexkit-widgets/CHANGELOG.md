@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.13.0
+
+### Minor Changes
+
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
 ## 0.12.0
 
 ### Minor Changes

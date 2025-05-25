@@ -1,5 +1,21 @@
 # @dexkit/ui
 
+## 0.23.0
+
+### Minor Changes
+
+- c6eb0f1: Improve the preview experience on mobile devicesImprove the preview experience on mobile devices
+- 653b345: add support to create site rankings for referrals
+- 77a00c8: enhance referral section with leaderboard functionality
+- fbe0eff: Added ecommerce monetization and enable ecommerce by default
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
+### Patch Changes
+
+- Updated dependencies [54b163d]
+  - @dexkit/wallet-connectors@0.6.0
+  - @dexkit/core@0.18.0
+
 ## 0.22.0
 
 ### Minor Changes
