@@ -2,18 +2,18 @@ import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Edit from '@mui/icons-material/Edit';
 import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -128,7 +128,13 @@ export function UserContainer({ username }: { username?: string }) {
           )}
 
           <Grid item xs={12}>
-            <UserHeader {...user} />
+            <UserHeader
+              {...user}
+              profileNft={user?.nftProfile}
+              nftChainId={user?.nftProfile?.chainId as number}
+              nftAddress={user?.nftProfile?.address}
+              nftId={user?.nftProfile?.tokenId}
+            />
           </Grid>
           <Grid item xs={12}>
             <Divider />

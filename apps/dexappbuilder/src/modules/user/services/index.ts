@@ -3,7 +3,6 @@ import { UserOptions } from '@dexkit/ui/types/ai';
 import axios from 'axios';
 import { DEXKIT_BASE_API_URL } from 'src/constants';
 
-
 const USER_ENDPOINT = `${DEXKIT_BASE_API_URL}/user`;
 /**
  * not this endpoint is intended to use without the interceptor, we set the bearear token automatically
@@ -83,10 +82,30 @@ export function upsertUser(user: UserOptions) {
   return myAppsApi.post(`/user/upsert`, user);
 }
 
+export function validateNFTOwnership({
+  nftChainId,
+  nftAddress,
+  nftId,
+}: {
+  nftChainId: number;
+  nftAddress: string;
+  nftId: string;
+}) {
+  return axios.post(`/api/user/validate-nft-ownership`, {
+    nftChainId,
+    nftAddress,
+    nftId,
+  });
+}
+
 export function getUserConnectTwitter() {
   return axios.get(`/api/auth/twitter`);
 }
 
 export function getUserConnectDiscord() {
   return myAppsApi.get(`/auth/discord`);
+}
+
+export function setNftProfile(data: { nftId: number; signature: string }) {
+  return myAppsApi.post('/user/set-nft-profile', data);
 }
