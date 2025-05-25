@@ -1,5 +1,35 @@
 # dexappbuilder
 
+## 0.26.0
+
+### Minor Changes
+
+- c6eb0f1: Improve the preview experience on mobile devicesImprove the preview experience on mobile devices
+- 3e209f0: Added ability to select NFTs as profile images with smart URL handling for IPFS and external domains. Improved image loading across different blockchain networks with appropriate error handling.
+- 77a00c8: add referral public section w/ leaderboard for referral events
+- 653b345: add support to create site rankings for referrals
+- 77a00c8: enhance referral section with leaderboard functionality
+- fbe0eff: Added ecommerce monetization and enable ecommerce by default
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
+### Patch Changes
+
+- Updated dependencies [c6eb0f1]
+- Updated dependencies [77a00c8]
+- Updated dependencies [653b345]
+- Updated dependencies [77a00c8]
+- Updated dependencies [fbe0eff]
+- Updated dependencies [54b163d]
+  - @dexkit/ui@0.23.0
+  - @dexkit/dexappbuilder-viewer@0.9.0
+  - @dexkit/wallet-connectors@0.6.0
+  - eslint-config-custom@0.2.0
+  - @dexkit/darkblock-evm-widget@0.3.0
+  - @dexkit/widgets@0.13.0
+  - @dexkit/unlock-widget@0.4.0
+  - @dexkit/core@0.18.0
+  - @dexkit/web3forms@0.13.0
+
 ## 0.25.0
 
 ### Minor Changes

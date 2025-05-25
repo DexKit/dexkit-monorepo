@@ -1,5 +1,28 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.9.0
+
+### Minor Changes
+
+- 77a00c8: add referral public section w/ leaderboard for referral events
+- 653b345: add support to create site rankings for referrals
+- 77a00c8: enhance referral section with leaderboard functionality
+- 54b163d: Added monetization for custom domains and powered by dexkit. Added AI capabilities to coder
+
+### Patch Changes
+
+- Updated dependencies [c6eb0f1]
+- Updated dependencies [653b345]
+- Updated dependencies [77a00c8]
+- Updated dependencies [fbe0eff]
+- Updated dependencies [54b163d]
+  - @dexkit/ui@0.23.0
+  - @dexkit/wallet-connectors@0.6.0
+  - @dexkit/exchange@0.14.0
+  - @dexkit/widgets@0.13.0
+  - @dexkit/core@0.18.0
+  - @dexkit/web3forms@0.13.0
+
 ## 0.8.0
 
 ### Minor Changes
