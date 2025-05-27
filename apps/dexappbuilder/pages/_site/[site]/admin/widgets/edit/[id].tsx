@@ -22,12 +22,13 @@ import { DexkitApiProvider } from '@dexkit/core/providers';
 import SecurityIcon from '@mui/icons-material/Security';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { FormattedMessage } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+
 import { LoginButton } from 'src/components/LoginButton';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { useAdminWidgetConfigQuery } from '@/modules/wizard/hooks/widget';
 import { EditWidgetWizardContainer } from '@/modules/wizard/widget/components/containers/EditWidgetWizardContainer';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { getAppConfig } from 'src/services/app';

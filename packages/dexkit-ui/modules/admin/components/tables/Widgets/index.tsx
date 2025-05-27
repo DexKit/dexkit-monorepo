@@ -1,23 +1,23 @@
-import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 
-import { ADMIN_TABLE_LIST } from '@/modules/admin/constants';
-import { useIsMobile } from '@dexkit/core';
-import { AppConfirmDialog } from '@dexkit/ui';
-import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
-import MoreVert from '@mui/icons-material/MoreVert';
-import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { ADMIN_TABLE_LIST } from "@/modules/admin/constants";
+import { useIsMobile } from "@dexkit/core";
+import { AppConfirmDialog } from "@dexkit/ui";
+import { WidgetConfig } from "@dexkit/ui/modules/wizard/types/widget";
+import MoreVert from "@mui/icons-material/MoreVert";
+import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridFilterModel,
   GridRowId,
   GridSortModel,
-} from '@mui/x-data-grid';
-import { useSnackbar } from 'notistack';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDeleteMyAppMutation } from 'src/hooks/whitelabel';
-import Menu from './Menu';
+} from "@mui/x-data-grid";
+import { useSnackbar } from "notistack";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDeleteMyAppMutation } from "src/hooks/whitelabel";
+import Menu from "../../../../../../../apps/nft-marketplace-premium/src/modules/admin/components/tables/WidgetsTable/Menu";
 
 interface Props {
   configs: WidgetConfig[];
@@ -50,11 +50,11 @@ export default function WidgetsTable({ configs }: Props) {
 
     if (config) {
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        JSON.stringify(config),
+        JSON.stringify(config)
       )}`;
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = jsonString;
-      link.download = 'config.json';
+      link.download = "config.json";
 
       link.click();
 
@@ -63,7 +63,7 @@ export default function WidgetsTable({ configs }: Props) {
           id="config.exported"
           defaultMessage="Config exported"
         />,
-        { variant: 'success' },
+        { variant: "success" }
       );
     }
   };
@@ -86,32 +86,32 @@ export default function WidgetsTable({ configs }: Props) {
   const handleDeleteSuccess = () => {
     enqueueSnackbar(
       formatMessage({
-        defaultMessage: 'Widget removed',
-        id: 'widget.removed',
+        defaultMessage: "Widget removed",
+        id: "widget.removed",
       }),
       {
-        variant: 'success',
+        variant: "success",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
   const handleDeleteError = (error: any) => {
     enqueueSnackbar(
       `${formatMessage({
-        defaultMessage: 'Error',
-        id: 'error',
+        defaultMessage: "Error",
+        id: "error",
       })}: ${String(error)}`,
       {
-        variant: 'error',
+        variant: "error",
         anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         },
-      },
+      }
     );
   };
 
@@ -147,16 +147,16 @@ export default function WidgetsTable({ configs }: Props) {
 
   const handleAction = (action: string, id: GridRowId) => {
     switch (action) {
-      case 'export':
+      case "export":
         handleExport(id);
         break;
-      case 'preview':
+      case "preview":
         handlePreview(id);
         break;
-      case 'edit':
+      case "edit":
         handleEdit(id);
         break;
-      case 'delete':
+      case "delete":
         handleRemove(id);
         break;
       default:
@@ -187,8 +187,8 @@ export default function WidgetsTable({ configs }: Props) {
           </Typography>
         );
       },
-      field: 'name',
-      headerName: formatMessage({ id: 'name', defaultMessage: 'Name' }),
+      field: "name",
+      headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
       minWidth: 200,
       renderCell: (params) => {
         return (
@@ -209,7 +209,7 @@ export default function WidgetsTable({ configs }: Props) {
       },
     },
     {
-      field: 'action',
+      field: "action",
       disableReorder: true,
       sortable: false,
       disableColumnMenu: true,
@@ -229,8 +229,8 @@ export default function WidgetsTable({ configs }: Props) {
       },
       flex: 1,
       minWidth: isMobile ? 150 : undefined,
-      headerName: formatMessage({ id: 'actions', defaultMessage: 'Actions' }),
-      headerAlign: 'center',
+      headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
+      headerAlign: "center",
       renderCell: ({ row, id }) => {
         if (isMobile) {
           return (
@@ -247,7 +247,7 @@ export default function WidgetsTable({ configs }: Props) {
 
         return (
           <Stack
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
             direction="row"
             alignItems="center"
             justifyContent="center"
@@ -277,8 +277,8 @@ export default function WidgetsTable({ configs }: Props) {
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
-      field: 'rating',
-      sort: 'desc',
+      field: "rating",
+      sort: "desc",
     },
   ]);
 
@@ -307,7 +307,7 @@ export default function WidgetsTable({ configs }: Props) {
         open={Boolean(anchorEl)}
       />
       <DataGrid
-        getRowId={(row) => row.id}
+        getRowId={(row) => row.id as number}
         autoHeight
         rows={configs || []}
         columns={columns}

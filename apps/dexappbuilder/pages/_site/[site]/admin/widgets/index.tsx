@@ -1,12 +1,14 @@
-import MarketplacesTableSkeleton from '@/modules/admin/components/tables/MaketplacesTableSkeleton';
-import WidgetsTable from '@/modules/admin/components/tables/WidgetsTable';
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
 import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
 import { useWidgetsByOwnerQuery } from '@/modules/wizard/hooks/widget';
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
+import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
+import WidgetsTable from '@dexkit/ui/modules/admin/components/tables/Widgets';
+import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -34,13 +36,12 @@ import {
 } from 'next';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LoginAppButton } from 'src/components/LoginAppButton';
+
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { useConnectWalletDialog } from 'src/hooks/app';
 
 import { getAppConfig } from 'src/services/app';
-import { ConfigResponse } from 'src/types/whitelabel';
 
 export const AdminWidgetsIndexPage: NextPage = () => {
   const { isActive } = useWeb3React();
