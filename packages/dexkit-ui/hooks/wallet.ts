@@ -43,33 +43,36 @@ export const useWalletConnect = () => {
   };
 
   const connectWallet = async () => {
-    const wallet = await connect({
-      client,
+    try {
 
-      wallets,
-      appMetadata: appMetadataConfig,
-      size: "compact",
-      showThirdwebBranding: false,
-
-      theme:
-        mode === ThemeMode.light
-          ? lightTheme({
-              colors,
-            })
-          : darkTheme({ colors }),
-    });
-
-    if (wallet) {
-      const account = (wallet.getAccount()?.address as string).toLowerCase();
-      trackUserEvents.mutate({
-        event: UserOffChainEvents.connectAccount,
-        chainId: wallet.getChain()?.id,
-        from: account,
-        metadata: JSON.stringify({
-          account,
-          id: wallet?.id,
-        }),
+      const wallet = await connect({
+        client,
+        wallets,
+        appMetadata: appMetadataConfig,
+        size: "compact",
+        showThirdwebBranding: false,
+        theme:
+          mode === ThemeMode.light
+            ? lightTheme({
+                colors,
+              })
+            : darkTheme({ colors }),
       });
+
+      if (wallet) {
+        const account = (wallet.getAccount()?.address as string).toLowerCase();
+        trackUserEvents.mutate({
+          event: UserOffChainEvents.connectAccount,
+          chainId: wallet.getChain()?.id,
+          from: account,
+          metadata: JSON.stringify({
+            account,
+            id: wallet?.id,
+          }),
+        });
+      }
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
     }
   };
 
