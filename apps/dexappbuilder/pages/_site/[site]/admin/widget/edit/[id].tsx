@@ -31,6 +31,7 @@ import { EditWidgetWizardContainer } from '@/modules/wizard/widget/components/co
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import { useMemo } from 'react';
 import { getAppConfig } from 'src/services/app';
 
 export const WizardWidgetEditPage: NextPage = () => {
@@ -47,6 +48,12 @@ export const WizardWidgetEditPage: NextPage = () => {
   } = useAdminWidgetConfigQuery({
     id: Number(id),
   });
+
+  const config = useMemo(() => {
+    if (widget?.config) {
+      return JSON.parse(widget?.config);
+    }
+  }, [widget?.config]);
 
   const theme = useTheme();
 
@@ -78,7 +85,7 @@ export const WizardWidgetEditPage: NextPage = () => {
                     id="start.by.connect.wallet.widget"
                     defaultMessage="Connect wallet to account that owns this widget: {name}"
                     values={{
-                      name: widget?.name,
+                      name: config?.name,
                     }}
                   />
                 }
@@ -114,7 +121,7 @@ export const WizardWidgetEditPage: NextPage = () => {
         </Box>
       ) : (
         <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-          <EditWidgetWizardContainer widget={widget} />
+          {widget && <EditWidgetWizardContainer widget={widget} />}
         </DexkitApiProvider.Provider>
       )}
     </>

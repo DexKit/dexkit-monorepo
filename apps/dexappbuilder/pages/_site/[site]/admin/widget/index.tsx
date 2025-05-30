@@ -1,6 +1,9 @@
+import CreateWidgetDialog from '@/modules/wizard/components/dialogs/CreateWidgetDialog';
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
-import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
-import { useWidgetsByOwnerQuery } from '@/modules/wizard/hooks/widget';
+import {
+  useSendWidgetConfigMutation,
+  useWidgetsByOwnerQuery,
+} from '@/modules/wizard/hooks/widget';
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
@@ -43,15 +46,24 @@ import { useConnectWalletDialog } from 'src/hooks/app';
 
 import { getAppConfig } from 'src/services/app';
 
+import widgetConfig from '@dexkit/ui/config/widget.json';
+import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
+import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
+
 export const AdminWidgetsIndexPage: NextPage = () => {
   const { isActive } = useWeb3React();
   const { isLoggedIn, user } = useAuth();
+  const snackbar = useSnackbar();
   const connectWalletDialog = useConnectWalletDialog();
-  const configsQuery = useWidgetsByOwnerQuery({
-    owner: user?.address,
-  });
+  const configsQuery = useWidgetsByOwnerQuery();
+  const router = useRouter();
+
+  const sendWidgetConfig = useSendWidgetConfigMutation({});
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isOpenCreateWidget, setIsOpenCreateWidget] = useState(false);
 
   const [search, setSearch] = useState('');
 
@@ -59,32 +71,35 @@ export const AdminWidgetsIndexPage: NextPage = () => {
 
   const lazySearch = useDebounce<string>(search, 500);
 
-  const handleShowConfigureDomain = (config: ConfigResponse) => {
-    setSelectedConfig(config);
-    setIsOpen(true);
-  };
-
-  const handleCloseConfigDomain = () => {
-    setIsOpen(false);
-  };
-
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, []);
 
-  const configs = useMemo(() => {
+  const parsedConfigs = useMemo(() => {
     if (configsQuery.data && configsQuery.data.length > 0) {
+      return configsQuery.data.map((c) => {
+        const conf = JSON.parse(c.config) as WidgetConfig;
+        return {
+          ...c,
+          name: conf.name,
+        };
+      });
+    }
+  }, [configsQuery.data]);
+
+  const configs = useMemo(() => {
+    if (parsedConfigs && parsedConfigs.length > 0) {
       if (lazySearch) {
-        return configsQuery.data.filter(
+        return parsedConfigs.filter(
           (c) => c.name.toLowerCase().search(lazySearch.toLowerCase()) > -1,
         );
       }
 
-      return configsQuery.data;
+      return parsedConfigs;
     }
 
     return [];
-  }, [configsQuery.data, lazySearch]);
+  }, [parsedConfigs, lazySearch]);
 
   const renderTable = () => {
     if (isActive && !isLoggedIn) {
@@ -134,7 +149,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
           </Stack>
           <Button
             LinkComponent={Link}
-            href="/admin/widget/create"
+            onClick={() => setIsOpenCreateWidget(true)}
             startIcon={<Add />}
             variant="outlined"
           >
@@ -190,6 +205,50 @@ export const AdminWidgetsIndexPage: NextPage = () => {
 
   return (
     <>
+      <CreateWidgetDialog
+        dialogProps={{
+          open: isOpenCreateWidget,
+          fullWidth: true,
+          maxWidth: 'sm',
+        }}
+        onSubmit={async (item) => {
+          const config = widgetConfig as unknown as WidgetConfig;
+          config.name = item.name as string;
+
+          try {
+            const response = await sendWidgetConfig.mutateAsync({
+              config: JSON.stringify(config),
+            });
+            snackbar.enqueueSnackbar(
+              formatMessage({
+                id: 'widget.created',
+                defaultMessage: 'Widget created',
+              }),
+              { variant: 'success' },
+            );
+
+            if (response?.id) {
+              router.push(`/admin/widget/edit/${response.id}`);
+            }
+          } catch (e) {
+            snackbar.enqueueSnackbar(
+              formatMessage(
+                {
+                  id: 'error.creating.widget.error.msg',
+                  defaultMessage: 'Error creating widget: {errorMsg}',
+                },
+                {
+                  errorMsg: (e as any)?.message,
+                },
+              ),
+
+              { variant: 'error' },
+            );
+          }
+        }}
+        onCancel={() => setIsOpenCreateWidget(false)}
+      />
+
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -214,9 +273,6 @@ export const AdminWidgetsIndexPage: NextPage = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <WelcomeMessage />
-          </Grid>
           <Grid item xs={12}>
             <MismatchAccount />
           </Grid>
@@ -236,8 +292,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
               sx={{ pt: 1 }}
             >
               <Button
-                href="/admin/widgets/create"
-                LinkComponent={Link}
+                onClick={() => setIsOpenCreateWidget(true)}
                 startIcon={<AddIcon />}
                 variant="contained"
                 color="primary"

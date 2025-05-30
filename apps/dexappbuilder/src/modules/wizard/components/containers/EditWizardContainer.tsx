@@ -348,7 +348,7 @@ export function EditWizardContainer({ site }: Props) {
     sendConfigMutation.reset();
   };
 
-  const handleSave = (_config: AppConfig) => {
+  const handleSave = (_config: Partial<AppConfig>) => {
     setShowConfirmSendConfig(true);
 
     const newConfig = { ...wizardConfig, ..._config };
@@ -357,7 +357,7 @@ export function EditWizardContainer({ site }: Props) {
   };
 
   const handleChange = useCallback(
-    (_config: AppConfig) => {
+    (_config: Partial<AppConfig>) => {
       const newConfig = { ..._config };
 
       setWizardConfig(newConfig);

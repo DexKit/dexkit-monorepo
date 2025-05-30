@@ -1,8 +1,7 @@
 import { useAuth, useLoginAccountMutation } from "@dexkit/ui/hooks/auth";
-import { WidgetConfig } from "@dexkit/ui/modules/wizard/types/widget";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation } from "@tanstack/react-query";
-import { createWidgetConfig, getAdminWidgetConfig, getWidgetConfig, getWidgetsByOwner, updateWidgetConfig } from "../services/widget";
+import { getAdminWidgetConfig, getWidgetConfig, getWidgetsByOwner, upsertWidgetConfig } from "../services/widget";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,7 +14,7 @@ export const useSendWidgetConfigMutation = ({ id }: { id?: number }) => {
   const loginMutation = useLoginAccountMutation();
 
   return useMutation(
-    async ({ config }: { config: WidgetConfig }) => {
+    async ({ config }: { config: string }) => {
       if (account && provider && chainId !== undefined) {
 
         if (!isLoggedIn) {
@@ -25,9 +24,9 @@ export const useSendWidgetConfigMutation = ({ id }: { id?: number }) => {
         let response;
 
         if (id) {
-          response = await updateWidgetConfig({ id, config });
+          response = await upsertWidgetConfig({ id, config });
         } else {
-          response = await createWidgetConfig({ config });
+          response = await upsertWidgetConfig({ config });
         }
 
 
@@ -45,14 +44,10 @@ interface ConfigsByOwnerParams {
 export const QUERY_WIDGET_CONFIGS_BY_OWNER_NAME =
   'GET_WIDGET_CONFIGS_BY_OWNER_QUERY';
 
-export const useWidgetsByOwnerQuery = ({
-  owner,
-}: ConfigsByOwnerParams) => {
-  return useQuery([QUERY_WIDGET_CONFIGS_BY_OWNER_NAME, owner], async () => {
-    if (!owner) return null;
+export const useWidgetsByOwnerQuery = () => {
+  return useQuery([QUERY_WIDGET_CONFIGS_BY_OWNER_NAME], async () => {
 
-
-    const { data } = await getWidgetsByOwner(owner);
+    const { data } = await getWidgetsByOwner();
 
     return data;
   });

@@ -1,15 +1,20 @@
 import { ThemeMode } from "../../../constants/enum";
 import { AppCollection, AppPage, AppToken } from "./config";
-import { AppPageSection } from "./section";
 
+export interface WidgetResponse {
+  config: string;
+  id: number;
+  metadata: string;
+  owner: string;
+  slug: string;
 
+}
 
 export interface WidgetConfig {
   id?: number;
   name: string;
   locale: string;
   currency: string;
-  owner: string;
   activeChainIds?: number[];
   page: AppPage;
   defaultThemeMode?: ThemeMode;

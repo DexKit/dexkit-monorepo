@@ -1,10 +1,8 @@
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import { ADMIN_TABLE_LIST } from "@/modules/admin/constants";
 import { useIsMobile } from "@dexkit/core";
 import { AppConfirmDialog } from "@dexkit/ui";
-import { WidgetConfig } from "@dexkit/ui/modules/wizard/types/widget";
 import MoreVert from "@mui/icons-material/MoreVert";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import {
@@ -16,11 +14,19 @@ import {
 } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useDeleteMyAppMutation } from "src/hooks/whitelabel";
-import Menu from "../../../../../../../apps/nft-marketplace-premium/src/modules/admin/components/tables/WidgetsTable/Menu";
+
+import { useDeleteMyAppMutation } from "../../../../whitelabel/hooks/useDeleteMyAppMutation";
+import { ADMIN_TABLE_LIST } from "../../../constants";
+import Menu from "../MarketplacesTableV2/Menu";
+
+interface Row {
+  id: number;
+  name: string;
+  config: string;
+}
 
 interface Props {
-  configs: WidgetConfig[];
+  configs: Row[];
 }
 
 export default function WidgetsTable({ configs }: Props) {
@@ -80,7 +86,7 @@ export default function WidgetsTable({ configs }: Props) {
     const config = configs.find((c) => c.id === id);
     handleCloseMenu();
 
-    router.push(`/admin/widgets/edit/${config?.id}`);
+    router.push(`/admin/widget/edit/${config?.id}`);
   };
 
   const handleDeleteSuccess = () => {
@@ -170,7 +176,7 @@ export default function WidgetsTable({ configs }: Props) {
     }
   };
 
-  const columns: GridColDef<WidgetConfig>[] = [
+  const columns: GridColDef<Row>[] = [
     {
       disableColumnMenu: true,
       renderHeader: (params) => {

@@ -1,5 +1,5 @@
 import { CURRENCIES, LANGUAGES } from '@dexkit/ui/constants';
-import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
+import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { Divider, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import { Field, Formik } from 'formik';
 import { Select, TextField } from 'formik-mui';
@@ -10,19 +10,19 @@ import * as Yup from 'yup';
 export const GeneralSchema = Yup.object().shape({
   name: Yup.string().required(),
   currency: Yup.string().required(),
-  locale: Yup.string().required(),
+  locale: Yup.string(),
 });
 
 interface GeneralSectionForm {
   name: string;
   currency: string;
-  locale: string;
+  locale?: string;
 }
 
 interface Props {
-  config: WidgetConfig;
-  onSave: (config: WidgetConfig) => void;
-  onChange: (config: WidgetConfig) => void;
+  config: AppConfig;
+  onSave: (config: AppConfig) => void;
+  onChange: (config: AppConfig) => void;
   onHasChanges?: (changes: boolean) => void;
 }
 
@@ -34,7 +34,7 @@ export default function GeneralWizardContainer({
 }: Props) {
   const [generalData, setGeneralData] = useState<GeneralSectionForm>({
     name: config.name,
-    locale: config.locale,
+    locale: config?.locale,
     currency: config.currency,
   });
 
@@ -74,69 +74,92 @@ export default function GeneralWizardContainer({
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Stack>
-          <Typography variant={'h6'}>
-            <FormattedMessage id="general" defaultMessage="General" />
-          </Typography>
-          <Typography variant={'body2'}>
-            <FormattedMessage
-              id="general.information.description.widget"
-              defaultMessage="Input your widget's general details"
-            />
-          </Typography>
-        </Stack>
-      </Grid>
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
-      <Grid item xs={12}>
-        <Formik
-          initialValues={generalData}
-          onSubmit={handleSubmitGeneral}
-          validationSchema={GeneralSchema}
-        >
-          <Field
-            component={TextField}
-            sx={{ maxWidth: '500px' }}
-            fullWidth
-            name={`name`}
-            label={<FormattedMessage id="name" defaultMessage="Name" />}
-          />
-          <Field
-            component={Select}
-            id="currency"
-            name="currency"
-            labelId="currency-label-id"
-            label={
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack>
+            <Typography variant={'h6'}>
+              <FormattedMessage id="general" defaultMessage="General" />
+            </Typography>
+            <Typography variant={'body2'}>
               <FormattedMessage
-                id="default.currency"
-                defaultMessage="Default currency"
+                id="general.information.description.widget"
+                defaultMessage="Input your widget's general details"
               />
-            }
+            </Typography>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
+          <Formik
+            initialValues={generalData}
+            onSubmit={handleSubmitGeneral}
+            validationSchema={GeneralSchema}
           >
-            {CURRENCIES.map((curr, index) => (
-              <MenuItem key={index} value={curr.symbol}>
-                {curr.name} ({curr.symbol.toUpperCase()})
-              </MenuItem>
-            ))}
-          </Field>
-          <Field
-            component={Select}
-            id="locale"
-            name="locale"
-            labelId="locale-label-id"
-            label={<FormattedMessage id="language" defaultMessage="Language" />}
-          >
-            {LANGUAGES.map((lang, index) => (
-              <MenuItem key={index} value={lang.locale}>
-                {lang.name}
-              </MenuItem>
-            ))}
-          </Field>
-        </Formik>
+            {(props) => (
+              <>
+                {' '}
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Field
+                      component={TextField}
+                      sx={{ maxWidth: '500px' }}
+                      fullWidth
+                      name={`name`}
+                      label={
+                        <FormattedMessage id="name" defaultMessage="Name" />
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      component={Select}
+                      id="currency"
+                      name="currency"
+                      labelId="currency-label-id"
+                      label={
+                        <FormattedMessage
+                          id="default.currency"
+                          defaultMessage="Default currency"
+                        />
+                      }
+                    >
+                      {CURRENCIES.map((curr, index) => (
+                        <MenuItem key={index} value={curr.symbol}>
+                          {curr.name} ({curr.symbol.toUpperCase()})
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      component={Select}
+                      id="locale"
+                      sx={{ minWidth: '200px' }}
+                      name="locale"
+                      labelId="locale-label-id"
+                      label={
+                        <FormattedMessage
+                          id="language"
+                          defaultMessage="Language"
+                        />
+                      }
+                    >
+                      {LANGUAGES.map((lang, index) => (
+                        <MenuItem key={index} value={lang.locale}>
+                          {lang.name}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </Grid>
+                </Grid>
+              </>
+            )}
+          </Formik>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }

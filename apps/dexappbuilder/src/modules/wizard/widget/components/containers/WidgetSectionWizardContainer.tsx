@@ -1,4 +1,7 @@
-import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
+import {
+  AppPage,
+  PageSectionsLayout,
+} from '@dexkit/ui/modules/wizard/types/config';
 import {
   Button,
   Divider,
@@ -8,13 +11,21 @@ import {
   createTheme,
   responsiveFontSizes,
 } from '@mui/material';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import { useContext, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { PagesContainer } from '@/modules/wizard/components/PagesContainer';
-
+import EditPageSectionsLayoutDialog from '@/modules/wizard/components/dialogs/EditPageSectionsLayoutDialog';
+import PageEditorDialog from '@/modules/wizard/components/dialogs/PageEditorDialog';
+import PreviewPageDialog from '@/modules/wizard/components/dialogs/PreviewPageDialog';
+import EditSectionDialog from '@/modules/wizard/components/section-config/dialogs/EditSectionDialog';
+import PageSections from '@/modules/wizard/components/section-config/PageSections';
 import { BuilderKit } from '@/modules/wizard/constants';
 import { AppConfirmDialog } from '@dexkit/ui';
+import {
+  AppPageSection,
+  CustomEditorSection,
+} from '@dexkit/ui/modules/wizard/types/section';
 import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
 import { getTheme } from 'src/theme';
 import { PagesContext } from './EditWidgetWizardContainer';
@@ -40,11 +51,18 @@ export default function WidgetSectionWizardContainer({
   onChange,
   previewUrl,
 }: Props) {
-  const [pages, setPages] = useState<{ [key: string]: AppPage }>(
-    structuredClone({
-      ['widget']: config.page,
-    }),
-  );
+  const [page, setPage] = useState<AppPage>(config.page);
+  const [selectedSectionIndex, setSelectedSectionIndex] = useState<number>(-1);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [showLayoutEdit, setShowLayoutEdit] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+
+  const [activeSection, setActiveSection] = useState<{
+    index: number;
+    page: string;
+  }>();
 
   const [hasPageChanges, setHasPageChanges] = useState(false);
   const [hasSectionChanges, setHasSectionChanges] = useState(false);
@@ -70,12 +88,23 @@ export default function WidgetSectionWizardContainer({
   }, [config.theme, config.customThemeDark, config.customThemeLight]);
 
   const handleSave = () => {
-    const newConfig = { ...config, page: pages['widget'] };
+    const newConfig = { ...config, page: page };
 
     onSave(newConfig);
 
     setHasPageChanges(false);
     setHasSectionChanges(false);
+  };
+
+  const handleSaveSection = (section: AppPageSection, index: number) => {
+    if (index === -1) {
+      page.sections.push(section);
+    } else {
+      page.sections[index] = section;
+    }
+    setPage({ ...page });
+    setHasSectionChanges(true);
+    setHasPageChanges(true);
   };
 
   const { handleCancelEdit, setSelectedKey, selectedKey, oldPage } =
@@ -85,23 +114,77 @@ export default function WidgetSectionWizardContainer({
     setOpenHasChangesConfirm(true);
   };
 
-  const handleSetPages = useCallback(
-    (cb: (prev: { [key: string]: AppPage }) => { [key: string]: AppPage }) => {
-      setPages((value) => {
-        let res = cb(value);
+  const onAddSection = () => {
+    setSelectedSectionIndex(-1);
+    setIsOpen(true);
+  };
 
-        /* onChange({
-          ...config,
-          pages: { ...(res as { [key: string]: AppPage }) },
-        });*/
+  const onAddCustomSection = () => {
+    setSelectedSectionIndex(-1);
+    setIsOpenEditor(true);
+  };
 
-        onHasChanges(true);
+  const section = useMemo(() => {
+    if (selectedSectionIndex === -1) {
+      return;
+    } else {
+      return page.sections[selectedSectionIndex];
+    }
+  }, [page, selectedSectionIndex]);
 
-        return res;
-      });
-    },
-    [onHasChanges, onChange],
-  );
+  const onAction = (action: string, index: number) => {
+    switch (action) {
+      case 'edit':
+        setSelectedSectionIndex(index);
+        setIsEdit(true);
+        const sec = page.sections[index];
+        if (sec.type === 'custom') {
+          setIsOpenEditor(true);
+        } else {
+          setIsOpen(true);
+        }
+        break;
+      case 'remove':
+        page.sections.splice(index, 1);
+        setPage({ ...page });
+        break;
+
+      case 'hide.mobile':
+        page.sections[index].hideMobile = !page.sections[index].hideMobile;
+        setPage({ ...page });
+        break;
+
+      case 'hide.desktop':
+        page.sections[index].hideDesktop = !page.sections[index].hideDesktop;
+        setPage({ ...page });
+        break;
+
+      case 'clone':
+        const sectionToClone = { ...page.sections[index] };
+        if (sectionToClone.name) {
+          sectionToClone.name = `Clone of ${sectionToClone.name}`;
+        }
+        page.sections.splice(index + 1, 0, sectionToClone);
+        setPage({ ...page });
+
+        break;
+
+      default:
+        break;
+    }
+    setHasSectionChanges(true);
+    setHasPageChanges(true);
+  };
+
+  const onSwapSection = (index: number, otherIndex: number) => {
+    const swapSection = { ...page.sections[index] };
+    const otherSection = { ...page.sections[otherIndex] };
+    page.sections[otherIndex] = swapSection;
+    page.sections[index] = otherSection;
+    setPage({ ...page });
+    setHasSectionChanges(true);
+    setHasPageChanges(true);
+  };
 
   const [openHasChangesConfirm, setOpenHasChangesConfirm] = useState(false);
 
@@ -113,8 +196,117 @@ export default function WidgetSectionWizardContainer({
     setHasSectionChanges(true);
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsEdit(false);
+  };
+
+  const handleCloseEditor = () => {
+    setIsOpenEditor(false);
+    setIsEdit(false);
+  };
+
+  const handleSaveName = (name: string) => {
+    if (selectedSectionIndex !== -1) {
+      page.sections[selectedSectionIndex].name = name;
+      setPage({ ...page });
+    }
+  };
+
+  const handleCloseLayout = () => {
+    setShowLayoutEdit(false);
+  };
+
+  const handleEditLayout = () => {
+    setShowLayoutEdit(true);
+  };
+
+  const handleConfirmEditLayout = (layout: PageSectionsLayout) => {
+    page.layout = layout;
+    setPage({ ...page });
+  };
+
+  const renderPageLayoutDialog = () => {
+    if (showLayoutEdit) {
+      return (
+        <EditPageSectionsLayoutDialog
+          DialogProps={{
+            open: showLayoutEdit,
+            maxWidth: 'sm',
+            fullWidth: true,
+            onClose: handleCloseLayout,
+          }}
+          layout={selectedKey ? page?.layout : undefined}
+          onConfirm={handleConfirmEditLayout}
+        />
+      );
+    }
+  };
+
+  const handleShowPreview = () => {
+    setShowPreview(true);
+  };
+
+  const handleClosePreview = () => {
+    setShowPreview(false);
+  };
+
+  const renderPreviewDialog = () => {
+    if (showPreview && selectedKey) {
+      return (
+        <CssVarsProvider theme={selectedTheme}>
+          <PreviewPageDialog
+            dialogProps={{
+              open: showPreview,
+              maxWidth: 'xl',
+              fullWidth: true,
+              onClose: handleClosePreview,
+            }}
+            disabled={true}
+            sections={page?.sections}
+            name={page?.title}
+            page={selectedKey}
+            site={''}
+            layout={page?.layout}
+          />
+        </CssVarsProvider>
+      );
+    }
+  };
+
   return (
     <>
+      {renderPreviewDialog()}
+      {renderPageLayoutDialog()}
+      {isOpen && (
+        <EditSectionDialog
+          dialogProps={{
+            open: isOpen,
+            fullScreen: true,
+            fullWidth: true,
+            onClose: handleClose,
+          }}
+          builderKit={builderKit}
+          isEdit={isEdit}
+          section={section}
+          onSave={handleSaveSection}
+          onSaveName={handleSaveName}
+          index={selectedSectionIndex}
+        />
+      )}
+      {isOpenEditor && (
+        <PageEditorDialog
+          dialogProps={{
+            open: isOpenEditor,
+            fullScreen: true,
+            onClose: handleCloseEditor,
+          }}
+          section={section as CustomEditorSection}
+          index={selectedSectionIndex}
+          onSave={handleSaveSection}
+        />
+      )}
+
       <AppConfirmDialog
         DialogProps={{
           open: openHasChangesConfirm,
@@ -124,14 +316,6 @@ export default function WidgetSectionWizardContainer({
         }}
         onConfirm={() => {
           if (selectedKey && oldPage) {
-            setPages((pages) => {
-              const newPages = { ...pages };
-
-              return {
-                ...newPages,
-                [selectedKey]: oldPage,
-              };
-            });
             setHasSectionChanges(false);
           } else {
             // setPages(structuredClone(config.pages));
@@ -172,13 +356,13 @@ export default function WidgetSectionWizardContainer({
         <Grid item xs={12}>
           <Stack direction="column">
             <Typography fontWeight="bold" variant="h6">
-              <FormattedMessage id="pages" defaultMessage="Pages" />
+              <FormattedMessage id="Components" defaultMessage="Components" />
             </Typography>
 
             <Typography variant="body2">
               <FormattedMessage
-                id="pages.wizard.description"
-                defaultMessage="Create and manage your app's pages"
+                id="components.wizard.description"
+                defaultMessage="Create and manage your widget components"
               />
             </Typography>
           </Stack>
@@ -187,17 +371,22 @@ export default function WidgetSectionWizardContainer({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <PagesContainer
-            builderKit={builderKit}
-            pages={pages}
-            setPages={handleSetPages}
-            onChangePages={handleChangePages}
-            onChangeSections={handleChangeSection}
-            theme={selectedTheme}
-            showAddPage={showAddPage}
-            setShowAddPage={setShowAddPage}
-            previewUrl={previewUrl}
-            site={siteSlug?.toString()}
+          <PageSections
+            onAddSection={onAddSection}
+            onAddCustomSection={onAddCustomSection}
+            onEditTitle={() => {}}
+            pageKey={selectedKey}
+            page={page}
+            onSwap={onSwapSection}
+            onAction={onAction}
+            onClose={() => {}}
+            onAdd={() => {}}
+            onPreview={handleShowPreview}
+            activeSection={activeSection}
+            onClone={() => {}}
+            onChangeName={() => {}}
+            onEditLayout={handleEditLayout}
+            siteId={'site'}
           />
         </Grid>
         <Grid item xs={12}>

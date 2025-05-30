@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import ApiIcon from '@mui/icons-material/Api';
 import Close from '@mui/icons-material/Close';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -29,10 +28,9 @@ import dynamic from 'next/dynamic';
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { isAddressEqual } from '@dexkit/core/utils';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
-import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import DatasetIcon from '@mui/icons-material/Dataset';
@@ -45,12 +43,14 @@ import {
   QUERY_ADMIN_WIDGET_CONFIG,
   useSendWidgetConfigMutation,
 } from '@/modules/wizard/hooks/widget';
-import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
+import {
+  WidgetConfig,
+  WidgetResponse,
+} from '@dexkit/ui/modules/wizard/types/widget';
 
 import CollectionWizardContainer from '@/modules/wizard/components/containers/CollectionWizardContainer';
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
 import SignConfigDialog from '@/modules/wizard/components/dialogs/SignConfigDialog';
-import { WelcomeMessage } from '@/modules/wizard/components/WelcomeMessage';
 import GeneralWizardContainer from './GeneralWizardContainer';
 import WidgetSectionWizardContainer from './WidgetSectionWizardContainer';
 
@@ -74,7 +74,7 @@ const ThemeWizardContainer = dynamic(
 );
 
 interface Props {
-  widget?: WidgetConfig | null;
+  widget?: WidgetResponse | null;
 }
 
 export enum ActiveMenu {
@@ -112,7 +112,9 @@ export const PagesContext = React.createContext<PagesContextType>({
 export function EditWidgetWizardContainer({ widget }: Props) {
   const router = useRouter();
   const { tab } = router.query as { tab?: ActiveMenu };
-  const [widgetWizard, setWidgetWizard] = useState(widget);
+  const [widgetWizard, setWidgetWizard] = useState(
+    widget ? JSON.parse(widget.config) : undefined,
+  );
 
   const [hasChanges, setHasChanges] = useState(false);
   const [openHasChangesConfirm, setOpenHasChangesConfirm] = useState(false);
@@ -221,7 +223,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
 
     if (widgetWizard) {
       await sendConfigMutation.mutateAsync(
-        { config: widgetWizard },
+        { config: JSON.stringify(widgetWizard) },
         {
           onSuccess: () => {
             setHasChanges(false);
@@ -255,7 +257,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
     sendConfigMutation.reset();
   };
 
-  const handleSave = (_config: Partial<WidgetConfig>) => {
+  const handleSave = (_config: Partial<AppConfig>) => {
     setShowConfirmSendConfig(true);
     const newConfig = { ...widgetWizard, ..._config } as WidgetConfig;
 
@@ -263,7 +265,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
   };
 
   const handleChange = useCallback(
-    (_config: Partial<WidgetConfig>) => {
+    (_config: Partial<AppConfig>) => {
       const newConfig = { ...widgetWizard, ..._config } as WidgetConfig;
 
       setWidgetWizard(newConfig);
@@ -477,7 +479,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
           </Collapse>
         </List>
       </nav>
-      {true && (
+      {false && (
         <nav aria-label="analytics">
           <List>
             <ListItemButton onClick={handleClickAnalytics}>
@@ -535,46 +537,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
           </List>
         </nav>
       )}
-      {isAddressEqual(widget?.owner, account) && (
-        <nav aria-label="integrations">
-          <List>
-            <ListItemButton onClick={handleClickIntegrations}>
-              <ListItemIcon>
-                <ApiIcon />
-              </ListItemIcon>
 
-              <ListItemText
-                primary={
-                  <FormattedMessage
-                    id="integrations"
-                    defaultMessage="Integrations"
-                  />
-                }
-              />
-              {openMenu.integrations ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={openMenu.integrations} timeout="auto" unmountOnExit>
-              <List component="div" sx={{ pl: 4 }}>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    selected={activeMenu === ActiveMenu.Integrations}
-                    onClick={() => handleChangeTab(ActiveMenu.Integrations)}
-                  >
-                    <ListItemText
-                      primary={
-                        <FormattedMessage
-                          id="general"
-                          defaultMessage="General"
-                        />
-                      }
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Collapse>
-          </List>
-        </nav>
-      )}
       {/*  <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
         <Typography>v{AppVersion.version}</Typography>
                     </Box>*/}
@@ -715,7 +678,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
                         defaultMessage="Manage Widgets"
                       />
                     ),
-                    uri: '/admin/widgets',
+                    uri: '/admin/widget',
                   },
                   {
                     caption: (
@@ -724,18 +687,18 @@ export function EditWidgetWizardContainer({ widget }: Props) {
                         defaultMessage="Edit widget"
                       />
                     ),
-                    uri: '/admin/edit',
+                    uri: `/admin/widget/edit/${widget?.id}`,
                     active: true,
                   },
                 ]}
               />
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          {/*       <Grid item xs={12} sm={12}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
-          </Grid>
+          </Grid>*/}
 
           <Grid item xs={12} sm={12}>
             <Stack direction={'row'} justifyContent={'space-between'}>

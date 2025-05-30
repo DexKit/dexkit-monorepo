@@ -1,8 +1,6 @@
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useRouter } from "next/router";
 
 import {
-  useConnectWalletDialog,
   useExecuteTransactionsDialog,
   useHoldsKitDialog,
   useShowSelectCurrency,
@@ -15,15 +13,12 @@ import { useDexKitContext } from "@dexkit/ui/hooks/useDexKitContext";
 
 import dynamic from "next/dynamic";
 
-import { selectedWalletAtom } from "@dexkit/ui/state";
 const SignMessageDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/SignMessageDialog")
 );
 const SwitchNetworkDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/SwitchNetworkDialog")
 );
-
-import { useWalletActivate } from "@dexkit/wallet-connectors/hooks/wallet";
 
 const WatchTransactionDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/WatchTransactionDialog")
@@ -46,7 +41,6 @@ const SelectLanguageDialog = dynamic(
 let runnedEagerly = false;
 
 export function GlobalDialogs() {
-  const { connector, isActive, isActivating } = useWeb3React();
   const router = useRouter();
 
   /* useEffect(() => {
@@ -121,12 +115,6 @@ export function GlobalDialogs() {
 
   const showSelectLocale = useShowSelectLocale();
 
-  const connectWalletDialog = useConnectWalletDialog();
-
-  const handleCloseConnectWalletDialog = () => {
-    connectWalletDialog.setOpen(false);
-  };
-
   const handleCloseTransactionDialog = () => {
     if (watchTransactionDialog.redirectUrl) {
       router.replace(watchTransactionDialog.redirectUrl);
@@ -162,13 +150,6 @@ export function GlobalDialogs() {
   };
 
   const txDialog = useExecuteTransactionsDialog();
-  const walletActivate = useWalletActivate({
-    magicRedirectUrl:
-      typeof window !== "undefined"
-        ? window.location.href
-        : process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || "",
-    selectedWalletAtom,
-  });
 
   return (
     <>

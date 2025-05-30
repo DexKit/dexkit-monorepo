@@ -25,8 +25,7 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
   entry: {
-    index: 'index.tsx',
-    wallet: 'widgets/wallet.tsx'
+    index: 'index.tsx'
   },
   esbuildOptions(options) {
     options.alias = {
@@ -34,7 +33,7 @@ export default defineConfig({
     }
   },
   injectStyle: true,
-  format: ['iife'],
+  format: ['iife', 'esm'],
   //shims: true,
   minify: true,
   // esbuildPlugins: [replaceNodeBuiltIns()],

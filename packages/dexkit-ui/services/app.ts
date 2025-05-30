@@ -90,7 +90,7 @@ export function setupTheme({
         },
       })
       : extendTheme({ ...temp });
-  }, [appConfig]);
+  }, [appConfig, getTheme]);
 }
 
 export function setupSEO({

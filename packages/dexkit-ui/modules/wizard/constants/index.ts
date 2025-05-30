@@ -1,5 +1,8 @@
 import { AppPageOptions } from "../types/config";
 
+
+export const WIDGET_PAGE_KEY = '__widget_dexappbuilder';
+
 export const CORE_PAGES: { [key: string]: AppPageOptions } = {
   ['swap']: {
     title: 'Swap',

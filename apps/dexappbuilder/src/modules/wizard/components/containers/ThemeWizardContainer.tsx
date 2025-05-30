@@ -68,7 +68,9 @@ export default function ThemeWizardContainer({
   stepperButtonProps,
   showSwap,
 }: Props) {
-  const [selectedThemeId, setSelectedThemeId] = useState<string>(config.theme);
+  const [selectedThemeId, setSelectedThemeId] = useState<string>(
+    config?.theme as string,
+  );
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -134,7 +136,7 @@ export default function ThemeWizardContainer({
   ]);
 
   const handleCancelEdit = () => {
-    setSelectedThemeId(config?.theme);
+    setSelectedThemeId(config?.theme as string);
   };
 
   const handleSave = () => {
