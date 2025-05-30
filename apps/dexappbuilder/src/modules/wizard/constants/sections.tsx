@@ -100,7 +100,7 @@ export const SECTION_CONFIG: {
     icon: <BookmarkIcon />,
   },
   collections: {
-    title: { id: 'collection', defaultMessage: 'Collection' },
+    title: { id: 'collection.list', defaultMessage: 'Collection List' },
     icon: <AppsIcon />,
   },
   swap: {
@@ -143,7 +143,7 @@ export const SECTION_CONFIG: {
     icon: <Code />,
   },
   collection: {
-    title: { id: 'collection.list', defaultMessage: 'Collection List' },
+    title: { id: 'collection.single', defaultMessage: 'Collection' },
     icon: <AppsIcon />,
   },
   'dex-generator-section': {

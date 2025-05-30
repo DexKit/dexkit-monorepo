@@ -73,6 +73,7 @@ export default function FeaturedSectionForm({
   });
 
   const handleAddItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(true);
   };
 
@@ -89,10 +90,12 @@ export default function FeaturedSectionForm({
       setItems((value) => [...value, item]);
     }
 
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
   const handleCancelItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
@@ -180,6 +183,7 @@ export default function FeaturedSectionForm({
           <Grid item xs={12}>
             <Paper sx={{ p: isMobile ? 1 : 2 }}>
               <AddItemForm
+                key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
                 item={
                   selectedItemIndex === -1
                     ? undefined

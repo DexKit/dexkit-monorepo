@@ -10,6 +10,7 @@ interface Props {
   backgroundImageUrl?: string;
   hoverable?: boolean;
   disabled?: boolean;
+  hideTitle?: boolean;
 }
 
 export function CollectionFromApiCard({
@@ -21,6 +22,7 @@ export function CollectionFromApiCard({
   title,
   variant,
   disabled,
+  hideTitle,
 }: Props) {
   const { data: collection } = useCollectionByApi({ chainId, contractAddress });
   return (
@@ -32,6 +34,7 @@ export function CollectionFromApiCard({
       title={title}
       variant={variant}
       disabled={disabled}
+      hideTitle={hideTitle}
     />
   );
 }

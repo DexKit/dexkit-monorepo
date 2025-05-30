@@ -34,7 +34,7 @@ export default function PreviewPage({
 
     //   return <SectionRender section={section} key={key} />;
     // });
-    return <SectionsRenderer layout={layout} sections={sections ?? []} />;
+    return <SectionsRenderer layout={layout} sections={sections ?? []} previewPlatform={previewPlatform} />;
   };
   if (withLayout) {
     return (
