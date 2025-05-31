@@ -1,18 +1,20 @@
 import {
   SUPPORTED_DEXAPPBUILDER_CHAIN_IDS,
   SUPPORTED_LEGACY_CHAIN_IDS,
-} from '@dexkit/evm-chains';
+} from "@dexkit/evm-chains";
 
-import { EXCHANGE_NOTIFICATION_TYPES } from '@dexkit/exchange/constants/messages';
-import { DexkitProvider } from '@dexkit/ui/components/DexkitProvider';
-import { COMMON_NOTIFICATION_TYPES, WHITELABEL_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
-import { useLocale } from '@dexkit/ui/hooks/useLocale';
-import { setupSEO, setupTheme } from '@dexkit/ui/services/app';
-import { useAtom } from 'jotai';
-import { DefaultSeo } from 'next-seo';
-import { useEffect, useState } from 'react';
+import { EXCHANGE_NOTIFICATION_TYPES } from "@dexkit/exchange/constants/messages";
+import {
+  COMMON_NOTIFICATION_TYPES,
+  WHITELABEL_NOTIFICATION_TYPES,
+} from "@dexkit/ui/constants/messages/common";
+import { useLocale } from "@dexkit/ui/hooks/useLocale";
+import { DexkitProvider } from "@dexkit/ui/providers/DexkitProvider";
+import { setupSEO, setupTheme } from "@dexkit/ui/services/app";
+import { useAtom } from "jotai";
+import { DefaultSeo } from "next-seo";
+import { useEffect, useState } from "react";
 
-import { useRouter } from 'next/router';
 import {
   assetsAtom,
   currencyUserAtom,
@@ -22,13 +24,14 @@ import {
   selectedWalletAtom,
   tokensAtom,
   transactionsAtomV2,
-} from '../state/atoms';
-import { getTheme } from '../theme';
+} from "@dexkit/dexappbuilder-viewer/state/atoms";
+import { getTheme } from "@dexkit/dexappbuilder-viewer/theme";
+import { useRouter } from "next/router";
 
-import { useAppConfig } from '@dexkit/ui/hooks/useAppConfig';
-import { useSiteId } from '@dexkit/ui/hooks/useSiteId';
-import React from 'react';
-import { loadLocaleMessages } from '../utils/intl';
+import { loadLocaleMessages } from "@dexkit/dexappbuilder-viewer/utils/intl";
+import { useAppConfig } from "@dexkit/ui/hooks/useAppConfig";
+import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
+import React from "react";
 
 export interface AppMarketplaceContextProps {
   children: React.ReactNode | React.ReactNode[];
@@ -54,17 +57,13 @@ export function AppMarketplaceProvider({
       //@ts-ignore
       setRef(router.query.ref as string);
     }
-  }, [router.query.ref]);
+  }, [router.query.ref, setRef]);
 
   const [messages, setMessages] = useState<any | null>(appLocaleMessages);
-
-
 
   useEffect(() => {
     loadLocaleMessages(locale).then((data) => setMessages(data.default));
   }, [locale]);
-
- 
 
   const theme = setupTheme({ appConfig, getTheme });
 
@@ -88,17 +87,14 @@ export function AppMarketplaceProvider({
           : SUPPORTED_DEXAPPBUILDER_CHAIN_IDS
       }
       options={{
-        magicRedirectUrl:
-          typeof window !== 'undefined'
-            ? window.location.href
-            : process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || '',
+        magicRedirectUrl: "",
       }}
       notificationTypes={{
         ...WHITELABEL_NOTIFICATION_TYPES,
         ...EXCHANGE_NOTIFICATION_TYPES,
         ...COMMON_NOTIFICATION_TYPES,
       }}
-      userEventsURL={'/api/user-events'}
+      userEventsURL={"/api/user-events"}
       transactionsAtom={transactionsAtomV2}
       notificationsAtom={notificationsAtom}
       siteId={siteId}

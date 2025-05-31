@@ -19,7 +19,6 @@ import { Contract } from "ethers";
 import { useContext, useMemo } from "react";
 import { useAppConfig, useAppWizardConfig, useDexKitContext } from ".";
 import { AdminContext } from "../context/AdminContext";
-import { DexKitContext } from "../context/DexKitContext";
 import { getTokenData } from "../services/token";
 
 import axios from "axios";
@@ -279,11 +278,12 @@ export function useEvmCoins({
 export function useActiveChainIds() {
   // If this editAppConfig exists, it means we are inside Edit Wizard, we on this case use the chainIds that the user had activated
   const { editAppConfig } = useContext(AdminContext);
+  const activeChainIds = useDexKitContext().activeChainIds;
   if (editAppConfig && editAppConfig.activeChainIds) {
     return { activeChainIds: editAppConfig.activeChainIds };
   }
 
-  const activeChainIds = useContext(DexKitContext).activeChainIds;
+
   return { activeChainIds };
 }
 

@@ -29,10 +29,10 @@ import { useRouter } from "next/router";
 import { ThirdwebProvider } from "thirdweb/react";
 import { AppMarketplaceProvider } from "../src/components/AppMarketplaceProvider";
 import createEmotionCache from "./createEmotionCache";
-import { getTheme } from "./theme";
 
 import ProtectedContent from "@dexkit/dexappbuilder-viewer/components/ProtectedContent";
 import { SectionsRenderer } from "@dexkit/dexappbuilder-viewer/components/SectionsRenderer";
+import { getTheme } from "@dexkit/dexappbuilder-viewer/theme";
 import AuthMainLayout from "@dexkit/ui/components/layouts/authMain";
 import MainLayout from "@dexkit/ui/components/layouts/main";
 import { SessionProvider } from "next-auth/react";

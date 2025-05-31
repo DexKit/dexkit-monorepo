@@ -3,6 +3,7 @@
 import MainLayout from "@dexkit/ui/components/layouts/main";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { SectionRender } from "./components/SectionRenderWithPlugin";
+import { WidgetProvider } from "./components/WidgetProvider";
 import { useWhitelabelConfigQuery } from "./hooks";
 
 interface Props {
@@ -65,5 +66,22 @@ export function RenderDexAppBuilderFromConfig({
     </MainLayout>
   ) : (
     <>{toRender}</>
+  );
+}
+
+export function RenderDexAppBuilderWidget({
+  config,
+  widgetId,
+}: {
+  config: AppConfig;
+  widgetId?: number;
+}) {
+  const toRender = config.pages["widget"].sections.map((section, k) => (
+    <SectionRender key={k} section={section} />
+  ));
+  return (
+    <WidgetProvider widgetId={widgetId} appConfig={config}>
+      {toRender}
+    </WidgetProvider>
   );
 }
