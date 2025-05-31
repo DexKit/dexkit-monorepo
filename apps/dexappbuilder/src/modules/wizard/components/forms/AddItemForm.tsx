@@ -135,19 +135,19 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
     initialValues:
       item?.type === 'asset'
         ? {
-            type: 'asset',
-            chainId: item.chainId,
-            contractAddress: item.contractAddress,
-            title: item.title,
-            tokenId: item.tokenId,
-          }
+          type: 'asset',
+          chainId: item.chainId,
+          contractAddress: item.contractAddress,
+          title: item.title,
+          tokenId: item.tokenId,
+        }
         : {
-            type: 'asset',
-            chainId: 1,
-            contractAddress: '',
-            title: '',
-            tokenId: '',
-          },
+          type: 'asset',
+          chainId: 1,
+          contractAddress: '',
+          title: '',
+          tokenId: '',
+        },
     validateOnChange: true,
     validationSchema: AssetFormSchema,
     onSubmit: handleSubmitAsset,
@@ -157,25 +157,25 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
     initialValues:
       item?.type === 'collection'
         ? {
-            type: 'collection',
-            backgroundImageUrl: item.backgroundImageUrl,
-            chainId: item.chainId,
-            contractAddress: item.contractAddress,
-            subtitle: item.subtitle,
-            title: item.title,
-            featured: item.featured || false,
-            variant: item.variant,
-          }
+          type: 'collection',
+          backgroundImageUrl: item.backgroundImageUrl,
+          chainId: item.chainId,
+          contractAddress: item.contractAddress,
+          subtitle: item.subtitle,
+          title: item.title,
+          featured: item.featured || false,
+          variant: item.variant,
+        }
         : {
-            type: 'collection',
-            backgroundImageUrl: '',
-            chainId: 1,
-            contractAddress: '',
-            subtitle: '',
-            title: '',
-            featured: false,
-            variant: 'default',
-          },
+          type: 'collection',
+          backgroundImageUrl: '',
+          chainId: 1,
+          contractAddress: '',
+          subtitle: '',
+          title: '',
+          featured: false,
+          variant: 'default',
+        },
     validationSchema: CollectionFormSchema,
     validateOnChange: true,
     onSubmit: handleSubmitCollection,
@@ -214,7 +214,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ p: { xs: 1, sm: 2 } }}>
       <Grid item xs={12}>
         <FormControl fullWidth required>
           <InputLabel>
@@ -437,7 +437,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                         <Avatar
                           src={ipfsUriToUrl(
                             NETWORKS[collectionForm.values.chainId]?.imageUrl ||
-                              '',
+                            '',
                           )}
                           style={{ width: 'auto', height: '1rem' }}
                         />

@@ -85,8 +85,8 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
   },
   {
     type: 'collections',
-    titleId: 'collection',
-    titleDefaultMessage: 'Collection',
+    titleId: 'collection.list',
+    titleDefaultMessage: 'Collection List',
     category: 'nft',
     description: 'Add new NFT collections to diversify your digital assets.',
     icon: <CollectionsIcon fontSize="large" />,
@@ -137,8 +137,8 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
   },
   {
     type: 'collection',
-    titleId: 'collection.list',
-    titleDefaultMessage: 'Collection List',
+    titleId: 'collection.single',
+    titleDefaultMessage: 'Collection',
     category: 'nft',
     description: 'Easily add a collection',
     icon: <CollectionsIcon fontSize="large" />,
