@@ -1,5 +1,21 @@
 # dexappbuilder
 
+## 0.27.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+  - @dexkit/dexappbuilder-viewer@0.10.0
+  - @dexkit/ui@0.24.0
+
 ## 0.26.0
 
 ### Minor Changes
