@@ -15,6 +15,7 @@ export interface WidgetConfig {
   name: string;
   locale: string;
   currency: string;
+  hide_powered_by?: boolean;
   activeChainIds?: number[];
   page: AppPage;
   defaultThemeMode?: ThemeMode;
