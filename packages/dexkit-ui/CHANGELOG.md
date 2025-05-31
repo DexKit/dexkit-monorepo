@@ -1,5 +1,13 @@
 # @dexkit/ui
 
+## 0.24.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+
 ## 0.23.0
 
 ### Minor Changes
