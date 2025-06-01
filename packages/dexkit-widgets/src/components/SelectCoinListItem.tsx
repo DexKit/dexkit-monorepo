@@ -1,3 +1,4 @@
+import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import type { TokenBalances } from "@indexed-finance/multicall";
 import {
   Avatar,
@@ -7,14 +8,13 @@ import {
   ListItemButton,
   ListItemText,
   Skeleton,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 import { BigNumber, constants } from "ethers";
 import { memo } from "react";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
-import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import Warning from "@mui/icons-material/Warning";
 import { FormattedMessage } from "react-intl";
 import { formatBigNumber } from "../utils";
@@ -34,14 +34,33 @@ function SelectCoinListItem({
   isLoading,
   isExtern,
 }: SelectCoinListItemProps) {
-  const balance = tokenBalances
-    ? tokenBalances[
-        token?.address.toLowerCase() ===
-        ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
-          ? constants.AddressZero
-          : token.address
-      ]
-    : BigNumber.from(0);
+  const getTokenBalance = () => {
+    if (!tokenBalances || !token) {
+      return BigNumber.from(0);
+    }
+
+    const isNativeToken = token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
+
+    const addresses = [
+      token.address,
+      token.address.toLowerCase(),
+    ];
+
+    if (isNativeToken) {
+      addresses.push(constants.AddressZero);
+    }
+
+    for (const address of addresses) {
+      const balance = tokenBalances[address];
+      if (balance && !balance.isZero()) {
+        return balance;
+      }
+    }
+
+    return BigNumber.from(0);
+  };
+
+  const balance = getTokenBalance();
 
   const renderAvatar = () => {
     if (isExtern) {
@@ -97,7 +116,7 @@ function SelectCoinListItem({
       <Box sx={{ mr: 2 }}>
         {isLoading ? (
           <Skeleton>--</Skeleton>
-        ) : tokenBalances && token && balance ? (
+        ) : balance && !balance.isZero() ? (
           formatBigNumber(balance, token.decimals)
         ) : (
           "0.0"

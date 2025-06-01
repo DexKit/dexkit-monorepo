@@ -1,4 +1,4 @@
-import { ChainId } from "../../constants/enums";
+import { ChainId } from "@dexkit/core/constants/enums";
 
 export const ZEROEX_NATIVE_TOKEN_ADDRESS =
   "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
@@ -43,3 +43,7 @@ export const ZEROEX_AFFILIATE_ADDRESS =
   "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d";
 export const ZEROEX_FEE_RECIPIENT =
   "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d";
+
+// neutral address that helps 0x API provide accurate quotes
+export const ZEROEX_DEFAULT_TAKER_ADDRESS =
+  "0x0000000000000000000000000000000000000001";

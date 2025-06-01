@@ -60,8 +60,8 @@ export default function PreviewPagePlatform({
   );
 
   const containerHeight = isMobile ?
-    (previewPlatform === 'mobile' ? '100vh' : theme.spacing(37.5)) :
-    theme.spacing(62.5);
+    (previewPlatform === 'mobile' ? '100vh' : theme.spacing(50)) :
+    theme.spacing(80);
 
   return (
     <Box
@@ -79,8 +79,8 @@ export default function PreviewPagePlatform({
         alignContent="center"
         spacing={2}
         sx={{
-          pb: isMobile ? 1 : 2,
-          pt: isMobile ? 1 : 2,
+          pb: isMobile ? 0.5 : 1,
+          pt: isMobile ? 0.5 : 1,
           backgroundColor: 'background.default',
           flexShrink: 0,
           position: 'sticky',
@@ -96,7 +96,7 @@ export default function PreviewPagePlatform({
       </Stack>
       <Box
         sx={{
-          p: isMobile ? 1 : 2,
+          p: isMobile ? 0.5 : 1,
           flex: 1,
           overflow: 'auto',
           height: previewPlatform === 'mobile' && isMobile ? 'calc(100vh - 56px)' : 'auto'

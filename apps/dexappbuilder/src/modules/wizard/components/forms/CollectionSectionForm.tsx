@@ -59,15 +59,15 @@ export default function CollectionSectionForm({
   const formik = useFormik({
     initialValues: section
       ? {
-        title: section.title,
+          title: section.title,
         variant: section.variant || "grid" as const,
         hideTitle: section.hideTitle || false,
-      }
+        }
       : {
-        title: '',
+          title: '',
         variant: "grid" as const,
         hideTitle: false,
-      },
+        },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });

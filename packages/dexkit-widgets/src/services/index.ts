@@ -1,7 +1,7 @@
 import type { TokenBalances } from "@indexed-finance/multicall";
-import MultiCall from "@indexed-finance/multicall";
+import { MultiCall } from "@indexed-finance/multicall";
 import type { providers } from 'ethers';
-import { BigNumber, Contract, constants } from "ethers";
+import { BigNumber, constants, Contract } from "ethers";
 
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { ERC20Abi } from "../constants/abis";
@@ -60,22 +60,54 @@ export async function getTokensBalance(
   provider: providers.BaseProvider,
   account: string
 ): Promise<TokenBalances> {
-  // await provider.ready;
+  try {
+    const network = await provider.getNetwork();
+    const chainId = network.chainId;
 
-  const multicall = new MultiCall(provider);
+    const multicall = new MultiCall(provider);
 
-  const [, balances] = await multicall.getBalances(
-    tokens.map((t) => {
-      if (t.address && ZEROEX_NATIVE_TOKEN_ADDRESS && t.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
-        return constants.AddressZero;
+    const addressMapping: { [key: string]: Token } = {};
+    const addresses = tokens.map((token) => {
+      const normalizedAddress = token.address.toLowerCase();
+      const isNativeToken = normalizedAddress === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
+
+      const multicallAddress = isNativeToken ? constants.AddressZero : token.address;
+
+      addressMapping[multicallAddress.toLowerCase()] = token;
+      addressMapping[token.address.toLowerCase()] = token;
+
+      if (isNativeToken) {
+        addressMapping[constants.AddressZero] = token;
       }
 
-      return t.address;
-    }),
-    account
-  );
+      return multicallAddress;
+    });
 
-  return balances;
+    const [, rawBalances] = await multicall.getBalances(addresses, account);
+
+    const balances: TokenBalances = {};
+
+    Object.keys(rawBalances).forEach(address => {
+      const balance = rawBalances[address];
+      const token = addressMapping[address.toLowerCase()];
+
+      if (token && balance) {
+        balances[address] = balance;
+        balances[address.toLowerCase()] = balance;
+        balances[token.address] = balance;
+        balances[token.address.toLowerCase()] = balance;
+
+        const isNativeToken = token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
+        if (isNativeToken) {
+          balances[constants.AddressZero] = balance;
+        }
+      }
+    });
+
+    return balances;
+  } catch (error) {
+    return {};
+  }
 }
 
 export const getTokenPrices = async ({

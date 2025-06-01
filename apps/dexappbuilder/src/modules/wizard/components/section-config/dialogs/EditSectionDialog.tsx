@@ -384,7 +384,7 @@ export default function EditSectionDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
+      <DialogContent sx={{ p: { xs: 0.5, sm: 1, md: 1.5 } }}>
         {isMobile ? (
           <Stack spacing={theme.spacing(2)} sx={{ maxHeight: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'auto' }}>
             <Box sx={{ mb: theme.spacing(2) }}>
