@@ -316,29 +316,31 @@ export default function Pages({
     <>
       {renderPreviewDialog()}
       {renderPageLayoutDialog()}
-      <Box sx={{
-        px: { xs: 0, sm: 0 },
-        ml: isMobile ? -2 : 0,
-        mr: isMobile ? 4 : 0,
-        maxWidth: isMobile ? 'calc(100% - 16px)' : '100%'
-      }}>
+      <Box
+        sx={{
+          px: { xs: 0, sm: 0 },
+          ml: isMobile ? -2 : 0,
+          mr: isMobile ? 4 : 0,
+          maxWidth: isMobile ? 'calc(100% - 16px)' : '100%',
+        }}
+      >
         <Grid container spacing={isMobile ? 0.25 : 0.5}>
           <Grid item xs={12}>
             <Button
               variant="contained"
               onClick={onAddPage}
-              size={isMobile ? "small" : "medium"}
-              startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+              size={isMobile ? 'small' : 'medium'}
+              startIcon={<Add fontSize={isMobile ? 'small' : 'medium'} />}
               sx={{
                 my: isMobile ? 0.25 : 0.5,
                 ml: isMobile ? -0.5 : -0.5,
                 px: isMobile ? 1 : 1,
                 '& .MuiButton-startIcon': {
                   marginRight: isMobile ? 0.25 : 0.5,
-                  "& > *:nth-of-type(1)": {
+                  '& > *:nth-of-type(1)': {
                     fontSize: isMobile ? 16 : 20,
-                  }
-                }
+                  },
+                },
               }}
             >
               <FormattedMessage id="New.page" defaultMessage="New page" />
@@ -353,7 +355,10 @@ export default function Pages({
                 spacing={isMobile ? 0.25 : 0.5}
                 sx={{ pl: 0 }}
               >
-                <Typography fontWeight="500" variant={isMobile ? "subtitle1" : "h6"}>
+                <Typography
+                  fontWeight="500"
+                  variant={isMobile ? 'subtitle1' : 'h6'}
+                >
                   <FormattedMessage id="page.list" defaultMessage="Page list" />
                 </Typography>
                 <LazyTextField
@@ -370,7 +375,7 @@ export default function Pages({
                     InputProps: {
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Search fontSize={isMobile ? "small" : "medium"} />
+                          <Search fontSize={isMobile ? 'small' : 'medium'} />
                         </InputAdornment>
                       ),
                     },
@@ -379,9 +384,9 @@ export default function Pages({
                       '& .MuiInputBase-root': {
                         fontSize: isMobile ? '0.875rem' : 'inherit',
                         height: isMobile ? undefined : '40px',
-                        alignItems: 'center'
-                      }
-                    }
+                        alignItems: 'center',
+                      },
+                    },
                   }}
                 />
               </Stack>
@@ -389,9 +394,23 @@ export default function Pages({
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ pr: isMobile ? 1 : 0 }}>
-              <Grid container spacing={isMobile ? 1 : 0.5} sx={{ ml: isMobile ? -0.5 : 0, width: isMobile ? 'calc(100% - 16px)' : '100%', pr: isMobile ? 2 : 0, pl: 0 }}>
+              <Grid
+                container
+                spacing={isMobile ? 1 : 0.5}
+                sx={{
+                  ml: isMobile ? -0.5 : 0,
+                  width: isMobile ? 'calc(100% - 16px)' : '100%',
+                  pr: isMobile ? 2 : 0,
+                  pl: 0,
+                }}
+              >
                 {pageList.map((pageKey, index) => (
-                  <Grid item xs={12} key={index} sx={{ mb: isMobile ? 1 : 0.5, pr: isMobile ? 1 : 0 }}>
+                  <Grid
+                    item
+                    xs={12}
+                    key={index}
+                    sx={{ mb: isMobile ? 1 : 0.5, pr: isMobile ? 1 : 0 }}
+                  >
                     <Page
                       pageKey={pageKey}
                       page={pages[pageKey]}
@@ -400,6 +419,7 @@ export default function Pages({
                       onClone={handleClonePage(pageKey)}
                       onEditConditions={handleEditCondtions(pageKey)}
                       onRemove={() => onRemovePage(pageKey)}
+                      onEmbed={() => onAction('embed', pageKey, -1)}
                       previewUrl={previewUrl}
                     />
                   </Grid>
@@ -407,7 +427,11 @@ export default function Pages({
               </Grid>
             </Box>
           </Grid>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
             <Box sx={{ width: '100%', pr: isMobile ? 1 : 0 }}>
               <PagesPagination
                 pageSize={pageSize}

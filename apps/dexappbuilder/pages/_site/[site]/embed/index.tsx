@@ -11,6 +11,7 @@ import { getAppConfig } from '../../../../src/services/app';
 import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
 
 import ProtectedContent from '@dexkit/dexappbuilder-viewer/components/ProtectedContent';
+import { PoweredByDexKit } from '@dexkit/ui/components/PoweredByDexKit';
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
   GatedCondition,
@@ -33,6 +34,7 @@ const EmbedPage: NextPage<{
   gatedLayout?: GatedPageLayout;
   result: boolean;
   hideLayout: boolean;
+  hide_powered_by: boolean;
   layout?: PageSectionsLayout;
   partialResults: { [key: number]: boolean };
   balances: { [key: number]: string };
@@ -46,6 +48,7 @@ const EmbedPage: NextPage<{
   hideLayout,
   gatedLayout,
   layout,
+  hide_powered_by,
   slug,
 }) => {
   if (isProtected) {
@@ -63,6 +66,7 @@ const EmbedPage: NextPage<{
               layout={gatedLayout}
               slug={slug}
             />
+            {!hide_powered_by && <PoweredByDexKit />}
           </AuthProvider>
         </SessionProvider>
       );
@@ -90,6 +94,7 @@ const EmbedPage: NextPage<{
       <NoSsr>
         <GlobalDialogs />
         <SectionsRenderer sections={sections} layout={layout} />
+        {!hide_powered_by && <PoweredByDexKit />}
       </NoSsr>
     );
   } else {
@@ -112,15 +117,21 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }: GetServerSidePropsContext<Params>) => {
   const queryClient = new QueryClient();
-  const { page, hideLayout } = query;
+  const { page, hideLayout, sectionIndex } = query;
 
   const hideM = hideLayout ? String(hideLayout) === 'true' : false;
 
   const sitePage = page as string;
 
   const configResponse = await getAppConfig(params?.site, sitePage);
+
   const { appConfig } = configResponse;
   const homePage = appConfig.pages[sitePage || ''];
+
+  const sections = sectionIndex
+    ? [homePage.sections[Number(sectionIndex)]]
+    : homePage.sections;
+
   if (!homePage) {
     return {
       redirect: {
@@ -152,6 +163,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         layout: homePage.layout,
         balances: {},
         partialResults: {},
+        hide_powered_by: appConfig.hide_powered_by || null,
         ...configResponse,
       },
     };
@@ -160,10 +172,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      sections: homePage.sections,
-      layout: homePage.layout,
+      sections: sections,
+      layout: homePage.layout || null,
       page: sitePage,
       hideLayout: hideM,
+      hide_powered_by: appConfig.hide_powered_by || null,
 
       ...configResponse,
     },

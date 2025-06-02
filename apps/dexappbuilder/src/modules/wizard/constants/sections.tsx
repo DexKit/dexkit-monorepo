@@ -15,6 +15,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import CallToAction from '@mui/icons-material/CallToAction';
 import Code from '@mui/icons-material/Code';
+import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GavelIcon from '@mui/icons-material/Gavel';
@@ -53,6 +54,14 @@ export const SECTION_MENU_OPTIONS = ({
       },
       icon: <ContentCopyOutlined />,
       value: 'clone',
+    },
+    {
+      title: {
+        id: 'embed.section',
+        defaultMessage: 'Embed section',
+      },
+      icon: <CodeOutlinedIcon />,
+      value: 'embed',
     },
     {
       title: {
@@ -222,7 +231,7 @@ export const SECTION_CONFIG: {
     icon: undefined,
     title: undefined,
   },
-  'referral': {
+  referral: {
     title: { id: 'referral.program', defaultMessage: 'Referral Program' },
     icon: <LinkIcon />,
   },
