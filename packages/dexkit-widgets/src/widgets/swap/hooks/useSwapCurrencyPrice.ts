@@ -93,22 +93,19 @@ export function useSwapCurrencyPrice({
 
         if (t && buyTokenToEthRate && sellTokenToEthRate) {
           const price = t[zeroAddress];
+          const currencyPrice = price[currency];
 
-          if (price && price[currency]) {
-            const currencyPrice = price[currency];
-
-            return {
-              buyPrice: intl.formatNumber(
-                (currencyPrice / Number(buyTokenToEthRate)),
-                { style: "currency", currency }
-              ),
-              sellPrice: intl.formatNumber(
-                (currencyPrice / Number(sellTokenToEthRate)),
-                { style: "currency", currency }
-              ),
-              isLoadingPrice: quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading,
-            };
-          }
+          return {
+            buyPrice: intl.formatNumber(
+              (currencyPrice / Number(buyTokenToEthRate)),
+              { style: "currency", currency }
+            ),
+            sellPrice: intl.formatNumber(
+              (currencyPrice / Number(sellTokenToEthRate)),
+              { style: "currency", currency }
+            ),
+            isLoadingPrice: quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading,
+          };
         }
       } catch (e) {
         return {};
@@ -124,7 +121,5 @@ export function useSwapCurrencyPrice({
     currency,
     coinPrices.isLoading,
     coinPrices.data,
-    nativeToken?.chainId,
-    intl,
   ]);
 }

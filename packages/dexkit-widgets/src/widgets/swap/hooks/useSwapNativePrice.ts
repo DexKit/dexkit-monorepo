@@ -63,6 +63,7 @@ export function useSwapNativePrice({
       variant,
     ],
     async ({ signal }) => {
+      // Classic variant don't have usd prices
       if (!variant || variant === SwapVariant.Classic) {
         return null;
       }
@@ -80,6 +81,7 @@ export function useSwapNativePrice({
         const client = new ZeroExApiClient(chainId, siteId);
 
         if (buyToken) {
+          // Handle native token case
           if (buyToken.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
             const sellTokenAmount = parseEther(NATIVE_MIN_AMOUNT);
             const sellAmountUnits = formatUnits(BigInt(sellTokenAmount), 18);
@@ -91,6 +93,7 @@ export function useSwapNativePrice({
             };
           }
 
+          // Try different amounts if the first one fails
           const amountsToTry = [NATIVE_MIN_AMOUNT, '0.01', '0.1', '1.0'];
 
           for (const amount of amountsToTry) {
@@ -101,14 +104,12 @@ export function useSwapNativePrice({
                 buyToken: buyToken.address,
                 sellToken: ZEROEX_NATIVE_TOKEN_ADDRESS,
                 feeRecipient: swapFees?.recipient,
-                taker: params.account || "0x0000000000000000000000000000000000000000",
+                taker: params.account || "",
                 sellAmount: sellTokenAmount.toString(),
               };
 
               if (maxSlippage !== undefined) {
                 quoteParam.slippagePercentage = maxSlippage;
-              } else {
-                quoteParam.slippagePercentage = 0.01; // 1%
               }
 
               const { buyAmount, sellAmount } = await client.price(quoteParam, { signal });
@@ -122,6 +123,7 @@ export function useSwapNativePrice({
                 sellAmountUnits,
               };
             } catch (error: any) {
+              // Continue to next amount if this one fails
               continue;
             }
           }
@@ -142,3 +144,4 @@ export function useSwapNativePrice({
     }
   );
 }
+
