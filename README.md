@@ -27,9 +27,19 @@ This monorepo uses Yarn as the preferred package manager.
 git clone https://github.com/DexKit/dexkit-monorepo.git
 cd dexkit-monorepo
 
-# Install dependencies
+# Install dependencies and build packages automatically
 yarn install
+# Note: The postinstall script will automatically build all required packages
 
+# Alternative: Manual setup (if needed)
+yarn setup
+```
+
+> **📝 Note**: After cloning, the `yarn install` command automatically builds all internal packages to prevent module resolution errors. This ensures all `@dexkit/*` packages are properly compiled and available.
+
+### Environment Setup
+
+```bash
 # Set up environment variables for DexAppBuilder
 cp apps/dexappbuilder/.env.example apps/dexappbuilder/.env
 
@@ -51,6 +61,24 @@ yarn dev
 cd apps/coinleague
 yarn dev
 # Visit http://localhost:3001
+```
+
+## 🔧 Troubleshooting
+
+### Module Resolution Issues
+If you encounter errors like `Module not found: Can't resolve '@dexkit/dexappbuilder-render'`, it means the internal packages haven't been built. This is automatically handled by the postinstall script, but you can manually resolve it:
+
+```bash
+# Build all required packages
+yarn build:packages
+
+# Or build individual packages in dependency order
+yarn workspace @dexkit/ui build
+yarn workspace @dexkit/core build
+yarn workspace @dexkit/unlock-widget build
+yarn workspace @dexkit/darkblock-evm-widget build
+yarn workspace @dexkit/dexappbuilder-render build
+yarn workspace @dexkit/dexappbuilder-viewer build
 ```
 
 ### General Guidelines:
@@ -83,3 +111,4 @@ This project is licensed under the MIT License.
 <div align="center">
   Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
 </div>
+

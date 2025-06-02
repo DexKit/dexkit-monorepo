@@ -12,14 +12,6 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits, parseEther } from "viem";
 
-// Amount used to get a quote
-const NATIVE_MIN_AMOUNT = '0.001';
-
-/**
- * returns native price
- * @param param0 
- * @returns 
- */
 interface SwapNativeQuoteParams {
   buyToken?: Token;
   chainId: ChainId;
@@ -28,6 +20,14 @@ interface SwapNativeQuoteParams {
 
 export const SWAP_NATIVE_PRICE = "SWAP_NATIVE_PRICE";
 
+// Amount used to get a quote
+const NATIVE_MIN_AMOUNT = '0.001';
+
+/**
+ * returns native price
+ * @param param0 
+ * @returns 
+ */
 export function useSwapNativePrice({
   maxSlippage,
   zeroExApiKey,
@@ -144,4 +144,3 @@ export function useSwapNativePrice({
     }
   );
 }
-

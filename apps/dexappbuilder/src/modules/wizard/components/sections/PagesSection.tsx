@@ -32,6 +32,7 @@ interface Props {
   onEditPage: (pageOptions: AppPageOptions) => void;
   onHideDesktop: (page: string, index: number) => void;
   onHideMobile: (page: string, index: number) => void;
+  onEmbed: (page: string, index: number) => void;
   onSaveSection: (section: AppPageSection, index: number) => void;
   onRemove: (page: string, index: number) => void;
   onEdit: (page: string, index: number) => void;
@@ -64,6 +65,7 @@ export default function PagesSection({
   theme,
   activeSection,
   onEditPage,
+  onEmbed,
   onSaveSection: onSave,
   onHideDesktop,
   onUpdatePageLayout,
@@ -169,6 +171,7 @@ export default function PagesSection({
           onEditPage={onEditPage}
           onRemove={onRemove}
           onEdit={handleEdit}
+          onEmbed={onEmbed}
           onAddPage={onAddPage}
           onAdd={handleAddSection}
           onChangeName={onChangeName}

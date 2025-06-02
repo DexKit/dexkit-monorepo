@@ -9,9 +9,11 @@ import { useTheme } from "@mui/material";
 import { useMemo } from "react";
 import { darkTheme, lightTheme, useConnectModal } from "thirdweb/react";
 import { ThemeMode } from "../constants/enum";
+
 import { useTrackUserEventsMutation } from "./userEvents";
 
 export const useWalletConnect = () => {
+
   const { connect, isConnecting } = useConnectModal();
   const trackUserEvents = useTrackUserEventsMutation();
 
@@ -43,7 +45,9 @@ export const useWalletConnect = () => {
   };
 
   const connectWallet = async () => {
+
     try {
+
       const wallet = await connect({
         client,
         wallets,
