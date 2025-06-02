@@ -1,6 +1,7 @@
 ---
 "@dexkit/dexappbuilder-viewer": minor
 "dexappbuilder": minor
+"@dexkit/ui": minor
 ---
 
-add referral public section w/ leaderboard for referral events
+fix auth error for tokendrop contract

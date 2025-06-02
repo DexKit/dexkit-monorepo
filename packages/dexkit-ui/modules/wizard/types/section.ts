@@ -77,10 +77,12 @@ export interface FeaturedAppPageSection extends PageSection {
   items: SectionItem[];
 }
 
-export interface CollectionAppPageSection extends PageSection {
+export interface CollectionAppPageSection extends Omit<PageSection, 'variant'> {
   type: "collections";
   title: string;
   items: SectionItem[];
+  variant?: "grid" | "list" | "carousel" | "cards" | "masonry" | "hero" | "compact";
+  hideTitle?: boolean;
 }
 
 export interface SwapPageSection extends PageSection {

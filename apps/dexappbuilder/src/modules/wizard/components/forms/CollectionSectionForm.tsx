@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Stack, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Paper, Select, Stack, Switch, TextField } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -12,12 +12,17 @@ import AddIcon from '@mui/icons-material/Add';
 import * as Yup from 'yup';
 import { PageSectionItem } from '../PageSectionItem';
 import AddItemForm from './AddItemForm';
+
 interface Form {
   title: string;
+  variant: "grid" | "list" | "carousel" | "cards" | "masonry" | "hero" | "compact";
+  hideTitle: boolean;
 }
 
-const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
+const FormSchema = Yup.object().shape({
   title: Yup.string().required(),
+  variant: Yup.string().oneOf(["grid", "list", "carousel", "cards", "masonry", "hero", "compact"] as const).required(),
+  hideTitle: Yup.boolean(),
 });
 
 interface Props {
@@ -46,17 +51,23 @@ export default function CollectionSectionForm({
       type: 'collections',
       items,
       title: values.title,
+      variant: values.variant,
+      hideTitle: values.hideTitle,
     });
   };
 
   const formik = useFormik({
     initialValues: section
       ? {
-          title: section.title,
-        }
+        title: section.title,
+        variant: section.variant || "grid" as const,
+        hideTitle: section.hideTitle || false,
+      }
       : {
-          title: '',
-        },
+        title: '',
+        variant: "grid" as const,
+        hideTitle: false,
+      },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });
@@ -77,6 +88,7 @@ export default function CollectionSectionForm({
   };
 
   const handleAddItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(true);
   };
 
@@ -109,10 +121,12 @@ export default function CollectionSectionForm({
       setItems((value) => [...value, item]);
     }
 
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
   const handleCancelItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
@@ -121,12 +135,14 @@ export default function CollectionSectionForm({
       type: 'collections',
       items,
       title: formik.values.title,
+      variant: formik.values.variant,
+      hideTitle: formik.values.hideTitle,
     });
   }, [formik.values, items]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ p: { xs: 1, sm: 2 } }}>
         <Grid item xs={12}>
           <TextField
             name="title"
@@ -140,6 +156,68 @@ export default function CollectionSectionForm({
             }
           />
         </Grid>
+
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel id="variant-label">
+              <FormattedMessage id="display.variant" defaultMessage="Display Variant" />
+            </InputLabel>
+            <Select
+              labelId="variant-label"
+              name="variant"
+              value={formik.values.variant}
+              onChange={formik.handleChange}
+              label={<FormattedMessage id="display.variant" defaultMessage="Display Variant" />}
+            >
+              <MenuItem value="grid">
+                <FormattedMessage id="variant.grid" defaultMessage="Grid" />
+              </MenuItem>
+              <MenuItem value="list">
+                <FormattedMessage id="variant.list" defaultMessage="List" />
+              </MenuItem>
+              <MenuItem value="carousel">
+                <FormattedMessage id="variant.carousel" defaultMessage="Carousel" />
+              </MenuItem>
+              <MenuItem value="cards">
+                <FormattedMessage id="variant.cards" defaultMessage="Cards" />
+              </MenuItem>
+              <MenuItem value="masonry">
+                <FormattedMessage id="variant.masonry" defaultMessage="Masonry" />
+              </MenuItem>
+              <MenuItem value="hero">
+                <FormattedMessage id="variant.hero" defaultMessage="Hero" />
+              </MenuItem>
+              <MenuItem value="compact">
+                <FormattedMessage id="variant.compact" defaultMessage="Compact" />
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* Hide Title Toggle - Show for variants that support hiding titles */}
+        {(formik.values.variant === "grid" ||
+          formik.values.variant === "masonry" ||
+          formik.values.variant === "hero") && (
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formik.values.hideTitle || false}
+                    onChange={(e) => {
+                      formik.setFieldValue('hideTitle', e.target.checked);
+                    }}
+                    color="primary"
+                  />
+                }
+                label={
+                  <FormattedMessage
+                    id="hide.collection.titles"
+                    defaultMessage="Hide collection titles"
+                  />
+                }
+              />
+            </Grid>
+          )}
 
         {!showAddItem &&
           items.map((item, index) => (
@@ -156,8 +234,9 @@ export default function CollectionSectionForm({
           ))}
         {showAddItem ? (
           <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
+            <Paper>
               <AddItemForm
+                key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
                 item={
                   selectedItemIndex > -1 ? items[selectedItemIndex] : undefined
                 }

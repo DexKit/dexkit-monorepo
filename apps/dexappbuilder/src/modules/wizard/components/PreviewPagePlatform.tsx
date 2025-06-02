@@ -135,18 +135,34 @@ export default function PreviewPagePlatform({
                 previewPlatform={previewPlatform}
               />
             ) : (
-              <Box
-                sx={{
-                  width: '100%',
-                  maxWidth: '375px',
-                  border: `1px solid ${theme.palette.divider}`,
-                  borderRadius: theme.shape.borderRadius * 2,
-                  overflow: 'auto',
-                  height: isMobile ? '100%' : 'auto'
-                }}
-              >
-                {pagePreview}
-              </Box>
+              enableOverflow ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    maxWidth: '375px',
+                    border: `1px solid ${theme.palette.divider}`,
+                    borderRadius: theme.shape.borderRadius * 2,
+                    overflow: 'auto',
+                    maxHeight: containerHeight,
+                    height: isMobile ? '100%' : 'auto'
+                  }}
+                >
+                  {pagePreview}
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    width: '100%',
+                    maxWidth: '375px',
+                    border: `1px solid ${theme.palette.divider}`,
+                    borderRadius: theme.shape.borderRadius * 2,
+                    overflow: 'auto',
+                    height: isMobile ? '100%' : 'auto'
+                  }}
+                >
+                  {pagePreview}
+                </Box>
+              )
             )}
           </Stack>
         )}

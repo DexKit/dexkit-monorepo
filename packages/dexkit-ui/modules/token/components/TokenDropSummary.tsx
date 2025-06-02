@@ -58,7 +58,14 @@ export default function TokenDropSummary({
           <FormattedMessage id="your.balance" defaultMessage="Your balance" />
         </Typography>
         <Typography variant={isMobile ? "body1" : "h5"}>
-          {balanceQuery.isLoading ? (
+          {!account ? (
+            <Typography variant={isMobile ? "body1" : "h5"} color="text.secondary">
+              <FormattedMessage
+                id="connect.your.wallet.first"
+                defaultMessage="Connect your wallet first"
+              />
+            </Typography>
+          ) : balanceQuery.isLoading ? (
             <Skeleton />
           ) : (
             balanceQuery.data?.displayValue

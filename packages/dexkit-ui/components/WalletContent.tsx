@@ -120,6 +120,21 @@ export default function WalletContent() {
     setOpen(false);
   };
 
+  const handleSwitchWallet = useCallback(async () => {
+    try {
+      if (wallet) {
+        await disconnect(wallet);
+      }
+
+      setTimeout(() => {
+        connectWallet();
+      }, 100);
+    } catch (error) {
+      console.error("Error switching wallet:", error);
+      connectWallet();
+    }
+  }, [wallet, disconnect, connectWallet]);
+
   return (
     <>
       {isOpen && (
@@ -318,7 +333,7 @@ export default function WalletContent() {
             )}
 
             <Button
-              onClick={connectWallet}
+              onClick={handleSwitchWallet}
               startIcon={<SwitchAccount fontSize="small" />}
               variant="outlined"
               color="inherit"

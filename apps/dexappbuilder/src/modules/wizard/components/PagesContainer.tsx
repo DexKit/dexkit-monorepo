@@ -19,6 +19,7 @@ import slugify from 'slugify';
 import { BuilderKit } from '../constants';
 import { PageSectionKey } from '../hooks/sections';
 import AddPageDialog from './dialogs/AddPageDialog';
+import EmbedPageDialog from './dialogs/EmbedPageDialog';
 import PagesSection from './sections/PagesSection';
 
 const ConfirmRemoveSectionDialog = dynamic(
@@ -78,6 +79,11 @@ export function PagesContainer({
   const [pageToClone, setPageToClone] = useState<string>();
 
   const [activeSection, setActiveSection] = useState<PageSectionKey>();
+  const [embedPageData, setEmbedPageData] = useState<{
+    page?: string;
+    sectionIndex?: number;
+  }>();
+  const [showEmbedDialog, setShowEmbedDialog] = useState(false);
 
   const [sectionToClone, setSectionToClone] = useState<PageSectionKey>();
 
@@ -469,6 +475,11 @@ export function PagesContainer({
     onChangePages();
   };
 
+  const handleOnEmbed = (page: string, index: number) => {
+    setEmbedPageData({ page, sectionIndex: index });
+    setShowEmbedDialog(true);
+  };
+
   return (
     <>
       <AddPageDialog
@@ -485,6 +496,22 @@ export function PagesContainer({
           onEditPage(item);
         }}
       />
+      {showEmbedDialog && (
+        <EmbedPageDialog
+          site={site}
+          page={embedPageData?.page}
+          sectionIndex={embedPageData?.sectionIndex}
+          dialogProps={{
+            open: showEmbedDialog,
+            maxWidth: 'md',
+            fullWidth: true,
+            onClose: () => setShowEmbedDialog(false),
+          }}
+          // clonedPage={pageToClone}
+          onCancel={() => setShowEmbedDialog(false)}
+        />
+      )}
+
       {sectionToClone && showCloneSection && (
         <CloneSectionDialog
           DialogProps={{
@@ -577,6 +604,7 @@ export function PagesContainer({
         onRemovePage={handleRemovePage}
         onSaveSection={handleSavePageSections}
         onRemove={handleRemovePageSections}
+        onEmbed={handleOnEmbed}
         onSwap={handleSwap}
         onClone={handleClone}
         onAddPage={handleAddPage}

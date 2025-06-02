@@ -124,6 +124,7 @@ export default function CallToActionSectionForm({
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
   const handleCancelItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
@@ -143,6 +144,7 @@ export default function CallToActionSectionForm({
   };
 
   const handleAddItem = () => {
+    setSelectedItemIndex(-1);
     setShowAddItem(true);
   };
 
@@ -159,6 +161,7 @@ export default function CallToActionSectionForm({
       setItems((value) => [...value, item]);
     }
 
+    setSelectedItemIndex(-1);
     setShowAddItem(false);
   };
 
@@ -345,6 +348,7 @@ export default function CallToActionSectionForm({
           <Grid item xs={12}>
             <Paper sx={{ p: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
               <AddItemForm
+                key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
                 item={
                   selectedItemIndex === -1
                     ? undefined

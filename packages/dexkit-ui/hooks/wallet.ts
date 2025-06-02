@@ -9,9 +9,11 @@ import { useTheme } from "@mui/material";
 import { useMemo } from "react";
 import { darkTheme, lightTheme, useConnectModal } from "thirdweb/react";
 import { ThemeMode } from "../constants/enum";
+
 import { useTrackUserEventsMutation } from "./userEvents";
 
 export const useWalletConnect = () => {
+
   const { connect, isConnecting } = useConnectModal();
   const trackUserEvents = useTrackUserEventsMutation();
 
@@ -43,33 +45,37 @@ export const useWalletConnect = () => {
   };
 
   const connectWallet = async () => {
-    const wallet = await connect({
-      client,
 
-      wallets,
-      appMetadata: appMetadataConfig,
-      size: "compact",
-      showThirdwebBranding: false,
+    try {
 
-      theme:
-        mode === ThemeMode.light
-          ? lightTheme({
+      const wallet = await connect({
+        client,
+        wallets,
+        appMetadata: appMetadataConfig,
+        size: "compact",
+        showThirdwebBranding: false,
+        theme:
+          mode === ThemeMode.light
+            ? lightTheme({
               colors,
             })
-          : darkTheme({ colors }),
-    });
-
-    if (wallet) {
-      const account = (wallet.getAccount()?.address as string).toLowerCase();
-      trackUserEvents.mutate({
-        event: UserOffChainEvents.connectAccount,
-        chainId: wallet.getChain()?.id,
-        from: account,
-        metadata: JSON.stringify({
-          account,
-          id: wallet?.id,
-        }),
+            : darkTheme({ colors }),
       });
+
+      if (wallet) {
+        const account = (wallet.getAccount()?.address as string).toLowerCase();
+        trackUserEvents.mutate({
+          event: UserOffChainEvents.connectAccount,
+          chainId: wallet.getChain()?.id,
+          from: account,
+          metadata: JSON.stringify({
+            account,
+            id: wallet?.id,
+          }),
+        });
+      }
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
     }
   };
 

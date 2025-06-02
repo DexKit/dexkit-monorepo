@@ -4,4 +4,4 @@
 "@dexkit/ui": minor
 ---
 
-enhance referral section with leaderboard functionality
+Add embed code option on pages admin section

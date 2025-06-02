@@ -4,4 +4,4 @@
 "@dexkit/ui": minor
 ---
 
-add support to create site rankings for referrals
+new variants for collection list component

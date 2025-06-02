@@ -20,6 +20,7 @@ interface Props {
   backgroundImageUrl?: string;
   hoverable?: boolean;
   disabled?: boolean;
+  hideTitle?: boolean;
 }
 
 export function CollectionCard({
@@ -28,6 +29,7 @@ export function CollectionCard({
   title,
   variant,
   disabled,
+  hideTitle,
 }: Props) {
   const renderCardContent = () => {
     return (
@@ -50,17 +52,19 @@ export function CollectionCard({
             /> */}
           </Box>
           <Stack alignItems="flex-start" spacing={2}>
-            <Typography
-              color="white"
-              variant={variant ? "h5" : "h4"}
-              sx={{
-                display: "block",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              }}
-            >
-              {title ? title : collection?.name}
-            </Typography>
+            {!hideTitle && (
+              <Typography
+                color="white"
+                variant={variant ? "h5" : "h4"}
+                sx={{
+                  display: "block",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                {title ? title : collection?.name}
+              </Typography>
+            )}
             {variant !== "simple" && (
               <Button
                 LinkComponent={Link}
@@ -68,8 +72,8 @@ export function CollectionCard({
                   disabled
                     ? "javascript:void(0)"
                     : `/collection/${NETWORK_SLUG(
-                        collection?.chainId
-                      )}/${collection?.address.toLowerCase()}`
+                      collection?.chainId
+                    )}/${collection?.address.toLowerCase()}`
                 }
                 variant="contained"
                 color="primary"

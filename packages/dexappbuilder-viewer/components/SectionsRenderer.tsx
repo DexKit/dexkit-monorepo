@@ -20,11 +20,23 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { PageSectionsLayout } from "@dexkit/ui/modules/wizard/types/config";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import React, { useCallback, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { FormattedMessage } from "react-intl";
 import { SECTIONS_TYPE_DATA_ICONS } from "../constants/section";
 import { SectionRender } from "./SectionRender";
+
+interface PreviewPlatformContextType {
+  previewPlatform?: 'mobile' | 'desktop';
+  isMobile: boolean;
+}
+
+const PreviewPlatformContext = createContext<PreviewPlatformContextType | null>(null);
+
+export const usePreviewPlatform = () => {
+  const context = useContext(PreviewPlatformContext);
+  return context;
+};
 
 export interface BottomNavActionProps {
   label: React.ReactNode;
@@ -74,11 +86,13 @@ function BottomNavAction({
 interface Props {
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
+  previewPlatform?: 'mobile' | 'desktop';
 }
 
-export function SectionsRenderer({ sections, layout }: Props) {
+export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobileDevice = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = previewPlatform ? previewPlatform === 'mobile' : isMobileDevice;
   const [tab, setTab] = useState("tab-0");
 
   const sectionsToRender = sections.map((section, key) => {
@@ -236,91 +250,99 @@ export function SectionsRenderer({ sections, layout }: Props) {
   if (layout?.type === "tabs") {
     if (isMobile && layout.layout?.mobile.position === "bottom") {
       return (
-        <TabContext value={tab}>
-          {renderPanels()}
-          <Portal container={document.body}>
-            <Paper
-              variant="elevation"
-              sx={{
-                overflowX: sections.length > 3 ? "auto" : undefined,
-                position: "sticky",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: (theme) => theme.zIndex.appBar + 1,
-              }}
-              elevation={3}
-            >
-              <Stack
+        <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+          <TabContext value={tab}>
+            {renderPanels()}
+            <Portal container={document.body}>
+              <Paper
+                variant="elevation"
                 sx={{
-                  overflowX: "auto",
+                  overflowX: sections.length > 3 ? "auto" : undefined,
+                  position: "sticky",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: (theme) => theme.zIndex.appBar + 1,
                 }}
-                divider={
-                  <Divider
-                    orientation="vertical"
-                    flexItem
-                    sx={{
-                      borderColor: (theme) =>
-                        theme.palette.mode === "dark"
-                          ? theme.palette.grey[800]
-                          : undefined,
-                    }}
-                  />
-                }
-                direction="row"
+                elevation={3}
               >
-                {renderBottomNavigationActions()}
-              </Stack>
-            </Paper>
-          </Portal>
-        </TabContext>
+                <Stack
+                  sx={{
+                    overflowX: "auto",
+                  }}
+                  divider={
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderColor: (theme) =>
+                          theme.palette.mode === "dark"
+                            ? theme.palette.grey[800]
+                            : undefined,
+                      }}
+                    />
+                  }
+                  direction="row"
+                >
+                  {renderBottomNavigationActions()}
+                </Stack>
+              </Paper>
+            </Portal>
+          </TabContext>
+        </PreviewPlatformContext.Provider>
       );
     }
 
     return (
-      <TabContext value={tab}>
-        <Box>
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              sm={
-                !isMobile && layout.layout?.desktop.position === "side" ? 3 : 12
-              }
-            >
-              <Tabs
-                centered
-                variant={isMobile ? "scrollable" : undefined}
-                allowScrollButtonsMobile
-                orientation={
-                  isMobile
-                    ? "horizontal"
-                    : layout.layout?.desktop.position === "side"
-                    ? "vertical"
-                    : "horizontal"
+      <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+        <TabContext value={tab}>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid
+                item
+                xs={12}
+                sm={
+                  !isMobile && layout.layout?.desktop.position === "side" ? 3 : 12
                 }
-                onChange={(e, value: string) => {
-                  setTab(value);
-                }}
-                value={tab}
               >
-                {isMobile ? renderMobileTabs() : renderDesktopTabs()}
-              </Tabs>
+                <Tabs
+                  centered
+                  variant={isMobile ? "scrollable" : undefined}
+                  allowScrollButtonsMobile
+                  orientation={
+                    isMobile
+                      ? "horizontal"
+                      : layout.layout?.desktop.position === "side"
+                        ? "vertical"
+                        : "horizontal"
+                  }
+                  onChange={(e, value: string) => {
+                    setTab(value);
+                  }}
+                  value={tab}
+                >
+                  {isMobile ? renderMobileTabs() : renderDesktopTabs()}
+                </Tabs>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={
+                  !isMobile && layout.layout?.desktop.position === "side" ? 9 : 12
+                }
+              >
+                {renderPanels()}
+              </Grid>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={
-                !isMobile && layout.layout?.desktop.position === "side" ? 9 : 12
-              }
-            >
-              {renderPanels()}
-            </Grid>
-          </Grid>
-        </Box>
-      </TabContext>
+          </Box>
+        </TabContext>
+      </PreviewPlatformContext.Provider>
     );
   }
 
-  return <>{sectionsToRender}</>;
+  return (
+    <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+      {sectionsToRender}
+    </PreviewPlatformContext.Provider>
+  );
 }

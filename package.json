@@ -7,6 +7,9 @@
     "packages/*"
   ],
   "scripts": {
+    "postinstall": "yarn build:packages",
+    "setup": "yarn install && yarn build:packages",
+    "verify": "node scripts/verify-setup.js",
     "clean-daemon": "turbo daemon clean",
     "build": "turbo run build",
     "release": "turbo run release --filter=@dexkit/ui,@dexkit/web3forms,@dexkit/widgets,@dexkit/dexappbuilder-viewer,@dexkit/core",
@@ -23,7 +26,7 @@
     "storybook:widget": "turbo run storybook --filter=@dexkit/widgets",
     "storybook:exchange": "turbo run storybook --filter=@dexkit/exchange",
     "bundle:widgets": "turbo run bundle:widgets",
-    "build:packages": "turbo run build --parallel",
+    "build:packages": "turbo run build --filter=@dexkit/unlock-widget --filter=@dexkit/darkblock-evm-widget --filter=@dexkit/dexappbuilder-render",
     "build:parallel": "turbo run build --parallel",
     "build:whitelabel": "turbo run build --filter=@dexkit/unlock-widget --filter=@dexkit/@dexkit/dexappbuilder-render --filter=dexappbuilder ",
     "build:dexappadmin": "turbo run build --filter=@dexkit/@dexkit/dexappbuilder-render  --filter=dexappadmin",

@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 
 import { useIsMobile } from '@dexkit/core';
+import CodeIcon from '@mui/icons-material/Code';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyOutlined';
+import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
 import LinkOutlined from '@mui/icons-material/LinkOutlined';
 import LockIcon from '@mui/icons-material/LockOutlined';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
-import { FormattedMessage } from 'react-intl';
-
-import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
 import React, { MouseEvent } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 export interface PageProps {
   page: AppPage;
@@ -26,6 +26,7 @@ export interface PageProps {
   onSelect: () => void;
   onPreview: () => void;
   onClone: () => void;
+  onEmbed: () => void;
   onRemove: () => void;
   onEditConditions: () => void;
   previewUrl?: string;
@@ -37,6 +38,7 @@ export default function Page({
   onPreview,
   onRemove,
   onClone,
+  onEmbed,
   onEditConditions,
   pageKey,
   previewUrl,
@@ -53,19 +55,29 @@ export default function Page({
   };
 
   return (
-    <Card sx={{ width: isMobile ? `calc(100% - ${theme.spacing(1)})` : '100%' }}>
-      <CardActionArea sx={{ px: isMobile ? theme.spacing(1) : theme.spacing(2), py: isMobile ? theme.spacing(1.5) : theme.spacing(1) }} onClick={onSelect}>
+    <Card
+      sx={{ width: isMobile ? `calc(100% - ${theme.spacing(1)})` : '100%' }}
+    >
+      <CardActionArea
+        sx={{
+          px: isMobile ? theme.spacing(1) : theme.spacing(2),
+          py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+        }}
+        onClick={onSelect}
+      >
         <Stack
           alignItems="center"
           justifyContent="space-between"
           direction="row"
         >
           <Typography
-            variant={isMobile ? "body1" : "body1"}
+            variant={isMobile ? 'body1' : 'body1'}
             color="text.primary"
             sx={{
-              fontWeight: isMobile ? theme.typography.fontWeightMedium : theme.typography.fontWeightRegular,
-              fontSize: isMobile ? theme.typography.body2.fontSize : undefined
+              fontWeight: isMobile
+                ? theme.typography.fontWeightMedium
+                : theme.typography.fontWeightRegular,
+              fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
             }}
           >
             {page.title}
@@ -80,7 +92,7 @@ export default function Page({
             <IconButton
               onClick={handleAction(onPreview)}
               onMouseDown={handleMouseDown}
-              size={isMobile ? "small" : "medium"}
+              size={isMobile ? 'small' : 'medium'}
               sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
             >
               <Tooltip
@@ -91,12 +103,12 @@ export default function Page({
                   />
                 }
               >
-                <Visibility fontSize={isMobile ? "medium" : "medium"} />
+                <Visibility fontSize={isMobile ? 'medium' : 'medium'} />
               </Tooltip>
             </IconButton>
             <IconButton
               onClick={handleAction(onClone)}
-              size={isMobile ? "small" : "medium"}
+              size={isMobile ? 'small' : 'medium'}
               sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
             >
               <Tooltip
@@ -107,7 +119,23 @@ export default function Page({
                   />
                 }
               >
-                <ContentCopyIcon fontSize={isMobile ? "medium" : "medium"} />
+                <ContentCopyIcon fontSize={isMobile ? 'medium' : 'medium'} />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              onClick={handleAction(onEmbed)}
+              size={isMobile ? 'small' : 'medium'}
+              sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
+            >
+              <Tooltip
+                title={
+                  <FormattedMessage
+                    id="embed.code"
+                    defaultMessage="Embed code"
+                  />
+                }
+              >
+                <CodeIcon fontSize={isMobile ? 'medium' : 'medium'} />
               </Tooltip>
             </IconButton>
             <IconButton
@@ -116,7 +144,7 @@ export default function Page({
               onClick={(e) => e.stopPropagation()}
               href={`${previewUrl}/${pageKey}`}
               target="_blank"
-              size={isMobile ? "small" : "medium"}
+              size={isMobile ? 'small' : 'medium'}
               sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
             >
               <Tooltip
@@ -127,7 +155,7 @@ export default function Page({
                   />
                 }
               >
-                <LinkOutlined fontSize={isMobile ? "medium" : "medium"} />
+                <LinkOutlined fontSize={isMobile ? 'medium' : 'medium'} />
               </Tooltip>
             </IconButton>
             {pageKey !== 'home' && (
@@ -136,7 +164,7 @@ export default function Page({
                 color={
                   page.enableGatedConditions === true ? 'success' : undefined
                 }
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
               >
                 <Tooltip
@@ -154,7 +182,7 @@ export default function Page({
                     )
                   }
                 >
-                  <LockIcon fontSize={isMobile ? "medium" : "medium"} />
+                  <LockIcon fontSize={isMobile ? 'medium' : 'medium'} />
                 </Tooltip>
               </IconButton>
             )}
@@ -162,13 +190,18 @@ export default function Page({
             {pageKey !== 'home' && (
               <IconButton
                 onClick={handleAction(onRemove)}
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 sx={{ p: isMobile ? theme.spacing(0.75) : theme.spacing(1) }}
               >
                 <Tooltip
-                  title={<FormattedMessage id="Delete" defaultMessage="Delete" />}
+                  title={
+                    <FormattedMessage id="Delete" defaultMessage="Delete" />
+                  }
                 >
-                  <DeleteOutlined fontSize={isMobile ? "medium" : "medium"} color="error" />
+                  <DeleteOutlined
+                    fontSize={isMobile ? 'medium' : 'medium'}
+                    color="error"
+                  />
                 </Tooltip>
               </IconButton>
             )}

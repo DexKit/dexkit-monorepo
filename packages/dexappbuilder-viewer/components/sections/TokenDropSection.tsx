@@ -458,15 +458,15 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   useEffect(() => {
     (async () => {
-      if (contract) {
+      if (contract && account) {
         const data = await contract?.totalSupply();
 
         setContractData(data);
 
-        setBalance((await contract?.erc20.balance()).displayValue);
+        setBalance((await contract?.erc20.balanceOf(account)).displayValue);
       }
     })();
-  }, [contract]);
+  }, [contract, account]);
 
   return (
     <Container>
@@ -488,13 +488,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           (claimConditions.data?.every(
             (cc) => cc.maxClaimableSupply === "0"
           ) && (
-            <Alert severity="info">
-              <FormattedMessage
-                id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
-                defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
-              />
-            </Alert>
-          ))}
+              <Alert severity="info">
+                <FormattedMessage
+                  id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
+                  defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
+                />
+              </Alert>
+            ))}
 
         {isLoading ? (
           <Box>

@@ -99,10 +99,6 @@ export default function ProtectedContent({
   }, [protectedConfigResponse, account, isLoggedIn, isCheckingConditions]);
 
   if (protectedConfigResponse?.sections) {
-    console.log(
-      "Rendering protected content sections:",
-      protectedConfigResponse.sections.length
-    );
     return (
       <SectionsRenderer
         sections={protectedConfigResponse.sections}

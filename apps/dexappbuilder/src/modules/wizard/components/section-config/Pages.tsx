@@ -419,6 +419,7 @@ export default function Pages({
                       onClone={handleClonePage(pageKey)}
                       onEditConditions={handleEditCondtions(pageKey)}
                       onRemove={() => onRemovePage(pageKey)}
+                      onEmbed={() => onAction('embed', pageKey, -1)}
                       previewUrl={previewUrl}
                     />
                   </Grid>
