@@ -115,6 +115,9 @@ export function SwapWidget({
     disableWallet,
   });
 
+  const selectedProvider =
+    connectedChainId === selectedChainId ? provider : swapProvider;
+
   const [userGasless] = useUserGaslessSettings();
 
   const isGasless = useMemo(() => {
@@ -176,7 +179,7 @@ export function SwapWidget({
     isGasless: isGasless,
     selectedChainId,
     connectedChainId,
-    provider: swapProvider,
+    provider: selectedProvider,
     signer,
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
@@ -325,7 +328,7 @@ export function SwapWidget({
           isLoadingSearch={searchQuery.isLoading}
           chainId={selectedChainId}
           account={account}
-          provider={swapProvider}
+          provider={selectedProvider}
           featuredTokens={featuredTokensByChain}
           onClearRecentTokens={handleClearRecentTokens}
           isProviderReady={isProviderReady}
@@ -353,7 +356,7 @@ export function SwapWidget({
           isLoadingSearch={searchQuery.isLoading}
           chainId={selectedChainId}
           account={account}
-          provider={swapProvider}
+          provider={selectedProvider}
           featuredTokens={featuredTokensByChain}
           onClearRecentTokens={handleClearRecentTokens}
           isProviderReady={isProviderReady}
@@ -382,7 +385,7 @@ export function SwapWidget({
         isLoadingSearch={searchQuery.isLoading}
         chainId={selectedChainId}
         account={account}
-        provider={swapProvider}
+        provider={selectedProvider}
         featuredTokens={featuredTokensByChain}
         onClearRecentTokens={handleClearRecentTokens}
         enableImportExterTokens={enableImportExterTokens}
