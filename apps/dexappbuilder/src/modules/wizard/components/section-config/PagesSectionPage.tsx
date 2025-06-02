@@ -26,6 +26,7 @@ interface Props {
   onClonePage: (page: string) => void;
   onHideDesktop: (page: string, index: number) => void;
   onHideMobile: (page: string, index: number) => void;
+  onEmbed: (page: string, index: number) => void;
   onEditTitle: (page: string, title: string) => void;
   onSwap: (page: string, index: number, other: number) => void;
   onChangeName: (page: string, index: number, name: string) => void;
@@ -60,6 +61,7 @@ export default function PagesSectionPage({
   onRemovePage,
   onAdd,
   onHideDesktop,
+  onEmbed,
   onEditTitle,
   onHideMobile,
   onChangeName,
@@ -128,6 +130,9 @@ export default function PagesSectionPage({
         onHideMobile(page, index);
         break;
       case 'change.name':
+        break;
+      case 'embed':
+        onEmbed(page, index);
         break;
       default:
         break;
