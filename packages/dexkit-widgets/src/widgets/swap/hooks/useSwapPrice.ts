@@ -43,9 +43,9 @@ export function useSwapPrice({
   variant?: SwapVariant;
 }): UseQueryResult<
   | (Pick<ZeroExQuoteResponse, "sellTokenToEthRate" | "buyTokenToEthRate"> & {
-      buyAmountUnits: string;
-      sellAmountUnits: string;
-    })
+    buyAmountUnits: string;
+    sellAmountUnits: string;
+  })
   | undefined
   | null,
   unknown
@@ -53,15 +53,15 @@ export function useSwapPrice({
   const refetchParams =
     params.quoteFor === "buy"
       ? {
-          sellToken: params.sellToken,
-          buyToken: params.buyToken,
-          buyTokenAmount: params.buyTokenAmount,
-        }
+        sellToken: params.sellToken,
+        buyToken: params.buyToken,
+        buyTokenAmount: params.buyTokenAmount,
+      }
       : {
-          sellToken: params.sellToken,
-          sellTokenAmount: params.sellTokenAmount,
-          buyToken: params.buyToken,
-        };
+        sellToken: params.sellToken,
+        sellTokenAmount: params.sellTokenAmount,
+        buyToken: params.buyToken,
+      };
 
   const { siteId } = useContext(SiteContext);
 
@@ -77,7 +77,6 @@ export function useSwapPrice({
       variant,
     ],
     async ({ signal }) => {
-      // Classic variant don't have usd prices
       if (!variant || variant === SwapVariant.Classic) {
         return null;
       }
@@ -91,7 +90,6 @@ export function useSwapPrice({
         buyToken,
         sellToken,
         sellTokenAmount,
-        buyTokenAmount,
         quoteFor,
       } = { ...params };
       const client = new ZeroExApiClient(chainId, siteId);
@@ -114,31 +112,7 @@ export function useSwapPrice({
           quoteParam.slippagePercentage = maxSlippage;
         }
 
-        if (quoteFor === "buy" && buyTokenAmount?.gt(0)) {
-          quoteParam.buyAmount = buyTokenAmount?.toString();
-          const {
-            sellTokenToEthRate,
-            buyTokenToEthRate,
-            buyAmount,
-            sellAmount,
-          } = await client.price(quoteParam, { signal });
-
-          const buyAmountUnits = formatUnits(
-            BigInt(buyAmount),
-            buyToken.decimals
-          );
-          const sellAmountUnits = formatUnits(
-            BigInt(sellAmount),
-            sellToken.decimals
-          );
-
-          return {
-            sellTokenToEthRate,
-            buyTokenToEthRate,
-            buyAmountUnits,
-            sellAmountUnits,
-          };
-        } else if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
+        if (quoteFor === "sell" && sellTokenAmount?.gt(0)) {
           quoteParam.sellAmount = sellTokenAmount?.toString();
           const {
             sellTokenToEthRate,

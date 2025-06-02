@@ -92,14 +92,13 @@ export async function getTokensBalance(
       const token = addressMapping[address.toLowerCase()];
 
       if (token && balance) {
-        balances[address] = balance;
-        balances[address.toLowerCase()] = balance;
         balances[token.address] = balance;
         balances[token.address.toLowerCase()] = balance;
 
         const isNativeToken = token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
-        if (isNativeToken) {
+        if (isNativeToken && address === constants.AddressZero) {
           balances[constants.AddressZero] = balance;
+          balances[ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()] = balance;
         }
       }
     });

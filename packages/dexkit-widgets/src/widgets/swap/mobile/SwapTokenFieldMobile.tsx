@@ -216,21 +216,48 @@ export default function SwapTokenFieldMobile({
             </Stack>
           )}
 
-          {token && price && !value.isZero() && (
+          {priceLoading ? (
             <Box textAlign="right">
               <Chip
-                label={`≈ $${(Number(formatBigNumber(value, token.decimals)) * Number(price)).toFixed(2)}`}
+                label={<FormattedMessage id="loading.price" defaultMessage="Loading..." />}
                 size="medium"
                 variant="outlined"
                 sx={{
                   fontSize: '0.875rem',
                   fontWeight: 'bold',
                   bgcolor: 'background.paper',
-                  borderColor: 'primary.main',
-                  color: 'primary.main',
+                  borderColor: 'action.disabled',
+                  color: 'text.secondary',
                 }}
               />
             </Box>
+          ) : (
+            <Stack spacing={1} alignItems="flex-end">
+              {token && price && (
+                <Box textAlign="right">
+                  <Typography variant="body2" color="text.secondary" fontWeight="medium">
+                    {token.symbol}: {price}
+                  </Typography>
+                </Box>
+              )}
+
+              {token && price && !value.isZero() && (
+                <Box textAlign="right">
+                  <Chip
+                    label={`≈ $${(Number(formatBigNumber(value, token.decimals)) * parseFloat(price.replace(/[^0-9.-]+/g, ""))).toFixed(2)}`}
+                    size="medium"
+                    variant="outlined"
+                    sx={{
+                      fontSize: '0.875rem',
+                      fontWeight: 'bold',
+                      bgcolor: 'background.paper',
+                      borderColor: 'primary.main',
+                      color: 'primary.main',
+                    }}
+                  />
+                </Box>
+              )}
+            </Stack>
           )}
         </Stack>
       </Stack>

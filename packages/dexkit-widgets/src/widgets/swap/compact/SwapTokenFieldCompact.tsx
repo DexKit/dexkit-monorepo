@@ -184,11 +184,25 @@ export default function SwapTokenFieldCompact({
           </Box>
 
           <Box textAlign="right">
-            {token && price && !value.isZero() && (
-              <Typography variant="caption" color="text.secondary">
-                ${(Number(formatBigNumber(value, token.decimals)) * Number(price)).toFixed(2)}
-              </Typography>
-            )}
+            <Stack spacing={0.25} alignItems="flex-end">
+              {priceLoading ? (
+                <Typography variant="caption" color="text.secondary">
+                  <FormattedMessage id="loading.price" defaultMessage="Loading..." />
+                </Typography>
+              ) : (
+                token && price && (
+                  <Typography variant="caption" color="text.secondary">
+                    {price}
+                  </Typography>
+                )
+              )}
+
+              {token && price && !value.isZero() && !priceLoading && (
+                <Typography variant="caption" color="text.secondary" fontWeight="medium">
+                  ~${(Number(formatBigNumber(value, token.decimals)) * parseFloat(price.replace(/[^0-9.-]+/g, ""))).toFixed(2)}
+                </Typography>
+              )}
+            </Stack>
           </Box>
         </Stack>
       </Stack>

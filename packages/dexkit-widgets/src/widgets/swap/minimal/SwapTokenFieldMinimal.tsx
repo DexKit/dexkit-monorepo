@@ -43,6 +43,8 @@ export default function SwapTokenFieldMinimal({
   token,
   onSelectToken,
   value,
+  price,
+  priceLoading,
   balance,
   showBalance,
   isUserInput,
@@ -169,6 +171,30 @@ export default function SwapTokenFieldMinimal({
             </Button>
           )}
         </Stack>
+      )}
+
+      {token && (
+        <Box mt={0.5} textAlign="right">
+          <Stack spacing={0.25} alignItems="flex-end">
+            {priceLoading ? (
+              <Typography variant="caption" color="text.secondary">
+                <FormattedMessage id="loading.price" defaultMessage="Loading..." />
+              </Typography>
+            ) : (
+              price && (
+                <Typography variant="caption" color="text.secondary">
+                  {token.symbol}: {price}
+                </Typography>
+              )
+            )}
+
+            {!value.isZero() && price && !priceLoading && (
+              <Typography variant="caption" color="text.secondary" fontWeight="medium">
+                ~${(Number(formatBigNumber(value, token.decimals)) * parseFloat(price.replace(/[^0-9.-]+/g, ""))).toFixed(2)}
+              </Typography>
+            )}
+          </Stack>
+        </Box>
       )}
     </Box>
   );

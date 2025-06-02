@@ -263,9 +263,10 @@ export function useMultiTokenBalance({
       }
 
       try {
-        await provider.getNetwork();
+        const network = await provider.getNetwork();
 
         const balances = await getTokensBalance(tokens, provider, account);
+
         return balances;
       } catch (error) {
         return {};

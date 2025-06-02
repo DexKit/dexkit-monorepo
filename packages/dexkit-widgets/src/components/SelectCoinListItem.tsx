@@ -41,18 +41,19 @@ function SelectCoinListItem({
 
     const isNativeToken = token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
 
-    const addresses = [
-      token.address,
-      token.address.toLowerCase(),
-    ];
-
-    if (isNativeToken) {
-      addresses.push(constants.AddressZero);
+    let balance = tokenBalances[token.address];
+    if (balance) {
+      return balance;
     }
 
-    for (const address of addresses) {
-      const balance = tokenBalances[address];
-      if (balance && !balance.isZero()) {
+    balance = tokenBalances[token.address.toLowerCase()];
+    if (balance) {
+      return balance;
+    }
+
+    if (isNativeToken) {
+      balance = tokenBalances[constants.AddressZero];
+      if (balance) {
         return balance;
       }
     }
