@@ -44,7 +44,6 @@ export const useWalletConnect = () => {
 
   const connectWallet = async () => {
     try {
-
       const wallet = await connect({
         client,
         wallets,
@@ -54,8 +53,8 @@ export const useWalletConnect = () => {
         theme:
           mode === ThemeMode.light
             ? lightTheme({
-                colors,
-              })
+              colors,
+            })
             : darkTheme({ colors }),
       });
 

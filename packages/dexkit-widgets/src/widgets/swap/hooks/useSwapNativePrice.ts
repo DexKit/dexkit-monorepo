@@ -12,6 +12,14 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits, parseEther } from "viem";
 
+// Amount used to get a quote
+const NATIVE_MIN_AMOUNT = '0.001';
+
+/**
+ * returns native price
+ * @param param0 
+ * @returns 
+ */
 interface SwapNativeQuoteParams {
   buyToken?: Token;
   chainId: ChainId;
@@ -73,7 +81,7 @@ export function useSwapNativePrice({
 
         if (buyToken) {
           if (buyToken.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
-            const sellTokenAmount = parseEther('0.001');
+            const sellTokenAmount = parseEther(NATIVE_MIN_AMOUNT);
             const sellAmountUnits = formatUnits(BigInt(sellTokenAmount), 18);
 
             return {
@@ -83,7 +91,7 @@ export function useSwapNativePrice({
             };
           }
 
-          const amountsToTry = ['0.01', '0.1', '1.0'];
+          const amountsToTry = [NATIVE_MIN_AMOUNT, '0.01', '0.1', '1.0'];
 
           for (const amount of amountsToTry) {
             try {
