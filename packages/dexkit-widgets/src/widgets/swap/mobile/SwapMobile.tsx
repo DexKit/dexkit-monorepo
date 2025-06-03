@@ -4,8 +4,10 @@ import {
   CircularProgress,
   Collapse,
   Fab,
+  IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   useTheme
 } from "@mui/material";
@@ -21,6 +23,7 @@ import {
 } from "@dexkit/ui/modules/swap/types";
 import {
   CheckCircle,
+  Settings,
   Speed,
   SwapVert,
   TouchApp,
@@ -216,14 +219,34 @@ export default function SwapMobile({
     }}>
       <Stack
         direction="row"
-        justifyContent="center"
+        justifyContent="space-between"
         alignItems="center"
         mb={3}
-        sx={{ pt: 1 }}
+        sx={{ pt: 1, px: 1 }}
       >
+        <Box />
         <Typography variant="h5" fontWeight="bold" color="primary.main">
           <FormattedMessage id="swap" defaultMessage="Swap" />
         </Typography>
+        <Tooltip title="Settings">
+          <IconButton
+            onClick={onShowSettings}
+            size="medium"
+            sx={{
+              p: 1,
+              bgcolor: 'background.paper',
+              border: 1,
+              borderColor: 'divider',
+              '&:hover': {
+                bgcolor: 'action.hover',
+                borderColor: 'primary.main',
+              },
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <Settings fontSize="medium" />
+          </IconButton>
+        </Tooltip>
       </Stack>
 
       <Paper
@@ -243,7 +266,7 @@ export default function SwapMobile({
             onChange={onChangeSellAmount}
             onSelectToken={(token) => onSelectToken("sell", token)}
             showBalance
-            isUserInput={quoteFor !== "sell"}
+            isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
@@ -291,7 +314,7 @@ export default function SwapMobile({
             onChange={onChangeBuyAmount}
             onSelectToken={(token) => onSelectToken("buy", token)}
             showBalance
-            isUserInput={quoteFor !== "buy"}
+            isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}

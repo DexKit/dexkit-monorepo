@@ -88,6 +88,7 @@ export default function SwapMinimal({
   execType,
   quote,
   isExecuting,
+  clickOnMax,
   sellTokenBalance,
   buyTokenBalance,
   insufficientBalance,
@@ -139,7 +140,7 @@ export default function SwapMinimal({
             onChange={onChangeSellAmount}
             onSelectToken={(token) => onSelectToken("sell", token)}
             showBalance
-            isUserInput={quoteFor !== "sell"}
+            isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
@@ -181,7 +182,7 @@ export default function SwapMinimal({
             onChange={onChangeBuyAmount}
             onSelectToken={(token) => onSelectToken("buy", token)}
             showBalance={false}
-            isUserInput={quoteFor !== "buy"}
+            isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}

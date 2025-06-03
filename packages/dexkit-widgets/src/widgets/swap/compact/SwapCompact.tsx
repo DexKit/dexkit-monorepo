@@ -214,7 +214,7 @@ export default function SwapCompact({
             onChange={onChangeSellAmount}
             onSelectToken={(token?: Token) => onSelectToken("sell", token)}
             showBalance
-            isUserInput={quoteFor !== "sell"}
+            isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
@@ -261,7 +261,7 @@ export default function SwapCompact({
             onChange={onChangeBuyAmount}
             onSelectToken={(token?: Token) => onSelectToken("buy", token)}
             showBalance
-            isUserInput={quoteFor !== "buy"}
+            isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}

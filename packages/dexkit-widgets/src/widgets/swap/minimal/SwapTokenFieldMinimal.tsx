@@ -121,6 +121,8 @@ export default function SwapTokenFieldMinimal({
           <CurrencyField
             value={value}
             onChange={onChange}
+            decimals={token?.decimals}
+            isUserInput={isUserInput}
             InputBaseProps={{
               ...InputBaseProps,
               sx: {
