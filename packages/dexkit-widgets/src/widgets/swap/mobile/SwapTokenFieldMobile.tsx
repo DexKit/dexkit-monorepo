@@ -18,6 +18,7 @@ import { CurrencyField } from "../CurrencyField";
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import { AccountBalanceWallet, KeyboardArrowDown } from "@mui/icons-material";
+import { isDexKitToken } from "../../../constants/tokens";
 
 export interface SwapTokenFieldMobileProps {
   InputBaseProps?: InputBaseProps;
@@ -71,7 +72,7 @@ export default function SwapTokenFieldMobile({
           variant="outlined"
           onClick={() => onSelectToken()}
           sx={{
-            minWidth: 120,
+            minWidth: 90,
             height: 56,
             borderRadius: 3,
             borderStyle: 'dashed',
@@ -85,8 +86,8 @@ export default function SwapTokenFieldMobile({
           }}
         >
           <Stack alignItems="center" spacing={0.5}>
-            <Typography variant="body1" fontWeight="bold">
-              <FormattedMessage id="select.token" defaultMessage="Select Token" />
+            <Typography variant="body2" fontWeight="bold">
+              <FormattedMessage id="select.token" defaultMessage="Select" />
             </Typography>
             <KeyboardArrowDown />
           </Stack>
@@ -94,12 +95,14 @@ export default function SwapTokenFieldMobile({
       );
     }
 
+    const isKitToken = isDexKitToken(token);
+
     return (
       <Button
         variant="outlined"
         onClick={() => onSelectToken()}
         sx={{
-          minWidth: 120,
+          minWidth: 90,
           height: 56,
           borderRadius: 3,
           p: 1,
@@ -111,23 +114,29 @@ export default function SwapTokenFieldMobile({
           transition: 'all 0.2s ease',
         }}
       >
-        <Stack alignItems="center" spacing={1} width="100%">
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Avatar
-              src={
-                token.logoURI
-                  ? token.logoURI
-                  : TOKEN_ICON_URL(token.address, token.chainId)
-              }
-              imgProps={{ sx: { objectFit: "fill" } }}
-              sx={{ width: 32, height: 32 }}
-            >
-              {token.symbol?.[0]}
-            </Avatar>
-            <Typography variant="h6" fontWeight="bold" noWrap>
+        <Stack direction="row" alignItems="center" spacing={0.5} width="100%">
+          <Avatar
+            src={
+              token.logoURI
+                ? token.logoURI
+                : TOKEN_ICON_URL(token.address, token.chainId)
+            }
+            imgProps={{ sx: { objectFit: "fill" } }}
+            sx={{
+              width: 24,
+              height: 24,
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
+            }}
+          >
+            {token.symbol?.[0]}
+          </Avatar>
+          <Stack alignItems="flex-start" spacing={-0.5} flex={1}>
+            <Typography variant="body2" fontWeight="bold" noWrap sx={{ maxWidth: '50px', lineHeight: 1 }}>
               {token.symbol}
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown fontSize="small" sx={{ alignSelf: 'center' }} />
           </Stack>
         </Stack>
       </Button>

@@ -8,7 +8,8 @@ import {
   ListItemButton,
   ListItemText,
   Skeleton,
-  Tooltip
+  Tooltip,
+  useTheme
 } from "@mui/material";
 import { BigNumber, constants } from "ethers";
 import { memo } from "react";
@@ -17,6 +18,7 @@ import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import Warning from "@mui/icons-material/Warning";
 import { FormattedMessage } from "react-intl";
+import { isDexKitToken } from "../constants/tokens";
 import { formatBigNumber } from "../utils";
 
 export interface SelectCoinListItemProps {
@@ -34,6 +36,8 @@ function SelectCoinListItem({
   isLoading,
   isExtern,
 }: SelectCoinListItemProps) {
+  const theme = useTheme();
+
   const getTokenBalance = () => {
     if (!tokenBalances || !token) {
       return BigNumber.from(0);
@@ -62,6 +66,7 @@ function SelectCoinListItem({
   };
 
   const balance = getTokenBalance();
+  const isKitToken = isDexKitToken(token);
 
   const renderAvatar = () => {
     if (isExtern) {
@@ -89,6 +94,11 @@ function SelectCoinListItem({
                 : TOKEN_ICON_URL(token.address, token.chainId)
             }
             imgProps={{ sx: { objectFit: "fill" } }}
+            sx={{
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
+            }}
           />
         </Badge>
       );
@@ -102,6 +112,11 @@ function SelectCoinListItem({
             : TOKEN_ICON_URL(token.address, token.chainId)
         }
         imgProps={{ sx: { objectFit: "fill" } }}
+        sx={{
+          ...(isKitToken && theme.palette.mode === 'dark' && {
+            filter: 'invert(1)',
+          })
+        }}
       />
     );
   };

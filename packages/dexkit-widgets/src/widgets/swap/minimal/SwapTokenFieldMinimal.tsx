@@ -5,6 +5,7 @@ import {
   InputBaseProps,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -16,6 +17,7 @@ import { CurrencyField } from "../CurrencyField";
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { isDexKitToken } from "../../../constants/tokens";
 
 export interface SwapTokenFieldMinimalProps {
   InputBaseProps?: InputBaseProps;
@@ -51,6 +53,8 @@ export default function SwapTokenFieldMinimal({
   isBuyToken,
   placeholder = "0.0",
 }: SwapTokenFieldMinimalProps) {
+  const theme = useTheme();
+
   const handleMaxClick = () => {
     if (balance && !balance.isZero()) {
       onChange(balance, true);
@@ -82,6 +86,8 @@ export default function SwapTokenFieldMinimal({
       );
     }
 
+    const isKitToken = isDexKitToken(token);
+
     return (
       <Button
         variant="text"
@@ -99,7 +105,13 @@ export default function SwapTokenFieldMinimal({
                 : TOKEN_ICON_URL(token.address, token.chainId)
             }
             imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{ width: 24, height: 24 }}
+            sx={{
+              width: 24,
+              height: 24,
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
+            }}
           >
             {token.symbol?.[0]}
           </Avatar>
