@@ -120,11 +120,10 @@ export default function SwapMinimal({
   }
 
   return (
-    <Box sx={{ maxWidth: 360, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 360, mx: 'auto', p: 1 }}>
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 2,
           border: 1,
           borderColor: 'divider',
           overflow: 'hidden',
@@ -191,7 +190,7 @@ export default function SwapMinimal({
         </Stack>
       </Paper>
 
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 1.5 }}>
         {!isActive ? (
           <Button
             fullWidth
@@ -200,8 +199,7 @@ export default function SwapMinimal({
             disabled={!isProviderReady}
             onClick={onExec}
             sx={{
-              borderRadius: 2,
-              py: 1.5,
+              py: 1.2,
               fontWeight: 500,
             }}
           >
@@ -213,7 +211,7 @@ export default function SwapMinimal({
             variant="outlined"
             size="large"
             onClick={onToggleChangeNetwork}
-            sx={{ borderRadius: 2, py: 1.5 }}
+            sx={{ py: 1.2 }}
           >
             <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
           </Button>
@@ -232,8 +230,7 @@ export default function SwapMinimal({
             }
             onClick={onExec}
             sx={{
-              borderRadius: 2,
-              py: 1.5,
+              py: 1.2,
               fontWeight: 500,
             }}
           >

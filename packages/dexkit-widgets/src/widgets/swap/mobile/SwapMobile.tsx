@@ -175,7 +175,6 @@ export default function SwapMobile({
         sx={{
           p: 3,
           textAlign: "center",
-          borderRadius: 3,
           border: 1,
           borderColor: 'divider',
           mx: 2,
@@ -199,7 +198,7 @@ export default function SwapMobile({
           size="large"
           onClick={onToggleChangeNetwork}
           startIcon={<TouchApp />}
-          sx={{ borderRadius: 3, py: 1.5 }}
+          sx={{ py: 1.5 }}
         >
           <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
         </Button>
@@ -212,7 +211,6 @@ export default function SwapMobile({
       maxWidth: 400,
       mx: 'auto',
       p: 2,
-      minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -221,9 +219,9 @@ export default function SwapMobile({
         justifyContent="center"
         alignItems="center"
         mb={3}
-        sx={{ pt: 2 }}
+        sx={{ pt: 1 }}
       >
-        <Typography variant="h4" fontWeight="bold" color="primary.main">
+        <Typography variant="h5" fontWeight="bold" color="primary.main">
           <FormattedMessage id="swap" defaultMessage="Swap" />
         </Typography>
       </Stack>
@@ -231,9 +229,7 @@ export default function SwapMobile({
       <Paper
         elevation={4}
         sx={{
-          borderRadius: 4,
           overflow: 'hidden',
-          flex: 1,
           background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.action.hover} 100%)`,
         }}
       >
@@ -311,7 +307,6 @@ export default function SwapMobile({
           sx={{
             mt: 2,
             p: 2,
-            borderRadius: 3,
             bgcolor: 'success.light',
             color: 'success.contrastText',
           }}
@@ -386,7 +381,7 @@ export default function SwapMobile({
         </Paper>
       )}
 
-      <Box sx={{ mt: 3, pb: 2 }}>
+      <Box sx={{ mt: 2, pb: 1 }}>
         {!isActive ? (
           <Button
             fullWidth
@@ -396,7 +391,6 @@ export default function SwapMobile({
             onClick={onExec}
             startIcon={<TouchApp />}
             sx={{
-              borderRadius: 3,
               py: 2,
               fontSize: '1.1rem',
               fontWeight: 600,
@@ -414,7 +408,6 @@ export default function SwapMobile({
             onClick={onToggleChangeNetwork}
             startIcon={<TouchApp />}
             sx={{
-              borderRadius: 3,
               py: 2,
               fontSize: '1.1rem',
               fontWeight: 600,
@@ -447,7 +440,6 @@ export default function SwapMobile({
               )
             }
             sx={{
-              borderRadius: 3,
               py: 2,
               fontSize: '1.1rem',
               fontWeight: 600,

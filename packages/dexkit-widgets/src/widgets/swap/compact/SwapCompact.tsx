@@ -150,7 +150,6 @@ export default function SwapCompact({
         sx={{
           p: 2,
           textAlign: "center",
-          borderRadius: 2,
           border: 1,
           borderColor: 'divider',
           minWidth: 280,
@@ -175,7 +174,7 @@ export default function SwapCompact({
   }
 
   return (
-    <Box sx={{ width: '100%', maxWidth: { xs: '100%', sm: 320 }, mx: 'auto' }}>
+    <Box sx={{ width: '100%', maxWidth: { xs: '100%', sm: 320 }, mx: 'auto', p: { xs: 1, sm: 1.5 } }}>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -200,7 +199,6 @@ export default function SwapCompact({
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 2,
           border: 1,
           borderColor: 'divider',
           overflow: 'hidden',
@@ -293,7 +291,7 @@ export default function SwapCompact({
         </Box>
       )}
 
-      <Box sx={{ mt: 1.5, px: { xs: 0.5, sm: 1 } }}>
+      <Box sx={{ mt: 1.2, px: { xs: 0.5, sm: 1 } }}>
         {!isActive ? (
           <Button
             fullWidth
@@ -302,8 +300,7 @@ export default function SwapCompact({
             disabled={!isProviderReady}
             onClick={onExec}
             sx={{
-              borderRadius: 2,
-              py: 1,
+              py: 0.8,
               fontSize: '0.875rem',
               fontWeight: 500,
             }}
@@ -316,7 +313,7 @@ export default function SwapCompact({
             variant="outlined"
             size="small"
             onClick={onToggleChangeNetwork}
-            sx={{ borderRadius: 2, py: 1 }}
+            sx={{ py: 0.8 }}
           >
             <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
           </Button>
@@ -335,8 +332,7 @@ export default function SwapCompact({
             }
             onClick={onExec}
             sx={{
-              borderRadius: 2,
-              py: 1,
+              py: 0.8,
               fontSize: '0.875rem',
               fontWeight: 500,
             }}
