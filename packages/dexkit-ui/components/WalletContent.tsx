@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  CircularProgress,
   Divider,
   IconButton,
   Stack,
@@ -14,13 +15,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import dynamic from "next/dynamic";
 
 import { NETWORK_IMAGE, NETWORK_NAME } from "@dexkit/core/constants/networks";
+import { useIsMobile } from "@dexkit/core/hooks";
 
 import { AccountBalance } from "@dexkit/ui/components/AccountBalance";
 import TransakWidget from "@dexkit/ui/components/Transak";
@@ -56,23 +58,98 @@ const SelectNetworkDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
 );
 
-export default function WalletContent() {
+export interface WalletContentProps {
+  onClosePopover?: () => void;
+  onStartSwitching?: () => void;
+  onStopSwitching?: () => void;
+}
+
+export default function WalletContent({
+  onClosePopover,
+  onStartSwitching,
+  onStopSwitching
+}: WalletContentProps) {
   const { account, ENSName, chainId, connector } = useWeb3React();
 
   const theme = useTheme();
   const wallet = useActiveWallet();
+  const isMobile = useIsMobile();
 
   const { disconnect } = useDisconnect();
   const wallets = useConnectedWallets();
   const { connectWallet } = useWalletConnect();
   const logoutMutation = useLogoutAccountMutation();
 
+  const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
+  const switchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const styleElementRef = useRef<HTMLStyleElement | null>(null);
+
+  useEffect(() => {
+    if (!styleElementRef.current) {
+      const styleElement = document.createElement('style');
+      styleElement.type = 'text/css';
+      styleElement.innerHTML = `
+        .switching-wallet [data-focus-trap-disabled] {
+          pointer-events: none !important;
+        }
+        .switching-wallet .MuiFocusTrap-root {
+          pointer-events: none !important;
+        }
+        .switching-wallet [role="dialog"] {
+          pointer-events: auto !important;
+        }
+        body.switching-wallet {
+          overflow: hidden;
+        }
+      `;
+      document.head.appendChild(styleElement);
+      styleElementRef.current = styleElement;
+    }
+
+    return () => {
+      if (styleElementRef.current) {
+        document.head.removeChild(styleElementRef.current);
+        styleElementRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (switchTimeoutRef.current) {
+        clearTimeout(switchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isSwitchingWallet) {
+      switchTimeoutRef.current = setTimeout(() => {
+        setIsSwitchingWallet(false);
+        if (onStopSwitching) {
+          onStopSwitching();
+        }
+      }, 15000);
+
+      return () => {
+        if (switchTimeoutRef.current) {
+          clearTimeout(switchTimeoutRef.current);
+          switchTimeoutRef.current = null;
+        }
+      };
+    }
+  }, [isSwitchingWallet, onStopSwitching]);
+
   const handleLogoutWallet = useCallback(async () => {
+    if (onClosePopover) {
+      onClosePopover();
+    }
+
     logoutMutation.mutate();
     if (wallet) {
       disconnect(wallet);
     }
-  }, [logoutMutation, connector]);
+  }, [logoutMutation, connector, onClosePopover]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();
 
@@ -121,19 +198,78 @@ export default function WalletContent() {
   };
 
   const handleSwitchWallet = useCallback(async () => {
+    if (isSwitchingWallet) {
+      return;
+    }
+
     try {
-      if (wallet) {
-        await disconnect(wallet);
+      setIsSwitchingWallet(true);
+
+      document.body.classList.add('switching-wallet');
+
+      if (onStartSwitching) {
+        onStartSwitching();
       }
 
-      setTimeout(() => {
-        connectWallet();
-      }, 100);
+      if (onClosePopover) {
+        onClosePopover();
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      document.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Escape',
+        code: 'Escape',
+        keyCode: 27,
+        which: 27,
+        bubbles: true
+      }));
+
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      if (wallet) {
+        await disconnect(wallet);
+
+        const disconnectWait = isMobile ? 1200 : 800;
+        await new Promise(resolve => setTimeout(resolve, disconnectWait));
+      }
+
+      const stabilizationWait = isMobile ? 1000 : 600;
+      await new Promise(resolve => setTimeout(resolve, stabilizationWait));
+
+      await connectWallet();
     } catch (error) {
-      console.error("Error switching wallet:", error);
-      connectWallet();
+      try {
+        const fallbackWait = isMobile ? 800 : 400;
+        await new Promise(resolve => setTimeout(resolve, fallbackWait));
+        await connectWallet();
+      } catch (fallbackError) {
+        console.error("Fallback connection failed:", fallbackError);
+      }
+    } finally {
+      document.body.classList.remove('switching-wallet');
+
+      if (switchTimeoutRef.current) {
+        clearTimeout(switchTimeoutRef.current);
+        switchTimeoutRef.current = null;
+      }
+
+      setIsSwitchingWallet(false);
+
+      if (onStopSwitching) {
+        onStopSwitching();
+      }
     }
-  }, [wallet, disconnect, connectWallet]);
+  }, [
+    wallet,
+    disconnect,
+    connectWallet,
+    isSwitchingWallet,
+    isMobile,
+    onClosePopover,
+    onStartSwitching,
+    onStopSwitching
+  ]);
 
   return (
     <>
@@ -325,7 +461,6 @@ export default function WalletContent() {
             </Button>
           </Stack>
           <Stack spacing={2} direction="row">
-            {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
             {false && (
               <TransakWidget
                 buttonProps={{ color: "inherit", variant: "outlined" }}
@@ -334,14 +469,28 @@ export default function WalletContent() {
 
             <Button
               onClick={handleSwitchWallet}
-              startIcon={<SwitchAccount fontSize="small" />}
+              disabled={isSwitchingWallet}
+              startIcon={
+                isSwitchingWallet ? (
+                  <CircularProgress size={16} color="inherit" />
+                ) : (
+                  <SwitchAccount fontSize="small" />
+                )
+              }
               variant="outlined"
               color="inherit"
             >
-              <FormattedMessage
-                id="switch.wallet"
-                defaultMessage="Switch wallet"
-              />
+              {isSwitchingWallet ? (
+                <FormattedMessage
+                  id="switching.wallet"
+                  defaultMessage="Switching..."
+                />
+              ) : (
+                <FormattedMessage
+                  id="switch.wallet"
+                  defaultMessage="Switch wallet"
+                />
+              )}
             </Button>
           </Stack>
         </Stack>

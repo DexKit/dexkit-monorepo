@@ -1,3 +1,5 @@
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Alert,
   Avatar,
@@ -8,6 +10,8 @@ import {
   DialogActions,
   DialogContent,
   DialogProps,
+  IconButton,
+  InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
@@ -15,9 +19,12 @@ import {
   ListItemText,
   Radio,
   Stack,
+  TextField,
+  Typography,
+  useTheme,
 } from "@mui/material";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
 import { useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
@@ -32,14 +39,34 @@ interface Props {
 
 function SwitchNetworkDialog({ dialogProps }: Props) {
   const isMobile = useIsMobile();
+  const theme = useTheme();
+  const intl = useIntl();
 
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
   const { chainId: connectedChainId } = useWeb3React();
 
   const [chainId, setChainId] = useState<number>();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const switchNetworkMutation = useSwitchNetworkMutation();
+
+  const filteredNetworks = useMemo(() => {
+    const availableNetworks = Object.keys(NETWORKS)
+      .filter((k) => activeChainIds && activeChainIds?.includes(Number(k)))
+      .filter((k) => Number(k) !== connectedChainId)
+      .filter((k) => !NETWORKS[parseInt(k)].testnet)
+      .map((key) => NETWORKS[parseInt(key)] as Network);
+
+    if (!searchQuery.trim()) {
+      return availableNetworks;
+    }
+
+    return availableNetworks.filter((network) =>
+      network.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      network.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [activeChainIds, connectedChainId, searchQuery]);
 
   const handleClose = () => onClose!({}, "backdropClick");
 
@@ -54,7 +81,6 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
     if (id === chainId) {
       return setChainId(undefined);
     }
-
     setChainId(id);
   };
 
@@ -62,8 +88,30 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
     switchNetworkMutation.reset();
   };
 
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
+
   return (
-    <Dialog {...dialogProps} fullScreen={isMobile}>
+    <Dialog
+      {...dialogProps}
+      fullScreen={isMobile}
+      PaperProps={{
+        sx: {
+          ...(isMobile && {
+            margin: 0,
+            borderRadius: 0,
+            maxHeight: '100%',
+            height: '100%',
+          }),
+          ...(!isMobile && {
+            minHeight: '60vh',
+            maxHeight: '80vh',
+            borderRadius: theme.spacing(2),
+          }),
+        },
+      }}
+    >
       <AppDialogTitle
         title={
           <FormattedMessage
@@ -74,33 +122,149 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
         }
         onClose={handleClose}
       />
-      <DialogContent dividers sx={{ p: 0 }}>
-        <Stack spacing={2}>
+
+      <Box
+        sx={{
+          position: 'sticky',
+          top: 0,
+          zIndex: theme.zIndex.appBar,
+          backgroundColor: theme.palette.background.paper,
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          px: isMobile ? theme.spacing(2) : theme.spacing(3),
+          py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+        }}
+      >
+        <TextField
+          fullWidth
+          size={isMobile ? "medium" : "small"}
+          placeholder={intl.formatMessage({
+            id: "search.network",
+            defaultMessage: "Search networks by name...",
+          })}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: isMobile ? theme.typography.h5.fontSize : theme.typography.body1.fontSize,
+                  }}
+                />
+              </InputAdornment>
+            ),
+            endAdornment: searchQuery && (
+              <InputAdornment position="end">
+                <IconButton
+                  size="small"
+                  onClick={handleClearSearch}
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    p: isMobile ? theme.spacing(1) : theme.spacing(0.5),
+                  }}
+                >
+                  <ClearIcon fontSize={isMobile ? "medium" : "small"} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            },
+          }}
+        />
+
+        {searchQuery && (
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              mt: 1,
+              display: 'block',
+            }}
+          >
+            <FormattedMessage
+              id="networks.found"
+              defaultMessage="{count} {count, plural, one {network} other {networks}} found"
+              values={{ count: filteredNetworks.length }}
+            />
+          </Typography>
+        )}
+      </Box>
+
+      <DialogContent
+        dividers={false}
+        sx={{
+          p: 0,
+          flex: 1,
+          overflow: 'auto',
+        }}
+      >
+        <Stack spacing={isMobile ? 0 : 1}>
           {switchNetworkMutation.isError && (
-            <Alert severity="error" onClose={handleReset}>
-              {switchNetworkMutation.error?.message}
-            </Alert>
+            <Box sx={{ p: isMobile ? 2 : 3 }}>
+              <Alert severity="error" onClose={handleReset}>
+                {switchNetworkMutation.error?.message}
+              </Alert>
+            </Box>
           )}
-          <List disablePadding>
-            {Object.keys(NETWORKS)
-              .filter(
-                (k) => activeChainIds && activeChainIds?.includes(Number(k))
-              )
-              .filter((k) => Number(k) !== connectedChainId)
-              .filter((k) => !NETWORKS[parseInt(k)].testnet)
-              .map((key: any, index: number) => (
+
+          {filteredNetworks.length === 0 ? (
+            <Box
+              sx={{
+                py: isMobile ? theme.spacing(4) : theme.spacing(6),
+                px: isMobile ? theme.spacing(2) : theme.spacing(3),
+                textAlign: 'center',
+              }}
+            >
+              <Typography
+                variant="body1"
+                color="text.secondary"
+              >
+                <FormattedMessage
+                  id="no.networks.found"
+                  defaultMessage="No networks found matching your search"
+                />
+              </Typography>
+            </Box>
+          ) : (
+            <List
+              disablePadding
+              sx={{
+                '& .MuiListItemButton-root': {
+                  py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
+                  px: isMobile ? theme.spacing(2) : theme.spacing(3),
+                  minHeight: isMobile ? theme.spacing(9) : theme.spacing(8),
+                  '&:hover': {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                  '&.Mui-selected': {
+                    backgroundColor: theme.palette.action.selected,
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.selected,
+                    },
+                  },
+                },
+              }}
+            >
+              {filteredNetworks.map((network, index) => (
                 <ListItemButton
                   disabled={switchNetworkMutation.isLoading}
-                  selected={(NETWORKS[key] as Network).chainId === chainId}
-                  key={index}
-                  onClick={() =>
-                    handleSelectNetwork((NETWORKS[key] as Network).chainId)
-                  }
+                  selected={network.chainId === chainId}
+                  key={network.chainId}
+                  onClick={() => handleSelectNetwork(network.chainId)}
+                  divider={index < filteredNetworks.length - 1}
                 >
-                  <ListItemIcon>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: isMobile ? theme.spacing(7) : theme.spacing(6),
+                    }}
+                  >
                     <Box
                       sx={{
-                        width: (theme) => theme.spacing(6),
+                        width: isMobile ? theme.spacing(6) : theme.spacing(5),
                         display: "flex",
                         alignItems: "center",
                         alignContent: "center",
@@ -108,32 +272,65 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                       }}
                     >
                       <Avatar
-                        src={(NETWORKS[key] as Network).imageUrl}
-                        sx={(theme) => ({
+                        src={network.imageUrl}
+                        sx={{
                           width: "auto",
-                          height: theme.spacing(4),
-                        })}
-                        alt={(NETWORKS[key] as Network).name}
+                          height: isMobile ? theme.spacing(5) : theme.spacing(4),
+                        }}
+                        alt={network.name}
                       />
                     </Box>
                   </ListItemIcon>
 
                   <ListItemText
-                    primary={(NETWORKS[key] as Network).name}
-                    secondary={(NETWORKS[key] as Network).symbol}
+                    primary={
+                      <Typography
+                        variant={isMobile ? "body1" : "body2"}
+                        sx={{
+                          fontWeight: theme.typography.fontWeightMedium,
+                        }}
+                      >
+                        {network.name}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography
+                        variant={isMobile ? "body2" : "caption"}
+                        color="text.secondary"
+                      >
+                        {network.symbol}
+                      </Typography>
+                    }
                   />
                   <ListItemSecondaryAction>
                     <Radio
                       name="chainId"
-                      checked={(NETWORKS[key] as Network).chainId === chainId}
+                      checked={network.chainId === chainId}
+                      size={isMobile ? "medium" : "small"}
+                      sx={{
+                        color: theme.palette.primary.main,
+                        '&.Mui-checked': {
+                          color: theme.palette.primary.main,
+                        },
+                      }}
                     />
                   </ListItemSecondaryAction>
                 </ListItemButton>
               ))}
-          </List>
+            </List>
+          )}
         </Stack>
       </DialogContent>
-      <DialogActions>
+
+      <DialogActions
+        sx={{
+          px: isMobile ? theme.spacing(2) : theme.spacing(3),
+          py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
+          gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
+          backgroundColor: theme.palette.background.paper,
+          borderTop: `1px solid ${theme.palette.divider}`,
+        }}
+      >
         <Button
           variant="contained"
           color="primary"
@@ -144,6 +341,12 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             ) : undefined
           }
           onClick={handleSwitchNetwork}
+          size={isMobile ? "large" : "medium"}
+          sx={{
+            flex: isMobile ? 1 : 'none',
+            minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
+            borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+          }}
         >
           <FormattedMessage
             id="switch"
@@ -154,6 +357,12 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
         <Button
           disabled={switchNetworkMutation.isLoading}
           onClick={handleClose}
+          size={isMobile ? "large" : "medium"}
+          sx={{
+            flex: isMobile ? 1 : 'none',
+            minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
+            borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+          }}
         >
           <FormattedMessage
             id="cancel"

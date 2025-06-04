@@ -57,8 +57,8 @@ export const useWalletConnect = () => {
         theme:
           mode === ThemeMode.light
             ? lightTheme({
-              colors,
-            })
+                colors,
+              })
             : darkTheme({ colors }),
       });
 
