@@ -56,6 +56,7 @@ export function useSwapState({
   onChangeNetwork,
   onNotification,
   onShowTransactions,
+  onConnectWallet,
   currency,
   variant,
 }: {
@@ -80,6 +81,7 @@ export function useSwapState({
   onChangeNetwork: (chainId: ChainId) => void;
   onNotification: (params: NotificationCallbackParams) => void;
   onShowTransactions: () => void;
+  onConnectWallet: () => void;
   maxSlippage: number;
   isAutoSlippage: boolean;
   currency: string;
@@ -379,6 +381,11 @@ export function useSwapState({
   };
 
   const handleExecSwap = useCallback(async () => {
+    if (!isActive) {
+      onConnectWallet();
+      return;
+    }
+
     if (execType === "swap" && quoteQuery.data) {
       setShowConfirmSwap(true);
       quoteQuery.refetch();
@@ -413,7 +420,7 @@ export function useSwapState({
     } else if (execType === "switch" && chainId) {
       switchChain(defineChain(chainId));
     }
-  }, [quoteQuery.data, execType, lazySellAmount, sellToken, chainId, signer]);
+  }, [quoteQuery.data, execType, lazySellAmount, sellToken, chainId, signer, isActive, onConnectWallet]);
 
   const quoteData = useMemo(() => {
     if (quoteQuery.data) {

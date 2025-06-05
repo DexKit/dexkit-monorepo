@@ -144,18 +144,16 @@ export function EvmSendForm({
     if (!coins) return [];
 
     const coinsWithBalance: Coin[] = [];
-    const coinsWithoutBalance: Coin[] = [];
 
     coins.forEach((coin) => {
-      const hasBalance = getCoinBalance(coin) !== "";
+      const balance = getCoinBalance(coin);
+      const hasBalance = balance !== "" && parseFloat(balance) > 0;
       if (hasBalance) {
         coinsWithBalance.push(coin);
-      } else {
-        coinsWithoutBalance.push(coin);
       }
     });
 
-    return [...coinsWithBalance, ...coinsWithoutBalance];
+    return coinsWithBalance;
   }, [coins, allTokenBalances]);
 
   const handleChangeCoin = (

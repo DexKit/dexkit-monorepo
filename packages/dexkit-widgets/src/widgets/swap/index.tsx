@@ -187,6 +187,7 @@ export function SwapWidget({
     onChangeNetwork: handleChangeSelectedNetwork,
     onNotification,
     onShowTransactions,
+    onConnectWallet,
     account,
     swapFees,
     isActive: isActive && !disableWallet,
