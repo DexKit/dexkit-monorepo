@@ -1,6 +1,5 @@
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import { Box, Paper, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PreviewPortal } from 'src/components/PreviewPortal';
 
@@ -59,72 +58,66 @@ export default function PreviewPagePlatform({
     />
   );
 
-  const containerHeight = isMobile ?
-    (previewPlatform === 'mobile' ? '100vh' : theme.spacing(50)) :
-    theme.spacing(80);
-
   return (
     <Box
       sx={{
-        height: isMobile && previewPlatform === 'mobile' ? '100vh' : 'auto',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'auto'
+        overflow: 'hidden'
       }}
     >
-      <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="center"
-        alignContent="center"
-        spacing={2}
+      <Paper
+        elevation={0}
         sx={{
-          pb: isMobile ? 0.5 : 1,
-          pt: isMobile ? 0.5 : 1,
+          py: theme.spacing(1),
+          px: theme.spacing(2),
           backgroundColor: 'background.default',
-          flexShrink: 0,
-          position: 'sticky',
-          top: 0,
-          zIndex: theme.zIndex.appBar
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          flexShrink: 0
         }}
       >
-        {title || null}
-        <PreviewPlatformType
-          type={previewPlatform}
-          setType={(newType) => setPreviewPlatform(newType)}
-        />
-      </Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={theme.spacing(2)}
+        >
+          {title}
+          <PreviewPlatformType
+            type={previewPlatform}
+            setType={(newType) => setPreviewPlatform(newType)}
+          />
+        </Stack>
+      </Paper>
+
       <Box
         sx={{
-          p: isMobile ? 0.5 : 1,
           flex: 1,
-          overflow: 'auto',
-          height: previewPlatform === 'mobile' && isMobile ? 'calc(100vh - 56px)' : 'auto'
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        {previewPlatform === 'desktop' &&
-          (enableOverflow ? (
-            <Box
-              sx={{
-                maxHeight: containerHeight,
-                overflow: 'auto',
-              }}
-            >
-              {pagePreview}
-            </Box>
-          ) : (
-            <Box sx={{ overflow: 'auto' }}>
-              {pagePreview}
-            </Box>
-          ))}
-        {previewPlatform === 'mobile' && (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            alignContent="center"
+        {previewPlatform === 'desktop' ? (
+          <Box
             sx={{
-              height: isMobile ? '100%' : 'auto',
-              overflow: 'auto'
+              flex: 1,
+              overflow: enableOverflow ? 'auto' : 'hidden',
+              p: theme.spacing(2)
+            }}
+          >
+            {pagePreview}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              p: theme.spacing(2),
+              overflow: 'hidden'
             }}
           >
             {page && site ? (
@@ -135,36 +128,25 @@ export default function PreviewPagePlatform({
                 previewPlatform={previewPlatform}
               />
             ) : (
-              enableOverflow ? (
-                <Box
-                  sx={{
-                    width: '100%',
-                    maxWidth: '375px',
-                    border: `1px solid ${theme.palette.divider}`,
-                    borderRadius: theme.shape.borderRadius * 2,
-                    overflow: 'auto',
-                    maxHeight: containerHeight,
-                    height: isMobile ? '100%' : 'auto'
-                  }}
-                >
-                  {pagePreview}
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    width: '100%',
-                    maxWidth: '375px',
-                    border: `1px solid ${theme.palette.divider}`,
-                    borderRadius: theme.shape.borderRadius * 2,
-                    overflow: 'auto',
-                    height: isMobile ? '100%' : 'auto'
-                  }}
-                >
-                  {pagePreview}
-                </Box>
-              )
+              <Paper
+                elevation={2}
+                sx={{
+                  width: '100%',
+                  maxWidth: theme.spacing(50),
+                  height: '100%',
+                  minHeight: theme.spacing(70),
+                  borderRadius: theme.spacing(3),
+                  overflow: enableOverflow ? 'auto' : 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  backgroundColor: 'background.paper',
+                  p: theme.spacing(2)
+                }}
+              >
+                {pagePreview}
+              </Paper>
             )}
-          </Stack>
+          </Box>
         )}
       </Box>
     </Box>

@@ -73,22 +73,11 @@ export default function EvmReceive({
     return uniqueChainIds.filter(Boolean);
   }, [coins, effectiveChainId]);
 
-  const ethereumBalances = useERC20BalancesQuery(undefined, 1, false);
-  const polygonBalances = useERC20BalancesQuery(undefined, 137, false);
-  const bscBalances = useERC20BalancesQuery(undefined, 56, false);
-  const arbitrumBalances = useERC20BalancesQuery(undefined, 42161, false);
   const currentChainBalances = useERC20BalancesQuery(undefined, effectiveChainId, false);
 
   const allTokenBalances = useMemo(() => {
-    const combined: TokenBalance[] = [];
-    [ethereumBalances, polygonBalances, bscBalances, arbitrumBalances, currentChainBalances].forEach(query => {
-      if (query.data) {
-        combined.push(...query.data);
-      }
-    });
-
-    return combined;
-  }, [ethereumBalances.data, polygonBalances.data, bscBalances.data, arbitrumBalances.data, currentChainBalances.data]);
+    return currentChainBalances.data || [];
+  }, [currentChainBalances.data]);
 
   const balanceMap = useMemo(() => {
     if (!allTokenBalances) return {};
