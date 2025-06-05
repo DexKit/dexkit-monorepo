@@ -133,8 +133,7 @@ export default function PreviewPagePlatform({
                 sx={{
                   width: '100%',
                   maxWidth: theme.spacing(50),
-                  height: '100%',
-                  minHeight: theme.spacing(70),
+                  height: 'fit-content',
                   borderRadius: theme.spacing(3),
                   overflow: enableOverflow ? 'auto' : 'hidden',
                   display: 'flex',
