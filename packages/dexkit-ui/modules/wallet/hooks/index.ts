@@ -5,6 +5,7 @@ import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useQuery } from "@tanstack/react-query";
 import { ParseOutput, parse } from "eth-url-parser";
+import { BigNumber } from "ethers";
 import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 import { useMemo } from "react";
@@ -154,12 +155,27 @@ export function useParsePaymentRequest({
       }
       if (parsedPayment.function_name === undefined) {
         if (parsedPayment.parameters && parsedPayment.parameters["value"]) {
-          amount = formatEther(parsedPayment.parameters["value"]);
+          try {
+            const valueStr = parsedPayment.parameters["value"];
+            let parsedValue: BigNumber;
+
+            if (valueStr.includes('e') || valueStr.includes('E')) {
+              const regularNumber = Number(valueStr).toFixed(0);
+              parsedValue = BigNumber.from(regularNumber);
+            } else {
+              parsedValue = BigNumber.from(valueStr);
+            }
+
+            amount = formatEther(parsedValue);
+          } catch (error) {
+            console.error('Error parsing payment amount:', error);
+            amount = formatEther(parsedPayment.parameters["value"]);
+          }
         }
       }
       return amount;
     }
-  }, [defaultCoin]);
+  }, [defaultCoin, paymentUrlParsed]);
   return {
     ...paymentUrlParsed,
     amount,

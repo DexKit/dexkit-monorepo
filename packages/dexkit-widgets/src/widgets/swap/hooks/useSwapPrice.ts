@@ -77,7 +77,6 @@ export function useSwapPrice({
       variant,
     ],
     async ({ signal }) => {
-      // Classic variant don't have usd prices
       if (!variant || variant === SwapVariant.Classic) {
         return null;
       }

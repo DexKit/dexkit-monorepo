@@ -11,8 +11,16 @@ export function useSwapProvider({
 }) {
   return useMemo(() => {
     if (defaultChainId && NETWORKS[defaultChainId]?.providerRpcUrl) {
+      const network = NETWORKS[defaultChainId];
+
+      const networkConfig = {
+        name: network.name.toLowerCase(),
+        chainId: network.chainId,
+      };
+
       return new providers.JsonRpcProvider(
-        NETWORKS[defaultChainId].providerRpcUrl
+        network.providerRpcUrl,
+        networkConfig
       );
     }
   }, [defaultChainId]);

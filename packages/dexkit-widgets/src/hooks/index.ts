@@ -253,26 +253,36 @@ export function useMultiTokenBalance({
   tokens?: Token[];
   provider?: providers.BaseProvider;
 }) {
-  //const enabled = Boolean(tokens && provider && account);
+  const enabled = Boolean(tokens && tokens.length > 0 && provider && account);
 
   return useQuery(
-    [MULTI_TOKEN_BALANCE_QUERY, tokens, account],
+    [MULTI_TOKEN_BALANCE_QUERY, tokens?.map(t => t.address).sort(), account],
     async () => {
       if (!tokens || !provider || !account) {
         return null;
       }
 
-      return await getTokensBalance(tokens, provider, account);
+      try {
+        const network = await provider.getNetwork();
+
+        const balances = await getTokensBalance(tokens, provider, account);
+
+        return balances;
+      } catch (error) {
+        return {};
+      }
     },
-    // { enabled: enabled }
+    {
+      enabled,
+      staleTime: 30000,
+      refetchInterval: false,
+      retry: 1,
+      retryDelay: 2000,
+    }
   );
 }
 
 export const COIN_PRICES_QUERY = "COIN_PRICES_QUERY";
-
-
-
-
 
 export const GAS_PRICE_QUERY = "";
 

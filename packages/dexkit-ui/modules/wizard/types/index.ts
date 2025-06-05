@@ -120,6 +120,9 @@ export enum SwapVariant {
   Classic = "classic",
   UniswapLike = "uniswap-like",
   MatchaLike = "matcha-like",
+  Minimal = "minimal",
+  Compact = "compact",
+  Mobile = "mobile",
 }
 
 export interface SwapConfig {

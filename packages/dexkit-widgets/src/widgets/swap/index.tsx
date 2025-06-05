@@ -29,12 +29,15 @@ import { parseChainId } from "@dexkit/core/utils";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
-import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
-import Swap from "./Swap";
-import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
+import SwapCompact from "./compact/SwapCompact";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
+import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
 import SwapMatcha from "./matcha/SwapMatcha";
 import SwapSelectCoinMatchaDialog from "./matcha/SwapSelectCoinMatchaDialog";
+import SwapMinimal from "./minimal/SwapMinimal";
+import SwapMobile from "./mobile/SwapMobile";
+import Swap from "./Swap";
+import SwapSelectCoinDialog from "./SwapSelectCoinDialog";
 import SwapConfirmUniswapDialog from "./uniswap/SwapConfirmUniswapDialog";
 import SwapSelectCoinUniswapDialog from "./uniswap/SwapSelectCoinUniswapDialog";
 import SwapUniswap from "./uniswap/SwapUniswap";
@@ -296,6 +299,12 @@ export function SwapWidget({
     handleSelectTokenState(token);
   };
 
+  const handleSetToken = (token?: Token) => {
+    if (token) {
+      handleSelectToken(token);
+    }
+  };
+
   const handleConfirmSwap = useCallback(async () => {
     await handleConfirmExecSwap.mutateAsync();
     !canGasless && handleCloseConfirmSwap();
@@ -401,7 +410,7 @@ export function SwapWidget({
           priceSell={quoteQueryPrice?.sellPrice}
           priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
           priceSellLoading={quoteQueryPrice?.isLoadingPrice}
-          onSetToken={handleSelectToken}
+          onSetToken={handleSetToken}
           featuredTokensByChain={featuredTokensByChain}
           currency={currency}
           disableNotificationsButton={disableNotificationsButton}
@@ -428,7 +437,7 @@ export function SwapWidget({
           isExecuting={isExecuting}
           quote={quote}
           isQuoting={isQuoting}
-          provider={provider}
+          provider={selectedProvider}
           isProviderReady={isProviderReady}
           sellTokenBalance={sellTokenBalance}
           insufficientBalance={insufficientBalance}
@@ -474,7 +483,7 @@ export function SwapWidget({
           isExecuting={isExecuting}
           quote={quote}
           isQuoting={isQuoting}
-          provider={provider}
+          provider={selectedProvider}
           isProviderReady={isProviderReady}
           sellTokenBalance={sellTokenBalance}
           insufficientBalance={insufficientBalance}
@@ -485,6 +494,141 @@ export function SwapWidget({
           onShowTransak={transakApiKey ? handleShowTransak : undefined}
           disableFooter={disableFooter}
           enableBuyCryptoButton={enableBuyCryptoButton}
+        />
+      );
+    }
+
+    if (variant === SwapVariant.Compact) {
+      return (
+        <SwapCompact
+          currency={currency}
+          disableNotificationsButton={disableNotificationsButton}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
+          chainId={chainId}
+          selectedChainId={selectedChainId}
+          quoteFor={quoteFor}
+          quoteQuery={quoteQuery}
+          clickOnMax={clickOnMax}
+          isActive={isActive && !disableWallet}
+          buyToken={buyToken}
+          sellToken={sellToken}
+          onSelectToken={handleOpenSelectToken}
+          onSwapTokens={handleSwapTokens}
+          sellAmount={sellAmount}
+          buyAmount={buyAmount}
+          networkName={
+            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
+          }
+          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeSellAmount={handleChangeSellAmount}
+          onExec={handleExecSwap}
+          execType={execType}
+          isExecuting={isExecuting}
+          quote={quote}
+          isQuoting={isQuoting}
+          provider={selectedProvider}
+          isProviderReady={isProviderReady}
+          sellTokenBalance={sellTokenBalance}
+          insufficientBalance={insufficientBalance}
+          buyTokenBalance={buyTokenBalance}
+          onChangeNetwork={handleChangeNetwork}
+          onShowSettings={handleShowSettings}
+          onShowTransactions={handleShowTransactions}
+          onShowTransak={transakApiKey ? handleShowTransak : undefined}
+          disableFooter={disableFooter}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          featuredTokensByChain={featuredTokensByChain}
+          onSetToken={handleSetToken}
+        />
+      );
+    }
+
+    if (variant === SwapVariant.Minimal) {
+      return (
+        <SwapMinimal
+          currency={currency}
+          chainId={chainId}
+          selectedChainId={selectedChainId}
+          quoteFor={quoteFor}
+          quoteQuery={quoteQuery}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
+          sellToken={sellToken}
+          buyToken={buyToken}
+          sellAmount={sellAmount}
+          buyAmount={buyAmount}
+          execType={execType}
+          quote={quote}
+          isExecuting={isExecuting}
+          sellTokenBalance={sellTokenBalance}
+          buyTokenBalance={buyTokenBalance}
+          insufficientBalance={insufficientBalance}
+          isProviderReady={isProviderReady}
+          isQuoting={isQuoting}
+          isActive={isActive && !disableWallet}
+          featuredTokensByChain={featuredTokensByChain}
+          onSelectToken={handleOpenSelectToken}
+          onSwapTokens={handleSwapTokens}
+          onChangeSellAmount={handleChangeSellAmount}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onExec={handleExecSwap}
+          onSetToken={handleSetToken}
+        />
+      );
+    }
+
+    if (variant === SwapVariant.Mobile) {
+      return (
+        <SwapMobile
+          currency={currency}
+          disableNotificationsButton={disableNotificationsButton}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
+          chainId={chainId}
+          selectedChainId={selectedChainId}
+          quoteFor={quoteFor}
+          quoteQuery={quoteQuery}
+          clickOnMax={clickOnMax}
+          isActive={isActive && !disableWallet}
+          buyToken={buyToken}
+          sellToken={sellToken}
+          onSelectToken={handleOpenSelectToken}
+          onSwapTokens={handleSwapTokens}
+          sellAmount={sellAmount}
+          buyAmount={buyAmount}
+          networkName={
+            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
+          }
+          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeSellAmount={handleChangeSellAmount}
+          onExec={handleExecSwap}
+          execType={execType}
+          isExecuting={isExecuting}
+          quote={quote}
+          isQuoting={isQuoting}
+          provider={selectedProvider}
+          isProviderReady={isProviderReady}
+          sellTokenBalance={sellTokenBalance}
+          insufficientBalance={insufficientBalance}
+          buyTokenBalance={buyTokenBalance}
+          onChangeNetwork={handleChangeNetwork}
+          onShowSettings={handleShowSettings}
+          onShowTransactions={handleShowTransactions}
+          onShowTransak={transakApiKey ? handleShowTransak : undefined}
+          disableFooter={disableFooter}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          featuredTokensByChain={featuredTokensByChain}
+          onSetToken={handleSetToken}
         />
       );
     }
@@ -516,7 +660,7 @@ export function SwapWidget({
         isExecuting={isExecuting}
         quote={quote}
         isQuoting={isQuoting}
-        provider={provider}
+        provider={selectedProvider}
         isProviderReady={isProviderReady}
         sellTokenBalance={sellTokenBalance}
         insufficientBalance={insufficientBalance}

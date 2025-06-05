@@ -343,9 +343,8 @@ export default function SwapConfirmMatchaDialog({
 
             <Button
               size="large"
-              href={`${getBlockExplorerUrl(chainId)}/tx/${
-                successTxGasless.hash
-              }`}
+              href={`${getBlockExplorerUrl(chainId)}/tx/${successTxGasless.hash
+                }`}
               target="_blank"
               variant="outlined"
               color="primary"
@@ -369,9 +368,8 @@ export default function SwapConfirmMatchaDialog({
 
             <Button
               size="large"
-              href={`${getBlockExplorerUrl(chainId)}/tx/${
-                confirmedTxGasless.hash
-              }`}
+              href={`${getBlockExplorerUrl(chainId)}/tx/${confirmedTxGasless.hash
+                }`}
               target="_blank"
               variant="outlined"
               color="primary"

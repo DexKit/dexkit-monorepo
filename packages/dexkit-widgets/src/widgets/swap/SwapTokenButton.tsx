@@ -5,12 +5,14 @@ import {
   lighten,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
+import { isDexKitToken } from "../../constants/tokens";
 
 export interface SwapTokenButtonProps {
   token?: Token;
@@ -18,17 +20,20 @@ export interface SwapTokenButtonProps {
 }
 
 function SwapTokenButton({ token, ButtonBaseProps }: SwapTokenButtonProps) {
+  const theme = useTheme();
+
+  const isKitToken = isDexKitToken(token);
+
   return (
     <ButtonBase
       {...ButtonBaseProps}
       sx={(theme) => ({
         borderRadius: theme.shape.borderRadius / 2,
         p: 1,
-        border: `1px solid ${
-          theme.palette.mode === "dark"
-            ? lighten(theme.palette.divider, 0.2)
-            : theme.palette.divider
-        }`,
+        border: `1px solid ${theme.palette.mode === "dark"
+          ? lighten(theme.palette.divider, 0.2)
+          : theme.palette.divider
+          }`,
       })}
     >
       {token ? (
@@ -37,6 +42,9 @@ function SwapTokenButton({ token, ButtonBaseProps }: SwapTokenButtonProps) {
             sx={(theme) => ({
               height: theme.spacing(4),
               width: theme.spacing(4),
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
             })}
             imgProps={{ sx: { objectFit: "fill" } }}
             src={

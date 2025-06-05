@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useDebounceCallback } from "../../hooks";
 
 interface Props {
@@ -32,44 +32,66 @@ export function CurrencyField({
     triggerChange: false,
   });
 
-  useDebounceCallback<BigNumber>(
-    value,
-    (value) => {
-      if (isUserInput) {
-        return;
-      }
-      try {
-        const val = formatUnits(value, decimals);
-        setInternalValue({
-          value: val,
-          triggerChange: false,
-        });
-      } catch (err) {
+  useEffect(() => {
+    if (isUserInput) {
+      return; // Don't override user input
+    }
+
+    try {
+      if (value.isZero()) {
         setInternalValue({
           value: "",
           triggerChange: false,
         });
+      } else {
+        const val = formatUnits(value, decimals);
+        const cleanVal = parseFloat(val).toString();
+        setInternalValue({
+          value: cleanVal,
+          triggerChange: false,
+        });
       }
-    },
-    0
-  );
+    } catch (err) {
+      setInternalValue({
+        value: "",
+        triggerChange: false,
+      });
+    }
+  }, [value, decimals, isUserInput]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setInternalValue({ value: e.target.value, triggerChange: true });
+    const inputValue = e.target.value;
+
+    if (inputValue === "") {
+      setInternalValue({ value: "", triggerChange: true });
+      return;
+    }
+
+    const decimalPattern = /^[0-9]*\.?[0-9]*$/;
+    if (decimalPattern.test(inputValue)) {
+      setInternalValue({ value: inputValue, triggerChange: true });
+    }
   }, []);
 
   useDebounceCallback<{ value: string; triggerChange: boolean }>(
     internalValue,
     () => {
+      if (!internalValue.triggerChange) {
+        return;
+      }
+
       try {
-        if (internalValue.triggerChange && decimals) {
-          onChange(parseUnits(internalValue.value, decimals));
+        if (internalValue.value === "" || internalValue.value === ".") {
+          onChange(BigNumber.from(0));
+        } else if (decimals !== undefined) {
+          const parsed = parseUnits(internalValue.value, decimals);
+          onChange(parsed);
         }
       } catch (err) {
         onChange(BigNumber.from(0));
       }
     },
-    0
+    200
   );
 
   return (
@@ -81,6 +103,7 @@ export function CurrencyField({
       onFocus={onFocus}
       onBlur={onBlur}
       onClick={onClick}
+      placeholder="0"
     />
   );
 }

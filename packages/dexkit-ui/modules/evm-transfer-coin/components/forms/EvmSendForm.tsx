@@ -1,5 +1,7 @@
+import { CoinTypes } from "@dexkit/core/constants";
 import { useEnsNameQuery, useIsMobile } from "@dexkit/core/hooks";
 import { Coin } from "@dexkit/core/types";
+import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { QrCodeScanner } from "@mui/icons-material";
 import SendIcon from "@mui/icons-material/Send";
@@ -9,7 +11,9 @@ import {
   AutocompleteChangeReason,
   Avatar,
   Button,
+  Chip,
   CircularProgress,
+  createFilterOptions,
   IconButton,
   InputAdornment,
   ListItem,
@@ -17,15 +21,19 @@ import {
   ListItemText,
   Stack,
   TextField,
-  createFilterOptions,
+  Typography,
+  useTheme,
 } from "@mui/material";
 
 import { parse } from "eth-url-parser";
 
+import { isDexKitToken } from "@dexkit/widgets/src/constants/tokens";
 import dynamic from "next/dynamic";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { ConnectButton } from "../../../../components/ConnectButton";
+import { useERC20BalancesQuery } from "../../../wallet/hooks";
+import { TokenBalance } from "../../../wallet/types";
 
 const ScanWalletQrCodeDialog = dynamic(
   async () => import("@dexkit/ui/components/dialogs/ScanWalletQrCodeDialog")
@@ -65,8 +73,90 @@ export function EvmSendForm({
   balance,
 }: EvmSendFormProps) {
   const [addressTouched, setAddressTouched] = useState<boolean>(false);
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const ensNameQuery = useEnsNameQuery({ address: values?.address });
+
+  const chainIds = useMemo(() => {
+    if (!coins) return [chainId].filter(Boolean);
+    const uniqueChainIds = [...new Set(coins.map(coin => coin.network.chainId))];
+    return uniqueChainIds.filter(Boolean);
+  }, [coins, chainId]);
+
+  const currentChainBalances = useERC20BalancesQuery(undefined, chainId, false);
+
+  const allTokenBalances = useMemo(() => {
+    return currentChainBalances.data || [];
+  }, [currentChainBalances.data]);
+
+  const balanceMap = useMemo(() => {
+    if (!allTokenBalances) return {};
+
+    const map: Record<string, TokenBalance> = {};
+    allTokenBalances.forEach((tb) => {
+      if (tb.token.address) {
+        const key = `${tb.token.chainId}-${tb.token.address.toLowerCase()}`;
+        map[key] = tb;
+        map[tb.token.address] = tb;
+        map[tb.token.address.toLowerCase()] = tb;
+      }
+    });
+    return map;
+  }, [allTokenBalances]);
+
+  const getCoinBalance = (coin: Coin): string => {
+    if (!allTokenBalances) return "";
+
+    if (coin.coinType === CoinTypes.EVM_NATIVE) {
+      const nativeBalance = allTokenBalances.find(
+        (tb) => {
+          return (
+            (tb.token.address.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
+              tb.token.symbol === coin.symbol) &&
+            tb.token.chainId === coin.network.chainId
+          );
+        }
+      );
+      if (nativeBalance && !nativeBalance.balance.isZero()) {
+        return formatUnits(nativeBalance.balance, coin.decimals);
+      }
+    } else if (coin.coinType === CoinTypes.EVM_ERC20 && coin.contractAddress) {
+      const chainKey = `${coin.network.chainId}-${coin.contractAddress.toLowerCase()}`;
+      const balance = balanceMap[chainKey] ||
+        balanceMap[coin.contractAddress] ||
+        balanceMap[coin.contractAddress.toLowerCase()];
+      if (balance && !balance.balance.isZero()) {
+        return formatUnits(balance.balance, coin.decimals);
+      }
+    }
+    return "";
+  };
+
+  const isDexKitCoin = (coin: Coin): boolean => {
+    if (coin.coinType === CoinTypes.EVM_ERC20 && coin.contractAddress) {
+      return isDexKitToken({ address: coin.contractAddress, symbol: coin.symbol });
+    }
+    return false;
+  };
+
+  const sortedCoins = useMemo(() => {
+    if (!coins) return [];
+
+    const coinsWithBalance: Coin[] = [];
+    const coinsWithoutBalance: Coin[] = [];
+
+    coins.forEach((coin) => {
+      const hasBalance = getCoinBalance(coin) !== "";
+      if (hasBalance) {
+        coinsWithBalance.push(coin);
+      } else {
+        coinsWithoutBalance.push(coin);
+      }
+    });
+
+    return [...coinsWithBalance, ...coinsWithoutBalance];
+  }, [coins, allTokenBalances]);
 
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
@@ -154,10 +244,8 @@ export function EvmSendForm({
       onChange({ ...values, address });
       setAddressTouched(true);
       handleOpenQrCodeScannerClose();
-    } catch (err) {}
+    } catch (err) { }
   };
-
-  const isMobile = useIsMobile();
 
   return (
     <>
@@ -174,42 +262,98 @@ export function EvmSendForm({
         />
       )}
 
-      <Stack spacing={2}>
+      <Stack spacing={isMobile ? 2.5 : 3}>
         <Autocomplete
           disablePortal
           disabled={isSubmitting}
           id="select-token"
-          options={coins || []}
+          options={sortedCoins}
           value={values?.coin}
           readOnly={coins && coins.length === 1}
           onChange={handleChangeCoin}
           getOptionLabel={(opt) => opt.name}
-          renderOption={(props, opt) => (
-            <ListItem {...props}>
-              <ListItemAvatar>
-                <Avatar src={opt.imageUrl}>
-                  <Token />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={opt.name}
-                secondary={
-                  <FormattedMessage
-                    id="network.value"
-                    defaultMessage="{network}"
-                    values={{ network: opt.network.name }}
-                  />
-                }
-              />
-            </ListItem>
-          )}
+          renderOption={(props, opt) => {
+            const balance = getCoinBalance(opt);
+            const isKitToken = isDexKitCoin(opt);
+
+            return (
+              <ListItem {...props}>
+                <ListItemAvatar>
+                  <Avatar
+                    src={opt.imageUrl}
+                    imgProps={{
+                      sx: {
+                        objectFit: "contain"
+                      }
+                    }}
+                    sx={{
+                      width: isMobile ? theme.spacing(5) : theme.spacing(6),
+                      height: isMobile ? theme.spacing(5) : theme.spacing(6),
+                      ...(isKitToken && theme.palette.mode === 'dark' && {
+                        filter: 'invert(1)',
+                      })
+                    }}
+                  >
+                    <Token />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography
+                        variant={isMobile ? "body2" : "body1"}
+                        sx={{ fontWeight: theme.typography.fontWeightMedium }}
+                      >
+                        {opt.name}
+                      </Typography>
+                      {balance && (
+                        <Chip
+                          size="small"
+                          label={`${parseFloat(balance).toFixed(4)} ${opt.symbol}`}
+                          sx={{
+                            fontSize: theme.typography.caption.fontSize,
+                            height: isMobile ? theme.spacing(2.5) : theme.spacing(3),
+                            backgroundColor: theme.palette.primary.light,
+                            color: theme.palette.primary.contrastText,
+                          }}
+                        />
+                      )}
+                    </Stack>
+                  }
+                  secondary={
+                    <Typography
+                      variant={isMobile ? "caption" : "body2"}
+                      color="text.secondary"
+                    >
+                      <FormattedMessage
+                        id="coin.on.network"
+                        defaultMessage="{name} on {network}"
+                        values={{ name: opt.symbol, network: opt.network.name }}
+                      />
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            );
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
               disabled={isSubmitting}
               label={<FormattedMessage id="coin" defaultMessage="Coin" />}
+              size={isMobile ? "medium" : "medium"}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: isMobile ? 1.5 : 2,
+                },
+              }}
             />
           )}
+          ListboxProps={{
+            sx: {
+              maxHeight: isMobile ? theme.spacing(37.5) : theme.spacing(50),
+            },
+          }}
         />
 
         <Autocomplete
@@ -223,7 +367,6 @@ export function EvmSendForm({
             const filtered = filter(options, params);
 
             const { inputValue } = params;
-            // Suggest the creation of a new value
             const isExisting = options.some((option) => inputValue === option);
             if (inputValue !== "" && !isExisting) {
               filtered.push();
@@ -243,9 +386,16 @@ export function EvmSendForm({
                 />
               }
               InputProps={{
+                ...params.InputProps,
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleOpenQrCodeScanner}>
+                    <IconButton
+                      onClick={handleOpenQrCodeScanner}
+                      size={isMobile ? "small" : "medium"}
+                      sx={{
+                        color: theme.palette.text.secondary,
+                      }}
+                    >
                       <QrCodeScanner />
                     </IconButton>
                   </InputAdornment>
@@ -264,6 +414,12 @@ export function EvmSendForm({
                   />
                 ) : undefined
               }
+              size={isMobile ? "medium" : "medium"}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+                },
+              }}
             />
           )}
         />
@@ -276,9 +432,25 @@ export function EvmSendForm({
           value={values?.amount}
           onChange={handleChange}
           label={<FormattedMessage id="amount" defaultMessage="Amount" />}
+          placeholder="0.00"
+          size={isMobile ? "medium" : "medium"}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+            },
+          }}
         />
+
         {!account ? (
-          <ConnectButton variant="contained" color="primary" size="large" />
+          <ConnectButton
+            variant="contained"
+            color="primary"
+            size={isMobile ? "large" : "large"}
+            sx={{
+              borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+              py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            }}
+          />
         ) : isChainDiff ? (
           <Button
             onClick={() =>
@@ -288,7 +460,11 @@ export function EvmSendForm({
             }
             variant="contained"
             color="primary"
-            size="large"
+            size={isMobile ? "large" : "large"}
+            sx={{
+              borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+              py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            }}
           >
             <FormattedMessage
               id="switch.network"
@@ -308,7 +484,11 @@ export function EvmSendForm({
             }
             variant="contained"
             color="primary"
-            size="large"
+            size={isMobile ? "large" : "large"}
+            sx={{
+              borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+              py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            }}
           >
             {notEnoughBalance ? (
               <FormattedMessage
