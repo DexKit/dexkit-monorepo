@@ -15,7 +15,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
@@ -81,64 +81,6 @@ export default function WalletContent({
   const logoutMutation = useLogoutAccountMutation();
 
   const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
-  const switchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const styleElementRef = useRef<HTMLStyleElement | null>(null);
-
-  useEffect(() => {
-    if (!styleElementRef.current) {
-      const styleElement = document.createElement('style');
-      styleElement.type = 'text/css';
-      styleElement.innerHTML = `
-        .switching-wallet [data-focus-trap-disabled] {
-          pointer-events: none !important;
-        }
-        .switching-wallet .MuiFocusTrap-root {
-          pointer-events: none !important;
-        }
-        .switching-wallet [role="dialog"] {
-          pointer-events: auto !important;
-        }
-        body.switching-wallet {
-          overflow: hidden;
-        }
-      `;
-      document.head.appendChild(styleElement);
-      styleElementRef.current = styleElement;
-    }
-
-    return () => {
-      if (styleElementRef.current) {
-        document.head.removeChild(styleElementRef.current);
-        styleElementRef.current = null;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (switchTimeoutRef.current) {
-        clearTimeout(switchTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isSwitchingWallet) {
-      switchTimeoutRef.current = setTimeout(() => {
-        setIsSwitchingWallet(false);
-        if (onStopSwitching) {
-          onStopSwitching();
-        }
-      }, 15000);
-
-      return () => {
-        if (switchTimeoutRef.current) {
-          clearTimeout(switchTimeoutRef.current);
-          switchTimeoutRef.current = null;
-        }
-      };
-    }
-  }, [isSwitchingWallet, onStopSwitching]);
 
   const handleLogoutWallet = useCallback(async () => {
     if (onClosePopover) {
@@ -149,7 +91,7 @@ export default function WalletContent({
     if (wallet) {
       disconnect(wallet);
     }
-  }, [logoutMutation, connector, onClosePopover]);
+  }, [logoutMutation, wallet, disconnect, onClosePopover]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();
 
@@ -202,73 +144,30 @@ export default function WalletContent({
       return;
     }
 
+    setIsSwitchingWallet(true);
+
     try {
-      setIsSwitchingWallet(true);
-
-      document.body.classList.add('switching-wallet');
-
-      if (onStartSwitching) {
-        onStartSwitching();
-      }
-
       if (onClosePopover) {
         onClosePopover();
-
-        await new Promise(resolve => setTimeout(resolve, 500));
       }
-
-      document.dispatchEvent(new KeyboardEvent('keydown', {
-        key: 'Escape',
-        code: 'Escape',
-        keyCode: 27,
-        which: 27,
-        bubbles: true
-      }));
-
-      await new Promise(resolve => setTimeout(resolve, 300));
 
       if (wallet) {
-        await disconnect(wallet);
-
-        const disconnectWait = isMobile ? 1200 : 800;
-        await new Promise(resolve => setTimeout(resolve, disconnectWait));
+        disconnect(wallet);
       }
 
-      const stabilizationWait = isMobile ? 1000 : 600;
-      await new Promise(resolve => setTimeout(resolve, stabilizationWait));
+      connectWallet();
 
-      await connectWallet();
     } catch (error) {
-      try {
-        const fallbackWait = isMobile ? 800 : 400;
-        await new Promise(resolve => setTimeout(resolve, fallbackWait));
-        await connectWallet();
-      } catch (fallbackError) {
-        console.error("Fallback connection failed:", fallbackError);
-      }
+      console.error("Switch wallet error:", error);
     } finally {
-      document.body.classList.remove('switching-wallet');
-
-      if (switchTimeoutRef.current) {
-        clearTimeout(switchTimeoutRef.current);
-        switchTimeoutRef.current = null;
-      }
-
       setIsSwitchingWallet(false);
-
-      if (onStopSwitching) {
-        onStopSwitching();
-      }
     }
   }, [
     wallet,
     disconnect,
     connectWallet,
     isSwitchingWallet,
-    isMobile,
-    onClosePopover,
-    onStartSwitching,
-    onStopSwitching
+    onClosePopover
   ]);
 
   return (

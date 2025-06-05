@@ -130,7 +130,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
       } else {
         window.open(`/wallet/send/${encodeURIComponent(result)}`, "_blank");
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleOpenQrCode = () => setShowQrCode(true);
@@ -204,7 +204,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                   <Divider />
                 </>
 
-                {isMobile && <WalletContent />}
+                {isMobile && <WalletContent onClosePopover={onClose} />}
               </Stack>
             )}
           </Box>
