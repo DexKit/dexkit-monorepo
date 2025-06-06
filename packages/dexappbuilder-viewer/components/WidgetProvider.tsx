@@ -10,9 +10,9 @@ import {
 import { useLocale } from "@dexkit/ui/hooks/useLocale";
 import { setupTheme } from "@dexkit/ui/services/app";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
-
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useSetActiveWallet } from "thirdweb/react";
 import {
   assetsAtom,
   currencyUserAtom,
@@ -28,17 +28,19 @@ import { AppConfigContext } from "@dexkit/ui/context/AppConfigContext";
 import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { DexkitProvider } from "@dexkit/ui/providers/DexkitProvider";
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { ThirdwebProvider } from "thirdweb/react";
+import { EIP1193 } from "thirdweb/wallets";
 import { getTheme } from "../theme";
 import { loadLocaleMessages } from "../utils/intl";
 
 export interface WidgetContextProps {
   provider?: any;
-  client?: any;
   widgetId?: number;
   appConfig: AppConfig;
+  onConnectWallet?: () => void;
 
   children: React.ReactNode | React.ReactNode[];
   appLocaleMessages?: Record<string, string> | null;
@@ -48,12 +50,15 @@ export interface WidgetContextProps {
 export function WidgetProvider({
   children,
   appConfig,
+  widgetId,
   appPage,
+  onConnectWallet,
+  provider,
   appLocaleMessages,
 }: WidgetContextProps) {
   const siteId = useSiteId();
   const router = useRouter();
-
+  const setActiveWallet = useSetActiveWallet();
   const { locale, onChangeLocale } = useLocale();
 
   const [ref, setRef] = useAtom(referralAtom);
@@ -84,12 +89,28 @@ export function WidgetProvider({
 
   const theme = setupTheme({ appConfig, getTheme });
 
+  useEffect(() => {
+    const setActive = async () => {
+      if (provider) {
+        const thirdwebWallet = EIP1193.fromProvider({
+          provider,
+        });
+        await thirdwebWallet.connect({
+          client,
+        });
+        setActiveWallet(thirdwebWallet);
+      }
+    };
+    setActive();
+  }, [provider, setActiveWallet]);
+
   return (
     <ThirdwebProvider>
       <QueryClientProvider client={queryClient}>
         <AppConfigContext.Provider value={{ appConfig: appConfig }}>
           <DexkitProvider
             locale={locale}
+            onConnectWallet={onConnectWallet}
             tokensAtom={tokensAtom}
             assetsAtom={assetsAtom}
             hiddenAssetsAtom={hiddenAssetsAtom}

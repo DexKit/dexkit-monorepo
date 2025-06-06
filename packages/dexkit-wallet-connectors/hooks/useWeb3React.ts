@@ -1,4 +1,3 @@
-import { useDexKitContext } from "@dexkit/core/hooks/useDexKitContext";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -36,8 +35,6 @@ export function useWeb3React(): {
   }) => Promise<`0x${string}`>;
 } {
   const activeAccount = useActiveAccount();
-  const { client: widgetClient } = useDexKitContext()
-
 
   const activeChain = useActiveWalletChain();
   const status = useActiveWalletConnectionStatus();
@@ -45,24 +42,24 @@ export function useWeb3React(): {
   const { isConnecting } = useConnect();
 
   const { data } = useEnsName({
-    client: widgetClient ? widgetClient : client,
+    client: client,
     address: activeAccount?.address,
   });
 
   const provider = useMemo(() => {
     if (activeChain) {
       return ethers5Adapter.provider.toEthers({
-        client: widgetClient ? widgetClient : client,
+        client: client,
         chain: activeChain,
       });
     }
-  }, [client, activeChain, widgetClient]);
+  }, [client, activeChain]);
 
   const signer = useQuery(
-    ["GET_THIRD_WEB_SIGNER", activeChain, activeAccount, widgetClient],
+    ["GET_THIRD_WEB_SIGNER", activeChain, activeAccount],
     async () => {
       return ethers5Adapter.signer.toEthers({
-        client: widgetClient ? widgetClient : client,
+        client: client,
         chain: activeChain!,
         account: activeAccount!,
       });

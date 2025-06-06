@@ -6,7 +6,7 @@ import React from 'react';
 
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
-import defaultAppConfig from '../config/app.json';
+import defaultAppConfig from '../config/app.minimal.json';
 
 import './customCss.css';
 

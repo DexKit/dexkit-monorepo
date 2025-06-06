@@ -20,7 +20,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   replaceNodeEnv: true,
-  outDir: 'dist/widget',
+  outDir: 'dist',
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
@@ -36,6 +36,8 @@ export default defineConfig({
   format: ['iife', 'esm'],
   //shims: true,
   minify: true,
+  dts: true,
+
   // esbuildPlugins: [replaceNodeBuiltIns()],
   // plugins: [replaceNodeBuiltIns()],
   //platform: 'browser'

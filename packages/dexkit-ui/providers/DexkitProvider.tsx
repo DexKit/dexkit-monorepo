@@ -28,8 +28,8 @@ import GaslessTradesUpdater from "../components/GaslessTradesUpdater";
 import TransactionUpdater from "../components/TransactionUpdater";
 import type { AppNotification, AppNotificationType } from "../types";
 export interface DexkitProviderProps {
-  client?: any;
   provider?: any;
+  onConnectWallet?: () => void;
   theme: {
     cssVarPrefix?: string | undefined;
     colorSchemes: Record<SupportedColorScheme, Record<string, any>>;
@@ -68,6 +68,8 @@ export interface DexkitProviderProps {
 }
 
 export function DexkitProvider({
+  provider,
+  onConnectWallet,
   children,
   theme,
   affiliateReferral,
@@ -101,6 +103,8 @@ export function DexkitProvider({
     <DexKitContext.Provider
       value={{
         ...appState,
+        onConnectWallet,
+        provider,
         userEventURL: userEventsURL,
         siteId: siteId,
         affiliateReferral,

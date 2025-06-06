@@ -72,15 +72,24 @@ export function RenderDexAppBuilderFromConfig({
 export function RenderDexAppBuilderWidget({
   config,
   widgetId,
+  onConnectWallet,
+  provider,
 }: {
   config: AppConfig;
+  onConnectWallet?: () => void;
+  provider: any;
   widgetId?: number;
 }) {
   const toRender = config.pages["widget"].sections.map((section, k) => (
     <SectionRender key={k} section={section} />
   ));
   return (
-    <WidgetProvider widgetId={widgetId} appConfig={config}>
+    <WidgetProvider
+      widgetId={widgetId}
+      appConfig={config}
+      onConnectWallet={onConnectWallet}
+      provider={provider}
+    >
       {toRender}
     </WidgetProvider>
   );
