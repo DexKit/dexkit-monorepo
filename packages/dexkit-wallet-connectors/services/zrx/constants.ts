@@ -46,4 +46,4 @@ export const ZEROEX_FEE_RECIPIENT =
 
 // neutral address that helps 0x API provide accurate quotes
 export const ZEROEX_DEFAULT_TAKER_ADDRESS =
-  "0x0000000000000000000000000000000000000001";
+  "0x00000000000000000000000000000000000fffff";
