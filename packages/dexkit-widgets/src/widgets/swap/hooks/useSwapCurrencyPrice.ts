@@ -46,14 +46,14 @@ export function useSwapCurrencyPrice({
 
   const chainId = params.chainId;
 
-
   const quotePriceBuyToken = useSwapNativePrice({
     maxSlippage,
     zeroExApiKey,
     swapFees,
     params: {
       buyToken: params.buyToken,
-      chainId: params.chainId
+      chainId: params.chainId,
+      account: params.account
     },
     variant,
   });
@@ -64,7 +64,8 @@ export function useSwapCurrencyPrice({
     swapFees,
     params: {
       buyToken: params.sellToken,
-      chainId: params.chainId
+      chainId: params.chainId,
+      account: params.account
     },
     variant,
   });

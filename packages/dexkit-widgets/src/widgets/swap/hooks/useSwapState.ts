@@ -14,6 +14,7 @@ import { useSendTxMutation, useZrxQuoteQuery } from "@dexkit/ui/hooks/zrx";
 import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useCanGasless } from "@dexkit/ui/modules/swap/hooks";
 import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
+import { ZEROEX_DEFAULT_TAKER_ADDRESS } from "@dexkit/wallet-connectors/services/zrx/constants";
 import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -55,6 +56,7 @@ export function useSwapState({
   onChangeNetwork,
   onNotification,
   onShowTransactions,
+  onConnectWallet,
   currency,
   variant,
 }: {
@@ -79,6 +81,7 @@ export function useSwapState({
   onChangeNetwork: (chainId: ChainId) => void;
   onNotification: (params: NotificationCallbackParams) => void;
   onShowTransactions: () => void;
+  onConnectWallet: () => void;
   maxSlippage: number;
   isAutoSlippage: boolean;
   currency: string;
@@ -187,7 +190,7 @@ export function useSwapState({
         quoteFor === "buy" ? lazySellToken?.address : lazyBuyToken?.address,
       sellToken:
         quoteFor === "buy" ? lazyBuyToken?.address : lazySellToken?.address,
-      taker: account!,
+      taker: account || ZEROEX_DEFAULT_TAKER_ADDRESS,
       slippageBps: maxSlippage ? maxSlippage * 100 * 100 : 100,
       swapFeeRecipient: swapFees
         ? swapFees.recipient
@@ -202,7 +205,7 @@ export function useSwapState({
     useGasless: canGasless,
     onSuccess: handleQuoteSuccess,
     onError: handleQuoteError,
-    isEnabled: !insufficientBalance,
+    //  isEnabled: account ? !insufficientBalance : true,
   });
 
   const quoteQueryPrice = useSwapCurrencyPrice({
@@ -378,6 +381,11 @@ export function useSwapState({
   };
 
   const handleExecSwap = useCallback(async () => {
+    if (!isActive) {
+      onConnectWallet();
+      return;
+    }
+
     if (execType === "swap" && quoteQuery.data) {
       setShowConfirmSwap(true);
       quoteQuery.refetch();
@@ -390,10 +398,10 @@ export function useSwapState({
         {
           signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => {},
+          onHash: (_hash: string) => { },
         },
         {
-          onSuccess: (_receipt: providers.TransactionReceipt) => {},
+          onSuccess: (_receipt: providers.TransactionReceipt) => { },
         }
       );
     } else if (execType === "unwrap") {
@@ -401,7 +409,7 @@ export function useSwapState({
         {
           signer,
           amount: lazySellAmount,
-          onHash: (_hash: string) => {},
+          onHash: (_hash: string) => { },
         },
         {
           onSuccess: (receipt: providers.TransactionReceipt) => {
@@ -412,7 +420,7 @@ export function useSwapState({
     } else if (execType === "switch" && chainId) {
       switchChain(defineChain(chainId));
     }
-  }, [quoteQuery.data, execType, lazySellAmount, sellToken, chainId, signer]);
+  }, [quoteQuery.data, execType, lazySellAmount, sellToken, chainId, signer, isActive, onConnectWallet]);
 
   const quoteData = useMemo(() => {
     if (quoteQuery.data) {

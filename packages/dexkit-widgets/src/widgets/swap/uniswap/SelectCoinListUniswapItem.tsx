@@ -10,6 +10,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { BigNumber, constants } from "ethers";
 import { memo } from "react";
@@ -20,6 +21,7 @@ import { formatBigNumber } from "@dexkit/core/utils";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import Warning from "@mui/icons-material/Warning";
 import { FormattedMessage } from "react-intl";
+import { isDexKitToken } from "../../../constants/tokens";
 
 export interface SelectCoinListUniswapItemProps {
   token: Token;
@@ -36,14 +38,18 @@ function SelectCoinListUniswapItem({
   isLoading,
   isExtern,
 }: SelectCoinListUniswapItemProps) {
+  const theme = useTheme();
+
   const balance = tokenBalances
     ? tokenBalances[
-        token?.address.toLowerCase() ===
-        ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
-          ? constants.AddressZero
-          : token.address
-      ]
+    token?.address.toLowerCase() ===
+      ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
+      ? constants.AddressZero
+      : token.address
+    ]
     : BigNumber.from(0);
+
+  const isKitToken = isDexKitToken(token);
 
   const renderAvatar = () => {
     if (isExtern) {
@@ -71,7 +77,13 @@ function SelectCoinListUniswapItem({
                 : TOKEN_ICON_URL(token.address, token.chainId)
             }
             imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{ height: "1.5rem", width: "1.5rem" }}
+            sx={{
+              height: "1.5rem",
+              width: "1.5rem",
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
+            }}
           />
         </Badge>
       );
@@ -85,7 +97,13 @@ function SelectCoinListUniswapItem({
             : TOKEN_ICON_URL(token.address, token.chainId)
         }
         imgProps={{ sx: { objectFit: "fill" } }}
-        sx={{ height: "1.5rem", width: "1.5rem" }}
+        sx={{
+          height: "1.5rem",
+          width: "1.5rem",
+          ...(isKitToken && theme.palette.mode === 'dark' && {
+            filter: 'invert(1)',
+          })
+        }}
       />
     );
   };

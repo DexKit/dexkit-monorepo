@@ -1,3 +1,4 @@
+import { useIsMobile } from "@dexkit/core";
 import { CoinTypes } from "@dexkit/core/constants";
 import { Coin, EvmCoin } from "@dexkit/core/types";
 import {
@@ -13,7 +14,7 @@ import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { parseEther } from "@dexkit/core/utils/ethers/parseEther";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
-import { Divider, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Skeleton, Stack, Typography, useTheme } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useMemo, useState } from "react";
 import { useIntl } from "react-intl";
@@ -51,6 +52,8 @@ export default function EvmTransferCoin({
   onChangePaymentUrl,
 }: EvmTransferCoinProps) {
   const { formatMessage } = useIntl();
+  const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const trackUserEventsMutation = useTrackUserEventsMutation();
 
@@ -169,9 +172,9 @@ export default function EvmTransferCoin({
           amount: values?.amount
             ? values?.coin
               ? parseUnits(
-                  values?.amount?.toString() || "0",
-                  values.coin.decimals
-                ).toString()
+                values?.amount?.toString() || "0",
+                values.coin.decimals
+              ).toString()
               : parseEther(values?.amount?.toString() || "0").toString()
             : undefined,
           contractAddress:
@@ -250,42 +253,65 @@ export default function EvmTransferCoin({
   };*/
 
   return (
-    <Stack spacing={2}>
-      <Stack justifyContent="center" alignItems="center" alignContent="center">
-        <Typography color="textSecondary" variant="caption">
-          {ENSName ? ENSName : truncateAddress(account)}{" "}
-          <CopyIconButton
-            iconButtonProps={{
-              onClick: handleCopy,
-              size: "small",
-              color: "inherit",
-            }}
-            tooltip={formatMessage({
-              id: "copy",
-              defaultMessage: "Copy",
-              description: "Copy text",
-            })}
-            activeTooltip={formatMessage({
-              id: "copied",
-              defaultMessage: "Copied!",
-              description: "Copied text",
-            })}
-          >
-            <FileCopy fontSize="inherit" color="inherit" />
-          </CopyIconButton>
-        </Typography>
+    <Stack spacing={isMobile ? 2.5 : 3}>
+      <Box
+        sx={{
+          p: isMobile ? 2 : 2.5,
+          backgroundColor: theme.palette.action.hover,
+          borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+          border: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Stack justifyContent="center" alignItems="center" spacing={isMobile ? 1 : 1.5}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography
+              color="textSecondary"
+              variant={isMobile ? "caption" : "body2"}
+              sx={{
+                fontFamily: theme.typography.fontFamily,
+                fontFeatureSettings: '"tnum"',
+              }}
+            >
+              {ENSName ? ENSName : truncateAddress(account)}
+            </Typography>
+            <CopyIconButton
+              iconButtonProps={{
+                onClick: handleCopy,
+                size: "small",
+                color: "inherit",
+              }}
+              tooltip={formatMessage({
+                id: "copy",
+                defaultMessage: "Copy",
+                description: "Copy text",
+              })}
+              activeTooltip={formatMessage({
+                id: "copied",
+                defaultMessage: "Copied!",
+                description: "Copied text",
+              })}
+            >
+              <FileCopy fontSize="small" color="inherit" />
+            </CopyIconButton>
+          </Stack>
 
-        <Typography variant="h4">
-          {isLoading ? (
-            <Skeleton />
-          ) : (
-            <>
-              {balance} {values.coin?.symbol}
-            </>
-          )}
-        </Typography>
-      </Stack>
-      <Divider />
+          <Typography
+            variant={isMobile ? "h5" : "h4"}
+            sx={{
+              fontWeight: theme.typography.fontWeightBold,
+              textAlign: 'center',
+            }}
+          >
+            {isLoading ? (
+              <Skeleton width={theme.spacing(15)} />
+            ) : (
+              <>
+                {balance} {values.coin?.symbol}
+              </>
+            )}
+          </Typography>
+        </Stack>
+      </Box>
 
       <EvmSendForm
         isSubmitting={evmTransferMutation.isLoading}

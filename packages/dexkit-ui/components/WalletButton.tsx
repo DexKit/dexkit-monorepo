@@ -40,6 +40,7 @@ export function WalletButton({ align }: WalletButtonProps) {
 
   const [showContent, setShowContent] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -49,6 +50,15 @@ export function WalletButton({ align }: WalletButtonProps) {
   const handleClose = () => {
     setAnchorEl(null);
     setShowContent(false);
+    setIsSwitchingWallet(false);
+  };
+
+  const handleStartSwitching = () => {
+    setIsSwitchingWallet(true);
+  };
+
+  const handleStopSwitching = () => {
+    setIsSwitchingWallet(false);
   };
 
   return (
@@ -102,8 +112,15 @@ export function WalletButton({ align }: WalletButtonProps) {
           anchorEl={anchorEl}
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
           onClose={handleClose}
+          disableEnforceFocus={isSwitchingWallet}
+          disableAutoFocus={isSwitchingWallet}
+          disableRestoreFocus={isSwitchingWallet}
         >
-          <WalletContent />
+          <WalletContent
+            onClosePopover={handleClose}
+            onStartSwitching={handleStartSwitching}
+            onStopSwitching={handleStopSwitching}
+          />
         </Popover>
       )}
     </>

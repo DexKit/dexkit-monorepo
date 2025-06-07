@@ -50,13 +50,21 @@ export function useLogoutAccountMutation() {
 export const GET_AUTH_USER = "GET_AUTH_USER";
 export function useAuthUserQuery() {
   const { account } = useWeb3React();
-  return useQuery([GET_AUTH_USER, account], async () => {
-    if (!account) {
-      return;
+  return useQuery(
+    [GET_AUTH_USER, account],
+    async () => {
+      if (!account) {
+        return null;
+      }
+      const userRequest = await getUserByAccount();
+      return userRequest.data;
+    },
+    {
+      enabled: !!account,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
     }
-    const userRequest = await getUserByAccount();
-    return userRequest.data;
-  });
+  );
 }
 
 export function useLoginAccountMutation() {

@@ -11,6 +11,7 @@ import {
   InputAdornment,
   ListSubheader,
   Stack,
+  useTheme,
 } from "@mui/material";
 import type { providers } from "ethers";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -54,7 +55,7 @@ export default function SwapSelectCoinDialog({
   enableImportExterTokens,
 }: SwapSelectCoinDialogProps) {
   const { onClose } = DialogProps;
-
+  const theme = useTheme();
   const { formatMessage } = useIntl();
 
   const handleClose = () => {
@@ -86,7 +87,25 @@ export default function SwapSelectCoinDialog({
   });
 
   return (
-    <Dialog {...DialogProps} onClose={handleClose} fullScreen={isMobile}>
+    <Dialog
+      {...DialogProps}
+      onClose={handleClose}
+      fullScreen={isMobile}
+      maxWidth={isMobile ? false : "sm"}
+      fullWidth={!isMobile}
+      PaperProps={{
+        sx: {
+          ...(isMobile && {
+            height: "85vh",
+            margin: theme.spacing(2),
+            borderRadius: theme.spacing(2),
+          }),
+          ...(!isMobile && {
+            maxHeight: "80vh",
+          }),
+        },
+      }}
+    >
       <AppDialogTitle
         title={
           <FormattedMessage id="select.token" defaultMessage="Select token" />
@@ -94,45 +113,68 @@ export default function SwapSelectCoinDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ px: 0 }}>
+
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: theme.zIndex.modal + 1,
+          backgroundColor: theme.palette.background.paper,
+          borderBottom: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Stack spacing={2} sx={{ p: 2 }}>
+          {/* Search Bar */}
+          <SearchTextField
+            onChange={handleChangeQuery}
+            TextFieldProps={{
+              fullWidth: true,
+              size: isMobile ? "small" : "medium",
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search color="primary" />
+                  </InputAdornment>
+                ),
+              },
+              placeholder: formatMessage({
+                id: "search.for.a.coin.by.name.symbol.and.address",
+                defaultMessage: "Search for a coin by name, symbol and address",
+              }),
+            }}
+          />
+
+          {featuredTokens && featuredTokens.length > 0 && (
+            <SwapFeaturedTokens
+              onSelect={onSelect}
+              chainId={chainId}
+              tokens={featuredTokens}
+            />
+          )}
+        </Stack>
+      </Box>
+
+      <DialogContent
+        sx={{
+          px: 0,
+          flex: 1,
+          overflow: "auto",
+          paddingTop: 0,
+        }}
+      >
         <Stack>
-          <Stack spacing={2} sx={{ pb: 2 }}>
-            <Box sx={{ px: 2 }}>
-              <SearchTextField
-                onChange={handleChangeQuery}
-                TextFieldProps={{
-                  fullWidth: true,
-                  InputProps: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search color="primary" />
-                      </InputAdornment>
-                    ),
-                  },
-                  placeholder: formatMessage({
-                    id: "search.for.a.coin.by.name.symbol.and.address",
-                    defaultMessage:
-                      "Search for a coin by name, symbol and address",
-                  }),
-                }}
-              />
-            </Box>
-            {featuredTokens && featuredTokens.length > 0 && (
-              <SwapFeaturedTokens
-                onSelect={onSelect}
-                chainId={chainId}
-                tokens={featuredTokens}
-              />
-            )}
-          </Stack>
           {recentTokens && recentTokens?.length > 0 && (
             <>
-              <Divider />
               <SelectCoinList
                 subHeader={
                   <Box
                     sx={{
                       px: 2,
+                      py: 1,
+                      backgroundColor: theme.palette.background.paper,
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 1,
                     }}
                   >
                     <Stack
@@ -162,10 +204,11 @@ export default function SwapSelectCoinDialog({
                 tokenBalances={tokenBalances.data}
                 onSelect={handleSelect}
                 isLoading={tokenBalances.isLoading}
+                showDash={!account}
               />
+              <Divider />
             </>
           )}
-          <Divider />
           <SelectCoinList
             tokens={[...importedTokens.tokens, ...tokens]}
             onSelect={handleSelect}
@@ -173,10 +216,13 @@ export default function SwapSelectCoinDialog({
               !isOnList && fetchTokenData.data ? fetchTokenData.data : undefined
             }
             tokenBalances={tokenBalances.data}
+            showDash={!account}
             isLoading={
-              tokenBalances.isLoading ||
-              fetchTokenData.isLoading ||
-              isLoadingSearch
+              account
+                ? tokenBalances.isLoading ||
+                  fetchTokenData.isLoading ||
+                  isLoadingSearch
+                : fetchTokenData.isLoading || isLoadingSearch
             }
           />
         </Stack>

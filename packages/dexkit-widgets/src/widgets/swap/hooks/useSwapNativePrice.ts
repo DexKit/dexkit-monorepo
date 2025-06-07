@@ -11,6 +11,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits, parseEther } from "viem";
+
 interface SwapNativeQuoteParams {
   buyToken?: Token;
   chainId: ChainId;
@@ -18,8 +19,10 @@ interface SwapNativeQuoteParams {
 }
 
 export const SWAP_NATIVE_PRICE = "SWAP_NATIVE_PRICE";
+
 // Amount used to get a quote
 const NATIVE_MIN_AMOUNT = '0.001';
+
 /**
  * returns native price
  * @param param0 
@@ -46,7 +49,6 @@ export function useSwapNativePrice({
     buyToken: params.buyToken
   }
 
-
   const { siteId } = useContext(SiteContext);
 
   return useQuery(
@@ -66,74 +68,79 @@ export function useSwapNativePrice({
         return null;
       }
 
-      if (!params) {
+      if (!params || !params.buyToken || !params.chainId) {
         return null;
       }
-
-      const sellTokenAmount = parseEther(NATIVE_MIN_AMOUNT);
-      const sellToken = ZEROEX_NATIVE_TOKEN_ADDRESS;
 
       const {
         chainId,
         buyToken,
       } = { ...params };
-      const client = new ZeroExApiClient(chainId, siteId);
 
-      if (buyToken && sellToken) {
-        const quoteParam: ZeroExQuote = {
-          chainId,
-          buyToken: buyToken?.address,
-          sellToken: ZEROEX_NATIVE_TOKEN_ADDRESS,
-          feeRecipient: swapFees?.recipient,
-          taker: params.account || ""
-        };
+      try {
+        const client = new ZeroExApiClient(chainId, siteId);
 
-        if (maxSlippage !== undefined) {
-          quoteParam.slippagePercentage = maxSlippage;
-        }
-
-        if (sellTokenAmount > 0) {
-          quoteParam.sellAmount = sellTokenAmount?.toString();
-          if (buyToken.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS) {
-
-            const sellAmountUnits = formatUnits(
-              BigInt(sellTokenAmount),
-              18
-            );
-
-
+        if (buyToken) {
+          // Handle native token case
+          if (buyToken.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+            const sellTokenAmount = parseEther(NATIVE_MIN_AMOUNT);
+            const sellAmountUnits = formatUnits(BigInt(sellTokenAmount), 18);
 
             return {
               sellTokenToEthRate: '1',
               sellAmountUnits: sellAmountUnits.toString(),
               buyAmountUnits: sellAmountUnits.toString()
+            };
+          }
+
+          // Try different amounts if the first one fails
+          const amountsToTry = [NATIVE_MIN_AMOUNT, '0.01', '0.1', '1.0'];
+
+          for (const amount of amountsToTry) {
+            try {
+              const sellTokenAmount = parseEther(amount);
+              const quoteParam: ZeroExQuote = {
+                chainId,
+                buyToken: buyToken.address,
+                sellToken: ZEROEX_NATIVE_TOKEN_ADDRESS,
+                feeRecipient: swapFees?.recipient,
+                taker: params.account || "",
+                sellAmount: sellTokenAmount.toString(),
+              };
+
+              if (maxSlippage !== undefined) {
+                quoteParam.slippagePercentage = maxSlippage;
+              }
+
+              const { buyAmount, sellAmount } = await client.price(quoteParam, { signal });
+
+              const buyAmountUnits = formatUnits(BigInt(buyAmount), buyToken.decimals);
+              const sellAmountUnits = formatUnits(BigInt(sellAmount), 18);
+
+              return {
+                sellTokenToEthRate: (Number(buyAmountUnits) / Number(sellAmountUnits)).toString(),
+                buyAmountUnits,
+                sellAmountUnits,
+              };
+            } catch (error: any) {
+              // Continue to next amount if this one fails
+              continue;
             }
           }
 
-
-          const {
-            buyAmount,
-            sellAmount,
-          } = await client.price(quoteParam, { signal });
-
-          const buyAmountUnits = formatUnits(
-            BigInt(buyAmount),
-            buyToken.decimals
-          );
-          const sellAmountUnits = formatUnits(
-            BigInt(sellAmount),
-            18
-          );
-
-          return {
-            sellTokenToEthRate: (Number(buyAmountUnits) / Number(sellAmountUnits)).toString(),
-            buyAmountUnits,
-            sellAmountUnits,
-          };
+          return null;
         }
+      } catch (error) {
+        return null;
       }
+
       return null;
     },
-    { enabled: Boolean(params), refetchInterval: 5000 }
+    {
+      enabled: Boolean(params?.buyToken && params?.chainId && variant && variant !== SwapVariant.Classic),
+      refetchInterval: 5000,
+      retry: 1,
+      staleTime: 30000
+    }
   );
 }

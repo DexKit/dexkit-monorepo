@@ -1,3 +1,4 @@
+import { ZEROEX_DEFAULT_TAKER_ADDRESS } from '@dexkit/wallet-connectors/services/zrx/constants';
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -22,8 +23,13 @@ export default async function handler(
 
   try {
     if (req.method === 'GET') {
+      const params = { ...req.query };
+      if (!params.taker || params.taker === '') {
+        params.taker = ZEROEX_DEFAULT_TAKER_ADDRESS;
+      }
+
       const response = await axios.get(GET_ZRX_URL + proxiedRoute, {
-        params: req.query,
+        params: params,
         headers: {
           '0x-api-key':
             process.env.ZRX_API_KEY_PRO ??
@@ -52,10 +58,6 @@ export default async function handler(
       return res.status(200).json(response.data);
     }
   } catch (err: any) {
-    /*if (err?.status) {
-      return res.status(err?.status).json(err);
-    }*/
-
     return res.status(err.response?.status).json(err.response?.data);
   }
   return res.status(500).json({ message: 'method not supported' });

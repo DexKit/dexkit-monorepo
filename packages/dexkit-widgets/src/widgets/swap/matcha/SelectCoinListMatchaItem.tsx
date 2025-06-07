@@ -10,6 +10,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { BigNumber, constants } from "ethers";
 import { memo } from "react";
@@ -17,9 +18,9 @@ import { memo } from "react";
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import { formatBigNumber } from "@dexkit/core/utils";
-import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import Warning from "@mui/icons-material/Warning";
 import { FormattedMessage } from "react-intl";
+import { isDexKitToken } from "../../../constants/tokens";
 
 export interface SelectCoinListMatchaItemProps {
   token: Token;
@@ -36,14 +37,31 @@ function SelectCoinListMatchaItem({
   isLoading,
   isExtern,
 }: SelectCoinListMatchaItemProps) {
-  const balance = tokenBalances
-    ? tokenBalances[
-        token?.address.toLowerCase() ===
-        ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()
-          ? constants.AddressZero
-          : token.address
-      ]
-    : BigNumber.from(0);
+  const theme = useTheme();
+
+  const getTokenBalance = () => {
+    if (!tokenBalances || !token) {
+      return BigNumber.from(0);
+    }
+
+    const addresses = [
+      token.address,
+      token.address.toLowerCase(),
+      constants.AddressZero,
+    ];
+
+    for (const address of addresses) {
+      const balance = tokenBalances[address];
+      if (balance && !balance.isZero()) {
+        return balance;
+      }
+    }
+
+    return BigNumber.from(0);
+  };
+
+  const balance = getTokenBalance();
+  const isKitToken = isDexKitToken(token);
 
   const renderAvatar = () => {
     if (isExtern) {
@@ -71,7 +89,13 @@ function SelectCoinListMatchaItem({
                 : TOKEN_ICON_URL(token.address, token.chainId)
             }
             imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{ height: "1.5rem", width: "1.5rem" }}
+            sx={{
+              height: "1.5rem",
+              width: "1.5rem",
+              ...(isKitToken && theme.palette.mode === 'dark' && {
+                filter: 'invert(1)',
+              })
+            }}
           />
         </Badge>
       );
@@ -85,7 +109,13 @@ function SelectCoinListMatchaItem({
             : TOKEN_ICON_URL(token.address, token.chainId)
         }
         imgProps={{ sx: { objectFit: "fill" } }}
-        sx={{ height: "1.5rem", width: "1.5rem" }}
+        sx={{
+          height: "1.5rem",
+          width: "1.5rem",
+          ...(isKitToken && theme.palette.mode === 'dark' && {
+            filter: 'invert(1)',
+          })
+        }}
       />
     );
   };
@@ -108,7 +138,7 @@ function SelectCoinListMatchaItem({
         <Typography variant="body2" color="text.secondary">
           {isLoading ? (
             <Skeleton>--</Skeleton>
-          ) : tokenBalances && token && balance ? (
+          ) : balance && !balance.isZero() ? (
             formatBigNumber(balance, token.decimals)
           ) : (
             "0.0"

@@ -3,16 +3,16 @@ import { formatEther } from '@dexkit/core/utils/ethers/formatEther';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Alert,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Stack,
-    Typography,
+  Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { BigNumber } from 'ethers';
 import { memo } from 'react';
@@ -130,25 +130,38 @@ function ConfirmSwapTransaction({
                   <Stack direction={'row'} spacing={2}>
                     {nativeCurrencyPriceQuery.data && (
                       <Typography color="body2">
-                        <FormattedNumber
-                          value={
-                            Number(
-                              formatEther(
-                                BigNumber.from(quote.gas).mul(quote.gasPrice),
-                              ),
-                            ) * nativeCurrencyPriceQuery.data
+                        {(() => {
+                          const totalFeeWei = (quote as any).totalNetworkFee;
+
+                          if (!totalFeeWei) {
+                            return 'Fee not available';
                           }
-                          style="currency"
-                          currency={currency}
-                        />
+
+                          const ethAmount = Number(formatEther(BigNumber.from(totalFeeWei)));
+                          const usdAmount = ethAmount * nativeCurrencyPriceQuery.data;
+
+                          return (
+                            <FormattedNumber
+                              value={usdAmount}
+                              style="currency"
+                              currency={currency}
+                            />
+                          );
+                        })()}
                       </Typography>
                     )}
 
                     <Typography color="textSecondary">
                       (
-                      {formatEther(
-                        BigNumber.from(quote.gas).mul(quote.gasPrice),
-                      )}{' '}
+                      {(() => {
+                        const totalFeeWei = (quote as any).totalNetworkFee;
+
+                        if (!totalFeeWei) {
+                          return '0';
+                        }
+
+                        return formatEther(BigNumber.from(totalFeeWei));
+                      })()}{' '}
                       {getNativeCurrencySymbol(chainId)})
                     </Typography>
                   </Stack>

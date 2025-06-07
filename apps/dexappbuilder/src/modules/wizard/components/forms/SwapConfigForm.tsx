@@ -120,6 +120,15 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               <MenuItem value={SwapVariant.UniswapLike}>
                 <FormattedMessage id="modern" defaultMessage="Modern" />
               </MenuItem>
+              <MenuItem value={SwapVariant.Minimal}>
+                <FormattedMessage id="minimal" defaultMessage="Minimal - Ultra-clean interface" />
+              </MenuItem>
+              <MenuItem value={SwapVariant.Compact}>
+                <FormattedMessage id="compact" defaultMessage="Compact - Space-efficient for small areas" />
+              </MenuItem>
+              <MenuItem value={SwapVariant.Mobile}>
+                <FormattedMessage id="mobile" defaultMessage="Mobile - Touch-optimized with gestures" />
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>

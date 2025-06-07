@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  CircularProgress,
   Divider,
   IconButton,
   Stack,
@@ -21,6 +22,7 @@ import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import dynamic from "next/dynamic";
 
 import { NETWORK_IMAGE, NETWORK_NAME } from "@dexkit/core/constants/networks";
+import { useIsMobile } from "@dexkit/core/hooks";
 
 import { AccountBalance } from "@dexkit/ui/components/AccountBalance";
 import TransakWidget from "@dexkit/ui/components/Transak";
@@ -56,23 +58,40 @@ const SelectNetworkDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
 );
 
-export default function WalletContent() {
+export interface WalletContentProps {
+  onClosePopover?: () => void;
+  onStartSwitching?: () => void;
+  onStopSwitching?: () => void;
+}
+
+export default function WalletContent({
+  onClosePopover,
+  onStartSwitching,
+  onStopSwitching
+}: WalletContentProps) {
   const { account, ENSName, chainId, connector } = useWeb3React();
 
   const theme = useTheme();
   const wallet = useActiveWallet();
+  const isMobile = useIsMobile();
 
   const { disconnect } = useDisconnect();
   const wallets = useConnectedWallets();
   const { connectWallet } = useWalletConnect();
   const logoutMutation = useLogoutAccountMutation();
 
+  const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
+
   const handleLogoutWallet = useCallback(async () => {
+    if (onClosePopover) {
+      onClosePopover();
+    }
+
     logoutMutation.mutate();
     if (wallet) {
       disconnect(wallet);
     }
-  }, [logoutMutation, connector]);
+  }, [logoutMutation, wallet, disconnect, onClosePopover]);
 
   const [isBalancesVisible, setIsBalancesVisible] = useBalanceVisible();
 
@@ -121,19 +140,35 @@ export default function WalletContent() {
   };
 
   const handleSwitchWallet = useCallback(async () => {
+    if (isSwitchingWallet) {
+      return;
+    }
+
+    setIsSwitchingWallet(true);
+
     try {
-      if (wallet) {
-        await disconnect(wallet);
+      if (onClosePopover) {
+        onClosePopover();
       }
 
-      setTimeout(() => {
-        connectWallet();
-      }, 100);
-    } catch (error) {
-      console.error("Error switching wallet:", error);
+      if (wallet) {
+        disconnect(wallet);
+      }
+
       connectWallet();
+
+    } catch (error) {
+      console.error("Switch wallet error:", error);
+    } finally {
+      setIsSwitchingWallet(false);
     }
-  }, [wallet, disconnect, connectWallet]);
+  }, [
+    wallet,
+    disconnect,
+    connectWallet,
+    isSwitchingWallet,
+    onClosePopover
+  ]);
 
   return (
     <>
@@ -325,7 +360,6 @@ export default function WalletContent() {
             </Button>
           </Stack>
           <Stack spacing={2} direction="row">
-            {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
             {false && (
               <TransakWidget
                 buttonProps={{ color: "inherit", variant: "outlined" }}
@@ -334,14 +368,28 @@ export default function WalletContent() {
 
             <Button
               onClick={handleSwitchWallet}
-              startIcon={<SwitchAccount fontSize="small" />}
+              disabled={isSwitchingWallet}
+              startIcon={
+                isSwitchingWallet ? (
+                  <CircularProgress size={16} color="inherit" />
+                ) : (
+                  <SwitchAccount fontSize="small" />
+                )
+              }
               variant="outlined"
               color="inherit"
             >
-              <FormattedMessage
-                id="switch.wallet"
-                defaultMessage="Switch wallet"
-              />
+              {isSwitchingWallet ? (
+                <FormattedMessage
+                  id="switching.wallet"
+                  defaultMessage="Switching..."
+                />
+              ) : (
+                <FormattedMessage
+                  id="switch.wallet"
+                  defaultMessage="Switch wallet"
+                />
+              )}
             </Button>
           </Stack>
         </Stack>
