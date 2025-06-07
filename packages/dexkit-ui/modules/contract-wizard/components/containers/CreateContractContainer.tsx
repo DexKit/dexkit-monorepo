@@ -1,4 +1,11 @@
-import { Box, Container, Grid, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import { useDeployableContractsQuery } from "@dexkit/ui/modules/forms/hooks";
@@ -17,12 +24,14 @@ interface Props {
   onGoToListContracts: () => void;
 }
 
+const IS_DEXKIT_CONTRACT = ["DropAllowanceERC20"];
+
 export default function CreateContractContainer({
   onGoToContract,
   onGoToListContracts,
 }: Props) {
   const [slug, setSlug] = useState("");
-  const creator = "thirdweb";
+  const creator = IS_DEXKIT_CONTRACT.includes(slug) ? "dexkit" : "thirdweb";
   const deployableContractsQuery = useDeployableContractsQuery();
   const theme = useTheme();
 
@@ -36,9 +45,12 @@ export default function CreateContractContainer({
                 <Typography
                   variant="h5"
                   sx={{
-                    fontSize: { xs: theme.typography.h6.fontSize, sm: theme.typography.h5.fontSize },
+                    fontSize: {
+                      xs: theme.typography.h6.fontSize,
+                      sm: theme.typography.h5.fontSize,
+                    },
                     fontWeight: theme.typography.fontWeightBold,
-                    mb: theme.spacing(0.5)
+                    mb: theme.spacing(0.5),
                   }}
                 >
                   <FormattedMessage
@@ -50,7 +62,10 @@ export default function CreateContractContainer({
                   variant="body2"
                   color="text.secondary"
                   sx={{
-                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize }
+                    fontSize: {
+                      xs: theme.typography.caption.fontSize,
+                      sm: theme.typography.body2.fontSize,
+                    },
                   }}
                 >
                   <FormattedMessage
