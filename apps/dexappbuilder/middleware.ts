@@ -23,7 +23,7 @@ export const config = {
     '/token/:path*',
     '/airdrop/:path*',
 
-    '/embed/:path*',
+    '/embed/:path*'
   ],
 };
 
@@ -48,7 +48,7 @@ const basePaths = [
   '/stake',
   '/token',
   '/airdrop',
-  '/embed',
+  '/embed'
 ];
 
 function isBasePath(path: string) {
@@ -76,6 +76,10 @@ export default function middleware(req: NextRequest) {
   }
 
   if (url.pathname.startsWith('/site')) {
+    return NextResponse.rewrite(url);
+  }
+
+  if (url.pathname.startsWith('/_widget_iframe')) {
     return NextResponse.rewrite(url);
   }
 

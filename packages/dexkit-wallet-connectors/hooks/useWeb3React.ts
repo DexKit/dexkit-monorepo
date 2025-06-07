@@ -42,14 +42,14 @@ export function useWeb3React(): {
   const { isConnecting } = useConnect();
 
   const { data } = useEnsName({
-    client,
+    client: client,
     address: activeAccount?.address,
   });
 
   const provider = useMemo(() => {
     if (activeChain) {
       return ethers5Adapter.provider.toEthers({
-        client,
+        client: client,
         chain: activeChain,
       });
     }
@@ -59,7 +59,7 @@ export function useWeb3React(): {
     ["GET_THIRD_WEB_SIGNER", activeChain, activeAccount],
     async () => {
       return ethers5Adapter.signer.toEthers({
-        client,
+        client: client,
         chain: activeChain!,
         account: activeAccount!,
       });
@@ -72,8 +72,8 @@ export function useWeb3React(): {
   const signMessage = activeAccount
     ? activeAccount.signMessage
     : () => {
-        throw new Error("No account");
-      };
+      throw new Error("No account");
+    };
 
   return {
     activeAccount,

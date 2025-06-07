@@ -40,9 +40,9 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import appConfig from '../../../../../config/app.json';
 import ThemePreviewMenu from '../ThemePreviewMenu';
 interface Props {
-  config: AppConfig;
-  onSave: (config: AppConfig) => void;
-  onChange: (config: AppConfig) => void;
+  config: Partial<AppConfig>;
+  onSave: (config: Partial<AppConfig>) => void;
+  onChange: (config: Partial<AppConfig>) => void;
   onHasChanges?: (hasChanges: boolean) => void;
   isOnStepper?: boolean;
   stepperButtonProps?: StepperButtonProps;
@@ -68,7 +68,9 @@ export default function ThemeWizardContainer({
   stepperButtonProps,
   showSwap,
 }: Props) {
-  const [selectedThemeId, setSelectedThemeId] = useState<string>(config.theme);
+  const [selectedThemeId, setSelectedThemeId] = useState<string>(
+    config?.theme as string,
+  );
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -134,7 +136,7 @@ export default function ThemeWizardContainer({
   ]);
 
   const handleCancelEdit = () => {
-    setSelectedThemeId(config.theme);
+    setSelectedThemeId(config?.theme as string);
   };
 
   const handleSave = () => {
@@ -343,7 +345,7 @@ export default function ThemeWizardContainer({
               sx={{
                 fontSize: isMobile ? '1.15rem' : '1.5rem',
                 fontWeight: 600,
-                mb: 0.5
+                mb: 0.5,
               }}
             >
               <FormattedMessage id="theme" defaultMessage="Theme" />
@@ -369,7 +371,9 @@ export default function ThemeWizardContainer({
           <Grid container spacing={isMobile ? 1.5 : 3} alignItems="stretch">
             <Grid item xs={12} sm={6}>
               <Box>
-                <Stack spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
+                <Stack
+                  spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}
+                >
                   <Typography variant="body2">
                     <FormattedMessage
                       id="choose.app.theme.color.for.each.mode "
@@ -381,9 +385,13 @@ export default function ThemeWizardContainer({
                     <Select
                       labelId="theme-mode-label"
                       id="theme-mode"
-                      sx={{ maxWidth: isMobile ? theme.spacing(15) : theme.spacing(18.75) }}
+                      sx={{
+                        maxWidth: isMobile
+                          ? theme.spacing(15)
+                          : theme.spacing(18.75),
+                      }}
                       fullWidth
-                      size={isMobile ? "small" : "medium"}
+                      size={isMobile ? 'small' : 'medium'}
                       value={selectedThemeMode}
                       onChange={(ev) => {
                         setSelectedThemeMode(ev.target.value as ThemeMode);
@@ -426,15 +434,17 @@ export default function ThemeWizardContainer({
                       alignContent="center"
                       alignItems="center"
                       spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
-                      sx={{ mt: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
+                      sx={{
+                        mt: isMobile ? theme.spacing(0.5) : theme.spacing(1),
+                      }}
                     >
-                      <Typography variant={isMobile ? "body2" : "body1"}>
+                      <Typography variant={isMobile ? 'body2' : 'body1'}>
                         {' '}
                         <FormattedMessage id="light" defaultMessage={'Light'} />
                       </Typography>
                       <Switch
                         defaultChecked={defaultThemeMode === ThemeMode.dark}
-                        size={isMobile ? "small" : "medium"}
+                        size={isMobile ? 'small' : 'medium'}
                         onChange={() => {
                           if (defaultThemeMode === 'dark') {
                             setDefaultThemeMode(ThemeMode.light);
@@ -443,13 +453,15 @@ export default function ThemeWizardContainer({
                           }
                         }}
                       />
-                      <Typography variant={isMobile ? "body2" : "body1"}>
+                      <Typography variant={isMobile ? 'body2' : 'body1'}>
                         {' '}
                         <FormattedMessage id="dark" defaultMessage={'Dark'} />
                       </Typography>
                     </Stack>
                   </Box>
-                  <Stack spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
+                  <Stack
+                    spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}
+                  >
                     <Typography variant="body2">
                       <FormattedMessage
                         id="Choose app font"
@@ -463,11 +475,13 @@ export default function ThemeWizardContainer({
                       value={selectedFont?.family}
                       onChange={handleSelectedFont}
                       options={Fonts.items.map((f) => f.family)}
-                      size={isMobile ? "small" : "medium"}
+                      size={isMobile ? 'small' : 'medium'}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          sx={{ maxWidth: isMobile ? '100%' : theme.spacing(43.75) }}
+                          sx={{
+                            maxWidth: isMobile ? '100%' : theme.spacing(43.75),
+                          }}
                           label={
                             <FormattedMessage
                               id={'font'}
@@ -519,9 +533,9 @@ export default function ThemeWizardContainer({
                 color="primary"
                 onClick={handleSave}
                 disabled={!themeChanged}
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 sx={{
-                  fontSize: isMobile ? "0.875rem" : undefined,
+                  fontSize: isMobile ? '0.875rem' : undefined,
                   py: isMobile ? 0.75 : undefined,
                   px: isMobile ? 2 : undefined,
                 }}
@@ -531,9 +545,9 @@ export default function ThemeWizardContainer({
               <Button
                 startIcon={<Cancel />}
                 onClick={handleCancelEdit}
-                size={isMobile ? "small" : "medium"}
+                size={isMobile ? 'small' : 'medium'}
                 sx={{
-                  fontSize: isMobile ? "0.875rem" : undefined,
+                  fontSize: isMobile ? '0.875rem' : undefined,
                   py: isMobile ? 0.75 : undefined,
                   px: isMobile ? 2 : undefined,
                 }}

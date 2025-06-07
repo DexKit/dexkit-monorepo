@@ -59,14 +59,14 @@ export default function SwapStepperContainer({ site }: Props) {
     setShowSendingConfig(true);
   };
 
-  const handleSave = (_config: AppConfig) => {
+  const handleSave = (_config: Partial<AppConfig>) => {
     setShowConfirmSendConfig(true);
-    const newSite = { ...site, config: _config };
+    const newSite = { ...site, config: _config as AppConfig };
     sendConfigMutation.mutate(newSite);
   };
 
   const handleChange = useCallback(
-    (_config: AppConfig) => {
+    (_config: Partial<AppConfig>) => {
       const newConfig = { ...wizardConfig, ..._config };
       setWizardConfig(newConfig);
     },

@@ -2,9 +2,49 @@
   "name": "@dexkit/dexappbuilder-viewer",
   "private": false,
   "version": "0.9.0",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./theme": {
+      "import": "./theme.js",
+      "types": "./theme.d.ts"
+    },
+    "./utils/intl": {
+      "import": "./utils/intl.js",
+      "types": "./utils/intl.d.ts"
+    },
+    "./components/*": {
+      "import": "./components/*.js",
+      "types": "./components/*.d.ts"
+    },
+    "./components/sections/*": {
+      "import": "./components/sections/*.js",
+      "types": "./components/sections/*.d.ts"
+    },
+    "./components/sections/**/*": {
+      "import": "./components/sections/**/*.js",
+      "types": "./components/sections/**/*.d.ts"
+    },
+    "./components/sections/AssetSection": {
+      "import": "./components/sections/AssetSection/index.js",
+      "types": "./components/sections/AssetSection/index.d.ts"
+    },
+    "./state/atoms": {
+      "import": "./state/atoms.js",
+      "types": "./state/atoms.d.ts"
+    },
+    "./constants/*": {
+      "import": "./constants/*.js",
+      "types": "./constants/*.d.ts"
+    }
+  },
   "scripts": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "storybook": "storybook dev -p 6006",
+    "dev": "tsc -w",
+    "build": "tsc",
     "build-umd": "tsup",
     "build-storybook": "storybook build",
     "release": "changeset publish"
