@@ -1,4 +1,12 @@
-import { Box, Container, Grid, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -22,6 +30,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { getAppConfig } from 'src/services/app';
+
+const IS_DEXKIT_CONTRACT = ['DropAllowanceERC20'];
 
 export default function FormsContractsPage() {
   const router = useRouter();
@@ -105,13 +115,16 @@ export default function FormsContractsPage() {
           <Box>
             <Grid container spacing={isMobile ? 1.5 : 3}>
               <Grid item xs={12}>
-                <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
+                <Stack
+                  spacing={isMobile ? 0.5 : 1}
+                  sx={{ mb: isMobile ? 1.5 : 2 }}
+                >
                   <Typography
                     variant={isMobile ? 'h6' : 'h5'}
                     sx={{
                       fontSize: isMobile ? '1.15rem' : '1.5rem',
                       fontWeight: 600,
-                      mb: 0.5
+                      mb: 0.5,
                     }}
                   >
                     <FormattedMessage
@@ -141,10 +154,10 @@ export default function FormsContractsPage() {
                         title={contract.name}
                         description={contract.description}
                         creator={{
-                          imageUrl: contract.publisherIcon,
-                          name: contract.publisherName,
+                          imageUrl: contract?.publisherIcon,
+                          name: contract?.publisherName,
                         }}
-                        href={`/forms/deploy/thirdweb/${contract.slug}`}
+                        href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
                         targetBlank={true}
                       />
                     </Grid>
@@ -190,7 +203,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({ }: GetStaticPathsContext) => {
+> = ({}: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

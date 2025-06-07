@@ -9,7 +9,7 @@ import {
   ListItemText,
   Skeleton,
   Tooltip,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { BigNumber, constants } from "ethers";
 import { memo } from "react";
@@ -26,6 +26,7 @@ export interface SelectCoinListItemProps {
   onSelect: (token: Token, isExtern?: boolean) => void;
   tokenBalances?: TokenBalances | null;
   isLoading: boolean;
+  showDash: boolean;
   isExtern?: boolean;
 }
 
@@ -35,6 +36,7 @@ function SelectCoinListItem({
   tokenBalances,
   isLoading,
   isExtern,
+  showDash,
 }: SelectCoinListItemProps) {
   const theme = useTheme();
 
@@ -43,7 +45,9 @@ function SelectCoinListItem({
       return BigNumber.from(0);
     }
 
-    const isNativeToken = token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
+    const isNativeToken =
+      token.address.toLowerCase() ===
+      ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase();
 
     let balance = tokenBalances[token.address];
     if (balance) {
@@ -95,9 +99,10 @@ function SelectCoinListItem({
             }
             imgProps={{ sx: { objectFit: "fill" } }}
             sx={{
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
+              ...(isKitToken &&
+                theme.palette.mode === "dark" && {
+                  filter: "invert(1)",
+                }),
             }}
           />
         </Badge>
@@ -113,9 +118,10 @@ function SelectCoinListItem({
         }
         imgProps={{ sx: { objectFit: "fill" } }}
         sx={{
-          ...(isKitToken && theme.palette.mode === 'dark' && {
-            filter: 'invert(1)',
-          })
+          ...(isKitToken &&
+            theme.palette.mode === "dark" && {
+              filter: "invert(1)",
+            }),
         }}
       />
     );
@@ -134,6 +140,8 @@ function SelectCoinListItem({
           <Skeleton>--</Skeleton>
         ) : balance && !balance.isZero() ? (
           formatBigNumber(balance, token.decimals)
+        ) : showDash ? (
+          "-.-"
         ) : (
           "0.0"
         )}
