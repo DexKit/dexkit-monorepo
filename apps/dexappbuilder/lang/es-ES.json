@@ -951,6 +951,18 @@
   "custom": {
     "defaultMessage": "Personalizado"
   },
+  "custom.title": {
+    "defaultMessage": "Título Personalizado"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Dejar vacío para usar el título por defecto"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Subtítulo Personalizado"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Dejar vacío para usar el nombre del contrato"
+  },
   "deploy.your.own.contract": {
     "defaultMessage": "Despliega tu propio contrato"
   },
@@ -1587,6 +1599,12 @@
   },
   "edit.claim.conditions": {
     "defaultMessage": "Editar condiciones de reclamación"
+  },
+  "claim.conditions.updated.successfully": {
+    "defaultMessage": "Condiciones de reclamación actualizadas exitosamente"
+  },
+  "error.updating.claim.conditions": {
+    "defaultMessage": "Error al actualizar las condiciones de reclamación"
   },
   "edit.claimers": {
     "defaultMessage": "Editar reclamantes"

@@ -1,6 +1,7 @@
 import { ContractContainer } from '@/modules/contract-wizard/components/containers/ContractContainer';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Container from '@mui/material/Container';
 import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { ThirdwebStorage } from '@thirdweb-dev/storage';
@@ -12,6 +13,8 @@ import { getAppConfig } from 'src/services/app';
 
 export default function ContractPage() {
   const { query } = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { address, network } = query;
 
@@ -26,7 +29,14 @@ export default function ContractPage() {
         clientId: THIRDWEB_CLIENT_ID,
       })}
     >
-      <Container>
+      <Container
+        maxWidth="xl"
+        disableGutters={isMobile}
+        sx={{
+          px: isMobile ? 1 : 3,
+          py: isMobile ? 1 : 2
+        }}
+      >
         <ContractContainer
           address={address as string}
           network={network as string}

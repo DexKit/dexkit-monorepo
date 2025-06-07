@@ -64,7 +64,7 @@ export default function PreviewPagePlatform({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
+        overflow: 'visible',
         minHeight: 0
       }}
     >
@@ -95,7 +95,7 @@ export default function PreviewPagePlatform({
       <Box
         sx={{
           flex: 1,
-          overflow: 'hidden',
+          overflow: 'visible',
           display: 'flex',
           flexDirection: 'column'
         }}
@@ -115,10 +115,10 @@ export default function PreviewPagePlatform({
             sx={{
               flex: 1,
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'center',
-              p: theme.spacing(0.5),
-              overflow: 'hidden',
+              p: isMobile ? 0 : theme.spacing(0.5),
+              overflow: 'visible',
               minHeight: 0
             }}
           >
@@ -134,15 +134,15 @@ export default function PreviewPagePlatform({
                 elevation={2}
                 sx={{
                   width: '100%',
-                  maxWidth: theme.spacing(50),
-                  height: enableOverflow ? '100%' : 'fit-content',
-                  maxHeight: enableOverflow ? '100%' : '80vh',
+                  maxWidth: isMobile ? '100%' : (enableOverflow ? theme.spacing(85) : theme.spacing(65)),
+                  height: 'auto',
+                  minHeight: isMobile ? '150vh' : 'fit-content',
                   borderRadius: theme.spacing(3),
-                  overflow: enableOverflow ? 'auto' : 'hidden',
+                  overflow: 'visible',
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
-                  p: theme.spacing(0.25)
+                  p: theme.spacing(0.125)
                 }}
               >
                 {pagePreview}

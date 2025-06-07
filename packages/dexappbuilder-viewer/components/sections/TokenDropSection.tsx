@@ -40,6 +40,8 @@ import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export function parseIneligibility(
   reasons: ClaimEligibility[],
@@ -570,10 +572,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         textAlign: 'center',
                       }}
                     >
-                      <FormattedMessage
-                        id="claim.tokens"
-                        defaultMessage="Claim Tokens"
-                      />
+                      {section.settings.customTitle || (
+                        <FormattedMessage
+                          id="claim.tokens"
+                          defaultMessage="Claim Tokens"
+                        />
+                      )}
                     </Typography>
 
                     <Typography
@@ -589,13 +593,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         maxWidth: '100%',
                       }}
                     >
-                      {contractMetadata?.name}
+                      {section.settings.customSubtitle || contractMetadata?.name}
                     </Typography>
 
                     {contractMetadata?.description && (
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
+                      <Box
                         sx={{
                           fontSize: theme.typography.caption.fontSize,
                           lineHeight: 1.3,
@@ -604,10 +606,34 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
+                          color: 'text.secondary',
+                          '& p': {
+                            margin: 0,
+                            fontSize: 'inherit',
+                            lineHeight: 'inherit',
+                            color: 'inherit'
+                          },
+                          '& p:not(:last-child)': {
+                            marginBottom: 0.5
+                          },
+                          '& strong': {
+                            fontWeight: 600
+                          },
+                          '& em': {
+                            fontStyle: 'italic'
+                          },
+                          '& code': {
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                            padding: '1px 2px',
+                            borderRadius: '2px',
+                            fontSize: '0.9em'
+                          }
                         }}
                       >
-                        {contractMetadata.description}
-                      </Typography>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {contractMetadata.description}
+                        </ReactMarkdown>
+                      </Box>
                     )}
                   </Stack>
                 </Box>
@@ -648,10 +674,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           lineHeight: 1.2,
                         }}
                       >
-                        <FormattedMessage
-                          id="claim.tokens"
-                          defaultMessage="Claim Tokens"
-                        />
+                        {section.settings.customTitle || (
+                          <FormattedMessage
+                            id="claim.tokens"
+                            defaultMessage="Claim Tokens"
+                          />
+                        )}
                       </Typography>
 
                       <Typography
@@ -663,21 +691,71 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           fontSize: theme.typography.body1.fontSize,
                         }}
                       >
-                        {contractMetadata?.name}
+                        {section.settings.customSubtitle || contractMetadata?.name}
                       </Typography>
 
                       {contractMetadata?.description && (
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
+                        <Box
                           sx={{
                             maxWidth: theme.spacing(62.5),
                             fontSize: theme.typography.body2.fontSize,
                             lineHeight: 1.4,
+                            color: 'text.secondary',
+                            '& p': {
+                              margin: 0,
+                              fontSize: 'inherit',
+                              lineHeight: 'inherit',
+                              color: 'inherit'
+                            },
+                            '& p:not(:last-child)': {
+                              marginBottom: 1
+                            },
+                            '& ul, & ol': {
+                              paddingLeft: 2,
+                              margin: 0
+                            },
+                            '& li': {
+                              fontSize: 'inherit',
+                              lineHeight: 'inherit'
+                            },
+                            '& strong': {
+                              fontWeight: 600
+                            },
+                            '& em': {
+                              fontStyle: 'italic'
+                            },
+                            '& code': {
+                              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                              padding: '2px 4px',
+                              borderRadius: '4px',
+                              fontSize: '0.875em'
+                            },
+                            '& pre': {
+                              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                              padding: 1,
+                              borderRadius: '4px',
+                              overflow: 'auto'
+                            },
+                            '& blockquote': {
+                              borderLeft: '4px solid',
+                              borderColor: 'primary.main',
+                              paddingLeft: 2,
+                              margin: '8px 0',
+                              fontStyle: 'italic'
+                            },
+                            '& a': {
+                              color: 'primary.main',
+                              textDecoration: 'none',
+                              '&:hover': {
+                                textDecoration: 'underline'
+                              }
+                            }
                           }}
                         >
-                          {contractMetadata.description}
-                        </Typography>
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {contractMetadata.description}
+                          </ReactMarkdown>
+                        </Box>
                       )}
                     </Box>
                   </Stack>
@@ -782,22 +860,26 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 sx={{ textAlign: { sm: "left", xs: "center" } }}
                 variant="h5"
               >
-                <FormattedMessage
-                  id="claim.tokens"
-                  defaultMessage="Claim tokens"
-                />
+                {section.settings.customTitle || (
+                  <FormattedMessage
+                    id="claim.tokens"
+                    defaultMessage="Claim tokens"
+                  />
+                )}
               </Typography>
               <Typography
                 sx={{ textAlign: { sm: "left", xs: "center" } }}
                 variant="body1"
               >
-                <FormattedMessage
-                  id="claim.tokens.from.contractName"
-                  defaultMessage="Claim Tokens from {contractName}"
-                  values={{
-                    contractName: <strong>{contractMetadata?.name}</strong>,
-                  }}
-                />
+                {section.settings.customSubtitle || (
+                  <FormattedMessage
+                    id="claim.tokens.from.contractName"
+                    defaultMessage="Claim Tokens from {contractName}"
+                    values={{
+                      contractName: <strong>{contractMetadata?.name}</strong>,
+                    }}
+                  />
+                )}
               </Typography>
             </Box>
           </>
@@ -925,13 +1007,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         },
                       }}
                     >
-                      <Typography variant="caption" color="warning.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                      <Typography variant="caption" sx={{ textTransform: 'uppercase', letterSpacing: 1, color: 'warning.contrastText' }}>
                         <FormattedMessage
                           id="phase.ends.in"
                           defaultMessage="Phase Ends In"
                         />
                       </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'warning.main' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'warning.contrastText' }}>
                         {countDown}
                       </Typography>
                     </Paper>

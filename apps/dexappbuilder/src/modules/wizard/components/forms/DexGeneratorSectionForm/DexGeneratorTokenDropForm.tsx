@@ -1,7 +1,7 @@
 import { TokenDropPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { FormControl, Grid, InputLabel, MenuItem } from '@mui/material';
 import { Field, Formik } from 'formik';
-import { Select } from 'formik-mui';
+import { Select, TextField } from 'formik-mui';
 import { FormattedMessage } from 'react-intl';
 
 export interface DexGeneratorTokenDropFormProps {
@@ -17,22 +17,38 @@ export default function DexGeneratorTokenDropForm({
 }: DexGeneratorTokenDropFormProps) {
   const { network, address } = params;
 
-  const handleSubmit = ({ variant }: { variant?: 'simple' | 'detailed' | 'premium' }) => {};
+  const handleSubmit = ({ variant, customTitle, customSubtitle }: {
+    variant?: 'simple' | 'detailed' | 'premium';
+    customTitle?: string;
+    customSubtitle?: string;
+  }) => { };
 
-  const handleValidate = ({ variant }: { variant?: 'simple' | 'detailed' | 'premium' }) => {
-    onChange({ type: 'token-drop', settings: { address, network, variant } });
+  const handleValidate = ({ variant, customTitle, customSubtitle }: {
+    variant?: 'simple' | 'detailed' | 'premium';
+    customTitle?: string;
+    customSubtitle?: string;
+  }) => {
+    onChange({ type: 'token-drop', settings: { address, network, variant, customTitle, customSubtitle } });
   };
 
   return (
     <Formik
       initialValues={
-        section ? { variant: section.settings.variant } : { variant: 'simple' }
+        section ? {
+          variant: section.settings.variant,
+          customTitle: section.settings.customTitle || '',
+          customSubtitle: section.settings.customSubtitle || ''
+        } : {
+          variant: 'simple',
+          customTitle: '',
+          customSubtitle: ''
+        }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}
     >
-      {({ submitForm, isValid, isSubmitting }) => (
-        <Grid container spacing={2}>
+      {({ submitForm, isValid, isSubmitting, values }) => (
+        <Grid container spacing={2} sx={{ pt: 2 }}>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel shrink>
@@ -58,6 +74,61 @@ export default function DexGeneratorTokenDropForm({
               </Field>
             </FormControl>
           </Grid>
+          {values.variant === 'premium' && (
+            <>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  name="customTitle"
+                  label={
+                    <FormattedMessage
+                      id="custom.title"
+                      defaultMessage="Custom Title"
+                    />
+                  }
+                  placeholder={
+                    <FormattedMessage
+                      id="claim.tokens"
+                      defaultMessage="Claim Tokens"
+                    />
+                  }
+                  fullWidth
+                  helperText={
+                    <FormattedMessage
+                      id="custom.title.helper"
+                      defaultMessage="Leave empty to use default title"
+                    />
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  name="customSubtitle"
+                  label={
+                    <FormattedMessage
+                      id="custom.subtitle"
+                      defaultMessage="Custom Subtitle"
+                    />
+                  }
+                  placeholder={
+                    <FormattedMessage
+                      id="claim.tokens.from.contractName"
+                      defaultMessage="Claim Tokens from {contractName}"
+                      values={{ contractName: "Contract" }}
+                    />
+                  }
+                  fullWidth
+                  helperText={
+                    <FormattedMessage
+                      id="custom.subtitle.helper"
+                      defaultMessage="Leave empty to use contract name"
+                    />
+                  }
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       )}
     </Formik>

@@ -45,9 +45,11 @@
     "@dexkit/web3forms": "*",
     "@dexkit/widgets": "*",
     "html-react-parser": "^4.0.0",
+    "react-markdown": "^8.0.3",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "remark-gfm": "^3.0.1"
   },
   "engines": {
     "node": "22.x"

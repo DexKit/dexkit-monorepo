@@ -951,6 +951,18 @@
   "custom": {
     "defaultMessage": "Custom"
   },
+  "custom.title": {
+    "defaultMessage": "Custom Title"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Leave empty to use default title"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Custom Subtitle"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Leave empty to use contract name"
+  },
   "deploy.your.own.contract": {
     "defaultMessage": "Deploy your own contract"
   },
@@ -1590,6 +1602,12 @@
   },
   "edit.claim.conditions": {
     "defaultMessage": "Edit claim conditions"
+  },
+  "claim.conditions.updated.successfully": {
+    "defaultMessage": "Claim conditions updated successfully"
+  },
+  "error.updating.claim.conditions": {
+    "defaultMessage": "Error updating claim conditions"
   },
   "edit.claimers": {
     "defaultMessage": "Edit claimers"

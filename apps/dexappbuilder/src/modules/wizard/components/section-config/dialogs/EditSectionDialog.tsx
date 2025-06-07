@@ -242,7 +242,11 @@ export default function EditSectionDialog({
   );
 
   const renderSectionHeader = () => (
-    <Grid container alignItems={'center'} sx={{ pl: isMobile ? theme.spacing(1) : theme.spacing(3) }}>
+    <Grid container alignItems={'center'} sx={{
+      pl: isMobile ? theme.spacing(1) : theme.spacing(3),
+      pt: isMobile ? theme.spacing(4) : theme.spacing(6),
+      pb: isMobile ? theme.spacing(1.5) : theme.spacing(2)
+    }}>
       <Grid item xs={3}>
         <IconButton
           aria-label="back"
@@ -279,7 +283,7 @@ export default function EditSectionDialog({
   );
 
   return (
-    <Dialog {...dialogProps} onClose={handleClose} maxWidth="lg" fullWidth>
+    <Dialog {...dialogProps} onClose={handleClose} maxWidth="lg" fullWidth scroll="body">
       <AppDialogTitle
         title={
           <Stack
@@ -293,13 +297,13 @@ export default function EditSectionDialog({
             </IconButton>
 
             {isEdit ? (
-              <Box>
+              <Typography variant={isMobile ? "body1" : "inherit"}>
                 <FormattedMessage
                   id="edit.section"
                   defaultMessage="Edit Section"
                 />
                 :
-              </Box>
+              </Typography>
             ) : (
               <Stack
                 spacing={theme.spacing(2)}
@@ -358,7 +362,7 @@ export default function EditSectionDialog({
                 }}
                 onClick={handleEdit}
               >
-                <Typography variant="h6">
+                <Typography variant={isMobile ? "body1" : "h6"}>
                   {section?.name ||
                     section?.title ||
                     formatMessage({
@@ -384,10 +388,10 @@ export default function EditSectionDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
+      <DialogContent sx={{ p: { xs: 0, sm: 2, md: 3 } }}>
         {isMobile ? (
-          <Stack spacing={theme.spacing(2)} sx={{ height: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'hidden' }}>
-            <Box sx={{ mb: theme.spacing(2), overflow: 'auto', flex: sectionType ? '0 0 auto' : '1 1 auto' }}>
+          <Stack spacing={theme.spacing(0.25)} sx={{ minHeight: `calc(100vh - ${theme.spacing(12)})`, overflow: 'visible' }}>
+            <Box sx={{ mb: theme.spacing(0.25), overflow: 'visible', flex: sectionType ? '0 0 auto' : '1 1 auto' }}>
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {
@@ -397,7 +401,7 @@ export default function EditSectionDialog({
                 />
               )}
               {sectionType && (
-                <Stack spacing={2}>
+                <Stack spacing={0.5}>
                   {renderSectionHeader()}
                   {renderSectionType(sectionType)}
                 </Stack>
@@ -405,7 +409,7 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: theme.spacing(2), flex: '1 1 auto', overflow: 'hidden' }}>
+              <Box sx={{ mt: theme.spacing(0.25), flex: '1 1 auto', overflow: 'visible', minHeight: '100vh' }}>
                 {renderPreview()}
               </Box>
             )}

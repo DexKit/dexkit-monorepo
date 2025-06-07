@@ -441,7 +441,7 @@ export default function DexGeneratorSectionForm({
                 TextFieldProps={{
                   size: 'small',
                   fullWidth: true,
-                  margin: isMobile ? 'dense' : 'normal',
+                  margin: 'none',
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">

@@ -12,7 +12,7 @@ import {
 import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
 import FileCopy from "@mui/icons-material/FileCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Button, Chip, Stack, styled, useTheme } from "@mui/material";
+import { Button, Chip, Stack, styled, useMediaQuery, useTheme } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -24,6 +24,8 @@ import {
 } from "@thirdweb-dev/react";
 import Image from "next/image";
 import { FormattedMessage, useIntl } from "react-intl";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { THIRDWEB_CONTRACTTYPE_TO_NAME } from "@dexkit/ui/constants/thirdweb";
 import { useContractCollection } from "@dexkit/ui/modules/nft/hooks/collection";
@@ -56,6 +58,8 @@ export function ContractMetadataHeader({
   const { data } = useContractMetadata(contract);
   const { data: contractData } = useContractCollection(network, address);
   const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const serverMetadata = useMemo(() => {
     if (contractData?.metadata) {
@@ -64,7 +68,6 @@ export function ContractMetadataHeader({
   }, [contractData]);
 
   const metadata = data as CustomContractMetadata;
-  const theme = useTheme();
   const chainId = NETWORK_FROM_SLUG(network)?.chainId;
 
   const getContractUrl = (contractType?: string) => {
@@ -107,7 +110,7 @@ export function ContractMetadataHeader({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1 : 2}>
       {showPageHeader && (
         <Grid item xs={12}>
           <PageHeader
@@ -117,7 +120,7 @@ export function ContractMetadataHeader({
               {
                 caption:
                   metadata?.name === "AirdropERC20Claimable" &&
-                  serverMetadata?.name
+                    serverMetadata?.name
                     ? serverMetadata?.name
                     : metadata?.name || serverMetadata?.name,
                 uri: `/forms/deploy`,
@@ -129,155 +132,318 @@ export function ContractMetadataHeader({
       )}
 
       <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid container spacing={isMobile ? 1 : 2}>
+          <Grid item xs={12} sm={3} md={2}>
             <Box
               sx={{
                 display: "flex",
-                algnItems: "center",
+                alignItems: "center",
                 alignContent: "center",
-                justifyContent: { xs: "center", sm: "left" },
+                justifyContent: { xs: "center", sm: "flex-start" },
+                mb: { xs: 1, sm: 0 }
               }}
             >
               {metadata?.image || serverMetadata?.image ? (
                 <Box
                   sx={(theme) => ({
                     position: "relative",
-                    height: theme.spacing(14),
-                    width: theme.spacing(14),
+                    height: isMobile ? theme.spacing(10) : theme.spacing(14),
+                    width: isMobile ? theme.spacing(10) : theme.spacing(14),
                     borderRadius: "50%",
+                    overflow: "hidden",
                   })}
                 >
                   <img
                     src={ipfsUriToUrl(metadata?.image || serverMetadata?.image)}
                     alt={metadata?.name}
-                    height={theme.spacing(14)}
-                    width={theme.spacing(14)}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                      objectFit: "cover"
+                    }}
                   />
                 </Box>
               ) : (
                 <Avatar
                   sx={(theme) => ({
-                    height: theme.spacing(14),
-                    width: theme.spacing(14),
+                    height: isMobile ? theme.spacing(10) : theme.spacing(14),
+                    width: isMobile ? theme.spacing(10) : theme.spacing(14),
                   })}
                 />
               )}
             </Box>
           </Grid>
-          <Grid item xs>
-            <Stack direction="row" spacing={2}>
-              <Typography
-                sx={{
-                  display: "block",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  textAlign: { xs: "center", sm: "left" },
-                }}
-                variant="h5"
-                component="h1"
+          <Grid item xs={12} sm={9} md={10}>
+            <Stack spacing={isMobile ? 1 : 2}>
+              <Stack
+                direction={isMobile ? "column" : "row"}
+                spacing={isMobile ? 1 : 2}
+                alignItems={isMobile ? "center" : "flex-start"}
               >
-                {metadata?.name === "AirdropERC20Claimable" &&
-                serverMetadata?.name
-                  ? serverMetadata?.name
-                  : metadata?.name || serverMetadata?.name}
-              </Typography>
-              <Chip
-                icon={
-                  <Avatar
-                    src={NETWORK_IMAGE(chainId)}
-                    sx={(theme) => ({
-                      width: theme.spacing(2),
-                      height: theme.spacing(2),
-                    })}
-                    alt={NETWORK_NAME(chainId) || ""}
-                  />
-                }
-                label={NETWORK_NAME(chainId)}
-              />
-            </Stack>
-          </Grid>
-
-          {metadata?.description ||
-            (serverMetadata?.description && (
-              <Grid item xs={12}>
                 <Typography
                   sx={{
                     display: "block",
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                     textAlign: { xs: "center", sm: "left" },
+                    fontSize: isMobile ? '1.25rem' : '1.5rem',
+                    fontWeight: 600,
+                    lineHeight: 1.2
                   }}
-                  variant="body2"
-                  component="p"
+                  variant={isMobile ? "h6" : "h5"}
+                  component="h1"
                 >
-                  {metadata?.description || serverMetadata?.description}
+                  {metadata?.name === "AirdropERC20Claimable" &&
+                    serverMetadata?.name
+                    ? serverMetadata?.name
+                    : metadata?.name || serverMetadata?.name}
                 </Typography>
-              </Grid>
-            ))}
-          <Grid item xs={12}>
-            <Stack
-              direction={"row"}
-              spacing={2}
-              alignContent={"center"}
-              alignItems={"center"}
-            >
-              <Typography color="textSecondary" variant="caption">
-                {truncateAddress(address)}
-
-                <CopyIconButton
-                  iconButtonProps={{
-                    onClick: () => copyToClipboard(address),
-                    size: "small",
-                    color: "inherit",
-                  }}
-                  tooltip={formatMessage({
-                    id: "copy",
-                    defaultMessage: "Copy",
-                    description: "Copy text",
-                  })}
-                  activeTooltip={formatMessage({
-                    id: "copied",
-                    defaultMessage: "Copied!",
-                    description: "Copied text",
-                  })}
-                >
-                  <FileCopy fontSize="inherit" color="inherit" />
-                </CopyIconButton>
-              </Typography>
-              <Button
-                LinkComponent={Link}
-                href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
-                target="_blank"
-                endIcon={<OpenInNewIcon />}
-                size="small"
-              >
-                <FormattedMessage id="explorer" defaultMessage="Explorer" />
-              </Button>
-              {getContractUrl(contractTypeV2 || metadata?.name) && (
-                <Button
-                  size="small"
-                  href={
-                    getContractUrl(contractTypeV2 || metadata?.name) as string
+                <Chip
+                  icon={
+                    <Avatar
+                      src={NETWORK_IMAGE(chainId)}
+                      sx={(theme) => ({
+                        width: theme.spacing(2),
+                        height: theme.spacing(2),
+                      })}
+                      alt={NETWORK_NAME(chainId) || ""}
+                    />
                   }
-                  endIcon={<OpenInNewIcon />}
-                  target="_blank"
+                  label={NETWORK_NAME(chainId)}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Stack>
+
+              {(metadata?.description || serverMetadata?.description) && (
+                <Box
+                  sx={{
+                    textAlign: { xs: "center", sm: "left" },
+                    fontSize: isMobile ? '0.875rem' : '0.875rem',
+                    lineHeight: 1.4,
+                    color: 'text.secondary',
+                    '& p': {
+                      margin: 0,
+                      fontSize: 'inherit',
+                      lineHeight: 'inherit',
+                      color: 'inherit'
+                    },
+                    '& p:not(:last-child)': {
+                      marginBottom: 1
+                    },
+                    '& ul, & ol': {
+                      paddingLeft: 2,
+                      margin: 0
+                    },
+                    '& li': {
+                      fontSize: 'inherit',
+                      lineHeight: 'inherit'
+                    },
+                    '& strong': {
+                      fontWeight: 600
+                    },
+                    '& em': {
+                      fontStyle: 'italic'
+                    },
+                    '& code': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                      padding: '2px 4px',
+                      borderRadius: '4px',
+                      fontSize: '0.875em'
+                    },
+                    '& pre': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                      padding: 1,
+                      borderRadius: '4px',
+                      overflow: 'auto'
+                    },
+                    '& blockquote': {
+                      borderLeft: '4px solid',
+                      borderColor: 'primary.main',
+                      paddingLeft: 2,
+                      margin: '8px 0',
+                      fontStyle: 'italic'
+                    },
+                    '& a': {
+                      color: 'primary.main',
+                      textDecoration: 'none',
+                      '&:hover': {
+                        textDecoration: 'underline'
+                      }
+                    }
+                  }}
                 >
-                  <FormattedMessage
-                    id="view.public.page"
-                    defaultMessage="View public page"
-                  />
-                </Button>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {metadata?.description || serverMetadata?.description}
+                  </ReactMarkdown>
+                </Box>
               )}
-              <Chip
-                label={
-                  contractTypeV2 !== undefined
-                    ? (THIRDWEB_CONTRACTTYPE_TO_NAME[
-                        contractTypeV2 as string
-                      ] as string)
-                    : "custom"
-                }
-              />
+
+              <Stack
+                direction={isMobile ? "column" : "row"}
+                spacing={isMobile ? 1 : 2}
+                alignContent={"center"}
+                alignItems={isMobile ? "center" : "center"}
+              >
+                <Stack
+                  direction="row"
+                  spacing={0.5}
+                  alignItems="center"
+                  justifyContent={isMobile ? "center" : "flex-start"}
+                >
+                  <Typography
+                    color="textSecondary"
+                    variant={isMobile ? "caption" : "caption"}
+                    sx={{ fontSize: isMobile ? '0.75rem' : '0.75rem' }}
+                  >
+                    {truncateAddress(address)}
+                  </Typography>
+                  <CopyIconButton
+                    iconButtonProps={{
+                      onClick: () => copyToClipboard(address),
+                      size: "small",
+                      color: "inherit",
+                    }}
+                    tooltip={formatMessage({
+                      id: "copy",
+                      defaultMessage: "Copy",
+                      description: "Copy text",
+                    })}
+                    activeTooltip={formatMessage({
+                      id: "copied",
+                      defaultMessage: "Copied!",
+                      description: "Copied text",
+                    })}
+                  >
+                    <FileCopy fontSize="inherit" color="inherit" />
+                  </CopyIconButton>
+                </Stack>
+
+                {isMobile ? (
+                  <Box width="100%">
+                    <Grid container spacing={0.5} sx={{ mb: 1 }}>
+                      <Grid item xs={getContractUrl(contractTypeV2 || metadata?.name) ? 6 : 12}>
+                        <Button
+                          LinkComponent={Link}
+                          href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
+                          target="_blank"
+                          endIcon={<OpenInNewIcon fontSize="small" />}
+                          size="small"
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            fontSize: '0.75rem',
+                            py: 0.5,
+                            px: 1
+                          }}
+                        >
+                          <FormattedMessage id="explorer" defaultMessage="Explorer" />
+                        </Button>
+                      </Grid>
+
+                      {getContractUrl(contractTypeV2 || metadata?.name) && (
+                        <Grid item xs={6}>
+                          <Button
+                            size="small"
+                            href={
+                              getContractUrl(contractTypeV2 || metadata?.name) as string
+                            }
+                            endIcon={<OpenInNewIcon fontSize="small" />}
+                            target="_blank"
+                            variant="outlined"
+                            fullWidth
+                            sx={{
+                              fontSize: '0.75rem',
+                              py: 0.5,
+                              px: 1
+                            }}
+                          >
+                            <FormattedMessage
+                              id="view.public.page"
+                              defaultMessage="View public page"
+                            />
+                          </Button>
+                        </Grid>
+                      )}
+                    </Grid>
+
+                    <Box display="flex" justifyContent="center">
+                      <Chip
+                        label={
+                          contractTypeV2 !== undefined
+                            ? (THIRDWEB_CONTRACTTYPE_TO_NAME[
+                              contractTypeV2 as string
+                            ] as string)
+                            : "custom"
+                        }
+                        size="small"
+                        sx={{
+                          fontSize: '0.7rem',
+                          height: 24
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                  >
+                    <Button
+                      LinkComponent={Link}
+                      href={`${NETWORK_EXPLORER(chainId)}/address/${address}`}
+                      target="_blank"
+                      endIcon={<OpenInNewIcon fontSize="medium" />}
+                      size="small"
+                      variant="outlined"
+                      sx={{
+                        fontSize: '0.875rem',
+                        py: 0.5,
+                        px: 1.5
+                      }}
+                    >
+                      <FormattedMessage id="explorer" defaultMessage="Explorer" />
+                    </Button>
+
+                    {getContractUrl(contractTypeV2 || metadata?.name) && (
+                      <Button
+                        size="small"
+                        href={
+                          getContractUrl(contractTypeV2 || metadata?.name) as string
+                        }
+                        endIcon={<OpenInNewIcon fontSize="medium" />}
+                        target="_blank"
+                        variant="outlined"
+                        sx={{
+                          fontSize: '0.875rem',
+                          py: 0.5,
+                          px: 1.5
+                        }}
+                      >
+                        <FormattedMessage
+                          id="view.public.page"
+                          defaultMessage="View public page"
+                        />
+                      </Button>
+                    )}
+
+                    <Chip
+                      label={
+                        contractTypeV2 !== undefined
+                          ? (THIRDWEB_CONTRACTTYPE_TO_NAME[
+                            contractTypeV2 as string
+                          ] as string)
+                          : "custom"
+                      }
+                      size="medium"
+                      sx={{
+                        fontSize: '0.8125rem',
+                        height: 32
+                      }}
+                    />
+                  </Stack>
+                )}
+              </Stack>
             </Stack>
           </Grid>
         </Grid>

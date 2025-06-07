@@ -130,6 +130,8 @@ export interface TokenDropPageSection extends PageSection {
     network: string;
     address: string;
     variant?: "simple" | "detailed" | "premium";
+    customTitle?: string;
+    customSubtitle?: string;
   };
 }
 
