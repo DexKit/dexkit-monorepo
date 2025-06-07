@@ -386,8 +386,8 @@ export default function EditSectionDialog({
       <Divider />
       <DialogContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
         {isMobile ? (
-          <Stack spacing={theme.spacing(2)} sx={{ maxHeight: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'auto' }}>
-            <Box sx={{ mb: theme.spacing(2) }}>
+          <Stack spacing={theme.spacing(2)} sx={{ height: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'hidden' }}>
+            <Box sx={{ mb: theme.spacing(2), overflow: 'auto', flex: sectionType ? '0 0 auto' : '1 1 auto' }}>
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {
@@ -405,7 +405,7 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: theme.spacing(2) }}>
+              <Box sx={{ mt: theme.spacing(2), flex: '1 1 auto', overflow: 'hidden' }}>
                 {renderPreview()}
               </Box>
             )}

@@ -1,4 +1,5 @@
 import { useIsMobile } from "@dexkit/core";
+import { ConnectWalletMessage } from "@dexkit/ui/components";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Skeleton, Stack, Typography } from "@mui/material";
 import {
@@ -59,12 +60,16 @@ export default function TokenDropSummary({
         </Typography>
         <Typography variant={isMobile ? "body1" : "h5"}>
           {!account ? (
-            <Typography variant={isMobile ? "body1" : "h5"} color="text.secondary">
-              <FormattedMessage
-                id="connect.your.wallet.first"
-                defaultMessage="Connect your wallet first"
-              />
-            </Typography>
+            <ConnectWalletMessage
+              variant="inline"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.balance"
+                  defaultMessage="Connect wallet to view balance"
+                />
+              }
+              showButton={false}
+            />
           ) : balanceQuery.isLoading ? (
             <Skeleton />
           ) : (
@@ -84,7 +89,18 @@ export default function TokenDropSummary({
             <FormattedMessage id="decimals" defaultMessage="Decimals" />
           </Typography>
           <Typography variant={isMobile ? "body1" : "h5"}>
-            {balanceQuery.isLoading ? (
+            {!account ? (
+              <ConnectWalletMessage
+                variant="inline"
+                title={
+                  <FormattedMessage
+                    id="connect.wallet.to.view.decimals"
+                    defaultMessage="Connect wallet to view decimals"
+                  />
+                }
+                showButton={false}
+              />
+            ) : balanceQuery.isLoading ? (
               <Skeleton />
             ) : (
               balanceQuery.data?.decimals

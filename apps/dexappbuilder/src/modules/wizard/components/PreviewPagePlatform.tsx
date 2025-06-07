@@ -64,7 +64,8 @@ export default function PreviewPagePlatform({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        minHeight: 0
       }}
     >
       <Paper
@@ -116,8 +117,9 @@ export default function PreviewPagePlatform({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              p: theme.spacing(2),
-              overflow: 'hidden'
+              p: theme.spacing(0.5),
+              overflow: 'hidden',
+              minHeight: 0
             }}
           >
             {page && site ? (
@@ -133,13 +135,14 @@ export default function PreviewPagePlatform({
                 sx={{
                   width: '100%',
                   maxWidth: theme.spacing(50),
-                  height: 'fit-content',
+                  height: enableOverflow ? '100%' : 'fit-content',
+                  maxHeight: enableOverflow ? '100%' : '80vh',
                   borderRadius: theme.spacing(3),
                   overflow: enableOverflow ? 'auto' : 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
-                  p: theme.spacing(2)
+                  p: theme.spacing(0.25)
                 }}
               >
                 {pagePreview}

@@ -1,4 +1,6 @@
 import { useIsMobile } from '@dexkit/core';
+import { ConnectWalletMessage } from '@dexkit/ui/components';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Skeleton, Stack, Typography } from '@mui/material';
 import {
   NFTDrop,
@@ -13,9 +15,9 @@ export interface NFTDropSummaryProps {
 
 export default function NFTDropSummary({ contract }: NFTDropSummaryProps) {
   const isMobile = useIsMobile();
+  const { account } = useWeb3React();
 
   const unclaimedSupply = useUnclaimedNFTSupply(contract);
-
   const claimedSupply = useClaimedNFTSupply(contract);
 
   return (
@@ -31,7 +33,18 @@ export default function NFTDropSummary({ contract }: NFTDropSummaryProps) {
           <FormattedMessage id="total.supply" defaultMessage="Total supply" />
         </Typography>
         <Typography variant={isMobile ? 'body1' : 'h5'}>
-          {unclaimedSupply.isLoading || claimedSupply.isLoading ? (
+          {!account ? (
+            <ConnectWalletMessage
+              variant="inline"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.supply"
+                  defaultMessage="Connect wallet to view supply"
+                />
+              }
+              showButton={false}
+            />
+          ) : unclaimedSupply.isLoading || claimedSupply.isLoading ? (
             <Skeleton />
           ) : unclaimedSupply.data && claimedSupply.data ? (
             claimedSupply.data.add(unclaimedSupply.data || 0).toNumber()
@@ -54,7 +67,18 @@ export default function NFTDropSummary({ contract }: NFTDropSummaryProps) {
           />
         </Typography>
         <Typography variant={isMobile ? 'body1' : 'h5'}>
-          {claimedSupply.isLoading ? (
+          {!account ? (
+            <ConnectWalletMessage
+              variant="inline"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.claimed"
+                  defaultMessage="Connect wallet to view claimed"
+                />
+              }
+              showButton={false}
+            />
+          ) : claimedSupply.isLoading ? (
             <Skeleton />
           ) : (
             claimedSupply.data?.toNumber()
@@ -75,7 +99,18 @@ export default function NFTDropSummary({ contract }: NFTDropSummaryProps) {
           />
         </Typography>
         <Typography variant={isMobile ? 'body1' : 'h5'}>
-          {unclaimedSupply.isLoading ? (
+          {!account ? (
+            <ConnectWalletMessage
+              variant="inline"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.unclaimed"
+                  defaultMessage="Connect wallet to view unclaimed"
+                />
+              }
+              showButton={false}
+            />
+          ) : unclaimedSupply.isLoading ? (
             <Skeleton />
           ) : (
             unclaimedSupply.data?.toNumber()

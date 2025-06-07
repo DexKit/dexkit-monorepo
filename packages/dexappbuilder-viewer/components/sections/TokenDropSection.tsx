@@ -2,9 +2,9 @@ import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useDexKitContext } from "@dexkit/ui";
+import { ConnectWalletMessage, SwitchNetworkButtonWithWarning } from "@dexkit/ui/components";
 import { ConnectWalletButton } from "@dexkit/ui/components/ConnectWalletButton";
 import LazyTextField from "@dexkit/ui/components/LazyTextField";
-import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import { useInterval } from "@dexkit/ui/hooks/misc";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import TokenDropSummary from "@dexkit/ui/modules/token/components/TokenDropSummary";
@@ -18,9 +18,11 @@ import {
   CircularProgress,
   Container,
   Divider,
+  Paper,
   Skeleton,
   Stack,
   Typography,
+  useTheme
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -74,6 +76,7 @@ export interface TokenDropSectionProps {
 
 export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
 
   const { address: tokenAddress, network } = section.settings;
 
@@ -141,10 +144,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   useInterval(
     () => {
-      // Your custom logic here
       setCount(count + 1);
     },
-    // Delay in milliseconds or null to stop it
     countDown === undefined || countDown === "Expired" ? null : 1000
   );
 
@@ -177,17 +178,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     }
   }, [availableSupply]);
 
-  const numberClaimed = useMemo(() => {
-    return BigNumber.from(claimedSupply.data?.value || 0).toString();
-  }, [claimedSupply]);
 
-  const numberTotal = useMemo(() => {
-    const n = totalAvailableSupply.add(claimedSupply.data?.value || 0);
-    if (n.gte(1_000_000_000)) {
-      return "";
-    }
-    return n.toString();
-  }, [totalAvailableSupply, claimedSupply]);
 
   const priceToMint = useMemo(() => {
     if (lazyQuantity) {
@@ -272,18 +263,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     }
 
     try {
-      return (
-        (activeClaimCondition.isSuccess && availableSupply.lte(0)) ||
-        numberClaimed === numberTotal
-      );
+      return activeClaimCondition.isSuccess && availableSupply.lte(0);
     } catch (e) {
       return false;
     }
   }, [
     availableSupply,
     activeClaimCondition.isSuccess,
-    numberClaimed,
-    numberTotal,
   ]);
 
   const canClaim = useMemo(() => {
@@ -469,8 +455,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   }, [contract, account]);
 
   return (
-    <Container>
-      <Stack spacing={2}>
+    <Container maxWidth="sm" sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}>
+      <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }}>
         {(claimConditions.data &&
           claimConditions.data.length > 0 &&
           activeClaimCondition.isError) ||
@@ -497,17 +483,277 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             ))}
 
         {isLoading ? (
-          <Box>
-            <Stack>
-              <Skeleton height="4rem" width="4rem" variant="circular" />
+          !account ? (
+            <ConnectWalletMessage
+              variant="compact"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.drop"
+                  defaultMessage="Connect wallet to view drop details"
+                />
+              }
+              subtitle={
+                <FormattedMessage
+                  id="connect.wallet.drop.subtitle"
+                  defaultMessage="Connect your wallet to see token information and claim tokens"
+                />
+              }
+            />
+          ) : (
+            <Box>
+              <Stack>
+                <Skeleton height="4rem" width="4rem" variant="circular" />
+                <Box>
+                  <Typography align="center" variant="h5">
+                    <Skeleton />
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <Skeleton />
+                  </Typography>
+                </Box>
+              </Stack>
+            </Box>
+          )
+        ) : section.settings.variant === "premium" ? (
+          <Box
+            sx={{
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}08, ${theme.palette.secondary.main}08)`,
+              borderRadius: theme.shape.borderRadius * 2,
+              p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+              border: `1px solid ${theme.palette.primary.main}20`,
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: theme.spacing(-6.25),
+                right: theme.spacing(-6.25),
+                width: theme.spacing(12.5),
+                height: theme.spacing(12.5),
+                borderRadius: '50%',
+                background: `linear-gradient(45deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
+                zIndex: 0,
+              }}
+            />
+
+            <Stack spacing={{ xs: theme.spacing(1), sm: theme.spacing(1.5), md: theme.spacing(2) }} sx={{ position: 'relative', zIndex: 1 }}>
               <Box>
-                <Typography align="center" variant="h5">
-                  <Skeleton />
-                </Typography>
-                <Typography align="center" variant="body1">
-                  <Skeleton />
-                </Typography>
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                  <Stack spacing={theme.spacing(1)} alignItems="center">
+                    {contractMetadata?.image && (
+                      <Avatar
+                        src={contractMetadata?.image}
+                        alt={contractMetadata?.name!}
+                        sx={{
+                          height: theme.spacing(5),
+                          width: theme.spacing(5),
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                          border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
+                          boxShadow: theme.shadows[2],
+                        }}
+                      />
+                    )}
+
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontWeight: 700,
+                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontSize: theme.typography.body1.fontSize,
+                        lineHeight: 1.1,
+                        textAlign: 'center',
+                      }}
+                    >
+                      <FormattedMessage
+                        id="claim.tokens"
+                        defaultMessage="Claim Tokens"
+                      />
+                    </Typography>
+
+                    <Typography
+                      variant="h6"
+                      color="text.primary"
+                      sx={{
+                        fontWeight: 500,
+                        fontSize: theme.typography.body2.fontSize,
+                        textAlign: 'center',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '100%',
+                      }}
+                    >
+                      {contractMetadata?.name}
+                    </Typography>
+
+                    {contractMetadata?.description && (
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          fontSize: theme.typography.caption.fontSize,
+                          lineHeight: 1.3,
+                          textAlign: 'center',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {contractMetadata.description}
+                      </Typography>
+                    )}
+                  </Stack>
+                </Box>
+
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                  <Stack
+                    direction="row"
+                    spacing={{ sm: theme.spacing(2), md: theme.spacing(3) }}
+                    alignItems="flex-start"
+                  >
+                    {contractMetadata?.image && (
+                      <Avatar
+                        src={contractMetadata?.image}
+                        alt={contractMetadata?.name!}
+                        sx={{
+                          height: { sm: theme.spacing(8), md: theme.spacing(10) },
+                          width: { sm: theme.spacing(8), md: theme.spacing(10) },
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                          border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
+                          boxShadow: theme.shadows[2],
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+
+                    <Box sx={{ flex: 1, textAlign: "left", minWidth: 0 }}>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontWeight: 700,
+                          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          mb: theme.spacing(0.5),
+                          fontSize: { sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        <FormattedMessage
+                          id="claim.tokens"
+                          defaultMessage="Claim Tokens"
+                        />
+                      </Typography>
+
+                      <Typography
+                        variant="h6"
+                        color="text.primary"
+                        sx={{
+                          fontWeight: 500,
+                          mb: theme.spacing(0.5),
+                          fontSize: theme.typography.body1.fontSize,
+                        }}
+                      >
+                        {contractMetadata?.name}
+                      </Typography>
+
+                      {contractMetadata?.description && (
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            maxWidth: theme.spacing(62.5),
+                            fontSize: theme.typography.body2.fontSize,
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {contractMetadata.description}
+                        </Typography>
+                      )}
+                    </Box>
+                  </Stack>
+                </Box>
               </Box>
+
+              <Stack
+                direction="row"
+                spacing={{ xs: theme.spacing(0.5), sm: theme.spacing(1) }}
+                justifyContent={{ xs: "center", sm: "flex-start" }}
+                alignItems="center"
+                flexWrap="wrap"
+                useFlexGap
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                    px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
+                    py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
+                    backgroundColor: theme.palette.success.light + '20',
+                    color: theme.palette.success.main,
+                    borderRadius: theme.shape.borderRadius,
+                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+                    fontWeight: 500,
+                    minWidth: 'fit-content',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
+                      height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
+                      borderRadius: '50%',
+                      backgroundColor: theme.palette.success.main,
+                    }}
+                  />
+                  <FormattedMessage
+                    id="contract.active"
+                    defaultMessage="Contract Active"
+                  />
+                </Box>
+
+                {!isSoldOut && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: { xs: 0.25, sm: 0.5 },
+                      px: { xs: 0.75, sm: 1 },
+                      py: { xs: 0.125, sm: 0.25 },
+                      backgroundColor: theme.palette.info.light + '20',
+                      color: theme.palette.info.main,
+                      borderRadius: 1,
+                      fontSize: { xs: '0.6rem', sm: '0.7rem' },
+                      fontWeight: 500,
+                      minWidth: 'fit-content',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: { xs: 4, sm: 6 },
+                        height: { xs: 4, sm: 6 },
+                        borderRadius: '50%',
+                        backgroundColor: theme.palette.info.main,
+                      }}
+                    />
+                    <FormattedMessage
+                      id="tokens.available"
+                      defaultMessage="Tokens Available"
+                    />
+                  </Box>
+                )}
+              </Stack>
             </Stack>
           </Box>
         ) : (
@@ -616,41 +862,340 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           </Box>
         )}
 
-        <Stack spacing={2} justifyContent="flex-start" alignItems="flex-start">
-          <LazyTextField
-            TextFieldProps={{
-              type: "number",
-              sx: { width: { xs: "100%", sm: "auto" } },
-              placeholder: formatMessage({
-                defaultMessage: "Enter amount to claim",
-                id: "enter.amount.to.claim",
-              }),
-            }}
-            value="1"
-            onChange={handleChangeQuantity}
-          />
-          {!account ? (
-            <ConnectWalletButton />
-          ) : chainId !== networkChainId ? (
-            <SwitchNetworkButton desiredChainId={networkChainId} />
-          ) : (
-            <Button
-              size="large"
-              disabled={!canClaim || claimMutation.isLoading}
-              startIcon={
-                claimMutation.isLoading ? (
-                  <CircularProgress size="1rem" color="inherit" />
-                ) : undefined
-              }
-              sx={{ width: { xs: "100%", sm: "auto" } }}
-              onClick={handleExecute}
-              variant="contained"
+        {section.settings.variant === "premium" && (
+          <Box>
+            <Paper
+              elevation={2}
+              sx={{
+                background: `linear-gradient(135deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
+                borderRadius: theme.shape.borderRadius * 2,
+                p: { xs: theme.spacing(2), sm: theme.spacing(3) },
+                border: `1px solid ${theme.palette.primary.main}30`,
+                mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
+              }}
             >
-              {buttonText}
-            </Button>
-          )}
-        </Stack>
+              <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
+                <Box>
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                    <FormattedMessage
+                      id="drop.statistics"
+                      defaultMessage="Drop Statistics"
+                    />
+                  </Typography>
+                  <TokenDropSummary
+                    contract={contract}
+                    hideDecimals
+                    hideTotalSupply
+                  />
+                </Box>
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}>
+                  {activeClaimCondition.data?.metadata?.name && (
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                        borderRadius: theme.shape.borderRadius * 2,
+                      }}
+                    >
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <FormattedMessage
+                          id="current.phase"
+                          defaultMessage="Current Phase"
+                        />
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5) }}>
+                        {activeClaimCondition.data?.metadata?.name}
+                      </Typography>
+                    </Paper>
+                  )}
+
+                  {nextPhase && countDown && (
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                        borderRadius: theme.shape.borderRadius * 2,
+                        backgroundColor: 'warning.light',
+                        borderColor: 'warning.main',
+                        '&.MuiPaper-outlined': {
+                          borderColor: 'warning.main',
+                        },
+                      }}
+                    >
+                      <Typography variant="caption" color="warning.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <FormattedMessage
+                          id="phase.ends.in"
+                          defaultMessage="Phase Ends In"
+                        />
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'warning.main' }}>
+                        {countDown}
+                      </Typography>
+                    </Paper>
+                  )}
+                </Stack>
+
+                {nextPhase && (
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                      borderRadius: theme.shape.borderRadius * 2,
+                      backgroundColor: 'info.light',
+                      borderColor: 'info.main',
+                      '&.MuiPaper-outlined': {
+                        borderColor: 'info.main',
+                      },
+                    }}
+                  >
+                    <Typography variant="caption" color="info.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                      <FormattedMessage
+                        id="next.phase.price"
+                        defaultMessage="Next Phase Price"
+                      />
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'info.main' }}>
+                      {nextPhase?.currencyMetadata?.displayValue} {nextPhase?.currencyMetadata?.symbol}
+                    </Typography>
+                  </Paper>
+                )}
+
+                <Box>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    <FormattedMessage
+                      id="security.features"
+                      defaultMessage="Security Features"
+                    />
+                  </Typography>
+                  <Stack direction="row" spacing={theme.spacing(1)} flexWrap="wrap" useFlexGap>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ Smart Contract Verified
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ Secure Minting
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ DexKit Powered
+                    </Box>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Paper>
+          </Box>
+        )}
+
+        {section.settings.variant === "premium" ? (
+          <Paper
+            elevation={2}
+            sx={{
+              borderRadius: theme.shape.borderRadius * 2,
+              p: { xs: theme.spacing(2), sm: theme.spacing(3) },
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: theme.spacing(2), sm: theme.spacing(3) } }}>
+              <FormattedMessage
+                id="claim.your.tokens"
+                defaultMessage="Claim Your Tokens"
+              />
+            </Typography>
+
+            <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
+              <Box>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="quantity.to.claim"
+                    defaultMessage="Quantity to Claim"
+                  />
+                </Typography>
+                <LazyTextField
+                  TextFieldProps={{
+                    type: "number",
+                    fullWidth: true,
+                    variant: "outlined",
+                    placeholder: formatMessage({
+                      defaultMessage: "Enter amount to claim",
+                      id: "enter.amount.to.claim",
+                    }),
+                    sx: {
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: theme.shape.borderRadius * 2,
+                        fontSize: theme.typography.h6.fontSize,
+                        fontWeight: 500,
+                      },
+                    },
+                  }}
+                  value="1"
+                  onChange={handleChangeQuantity}
+                />
+                {maxClaimable > 1 && (
+                  <Typography variant="caption" color="text.secondary" sx={{ mt: theme.spacing(1), display: 'block' }}>
+                    <FormattedMessage
+                      id="max.claimable"
+                      defaultMessage="Maximum claimable: {max}"
+                      values={{ max: maxClaimable }}
+                    />
+                  </Typography>
+                )}
+              </Box>
+
+              {priceToMint && (
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                    borderRadius: theme.shape.borderRadius * 2,
+                    backgroundColor: 'primary.light',
+                    borderColor: 'primary.main',
+                    '&.MuiPaper-outlined': {
+                      borderColor: 'primary.main',
+                    },
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: "flex-start", sm: "center" }}
+                    spacing={{ xs: theme.spacing(1), sm: 0 }}
+                  >
+                    <Typography variant="body2" color="white">
+                      <FormattedMessage
+                        id="total.cost"
+                        defaultMessage="Total Cost"
+                      />
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                      {priceToMint}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}
+
+              {!account ? (
+                <ConnectWalletButton />
+              ) : chainId !== networkChainId ? (
+                <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+              ) : (
+                <Button
+                  size="large"
+                  disabled={!canClaim || claimMutation.isLoading}
+                  startIcon={
+                    claimMutation.isLoading ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : undefined
+                  }
+                  fullWidth
+                  onClick={handleExecute}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
+                    borderRadius: theme.shape.borderRadius * 2,
+                    fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.h6.fontSize },
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
+                    '&.Mui-disabled': {
+                      color: theme.palette.text.disabled,
+                      backgroundColor: theme.palette.action.disabledBackground,
+                    },
+                  }}
+                >
+                  {buttonText}
+                </Button>
+              )}
+
+              {balance && (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="caption" color="text.secondary">
+                    <FormattedMessage
+                      id="your.current.balance"
+                      defaultMessage="Your current balance: {balance} {symbol}"
+                      values={{
+                        balance: balance,
+                        symbol: contractMetadata?.symbol || 'tokens'
+                      }}
+                    />
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          </Paper>
+        ) : (
+          <Stack spacing={theme.spacing(2)} justifyContent="flex-start" alignItems="flex-start">
+            <LazyTextField
+              TextFieldProps={{
+                type: "number",
+                sx: { width: { xs: "100%", sm: "auto" } },
+                placeholder: formatMessage({
+                  defaultMessage: "Enter amount to claim",
+                  id: "enter.amount.to.claim",
+                }),
+              }}
+              value="1"
+              onChange={handleChangeQuantity}
+            />
+            {!account ? (
+              <ConnectWalletButton />
+            ) : chainId !== networkChainId ? (
+              <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+            ) : (
+              <Button
+                size="large"
+                disabled={!canClaim || claimMutation.isLoading}
+                startIcon={
+                  claimMutation.isLoading ? (
+                    <CircularProgress size="1rem" color="inherit" />
+                  ) : undefined
+                }
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+                onClick={handleExecute}
+                variant="contained"
+              >
+                {buttonText}
+              </Button>
+            )}
+          </Stack>
+        )}
       </Stack>
-    </Container>
+    </Container >
   );
 }

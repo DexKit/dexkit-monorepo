@@ -1,11 +1,16 @@
+import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Box, CircularProgress, Stack } from '@mui/material';
 import {
+  ThirdwebSDKProvider,
   useClaimConditions,
   useContract,
-  useSetClaimConditions,
+  useSetClaimConditions
 } from '@thirdweb-dev/react';
+
 import { Formik } from 'formik';
 import { useMemo } from 'react';
+import { THIRDWEB_CLIENT_ID } from 'src/constants';
 import { ClaimConditionsSchema } from '../../constants/schemas';
 import { ClaimConditionTypeForm } from '../../types';
 import { ClaimConditionsForm } from '../form/ClaimConditionsForm';
@@ -16,7 +21,7 @@ interface Props {
   tokenId?: string;
 }
 
-export function ClaimConditionsContainer({ address, network, tokenId }: Props) {
+function ClaimConditionsContent({ address, network, tokenId }: Props) {
   const { contract } = useContract(address);
   const { data, isLoading } = useClaimConditions(contract, tokenId, {
     withAllowList: true,
@@ -78,5 +83,28 @@ export function ClaimConditionsContainer({ address, network, tokenId }: Props) {
     >
       <ClaimConditionsForm isEdit={phases.length > 0} network={network} />
     </Formik>
+  );
+}
+
+export function ClaimConditionsContainer({ address, network, tokenId }: Props) {
+  const { signer } = useWeb3React();
+
+  return (
+    <ThirdwebSDKProvider
+      clientId={THIRDWEB_CLIENT_ID}
+      activeChain={NETWORK_FROM_SLUG(network)?.chainId}
+      signer={signer}
+      sdkOptions={{
+        storage: {
+          clientId: THIRDWEB_CLIENT_ID,
+        },
+      }}
+    >
+      <ClaimConditionsContent
+        address={address}
+        network={network}
+        tokenId={tokenId}
+      />
+    </ThirdwebSDKProvider>
   );
 }

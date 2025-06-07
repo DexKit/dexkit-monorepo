@@ -12,8 +12,8 @@ import {
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
+import { SwitchNetworkButtonWithWarning } from "@dexkit/ui/components";
 import { ConnectWalletButton } from "@dexkit/ui/components/ConnectWalletButton";
-import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import { useDexKitContext } from "@dexkit/ui/hooks";
 import {
   useErc20AllowanceMutation,
@@ -535,10 +535,10 @@ export function EditionDropSection({ section }: Props) {
             <Card>
               <CardContent>
                 {claimConditions.data?.length === 0 ||
-                !claimConditions.data ||
-                claimConditions.data?.every(
-                  (cc) => cc.maxClaimableSupply === "0"
-                ) ? (
+                  !claimConditions.data ||
+                  claimConditions.data?.every(
+                    (cc) => cc.maxClaimableSupply === "0"
+                  ) ? (
                   <Alert severity="info">
                     <FormattedMessage
                       id={"drop.not.ready.to.mint.yet"}
@@ -662,9 +662,7 @@ export function EditionDropSection({ section }: Props) {
                     ) : !account ? (
                       <ConnectWalletButton />
                     ) : chainId !== networkChainId ? (
-                      <Box>
-                        <SwitchNetworkButton desiredChainId={networkChainId} />
-                      </Box>
+                      <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
                     ) : (
                       <Button
                         disabled={

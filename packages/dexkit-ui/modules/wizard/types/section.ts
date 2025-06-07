@@ -129,7 +129,7 @@ export interface TokenDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed";
+    variant?: "simple" | "detailed" | "premium";
   };
 }
 
@@ -138,7 +138,7 @@ export interface NftDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed";
+    variant?: "simple" | "detailed" | "premium";
   };
 }
 

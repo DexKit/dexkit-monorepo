@@ -3,6 +3,7 @@ import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Container from '@mui/material/Container';
 import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
+import { ThirdwebStorage } from '@thirdweb-dev/storage';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import AuthMainLayout from 'src/components/layouts/authMain';
@@ -21,6 +22,9 @@ export default function ContractPage() {
       clientId={THIRDWEB_CLIENT_ID}
       activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
       signer={signer}
+      storageInterface={new ThirdwebStorage({
+        clientId: THIRDWEB_CLIENT_ID,
+      })}
     >
       <Container>
         <ContractContainer

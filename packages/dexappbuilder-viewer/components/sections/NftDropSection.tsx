@@ -2,8 +2,8 @@ import { useIsMobile } from "@dexkit/core";
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
+import { ConnectWalletMessage, SwitchNetworkButtonWithWarning } from "@dexkit/ui/components";
 import { ConnectWalletButton } from "@dexkit/ui/components/ConnectWalletButton";
-import { SwitchNetworkButton } from "@dexkit/ui/components/SwitchNetworkButton";
 import { useDexKitContext } from "@dexkit/ui/hooks";
 import { useInterval } from "@dexkit/ui/hooks/misc";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
@@ -18,8 +18,12 @@ import {
   Container,
   Divider,
   Grid,
+  Paper,
+  Skeleton,
   Stack,
+  TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import {
   ClaimEligibility,
@@ -45,6 +49,7 @@ export interface NftDropSectionProps {
 }
 
 export default function NftDropSection({ section }: NftDropSectionProps) {
+  const theme = useTheme();
   const trackUserEventsMutation = useTrackUserEventsMutation();
   const { address, network } = section.settings;
   const networkChainId = NETWORK_FROM_SLUG(network)?.chainId;
@@ -440,6 +445,220 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   };
 
   const renderClaim = () => {
+    if (section.settings.variant === "premium") {
+      return (
+        <Container maxWidth="sm" sx={{ px: { xs: theme.spacing(0.5), sm: theme.spacing(1), md: theme.spacing(2) }, py: { xs: theme.spacing(1), sm: theme.spacing(2) } }}>
+          <Stack spacing={{ xs: theme.spacing(1), sm: theme.spacing(1.5), md: theme.spacing(2) }}>
+            {isLoading ? (
+              !account ? (
+                <ConnectWalletMessage
+                  variant="compact"
+                  title={
+                    <FormattedMessage
+                      id="connect.wallet.to.view.nft.drop"
+                      defaultMessage="Connect wallet to view NFT drop details"
+                    />
+                  }
+                  subtitle={
+                    <FormattedMessage
+                      id="connect.wallet.nft.drop.subtitle"
+                      defaultMessage="Connect your wallet to see NFT information and claim NFTs"
+                    />
+                  }
+                />
+              ) : (
+                <Box>
+                  <Stack>
+                    <Skeleton height="4rem" width="4rem" variant="circular" />
+                    <Box>
+                      <Typography align="center" variant="h5">
+                        <Skeleton />
+                      </Typography>
+                      <Typography align="center" variant="body1">
+                        <Skeleton />
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
+              )
+            ) : (
+              <Box
+                sx={{
+                  background: `linear-gradient(135deg, ${theme.palette.primary.main}08, ${theme.palette.secondary.main}08)`,
+                  borderRadius: theme.shape.borderRadius * 2,
+                  p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+                  border: `1px solid ${theme.palette.primary.main}20`,
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: theme.spacing(-6.25),
+                    right: theme.spacing(-6.25),
+                    width: theme.spacing(12.5),
+                    height: theme.spacing(12.5),
+                    borderRadius: '50%',
+                    background: `linear-gradient(45deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
+                    zIndex: 0,
+                  }}
+                />
+
+                <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }} sx={{ position: 'relative', zIndex: 1 }}>
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={{ xs: theme.spacing(1), sm: theme.spacing(2), md: theme.spacing(3) }}
+                    alignItems="center"
+                  >
+                    {contractMetadataQuery.data?.image && (
+                      <Avatar
+                        src={contractMetadataQuery.data?.image}
+                        alt={contractMetadataQuery.data?.name!}
+                        sx={{
+                          height: { xs: theme.spacing(7), sm: theme.spacing(8), md: theme.spacing(10) },
+                          width: { xs: theme.spacing(7), sm: theme.spacing(8), md: theme.spacing(10) },
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                          border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
+                          boxShadow: theme.shadows[2],
+                          flexShrink: 0,
+                          order: { xs: 1, sm: 0 },
+                        }}
+                      />
+                    )}
+
+                    <Box sx={{ flex: 1, textAlign: "center", minWidth: 0, order: { xs: 2, sm: 0 } }}>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontWeight: 700,
+                          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          mb: { xs: theme.spacing(0.5), sm: theme.spacing(0.5) },
+                          fontSize: { xs: theme.typography.h5.fontSize, sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        <FormattedMessage
+                          id="claim.nfts"
+                          defaultMessage="Claim NFTs"
+                        />
+                      </Typography>
+
+                      <Typography
+                        variant="h6"
+                        color="text.primary"
+                        sx={{
+                          fontWeight: 500,
+                          mb: { xs: theme.spacing(0.5), sm: theme.spacing(0.5) },
+                          fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.body1.fontSize },
+                        }}
+                      >
+                        {contractMetadataQuery.data?.name}
+                      </Typography>
+
+                      {contractMetadataQuery.data?.description && (
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            maxWidth: theme.spacing(62.5),
+                            fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body2.fontSize },
+                            lineHeight: 1.4,
+                            display: { xs: '-webkit-box', sm: 'block' },
+                            WebkitLineClamp: { xs: 3, sm: 'unset' },
+                            WebkitBoxOrient: { xs: 'vertical', sm: 'unset' },
+                            overflow: { xs: 'hidden', sm: 'visible' },
+                            mx: 'auto',
+                          }}
+                        >
+                          {contractMetadataQuery.data.description}
+                        </Typography>
+                      )}
+                    </Box>
+                  </Stack>
+
+                  <Stack
+                    direction="row"
+                    spacing={{ xs: 0.5, sm: 1 }}
+                    justifyContent={{ xs: "center", sm: "flex-start" }}
+                    alignItems="center"
+                    flexWrap="wrap"
+                    useFlexGap
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: { xs: 0.25, sm: 0.5 },
+                        px: { xs: 0.75, sm: 1 },
+                        py: { xs: 0.125, sm: 0.25 },
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: 1,
+                        fontSize: { xs: '0.6rem', sm: '0.7rem' },
+                        fontWeight: 500,
+                        minWidth: 'fit-content',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: { xs: 4, sm: 6 },
+                          height: { xs: 4, sm: 6 },
+                          borderRadius: '50%',
+                          backgroundColor: theme.palette.success.main,
+                        }}
+                      />
+                      <FormattedMessage
+                        id="contract.active"
+                        defaultMessage="Contract Active"
+                      />
+                    </Box>
+
+                    {!isSoldOut && (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: { xs: 0.25, sm: 0.5 },
+                          px: { xs: 0.75, sm: 1 },
+                          py: { xs: 0.125, sm: 0.25 },
+                          backgroundColor: theme.palette.info.light + '20',
+                          color: theme.palette.info.main,
+                          borderRadius: 1,
+                          fontSize: { xs: '0.6rem', sm: '0.7rem' },
+                          fontWeight: 500,
+                          minWidth: 'fit-content',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: { xs: 4, sm: 6 },
+                            height: { xs: 4, sm: 6 },
+                            borderRadius: '50%',
+                            backgroundColor: theme.palette.info.main,
+                          }}
+                        />
+                        <FormattedMessage
+                          id="nfts.available"
+                          defaultMessage="NFTs Available"
+                        />
+                      </Box>
+                    )}
+                  </Stack>
+                </Stack>
+              </Box>
+            )}
+          </Stack>
+        </Container>
+      );
+    }
+
     return (
       <Box>
         <Grid
@@ -578,9 +797,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             ) : !account ? (
               <ConnectWalletButton />
             ) : chainId !== networkChainId ? (
-              <Box>
-                <SwitchNetworkButton desiredChainId={networkChainId} />
-              </Box>
+              <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
             ) : (
               <Button
                 onClick={handleClaimNft}
@@ -601,6 +818,320 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
       </Box>
     );
   };
+
+  if (section.settings.variant === "premium") {
+    return (
+      <Container maxWidth="sm" sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}>
+        <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }}>
+          {renderClaim()}
+
+          <Divider />
+
+          <Box>
+            <Paper
+              elevation={2}
+              sx={{
+                background: `linear-gradient(135deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
+                borderRadius: { xs: 2, sm: 3 },
+                p: { xs: 2, sm: 3 },
+                border: `1px solid ${theme.palette.primary.main}30`,
+                mb: { xs: 2, sm: 3 },
+              }}
+            >
+              <Stack spacing={{ xs: 2, sm: 3 }}>
+                <Box>
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                    <FormattedMessage
+                      id="drop.statistics"
+                      defaultMessage="Drop Statistics"
+                    />
+                  </Typography>
+                  <NFTDropSummary contract={contract} />
+                </Box>
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1.5, sm: 2 }}>
+                  {activeClaimCondition.data?.metadata?.name && (
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        p: { xs: 1.5, sm: 2 },
+                        borderRadius: 2,
+                      }}
+                    >
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <FormattedMessage
+                          id="current.phase"
+                          defaultMessage="Current Phase"
+                        />
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5 }}>
+                        {activeClaimCondition.data?.metadata?.name}
+                      </Typography>
+                    </Paper>
+                  )}
+
+                  {nextPhase && countDown && (
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        p: { xs: 1.5, sm: 2 },
+                        borderRadius: 2,
+                        backgroundColor: 'warning.light',
+                        borderColor: 'warning.main',
+                        '&.MuiPaper-outlined': {
+                          borderColor: 'warning.main',
+                        },
+                      }}
+                    >
+                      <Typography variant="caption" color="warning.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <FormattedMessage
+                          id="phase.ends.in"
+                          defaultMessage="Phase Ends In"
+                        />
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5, color: 'warning.main' }}>
+                        {countDown}
+                      </Typography>
+                    </Paper>
+                  )}
+                </Stack>
+
+                {nextPhase && (
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: { xs: 1.5, sm: 2 },
+                      borderRadius: 2,
+                      backgroundColor: 'info.light',
+                      borderColor: 'info.main',
+                      '&.MuiPaper-outlined': {
+                        borderColor: 'info.main',
+                      },
+                    }}
+                  >
+                    <Typography variant="caption" color="info.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                      <FormattedMessage
+                        id="next.phase.price"
+                        defaultMessage="Next Phase Price"
+                      />
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mt: 0.5, color: 'info.main' }}>
+                      {nextPhase?.currencyMetadata?.displayValue} {nextPhase?.currencyMetadata?.symbol}
+                    </Typography>
+                  </Paper>
+                )}
+
+                <Box>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    <FormattedMessage
+                      id="security.features"
+                      defaultMessage="Security Features"
+                    />
+                  </Typography>
+                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: 1.5,
+                        py: 0.5,
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: 1,
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ Smart Contract Verified
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: 1.5,
+                        py: 0.5,
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: 1,
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ Secure Minting
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{
+                        px: 1.5,
+                        py: 0.5,
+                        backgroundColor: theme.palette.success.light + '20',
+                        color: theme.palette.success.main,
+                        borderRadius: 1,
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        border: `1px solid ${theme.palette.success.main}30`,
+                      }}
+                    >
+                      ✓ DexKit Powered
+                    </Box>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Paper>
+          </Box>
+
+          <Paper
+            elevation={2}
+            sx={{
+              borderRadius: { xs: 2, sm: 3 },
+              p: { xs: 2, sm: 3 },
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: 2, sm: 3 } }}>
+              <FormattedMessage
+                id="claim.your.nfts"
+                defaultMessage="Claim Your NFTs"
+              />
+            </Typography>
+
+            <Stack spacing={{ xs: 2, sm: 3 }}>
+              <Box>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <FormattedMessage
+                    id="quantity.to.claim"
+                    defaultMessage="Quantity to Claim"
+                  />
+                </Typography>
+                <TextField
+                  type="number"
+                  fullWidth
+                  variant="outlined"
+                  value={quantity}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(parseInt(e.target.value) || 1)}
+                  inputProps={{ min: 1, max: maxClaimable }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      fontSize: '1.1rem',
+                      fontWeight: 500,
+                    },
+                  }}
+                />
+                {maxClaimable > 1 && (
+                  <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                    <FormattedMessage
+                      id="max.claimable"
+                      defaultMessage="Maximum claimable: {max}"
+                      values={{ max: maxClaimable }}
+                    />
+                  </Typography>
+                )}
+              </Box>
+
+              {priceToMint && (
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: { xs: 1.5, sm: 2 },
+                    borderRadius: 2,
+                    backgroundColor: 'primary.light',
+                    borderColor: 'primary.main',
+                    '&.MuiPaper-outlined': {
+                      borderColor: 'primary.main',
+                    },
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: "flex-start", sm: "center" }}
+                    spacing={{ xs: 1, sm: 0 }}
+                  >
+                    <Typography variant="body2" color="white">
+                      <FormattedMessage
+                        id="total.cost"
+                        defaultMessage="Total Cost"
+                      />
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                      {priceToMint}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}
+
+              {isSoldOut ? (
+                <Typography variant="h6" color="error" sx={{ textAlign: 'center', py: 2 }}>
+                  <FormattedMessage id="sold.out" defaultMessage="Sold out" />
+                </Typography>
+              ) : !account ? (
+                <ConnectWalletButton />
+              ) : chainId !== networkChainId ? (
+                <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+              ) : (
+                <Button
+                  size="large"
+                  disabled={!canClaim || nftDropClaim.isLoading}
+                  startIcon={
+                    nftDropClaim.isLoading ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : undefined
+                  }
+                  fullWidth
+                  onClick={handleClaimNft}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    py: { xs: 1.2, sm: 1.5 },
+                    borderRadius: 2,
+                    fontSize: { xs: '1rem', sm: '1.1rem' },
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    minHeight: { xs: 44, sm: 48 },
+                    '&.Mui-disabled': {
+                      color: theme.palette.text.disabled,
+                      backgroundColor: theme.palette.action.disabledBackground,
+                    },
+                  }}
+                >
+                  {buttonMessage}
+                </Button>
+              )}
+
+              {nfts.data && nfts.data.length > 0 && (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="caption" color="text.secondary">
+                    <FormattedMessage
+                      id="you.own.nfts.count"
+                      defaultMessage="You own {count} NFT(s) from this collection"
+                      values={{ count: nfts.data.length }}
+                    />
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          </Paper>
+
+          {nfts.data && nfts.data.length > 0 && (
+            <Paper
+              elevation={2}
+              sx={{
+                borderRadius: { xs: 2, sm: 3 },
+                p: { xs: 2, sm: 3 },
+              }}
+            >
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: 2, sm: 3 } }}>
+                <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
+              </Typography>
+              <NFTGrid nfts={nfts.data} network={network} address={address} />
+            </Paper>
+          )}
+        </Stack>
+      </Container>
+    );
+  }
 
   return (
     <Container>

@@ -39,7 +39,6 @@ import { FormattedMessage } from 'react-intl';
 import { NETWORKS } from 'src/constants/chain';
 
 import { getChainSlug } from '@dexkit/core/utils/blockchain';
-import LinkIcon from '@mui/icons-material/Link';
 import {
   DEX_GENERATOR_CONTRACT_TYPES,
   DEX_GENERATOR_CONTRACT_TYPES_AVAIL,
@@ -351,21 +350,7 @@ export default function DexGeneratorSectionForm({
     return setChainId(parseChainId(e.target.value));
   };
 
-  const handleCreateReferralSection = () => {
-    handleChangeSection({
-      type: 'dex-generator-section',
-      section: {
-        type: 'referral',
-        title: '',
-        subtitle: '',
-        config: {
-          showStats: true,
-          showLeaderboard: true,
-          rankingId: undefined,
-        },
-      } as ReferralPageSection,
-    });
-  };
+
 
   return (
     <Box>
@@ -492,9 +477,9 @@ export default function DexGeneratorSectionForm({
                   sx={
                     isMobile
                       ? {
-                          '& .MuiInputBase-input': { fontSize: '0.85rem' },
-                          '& .MuiInputLabel-root': { fontSize: '0.85rem' },
-                        }
+                        '& .MuiInputBase-input': { fontSize: '0.85rem' },
+                        '& .MuiInputLabel-root': { fontSize: '0.85rem' },
+                      }
                       : {}
                   }
                 >
@@ -519,7 +504,7 @@ export default function DexGeneratorSectionForm({
                 <Box
                   sx={{
                     overflowY: 'scroll',
-                    maxHeight: isMobile ? '15rem' : '20rem',
+                    maxHeight: isMobile ? '25rem' : '35rem',
                   }}
                 >
                   <Grid container spacing={isMobile ? 0.5 : 2}>
@@ -670,22 +655,6 @@ export default function DexGeneratorSectionForm({
               />
             </Box>
           )}
-        <Grid item xs={12}>
-          <Box>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={handleCreateReferralSection}
-              startIcon={<LinkIcon />}
-              sx={{ mt: 2 }}
-            >
-              <FormattedMessage
-                id="create.referral.section"
-                defaultMessage="Create Referral Section"
-              />
-            </Button>
-          </Box>
-        </Grid>
       </Grid>
     </Box>
   );

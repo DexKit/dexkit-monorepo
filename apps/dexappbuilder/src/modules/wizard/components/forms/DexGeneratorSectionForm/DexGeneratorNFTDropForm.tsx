@@ -17,9 +17,9 @@ export default function DexGeneratorNFTDropForm({
 }: DexGeneratorNFTDropFormProps) {
   const { network, address } = params;
 
-  const handleSubmit = ({ variant }: { variant?: 'simple' | 'detailed' }) => {};
+  const handleSubmit = ({ variant }: { variant?: 'simple' | 'detailed' | 'premium' }) => {};
 
-  const handleValidate = ({ variant }: { variant?: 'simple' | 'detailed' }) => {
+  const handleValidate = ({ variant }: { variant?: 'simple' | 'detailed' | 'premium' }) => {
     onChange({ type: 'nft-drop', settings: { address, network, variant } });
   };
 
@@ -53,6 +53,9 @@ export default function DexGeneratorNFTDropForm({
                 </MenuItem>
                 <MenuItem value="detailed">
                   <FormattedMessage id="detailed" defaultMessage="Detailed" />
+                </MenuItem>
+                <MenuItem value="premium">
+                  <FormattedMessage id="premium" defaultMessage="Premium" />
                 </MenuItem>
               </Field>
             </FormControl>
