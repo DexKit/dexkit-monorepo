@@ -1,3 +1,4 @@
+import { MarkdownDescriptionField } from '@dexkit/ui/components';
 import { AbiFragment, ContractFormParams } from '@dexkit/web3forms/types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -90,8 +91,7 @@ function ContractFormAccordion({ func }: Props) {
               </Grid>
             )}
             <Grid item xs={12}>
-              <FastField
-                component={TextField}
+              <MarkdownDescriptionField
                 name={`fields.${func.name}.description`}
                 label={
                   <FormattedMessage
@@ -99,10 +99,12 @@ function ContractFormAccordion({ func }: Props) {
                     defaultMessage="Short description"
                   />
                 }
-                multiline
-                rows={3}
-                fullWidth
-                size="small"
+                helperText={
+                  <FormattedMessage
+                    id="description.markdown.helper"
+                    defaultMessage="You can use markdown formatting for rich text descriptions"
+                  />
+                }
               />
             </Grid>
 
@@ -151,24 +153,24 @@ function ContractFormAccordion({ func }: Props) {
               {({ values }) =>
                 !(values as ContractFormParams).fields[func.name].hideInputs
                   ? func.inputs.length > 0 && (
-                      <Grid item>
-                        <FormControlLabel
-                          control={
-                            <FastField
-                              component={Switch}
-                              type="checkbox"
-                              name={`fields.${func.name}.lockInputs`}
-                            />
-                          }
-                          label={
-                            <FormattedMessage
-                              id="lock.inputs"
-                              defaultMessage="Lock inputs"
-                            />
-                          }
-                        />
-                      </Grid>
-                    )
+                    <Grid item>
+                      <FormControlLabel
+                        control={
+                          <FastField
+                            component={Switch}
+                            type="checkbox"
+                            name={`fields.${func.name}.lockInputs`}
+                          />
+                        }
+                        label={
+                          <FormattedMessage
+                            id="lock.inputs"
+                            defaultMessage="Lock inputs"
+                          />
+                        }
+                      />
+                    </Grid>
+                  )
                   : null
               }
             </FormikConsumer>
@@ -195,7 +197,7 @@ function ContractFormAccordion({ func }: Props) {
             <FormikConsumer>
               {({ values }) =>
                 !(values as ContractFormParams).fields[func.name].callOnMount &&
-                !(values as ContractFormParams).fields[func.name].hideInputs ? (
+                  !(values as ContractFormParams).fields[func.name].hideInputs ? (
                   <Grid item>
                     <FormControlLabel
                       control={

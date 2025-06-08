@@ -843,6 +843,48 @@
   "you.send": {
     "defaultMessage": "You send"
   },
+  "custom.title.helper": {
+    "defaultMessage": "Enter a custom title for your token claim page. Leave empty to use the default title."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "e.g., Claim Your Rewards"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Enter a custom subtitle to describe your token drop. Leave empty to use the contract name."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "e.g., Get your exclusive tokens from our latest drop"
+  },
+  "custom.chips": {
+    "defaultMessage": "Custom Chips"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Customize the feature chips displayed on your token drop page."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Chips Section Title"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "e.g., Security Features"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Enter a custom title for the chips section. Leave empty to use 'Security Features'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Chip Text"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "e.g., Smart Contract Verified"
+  },
+  "color": {
+    "defaultMessage": "Color"
+  },
+  "add.chip": {
+    "defaultMessage": "Add Chip (max 6)"
+  },
   "Create forms": {
     "defaultMessage": "Create forms"
   },
@@ -954,14 +996,8 @@
   "custom.title": {
     "defaultMessage": "Custom Title"
   },
-  "custom.title.helper": {
-    "defaultMessage": "Leave empty to use default title"
-  },
   "custom.subtitle": {
     "defaultMessage": "Custom Subtitle"
-  },
-  "custom.subtitle.helper": {
-    "defaultMessage": "Leave empty to use contract name"
   },
   "deploy.your.own.contract": {
     "defaultMessage": "Deploy your own contract"
@@ -1003,7 +1039,7 @@
     "defaultMessage": "Error while switching network"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explore our new tool: DexGenerator"
+    "defaultMessage": "Explore our new tool: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favorites"
@@ -1144,7 +1180,7 @@
     "defaultMessage": "Wallets"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
     "defaultMessage": "You can deploy contracts from our list and from the community in the future"
@@ -1541,7 +1577,7 @@
     "defaultMessage": "Detailed"
   },
   "dex.generator": {
-    "defaultMessage": "Dex Generator"
+    "defaultMessage": "DexContracts"
   },
   "dexappbuilder.ann.app.bar": {
     "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. {Gitcoin} score 4 and donation on Polygon to us have matching donations!"

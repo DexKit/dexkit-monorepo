@@ -388,7 +388,15 @@ export default function EditSectionDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ p: { xs: 0, sm: 2, md: 3 } }}>
+      <DialogContent sx={{
+        pt: { xs: 0, sm: 2, md: 3 },
+        px: { xs: 0, sm: 2, md: 3 },
+        pb: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 0,
+        flex: 1
+      }}>
         {isMobile ? (
           <Stack spacing={theme.spacing(0.25)} sx={{ minHeight: `calc(100vh - ${theme.spacing(12)})`, overflow: 'visible' }}>
             <Box sx={{ mb: theme.spacing(0.25), overflow: 'visible', flex: sectionType ? '0 0 auto' : '1 1 auto' }}>
@@ -415,30 +423,34 @@ export default function EditSectionDialog({
             )}
           </Stack>
         ) : (
-          <PanelGroup direction="horizontal">
-            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: `calc(100vh - ${theme.spacing(22.5)})` }}>
-              {!sectionType && (
-                <SectionSelector
-                  onClickSection={(s) => {
-                    setSectionType(s.sectionType);
-                    setChangedSection(undefined);
-                  }}
-                />
-              )}
-              {sectionType && (
-                <Stack spacing={2}>
-                  {renderSectionHeader()}
-                  {renderSectionType(sectionType)}
-                </Stack>
-              )}
-            </Panel>
+          <Box sx={{ display: 'flex', height: '100%', minHeight: 0, flex: 1 }}>
+            <PanelGroup direction="horizontal" style={{ height: '100%' }}>
+              <Panel defaultSize={40} minSize={30} style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                {!sectionType && (
+                  <SectionSelector
+                    onClickSection={(s) => {
+                      setSectionType(s.sectionType);
+                      setChangedSection(undefined);
+                    }}
+                  />
+                )}
+                {sectionType && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
+                    {renderSectionHeader()}
+                    <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+                      {renderSectionType(sectionType)}
+                    </Box>
+                  </Box>
+                )}
+              </Panel>
 
-            <ResizeHandle />
+              <ResizeHandle />
 
-            <Panel defaultSize={60} minSize={40}>
-              {renderPreview()}
-            </Panel>
-          </PanelGroup>
+              <Panel defaultSize={60} minSize={40} style={{ display: 'flex', flexDirection: 'column' }}>
+                {renderPreview()}
+              </Panel>
+            </PanelGroup>
+          </Box>
         )}
       </DialogContent>
     </Dialog>

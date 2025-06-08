@@ -991,7 +991,7 @@
     "defaultMessage": "Erro ao trocar de rede"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explore nossa nova ferramenta: Gerador de Dex"
+    "defaultMessage": "Explore nossa nova ferramenta: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favoritos"
@@ -4553,5 +4553,53 @@
   "your.transaction.has.been.confirmed": {
     "defaultMessage": "Sua transação foi confirmada",
     "description": "Your transaction has been confirmed"
+  },
+  "custom.title": {
+    "defaultMessage": "Título Personalizado"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Digite um título personalizado para sua página de reivindicação de tokens. Deixe vazio para usar o título padrão."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "ex., Reivindique suas Recompensas"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Subtítulo Personalizado"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Digite um subtítulo personalizado para descrever sua distribuição de tokens. Deixe vazio para usar o nome do contrato."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "ex., Obtenha seus tokens exclusivos do nosso último lançamento"
+  },
+  "custom.chips": {
+    "defaultMessage": "Chips Personalizados"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Personalize os chips de recursos exibidos na sua página de distribuição de tokens."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Título da Seção de Chips"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "ex., Recursos de Segurança"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Digite um título personalizado para a seção de chips. Deixe vazio para usar 'Recursos de Segurança'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Texto do Chip"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "ex., Contrato Inteligente Verificado"
+  },
+  "color": {
+    "defaultMessage": "Cor"
+  },
+  "add.chip": {
+    "defaultMessage": "Adicionar Chip (máx 6)"
   }
 }

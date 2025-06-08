@@ -1031,7 +1031,7 @@
     "defaultMessage": "Feil ved bytte av nettverk"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Utforsk vårt nye verktøy: DexGenerator"
+    "defaultMessage": "Utforsk vårt nye verktøy: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favoritter"
@@ -1175,7 +1175,7 @@
     "defaultMessage": "Lommebøker"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
     "defaultMessage": "Du kan distribuere kontrakter fra vår liste og fra fellesskapet i fremtiden"
@@ -4356,5 +4356,53 @@
   },
   "youtube.channel": {
     "defaultMessage": "Youtube kanal"
+  },
+  "custom.title": {
+    "defaultMessage": "Tilpasset Tittel"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Skriv inn en tilpasset tittel for din token-kravside. La stå tom for å bruke standardtittelen."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "f.eks., Krev dine Belønninger"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Tilpasset Undertittel"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Skriv inn en tilpasset undertittel for å beskrive din token-distribusjon. La stå tom for å bruke kontraktsnavnet."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "f.eks., Få dine eksklusive tokens fra vårt siste drop"
+  },
+  "custom.chips": {
+    "defaultMessage": "Tilpassede Chips"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Tilpass funksjon-chipsene som vises på din token-distribusjonssiden."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Chips Seksjon Tittel"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "f.eks., Sikkerhetsfunksjoner"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Skriv inn en tilpasset tittel for chips-seksjonen. La stå tom for å bruke 'Sikkerhetsfunksjoner'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Chip-tekst"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "f.eks., Smart Kontrakt Verifisert"
+  },
+  "color": {
+    "defaultMessage": "Farge"
+  },
+  "add.chip": {
+    "defaultMessage": "Legg til Chip (maks 6)"
   }
 }

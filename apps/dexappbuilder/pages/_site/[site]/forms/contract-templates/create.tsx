@@ -17,6 +17,7 @@ import AbiInput from '@/modules/forms/components/AbiInput';
 import { CreateTemplateSchema } from '@/modules/forms/constants';
 import { useCreateFormTemplateMutation } from '@/modules/forms/hooks';
 import { CreateTemplateSchemaType } from '@/modules/forms/types';
+import { MarkdownDescriptionField } from '@dexkit/ui/components';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { TextField } from 'formik-mui';
 import { useSnackbar } from 'notistack';
@@ -123,14 +124,18 @@ export default function CreateTemplatePage() {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <Field
-                            component={TextField}
+                          <MarkdownDescriptionField
                             name="description"
-                            fullWidth
                             label={
                               <FormattedMessage
                                 id="description"
                                 defaultMessage="Description"
+                              />
+                            }
+                            helperText={
+                              <FormattedMessage
+                                id="description.markdown.helper"
+                                defaultMessage="You can use markdown formatting for rich text descriptions"
                               />
                             }
                           />

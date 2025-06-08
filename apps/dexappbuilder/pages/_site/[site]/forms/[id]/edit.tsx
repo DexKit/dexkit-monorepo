@@ -7,6 +7,9 @@ import {
   Button,
   CircularProgress,
   Container,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   Grid,
   Link,
   NoSsr,
@@ -26,6 +29,7 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
+import DKMDEditor from '@dexkit/ui/components/DKMDEditor';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
@@ -199,22 +203,41 @@ export default function FormsEditPage() {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        multiline
-                        disabled={updateFormMutation.isLoading}
-                        rows={3}
-                        InputLabelProps={{ shrink: true }}
-                        value={values.description}
-                        onChange={handleChangeInputs}
-                        name="description"
-                        label={
+                      <FormControl fullWidth>
+                        <FormLabel component="legend" sx={{ mb: 1 }}>
                           <FormattedMessage
-                            id="title"
-                            defaultMessage="description"
+                            id="description"
+                            defaultMessage="Description"
                           />
-                        }
-                      />
+                        </FormLabel>
+                        <Box
+                          sx={{
+                            border: (theme) => `1px solid ${theme.palette.divider}`,
+                            borderRadius: 1,
+                            '& .w-md-editor': {
+                              backgroundColor: 'transparent',
+                            },
+                            '& .w-md-editor-text-pre, & .w-md-editor-text-input, & .w-md-editor-text': {
+                              fontSize: '14px !important',
+                              lineHeight: '1.4375em !important',
+                            },
+                          }}
+                        >
+                          <DKMDEditor
+                            value={values.description || ""}
+                            setValue={(val) => setValues((values) => ({
+                              ...values,
+                              description: val || ""
+                            }))}
+                          />
+                        </Box>
+                        <FormHelperText>
+                          <FormattedMessage
+                            id="description.markdown.helper"
+                            defaultMessage="You can use markdown formatting for rich text descriptions"
+                          />
+                        </FormHelperText>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                       <ContractForm

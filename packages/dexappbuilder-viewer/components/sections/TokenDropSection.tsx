@@ -1045,60 +1045,34 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </Paper>
                 )}
 
-                <Box>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    <FormattedMessage
-                      id="security.features"
-                      defaultMessage="Security Features"
-                    />
+                <Box sx={{ mb: 4 }}>
+                  <Typography variant="h6" gutterBottom sx={{ color: 'text.primary', fontWeight: 600 }}>
+                    {section.settings.customChipsTitle || 'Security Features'}
                   </Typography>
-                  <Stack direction="row" spacing={theme.spacing(1)} flexWrap="wrap" useFlexGap>
-                    <Box
-                      component="span"
-                      sx={{
-                        px: theme.spacing(1.5),
-                        py: theme.spacing(0.5),
-                        backgroundColor: theme.palette.success.light + '20',
-                        color: theme.palette.success.main,
-                        borderRadius: theme.shape.borderRadius,
-                        fontSize: theme.typography.caption.fontSize,
-                        fontWeight: 500,
-                        border: `1px solid ${theme.palette.success.main}30`,
-                      }}
-                    >
-                      ✓ Smart Contract Verified
-                    </Box>
-                    <Box
-                      component="span"
-                      sx={{
-                        px: theme.spacing(1.5),
-                        py: theme.spacing(0.5),
-                        backgroundColor: theme.palette.success.light + '20',
-                        color: theme.palette.success.main,
-                        borderRadius: theme.shape.borderRadius,
-                        fontSize: theme.typography.caption.fontSize,
-                        fontWeight: 500,
-                        border: `1px solid ${theme.palette.success.main}30`,
-                      }}
-                    >
-                      ✓ Secure Minting
-                    </Box>
-                    <Box
-                      component="span"
-                      sx={{
-                        px: theme.spacing(1.5),
-                        py: theme.spacing(0.5),
-                        backgroundColor: theme.palette.success.light + '20',
-                        color: theme.palette.success.main,
-                        borderRadius: theme.shape.borderRadius,
-                        fontSize: theme.typography.caption.fontSize,
-                        fontWeight: 500,
-                        border: `1px solid ${theme.palette.success.main}30`,
-                      }}
-                    >
-                      ✓ DexKit Powered
-                    </Box>
-                  </Stack>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {(section.settings.customChips || [
+                      { text: 'Smart Contract Verified', emoji: '✓', color: 'success' },
+                      { text: 'Secure Minting', emoji: '✓', color: 'success' },
+                      { text: 'DexKit Powered', emoji: '✓', color: 'success' },
+                    ]).map((chip, index) => (
+                      <Box
+                        key={index}
+                        component="span"
+                        sx={{
+                          px: theme.spacing(1.5),
+                          py: theme.spacing(0.5),
+                          backgroundColor: theme.palette[chip.color].light + '20',
+                          color: theme.palette[chip.color].main,
+                          borderRadius: theme.shape.borderRadius,
+                          fontSize: theme.typography.caption.fontSize,
+                          fontWeight: 500,
+                          border: `1px solid ${theme.palette[chip.color].main}30`,
+                        }}
+                      >
+                        {chip.emoji} {chip.text}
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
               </Stack>
             </Paper>

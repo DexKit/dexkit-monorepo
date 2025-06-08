@@ -991,7 +991,7 @@
     "defaultMessage": "Fehler beim Wechseln des Netzwerks"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Erkunden Sie unser neues Tool: DexGenerator"
+    "defaultMessage": "Erkunden Sie unser neues Tool: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favoriten"
@@ -1132,7 +1132,7 @@
     "defaultMessage": "Wallets"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
     "defaultMessage": "Sie können Verträge aus unserer Liste und in Zukunft aus der Community bereitstellen."
@@ -4539,5 +4539,53 @@
   "your.transaction.has.been.confirmed": {
     "defaultMessage": "Ihre Transaktion wurde bestätigt",
     "description": "Your transaction has been confirmed"
+  },
+  "custom.title": {
+    "defaultMessage": "Benutzerdefinierter Titel"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Geben Sie einen benutzerdefinierten Titel für Ihre Token-Anspruchsseite ein. Lassen Sie es leer, um den Standardtitel zu verwenden."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "z.B., Holen Sie sich Ihre Belohnungen"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Benutzerdefinierter Untertitel"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Geben Sie einen benutzerdefinierten Untertitel ein, um Ihre Token-Verteilung zu beschreiben. Lassen Sie es leer, um den Vertragsnamen zu verwenden."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "z.B., Erhalten Sie Ihre exklusiven Token aus unserem neuesten Drop"
+  },
+  "custom.chips": {
+    "defaultMessage": "Benutzerdefinierte Chips"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Passen Sie die Feature-Chips an, die auf Ihrer Token-Verteilungsseite angezeigt werden."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Chips-Bereich Titel"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "z.B., Sicherheitsfeatures"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Geben Sie einen benutzerdefinierten Titel für den Chips-Bereich ein. Leer lassen, um 'Sicherheitsfeatures' zu verwenden."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Chip-Text"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "z.B., Smart Contract Verifiziert"
+  },
+  "color": {
+    "defaultMessage": "Farbe"
+  },
+  "add.chip": {
+    "defaultMessage": "Chip hinzufügen (max 6)"
   }
 }

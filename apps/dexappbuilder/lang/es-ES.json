@@ -955,13 +955,49 @@
     "defaultMessage": "Título Personalizado"
   },
   "custom.title.helper": {
-    "defaultMessage": "Dejar vacío para usar el título por defecto"
+    "defaultMessage": "Ingresa un título personalizado para tu página de reclamación de tokens. Déjalo vacío para usar el título predeterminado."
   },
   "custom.subtitle": {
     "defaultMessage": "Subtítulo Personalizado"
   },
   "custom.subtitle.helper": {
-    "defaultMessage": "Dejar vacío para usar el nombre del contrato"
+    "defaultMessage": "Ingresa un subtítulo personalizado para describir tu distribución de tokens. Déjalo vacío para usar el nombre del contrato."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "ej., Reclama tus Recompensas"
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "ej., Obtén tus tokens exclusivos de nuestro último lanzamiento"
+  },
+  "custom.chips": {
+    "defaultMessage": "Chips Personalizados"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Personaliza los chips de características mostrados en tu página de distribución de tokens."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Título de la Sección de Chips"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "ej., Características de Seguridad"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Ingresa un título personalizado para la sección de chips. Déjalo vacío para usar 'Características de Seguridad'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Texto del Chip"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "ej., Contrato Inteligente Verificado"
+  },
+  "color": {
+    "defaultMessage": "Color"
+  },
+  "add.chip": {
+    "defaultMessage": "Agregar Chip (máx 6)"
   },
   "deploy.your.own.contract": {
     "defaultMessage": "Despliega tu propio contrato"
@@ -1003,7 +1039,7 @@
     "defaultMessage": "Error al cambiar de red"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explora nuestra nueva herramienta: DexGenerator"
+    "defaultMessage": "Explora nuestra nueva herramienta: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favoritos"

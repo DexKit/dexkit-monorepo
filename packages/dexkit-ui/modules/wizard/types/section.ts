@@ -124,6 +124,12 @@ export interface UserContractPageSection extends PageSection {
   hideFormInfo?: boolean;
 }
 
+export interface ChipConfig {
+  text: string;
+  emoji: string;
+  color: 'success' | 'primary' | 'secondary' | 'info' | 'warning' | 'error';
+}
+
 export interface TokenDropPageSection extends PageSection {
   type: "token-drop";
   settings: {
@@ -132,6 +138,8 @@ export interface TokenDropPageSection extends PageSection {
     variant?: "simple" | "detailed" | "premium";
     customTitle?: string;
     customSubtitle?: string;
+    customChips?: ChipConfig[];
+    customChipsTitle?: string;
   };
 }
 
