@@ -32,7 +32,7 @@ import createEmotionCache from "./createEmotionCache";
 
 import ProtectedContent from "@dexkit/dexappbuilder-viewer/components/ProtectedContent";
 import { SectionsRenderer } from "@dexkit/dexappbuilder-viewer/components/SectionsRenderer";
-import { getTheme } from "@dexkit/dexappbuilder-viewer/theme";
+import { getTheme } from "@dexkit/dexappbuilder-viewer/themes/theme";
 import AuthMainLayout from "@dexkit/ui/components/layouts/authMain";
 import MainLayout from "@dexkit/ui/components/layouts/main";
 import { SessionProvider } from "next-auth/react";
@@ -200,4 +200,10 @@ export function RenderCustomPage({
   );
 }
 
-export { AppMarketplaceProvider, createEmotionCache };
+import { RenderDexAppBuilderWidget } from "@dexkit/dexappbuilder-viewer";
+
+export {
+  AppMarketplaceProvider,
+  createEmotionCache,
+  RenderDexAppBuilderWidget,
+};

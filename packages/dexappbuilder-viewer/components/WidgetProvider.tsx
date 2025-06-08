@@ -33,7 +33,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { ThirdwebProvider } from "thirdweb/react";
 import { EIP1193 } from "thirdweb/wallets";
-import { getTheme } from "../theme";
+import { getTheme } from "../themes/theme";
 import { loadLocaleMessages } from "../utils/intl";
 
 export interface WidgetContextProps {

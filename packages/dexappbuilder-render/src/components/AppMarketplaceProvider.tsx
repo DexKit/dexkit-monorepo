@@ -25,7 +25,7 @@ import {
   tokensAtom,
   transactionsAtomV2,
 } from "@dexkit/dexappbuilder-viewer/state/atoms";
-import { getTheme } from "@dexkit/dexappbuilder-viewer/theme";
+import { getTheme } from "@dexkit/dexappbuilder-viewer/themes/theme";
 import { useRouter } from "next/router";
 
 import { loadLocaleMessages } from "@dexkit/dexappbuilder-viewer/utils/intl";
