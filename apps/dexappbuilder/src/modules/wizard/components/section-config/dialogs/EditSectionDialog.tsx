@@ -327,7 +327,7 @@ export default function EditSectionDialog({
                     defaultMessage: 'Section name',
                   })}
                   InputProps={{
-                    style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                    sx: isMobile ? { typography: 'body2' } : undefined
                   }}
                 />
               </Stack>
@@ -345,7 +345,7 @@ export default function EditSectionDialog({
                   defaultMessage: 'Section name',
                 })}
                 InputProps={{
-                  style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                  sx: isMobile ? { typography: 'body2' } : undefined
                 }}
               />
             )}
@@ -354,10 +354,9 @@ export default function EditSectionDialog({
                 sx={{
                   px: theme.spacing(1),
                   py: theme.spacing(0.25),
-                  borderRadius: (theme) => theme.shape.borderRadius / 2,
+                  borderRadius: theme.shape.borderRadius * 0.5,
                   '&: hover': {
-                    backgroundColor: (theme) =>
-                      alpha(theme.palette.primary.main, 0.1),
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
                   },
                 }}
                 onClick={handleEdit}
@@ -389,8 +388,8 @@ export default function EditSectionDialog({
       />
       <Divider />
       <DialogContent sx={{
-        pt: { xs: 0, sm: 2, md: 3 },
-        px: { xs: 0, sm: 2, md: 3 },
+        pt: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
+        px: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
         pb: 0,
         display: 'flex',
         flexDirection: 'column',
@@ -409,7 +408,7 @@ export default function EditSectionDialog({
                 />
               )}
               {sectionType && (
-                <Stack spacing={0.5}>
+                <Stack spacing={theme.spacing(0.5)}>
                   {renderSectionHeader()}
                   {renderSectionType(sectionType)}
                 </Stack>
@@ -417,7 +416,7 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: theme.spacing(0.25), flex: '1 1 auto', overflow: 'visible', minHeight: '100vh' }}>
+              <Box sx={{ mt: theme.spacing(0.25), flex: '1 1 auto', overflow: 'visible' }}>
                 {renderPreview()}
               </Box>
             )}

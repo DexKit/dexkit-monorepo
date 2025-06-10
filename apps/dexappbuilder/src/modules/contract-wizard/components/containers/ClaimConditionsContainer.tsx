@@ -63,61 +63,63 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
       </Stack>
     </Box>
   ) : (
-    <Formik
-      initialValues={{ phases: phases }}
-      onSubmit={async (values, actions) => {
-        try {
-          await setClaimConditions({
-            phases: values.phases.map((p) => {
-              return {
-                metadata: {
-                  name: p.name,
-                },
-                currencyAddress: p.currencyAddress,
-                price: p.price,
-                maxClaimablePerWallet: p.maxClaimablePerWallet,
-                maxClaimableSupply: p.maxClaimableSupply,
-                startTime: new Date(p.startTime),
-                waitInSeconds: p.waitInSeconds,
-              };
-            }),
-          });
+    <Box sx={{ p: { xs: 1, sm: 2 } }}>
+      <Formik
+        initialValues={{ phases: phases }}
+        onSubmit={async (values, actions) => {
+          try {
+            await setClaimConditions({
+              phases: values.phases.map((p) => {
+                return {
+                  metadata: {
+                    name: p.name,
+                  },
+                  currencyAddress: p.currencyAddress,
+                  price: p.price,
+                  maxClaimablePerWallet: p.maxClaimablePerWallet,
+                  maxClaimableSupply: p.maxClaimableSupply,
+                  startTime: new Date(p.startTime),
+                  waitInSeconds: p.waitInSeconds,
+                };
+              }),
+            });
 
-          enqueueSnackbar(
-            <FormattedMessage
-              id="claim.conditions.updated.successfully"
-              defaultMessage="Claim conditions updated successfully"
-            />,
-            {
-              variant: 'success',
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'right',
-              },
-            }
-          );
-        } catch (error) {
-          enqueueSnackbar(
-            <FormattedMessage
-              id="error.updating.claim.conditions"
-              defaultMessage="Error updating claim conditions"
-            />,
-            {
-              variant: 'error',
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'right',
-              },
-            }
-          );
-        } finally {
-          actions.setSubmitting(false);
-        }
-      }}
-      validationSchema={ClaimConditionsSchema}
-    >
-      <ClaimConditionsForm isEdit={phases.length > 0} network={network} />
-    </Formik>
+            enqueueSnackbar(
+              <FormattedMessage
+                id="claim.conditions.updated.successfully"
+                defaultMessage="Claim conditions updated successfully"
+              />,
+              {
+                variant: 'success',
+                anchorOrigin: {
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                },
+              }
+            );
+          } catch (error) {
+            enqueueSnackbar(
+              <FormattedMessage
+                id="error.updating.claim.conditions"
+                defaultMessage="Error updating claim conditions"
+              />,
+              {
+                variant: 'error',
+                anchorOrigin: {
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                },
+              }
+            );
+          } finally {
+            actions.setSubmitting(false);
+          }
+        }}
+        validationSchema={ClaimConditionsSchema}
+      >
+        <ClaimConditionsForm isEdit={phases.length > 0} network={network} />
+      </Formik>
+    </Box>
   );
 }
 

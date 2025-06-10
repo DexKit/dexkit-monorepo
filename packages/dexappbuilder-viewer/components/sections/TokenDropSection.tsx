@@ -1158,7 +1158,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         defaultMessage="Total Cost"
                       />
                     </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'white' }}>
                       {priceToMint}
                     </Typography>
                   </Stack>

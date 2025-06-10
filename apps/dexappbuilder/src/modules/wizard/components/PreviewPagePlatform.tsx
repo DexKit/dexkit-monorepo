@@ -136,7 +136,7 @@ export default function PreviewPagePlatform({
                   width: '100%',
                   maxWidth: isMobile ? '100%' : (enableOverflow ? theme.spacing(85) : theme.spacing(65)),
                   height: 'auto',
-                  minHeight: isMobile ? '150vh' : 'fit-content',
+                  minHeight: 'fit-content',
                   borderRadius: theme.spacing(3),
                   overflow: 'visible',
                   display: 'flex',

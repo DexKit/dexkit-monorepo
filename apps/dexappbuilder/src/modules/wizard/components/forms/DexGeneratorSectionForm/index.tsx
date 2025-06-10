@@ -34,7 +34,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NETWORKS } from 'src/constants/chain';
 
@@ -65,6 +65,7 @@ export default function DexGeneratorSectionForm({
   const { account } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [type, setType] = useState<string>('all');
   const [contract, setContract] = useState<DeployedContract | undefined>(
     section?.contract,
@@ -72,6 +73,26 @@ export default function DexGeneratorSectionForm({
 
   const [chainId, setChainId] = useState(-1);
   const [query, setQuery] = useState<string>();
+
+  useEffect(() => {
+    if (isMobile && containerRef.current) {
+      containerRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (isMobile && !contract && containerRef.current) {
+      setTimeout(() => {
+        containerRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  }, [contract, isMobile]);
 
   const filter = useMemo(() => {
     let f: any = {
@@ -140,6 +161,15 @@ export default function DexGeneratorSectionForm({
       }
 
       setContract(newContract);
+
+      if (isMobile) {
+        setTimeout(() => {
+          containerRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 100);
+      }
 
       let network = getChainSlug(newContract?.chainId);
 
@@ -353,7 +383,7 @@ export default function DexGeneratorSectionForm({
 
 
   return (
-    <Box>
+    <Box ref={containerRef}>
       <Grid container spacing={isMobile ? 1 : 2}>
         {!contract && (
           <Grid item xs={12}>
@@ -448,7 +478,7 @@ export default function DexGeneratorSectionForm({
                         <Search fontSize={isMobile ? 'small' : 'medium'} />
                       </InputAdornment>
                     ),
-                    style: isMobile ? { fontSize: '0.85rem' } : {},
+                    sx: isMobile ? { typography: 'body2' } : {},
                   },
                 }}
                 onChange={handleChange}
@@ -477,8 +507,8 @@ export default function DexGeneratorSectionForm({
                   sx={
                     isMobile
                       ? {
-                        '& .MuiInputBase-input': { fontSize: '0.85rem' },
-                        '& .MuiInputLabel-root': { fontSize: '0.85rem' },
+                        '& .MuiInputBase-input': { typography: 'body2' },
+                        '& .MuiInputLabel-root': { typography: 'body2' },
                       }
                       : {}
                   }
@@ -572,7 +602,7 @@ export default function DexGeneratorSectionForm({
                 new Array(isMobile ? 3 : 5).fill(null).map((_, index) => (
                   <Grid item xs={12} key={index}>
                     <Card>
-                      <CardContent sx={isMobile ? { padding: '8px 12px' } : {}}>
+                      <CardContent sx={isMobile ? { p: { xs: 1, sm: 1.5 } } : {}}>
                         <Typography variant={isMobile ? 'body1' : 'h5'}>
                           <Skeleton />
                         </Typography>
