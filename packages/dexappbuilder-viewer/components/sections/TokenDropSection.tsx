@@ -442,9 +442,6 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const handleChangeQuantity = (val: string) => {
     const value = parseInt(val);
 
-    console.log(value);
-    console.log(maxClaimable);
-
     if (value > maxClaimable) {
       setQuantity(maxClaimable);
     } else if (value < 1) {
