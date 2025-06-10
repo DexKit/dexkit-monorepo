@@ -258,6 +258,58 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     activeClaimCondition.data?.maxClaimablePerWallet,
   ]);
 
+  const maxClaimableFormatted = useMemo(() => {
+    const maxPerWallet = activeClaimCondition.data?.maxClaimablePerWallet;
+
+    if (maxPerWallet === "unlimited") {
+      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+    }
+
+    if (maxPerWallet) {
+      try {
+        return Number(maxPerWallet).toLocaleString();
+      } catch (e) {
+        return maxPerWallet;
+      }
+    }
+
+    return maxClaimable.toLocaleString();
+  }, [
+    activeClaimCondition.data?.maxClaimablePerWallet,
+    maxClaimable,
+    formatMessage,
+  ]);
+
+  const maxTotalSupplyFormatted = useMemo(() => {
+    const maxTotalSupply = activeClaimCondition.data?.maxClaimableSupply;
+
+    if (maxTotalSupply === "unlimited") {
+      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+    }
+
+    if (maxTotalSupply) {
+      try {
+        return Number(maxTotalSupply).toLocaleString();
+      } catch (e) {
+        return maxTotalSupply;
+      }
+    }
+
+    return "0";
+  }, [
+    activeClaimCondition.data?.maxClaimableSupply,
+    formatMessage,
+  ]);
+
+  const availableSupplyFormatted = useMemo(() => {
+    try {
+      const available = Number(activeClaimCondition.data?.availableSupply?.split('.')[0] || 0);
+      return available.toLocaleString();
+    } catch (e) {
+      return "0";
+    }
+  }, [activeClaimCondition.data?.availableSupply]);
+
   const isSoldOut = useMemo(() => {
     if (activeClaimCondition.data?.maxClaimablePerWallet === "unlimited") {
       return false;
@@ -290,7 +342,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   const buttonLoading = useMemo(() => {
     return isLoading || claimIneligibilityReasons.isFetching;
-  }, [claimIneligibilityReasons.isLoading, isLoading]);
+  }, [claimIneligibilityReasons.isFetching, isLoading]);
 
   const buttonText = useMemo(() => {
     if (isSoldOut) {
@@ -317,22 +369,22 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
       claimIneligibilityReasons.data &&
       claimIneligibilityReasons.data?.length > 0
     ) {
-      return parseIneligibility(claimIneligibilityReasons.data, lazyQuantity);
+      return <FormattedMessage id="cannot.claim" defaultMessage="Cannot Claim" />;
     }
 
     if (buttonLoading) {
       return (
         <FormattedMessage
-          id="checking.eligibility"
-          defaultMessage="Checking eligibility..."
+          id="checking"
+          defaultMessage="Checking..."
         />
       );
     }
 
     return (
       <FormattedMessage
-        id="claiming.not.available"
-        defaultMessage="Claiming not available"
+        id="not.available"
+        defaultMessage="Not Available"
       />
     );
   }, [
@@ -343,6 +395,48 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     activeClaimCondition.data?.currencyMetadata.value,
     priceToMint,
     lazyQuantity,
+  ]);
+
+  const hintMessage = useMemo(() => {
+    if (claimIneligibilityReasons.isFetching || (isLoading && !claimIneligibilityReasons.isSuccess)) {
+      return formatMessage({
+        id: "checking.eligibility.hint",
+        defaultMessage: "Checking your eligibility to claim tokens..."
+      });
+    }
+
+    if (
+      claimIneligibilityReasons.isSuccess &&
+      claimIneligibilityReasons.data &&
+      claimIneligibilityReasons.data?.length > 0
+    ) {
+      return parseIneligibility(claimIneligibilityReasons.data, lazyQuantity);
+    }
+
+    if (
+      !isLoading &&
+      !claimIneligibilityReasons.isFetching &&
+      claimIneligibilityReasons.isSuccess &&
+      !canClaim &&
+      !isSoldOut &&
+      (!claimIneligibilityReasons.data || claimIneligibilityReasons.data?.length === 0)
+    ) {
+      return formatMessage({
+        id: "claiming.not.available.hint",
+        defaultMessage: "Token claiming is currently not available. Please check back later."
+      });
+    }
+
+    return null;
+  }, [
+    claimIneligibilityReasons.data,
+    claimIneligibilityReasons.isFetching,
+    claimIneligibilityReasons.isSuccess,
+    lazyQuantity,
+    isLoading,
+    canClaim,
+    isSoldOut,
+    formatMessage,
   ]);
 
   const handleChangeQuantity = (val: string) => {
@@ -478,13 +572,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           (claimConditions.data?.every(
             (cc) => cc.maxClaimableSupply === "0"
           ) && (
-            <Alert severity="info">
-              <FormattedMessage
-                id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
-                defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
-              />
-            </Alert>
-          ))}
+              <Alert severity="info">
+                <FormattedMessage
+                  id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
+                  defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
+                />
+              </Alert>
+            ))}
 
         {isLoading ? (
           !account ? (
@@ -943,6 +1037,64 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 </Typography>
               </Stack>
             )}
+
+            {activeClaimCondition.data?.maxClaimableSupply && (
+              <Stack direction="row" justifyContent="flex-start" spacing={2}>
+                <Typography variant="body1">
+                  <b>
+                    <FormattedMessage
+                      id="max.total.supply.current.phase"
+                      defaultMessage="Max total supply (current phase)"
+                    />
+                    :
+                  </b>
+                </Typography>
+                <Typography color="text.secondary">
+                  {activeClaimCondition.data?.maxClaimableSupply === "unlimited"
+                    ? formatMessage({ id: "unlimited", defaultMessage: "Unlimited" })
+                    : Number(activeClaimCondition.data?.maxClaimableSupply).toLocaleString()
+                  }
+                </Typography>
+              </Stack>
+            )}
+
+            {activeClaimCondition.data?.availableSupply && (
+              <Stack direction="row" justifyContent="flex-start" spacing={2}>
+                <Typography variant="body1">
+                  <b>
+                    <FormattedMessage
+                      id="available.supply.remaining"
+                      defaultMessage="Available supply remaining"
+                    />
+                    :
+                  </b>
+                </Typography>
+                <Typography color="text.secondary">
+                  {Number(activeClaimCondition.data?.availableSupply.split('.')[0] || 0).toLocaleString()}
+                </Typography>
+              </Stack>
+            )}
+
+            {activeClaimCondition.data?.maxClaimablePerWallet && (
+              <Stack direction="row" justifyContent="flex-start" spacing={2}>
+                <Typography variant="body1">
+                  <b>
+                    <FormattedMessage
+                      id="max.tokens.per.wallet"
+                      defaultMessage="Max tokens per wallet"
+                    />
+                    :
+                  </b>
+                </Typography>
+                <Typography color="text.secondary">
+                  {activeClaimCondition.data?.maxClaimablePerWallet === "unlimited"
+                    ? formatMessage({ id: "unlimited", defaultMessage: "Unlimited" })
+                    : Number(activeClaimCondition.data?.maxClaimablePerWallet).toLocaleString()
+                  }
+                </Typography>
+              </Stack>
+            )}
+
             {nextPhase && (
               <Stack direction="row" justifyContent="flex-start" spacing={2}>
                 <Typography variant="body1">
@@ -1228,13 +1380,75 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{ mt: theme.spacing(1), display: "block" }}
                   >
                     <FormattedMessage
-                      id="max.claimable"
-                      defaultMessage="Maximum claimable: {max}"
-                      values={{ max: maxClaimable }}
+                      id="max.claimable.per.wallet"
+                      defaultMessage="Max per wallet: {max}"
+                      values={{ max: maxClaimableFormatted }}
                     />
                   </Typography>
                 )}
               </Box>
+
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={{ xs: theme.spacing(1), sm: theme.spacing(2) }}
+              >
+                <Box
+                  sx={{
+                    px: theme.spacing(1.5),
+                    py: theme.spacing(0.75),
+                    borderRadius: theme.shape.borderRadius,
+                    backgroundColor: "grey.100",
+                    border: "1px solid",
+                    borderColor: "grey.300",
+                    flex: 1,
+                  }}
+                >
+                  <Typography variant="caption" sx={{ fontSize: '0.7rem', color: "text.secondary" }}>
+                    <FormattedMessage
+                      id="max.total.phase"
+                      defaultMessage="Max Total (Phase)"
+                    />
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem', color: "grey.800" }}>
+                    {maxTotalSupplyFormatted}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    px: theme.spacing(1.5),
+                    py: theme.spacing(0.75),
+                    borderRadius: theme.shape.borderRadius,
+                    backgroundColor: Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.main" : "error.main",
+                    border: "1px solid",
+                    borderColor: Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.dark" : "error.dark",
+                    flex: 1,
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontSize: '0.7rem',
+                      color: "white"
+                    }}
+                  >
+                    <FormattedMessage
+                      id="available.remaining"
+                      defaultMessage="Available Remaining"
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: '0.85rem',
+                      color: "white"
+                    }}
+                  >
+                    {availableSupplyFormatted}
+                  </Typography>
+                </Box>
+              </Stack>
 
               {priceToMint && (
                 <Paper
@@ -1269,6 +1483,20 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     </Typography>
                   </Stack>
                 </Paper>
+              )}
+
+              {hintMessage && (
+                <Alert
+                  severity="warning"
+                  sx={{
+                    borderRadius: theme.shape.borderRadius * 2,
+                    '& .MuiAlert-message': {
+                      fontSize: theme.typography.body2.fontSize,
+                    }
+                  }}
+                >
+                  {hintMessage}
+                </Alert>
               )}
 
               {!account ? (
@@ -1345,6 +1573,20 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               value="1"
               onChange={handleChangeQuantity}
             />
+
+            {hintMessage && (
+              <Alert
+                severity="warning"
+                sx={{
+                  '& .MuiAlert-message': {
+                    fontSize: theme.typography.body2.fontSize,
+                  }
+                }}
+              >
+                {hintMessage}
+              </Alert>
+            )}
+
             {!account ? (
               <ConnectWalletButton />
             ) : chainId !== networkChainId ? (
