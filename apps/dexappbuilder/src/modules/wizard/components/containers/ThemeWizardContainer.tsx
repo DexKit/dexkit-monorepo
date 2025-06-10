@@ -35,9 +35,9 @@ const ExchangeSection = dynamic(
 );
 
 import { ChainId } from '@dexkit/core';
+import appConfig from '@dexkit/ui/config/app.minimal.json';
 import { ExchangePageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import appConfig from '../../../../../config/app.json';
 import ThemePreviewMenu from '../ThemePreviewMenu';
 interface Props {
   config: Partial<AppConfig>;
