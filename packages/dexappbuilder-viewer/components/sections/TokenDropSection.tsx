@@ -2,7 +2,10 @@ import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useDexKitContext } from "@dexkit/ui";
-import { ConnectWalletMessage, SwitchNetworkButtonWithWarning } from "@dexkit/ui/components";
+import {
+  ConnectWalletMessage,
+  SwitchNetworkButtonWithWarning,
+} from "@dexkit/ui/components";
 import { ConnectWalletButton } from "@dexkit/ui/components/ConnectWalletButton";
 import LazyTextField from "@dexkit/ui/components/LazyTextField";
 import { useInterval } from "@dexkit/ui/hooks/misc";
@@ -22,7 +25,7 @@ import {
   Skeleton,
   Stack,
   Typography,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -180,8 +183,6 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     }
   }, [availableSupply]);
 
-
-
   const priceToMint = useMemo(() => {
     if (lazyQuantity) {
       const bnPrice =
@@ -202,18 +203,26 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const maxClaimable = useMemo(() => {
     let bnMaxClaimable;
     try {
-      bnMaxClaimable =
-        BigNumber.from(activeClaimCondition.data?.maxClaimableSupply) ||
-        BigNumber.from(0);
+      if (activeClaimCondition.data?.maxClaimableSupply === "unlimited") {
+        bnMaxClaimable = BigNumber.from(1_000_000_000);
+      } else {
+        bnMaxClaimable =
+          BigNumber.from(activeClaimCondition.data?.maxClaimableSupply) ||
+          BigNumber.from(0);
+      }
     } catch (e) {
       bnMaxClaimable = BigNumber.from(1_000_000_000);
     }
 
     let perTransactionClaimable;
     try {
-      perTransactionClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimablePerWallet || 0
-      );
+      if (activeClaimCondition.data?.maxClaimablePerWallet === "unlimited") {
+        perTransactionClaimable = BigNumber.from(1_000_000_000);
+      } else {
+        perTransactionClaimable = BigNumber.from(
+          activeClaimCondition.data?.maxClaimablePerWallet || 0
+        );
+      }
     } catch (e) {
       perTransactionClaimable = BigNumber.from(1_000_000_000);
     }
@@ -237,13 +246,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
       }
     }
 
-    let max;
-
-    if (totalAvailableSupply.lt(bnMaxClaimable)) {
-      max = totalAvailableSupply;
-    } else {
-      max = bnMaxClaimable;
-    }
+    let max = bnMaxClaimable;
 
     if (max.gte(1_000_000_000)) {
       return 1_000_000_000;
@@ -251,16 +254,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     return max.toNumber();
   }, [
     claimerProofs.data?.maxClaimable,
-    totalAvailableSupply,
     activeClaimCondition.data?.maxClaimableSupply,
     activeClaimCondition.data?.maxClaimablePerWallet,
   ]);
 
   const isSoldOut = useMemo(() => {
-    if (
-      activeClaimCondition.data?.maxClaimablePerWallet === "unlimited" &&
-      activeClaimCondition.data?.maxClaimablePerWallet === "unlimited"
-    ) {
+    if (activeClaimCondition.data?.maxClaimablePerWallet === "unlimited") {
       return false;
     }
 
@@ -269,10 +268,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     } catch (e) {
       return false;
     }
-  }, [
-    availableSupply,
-    activeClaimCondition.isSuccess,
-  ]);
+  }, [availableSupply, activeClaimCondition.isSuccess]);
 
   const canClaim = useMemo(() => {
     return (
@@ -351,6 +347,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   const handleChangeQuantity = (val: string) => {
     const value = parseInt(val);
+
+    console.log(value);
+    console.log(maxClaimable);
 
     if (value > maxClaimable) {
       setQuantity(maxClaimable);
@@ -457,7 +456,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   }, [contract, account]);
 
   return (
-    <Container maxWidth="sm" sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}>
+    <Container
+      maxWidth="sm"
+      sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}
+    >
       <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }}>
         {(claimConditions.data &&
           claimConditions.data.length > 0 &&
@@ -476,13 +478,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           (claimConditions.data?.every(
             (cc) => cc.maxClaimableSupply === "0"
           ) && (
-              <Alert severity="info">
-                <FormattedMessage
-                  id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
-                  defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
-                />
-              </Alert>
-            ))}
+            <Alert severity="info">
+              <FormattedMessage
+                id="this.drop.is.not.ready.to.be.minted.yet.no.claim.condition.set"
+                defaultMessage="This drop is not ready to be minted yet. (No claim condition set)"
+              />
+            </Alert>
+          ))}
 
         {isLoading ? (
           !account ? (
@@ -521,28 +523,39 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             sx={{
               background: `linear-gradient(135deg, ${theme.palette.primary.main}08, ${theme.palette.secondary.main}08)`,
               borderRadius: theme.shape.borderRadius * 2,
-              p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+              p: {
+                xs: theme.spacing(1.5),
+                sm: theme.spacing(2),
+                md: theme.spacing(3),
+              },
               border: `1px solid ${theme.palette.primary.main}20`,
-              position: 'relative',
-              overflow: 'hidden',
+              position: "relative",
+              overflow: "hidden",
             }}
           >
             <Box
               sx={{
-                position: 'absolute',
+                position: "absolute",
                 top: theme.spacing(-6.25),
                 right: theme.spacing(-6.25),
                 width: theme.spacing(12.5),
                 height: theme.spacing(12.5),
-                borderRadius: '50%',
+                borderRadius: "50%",
                 background: `linear-gradient(45deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
                 zIndex: 0,
               }}
             />
 
-            <Stack spacing={{ xs: theme.spacing(1), sm: theme.spacing(1.5), md: theme.spacing(2) }} sx={{ position: 'relative', zIndex: 1 }}>
+            <Stack
+              spacing={{
+                xs: theme.spacing(1),
+                sm: theme.spacing(1.5),
+                md: theme.spacing(2),
+              }}
+              sx={{ position: "relative", zIndex: 1 }}
+            >
               <Box>
-                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                <Box sx={{ display: { xs: "block", sm: "none" } }}>
                   <Stack spacing={theme.spacing(1)} alignItems="center">
                     {contractMetadata?.image && (
                       <Avatar
@@ -564,12 +577,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         fontWeight: 700,
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: "text",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
                         fontSize: theme.typography.body1.fontSize,
                         lineHeight: 1.1,
-                        textAlign: 'center',
+                        textAlign: "center",
                       }}
                     >
                       {section.settings.customTitle || (
@@ -586,14 +599,15 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         fontWeight: 500,
                         fontSize: theme.typography.body2.fontSize,
-                        textAlign: 'center',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        maxWidth: '100%',
+                        textAlign: "center",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "100%",
                       }}
                     >
-                      {section.settings.customSubtitle || contractMetadata?.name}
+                      {section.settings.customSubtitle ||
+                        contractMetadata?.name}
                     </Typography>
 
                     {contractMetadata?.description && (
@@ -601,33 +615,33 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         sx={{
                           fontSize: theme.typography.caption.fontSize,
                           lineHeight: 1.3,
-                          textAlign: 'center',
-                          display: '-webkit-box',
+                          textAlign: "center",
+                          display: "-webkit-box",
                           WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                          color: 'text.secondary',
-                          '& p': {
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          color: "text.secondary",
+                          "& p": {
                             margin: 0,
-                            fontSize: 'inherit',
-                            lineHeight: 'inherit',
-                            color: 'inherit'
+                            fontSize: "inherit",
+                            lineHeight: "inherit",
+                            color: "inherit",
                           },
-                          '& p:not(:last-child)': {
-                            marginBottom: 0.5
+                          "& p:not(:last-child)": {
+                            marginBottom: 0.5,
                           },
-                          '& strong': {
-                            fontWeight: 600
+                          "& strong": {
+                            fontWeight: 600,
                           },
-                          '& em': {
-                            fontStyle: 'italic'
+                          "& em": {
+                            fontStyle: "italic",
                           },
-                          '& code': {
-                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                            padding: '1px 2px',
-                            borderRadius: '2px',
-                            fontSize: '0.9em'
-                          }
+                          "& code": {
+                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                            padding: "1px 2px",
+                            borderRadius: "2px",
+                            fontSize: "0.9em",
+                          },
                         }}
                       >
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -638,7 +652,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </Stack>
                 </Box>
 
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <Box sx={{ display: { xs: "none", sm: "block" } }}>
                   <Stack
                     direction="row"
                     spacing={{ sm: theme.spacing(2), md: theme.spacing(3) }}
@@ -649,8 +663,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         src={contractMetadata?.image}
                         alt={contractMetadata?.name!}
                         sx={{
-                          height: { sm: theme.spacing(8), md: theme.spacing(10) },
-                          width: { sm: theme.spacing(8), md: theme.spacing(10) },
+                          height: {
+                            sm: theme.spacing(8),
+                            md: theme.spacing(10),
+                          },
+                          width: {
+                            sm: theme.spacing(8),
+                            md: theme.spacing(10),
+                          },
                           objectFit: "contain",
                           aspectRatio: "1/1",
                           border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
@@ -666,11 +686,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         sx={{
                           fontWeight: 700,
                           background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                          backgroundClip: 'text',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: "text",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
                           mb: theme.spacing(0.5),
-                          fontSize: { sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
+                          fontSize: {
+                            sm: theme.typography.h4.fontSize,
+                            md: theme.typography.h3.fontSize,
+                          },
                           lineHeight: 1.2,
                         }}
                       >
@@ -691,7 +714,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           fontSize: theme.typography.body1.fontSize,
                         }}
                       >
-                        {section.settings.customSubtitle || contractMetadata?.name}
+                        {section.settings.customSubtitle ||
+                          contractMetadata?.name}
                       </Typography>
 
                       {contractMetadata?.description && (
@@ -700,56 +724,56 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                             maxWidth: theme.spacing(62.5),
                             fontSize: theme.typography.body2.fontSize,
                             lineHeight: 1.4,
-                            color: 'text.secondary',
-                            '& p': {
+                            color: "text.secondary",
+                            "& p": {
                               margin: 0,
-                              fontSize: 'inherit',
-                              lineHeight: 'inherit',
-                              color: 'inherit'
+                              fontSize: "inherit",
+                              lineHeight: "inherit",
+                              color: "inherit",
                             },
-                            '& p:not(:last-child)': {
-                              marginBottom: 1
+                            "& p:not(:last-child)": {
+                              marginBottom: 1,
                             },
-                            '& ul, & ol': {
+                            "& ul, & ol": {
                               paddingLeft: 2,
-                              margin: 0
+                              margin: 0,
                             },
-                            '& li': {
-                              fontSize: 'inherit',
-                              lineHeight: 'inherit'
+                            "& li": {
+                              fontSize: "inherit",
+                              lineHeight: "inherit",
                             },
-                            '& strong': {
-                              fontWeight: 600
+                            "& strong": {
+                              fontWeight: 600,
                             },
-                            '& em': {
-                              fontStyle: 'italic'
+                            "& em": {
+                              fontStyle: "italic",
                             },
-                            '& code': {
-                              backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                              padding: '2px 4px',
-                              borderRadius: '4px',
-                              fontSize: '0.875em'
+                            "& code": {
+                              backgroundColor: "rgba(0, 0, 0, 0.04)",
+                              padding: "2px 4px",
+                              borderRadius: "4px",
+                              fontSize: "0.875em",
                             },
-                            '& pre': {
-                              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                            "& pre": {
+                              backgroundColor: "rgba(0, 0, 0, 0.04)",
                               padding: 1,
-                              borderRadius: '4px',
-                              overflow: 'auto'
+                              borderRadius: "4px",
+                              overflow: "auto",
                             },
-                            '& blockquote': {
-                              borderLeft: '4px solid',
-                              borderColor: 'primary.main',
+                            "& blockquote": {
+                              borderLeft: "4px solid",
+                              borderColor: "primary.main",
                               paddingLeft: 2,
-                              margin: '8px 0',
-                              fontStyle: 'italic'
+                              margin: "8px 0",
+                              fontStyle: "italic",
                             },
-                            '& a': {
-                              color: 'primary.main',
-                              textDecoration: 'none',
-                              '&:hover': {
-                                textDecoration: 'underline'
-                              }
-                            }
+                            "& a": {
+                              color: "primary.main",
+                              textDecoration: "none",
+                              "&:hover": {
+                                textDecoration: "underline",
+                              },
+                            },
                           }}
                         >
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -772,25 +796,34 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
                     px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
                     py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
-                    backgroundColor: theme.palette.success.light + '20',
+                    backgroundColor: theme.palette.success.light + "20",
                     color: theme.palette.success.main,
                     borderRadius: theme.shape.borderRadius,
-                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+                    fontSize: {
+                      xs: theme.typography.caption.fontSize,
+                      sm: theme.typography.body2.fontSize,
+                    },
                     fontWeight: 500,
-                    minWidth: 'fit-content',
+                    minWidth: "fit-content",
                     flexShrink: 0,
                   }}
                 >
                   <Box
                     sx={{
-                      width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
-                      height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
-                      borderRadius: '50%',
+                      width: {
+                        xs: theme.spacing(0.5),
+                        sm: theme.spacing(0.75),
+                      },
+                      height: {
+                        xs: theme.spacing(0.5),
+                        sm: theme.spacing(0.75),
+                      },
+                      borderRadius: "50%",
                       backgroundColor: theme.palette.success.main,
                     }}
                   />
@@ -803,17 +836,17 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 {!isSoldOut && (
                   <Box
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
+                      display: "flex",
+                      alignItems: "center",
                       gap: { xs: 0.25, sm: 0.5 },
                       px: { xs: 0.75, sm: 1 },
                       py: { xs: 0.125, sm: 0.25 },
-                      backgroundColor: theme.palette.info.light + '20',
+                      backgroundColor: theme.palette.info.light + "20",
                       color: theme.palette.info.main,
                       borderRadius: 1,
-                      fontSize: { xs: '0.6rem', sm: '0.7rem' },
+                      fontSize: { xs: "0.6rem", sm: "0.7rem" },
                       fontWeight: 500,
-                      minWidth: 'fit-content',
+                      minWidth: "fit-content",
                       flexShrink: 0,
                     }}
                   >
@@ -821,7 +854,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         width: { xs: 4, sm: 6 },
                         height: { xs: 4, sm: 6 },
-                        borderRadius: '50%',
+                        borderRadius: "50%",
                         backgroundColor: theme.palette.info.main,
                       }}
                     />
@@ -958,7 +991,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             >
               <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
                 <Box>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: 600 }}
+                  >
                     <FormattedMessage
                       id="drop.statistics"
                       defaultMessage="Drop Statistics"
@@ -971,7 +1008,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   />
                 </Box>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}
+                >
                   {activeClaimCondition.data?.metadata?.name && (
                     <Paper
                       variant="outlined"
@@ -981,13 +1021,20 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         borderRadius: theme.shape.borderRadius * 2,
                       }}
                     >
-                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ textTransform: "uppercase", letterSpacing: 1 }}
+                      >
                         <FormattedMessage
                           id="current.phase"
                           defaultMessage="Current Phase"
                         />
                       </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5) }}>
+                      <Typography
+                        variant="body1"
+                        sx={{ fontWeight: 600, mt: theme.spacing(0.5) }}
+                      >
                         {activeClaimCondition.data?.metadata?.name}
                       </Typography>
                     </Paper>
@@ -1000,20 +1047,34 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         flex: 1,
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                         borderRadius: theme.shape.borderRadius * 2,
-                        backgroundColor: 'warning.light',
-                        borderColor: 'warning.main',
-                        '&.MuiPaper-outlined': {
-                          borderColor: 'warning.main',
+                        backgroundColor: "warning.light",
+                        borderColor: "warning.main",
+                        "&.MuiPaper-outlined": {
+                          borderColor: "warning.main",
                         },
                       }}
                     >
-                      <Typography variant="caption" sx={{ textTransform: 'uppercase', letterSpacing: 1, color: 'warning.contrastText' }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          textTransform: "uppercase",
+                          letterSpacing: 1,
+                          color: "warning.contrastText",
+                        }}
+                      >
                         <FormattedMessage
                           id="phase.ends.in"
                           defaultMessage="Phase Ends In"
                         />
                       </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'warning.contrastText' }}>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: 600,
+                          mt: theme.spacing(0.5),
+                          color: "warning.contrastText",
+                        }}
+                      >
                         {countDown}
                       </Typography>
                     </Paper>
@@ -1026,42 +1087,73 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                       borderRadius: theme.shape.borderRadius * 2,
-                      backgroundColor: 'info.light',
-                      borderColor: 'info.main',
-                      '&.MuiPaper-outlined': {
-                        borderColor: 'info.main',
+                      backgroundColor: "info.light",
+                      borderColor: "info.main",
+                      "&.MuiPaper-outlined": {
+                        borderColor: "info.main",
                       },
                     }}
                   >
-                    <Typography variant="caption" color="info.main" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <Typography
+                      variant="caption"
+                      color="info.main"
+                      sx={{ textTransform: "uppercase", letterSpacing: 1 }}
+                    >
                       <FormattedMessage
                         id="next.phase.price"
                         defaultMessage="Next Phase Price"
                       />
                     </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mt: theme.spacing(0.5), color: 'info.main' }}>
-                      {nextPhase?.currencyMetadata?.displayValue} {nextPhase?.currencyMetadata?.symbol}
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 600,
+                        mt: theme.spacing(0.5),
+                        color: "info.main",
+                      }}
+                    >
+                      {nextPhase?.currencyMetadata?.displayValue}{" "}
+                      {nextPhase?.currencyMetadata?.symbol}
                     </Typography>
                   </Paper>
                 )}
 
                 <Box sx={{ mb: 4 }}>
-                  <Typography variant="h6" gutterBottom sx={{ color: 'text.primary', fontWeight: 600 }}>
-                    {section.settings.customChipsTitle || 'Security Features'}
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ color: "text.primary", fontWeight: 600 }}
+                  >
+                    {section.settings.customChipsTitle || "Security Features"}
                   </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {(section.settings.customChips || [
-                      { text: 'Smart Contract Verified', emoji: '✓', color: 'success' },
-                      { text: 'Secure Minting', emoji: '✓', color: 'success' },
-                      { text: 'DexKit Powered', emoji: '✓', color: 'success' },
-                    ]).map((chip, index) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                    {(
+                      section.settings.customChips || [
+                        {
+                          text: "Smart Contract Verified",
+                          emoji: "✓",
+                          color: "success",
+                        },
+                        {
+                          text: "Secure Minting",
+                          emoji: "✓",
+                          color: "success",
+                        },
+                        {
+                          text: "DexKit Powered",
+                          emoji: "✓",
+                          color: "success",
+                        },
+                      ]
+                    ).map((chip, index) => (
                       <Box
                         key={index}
                         component="span"
                         sx={{
                           px: theme.spacing(1.5),
                           py: theme.spacing(0.5),
-                          backgroundColor: theme.palette[chip.color].light + '20',
+                          backgroundColor:
+                            theme.palette[chip.color].light + "20",
                           color: theme.palette[chip.color].main,
                           borderRadius: theme.shape.borderRadius,
                           fontSize: theme.typography.caption.fontSize,
@@ -1087,7 +1179,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: theme.spacing(2), sm: theme.spacing(3) } }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
+              }}
+            >
               <FormattedMessage
                 id="claim.your.tokens"
                 defaultMessage="Claim Your Tokens"
@@ -1112,7 +1211,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       id: "enter.amount.to.claim",
                     }),
                     sx: {
-                      '& .MuiOutlinedInput-root': {
+                      "& .MuiOutlinedInput-root": {
                         borderRadius: theme.shape.borderRadius * 2,
                         fontSize: theme.typography.h6.fontSize,
                         fontWeight: 500,
@@ -1123,7 +1222,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   onChange={handleChangeQuantity}
                 />
                 {maxClaimable > 1 && (
-                  <Typography variant="caption" color="text.secondary" sx={{ mt: theme.spacing(1), display: 'block' }}>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: theme.spacing(1), display: "block" }}
+                  >
                     <FormattedMessage
                       id="max.claimable"
                       defaultMessage="Maximum claimable: {max}"
@@ -1139,10 +1242,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   sx={{
                     p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                     borderRadius: theme.shape.borderRadius * 2,
-                    backgroundColor: 'primary.light',
-                    borderColor: 'primary.main',
-                    '&.MuiPaper-outlined': {
-                      borderColor: 'primary.main',
+                    backgroundColor: "primary.light",
+                    borderColor: "primary.main",
+                    "&.MuiPaper-outlined": {
+                      borderColor: "primary.main",
                     },
                   }}
                 >
@@ -1158,7 +1261,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         defaultMessage="Total Cost"
                       />
                     </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'white' }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: 600, color: "white" }}
+                    >
                       {priceToMint}
                     </Typography>
                   </Stack>
@@ -1168,7 +1274,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               {!account ? (
                 <ConnectWalletButton />
               ) : chainId !== networkChainId ? (
-                <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+                <SwitchNetworkButtonWithWarning
+                  desiredChainId={networkChainId}
+                  fullWidth
+                />
               ) : (
                 <Button
                   size="large"
@@ -1185,11 +1294,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   sx={{
                     py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
                     borderRadius: theme.shape.borderRadius * 2,
-                    fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.h6.fontSize },
+                    fontSize: {
+                      xs: theme.typography.body1.fontSize,
+                      sm: theme.typography.h6.fontSize,
+                    },
                     fontWeight: 600,
-                    textTransform: 'none',
+                    textTransform: "none",
                     minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
-                    '&.Mui-disabled': {
+                    "&.Mui-disabled": {
                       color: theme.palette.text.disabled,
                       backgroundColor: theme.palette.action.disabledBackground,
                     },
@@ -1200,14 +1312,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               )}
 
               {balance && (
-                <Box sx={{ textAlign: 'center' }}>
+                <Box sx={{ textAlign: "center" }}>
                   <Typography variant="caption" color="text.secondary">
                     <FormattedMessage
                       id="your.current.balance"
                       defaultMessage="Your current balance: {balance} {symbol}"
                       values={{
                         balance: balance,
-                        symbol: contractMetadata?.symbol || 'tokens'
+                        symbol: contractMetadata?.symbol || "tokens",
                       }}
                     />
                   </Typography>
@@ -1216,7 +1328,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             </Stack>
           </Paper>
         ) : (
-          <Stack spacing={theme.spacing(2)} justifyContent="flex-start" alignItems="flex-start">
+          <Stack
+            spacing={theme.spacing(2)}
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
             <LazyTextField
               TextFieldProps={{
                 type: "number",
@@ -1232,7 +1348,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             {!account ? (
               <ConnectWalletButton />
             ) : chainId !== networkChainId ? (
-              <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+              <SwitchNetworkButtonWithWarning
+                desiredChainId={networkChainId}
+                fullWidth
+              />
             ) : (
               <Button
                 size="large"
@@ -1252,6 +1371,6 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           </Stack>
         )}
       </Stack>
-    </Container >
+    </Container>
   );
 }
