@@ -227,29 +227,6 @@ export function EditWizardContainer({ site }: Props) {
     analytics: false,
     integrations: false,
   });
-  const handleClickSettings = () => {
-    setOpenMenu({ ...openMenu, settings: !openMenu.settings });
-  };
-
-  const handleClickLayout = () => {
-    setOpenMenu({ ...openMenu, layout: !openMenu.layout });
-  };
-
-  const handleClickFees = () => {
-    setOpenMenu({ ...openMenu, fees: !openMenu.fees });
-  };
-
-  const handleClickData = () => {
-    setOpenMenu({ ...openMenu, data: !openMenu.data });
-  };
-
-  const handleClickAnalytics = () => {
-    setOpenMenu({ ...openMenu, analytics: !openMenu.analytics });
-  };
-
-  const handleClickIntegrations = () => {
-    setOpenMenu({ ...openMenu, integrations: !openMenu.integrations });
-  };
 
   const { isLoggedIn, user } = useAuth();
 

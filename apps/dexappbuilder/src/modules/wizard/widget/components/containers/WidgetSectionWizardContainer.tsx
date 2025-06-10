@@ -210,6 +210,7 @@ export default function WidgetSectionWizardContainer({
     if (selectedSectionIndex !== -1) {
       page.sections[selectedSectionIndex].name = name;
       setPage({ ...page });
+      setHasSectionChanges(true);
     }
   };
 
@@ -224,6 +225,7 @@ export default function WidgetSectionWizardContainer({
   const handleConfirmEditLayout = (layout: PageSectionsLayout) => {
     page.layout = layout;
     setPage({ ...page });
+    setHasSectionChanges(true);
   };
 
   const renderPageLayoutDialog = () => {
