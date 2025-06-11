@@ -36,6 +36,7 @@ import {
   useClaimerProofs,
   useContract,
   useContractMetadata,
+  useContractRead,
   useTokenSupply,
 } from "@thirdweb-dev/react";
 import { CurrencyValue } from "@thirdweb-dev/sdk/evm";
@@ -201,6 +202,19 @@ const loadGoogleFont = (fontFamily: string) => {
   document.head.appendChild(link);
 };
 
+const isAvailableSupplyPositive = (availableSupplyFormatted: string): boolean => {
+  if (availableSupplyFormatted === "Unlimited") {
+    return true;
+  }
+
+  try {
+    const number = Number(availableSupplyFormatted.replace(/,/g, ''));
+    return !isNaN(number) && number > 0;
+  } catch (e) {
+    return false;
+  }
+};
+
 export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const { formatMessage } = useIntl();
   const theme = useTheme();
@@ -216,6 +230,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const [lazyQuantity, setQuantity] = useState(1);
 
   const { data: contractMetadata } = useContractMetadata(contract);
+
+  const { data: tokenSymbol } = useContractRead(contract, "symbol", []);
 
   const claimConditions = useClaimConditions(contract);
 
@@ -425,12 +441,27 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
   const availableSupplyFormatted = useMemo(() => {
     try {
-      const available = Number(activeClaimCondition.data?.availableSupply?.split('.')[0] || 0);
+      const availableSupply = activeClaimCondition.data?.availableSupply;
+
+      if (availableSupply === "unlimited") {
+        return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+      }
+
+      if (!availableSupply) {
+        return "0";
+      }
+
+      const available = Number(availableSupply.split('.')[0] || 0);
+
+      if (isNaN(available)) {
+        return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+      }
+
       return available.toLocaleString();
     } catch (e) {
       return "0";
     }
-  }, [activeClaimCondition.data?.availableSupply]);
+  }, [activeClaimCondition.data?.availableSupply, formatMessage]);
 
   const isSoldOut = useMemo(() => {
     if (activeClaimCondition.data?.maxClaimablePerWallet === "unlimited") {
@@ -1698,6 +1729,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         fontWeight: 600,
                         mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        color: "text.primary",
                       }}
                     >
                       {section.settings.customChipsTitle || (
@@ -1836,9 +1868,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     px: theme.spacing(1.5),
                     py: theme.spacing(0.75),
                     borderRadius: theme.shape.borderRadius,
-                    backgroundColor: Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.main" : "error.main",
+                    backgroundColor: isAvailableSupplyPositive(availableSupplyFormatted) ? "success.main" : "error.main",
                     border: "1px solid",
-                    borderColor: Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.dark" : "error.dark",
+                    borderColor: isAvailableSupplyPositive(availableSupplyFormatted) ? "success.dark" : "error.dark",
                     flex: 1,
                   }}
                 >
@@ -1964,7 +1996,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       defaultMessage="Your current balance: {balance} {symbol}"
                       values={{
                         balance: balance,
-                        symbol: contractMetadata?.symbol || "tokens",
+                        symbol: tokenSymbol || contractMetadata?.symbol || "tokens",
                       }}
                     />
                   </Typography>
@@ -2115,10 +2147,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       ? `${section.settings.customStyles.borderRadius / 2}px`
                       : theme.shape.borderRadius,
                     backgroundColor: section.settings.customStyles?.statsColors?.availableRemainingBackground ||
-                      (Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.main" : "error.main"),
+                      (isAvailableSupplyPositive(availableSupplyFormatted) ? "success.main" : "error.main"),
                     border: "1px solid",
                     borderColor: section.settings.customStyles?.statsColors?.availableRemainingBorder ||
-                      (Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.dark" : "error.dark"),
+                      (isAvailableSupplyPositive(availableSupplyFormatted) ? "success.dark" : "error.dark"),
                     flex: 1,
                   }}
                 >
@@ -2273,7 +2305,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       defaultMessage="Your current balance: {balance} {symbol}"
                       values={{
                         balance: balance,
-                        symbol: contractMetadata?.symbol || "tokens",
+                        symbol: tokenSymbol || contractMetadata?.symbol || "tokens",
                       }}
                     />
                   </Typography>
