@@ -169,7 +169,7 @@ const generateButtonStyles = (customStyles: any) => {
   return styles;
 };
 
-const generateTextStyles = (customStyles: any, variant: 'primary' | 'secondary' | 'accent' = 'primary') => {
+const generateTextStyles = (customStyles: any, variant: 'primary' | 'secondary' | 'accent' | 'chipsTitle' | 'balanceLabel' | 'balanceValue' | 'contractDescription' | 'quantityLabel' | 'maxPerWalletLabel' | 'currentBalanceLabel' | 'maxTotalPhaseLabel' | 'availableRemainingLabel' | 'totalCostLabel' | 'totalCostValue' = 'primary') => {
   if (!customStyles?.textColors) return {};
 
   let color;
@@ -183,11 +183,62 @@ const generateTextStyles = (customStyles: any, variant: 'primary' | 'secondary' 
     case 'accent':
       color = customStyles.textColors.accent;
       break;
+    case 'chipsTitle':
+      color = customStyles.textColors.chipsTitle;
+      break;
+    case 'balanceLabel':
+      color = customStyles.textColors.balanceLabel;
+      break;
+    case 'balanceValue':
+      color = customStyles.textColors.balanceValue;
+      break;
+    case 'contractDescription':
+      color = customStyles.textColors.contractDescription;
+      break;
+    case 'quantityLabel':
+      color = customStyles.textColors.quantityLabel;
+      break;
+    case 'maxPerWalletLabel':
+      color = customStyles.textColors.maxPerWalletLabel;
+      break;
+    case 'currentBalanceLabel':
+      color = customStyles.textColors.currentBalanceLabel;
+      break;
+    case 'maxTotalPhaseLabel':
+      color = customStyles.textColors.maxTotalPhaseLabel;
+      break;
+    case 'availableRemainingLabel':
+      color = customStyles.textColors.availableRemainingLabel;
+      break;
+    case 'totalCostLabel':
+      color = customStyles.textColors.totalCostLabel;
+      break;
+    case 'totalCostValue':
+      color = customStyles.textColors.totalCostValue;
+      break;
     default:
       color = customStyles.textColors.primary;
   }
 
   return color ? { color } : {};
+};
+
+const generateTotalCostStyles = (customStyles: any) => {
+  if (!customStyles?.totalCostColors) return {};
+
+  const styles: any = {};
+
+  if (customStyles.totalCostColors.backgroundColor) {
+    styles.backgroundColor = customStyles.totalCostColors.backgroundColor;
+  }
+  if (customStyles.totalCostColors.borderColor) {
+    styles.borderColor = customStyles.totalCostColors.borderColor;
+    styles['&.MuiPaper-outlined'] = {
+      borderColor: customStyles.totalCostColors.borderColor,
+    };
+  }
+
+  return styles;
 };
 
 const loadGoogleFont = (fontFamily: string) => {
@@ -768,17 +819,19 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               </Stack>
             </Box>
           )
-        ) : section.settings.variant === "premium" ? (
+        ) : (section.settings.variant as any) === "premium" ? (
           <Box
             sx={{
-              background: `linear-gradient(135deg, ${theme.palette.primary.main}08, ${theme.palette.secondary.main}08)`,
-              borderRadius: theme.shape.borderRadius * 2,
+              ...generateCustomStyles(section.settings.customStyles, theme),
+              borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                ? `${section.settings.customStyles.borderRadius}px`
+                : theme.shape.borderRadius * 2,
               p: {
                 xs: theme.spacing(1.5),
                 sm: theme.spacing(2),
                 md: theme.spacing(3),
               },
-              border: `1px solid ${theme.palette.primary.main}20`,
+              border: `1px solid ${theme.palette.divider}`,
               position: "relative",
               overflow: "hidden",
             }}
@@ -826,13 +879,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       variant="h4"
                       sx={{
                         fontWeight: theme.typography.fontWeightBold,
-                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                        backgroundClip: "text",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
                         fontSize: theme.typography.body1.fontSize,
                         lineHeight: theme.typography.body1.lineHeight,
                         textAlign: "center",
+                        ...generateTextStyles(section.settings.customStyles, 'primary'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                       }}
                     >
                       {section.settings.customTitle || (
@@ -845,7 +896,6 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
                     <Typography
                       variant="h6"
-                      color="text.primary"
                       sx={{
                         fontWeight: theme.typography.fontWeightMedium,
                         fontSize: theme.typography.body2.fontSize,
@@ -854,6 +904,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
                         maxWidth: "100%",
+                        ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                       }}
                     >
                       {section.settings.customSubtitle ||
@@ -864,13 +916,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       <Box
                         sx={{
                           fontSize: theme.typography.caption.fontSize,
-                          lineHeight: theme.typography.caption.lineHeight,
+                          lineHeight: 1.3,
                           textAlign: "center",
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
-                          color: "text.secondary",
+                          ...generateTextStyles(section.settings.customStyles, 'contractDescription'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                           "& p": {
                             margin: 0,
                             fontSize: "inherit",
@@ -935,16 +988,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         variant="h4"
                         sx={{
                           fontWeight: 700,
-                          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                          backgroundClip: "text",
-                          WebkitBackgroundClip: "text",
-                          WebkitTextFillColor: "transparent",
                           mb: theme.spacing(0.5),
                           fontSize: {
                             sm: theme.typography.h4.fontSize,
                             md: theme.typography.h3.fontSize,
                           },
                           lineHeight: 1.2,
+                          ...generateTextStyles(section.settings.customStyles, 'primary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                         }}
                       >
                         {section.settings.customTitle || (
@@ -957,11 +1008,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
                       <Typography
                         variant="h6"
-                        color="text.primary"
                         sx={{
                           fontWeight: 500,
                           mb: theme.spacing(0.5),
                           fontSize: theme.typography.body1.fontSize,
+                          ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                         }}
                       >
                         {section.settings.customSubtitle ||
@@ -974,7 +1026,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                             maxWidth: theme.spacing(62.5),
                             fontSize: theme.typography.body2.fontSize,
                             lineHeight: 1.4,
-                            color: "text.secondary",
+                            ...generateTextStyles(section.settings.customStyles, 'contractDescription'),
+                            fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                             "& p": {
                               margin: 0,
                               fontSize: "inherit",
@@ -1053,12 +1106,15 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
                     backgroundColor: theme.palette.success.light + "20",
                     color: theme.palette.success.main,
-                    borderRadius: theme.shape.borderRadius,
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius / 2}px`
+                      : theme.shape.borderRadius,
                     fontSize: {
                       xs: theme.typography.caption.fontSize,
                       sm: theme.typography.body2.fontSize,
                     },
                     fontWeight: theme.typography.fontWeightMedium,
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     minWidth: "fit-content",
                     flexShrink: 0,
                   }}
@@ -1091,11 +1147,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
                       px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
                       py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
-                      backgroundColor: theme.palette.info.light + "20",
-                      color: theme.palette.info.main,
-                      borderRadius: theme.shape.borderRadius,
+                      backgroundColor: theme.palette.success.dark + "20",
+                      color: theme.palette.success.dark,
+                      borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                        ? `${section.settings.customStyles.borderRadius / 2}px`
+                        : theme.shape.borderRadius,
                       fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
                       fontWeight: theme.typography.fontWeightMedium,
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                       minWidth: "fit-content",
                       flexShrink: 0,
                     }}
@@ -1105,7 +1164,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
                         height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
                         borderRadius: "50%",
-                        backgroundColor: theme.palette.info.main,
+                        backgroundColor: theme.palette.success.dark,
                       }}
                     />
                     <FormattedMessage
@@ -1117,7 +1176,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               </Stack>
             </Stack>
           </Box>
-        ) : section.settings.variant === "custom" ? (
+        ) : (section.settings.variant as any) === "premium" ? (
           <Box
             sx={{
               ...generateCustomStyles(section.settings.customStyles, theme),
@@ -1206,7 +1265,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
-                          ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                          ...generateTextStyles(section.settings.customStyles, 'contractDescription'),
                           fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                           "& p": {
                             margin: 0,
@@ -1315,7 +1374,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                             WebkitLineClamp: 3,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
-                            ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                            ...generateTextStyles(section.settings.customStyles, 'contractDescription'),
                             fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                             "& p": {
                               margin: 0,
@@ -1358,7 +1417,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       fontWeight: 600,
                       mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
-                      ...generateTextStyles(section.settings.customStyles, 'primary'),
+                      ...generateTextStyles(section.settings.customStyles, 'chipsTitle'),
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
@@ -1583,10 +1642,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
             <Paper
               elevation={2}
               sx={{
-                background: `linear-gradient(135deg, ${theme.palette.primary.main}15, ${theme.palette.secondary.main}15)`,
-                borderRadius: theme.shape.borderRadius * 2,
+                ...generateCustomStyles(section.settings.customStyles, theme),
+                borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                  ? `${section.settings.customStyles.borderRadius}px`
+                  : theme.shape.borderRadius * 2,
                 p: { xs: theme.spacing(2), sm: theme.spacing(3) },
-                border: `1px solid ${theme.palette.primary.main}30`,
+                border: `1px solid ${theme.palette.divider}`,
                 mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
               }}
             >
@@ -1595,7 +1656,11 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   <Typography
                     variant="h6"
                     gutterBottom
-                    sx={{ fontWeight: 600 }}
+                    sx={{
+                      fontWeight: 600,
+                      ...generateTextStyles(section.settings.customStyles, 'primary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
                   >
                     <FormattedMessage
                       id="drop.statistics"
@@ -1606,6 +1671,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     contract={contract}
                     hideDecimals
                     hideTotalSupply
+                    customStyles={section.settings.customStyles}
+                    fontFamily={section.settings.customStyles?.fontFamily}
                   />
                 </Box>
 
@@ -1619,13 +1686,24 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         flex: 1,
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-                        borderRadius: theme.shape.borderRadius * 2,
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius}px`
+                          : theme.shape.borderRadius * 2,
+                        backgroundColor: section.settings.customStyles?.phaseColors?.currentPhaseBackground || "background.paper",
+                        borderColor: section.settings.customStyles?.phaseColors?.currentPhaseBorder || "divider",
+                        "&.MuiPaper-outlined": {
+                          borderColor: section.settings.customStyles?.phaseColors?.currentPhaseBorder || "divider",
+                        },
                       }}
                     >
                       <Typography
                         variant="caption"
-                        color="text.secondary"
-                        sx={{ textTransform: "uppercase", letterSpacing: 1 }}
+                        sx={{
+                          textTransform: "uppercase",
+                          letterSpacing: 1,
+                          color: section.settings.customStyles?.phaseColors?.currentPhaseTitle || "text.secondary",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
                       >
                         <FormattedMessage
                           id="current.phase"
@@ -1634,7 +1712,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       </Typography>
                       <Typography
                         variant="body1"
-                        sx={{ fontWeight: 600, mt: theme.spacing(0.5) }}
+                        sx={{
+                          fontWeight: 600,
+                          mt: theme.spacing(0.5),
+                          color: section.settings.customStyles?.phaseColors?.currentPhaseText || "text.primary",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
                       >
                         {activeClaimCondition.data?.metadata?.name}
                       </Typography>
@@ -1647,11 +1730,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         flex: 1,
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-                        borderRadius: theme.shape.borderRadius * 2,
-                        backgroundColor: "warning.light",
-                        borderColor: "warning.main",
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius}px`
+                          : theme.shape.borderRadius * 2,
+                        backgroundColor: section.settings.customStyles?.phaseColors?.phaseEndsBackground || "warning.light",
+                        borderColor: section.settings.customStyles?.phaseColors?.phaseEndsBorder || "warning.main",
                         "&.MuiPaper-outlined": {
-                          borderColor: "warning.main",
+                          borderColor: section.settings.customStyles?.phaseColors?.phaseEndsBorder || "warning.main",
                         },
                       }}
                     >
@@ -1660,7 +1745,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         sx={{
                           textTransform: "uppercase",
                           letterSpacing: 1,
-                          color: "warning.contrastText",
+                          color: section.settings.customStyles?.phaseColors?.phaseEndsTitle || "warning.contrastText",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                         }}
                       >
                         <FormattedMessage
@@ -1673,7 +1759,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         sx={{
                           fontWeight: 600,
                           mt: theme.spacing(0.5),
-                          color: "warning.contrastText",
+                          color: section.settings.customStyles?.phaseColors?.phaseEndsText || "warning.contrastText",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                         }}
                       >
                         {countDown}
@@ -1687,18 +1774,24 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     variant="outlined"
                     sx={{
                       p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-                      borderRadius: theme.shape.borderRadius * 2,
-                      backgroundColor: "info.light",
-                      borderColor: "info.main",
+                      borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                        ? `${section.settings.customStyles.borderRadius}px`
+                        : theme.shape.borderRadius * 2,
+                      backgroundColor: section.settings.customStyles?.phaseColors?.nextPhaseBackground || "info.light",
+                      borderColor: section.settings.customStyles?.phaseColors?.nextPhaseBorder || "info.main",
                       "&.MuiPaper-outlined": {
-                        borderColor: "info.main",
+                        borderColor: section.settings.customStyles?.phaseColors?.nextPhaseBorder || "info.main",
                       },
                     }}
                   >
                     <Typography
                       variant="caption"
-                      color="info.main"
-                      sx={{ textTransform: "uppercase", letterSpacing: 1 }}
+                      sx={{
+                        textTransform: "uppercase",
+                        letterSpacing: 1,
+                        color: section.settings.customStyles?.phaseColors?.nextPhaseTitle || "info.main",
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
                     >
                       <FormattedMessage
                         id="next.phase.price"
@@ -1710,7 +1803,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       sx={{
                         fontWeight: 600,
                         mt: theme.spacing(0.5),
-                        color: "info.main",
+                        color: section.settings.customStyles?.phaseColors?.nextPhaseText || "info.main",
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                       }}
                     >
                       {nextPhase?.currencyMetadata?.displayValue}{" "}
@@ -1725,11 +1819,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       variant="h6"
                       gutterBottom
                       sx={{
-                        ...generateTextStyles(section.settings.customStyles, 'primary'),
+                        ...generateTextStyles(section.settings.customStyles, 'chipsTitle'),
                         fontWeight: 600,
                         mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
-                        color: "text.primary",
                       }}
                     >
                       {section.settings.customChipsTitle || (
@@ -1776,7 +1869,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
           <Paper
             elevation={2}
             sx={{
-              borderRadius: theme.shape.borderRadius * 2,
+              ...generateCustomStyles(section.settings.customStyles, theme),
+              borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                ? `${section.settings.customStyles.borderRadius}px`
+                : theme.shape.borderRadius * 2,
               p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
@@ -1786,6 +1882,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               sx={{
                 fontWeight: 600,
                 mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
+                ...generateTextStyles(section.settings.customStyles, 'primary'),
+                fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
               }}
             >
               <FormattedMessage
@@ -1796,7 +1894,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
             <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
               <Box>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    ...generateTextStyles(section.settings.customStyles, 'quantityLabel'),
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                  }}
+                >
                   <FormattedMessage
                     id="quantity.to.claim"
                     defaultMessage="Quantity to Claim"
@@ -1813,9 +1918,16 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     }),
                     sx: {
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: theme.shape.borderRadius * 2,
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius}px`
+                          : theme.shape.borderRadius * 2,
                         fontSize: theme.typography.h6.fontSize,
                         fontWeight: 500,
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        ...generateInputStyles(section.settings.customStyles),
+                      },
+                      "& .MuiOutlinedInput-input": {
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                       },
                     },
                   }}
@@ -1825,8 +1937,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 {maxClaimable > 1 && (
                   <Typography
                     variant="caption"
-                    color="text.secondary"
-                    sx={{ mt: theme.spacing(1), display: "block" }}
+                    sx={{
+                      mt: theme.spacing(1),
+                      display: "block",
+                      ...generateTextStyles(section.settings.customStyles, 'maxPerWalletLabel'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
                   >
                     <FormattedMessage
                       id="max.claimable.per.wallet"
@@ -1845,20 +1961,37 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   sx={{
                     px: theme.spacing(1.5),
                     py: theme.spacing(0.75),
-                    borderRadius: theme.shape.borderRadius,
-                    backgroundColor: "grey.100",
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius,
+                    backgroundColor: section.settings.customStyles?.statsColors?.maxTotalBackground || "grey.100",
                     border: "1px solid",
-                    borderColor: "grey.300",
+                    borderColor: section.settings.customStyles?.statsColors?.maxTotalBorder || "grey.300",
                     flex: 1,
                   }}
                 >
-                  <Typography variant="caption" sx={{ fontSize: theme.typography.caption.fontSize, color: "text.secondary" }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontSize: theme.typography.caption.fontSize,
+                      color: section.settings.customStyles?.textColors?.maxTotalPhaseLabel || "text.secondary",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
                     <FormattedMessage
                       id="max.total.phase"
                       defaultMessage="Max Total (Phase)"
                     />
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: theme.typography.body2.fontSize, color: "grey.800" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: theme.typography.body2.fontSize,
+                      color: section.settings.customStyles?.textColors?.primary || "grey.800",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
                     {maxTotalSupplyFormatted}
                   </Typography>
                 </Box>
@@ -1867,10 +2000,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   sx={{
                     px: theme.spacing(1.5),
                     py: theme.spacing(0.75),
-                    borderRadius: theme.shape.borderRadius,
-                    backgroundColor: isAvailableSupplyPositive(availableSupplyFormatted) ? "success.main" : "error.main",
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius,
+                    backgroundColor: section.settings.customStyles?.statsColors?.availableRemainingBackground || (isAvailableSupplyPositive(availableSupplyFormatted) ? "success.main" : "error.main"),
                     border: "1px solid",
-                    borderColor: isAvailableSupplyPositive(availableSupplyFormatted) ? "success.dark" : "error.dark",
+                    borderColor: section.settings.customStyles?.statsColors?.availableRemainingBorder || (isAvailableSupplyPositive(availableSupplyFormatted) ? "success.dark" : "error.dark"),
                     flex: 1,
                   }}
                 >
@@ -1878,7 +2013,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     variant="caption"
                     sx={{
                       fontSize: theme.typography.caption.fontSize,
-                      color: "white"
+                      color: section.settings.customStyles?.textColors?.availableRemainingLabel || "white",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
                     <FormattedMessage
@@ -1891,7 +2027,8 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       fontWeight: 600,
                       fontSize: theme.typography.body2.fontSize,
-                      color: "white"
+                      color: section.settings.customStyles?.textColors?.primary || "white",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
                     {availableSupplyFormatted}
@@ -1904,12 +2041,15 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   variant="outlined"
                   sx={{
                     p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-                    borderRadius: theme.shape.borderRadius * 2,
-                    backgroundColor: "primary.light",
-                    borderColor: "primary.main",
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius * 2,
+                    backgroundColor: (section.settings.customStyles as any)?.totalCostColors?.backgroundColor || "primary.light",
+                    borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     "&.MuiPaper-outlined": {
-                      borderColor: "primary.main",
+                      borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     },
+                    ...generateTotalCostStyles(section.settings.customStyles),
                   }}
                 >
                   <Stack
@@ -1918,7 +2058,14 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     alignItems={{ xs: "flex-start", sm: "center" }}
                     spacing={{ xs: theme.spacing(1), sm: 0 }}
                   >
-                    <Typography variant="body2" color="white">
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        ...generateTextStyles(section.settings.customStyles, 'totalCostLabel'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        color: generateTextStyles(section.settings.customStyles, 'totalCostLabel').color || "white",
+                      }}
+                    >
                       <FormattedMessage
                         id="total.cost"
                         defaultMessage="Total Cost"
@@ -1926,7 +2073,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     </Typography>
                     <Typography
                       variant="h6"
-                      sx={{ fontWeight: 600, color: "white" }}
+                      sx={{
+                        fontWeight: 600,
+                        ...generateTextStyles(section.settings.customStyles, 'totalCostValue'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        color: generateTextStyles(section.settings.customStyles, 'totalCostValue').color || "white",
+                      }}
                     >
                       {priceToMint}
                     </Typography>
@@ -1970,7 +2122,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   color="primary"
                   sx={{
                     py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
-                    borderRadius: theme.shape.borderRadius * 2,
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius * 2,
                     fontSize: {
                       xs: theme.typography.body1.fontSize,
                       sm: theme.typography.h6.fontSize,
@@ -1978,6 +2132,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     fontWeight: 600,
                     textTransform: "none",
                     minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    border: section.settings.customStyles?.buttonColors?.borderColor ? '2px solid' : 'none',
+                    ...generateButtonStyles(section.settings.customStyles),
                     "&.Mui-disabled": {
                       color: theme.palette.text.disabled,
                       backgroundColor: theme.palette.action.disabledBackground,
@@ -1990,7 +2147,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
 
               {balance && (
                 <Box sx={{ textAlign: "center" }}>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      ...generateTextStyles(section.settings.customStyles, 'currentBalanceLabel'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
                     <FormattedMessage
                       id="your.current.balance"
                       defaultMessage="Your current balance: {balance} {symbol}"
@@ -2004,7 +2167,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               )}
             </Stack>
           </Paper>
-        ) : section.settings.variant === "custom" ? (
+        ) : (section.settings.variant as any) === "premium" ? (
           <Paper
             elevation={2}
             sx={{
@@ -2037,7 +2200,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   variant="body2"
                   gutterBottom
                   sx={{
-                    ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                    ...generateTextStyles(section.settings.customStyles, 'quantityLabel'),
                     fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                   }}
                 >
@@ -2071,6 +2234,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                           borderColor: section.settings.customStyles?.inputColors?.focusBorderColor || undefined,
                         },
                       },
+                      "& .MuiOutlinedInput-input": {
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      },
                     },
                   }}
                   value="1"
@@ -2082,7 +2248,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       mt: theme.spacing(1),
                       display: "block",
-                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      ...generateTextStyles(section.settings.customStyles, 'maxPerWalletLabel'),
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
@@ -2117,7 +2283,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     variant="caption"
                     sx={{
                       fontSize: theme.typography.caption.fontSize,
-                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      ...generateTextStyles(section.settings.customStyles, 'maxTotalPhaseLabel'),
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
@@ -2159,7 +2325,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       fontSize: theme.typography.caption.fontSize,
                       color: section.settings.customStyles?.statsColors?.availableRemainingBackground ?
-                        (section.settings.customStyles?.textColors?.secondary || "text.secondary") : "white",
+                        (section.settings.customStyles?.textColors?.availableRemainingLabel || "text.secondary") : "white",
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >
@@ -2191,11 +2357,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
                       : theme.shape.borderRadius * 2,
-                    backgroundColor: "primary.light",
-                    borderColor: "primary.main",
+                    backgroundColor: (section.settings.customStyles as any)?.totalCostColors?.backgroundColor || "primary.light",
+                    borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     "&.MuiPaper-outlined": {
-                      borderColor: "primary.main",
+                      borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     },
+                    ...generateTotalCostStyles(section.settings.customStyles),
                   }}
                 >
                   <Stack
@@ -2207,8 +2374,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "white",
+                        ...generateTextStyles(section.settings.customStyles, 'totalCostLabel'),
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        color: generateTextStyles(section.settings.customStyles, 'totalCostLabel').color || "white",
                       }}
                     >
                       <FormattedMessage
@@ -2220,8 +2388,9 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       variant="h6"
                       sx={{
                         fontWeight: 600,
-                        color: "white",
+                        ...generateTextStyles(section.settings.customStyles, 'totalCostValue'),
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        color: generateTextStyles(section.settings.customStyles, 'totalCostValue').color || "white",
                       }}
                     >
                       {priceToMint}
@@ -2280,6 +2449,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     textTransform: "none",
                     minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
                     fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    border: section.settings.customStyles?.buttonColors?.borderColor ? '2px solid' : 'none',
                     ...generateButtonStyles(section.settings.customStyles),
                     "&.Mui-disabled": {
                       color: theme.palette.text.disabled,
@@ -2296,7 +2466,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   <Typography
                     variant="caption"
                     sx={{
-                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      ...generateTextStyles(section.settings.customStyles, 'currentBalanceLabel'),
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
                     }}
                   >

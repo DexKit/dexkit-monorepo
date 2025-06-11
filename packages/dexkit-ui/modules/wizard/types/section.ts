@@ -156,12 +156,35 @@ export interface CustomStyleConfig {
     primary?: string;
     secondary?: string;
     accent?: string;
+    chipsTitle?: string;
+    balanceLabel?: string;
+    balanceValue?: string;
+    contractDescription?: string;
+    quantityLabel?: string;
+    maxPerWalletLabel?: string;
+    currentBalanceLabel?: string;
+    maxTotalPhaseLabel?: string;
+    availableRemainingLabel?: string;
   };
   statsColors?: {
     maxTotalBackground?: string;
     maxTotalBorder?: string;
     availableRemainingBackground?: string;
     availableRemainingBorder?: string;
+  };
+  phaseColors?: {
+    currentPhaseBackground?: string;
+    currentPhaseBorder?: string;
+    currentPhaseTitle?: string;
+    currentPhaseText?: string;
+    phaseEndsBackground?: string;
+    phaseEndsBorder?: string;
+    phaseEndsTitle?: string;
+    phaseEndsText?: string;
+    nextPhaseBackground?: string;
+    nextPhaseBorder?: string;
+    nextPhaseTitle?: string;
+    nextPhaseText?: string;
   };
   fontFamily?: string;
   borderRadius?: number;
@@ -172,7 +195,7 @@ export interface TokenDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed" | "premium" | "custom";
+    variant?: "simple" | "detailed" | "premium";
     customTitle?: string;
     customSubtitle?: string;
     customChips?: ChipConfig[];
@@ -186,7 +209,7 @@ export interface NftDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed" | "premium" | "custom";
+    variant?: "simple" | "detailed" | "premium";
     customTitle?: string;
     customSubtitle?: string;
     customChips?: ChipConfig[];

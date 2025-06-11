@@ -13,12 +13,34 @@ export interface TokenDropSummaryProps {
   contract?: TokenDrop;
   hideTotalSupply?: boolean;
   hideDecimals?: boolean;
+  customStyles?: any;
+  fontFamily?: string;
 }
+
+const generateBalanceTextStyles = (customStyles: any, variant: 'balanceLabel' | 'balanceValue' = 'balanceLabel') => {
+  if (!customStyles?.textColors) return {};
+
+  let color;
+  switch (variant) {
+    case 'balanceLabel':
+      color = customStyles.textColors.balanceLabel;
+      break;
+    case 'balanceValue':
+      color = customStyles.textColors.balanceValue;
+      break;
+    default:
+      color = undefined;
+  }
+
+  return color ? { color } : {};
+};
 
 export default function TokenDropSummary({
   contract,
   hideDecimals,
   hideTotalSupply,
+  customStyles,
+  fontFamily,
 }: TokenDropSummaryProps) {
   const isMobile = useIsMobile();
 
@@ -36,14 +58,25 @@ export default function TokenDropSummary({
           <Typography
             color="text.secondary"
             variant={isMobile ? "body1" : "caption"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+              fontFamily: fontFamily || 'inherit',
+            }}
           >
             <FormattedMessage id="total.supply" defaultMessage="Total supply" />
           </Typography>
-          <Typography variant={isMobile ? "body1" : "h5"}>
+          <Typography
+            variant={isMobile ? "body1" : "h5"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+              fontFamily: fontFamily || 'inherit',
+              color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+            }}
+          >
             {supplyQuery.isLoading ? (
               <Skeleton />
             ) : (
-              supplyQuery.data?.displayValue
+              `${supplyQuery.data?.displayValue} ${supplyQuery.data?.symbol || ''}`
             )}
           </Typography>
         </Stack>
@@ -55,10 +88,21 @@ export default function TokenDropSummary({
         <Typography
           color="text.secondary"
           variant={isMobile ? "body1" : "caption"}
+          sx={{
+            ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+            fontFamily: fontFamily || 'inherit',
+          }}
         >
           <FormattedMessage id="your.balance" defaultMessage="Your balance" />
         </Typography>
-        <Typography variant={isMobile ? "body1" : "h5"}>
+        <Typography
+          variant={isMobile ? "body1" : "h5"}
+          sx={{
+            ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+            fontFamily: fontFamily || 'inherit',
+            color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+          }}
+        >
           {!account ? (
             <ConnectWalletMessage
               variant="inline"
@@ -73,7 +117,7 @@ export default function TokenDropSummary({
           ) : balanceQuery.isLoading ? (
             <Skeleton />
           ) : (
-            balanceQuery.data?.displayValue
+            `${balanceQuery.data?.displayValue} ${balanceQuery.data?.symbol || ''}`
           )}
         </Typography>
       </Stack>
@@ -85,10 +129,21 @@ export default function TokenDropSummary({
           <Typography
             color="text.secondary"
             variant={isMobile ? "body1" : "caption"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+              fontFamily: fontFamily || 'inherit',
+            }}
           >
             <FormattedMessage id="decimals" defaultMessage="Decimals" />
           </Typography>
-          <Typography variant={isMobile ? "body1" : "h5"}>
+          <Typography
+            variant={isMobile ? "body1" : "h5"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+              fontFamily: fontFamily || 'inherit',
+              color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+            }}
+          >
             {!account ? (
               <ConnectWalletMessage
                 variant="inline"
