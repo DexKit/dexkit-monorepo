@@ -39,16 +39,139 @@ import {
   useUnclaimedNFTSupply,
 } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
-import { useMemo, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import NFTGrid from "../NFTGrid";
 import NFTDropSummary from "../NftDropSummary";
+
+const generateCustomStyles = (customStyles: any, theme: any) => {
+  if (!customStyles) return {};
+
+  const styles: any = {};
+
+  if (customStyles.backgroundColor?.type === 'solid' && customStyles.backgroundColor.solid) {
+    styles.backgroundColor = customStyles.backgroundColor.solid;
+  } else if (customStyles.backgroundColor?.type === 'gradient' && customStyles.backgroundColor.gradient) {
+    const { from, to, direction = 'to-r' } = customStyles.backgroundColor.gradient;
+    if (from && to) {
+      const directionMap: any = {
+        'to-r': '90deg',
+        'to-br': '135deg',
+        'to-b': '180deg',
+        'to-bl': '225deg',
+        'to-l': '270deg',
+        'to-tl': '315deg',
+        'to-t': '0deg',
+        'to-tr': '45deg',
+      };
+      styles.background = `linear-gradient(${directionMap[direction] || '90deg'}, ${from}, ${to})`;
+    }
+  }
+
+  if (customStyles.fontFamily) {
+    styles.fontFamily = customStyles.fontFamily;
+  }
+
+  if (customStyles.borderRadius !== undefined) {
+    styles.borderRadius = `${customStyles.borderRadius}px`;
+  }
+
+  return styles;
+};
+
+const generateInputStyles = (customStyles: any) => {
+  if (!customStyles?.inputColors) return {};
+
+  const styles: any = {};
+
+  if (customStyles.inputColors.backgroundColor) {
+    styles.backgroundColor = customStyles.inputColors.backgroundColor;
+  }
+  if (customStyles.inputColors.textColor) {
+    styles.color = customStyles.inputColors.textColor;
+  }
+
+  if (customStyles.inputColors.borderColor) {
+    styles['& .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.borderColor,
+    };
+  }
+
+  if (customStyles.inputColors.focusBorderColor) {
+    styles['&:hover .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.focusBorderColor,
+    };
+    styles['&.Mui-focused .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.focusBorderColor,
+    };
+  }
+
+  return styles;
+};
+
+const generateButtonStyles = (customStyles: any) => {
+  if (!customStyles?.buttonColors) return {};
+
+  const styles: any = {};
+
+  if (customStyles.buttonColors.backgroundColor) {
+    styles.backgroundColor = customStyles.buttonColors.backgroundColor;
+  }
+  if (customStyles.buttonColors.textColor) {
+    styles.color = customStyles.buttonColors.textColor;
+  }
+  if (customStyles.buttonColors.borderColor) {
+    styles.borderColor = customStyles.buttonColors.borderColor;
+  }
+
+  if (customStyles.buttonColors.hoverBackgroundColor) {
+    styles['&:hover'] = {
+      backgroundColor: customStyles.buttonColors.hoverBackgroundColor,
+    };
+  }
+
+  return styles;
+};
+
+const generateTextStyles = (customStyles: any, variant: 'primary' | 'secondary' | 'accent' = 'primary') => {
+  if (!customStyles?.textColors) return {};
+
+  let color;
+  switch (variant) {
+    case 'primary':
+      color = customStyles.textColors.primary;
+      break;
+    case 'secondary':
+      color = customStyles.textColors.secondary;
+      break;
+    case 'accent':
+      color = customStyles.textColors.accent;
+      break;
+    default:
+      color = customStyles.textColors.primary;
+  }
+
+  return color ? { color } : {};
+};
 
 export interface NftDropSectionProps {
   section: NftDropPageSection;
 }
 
+const loadGoogleFont = (fontFamily: string) => {
+  if (!fontFamily || fontFamily === 'inherit') return;
+
+  const existingLink = document.querySelector(`link[href*="${fontFamily.replace(/\s+/g, '+')}"]`);
+  if (existingLink) return;
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${fontFamily.replace(/\s+/g, '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+  document.head.appendChild(link);
+};
+
 export default function NftDropSection({ section }: NftDropSectionProps) {
+  const { formatMessage } = useIntl();
   const theme = useTheme();
   const trackUserEventsMutation = useTrackUserEventsMutation();
   const { address, network } = section.settings;
@@ -532,14 +655,14 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                       <Typography
                         variant="h4"
                         sx={{
-                          fontWeight: 700,
+                          fontWeight: theme.typography.fontWeightBold,
                           background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                           backgroundClip: 'text',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           mb: { xs: theme.spacing(0.5), sm: theme.spacing(0.5) },
                           fontSize: { xs: theme.typography.h5.fontSize, sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
-                          lineHeight: 1.2,
+                          lineHeight: theme.typography.h4.lineHeight,
                         }}
                       >
                         <FormattedMessage
@@ -552,7 +675,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                         variant="h6"
                         color="text.primary"
                         sx={{
-                          fontWeight: 500,
+                          fontWeight: theme.typography.fontWeightMedium,
                           mb: { xs: theme.spacing(0.5), sm: theme.spacing(0.5) },
                           fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.body1.fontSize },
                         }}
@@ -567,7 +690,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                           sx={{
                             maxWidth: theme.spacing(62.5),
                             fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body2.fontSize },
-                            lineHeight: 1.4,
+                            lineHeight: theme.typography.body2.lineHeight,
                             display: { xs: '-webkit-box', sm: 'block' },
                             WebkitLineClamp: { xs: 3, sm: 'unset' },
                             WebkitBoxOrient: { xs: 'vertical', sm: 'unset' },
@@ -583,7 +706,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
 
                   <Stack
                     direction="row"
-                    spacing={{ xs: 0.5, sm: 1 }}
+                    spacing={{ xs: theme.spacing(0.5), sm: theme.spacing(1) }}
                     justifyContent={{ xs: "center", sm: "flex-start" }}
                     alignItems="center"
                     flexWrap="wrap"
@@ -593,22 +716,22 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: { xs: 0.25, sm: 0.5 },
-                        px: { xs: 0.75, sm: 1 },
-                        py: { xs: 0.125, sm: 0.25 },
+                        gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                        px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
+                        py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
                         backgroundColor: theme.palette.success.light + '20',
                         color: theme.palette.success.main,
-                        borderRadius: 1,
-                        fontSize: { xs: '0.6rem', sm: '0.7rem' },
-                        fontWeight: 500,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+                        fontWeight: theme.typography.fontWeightMedium,
                         minWidth: 'fit-content',
                         flexShrink: 0,
                       }}
                     >
                       <Box
                         sx={{
-                          width: { xs: 4, sm: 6 },
-                          height: { xs: 4, sm: 6 },
+                          width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
+                          height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
                           borderRadius: '50%',
                           backgroundColor: theme.palette.success.main,
                         }}
@@ -624,22 +747,22 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: { xs: 0.25, sm: 0.5 },
-                          px: { xs: 0.75, sm: 1 },
-                          py: { xs: 0.125, sm: 0.25 },
+                          gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                          px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
+                          py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
                           backgroundColor: theme.palette.info.light + '20',
                           color: theme.palette.info.main,
-                          borderRadius: 1,
-                          fontSize: { xs: '0.6rem', sm: '0.7rem' },
-                          fontWeight: 500,
+                          borderRadius: theme.shape.borderRadius,
+                          fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+                          fontWeight: theme.typography.fontWeightMedium,
                           minWidth: 'fit-content',
                           flexShrink: 0,
                         }}
                       >
                         <Box
                           sx={{
-                            width: { xs: 4, sm: 6 },
-                            height: { xs: 4, sm: 6 },
+                            width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
+                            height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
                             borderRadius: '50%',
                             backgroundColor: theme.palette.info.main,
                           }}
@@ -819,6 +942,12 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     );
   };
 
+  useEffect(() => {
+    if (section.settings.customStyles?.fontFamily) {
+      loadGoogleFont(section.settings.customStyles.fontFamily);
+    }
+  }, [section.settings.customStyles?.fontFamily]);
+
   if (section.settings.variant === "premium") {
     return (
       <Container maxWidth="sm" sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}>
@@ -838,7 +967,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 mb: { xs: 2, sm: 3 },
               }}
             >
-              <Stack spacing={{ xs: 2, sm: 3 }}>
+              <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
                 <Box>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                     <FormattedMessage
@@ -849,23 +978,23 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                   <NFTDropSummary contract={contract} />
                 </Box>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1.5, sm: 2 }}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}>
                   {activeClaimCondition.data?.metadata?.name && (
                     <Paper
                       variant="outlined"
                       sx={{
                         flex: 1,
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 2,
+                        p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                        borderRadius: theme.shape.borderRadius * 2,
                       }}
                     >
-                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: theme.spacing(0.125) }}>
                         <FormattedMessage
                           id="current.phase"
                           defaultMessage="Current Phase"
                         />
                       </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5 }}>
+                      <Typography variant="body1" sx={{ fontWeight: 600, mt: theme.spacing(0.5) }}>
                         {activeClaimCondition.data?.metadata?.name}
                       </Typography>
                     </Paper>
@@ -930,17 +1059,17 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                       defaultMessage="Security Features"
                     />
                   </Typography>
-                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                  <Stack direction="row" spacing={theme.spacing(1)} flexWrap="wrap" useFlexGap>
                     <Box
                       component="span"
                       sx={{
-                        px: 1.5,
-                        py: 0.5,
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
                         backgroundColor: theme.palette.success.light + '20',
                         color: theme.palette.success.main,
-                        borderRadius: 1,
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: theme.typography.fontWeightMedium,
                         border: `1px solid ${theme.palette.success.main}30`,
                       }}
                     >
@@ -949,13 +1078,13 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                     <Box
                       component="span"
                       sx={{
-                        px: 1.5,
-                        py: 0.5,
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
                         backgroundColor: theme.palette.success.light + '20',
                         color: theme.palette.success.main,
-                        borderRadius: 1,
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: theme.typography.fontWeightMedium,
                         border: `1px solid ${theme.palette.success.main}30`,
                       }}
                     >
@@ -964,13 +1093,13 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                     <Box
                       component="span"
                       sx={{
-                        px: 1.5,
-                        py: 0.5,
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.5),
                         backgroundColor: theme.palette.success.light + '20',
                         color: theme.palette.success.main,
-                        borderRadius: 1,
-                        fontSize: '0.75rem',
-                        fontWeight: 500,
+                        borderRadius: theme.shape.borderRadius,
+                        fontSize: theme.typography.caption.fontSize,
+                        fontWeight: theme.typography.fontWeightMedium,
                         border: `1px solid ${theme.palette.success.main}30`,
                       }}
                     >
@@ -985,18 +1114,18 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
           <Paper
             elevation={2}
             sx={{
-              borderRadius: { xs: 2, sm: 3 },
-              p: { xs: 2, sm: 3 },
+              borderRadius: { xs: theme.shape.borderRadius * 2, sm: theme.shape.borderRadius * 3 },
+              p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: 2, sm: 3 } }}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: theme.spacing(2), sm: theme.spacing(3) } }}>
               <FormattedMessage
                 id="claim.your.nfts"
                 defaultMessage="Claim Your NFTs"
               />
             </Typography>
 
-            <Stack spacing={{ xs: 2, sm: 3 }}>
+            <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   <FormattedMessage
@@ -1013,14 +1142,14 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                   inputProps={{ min: 1, max: maxClaimable }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: 2,
-                      fontSize: '1.1rem',
-                      fontWeight: 500,
+                      borderRadius: theme.shape.borderRadius * 2,
+                      fontSize: theme.typography.h6.fontSize,
+                      fontWeight: theme.typography.fontWeightMedium,
                     },
                   }}
                 />
                 {maxClaimable > 1 && (
-                  <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ mt: theme.spacing(1), display: 'block' }}>
                     <FormattedMessage
                       id="max.claimable"
                       defaultMessage="Maximum claimable: {max}"
@@ -1034,8 +1163,8 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 <Paper
                   variant="outlined"
                   sx={{
-                    p: { xs: 1.5, sm: 2 },
-                    borderRadius: 2,
+                    p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                    borderRadius: theme.shape.borderRadius * 2,
                     backgroundColor: 'primary.light',
                     borderColor: 'primary.main',
                     '&.MuiPaper-outlined': {
@@ -1047,7 +1176,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                     direction={{ xs: "column", sm: "row" }}
                     justifyContent="space-between"
                     alignItems={{ xs: "flex-start", sm: "center" }}
-                    spacing={{ xs: 1, sm: 0 }}
+                    spacing={{ xs: theme.spacing(1), sm: 0 }}
                   >
                     <Typography variant="body2" color="white">
                       <FormattedMessage
@@ -1063,7 +1192,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
               )}
 
               {isSoldOut ? (
-                <Typography variant="h6" color="error" sx={{ textAlign: 'center', py: 2 }}>
+                <Typography variant="h6" color="error" sx={{ textAlign: 'center', py: theme.spacing(2) }}>
                   <FormattedMessage id="sold.out" defaultMessage="Sold out" />
                 </Typography>
               ) : !account ? (
@@ -1084,12 +1213,12 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                   variant="contained"
                   color="primary"
                   sx={{
-                    py: { xs: 1.2, sm: 1.5 },
-                    borderRadius: 2,
-                    fontSize: { xs: '1rem', sm: '1.1rem' },
+                    py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
+                    borderRadius: theme.shape.borderRadius * 2,
+                    fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.h6.fontSize },
                     fontWeight: 600,
                     textTransform: 'none',
-                    minHeight: { xs: 44, sm: 48 },
+                    minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
                     '&.Mui-disabled': {
                       color: theme.palette.text.disabled,
                       backgroundColor: theme.palette.action.disabledBackground,
@@ -1123,6 +1252,439 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
               }}
             >
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: { xs: 2, sm: 3 } }}>
+                <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
+              </Typography>
+              <NFTGrid nfts={nfts.data} network={network} address={address} />
+            </Paper>
+          )}
+        </Stack>
+      </Container>
+    );
+  }
+
+  if (section.settings.variant === "custom") {
+    return (
+      <Container maxWidth="sm" sx={{ px: { xs: 0.5, sm: 1, md: 2 }, py: { xs: 1, sm: 2 } }}>
+        <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }}>
+          {renderClaim()}
+
+          <Divider />
+
+          <Box>
+            <Paper
+              elevation={2}
+              sx={{
+                ...generateCustomStyles(section.settings.customStyles, theme),
+                borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                  ? `${section.settings.customStyles.borderRadius}px`
+                  : { xs: 2, sm: 3 },
+                p: { xs: 2, sm: 3 },
+                border: `1px solid ${theme.palette.divider}`,
+                mb: { xs: 2, sm: 3 },
+              }}
+            >
+              <Stack spacing={{ xs: 2, sm: 3 }}>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 600,
+                      mb: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                      ...generateTextStyles(section.settings.customStyles, 'primary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="drop.statistics"
+                      defaultMessage="Drop Statistics"
+                    />
+                  </Typography>
+
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={{ xs: theme.spacing(1), sm: theme.spacing(2) }}
+                  >
+                    <Box
+                      sx={{
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.75),
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius / 2}px`
+                          : theme.shape.borderRadius,
+                        backgroundColor: section.settings.customStyles?.statsColors?.maxTotalBackground || "grey.100",
+                        border: "1px solid",
+                        borderColor: section.settings.customStyles?.statsColors?.maxTotalBorder || "grey.300",
+                        flex: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: theme.typography.caption.fontSize,
+                          ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        <FormattedMessage
+                          id="total.supply"
+                          defaultMessage="Total Supply"
+                        />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 600,
+                          fontSize: theme.typography.body2.fontSize,
+                          ...generateTextStyles(section.settings.customStyles, 'primary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        {!account ? (
+                          <FormattedMessage
+                            id="connect.wallet"
+                            defaultMessage="Connect Wallet"
+                          />
+                        ) : unclaimedSupply.isLoading || claimedSupply.isLoading ? (
+                          "Loading..."
+                        ) : unclaimedSupply.data && claimedSupply.data ? (
+                          claimedSupply.data.add(unclaimedSupply.data || 0).toNumber().toLocaleString()
+                        ) : (
+                          '0'
+                        )}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(0.75),
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius / 2}px`
+                          : theme.shape.borderRadius,
+                        backgroundColor: section.settings.customStyles?.statsColors?.availableRemainingBackground ||
+                          (unclaimedSupply.data && unclaimedSupply.data.toNumber() > 0 ? "success.main" : "error.main"),
+                        border: "1px solid",
+                        borderColor: section.settings.customStyles?.statsColors?.availableRemainingBorder ||
+                          (unclaimedSupply.data && unclaimedSupply.data.toNumber() > 0 ? "success.dark" : "error.dark"),
+                        flex: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: theme.typography.caption.fontSize,
+                          color: section.settings.customStyles?.statsColors?.availableRemainingBackground ?
+                            (section.settings.customStyles?.textColors?.secondary || "text.secondary") : "white",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        <FormattedMessage
+                          id="unclaimed.supply"
+                          defaultMessage="Unclaimed Supply"
+                        />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 600,
+                          fontSize: theme.typography.body2.fontSize,
+                          color: section.settings.customStyles?.statsColors?.availableRemainingBackground ?
+                            (section.settings.customStyles?.textColors?.primary || "text.primary") : "white",
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        {!account ? (
+                          <FormattedMessage
+                            id="connect.wallet"
+                            defaultMessage="Connect Wallet"
+                          />
+                        ) : unclaimedSupply.isLoading ? (
+                          "Loading..."
+                        ) : (
+                          unclaimedSupply.data?.toNumber().toLocaleString() || '0'
+                        )}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
+
+                {section.settings.customChips && section.settings.customChips.length > 0 && (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        fontWeight: 600,
+                        mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+                        ...generateTextStyles(section.settings.customStyles, 'primary'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {section.settings.customChipsTitle || (
+                        <FormattedMessage
+                          id="collection.features"
+                          defaultMessage="Collection Features"
+                        />
+                      )}
+                    </Typography>
+                    <Stack direction="row" spacing={{ xs: theme.spacing(0.5), sm: theme.spacing(1) }} flexWrap="wrap" useFlexGap>
+                      {section.settings.customChips.map((chip, index) => (
+                        <Box
+                          key={index}
+                          component="span"
+                          sx={{
+                            px: { xs: theme.spacing(0.75), sm: theme.spacing(1.5) },
+                            py: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                            backgroundColor: theme.palette[chip.color]?.light + '20' || theme.palette.primary.light + '20',
+                            color: theme.palette[chip.color]?.main || theme.palette.primary.main,
+                            borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                              ? `${section.settings.customStyles.borderRadius / 2}px`
+                              : theme.shape.borderRadius,
+                            fontSize: {
+                              xs: theme.typography.caption.fontSize,
+                              sm: theme.typography.body2.fontSize,
+                            },
+                            fontWeight: 500,
+                            border: `1px solid ${theme.palette[chip.color]?.main || theme.palette.primary.main}30`,
+                            fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                          }}
+                        >
+                          {chip.emoji} {chip.text}
+                        </Box>
+                      ))}
+                    </Stack>
+                  </Box>
+                )}
+              </Stack>
+            </Paper>
+          </Box>
+
+          <Paper
+            elevation={2}
+            sx={{
+              ...generateCustomStyles(section.settings.customStyles, theme),
+              borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                ? `${section.settings.customStyles.borderRadius}px`
+                : { xs: 2, sm: 3 },
+              p: { xs: 2, sm: 3 },
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                mb: { xs: 2, sm: 3 },
+                ...generateTextStyles(section.settings.customStyles, 'primary'),
+                fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+              }}
+            >
+              {section.settings.customTitle || (
+                <FormattedMessage
+                  id="claim.your.nfts"
+                  defaultMessage="Claim Your NFTs"
+                />
+              )}
+            </Typography>
+
+            <Stack spacing={{ xs: 2, sm: 3 }}>
+              <Box>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                  }}
+                >
+                  <FormattedMessage
+                    id="quantity.to.claim"
+                    defaultMessage="Quantity to Claim"
+                  />
+                </Typography>
+                <TextField
+                  type="number"
+                  fullWidth
+                  variant="outlined"
+                  value={quantity}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(parseInt(e.target.value) || 1)}
+                  inputProps={{ min: 1, max: maxClaimable }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                        ? `${section.settings.customStyles.borderRadius}px`
+                        : 2,
+                      fontSize: '1.1rem',
+                      fontWeight: 500,
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      ...generateInputStyles(section.settings.customStyles),
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: section.settings.customStyles?.inputColors?.focusBorderColor || undefined,
+                      },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: section.settings.customStyles?.inputColors?.focusBorderColor || undefined,
+                      },
+                    },
+                  }}
+                />
+                {maxClaimable > 1 && (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      mt: 1,
+                      display: 'block',
+                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="max.claimable"
+                      defaultMessage="Maximum claimable: {max}"
+                      values={{ max: maxClaimable }}
+                    />
+                  </Typography>
+                )}
+              </Box>
+
+              {priceToMint && (
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: { xs: 1.5, sm: 2 },
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : 2,
+                    backgroundColor: 'primary.light',
+                    borderColor: 'primary.main',
+                    '&.MuiPaper-outlined': {
+                      borderColor: 'primary.main',
+                    },
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: "flex-start", sm: "center" }}
+                    spacing={{ xs: 1, sm: 0 }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'white',
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      <FormattedMessage
+                        id="total.cost"
+                        defaultMessage="Total Cost"
+                      />
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 600,
+                        color: 'white',
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {priceToMint}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}
+
+              {isSoldOut ? (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    textAlign: 'center',
+                    py: 2,
+                    color: 'error.main',
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                  }}
+                >
+                  <FormattedMessage id="sold.out" defaultMessage="Sold out" />
+                </Typography>
+              ) : !account ? (
+                <ConnectWalletButton />
+              ) : chainId !== networkChainId ? (
+                <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+              ) : (
+                <Button
+                  size="large"
+                  disabled={!canClaim || nftDropClaim.isLoading}
+                  startIcon={
+                    nftDropClaim.isLoading ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : undefined
+                  }
+                  fullWidth
+                  onClick={handleClaimNft}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    py: { xs: 1.2, sm: 1.5 },
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : 2,
+                    fontSize: { xs: '1rem', sm: '1.1rem' },
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    minHeight: { xs: 44, sm: 48 },
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    ...generateButtonStyles(section.settings.customStyles),
+                    '&.Mui-disabled': {
+                      color: theme.palette.text.disabled,
+                      backgroundColor: theme.palette.action.disabledBackground,
+                    },
+                  }}
+                >
+                  {buttonMessage}
+                </Button>
+              )}
+
+              {nfts.data && nfts.data.length > 0 && (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="you.own.nfts.count"
+                      defaultMessage="You own {count} NFT(s) from this collection"
+                      values={{ count: nfts.data.length }}
+                    />
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          </Paper>
+
+          {nfts.data && nfts.data.length > 0 && (
+            <Paper
+              elevation={2}
+              sx={{
+                ...generateCustomStyles(section.settings.customStyles, theme),
+                borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                  ? `${section.settings.customStyles.borderRadius}px`
+                  : { xs: 2, sm: 3 },
+                p: { xs: 2, sm: 3 },
+              }}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontWeight: 600,
+                  mb: { xs: 2, sm: 3 },
+                  ...generateTextStyles(section.settings.customStyles, 'primary'),
+                  fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                }}
+              >
                 <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
               </Typography>
               <NFTGrid nfts={nfts.data} network={network} address={address} />

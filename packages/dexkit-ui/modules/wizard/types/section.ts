@@ -130,16 +130,54 @@ export interface ChipConfig {
   color: 'success' | 'primary' | 'secondary' | 'info' | 'warning' | 'error';
 }
 
+export interface CustomStyleConfig {
+  backgroundColor?: {
+    type: 'solid' | 'gradient';
+    solid?: string;
+    gradient?: {
+      from: string;
+      to: string;
+      direction?: 'to-r' | 'to-br' | 'to-b' | 'to-bl' | 'to-l' | 'to-tl' | 'to-t' | 'to-tr';
+    };
+  };
+  inputColors?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    textColor?: string;
+    focusBorderColor?: string;
+  };
+  buttonColors?: {
+    backgroundColor?: string;
+    hoverBackgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+  };
+  textColors?: {
+    primary?: string;
+    secondary?: string;
+    accent?: string;
+  };
+  statsColors?: {
+    maxTotalBackground?: string;
+    maxTotalBorder?: string;
+    availableRemainingBackground?: string;
+    availableRemainingBorder?: string;
+  };
+  fontFamily?: string;
+  borderRadius?: number;
+}
+
 export interface TokenDropPageSection extends PageSection {
   type: "token-drop";
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed" | "premium";
+    variant?: "simple" | "detailed" | "premium" | "custom";
     customTitle?: string;
     customSubtitle?: string;
     customChips?: ChipConfig[];
     customChipsTitle?: string;
+    customStyles?: CustomStyleConfig;
   };
 }
 
@@ -148,7 +186,12 @@ export interface NftDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed" | "premium";
+    variant?: "simple" | "detailed" | "premium" | "custom";
+    customTitle?: string;
+    customSubtitle?: string;
+    customChips?: ChipConfig[];
+    customChipsTitle?: string;
+    customStyles?: CustomStyleConfig;
   };
 }
 

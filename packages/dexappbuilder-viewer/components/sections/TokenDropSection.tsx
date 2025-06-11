@@ -79,6 +79,128 @@ export interface TokenDropSectionProps {
   section: TokenDropPageSection;
 }
 
+const generateCustomStyles = (customStyles: any, theme: any) => {
+  if (!customStyles) return {};
+
+  const styles: any = {};
+
+  if (customStyles.backgroundColor?.type === 'solid' && customStyles.backgroundColor.solid) {
+    styles.backgroundColor = customStyles.backgroundColor.solid;
+  } else if (customStyles.backgroundColor?.type === 'gradient' && customStyles.backgroundColor.gradient) {
+    const { from, to, direction = 'to-r' } = customStyles.backgroundColor.gradient;
+    if (from && to) {
+      const directionMap: any = {
+        'to-r': '90deg',
+        'to-br': '135deg',
+        'to-b': '180deg',
+        'to-bl': '225deg',
+        'to-l': '270deg',
+        'to-tl': '315deg',
+        'to-t': '0deg',
+        'to-tr': '45deg',
+      };
+      styles.background = `linear-gradient(${directionMap[direction] || '90deg'}, ${from}, ${to})`;
+    }
+  }
+
+  if (customStyles.fontFamily) {
+    styles.fontFamily = customStyles.fontFamily;
+  }
+
+  if (customStyles.borderRadius !== undefined) {
+    styles.borderRadius = `${customStyles.borderRadius}px`;
+  }
+
+  return styles;
+};
+
+const generateInputStyles = (customStyles: any) => {
+  if (!customStyles?.inputColors) return {};
+
+  const styles: any = {};
+
+  if (customStyles.inputColors.backgroundColor) {
+    styles.backgroundColor = customStyles.inputColors.backgroundColor;
+  }
+  if (customStyles.inputColors.textColor) {
+    styles.color = customStyles.inputColors.textColor;
+  }
+
+  if (customStyles.inputColors.borderColor) {
+    styles['& .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.borderColor,
+    };
+  }
+
+  if (customStyles.inputColors.focusBorderColor) {
+    styles['&:hover .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.focusBorderColor,
+    };
+    styles['&.Mui-focused .MuiOutlinedInput-notchedOutline'] = {
+      borderColor: customStyles.inputColors.focusBorderColor,
+    };
+  }
+
+  return styles;
+};
+
+const generateButtonStyles = (customStyles: any) => {
+  if (!customStyles?.buttonColors) return {};
+
+  const styles: any = {};
+
+  if (customStyles.buttonColors.backgroundColor) {
+    styles.backgroundColor = customStyles.buttonColors.backgroundColor;
+  }
+  if (customStyles.buttonColors.textColor) {
+    styles.color = customStyles.buttonColors.textColor;
+  }
+  if (customStyles.buttonColors.borderColor) {
+    styles.borderColor = customStyles.buttonColors.borderColor;
+  }
+
+  if (customStyles.buttonColors.hoverBackgroundColor) {
+    styles['&:hover'] = {
+      backgroundColor: customStyles.buttonColors.hoverBackgroundColor,
+    };
+  }
+
+  return styles;
+};
+
+const generateTextStyles = (customStyles: any, variant: 'primary' | 'secondary' | 'accent' = 'primary') => {
+  if (!customStyles?.textColors) return {};
+
+  let color;
+  switch (variant) {
+    case 'primary':
+      color = customStyles.textColors.primary;
+      break;
+    case 'secondary':
+      color = customStyles.textColors.secondary;
+      break;
+    case 'accent':
+      color = customStyles.textColors.accent;
+      break;
+    default:
+      color = customStyles.textColors.primary;
+  }
+
+  return color ? { color } : {};
+};
+
+const loadGoogleFont = (fontFamily: string) => {
+  if (!fontFamily || fontFamily === 'inherit') return;
+
+  const existingLink = document.querySelector(`link[href*="${fontFamily.replace(/\s+/g, '+')}"]`);
+  if (existingLink) return;
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${fontFamily.replace(/\s+/g, '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+  document.head.appendChild(link);
+};
+
 export default function TokenDropSection({ section }: TokenDropSectionProps) {
   const { formatMessage } = useIntl();
   const theme = useTheme();
@@ -546,6 +668,12 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
     })();
   }, [contract, account]);
 
+  useEffect(() => {
+    if (section.settings.customStyles?.fontFamily) {
+      loadGoogleFont(section.settings.customStyles.fontFamily);
+    }
+  }, [section.settings.customStyles?.fontFamily]);
+
   return (
     <Container
       maxWidth="sm"
@@ -666,13 +794,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     <Typography
                       variant="h4"
                       sx={{
-                        fontWeight: 700,
+                        fontWeight: theme.typography.fontWeightBold,
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                         backgroundClip: "text",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         fontSize: theme.typography.body1.fontSize,
-                        lineHeight: 1.1,
+                        lineHeight: theme.typography.body1.lineHeight,
                         textAlign: "center",
                       }}
                     >
@@ -688,7 +816,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       variant="h6"
                       color="text.primary"
                       sx={{
-                        fontWeight: 500,
+                        fontWeight: theme.typography.fontWeightMedium,
                         fontSize: theme.typography.body2.fontSize,
                         textAlign: "center",
                         overflow: "hidden",
@@ -705,7 +833,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       <Box
                         sx={{
                           fontSize: theme.typography.caption.fontSize,
-                          lineHeight: 1.3,
+                          lineHeight: theme.typography.caption.lineHeight,
                           textAlign: "center",
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
@@ -841,21 +969,21 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                             },
                             "& code": {
                               backgroundColor: "rgba(0, 0, 0, 0.04)",
-                              padding: "2px 4px",
-                              borderRadius: "4px",
+                              padding: theme.spacing(0.25, 0.5),
+                              borderRadius: theme.shape.borderRadius,
                               fontSize: "0.875em",
                             },
                             "& pre": {
                               backgroundColor: "rgba(0, 0, 0, 0.04)",
-                              padding: 1,
-                              borderRadius: "4px",
+                              padding: theme.spacing(1),
+                              borderRadius: theme.shape.borderRadius,
                               overflow: "auto",
                             },
                             "& blockquote": {
-                              borderLeft: "4px solid",
+                              borderLeft: theme.spacing(0.5) + " solid",
                               borderColor: "primary.main",
-                              paddingLeft: 2,
-                              margin: "8px 0",
+                              paddingLeft: theme.spacing(2),
+                              margin: theme.spacing(1, 0),
                               fontStyle: "italic",
                             },
                             "& a": {
@@ -899,7 +1027,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       xs: theme.typography.caption.fontSize,
                       sm: theme.typography.body2.fontSize,
                     },
-                    fontWeight: 500,
+                    fontWeight: theme.typography.fontWeightMedium,
                     minWidth: "fit-content",
                     flexShrink: 0,
                   }}
@@ -929,22 +1057,22 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      gap: { xs: 0.25, sm: 0.5 },
-                      px: { xs: 0.75, sm: 1 },
-                      py: { xs: 0.125, sm: 0.25 },
+                      gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                      px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
+                      py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
                       backgroundColor: theme.palette.info.light + "20",
                       color: theme.palette.info.main,
-                      borderRadius: 1,
-                      fontSize: { xs: "0.6rem", sm: "0.7rem" },
-                      fontWeight: 500,
+                      borderRadius: theme.shape.borderRadius,
+                      fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+                      fontWeight: theme.typography.fontWeightMedium,
                       minWidth: "fit-content",
                       flexShrink: 0,
                     }}
                   >
                     <Box
                       sx={{
-                        width: { xs: 4, sm: 6 },
-                        height: { xs: 4, sm: 6 },
+                        width: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
+                        height: { xs: theme.spacing(0.5), sm: theme.spacing(0.75) },
                         borderRadius: "50%",
                         backgroundColor: theme.palette.info.main,
                       }}
@@ -956,6 +1084,299 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </Box>
                 )}
               </Stack>
+            </Stack>
+          </Box>
+        ) : section.settings.variant === "custom" ? (
+          <Box
+            sx={{
+              ...generateCustomStyles(section.settings.customStyles, theme),
+              borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                ? `${section.settings.customStyles.borderRadius}px`
+                : theme.shape.borderRadius * 2,
+              p: {
+                xs: theme.spacing(1.5),
+                sm: theme.spacing(2),
+                md: theme.spacing(3),
+              },
+              border: `1px solid ${theme.palette.divider}`,
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Stack
+              spacing={{
+                xs: theme.spacing(1),
+                sm: theme.spacing(1.5),
+                md: theme.spacing(2),
+              }}
+            >
+              <Box>
+                <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                  <Stack spacing={theme.spacing(1)} alignItems="center">
+                    {contractMetadata?.image && (
+                      <Avatar
+                        src={contractMetadata?.image}
+                        alt={contractMetadata?.name!}
+                        sx={{
+                          height: theme.spacing(5),
+                          width: theme.spacing(5),
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                          border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
+                          boxShadow: theme.shadows[2],
+                        }}
+                      />
+                    )}
+
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontWeight: theme.typography.fontWeightBold,
+                        fontSize: theme.typography.body1.fontSize,
+                        lineHeight: theme.typography.body1.lineHeight,
+                        textAlign: "center",
+                        ...generateTextStyles(section.settings.customStyles, 'primary'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {section.settings.customTitle || (
+                        <FormattedMessage
+                          id="claim.tokens"
+                          defaultMessage="Claim Tokens"
+                        />
+                      )}
+                    </Typography>
+
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: theme.typography.fontWeightMedium,
+                        fontSize: theme.typography.body2.fontSize,
+                        textAlign: "center",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "100%",
+                        ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {section.settings.customSubtitle ||
+                        contractMetadata?.name}
+                    </Typography>
+
+                    {contractMetadata?.description && (
+                      <Box
+                        sx={{
+                          fontSize: theme.typography.caption.fontSize,
+                          lineHeight: 1.3,
+                          textAlign: "center",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                          "& p": {
+                            margin: 0,
+                            fontSize: "inherit",
+                            lineHeight: "inherit",
+                            color: "inherit",
+                          },
+                          "& p:not(:last-child)": {
+                            marginBottom: 0.5,
+                          },
+                          "& strong": {
+                            fontWeight: 600,
+                          },
+                          "& em": {
+                            fontStyle: "italic",
+                          },
+                          "& code": {
+                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                            padding: "1px 2px",
+                            borderRadius: "2px",
+                            fontSize: "0.9em",
+                          },
+                        }}
+                      >
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {contractMetadata.description}
+                        </ReactMarkdown>
+                      </Box>
+                    )}
+                  </Stack>
+                </Box>
+
+                <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                  <Stack
+                    direction="row"
+                    spacing={{ sm: theme.spacing(2), md: theme.spacing(3) }}
+                    alignItems="flex-start"
+                  >
+                    {contractMetadata?.image && (
+                      <Avatar
+                        src={contractMetadata?.image}
+                        alt={contractMetadata?.name!}
+                        sx={{
+                          height: {
+                            sm: theme.spacing(8),
+                            md: theme.spacing(10),
+                          },
+                          width: {
+                            sm: theme.spacing(8),
+                            md: theme.spacing(10),
+                          },
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                          border: `${theme.spacing(0.25)} solid ${theme.palette.background.paper}`,
+                          boxShadow: theme.shadows[2],
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+
+                    <Box sx={{ flex: 1, textAlign: "left", minWidth: 0 }}>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontWeight: 700,
+                          mb: theme.spacing(0.5),
+                          fontSize: {
+                            sm: theme.typography.h4.fontSize,
+                            md: theme.typography.h3.fontSize,
+                          },
+                          lineHeight: 1.2,
+                          ...generateTextStyles(section.settings.customStyles, 'primary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        {section.settings.customTitle || (
+                          <FormattedMessage
+                            id="claim.tokens"
+                            defaultMessage="Claim Tokens"
+                          />
+                        )}
+                      </Typography>
+
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: 500,
+                          mb: theme.spacing(1),
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        {section.settings.customSubtitle ||
+                          contractMetadata?.name}
+                      </Typography>
+
+                      {contractMetadata?.description && (
+                        <Box
+                          sx={{
+                            fontSize: theme.typography.body2.fontSize,
+                            lineHeight: 1.4,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                            fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                            "& p": {
+                              margin: 0,
+                              fontSize: "inherit",
+                              lineHeight: "inherit",
+                              color: "inherit",
+                            },
+                            "& p:not(:last-child)": {
+                              marginBottom: 0.5,
+                            },
+                            "& strong": {
+                              fontWeight: 600,
+                            },
+                            "& em": {
+                              fontStyle: "italic",
+                            },
+                            "& code": {
+                              backgroundColor: "rgba(0, 0, 0, 0.04)",
+                              padding: theme.spacing(0.125, 0.25),
+                              borderRadius: theme.shape.borderRadius * 0.25,
+                              fontSize: "0.9em",
+                            },
+                          }}
+                        >
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {contractMetadata.description}
+                          </ReactMarkdown>
+                        </Box>
+                      )}
+                    </Box>
+                  </Stack>
+                </Box>
+              </Box>
+
+              {section.settings.customChips && section.settings.customChips.length > 0 && (
+                <Box>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 600,
+                      mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+                      ...generateTextStyles(section.settings.customStyles, 'primary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    {section.settings.customChipsTitle || (
+                      <FormattedMessage
+                        id="security.features"
+                        defaultMessage="Security Features"
+                      />
+                    )}
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    spacing={{ xs: theme.spacing(0.5), sm: theme.spacing(1) }}
+                    justifyContent={{ xs: "center", sm: "flex-start" }}
+                    alignItems="center"
+                    flexWrap="wrap"
+                    useFlexGap
+                  >
+                    {section.settings.customChips.map((chip, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                          px: { xs: theme.spacing(0.75), sm: theme.spacing(1) },
+                          py: { xs: theme.spacing(0.125), sm: theme.spacing(0.25) },
+                          backgroundColor: theme.palette[chip.color]?.light + "20" || theme.palette.primary.light + "20",
+                          color: theme.palette[chip.color]?.main || theme.palette.primary.main,
+                          borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                            ? `${section.settings.customStyles.borderRadius / 2}px`
+                            : theme.shape.borderRadius,
+                          fontSize: {
+                            xs: theme.typography.caption.fontSize,
+                            sm: theme.typography.body2.fontSize,
+                          },
+                          fontWeight: 500,
+                          minWidth: "fit-content",
+                          flexShrink: 0,
+                          fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        }}
+                      >
+                        <span>{chip.emoji}</span>
+                        {chip.text}
+                      </Box>
+                    ))}
+                  </Stack>
+                </Box>
+              )}
             </Stack>
           </Box>
         ) : (
@@ -1267,54 +1688,53 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </Paper>
                 )}
 
-                <Box sx={{ mb: 4 }}>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{ color: "text.primary", fontWeight: 600 }}
-                  >
-                    {section.settings.customChipsTitle || "Security Features"}
-                  </Typography>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                    {(
-                      section.settings.customChips || [
-                        {
-                          text: "Smart Contract Verified",
-                          emoji: "✓",
-                          color: "success",
-                        },
-                        {
-                          text: "Secure Minting",
-                          emoji: "✓",
-                          color: "success",
-                        },
-                        {
-                          text: "DexKit Powered",
-                          emoji: "✓",
-                          color: "success",
-                        },
-                      ]
-                    ).map((chip, index) => (
-                      <Box
-                        key={index}
-                        component="span"
-                        sx={{
-                          px: theme.spacing(1.5),
-                          py: theme.spacing(0.5),
-                          backgroundColor:
-                            theme.palette[chip.color].light + "20",
-                          color: theme.palette[chip.color].main,
-                          borderRadius: theme.shape.borderRadius,
-                          fontSize: theme.typography.caption.fontSize,
-                          fontWeight: 500,
-                          border: `1px solid ${theme.palette[chip.color].main}30`,
-                        }}
-                      >
-                        {chip.emoji} {chip.text}
-                      </Box>
-                    ))}
+                {(section.settings.customChips && section.settings.customChips.length > 0) && (
+                  <Box sx={{ mb: { xs: theme.spacing(2), sm: theme.spacing(3) } }}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        ...generateTextStyles(section.settings.customStyles, 'primary'),
+                        fontWeight: 600,
+                        mb: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {section.settings.customChipsTitle || (
+                        <FormattedMessage
+                          id="security.features"
+                          defaultMessage="Security Features"
+                        />
+                      )}
+                    </Typography>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: { xs: theme.spacing(0.5), sm: theme.spacing(1) } }}>
+                      {section.settings.customChips.map((chip, index) => (
+                        <Box
+                          key={index}
+                          component="span"
+                          sx={{
+                            px: { xs: theme.spacing(0.75), sm: theme.spacing(1.5) },
+                            py: { xs: theme.spacing(0.25), sm: theme.spacing(0.5) },
+                            backgroundColor: theme.palette[chip.color]?.light + "20" || theme.palette.primary.light + "20",
+                            color: theme.palette[chip.color]?.main || theme.palette.primary.main,
+                            borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                              ? `${section.settings.customStyles.borderRadius / 2}px`
+                              : theme.shape.borderRadius,
+                            fontSize: {
+                              xs: theme.typography.caption.fontSize,
+                              sm: theme.typography.body2.fontSize,
+                            },
+                            fontWeight: 500,
+                            border: `1px solid ${theme.palette[chip.color]?.main || theme.palette.primary.main}30`,
+                            fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                          }}
+                        >
+                          {chip.emoji} {chip.text}
+                        </Box>
+                      ))}
+                    </Box>
                   </Box>
-                </Box>
+                )}
               </Stack>
             </Paper>
           </Box>
@@ -1400,13 +1820,13 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     flex: 1,
                   }}
                 >
-                  <Typography variant="caption" sx={{ fontSize: '0.7rem', color: "text.secondary" }}>
+                  <Typography variant="caption" sx={{ fontSize: theme.typography.caption.fontSize, color: "text.secondary" }}>
                     <FormattedMessage
                       id="max.total.phase"
                       defaultMessage="Max Total (Phase)"
                     />
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem', color: "grey.800" }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: theme.typography.body2.fontSize, color: "grey.800" }}>
                     {maxTotalSupplyFormatted}
                   </Typography>
                 </Box>
@@ -1425,7 +1845,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   <Typography
                     variant="caption"
                     sx={{
-                      fontSize: '0.7rem',
+                      fontSize: theme.typography.caption.fontSize,
                       color: "white"
                     }}
                   >
@@ -1438,7 +1858,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     variant="body2"
                     sx={{
                       fontWeight: 600,
-                      fontSize: '0.85rem',
+                      fontSize: theme.typography.body2.fontSize,
                       color: "white"
                     }}
                   >
@@ -1539,6 +1959,315 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               {balance && (
                 <Box sx={{ textAlign: "center" }}>
                   <Typography variant="caption" color="text.secondary">
+                    <FormattedMessage
+                      id="your.current.balance"
+                      defaultMessage="Your current balance: {balance} {symbol}"
+                      values={{
+                        balance: balance,
+                        symbol: contractMetadata?.symbol || "tokens",
+                      }}
+                    />
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          </Paper>
+        ) : section.settings.variant === "custom" ? (
+          <Paper
+            elevation={2}
+            sx={{
+              ...generateCustomStyles(section.settings.customStyles, theme),
+              borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                ? `${section.settings.customStyles.borderRadius}px`
+                : theme.shape.borderRadius * 2,
+              p: { xs: theme.spacing(2), sm: theme.spacing(3) },
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
+                ...generateTextStyles(section.settings.customStyles, 'primary'),
+                fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+              }}
+            >
+              <FormattedMessage
+                id="claim.your.tokens"
+                defaultMessage="Claim Your Tokens"
+              />
+            </Typography>
+
+            <Stack spacing={{ xs: theme.spacing(2), sm: theme.spacing(3) }}>
+              <Box>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                  }}
+                >
+                  <FormattedMessage
+                    id="quantity.to.claim"
+                    defaultMessage="Quantity to Claim"
+                  />
+                </Typography>
+                <LazyTextField
+                  TextFieldProps={{
+                    type: "number",
+                    fullWidth: true,
+                    variant: "outlined",
+                    placeholder: formatMessage({
+                      defaultMessage: "Enter amount to claim",
+                      id: "enter.amount.to.claim",
+                    }),
+                    sx: {
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                          ? `${section.settings.customStyles.borderRadius}px`
+                          : theme.shape.borderRadius * 2,
+                        fontSize: theme.typography.h6.fontSize,
+                        fontWeight: theme.typography.fontWeightMedium,
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                        ...generateInputStyles(section.settings.customStyles),
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: section.settings.customStyles?.inputColors?.focusBorderColor || undefined,
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: section.settings.customStyles?.inputColors?.focusBorderColor || undefined,
+                        },
+                      },
+                    },
+                  }}
+                  value="1"
+                  onChange={handleChangeQuantity}
+                />
+                {maxClaimable > 1 && (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      mt: theme.spacing(1),
+                      display: "block",
+                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="max.claimable.per.wallet"
+                      defaultMessage="Max per wallet: {max}"
+                      values={{ max: maxClaimableFormatted }}
+                    />
+                  </Typography>
+                )}
+              </Box>
+
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={{ xs: theme.spacing(1), sm: theme.spacing(2) }}
+              >
+                <Box
+                  sx={{
+                    px: theme.spacing(1.5),
+                    py: theme.spacing(0.75),
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius / 2}px`
+                      : theme.shape.borderRadius,
+                    backgroundColor: section.settings.customStyles?.statsColors?.maxTotalBackground || "grey.100",
+                    border: "1px solid",
+                    borderColor: section.settings.customStyles?.statsColors?.maxTotalBorder || "grey.300",
+                    flex: 1,
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontSize: theme.typography.caption.fontSize,
+                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="max.total.phase"
+                      defaultMessage="Max Total (Phase)"
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: theme.typography.body2.fontSize,
+                      ...generateTextStyles(section.settings.customStyles, 'primary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    {maxTotalSupplyFormatted}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    px: theme.spacing(1.5),
+                    py: theme.spacing(0.75),
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius / 2}px`
+                      : theme.shape.borderRadius,
+                    backgroundColor: section.settings.customStyles?.statsColors?.availableRemainingBackground ||
+                      (Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.main" : "error.main"),
+                    border: "1px solid",
+                    borderColor: section.settings.customStyles?.statsColors?.availableRemainingBorder ||
+                      (Number(availableSupplyFormatted.replace(/,/g, '')) > 0 ? "success.dark" : "error.dark"),
+                    flex: 1,
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontSize: theme.typography.caption.fontSize,
+                      color: section.settings.customStyles?.statsColors?.availableRemainingBackground ?
+                        (section.settings.customStyles?.textColors?.secondary || "text.secondary") : "white",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    <FormattedMessage
+                      id="available.remaining"
+                      defaultMessage="Available Remaining"
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: theme.typography.body2.fontSize,
+                      color: section.settings.customStyles?.statsColors?.availableRemainingBackground ?
+                        (section.settings.customStyles?.textColors?.primary || "text.primary") : "white",
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
+                    {availableSupplyFormatted}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              {priceToMint && (
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius * 2,
+                    backgroundColor: "primary.light",
+                    borderColor: "primary.main",
+                    "&.MuiPaper-outlined": {
+                      borderColor: "primary.main",
+                    },
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: "flex-start", sm: "center" }}
+                    spacing={{ xs: theme.spacing(1), sm: 0 }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "white",
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      <FormattedMessage
+                        id="total.cost"
+                        defaultMessage="Total Cost"
+                      />
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 600,
+                        color: "white",
+                        fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                      }}
+                    >
+                      {priceToMint}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}
+
+              {hintMessage && (
+                <Alert
+                  severity="warning"
+                  sx={{
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius * 2,
+                    '& .MuiAlert-message': {
+                      fontSize: theme.typography.body2.fontSize,
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }
+                  }}
+                >
+                  {hintMessage}
+                </Alert>
+              )}
+
+              {!account ? (
+                <ConnectWalletButton />
+              ) : chainId !== networkChainId ? (
+                <SwitchNetworkButtonWithWarning
+                  desiredChainId={networkChainId}
+                  fullWidth
+                />
+              ) : (
+                <Button
+                  size="large"
+                  disabled={!canClaim || claimMutation.isLoading}
+                  startIcon={
+                    claimMutation.isLoading ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : undefined
+                  }
+                  fullWidth
+                  onClick={handleExecute}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
+                    borderRadius: section.settings.customStyles?.borderRadius !== undefined
+                      ? `${section.settings.customStyles.borderRadius}px`
+                      : theme.shape.borderRadius * 2,
+                    fontSize: {
+                      xs: theme.typography.body1.fontSize,
+                      sm: theme.typography.h6.fontSize,
+                    },
+                    fontWeight: 600,
+                    textTransform: "none",
+                    minHeight: { xs: theme.spacing(5.5), sm: theme.spacing(6) },
+                    fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    ...generateButtonStyles(section.settings.customStyles),
+                    "&.Mui-disabled": {
+                      color: theme.palette.text.disabled,
+                      backgroundColor: theme.palette.action.disabledBackground,
+                    },
+                  }}
+                >
+                  {buttonText}
+                </Button>
+              )}
+
+              {balance && (
+                <Box sx={{ textAlign: "center" }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      ...generateTextStyles(section.settings.customStyles, 'secondary'),
+                      fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
+                    }}
+                  >
                     <FormattedMessage
                       id="your.current.balance"
                       defaultMessage="Your current balance: {balance} {symbol}"
