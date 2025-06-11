@@ -1,5 +1,5 @@
 import React from "react";
-import defaultAppConfig from "../config/app.json";
+import defaultAppConfig from "../config/app.minimal.json";
 import type { AssetAPI } from "../modules/nft/types";
 import type { AppConfig } from "../modules/wizard/types/config";
 
