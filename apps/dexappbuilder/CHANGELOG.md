@@ -1,5 +1,31 @@
 # dexappbuilder
 
+## 0.27.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- 31f971c: enhance NFT and token drop forms with new variants
+- 53d4efb: Add embed code option on pages admin section
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [e35e0e7]
+- Updated dependencies [53d4efb]
+  - @dexkit/dexappbuilder-viewer@0.10.0
+  - @dexkit/ui@0.24.0
+  - @dexkit/wallet-connectors@0.7.0
+  - @dexkit/widgets@0.14.0
+  - @dexkit/core@0.19.0
+
 ## 0.26.0
 
 ### Minor Changes
