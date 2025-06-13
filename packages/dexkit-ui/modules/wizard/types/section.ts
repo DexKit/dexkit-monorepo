@@ -41,7 +41,10 @@ export type SectionType =
   | "showcase"
   | "plugin"
   | "commerce"
-  | "referral";
+  | "referral"
+  | "widget"
+
+  ;
 
 export interface PageSection {
   type: SectionType;
@@ -287,6 +290,13 @@ export interface RankingPageSection extends PageSection {
   };
 }
 
+export interface WidgetPageSection extends PageSection {
+  type: "widget";
+  config: {
+    widgetId?: number;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -474,7 +484,8 @@ export type AppPageSection =
   | ShowCasePageSection
   | PluginPageSection
   | CommercePageSection
-  | ReferralPageSection;
+  | ReferralPageSection
+  | WidgetPageSection;
 
 export interface SectionMetadata {
   type: SectionType;

@@ -227,29 +227,6 @@ export function EditWizardContainer({ site }: Props) {
     analytics: false,
     integrations: false,
   });
-  const handleClickSettings = () => {
-    setOpenMenu({ ...openMenu, settings: !openMenu.settings });
-  };
-
-  const handleClickLayout = () => {
-    setOpenMenu({ ...openMenu, layout: !openMenu.layout });
-  };
-
-  const handleClickFees = () => {
-    setOpenMenu({ ...openMenu, fees: !openMenu.fees });
-  };
-
-  const handleClickData = () => {
-    setOpenMenu({ ...openMenu, data: !openMenu.data });
-  };
-
-  const handleClickAnalytics = () => {
-    setOpenMenu({ ...openMenu, analytics: !openMenu.analytics });
-  };
-
-  const handleClickIntegrations = () => {
-    setOpenMenu({ ...openMenu, integrations: !openMenu.integrations });
-  };
 
   const { isLoggedIn, user } = useAuth();
 
@@ -348,7 +325,7 @@ export function EditWizardContainer({ site }: Props) {
     sendConfigMutation.reset();
   };
 
-  const handleSave = (_config: AppConfig) => {
+  const handleSave = (_config: Partial<AppConfig>) => {
     setShowConfirmSendConfig(true);
 
     const newConfig = { ...wizardConfig, ..._config };
@@ -357,7 +334,7 @@ export function EditWizardContainer({ site }: Props) {
   };
 
   const handleChange = useCallback(
-    (_config: AppConfig) => {
+    (_config: Partial<AppConfig>) => {
       const newConfig = { ..._config };
 
       setWizardConfig(newConfig);

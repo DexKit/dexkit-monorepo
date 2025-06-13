@@ -1,0 +1,37 @@
+{
+  "name": "widget-render",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "lint": "next lint",
+    "test": "jest",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "pre-push": [
+    "build"
+  ],
+  "engines": {
+    "node": "22.x"
+  },
+  "browser": {
+    "child_process": false,
+    "fs": false,
+    "path": false,
+    "os": false,
+    "net": false,
+    "dgram": false,
+    "module": false
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.14.0",
+    "eslint-config-next": "^12.2.3",
+    "pre-push": "^0.1.4",
+    "ts-node": "^10.9.1",
+    "typescript": "5.4.3"
+  }
+}

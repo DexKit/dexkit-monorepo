@@ -2,6 +2,7 @@ import LazyComponent from "@dexkit/ui/components/LazyComponent";
 import type { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import dynamic from "next/dynamic";
+import WidgetSection from "./sections/WidgetSection";
 const CodeSection = dynamic(() => import("@dexkit/ui/components/CodeSection"));
 const CollectionSection = dynamic(() => import("./sections/CollectionSection"));
 const DexGeneratorSection = dynamic(
@@ -99,6 +100,8 @@ export function SectionToRender({ section }: Props) {
     return <CommerceSection section={section} />;
   } else if (section.type === "referral") {
     return <ReferralSection section={section} />;
+  } else if (section.type === "widget") {
+    return <WidgetSection section={section} />;
   }
 }
 
@@ -115,27 +118,31 @@ export function SectionRender({ section, useLazy }: Props) {
   if (getSection) {
     if (useLazy) {
       return (
-        <Box sx={{
-          px: 0,
-          py: 0,
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch'
-        }}>
+        <Box
+          sx={{
+            px: 0,
+            py: 0,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
           <LazyComponent>{getSection}</LazyComponent>
         </Box>
       );
     } else {
       return (
-        <Box sx={{
-          px: 0,
-          py: 0,
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch'
-        }}>
+        <Box
+          sx={{
+            px: 0,
+            py: 0,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
           {getSection}
         </Box>
       );
