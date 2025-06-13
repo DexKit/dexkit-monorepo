@@ -1,3 +1,4 @@
+import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import { Asset } from '@dexkit/core/types/nft';
 import EvmBurnNftDialog from '@dexkit/ui/modules/evm-burn-nft/components/dialogs/EvmBurnNftDialog';
 import EvmTransferNftDialog from '@dexkit/ui/modules/evm-transfer-nft/components/dialogs/EvmTransferNftDialog';
@@ -22,6 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 import Tab from '@mui/material/Tab';
+import { useContract, useNFTs } from '@thirdweb-dev/react';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -89,14 +91,40 @@ export function AssetListContractEdition({
     take: perPage,
     traitsFilter: router.query['traitsFilter'] as string | undefined,
   });
-  const assets = data?.assets;
+
+  const { data: contract } = useContract(contractAddress);
+  const { data: thirdwebNFTs, error: thirdwebError, isLoading: isLoadingThirdweb } = useNFTs(contract);
+
+  const thirdwebAssets = useMemo(() => {
+    if (!thirdwebNFTs) return [];
+
+    const networkChainId = NETWORK_FROM_SLUG(network)?.chainId;
+
+    return thirdwebNFTs.map((nft) => ({
+      id: nft.metadata.id,
+      contractAddress: contractAddress,
+      chainId: networkChainId || chainId || 1,
+      tokenURI: nft.metadata.uri || '',
+      collectionName: nft.metadata.name || 'Edition Drop',
+      symbol: 'EDITION',
+      metadata: {
+        name: nft.metadata.name,
+        description: nft.metadata.description,
+        image: nft.metadata.image,
+        ...nft.metadata.attributes,
+      },
+      protocol: 'ERC1155' as const,
+    })) as Asset[];
+  }, [thirdwebNFTs, contractAddress, network, chainId]);
+
+  const assets = data?.assets?.length ? data.assets : thirdwebAssets;
 
   const filteredAssets = useMemo(() => {
     if (assets && search) {
       return assets.filter(
         (a) =>
           a.collectionName.indexOf(search) !== -1 ||
-          a.metadata?.name.indexOf(search) !== -1,
+          a.metadata?.name?.indexOf(search) !== -1,
       );
     }
 
@@ -311,6 +339,27 @@ export function AssetListContractEdition({
               />
             </Alert>
           </Grid>
+          {!data?.assets?.length && thirdwebAssets && thirdwebAssets.length > 0 && (
+            <Grid item xs={12} sm={12}>
+              <Alert severity={'success'}>
+                <FormattedMessage
+                  id="nfts.loaded.from.blockchain"
+                  defaultMessage="NFTs loaded directly from blockchain. If you don't see all NFTs, try refreshing the page."
+                />
+              </Alert>
+            </Grid>
+          )}
+
+          {!data?.assets?.length && isLoadingThirdweb && (
+            <Grid item xs={12} sm={12}>
+              <Alert severity={'info'}>
+                <FormattedMessage
+                  id="nfts.loading.from.blockchain"
+                  defaultMessage="Loading NFTs from blockchain... This may take a moment."
+                />
+              </Alert>
+            </Grid>
+          )}
           {filteredAssets?.map((asset, index) => (
             <Grid item xs={6} sm={2} key={index}>
               <BaseAssetCard

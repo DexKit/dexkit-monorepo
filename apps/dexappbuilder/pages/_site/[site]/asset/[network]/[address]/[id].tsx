@@ -153,8 +153,7 @@ export const getStaticProps: GetStaticProps = async ({
         IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
       ) {
         const { data } = await getRariAsset(
-          `${
-            MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+          `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
           }:${address}:${id}`,
         );
         await queryClient.prefetchQuery(
@@ -189,7 +188,7 @@ export const getStaticProps: GetStaticProps = async ({
           enableDarkblock = true;
         }
       }
-    } catch {}
+    } catch { }
 
     return {
       props: {

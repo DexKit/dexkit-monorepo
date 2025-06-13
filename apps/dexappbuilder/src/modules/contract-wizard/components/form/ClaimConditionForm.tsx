@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useTheme } from '@mui/material/styles';
 import { ClaimCondition } from '@thirdweb-dev/sdk';
 import { Field, useFormikContext } from 'formik';
 import { TextField } from 'formik-mui';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export function ClaimConditionForm({ itemIndex, network }: Props) {
+  const theme = useTheme();
   const tokens = useTokenList({
     chainId: NETWORK_FROM_SLUG(network)?.chainId,
     includeNative: true,
@@ -48,7 +50,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].startTime`}
@@ -60,7 +62,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].waitInSeconds`}
@@ -75,7 +77,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].maxClaimableSupply`}
@@ -91,6 +93,12 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
                 <InputAdornment position="end">
                   <Button
                     size="small"
+                    variant="text"
+                    sx={{
+                      minWidth: 'auto',
+                      px: theme.spacing(1),
+                      typography: { xs: 'caption', sm: 'body2' }
+                    }}
                     onClick={() =>
                       setFieldValue(
                         `phases[${itemIndex}].maxClaimableSupply`,
@@ -109,7 +117,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].maxClaimablePerWallet`}
@@ -125,6 +133,12 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
                 <InputAdornment position="end">
                   <Button
                     size="small"
+                    variant="text"
+                    sx={{
+                      minWidth: 'auto',
+                      px: theme.spacing(1),
+                      typography: { xs: 'caption', sm: 'body2' }
+                    }}
                     onClick={() =>
                       setFieldValue(
                         `phases[${itemIndex}].maxClaimablePerWallet`,
@@ -143,7 +157,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].price`}
@@ -151,7 +165,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <SearchTokenAutocomplete
             data={token}
             tokens={tokens}

@@ -38,13 +38,14 @@ export function ImageInput({ name, label }: ImageInputProps) {
         onClick={handleToggle}
         sx={{
           display: "block",
-          height: { xs: "100px", sm: "100%" },
-          width: { xs: "100px", sm: "100%" },
-          maxHeight: { xs: "100px", sm: "unset" },
-          maxWidth: { xs: "100px", sm: "unset" },
-          margin: { xs: "0 auto", sm: "unset" },
+          height: { xs: "120px", sm: "160px" },
+          width: { xs: "120px", sm: "160px" },
+          maxHeight: { xs: "120px", sm: "160px" },
+          maxWidth: { xs: "120px", sm: "160px" },
+          margin: { xs: "0 auto", sm: "0" },
           aspectRatio: "1/1",
           borderRadius: "50%",
+          flexShrink: 0,
         }}
       >
         {values[name] ? (
@@ -57,6 +58,7 @@ export function ImageInput({ name, label }: ImageInputProps) {
               width: "100%",
               aspectRatio: "1/1",
               borderRadius: "50%",
+              objectFit: "cover",
             }}
           />
         ) : (

@@ -814,7 +814,7 @@
     "defaultMessage": "Dev changelog"
   },
   "dex.generator": {
-    "defaultMessage": "Dex Generator"
+    "defaultMessage": "DexContracts"
   },
   "dexappbuilder.ann.app.bar2": {
     "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
@@ -1048,7 +1048,7 @@
     "defaultMessage": "Expire at"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explore our new tool: DexGenerator"
+    "defaultMessage": "Explore our new tool: DexContracts"
   },
   "explorer": {
     "defaultMessage": "Explorer"
@@ -2409,7 +2409,7 @@
     "defaultMessage": "Warning Color"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "width.px": {
     "defaultMessage": "Width (px)"
@@ -4483,5 +4483,53 @@
   },
   "youtube": {
     "defaultMessage": "Vimeo"
+  },
+  "custom.title": {
+    "defaultMessage": "Vlastní Název"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Zadejte vlastní název pro vaši stránku nároku tokenů. Nechte prázdné pro použití výchozího názvu."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "např., Získejte své Odměny"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Vlastní Podtitul"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Zadejte vlastní podtitul pro popis vaší distribuce tokenů. Nechte prázdné pro použití názvu kontraktu."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "např., Získejte své exkluzivní tokeny z našeho nejnovějšího dropu"
+  },
+  "custom.chips": {
+    "defaultMessage": "Vlastní Chipy"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Přizpůsobte chipy zobrazené na vaší stránce distribuce tokenů."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Název Sekce Chipů"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "např., Bezpečnostní Funkce"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Zadejte vlastní název pro sekci chipů. Nechte prázdné pro použití 'Bezpečnostní Funkce'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Text Chipu"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "např., Chytrý Kontrakt Ověřen"
+  },
+  "color": {
+    "defaultMessage": "Barva"
+  },
+  "add.chip": {
+    "defaultMessage": "Přidat Chip (max 6)"
   }
 }

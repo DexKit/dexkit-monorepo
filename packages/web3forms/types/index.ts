@@ -171,6 +171,10 @@ export type MerkleTreeFileInput = {
   type: "merkle-tree-file";
 };
 
+export type MarkdownInput = {
+  type: "markdown";
+};
+
 export type HiddenInput = {
   type: "hidden";
   subtype?: "connected-address" | "string";
@@ -202,7 +206,7 @@ export type InputComponent =
   | ImageUrlInput
   | SharesArray
   | MerkleTreeFileInput
-
+  | MarkdownInput
   ;
 
 export type FormInput = {

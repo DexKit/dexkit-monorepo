@@ -991,7 +991,7 @@
     "defaultMessage": "Errore durante il cambio di rete"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Esplora il nostro nuovo strumento: DexGenerator"
+    "defaultMessage": "Esplora il nostro nuovo strumento: DexContracts"
   },
   "favorites": {
     "defaultMessage": "Preferiti"
@@ -1132,7 +1132,7 @@
     "defaultMessage": "Portafogli"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
     "defaultMessage": "Puoi rilasciare contratti dalla nostra lista e dalla community in futuro"
@@ -4539,5 +4539,53 @@
   "your.transaction.has.been.confirmed": {
     "defaultMessage": "La tua transazione è stata confermata",
     "description": "Your transaction has been confirmed"
+  },
+  "custom.title": {
+    "defaultMessage": "Titolo Personalizzato"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Inserisci un titolo personalizzato per la tua pagina di richiesta token. Lascia vuoto per utilizzare il titolo predefinito."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "es., Richiedi le tue Ricompense"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Sottotitolo Personalizzato"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Inserisci un sottotitolo personalizzato per descrivere la tua distribuzione di token. Lascia vuoto per utilizzare il nome del contratto."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "es., Ottieni i tuoi token esclusivi dal nostro ultimo lancio"
+  },
+  "custom.chips": {
+    "defaultMessage": "Chip Personalizzati"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Personalizza i chip delle funzionalità visualizzati sulla tua pagina di distribuzione token."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Titolo Sezione Chip"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "es., Funzionalità di Sicurezza"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Inserisci un titolo personalizzato per la sezione chip. Lascia vuoto per usare 'Funzionalità di Sicurezza'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Testo del Chip"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "es., Contratto Intelligente Verificato"
+  },
+  "color": {
+    "defaultMessage": "Colore"
+  },
+  "add.chip": {
+    "defaultMessage": "Aggiungi Chip (max 6)"
   }
 }

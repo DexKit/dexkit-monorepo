@@ -287,6 +287,16 @@ export function SectionsRenderer({ sections, layout }: Props) {
               sm={
                 !isMobile && layout.layout?.desktop.position === 'side' ? 3 : 12
               }
+              sx={
+                !isMobile && layout.layout?.desktop.position === 'side'
+                  ? {
+                    height: '100vh',
+                    position: 'sticky',
+                    top: 0,
+                    overflowY: 'auto',
+                  }
+                  : undefined
+              }
             >
               <Tabs
                 centered
@@ -303,6 +313,41 @@ export function SectionsRenderer({ sections, layout }: Props) {
                   setTab(value);
                 }}
                 value={tab}
+                sx={
+                  !isMobile && layout.layout?.desktop.position === 'side'
+                    ? {
+                      height: '100%',
+                      '& .MuiTabs-flexContainer': {
+                        height: '100%',
+                        alignItems: 'stretch',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                      },
+                      '& .MuiTab-root': {
+                        minHeight: theme.spacing(12),
+                        maxWidth: 'none',
+                        textAlign: 'left',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                        padding: theme.spacing(3, 2),
+                        flex: '1 1 auto',
+                        fontSize: '1rem',
+                        fontWeight: 500,
+                        borderBottom: `1px solid ${theme.palette.divider}`,
+                        '&:last-child': {
+                          borderBottom: 'none',
+                        },
+                        '&.Mui-selected': {
+                          backgroundColor: theme.palette.action.selected,
+                          borderLeft: `4px solid ${theme.palette.primary.main}`,
+                        },
+                      },
+                      '& .MuiTabs-indicator': {
+                        display: 'none',
+                      },
+                    }
+                    : undefined
+                }
               >
                 {isMobile ? renderMobileTabs() : renderDesktopTabs()}
               </Tabs>
