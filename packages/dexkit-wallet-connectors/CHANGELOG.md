@@ -1,5 +1,11 @@
 # @dexkit/wallet-connectors
 
+## 0.7.0
+
+### Minor Changes
+
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+
 ## 0.6.0
 
 ### Minor Changes
