@@ -5,6 +5,30 @@ import type { providers } from "ethers";
 
 import * as Yup from "yup";
 
+export type ExchangeVariant = "default" | "custom";
+
+export type ExchangeCustomVariantSettings = {
+  showPairInfo?: boolean;
+  showTradingGraph?: boolean;
+  showTradeWidget?: boolean;
+  layout?: "horizontal" | "vertical" | "grid";
+  spacing?: number;
+  backgroundColor?: string;
+  borderRadius?: number;
+  padding?: number;
+  componentOrder?: string[];
+  pairInfoBackgroundColor?: string;
+  pairInfoTextColor?: string;
+  pairInfoBorderColor?: string;
+  tradeWidgetBackgroundColor?: string;
+  tradeWidgetTextColor?: string;
+  tradeWidgetBorderColor?: string;
+  tradeWidgetButtonColor?: string;
+  tradeWidgetButtonTextColor?: string;
+  tradingGraphBackgroundColor?: string;
+  tradingGraphBorderColor?: string;
+};
+
 export type DexkitExchangeSettings = {
   zrxApiKey?: string;
   quoteToken?: Token;
@@ -19,6 +43,8 @@ export type DexkitExchangeSettings = {
   affiliateAddress?: string;
   availNetworks: ChainId[];
   container?: boolean;
+  variant?: ExchangeVariant;
+  customVariantSettings?: ExchangeCustomVariantSettings;
 };
 
 export type DexkitExchangeContextState = {
@@ -40,6 +66,8 @@ export type DexkitExchangeContextState = {
   availNetworks: ChainId[];
   setPair: (baseToken: Token, quoteToken: Token) => void;
   onSwitchNetwork: (chainId: ChainId) => Promise<void>;
+  variant?: ExchangeVariant;
+  customVariantSettings?: ExchangeCustomVariantSettings;
 };
 
 export type GtPool = {
@@ -102,6 +130,28 @@ export const ExchangeSettingsSchema = Yup.object({
       return value !== undefined ? isAddress(value) : true;
     })
     .required(),
+  variant: Yup.string().oneOf(["default", "custom"]).optional(),
+  customVariantSettings: Yup.object({
+    showPairInfo: Yup.boolean().optional(),
+    showTradingGraph: Yup.boolean().optional(),
+    showTradeWidget: Yup.boolean().optional(),
+    layout: Yup.string().oneOf(["horizontal", "vertical", "grid"]).optional(),
+    spacing: Yup.number().min(0).max(8).optional(),
+    backgroundColor: Yup.string().optional(),
+    borderRadius: Yup.number().min(0).max(50).optional(),
+    padding: Yup.number().min(0).max(8).optional(),
+    componentOrder: Yup.array().of(Yup.string()).optional(),
+    pairInfoBackgroundColor: Yup.string().optional(),
+    pairInfoTextColor: Yup.string().optional(),
+    pairInfoBorderColor: Yup.string().optional(),
+    tradeWidgetBackgroundColor: Yup.string().optional(),
+    tradeWidgetTextColor: Yup.string().optional(),
+    tradeWidgetBorderColor: Yup.string().optional(),
+    tradeWidgetButtonColor: Yup.string().optional(),
+    tradeWidgetButtonTextColor: Yup.string().optional(),
+    tradingGraphBackgroundColor: Yup.string().optional(),
+    tradingGraphBorderColor: Yup.string().optional(),
+  }).optional(),
 });
 
 export type ExchangeSettingsFormType = Yup.InferType<

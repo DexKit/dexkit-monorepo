@@ -187,5 +187,7 @@ export function useExchangeContextState(params: {
     zrxApiKey: settings?.zrxApiKey
       ? settings.zrxApiKey
       : process.env.NEXT_PUBLIC_ZRX_API_KEY,
+    variant: settings?.variant || "default",
+    customVariantSettings: settings?.customVariantSettings,
   };
 }
