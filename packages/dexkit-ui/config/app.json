@@ -91,6 +91,11 @@
           "name": "Manage Apps"
         },
         {
+          "type": "Page",
+          "href": "/admin/widget",
+          "name": "Manage Widgets"
+        },
+        {
           "type": "Menu",
           "href": "",
           "name": "Quick Builder App",

@@ -30,6 +30,7 @@ import { TokenTradeSectionForm } from '../forms/TokenTradeSectionForm';
 import { UserContractForm } from '../forms/UserContractForm';
 import VideoSectionForm from '../forms/VideoSectionForm';
 import WalletSectionForm from '../forms/WalletSectionForm';
+import { WidgetForm } from '../forms/WidgetForm';
 import CommerceSectionForm from '../sections/CommerceSectionForm';
 
 const ApiKeyIntegrationDialog = dynamic(
@@ -59,13 +60,13 @@ export function SectionFormRender({
     section?.type === 'referral'
       ? section
       : {
-        type: 'referral',
-        title: '',
-        subtitle: '',
-        config: {
-          showStats: true,
+          type: 'referral',
+          title: '',
+          subtitle: '',
+          config: {
+            showStats: true,
+          },
         },
-      }
   );
 
   useEffect(() => {
@@ -370,6 +371,17 @@ export function SectionFormRender({
           </Button>
         </Stack>
       </Box>
+    );
+  } else if (sectionType === 'widget') {
+    return (
+      <WidgetForm
+        onCancel={onClose}
+        onSave={onSave}
+        onChange={onChange}
+        section={section?.type === sectionType ? section : undefined}
+        saveOnChange={true}
+        showSaveButton
+      />
     );
   }
 

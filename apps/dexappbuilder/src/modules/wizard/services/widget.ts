@@ -14,23 +14,9 @@ export async function getAdminWidgetConfig({ id }: { id: number }) {
   return await myAppsApi.get<WidgetResponse>(`/widget/by-owner/${id}`);
 }
 
-/**
- * Get widget admin config
- * @param queryParameters
- * @returns
- */
-export async function getWidgetConfig({ id }: { id: number }) {
-  return await myAppsApi.get<WidgetResponse>(`/widget/${id}`);
-}
 
-/**
- * Get all configs associated with a wallet
- * @param owner
- * @returns
- */
-export async function getWidgetsByOwner() {
-  return await myAppsApi.get<WidgetResponse[]>(`/widget/list/by-owner`);
-}
+
+
 
 /**
  * upsert widget

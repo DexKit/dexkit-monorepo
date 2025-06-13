@@ -10,7 +10,6 @@ import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useCallback, useState } from "react";
-import { useAppConfig } from "../../../hooks";
 import AdminSidebarMenu from "./AdminSidebarMenu";
 
 export enum BuilderKit {
@@ -25,6 +24,7 @@ export interface AdminSidebarContainerProps {
   onChangeMenu: (menuId: string) => void;
   activeMenuId: string;
   commerceEnabled?: boolean;
+  isOnSite?: boolean;
 }
 
 export default function AdminWidgetSidebarContainer({
@@ -33,8 +33,8 @@ export default function AdminWidgetSidebarContainer({
   activeMenuId,
   activeBuilderKit,
   commerceEnabled,
+  isOnSite,
 }: AdminSidebarContainerProps) {
-  const appConfig = useAppConfig();
   const [openMenus, setOpenMenu] = useState<{ [key: string]: boolean }>({});
 
   const handleToggleMenu = useCallback((menu: string) => {
@@ -74,14 +74,21 @@ export default function AdminWidgetSidebarContainer({
               title: <FormattedMessage id="general" defaultMessage="General" />,
             },
 
-            {
-              id: "powered.by",
-              title: (
-                <FormattedMessage id="powered.by" defaultMessage="Powered by" />
-              ),
-              icon: <WorkspacePremiumIcon />,
-              onlyOwner: true,
-            },
+            ...(!isOnSite
+              ? [
+                  {
+                    id: "powered.by",
+                    title: (
+                      <FormattedMessage
+                        id="powered.by"
+                        defaultMessage="Powered by"
+                      />
+                    ),
+                    icon: <WorkspacePremiumIcon />,
+                    onlyOwner: true,
+                  },
+                ]
+              : []),
           ]}
         />
         <Divider />
@@ -108,80 +115,91 @@ export default function AdminWidgetSidebarContainer({
         />
         <Divider />
 
-        <AdminSidebarMenu
-          activeMenuId={activeMenuId}
-          icon={<CurrencyExchangeIcon />}
-          title={<FormattedMessage id="fees" defaultMessage="Fees" />}
-          open={isMenuToggled("fees")}
-          onSelectMenuId={onChangeMenu}
-          onToggle={handleToggleMenu("fees")}
-          isSiteOwner={isSiteOwner}
-          options={[
-            ...(activeBuilderKit !== BuilderKit.Swap
-              ? [
-                  {
-                    id: "fees.marketplace.fees",
-                    title: (
-                      <FormattedMessage
-                        id="marketplace.fees.menu.container"
-                        defaultMessage="Marketplace Fees"
-                      />
-                    ),
-                  },
-                ]
-              : []),
-            ...(activeBuilderKit !== BuilderKit.NFT
-              ? [
-                  {
-                    id: "swap-fees",
-                    title: (
-                      <FormattedMessage
-                        id="swap.fees.menu.container"
-                        defaultMessage="Swap Fees"
-                      />
-                    ),
-                  },
-                ]
-              : []),
-          ]}
-        />
-
-        <Divider />
-        <AdminSidebarMenu
-          activeMenuId={activeMenuId}
-          icon={<DatasetIcon />}
-          title={<FormattedMessage id="data" defaultMessage="Data" />}
-          open={isMenuToggled("data")}
-          onSelectMenuId={onChangeMenu}
-          onToggle={handleToggleMenu("data")}
-          isSiteOwner={isSiteOwner}
-          options={[
-            ...(activeBuilderKit !== BuilderKit.Swap
-              ? [
-                  {
-                    id: "data.collections",
-                    title: (
-                      <FormattedMessage
-                        id="collections"
-                        defaultMessage="Collections"
-                      />
-                    ),
-                  },
-                ]
-              : []),
-            {
-              id: "data.tokens",
-              title: <FormattedMessage id="tokens" defaultMessage="Tokens" />,
-            },
-            {
-              id: "data.networks",
-              title: (
-                <FormattedMessage id="networks" defaultMessage="Networks" />
-              ),
-            },
-          ]}
-        />
-        <Divider />
+        {!isOnSite && (
+          <>
+            {" "}
+            <AdminSidebarMenu
+              activeMenuId={activeMenuId}
+              icon={<CurrencyExchangeIcon />}
+              title={<FormattedMessage id="fees" defaultMessage="Fees" />}
+              open={isMenuToggled("fees")}
+              onSelectMenuId={onChangeMenu}
+              onToggle={handleToggleMenu("fees")}
+              isSiteOwner={isSiteOwner}
+              options={[
+                ...(activeBuilderKit !== BuilderKit.Swap
+                  ? [
+                      {
+                        id: "marketplace-fees",
+                        title: (
+                          <FormattedMessage
+                            id="marketplace.fees.menu.container"
+                            defaultMessage="Marketplace Fees"
+                          />
+                        ),
+                      },
+                    ]
+                  : []),
+                ...(activeBuilderKit !== BuilderKit.NFT
+                  ? [
+                      {
+                        id: "swap-fees",
+                        title: (
+                          <FormattedMessage
+                            id="swap.fees.menu.container"
+                            defaultMessage="Swap Fees"
+                          />
+                        ),
+                      },
+                    ]
+                  : []),
+              ]}
+            />
+            <Divider />
+          </>
+        )}
+        {!isOnSite && (
+          <>
+            {" "}
+            <AdminSidebarMenu
+              activeMenuId={activeMenuId}
+              icon={<DatasetIcon />}
+              title={<FormattedMessage id="data" defaultMessage="Data" />}
+              open={isMenuToggled("data")}
+              onSelectMenuId={onChangeMenu}
+              onToggle={handleToggleMenu("data")}
+              isSiteOwner={isSiteOwner}
+              options={[
+                ...(activeBuilderKit !== BuilderKit.Swap
+                  ? [
+                      {
+                        id: "data.collections",
+                        title: (
+                          <FormattedMessage
+                            id="collections"
+                            defaultMessage="Collections"
+                          />
+                        ),
+                      },
+                    ]
+                  : []),
+                {
+                  id: "data.tokens",
+                  title: (
+                    <FormattedMessage id="tokens" defaultMessage="Tokens" />
+                  ),
+                },
+                {
+                  id: "data.networks",
+                  title: (
+                    <FormattedMessage id="networks" defaultMessage="Networks" />
+                  ),
+                },
+              ]}
+            />
+            <Divider />
+          </>
+        )}
 
         {/* <AdminSidebarMenu
           activeMenuId={activeMenuId}
@@ -209,37 +227,41 @@ export default function AdminWidgetSidebarContainer({
           ]}
         />
         <Divider />*/}
-        <AdminSidebarMenu
-          activeMenuId={activeMenuId}
-          icon={<GavelRoundedIcon />}
-          title={
-            <FormattedMessage id="dexcontracts" defaultMessage="DexContracts" />
-          }
-          open={isMenuToggled("dexcontracts")}
-          onSelectMenuId={onChangeMenu}
-          onToggle={handleToggleMenu("dexcontracts")}
-          isSiteOwner={isSiteOwner}
-          options={[
-            // add builder kits,
-            {
-              id: "create.contracts",
-              title: (
-                <FormattedMessage
-                  id="create.contracts"
-                  defaultMessage="Create contracts"
-                />
-              ),
-            },
-            {
-              id: "manage.contracts",
-              title: (
-                <FormattedMessage
-                  id="manage.contracts"
-                  defaultMessage="Manage contracts"
-                />
-              ),
-            },
-            /* {
+        {!isOnSite && (
+          <AdminSidebarMenu
+            activeMenuId={activeMenuId}
+            icon={<GavelRoundedIcon />}
+            title={
+              <FormattedMessage
+                id="dexcontracts"
+                defaultMessage="DexContracts"
+              />
+            }
+            open={isMenuToggled("dexcontracts")}
+            onSelectMenuId={onChangeMenu}
+            onToggle={handleToggleMenu("dexcontracts")}
+            isSiteOwner={isSiteOwner}
+            options={[
+              // add builder kits,
+              {
+                id: "create.contracts",
+                title: (
+                  <FormattedMessage
+                    id="create.contracts"
+                    defaultMessage="Create contracts"
+                  />
+                ),
+              },
+              {
+                id: "manage.contracts",
+                title: (
+                  <FormattedMessage
+                    id="manage.contracts"
+                    defaultMessage="Manage contracts"
+                  />
+                ),
+              },
+              /* {
               id: "create.contract.forms",
               title: (
                 <FormattedMessage
@@ -257,9 +279,10 @@ export default function AdminWidgetSidebarContainer({
                 />
               ),
             },*/
-          ]}
-        />
-        {isSiteOwner && (
+            ]}
+          />
+        )}
+        {(isSiteOwner || !isOnSite) && (
           <>
             <Box
               sx={{

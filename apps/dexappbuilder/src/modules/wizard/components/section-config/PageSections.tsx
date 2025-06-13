@@ -78,6 +78,7 @@ export interface PageSectionsProps {
   onChangeName: (index: number, name: string) => void;
   pageKey?: string;
   siteId?: string;
+  hideEmbedMenu?: boolean;
 }
 
 export default function PageSections({
@@ -96,6 +97,7 @@ export default function PageSections({
   onAddSection,
   onAddCustomSection,
   onPreview,
+  hideEmbedMenu,
 }: PageSectionsProps) {
   const isMobile = useIsMobile();
   const theme = useTheme();
@@ -224,6 +226,7 @@ export default function PageSections({
             siteId={siteId}
             page={pageKey}
             expand={!isMobile}
+            hideEmbedMenu={hideEmbedMenu}
             icon={getSectionType(section, formatMessage)?.icon}
             title={getSectionType(section, formatMessage)?.title}
             subtitle={

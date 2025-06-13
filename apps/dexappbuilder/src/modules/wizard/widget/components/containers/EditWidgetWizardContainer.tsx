@@ -37,6 +37,7 @@ import {
 } from '@dexkit/ui/modules/wizard/types/widget';
 
 import CollectionWizardContainer from '@/modules/wizard/components/containers/CollectionWizardContainer';
+import PoweredByWizardContainer from '@/modules/wizard/components/containers/PoweredByWizardContainer';
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
 import SignConfigDialog from '@/modules/wizard/components/dialogs/SignConfigDialog';
 import { BuilderKit } from '@/modules/wizard/constants';
@@ -75,12 +76,14 @@ const ListContractContainer = dynamic(
 
 interface Props {
   widget?: WidgetResponse | null;
+  isOnSite?: boolean;
 }
 
 export enum ActiveMenu {
   General = 'general',
   Theme = 'theme',
   Components = 'components',
+  PoweredBy = 'powered.by',
   UserEventAnalytics = 'user-event-analytics',
   MarketplaceFees = 'marketplace-fees',
   SwapFees = 'swap-fees',
@@ -111,7 +114,7 @@ export const PagesContext = React.createContext<PagesContextType>({
   handleCancelEdit: (hasChanges?: boolean) => {},
 });
 
-export function EditWidgetWizardContainer({ widget }: Props) {
+export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
   const router = useRouter();
   const { tab } = router.query as { tab?: ActiveMenu };
   const [widgetWizard, setWidgetWizard] = useState(
@@ -265,6 +268,7 @@ export function EditWidgetWizardContainer({ widget }: Props) {
         }}
         activeMenuId={activeMenu as string}
         commerceEnabled={true}
+        isOnSite={isOnSite}
       />
     </>
   );
@@ -501,6 +505,15 @@ export function EditWidgetWizardContainer({ widget }: Props) {
                     showSwap={undefined}
                     onSave={handleSave}
                     onChange={handleChange}
+                    onHasChanges={setHasChanges}
+                  />
+                )}
+
+                {activeMenu === ActiveMenu.PoweredBy && widgetWizard && (
+                  <PoweredByWizardContainer
+                    config={widgetWizard}
+                    isWidget={true}
+                    onSave={handleSave}
                     onHasChanges={setHasChanges}
                   />
                 )}

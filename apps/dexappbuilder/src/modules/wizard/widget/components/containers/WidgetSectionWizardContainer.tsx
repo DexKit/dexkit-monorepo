@@ -383,6 +383,7 @@ export default function WidgetSectionWizardContainer({
             onAction={onAction}
             onClose={() => {}}
             onAdd={() => {}}
+            hideEmbedMenu={true}
             onPreview={handleShowPreview}
             activeSection={activeSection}
             onClone={() => {}}

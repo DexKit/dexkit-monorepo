@@ -1,9 +1,6 @@
 import CreateWidgetDialog from '@/modules/wizard/components/dialogs/CreateWidgetDialog';
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
-import {
-  useSendWidgetConfigMutation,
-  useWidgetsByOwnerQuery,
-} from '@/modules/wizard/hooks/widget';
+import { useSendWidgetConfigMutation } from '@/modules/wizard/hooks/widget';
 import { useDebounce } from '@dexkit/core/hooks';
 import Link from '@dexkit/ui/components/AppLink';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
@@ -47,6 +44,7 @@ import { useConnectWalletDialog } from 'src/hooks/app';
 import { getAppConfig } from 'src/services/app';
 
 import widgetConfig from '@dexkit/ui/config/widget.json';
+import { useWidgetsByOwnerQuery } from '@dexkit/ui/modules/wizard/hooks/widget';
 import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -267,7 +265,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
                       defaultMessage="Manage Widgets"
                     />
                   ),
-                  uri: '/admin/widgets',
+                  uri: '/admin/widget',
                   active: true,
                 },
               ]}

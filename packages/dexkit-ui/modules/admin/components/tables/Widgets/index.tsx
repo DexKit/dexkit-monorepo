@@ -15,7 +15,7 @@ import {
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { useDeleteMyAppMutation } from "../../../../whitelabel/hooks/useDeleteMyAppMutation";
+import { useDeleteWidgetMutation } from "../../../../wizard/hooks/widget";
 import { ADMIN_TABLE_LIST } from "../../../constants";
 import Menu from "../MarketplacesTableV2/Menu";
 
@@ -124,19 +124,15 @@ export default function WidgetsTable({ configs }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number>();
 
-  const deleteMutation = useDeleteMyAppMutation({
+  const deleteMutation = useDeleteWidgetMutation({
     options: { onSuccess: handleDeleteSuccess, onError: handleDeleteError },
   });
 
   const handleConfirmRemove = () => {
     if (selectedId) {
-      const slug = configs.find((c) => c.id === selectedId)?.id;
-
-      if (slug) {
-        deleteMutation.mutate({
-          slug: slug,
-        });
-      }
+      deleteMutation.mutate({
+        id: selectedId,
+      });
     }
     setIsOpen(false);
   };

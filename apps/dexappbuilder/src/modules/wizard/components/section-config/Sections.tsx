@@ -18,6 +18,7 @@ import {
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ViewCarousel from '@mui/icons-material/ViewCarousel';
 import WalletIcon from '@mui/icons-material/Wallet';
+import WidgetsIcon from '@mui/icons-material/Widgets';
 
 import { SECTIONS_TYPE_DATA_ICONS } from '@dexkit/dexappbuilder-viewer/constants/section';
 
@@ -199,6 +200,14 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     description:
       'Create a referral section for users to share their referral links and track statistics',
     icon: <LinkIcon fontSize="large" />,
+  },
+  {
+    type: 'widget',
+    titleId: 'widget',
+    titleDefaultMessage: 'Widget',
+    category: 'web3',
+    description: 'Create widgets and use them across your apps.',
+    icon: <WidgetsIcon fontSize="large" />,
   },
   /* {
     type: 'referral',

@@ -17,7 +17,7 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha
+  alpha,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
@@ -224,6 +224,8 @@ export default function EditSectionDialog({
     setName(e.target.value);
   };
 
+  console.log(changedSection, 'changedSection');
+
   const renderPreview = () => (
     <PreviewPagePlatform
       key={sectionType}
@@ -242,11 +244,15 @@ export default function EditSectionDialog({
   );
 
   const renderSectionHeader = () => (
-    <Grid container alignItems={'center'} sx={{ pl: isMobile ? theme.spacing(1) : theme.spacing(3) }}>
+    <Grid
+      container
+      alignItems={'center'}
+      sx={{ pl: isMobile ? theme.spacing(1) : theme.spacing(3) }}
+    >
       <Grid item xs={3}>
         <IconButton
           aria-label="back"
-          size={isMobile ? "medium" : "large"}
+          size={isMobile ? 'medium' : 'large'}
           onClick={handleClose}
         >
           <ArrowBackIosIcon />
@@ -267,8 +273,7 @@ export default function EditSectionDialog({
               {(sectionMetadata?.titleId &&
                 formatMessage({
                   id: sectionMetadata?.titleId,
-                  defaultMessage:
-                    sectionMetadata?.titleDefaultMessage,
+                  defaultMessage: sectionMetadata?.titleDefaultMessage,
                 })) ||
                 ''}
             </Typography>
@@ -307,7 +312,7 @@ export default function EditSectionDialog({
                 alignContent={'center'}
                 alignItems={'center'}
               >
-                <Typography variant={isMobile ? "subtitle1" : "inherit"}>
+                <Typography variant={isMobile ? 'subtitle1' : 'inherit'}>
                   <FormattedMessage
                     id="add.section"
                     defaultMessage="Add Section"
@@ -323,7 +328,9 @@ export default function EditSectionDialog({
                     defaultMessage: 'Section name',
                   })}
                   InputProps={{
-                    style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                    style: isMobile
+                      ? { fontSize: theme.typography.body2.fontSize }
+                      : undefined,
                   }}
                 />
               </Stack>
@@ -341,7 +348,9 @@ export default function EditSectionDialog({
                   defaultMessage: 'Section name',
                 })}
                 InputProps={{
-                  style: isMobile ? { fontSize: theme.typography.body2.fontSize } : undefined
+                  style: isMobile
+                    ? { fontSize: theme.typography.body2.fontSize }
+                    : undefined,
                 }}
               />
             )}
@@ -386,7 +395,13 @@ export default function EditSectionDialog({
       <Divider />
       <DialogContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
         {isMobile ? (
-          <Stack spacing={theme.spacing(2)} sx={{ maxHeight: `calc(100vh - ${theme.spacing(22.5)})`, overflow: 'auto' }}>
+          <Stack
+            spacing={theme.spacing(2)}
+            sx={{
+              maxHeight: `calc(100vh - ${theme.spacing(22.5)})`,
+              overflow: 'auto',
+            }}
+          >
             <Box sx={{ mb: theme.spacing(2) }}>
               {!sectionType && (
                 <SectionSelector
@@ -405,14 +420,19 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: theme.spacing(2) }}>
-                {renderPreview()}
-              </Box>
+              <Box sx={{ mt: theme.spacing(2) }}>{renderPreview()}</Box>
             )}
           </Stack>
         ) : (
           <PanelGroup direction="horizontal">
-            <Panel defaultSize={40} minSize={30} style={{ overflow: 'auto', maxHeight: `calc(100vh - ${theme.spacing(22.5)})` }}>
+            <Panel
+              defaultSize={40}
+              minSize={30}
+              style={{
+                overflow: 'auto',
+                maxHeight: `calc(100vh - ${theme.spacing(22.5)})`,
+              }}
+            >
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {
