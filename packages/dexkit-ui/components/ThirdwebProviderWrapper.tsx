@@ -1,4 +1,4 @@
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
+/* import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { ThirdwebStorage } from '@thirdweb-dev/storage';
 import { ReactNode } from 'react';
 import { THIRDWEB_CLIENT_ID } from '../constants/thirdweb';
@@ -28,4 +28,4 @@ export function ThirdwebProviderWrapper({
       {children}
     </ThirdwebSDKProvider>
   );
-} 
+}  */

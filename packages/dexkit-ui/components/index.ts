@@ -12,7 +12,7 @@ export * from "./dialogs/EvmReceiveDialog";
 export * from "./EvmReceive";
 export * from "./icons/OpenSea";
 export * from "./SwitchNetworkButtonWithWarning";
-export * from "./ThirdwebProviderWrapper";
+/* export * from "./ThirdwebProviderWrapper"; */
 export * from "./TransactionUpdater";
 
 export { AppConfirmDialog, AppLink, ConnectWalletMessage, EvmReceiveForm, EvmReceiveQRCode, LazyYoutubeFrame, MarkdownDescriptionField };
