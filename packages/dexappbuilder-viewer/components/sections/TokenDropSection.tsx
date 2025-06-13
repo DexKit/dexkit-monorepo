@@ -1578,7 +1578,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </b>
                 </Typography>
                 <Typography color="text.secondary">
-                  {Number(activeClaimCondition.data?.availableSupply.split('.')[0] || 0).toLocaleString()}
+                  {availableSupplyFormatted}
                 </Typography>
               </Stack>
             )}
