@@ -19,7 +19,6 @@ import {
   MenuItem,
   Paper,
   Select,
-  SelectChangeEvent,
   Slider,
   Stack,
   Switch,
@@ -667,27 +666,9 @@ export default function ExchangeSettingsForm({
     onSave(values);
   };
 
-  const [chainId, setChainId] = useState<ChainId>(ChainId.Ethereum);
   const isMobile = useIsMobile();
   const theme = useTheme();
   const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleChange = (event: SelectChangeEvent<ChainId>) => {
-    if (typeof event.target.value === "number") {
-      setChainId(event.target.value);
-    }
-  };
-
-  const [showSelectNetworks, setShowSelectNetworks] = useState(false);
-
-  const handleShowSelectNetworks = () => {
-    setShowSelectNetworks(true);
-  };
-
-  const handleCloseSelectNetworks = () => {
-    setShowSelectNetworks(false);
-  };
-
   const { formatMessage } = useIntl();
 
   const handleValidate = async (values: DexkitExchangeSettings) => {
@@ -829,428 +810,516 @@ export default function ExchangeSettingsForm({
       .map((key) => NETWORKS[parseChainId(key)]);
   }, [activeChainIds]);
 
+  const defaultNetwork = useMemo(() => {
+    if (settings?.defaultNetwork && networks.some(n => n.chainId === settings.defaultNetwork)) {
+      return settings.defaultNetwork;
+    }
+
+    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+      return ChainId.Ethereum;
+    }
+
+    return networks.length > 0 ? networks[0].chainId : ChainId.Ethereum;
+  }, [networks, settings?.defaultNetwork]);
+
+  const [chainId, setChainId] = useState<ChainId>(() => {
+    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+      return ChainId.Ethereum;
+    }
+    return networks.length > 0 ? networks[0].chainId : ChainId.Ethereum;
+  });
+
+  useEffect(() => {
+    if (networks.length > 0 && !networks.some(n => n.chainId === chainId)) {
+      if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+        setChainId(ChainId.Ethereum);
+      } else {
+        setChainId(networks[0].chainId);
+      }
+    }
+  }, [networks, chainId]);
+
+  const availableNetworksForForm = useMemo(() => {
+    return networks.filter((n) => {
+      return true;
+    });
+  }, [networks]);
+
+  useEffect(() => {
+    const availableChainIds = availableNetworksForForm.map(n => n.chainId);
+    if (availableChainIds.length > 0 && !availableChainIds.includes(chainId)) {
+      if (availableChainIds.includes(ChainId.Ethereum)) {
+        setChainId(ChainId.Ethereum);
+      } else {
+        setChainId(availableChainIds[0]);
+      }
+    }
+  }, [availableNetworksForForm, chainId]);
+
+  const [showSelectNetworks, setShowSelectNetworks] = useState(false);
+
+  const handleShowSelectNetworks = () => {
+    setShowSelectNetworks(true);
+  };
+
+  const handleCloseSelectNetworks = () => {
+    setShowSelectNetworks(false);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-        <Formik
-          initialValues={
-            settings
-              ? settings
-              : {
-                defaultNetwork: ChainId.Ethereum,
-                defaultPairs: DEFAULT_TOKENS,
-                quoteTokens: [],
-                defaultTokens: getInitialTokens(),
-                affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-                defaultSlippage: {},
-                zrxApiKey: "",
-                buyTokenPercentageFee: 0.0,
-                availNetworks: networks.map((n) => n.chainId),
-                variant: "default" as ExchangeVariant,
-                customVariantSettings: {
-                  showPairInfo: true,
-                  showTradingGraph: true,
-                  showTradeWidget: true,
-                  layout: "grid",
-                  spacing: 2,
-                  backgroundColor: "",
-                  borderRadius: 0,
-                  padding: 2,
-                  componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
-                  pairInfoBackgroundColor: "",
-                  pairInfoTextColor: "",
-                  pairInfoBorderColor: "",
-                  tradeWidgetBackgroundColor: "",
-                  tradeWidgetTextColor: "",
-                  tradeWidgetBorderColor: "",
-                  tradeWidgetButtonColor: "",
-                  tradeWidgetButtonTextColor: "",
-                  tradingGraphBackgroundColor: "",
-                  tradingGraphBorderColor: "",
-                },
-              }
-          }
-          onSubmit={handleSubmit}
-          validationSchema={ExchangeSettingsSchema}
-          validateOnChange
-          validate={handleValidate}
-        >
-          {({ submitForm, values, errors, setFieldValue }) => (
-            <>
-              <SelectNetworksDialog
-                DialogProps={{
-                  open: showSelectNetworks,
-                  maxWidth: "sm",
-                  fullWidth: true,
-                  onClose: handleCloseSelectNetworks,
-                }}
-                activeChainIds={activeChainIds}
+        {networks.length === 0 ? (
+          <Paper sx={{ p: 3, textAlign: 'center' }}>
+            <Typography variant="h6" gutterBottom>
+              <FormattedMessage
+                id="no.compatible.networks.available"
+                defaultMessage="No compatible networks available"
               />
-              {saveOnChange && onChange && (
-                <SaveOnChangeListener onSave={onChange} onValidate={onValidate} />
-              )}
-              <Grid container spacing={isMobile ? 1.5 : 2}>
-                {/* <Grid item xs={12}>
-              <Field
-                component={TextField}
-                label={
-                  <FormattedMessage
-                    id="0x.api.key"
-                    defaultMessage="0x Api Key"
-                  />
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <FormattedMessage
+                id="exchange.requires.0x.compatible.networks"
+                defaultMessage="Exchange requires compatible networks with 0x API. Please enable at least one of the following networks: Ethereum, Polygon, BSC, Optimism, Fantom, Celo, Avalanche, Arbitrum or Base."
+              />
+            </Typography>
+          </Paper>
+        ) : (
+          <Formik
+            initialValues={
+              settings
+                ? {
+                  ...settings,
+                  defaultNetwork: defaultNetwork,
+                  availNetworks: settings.availNetworks.filter(network =>
+                    ZEROX_SUPPORTED_NETWORKS.includes(network) &&
+                    activeChainIds.includes(network)
+                  ),
                 }
-                name="zrxApiKey"
-                fullWidth
-              />
-            </Grid> */}
+                : {
+                  defaultNetwork: defaultNetwork,
+                  defaultPairs: DEFAULT_TOKENS,
+                  quoteTokens: [],
+                  defaultTokens: getInitialTokens(),
+                  affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
+                  defaultSlippage: {},
+                  zrxApiKey: "",
+                  buyTokenPercentageFee: 0.0,
+                  availNetworks: networks.map((n) => n.chainId),
+                  variant: "default" as ExchangeVariant,
+                  customVariantSettings: {
+                    showPairInfo: true,
+                    showTradingGraph: true,
+                    showTradeWidget: true,
+                    layout: "grid",
+                    spacing: 2,
+                    backgroundColor: "",
+                    borderRadius: 0,
+                    padding: 2,
+                    componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
+                    pairInfoBackgroundColor: "",
+                    pairInfoTextColor: "",
+                    pairInfoBorderColor: "",
+                    tradeWidgetBackgroundColor: "",
+                    tradeWidgetTextColor: "",
+                    tradeWidgetBorderColor: "",
+                    tradeWidgetButtonColor: "",
+                    tradeWidgetButtonTextColor: "",
+                    tradingGraphBackgroundColor: "",
+                    tradingGraphBorderColor: "",
+                  },
+                }
+            }
+            onSubmit={handleSubmit}
+            validationSchema={ExchangeSettingsSchema}
+            validateOnChange
+            validate={handleValidate}
+          >
+            {({ submitForm, values, errors, setFieldValue }) => (
+              <>
+                <SelectNetworksDialog
+                  DialogProps={{
+                    open: showSelectNetworks,
+                    maxWidth: "sm",
+                    fullWidth: true,
+                    onClose: handleCloseSelectNetworks,
+                  }}
+                  activeChainIds={activeChainIds}
+                />
+                {saveOnChange && onChange && (
+                  <SaveOnChangeListener onSave={onChange} onValidate={onValidate} />
+                )}
+                <Grid container spacing={isMobile ? 1.5 : 2}>
+                  {/* <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  label={
+                    <FormattedMessage
+                      id="0x.api.key"
+                      defaultMessage="0x Api Key"
+                    />
+                  }
+                  name="zrxApiKey"
+                  fullWidth
+                />
+              </Grid> */}
 
-                <Grid item xs={12}>
-                  <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
-                    <Stack spacing={isMobile ? 1.5 : 2}>
-                      <Field
-                        component={FormikSelect}
-                        label={
-                          <FormattedMessage
-                            id="default.network"
-                            defaultMessage="Default network"
-                          />
-                        }
-                        name="defaultNetwork"
-                        fullWidth
-                        size={isMobile ? "small" : "medium"}
-                        renderValue={(value: ChainId) => {
-                          return (
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              alignContent="center"
-                              spacing={1}
-                            >
-                              <Avatar
-                                src={ipfsUriToUrl(NETWORKS[value].imageUrl || "")}
-                                style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
-                              />
-                              <Typography variant={isMobile ? "body2" : "body1"}>
-                                {NETWORKS[value].name}
-                              </Typography>
-                            </Stack>
-                          );
-                        }}
-                      >
-                        {networks.map((n) => (
-                          <MenuItem key={n.chainId} value={n.chainId}>
-                            <ListItemIcon>
-                              <Avatar
-                                src={ipfsUriToUrl(
-                                  NETWORKS[n.chainId].imageUrl || ""
-                                )}
-                                style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={n.name}
-                              primaryTypographyProps={{
-                                variant: isMobile ? "body2" : "body1"
-                              }}
-                            />
-                          </MenuItem>
-                        ))}
-                      </Field>
-                      <Stack
-                        justifyContent="space-between"
-                        alignItems="center"
-                        direction="row"
-                      >
-                        <Typography variant={isMobile ? "caption" : "subtitle2"}>
-                          <FormattedMessage
-                            id="choose.the.networks.that.your.exchange.will.be.enabled"
-                            defaultMessage="Choose the networks that your exchange will be enabled"
-                          />
-                        </Typography>
-                        {values.availNetworks.length > 0 && (
-                          <Tooltip
-                            title={
-                              <FormattedMessage
-                                id="edit.networks"
-                                defaultMessage="Edit Networks"
-                              />
-                            }
-                          >
-                            <IconButton
-                              onClick={handleShowSelectNetworks}
-                              size="small"
-                            >
-                              <Edit fontSize={isMobile ? "small" : "medium"} />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </Stack>
-                      <Divider />
-                      <Box>
-                        <Grid container spacing={isMobile ? 1 : 2}>
-                          {values.availNetworks.length > 0 ? (
-                            networks
-                              .filter((network) =>
-                                values.availNetworks.includes(network.chainId)
-                              )
-                              .map((n) => (
-                                <Grid item key={n.chainId}>
-                                  <Chip
-                                    size="small"
-                                    avatar={
-                                      <Avatar
-                                        src={ipfsUriToUrl(
-                                          NETWORKS[n.chainId].imageUrl || ""
-                                        )}
-                                      />
-                                    }
-                                    label={n.name}
-                                  />
-                                </Grid>
-                              ))
-                          ) : (
-                            <Grid item xs={12}>
-                              <Box>
-                                <Stack spacing={isMobile ? 1 : 2} alignItems="center">
-                                  <Typography
-                                    variant={isMobile ? "caption" : "body2"}
-                                    color="text.secondary"
-                                  >
-                                    <FormattedMessage
-                                      id="No.networks.selected"
-                                      defaultMessage="No networks selected"
-                                    />
-                                  </Typography>
-                                  <Button
-                                    onClick={handleShowSelectNetworks}
-                                    variant="outlined"
-                                    size={isMobile ? "small" : "medium"}
-                                  >
-                                    <FormattedMessage
-                                      id="select.networks"
-                                      defaultMessage="Select networks"
-                                    />
-                                  </Button>
-                                </Stack>
-                              </Box>
-                            </Grid>
-                          )}
-                        </Grid>
-                      </Box>
-                    </Stack>
-                  </Paper>
-                </Grid>
-                <Grid item xs={12}>
-                  <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
-                    <Grid container spacing={isMobile ? 1.5 : 2}>
-                      <Grid item xs={12}>
-                        <FormControl fullWidth size={isMobile ? "small" : "medium"}>
-                          <InputLabel>
+                  <Grid item xs={12}>
+                    <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                      <Stack spacing={isMobile ? 1.5 : 2}>
+                        <Field
+                          component={FormikSelect}
+                          label={
                             <FormattedMessage
-                              id="network"
-                              defaultMessage="Network"
+                              id="default.network"
+                              defaultMessage="Default network"
                             />
-                          </InputLabel>
-                          <Select
-                            disabled={values.availNetworks.length === 0}
-                            label={
+                          }
+                          name="defaultNetwork"
+                          fullWidth
+                          size={isMobile ? "small" : "medium"}
+                          renderValue={(value: ChainId) => {
+                            return (
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                alignContent="center"
+                                spacing={1}
+                              >
+                                <Avatar
+                                  src={ipfsUriToUrl(NETWORKS[value].imageUrl || "")}
+                                  style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
+                                />
+                                <Typography variant={isMobile ? "body2" : "body1"}>
+                                  {NETWORKS[value].name}
+                                </Typography>
+                              </Stack>
+                            );
+                          }}
+                        >
+                          {networks.map((n) => (
+                            <MenuItem key={n.chainId} value={n.chainId}>
+                              <ListItemIcon>
+                                <Avatar
+                                  src={ipfsUriToUrl(
+                                    NETWORKS[n.chainId].imageUrl || ""
+                                  )}
+                                  style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
+                                />
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={n.name}
+                                primaryTypographyProps={{
+                                  variant: isMobile ? "body2" : "body1"
+                                }}
+                              />
+                            </MenuItem>
+                          ))}
+                        </Field>
+                        <Stack
+                          justifyContent="space-between"
+                          alignItems="center"
+                          direction="row"
+                        >
+                          <Typography variant={isMobile ? "caption" : "subtitle2"}>
+                            <FormattedMessage
+                              id="choose.the.networks.that.your.exchange.will.be.enabled"
+                              defaultMessage="Choose the networks that your exchange will be enabled"
+                            />
+                          </Typography>
+                          {values.availNetworks.length > 0 && (
+                            <Tooltip
+                              title={
+                                <FormattedMessage
+                                  id="edit.networks"
+                                  defaultMessage="Edit Networks"
+                                />
+                              }
+                            >
+                              <IconButton
+                                onClick={handleShowSelectNetworks}
+                                size="small"
+                              >
+                                <Edit fontSize={isMobile ? "small" : "medium"} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Stack>
+                        <Divider />
+                        <Box>
+                          <Grid container spacing={isMobile ? 1 : 2}>
+                            {values.availNetworks.length > 0 ? (
+                              networks
+                                .filter((network) =>
+                                  values.availNetworks.includes(network.chainId)
+                                )
+                                .map((n) => (
+                                  <Grid item key={n.chainId}>
+                                    <Chip
+                                      size="small"
+                                      avatar={
+                                        <Avatar
+                                          src={ipfsUriToUrl(
+                                            NETWORKS[n.chainId].imageUrl || ""
+                                          )}
+                                        />
+                                      }
+                                      label={n.name}
+                                    />
+                                  </Grid>
+                                ))
+                            ) : (
+                              <Grid item xs={12}>
+                                <Box>
+                                  <Stack spacing={isMobile ? 1 : 2} alignItems="center">
+                                    <Typography
+                                      variant={isMobile ? "caption" : "body2"}
+                                      color="text.secondary"
+                                    >
+                                      <FormattedMessage
+                                        id="No.networks.selected"
+                                        defaultMessage="No networks selected"
+                                      />
+                                    </Typography>
+                                    <Button
+                                      onClick={handleShowSelectNetworks}
+                                      variant="outlined"
+                                      size={isMobile ? "small" : "medium"}
+                                    >
+                                      <FormattedMessage
+                                        id="select.networks"
+                                        defaultMessage="Select networks"
+                                      />
+                                    </Button>
+                                  </Stack>
+                                </Box>
+                              </Grid>
+                            )}
+                          </Grid>
+                        </Box>
+                      </Stack>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                      <Grid container spacing={isMobile ? 1.5 : 2}>
+                        <Grid item xs={12}>
+                          <FormControl fullWidth size={isMobile ? "small" : "medium"}>
+                            <InputLabel>
                               <FormattedMessage
                                 id="network"
                                 defaultMessage="Network"
                               />
-                            }
-                            fullWidth
-                            value={chainId}
-                            onChange={handleChange}
-                            renderValue={(value) => {
-                              return (
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  alignContent="center"
-                                  spacing={1}
-                                >
-                                  <Avatar
-                                    src={ipfsUriToUrl(
-                                      NETWORKS[value].imageUrl || ""
-                                    )}
-                                    style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
-                                  />
-                                  <Typography variant={isMobile ? "body2" : "body1"}>
-                                    {NETWORKS[value].name}
-                                  </Typography>
-                                </Stack>
-                              );
-                            }}
-                          >
-                            {networks
-                              .filter((n) =>
-                                values.availNetworks.includes(n.chainId)
-                              )
-                              .map((n) => (
-                                <MenuItem key={n.chainId} value={n.chainId}>
-                                  <ListItemIcon>
+                            </InputLabel>
+                            <Select
+                              disabled={values.availNetworks.length === 0 || networks.length === 0}
+                              label={
+                                <FormattedMessage
+                                  id="network"
+                                  defaultMessage="Network"
+                                />
+                              }
+                              fullWidth
+                              value={networks.some(n => n.chainId === chainId) ? chainId : (networks.length > 0 ? networks[0].chainId : "")}
+                              onChange={(e) => {
+                                const newChainId = e.target.value as ChainId;
+                                if (networks.some(n => n.chainId === newChainId)) {
+                                  setChainId(newChainId);
+                                }
+                              }}
+                              renderValue={(value) => {
+                                if (!value || !networks.some(n => n.chainId === value)) {
+                                  return <span>-</span>;
+                                }
+                                return (
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    alignContent="center"
+                                    spacing={1}
+                                  >
                                     <Avatar
                                       src={ipfsUriToUrl(
-                                        NETWORKS[n.chainId].imageUrl || ""
+                                        NETWORKS[value as ChainId].imageUrl || ""
                                       )}
-                                      style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
+                                      style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
                                     />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary={n.name}
-                                    primaryTypographyProps={{
-                                      variant: isMobile ? "body2" : "body1"
-                                    }}
-                                  />
-                                </MenuItem>
-                              ))}
-                          </Select>
-                          <FormHelperText>
-                            <Typography variant={isMobile ? "caption" : "body2"}>
+                                    <Typography variant={isMobile ? "body2" : "body1"}>
+                                      {NETWORKS[value as ChainId].name}
+                                    </Typography>
+                                  </Stack>
+                                );
+                              }}
+                            >
+                              {networks
+                                .filter((n) =>
+                                  values.availNetworks.includes(n.chainId)
+                                )
+                                .map((n) => (
+                                  <MenuItem key={n.chainId} value={n.chainId}>
+                                    <ListItemIcon>
+                                      <Avatar
+                                        src={ipfsUriToUrl(
+                                          NETWORKS[n.chainId].imageUrl || ""
+                                        )}
+                                        style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
+                                      />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                      primary={n.name}
+                                      primaryTypographyProps={{
+                                        variant: isMobile ? "body2" : "body1"
+                                      }}
+                                    />
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText>
+                              <Typography variant={isMobile ? "caption" : "body2"}>
+                                <FormattedMessage
+                                  id="define.the.tokens.and.the.default.pair.for.this.network"
+                                  defaultMessage="Define the tokens and the default pair for this network"
+                                />
+                              </Typography>
+                            </FormHelperText>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <ExchangeQuoteTokensInput
+                            tokens={tokens}
+                            chainId={chainId}
+                            label={
                               <FormattedMessage
-                                id="define.the.tokens.and.the.default.pair.for.this.network"
-                                defaultMessage="Define the tokens and the default pair for this network"
+                                id="quote.tokens"
+                                defaultMessage="Quote tokens"
                               />
-                            </Typography>
-                          </FormHelperText>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ExchangeQuoteTokensInput
-                          tokens={tokens}
-                          chainId={chainId}
-                          label={
-                            <FormattedMessage
-                              id="quote.tokens"
-                              defaultMessage="Quote tokens"
-                            />
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ExchangeTokenInput
-                          name={`defaultPairs[${chainId}].baseToken`}
-                          tokens={
-                            getIn(values, `defaultTokens.${chainId}.baseTokens`) ||
-                            []
-                          }
-                          label={
-                            <FormattedMessage
-                              id="base.token"
-                              defaultMessage="Base token"
-                            />
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ExchangeTokenInput
-                          name={`defaultPairs[${chainId}].quoteToken`}
-                          tokens={
-                            getIn(values, `defaultTokens.${chainId}.quoteTokens`) ||
-                            []
-                          }
-                          label={
-                            <FormattedMessage
-                              id="quote.token"
-                              defaultMessage="Quote token"
-                            />
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextFieldMui
-                          inputProps={{
-                            type: "number",
-                            min: 0,
-                            max: 50,
-                            step: 0.01,
-                          }}
-                          InputLabelProps={{ shrink: true }}
-                          label={
-                            <FormattedMessage
-                              id="default.slippage.percentage"
-                              defaultMessage="Default slippage (0-50%)"
-                            />
-                          }
-                          value={
-                            getIn(values, `defaultSlippage.${chainId}.slippage`) ||
-                            1
-                          }
-                          onChange={(event: any) => {
-                            let value = event.target.value;
-                            if (value < 0) {
-                              value = 0;
                             }
-                            if (value > 50) {
-                              value = 50;
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <ExchangeTokenInput
+                            name={`defaultPairs[${chainId}].baseToken`}
+                            tokens={
+                              getIn(values, `defaultTokens.${chainId}.baseTokens`) ||
+                              []
                             }
-                            setFieldValue(
-                              `defaultSlippage.${chainId}.slippage`,
-                              value
-                            );
-                          }}
-                          fullWidth
-                          size={isMobile ? "small" : "medium"}
-                        />
+                            label={
+                              <FormattedMessage
+                                id="base.token"
+                                defaultMessage="Base token"
+                              />
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <ExchangeTokenInput
+                            name={`defaultPairs[${chainId}].quoteToken`}
+                            tokens={
+                              getIn(values, `defaultTokens.${chainId}.quoteTokens`) ||
+                              []
+                            }
+                            label={
+                              <FormattedMessage
+                                id="quote.token"
+                                defaultMessage="Quote token"
+                              />
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextFieldMui
+                            inputProps={{
+                              type: "number",
+                              min: 0,
+                              max: 50,
+                              step: 0.01,
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                            label={
+                              <FormattedMessage
+                                id="default.slippage.percentage"
+                                defaultMessage="Default slippage (0-50%)"
+                              />
+                            }
+                            value={
+                              getIn(values, `defaultSlippage.${chainId}.slippage`) ||
+                              1
+                            }
+                            onChange={(event: any) => {
+                              let value = event.target.value;
+                              if (value < 0) {
+                                value = 0;
+                              }
+                              if (value > 50) {
+                                value = 50;
+                              }
+                              setFieldValue(
+                                `defaultSlippage.${chainId}.slippage`,
+                                value
+                              );
+                            }}
+                            fullWidth
+                            size={isMobile ? "small" : "medium"}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Paper>
-                </Grid>
+                    </Paper>
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <VariantConfigurationTab />
-                </Grid>
+                  <Grid item xs={12}>
+                    <VariantConfigurationTab />
+                  </Grid>
 
-                <Grid item xs={12} sm={isSmallDevice ? 12 : 9}>
-                  <Field
-                    component={TextField}
-                    label={
-                      <FormattedMessage
-                        id="fee.recipient.address"
-                        defaultMessage="Fee recipient address"
-                      />
-                    }
-                    fullWidth
-                    name="feeRecipientAddress"
-                    size={isMobile ? "small" : "medium"}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={isSmallDevice ? 12 : 3}>
-                  <FormikDecimalInput
-                    name="buyTokenPercentageFee"
-                    decimals={2}
-                    maxDigits={3}
-                    TextFieldProps={{
-                      fullWidth: true,
-                      label: (
+                  <Grid item xs={12} sm={isSmallDevice ? 12 : 9}>
+                    <Field
+                      component={TextField}
+                      label={
                         <FormattedMessage
-                          id="fee.amount"
-                          defaultMessage="Fee amount"
+                          id="fee.recipient.address"
+                          defaultMessage="Fee recipient address"
                         />
-                      ),
-                      InputProps: {
-                        endAdornment: (
-                          <InputAdornment position="end">%</InputAdornment>
+                      }
+                      fullWidth
+                      name="feeRecipientAddress"
+                      size={isMobile ? "small" : "medium"}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={isSmallDevice ? 12 : 3}>
+                    <FormikDecimalInput
+                      name="buyTokenPercentageFee"
+                      decimals={2}
+                      maxDigits={3}
+                      TextFieldProps={{
+                        fullWidth: true,
+                        label: (
+                          <FormattedMessage
+                            id="fee.amount"
+                            defaultMessage="Fee amount"
+                          />
                         ),
-                      },
-                      size: isMobile ? "small" : "medium",
-                    }}
-                  />
+                        InputProps: {
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        },
+                        size: isMobile ? "small" : "medium",
+                      }}
+                    />
+                  </Grid>
+                  {showSaveButton && (
+                    <FormActions
+                      onSubmit={submitForm}
+                      onCancel={onCancel}
+                      isSmallDevice={isSmallDevice}
+                      isMobile={isMobile}
+                    />
+                  )}
                 </Grid>
-                {showSaveButton && (
-                  <FormActions
-                    onSubmit={submitForm}
-                    onCancel={onCancel}
-                    isSmallDevice={isSmallDevice}
-                    isMobile={isMobile}
-                  />
-                )}
-              </Grid>
-            </>
-          )}
-        </Formik>
+              </>
+            )}
+          </Formik>
+        )}
       </Box>
     </Container>
   );

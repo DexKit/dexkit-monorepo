@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { ZEROX_SUPPORTED_NETWORKS } from "../constants";
 import { ZEROEX_AFFILIATE_ADDRESS } from "../constants/zrx";
 import { DexkitExchangeContext } from "../contexts";
 import { getGeckoTerminalTopPools } from "../services";
@@ -133,16 +134,41 @@ export function useExchangeContextState(params: {
   }, []);
 
   const handleSwitchNetwork = async (chainId: ChainId) => {
-    setDefaultChain(chainId);
+    if (ZEROX_SUPPORTED_NETWORKS.includes(chainId)) {
+      setDefaultChain(chainId);
+    }
   };
+
+  const filteredAvailNetworks = useMemo(() => {
+    if (!settings?.availNetworks) return [];
+    return settings.availNetworks.filter(chainId =>
+      ZEROX_SUPPORTED_NETWORKS.includes(chainId)
+    );
+  }, [settings?.availNetworks]);
 
   let currChainId = useMemo(() => {
     if (settings) {
-      return defaultChain;
+      if (defaultChain && ZEROX_SUPPORTED_NETWORKS.includes(defaultChain)) {
+        return defaultChain;
+      }
+
+      if (settings.defaultNetwork && ZEROX_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
+        return settings.defaultNetwork;
+      }
+
+      if (filteredAvailNetworks.length > 0) {
+        return filteredAvailNetworks[0];
+      }
+
+      if (ZEROX_SUPPORTED_NETWORKS.includes(ChainId.Ethereum)) {
+        return ChainId.Ethereum;
+      }
+
+      return ZEROX_SUPPORTED_NETWORKS[0];
     }
 
     return ChainId.Ethereum;
-  }, [settings, defaultChain]);
+  }, [settings, defaultChain, filteredAvailNetworks]);
 
   useEffect(() => {
     if (settings && currChainId) {
@@ -164,8 +190,12 @@ export function useExchangeContextState(params: {
   }, [currChainId, settings?.defaultTokens, settings?.defaultPairs]);
 
   useEffect(() => {
-    setDefaultChain(settings?.defaultNetwork);
-  }, [settings?.defaultNetwork]);
+    if (settings?.defaultNetwork && ZEROX_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
+      setDefaultChain(settings.defaultNetwork);
+    } else if (filteredAvailNetworks.length > 0) {
+      setDefaultChain(filteredAvailNetworks[0]);
+    }
+  }, [settings?.defaultNetwork, filteredAvailNetworks]);
 
   return {
     setPair: handleSetPair,
@@ -180,7 +210,7 @@ export function useExchangeContextState(params: {
     provider,
     account,
     container: settings?.container,
-    availNetworks: settings?.availNetworks || [],
+    availNetworks: filteredAvailNetworks,
     feeRecipient: settings?.feeRecipientAddress || ZEROEX_AFFILIATE_ADDRESS,
     affiliateAddress: settings?.affiliateAddress || ZEROEX_AFFILIATE_ADDRESS,
     buyTokenPercentageFee: settings?.buyTokenPercentageFee,
