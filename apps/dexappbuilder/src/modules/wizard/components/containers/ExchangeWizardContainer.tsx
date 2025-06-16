@@ -1,5 +1,6 @@
 import { Token as AppToken, TokenWhitelabelApp } from '@dexkit/core/types';
 import ExchangeSettingsForm from '@dexkit/exchange/components/ExchangeSettingsForm';
+import { ZEROX_SUPPORTED_NETWORKS } from '@dexkit/exchange/constants';
 import { DexkitExchangeSettings } from '@dexkit/exchange/types';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
@@ -113,6 +114,10 @@ export default function ExchangeWizardContainer({
     setIsValid(isValid);
   }, []);
 
+  const exchangeActiveChainIds = useMemo(() => {
+    return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
+  }, [activeChainIds]);
+
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
@@ -147,7 +152,7 @@ export default function ExchangeWizardContainer({
       <Grid item xs={12}>
         <ExchangeSettingsForm
           onCancel={() => { }}
-          activeChainIds={activeChainIds}
+          activeChainIds={exchangeActiveChainIds}
           saveOnChange
           onChange={handleOnChange}
           onSave={handleOnChange}

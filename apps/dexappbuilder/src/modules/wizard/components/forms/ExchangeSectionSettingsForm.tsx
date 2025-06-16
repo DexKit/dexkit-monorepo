@@ -1,9 +1,11 @@
 import ExchangeSettingsForm from '@dexkit/exchange/components/ExchangeSettingsForm';
+import { ZEROX_SUPPORTED_NETWORKS } from '@dexkit/exchange/constants';
 import { DexkitExchangeSettings } from '@dexkit/exchange/types';
 import { useActiveChainIds } from '@dexkit/ui';
 import { ExchangePageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useMemo } from 'react';
 import { useAppWizardConfig } from '../../hooks';
+
 interface Props {
   onSave: (section: ExchangePageSection) => void;
   onChange?: (section: ExchangePageSection) => void;
@@ -18,6 +20,10 @@ export default function ExchangeSectionSettingsForm({
   section,
 }: Props) {
   const { activeChainIds } = useActiveChainIds();
+
+  const exchangeActiveChainIds = useMemo(() => {
+    return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
+  }, [activeChainIds]);
 
   const handleSave = (settings: DexkitExchangeSettings) => {
     if (onSave) {
@@ -55,7 +61,7 @@ export default function ExchangeSectionSettingsForm({
 
   return (
     <ExchangeSettingsForm
-      activeChainIds={activeChainIds}
+      activeChainIds={exchangeActiveChainIds}
       onCancel={onCancel}
       onSave={handleSave}
       onChange={handleChange}

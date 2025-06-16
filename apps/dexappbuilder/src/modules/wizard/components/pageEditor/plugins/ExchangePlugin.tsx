@@ -3,6 +3,7 @@ import { Container } from '@mui/material';
 import type { CellPlugin } from '@react-page/editor';
 
 import ExchangeSettingsForm from '@dexkit/exchange/components/ExchangeSettingsForm';
+import { ZEROX_SUPPORTED_NETWORKS } from '@dexkit/exchange/constants';
 import { DexkitExchangeSettings } from '@dexkit/exchange/types';
 import { useActiveChainIds } from '@dexkit/ui';
 import { useMemo } from 'react';
@@ -18,6 +19,10 @@ const ExchangePlugin: CellPlugin<DexkitExchangeSettings> = {
       const { activeChainIds } = useActiveChainIds();
       const { wizardConfig } = useAppWizardConfig();
 
+      const exchangeActiveChainIds = useMemo(() => {
+        return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
+      }, [activeChainIds]);
+
       const tokens = useMemo(() => {
         if (wizardConfig.tokens && wizardConfig.tokens?.length > 0) {
           return wizardConfig.tokens[0].tokens;
@@ -29,10 +34,10 @@ const ExchangePlugin: CellPlugin<DexkitExchangeSettings> = {
       return (
         <Container sx={{ p: 2 }}>
           <ExchangeSettingsForm
-            activeChainIds={activeChainIds}
+            activeChainIds={exchangeActiveChainIds}
             saveOnChange
             settings={Object.keys(data).length > 0 ? data : undefined}
-            onCancel={() => {}}
+            onCancel={() => { }}
             onSave={(settings) => {
               onChange(settings);
             }}

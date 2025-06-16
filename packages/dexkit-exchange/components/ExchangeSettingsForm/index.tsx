@@ -61,6 +61,7 @@ import {
 import Edit from "@mui/icons-material/Edit";
 import { useFormikContext } from "formik";
 import setWith from "lodash/setWith";
+import { ZEROX_SUPPORTED_NETWORKS } from "../../constants";
 import {
   DEFAULT_TOKENS,
   QUOTE_TOKENS_SUGGESTION,
@@ -790,6 +791,10 @@ export default function ExchangeSettingsForm({
     for (let chain of Object.keys(NETWORKS)) {
       let chainId = parseChainId(chain);
 
+      if (!ZEROX_SUPPORTED_NETWORKS.includes(chainId)) {
+        continue;
+      }
+
       if (resQuote[chainId]) {
         let chainTokens = tokens.filter((t) => t.chainId === chainId);
 
@@ -814,6 +819,7 @@ export default function ExchangeSettingsForm({
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
+      .filter((k) => ZEROX_SUPPORTED_NETWORKS.includes(Number(k)))
       .filter((k) => activeChainIds.includes(Number(k)))
       .filter((key) => {
         let chain = parseChainId(key);
@@ -821,7 +827,7 @@ export default function ExchangeSettingsForm({
         return NETWORKS[chain].testnet === undefined;
       })
       .map((key) => NETWORKS[parseChainId(key)]);
-  }, []);
+  }, [activeChainIds]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
