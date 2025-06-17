@@ -219,5 +219,6 @@ export function useExchangeContextState(params: {
       : process.env.NEXT_PUBLIC_ZRX_API_KEY,
     variant: settings?.variant || "default",
     customVariantSettings: settings?.customVariantSettings,
+    glassSettings: settings?.glassSettings,
   };
 }

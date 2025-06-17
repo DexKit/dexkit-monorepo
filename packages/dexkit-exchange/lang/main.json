@@ -250,5 +250,239 @@
   },
   "your.wallet.is.not.connected": {
     "defaultMessage": "Your wallet is not connected"
+  },
+  "glass.variant": {
+    "defaultMessage": "Glass"
+  },
+  "glass.description": {
+    "defaultMessage": "Modern glass effect with Windows Aero styling"
+  },
+  "glass.primary.color": {
+    "defaultMessage": "Primary Color"
+  },
+  "glass.accent.color": {
+    "defaultMessage": "Accent Color"
+  },
+  "glass.text.color": {
+    "defaultMessage": "Text Color"
+  },
+  "glass.background.type": {
+    "defaultMessage": "Background Type"
+  },
+  "glass.background.color": {
+    "defaultMessage": "Background Color"
+  },
+  "glass.background.gradient": {
+    "defaultMessage": "Background Gradient"
+  },
+  "glass.background.solid": {
+    "defaultMessage": "Solid Color"
+  },
+  "glass.background.image": {
+    "defaultMessage": "Background Image"
+  },
+  "glass.select.background.image": {
+    "defaultMessage": "Select Background Image"
+  },
+  "glass.remove.background.image": {
+    "defaultMessage": "Remove Background Image"
+  },
+  "glass.glassmorphism": {
+    "defaultMessage": "Glassmorphism Effects"
+  },
+  "glass.animations": {
+    "defaultMessage": "Smooth Animations"
+  },
+  "glass.minimalism": {
+    "defaultMessage": "Minimalism Options"
+  },
+  "glass.spacing": {
+    "defaultMessage": "Spacing Configuration"
+  },
+  "glass.hide.labels": {
+    "defaultMessage": "Hide Labels"
+  },
+  "glass.compact.mode": {
+    "defaultMessage": "Compact Mode"
+  },
+  "glass.hide.secondary.info": {
+    "defaultMessage": "Hide Secondary Info"
+  },
+  "glass.enable.glassmorphism": {
+    "defaultMessage": "Enable Glassmorphism"
+  },
+  "glass.enable.animations": {
+    "defaultMessage": "Enable Animations"
+  },
+  "quick.trade": {
+    "defaultMessage": "Quick Trade"
+  },
+  "instant.swap": {
+    "defaultMessage": "Instant Swap"
+  },
+  "trading.chart.placeholder": {
+    "defaultMessage": "Trading Chart - Connect to real data source"
+  },
+  "glass.colors": {
+    "defaultMessage": "Colors"
+  },
+  "glass.auto.configured": {
+    "defaultMessage": "This variant is automatically configured with optimal settings for a minimal and elegant user experience. No additional configuration is required."
+  },
+  "glass.gradient.direction": {
+    "defaultMessage": "Gradient Direction"
+  },
+  "glass.gradient.direction.bottom": {
+    "defaultMessage": "Top to Bottom"
+  },
+  "glass.gradient.direction.top": {
+    "defaultMessage": "Bottom to Top"
+  },
+  "glass.gradient.direction.right": {
+    "defaultMessage": "Left to Right"
+  },
+  "glass.gradient.direction.left": {
+    "defaultMessage": "Right to Left"
+  },
+  "glass.gradient.direction.bottom.right": {
+    "defaultMessage": "Diagonal (Top-Left to Bottom-Right)"
+  },
+  "glass.gradient.direction.bottom.left": {
+    "defaultMessage": "Diagonal (Top-Right to Bottom-Left)"
+  },
+  "glass.blur.intensity": {
+    "defaultMessage": "Blur Intensity"
+  },
+  "glass.opacity": {
+    "defaultMessage": "Glass Opacity"
+  },
+  "glass.disable.background": {
+    "defaultMessage": "Disable Background"
+  },
+  "glass.disable.background.description": {
+    "defaultMessage": "Remove background colors for complete transparency"
+  },
+  "glass.buy.tab.color": {
+    "defaultMessage": "Buy Tab Color"
+  },
+  "glass.sell.tab.color": {
+    "defaultMessage": "Sell Tab Color"
+  },
+  "glass.buy.tab.text.color": {
+    "defaultMessage": "Buy Tab Text Color"
+  },
+  "glass.sell.tab.text.color": {
+    "defaultMessage": "Sell Tab Text Color"
+  },
+  "glass.buy.text": {
+    "defaultMessage": "Buy Text"
+  },
+  "glass.sell.text": {
+    "defaultMessage": "Sell Text"
+  },
+  "glass.tabs.customization": {
+    "defaultMessage": "Tabs Customization"
+  },
+  "glass.tabs.colors": {
+    "defaultMessage": "Tab Colors"
+  },
+  "glass.tabs.texts": {
+    "defaultMessage": "Tab Texts"
+  },
+  "glass.fill.button.customization": {
+    "defaultMessage": "Fill Button Customization"
+  },
+  "glass.fill.button.background.color": {
+    "defaultMessage": "Fill Button Background"
+  },
+  "glass.fill.button.text.color": {
+    "defaultMessage": "Fill Button Text"
+  },
+  "glass.fill.button.hover.background.color": {
+    "defaultMessage": "Fill Button Hover Background"
+  },
+  "glass.fill.button.hover.text.color": {
+    "defaultMessage": "Fill Button Hover Text"
+  },
+  "glass.fill.button.disabled.background.color": {
+    "defaultMessage": "Fill Button Disabled Background"
+  },
+  "glass.fill.button.disabled.text.color": {
+    "defaultMessage": "Fill Button Disabled Text"
+  },
+  "glass.fill.button.colors": {
+    "defaultMessage": "Fill Button Colors"
+  },
+  "glass.fill.button.states": {
+    "defaultMessage": "Button States"
+  },
+  "glass.background.size": {
+    "defaultMessage": "Image Size"
+  },
+  "glass.background.size.cover": {
+    "defaultMessage": "Cover (Fill Container)"
+  },
+  "glass.background.size.contain": {
+    "defaultMessage": "Contain (Fit Inside)"
+  },
+  "glass.background.size.auto": {
+    "defaultMessage": "Auto (Original Size)"
+  },
+  "glass.background.size.stretch": {
+    "defaultMessage": "Stretch (Fill Exactly)"
+  },
+  "glass.background.position": {
+    "defaultMessage": "Image Position"
+  },
+  "glass.background.position.center": {
+    "defaultMessage": "Center"
+  },
+  "glass.background.position.top": {
+    "defaultMessage": "Top"
+  },
+  "glass.background.position.bottom": {
+    "defaultMessage": "Bottom"
+  },
+  "glass.background.position.left": {
+    "defaultMessage": "Left"
+  },
+  "glass.background.position.right": {
+    "defaultMessage": "Right"
+  },
+  "glass.background.position.top-left": {
+    "defaultMessage": "Top Left"
+  },
+  "glass.background.position.top-right": {
+    "defaultMessage": "Top Right"
+  },
+  "glass.background.position.bottom-left": {
+    "defaultMessage": "Bottom Left"
+  },
+  "glass.background.position.bottom-right": {
+    "defaultMessage": "Bottom Right"
+  },
+  "glass.background.repeat": {
+    "defaultMessage": "Image Repeat"
+  },
+  "glass.background.repeat.no-repeat": {
+    "defaultMessage": "No Repeat"
+  },
+  "glass.background.repeat.repeat": {
+    "defaultMessage": "Repeat (Tile)"
+  },
+  "glass.background.repeat.repeat-x": {
+    "defaultMessage": "Repeat Horizontally"
+  },
+  "glass.background.repeat.repeat-y": {
+    "defaultMessage": "Repeat Vertically"
+  },
+  "glass.background.attachment": {
+    "defaultMessage": "Image Attachment"
+  },
+  "glass.background.attachment.fixed": {
+    "defaultMessage": "Fixed (Parallax)"
+  },
+  "glass.background.attachment.scroll": {
+    "defaultMessage": "Scroll (Normal)"
   }
 }

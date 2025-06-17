@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  ButtonBase,
   Chip,
   Container,
   Divider,
@@ -18,6 +19,8 @@ import {
   ListItemText,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   Slider,
   Stack,
@@ -34,6 +37,7 @@ import {
 import { Field, Formik, getIn } from "formik";
 
 import FormikDecimalInput from "@dexkit/ui/components/FormikDecimalInput";
+import MediaDialog from "@dexkit/ui/components/mediaDialog";
 
 import { ChainId, useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
@@ -52,7 +56,9 @@ import FormActions from "./ExchangeSettingsFormActions";
 
 import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import {
+  Delete as DeleteIcon,
   DragIndicator as DragIndicatorIcon,
+  Image as ImageIcon,
   Info as InfoIcon,
   SwapHoriz as SwapHorizIcon,
   TrendingUp as TrendingUpIcon,
@@ -201,6 +207,313 @@ function ColorPickerField({
   );
 }
 
+function BackgroundImageSelector({
+  value,
+  onChange,
+  sizeValue,
+  onSizeChange,
+  positionValue,
+  onPositionChange,
+  repeatValue,
+  onRepeatChange,
+  attachmentValue,
+  onAttachmentChange,
+}: {
+  value?: string;
+  onChange: (url: string | undefined) => void;
+  sizeValue?: string;
+  onSizeChange: (size: string) => void;
+  positionValue?: string;
+  onPositionChange: (position: string) => void;
+  repeatValue?: string;
+  onRepeatChange: (repeat: string) => void;
+  attachmentValue?: string;
+  onAttachmentChange: (attachment: string) => void;
+}) {
+  const [showMediaDialog, setShowMediaDialog] = useState(false);
+  const theme = useTheme();
+  const isMobile = useIsMobile();
+
+  const handleSelectImage = (file: { url: string }) => {
+    onChange(file.url);
+    setShowMediaDialog(false);
+  };
+
+  const handleRemoveImage = () => {
+    onChange(undefined);
+  };
+
+  return (
+    <Box sx={{ mt: 2 }}>
+      <Typography variant="body2" gutterBottom sx={{ fontWeight: theme.typography.fontWeightMedium }}>
+        <FormattedMessage
+          id="glass.background.image"
+          defaultMessage="Background Image"
+        />
+      </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+        <ButtonBase
+          onClick={() => setShowMediaDialog(true)}
+          sx={{
+            width: { xs: theme.spacing(15), sm: theme.spacing(20) },
+            height: { xs: theme.spacing(10), sm: theme.spacing(12) },
+            border: `2px dashed ${theme.palette.divider}`,
+            borderRadius: theme.shape.borderRadius,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 1,
+            transition: theme.transitions.create(['border-color', 'background-color']),
+            '&:hover': {
+              borderColor: theme.palette.primary.main,
+              backgroundColor: theme.palette.action.hover,
+            },
+          }}
+        >
+          {value ? (
+            <img
+              src={value}
+              alt="Background"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: theme.shape.borderRadius,
+              }}
+            />
+          ) : (
+            <>
+              <ImageIcon sx={{ fontSize: theme.spacing(4), color: theme.palette.text.secondary }} />
+              <Typography variant="caption" color="text.secondary" textAlign="center">
+                <FormattedMessage
+                  id="glass.select.background.image"
+                  defaultMessage="Select Background Image"
+                />
+              </Typography>
+            </>
+          )}
+        </ButtonBase>
+
+        {value && (
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            startIcon={<DeleteIcon />}
+            onClick={handleRemoveImage}
+            sx={{ minWidth: 'auto' }}
+          >
+            <FormattedMessage
+              id="glass.remove.background.image"
+              defaultMessage="Remove Background Image"
+            />
+          </Button>
+        )}
+      </Box>
+
+      {value && (
+        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth size="small">
+                <InputLabel>
+                  <FormattedMessage
+                    id="glass.background.size"
+                    defaultMessage="Image Size"
+                  />
+                </InputLabel>
+                <Select
+                  value={sizeValue || "cover"}
+                  onChange={(e) => onSizeChange(e.target.value)}
+                  label="Image Size"
+                >
+                  <MenuItem value="cover">
+                    <FormattedMessage
+                      id="glass.background.size.cover"
+                      defaultMessage="Cover (Fill Container)"
+                    />
+                  </MenuItem>
+                  <MenuItem value="contain">
+                    <FormattedMessage
+                      id="glass.background.size.contain"
+                      defaultMessage="Contain (Fit Inside)"
+                    />
+                  </MenuItem>
+                  <MenuItem value="auto">
+                    <FormattedMessage
+                      id="glass.background.size.auto"
+                      defaultMessage="Auto (Original Size)"
+                    />
+                  </MenuItem>
+                  <MenuItem value="100% 100%">
+                    <FormattedMessage
+                      id="glass.background.size.stretch"
+                      defaultMessage="Stretch (Fill Exactly)"
+                    />
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth size="small">
+                <InputLabel>
+                  <FormattedMessage
+                    id="glass.background.position"
+                    defaultMessage="Image Position"
+                  />
+                </InputLabel>
+                <Select
+                  value={positionValue || "center"}
+                  onChange={(e) => onPositionChange(e.target.value)}
+                  label="Image Position"
+                >
+                  <MenuItem value="center">
+                    <FormattedMessage
+                      id="glass.background.position.center"
+                      defaultMessage="Center"
+                    />
+                  </MenuItem>
+                  <MenuItem value="top">
+                    <FormattedMessage
+                      id="glass.background.position.top"
+                      defaultMessage="Top"
+                    />
+                  </MenuItem>
+                  <MenuItem value="bottom">
+                    <FormattedMessage
+                      id="glass.background.position.bottom"
+                      defaultMessage="Bottom"
+                    />
+                  </MenuItem>
+                  <MenuItem value="left">
+                    <FormattedMessage
+                      id="glass.background.position.left"
+                      defaultMessage="Left"
+                    />
+                  </MenuItem>
+                  <MenuItem value="right">
+                    <FormattedMessage
+                      id="glass.background.position.right"
+                      defaultMessage="Right"
+                    />
+                  </MenuItem>
+                  <MenuItem value="top left">
+                    <FormattedMessage
+                      id="glass.background.position.top-left"
+                      defaultMessage="Top Left"
+                    />
+                  </MenuItem>
+                  <MenuItem value="top right">
+                    <FormattedMessage
+                      id="glass.background.position.top-right"
+                      defaultMessage="Top Right"
+                    />
+                  </MenuItem>
+                  <MenuItem value="bottom left">
+                    <FormattedMessage
+                      id="glass.background.position.bottom-left"
+                      defaultMessage="Bottom Left"
+                    />
+                  </MenuItem>
+                  <MenuItem value="bottom right">
+                    <FormattedMessage
+                      id="glass.background.position.bottom-right"
+                      defaultMessage="Bottom Right"
+                    />
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth size="small">
+                <InputLabel>
+                  <FormattedMessage
+                    id="glass.background.repeat"
+                    defaultMessage="Image Repeat"
+                  />
+                </InputLabel>
+                <Select
+                  value={repeatValue || "no-repeat"}
+                  onChange={(e) => onRepeatChange(e.target.value)}
+                  label="Image Repeat"
+                >
+                  <MenuItem value="no-repeat">
+                    <FormattedMessage
+                      id="glass.background.repeat.no-repeat"
+                      defaultMessage="No Repeat"
+                    />
+                  </MenuItem>
+                  <MenuItem value="repeat">
+                    <FormattedMessage
+                      id="glass.background.repeat.repeat"
+                      defaultMessage="Repeat (Tile)"
+                    />
+                  </MenuItem>
+                  <MenuItem value="repeat-x">
+                    <FormattedMessage
+                      id="glass.background.repeat.repeat-x"
+                      defaultMessage="Repeat Horizontally"
+                    />
+                  </MenuItem>
+                  <MenuItem value="repeat-y">
+                    <FormattedMessage
+                      id="glass.background.repeat.repeat-y"
+                      defaultMessage="Repeat Vertically"
+                    />
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth size="small">
+                <InputLabel>
+                  <FormattedMessage
+                    id="glass.background.attachment"
+                    defaultMessage="Image Attachment"
+                  />
+                </InputLabel>
+                <Select
+                  value={attachmentValue || "scroll"}
+                  onChange={(e) => onAttachmentChange(e.target.value)}
+                  label="Image Attachment"
+                >
+                  <MenuItem value="scroll">
+                    <FormattedMessage
+                      id="glass.background.attachment.scroll"
+                      defaultMessage="Scroll (Normal)"
+                    />
+                  </MenuItem>
+                  <MenuItem value="fixed">
+                    <FormattedMessage
+                      id="glass.background.attachment.fixed"
+                      defaultMessage="Fixed (Parallax)"
+                    />
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+
+      <MediaDialog
+        dialogProps={{
+          open: showMediaDialog,
+          maxWidth: 'lg',
+          fullWidth: true,
+          onClose: () => setShowMediaDialog(false),
+        }}
+        onConfirmSelectFile={handleSelectImage}
+      />
+    </Box>
+  );
+}
+
 function VariantConfigurationTab() {
   const { values, setFieldValue } = useFormikContext<DexkitExchangeSettings>();
   const [tabValue, setTabValue] = useState(0);
@@ -224,6 +537,12 @@ function VariantConfigurationTab() {
         >
           <MenuItem value="default">Default</MenuItem>
           <MenuItem value="custom">Custom</MenuItem>
+          <MenuItem value="glass">
+            <FormattedMessage
+              id="glass.variant"
+              defaultMessage="Glass"
+            />
+          </MenuItem>
         </Select>
       </FormControl>
 
@@ -321,6 +640,19 @@ function VariantConfigurationTab() {
                 label="Background Color"
                 value={values.customVariantSettings?.backgroundColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.backgroundColor", value)}
+              />
+
+              <BackgroundImageSelector
+                value={values.customVariantSettings?.backgroundImage}
+                onChange={(url) => setFieldValue("customVariantSettings.backgroundImage", url)}
+                sizeValue={values.customVariantSettings?.backgroundSize}
+                onSizeChange={(size) => setFieldValue("customVariantSettings.backgroundSize", size)}
+                positionValue={values.customVariantSettings?.backgroundPosition}
+                onPositionChange={(position) => setFieldValue("customVariantSettings.backgroundPosition", position)}
+                repeatValue={values.customVariantSettings?.backgroundRepeat}
+                onRepeatChange={(repeat) => setFieldValue("customVariantSettings.backgroundRepeat", repeat)}
+                attachmentValue={values.customVariantSettings?.backgroundAttachment}
+                onAttachmentChange={(attachment) => setFieldValue("customVariantSettings.backgroundAttachment", attachment)}
               />
 
               <Typography gutterBottom sx={{ mt: 2 }}>
@@ -437,6 +769,401 @@ function VariantConfigurationTab() {
               />
             </Box>
           )}
+        </Paper>
+      )}
+
+      {values.variant === "glass" && (
+        <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            <FormattedMessage
+              id="glass.variant"
+              defaultMessage="Glass"
+            />
+          </Typography>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            <FormattedMessage
+              id="glass.description"
+              defaultMessage="Modern glass effect"
+            />
+          </Typography>
+
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'medium' }}>
+              <FormattedMessage
+                id="glass.background.type"
+                defaultMessage="Background Type"
+              />
+            </Typography>
+            <RadioGroup
+              value={values.glassSettings?.backgroundType || "gradient"}
+              onChange={(e) => setFieldValue("glassSettings.backgroundType", e.target.value)}
+              row
+            >
+              <FormControlLabel
+                value="solid"
+                control={<Radio />}
+                label={
+                  <FormattedMessage
+                    id="glass.background.solid"
+                    defaultMessage="Solid Color"
+                  />
+                }
+              />
+              <FormControlLabel
+                value="gradient"
+                control={<Radio />}
+                label={
+                  <FormattedMessage
+                    id="glass.background.gradient"
+                    defaultMessage="Gradient"
+                  />
+                }
+              />
+              <FormControlLabel
+                value="image"
+                control={<Radio />}
+                label={
+                  <FormattedMessage
+                    id="glass.background.image"
+                    defaultMessage="Background Image"
+                  />
+                }
+              />
+            </RadioGroup>
+
+            {values.glassSettings?.backgroundType === "solid" && (
+              <Box sx={{ mt: 2 }}>
+                <ColorPickerField
+                  label="Background Color"
+                  value={values.glassSettings?.backgroundColor || "#1a1a1a"}
+                  onChange={(value) => setFieldValue("glassSettings.backgroundColor", value)}
+                  defaultValue="#1a1a1a"
+                />
+              </Box>
+            )}
+
+            {values.glassSettings?.backgroundType === "gradient" && (
+              <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <ColorPickerField
+                  label="Gradient Start Color"
+                  value={values.glassSettings?.gradientStartColor || "#1a1a1a"}
+                  onChange={(value) => setFieldValue("glassSettings.gradientStartColor", value)}
+                  defaultValue="#1a1a1a"
+                />
+                <ColorPickerField
+                  label="Gradient End Color"
+                  value={values.glassSettings?.gradientEndColor || "#2d2d2d"}
+                  onChange={(value) => setFieldValue("glassSettings.gradientEndColor", value)}
+                  defaultValue="#2d2d2d"
+                />
+                <FormControl fullWidth>
+                  <InputLabel>
+                    <FormattedMessage
+                      id="glass.gradient.direction"
+                      defaultMessage="Gradient Direction"
+                    />
+                  </InputLabel>
+                  <Select
+                    value={values.glassSettings?.gradientDirection || "to bottom"}
+                    onChange={(e) => setFieldValue("glassSettings.gradientDirection", e.target.value)}
+                    label="Gradient Direction"
+                  >
+                    <MenuItem value="to bottom">
+                      <FormattedMessage
+                        id="glass.gradient.direction.bottom"
+                        defaultMessage="Top to Bottom"
+                      />
+                    </MenuItem>
+                    <MenuItem value="to top">
+                      <FormattedMessage
+                        id="glass.gradient.direction.top"
+                        defaultMessage="Bottom to Top"
+                      />
+                    </MenuItem>
+                    <MenuItem value="to right">
+                      <FormattedMessage
+                        id="glass.gradient.direction.right"
+                        defaultMessage="Left to Right"
+                      />
+                    </MenuItem>
+                    <MenuItem value="to left">
+                      <FormattedMessage
+                        id="glass.gradient.direction.left"
+                        defaultMessage="Right to Left"
+                      />
+                    </MenuItem>
+                    <MenuItem value="to bottom right">
+                      <FormattedMessage
+                        id="glass.gradient.direction.bottom.right"
+                        defaultMessage="Diagonal (Top-Left to Bottom-Right)"
+                      />
+                    </MenuItem>
+                    <MenuItem value="to bottom left">
+                      <FormattedMessage
+                        id="glass.gradient.direction.bottom.left"
+                        defaultMessage="Diagonal (Top-Right to Bottom-Left)"
+                      />
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            )}
+
+            {values.glassSettings?.backgroundType === "image" && (
+              <BackgroundImageSelector
+                value={values.glassSettings?.backgroundImage}
+                onChange={(url) => setFieldValue("glassSettings.backgroundImage", url)}
+                sizeValue={values.glassSettings?.backgroundSize}
+                onSizeChange={(size) => setFieldValue("glassSettings.backgroundSize", size)}
+                positionValue={values.glassSettings?.backgroundPosition}
+                onPositionChange={(position) => setFieldValue("glassSettings.backgroundPosition", position)}
+                repeatValue={values.glassSettings?.backgroundRepeat}
+                onRepeatChange={(repeat) => setFieldValue("glassSettings.backgroundRepeat", repeat)}
+                attachmentValue={values.glassSettings?.backgroundAttachment}
+                onAttachmentChange={(attachment) => setFieldValue("glassSettings.backgroundAttachment", attachment)}
+              />
+            )}
+
+            <Box sx={{ mt: 3 }}>
+              <ColorPickerField
+                label="Text Color"
+                value={values.glassSettings?.textColor || "#ffffff"}
+                onChange={(value) => setFieldValue("glassSettings.textColor", value)}
+                defaultValue="#ffffff"
+              />
+            </Box>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography gutterBottom>
+                <FormattedMessage
+                  id="glass.blur.intensity"
+                  defaultMessage="Blur Intensity"
+                />
+                : {values.glassSettings?.blurIntensity || 80}px
+              </Typography>
+              <Slider
+                value={values.glassSettings?.blurIntensity || 80}
+                onChange={(e, value) => setFieldValue("glassSettings.blurIntensity", value)}
+                min={20}
+                max={120}
+                step={10}
+                marks
+                valueLabelDisplay="auto"
+              />
+            </Box>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography gutterBottom>
+                <FormattedMessage
+                  id="glass.opacity"
+                  defaultMessage="Glass Opacity"
+                />
+                : {((values.glassSettings?.glassOpacity || 0.10) * 100).toFixed(0)}%
+              </Typography>
+              <Slider
+                value={values.glassSettings?.glassOpacity || 0.10}
+                onChange={(e, value) => setFieldValue("glassSettings.glassOpacity", value)}
+                min={0.02}
+                max={0.30}
+                step={0.02}
+                valueLabelDisplay="auto"
+                valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
+              />
+            </Box>
+
+            <Box sx={{ mt: 3 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={values.glassSettings?.disableBackground || false}
+                    onChange={(e) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
+                  />
+                }
+                label={
+                  <Box>
+                    <Typography variant="body2">
+                      <FormattedMessage
+                        id="glass.disable.background"
+                        defaultMessage="Disable Background"
+                      />
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      <FormattedMessage
+                        id="glass.disable.background.description"
+                        defaultMessage="Remove background colors for complete transparency"
+                      />
+                    </Typography>
+                  </Box>
+                }
+              />
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography variant="h6" gutterBottom>
+                <FormattedMessage
+                  id="glass.tabs.customization"
+                  defaultMessage="Tabs Customization"
+                />
+              </Typography>
+
+              <Typography variant="subtitle2" sx={{ mt: 2, mb: 2 }}>
+                <FormattedMessage
+                  id="glass.tabs.colors"
+                  defaultMessage="Tab Colors"
+                />
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Buy Tab Color"
+                    value={values.glassSettings?.buyTabColor || "#00d4aa"}
+                    onChange={(value) => setFieldValue("glassSettings.buyTabColor", value)}
+                    defaultValue="#00d4aa"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Sell Tab Color"
+                    value={values.glassSettings?.sellTabColor || "#ff6b6b"}
+                    onChange={(value) => setFieldValue("glassSettings.sellTabColor", value)}
+                    defaultValue="#ff6b6b"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Buy Tab Text Color"
+                    value={values.glassSettings?.buyTabTextColor || "#ffffff"}
+                    onChange={(value) => setFieldValue("glassSettings.buyTabTextColor", value)}
+                    defaultValue="#ffffff"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Sell Tab Text Color"
+                    value={values.glassSettings?.sellTabTextColor || "#ffffff"}
+                    onChange={(value) => setFieldValue("glassSettings.sellTabTextColor", value)}
+                    defaultValue="#ffffff"
+                  />
+                </Grid>
+              </Grid>
+
+              <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }}>
+                <FormattedMessage
+                  id="glass.tabs.texts"
+                  defaultMessage="Tab Texts"
+                />
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label={
+                      <FormattedMessage
+                        id="glass.buy.text"
+                        defaultMessage="Buy Text"
+                      />
+                    }
+                    value={values.glassSettings?.buyText || ""}
+                    onChange={(e) => setFieldValue("glassSettings.buyText", e.target.value)}
+                    placeholder="BUY"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label={
+                      <FormattedMessage
+                        id="glass.sell.text"
+                        defaultMessage="Sell Text"
+                      />
+                    }
+                    value={values.glassSettings?.sellText || ""}
+                    onChange={(e) => setFieldValue("glassSettings.sellText", e.target.value)}
+                    placeholder="SELL"
+                    size="small"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography variant="h6" gutterBottom>
+                <FormattedMessage
+                  id="glass.fill.button.customization"
+                  defaultMessage="Fill Button Customization"
+                />
+              </Typography>
+
+              <Typography variant="subtitle2" sx={{ mt: 2, mb: 2 }}>
+                <FormattedMessage
+                  id="glass.fill.button.colors"
+                  defaultMessage="Fill Button Colors"
+                />
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Background Color"
+                    value={values.glassSettings?.fillButtonBackgroundColor || "#007AFF"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonBackgroundColor", value)}
+                    defaultValue="#007AFF"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Text Color"
+                    value={values.glassSettings?.fillButtonTextColor || "#ffffff"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonTextColor", value)}
+                    defaultValue="#ffffff"
+                  />
+                </Grid>
+              </Grid>
+
+              <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }}>
+                <FormattedMessage
+                  id="glass.fill.button.states"
+                  defaultMessage="Button States"
+                />
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Hover Background"
+                    value={values.glassSettings?.fillButtonHoverBackgroundColor || "#0056CC"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
+                    defaultValue="#0056CC"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Hover Text"
+                    value={values.glassSettings?.fillButtonHoverTextColor || "#ffffff"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverTextColor", value)}
+                    defaultValue="#ffffff"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Disabled Background"
+                    value={values.glassSettings?.fillButtonDisabledBackgroundColor || "#666666"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
+                    defaultValue="#666666"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label="Disabled Text"
+                    value={values.glassSettings?.fillButtonDisabledTextColor || "#999999"}
+                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
+                    defaultValue="#999999"
+                  />
+                </Grid>
+              </Grid>
+
+
+            </Box>
+          </Box>
         </Paper>
       )}
     </Container>
@@ -604,7 +1331,7 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                     <Typography
                       variant="caption"
                       color="text.secondary"
-                      sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' } }}
+                      sx={{ fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.caption.fontSize } }}
                     >
                       Position {index + 1} • {isPairInfo ? 'Horizontal Strip' : 'Box Component'}
                     </Typography>
@@ -891,7 +1618,10 @@ export default function ExchangeSettingsForm({
 
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
-      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+      <Box sx={{
+        overflowY: 'auto',
+        maxHeight: `calc(100vh - ${theme.spacing(25)})`
+      }}>
         {networks.length === 0 ? (
           <Paper sx={{ p: 3, textAlign: 'center' }}>
             <Typography variant="h6" gutterBottom>
