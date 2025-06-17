@@ -62,8 +62,9 @@ import { useFormikContext } from "formik";
 import setWith from "lodash/setWith";
 import { ZEROX_SUPPORTED_NETWORKS } from "../../constants";
 import {
+  BASE_TOKENS_SUGGESTION,
   DEFAULT_TOKENS,
-  QUOTE_TOKENS_SUGGESTION,
+  EXTENDED_QUOTE_TOKENS_SUGGESTION,
 } from "../../constants/tokens";
 import ExchangeQuoteTokensInput from "./ExchangeQuoteTokensInput";
 import ExchangeTokenInput from "./ExchangeTokenInput";
@@ -744,7 +745,20 @@ export default function ExchangeSettingsForm({
   };
 
   const getInitialTokens = useCallback(() => {
-    const resQuote = QUOTE_TOKENS_SUGGESTION.map((t) => {
+    const allAvailableTokens = [
+      ...tokens,
+      ...EXTENDED_QUOTE_TOKENS_SUGGESTION,
+      ...BASE_TOKENS_SUGGESTION,
+    ];
+
+    const uniqueTokens = allAvailableTokens.filter((token, index, self) =>
+      index === self.findIndex(t =>
+        t.chainId === token.chainId &&
+        isAddressEqual(t.address, token.address)
+      )
+    );
+
+    const resQuote = EXTENDED_QUOTE_TOKENS_SUGGESTION.map((t) => {
       return { chainId: t.chainId, token: t };
     }).reduce(
       (prev, curr) => {
@@ -754,7 +768,7 @@ export default function ExchangeSettingsForm({
           obj[curr.chainId] = { baseTokens: [], quoteTokens: [] };
         }
 
-        let index = tokens.findIndex(
+        let index = uniqueTokens.findIndex(
           (t) =>
             curr.token.chainId === t.chainId &&
             isAddressEqual(curr.token.address, t.address)
@@ -777,7 +791,7 @@ export default function ExchangeSettingsForm({
       }
 
       if (resQuote[chainId]) {
-        let chainTokens = tokens.filter((t) => t.chainId === chainId);
+        let chainTokens = uniqueTokens.filter((t) => t.chainId === chainId);
 
         for (let token of chainTokens) {
           let index = resQuote[chainId].quoteTokens.findIndex(
@@ -792,6 +806,17 @@ export default function ExchangeSettingsForm({
         }
       } else {
         resQuote[chainId] = { baseTokens: [], quoteTokens: [] };
+        let chainTokens = uniqueTokens.filter((t) => t.chainId === chainId);
+        resQuote[chainId].baseTokens = chainTokens.filter(t =>
+          BASE_TOKENS_SUGGESTION.some(bt =>
+            bt.chainId === t.chainId && isAddressEqual(bt.address, t.address)
+          )
+        );
+        resQuote[chainId].quoteTokens = chainTokens.filter(t =>
+          EXTENDED_QUOTE_TOKENS_SUGGESTION.some(qt =>
+            qt.chainId === t.chainId && isAddressEqual(qt.address, t.address)
+          )
+        );
       }
     }
 
@@ -801,14 +826,12 @@ export default function ExchangeSettingsForm({
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
       .filter((k) => ZEROX_SUPPORTED_NETWORKS.includes(Number(k)))
-      .filter((k) => activeChainIds.includes(Number(k)))
       .filter((key) => {
         let chain = parseChainId(key);
-
-        return NETWORKS[chain].testnet === undefined;
+        return NETWORKS[chain].testnet !== true;
       })
       .map((key) => NETWORKS[parseChainId(key)]);
-  }, [activeChainIds]);
+  }, []);
 
   const defaultNetwork = useMemo(() => {
     if (settings?.defaultNetwork && networks.some(n => n.chainId === settings.defaultNetwork)) {
@@ -880,7 +903,7 @@ export default function ExchangeSettingsForm({
             <Typography variant="body2" color="text.secondary">
               <FormattedMessage
                 id="exchange.requires.0x.compatible.networks"
-                defaultMessage="Exchange requires compatible networks with 0x API. Please enable at least one of the following networks: Ethereum, Polygon, BSC, Optimism, Fantom, Celo, Avalanche, Arbitrum or Base."
+                defaultMessage="Exchange requires compatible networks with 0x API. Please enable at least one of the following networks: Ethereum, Optimism, BSC, Polygon, Base, Arbitrum, Avalanche, Linea, Scroll, Mantle, Blast or Mode."
               />
             </Typography>
           </Paper>
@@ -892,8 +915,7 @@ export default function ExchangeSettingsForm({
                   ...settings,
                   defaultNetwork: defaultNetwork,
                   availNetworks: settings.availNetworks.filter(network =>
-                    ZEROX_SUPPORTED_NETWORKS.includes(network) &&
-                    activeChainIds.includes(network)
+                    ZEROX_SUPPORTED_NETWORKS.includes(network)
                   ),
                 }
                 : {
@@ -1262,6 +1284,46 @@ export default function ExchangeSettingsForm({
                             size={isMobile ? "small" : "medium"}
                           />
                         </Grid>
+
+                        <Grid item xs={12}>
+                          <Field
+                            component={TextField}
+                            label={
+                              <FormattedMessage
+                                id="fee.recipient.address"
+                                defaultMessage="Fee recipient address"
+                              />
+                            }
+                            fullWidth
+                            name="feeRecipientAddress"
+                            size={isMobile ? "small" : "medium"}
+                            placeholder="0xyouraddress...."
+                            InputLabelProps={{ shrink: true }}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <FormikDecimalInput
+                            name="buyTokenPercentageFee"
+                            decimals={2}
+                            maxDigits={3}
+                            TextFieldProps={{
+                              fullWidth: true,
+                              label: (
+                                <FormattedMessage
+                                  id="fee.amount"
+                                  defaultMessage="Fee amount"
+                                />
+                              ),
+                              InputProps: {
+                                endAdornment: (
+                                  <InputAdornment position="end">%</InputAdornment>
+                                ),
+                              },
+                              size: isMobile ? "small" : "medium",
+                            }}
+                          />
+                        </Grid>
                       </Grid>
                     </Paper>
                   </Grid>
@@ -1270,43 +1332,7 @@ export default function ExchangeSettingsForm({
                     <VariantConfigurationTab />
                   </Grid>
 
-                  <Grid item xs={12} sm={isSmallDevice ? 12 : 9}>
-                    <Field
-                      component={TextField}
-                      label={
-                        <FormattedMessage
-                          id="fee.recipient.address"
-                          defaultMessage="Fee recipient address"
-                        />
-                      }
-                      fullWidth
-                      name="feeRecipientAddress"
-                      size={isMobile ? "small" : "medium"}
-                    />
-                  </Grid>
 
-                  <Grid item xs={12} sm={isSmallDevice ? 12 : 3}>
-                    <FormikDecimalInput
-                      name="buyTokenPercentageFee"
-                      decimals={2}
-                      maxDigits={3}
-                      TextFieldProps={{
-                        fullWidth: true,
-                        label: (
-                          <FormattedMessage
-                            id="fee.amount"
-                            defaultMessage="Fee amount"
-                          />
-                        ),
-                        InputProps: {
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        },
-                        size: isMobile ? "small" : "medium",
-                      }}
-                    />
-                  </Grid>
                   {showSaveButton && (
                     <FormActions
                       onSubmit={submitForm}

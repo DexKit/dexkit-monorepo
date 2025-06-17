@@ -22,8 +22,8 @@ export default function ExchangeSectionSettingsForm({
   const { activeChainIds } = useActiveChainIds();
 
   const exchangeActiveChainIds = useMemo(() => {
-    return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
-  }, [activeChainIds]);
+    return ZEROX_SUPPORTED_NETWORKS;
+  }, []);
 
   const handleSave = (settings: DexkitExchangeSettings) => {
     if (onSave) {

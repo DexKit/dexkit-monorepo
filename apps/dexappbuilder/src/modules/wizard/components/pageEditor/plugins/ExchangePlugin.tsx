@@ -20,8 +20,8 @@ const ExchangePlugin: CellPlugin<DexkitExchangeSettings> = {
       const { wizardConfig } = useAppWizardConfig();
 
       const exchangeActiveChainIds = useMemo(() => {
-        return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
-      }, [activeChainIds]);
+        return ZEROX_SUPPORTED_NETWORKS;
+      }, []);
 
       const tokens = useMemo(() => {
         if (wizardConfig.tokens && wizardConfig.tokens?.length > 0) {

@@ -1,8 +1,27 @@
-import { chainsViem } from '@dexkit/core/constants/chainsViem';
-import { getDefaultConfig } from '../rainbowkit/config/getDefaultConfig';
+import { createConfig, http } from 'wagmi'
+import { arbitrum, avalanche, base, bsc, mainnet, optimism, polygon, polygonAmoy, sepolia } from 'wagmi/chains'
+import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
 
-
-export const wagmiConfig = getDefaultConfig({ chains: chainsViem, appName: 'Dapp', projectId: 'bcd1271357ab9202f271bc908324aff6' })
+export const config = createConfig({
+  chains: [mainnet, sepolia, polygon, polygonAmoy, bsc, avalanche, base, optimism, arbitrum],
+  connectors: [
+    injected(),
+    walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID! }),
+    metaMask(),
+    safe(),
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [polygon.id]: http(),
+    [polygonAmoy.id]: http(),
+    [bsc.id]: http(),
+    [avalanche.id]: http(),
+    [base.id]: http(),
+    [optimism.id]: http(),
+    [arbitrum.id]: http(),
+  },
+})
 
 
 /*createConfig({

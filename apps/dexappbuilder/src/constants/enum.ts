@@ -26,18 +26,19 @@ export enum NetworkName {
   BSC = 'bsc',
   POLYGON = 'polygon',
   AVAX = 'avax',
-  FANTOM = 'ftm',
   ROPSTEN = 'ropsten',
   RINKEBY = 'rinkeby',
   MUMBAI = 'mumbai',
   OPTMISM = 'optimism',
   Arbitrum = 'arbitrum',
   CELO = 'celo',
+  BASE = 'base',
+  LINEA = 'linea',
+  SCROLL = 'scroll',
+  MANTLE = 'mantle',
+  BLAST = 'blast',
+  MODE = 'mode',
 }
-
-
-
-
 
 export enum SellOrBuy {
   All = 'all',

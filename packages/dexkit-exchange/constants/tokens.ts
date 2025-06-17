@@ -131,16 +131,6 @@ export const DAI_TOKEN_POLYGON: Token = {
   logoURI: DAI_LOGO_URL,
 };
 
-export const DAI_TOKEN_FANTOM: Token = {
-  address: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
-  decimals: 18,
-  name: "DAI",
-  symbol: "DAI",
-  coingeckoId: "dai",
-  chainId: ChainId.Fantom,
-  logoURI: DAI_LOGO_URL,
-};
-
 export const DAI_TOKEN_AVAX: Token = {
   address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
   decimals: 18,
@@ -198,16 +188,6 @@ export const USDC_TOKEN_BSC: Token = {
   symbol: "USDC",
   coingeckoId: "usdc",
   chainId: ChainId.BSC,
-  logoURI: USDC_LOGO_URL,
-};
-
-export const USDC_TOKEN_FANTOM: Token = {
-  address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
-  decimals: 6,
-  name: "USD Coin",
-  symbol: "USDC",
-  coingeckoId: "usdc",
-  chainId: ChainId.Fantom,
   logoURI: USDC_LOGO_URL,
 };
 
@@ -284,14 +264,12 @@ export const QUOTE_TOKENS_SUGGESTION = [
 
   DAI_TOKEN_ETH,
   DAI_TOKEN_AVAX,
-  DAI_TOKEN_FANTOM,
   DAI_TOKEN_OPT,
   DAI_TOKEN_POLYGON,
   DAI_TOKEN_BSC,
 
   USDC_TOKEN_ETH,
   USDC_TOKEN_POLYGON,
-  USDC_TOKEN_FANTOM,
   USDC_TOKEN_BSC,
   USDC_TOKEN_AVAX,
   USDC_TOKEN_OPT,
@@ -312,17 +290,6 @@ export const WRAPPED_ETH_POLYGON: Token = {
   chainId: ChainId.Polygon,
   name: "Wrapped Ether",
   address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-  decimals: 18,
-  symbol: "WETH",
-  coingeckoId: "ethereum",
-
-  logoURI: WRAPPED_ETH_LOGO_URL,
-};
-
-export const WRAPPED_ETH_FANTOM: Token = {
-  chainId: ChainId.Fantom,
-  name: "Wrapped Ether",
-  address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
   decimals: 18,
   symbol: "WETH",
   coingeckoId: "ethereum",
@@ -405,17 +372,6 @@ export const WRAPPED_BTC_ARB: Token = {
   logoURI: WRAPPED_BTC_LOGO_URL,
 };
 
-export const WRAPPED_BTC_FANTOM: Token = {
-  chainId: ChainId.Fantom,
-  name: "Wrapped Bitcoin",
-  address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
-  decimals: 18,
-  symbol: "WBTC",
-  coingeckoId: "btc",
-
-  logoURI: WRAPPED_BTC_LOGO_URL,
-};
-
 export const WRAPPED_BTC_AVAX: Token = {
   chainId: ChainId.Avax,
   name: "Wrapped Bitcoin",
@@ -456,21 +412,418 @@ export const COINBASE_WRAPPED_STAKED: Token = {
   logoURI: WRAPPED_ETH_LOGO_URL,
 };
 
+export const WRAPPED_ETH_MODE: Token = {
+  chainId: ChainId.Mode,
+  address: "0x4200000000000000000000000000000000000006",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  coingeckoId: "ethereum",
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
+export const USDC_TOKEN_MODE: Token = {
+  chainId: ChainId.Mode,
+  address: "0xd988097fb8612cc24eeC14542bC03424c656005f",
+  name: "USD Coin",
+  symbol: "USDC",
+  decimals: 6,
+  coingeckoId: "usdc",
+  logoURI: USDC_LOGO_URL,
+};
+
+export const WRAPPED_ETH_BLAST: Token = {
+  chainId: ChainId.Blast,
+  address: "0x4300000000000000000000000000000000000004",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  coingeckoId: "ethereum",
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
+export const USDB_TOKEN_BLAST: Token = {
+  chainId: ChainId.Blast,
+  address: "0x4300000000000000000000000000000000000003",
+  name: "USD Blast",
+  symbol: "USDB",
+  decimals: 18,
+  logoURI: "https://raw.githubusercontent.com/dexkit/icons/master/token/usdb.jpg",
+};
+
+export const WRAPPED_ETH_SCROLL: Token = {
+  chainId: ChainId.Scroll,
+  address: "0x5300000000000000000000000000000000000004",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  coingeckoId: "ethereum",
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
+export const USDC_TOKEN_SCROLL: Token = {
+  chainId: ChainId.Scroll,
+  address: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  name: "USD Coin",
+  symbol: "USDC",
+  decimals: 6,
+  coingeckoId: "usdc",
+  logoURI: USDC_LOGO_URL,
+};
+
+export const WRAPPED_ETH_LINEA: Token = {
+  chainId: ChainId.Linea,
+  address: "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  coingeckoId: "ethereum",
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
+export const USDC_TOKEN_LINEA: Token = {
+  chainId: ChainId.Linea,
+  address: "0x176211869cA2b568f2A7D4EE941E073a821EE1ff",
+  name: "USD Coin",
+  symbol: "USDC",
+  decimals: 6,
+  coingeckoId: "usdc",
+  logoURI: USDC_LOGO_URL,
+};
+
+export const WRAPPED_ETH_MANTLE: Token = {
+  chainId: ChainId.Mantle,
+  address: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  coingeckoId: "ethereum",
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
+export const USDC_TOKEN_MANTLE: Token = {
+  chainId: ChainId.Mantle,
+  address: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+  name: "USD Coin",
+  symbol: "USDC",
+  decimals: 6,
+  coingeckoId: "usdc",
+  logoURI: USDC_LOGO_URL,
+};
+
+// **TOKENS DAI PARA NUEVAS REDES** 
+export const DAI_TOKEN_LINEA: Token = {
+  address: "0x4AF15ec2A0BD43Db75dd04E62FAA3B8EF36b00d5",
+  decimals: 18,
+  name: "Dai Stablecoin",
+  symbol: "DAI",
+  coingeckoId: "dai",
+  chainId: ChainId.Linea,
+  logoURI: DAI_LOGO_URL,
+};
+
+export const DAI_TOKEN_SCROLL: Token = {
+  address: "0xcA77eB3fEFe3725Dc33bccB54eDEFc3D9f764f97",
+  decimals: 18,
+  name: "Dai Stablecoin",
+  symbol: "DAI",
+  coingeckoId: "dai",
+  chainId: ChainId.Scroll,
+  logoURI: DAI_LOGO_URL,
+};
+
+export const DAI_TOKEN_MANTLE: Token = {
+  address: "0x4AF15ec2A0BD43Db75dd04E62FAA3B8EF36b00d5",
+  decimals: 18,
+  name: "Dai Stablecoin",
+  symbol: "DAI",
+  coingeckoId: "dai",
+  chainId: ChainId.Mantle,
+  logoURI: DAI_LOGO_URL,
+};
+
+export const USDT_TOKEN_LINEA: Token = {
+  address: "0xA219439258ca9da29E9Cc4cE5596924745e12B93",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Linea,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const USDT_TOKEN_SCROLL: Token = {
+  address: "0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Scroll,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const USDT_TOKEN_MANTLE: Token = {
+  address: "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Mantle,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const SCROLL_TOKEN: Token = {
+  address: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  decimals: 18,
+  name: "Scroll",
+  symbol: "SCR",
+  coingeckoId: "scroll",
+  chainId: ChainId.Scroll,
+  logoURI: "https://raw.githubusercontent.com/scroll-tech/frontends/sepolia/public/imgs/logo/scroll.svg",
+};
+
+export const BLAST_TOKEN: Token = {
+  address: "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad",
+  decimals: 18,
+  name: "Blast",
+  symbol: "BLAST",
+  coingeckoId: "blast",
+  chainId: ChainId.Blast,
+  logoURI: "https://assets.coingecko.com/coins/images/35494/large/blast.png",
+};
+
+export const MODE_TOKEN: Token = {
+  address: "0xDfc7C877a950e49D2610114102175A06C2e3167a",
+  decimals: 18,
+  name: "Mode",
+  symbol: "MODE",
+  coingeckoId: "mode",
+  chainId: ChainId.Mode,
+  logoURI: "https://assets.coingecko.com/coins/images/31016/large/mode.png",
+};
+
+export const MANTLE_TOKEN: Token = {
+  address: "0x78c1b0C915c4FAA5FffA6CAbf0219DA63d7f4cb8",
+  decimals: 18,
+  name: "Mantle",
+  symbol: "MNT",
+  coingeckoId: "mantle",
+  chainId: ChainId.Mantle,
+  logoURI: "https://assets.coingecko.com/coins/images/30980/large/token-logo.png",
+};
+
+export const UNI_TOKEN_LINEA: Token = {
+  address: "0x636B22bC471c955A8DB60f28D4795066a8201fa3",
+  decimals: 18,
+  name: "Uniswap",
+  symbol: "UNI",
+  coingeckoId: "uniswap",
+  chainId: ChainId.Linea,
+  logoURI: "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
+};
+
+export const LINK_TOKEN_LINEA: Token = {
+  address: "0x7823E8DCC8bfc23EA3AC899EB86921f90e178233",
+  decimals: 18,
+  name: "Chainlink",
+  symbol: "LINK",
+  coingeckoId: "chainlink",
+  chainId: ChainId.Linea,
+  logoURI: "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
+};
+
+export const UNI_TOKEN_SCROLL: Token = {
+  address: "0x434cdA25E8a2CA5D9c1C449a8Cb6bCbF719233E8",
+  decimals: 18,
+  name: "Uniswap",
+  symbol: "UNI",
+  coingeckoId: "uniswap",
+  chainId: ChainId.Scroll,
+  logoURI: "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
+};
+
+export const WBTC_TOKEN_SCROLL: Token = {
+  address: "0x3C1BCa5a656e69edCD0D4E36BEbb3FcDAcA60Cf1",
+  decimals: 8,
+  name: "Wrapped BTC",
+  symbol: "WBTC",
+  coingeckoId: "wrapped-bitcoin",
+  chainId: ChainId.Scroll,
+  logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+};
+
+export const AAVE_TOKEN_SCROLL: Token = {
+  address: "0xf301805bE1Df81102C957f6d4Ce29d2B8c056B2a",
+  decimals: 18,
+  name: "Aave",
+  symbol: "AAVE",
+  coingeckoId: "aave",
+  chainId: ChainId.Scroll,
+  logoURI: "https://assets.coingecko.com/coins/images/12645/large/AAVE.png",
+};
+
+export const LINK_TOKEN_SCROLL: Token = {
+  address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+  decimals: 18,
+  name: "Chainlink",
+  symbol: "LINK",
+  coingeckoId: "chainlink",
+  chainId: ChainId.Scroll,
+  logoURI: "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
+};
+
+export const WBTC_TOKEN_MODE: Token = {
+  address: "0xcDd475325D6F564d27247D1DddBb0DAc6fA0a5CF",
+  decimals: 8,
+  name: "Wrapped BTC",
+  symbol: "WBTC",
+  coingeckoId: "wrapped-bitcoin",
+  chainId: ChainId.Mode,
+  logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+};
+
+export const USDT_TOKEN_MODE: Token = {
+  address: "0xf0F161fDA2712DB8b566946122a5af183995e2eD",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Mode,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const UNI_TOKEN_MODE: Token = {
+  address: "0x3e7eF8f50246f725885102E8238CBba33F276747",
+  decimals: 18,
+  name: "Uniswap",
+  symbol: "UNI",
+  coingeckoId: "uniswap",
+  chainId: ChainId.Mode,
+  logoURI: "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
+};
+
+export const EZETH_TOKEN_MODE: Token = {
+  address: "0x2416092f143378750bb29b79eD961ab195CcEea5E",
+  decimals: 18,
+  name: "Renzo Restaked ETH",
+  symbol: "ezETH",
+  coingeckoId: "renzo-restaked-eth",
+  chainId: ChainId.Mode,
+  logoURI: "https://assets.coingecko.com/coins/images/34753/large/Ezeth_logo_circle.png",
+};
+
+export const WBTC_TOKEN_BLAST: Token = {
+  address: "0xF7bc58b8D8f97ADC129cfC4c9f45Ce3C0E1D2692",
+  decimals: 8,
+  name: "Wrapped BTC",
+  symbol: "WBTC",
+  coingeckoId: "wrapped-bitcoin",
+  chainId: ChainId.Blast,
+  logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+};
+
+export const USDT_TOKEN_BLAST: Token = {
+  address: "0x4300000000000000000000000000000000000003",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Blast,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const JUICE_TOKEN_BLAST: Token = {
+  address: "0x818a92bc81Aad0053d72ba753fb5Bc3d0C5C0923",
+  decimals: 18,
+  name: "Juice Finance",
+  symbol: "JUICE",
+  coingeckoId: "juice-finance",
+  chainId: ChainId.Blast,
+  logoURI: "https://assets.coingecko.com/coins/images/35987/large/juice.png",
+};
+
+export const YES_TOKEN_BLAST: Token = {
+  address: "0x20fE91f17ec9080E3caC2d688b4EcB48C5aC3a9C",
+  decimals: 18,
+  name: "YES Token",
+  symbol: "YES",
+  coingeckoId: "yes-token",
+  chainId: ChainId.Blast,
+  logoURI: "https://assets.coingecko.com/coins/images/35796/large/Yes_Token_200x200.png",
+};
+
+export const WBTC_TOKEN_MANTLE: Token = {
+  address: "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2",
+  decimals: 8,
+  name: "Wrapped BTC",
+  symbol: "WBTC",
+  coingeckoId: "wrapped-bitcoin",
+  chainId: ChainId.Mantle,
+  logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+};
+
+export const WBTC_TOKEN_LINEA: Token = {
+  address: "0x3aAB2285ddcDdaD8edf438C1bAB47e1a9D05a9b4",
+  decimals: 8,
+  name: "Wrapped BTC",
+  symbol: "WBTC",
+  coingeckoId: "wrapped-bitcoin",
+  chainId: ChainId.Linea,
+  logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+};
+
 export const BASE_TOKENS_SUGGESTION = [
   WRAPPED_ETH_ARB,
   WRAPPED_ETH_AVAX,
   WRAPPED_ETH_ETH,
-  WRAPPED_ETH_FANTOM,
   WRAPPED_ETH_POLYGON,
   WRAPPED_ETH_OPT,
-
   WRAPPED_BTC_ARB,
   WRAPPED_BTC_AVAX,
   WRAPPED_BTC_ETH,
-  WRAPPED_BTC_FANTOM,
   WRAPPED_BTC_OPT,
   WRAPPED_BTC_POLYGON,
   COINBASE_WRAPPED_STAKED,
+  WRAPPED_ETH_MODE,
+  WRAPPED_ETH_BLAST,
+  WRAPPED_ETH_SCROLL,
+  WRAPPED_ETH_LINEA,
+  WRAPPED_ETH_MANTLE,
+  SCROLL_TOKEN,
+  BLAST_TOKEN,
+  MODE_TOKEN,
+  MANTLE_TOKEN,
+  UNI_TOKEN_LINEA,
+  LINK_TOKEN_LINEA,
+  WBTC_TOKEN_SCROLL,
+  WBTC_TOKEN_MODE,
+  WBTC_TOKEN_BLAST,
+  WBTC_TOKEN_MANTLE,
+  WBTC_TOKEN_LINEA,
+  UNI_TOKEN_SCROLL,
+  AAVE_TOKEN_SCROLL,
+  LINK_TOKEN_SCROLL,
+  UNI_TOKEN_MODE,
+  EZETH_TOKEN_MODE,
+  JUICE_TOKEN_BLAST,
+  YES_TOKEN_BLAST,
+];
+
+export const EXTENDED_QUOTE_TOKENS_SUGGESTION = [
+  ...QUOTE_TOKENS_SUGGESTION,
+  USDC_TOKEN_MODE,
+  USDB_TOKEN_BLAST,
+  USDC_TOKEN_SCROLL,
+  USDC_TOKEN_LINEA,
+  USDC_TOKEN_MANTLE,
+  DAI_TOKEN_LINEA,
+  DAI_TOKEN_SCROLL,
+  DAI_TOKEN_MANTLE,
+  USDT_TOKEN_LINEA,
+  USDT_TOKEN_SCROLL,
+  USDT_TOKEN_MANTLE,
+  USDT_TOKEN_MODE,
+  USDT_TOKEN_BLAST,
 ];
 
 export const DEFAULT_TOKENS: {
@@ -486,13 +839,9 @@ export const DEFAULT_TOKENS: {
   },
   [ChainId.BSC]: { baseToken: WRAPPED_BNB, quoteToken: USDT_TOKEN_BSC },
   [ChainId.Avax]: { baseToken: WRAPPED_ETH_AVAX, quoteToken: USDC_TOKEN_AVAX },
-  [ChainId.Fantom]: {
-    baseToken: WRAPPED_ETH_FANTOM,
-    quoteToken: USDC_TOKEN_FANTOM,
-  },
   [ChainId.Optimism]: {
     baseToken: WRAPPED_ETH_OPT,
-    quoteToken: USDC_TOKEN_FANTOM,
+    quoteToken: USDC_TOKEN_OPT,
   },
   [ChainId.Arbitrum]: {
     baseToken: WRAPPED_ETH_ARB,
@@ -519,5 +868,25 @@ export const DEFAULT_TOKENS: {
       decimals: 18,
       coingeckoId: "ethereum",
     },
+  },
+  [ChainId.Blast]: {
+    baseToken: WRAPPED_ETH_BLAST,
+    quoteToken: USDB_TOKEN_BLAST,
+  },
+  [ChainId.Linea]: {
+    baseToken: WRAPPED_ETH_LINEA,
+    quoteToken: USDC_TOKEN_LINEA,
+  },
+  [ChainId.Scroll]: {
+    baseToken: WRAPPED_ETH_SCROLL,
+    quoteToken: USDC_TOKEN_SCROLL,
+  },
+  [ChainId.Mantle]: {
+    baseToken: WRAPPED_ETH_MANTLE,
+    quoteToken: USDC_TOKEN_MANTLE,
+  },
+  [ChainId.Mode]: {
+    baseToken: WRAPPED_ETH_MODE,
+    quoteToken: USDC_TOKEN_MODE,
   },
 };

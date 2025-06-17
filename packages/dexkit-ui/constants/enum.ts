@@ -16,8 +16,12 @@ export const enum NETWORK_ID {
   Polygon = 'polygon',
   BSC = 'bsc',
   Avalanche = 'avalanche',
-  Fantom = 'fantom',
   Optimism = 'optimism',
   Arbitrum = 'arbitrum',
-  Base = 'base'
+  Base = 'base',
+  Linea = 'linea',
+  Scroll = 'scroll',
+  Mantle = 'mantle',
+  Blast = 'blast',
+  Mode = 'mode'
 }

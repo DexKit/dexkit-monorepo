@@ -24,14 +24,17 @@ export const ORDER_LIMIT_DURATIONS: {
 
 export const GECKOTERMINAL_NETWORK: { [key: number]: string } = {
   [ChainId.Ethereum]: "eth",
-  [ChainId.Polygon]: "polygon_pos",
-  [ChainId.Arbitrum]: "arbitrum",
-  [ChainId.BSC]: "bsc",
-  [ChainId.Avax]: "avax",
-  [ChainId.Celo]: "celo",
-  [ChainId.Fantom]: "ftm",
   [ChainId.Optimism]: "optimism",
+  [ChainId.BSC]: "bsc",
+  [ChainId.Polygon]: "polygon_pos",
   [ChainId.Base]: "base",
+  [ChainId.Arbitrum]: "arbitrum",
+  [ChainId.Avax]: "avax",
+  [ChainId.Blast]: "blast",
+  [ChainId.Linea]: "linea",
+  [ChainId.Scroll]: "scroll",
+  [ChainId.Mantle]: "mantle",
+  [ChainId.Mode]: "mode",
 };
 
 export const GET_GECKOTERMINAL_NETWORK = (chainId?: ChainId) => {
@@ -44,14 +47,17 @@ export const GET_GECKOTERMINAL_NETWORK = (chainId?: ChainId) => {
 
 export const ZEROX_SUPPORTED_NETWORKS = [
   ChainId.Ethereum,
-  ChainId.Polygon,
-  ChainId.BSC,
   ChainId.Optimism,
-  ChainId.Fantom,
-  ChainId.Celo,
-  ChainId.Avax,
-  ChainId.Arbitrum,
+  ChainId.BSC,
+  ChainId.Polygon,
   ChainId.Base,
+  ChainId.Arbitrum,
+  ChainId.Avax,
+  ChainId.Linea,
+  ChainId.Scroll,
+  ChainId.Mantle,
+  ChainId.Blast,
+  ChainId.Mode,
 ];
 
 export const DEFAULT_ZRX_NETWORKS = ZEROX_SUPPORTED_NETWORKS;

@@ -21,11 +21,13 @@ export const NETWORK_NAME_OVERLAP: { [key: number]: string } = {
   [ChainId.Polygon]: "Polygon",
   [ChainId.BSC]: "Smart Chain",
   [ChainId.Avax]: "Avalanche",
-  [ChainId.Fantom]: "Fantom",
   [ChainId.Arbitrum]: "Arbitrum",
-
   [ChainId.Optimism]: "Optimism",
   [ChainId.Base]: "Base",
+  [ChainId.Mode]: "Mode",
+  [ChainId.Linea]: "Linea",
+  [ChainId.Scroll]: "Scroll",
+  [ChainId.Mantle]: "Mantle",
 };
 
 export const PROVIDER_OVERLAP: { [key: number]: string } = {
@@ -34,11 +36,14 @@ export const PROVIDER_OVERLAP: { [key: number]: string } = {
   [ChainId.Optimism]: "https://mainnet.optimism.io",
   [ChainId.Avax]: "https://api.avax.network/ext/bc/C/rpc",
   [ChainId.BSC]: "https://bsc-dataseed.bnbchain.org",
-  [ChainId.Fantom]: "https://rpc.ftm.tools",
   [ChainId.Polygon]: `https://polygon-rpc.com/`,
   [ChainId.Base]: "https://mainnet.base.org",
   [ChainId.Mumbai]: `https://rpc.ankr.com/polygon_mumbai`,
   [ChainId.Goerli]: "https://rpc.ankr.com/eth_goerli",
+  [ChainId.Mode]: "https://mainnet.mode.network",
+  [ChainId.Linea]: "https://rpc.linea.build",
+  [ChainId.Scroll]: "https://rpc.scroll.io",
+  [ChainId.Mantle]: "https://rpc.mantle.xyz",
 };
 
 const NETS: { [key: number]: Network } = {};
@@ -74,6 +79,70 @@ for (let index = 0; index < EVM_CHAINS.length; index++) {
     };
   }
 }
+
+NETS[ChainId.Mode] = {
+  chainId: ChainId.Mode,
+  symbol: "ETH",
+  explorerUrl: "https://explorer.mode.network",
+  name: "Mode",
+  slug: "mode",
+  coingeckoPlatformId: "ethereum",
+  wrappedAddress: "0x4200000000000000000000000000000000000006",
+  imageUrl: "https://avatars.githubusercontent.com/u/120047512?s=280&v=4",
+  coinImageUrl: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+  coinName: "Ethereum",
+  coinSymbol: "ETH",
+  providerRpcUrl: "https://mainnet.mode.network",
+  testnet: false,
+};
+
+NETS[ChainId.Linea] = {
+  chainId: ChainId.Linea,
+  symbol: "ETH",
+  explorerUrl: "https://lineascan.build",
+  name: "Linea",
+  slug: "linea",
+  coingeckoPlatformId: "ethereum",
+  wrappedAddress: "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+  imageUrl: "https://linea.build/favicon.ico",
+  coinImageUrl: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+  coinName: "Ethereum",
+  coinSymbol: "ETH",
+  providerRpcUrl: "https://rpc.linea.build",
+  testnet: false,
+};
+
+NETS[ChainId.Scroll] = {
+  chainId: ChainId.Scroll,
+  symbol: "ETH",
+  explorerUrl: "https://scrollscan.com",
+  name: "Scroll",
+  slug: "scroll",
+  coingeckoPlatformId: "ethereum",
+  wrappedAddress: "0x5300000000000000000000000000000000000004",
+  imageUrl: "https://raw.githubusercontent.com/scroll-tech/frontends/sepolia/public/imgs/logo/scroll.svg",
+  coinImageUrl: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+  coinName: "Ethereum",
+  coinSymbol: "ETH",
+  providerRpcUrl: "https://rpc.scroll.io",
+  testnet: false,
+};
+
+NETS[ChainId.Mantle] = {
+  chainId: ChainId.Mantle,
+  symbol: "MNT",
+  explorerUrl: "https://explorer.mantle.xyz",
+  name: "Mantle",
+  slug: "mantle",
+  coingeckoPlatformId: "mantle",
+  wrappedAddress: "0x78c1b0C915c4FAA5FffA6CAbf0219DA63d7f4cb8",
+  imageUrl: "https://mantle.xyz/favicon.ico",
+  coinImageUrl: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/mantle/info/logo.png",
+  coinName: "Mantle",
+  coinSymbol: "MNT",
+  providerRpcUrl: "https://rpc.mantle.xyz",
+  testnet: false,
+};
 
 export const NETWORKS = NETS;
 
@@ -129,18 +198,6 @@ export const NETWORKS = NETS;
     providerRpcUrl: `https://polygon-rpc.com`,
     imageUrl:
       "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
-  },
-  [ChainId.Fantom]: {
-    chainId: ChainId.Fantom,
-    symbol: "FTM",
-    explorerUrl: "https://ftmscan.com",
-    name: "Fantom",
-    slug: "fantom",
-    coingeckoPlatformId: "fantom",
-    wrappedAddress: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/fantom/info/logo.png",
-    providerRpcUrl: "https://rpc.ftm.tools",
   },
   [ChainId.Arbitrum]: {
     chainId: ChainId.Arbitrum,

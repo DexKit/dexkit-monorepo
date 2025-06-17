@@ -209,7 +209,7 @@ export default function SelectPairDialog({
           <Box>
             <Grid container spacing={{ xs: 0.5, sm: 1 }} alignItems="center">
               {networks
-                .filter((n) => n.testnet === undefined)
+                .filter((n) => n.testnet !== true)
                 .filter((n) => {
                   if (isMobile && !showMoreNetworks) {
                     return (

@@ -115,8 +115,8 @@ export default function ExchangeWizardContainer({
   }, []);
 
   const exchangeActiveChainIds = useMemo(() => {
-    return activeChainIds.filter(chainId => ZEROX_SUPPORTED_NETWORKS.includes(chainId));
-  }, [activeChainIds]);
+    return ZEROX_SUPPORTED_NETWORKS;
+  }, []);
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>

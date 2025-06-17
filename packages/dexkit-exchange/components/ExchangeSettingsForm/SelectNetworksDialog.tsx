@@ -77,7 +77,10 @@ export default function SelectNetworksDialog({
         <List disablePadding>
           {Object.keys(NETWORKS)
             .filter((k) => ZEROX_SUPPORTED_NETWORKS.includes(Number(k)))
-            .filter((k) => activeChainIds.includes(Number(k)))
+            .filter((key) => {
+              let chain = parseChainId(key);
+              return NETWORKS[chain].testnet !== true;
+            })
             .map((key) => (
               <ListItem divider key={key}>
                 <ListItemAvatar>
