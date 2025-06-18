@@ -3,4 +3,4 @@
 "@dexkit/exchange": minor
 ---
 
-add custom variants, improve pair selection & mobile UX
+add custom variants (custom and glass) for exchange section, improve pair selection & mobile UX for complete responsivity on small screens.
