@@ -19,6 +19,7 @@ import { FormattedMessage } from "react-intl";
 import { ChainId } from "@dexkit/core";
 import { useFormikContext } from "formik";
 import { useCallback } from "react";
+import { ZEROX_SUPPORTED_NETWORKS } from "../../constants";
 import { DexkitExchangeSettings } from "../../types";
 
 export interface SelectNetworksDialogProps {
@@ -75,7 +76,11 @@ export default function SelectNetworksDialog({
       <DialogContent sx={{ p: 0 }}>
         <List disablePadding>
           {Object.keys(NETWORKS)
-            .filter((k) => activeChainIds.includes(Number(k)))
+            .filter((k) => ZEROX_SUPPORTED_NETWORKS.includes(Number(k)))
+            .filter((key) => {
+              let chain = parseChainId(key);
+              return NETWORKS[chain].testnet !== true;
+            })
             .map((key) => (
               <ListItem divider key={key}>
                 <ListItemAvatar>

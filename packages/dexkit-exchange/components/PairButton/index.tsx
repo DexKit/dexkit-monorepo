@@ -4,7 +4,8 @@ import {
   ButtonBase,
   Stack,
   Typography,
-  lighten,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 
 import { TOKEN_ICON_URL } from "@dexkit/core";
@@ -22,40 +23,141 @@ export default function PairButton({
   baseToken,
   onClick,
 }: PairButtonProps) {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <ButtonBase
       onClick={onClick}
-      sx={(theme) => ({
-        px: 1,
-        py: 1,
-        borderRadius: theme.spacing(0.5),
-        backgroundColor: lighten(theme.palette.background.default, 0.2),
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor:
-          theme.palette.mode === "light" ? theme.palette.divider : undefined,
-      })}
+      disabled={!onClick}
+      sx={{
+        p: { xs: theme.spacing(0.75), sm: theme.spacing(1), md: theme.spacing(1.5) },
+        borderRadius: { xs: theme.shape.borderRadius * 1.5, sm: theme.shape.borderRadius * 2 },
+        backgroundColor: theme.palette.action.hover,
+        border: `1px solid ${theme.palette.divider}`,
+        transition: theme.transitions.create([
+          'background-color',
+          'border-color',
+          'box-shadow',
+          'transform'
+        ], {
+          duration: theme.transitions.duration.short,
+        }),
+        '&:hover': {
+          backgroundColor: theme.palette.action.selected,
+          borderColor: theme.palette.primary.main,
+          boxShadow: theme.shadows[2],
+          transform: { xs: 'none', sm: `translateY(-${theme.spacing(0.125)})` },
+        },
+        '&:active': {
+          transform: 'translateY(0)',
+          boxShadow: theme.shadows[1],
+        },
+        '&:disabled': {
+          cursor: 'default',
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            borderColor: theme.palette.divider,
+            boxShadow: 'none',
+            transform: 'none',
+          },
+        },
+        minWidth: 'fit-content',
+        maxWidth: { xs: 'none', sm: theme.spacing(31.25), md: 'none' },
+      }}
     >
-      <Stack
-        spacing={1}
-        alignItems="center"
-        justifyContent="space-between"
-        direction="row"
-      >
+      {isMobile ? (
         <Stack
+          direction="row"
+          spacing={theme.spacing(0.75)}
+          alignItems="center"
+          sx={{ width: '100%' }}
+        >
+          <Avatar
+            src={
+              baseToken.logoURI
+                ? baseToken.logoURI
+                : TOKEN_ICON_URL(baseToken.address, baseToken.chainId)
+            }
+            alt={`${baseToken.symbol} logo`}
+            sx={{
+              width: theme.spacing(2.5),
+              height: theme.spacing(2.5),
+              backgroundColor: theme.palette.grey[100],
+            }}
+          />
+
+          <Stack
+            direction="column"
+            spacing={0}
+            alignItems="flex-start"
+            sx={{ flex: 1, minWidth: 0 }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightBold,
+                color: theme.palette.text.primary,
+                lineHeight: 1.1,
+                fontSize: theme.typography.caption.fontSize,
+              }}
+              noWrap
+            >
+              {baseToken.symbol.toUpperCase()} / {quoteToken.symbol.toUpperCase()}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              sx={{
+                color: theme.palette.text.secondary,
+                fontSize: theme.typography.overline.fontSize,
+                lineHeight: 1,
+              }}
+              noWrap
+            >
+              {baseToken.name} / {quoteToken.name}
+            </Typography>
+          </Stack>
+
+          {onClick && (
+            <ExpandMoreIcon
+              sx={{
+                color: theme.palette.text.secondary,
+                fontSize: theme.spacing(2),
+              }}
+            />
+          )}
+        </Stack>
+      ) : (
+        <Stack
+          direction="row"
+          spacing={{ sm: theme.spacing(1), md: theme.spacing(1.5) }}
           alignItems="center"
           justifyContent="space-between"
-          direction="row"
-          spacing={1}
+          sx={{ width: '100%' }}
         >
-          <AvatarGroup>
+          <AvatarGroup
+            max={2}
+            sx={{
+              '& .MuiAvatar-root': {
+                width: { sm: theme.spacing(2.75), md: theme.spacing(3) },
+                height: { sm: theme.spacing(2.75), md: theme.spacing(3) },
+                border: `${theme.spacing(0.1875)} solid ${theme.palette.background.paper}`,
+                boxShadow: theme.shadows[1],
+              },
+            }}
+          >
             <Avatar
               src={
                 baseToken.logoURI
                   ? baseToken.logoURI
                   : TOKEN_ICON_URL(baseToken.address, baseToken.chainId)
               }
-              sx={{ height: "1rem", width: "1rem" }}
+              alt={`${baseToken.symbol} logo`}
+              sx={{
+                backgroundColor: theme.palette.grey[100],
+              }}
             />
             <Avatar
               src={
@@ -63,16 +165,61 @@ export default function PairButton({
                   ? quoteToken.logoURI
                   : TOKEN_ICON_URL(quoteToken.address, quoteToken.chainId)
               }
-              sx={{ height: "1rem", width: "1rem" }}
+              alt={`${quoteToken.symbol} logo`}
+              sx={{
+                backgroundColor: theme.palette.grey[100],
+              }}
             />
           </AvatarGroup>
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            {baseToken.symbol.toUpperCase()} / {quoteToken.symbol.toUpperCase()}
-          </Typography>
-        </Stack>
 
-        <ExpandMoreIcon color="primary" />
-      </Stack>
+          <Stack
+            direction="column"
+            spacing={theme.spacing(0.125)}
+            alignItems="flex-start"
+            sx={{ flex: 1, minWidth: 0 }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightBold,
+                color: theme.palette.text.primary,
+                lineHeight: 1.2,
+                fontSize: { sm: theme.typography.body2.fontSize, md: theme.typography.body1.fontSize },
+              }}
+              noWrap
+            >
+              {baseToken.symbol.toUpperCase()} / {quoteToken.symbol.toUpperCase()}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              sx={{
+                color: theme.palette.text.secondary,
+                fontSize: theme.typography.caption.fontSize,
+                lineHeight: 1,
+              }}
+              noWrap
+            >
+              {baseToken.name} / {quoteToken.name}
+            </Typography>
+          </Stack>
+
+          {onClick && (
+            <ExpandMoreIcon
+              sx={{
+                color: theme.palette.primary.main,
+                fontSize: { sm: theme.spacing(2.5), md: theme.spacing(3) },
+                transition: theme.transitions.create('transform', {
+                  duration: theme.transitions.duration.short,
+                }),
+                '.MuiButtonBase-root:hover &': {
+                  transform: 'rotate(180deg)',
+                },
+              }}
+            />
+          )}
+        </Stack>
+      )}
     </ButtonBase>
   );
 }

@@ -81,17 +81,6 @@ export const NETWORKS = NETWORKS_CORE;
     imageUrl: avaxIcon.src,
     providerRpcUrl: 'https://api.avax.network/ext/bc/C/rpc',
   },
-  [ChainId.Fantom]: {
-    chainId: ChainId.Fantom,
-    symbol: 'FTM',
-    explorerUrl: 'https://ftmscan.com',
-    name: 'Fantom',
-    slug: 'fantom',
-    coingeckoId: 'fantom',
-    wrappedAddress: '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
-    imageUrl: fantomIcon.src,
-    providerRpcUrl: 'https://rpc.ftm.tools',
-  },
   [ChainId.Optimism]: {
     chainId: ChainId.Optimism,
     nativeCurrencyUrl: ethIcon.src,

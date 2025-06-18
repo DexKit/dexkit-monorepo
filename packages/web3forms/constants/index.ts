@@ -29,13 +29,17 @@ export const ETHER_SCAN_API_URL: { [key: number]: string } = {
   [ChainId.Optimism]: "api-optimistic.etherscan.io",
   [ChainId.BSC]: "api.bscscan.com",
   [ChainId.BSCTest]: "api-testnet.bscscan.com",
-  [ChainId.Fantom]: "api.ftmscan.com",
   [ChainId.Avax]: "api.snowtrace.io",
   [ChainId.Mumbai]: "api-testnet.polygonscan.com",
   [ChainId.Goerli]: "api-goerli.etherscan.io",
   [ChainId.Base]: "api.basescan.org",
   [ChainId.BlastSepolia]:
     "api.routescan.io/v2/network/testnet/evm/168587773/etherscan",
+  [ChainId.Linea]: "api.lineascan.build",
+  [ChainId.Scroll]: "api.scrollscan.com",
+  [ChainId.Mantle]: "api.mantlescan.xyz",
+  [ChainId.Blast]: "api.blastscan.io",
+  [ChainId.Mode]: "api.explorer.mode.network",
 };
 
 export const WEB3FORMS_INPUT_TYPES: {

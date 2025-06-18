@@ -28,6 +28,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
@@ -38,6 +39,7 @@ import type { providers } from "ethers";
 import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useExchangeContext } from "../../../hooks";
 import { useMarketTradeGaslessState } from "../../../hooks/zrx/useMarketTradeGaslessState";
 import LazyDecimalInput from "../LazyDecimalInput";
 import ReviewMarketOrderDialog from "../ReviewMarketOrderDialog";
@@ -73,6 +75,21 @@ export default function MarketForm({
   useGasless,
   isActive,
 }: MarketBuyFormProps) {
+  const theme = useTheme();
+  const { variant, glassSettings } = useExchangeContext();
+  const isGlassVariant = variant === "glass";
+  const textColor = isGlassVariant
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
+    : (glassSettings?.textColor || theme.palette.text.primary);
+  const secondaryTextColor = isGlassVariant
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
+    : theme.palette.text.secondary;
+  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main;
+  const fillButtonTextColor = glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText;
+  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark;
+  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText;
+  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled;
+  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground;
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -339,6 +356,61 @@ export default function MarketForm({
         }
         variant="contained"
         onClick={handleExecute}
+        sx={{
+          '&.MuiButton-root': {
+            backgroundColor: `${fillButtonBackgroundColor} !important`,
+            color: `${fillButtonTextColor} !important`,
+            fontWeight: theme.typography.fontWeightMedium,
+            textTransform: 'none',
+            borderRadius: isGlassVariant ? theme.spacing(2) : theme.spacing(1),
+            transition: theme.transitions.create(['all'], {
+              duration: theme.transitions.duration.short,
+              easing: theme.transitions.easing.easeInOut,
+            }),
+            ...(isGlassVariant && {
+              backdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
+              WebkitBackdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
+              border: `1px solid ${fillButtonBackgroundColor}60`,
+              boxShadow: `
+                0 ${theme.spacing(0.75)} ${theme.spacing(2.5)} ${fillButtonBackgroundColor}25,
+                0 ${theme.spacing(0.25)} 0 rgba(255, 255, 255, 0.1) inset
+              `,
+            }),
+          },
+          '&.MuiButton-root:hover:not(:disabled)': {
+            backgroundColor: `${fillButtonHoverBackgroundColor} !important`,
+            color: `${fillButtonHoverTextColor} !important`,
+            transform: isGlassVariant
+              ? `translateY(-${theme.spacing(0.25)}) scale(1.02)`
+              : `translateY(-${theme.spacing(0.125)})`,
+            ...(isGlassVariant && {
+              backdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
+              WebkitBackdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
+              boxShadow: `
+                0 ${theme.spacing(1)} ${theme.spacing(3.5)} ${fillButtonHoverBackgroundColor}35,
+                0 ${theme.spacing(0.375)} 0 rgba(255, 255, 255, 0.15) inset
+              `,
+            }),
+          },
+          '&.MuiButton-root:active:not(:disabled)': {
+            transform: isGlassVariant
+              ? `translateY(-${theme.spacing(0.125)}) scale(0.98)`
+              : 'translateY(0)',
+          },
+          '&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled': {
+            backgroundColor: `${fillButtonDisabledBackgroundColor} !important`,
+            color: `${fillButtonDisabledTextColor} !important`,
+            opacity: '1 !important',
+            ...(isGlassVariant && {
+              backdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
+              WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
+              border: `1px solid ${fillButtonDisabledBackgroundColor}40`,
+              boxShadow: 'none',
+            }),
+          },
+          backgroundColor: `${fillButtonBackgroundColor} !important`,
+          color: `${fillButtonTextColor} !important`,
+        }}
       >
         {errorMsg ? (
           <>{errorMsg}</>
@@ -387,6 +459,13 @@ export default function MarketForm({
     quoteToken.symbol,
     baseToken.symbol,
     switchNetworkMutation,
+    fillButtonBackgroundColor,
+    fillButtonTextColor,
+    fillButtonHoverBackgroundColor,
+    fillButtonHoverTextColor,
+    fillButtonDisabledBackgroundColor,
+    fillButtonDisabledTextColor,
+    isGlassVariant,
   ]);
 
   return (
@@ -424,10 +503,10 @@ export default function MarketForm({
             sx={{ visibility: provider ? "visible" : "hidden" }}
           >
             {side === "buy" ? (
-              <Typography variant="body2">
+              <Typography variant="body2" color={textColor}>
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
                 {quoteTokenBalanceQuery.isLoading ? (
-                  <Skeleton sx={{ minWidth: "50px" }} />
+                  <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                 ) : (
                   <>
                     {quoteTokenBalanceFormatted}{" "}
@@ -438,11 +517,12 @@ export default function MarketForm({
             ) : (
               <Typography
                 variant="body2"
+                color={textColor}
                 sx={{ visibility: account ? "visible" : "hidden" }}
               >
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
                 {baseTokenBalanceQuery.isLoading ? (
-                  <Skeleton sx={{ minWidth: "50px" }} />
+                  <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                 ) : (
                   <>
                     {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
@@ -463,7 +543,7 @@ export default function MarketForm({
                   spacing={2}
                   alignItems="center"
                 >
-                  <Typography>
+                  <Typography color={textColor}>
                     {side === "buy" ? (
                       <FormattedMessage id="cost" defaultMessage="Cost" />
                     ) : (
@@ -479,9 +559,9 @@ export default function MarketForm({
                       alignContent={"center"}
                       alignItems={"center"}
                     >
-                      <Typography color="text.secondary">
+                      <Typography color={textColor}>
                         {priceQuery.isFetching ? (
-                          <Skeleton sx={{ minWidth: "50px" }} />
+                          <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                         ) : (
                           <>{formattedCost}</>
                         )}
@@ -489,7 +569,7 @@ export default function MarketForm({
 
                       <Button
                         sx={{
-                          color: "text.secondary",
+                          color: secondaryTextColor,
                         }}
                         size={"large"}
                         id="basic-button"
@@ -528,9 +608,9 @@ export default function MarketForm({
                       </Menu>
                     </Box>
                   ) : (
-                    <Typography color="text.secondary">
+                    <Typography color={textColor}>
                       {quoteQuery.isFetching ? (
-                        <Skeleton sx={{ minWidth: "50px" }} />
+                        <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                       ) : (
                         <>
                           {formattedCost} {quoteToken.symbol.toUpperCase()}
