@@ -84,7 +84,8 @@ function SaveOnChangeListener({
   onSave: (settings: DexkitExchangeSettings) => void;
   onValidate?: (isValid: boolean) => void;
 }) {
-  const { values, isValid } = useFormikContext<DexkitExchangeSettings>();
+  const { values, isValid, errors } = useFormikContext<DexkitExchangeSettings>();
+
   useEffect(() => {
     onSave(values);
   }, [values, isValid]);
@@ -93,7 +94,8 @@ function SaveOnChangeListener({
     if (onValidate) {
       onValidate(isValid);
     }
-  }, [isValid, onValidate]);
+
+  }, [isValid, onValidate, errors, values]);
 
   return null;
 }
@@ -148,40 +150,45 @@ function ColorPickerField({
   const theme = useTheme();
   const isMobile = useIsMobile();
 
-  // Convert theme colors to hex format
   const hexDefaultValue = convertToHex(defaultValue);
   const hexValue = value ? convertToHex(value) : hexDefaultValue;
 
   return (
-    <Box sx={{ mb: theme.spacing(2) }}>
+    <Box sx={{ mb: theme.spacing(1.5) }}>
       <Typography
         variant={isMobile ? "caption" : "body2"}
         gutterBottom
         sx={{
           fontWeight: theme.typography.fontWeightMedium,
-          color: theme.palette.text.primary
+          color: theme.palette.text.primary,
+          mb: theme.spacing(1)
         }}
       >
         {label}
       </Typography>
       <Stack
         direction="row"
-        spacing={theme.spacing(2)}
+        spacing={theme.spacing(1.5)}
         alignItems="center"
-        sx={{ flexWrap: { xs: 'wrap', sm: 'nowrap' } }}
+        sx={{
+          flexWrap: 'nowrap',
+          width: '100%'
+        }}
       >
         <Paper
           elevation={1}
           sx={{
-            p: theme.spacing(0.25),
+            p: theme.spacing(0.125),
             borderRadius: theme.shape.borderRadius,
             border: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
-            minWidth: { xs: theme.spacing(5), sm: theme.spacing(6) },
-            height: { xs: theme.spacing(4), sm: theme.spacing(5) },
+            width: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
+            height: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
+            minWidth: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            flexShrink: 0,
             transition: theme.transitions.create(['box-shadow', 'border-color']),
             '&:hover': {
               boxShadow: theme.shadows[2],
@@ -207,15 +214,16 @@ function ColorPickerField({
           value={value || ""}
           onChange={(e) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
-          size={isMobile ? "small" : "medium"}
+          size="small"
           sx={{
             flex: 1,
-            minWidth: { xs: '100%', sm: theme.spacing(20) },
+            maxWidth: { xs: '200px', sm: '240px' },
             '& .MuiInputBase-root': {
               fontSize: {
                 xs: theme.typography.body2.fontSize,
-                sm: theme.typography.body1.fontSize
+                sm: theme.typography.body2.fontSize
               },
+              height: { xs: theme.spacing(4), sm: theme.spacing(4.5) }
             },
           }}
           InputProps={{
@@ -223,7 +231,10 @@ function ColorPickerField({
               <InputAdornment position="start">
                 <Typography
                   variant="body2"
-                  sx={{ color: theme.palette.text.secondary }}
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                  }}
                 >
                   #
                 </Typography>
@@ -550,7 +561,7 @@ const getDefaultGlassSettings = (theme: any) => ({
   gradientEndColor: theme.palette.background.paper,
   gradientDirection: "to bottom" as const,
   textColor: theme.palette.text.primary,
-  blurIntensity: 80,
+  blurIntensity: 40,
   glassOpacity: 0.10,
   disableBackground: false,
   buyTabColor: theme.palette.success.main,
@@ -572,6 +583,7 @@ const getDefaultGlassSettings = (theme: any) => ({
 });
 
 const getCustomGlassSettings = (customTheme?: any) => {
+
   let palette = null;
 
   if (customTheme?.palette) {
@@ -586,16 +598,16 @@ const getCustomGlassSettings = (customTheme?: any) => {
   if (palette) {
     return {
       backgroundType: "gradient" as const,
-      backgroundColor: palette.background?.default || "#151b22",
-      gradientStartColor: palette.background?.default || "#151b22",
-      gradientEndColor: palette.background?.paper || "#212529",
+      backgroundColor: palette.background?.default || "#FFFFFF",
+      gradientStartColor: palette.background?.default || "#FFFFFF",
+      gradientEndColor: palette.background?.paper || "#FAFAFA",
       gradientDirection: "to bottom" as const,
-      textColor: palette.text?.primary || "#ffffff",
-      blurIntensity: 80,
+      textColor: palette.text?.primary || "#0E1116",
+      blurIntensity: 40,
       glassOpacity: 0.10,
       disableBackground: false,
-      buyTabColor: palette.secondary?.main || "#FAC748",
-      sellTabColor: palette.primary?.main || "#3B51F7",
+      buyTabColor: palette.success?.main || palette.primary?.main || "#36AB47",
+      sellTabColor: palette.error?.main || palette.secondary?.main || "#FF1053",
       buyTabTextColor: "#ffffff",
       sellTabTextColor: "#ffffff",
       buyText: "",
@@ -615,16 +627,16 @@ const getCustomGlassSettings = (customTheme?: any) => {
 
   return {
     backgroundType: "gradient" as const,
-    backgroundColor: "#151b22",
-    gradientStartColor: "#151b22",
-    gradientEndColor: "#212529",
+    backgroundColor: "#FFFFFF",
+    gradientStartColor: "#FFFFFF",
+    gradientEndColor: "#FAFAFA",
     gradientDirection: "to bottom" as const,
-    textColor: "#fff",
-    blurIntensity: 80,
+    textColor: "#0E1116",
+    blurIntensity: 40,
     glassOpacity: 0.10,
     disableBackground: false,
-    buyTabColor: "#FAC748",
-    sellTabColor: "#3B51F7",
+    buyTabColor: "#36AB47",
+    sellTabColor: "#FF1053",
     buyTabTextColor: "#ffffff",
     sellTabTextColor: "#ffffff",
     buyText: "",
@@ -649,6 +661,77 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+  };
+
+  const getCurrentThemeGlassSettings = () => {
+
+    if (customTheme && customTheme.colorSchemes) {
+      const colorScheme = customTheme.colorSchemes.light || customTheme.colorSchemes.dark;
+
+      if (colorScheme && colorScheme.palette) {
+        const palette = colorScheme.palette;
+
+        const settings = {
+          backgroundType: "gradient" as const,
+          backgroundColor: palette.background?.default || "#FFFFFF",
+          gradientStartColor: palette.background?.default || "#FFFFFF",
+          gradientEndColor: palette.background?.paper || "#FAFAFA",
+          gradientDirection: "to bottom" as const,
+          textColor: palette.text?.primary || "#0E1116",
+          blurIntensity: 40,
+          glassOpacity: 0.10,
+          disableBackground: false,
+          buyTabColor: palette.success?.main || "#36AB47",
+          sellTabColor: palette.error?.main || "#FF1053",
+          buyTabTextColor: "#ffffff",
+          sellTabTextColor: "#ffffff",
+          buyText: "",
+          sellText: "",
+          fillButtonBackgroundColor: palette.primary?.main || "#3B51F7",
+          fillButtonTextColor: "#ffffff",
+          fillButtonHoverBackgroundColor: palette.primary?.dark || "#081EC4",
+          fillButtonHoverTextColor: "#ffffff",
+          fillButtonDisabledBackgroundColor: "#666666",
+          fillButtonDisabledTextColor: "#999999",
+          backgroundSize: "cover" as const,
+          backgroundPosition: "center" as const,
+          backgroundRepeat: "no-repeat" as const,
+          backgroundAttachment: "scroll" as const,
+        };
+
+        return settings;
+      }
+    }
+
+    const settings = {
+      backgroundType: "gradient" as const,
+      backgroundColor: theme.palette.background.default,
+      gradientStartColor: theme.palette.background.default,
+      gradientEndColor: theme.palette.background.paper,
+      gradientDirection: "to bottom" as const,
+      textColor: theme.palette.text.primary,
+      blurIntensity: 40,
+      glassOpacity: 0.10,
+      disableBackground: false,
+      buyTabColor: theme.palette.success.main,
+      sellTabColor: theme.palette.error.main,
+      buyTabTextColor: "#ffffff",
+      sellTabTextColor: "#ffffff",
+      buyText: "",
+      sellText: "",
+      fillButtonBackgroundColor: theme.palette.primary.main,
+      fillButtonTextColor: "#ffffff",
+      fillButtonHoverBackgroundColor: theme.palette.primary.dark,
+      fillButtonHoverTextColor: "#ffffff",
+      fillButtonDisabledBackgroundColor: "#666666",
+      fillButtonDisabledTextColor: "#999999",
+      backgroundSize: "cover" as const,
+      backgroundPosition: "center" as const,
+      backgroundRepeat: "no-repeat" as const,
+      backgroundAttachment: "scroll" as const,
+    };
+
+    return settings;
   };
 
   return (
@@ -1308,7 +1391,8 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 variant="outlined"
                 startIcon={<RefreshIcon />}
                 onClick={() => {
-                  setFieldValue("glassSettings", getCustomGlassSettings(customTheme));
+                  const newSettings = getCurrentThemeGlassSettings();
+                  setFieldValue("glassSettings", newSettings);
                 }}
                 sx={{
                   borderColor: '#ff6b35',

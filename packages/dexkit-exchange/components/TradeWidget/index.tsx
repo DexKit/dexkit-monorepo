@@ -76,9 +76,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
   );
 
   const isGlassVariant = variant === "glass";
-  const textColor = isGlassVariant
-    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
-    : (glassSettings?.textColor || theme.palette.text.primary);
+  const textColor = glassSettings?.textColor || theme.palette.text.primary;
   const buyTabColor = glassSettings?.buyTabColor || theme.palette.success.main;
   const sellTabColor = glassSettings?.sellTabColor || theme.palette.error.main;
   const buyTabTextColor = glassSettings?.buyTabTextColor || theme.palette.common.white;

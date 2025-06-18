@@ -119,12 +119,18 @@ export default function ExchangeWizardContainer({
   }, []);
 
   const customTheme = useMemo(() => {
+
     if (config.theme === 'custom') {
       try {
         const customThemeLight = config.customThemeLight ? JSON.parse(config.customThemeLight) : null;
         const customThemeDark = config.customThemeDark ? JSON.parse(config.customThemeDark) : null;
 
-        const themeData = customThemeLight || customThemeDark;
+        const themeData = {
+          colorSchemes: {
+            light: customThemeLight || {},
+            dark: customThemeDark || {}
+          }
+        };
 
         return themeData;
       } catch (error) {
@@ -132,8 +138,18 @@ export default function ExchangeWizardContainer({
         return null;
       }
     }
+
+    if (theme?.colorSchemes) {
+      const extractedTheme = {
+        colorSchemes: {
+          light: { palette: theme.colorSchemes.light?.palette },
+          dark: { palette: theme.colorSchemes.dark?.palette }
+        }
+      };
+      return extractedTheme;
+    }
     return null;
-  }, [config.theme, config.customThemeLight, config.customThemeDark]);
+  }, [config.theme, config.customThemeLight, config.customThemeDark, theme]);
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>

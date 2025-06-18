@@ -733,7 +733,7 @@ function ExchangeSection() {
               return (
                 <Box key={componentType} sx={{
                   width: '100%',
-                  mb: { xs: 2, sm: 3, md: spacing }
+                  mb: { xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: spacing }
                 }}>
                   {renderComponentByType(componentType, true)}
                 </Box>
@@ -747,7 +747,7 @@ function ExchangeSection() {
                     : { xs: '100%', lg: 'calc(100% - 400px)', xl: 'calc(100% - 440px)' },
                   verticalAlign: 'top',
                   mr: componentType === 'tradeWidget' ? { xs: 0, lg: spacing } : 0,
-                  mb: { xs: 2, lg: 0 }
+                  mb: { xs: Math.max(spacing * 0.5, 1), lg: 0 }
                 }}>
                   {renderComponentByType(componentType, true)}
                 </Box>
@@ -763,7 +763,7 @@ function ExchangeSection() {
         <Box sx={{
           ...containerStyle,
         }}>
-          <Grid container spacing={{ xs: 1.5, sm: 2, md: 3, lg: spacing }} direction="column">
+          <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }} direction="column">
             {componentOrder.map((componentType: string) => renderComponentByType(componentType))}
           </Grid>
         </Box>
@@ -774,7 +774,7 @@ function ExchangeSection() {
       <Box sx={{
         ...containerStyle,
       }}>
-        <Grid container spacing={{ xs: 1.5, sm: 2, md: 3, lg: spacing }}>
+        <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }}>
           {componentOrder.map((componentType: string) => {
             if (componentType === 'pairInfo') {
               return (
@@ -794,9 +794,9 @@ function ExchangeSection() {
   const renderGlassVariant = (glassSettings: any) => {
     const theme = useTheme();
 
-    const blurIntensity = glassSettings?.blurIntensity || 80;
+    const blurIntensity = glassSettings?.blurIntensity || 40;
     const glassOpacity = glassSettings?.glassOpacity || 0.10;
-    const textColor = glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)';
+    const textColor = glassSettings?.textColor || theme.palette.text.primary;
 
     const getContainerBackground = () => {
       if (glassSettings?.disableBackground) {
@@ -806,10 +806,10 @@ function ExchangeSection() {
       if (glassSettings?.backgroundType === 'image' && glassSettings?.backgroundImage) {
         return `url(${glassSettings.backgroundImage})`;
       } else if (glassSettings?.backgroundType === 'solid') {
-        return glassSettings.backgroundColor || '#1a1a1a';
+        return glassSettings.backgroundColor || theme.palette.background.default;
       } else {
-        const from = glassSettings?.gradientStartColor || '#1a1a1a';
-        const to = glassSettings?.gradientEndColor || '#2d2d2d';
+        const from = glassSettings?.gradientStartColor || theme.palette.background.default;
+        const to = glassSettings?.gradientEndColor || theme.palette.background.paper;
         const direction = glassSettings?.gradientDirection || 'to bottom';
 
         const directionMap: Record<string, string> = {

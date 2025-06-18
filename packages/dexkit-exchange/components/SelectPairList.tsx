@@ -12,6 +12,7 @@ import {
 import { TOKEN_ICON_URL, useIsMobile } from "@dexkit/core";
 import { isAddressEqual } from "@dexkit/core/utils";
 import TokenIcon from "@mui/icons-material/Token";
+import { useExchangeContext } from "../hooks";
 
 export interface SelectPairListProps {
   baseTokens: Token[];
@@ -29,6 +30,9 @@ export default function SelectPairList({
   const theme = useTheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const { variant, glassSettings } = useExchangeContext();
+  const isGlassVariant = variant === "glass";
+  const textColor = glassSettings?.textColor || theme.palette.text.primary;
 
   return (
     <List disablePadding>
@@ -85,7 +89,7 @@ export default function SelectPairList({
                 sm: theme.typography.body1.fontSize
               },
               fontWeight: theme.typography.fontWeightMedium,
-              color: theme.palette.text.primary,
+              color: isGlassVariant ? textColor : theme.palette.text.primary,
             }}
           />
         </ListItemButton>

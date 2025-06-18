@@ -68,8 +68,9 @@ export default function SelectPairDialog({
   const theme = useTheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const { variant } = useExchangeContext();
+  const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
+  const textColor = glassSettings?.textColor || theme.palette.text.primary;
 
   const [baseToken, setBaseToken] = useState<Token | undefined>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -192,9 +193,9 @@ export default function SelectPairDialog({
           px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
           py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
           ...(isGlassVariant && {
-            color: 'rgba(255, 255, 255, 0.95)',
+            color: textColor,
             '& .MuiTypography-root': {
-              color: 'rgba(255, 255, 255, 0.95)',
+              color: textColor,
             },
           }),
         }}
@@ -258,9 +259,9 @@ export default function SelectPairDialog({
                           },
                         }),
                         ...(isGlassVariant && {
-                          color: 'rgba(255, 255, 255, 0.95)',
+                          color: textColor,
                           '& .MuiChip-label': {
-                            color: 'rgba(255, 255, 255, 0.95)',
+                            color: textColor,
                             ...(isSmallScreen && {
                               px: theme.spacing(0.75),
                             }),
@@ -287,7 +288,7 @@ export default function SelectPairDialog({
                       px: theme.spacing(1),
                       color: theme.palette.text.secondary,
                       ...(isGlassVariant && {
-                        color: 'rgba(255, 255, 255, 0.8)',
+                        color: `${textColor}CC`,
                       }),
                     }}
                   >
@@ -330,13 +331,13 @@ export default function SelectPairDialog({
                     sm: theme.typography.body1.fontSize
                   },
                   ...(isGlassVariant && {
-                    color: 'rgba(255, 255, 255, 0.95)',
+                    color: textColor,
                     '& input::placeholder': {
-                      color: 'rgba(255, 255, 255, 0.7)',
+                      color: `${textColor}B3`,
                       opacity: 1,
                     },
                     '& .MuiInputBase-input': {
-                      color: 'rgba(255, 255, 255, 0.95)',
+                      color: textColor,
                     },
                   }),
                 },
@@ -389,9 +390,9 @@ export default function SelectPairDialog({
                     },
                   }),
                   ...(isGlassVariant && {
-                    color: 'rgba(255, 255, 255, 0.95)',
+                    color: textColor,
                     '& .MuiChip-label': {
-                      color: 'rgba(255, 255, 255, 0.95)',
+                      color: textColor,
                       ...(isSmallScreen && {
                         px: theme.spacing(0.75),
                       }),
@@ -468,7 +469,7 @@ export default function SelectPairDialog({
             minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },
             color: theme.palette.text.secondary,
             ...(isGlassVariant && {
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: `${textColor}CC`,
             }),
           }}
         >
