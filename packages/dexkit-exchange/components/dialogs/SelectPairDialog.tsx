@@ -38,6 +38,7 @@ import { usePlatformCoinSearch } from "@dexkit/ui/hooks/coin";
 import { apiCoinToTokens } from "@dexkit/ui/utils/coin";
 import TokenIcon from "@mui/icons-material/Token";
 import { DEFAULT_ZRX_NETWORKS } from "../../constants";
+import { useExchangeContext } from "../../hooks";
 
 export interface SelectPairDialogProps {
   DialogProps: DialogProps;
@@ -67,6 +68,8 @@ export default function SelectPairDialog({
   const theme = useTheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const { variant } = useExchangeContext();
+  const isGlassVariant = variant === "glass";
 
   const [baseToken, setBaseToken] = useState<Token | undefined>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -188,6 +191,12 @@ export default function SelectPairDialog({
         sx={{
           px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
           py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+          ...(isGlassVariant && {
+            color: 'rgba(255, 255, 255, 0.95)',
+            '& .MuiTypography-root': {
+              color: 'rgba(255, 255, 255, 0.95)',
+            },
+          }),
         }}
       />
       <Divider />
@@ -199,7 +208,11 @@ export default function SelectPairDialog({
             position: 'sticky',
             top: 0,
             zIndex: theme.zIndex.modal + 1,
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: isGlassVariant ? 'rgba(255, 255, 255, 0.1)' : theme.palette.background.paper,
+            ...(isGlassVariant && {
+              backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+              WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            }),
             borderBottom: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
             boxShadow: theme.shadows[1],
           }),
@@ -244,6 +257,20 @@ export default function SelectPairDialog({
                             px: theme.spacing(0.75),
                           },
                         }),
+                        ...(isGlassVariant && {
+                          color: 'rgba(255, 255, 255, 0.95)',
+                          '& .MuiChip-label': {
+                            color: 'rgba(255, 255, 255, 0.95)',
+                            ...(isSmallScreen && {
+                              px: theme.spacing(0.75),
+                            }),
+                          },
+                          '&.MuiChip-colorPrimary': {
+                            '& .MuiChip-label': {
+                              color: 'white',
+                            },
+                          },
+                        }),
                       }}
                     />
                   </Grid>
@@ -259,6 +286,9 @@ export default function SelectPairDialog({
                       minWidth: 'auto',
                       px: theme.spacing(1),
                       color: theme.palette.text.secondary,
+                      ...(isGlassVariant && {
+                        color: 'rgba(255, 255, 255, 0.8)',
+                      }),
                     }}
                   >
                     {showMoreNetworks ? (
@@ -299,6 +329,16 @@ export default function SelectPairDialog({
                     xs: theme.typography.body2.fontSize,
                     sm: theme.typography.body1.fontSize
                   },
+                  ...(isGlassVariant && {
+                    color: 'rgba(255, 255, 255, 0.95)',
+                    '& input::placeholder': {
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      opacity: 1,
+                    },
+                    '& .MuiInputBase-input': {
+                      color: 'rgba(255, 255, 255, 0.95)',
+                    },
+                  }),
                 },
               },
             }}
@@ -348,6 +388,20 @@ export default function SelectPairDialog({
                       px: theme.spacing(0.75),
                     },
                   }),
+                  ...(isGlassVariant && {
+                    color: 'rgba(255, 255, 255, 0.95)',
+                    '& .MuiChip-label': {
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      ...(isSmallScreen && {
+                        px: theme.spacing(0.75),
+                      }),
+                    },
+                    '&.MuiChip-colorPrimary': {
+                      '& .MuiChip-label': {
+                        color: 'white',
+                      },
+                    },
+                  }),
                 }}
               />
             ))}
@@ -379,6 +433,12 @@ export default function SelectPairDialog({
           gap: { xs: theme.spacing(1), sm: theme.spacing(0.5) },
           backgroundColor: theme.palette.background.paper,
           borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
+          ...(isGlassVariant && {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            borderTop: `1px solid rgba(255, 255, 255, 0.25)`,
+          }),
         }}
       >
         <Button
@@ -407,6 +467,9 @@ export default function SelectPairDialog({
             px: { xs: theme.spacing(2), sm: theme.spacing(3) },
             minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },
             color: theme.palette.text.secondary,
+            ...(isGlassVariant && {
+              color: 'rgba(255, 255, 255, 0.8)',
+            }),
           }}
         >
           <FormattedMessage id="cancel" defaultMessage="Cancel" />

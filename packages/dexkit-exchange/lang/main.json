@@ -74,6 +74,9 @@
   "edit.networks": {
     "defaultMessage": "Edit Networks"
   },
+  "exchange.fee.configuration": {
+    "defaultMessage": "Exchange Fee Configuration"
+  },
   "expire": {
     "defaultMessage": "Expire"
   },

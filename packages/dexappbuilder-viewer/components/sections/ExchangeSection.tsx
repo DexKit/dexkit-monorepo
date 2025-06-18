@@ -27,7 +27,7 @@ function ExchangeSection() {
   const { chainId, account, signer } = exchangeState;
   const { isActive } = useWeb3React();
   const [open, setOpen] = useState(false);
-  
+
   const getContrastColor = (backgroundColor: string): string => {
     if (!backgroundColor) return '#000000';
 
@@ -988,7 +988,7 @@ function ExchangeSection() {
         },
         '& .MuiInputLabel-root': {
           color: `${textColor.replace('0.95', '0.8')} !important`,
-          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.2)' : '0 1px 2px rgba(255, 255, 255, 0.2)',
+          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(255, 255, 255, 0.2)' : '0 1px 2px rgba(255, 255, 255, 0.2)',
           position: 'relative',
           zIndex: 2,
         },
@@ -1247,6 +1247,15 @@ function ExchangeSection() {
             height: 'calc(100vh - 32px) !important',
             maxHeight: 'calc(100vh - 32px) !important',
             borderRadius: '20px !important',
+            backgroundColor: 'rgba(255, 255, 255, 0.15) !important',
+            backdropFilter: 'blur(30px) saturate(200%) brightness(1.1) !important',
+            WebkitBackdropFilter: 'blur(30px) saturate(200%) brightness(1.1) !important',
+            border: '1px solid rgba(255, 255, 255, 0.25) !important',
+            boxShadow: `
+              0 20px 50px rgba(0, 0, 0, 0.1),
+              0 2px 0 rgba(255, 255, 255, 0.4) inset,
+              0 -2px 0 rgba(255, 255, 255, 0.2) inset
+            `,
           },
         },
         '& .MuiDialogTitle-root': {
@@ -1380,6 +1389,31 @@ function ExchangeSection() {
             },
           },
         },
+        '& .MuiBox-root[style*="position: sticky"]': {
+          backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
+          backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+          WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+        },
+        '& .MuiBox-root[style*="z-index"]': {
+          backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
+          backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+          WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+        },
+        '@media (max-width: 600px)': {
+          '& .MuiDialog-paper .MuiBox-root': {
+            '&[style*="position: sticky"], &[style*="z-index"], &[style*="background-color"]': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
+              backdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+              WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08) !important',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.25) !important',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset !important',
+            },
+          },
+        },
       };
 
       return (
@@ -1436,7 +1470,6 @@ function ExchangeSection() {
                     margin: '8px !important',
                     height: '90vh !important',
                     maxHeight: '90vh !important',
-                    borderRadius: '16px !important',
                   },
                 },
                 '& .MuiDialogTitle-root': {

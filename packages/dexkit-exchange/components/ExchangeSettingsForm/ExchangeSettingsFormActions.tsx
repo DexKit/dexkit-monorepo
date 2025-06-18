@@ -20,8 +20,19 @@ export default function FormActions({
   return (
     <Grid container spacing={isMobile ? 1 : 2}>
       <Grid item xs={12}>
-        <Box>
-          <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 2 }}>
+        <Box sx={{
+          px: { xs: 1, sm: 2 },
+          py: { xs: 1, sm: 1.5 }
+        }}>
+          <Stack
+            spacing={isMobile ? 1 : 2}
+            direction="row"
+            justifyContent="flex-end"
+            sx={{
+              mt: isMobile ? 1 : 2,
+              mr: { xs: 0, sm: 1 }
+            }}
+          >
             <Button
               onClick={onCancel}
               size={isMobile ? "small" : "medium"}

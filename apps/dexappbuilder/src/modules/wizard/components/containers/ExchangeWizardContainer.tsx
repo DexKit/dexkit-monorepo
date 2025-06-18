@@ -118,6 +118,23 @@ export default function ExchangeWizardContainer({
     return ZEROX_SUPPORTED_NETWORKS;
   }, []);
 
+  const customTheme = useMemo(() => {
+    if (config.theme === 'custom') {
+      try {
+        const customThemeLight = config.customThemeLight ? JSON.parse(config.customThemeLight) : null;
+        const customThemeDark = config.customThemeDark ? JSON.parse(config.customThemeDark) : null;
+
+        const themeData = customThemeLight || customThemeDark;
+
+        return themeData;
+      } catch (error) {
+        console.error("Error parsing custom theme:", error);
+        return null;
+      }
+    }
+    return null;
+  }, [config.theme, config.customThemeLight, config.customThemeDark]);
+
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
@@ -158,6 +175,7 @@ export default function ExchangeWizardContainer({
           onSave={handleOnChange}
           tokens={tokens}
           onValidate={handleValidate}
+          customTheme={customTheme}
         />
       </Grid>
       <Grid item xs={12}>

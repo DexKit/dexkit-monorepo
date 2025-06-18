@@ -60,6 +60,7 @@ import {
   DragIndicator as DragIndicatorIcon,
   Image as ImageIcon,
   Info as InfoIcon,
+  Refresh as RefreshIcon,
   SwapHoriz as SwapHorizIcon,
   TrendingUp as TrendingUpIcon,
 } from "@mui/icons-material";
@@ -107,6 +108,30 @@ export interface ExchangeSettingsFormProps {
   tokens: Token[];
   activeChainIds: number[];
   onValidate?: (isValid: boolean) => void;
+  customTheme?: any;
+}
+
+function convertToHex(color: string): string {
+  if (/^#[0-9A-F]{6}$/i.test(color)) {
+    return color;
+  }
+
+  if (/^#[0-9A-F]{3}$/i.test(color)) {
+    return color.replace(/^#([0-9A-F])([0-9A-F])([0-9A-F])$/i, '#$1$1$2$2$3$3');
+  }
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '#000000';
+
+  ctx.fillStyle = color;
+  const computedColor = ctx.fillStyle;
+
+  if (/^#[0-9A-F]{6}$/i.test(computedColor)) {
+    return computedColor;
+  }
+
+  return '#000000';
 }
 
 function ColorPickerField({
@@ -122,6 +147,10 @@ function ColorPickerField({
 }) {
   const theme = useTheme();
   const isMobile = useIsMobile();
+
+  // Convert theme colors to hex format
+  const hexDefaultValue = convertToHex(defaultValue);
+  const hexValue = value ? convertToHex(value) : hexDefaultValue;
 
   return (
     <Box sx={{ mb: theme.spacing(2) }}>
@@ -162,7 +191,7 @@ function ColorPickerField({
         >
           <input
             type="color"
-            value={value || defaultValue}
+            value={hexValue}
             onChange={(e) => onChange(e.target.value)}
             style={{
               width: '100%',
@@ -177,7 +206,7 @@ function ColorPickerField({
         <TextField
           value={value || ""}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={defaultValue}
+          placeholder={hexDefaultValue}
           size={isMobile ? "small" : "medium"}
           sx={{
             flex: 1,
@@ -514,16 +543,121 @@ function BackgroundImageSelector({
   );
 }
 
-function VariantConfigurationTab() {
+const getDefaultGlassSettings = (theme: any) => ({
+  backgroundType: "gradient" as const,
+  backgroundColor: theme.palette.background.default,
+  gradientStartColor: theme.palette.background.default,
+  gradientEndColor: theme.palette.background.paper,
+  gradientDirection: "to bottom" as const,
+  textColor: theme.palette.text.primary,
+  blurIntensity: 80,
+  glassOpacity: 0.10,
+  disableBackground: false,
+  buyTabColor: theme.palette.success.main,
+  sellTabColor: theme.palette.error.main,
+  buyTabTextColor: theme.palette.success.contrastText,
+  sellTabTextColor: theme.palette.error.contrastText,
+  buyText: "",
+  sellText: "",
+  fillButtonBackgroundColor: theme.palette.primary.main,
+  fillButtonTextColor: theme.palette.primary.contrastText,
+  fillButtonHoverBackgroundColor: theme.palette.primary.dark,
+  fillButtonHoverTextColor: theme.palette.primary.contrastText,
+  fillButtonDisabledBackgroundColor: theme.palette.action.disabled,
+  fillButtonDisabledTextColor: theme.palette.action.disabledBackground,
+  backgroundSize: "cover" as const,
+  backgroundPosition: "center" as const,
+  backgroundRepeat: "no-repeat" as const,
+  backgroundAttachment: "scroll" as const,
+});
+
+const getCustomGlassSettings = (customTheme?: any) => {
+  let palette = null;
+
+  if (customTheme?.palette) {
+    palette = customTheme.palette;
+  }
+  else if (customTheme?.colorSchemes) {
+    const lightPalette = customTheme.colorSchemes.light?.palette;
+    const darkPalette = customTheme.colorSchemes.dark?.palette;
+    palette = lightPalette || darkPalette;
+  }
+
+  if (palette) {
+    return {
+      backgroundType: "gradient" as const,
+      backgroundColor: palette.background?.default || "#151b22",
+      gradientStartColor: palette.background?.default || "#151b22",
+      gradientEndColor: palette.background?.paper || "#212529",
+      gradientDirection: "to bottom" as const,
+      textColor: palette.text?.primary || "#ffffff",
+      blurIntensity: 80,
+      glassOpacity: 0.10,
+      disableBackground: false,
+      buyTabColor: palette.secondary?.main || "#FAC748",
+      sellTabColor: palette.primary?.main || "#3B51F7",
+      buyTabTextColor: "#ffffff",
+      sellTabTextColor: "#ffffff",
+      buyText: "",
+      sellText: "",
+      fillButtonBackgroundColor: palette.primary?.main || "#3B51F7",
+      fillButtonTextColor: "#ffffff",
+      fillButtonHoverBackgroundColor: palette.primary?.dark || "#081EC4",
+      fillButtonHoverTextColor: "#ffffff",
+      fillButtonDisabledBackgroundColor: "#666666",
+      fillButtonDisabledTextColor: "#999999",
+      backgroundSize: "cover" as const,
+      backgroundPosition: "center" as const,
+      backgroundRepeat: "no-repeat" as const,
+      backgroundAttachment: "scroll" as const,
+    };
+  }
+
+  return {
+    backgroundType: "gradient" as const,
+    backgroundColor: "#151b22",
+    gradientStartColor: "#151b22",
+    gradientEndColor: "#212529",
+    gradientDirection: "to bottom" as const,
+    textColor: "#fff",
+    blurIntensity: 80,
+    glassOpacity: 0.10,
+    disableBackground: false,
+    buyTabColor: "#FAC748",
+    sellTabColor: "#3B51F7",
+    buyTabTextColor: "#ffffff",
+    sellTabTextColor: "#ffffff",
+    buyText: "",
+    sellText: "",
+    fillButtonBackgroundColor: "#3B51F7",
+    fillButtonTextColor: "#ffffff",
+    fillButtonHoverBackgroundColor: "#081EC4",
+    fillButtonHoverTextColor: "#ffffff",
+    fillButtonDisabledBackgroundColor: "#666666",
+    fillButtonDisabledTextColor: "#999999",
+    backgroundSize: "cover" as const,
+    backgroundPosition: "center" as const,
+    backgroundRepeat: "no-repeat" as const,
+    backgroundAttachment: "scroll" as const,
+  };
+};
+
+function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   const { values, setFieldValue } = useFormikContext<DexkitExchangeSettings>();
   const [tabValue, setTabValue] = useState(0);
+  const theme = useTheme();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
   return (
-    <Container maxWidth="md">
+    <Container
+      maxWidth="md"
+      sx={{
+        px: { xs: 1, sm: 2, md: 3 }
+      }}
+    >
       <Typography variant="h6" gutterBottom>
         Exchange Variant Configuration
       </Typography>
@@ -547,7 +681,11 @@ function VariantConfigurationTab() {
       </FormControl>
 
       {values.variant === "custom" && (
-        <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
+        <Paper elevation={1} sx={{
+          mt: 2,
+          p: 2,
+          mr: { xs: 1, sm: 1.5, md: 2 }
+        }}>
           <Typography variant="h6" gutterBottom>
             Custom Variant Settings
           </Typography>
@@ -640,6 +778,7 @@ function VariantConfigurationTab() {
                 label="Background Color"
                 value={values.customVariantSettings?.backgroundColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.backgroundColor", value)}
+                defaultValue={theme.palette.background.default}
               />
 
               <BackgroundImageSelector
@@ -690,21 +829,21 @@ function VariantConfigurationTab() {
                 label="Background Color"
                 value={values.customVariantSettings?.pairInfoBackgroundColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.pairInfoBackgroundColor", value)}
-                defaultValue="#ffffff"
+                defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.pairInfoTextColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.pairInfoTextColor", value)}
-                defaultValue="#000000"
+                defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.pairInfoBorderColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.pairInfoBorderColor", value)}
-                defaultValue="#e0e0e0"
+                defaultValue={theme.palette.divider}
               />
             </Box>
           )}
@@ -717,35 +856,35 @@ function VariantConfigurationTab() {
                 label="Background Color"
                 value={values.customVariantSettings?.tradeWidgetBackgroundColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBackgroundColor", value)}
-                defaultValue="#ffffff"
+                defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.tradeWidgetTextColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetTextColor", value)}
-                defaultValue="#000000"
+                defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.tradeWidgetBorderColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBorderColor", value)}
-                defaultValue="#e0e0e0"
+                defaultValue={theme.palette.divider}
               />
 
               <ColorPickerField
                 label="Button Color"
                 value={values.customVariantSettings?.tradeWidgetButtonColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonColor", value)}
-                defaultValue="#1976d2"
+                defaultValue={theme.palette.primary.main}
               />
 
               <ColorPickerField
                 label="Button Text Color"
                 value={values.customVariantSettings?.tradeWidgetButtonTextColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonTextColor", value)}
-                defaultValue="#ffffff"
+                defaultValue={theme.palette.primary.contrastText}
               />
             </Box>
           )}
@@ -758,14 +897,14 @@ function VariantConfigurationTab() {
                 label="Background Color"
                 value={values.customVariantSettings?.tradingGraphBackgroundColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBackgroundColor", value)}
-                defaultValue="#ffffff"
+                defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.tradingGraphBorderColor || ""}
                 onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBorderColor", value)}
-                defaultValue="#e0e0e0"
+                defaultValue={theme.palette.divider}
               />
             </Box>
           )}
@@ -835,9 +974,9 @@ function VariantConfigurationTab() {
               <Box sx={{ mt: 2 }}>
                 <ColorPickerField
                   label="Background Color"
-                  value={values.glassSettings?.backgroundColor || "#1a1a1a"}
+                  value={values.glassSettings?.backgroundColor || theme.palette.background.default}
                   onChange={(value) => setFieldValue("glassSettings.backgroundColor", value)}
-                  defaultValue="#1a1a1a"
+                  defaultValue={theme.palette.background.default}
                 />
               </Box>
             )}
@@ -846,15 +985,15 @@ function VariantConfigurationTab() {
               <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <ColorPickerField
                   label="Gradient Start Color"
-                  value={values.glassSettings?.gradientStartColor || "#1a1a1a"}
+                  value={values.glassSettings?.gradientStartColor || theme.palette.background.default}
                   onChange={(value) => setFieldValue("glassSettings.gradientStartColor", value)}
-                  defaultValue="#1a1a1a"
+                  defaultValue={theme.palette.background.default}
                 />
                 <ColorPickerField
                   label="Gradient End Color"
-                  value={values.glassSettings?.gradientEndColor || "#2d2d2d"}
+                  value={values.glassSettings?.gradientEndColor || theme.palette.background.paper}
                   onChange={(value) => setFieldValue("glassSettings.gradientEndColor", value)}
-                  defaultValue="#2d2d2d"
+                  defaultValue={theme.palette.background.paper}
                 />
                 <FormControl fullWidth>
                   <InputLabel>
@@ -927,9 +1066,9 @@ function VariantConfigurationTab() {
             <Box sx={{ mt: 3 }}>
               <ColorPickerField
                 label="Text Color"
-                value={values.glassSettings?.textColor || "#ffffff"}
+                value={values.glassSettings?.textColor || theme.palette.text.primary}
                 onChange={(value) => setFieldValue("glassSettings.textColor", value)}
-                defaultValue="#ffffff"
+                defaultValue={theme.palette.text.primary}
               />
             </Box>
 
@@ -1016,33 +1155,33 @@ function VariantConfigurationTab() {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Buy Tab Color"
-                    value={values.glassSettings?.buyTabColor || "#00d4aa"}
+                    value={values.glassSettings?.buyTabColor || theme.palette.success.main}
                     onChange={(value) => setFieldValue("glassSettings.buyTabColor", value)}
-                    defaultValue="#00d4aa"
+                    defaultValue={theme.palette.success.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Sell Tab Color"
-                    value={values.glassSettings?.sellTabColor || "#ff6b6b"}
+                    value={values.glassSettings?.sellTabColor || theme.palette.error.main}
                     onChange={(value) => setFieldValue("glassSettings.sellTabColor", value)}
-                    defaultValue="#ff6b6b"
+                    defaultValue={theme.palette.error.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Buy Tab Text Color"
-                    value={values.glassSettings?.buyTabTextColor || "#ffffff"}
+                    value={values.glassSettings?.buyTabTextColor || theme.palette.success.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.buyTabTextColor", value)}
-                    defaultValue="#ffffff"
+                    defaultValue={theme.palette.success.contrastText}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Sell Tab Text Color"
-                    value={values.glassSettings?.sellTabTextColor || "#ffffff"}
+                    value={values.glassSettings?.sellTabTextColor || theme.palette.error.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.sellTabTextColor", value)}
-                    defaultValue="#ffffff"
+                    defaultValue={theme.palette.error.contrastText}
                   />
                 </Grid>
               </Grid>
@@ -1105,17 +1244,17 @@ function VariantConfigurationTab() {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Background Color"
-                    value={values.glassSettings?.fillButtonBackgroundColor || "#007AFF"}
+                    value={values.glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonBackgroundColor", value)}
-                    defaultValue="#007AFF"
+                    defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Text Color"
-                    value={values.glassSettings?.fillButtonTextColor || "#ffffff"}
+                    value={values.glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonTextColor", value)}
-                    defaultValue="#ffffff"
+                    defaultValue={theme.palette.primary.contrastText}
                   />
                 </Grid>
               </Grid>
@@ -1130,38 +1269,64 @@ function VariantConfigurationTab() {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Hover Background"
-                    value={values.glassSettings?.fillButtonHoverBackgroundColor || "#0056CC"}
+                    value={values.glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
-                    defaultValue="#0056CC"
+                    defaultValue={theme.palette.primary.dark}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Hover Text"
-                    value={values.glassSettings?.fillButtonHoverTextColor || "#ffffff"}
+                    value={values.glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonHoverTextColor", value)}
-                    defaultValue="#ffffff"
+                    defaultValue={theme.palette.primary.contrastText}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Disabled Background"
-                    value={values.glassSettings?.fillButtonDisabledBackgroundColor || "#666666"}
+                    value={values.glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
-                    defaultValue="#666666"
+                    defaultValue={theme.palette.action.disabled}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Disabled Text"
-                    value={values.glassSettings?.fillButtonDisabledTextColor || "#999999"}
+                    value={values.glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
-                    defaultValue="#999999"
+                    defaultValue={theme.palette.action.disabledBackground}
                   />
                 </Grid>
               </Grid>
 
 
+            </Box>
+
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="outlined"
+                startIcon={<RefreshIcon />}
+                onClick={() => {
+                  setFieldValue("glassSettings", getCustomGlassSettings(customTheme));
+                }}
+                sx={{
+                  borderColor: '#ff6b35',
+                  color: '#ff6b35',
+                  backgroundColor: 'transparent',
+                  borderRadius: '8px',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  px: 3,
+                  py: 1,
+                  '&:hover': {
+                    borderColor: '#ff6b35',
+                    backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                  },
+                }}
+              >
+                RESET STYLES
+              </Button>
             </Box>
           </Box>
         </Paper>
@@ -1389,6 +1554,7 @@ export default function ExchangeSettingsForm({
   showSaveButton,
   onValidate,
   activeChainIds,
+  customTheme,
 }: ExchangeSettingsFormProps) {
   const handleSubmit = async (values: DexkitExchangeSettings) => {
     onSave(values);
@@ -1617,7 +1783,13 @@ export default function ExchangeSettingsForm({
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        py: 2,
+        px: { xs: 2, sm: 3, md: 4 }
+      }}
+    >
       <Box sx={{
         overflowY: 'auto',
         maxHeight: `calc(100vh - ${theme.spacing(25)})`
@@ -1647,6 +1819,7 @@ export default function ExchangeSettingsForm({
                   availNetworks: settings.availNetworks.filter(network =>
                     ZEROX_SUPPORTED_NETWORKS.includes(network)
                   ),
+                  glassSettings: settings.glassSettings || getDefaultGlassSettings(theme),
                 }
                 : {
                   defaultNetwork: defaultNetwork,
@@ -1659,6 +1832,7 @@ export default function ExchangeSettingsForm({
                   buyTokenPercentageFee: 0.0,
                   availNetworks: networks.map((n) => n.chainId),
                   variant: "default" as ExchangeVariant,
+                  glassSettings: getDefaultGlassSettings(theme),
                   customVariantSettings: {
                     showPairInfo: true,
                     showTradingGraph: true,
@@ -1717,7 +1891,10 @@ export default function ExchangeSettingsForm({
               </Grid> */}
 
                   <Grid item xs={12}>
-                    <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                    <Paper sx={{
+                      p: isMobile ? 1.5 : 2,
+                      mr: { xs: 1, sm: 1.5, md: 2 }
+                    }}>
                       <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
                           component={FormikSelect}
@@ -1853,7 +2030,10 @@ export default function ExchangeSettingsForm({
                     </Paper>
                   </Grid>
                   <Grid item xs={12}>
-                    <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
+                    <Paper sx={{
+                      p: isMobile ? 1.5 : 2,
+                      mr: { xs: 1, sm: 1.5, md: 2 }
+                    }}>
                       <Grid container spacing={isMobile ? 1.5 : 2}>
                         <Grid item xs={12}>
                           <FormControl fullWidth size={isMobile ? "small" : "medium"}>
@@ -2015,6 +2195,28 @@ export default function ExchangeSettingsForm({
                           />
                         </Grid>
 
+                      </Grid>
+                    </Paper>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Paper sx={{
+                      p: { xs: 1.5, sm: 2, md: 3 },
+                      mr: { xs: 1, sm: 1.5, md: 2 }
+                    }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          mb: { xs: 1.5, sm: 2 },
+                          fontSize: { xs: '1rem', sm: '1.25rem' }
+                        }}
+                      >
+                        <FormattedMessage
+                          id="exchange.fee.configuration"
+                          defaultMessage="Exchange Fee Configuration"
+                        />
+                      </Typography>
+                      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
                         <Grid item xs={12}>
                           <Field
                             component={TextField}
@@ -2059,7 +2261,7 @@ export default function ExchangeSettingsForm({
                   </Grid>
 
                   <Grid item xs={12}>
-                    <VariantConfigurationTab />
+                    <VariantConfigurationTab customTheme={customTheme} />
                   </Grid>
 
 

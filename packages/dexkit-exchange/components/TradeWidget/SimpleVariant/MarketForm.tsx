@@ -78,13 +78,18 @@ export default function MarketForm({
   const theme = useTheme();
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
+  const textColor = isGlassVariant
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
+    : (glassSettings?.textColor || theme.palette.text.primary);
+  const secondaryTextColor = isGlassVariant
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
+    : theme.palette.text.secondary;
   const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main;
   const fillButtonTextColor = glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText;
   const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark;
   const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText;
   const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled;
   const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground;
-
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -498,7 +503,7 @@ export default function MarketForm({
             sx={{ visibility: provider ? "visible" : "hidden" }}
           >
             {side === "buy" ? (
-              <Typography variant="body2">
+              <Typography variant="body2" color={textColor}>
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
                 {quoteTokenBalanceQuery.isLoading ? (
                   <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
@@ -512,6 +517,7 @@ export default function MarketForm({
             ) : (
               <Typography
                 variant="body2"
+                color={textColor}
                 sx={{ visibility: account ? "visible" : "hidden" }}
               >
                 <FormattedMessage id="available" defaultMessage="Available" />:{" "}
@@ -537,7 +543,7 @@ export default function MarketForm({
                   spacing={2}
                   alignItems="center"
                 >
-                  <Typography>
+                  <Typography color={textColor}>
                     {side === "buy" ? (
                       <FormattedMessage id="cost" defaultMessage="Cost" />
                     ) : (
@@ -553,7 +559,7 @@ export default function MarketForm({
                       alignContent={"center"}
                       alignItems={"center"}
                     >
-                      <Typography color="text.secondary">
+                      <Typography color={textColor}>
                         {priceQuery.isFetching ? (
                           <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                         ) : (
@@ -563,7 +569,7 @@ export default function MarketForm({
 
                       <Button
                         sx={{
-                          color: "text.secondary",
+                          color: secondaryTextColor,
                         }}
                         size={"large"}
                         id="basic-button"
@@ -602,7 +608,7 @@ export default function MarketForm({
                       </Menu>
                     </Box>
                   ) : (
-                    <Typography color="text.secondary">
+                    <Typography color={textColor}>
                       {quoteQuery.isFetching ? (
                         <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                       ) : (
