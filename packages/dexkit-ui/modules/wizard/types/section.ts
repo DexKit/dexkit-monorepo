@@ -2,7 +2,6 @@ import { OrderMarketType } from "@dexkit/exchange/constants";
 import { DexkitExchangeSettings } from "@dexkit/exchange/types";
 import { ContractFormParams } from "@dexkit/web3forms/types";
 import React from "react";
-
 import { AssetFormType, DeployedContract, SwapConfig } from ".";
 import { AssetStoreOptions } from "../../nft/types";
 import { PageSectionVariant, SectionItem, VideoEmbedType } from "./config";
@@ -111,6 +110,31 @@ export interface MarkdownEditorPageSection extends PageSection {
 
 export interface WalletPageSection extends PageSection {
   type: "wallet";
+  settings?: WalletSettings;
+}
+
+export type WalletVariant = "default" | "glass";
+
+export interface WalletGlassSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  glassOpacity?: number;
+  disableBackground?: boolean;
+  textColor?: string;
+}
+
+export interface WalletSettings {
+  variant?: WalletVariant;
+  glassSettings?: WalletGlassSettings;
 }
 
 export interface ContractPageSection extends PageSection {
