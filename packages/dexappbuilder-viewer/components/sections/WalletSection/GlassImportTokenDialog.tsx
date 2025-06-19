@@ -8,6 +8,7 @@ import {
   DialogActions,
   DialogContent,
   DialogProps,
+  Divider,
   FormControl,
   ListItemIcon,
   ListItemText,
@@ -142,90 +143,111 @@ const GlassDialog = styled(Dialog)<{
       background: 'rgba(0, 0, 0, 0.7)',
     },
   },
+
+  '& .MuiDivider-root': {
+    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
+  },
 }));
 
-const GlassButton = styled(Button)<{
+interface GlassButtonProps {
   glassOpacity: number;
   textColor: string;
   glassVariant?: 'primary' | 'secondary';
-}>(({ theme, glassOpacity, textColor, glassVariant = 'secondary' }) => ({
-  borderRadius: theme.spacing(1.5),
-  padding: theme.spacing(1, 2),
-  fontWeight: 600,
-  textTransform: 'none',
-  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+}
 
-  [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(0.8, 1.6),
-    fontSize: '0.85rem',
-    borderRadius: theme.spacing(1.2),
-  },
+const GlassButton = styled(Button, {
+  shouldForwardProp: (prop) => !['glassOpacity', 'textColor', 'glassVariant'].includes(prop as string),
+}) <GlassButtonProps>`
+  border-radius: ${({ theme }) => theme.spacing(1.5)};
+  padding: ${({ theme }) => theme.spacing(1, 2)};
+  font-weight: 600;
+  text-transform: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  [theme.breakpoints.down(400)]: {
-    padding: theme.spacing(0.7, 1.2),
-    fontSize: '0.8rem',
-    borderRadius: theme.spacing(1),
-    minWidth: '80px',
-    flex: '1 1 auto',
-  },
+  ${({ theme }) => theme.breakpoints.down('sm')} {
+    padding: ${({ theme }) => theme.spacing(0.8, 1.6)};
+    font-size: 0.85rem;
+    border-radius: ${({ theme }) => theme.spacing(1.2)};
+  }
 
-  [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(1.2, 2.5),
-    fontSize: '1rem',
-    borderRadius: theme.spacing(1.8),
-  },
+  ${({ theme }) => theme.breakpoints.down(400)} {
+    padding: ${({ theme }) => theme.spacing(0.7, 1.2)};
+    font-size: 0.8rem;
+    border-radius: ${({ theme }) => theme.spacing(1)};
+    min-width: 80px;
+    flex: 1 1 auto;
+  }
 
-  ...(glassVariant === 'primary' ? {
-    background: textColor,
-    color: '#000000',
-    border: `1px solid ${textColor}`,
-    boxShadow: `
-      0 6px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-    `,
+  ${({ theme }) => theme.breakpoints.up('lg')} {
+    padding: ${({ theme }) => theme.spacing(1.2, 2.5)};
+    font-size: 1rem;
+    border-radius: ${({ theme }) => theme.spacing(1.8)};
+  }
 
-    '&:hover': {
-      background: textColor,
-      transform: 'translateY(-2px)',
-      boxShadow: `
-        0 8px 25px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3)
-      `,
+  ${({ glassVariant, glassOpacity, textColor, theme }) => glassVariant === 'primary' ? `
+    background: rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.6)});
+    backdrop-filter: blur(${theme.spacing(5)}px) saturate(180%) brightness(120%);
+    -webkit-backdrop-filter: blur(${theme.spacing(5)}px) saturate(180%) brightness(120%);
+    border: 1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.8)});
+    color: ${textColor};
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)}),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: ${textColor.includes('255, 255, 255')
+      ? '0 1px 2px rgba(0, 0, 0, 0.3)'
+      : '0 1px 2px rgba(255, 255, 255, 0.3)'};
 
-      [theme.breakpoints.down('sm')]: {
-        transform: 'translateY(-1px)',
-      },
-    },
+    &:hover {
+      background: rgba(255, 255, 255, ${Math.min(glassOpacity + 0.25, 0.75)});
+      backdrop-filter: blur(${theme.spacing(6)}px) saturate(200%) brightness(130%);
+      -webkit-backdrop-filter: blur(${theme.spacing(6)}px) saturate(200%) brightness(130%);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.8)}),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.9)});
 
-    '&.Mui-disabled': {
-      background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-      color: `${textColor}80`,
-      border: `1px solid rgba(255, 255, 255, ${glassOpacity * 0.6})`,
-      transform: 'none',
-    },
-  } : {
-    background: `rgba(255, 255, 255, ${glassOpacity})`,
-    color: textColor,
-    border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.8)})`,
-    boxShadow: `
+      ${theme.breakpoints.down('sm')} {
+        transform: translateY(-1px) scale(1.01);
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(1.0);
+      transition: all 0.15s ease-in-out;
+    }
+
+    &.Mui-disabled {
+      background: rgba(255, 255, 255, ${glassOpacity * 0.6});
+      color: ${textColor}50;
+      opacity: 0.6;
+      transform: none;
+      backdrop-filter: blur(${theme.spacing(2)}px);
+      -webkit-backdrop-filter: blur(${theme.spacing(2)}px);
+    }
+  ` : `
+    background: rgba(255, 255, 255, ${glassOpacity});
+    color: ${textColor};
+    border: 1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.8)});
+    box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-    `,
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
-    '&:hover': {
-      background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
-      transform: 'translateY(-2px)',
-      boxShadow: `
+    &:hover {
+      background: rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)});
+      transform: translateY(-2px);
+      box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3)
-      `,
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
-      [theme.breakpoints.down('sm')]: {
-        transform: 'translateY(-1px)',
-      },
-    },
-  }),
-}));
+      ${theme.breakpoints.down('sm')} {
+        transform: translateY(-1px);
+      }
+    }
+  `}
+`;
 
 const GlassDialogActions = styled(DialogActions)<{
   glassOpacity: number;
@@ -416,60 +438,77 @@ function GlassImportTokenDialog({
           background: 'transparent',
           color: textColor,
           fontWeight: 600,
-          borderBottom: `1px solid rgba(255, 255, 255, ${glassOpacity * 0.3})`,
+
+
+          '& .MuiTypography-root': {
+            fontSize: '1.25rem',
+          },
 
           [theme.breakpoints.down('sm')]: {
             px: theme.spacing(1.5),
             py: theme.spacing(1.2),
-            fontSize: '1.1rem',
+            '& .MuiTypography-root': {
+              fontSize: '1.1rem',
+            },
           },
 
           [theme.breakpoints.down(400)]: {
             px: theme.spacing(1),
             py: theme.spacing(1),
-            fontSize: '1rem',
+            '& .MuiTypography-root': {
+              fontSize: '1rem',
+            },
           },
 
           [theme.breakpoints.up('lg')]: {
             px: theme.spacing(3.5),
             py: theme.spacing(2.5),
-            fontSize: '1.4rem',
+            '& .MuiTypography-root': {
+              fontSize: '1.4rem',
+            },
           },
 
           '& .MuiIconButton-root': {
-            color: textColor,
-            background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-            backdropFilter: `blur(${blurIntensity * 0.5}px)`,
-            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.6)})`,
-            transition: 'all 0.2s ease-in-out',
-            borderRadius: theme.spacing(1),
+            color: `${textColor} !important`,
+            background: `rgba(255, 255, 255, ${glassOpacity * 0.8}) !important`,
+            backdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            border: '1px solid rgba(255, 255, 255, 0.2) !important',
+            transition: 'all 0.2s ease-in-out !important',
+            borderRadius: '50% !important',
+            width: '32px !important',
+            height: '32px !important',
 
             '&:hover': {
-              background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)})`,
-              transform: 'scale(1.05)',
-              boxShadow: `0 4px 12px rgba(0, 0, 0, 0.15)`,
+              background: `rgba(255, 255, 255, ${glassOpacity * 1.2}) !important`,
+              transform: 'scale(1.05) !important',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2) !important',
+              backdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+              WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+            },
+
+            '&:active': {
+              transform: 'scale(0.98) !important',
             },
 
             [theme.breakpoints.down('sm')]: {
-              width: '36px',
-              height: '36px',
+              width: '32px !important',
+              height: '32px !important',
             },
 
             [theme.breakpoints.down(400)]: {
-              width: '32px',
-              height: '32px',
+              width: '32px !important',
+              height: '32px !important',
             },
           },
         }}
       />
+      <Divider />
       <DialogContent
-        dividers
         sx={{
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(2) : theme.spacing(3),
           background: 'transparent',
-          borderTop: `1px solid rgba(255, 255, 255, ${glassOpacity * 0.2})`,
-          borderBottom: `1px solid rgba(255, 255, 255, ${glassOpacity * 0.2})`,
 
           [theme.breakpoints.down('sm')]: {
             px: theme.spacing(1.5),
@@ -895,7 +934,7 @@ function GlassImportTokenDialog({
           onClick={handleSubmitForm}
           glassOpacity={glassOpacity}
           textColor={textColor}
-          glassVariant="secondary"
+          glassVariant="primary"
         >
           <FormattedMessage
             id="import"

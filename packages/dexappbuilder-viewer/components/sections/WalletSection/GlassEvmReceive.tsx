@@ -11,6 +11,10 @@ import Token from "@mui/icons-material/Token";
 
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
+import CopyIconButton from "@dexkit/ui/components/CopyIconButton";
+import EvmReceiveQRCode from "@dexkit/ui/components/EvmReceiveQRCode";
+import { useERC20BalancesQuery } from "@dexkit/ui/modules/wallet/hooks";
+import { TokenBalance } from "@dexkit/ui/modules/wallet/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { isDexKitToken } from "@dexkit/widgets/src/constants/tokens";
 import {
@@ -35,29 +39,31 @@ import {
   useState,
 } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useERC20BalancesQuery } from "../modules/wallet/hooks";
-import { TokenBalance } from "../modules/wallet/types";
-import CopyIconButton from "./CopyIconButton";
-import EvmReceiveQRCode from "./EvmReceiveQRCode";
-import { ShareButton } from "./ShareButton";
+import { GlassShareButton } from "./GlassShareButton";
 
-export interface EvmReceiveProps {
+export interface GlassEvmReceiveProps {
   receiver?: string;
   ENSName?: string;
   chainId?: number;
   defaultCoin?: EvmCoin;
   baseShareURL?: string;
   coins?: EvmCoin[];
+  blurIntensity?: number;
+  glassOpacity?: number;
+  textColor?: string;
 }
 
-export default function EvmReceive({
+export default function GlassEvmReceive({
   receiver,
   chainId,
   ENSName,
   coins,
   baseShareURL,
   defaultCoin,
-}: EvmReceiveProps) {
+  blurIntensity = 40,
+  glassOpacity = 0.10,
+  textColor = '#ffffff',
+}: GlassEvmReceiveProps) {
   const [coin, setCoin] = useState<EvmCoin | null>(null);
   const [amount, setAmount] = useState<string>("");
   const { formatMessage } = useIntl();
@@ -140,18 +146,18 @@ export default function EvmReceive({
     return [...coinsWithBalance, ...coinsWithoutBalance];
   }, [coins, balanceMap]);
 
+  useEffect(() => {
+    if (defaultCoin) {
+      setCoin(defaultCoin);
+    }
+  }, [defaultCoin]);
+
   const isDexKitCoin = (coin: EvmCoin): boolean => {
     if (coin.coinType === CoinTypes.EVM_ERC20 && coin.contractAddress) {
       return isDexKitToken({ address: coin.contractAddress, symbol: coin.symbol });
     }
     return false;
   };
-
-  useEffect(() => {
-    if (defaultCoin) {
-      setCoin(defaultCoin);
-    }
-  }, [defaultCoin]);
 
   const handleChangeCoin = (
     event: SyntheticEvent<Element, Event>,
@@ -206,10 +212,18 @@ export default function EvmReceive({
     }
   };
 
+  if (!receiver) {
+    return null;
+  }
+
   return (
-    <Stack spacing={isMobile ? 2.5 : 3}>
-      {/* QR Code Section */}
-      <Stack justifyContent="center" alignItems="center" spacing={isMobile ? 1.5 : 2}>
+    <Stack spacing={isMobile ? 2 : 2.5}>
+      <Stack
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        alignContent="center"
+      >
         <Box
           sx={{
             p: isMobile ? 2 : 3,
@@ -440,7 +454,7 @@ export default function EvmReceive({
         }}
       />
 
-      <ShareButton
+      <GlassShareButton
         url={shareUrl}
         shareButtonProps={{
           color: "primary",
@@ -458,7 +472,10 @@ export default function EvmReceive({
             defaultMessage="Share receive request"
           />
         }
+        blurIntensity={blurIntensity}
+        glassOpacity={glassOpacity}
+        textColor={textColor}
       />
     </Stack>
   );
-}
+} 

@@ -12,6 +12,7 @@ import {
   DialogActions,
   DialogContent,
   DialogProps,
+  Divider,
   List,
   ListItemButton,
   ListItemIcon,
@@ -110,6 +111,10 @@ const GlassDialog = styled(Dialog)<{
     [theme.breakpoints.down(400)]: {
       background: 'rgba(0, 0, 0, 0.7)',
     },
+  },
+
+  '& .MuiDivider-root': {
+    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
   },
 }));
 
@@ -325,25 +330,54 @@ const GlassButton = styled(Button)<{
   },
 
   ...(glassVariant === 'primary' ? {
-    background: textColor,
-    color: '#000000',
-    border: `1px solid ${textColor}`,
+    background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.45, 0.8)})`,
+    backdropFilter: 'blur(15px) saturate(200%) brightness(115%)',
+    WebkitBackdropFilter: 'blur(15px) saturate(200%) brightness(115%)',
+    color: textColor,
+    border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.5, 0.95)})`,
     boxShadow: `
-      0 6px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+      0 8px 32px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(255, 255, 255, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -2px 0 rgba(255, 255, 255, 0.2),
+      inset 0 0 20px rgba(255, 255, 255, 0.1)
     `,
+    position: 'relative',
+    overflow: 'hidden',
+
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 30%, rgba(255, 255, 255, 0.2) 70%, transparent 100%)',
+      pointerEvents: 'none',
+      borderRadius: 'inherit',
+    },
 
     '&:hover': {
-      background: textColor,
-      transform: 'translateY(-2px)',
+      background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.55, 0.9)})`,
+      backdropFilter: 'blur(18px) saturate(220%) brightness(125%)',
+      WebkitBackdropFilter: 'blur(18px) saturate(220%) brightness(125%)',
+      transform: 'translateY(-3px) scale(1.02)',
       boxShadow: `
-        0 8px 25px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3)
+        0 12px 40px rgba(0, 0, 0, 0.25),
+        0 6px 20px rgba(255, 255, 255, 0.4),
+        inset 0 3px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -3px 0 rgba(255, 255, 255, 0.3),
+        inset 0 0 25px rgba(255, 255, 255, 0.15)
       `,
 
       [theme.breakpoints.down('sm')]: {
-        transform: 'translateY(-1px)',
+        transform: 'translateY(-2px) scale(1.01)',
       },
+    },
+
+    '&:active': {
+      transform: 'translateY(-1px) scale(0.98)',
+      transition: 'all 0.1s cubic-bezier(0.4, 0, 0.2, 1)',
     },
   } : {
     background: `rgba(255, 255, 255, ${glassOpacity})`,
@@ -449,14 +483,64 @@ function GlassChooseNetworkDialog({
         }
         onClose={handleClose}
         sx={{
+          px: isMobile ? theme.spacing(2) : theme.spacing(3),
+          py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
           color: textColor,
+          fontWeight: 600,
+
+          '& .MuiTypography-root': {
+            fontSize: '1.25rem',
+          },
+
+          [theme.breakpoints.down('sm')]: {
+            px: theme.spacing(1.5),
+            py: theme.spacing(1.2),
+            '& .MuiTypography-root': {
+              fontSize: '1.1rem',
+            },
+          },
+
+          [theme.breakpoints.down(400)]: {
+            px: theme.spacing(1),
+            py: theme.spacing(1),
+            '& .MuiTypography-root': {
+              fontSize: '1rem',
+            },
+          },
+
+          [theme.breakpoints.up('lg')]: {
+            px: theme.spacing(3.5),
+            py: theme.spacing(2.5),
+            '& .MuiTypography-root': {
+              fontSize: '1.4rem',
+            },
+          },
+
           '& .MuiIconButton-root': {
-            color: textColor,
+            color: `${textColor} !important`,
+            background: `rgba(255, 255, 255, ${glassOpacity * 0.8}) !important`,
+            backdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            border: '1px solid rgba(255, 255, 255, 0.2) !important',
+            transition: 'all 0.2s ease-in-out !important',
+            borderRadius: '50% !important',
+            width: '32px !important',
+            height: '32px !important',
+            '&:hover': {
+              background: `rgba(255, 255, 255, ${glassOpacity * 1.2}) !important`,
+              transform: 'scale(1.05) !important',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2) !important',
+              backdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+              WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+            },
+            '&:active': {
+              transform: 'scale(0.98) !important',
+            },
           }
         }}
       />
+      <Divider />
       <GlassDialogContent
-        dividers
         glassOpacity={glassOpacity}
         textColor={textColor}
       >

@@ -3,11 +3,11 @@ import { EvmCoin } from "@dexkit/core/types";
 
 import { useIsMobile } from "@dexkit/core";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
-import EvmReceive from "@dexkit/ui/components/EvmReceive";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Dialog, DialogContent, DialogProps, Divider, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FormattedMessage } from "react-intl";
+import GlassEvmReceive from "./GlassEvmReceive";
 
 interface Props {
   dialogProps: DialogProps;
@@ -151,8 +151,7 @@ export default function GlassEvmReceiveDialog({
             color: `${textColor} !important`,
           },
           '& .MuiDivider-root': {
-            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) !important`,
-            opacity: 0.7,
+            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)})`,
           },
           '& .MuiTypography-root': {
             color: `${textColor} !important`,
@@ -194,21 +193,48 @@ export default function GlassEvmReceiveDialog({
             },
           },
           '& .MuiButton-root': {
-            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.15)}) !important`,
-            backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
-            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-            color: `${textColor} !important`,
             borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
             fontWeight: '600 !important',
-            boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
             transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-            '&:hover': {
-              backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
-              backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-              WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-              transform: { xs: 'scale(1.02)', sm: 'translateY(-1px) scale(1.02)', md: 'translateY(-2px) scale(1.03)' },
-              boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
+
+            '&.MuiButton-outlined': {
+              backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.15)}) !important`,
+              backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
+              WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
+              border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
+              color: `${textColor} !important`,
+              boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
+              '&:hover': {
+                backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
+                backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
+                WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
+                transform: { xs: 'scale(1.02)', sm: 'translateY(-1px) scale(1.02)', md: 'translateY(-2px) scale(1.03)' },
+                boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
+              },
+            },
+
+            '&.MuiButton-contained': {
+              backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.7)}) !important`,
+              backdropFilter: 'blur(10px) saturate(180%) brightness(110%) !important',
+              WebkitBackdropFilter: 'blur(10px) saturate(180%) brightness(110%) !important',
+              color: `${textColor} !important`,
+              border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.9)}) !important`,
+              boxShadow: `
+                0 6px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+              `,
+              '&:hover': {
+                backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.8)}) !important`,
+                backdropFilter: 'blur(12px) saturate(200%) brightness(120%) !important',
+                WebkitBackdropFilter: 'blur(12px) saturate(200%) brightness(120%) !important',
+                transform: { xs: 'scale(1.02)', sm: 'translateY(-1px) scale(1.02)', md: 'translateY(-2px) scale(1.03)' },
+                boxShadow: `
+                  0 8px 25px rgba(0, 0, 0, 0.2),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                `,
+              },
             },
           },
           '& .MuiAutocomplete-root': {
@@ -217,15 +243,97 @@ export default function GlassEvmReceiveDialog({
               backdropFilter: `blur(${blurIntensity}px) saturate(140%) brightness(1.01) !important`,
               WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(140%) brightness(1.01) !important`,
               border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.25)}) !important`,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+
+              '&.Mui-focused': {
+                borderBottomLeftRadius: '0',
+                borderBottomRightRadius: '0',
+                borderBottom: 'none',
+              },
             },
           },
+
+          '& .MuiPopper-root': {
+            position: 'relative !important',
+            inset: 'auto !important',
+            transform: 'none !important',
+          },
+
           '& .MuiPaper-root.MuiAutocomplete-paper': {
-            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.15)}) !important`,
-            backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
-            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-            borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
-            boxShadow: `0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 4, 0.6)}) inset`,
+            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.85)}) !important`,
+            backdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(115%) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(115%) !important`,
+            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.7)}) !important`,
+            borderTop: 'none !important',
+            borderRadius: '0 0 16px 16px !important',
+            boxShadow: `
+              0 8px 32px rgba(0, 0, 0, 0.3),
+              0 4px 16px rgba(255, 255, 255, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4),
+              inset 0 -2px 0 rgba(255, 255, 255, 0.1)
+            `,
+            position: 'relative',
+            overflow: 'hidden',
+            margin: '0 !important',
+            marginBottom: '16px !important',
+            width: '100% !important',
+            maxHeight: '240px !important',
+
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 30%, rgba(255, 255, 255, 0.1) 70%, transparent 100%)',
+              pointerEvents: 'none',
+              borderRadius: 'inherit',
+              zIndex: 0,
+            },
+
+            '& .MuiAutocomplete-listbox': {
+              position: 'relative',
+              zIndex: 1,
+              padding: '8px !important',
+              maxHeight: '200px !important',
+              overflowY: 'auto !important',
+
+              '& .MuiAutocomplete-option': {
+                color: `${textColor} !important`,
+                borderRadius: '10px !important',
+                margin: '2px 0 !important',
+                padding: '10px 14px !important',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important',
+                background: `rgba(255, 255, 255, ${Math.min(glassOpacity * 0.6, 0.12)}) !important`,
+                border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 0.4, 0.2)}) !important`,
+                backdropFilter: `blur(${blurIntensity * 0.3}px) saturate(140%) !important`,
+                WebkitBackdropFilter: `blur(${blurIntensity * 0.3}px) saturate(140%) !important`,
+
+                '&:hover': {
+                  background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)}) !important`,
+                  backdropFilter: `blur(${blurIntensity * 0.5}px) saturate(160%) brightness(108%) !important`,
+                  WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px) saturate(160%) brightness(108%) !important`,
+                  transform: 'scale(1.01) !important',
+                  boxShadow: `
+                    0 4px 12px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3)
+                  `,
+                  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.4)}) !important`,
+                },
+
+                '&.Mui-focused': {
+                  background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.35)}) !important`,
+                  backdropFilter: `blur(${blurIntensity * 0.6}px) saturate(170%) brightness(112%) !important`,
+                  WebkitBackdropFilter: `blur(${blurIntensity * 0.6}px) saturate(170%) brightness(112%) !important`,
+                  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)}) !important`,
+                  boxShadow: `
+                    0 6px 16px rgba(0, 0, 0, 0.15),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.4)
+                  `,
+                },
+              },
+            },
           },
           '& .MuiListItem-root': {
             color: `${textColor} !important`,
@@ -245,6 +353,27 @@ export default function GlassEvmReceiveDialog({
               color: `${textColor} !important`,
             },
           },
+          '& .MuiIconButton-root': {
+            color: `${textColor} !important`,
+            background: `rgba(255, 255, 255, ${glassOpacity * 0.8}) !important`,
+            backdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px) !important`,
+            border: '1px solid rgba(255, 255, 255, 0.2) !important',
+            transition: 'all 0.2s ease-in-out !important',
+            borderRadius: '50% !important',
+            width: '32px !important',
+            height: '32px !important',
+            '&:hover': {
+              background: `rgba(255, 255, 255, ${glassOpacity * 1.2}) !important`,
+              transform: 'scale(1.05) !important',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2) !important',
+              backdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+              WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px) !important`,
+            },
+            '&:active': {
+              transform: 'scale(0.98) !important',
+            },
+          },
         },
       }}
     >
@@ -259,6 +388,40 @@ export default function GlassEvmReceiveDialog({
           />
         }
         onClose={handleClose}
+        sx={{
+          px: isMobile ? theme.spacing(2) : theme.spacing(3),
+          py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+          color: textColor,
+          fontWeight: 600,
+
+          '& .MuiTypography-root': {
+            fontSize: '1.25rem',
+          },
+
+          [theme.breakpoints.down('sm')]: {
+            px: theme.spacing(1.5),
+            py: theme.spacing(1.2),
+            '& .MuiTypography-root': {
+              fontSize: '1.1rem',
+            },
+          },
+
+          [theme.breakpoints.down(400)]: {
+            px: theme.spacing(1),
+            py: theme.spacing(1),
+            '& .MuiTypography-root': {
+              fontSize: '1rem',
+            },
+          },
+
+          [theme.breakpoints.up('lg')]: {
+            px: theme.spacing(3.5),
+            py: theme.spacing(2.5),
+            '& .MuiTypography-root': {
+              fontSize: '1.4rem',
+            },
+          },
+        }}
       />
       <Divider />
       <DialogContent
@@ -267,12 +430,15 @@ export default function GlassEvmReceiveDialog({
           overflow: 'auto',
         }}
       >
-        <EvmReceive
+        <GlassEvmReceive
           receiver={receiver}
           chainId={effectiveChainId}
           coins={coins}
           defaultCoin={defaultCoin}
           ENSName={ENSName}
+          blurIntensity={blurIntensity}
+          glassOpacity={glassOpacity}
+          textColor={textColor}
         />
       </DialogContent>
     </GlassDialog>
