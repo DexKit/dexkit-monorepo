@@ -17,14 +17,24 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
       return "bsc.";
     case ChainId.Avax:
       return "avalanche.";
-    case ChainId.Fantom:
-      return "fantom.";
     case ChainId.Optimism:
       return "optimism.";
     case ChainId.Arbitrum:
       return "arbitrum.";
+    case ChainId.Base:
+      return "base.";
     case ChainId.Goerli:
       return "goerli.";
+    case ChainId.Linea:
+      return "linea.";
+    case ChainId.Scroll:
+      return "scroll.";
+    case ChainId.Mantle:
+      return "mantle.";
+    case ChainId.Blast:
+      return "blast.";
+    case ChainId.Mode:
+      return "mode.";
     default:
       return "";
   }
@@ -46,4 +56,4 @@ export const ZEROEX_FEE_RECIPIENT =
 
 // neutral address that helps 0x API provide accurate quotes
 export const ZEROEX_DEFAULT_TAKER_ADDRESS =
-  "0x0000000000000000000000000000000000000001";
+  "0x00000000000000000000000000000000000fffff";

@@ -1,6 +1,6 @@
 import NFTGrid from '@dexkit/dexappbuilder-viewer/components/NFTGrid';
 import NFTDropSummary from '@dexkit/dexappbuilder-viewer/components/NftDropSummary';
-import { Button, Divider, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Divider, Tab, Tabs, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useContract, useNFTs } from '@thirdweb-dev/react';
 import { SyntheticEvent, useState } from 'react';
@@ -20,6 +20,8 @@ export default function ContractNftDropContainer({
   network,
 }: ContractNftDropContainerProps) {
   const { data: contract } = useContract(address, 'nft-drop');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [currTab, setCurrTab] = useState('nfts');
 
@@ -52,7 +54,7 @@ export default function ContractNftDropContainer({
         address={address}
         isLazyMint
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12}>
           <NFTDropSummary contract={contract} />
         </Grid>
@@ -61,9 +63,26 @@ export default function ContractNftDropContainer({
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={2}>
+          <Grid container spacing={isMobile ? 1 : 2}>
             <Grid item xs={12}>
-              <Tabs value={currTab} onChange={handleChange}>
+              <Tabs
+                value={currTab}
+                onChange={handleChange}
+                variant={isMobile ? "scrollable" : "standard"}
+                scrollButtons={isMobile ? "auto" : false}
+                allowScrollButtonsMobile={isMobile}
+                sx={{
+                  '& .MuiTab-root': {
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    minHeight: isMobile ? 40 : 48,
+                    padding: isMobile ? theme.spacing(0.5, 1) : theme.spacing(1, 2),
+                    minWidth: isMobile ? 'auto' : 160,
+                  },
+                  '& .MuiTabs-indicator': {
+                    height: isMobile ? 2 : 3,
+                  }
+                }}
+              >
                 <Tab
                   value="nfts"
                   label={<FormattedMessage id="nfts" defaultMessage="NFTs" />}
@@ -96,18 +115,33 @@ export default function ContractNftDropContainer({
             )}
             {currTab === 'nfts' && (
               <Grid item xs={12}>
-                <Grid container spacing={2}>
+                <Grid container spacing={isMobile ? 1 : 2}>
                   <Grid item xs={12}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={isMobile ? 1 : 2}>
                       <Grid item>
-                        <Button onClick={handleMint} variant="contained">
+                        <Button
+                          onClick={handleMint}
+                          variant="contained"
+                          size={isMobile ? "small" : "medium"}
+                          sx={{
+                            fontSize: isMobile ? '0.75rem' : '0.875rem',
+                            py: isMobile ? 0.75 : 1,
+                            px: isMobile ? 1.5 : 2,
+                          }}
+                        >
                           <FormattedMessage id="mint" defaultMessage="Mint" />
                         </Button>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="h5">
+                    <Typography
+                      variant={isMobile ? "h6" : "h5"}
+                      sx={{
+                        fontSize: isMobile ? '1.1rem' : '1.5rem',
+                        fontWeight: 600,
+                      }}
+                    >
                       <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
                     </Typography>
                   </Grid>

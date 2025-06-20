@@ -1,3 +1,4 @@
+import { useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
   useContract,
@@ -71,6 +72,8 @@ export function ContractContainer({
   onGoBack,
 }: Props) {
   const { data } = useContractType(address);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { data: contract } = useContract(address);
 
@@ -147,7 +150,7 @@ export function ContractContainer({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={isMobile ? 1 : 2}>
       <Grid item xs={12}>
         <ContractMetadataHeader
           address={address}
@@ -167,13 +170,18 @@ export function ContractContainer({
                 onClick={handleSwitchNetwork}
                 color="inherit"
                 variant="outlined"
-                size="small"
+                size={isMobile ? "small" : "small"}
                 disabled={switchNetwork.isLoading}
                 startIcon={
                   switchNetwork.isLoading ? (
                     <CircularProgress color="inherit" size="1rem" />
                   ) : undefined
                 }
+                sx={{
+                  fontSize: isMobile ? '0.75rem' : '0.875rem',
+                  py: isMobile ? 0.5 : 0.5,
+                  px: isMobile ? 1 : 1.5
+                }}
               >
                 <FormattedMessage
                   id="switch.network"
@@ -181,6 +189,12 @@ export function ContractContainer({
                 />
               </Button>
             }
+            sx={{
+              '& .MuiAlert-message': {
+                fontSize: isMobile ? '0.875rem' : '1rem',
+                lineHeight: 1.4
+              }
+            }}
           >
             <FormattedMessage
               id="you.are.on.a.network.different.of.the.contract"

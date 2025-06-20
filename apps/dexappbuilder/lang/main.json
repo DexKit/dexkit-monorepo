@@ -1155,6 +1155,9 @@
     "defaultMessage": "Description",
     "description": "Description Accordion"
   },
+  "description.markdown.helper": {
+    "defaultMessage": "You can use markdown formatting for rich text descriptions"
+  },
   "detailed": {
     "defaultMessage": "Detailed"
   },
@@ -1165,7 +1168,7 @@
     "defaultMessage": "Dev changelog"
   },
   "dex.generator": {
-    "defaultMessage": "Dex Generator"
+    "defaultMessage": "DexContracts"
   },
   "dexappbuilder.ann.app.bar2": {
     "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
@@ -1491,7 +1494,7 @@
     "description": "Collection card explorer button"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Explore our new tool: DexGenerator"
+    "defaultMessage": "Explore our new tool: DexContracts"
   },
   "explorer": {
     "defaultMessage": "Explorer"
@@ -3501,7 +3504,7 @@
     "defaultMessage": "Warning Color"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "width.px": {
     "defaultMessage": "Width (px)"
@@ -4341,5 +4344,47 @@
   },
   "you.send": {
     "defaultMessage": "You send"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Enter a custom title for your token claim page. Leave empty to use the default title."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "e.g., Claim Your Rewards"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Enter a custom subtitle to describe your token drop. Leave empty to use the contract name."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "e.g., Get your exclusive tokens from our latest drop"
+  },
+  "custom.chips": {
+    "defaultMessage": "Custom Chips"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Customize the feature chips displayed on your token drop page."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Chip Text"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "e.g., Smart Contract Verified"
+  },
+  "color": {
+    "defaultMessage": "Color"
+  },
+  "add.chip": {
+    "defaultMessage": "Add Chip (max 6)"
+  },
+  "chips.section.title": {
+    "defaultMessage": "Chips Section Title"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "e.g., Security Features"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Enter a custom title for the chips section. Leave empty to use 'Security Features'."
   }
 }

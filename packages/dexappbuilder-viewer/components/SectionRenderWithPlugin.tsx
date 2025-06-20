@@ -1,6 +1,6 @@
 import LazyComponent from "@dexkit/ui/components/LazyComponent";
 import { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
-import LoadPlugin from "./LoadPlugin";
+//import LoadPlugin from "./LoadPlugin";
 import { SectionToRender } from "./SectionRender";
 
 interface Props {
@@ -14,7 +14,7 @@ export function SectionRender({ section, useLazy }: Props) {
   }
   const sectionToRender = () => {
     if (section.type === "plugin") {
-      return <LoadPlugin data={section.data} path={section.pluginPath} />;
+      //   return <LoadPlugin data={section.data} path={section.pluginPath} />;
     } else {
       return SectionToRender({ section });
     }

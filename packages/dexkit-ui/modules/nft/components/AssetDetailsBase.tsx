@@ -128,9 +128,8 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
                 </Typography>
                 <Typography color="textSecondary">
                   <Link
-                    href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${
-                      asset?.contractAddress
-                    }`}
+                    href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${asset?.contractAddress
+                      }`}
                     target="_blank"
                   >
                     {truncateAddress(asset?.contractAddress)}

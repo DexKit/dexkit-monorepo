@@ -139,8 +139,7 @@ export default function SwapSelectCoinDialog({
               },
               placeholder: formatMessage({
                 id: "search.for.a.coin.by.name.symbol.and.address",
-                defaultMessage:
-                  "Search for a coin by name, symbol and address",
+                defaultMessage: "Search for a coin by name, symbol and address",
               }),
             }}
           />
@@ -205,6 +204,7 @@ export default function SwapSelectCoinDialog({
                 tokenBalances={tokenBalances.data}
                 onSelect={handleSelect}
                 isLoading={tokenBalances.isLoading}
+                showDash={!account}
               />
               <Divider />
             </>
@@ -216,10 +216,13 @@ export default function SwapSelectCoinDialog({
               !isOnList && fetchTokenData.data ? fetchTokenData.data : undefined
             }
             tokenBalances={tokenBalances.data}
+            showDash={!account}
             isLoading={
-              tokenBalances.isLoading ||
-              fetchTokenData.isLoading ||
-              isLoadingSearch
+              account
+                ? tokenBalances.isLoading ||
+                  fetchTokenData.isLoading ||
+                  isLoadingSearch
+                : fetchTokenData.isLoading || isLoadingSearch
             }
           />
         </Stack>

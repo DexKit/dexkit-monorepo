@@ -12,6 +12,8 @@ import {
   Grid,
   InputAdornment,
   Stack,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -36,6 +38,7 @@ import { usePlatformCoinSearch } from "@dexkit/ui/hooks/coin";
 import { apiCoinToTokens } from "@dexkit/ui/utils/coin";
 import TokenIcon from "@mui/icons-material/Token";
 import { DEFAULT_ZRX_NETWORKS } from "../../constants";
+import { useExchangeContext } from "../../hooks";
 
 export interface SelectPairDialogProps {
   DialogProps: DialogProps;
@@ -61,8 +64,13 @@ export default function SelectPairDialog({
   chainId,
 }: SelectPairDialogProps) {
   const { onClose } = DialogProps;
-
   const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useIsMobile();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const { variant, glassSettings } = useExchangeContext();
+  const isGlassVariant = variant === "glass";
+  const textColor = glassSettings?.textColor || theme.palette.text.primary;
 
   const [baseToken, setBaseToken] = useState<Token | undefined>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -152,8 +160,6 @@ export default function SelectPairDialog({
     return availNetworks.map((n) => NETWORKS[n]);
   }, []);
 
-  const isMobile = useIsMobile();
-
   const [showMoreNetworks, setShowMoreNetworks] = useState(false);
 
   const toggleNetworks = () => {
@@ -161,20 +167,63 @@ export default function SelectPairDialog({
   };
 
   return (
-    <Dialog {...DialogProps} fullScreen={isMobile}>
+    <Dialog
+      {...DialogProps}
+      fullScreen={isMobile}
+      PaperProps={{
+        sx: {
+          ...(isMobile && {
+            height: { xs: '95vh', sm: '90vh' },
+            margin: theme.spacing(1),
+            borderRadius: theme.shape.borderRadius * 2,
+          }),
+          ...(!isMobile && {
+            maxHeight: { md: '80vh', lg: '75vh' },
+            minWidth: { sm: theme.spacing(60), md: theme.spacing(70) },
+          }),
+        },
+      }}
+    >
       <AppDialogTitle
         title={
           <FormattedMessage id="select.a.pair" defaultMessage="Select a pair" />
         }
         onClose={handleClose}
+        sx={{
+          px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+          ...(isGlassVariant && {
+            color: textColor,
+            '& .MuiTypography-root': {
+              color: textColor,
+            },
+          }),
+        }}
       />
       <Divider />
-      <Box sx={{ p: 2 }}>
-        <Stack spacing={2}>
+
+      <Box
+        sx={{
+          p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          ...(isMobile && {
+            position: 'sticky',
+            top: 0,
+            zIndex: theme.zIndex.modal + 1,
+            backgroundColor: isGlassVariant ? 'rgba(255, 255, 255, 0.1)' : theme.palette.background.paper,
+            ...(isGlassVariant && {
+              backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+              WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            }),
+            borderBottom: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
+            boxShadow: theme.shadows[1],
+          }),
+        }}
+      >
+        <Stack spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}>
           <Box>
-            <Grid container spacing={1} alignItems="center">
+            <Grid container spacing={{ xs: 0.5, sm: 1 }} alignItems="center">
               {networks
-                .filter((n) => n.testnet === undefined)
+                .filter((n) => n.testnet !== true)
                 .filter((n) => {
                   if (isMobile && !showMoreNetworks) {
                     return (
@@ -182,7 +231,6 @@ export default function SelectPairDialog({
                       chainId === n.chainId
                     );
                   }
-
                   return true;
                 })
                 .map((n) => (
@@ -190,14 +238,41 @@ export default function SelectPairDialog({
                     <Chip
                       color={chainId === n.chainId ? "primary" : undefined}
                       clickable
+                      size={isSmallScreen ? "small" : "medium"}
                       icon={
                         <Avatar
-                          sx={{ height: "1rem", width: "1rem" }}
+                          sx={{
+                            height: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                            width: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                          }}
                           src={n.imageUrl}
                         />
                       }
                       label={n.name}
                       onClick={() => onSwitchNetwork(n.chainId)}
+                      sx={{
+                        ...(isSmallScreen && {
+                          fontSize: theme.typography.caption.fontSize,
+                          height: theme.spacing(3.5),
+                          '& .MuiChip-label': {
+                            px: theme.spacing(0.75),
+                          },
+                        }),
+                        ...(isGlassVariant && {
+                          color: textColor,
+                          '& .MuiChip-label': {
+                            color: textColor,
+                            ...(isSmallScreen && {
+                              px: theme.spacing(0.75),
+                            }),
+                          },
+                          '&.MuiChip-colorPrimary': {
+                            '& .MuiChip-label': {
+                              color: 'white',
+                            },
+                          },
+                        }),
+                      }}
                     />
                   </Grid>
                 ))}
@@ -207,6 +282,15 @@ export default function SelectPairDialog({
                     startIcon={!showMoreNetworks ? <AddIcon /> : <RemoveIcon />}
                     onClick={toggleNetworks}
                     size="small"
+                    sx={{
+                      fontSize: theme.typography.caption.fontSize,
+                      minWidth: 'auto',
+                      px: theme.spacing(1),
+                      color: theme.palette.text.secondary,
+                      ...(isGlassVariant && {
+                        color: `${textColor}CC`,
+                      }),
+                    }}
                   >
                     {showMoreNetworks ? (
                       <FormattedMessage id="Less" defaultMessage="Less" />
@@ -229,31 +313,66 @@ export default function SelectPairDialog({
                   "Search for a token by name, symbol and address",
               }),
               fullWidth: true,
+              size: isSmallScreen ? "small" : "medium",
               InputProps: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon color="primary" />
+                    <SearchIcon
+                      color="primary"
+                      fontSize={isSmallScreen ? "small" : "medium"}
+                    />
                   </InputAdornment>
                 ),
               },
+              sx: {
+                '& .MuiInputBase-root': {
+                  fontSize: {
+                    xs: theme.typography.body2.fontSize,
+                    sm: theme.typography.body1.fontSize
+                  },
+                  ...(isGlassVariant && {
+                    color: textColor,
+                    '& input::placeholder': {
+                      color: `${textColor}B3`,
+                      opacity: 1,
+                    },
+                    '& .MuiInputBase-input': {
+                      color: textColor,
+                    },
+                  }),
+                },
+              },
             }}
           />
-          <Stack direction="row" alignItems="center" spacing={1}>
+
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={{ xs: 0.5, sm: 1 }}
+            sx={{
+              flexWrap: 'wrap',
+              gap: { xs: theme.spacing(0.5), sm: theme.spacing(1) },
+            }}
+          >
             {quoteTokens.map((token, index) => (
               <Chip
                 key={index}
                 label={token.symbol.toUpperCase()}
                 clickable
+                size={isSmallScreen ? "small" : "medium"}
                 icon={
                   <Avatar
-                    sx={{ width: "1rem", height: "1rem" }}
+                    sx={{
+                      width: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                      height: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                    }}
                     src={
                       token.logoURI
                         ? token.logoURI
                         : TOKEN_ICON_URL(token.address, token.chainId)
                     }
                   >
-                    <TokenIcon />
+                    <TokenIcon fontSize={isSmallScreen ? "small" : "medium"} />
                   </Avatar>
                 }
                 color={
@@ -262,12 +381,44 @@ export default function SelectPairDialog({
                     : undefined
                 }
                 onClick={handleToggleBaseToken(token)}
+                sx={{
+                  ...(isSmallScreen && {
+                    fontSize: theme.typography.caption.fontSize,
+                    height: theme.spacing(3.5),
+                    '& .MuiChip-label': {
+                      px: theme.spacing(0.75),
+                    },
+                  }),
+                  ...(isGlassVariant && {
+                    color: textColor,
+                    '& .MuiChip-label': {
+                      color: textColor,
+                      ...(isSmallScreen && {
+                        px: theme.spacing(0.75),
+                      }),
+                    },
+                    '&.MuiChip-colorPrimary': {
+                      '& .MuiChip-label': {
+                        color: 'white',
+                      },
+                    },
+                  }),
+                }}
               />
             ))}
           </Stack>
         </Stack>
       </Box>
-      <DialogContent sx={{ p: 0 }} dividers>
+
+      <DialogContent
+        sx={{
+          p: 0,
+          '&.MuiDialogContent-root': {
+            paddingTop: 0,
+          },
+        }}
+        dividers
+      >
         <SelectPairList
           onSelect={handleSelectToken}
           baseTokens={filteredTokens}
@@ -275,11 +426,53 @@ export default function SelectPairDialog({
           baseToken={baseToken}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleConfirm} variant="contained">
+
+      <DialogActions
+        sx={{
+          px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
+          gap: { xs: theme.spacing(1), sm: theme.spacing(0.5) },
+          backgroundColor: theme.palette.background.paper,
+          borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
+          ...(isGlassVariant && {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            borderTop: `1px solid rgba(255, 255, 255, 0.25)`,
+          }),
+        }}
+      >
+        <Button
+          onClick={handleConfirm}
+          variant="contained"
+          size={isSmallScreen ? "small" : "medium"}
+          sx={{
+            fontSize: {
+              xs: theme.typography.body2.fontSize,
+              sm: theme.typography.body1.fontSize
+            },
+            px: { xs: theme.spacing(2), sm: theme.spacing(3) },
+            minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },
+          }}
+        >
           <FormattedMessage id="confirm" defaultMessage="Confirm" />
         </Button>
-        <Button onClick={handleClose}>
+        <Button
+          onClick={handleClose}
+          size={isSmallScreen ? "small" : "medium"}
+          sx={{
+            fontSize: {
+              xs: theme.typography.body2.fontSize,
+              sm: theme.typography.body1.fontSize
+            },
+            px: { xs: theme.spacing(2), sm: theme.spacing(3) },
+            minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },
+            color: theme.palette.text.secondary,
+            ...(isGlassVariant && {
+              color: `${textColor}CC`,
+            }),
+          }}
+        >
           <FormattedMessage id="cancel" defaultMessage="Cancel" />
         </Button>
       </DialogActions>

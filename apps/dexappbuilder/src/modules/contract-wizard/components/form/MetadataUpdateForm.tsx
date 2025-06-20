@@ -1,5 +1,6 @@
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
+import { MarkdownDescriptionField } from '@dexkit/ui/components';
 import Image from '@mui/icons-material/Image';
 import {
   Box,
@@ -137,34 +138,21 @@ export default function MetadataUpdateForm({
                   </CompletationProvider>
                 </Grid>
                 <Grid item xs={12}>
-                  <CompletationProvider
-                    onCompletation={(output: string) => {
-                      setFieldValue('description', output);
-                    }}
-                    initialPrompt={values.description}
-                    multiline
-                  >
-                    {({ ref, inputAdornment }) => (
-                      <Field
-                        fullWidth
+                  <MarkdownDescriptionField
+                    name="description"
                         label={
                           <FormattedMessage
                             id="description"
-                            defaultMessage="description"
+                        defaultMessage="Description"
                           />
                         }
-                        multiline
-                        rows={4}
-                        InputProps={{
-                          component: 'textarea',
-                          endAdornment: inputAdornment('end'),
-                        }}
-                        component={TextField}
-                        name="description"
-                        inputRef={ref}
+                    helperText={
+                      <FormattedMessage
+                        id="description.markdown.helper"
+                        defaultMessage="You can use markdown formatting for rich text descriptions"
                       />
-                    )}
-                  </CompletationProvider>
+                    }
+                  />
                 </Grid>
               </Grid>
             </Grid>

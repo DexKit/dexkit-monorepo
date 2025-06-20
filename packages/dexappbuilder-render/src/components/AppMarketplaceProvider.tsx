@@ -64,7 +64,7 @@ export function AppMarketplaceProvider({
     loadLocaleMessages(locale).then((data) => setMessages(data.default));
   }, [locale]);
 
- 
+
 
   const theme = setupTheme({ appConfig, getTheme });
 
