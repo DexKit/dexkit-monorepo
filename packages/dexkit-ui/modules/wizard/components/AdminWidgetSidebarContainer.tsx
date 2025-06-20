@@ -87,6 +87,14 @@ export default function AdminWidgetSidebarContainer({
                     icon: <WorkspacePremiumIcon />,
                     onlyOwner: true,
                   },
+                  {
+                    id: "apiKey",
+                    title: (
+                      <FormattedMessage id="ApiKey" defaultMessage="ApiKey" />
+                    ),
+                    icon: <WorkspacePremiumIcon />,
+                    onlyOwner: true,
+                  },
                 ]
               : []),
           ]}

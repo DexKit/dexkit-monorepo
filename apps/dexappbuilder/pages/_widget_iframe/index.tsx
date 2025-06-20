@@ -8,8 +8,8 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 
 import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
 
-import { getWidgetConfig } from '@/modules/wizard/services/widget';
 import ProtectedContent from '@dexkit/dexappbuilder-viewer/components/ProtectedContent';
+import { getWidgetConfig } from '@dexkit/ui/modules/wizard/services/widget';
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
   GatedCondition,

@@ -25,7 +25,6 @@ import {
 } from "../state/atoms";
 
 import { AppConfigContext } from "@dexkit/ui/context/AppConfigContext";
-import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { DexkitProvider } from "@dexkit/ui/providers/DexkitProvider";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
@@ -40,23 +39,21 @@ export interface WidgetContextProps {
   provider?: any;
   widgetId?: number;
   appConfig: AppConfig;
+  apiKey?: string;
   onConnectWallet?: () => void;
-
   children: React.ReactNode | React.ReactNode[];
   appLocaleMessages?: Record<string, string> | null;
-  appPage?: string;
 }
 
 export function WidgetProvider({
   children,
   appConfig,
   widgetId,
-  appPage,
+  apiKey,
   onConnectWallet,
   provider,
   appLocaleMessages,
 }: WidgetContextProps) {
-  const siteId = useSiteId();
   const router = useRouter();
   const setActiveWallet = useSetActiveWallet();
   const { locale, onChangeLocale } = useLocale();
@@ -109,6 +106,8 @@ export function WidgetProvider({
       <QueryClientProvider client={queryClient}>
         <AppConfigContext.Provider value={{ appConfig: appConfig }}>
           <DexkitProvider
+            widgetId={widgetId}
+            apiKey={apiKey}
             locale={locale}
             onConnectWallet={onConnectWallet}
             tokensAtom={tokensAtom}
@@ -121,7 +120,7 @@ export function WidgetProvider({
             theme={theme}
             selectedWalletAtom={selectedWalletAtom}
             activeChainIds={
-              siteId
+              widgetId
                 ? appConfig?.activeChainIds || SUPPORTED_LEGACY_CHAIN_IDS
                 : SUPPORTED_DEXAPPBUILDER_CHAIN_IDS
             }
@@ -133,10 +132,9 @@ export function WidgetProvider({
               ...EXCHANGE_NOTIFICATION_TYPES,
               ...COMMON_NOTIFICATION_TYPES,
             }}
-            userEventsURL={"/api/user-events"}
+            userEventsURL={`${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/user-events`}
             transactionsAtom={transactionsAtomV2}
             notificationsAtom={notificationsAtom}
-            siteId={siteId}
             onChangeLocale={(loc) => onChangeLocale(loc)}
           >
             {children}

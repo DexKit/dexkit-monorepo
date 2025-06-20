@@ -29,6 +29,7 @@ import TransactionUpdater from "../components/TransactionUpdater";
 import type { AppNotification, AppNotificationType } from "../types";
 export interface DexkitProviderProps {
   provider?: any;
+  apiKey?: string;
   onConnectWallet?: () => void;
   theme: {
     cssVarPrefix?: string | undefined;
@@ -68,6 +69,7 @@ export interface DexkitProviderProps {
 }
 
 export function DexkitProvider({
+  apiKey,
   provider,
   onConnectWallet,
   children,
@@ -87,6 +89,7 @@ export function DexkitProvider({
   userEventsURL,
   activeChainIds,
   siteId,
+  widgetId,
 }: DexkitProviderProps) {
   const appState = useDexkitContextState({
     notificationTypes,
@@ -105,8 +108,10 @@ export function DexkitProvider({
         ...appState,
         onConnectWallet,
         provider,
+        apiKey,
         userEventURL: userEventsURL,
         siteId: siteId,
+        widgetId: widgetId,
         affiliateReferral,
         activeChainIds: activeChainIds ? activeChainIds : [1],
       }}

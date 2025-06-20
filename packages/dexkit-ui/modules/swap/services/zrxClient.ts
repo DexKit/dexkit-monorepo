@@ -14,6 +14,7 @@ import {
   ZEROEX_TOKENS_ENDPOINT,
   ZERO_EX_V1_URL,
   ZERO_EX_V2_URL,
+  ZERO_EX_V2_WIDGET_URL,
 } from "@dexkit/ui/modules/swap/constants";
 
 import {
@@ -34,7 +35,9 @@ export class ZeroExApiClient {
 
   constructor(
     private chainId: ChainId,
-    private siteId?: number
+    private siteId?: number,
+    private widgetId?: number,
+    private apiKey?: string
   ) {
     this.axiosInstance = axios.create();
   }
@@ -43,11 +46,18 @@ export class ZeroExApiClient {
     quote: ZeroExQuote,
     { }: {}
   ): Promise<ZeroExQuoteResponse> {
+
+
     const resp = await this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_QUOTE_ENDPOINT,
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_QUOTE_ENDPOINT,
       {
         params: quote,
-      }
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
+      },
+
+
     );
 
     const { data } = resp;
@@ -64,9 +74,12 @@ export class ZeroExApiClient {
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_PRICE_ENDPOINT,
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_PRICE_ENDPOINT,
       {
         params: price,
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
       }
     );
 
@@ -84,9 +97,12 @@ export class ZeroExApiClient {
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExQuoteResponse> {
     const resp = await this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_PRICE_ENDPOINT,
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_GASLESS_PRICE_ENDPOINT,
       {
         params: quote,
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
       }
     );
 
@@ -104,9 +120,12 @@ export class ZeroExApiClient {
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExGaslessQuoteResponse> {
     const resp = await this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) + ZEROEX_GASLESS_QUOTE_ENDPOINT,
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_GASLESS_QUOTE_ENDPOINT,
       {
         params: quote,
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
       }
     );
 
@@ -128,10 +147,13 @@ export class ZeroExApiClient {
     reason?: string;
   }> {
     const resp = await this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) +
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) +
       ZEROEX_GASLESS_STATUS_ENDPOINT +
       `/${tradeHash}`,
       {
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
 
       }
     );
@@ -149,22 +171,32 @@ export class ZeroExApiClient {
     chainId: string;
   }): Promise<{ type: "metatransaction_v2"; tradeHash: string }> {
     const resp = await this.axiosInstance.post(
-      ZERO_EX_V2_URL(this.chainId, this.siteId) +
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) +
       ZEROEX_GASLESS_SUBMIT_ENDPOINT,
-      { trade, approval, chainId }
+      { trade, approval, chainId },
+      {
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
+      }
     );
     return resp.data;
   }
 
   async tokens(): Promise<any> {
     return this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId) + ZEROEX_TOKENS_ENDPOINT
-    );
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_TOKENS_ENDPOINT
+      ,
+      {
+        headers: {
+          "Dexkit-Api-Key": this?.apiKey || "",
+        },
+      });
   }
 
   async isTokenGaslessSupported(): Promise<any> {
     return this.axiosInstance.get(
-      ZERO_EX_V2_URL(this.chainId) + ZEROEX_SUPPORTS_GASLESS_ENDPOINT
+      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_SUPPORTS_GASLESS_ENDPOINT
     );
   }
 

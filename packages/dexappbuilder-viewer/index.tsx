@@ -1,7 +1,11 @@
 //export * from './components/Render';
 
 import MainLayout from "@dexkit/ui/components/layouts/main";
+import { PoweredByDexKit } from "@dexkit/ui/components/PoweredByDexKit";
+import { useWidgetConfigQuery } from "@dexkit/ui/modules/wizard/hooks/widget";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import { SectionRender } from "./components/SectionRenderWithPlugin";
 import { WidgetProvider } from "./components/WidgetProvider";
 import { useWhitelabelConfigQuery } from "./hooks";
@@ -70,27 +74,52 @@ export function RenderDexAppBuilderFromConfig({
 }
 
 export function RenderDexAppBuilderWidget({
-  config,
   widgetId,
+  apiKey,
   onConnectWallet,
   provider,
 }: {
-  config: AppConfig;
   onConnectWallet?: () => void;
-  provider: any;
+  provider?: any;
   widgetId?: number;
+  apiKey?: string; // Optional API key for widget configuration
 }) {
-  const toRender = config.pages["widget"].sections.map((section, k) => (
+  const widgetQuery = useWidgetConfigQuery({ id: widgetId });
+  const sections = widgetQuery.data?.configParsed.page.sections;
+  const isLoading = widgetQuery.isLoading;
+  const hidePoweredBy = widgetQuery.data?.configParsed.hide_powered_by;
+
+  let toRender = sections?.map((section, k) => (
     <SectionRender key={k} section={section} />
   ));
+  if (toRender && !hidePoweredBy) {
+    toRender.push(<PoweredByDexKit />);
+  }
+
   return (
-    <WidgetProvider
-      widgetId={widgetId}
-      appConfig={config}
-      onConnectWallet={onConnectWallet}
-      provider={provider}
-    >
-      {toRender}
-    </WidgetProvider>
+    <>
+      {isLoading && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+        >
+          <CircularProgress size={64} />
+        </Box>
+      )}
+
+      {!isLoading && (
+        <WidgetProvider
+          apiKey={apiKey}
+          widgetId={widgetId}
+          appConfig={widgetQuery.data?.configParsed as unknown as AppConfig}
+          onConnectWallet={onConnectWallet}
+          provider={provider}
+        >
+          {sections ? toRender : null}
+        </WidgetProvider>
+      )}
+    </>
   );
 }

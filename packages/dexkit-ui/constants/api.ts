@@ -37,7 +37,7 @@ export const myAppsApi = axios.create({
 
 myAppsApi.interceptors.request.use(
   async (config) => {
-    const access_token = await getAccessTokenAndRefresh();
+    const access_token = await getAccessTokenAndRefresh({});
     if (access_token)
       config.headers = {
         ...config.headers,
@@ -49,7 +49,7 @@ myAppsApi.interceptors.request.use(
     try {
       const access_token = await getAccessToken();
       if (error.response.status === 401 && access_token) {
-        return await getAccessTokenAndRefresh();
+        return await getAccessTokenAndRefresh({});
       }
     } catch {
       return Promise.reject(error);
@@ -65,7 +65,7 @@ myAppsApi.interceptors.response.use(
     try {
       const access_token = await getAccessToken();
       if (error.response.status === 401 && access_token) {
-        return await getRefreshAccessToken();
+        return await getRefreshAccessToken({});
       }
     } catch {
       return Promise.reject(error);

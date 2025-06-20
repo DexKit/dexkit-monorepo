@@ -36,6 +36,7 @@ import {
   WidgetResponse,
 } from '@dexkit/ui/modules/wizard/types/widget';
 
+import ApiKeyWizardContainer from '@/modules/wizard/components/containers/ApiKeyWizardContainer';
 import CollectionWizardContainer from '@/modules/wizard/components/containers/CollectionWizardContainer';
 import PoweredByWizardContainer from '@/modules/wizard/components/containers/PoweredByWizardContainer';
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
@@ -76,7 +77,8 @@ const ListContractContainer = dynamic(
 
 interface Props {
   widget?: WidgetResponse | null;
-  isOnSite?: boolean;
+  isOnAdminDashboard?: boolean;
+  onGoBack?: () => void;
 }
 
 export enum ActiveMenu {
@@ -84,6 +86,7 @@ export enum ActiveMenu {
   Theme = 'theme',
   Components = 'components',
   PoweredBy = 'powered.by',
+  ApiKey = 'apiKey',
   UserEventAnalytics = 'user-event-analytics',
   MarketplaceFees = 'marketplace-fees',
   SwapFees = 'swap-fees',
@@ -114,7 +117,11 @@ export const PagesContext = React.createContext<PagesContextType>({
   handleCancelEdit: (hasChanges?: boolean) => {},
 });
 
-export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
+export function EditWidgetWizardContainer({
+  widget,
+  isOnAdminDashboard,
+  onGoBack,
+}: Props) {
   const router = useRouter();
   const { tab } = router.query as { tab?: ActiveMenu };
   const [widgetWizard, setWidgetWizard] = useState(
@@ -268,7 +275,7 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
         }}
         activeMenuId={activeMenu as string}
         commerceEnabled={true}
-        isOnSite={isOnSite}
+        isOnSite={isOnAdminDashboard}
       />
     </>
   );
@@ -384,7 +391,7 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
         isEdit={true}
       />
       <Container maxWidth={'xl'}>
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 0.5 : 2}>
           <Grid item xs={12}>
             <Stack
               direction="row"
@@ -413,13 +420,21 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
                     caption: (
                       <FormattedMessage
                         id="edit.widget"
-                        defaultMessage="Edit widget"
+                        defaultMessage="Edit widget id:{id}"
+                        values={{
+                          id: widget?.id,
+                        }}
                       />
                     ),
                     uri: `/admin/widget/edit/${widget?.id}`,
                     active: true,
                   },
                 ]}
+                showTitleOnDesktop={false}
+                useBackMenu={isOnAdminDashboard}
+                onGoBackCallbackMobile={
+                  isOnAdminDashboard ? onGoBack : undefined
+                }
               />
             </Stack>
           </Grid>
@@ -429,43 +444,48 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
             </div>
           </Grid>*/}
 
-          <Grid item xs={12} sm={12}>
-            <Stack direction={'row'} justifyContent={'space-between'}>
-              {!isMobile && (
-                <Stack direction={'row'} alignItems={'center'} spacing={2}>
-                  <Typography variant="h5">
-                    <FormattedMessage
-                      id="edit.widget"
-                      defaultMessage="Edit Widget"
-                    />
-                  </Typography>
+          {!isOnAdminDashboard && (
+            <Grid item xs={12} sm={12}>
+              <Stack
+                direction={'row'}
+                justifyContent={isMobile ? 'flex-end' : 'space-between'}
+              >
+                {!isMobile && (
+                  <Stack direction={'row'} alignItems={'center'} spacing={2}>
+                    <Typography variant="h5">
+                      <FormattedMessage
+                        id="edit.widget"
+                        defaultMessage="Edit Widget"
+                      />
+                    </Typography>
 
-                  {/* <TourButton />*/}
-                </Stack>
-              )}
+                    {/* <TourButton />*/}
+                  </Stack>
+                )}
 
-              {isMobile && (
-                <Button
-                  onClick={handleShowMenu}
-                  size="small"
-                  variant="outlined"
-                >
-                  <FormattedMessage id="menu" defaultMessage="Menu" />
-                </Button>
-              )}
-            </Stack>
-          </Grid>
-          <Grid item xs={12} sm={12}>
+                {isMobile && (
+                  <Button
+                    onClick={handleShowMenu}
+                    size="small"
+                    variant="outlined"
+                  >
+                    <FormattedMessage id="menu" defaultMessage="Menu" />
+                  </Button>
+                )}
+              </Stack>
+            </Grid>
+          )}
+          {/* <Grid item xs={12} sm={12}>
             <Stack
               direction={'row'}
               spacing={1}
               justifyContent={'space-between'}
             >
               <Stack direction={'row'} alignItems={'center'} spacing={2}>
-                {/* <PreviewAppButton appConfig={widget.} site={site?.slug} />*/}
+                <PreviewAppButton appConfig={widget.} site={site?.slug} />
               </Stack>
             </Stack>
-          </Grid>
+          </Grid>*/}
           {/* <Grid item xs={12} sm={12}>
             <Stack spacing={2} direction={'row'} alignItems={'center'}>
               <Typography variant="body2" sx={{ maxWidth: '300px' }}>
@@ -483,11 +503,11 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
                 </Stack>
           </Grid>*/}
 
-          <Grid item xs={12} sm={2} sx={{}}>
+          <Grid item xs={12} sm={isOnAdminDashboard ? 2.5 : 2}>
             {!isMobile && renderMenu()}
           </Grid>
           <Grid item xs={12} sm={0.1}></Grid>
-          <Grid item xs={12} sm={9.8}>
+          <Grid item xs={12} sm={isOnAdminDashboard ? 9.3 : 9.8}>
             <Box>
               <Stack spacing={2} className={'builder-forms'}>
                 {activeMenu === ActiveMenu.General && widgetWizard && (
@@ -507,6 +527,10 @@ export function EditWidgetWizardContainer({ widget, isOnSite }: Props) {
                     onChange={handleChange}
                     onHasChanges={setHasChanges}
                   />
+                )}
+
+                {activeMenu === ActiveMenu.ApiKey && (
+                  <ApiKeyWizardContainer isWidget={true} />
                 )}
 
                 {activeMenu === ActiveMenu.PoweredBy && widgetWizard && (

@@ -31,6 +31,7 @@ interface Props {
   onSave: (section: AppPageSection) => void;
   onChange: (section: AppPageSection) => void;
   onCancel: () => void;
+  editWidgetId?: number;
   saveOnChange?: boolean;
   showSaveButton?: boolean;
 }
@@ -39,6 +40,7 @@ export function WidgetForm({
   onSave,
   onChange,
   onCancel,
+  editWidgetId,
   section,
   saveOnChange,
   showSaveButton,
@@ -58,18 +60,24 @@ export function WidgetForm({
 
   const filteredData = useMemo(() => {
     if (widgetsData && widgetsData.length > 0) {
+      let filteredWidgets = widgetsData;
+
+      if (editWidgetId) {
+        filteredWidgets = widgetsData.filter((w) => w.id !== editWidgetId);
+      }
+
       if (query) {
-        return widgetsData.filter(
+        return filteredWidgets.filter(
           (c) =>
             c.configParsed.name.toLowerCase().search(query.toLowerCase()) > -1,
         );
       }
 
-      return widgetsData;
+      return filteredWidgets;
     }
 
     return [];
-  }, [widgetsData, query]);
+  }, [widgetsData, query, editWidgetId]);
 
   const handleClick = useCallback(
     (id: number) => {

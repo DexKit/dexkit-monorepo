@@ -2,6 +2,11 @@ export const CUSTOM_DOMAINS_PRICE = 50;
 
 export const ECOMMERCE_PRICE = 0.5;
 
+export const API_KEY_PRICE = 0.0001;
+
+export const API_KEY_FREE_MONTHLY_LIMIT = 100000;
+
+
 export const FREE_PLAN = "free";
 export const FREE_PLAN_NAME = "Free";
 

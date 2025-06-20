@@ -17,6 +17,7 @@ import React, { SetStateAction } from "react";
 export interface DexkitContextState {
   onChangeLocale: (locale: string) => void;
   provider?: any;
+  apiKey?: string;
   onConnectWallet?: () => void;
   affiliateReferral?: string;
   notificationTypes: { [key: string]: AppNotificationType };
@@ -93,4 +94,6 @@ export const DexKitContext = React.createContext<DexkitContextState>({
     }) => {},
     watch: (hash: string) => {},
   },
+  widgetId: undefined,
+  apiKey: undefined,
 });

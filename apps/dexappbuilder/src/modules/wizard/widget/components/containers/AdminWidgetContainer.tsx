@@ -9,37 +9,32 @@ import {
   useTheme,
 } from '@mui/material';
 
-import {
-  GetStaticPaths,
-  GetStaticPathsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-  NextPage,
-} from 'next';
-import { useRouter } from 'next/router';
-
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import SecurityIcon from '@mui/icons-material/Security';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { FormattedMessage } from 'react-intl';
 
 import { LoginButton } from 'src/components/LoginButton';
-import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { useAdminWidgetConfigQuery } from '@/modules/wizard/hooks/widget';
 import { EditWidgetWizardContainer } from '@/modules/wizard/widget/components/containers/EditWidgetWizardContainer';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { myAppsApi } from '@dexkit/ui/constants/api';
-import { AdminContext } from '@dexkit/ui/context/AdminContext';
 import { useAuth } from '@dexkit/ui/hooks/auth';
 import { useMemo } from 'react';
-import { getAppConfig } from 'src/services/app';
 
-export const WizardWidgetEditPage: NextPage = () => {
-  const router = useRouter();
+interface Props {
+  id: number;
+  isOnAdminDashboard?: boolean;
+  onGoBack?: () => void;
+}
+
+export const AdminWidgetContainer = ({
+  id,
+  onGoBack,
+  isOnAdminDashboard,
+}: Props) => {
   const { isLoggedIn } = useAuth();
 
-  const { id } = router.query;
   const {
     data: widget,
     error: configError,
@@ -121,46 +116,16 @@ export const WizardWidgetEditPage: NextPage = () => {
           </Stack>
         </Box>
       ) : (
-        <AdminContext.Provider value={{ editWidgetId: Number(id) }}>
-          <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-            {widget && <EditWidgetWizardContainer widget={widget} />}
-          </DexkitApiProvider.Provider>
-        </AdminContext.Provider>
+        <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
+          {widget && (
+            <EditWidgetWizardContainer
+              widget={widget}
+              isOnAdminDashboard={true}
+              onGoBack={onGoBack}
+            />
+          )}
+        </DexkitApiProvider.Provider>
       )}
     </>
   );
 };
-
-(WizardWidgetEditPage as any).getLayout = function getLayout(page: any) {
-  return <AuthMainLayout noSsr>{page}</AuthMainLayout>;
-};
-
-type Params = {
-  site?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
-  const configResponse = await getAppConfig(params?.site, 'no-page-defined');
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      ...configResponse,
-    },
-    revalidate: 300,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<
-  Params
-> = ({}: GetStaticPathsContext) => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
-
-export default WizardWidgetEditPage;

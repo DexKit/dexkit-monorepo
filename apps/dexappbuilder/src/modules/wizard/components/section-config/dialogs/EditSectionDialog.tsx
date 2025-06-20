@@ -224,8 +224,6 @@ export default function EditSectionDialog({
     setName(e.target.value);
   };
 
-  console.log(changedSection, 'changedSection');
-
   const renderPreview = () => (
     <PreviewPagePlatform
       key={sectionType}

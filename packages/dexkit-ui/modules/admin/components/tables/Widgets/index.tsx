@@ -27,9 +27,10 @@ interface Row {
 
 interface Props {
   configs: Row[];
+  onEditWidget?: (id: number) => void;
 }
 
-export default function WidgetsTable({ configs }: Props) {
+export default function WidgetsTable({ configs, onEditWidget }: Props) {
   const router = useRouter();
 
   const [paginationModel, setPaginationModel] = useState({
@@ -85,8 +86,11 @@ export default function WidgetsTable({ configs }: Props) {
   const handleEdit = (id: GridRowId) => {
     const config = configs.find((c) => c.id === id);
     handleCloseMenu();
-
-    router.push(`/admin/widget/edit/${config?.id}`);
+    if (onEditWidget && config?.id) {
+      onEditWidget(config?.id);
+    } else {
+      router.push(`/admin/widget/edit/${config?.id}`);
+    }
   };
 
   const handleDeleteSuccess = () => {

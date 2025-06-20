@@ -12,6 +12,7 @@ import {
   requestSignature,
   setAccessToken,
 } from "../services/auth";
+import { useIsWidget } from "./app/useIsWidget";
 
 export function useAuth() {
   const { setIsLoggedIn, isLoggedIn, user, setUser } =
@@ -21,6 +22,7 @@ export function useAuth() {
 
 export function useLogoutAccountMutation() {
   const { account } = useWeb3React();
+  const isWidget = useIsWidget()
 
   const { setIsLoggedIn, setUser } = useAuth();
 
@@ -28,9 +30,9 @@ export function useLogoutAccountMutation() {
     if (!account) {
       return;
     }
-    const accessTk = await getRefreshAccessToken();
+    const accessTk = await getRefreshAccessToken({ isWidget });
     if (accessTk) {
-      const logoutResponse = await logoutApp({ accessTk });
+      const logoutResponse = await logoutApp({ accessTk, isWidget });
       const data = logoutResponse.data;
       if (data.logout) {
         if (setIsLoggedIn) {
@@ -71,6 +73,7 @@ export function useLoginAccountMutation() {
   const { account, provider, chainId } = useWeb3React();
   const signMessageDialog = useSignMessageDialog();
   const { siteId, affiliateReferral } = useDexKitContext();
+  const isWidget = useIsWidget();
   const { signMessage } = useWeb3React();
   const { setIsLoggedIn, setUser } = useAuth();
 
@@ -94,6 +97,7 @@ export function useLoginAccountMutation() {
         chainId: chain,
         siteId,
         referral: affiliateReferral,
+        isWidget
       });
       if (setIsLoggedIn) {
         setIsLoggedIn(true);

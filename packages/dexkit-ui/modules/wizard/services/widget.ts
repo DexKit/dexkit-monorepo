@@ -7,8 +7,8 @@ import { WidgetResponse } from "../types/widget";
  * @param queryParameters
  * @returns
  */
-export async function getWidgetConfig({ id }: { id: number }) {
-  return await myAppsApi.get<WidgetResponse>(`/widget/${id}`);
+export async function getWidgetConfig({ id, isOnSite }: { id: number, isOnSite?: boolean }) {
+  return await myAppsApi.get<WidgetResponse>(isOnSite ? `/widget/for-site/${id}` : `/widget/${id}`);
 }
 
 /**

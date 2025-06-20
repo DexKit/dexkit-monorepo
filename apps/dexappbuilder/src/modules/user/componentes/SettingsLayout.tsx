@@ -40,6 +40,12 @@ export default function SettingsLayout({
         active: title ? false : true,
         caption: <FormattedMessage id="payments" defaultMessage="Payments" />,
       };
+    } else if (tab === 'api-key') {
+      return {
+        uri: '/u/settings?section=api-key',
+        active: title ? false : true,
+        caption: <FormattedMessage id="apiKey" defaultMessage="ApiKey" />,
+      };
     }
 
     return {};
@@ -57,6 +63,10 @@ export default function SettingsLayout({
         });
       } else if (page === 'payments') {
         router.push('/u/settings?section=payments', undefined, {
+          shallow,
+        });
+      } else if (page === 'api-key') {
+        router.push('/u/settings?section=api-key', undefined, {
           shallow,
         });
       }
@@ -113,6 +123,17 @@ export default function SettingsLayout({
               <ListItemText
                 primary={
                   <FormattedMessage defaultMessage="Billing" id="billing" />
+                }
+              />
+            </ListItemButton>
+            <ListItemButton
+              selected={tab === 'api-key'}
+              divider
+              onClick={handleClick('api-key')}
+            >
+              <ListItemText
+                primary={
+                  <FormattedMessage defaultMessage="ApiKey" id="apiKey" />
                 }
               />
             </ListItemButton>

@@ -87,8 +87,6 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const { data: receiverData } = useSiteReceiver({ siteId: siteId });
 
-  console.log('siteId', siteId, receiverData);
-
   const userCheckout = useUserCheckout({ id: id as string });
 
   // const { data: availNetworks } = useUserCheckoutNetworks({ id: id as string });

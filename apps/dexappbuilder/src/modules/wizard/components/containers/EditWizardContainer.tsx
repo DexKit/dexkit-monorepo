@@ -55,6 +55,7 @@ import BuilderKitMenu from '../BuilderKitMenu';
 /* import { ConfirmationEmailMessage } from '../ConfirmationEmailMessage'; */
 import { PreviewAppButton } from '../PreviewAppButton';
 /* import { WelcomeMessage } from '../WelcomeMessage'; */
+import { AdminWidgetsContainer } from '../../widget/components/containers/AdminWidgetsContainer';
 import SignConfigDialog from '../dialogs/SignConfigDialog';
 import RankingWizardContainer from './RankingWizardContainer';
 
@@ -146,6 +147,7 @@ export enum ActiveMenu {
   Networks = 'data.networks',
   CreateContract = 'create.contracts',
   ManageContract = 'manage.contracts',
+  ManageWidgets = 'manage.widgets',
 }
 
 export type PagesContextType = {
@@ -853,6 +855,9 @@ export function EditWizardContainer({ site }: Props) {
                           setContractNetwork('');
                         }}
                       />
+                    )}
+                    {activeMenu === ActiveMenu.ManageWidgets && (
+                      <AdminWidgetsContainer isOnAdminDashboard={true} />
                     )}
                   </Stack>
                 </SiteWizardProvider>

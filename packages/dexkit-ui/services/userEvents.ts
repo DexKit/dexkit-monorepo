@@ -3,10 +3,11 @@ import axios from 'axios';
 
 
 
-export async function postTrackUserEvent({ event, metadata, hash, chainId, siteId, account, userEventURL, referral }: { event: UserEventsType, metadata?: string, hash?: string, chainId?: number, siteId?: number, account?: string, userEventURL?: string, referral?: string }) {
+export async function postTrackUserEvent({ event, metadata, hash, chainId, siteId, account, userEventURL, referral, apiKey }: { event: UserEventsType, metadata?: string, hash?: string, chainId?: number, siteId?: number, account?: string, userEventURL?: string, referral?: string, apiKey?: string }) {
   if (!userEventURL) {
     return;
   }
+
 
 
   return await axios.post(userEventURL, {
@@ -18,7 +19,7 @@ export async function postTrackUserEvent({ event, metadata, hash, chainId, siteI
     account,
     referral
 
-  }, { withCredentials: true });
+  }, { withCredentials: true, headers: { 'DexKit-API-KEY': apiKey || '' } });
 
 
 }

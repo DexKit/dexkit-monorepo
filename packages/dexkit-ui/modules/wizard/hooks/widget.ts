@@ -1,6 +1,7 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation, UseMutationOptions, useQuery } from "@tanstack/react-query";
 import { useAuth, useLoginAccountMutation } from "../../../hooks/auth";
+import { useSiteId } from "../../../hooks/useSiteId";
 import { deleteWidget, getWidgetConfig, getWidgetsByOwner } from "../services/widget";
 import { WidgetConfig } from "../types/widget";
 
@@ -12,18 +13,21 @@ export const QUERY_WIDGET_CONFIG_NAME = 'GET_WIDGET_CONFIG_QUERY';
  */
 export const useWidgetConfigQuery = ({
   id,
+
 }: {
-  id?: number
+  id?: number,
 }) => {
+  const siteId = useSiteId();
+
 
   return useQuery(
-    [QUERY_WIDGET_CONFIG_NAME, id || null],
+    [QUERY_WIDGET_CONFIG_NAME, id || null, siteId],
     async () => {
       if (id === undefined) {
         return null;
       }
 
-      const response = (await getWidgetConfig({ id }));
+      const response = (await getWidgetConfig({ id, isOnSite: siteId !== undefined }));
 
       const configParsed = JSON.parse(response.data.config) as WidgetConfig
 

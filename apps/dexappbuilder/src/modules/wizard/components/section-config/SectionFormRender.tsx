@@ -1,4 +1,5 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
+import { useEditWidgetId } from '@dexkit/ui/hooks/app/useEditWidgetId';
 import {
   AppPageSection,
   ReferralPageSection,
@@ -53,6 +54,7 @@ export function SectionFormRender({
   onClose,
 }: Props) {
   const { siteId } = useContext(SiteContext);
+  const widgetId = useEditWidgetId();
 
   const [showSetApiKey, setShowSetApiKey] = useState(false);
 
@@ -380,6 +382,7 @@ export function SectionFormRender({
         onChange={onChange}
         section={section?.type === sectionType ? section : undefined}
         saveOnChange={true}
+        editWidgetId={widgetId}
         showSaveButton
       />
     );

@@ -1,5 +1,6 @@
 import { ChainId } from "@dexkit/core";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
+import { useDexKitContext } from "@dexkit/core/hooks/useDexKitContext";
 import { Token } from "@dexkit/core/types";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
@@ -84,6 +85,7 @@ export function useSwapGaslessTradeStatusQuery({
   tradeHash: string | undefined;
 }) {
   const { siteId } = useContext(SiteContext);
+  const { widgetId, apiKey } = useDexKitContext();
 
   return useQuery(
     [tradeHash],
@@ -95,7 +97,7 @@ export function useSwapGaslessTradeStatusQuery({
         return null;
       }
 
-      const client = new ZeroExApiClient(chainId, siteId);
+      const client = new ZeroExApiClient(chainId, siteId, widgetId, apiKey);
 
       try {
         const status = await client.submitStatusGasless(

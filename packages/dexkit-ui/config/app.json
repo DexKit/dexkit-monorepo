@@ -121,6 +121,11 @@
               "name": "Build NFT Store"
             }
           ]
+        },
+        {
+          "type": "Page",
+          "href": "/u/settings?section=api-key",
+          "name": "Api Key"
         }
       ]
     },
