@@ -83,12 +83,12 @@
     {
       "type": "Menu",
       "href": "/dexgenerator",
-      "name": "DexGenerator",
+      "name": "DexContracts",
       "children": [
         {
           "type": "Page",
           "href": "/dexgenerator",
-          "name": "About DexGenerator"
+          "name": "About DexContracts"
         },
         {
           "type": "Page",
@@ -122,7 +122,11 @@
           "href": "/token/buy/ethereum/kit",
           "name": "on Ethereum"
         },
-        { "type": "Page", "href": "/token/buy/bsc/kit", "name": "on BSC" },
+        {
+          "type": "Page",
+          "href": "/token/buy/bsc/kit",
+          "name": "on BSC"
+        },
         {
           "type": "Page",
           "href": "/token/buy/polygon/kit",

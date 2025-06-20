@@ -19,10 +19,18 @@
   },
   "favicon_url": "",
   "social": [
-    { "type": "instagram", "handle": "dexkit.io" },
-    { "type": "twitter", "handle": "dexkit" }
+    {
+      "type": "instagram",
+      "handle": "dexkit.io"
+    },
+    {
+      "type": "twitter",
+      "handle": "dexkit"
+    }
   ],
-  "transak": { "enabled": true },
+  "transak": {
+    "enabled": true
+  },
   "fees": [
     {
       "amount_percentage": 1,
@@ -33,7 +41,10 @@
     "amount_percentage": 0.3,
     "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
   },
-  "format": { "date": "MM/DD/YYYY", "datetime": "MM/DD/YYYY HH:mm:ss" },
+  "format": {
+    "date": "MM/DD/YYYY",
+    "datetime": "MM/DD/YYYY HH:mm:ss"
+  },
   "footerMenuTree": [
     {
       "type": "External",
@@ -42,7 +53,11 @@
     }
   ],
   "menuTree": [
-    { "type": "Page", "href": "/", "name": "Home" },
+    {
+      "type": "Page",
+      "href": "/",
+      "name": "Home"
+    },
     {
       "type": "Menu",
       "href": "",
@@ -175,10 +190,17 @@
     {
       "name": "DexKit Token List",
       "timestamp": "2022-09-13T22:11:02.673Z",
-      "version": { "major": 0, "minor": 0, "patch": 1 },
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 1
+      },
       "tags": {},
       "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/images/logo.png",
-      "keywords": ["dexkit", "default"],
+      "keywords": [
+        "dexkit",
+        "default"
+      ],
       "tokens": [
         {
           "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",

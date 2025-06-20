@@ -91,7 +91,7 @@ export function isERC1155Owner(assetBalance?: AssetBalance) {
 
 
 export function getMarketplaceForAssetURL(platform: MARKETPLACES, asset?: Asset) {
-  if (platform === MARKETPLACES.OPEN_SEA && asset?.chainId !== ChainId.Fantom) {
+  if (platform === MARKETPLACES.OPEN_SEA) {
     const openSeaInfo = MARKETPLACES_INFO[MARKETPLACES.OPEN_SEA];
     const networkSlug = getNetworkSlugFromChainId(asset?.chainId) as NETWORK_ID;
     //@ts-ignore

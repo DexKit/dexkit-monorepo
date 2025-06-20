@@ -7,11 +7,18 @@ const MediaDialog = dynamic(() => import('@dexkit/ui/components/mediaDialog'));
 const CustomImage = styled('img')(({ theme, height, width }) => ({
   height: theme.spacing(Number(height || 20)),
   width: theme.spacing(Number(width || 20)),
+  borderRadius: '50%',
+  objectFit: 'cover',
+  aspectRatio: '1/1',
 }));
 
 const CustomImageIcon = styled(ImageIcon)(({ theme, height, width }) => ({
   height: theme.spacing(Number(height || 20)),
   width: theme.spacing(Number(width || 20)),
+  borderRadius: '50%',
+  padding: theme.spacing(4),
+  backgroundColor: theme.palette.grey[100],
+  color: theme.palette.grey[400],
 }));
 
 interface Props {
@@ -59,8 +66,8 @@ export function ImageFormUpload(props: Props) {
             sx={
               error
                 ? {
-                    border: (theme) => `1px solid ${theme.palette.error.main}`,
-                  }
+                  border: (theme) => `1px solid ${theme.palette.error.main}`,
+                }
                 : undefined
             }
           >

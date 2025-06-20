@@ -93,7 +93,6 @@ export function useSwapPrice({
         quoteFor,
       } = { ...params };
       const client = new ZeroExApiClient(chainId, siteId);
-      console.log(quoteFor);
       if (buyToken && sellToken && quoteFor) {
         const quoteParam: ZeroExQuote = {
           chainId,

@@ -83,10 +83,10 @@ export default function ContractNftItemContainer({
           },
           nftMetadata: nftQuery.data?.metadata
             ? {
-                description: nftQuery.data?.metadata.description || '',
-                name: (nftQuery.data?.metadata.name as string) || '',
-                image: nftQuery.data?.metadata.image || '',
-              }
+              description: nftQuery.data?.metadata.description || '',
+              name: (nftQuery.data?.metadata.name as string) || '',
+              image: nftQuery.data?.metadata.image || '',
+            }
             : undefined,
         }}
       />
@@ -111,10 +111,10 @@ export default function ContractNftItemContainer({
           },
           nftMetadata: nftQuery.data?.metadata
             ? {
-                description: nftQuery.data?.metadata.description || '',
-                name: (nftQuery.data?.metadata.name as string) || '',
-                image: nftQuery.data?.metadata.image || '',
-              }
+              description: nftQuery.data?.metadata.description || '',
+              name: (nftQuery.data?.metadata.name as string) || '',
+              image: nftQuery.data?.metadata.image || '',
+            }
             : undefined,
         }}
       />
@@ -138,12 +138,12 @@ export default function ContractNftItemContainer({
             ]}
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} md={6}>
           <Card>
             {nftQuery.isLoading && (
               <Skeleton
                 variant="rectangular"
-                sx={{ aspectRatio: '1/1', height: '100%' }}
+                sx={{ aspectRatio: '1/1', height: '400px' }}
               />
             )}
             {nftQuery.data && nftQuery.data.metadata.image && (
@@ -155,6 +155,7 @@ export default function ContractNftItemContainer({
                   sx={{
                     position: 'relative',
                     width: '100%',
+                    minHeight: '400px',
                   }}
                 >
                   <AssetImage src={nftQuery.data.metadata.image} />
@@ -163,38 +164,44 @@ export default function ContractNftItemContainer({
             )}
           </Card>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12} md={6}>
           <Box>
-            <Stack spacing={2}>
+            <Stack spacing={3}>
               <Box>
-                <Typography variant="body1">
+                <Typography variant="h6" color="text.secondary" gutterBottom>
                   {contractMetadata.isLoading ? (
                     <Skeleton />
                   ) : (
                     contractMetadata.data?.name
                   )}
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="h3" component="h1" gutterBottom fontWeight="bold">
                   {nftQuery.isLoading ? (
                     <Skeleton />
                   ) : (
                     nftQuery.data?.metadata.name
                   )}
                 </Typography>
+                {nftQuery.data?.metadata.description && (
+                  <Typography variant="body1" color="text.secondary" sx={{ mt: 2, lineHeight: 1.6 }}>
+                    {nftQuery.data.metadata.description}
+                  </Typography>
+                )}
               </Box>
               <Box>
-                <Stack spacing={2} direction="row">
-                  <Button variant="contained" onClick={handleShowTransfer}>
+                <Stack spacing={2} direction="row" flexWrap="wrap">
+                  <Button variant="contained" onClick={handleShowTransfer} size="large">
                     <FormattedMessage id="transfer" defaultMessage="Transfer" />
                   </Button>
-                  <Button variant="contained" onClick={handleShowBurn}>
+                  <Button variant="outlined" onClick={handleShowBurn} size="large">
                     <FormattedMessage id="burn" defaultMessage="Burn" />
                   </Button>
                   <Button
-                    size="small"
+                    variant="outlined"
                     href={`/asset/${network}/${address}/${tokenId}`}
                     endIcon={<OpenInNewIcon />}
                     target="_blank"
+                    size="large"
                   >
                     <FormattedMessage
                       id="view.public.page"
@@ -205,39 +212,50 @@ export default function ContractNftItemContainer({
               </Box>
               <Card>
                 <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    <FormattedMessage
+                      id="nft.details"
+                      defaultMessage="NFT Details"
+                    />
+                  </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <Stack>
+                    <Grid item xs={12}>
+                      <Stack spacing={2}>
                         <Stack
                           direction="row"
                           spacing={2}
                           justifyContent="space-between"
+                          alignItems="center"
                         >
-                          <Typography>
+                          <Typography variant="body2" color="text.secondary">
                             <FormattedMessage
                               id="token.id"
                               defaultMessage="Token ID"
                             />
                           </Typography>
-                          <Typography>{nftQuery.data?.metadata.id}</Typography>
+                          <Typography variant="body1" fontWeight="medium">
+                            #{nftQuery.data?.metadata.id}
+                          </Typography>
                         </Stack>
                         <Stack
                           direction="row"
                           spacing={2}
                           justifyContent="space-between"
+                          alignItems="center"
                         >
-                          <Typography>
+                          <Typography variant="body2" color="text.secondary">
                             <FormattedMessage
                               id="owner"
                               defaultMessage="Owner"
                             />
                           </Typography>
-                          <Typography>
+                          <Typography variant="body1">
                             <Link
                               href={`${getBlockExplorerUrl(
                                 chainId,
                               )}/address/${nftQuery.data?.owner}`}
                               target="_blank"
+                              sx={{ textDecoration: 'none', fontWeight: 'medium' }}
                             >
                               {truncateAddress(nftQuery.data?.owner)}
                             </Link>
@@ -247,14 +265,17 @@ export default function ContractNftItemContainer({
                           direction="row"
                           spacing={2}
                           justifyContent="space-between"
+                          alignItems="center"
                         >
-                          <Typography>
+                          <Typography variant="body2" color="text.secondary">
                             <FormattedMessage
                               id="token.standard"
                               defaultMessage="Token Standard"
                             />
                           </Typography>
-                          <Typography>ERC721</Typography>
+                          <Typography variant="body1" fontWeight="medium">
+                            ERC721
+                          </Typography>
                         </Stack>
                       </Stack>
                     </Grid>

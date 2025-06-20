@@ -12,7 +12,7 @@ const TokenTradePlugin: CellPlugin<{
   },
   id: "token-trade-section",
   title: "Token Trade",
-  description: "Dex Generator form",
+  description: "DexContracts form",
   version: 1,
 };
 

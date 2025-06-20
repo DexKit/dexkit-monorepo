@@ -157,7 +157,11 @@ export default function DexGeneratorContractForm({
 
   return (
     <Box>
-      <Stack sx={{ p: isMobile ? 1 : 2 }} spacing={isMobile ? 1 : 2}>
+      <Stack sx={{
+        pt: isMobile ? 6 : 8,
+        px: isMobile ? 1 : 2,
+        pb: isMobile ? 1 : 2
+      }} spacing={isMobile ? 1 : 2}>
         <Stack
           direction="row"
           alignItems="center"

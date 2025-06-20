@@ -13,8 +13,8 @@ const DexGeneratorFormPlugin: CellPlugin<{
     ) : null;
   },
   id: "dex-generator-section",
-  title: "Dex Generator",
-  description: "Dex Generator form",
+  title: "DexContracts",
+  description: "DexContracts form",
   version: 1,
 };
 

@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogProps, Divider } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 
 import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
@@ -18,6 +19,7 @@ export default function ClaimConditionsDialog({
   tokenId,
 }: Props) {
   const { onClose } = dialogProps;
+  const theme = useTheme();
 
   const handleClose = () => {
     if (onClose) {
@@ -26,7 +28,27 @@ export default function ClaimConditionsDialog({
   };
 
   return (
-    <Dialog {...dialogProps}>
+    <Dialog
+      {...dialogProps}
+      fullWidth
+      maxWidth="md"
+      sx={{
+        '& .MuiDialog-paper': {
+          margin: {
+            xs: theme.spacing(1),
+            sm: theme.spacing(3)
+          },
+          width: {
+            xs: `calc(100% - ${theme.spacing(2)})`,
+            sm: 'auto'
+          },
+          maxHeight: {
+            xs: `calc(100% - ${theme.spacing(2)})`,
+            sm: `calc(100% - ${theme.spacing(8)})`
+          }
+        }
+      }}
+    >
       <AppDialogTitle
         title={
           <FormattedMessage
@@ -37,7 +59,14 @@ export default function ClaimConditionsDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{ p: 0 }}>
+      <DialogContent
+        sx={{
+          p: { xs: theme.spacing(1), sm: 0 },
+          '&:first-of-type': {
+            pt: { xs: theme.spacing(2), sm: 0 }
+          }
+        }}
+      >
         <ClaimConditionsContainer
           network={network as string}
           address={address as string}

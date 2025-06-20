@@ -1,14 +1,12 @@
-import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import StakeErc1155Section from '@dexkit/dexappbuilder-viewer/components/sections/StakeErc1155Section';
 import StakeErc20Section from '@dexkit/dexappbuilder-viewer/components/sections/StakeErc20Section';
 import StakeErc721Section from '@dexkit/dexappbuilder-viewer/components/sections/StakeErc721Section';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { hexToString } from '@dexkit/ui/utils';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Box, Container, Grid, Skeleton } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
-  ThirdwebSDKProvider,
   useContract,
   useContractMetadata,
   useContractRead,
@@ -17,7 +15,7 @@ import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from 'src/services/app';
 
 export function StakePage() {
@@ -107,18 +105,13 @@ export function StakePage() {
 }
 
 export default function Wrapper() {
-  const { signer } = useWeb3React();
   const router = useRouter();
   const { network } = router.query;
 
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={getChainIdFromSlug(network as string)?.chainId}
-      signer={signer}
-    >
+    <ThirdwebV4Provider network={network as string}>
       <StakePage />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 

@@ -18,12 +18,26 @@
   },
   "favicon_url": "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/images/logo/favicon.ico",
   "social": [
-    { "type": "twitter", "handle": "dexkit" },
-    { "type": "instagram", "handle": "dexkit.io" },
-    { "type": "linkedin", "handle": "dexkit" },
-    { "type": "youtube", "handle": "@DexKit" }
+    {
+      "type": "twitter",
+      "handle": "dexkit"
+    },
+    {
+      "type": "instagram",
+      "handle": "dexkit.io"
+    },
+    {
+      "type": "linkedin",
+      "handle": "dexkit"
+    },
+    {
+      "type": "youtube",
+      "handle": "@DexKit"
+    }
   ],
-  "transak": { "enabled": true },
+  "transak": {
+    "enabled": true
+  },
   "fees": [
     {
       "amount_percentage": 1,
@@ -34,7 +48,10 @@
     "amount_percentage": 0.3,
     "recipient": "0x5bD68B4d6f90Bcc9F3a9456791c0Db5A43df676d"
   },
-  "format": { "date": "MM/DD/YYYY", "datetime": "MM/DD/YYYY HH:mm:ss" },
+  "format": {
+    "date": "MM/DD/YYYY",
+    "datetime": "MM/DD/YYYY HH:mm:ss"
+  },
   "footerMenuTree": [
     {
       "type": "External",
@@ -43,15 +60,31 @@
     }
   ],
   "menuTree": [
-    { "type": "Page", "href": "/", "name": "Home" },
-    { "type": "Page", "href": "/solutions", "name": "Solutions" },
+    {
+      "type": "Page",
+      "href": "/",
+      "name": "Home"
+    },
+    {
+      "type": "Page",
+      "href": "/solutions",
+      "name": "Solutions"
+    },
     {
       "type": "Menu",
       "href": "",
       "name": "App Builder",
       "children": [
-        { "type": "Page", "href": "/admin/create", "name": "Build App" },
-        { "type": "Page", "href": "/admin", "name": "Manage App" },
+        {
+          "type": "Page",
+          "href": "/admin/create",
+          "name": "Build App"
+        },
+        {
+          "type": "Page",
+          "href": "/admin",
+          "name": "Manage App"
+        },
         {
           "type": "Menu",
           "href": "",
@@ -89,9 +122,13 @@
         {
           "type": "Menu",
           "href": "/dexgenerator",
-          "name": "DexGenerator",
+          "name": "DexContracts",
           "children": [
-            { "type": "Page", "href": "/dexgenerator", "name": "DexGenerator" },
+            {
+              "type": "Page",
+              "href": "/dexgenerator",
+              "name": "DexContracts"
+            },
             {
               "type": "Page",
               "href": "/forms/contracts/create",
