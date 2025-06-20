@@ -1,34 +1,36 @@
 import { ContractContainer } from '@/modules/contract-wizard/components/containers/ContractContainer';
-import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Container from '@mui/material/Container';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import AuthMainLayout from 'src/components/layouts/authMain';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from 'src/services/app';
 
 export default function ContractPage() {
   const { query } = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { address, network } = query;
 
-  const { signer } = useWeb3React();
-
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={signer}
-    >
-      <Container>
+    <ThirdwebV4Provider network={network as string}>
+      <Container
+        maxWidth="xl"
+        disableGutters={isMobile}
+        sx={{
+          px: isMobile ? 1 : 3,
+          py: isMobile ? 1 : 2,
+        }}
+      >
         <ContractContainer
           address={address as string}
           network={network as string}
         />
       </Container>
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 

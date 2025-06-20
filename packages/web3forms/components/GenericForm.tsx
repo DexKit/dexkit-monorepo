@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, Grid } from "@mui/material";
+import { Box, Button, FormControlLabel, Grid } from "@mui/material";
 import { BigNumber } from "ethers";
 import { Field, Formik, FormikErrors, getIn } from "formik";
 import { Autocomplete, Checkbox, TextField } from "formik-mui";
@@ -22,6 +22,7 @@ import SharesArrayInput from "./SharesArrayInput";
 
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
+import { MarkdownDescriptionField } from "@dexkit/ui/components";
 import CompletationProvider from "@dexkit/ui/components/CompletationProvider";
 
 type FormParams = {
@@ -175,6 +176,15 @@ export default function GenericForm({
         return false;
       } else if (el.component?.type === "merkle-tree-file") {
         return <MerkleTreeFileInput el={el} />;
+      } else if (el.component?.type === "markdown") {
+        return (
+          <MarkdownDescriptionField
+            name={el.ref as string}
+            label={el.label}
+            helperText={el.helperText}
+            disabled={el.locked}
+          />
+        );
       } else if (el.component?.type === "decimal") {
         return (
           <DecimalInput
@@ -189,6 +199,24 @@ export default function GenericForm({
       } else {
         if (params) {
           const { values, setFieldValue } = params;
+
+          const isDescriptionField = (el.ref as string)?.toLowerCase().includes('description') ||
+            el.label?.toLowerCase().includes('description') ||
+            (el.ref as string)?.toLowerCase().includes('desc') ||
+            el.label?.toLowerCase().includes('desc') ||
+            (el.ref as string) === 'description' ||
+            (el.ref as string) === 'desc';
+
+          if (isDescriptionField) {
+            return (
+              <MarkdownDescriptionField
+                name={el.ref as string}
+                label={el.label}
+                helperText={el.helperText || "You can use markdown formatting for rich text descriptions"}
+                disabled={el.locked}
+              />
+            );
+          }
 
           return (
             <CompletationProvider
@@ -223,6 +251,86 @@ export default function GenericForm({
     group?: string,
     params?: FormParams
   ) => {
+    const hasImageField = elements.some(el =>
+      el.type === "input" &&
+      (el.component?.type === "image" || el.component?.type === "image-url")
+    );
+    const hasDescriptionField = elements.some(el =>
+      el.type === "input" &&
+      ((el.ref as string)?.toLowerCase().includes('description') ||
+        el.label?.toLowerCase().includes('description'))
+    );
+
+    if (hasImageField && hasDescriptionField && !group) {
+      const imageElement = elements.find(el =>
+        el.type === "input" &&
+        (el.component?.type === "image" || el.component?.type === "image-url")
+      );
+      const descriptionElement = elements.find(el =>
+        el.type === "input" &&
+        ((el.ref as string)?.toLowerCase().includes('description') ||
+          el.label?.toLowerCase().includes('description'))
+      );
+      const otherElements = elements.filter(el =>
+        el !== imageElement && el !== descriptionElement
+      );
+
+      return [
+        imageElement && descriptionElement && (
+          <Grid key="image-description-layout" item xs={12}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm="auto">
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: { xs: 'center', sm: 'flex-start' },
+                  alignItems: 'center',
+                  minHeight: { xs: 'auto', sm: '200px' },
+                  py: { xs: 2, sm: 0 }
+                }}>
+                  {renderInput(imageElement, params)}
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm>
+                {renderInput(descriptionElement, params)}
+              </Grid>
+            </Grid>
+          </Grid>
+        ),
+        ...otherElements.map((el, key) => {
+          if (el.type === "input" && el.component?.type !== "hidden") {
+            return (
+              <Grid
+                key={group ? `${group}-${key}-${el.type}` : `${key}-${el.type}`}
+                item
+                xs={el.col?.xs ? el.col.xs : 12}
+                sm={el.col?.sm}
+              >
+                {renderInput(el, params)}
+              </Grid>
+            );
+          } else if (el.type === "input-group") {
+            return (
+              <Grid
+                key={`group-${key}`}
+                item
+                xs={el.col?.xs ? el.col.xs : 12}
+                sm={el.col?.sm}
+              >
+                <Grid
+                  container
+                  spacing={2}
+                  alignItems="center"
+                  alignContent="center"
+                >
+                  {renderElements(el.inputs, `group-${key}`, params)}
+                </Grid>
+              </Grid>
+            );
+          }
+        }).filter((i) => i !== undefined)
+      ].filter((i) => i !== undefined);
+    }
+
     return elements
       .map((el, key) => {
         if (el.type === "input" && el.component?.type !== "hidden") {

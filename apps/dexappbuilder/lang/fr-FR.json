@@ -1031,7 +1031,7 @@
     "defaultMessage": "Erreur lors du changement de réseau"
   },
   "explore.our.new.tool.dexgenerator": {
-    "defaultMessage": "Découvrez notre nouvel outil : DexGenerator"
+    "defaultMessage": "Découvrez notre nouvel outil : DexContracts"
   },
   "favorites": {
     "defaultMessage": "Favoris"
@@ -1175,7 +1175,7 @@
     "defaultMessage": "Portefeuilles"
   },
   "web3forms.deplopy": {
-    "defaultMessage": "DexGenerator"
+    "defaultMessage": "DexContracts"
   },
   "you.can.deploy.contracts.fromo.our.list.and.from.the.community.in.the.future": {
     "defaultMessage": "Vous pouvez déployer des contrats à partir de notre liste et de la communauté à l'avenir"
@@ -4356,5 +4356,53 @@
   },
   "youtube.channel": {
     "defaultMessage": "Chaîne Youtube"
+  },
+  "custom.title": {
+    "defaultMessage": "Titre Personnalisé"
+  },
+  "custom.title.helper": {
+    "defaultMessage": "Entrez un titre personnalisé pour votre page de réclamation de tokens. Laissez vide pour utiliser le titre par défaut."
+  },
+  "custom.title.placeholder": {
+    "defaultMessage": "ex., Réclamez vos Récompenses"
+  },
+  "custom.subtitle": {
+    "defaultMessage": "Sous-titre Personnalisé"
+  },
+  "custom.subtitle.helper": {
+    "defaultMessage": "Entrez un sous-titre personnalisé pour décrire votre distribution de tokens. Laissez vide pour utiliser le nom du contrat."
+  },
+  "custom.subtitle.placeholder": {
+    "defaultMessage": "ex., Obtenez vos tokens exclusifs de notre dernier lancement"
+  },
+  "custom.chips": {
+    "defaultMessage": "Puces Personnalisées"
+  },
+  "custom.chips.helper": {
+    "defaultMessage": "Personnalisez les puces de fonctionnalités affichées sur votre page de distribution de tokens."
+  },
+  "chips.section.title": {
+    "defaultMessage": "Titre de la Section des Puces"
+  },
+  "chips.section.title.placeholder": {
+    "defaultMessage": "ex., Fonctionnalités de Sécurité"
+  },
+  "chips.section.title.helper": {
+    "defaultMessage": "Entrez un titre personnalisé pour la section des puces. Laissez vide pour utiliser 'Fonctionnalités de Sécurité'."
+  },
+  "emoji": {
+    "defaultMessage": "Emoji"
+  },
+  "chip.text": {
+    "defaultMessage": "Texte de la Puce"
+  },
+  "chip.text.placeholder": {
+    "defaultMessage": "ex., Contrat Intelligent Vérifié"
+  },
+  "color": {
+    "defaultMessage": "Couleur"
+  },
+  "add.chip": {
+    "defaultMessage": "Ajouter une Puce (max 6)"
   }
 }

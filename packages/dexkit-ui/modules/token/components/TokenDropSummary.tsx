@@ -1,4 +1,5 @@
 import { useIsMobile } from "@dexkit/core";
+import { ConnectWalletMessage } from "@dexkit/ui/components";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Skeleton, Stack, Typography } from "@mui/material";
 import {
@@ -12,12 +13,34 @@ export interface TokenDropSummaryProps {
   contract?: TokenDrop;
   hideTotalSupply?: boolean;
   hideDecimals?: boolean;
+  customStyles?: any;
+  fontFamily?: string;
 }
+
+const generateBalanceTextStyles = (customStyles: any, variant: 'balanceLabel' | 'balanceValue' = 'balanceLabel') => {
+  if (!customStyles?.textColors) return {};
+
+  let color;
+  switch (variant) {
+    case 'balanceLabel':
+      color = customStyles.textColors.balanceLabel;
+      break;
+    case 'balanceValue':
+      color = customStyles.textColors.balanceValue;
+      break;
+    default:
+      color = undefined;
+  }
+
+  return color ? { color } : {};
+};
 
 export default function TokenDropSummary({
   contract,
   hideDecimals,
   hideTotalSupply,
+  customStyles,
+  fontFamily,
 }: TokenDropSummaryProps) {
   const isMobile = useIsMobile();
 
@@ -35,14 +58,25 @@ export default function TokenDropSummary({
           <Typography
             color="text.secondary"
             variant={isMobile ? "body1" : "caption"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+              fontFamily: fontFamily || 'inherit',
+            }}
           >
             <FormattedMessage id="total.supply" defaultMessage="Total supply" />
           </Typography>
-          <Typography variant={isMobile ? "body1" : "h5"}>
+          <Typography
+            variant={isMobile ? "body1" : "h5"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+              fontFamily: fontFamily || 'inherit',
+              color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+            }}
+          >
             {supplyQuery.isLoading ? (
               <Skeleton />
             ) : (
-              supplyQuery.data?.displayValue
+              `${supplyQuery.data?.displayValue} ${supplyQuery.data?.symbol || ''}`
             )}
           </Typography>
         </Stack>
@@ -54,21 +88,36 @@ export default function TokenDropSummary({
         <Typography
           color="text.secondary"
           variant={isMobile ? "body1" : "caption"}
+          sx={{
+            ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+            fontFamily: fontFamily || 'inherit',
+          }}
         >
           <FormattedMessage id="your.balance" defaultMessage="Your balance" />
         </Typography>
-        <Typography variant={isMobile ? "body1" : "h5"}>
+        <Typography
+          variant={isMobile ? "body1" : "h5"}
+          sx={{
+            ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+            fontFamily: fontFamily || 'inherit',
+            color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+          }}
+        >
           {!account ? (
-            <Typography variant={isMobile ? "body1" : "h5"} color="text.secondary">
-              <FormattedMessage
-                id="connect.your.wallet.first"
-                defaultMessage="Connect your wallet first"
-              />
-            </Typography>
+            <ConnectWalletMessage
+              variant="inline"
+              title={
+                <FormattedMessage
+                  id="connect.wallet.to.view.balance"
+                  defaultMessage="Connect wallet to view balance"
+                />
+              }
+              showButton={false}
+            />
           ) : balanceQuery.isLoading ? (
             <Skeleton />
           ) : (
-            balanceQuery.data?.displayValue
+            `${balanceQuery.data?.displayValue} ${balanceQuery.data?.symbol || ''}`
           )}
         </Typography>
       </Stack>
@@ -80,11 +129,33 @@ export default function TokenDropSummary({
           <Typography
             color="text.secondary"
             variant={isMobile ? "body1" : "caption"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceLabel'),
+              fontFamily: fontFamily || 'inherit',
+            }}
           >
             <FormattedMessage id="decimals" defaultMessage="Decimals" />
           </Typography>
-          <Typography variant={isMobile ? "body1" : "h5"}>
-            {balanceQuery.isLoading ? (
+          <Typography
+            variant={isMobile ? "body1" : "h5"}
+            sx={{
+              ...generateBalanceTextStyles(customStyles, 'balanceValue'),
+              fontFamily: fontFamily || 'inherit',
+              color: generateBalanceTextStyles(customStyles, 'balanceValue').color || 'text.primary',
+            }}
+          >
+            {!account ? (
+              <ConnectWalletMessage
+                variant="inline"
+                title={
+                  <FormattedMessage
+                    id="connect.wallet.to.view.decimals"
+                    defaultMessage="Connect wallet to view decimals"
+                  />
+                }
+                showButton={false}
+              />
+            ) : balanceQuery.isLoading ? (
               <Skeleton />
             ) : (
               balanceQuery.data?.decimals

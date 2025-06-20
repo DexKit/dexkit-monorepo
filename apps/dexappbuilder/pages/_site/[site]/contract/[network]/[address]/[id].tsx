@@ -1,12 +1,10 @@
 import ContractNftItemContainer from '@/modules/contract-wizard/components/containers/ContractNftItemContainer';
-import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import Container from '@mui/material/Container';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import AuthMainLayout from 'src/components/layouts/authMain';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from 'src/services/app';
 
 export default function ContractPage() {
@@ -14,14 +12,8 @@ export default function ContractPage() {
 
   const { address, network, id } = query;
 
-  const { signer } = useWeb3React();
-
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={signer}
-    >
+    <ThirdwebV4Provider network={network as string}>
       <Container>
         <ContractNftItemContainer
           address={address as string}
@@ -29,7 +21,7 @@ export default function ContractPage() {
           tokenId={id as string}
         />
       </Container>
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 

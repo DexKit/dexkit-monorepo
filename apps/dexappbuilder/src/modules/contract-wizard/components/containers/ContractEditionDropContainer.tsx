@@ -1,10 +1,9 @@
 import Search from '@mui/icons-material/Search';
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import NoSsr from '@mui/material/NoSsr';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { SyntheticEvent, useState } from 'react';
@@ -20,23 +19,26 @@ interface Props {
   network: string;
 }
 
+type TabValues = 'nfts' | 'metadata' | 'admin';
+
 export default function ContractEditionDropContainer({
   address,
   network,
 }: Props) {
+  const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [tab, setTab] = useState<TabValues>('nfts');
+  const [search, setSearch] = useState('');
   const [openMintDialog, setOpenMintDialog] = useState(false);
 
-  const [search, setSearch] = useState<string>();
+  const handleChangeTab = (e: SyntheticEvent, value: TabValues) => {
+    setTab(value);
+  };
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-  };
-  const { formatMessage } = useIntl();
-
-  const [tab, setTab] = useState<string>('nfts');
-
-  const handleChangeTab = (e: SyntheticEvent, value: string) => {
-    setTab(value);
   };
 
   return (
@@ -50,13 +52,29 @@ export default function ContractEditionDropContainer({
         }}
         network={network}
         address={address}
-        isERC1155={true}
-        isLazyMint={true}
+        isLazyMint
       />
 
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12}>
-          <Tabs value={tab} onChange={handleChangeTab}>
+          <Tabs
+            value={tab}
+            onChange={handleChangeTab}
+            variant={isMobile ? "scrollable" : "standard"}
+            scrollButtons={isMobile ? "auto" : false}
+            allowScrollButtonsMobile={isMobile}
+            sx={{
+              '& .MuiTab-root': {
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                minHeight: isMobile ? 40 : 48,
+                padding: isMobile ? theme.spacing(0.5, 1) : theme.spacing(1, 2),
+                minWidth: isMobile ? 'auto' : 160,
+              },
+              '& .MuiTabs-indicator': {
+                height: isMobile ? 2 : 3,
+              }
+            }}
+          >
             <Tab
               value="nfts"
               label={<FormattedMessage id="nft" defaultMessage="NFTs" />}
@@ -75,20 +93,27 @@ export default function ContractEditionDropContainer({
         </Grid>
         {tab === 'nfts' && (
           <Grid item xs={12}>
-            <Grid container spacing={2}>
+            <Grid container spacing={isMobile ? 1 : 2}>
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
                   onClick={() => setOpenMintDialog(true)}
+                  size={isMobile ? "small" : "medium"}
+                  fullWidth={isMobile}
+                  sx={{
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 1,
+                    px: isMobile ? 1.5 : 2,
+                  }}
                 >
                   <FormattedMessage defaultMessage="Mint NFT" id="mint.nft" />
                 </Button>
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={isMobile ? 12 : 3}>
                 <TextField
                   fullWidth
-                  size="small"
+                  size={isMobile ? "small" : "small"}
                   type="search"
                   value={search}
                   onChange={handleChangeSearch}
@@ -103,39 +128,54 @@ export default function ContractEditionDropContainer({
                       </InputAdornment>
                     ),
                   }}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: isMobile ? '0.875rem' : '1rem',
+                    }
+                  }}
                 />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography
+                  variant={isMobile ? "h6" : "h5"}
+                  sx={{
+                    fontSize: isMobile ? '1.1rem' : '1.5rem',
+                    fontWeight: 600,
+                    mb: isMobile ? 1 : 2
+                  }}
+                >
+                  <FormattedMessage
+                    defaultMessage="Collection NFTs"
+                    id="collection.nfts"
+                  />
+                </Typography>
               </Grid>
 
               <Grid item xs={12}>
                 <NoSsr>
                   <AppErrorBoundary
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Stack justifyContent="center" alignItems="center">
-                        <Typography variant="h6">
+                    fallbackRender={({ error, resetErrorBoundary }) => (
+                      <div>
+                        <Typography color="error">
                           <FormattedMessage
-                            id="something.went.wrong"
-                            defaultMessage="Oops, something went wrong"
-                            description="Something went wrong error message"
+                            id="error.loading.nfts"
+                            defaultMessage="Error loading NFTs"
                           />
                         </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          {String(error)}
-                        </Typography>
-                        <Button color="primary" onClick={resetErrorBoundary}>
+                        <Button onClick={resetErrorBoundary} size="small">
                           <FormattedMessage
                             id="try.again"
                             defaultMessage="Try again"
-                            description="Try again"
                           />
                         </Button>
-                      </Stack>
+                      </div>
                     )}
                   >
                     <AssetListContractEdition
-                      contractAddress={address as string}
-                      network={network as string}
+                      contractAddress={address}
+                      network={network}
                       search={search}
-                      showClaimConditions={true}
                     />
                   </AppErrorBoundary>
                 </NoSsr>

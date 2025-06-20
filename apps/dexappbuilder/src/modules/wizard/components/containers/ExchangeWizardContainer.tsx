@@ -1,5 +1,6 @@
 import { Token as AppToken, TokenWhitelabelApp } from '@dexkit/core/types';
 import ExchangeSettingsForm from '@dexkit/exchange/components/ExchangeSettingsForm';
+import { ZEROX_SUPPORTED_NETWORKS } from '@dexkit/exchange/constants';
 import { DexkitExchangeSettings } from '@dexkit/exchange/types';
 import { useActiveChainIds } from '@dexkit/ui/hooks';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
@@ -113,6 +114,43 @@ export default function ExchangeWizardContainer({
     setIsValid(isValid);
   }, []);
 
+  const exchangeActiveChainIds = useMemo(() => {
+    return ZEROX_SUPPORTED_NETWORKS;
+  }, []);
+
+  const customTheme = useMemo(() => {
+
+    if (config.theme === 'custom') {
+      try {
+        const customThemeLight = config.customThemeLight ? JSON.parse(config.customThemeLight) : null;
+        const customThemeDark = config.customThemeDark ? JSON.parse(config.customThemeDark) : null;
+
+        const themeData = {
+          colorSchemes: {
+            light: customThemeLight || {},
+            dark: customThemeDark || {}
+          }
+        };
+
+        return themeData;
+      } catch (error) {
+        console.error("Error parsing custom theme:", error);
+        return null;
+      }
+    }
+
+    if (theme?.colorSchemes) {
+      const extractedTheme = {
+        colorSchemes: {
+          light: { palette: theme.colorSchemes.light?.palette },
+          dark: { palette: theme.colorSchemes.dark?.palette }
+        }
+      };
+      return extractedTheme;
+    }
+    return null;
+  }, [config.theme, config.customThemeLight, config.customThemeDark, theme]);
+
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
       <Grid item xs={12}>
@@ -147,12 +185,13 @@ export default function ExchangeWizardContainer({
       <Grid item xs={12}>
         <ExchangeSettingsForm
           onCancel={() => { }}
-          activeChainIds={activeChainIds}
+          activeChainIds={exchangeActiveChainIds}
           saveOnChange
           onChange={handleOnChange}
           onSave={handleOnChange}
           tokens={tokens}
           onValidate={handleValidate}
+          customTheme={customTheme}
         />
       </Grid>
       <Grid item xs={12}>

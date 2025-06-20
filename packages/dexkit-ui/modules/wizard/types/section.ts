@@ -127,12 +127,83 @@ export interface UserContractPageSection extends PageSection {
   hideFormInfo?: boolean;
 }
 
+export interface ChipConfig {
+  text: string;
+  emoji: string;
+  color: 'success' | 'primary' | 'secondary' | 'info' | 'warning' | 'error';
+}
+
+export interface CustomStyleConfig {
+  backgroundColor?: {
+    type: 'solid' | 'gradient';
+    solid?: string;
+    gradient?: {
+      from: string;
+      to: string;
+      direction?: 'to-r' | 'to-br' | 'to-b' | 'to-bl' | 'to-l' | 'to-tl' | 'to-t' | 'to-tr';
+    };
+  };
+  inputColors?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    textColor?: string;
+    focusBorderColor?: string;
+  };
+  buttonColors?: {
+    backgroundColor?: string;
+    hoverBackgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+  };
+  textColors?: {
+    primary?: string;
+    secondary?: string;
+    accent?: string;
+    chipsTitle?: string;
+    balanceLabel?: string;
+    balanceValue?: string;
+    contractDescription?: string;
+    quantityLabel?: string;
+    maxPerWalletLabel?: string;
+    currentBalanceLabel?: string;
+    maxTotalPhaseLabel?: string;
+    availableRemainingLabel?: string;
+  };
+  statsColors?: {
+    maxTotalBackground?: string;
+    maxTotalBorder?: string;
+    availableRemainingBackground?: string;
+    availableRemainingBorder?: string;
+  };
+  phaseColors?: {
+    currentPhaseBackground?: string;
+    currentPhaseBorder?: string;
+    currentPhaseTitle?: string;
+    currentPhaseText?: string;
+    phaseEndsBackground?: string;
+    phaseEndsBorder?: string;
+    phaseEndsTitle?: string;
+    phaseEndsText?: string;
+    nextPhaseBackground?: string;
+    nextPhaseBorder?: string;
+    nextPhaseTitle?: string;
+    nextPhaseText?: string;
+  };
+  fontFamily?: string;
+  borderRadius?: number;
+}
+
 export interface TokenDropPageSection extends PageSection {
   type: "token-drop";
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed";
+    variant?: "simple" | "detailed" | "premium";
+    customTitle?: string;
+    customSubtitle?: string;
+    customChips?: ChipConfig[];
+    customChipsTitle?: string;
+    customStyles?: CustomStyleConfig;
   };
 }
 
@@ -141,7 +212,12 @@ export interface NftDropPageSection extends PageSection {
   settings: {
     network: string;
     address: string;
-    variant?: "simple" | "detailed";
+    variant?: "simple" | "detailed" | "premium";
+    customTitle?: string;
+    customSubtitle?: string;
+    customChips?: ChipConfig[];
+    customChipsTitle?: string;
+    customStyles?: CustomStyleConfig;
   };
 }
 

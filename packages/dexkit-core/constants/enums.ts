@@ -5,7 +5,6 @@ export enum ChainId {
   BSCTest = 97,
   Polygon = 137,
   Avax = 43114,
-  Fantom = 250,
   Mumbai = 80001,
   Optimism = 10,
   Base = 8453,
@@ -16,6 +15,10 @@ export enum ChainId {
   Blast = 81457,
   Sepolia = 11155111,
   Pulse = 369,
+  Mode = 34443,
+  Mantle = 5000,
+  Linea = 59144,
+  Scroll = 534352,
 }
 
 export enum TransactionStatus {

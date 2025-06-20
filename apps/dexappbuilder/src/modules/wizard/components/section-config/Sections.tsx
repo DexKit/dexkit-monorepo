@@ -147,7 +147,7 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
   {
     type: 'dex-generator-section',
     titleId: 'dex.app.builder.contract',
-    titleDefaultMessage: 'DexGenerator Contract',
+    titleDefaultMessage: 'DexContracts',
     category: 'web3',
     description: 'Create a DexGenerator section from your contracts',
     icon: <GavelIcon fontSize="large" />,

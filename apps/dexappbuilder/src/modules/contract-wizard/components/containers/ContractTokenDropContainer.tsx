@@ -5,7 +5,7 @@ import { convertTokenToEvmCoin } from '@dexkit/core/utils';
 import { useTokenList } from '@dexkit/ui';
 import TokenDropSummary from '@dexkit/ui/modules/token/components/TokenDropSummary';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { Button, Divider, Tab, Tabs } from '@mui/material';
+import { Button, Divider, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useQuery } from '@tanstack/react-query';
 import { useContract } from '@thirdweb-dev/react';
@@ -34,6 +34,8 @@ export default function ContractTokenDropContainer({
   network,
 }: ContractTokenDropContainerProps) {
   const { data: contract, isLoading } = useContract(address, 'token-drop');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [currTab, setCurrTab] = useState('token');
 
@@ -121,7 +123,7 @@ export default function ContractTokenDropContainer({
           defaultCoin: token,
         }}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12}>
           <TokenDropSummary contract={contract} />
         </Grid>
@@ -130,7 +132,24 @@ export default function ContractTokenDropContainer({
         </Grid>
 
         <Grid item xs={12}>
-          <Tabs value={currTab} onChange={handleChange}>
+          <Tabs
+            value={currTab}
+            onChange={handleChange}
+            variant={isMobile ? "scrollable" : "standard"}
+            scrollButtons={isMobile ? "auto" : false}
+            allowScrollButtonsMobile={isMobile}
+            sx={{
+              '& .MuiTab-root': {
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                minHeight: isMobile ? 40 : 48,
+                padding: isMobile ? theme.spacing(0.5, 1) : theme.spacing(1, 2),
+                minWidth: isMobile ? 'auto' : 160,
+              },
+              '& .MuiTabs-indicator': {
+                height: isMobile ? 2 : 3,
+              }
+            }}
+          >
             <Tab
               value="token"
               label={<FormattedMessage id="token" defaultMessage="Token" />}
@@ -163,14 +182,34 @@ export default function ContractTokenDropContainer({
         )}
         {currTab === 'token' && (
           <Grid item xs={12}>
-            <Grid container spacing={2}>
-              <Grid item>
-                <Button onClick={handleBurn} variant="contained">
+            <Grid container spacing={isMobile ? 1 : 2}>
+              <Grid item xs={isMobile ? 6 : 'auto'}>
+                <Button
+                  onClick={handleBurn}
+                  variant="contained"
+                  size={isMobile ? "small" : "medium"}
+                  fullWidth={isMobile}
+                  sx={{
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 1,
+                    px: isMobile ? 1 : 2,
+                  }}
+                >
                   <FormattedMessage id="burn" defaultMessage="Burn" />
                 </Button>
               </Grid>
-              <Grid item>
-                <Button onClick={handleShowTransfer} variant="contained">
+              <Grid item xs={isMobile ? 6 : 'auto'}>
+                <Button
+                  onClick={handleShowTransfer}
+                  variant="contained"
+                  size={isMobile ? "small" : "medium"}
+                  fullWidth={isMobile}
+                  sx={{
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 1,
+                    px: isMobile ? 1 : 2,
+                  }}
+                >
                   <FormattedMessage id="transfer" defaultMessage="Transfer" />
                 </Button>
               </Grid>

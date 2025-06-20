@@ -1,5 +1,5 @@
 import NFTGrid from '@dexkit/dexappbuilder-viewer/components/NFTGrid';
-import { Button, Tab, Tabs } from '@mui/material';
+import { Button, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useContract, useNFTs } from '@thirdweb-dev/react';
 import { SyntheticEvent, useState } from 'react';
@@ -17,6 +17,8 @@ interface Props {
 
 export default function ContractNftContainer({ address, network }: Props) {
   const { data: contract } = useContract(address, 'nft-collection');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const nftsQuery = useNFTs(contract);
 
@@ -48,9 +50,26 @@ export default function ContractNftContainer({ address, network }: Props) {
         network={network}
         address={address}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12}>
-          <Tabs value={tab} onChange={handleChangeTab}>
+          <Tabs
+            value={tab}
+            onChange={handleChangeTab}
+            variant={isMobile ? "scrollable" : "standard"}
+            scrollButtons={isMobile ? "auto" : false}
+            allowScrollButtonsMobile={isMobile}
+            sx={{
+              '& .MuiTab-root': {
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                minHeight: isMobile ? 40 : 48,
+                padding: isMobile ? theme.spacing(0.5, 1) : theme.spacing(1, 2),
+                minWidth: isMobile ? 'auto' : 160,
+              },
+              '& .MuiTabs-indicator': {
+                height: isMobile ? 2 : 3,
+              }
+            }}
+          >
             <Tab
               value="nft"
               label={<FormattedMessage id="nft" defaultMessage="NFT" />}
@@ -69,9 +88,18 @@ export default function ContractNftContainer({ address, network }: Props) {
         </Grid>
         <Grid item xs={12}>
           {tab === 'nft' && (
-            <Grid container spacing={2}>
+            <Grid container spacing={isMobile ? 1 : 2}>
               <Grid item xs={12}>
-                <Button onClick={handleMint} variant="contained">
+                <Button
+                  onClick={handleMint}
+                  variant="contained"
+                  size={isMobile ? "small" : "medium"}
+                  fullWidth={isMobile}
+                  sx={{
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 1,
+                  }}
+                >
                   <FormattedMessage id="mint" defaultMessage="Mint" />
                 </Button>
               </Grid>

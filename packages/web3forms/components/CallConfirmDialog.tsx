@@ -8,7 +8,9 @@ import { FormattedMessage } from "react-intl";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
 import { parseUnits } from "@dexkit/core/utils/ethers/parseUnits";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
+  Alert,
   Box,
   Grid,
   MenuItem,
@@ -19,7 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { BigNumber } from "ethers";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { PARSE_UNITS } from "../constants";
 
 export interface CallConfirmDialogProps {
@@ -38,13 +40,34 @@ export default function CallConfirmDialog({
   payableAmount,
 }: CallConfirmDialogProps) {
   const { onClose } = DialogProps;
+  const { account, provider } = useWeb3React();
 
   const [unit, setUnit] = useState(PARSE_UNITS[0]);
+  const [balance, setBalance] = useState<BigNumber | null>(null);
+  const [isLoadingBalance, setIsLoadingBalance] = useState(false);
 
   const [value, setValue] = useState({
     value: payableAmount ? formatEther(payableAmount) : "",
     parsed: payableAmount ? payableAmount : BigNumber.from(0),
   });
+
+  useEffect(() => {
+    const checkBalance = async () => {
+      if (account && provider) {
+        setIsLoadingBalance(true);
+        try {
+          const userBalance = await provider.getBalance(account);
+          setBalance(userBalance);
+        } catch (error) {
+          console.error("Error fetching balance:", error);
+        } finally {
+          setIsLoadingBalance(false);
+        }
+      }
+    };
+
+    checkBalance();
+  }, [account, provider]);
 
   const handleChangeUnit = (
     event: SelectChangeEvent<string>,
@@ -60,7 +83,7 @@ export default function CallConfirmDialog({
 
     try {
       parsedValue = parseUnits(e.target.value, unit);
-    } catch (err) {}
+    } catch (err) { }
 
     if (regex.test(e.target.value)) {
       setValue({ value: e.target.value, parsed: parsedValue });
@@ -76,6 +99,11 @@ export default function CallConfirmDialog({
       onClose({}, "backdropClick");
     }
   };
+
+  const hasInsufficientBalance = balance && value.parsed.gt(balance);
+  const estimatedGasCost = parseUnits("0.01", "ether");
+  const totalCost = value.parsed.add(estimatedGasCost);
+  const hasInsufficientBalanceWithGas = balance && totalCost.gt(balance);
 
   return (
     <Dialog {...DialogProps}>
@@ -111,6 +139,36 @@ export default function CallConfirmDialog({
               )}
             </Box>
           </Stack>
+
+          {balance && (
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                <FormattedMessage
+                  id="your.balance"
+                  defaultMessage="Your balance"
+                />: {formatEther(balance)} ETH
+              </Typography>
+            </Box>
+          )}
+
+          {hasInsufficientBalance && (
+            <Alert severity="error">
+              <FormattedMessage
+                id="insufficient.balance.for.transaction"
+                defaultMessage="Insufficient balance for this transaction"
+              />
+            </Alert>
+          )}
+
+          {!hasInsufficientBalance && hasInsufficientBalanceWithGas && (
+            <Alert severity="warning">
+              <FormattedMessage
+                id="insufficient.balance.for.gas"
+                defaultMessage="You may not have enough balance to cover gas fees. Consider reducing the amount."
+              />
+            </Alert>
+          )}
+
           {payable && (
             <Box>
               <Grid container spacing={2}>
@@ -122,6 +180,15 @@ export default function CallConfirmDialog({
                     value={value.value}
                     onChange={handleChange}
                     fullWidth
+                    error={!!hasInsufficientBalance}
+                    helperText={
+                      hasInsufficientBalance ? (
+                        <FormattedMessage
+                          id="amount.exceeds.balance"
+                          defaultMessage="Amount exceeds your balance"
+                        />
+                      ) : undefined
+                    }
                   />
                 </Grid>
                 <Grid item>
@@ -139,7 +206,12 @@ export default function CallConfirmDialog({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleConfirm} variant="contained" color="primary">
+        <Button
+          onClick={handleConfirm}
+          variant="contained"
+          color="primary"
+          disabled={hasInsufficientBalance || isLoadingBalance}
+        >
           <FormattedMessage id="confirm" defaultMessage="Confirm" />
         </Button>
         <Button onClick={handleClose}>

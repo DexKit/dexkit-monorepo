@@ -62,14 +62,22 @@ export const ZERO_EX_CHAIN_PREFIX = (chainId?: number) => {
       return 'bsc.';
     case 43114:
       return 'avalanche.';
-    case 250:
-      return 'fantom.';
     case 10:
       return 'optimism.';
     case ChainId.Arbitrum:
       return 'arbitrum.';
     case ChainId.Base:
       return 'base.';
+    case ChainId.Linea:
+      return 'linea.';
+    case ChainId.Scroll:
+      return 'scroll.';
+    case ChainId.Mantle:
+      return 'mantle.';
+    case ChainId.Blast:
+      return 'blast.';
+    case ChainId.Mode:
+      return 'mode.';
     default:
       return '';
   }

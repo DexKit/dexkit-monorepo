@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { FieldArray, Form, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -15,11 +16,11 @@ import { ClaimConditionForm } from './ClaimConditionForm';
 
 interface Props {
   network: string;
-
   isEdit: boolean;
 }
 
 export function ClaimConditionsForm({ network, isEdit }: Props) {
+  const theme = useTheme();
   const { submitForm, isValid, values, isSubmitting } = useFormikContext<{
     phases: ClaimConditionTypeForm[];
   }>();
@@ -64,16 +65,21 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
       </AppConfirmDialog>
 
       <Card>
-        <CardContent>
+        <CardContent sx={{ p: { xs: theme.spacing(2), sm: theme.spacing(3) } }}>
           <Form>
             <FieldArray
               name="phases"
               render={(arrayHelper) => (
-                <Stack spacing={2}>
+                <Stack spacing={theme.spacing(3)}>
                   {values.phases?.map((_, index: number, arr: any[]) => (
                     <React.Fragment key={index}>
-                      <Stack direction="row" justifyContent="space-between">
-                        <Typography>
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems={{ xs: 'flex-start', sm: 'center' }}
+                        spacing={{ xs: theme.spacing(1), sm: 0 }}
+                      >
+                        <Typography variant="h6" sx={{ fontWeight: 500 }}>
                           <FormattedMessage
                             id="phases"
                             defaultMessage={'Phases'}
@@ -83,6 +89,13 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
 
                         <Button
                           startIcon={<Delete />}
+                          size="small"
+                          color="error"
+                          variant="outlined"
+                          sx={{
+                            alignSelf: { xs: 'flex-end', sm: 'auto' },
+                            minWidth: { xs: 'auto', sm: 'auto' }
+                          }}
                           onClick={() => {
                             setShowConfirm(true);
                             setConfirmCallback(() => () => {
@@ -105,6 +118,8 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
 
                   <Button
                     variant="outlined"
+                    fullWidth
+                    sx={{ py: theme.spacing(1.5) }}
                     onClick={() => arrayHelper.push({ name: 'new phase' })}
                   >
                     <FormattedMessage
@@ -113,7 +128,11 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
                     />
                   </Button>
 
-                  <Stack direction="row" justifyContent="space-between">
+                  <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent={{ xs: 'stretch', sm: 'flex-end' }}
+                    spacing={theme.spacing(2)}
+                  >
                     <Button
                       disabled={
                         !isValid || values.phases.length === 0 || isSubmitting
@@ -126,6 +145,11 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
                       onClick={submitForm}
                       variant="contained"
                       color="primary"
+                      fullWidth
+                      sx={{
+                        py: theme.spacing(1.5),
+                        maxWidth: { sm: theme.spacing(37.5) }
+                      }}
                     >
                       {isEdit ? (
                         <FormattedMessage

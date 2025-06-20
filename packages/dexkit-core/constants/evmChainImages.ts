@@ -64,12 +64,6 @@ export const EVM_CHAIN_IMAGES: { [key: number]: { imageUrl?: string, coinImageUr
     imageUrl:
       "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
   },
-  [ChainId.Fantom]: {
-
-    imageUrl:
-      "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/fantom/info/logo.png",
-
-  },
   [ChainId.Arbitrum]: {
 
     coinImageUrl: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',

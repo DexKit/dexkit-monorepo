@@ -2,21 +2,23 @@ import { useDexKitContext } from '@dexkit/ui';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Delete from '@mui/icons-material/Delete';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Grid,
-    IconButton,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {
-    useAllRoleMembers,
-    useContract,
-    useContractMetadata,
-    useSetAllRoleMembers,
+  useAllRoleMembers,
+  useContract,
+  useContractMetadata,
+  useSetAllRoleMembers,
 } from '@thirdweb-dev/react';
 import { Field, FieldArray, Formik } from 'formik';
 import { TextField } from 'formik-mui';
@@ -35,6 +37,8 @@ export interface ContractAdminTabProps {
 
 export default function ContractAdminTab({ address }: ContractAdminTabProps) {
   const { data: contract } = useContract(address);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { data: rolesValues, isSuccess } = useAllRoleMembers(contract);
   const { data: contractMetadata } = useContractMetadata(contract);
@@ -86,12 +90,12 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
   const handleSubmit = async (values: Roles) => {
     try {
       await setAllRolesMutation.mutateAsync({ roles: values });
-    } catch (err) {}
+    } catch (err) { }
   };
 
   if (!isSuccess && !rolesValues) {
     return (
-      <Box sx={{ py: 4 }}>
+      <Box sx={{ py: isMobile ? 2 : 4 }}>
         <Grid container justifyContent="center" alignItems="center">
           <Grid item>
             <CircularProgress color="primary" size="2rem" />
@@ -109,40 +113,61 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
         rolesValues
           ? rolesValues
           : ({
-              admin: [],
-            } as { [key: string]: string[] })
+            admin: [],
+          } as { [key: string]: string[] })
       }
       validationSchema={ContractAdminSchema}
     >
       {({ values, submitForm, isSubmitting, isValid }) => (
-        <Grid container spacing={2}>
+        <Grid container spacing={isMobile ? 1 : 2}>
           {Object.keys(rolesValues).map((role, index) => (
             <Grid item xs={12} key={index}>
               <FieldArray
                 name={role}
                 render={({ name, handlePush, handleRemove }) => (
-                  <Card>
+                  <Card
+                    sx={{
+                      '& .MuiCardContent-root': {
+                        padding: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+                        '&:last-child': {
+                          paddingBottom: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+                        }
+                      }
+                    }}
+                  >
                     <CardContent>
-                      <Grid container spacing={2}>
+                      <Grid container spacing={isMobile ? 1 : 2}>
                         <Grid item xs={12}>
-                          <Typography variant="body1">
-                            <strong>
-                              {THIRDWEB_ROLE_DESCRIPTIONS[role]?.title ? (
-                                <FormattedMessage
-                                  id={
-                                    THIRDWEB_ROLE_DESCRIPTIONS[role]?.title.id
-                                  }
-                                  defaultMessage={
-                                    THIRDWEB_ROLE_DESCRIPTIONS[role]?.title
-                                      .defaultMessage
-                                  }
-                                />
-                              ) : (
-                                role
-                              )}
-                            </strong>
+                          <Typography
+                            variant={isMobile ? "subtitle1" : "body1"}
+                            sx={{
+                              fontSize: isMobile ? '1rem' : '1rem',
+                              fontWeight: 600,
+                              mb: isMobile ? 0.5 : 1
+                            }}
+                          >
+                            {THIRDWEB_ROLE_DESCRIPTIONS[role]?.title ? (
+                              <FormattedMessage
+                                id={
+                                  THIRDWEB_ROLE_DESCRIPTIONS[role]?.title.id
+                                }
+                                defaultMessage={
+                                  THIRDWEB_ROLE_DESCRIPTIONS[role]?.title
+                                    .defaultMessage
+                                }
+                              />
+                            ) : (
+                              role
+                            )}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography
+                            variant={isMobile ? "caption" : "body2"}
+                            color="text.secondary"
+                            sx={{
+                              fontSize: isMobile ? '0.75rem' : '0.875rem',
+                              lineHeight: 1.4
+                            }}
+                          >
                             {THIRDWEB_ROLE_DESCRIPTIONS[role]?.title ? (
                               <FormattedMessage
                                 id={
@@ -161,31 +186,48 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
                         </Grid>
                         {values[role].map((_, index) => (
                           <Grid item xs={12} key={index}>
-                            <Grid alignItems="center" container spacing={2}>
+                            <Grid alignItems="center" container spacing={isMobile ? 1 : 2}>
                               <Grid item xs>
                                 <Field
                                   fullWidth
                                   component={TextField}
                                   name={`${name}[${index}]`}
                                   placeholder={ZERO_ADDRESS}
+                                  size={isMobile ? "small" : "medium"}
+                                  InputProps={{
+                                    sx: {
+                                      fontSize: isMobile ? '0.875rem' : '1rem',
+                                    }
+                                  }}
                                 />
                               </Grid>
                               <Grid item>
-                                <IconButton onClick={handleRemove(index)}>
-                                  <Delete />
+                                <IconButton
+                                  onClick={handleRemove(index)}
+                                  size={isMobile ? "small" : "medium"}
+                                  sx={{
+                                    padding: isMobile ? theme.spacing(0.5) : theme.spacing(1),
+                                  }}
+                                >
+                                  <Delete fontSize={isMobile ? "small" : "medium"} />
                                 </IconButton>
                               </Grid>
                             </Grid>
                           </Grid>
                         ))}
                         <Grid item xs={12}>
-                          <Grid alignItems="center" container spacing={2}>
+                          <Grid alignItems="center" container spacing={isMobile ? 1 : 2}>
                             <Grid item>
                               <Button
                                 disabled={isSubmitting}
                                 onClick={handlePush('')}
-                                size="small"
+                                size={isMobile ? "small" : "small"}
                                 variant="outlined"
+                                sx={{
+                                  fontSize: isMobile ? '0.75rem' : '0.875rem',
+                                  py: isMobile ? 0.5 : 0.75,
+                                  px: isMobile ? 1 : 1.5,
+                                }}
                               >
                                 <FormattedMessage
                                   id="add"
@@ -212,6 +254,13 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
               }
               variant="contained"
               onClick={submitForm}
+              size={isMobile ? "medium" : "medium"}
+              fullWidth={isMobile}
+              sx={{
+                fontSize: isMobile ? '0.875rem' : '0.875rem',
+                py: isMobile ? 1 : 1.25,
+                mt: isMobile ? 1 : 0,
+              }}
             >
               <FormattedMessage id="update" defaultMessage="Update" />
             </Button>
