@@ -21,13 +21,12 @@ import {
   useAssetMetadata,
 } from '@dexkit/ui/modules/nft/hooks';
 import { truncateErc1155TokenId } from '@dexkit/ui/modules/nft/utils';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { NextSeo } from 'next-seo';
 import { FormattedMessage } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import { DropEditionListSection } from '@dexkit/dexappbuilder-viewer/components/sections/DropEditionListSection';
 import EditionDropSection from '@dexkit/dexappbuilder-viewer/components/sections/EditionDropSection';
 import {
@@ -43,7 +42,6 @@ const AssetDetailPage: NextPage = () => {
   const router = useRouter();
 
   const { address, id, network } = router.query;
-  const { signer } = useWeb3React();
 
   const { data: asset, isLoading } = useAsset(address as string, id as string);
 
@@ -112,11 +110,7 @@ const AssetDetailPage: NextPage = () => {
             <AssetLeftSection address={address as string} id={id as string} />
           </Grid>
           <Grid item xs={12} sm={8}>
-            <ThirdwebSDKProvider
-              clientId={THIRDWEB_CLIENT_ID}
-              activeChain={asset?.chainId}
-              signer={signer}
-            >
+            <ThirdwebV4Provider network={network as string}>
               <Box py={2}>
                 <EditionDropSection
                   section={{
@@ -129,7 +123,7 @@ const AssetDetailPage: NextPage = () => {
                   }}
                 ></EditionDropSection>
               </Box>
-            </ThirdwebSDKProvider>
+            </ThirdwebV4Provider>
           </Grid>
           <Grid item xs={12} sm={12}>
             <Typography variant="h5">

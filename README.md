@@ -108,6 +108,14 @@ This project is licensed under the MIT License.
 
 ---
 
+## Support the Project
+
+If you'd like to support the ongoing development of DexAppBuilder, consider making a donation through Giveth. Click the link below to contribute:
+
+[Donate with Giveth](https://giveth.io/project/dexappbuilder-the-no-codelow-code-toolkit-of-dexkit)
+
+Your contribution helps keep the project alive and continuously improve our tools. Thank you for your support!
+
 <div align="center">
   Made with ❤️ by <a href="https://dexkit.com">DexKit</a>
 </div>
