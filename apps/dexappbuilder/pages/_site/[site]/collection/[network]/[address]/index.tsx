@@ -34,21 +34,18 @@ import {
   useTheme,
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import {
-  ThirdwebSDK,
-  ThirdwebSDKProvider,
-  useContractType,
-} from '@thirdweb-dev/react';
+import { ThirdwebSDK, useContractType } from '@thirdweb-dev/react';
 import axios from 'axios';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 
 import { getAppConfig } from 'src/services/app';
 
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import CollectionSection from '@dexkit/dexappbuilder-viewer/components/sections/CollectionSection';
 import {
   IS_SUPPORTED_BY_RARIBLE,
@@ -220,16 +217,12 @@ const CollectionPage: NextPage<{
 };
 
 function Wrapper(props: any) {
-  const { chainId, signer } = useWeb3React();
+  const { chainId } = useWeb3React();
 
   return (
-    <ThirdwebSDKProvider
-      activeChain={chainId}
-      clientId={THIRDWEB_CLIENT_ID}
-      signer={signer}
-    >
+    <ThirdwebV4Provider chainId={chainId}>
       <CollectionPage {...props} />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 
@@ -392,7 +385,8 @@ export const getStaticProps: GetStaticProps = async ({
         NETWORK_FROM_SLUG(network)?.chainId as ChainId,
       )
     ) {
-      const siteId = configResponse.siteId === null ? undefined : configResponse.siteId;
+      const siteId =
+        configResponse.siteId === null ? undefined : configResponse.siteId;
       const darkBlock = await getIntegrationData({
         siteId,
         type: 'darkblock',
