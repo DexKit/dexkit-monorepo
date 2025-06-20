@@ -1,12 +1,10 @@
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import AirdropTokenPageContainer from '@/modules/token/components/AirdropTokenPageContainer';
-import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Container from '@mui/material/Container';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import AuthMainLayout from 'src/components/layouts/authMain';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from 'src/services/app';
 
 export default function ContractPage() {
@@ -14,20 +12,15 @@ export default function ContractPage() {
 
   const { address, network } = query;
 
-  const { signer } = useWeb3React();
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={signer}
-    >
+    <ThirdwebV4Provider network={network as string}>
       <Container>
         <AirdropTokenPageContainer
           address={address as string}
           network={network as string}
         />
       </Container>
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 

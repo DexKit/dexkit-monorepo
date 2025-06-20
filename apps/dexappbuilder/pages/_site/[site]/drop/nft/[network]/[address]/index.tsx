@@ -1,20 +1,15 @@
-import {
-  ThirdwebSDKProvider,
-  useContract,
-  useContractMetadata,
-} from '@thirdweb-dev/react';
+import { useContract, useContractMetadata } from '@thirdweb-dev/react';
 import { useRouter } from 'next/router';
 
-import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
+import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import NftDropSection from '@dexkit/dexappbuilder-viewer/components/sections/NftDropSection';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Container, Grid, Skeleton } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { FormattedMessage } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
-import { REVALIDATE_PAGE_TIME, THIRDWEB_CLIENT_ID } from 'src/constants';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from 'src/services/app';
 
 function TokenDrop() {
@@ -67,18 +62,13 @@ function TokenDrop() {
 }
 
 export default function Wrapper() {
-  const { signer } = useWeb3React();
   const router = useRouter();
   const { network } = router.query;
 
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={getChainIdFromSlug(network as string)?.chainId}
-      signer={signer}
-    >
+    <ThirdwebV4Provider network={network as string}>
       <TokenDrop />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 
