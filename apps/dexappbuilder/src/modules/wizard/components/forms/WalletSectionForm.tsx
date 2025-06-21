@@ -497,6 +497,8 @@ const getDefaultGlassSettings = (theme: any): WalletGlassSettings => ({
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   backgroundAttachment: "scroll",
+  hideNFTs: false,
+  hideActivity: false,
 });
 
 function VariantConfigurationTab() {
@@ -518,6 +520,8 @@ function VariantConfigurationTab() {
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "scroll",
+      hideNFTs: false,
+      hideActivity: false,
     };
 
     return settings;
@@ -783,6 +787,52 @@ function VariantConfigurationTab() {
                   <FormattedMessage
                     id="glass.disable.background.description"
                     defaultMessage="Remove background colors for complete transparency"
+                  />
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.glassSettings?.hideNFTs || false}
+                      onChange={(e) => setFieldValue("glassSettings.hideNFTs", e.target.checked)}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id="glass.hide.nfts"
+                      defaultMessage="Hide NFTs Tab"
+                    />
+                  }
+                />
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage
+                    id="glass.hide.nfts.description"
+                    defaultMessage="Hide the NFTs tab to show only ERC20 tokens in the wallet"
+                  />
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.glassSettings?.hideActivity || false}
+                      onChange={(e) => setFieldValue("glassSettings.hideActivity", e.target.checked)}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id="glass.hide.activity"
+                      defaultMessage="Hide Activity Tab"
+                    />
+                  }
+                />
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage
+                    id="glass.hide.activity.description"
+                    defaultMessage="Hide the activity tab to remove transaction history from the wallet"
                   />
                 </Typography>
               </Box>

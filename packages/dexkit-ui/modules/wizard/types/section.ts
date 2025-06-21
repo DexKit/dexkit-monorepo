@@ -130,6 +130,8 @@ export interface WalletGlassSettings {
   glassOpacity?: number;
   disableBackground?: boolean;
   textColor?: string;
+  hideNFTs?: boolean;
+  hideActivity?: boolean;
 }
 
 export interface WalletSettings {

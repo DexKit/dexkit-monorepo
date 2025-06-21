@@ -199,6 +199,18 @@
   "connect.wallet.to.see.or.upload.images": {
     "defaultMessage": "Connect wallet to see or upload images."
   },
+  "connect.account": {
+    "defaultMessage": "Connect Account"
+  },
+  "not.applicable": {
+    "defaultMessage": "N/A"
+  },
+  "glass.hide.activity": {
+    "defaultMessage": "Hide Activity Tab"
+  },
+  "glass.hide.activity.description": {
+    "defaultMessage": "Hide the activity tab to remove transaction history from the wallet"
+  },
   "connect.with.email": {
     "defaultMessage": "Connect with e-mail"
   },
@@ -509,6 +521,9 @@
   },
   "no.hidden.nfts.found": {
     "defaultMessage": "No hidden NFTs Found"
+  },
+  "hide.nfts.hint": {
+    "defaultMessage": "Go to Collected tab and use the eye icon on any NFT to hide it from your main collection"
   },
   "no.images": {
     "defaultMessage": "No Images"

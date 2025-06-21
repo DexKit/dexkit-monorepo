@@ -26,6 +26,8 @@ export function WalletSection({ section }: Props) {
     const blurIntensity = glassSettings?.blurIntensity || 40;
     const glassOpacity = glassSettings?.glassOpacity || 0.10;
     const textColor = glassSettings?.textColor || theme.palette.text.primary;
+    const hideNFTs = glassSettings?.hideNFTs || false;
+    const hideActivity = glassSettings?.hideActivity || false;
 
     const getContainerBackground = () => {
       if (glassSettings?.disableBackground) {
@@ -474,6 +476,8 @@ export function WalletSection({ section }: Props) {
               blurIntensity={blurIntensity}
               glassOpacity={glassOpacity}
               textColor={textColor}
+              hideNFTs={hideNFTs}
+              hideActivity={hideActivity}
             />
           </Container>
         </Box>

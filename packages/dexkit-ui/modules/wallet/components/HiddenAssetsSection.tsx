@@ -3,16 +3,16 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Search } from "@mui/icons-material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { ChangeEvent, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -67,10 +67,10 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
       .filter((asset) => {
         return (
           asset?.collectionName?.toLowerCase().search(search.toLowerCase()) >
-            -1 ||
+          -1 ||
           (asset?.metadata !== undefined &&
             asset?.metadata?.name?.toLowerCase().search(search.toLowerCase()) >
-              -1)
+            -1)
         );
       })
       .filter((asset) => {
@@ -102,6 +102,12 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
                   defaultMessage="No hidden NFTs Found"
                 />
               </Typography>
+              <Typography align="center" variant="body1" color="textSecondary">
+                <FormattedMessage
+                  id="hide.nfts.hint"
+                  defaultMessage="Go to Collected tab and use the eye icon on any NFT to hide it from your main collection"
+                />
+              </Typography>
             </Stack>
           </Box>
         </Grid>
@@ -109,15 +115,13 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
     }
 
     return filteredAssetList.map((asset, index) => (
-      <Grid item xs={6} sm={3} key={index}>
-        <AssetCard
-          asset={asset}
-          key={index}
-          onHide={toggleHidden}
-          showControls={true}
-          isHidden={true}
-        />
-      </Grid>
+      <AssetCard
+        asset={asset}
+        key={index}
+        onHide={toggleHidden}
+        showControls={true}
+        isHidden={true}
+      />
     ));
   };
   const theme = useTheme();
@@ -228,7 +232,12 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12}>
+        <Grid container item xs={openFilter ? 9 : 12} sx={{
+          display: 'grid !important',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+          gridAutoRows: 'minmax(300px, auto)',
+          gap: 2
+        }}>
           {renderAssets()}
         </Grid>
       </Grid>

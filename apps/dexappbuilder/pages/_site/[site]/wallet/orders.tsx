@@ -1,4 +1,4 @@
-import { useActiveChainIds } from '@dexkit/ui';
+/* import { useActiveChainIds } from '@dexkit/ui';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import SidebarFilters from '@dexkit/ui/components/SidebarFilters';
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -291,3 +291,4 @@ export async function getStaticPaths() {
 };
 
 export default WalletOrder;
+ */
