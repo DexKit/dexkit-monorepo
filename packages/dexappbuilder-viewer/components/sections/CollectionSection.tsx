@@ -33,16 +33,16 @@ import { CollectionTraits } from "@dexkit/ui/modules/nft/components/CollectionTr
 import { StoreOrdebookContainer } from "@dexkit/ui/modules/nft/components/container/StoreOrderbookContainer";
 import { TableSkeleton } from "@dexkit/ui/modules/nft/components/tables/TableSkeleton";
 import { CollectionPageSection } from "@dexkit/ui/modules/wizard/types/section";
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Search from "@mui/icons-material/Search";
-import { ThirdwebSDKProvider, useContractType } from "@thirdweb-dev/react";
+import { useContractType } from "@thirdweb-dev/react";
 import { Suspense, SyntheticEvent, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { CollectionSyncStatus } from "@dexkit/ui/modules/nft/constants/enum";
 import { useCollection } from "@dexkit/ui/modules/nft/hooks/collection";
 import DarkblockWrapper from "@dexkit/ui/modules/wizard/components/DarkblockWrapper";
+import ThirdwebV4Provider from "@dexkit/ui/providers/ThirdwebV4Provider";
 import { DropEditionListSection } from "./DropEditionListSection";
 import NftDropSection from "./NftDropSection";
 
@@ -417,12 +417,10 @@ function CollectionSection({ section }: CollectionSectionProps) {
 }
 
 function Wrapper({ section }: CollectionSectionProps) {
-  const { signer } = useWeb3React();
-
   return (
-    <ThirdwebSDKProvider activeChain={section.config.network} signer={signer}>
+    <ThirdwebV4Provider network={section.config.network}>
       <CollectionSection section={section} />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
 
