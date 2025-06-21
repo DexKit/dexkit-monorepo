@@ -12,6 +12,9 @@ import { apiCoinToTokens } from "../../utils/api";
 const SwapSettingsDialog = dynamic(
   () => import("@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog")
 );
+const SwapSettingsGlassDialog = dynamic(
+  () => import("./glass/SwapSettingsGlassDialog")
+);
 const SwapConfirmDialog = dynamic(() => import("./dialogs/SwapConfirmDialog"));
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
@@ -32,6 +35,8 @@ import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import SwapCompact from "./compact/SwapCompact";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "./constants/supportedChainIds";
 import ExternTokenWarningDialog from "./ExternTokenWarningDialog";
+import SwapGlass from "./glass/SwapGlass";
+import SwapSelectCoinGlassDialog from "./glass/SwapSelectCoinGlassDialog";
 import SwapMatcha from "./matcha/SwapMatcha";
 import SwapSelectCoinMatchaDialog from "./matcha/SwapSelectCoinMatchaDialog";
 import SwapMinimal from "./minimal/SwapMinimal";
@@ -376,6 +381,42 @@ export function SwapWidget({
           enableImportExterTokens={enableImportExterTokens}
         />
       );
+    } else if (variant === SwapVariant.Glass) {
+      return (
+        <SwapSelectCoinGlassDialog
+          tokens={tokens}
+          recentTokens={recentTokens
+            ?.map((t) => convertOldTokenToNew(t) as Token)
+            .filter((t) => t.chainId === chainId)}
+          onQueryChange={handleQueryChange}
+          onSelect={handleSelectToken}
+          DialogProps={{
+            open: showSelect,
+            maxWidth: "sm",
+            fullWidth: true,
+            onClose: handleCloseSelectToken,
+          }}
+          isLoadingSearch={searchQuery.isLoading}
+          chainId={selectedChainId}
+          account={account}
+          provider={selectedProvider}
+          featuredTokens={featuredTokensByChain}
+          onClearRecentTokens={handleClearRecentTokens}
+          enableImportExterTokens={enableImportExterTokens}
+          blurIntensity={options.glassSettings?.blurIntensity}
+          glassOpacity={options.glassSettings?.glassOpacity}
+          disableBackground={options.glassSettings?.disableBackground}
+          textColor={options.glassSettings?.textColor}
+          backgroundType={options.glassSettings?.backgroundType}
+          backgroundColor={options.glassSettings?.backgroundColor}
+          backgroundImage={options.glassSettings?.backgroundImage}
+          backgroundSize={options.glassSettings?.backgroundSize}
+          backgroundPosition={options.glassSettings?.backgroundPosition}
+          gradientStartColor={options.glassSettings?.gradientStartColor}
+          gradientEndColor={options.glassSettings?.gradientEndColor}
+          gradientDirection={options.glassSettings?.gradientDirection}
+        />
+      );
     }
 
     return (
@@ -634,6 +675,67 @@ export function SwapWidget({
       );
     }
 
+    if (variant === SwapVariant.Glass) {
+      return (
+        <SwapGlass
+          currency={currency}
+          disableNotificationsButton={disableNotificationsButton}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
+          chainId={chainId}
+          selectedChainId={selectedChainId}
+          quoteFor={quoteFor}
+          quoteQuery={quoteQuery}
+          clickOnMax={clickOnMax}
+          isActive={isActive && !disableWallet}
+          buyToken={buyToken}
+          sellToken={sellToken}
+          onSelectToken={handleOpenSelectToken}
+          onSwapTokens={handleSwapTokens}
+          sellAmount={sellAmount}
+          buyAmount={buyAmount}
+          networkName={
+            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
+          }
+          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeSellAmount={handleChangeSellAmount}
+          onExec={handleExecSwap}
+          execType={execType}
+          isExecuting={isExecuting}
+          quote={quote}
+          isQuoting={isQuoting}
+          provider={selectedProvider}
+          isProviderReady={isProviderReady}
+          sellTokenBalance={sellTokenBalance}
+          insufficientBalance={insufficientBalance}
+          buyTokenBalance={buyTokenBalance}
+          onChangeNetwork={handleChangeNetwork}
+          onShowSettings={handleShowSettings}
+          onShowTransactions={handleShowTransactions}
+          onShowTransak={transakApiKey ? handleShowTransak : undefined}
+          disableFooter={disableFooter}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          featuredTokensByChain={featuredTokensByChain}
+          onSetToken={handleSetToken}
+          blurIntensity={options.glassSettings?.blurIntensity}
+          glassOpacity={options.glassSettings?.glassOpacity}
+          disableBackground={options.glassSettings?.disableBackground}
+          textColor={options.glassSettings?.textColor}
+          backgroundType={options.glassSettings?.backgroundType}
+          backgroundColor={options.glassSettings?.backgroundColor}
+          backgroundImage={options.glassSettings?.backgroundImage}
+          backgroundSize={options.glassSettings?.backgroundSize}
+          backgroundPosition={options.glassSettings?.backgroundPosition}
+          gradientStartColor={options.glassSettings?.gradientStartColor}
+          gradientEndColor={options.glassSettings?.gradientEndColor}
+          gradientDirection={options.glassSettings?.gradientDirection}
+        />
+      );
+    }
+
     return (
       <Swap
         currency={currency}
@@ -823,7 +925,25 @@ export function SwapWidget({
         chainId={chainId}
       />
       {showConfirmSwap && renderConfirmDialog()}
-      {showSettings && (
+      {showSettings && variant === SwapVariant.Glass && (
+        <SwapSettingsGlassDialog
+          DialogProps={{
+            open: showSettings,
+            maxWidth: "xs",
+            fullWidth: true,
+            onClose: handleCloseSettings,
+          }}
+          useGasless={useGasless}
+          onAutoSlippage={onAutoSlippage}
+          onChangeSlippage={onChangeSlippage}
+          maxSlippage={maxSlippage}
+          isAutoSlippage={isAutoSlippage}
+          blurIntensity={options.glassSettings?.blurIntensity}
+          glassOpacity={options.glassSettings?.glassOpacity}
+          textColor={options.glassSettings?.textColor}
+        />
+      )}
+      {showSettings && variant !== SwapVariant.Glass && (
         <SwapSettingsDialog
           DialogProps={{
             open: showSettings,

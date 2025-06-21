@@ -5,17 +5,17 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ImportExport from '@mui/icons-material/ImportExport';
 import Search from '@mui/icons-material/Search';
 import {
-    Box,
-    Button,
-    Chip,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Box,
+  Button,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
@@ -76,7 +76,7 @@ function FavoriteAssetsSection({
       .filter((asset) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
-            -1 ||
+          -1 ||
           (asset.metadata !== undefined &&
             asset.metadata.name.toLowerCase().search(search.toLowerCase()) > -1)
         );
@@ -111,8 +111,8 @@ function FavoriteAssetsSection({
               </Typography>
               <Typography align="center" variant="body1" color="textSecondary">
                 <FormattedMessage
-                  id="import.or.favorite.nfts"
-                  defaultMessage="Import or favorite NFTs"
+                  id="add.nfts.to.favorites.hint"
+                  defaultMessage="Use the Import button above or explore your collection to add NFTs as favorites"
                 />
               </Typography>
             </Stack>

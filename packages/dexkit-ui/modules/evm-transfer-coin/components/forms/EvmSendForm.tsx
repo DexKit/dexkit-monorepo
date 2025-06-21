@@ -262,7 +262,7 @@ export function EvmSendForm({
 
       <Stack spacing={isMobile ? 2.5 : 3}>
         <Autocomplete
-          disablePortal
+          disablePortal={false}
           disabled={isSubmitting}
           id="select-token"
           options={sortedCoins}
@@ -270,6 +270,22 @@ export function EvmSendForm({
           readOnly={coins && coins.length === 1}
           onChange={handleChangeCoin}
           getOptionLabel={(opt) => opt.name}
+          slotProps={{
+            popper: {
+              placement: 'bottom-start',
+              disablePortal: true,
+              modifiers: [
+                {
+                  name: 'flip',
+                  enabled: false,
+                },
+                {
+                  name: 'preventOverflow',
+                  enabled: false,
+                },
+              ],
+            },
+          }}
           renderOption={(props, opt) => {
             const balance = getCoinBalance(opt);
             const isKitToken = isDexKitCoin(opt);
@@ -379,8 +395,8 @@ export function EvmSendForm({
               {...params}
               label={
                 <FormattedMessage
-                  id="address.or.ens"
-                  defaultMessage="Address or ENS"
+                  id="address"
+                  defaultMessage="Address"
                 />
               }
               InputProps={{

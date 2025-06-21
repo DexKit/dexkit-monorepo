@@ -234,17 +234,23 @@ const EvmWalletContainer = () => {
                       alignContent="center"
                     >
                       <Box>
-                        <Typography color="textSecondary" variant="caption">
-                          {isBalancesVisible
-                            ? ENSName
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          alignContent="center"
+                          spacing={1}
+                        >
+                          <Typography color="textSecondary" variant="caption">
+                            {isBalancesVisible
                               ? ENSName
-                              : truncateAddress(account)
-                            : "*****"}
+                                ? ENSName
+                                : truncateAddress(account)
+                              : "*****"}
+                          </Typography>
                           <CopyIconButton
                             iconButtonProps={{
                               onClick: handleCopy,
                               size: "small",
-                              color: "inherit",
                             }}
                             tooltip={formatMessage({
                               id: "copy",
@@ -257,9 +263,9 @@ const EvmWalletContainer = () => {
                               description: "Copied text",
                             })}
                           >
-                            <FileCopy fontSize="inherit" color="inherit" />
+                            <FileCopy fontSize="small" color="action" />
                           </CopyIconButton>
-                        </Typography>
+                        </Stack>
 
                         <Stack
                           direction="row"
@@ -463,47 +469,6 @@ const EvmWalletContainer = () => {
                               color="secondary"
                             />
                           )*/}
-                      </Stack>
-
-                      <Stack
-                        direction="row"
-                        spacing={0.5}
-                        alignItems="center"
-                        alignContent="center"
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                          }}
-                          color="primary"
-                          variant="body1"
-                        >
-                          <FormattedMessage id="open" defaultMessage="Open" />
-                        </Typography>
-                        <NavigateNext color="primary" />
-                      </Stack>
-                    </WalletActionButton>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <WalletActionButton
-                      disabled={!isActive}
-                      LinkComponent={Link}
-                      href="/wallet/orders"
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        alignContent="center"
-                      >
-                        <Typography variant="h5">
-                          <FormattedMessage
-                            id="orders"
-                            defaultMessage="Orders"
-                          />
-                        </Typography>
-                        {/* <Chip label="302" color="secondary" /> */}
                       </Stack>
 
                       <Stack
