@@ -1,5 +1,13 @@
 # @dexkit/widgets
 
+## 0.14.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- e35e0e7: fix swap prices not being displayed in matcha and uniswap variant
+
 ## 0.13.0
 
 ### Minor Changes
