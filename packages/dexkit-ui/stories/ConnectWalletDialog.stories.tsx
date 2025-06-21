@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { atom } from "jotai";
 import ConnectWalletDialog from "../components/ConnectWallet/ConnectWalletDialog";
-import { DexkitProvider } from "../components/DexkitProvider";
 import { ThemeMode } from "../constants/enum";
+import { DexkitProvider } from "../providers/DexkitProvider";
 import theme from "../theme";
 import { AppNotification } from "../types";
 

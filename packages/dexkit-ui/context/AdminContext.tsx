@@ -3,11 +3,13 @@ import { AppConfig } from "../modules/wizard/types/config";
 
 interface IAdminContext {
   editSiteId?: number;
+  editWidgetId?: number;
   editAppConfig?: AppConfig;
 }
 
 const ADMIN_INITIAL_VALUES = {
   editSiteId: undefined,
+  editWidgetId: undefined,
   editAppConfig: undefined,
 };
 

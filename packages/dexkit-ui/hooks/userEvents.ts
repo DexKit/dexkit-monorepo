@@ -8,7 +8,7 @@ import { useDexKitContext } from ".";
 import { postTrackUserEvent } from "../services/userEvents";
 
 export function useTrackUserEventsMutation() {
-  const { userEventURL, siteId, affiliateReferral } = useDexKitContext();
+  const { userEventURL, siteId, affiliateReferral, apiKey } = useDexKitContext();
   const { account } = useWeb3React();
 
   return useMutation(
@@ -30,6 +30,7 @@ export function useTrackUserEventsMutation() {
         metadata,
         hash,
         chainId,
+        apiKey,
         siteId,
         account: account || from,
         userEventURL,

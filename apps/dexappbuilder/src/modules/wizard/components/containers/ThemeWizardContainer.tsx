@@ -40,9 +40,9 @@ import { ExchangePageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import ThemePreviewMenu from '../ThemePreviewMenu';
 interface Props {
-  config: AppConfig;
-  onSave: (config: AppConfig) => void;
-  onChange: (config: AppConfig) => void;
+  config: Partial<AppConfig>;
+  onSave: (config: Partial<AppConfig>) => void;
+  onChange: (config: Partial<AppConfig>) => void;
   onHasChanges?: (hasChanges: boolean) => void;
   isOnStepper?: boolean;
   stepperButtonProps?: StepperButtonProps;
@@ -68,7 +68,9 @@ export default function ThemeWizardContainer({
   stepperButtonProps,
   showSwap,
 }: Props) {
-  const [selectedThemeId, setSelectedThemeId] = useState<string>(config.theme);
+  const [selectedThemeId, setSelectedThemeId] = useState<string>(
+    config?.theme as string,
+  );
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -134,7 +136,7 @@ export default function ThemeWizardContainer({
   ]);
 
   const handleCancelEdit = () => {
-    setSelectedThemeId(config.theme);
+    setSelectedThemeId(config?.theme as string);
   };
 
   const handleSave = () => {

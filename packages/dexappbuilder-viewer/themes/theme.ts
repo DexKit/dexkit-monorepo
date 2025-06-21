@@ -1,11 +1,11 @@
 import { CssVarsTheme, Theme } from '@mui/material/styles';
 
 
-import boredApeTheme from './themes/boredape';
-import cryptoPunkTheme from './themes/cryptopunk';
-import customTheme from './themes/custom';
-import defaultTheme from './themes/index';
-import kittygotchiTheme from './themes/kittygotchi';
+import boredApeTheme from './boredape';
+import cryptoPunkTheme from './cryptopunk';
+import customTheme from './custom';
+import defaultTheme from './index';
+import kittygotchiTheme from './kittygotchi';
 
 
 type ThemeEntry = {

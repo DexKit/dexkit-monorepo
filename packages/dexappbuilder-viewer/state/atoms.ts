@@ -3,13 +3,12 @@ import type { AppNotification } from '@dexkit/ui/types';
 import { atom } from 'jotai';
 import { focusAtom } from 'jotai/optics';
 import { atomWithStorage } from 'jotai/utils';
-import type { AppState } from '../types/app';
-import type {
-  Token
-} from '../types/blockchain';
+
 
 
 import type { Asset } from '@dexkit/ui/modules/nft/types';
+import type { AppState } from './app';
+import { Token } from './blockchain';
 
 
 

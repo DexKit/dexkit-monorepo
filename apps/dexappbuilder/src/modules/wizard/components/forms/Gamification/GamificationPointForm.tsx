@@ -307,7 +307,6 @@ export default function GamificationPointForm({
                               <Checkbox
                                 defaultChecked={groupByReferral}
                                 onChange={(ev) => {
-                                  console.log(ev.currentTarget.checked);
                                   setFieldValue(
                                     'groupByReferral',
                                     ev.currentTarget.checked,

@@ -9,6 +9,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import DatasetIcon from "@mui/icons-material/DatasetOutlined";
 import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
+import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useCallback, useState } from "react";
 import { useAppConfig } from "../../../hooks";
@@ -440,6 +441,45 @@ export default function AdminSidebarContainer({
             </Box>
           </>
         )}
+        <AdminSidebarMenu
+          activeMenuId={activeMenuId}
+          icon={<WidgetsOutlinedIcon />}
+          title={<FormattedMessage id="widgets" defaultMessage="Widgets" />}
+          open={isMenuToggled("widgets")}
+          onSelectMenuId={onChangeMenu}
+          onToggle={handleToggleMenu("widgets")}
+          isSiteOwner={isSiteOwner}
+          options={[
+            // add builder kits,
+            {
+              id: "manage.widgets",
+              title: (
+                <FormattedMessage
+                  id="manage.widgets"
+                  defaultMessage="Manage widgets"
+                />
+              ),
+            },
+            /* {
+              id: "create.contract.forms",
+              title: (
+                <FormattedMessage
+                  id="create.contract.forms"
+                  defaultMessage="Create contract forms"
+                />
+              ),
+            },
+            {
+              id: "manage.contract.forms",
+              title: (
+                <FormattedMessage
+                  id="manage.contract.forms"
+                  defaultMessage="Manage contract forms"
+                />
+              ),
+            },*/
+          ]}
+        />
       </Box>
 
       {/*isSiteOwner && (

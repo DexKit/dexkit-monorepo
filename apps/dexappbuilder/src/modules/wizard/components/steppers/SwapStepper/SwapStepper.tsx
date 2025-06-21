@@ -52,8 +52,8 @@ const steps = [
 ];
 
 interface Props {
-  onSave: (config: AppConfig) => void;
-  onChange: (config: AppConfig) => void;
+  onSave: (config: Partial<AppConfig>) => void;
+  onChange: (config: Partial<AppConfig>) => void;
   config: AppConfig;
 }
 
