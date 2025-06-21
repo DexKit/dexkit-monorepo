@@ -217,16 +217,16 @@ export default function GlassEvmReceive({
   }
 
   return (
-    <Stack spacing={isMobile ? 2 : 2.5}>
+    <Stack spacing={isMobile ? 1.5 : 2}>
       <Stack
-        spacing={2}
+        spacing={isMobile ? 1.5 : 2}
         justifyContent="center"
         alignItems="center"
         alignContent="center"
       >
         <Box
           sx={{
-            p: isMobile ? 2 : 3,
+            p: isMobile ? 1.5 : 2,
             backgroundColor: theme.palette.common.white,
             borderRadius: isMobile ? 2 : 3,
             boxShadow: theme.shadows[2],
@@ -238,8 +238,8 @@ export default function GlassEvmReceive({
           <Box
             sx={{
               '& svg': {
-                width: isMobile ? theme.spacing(25) : theme.spacing(30),
-                height: isMobile ? theme.spacing(25) : theme.spacing(30),
+                width: isMobile ? theme.spacing(20) : theme.spacing(25),
+                height: isMobile ? theme.spacing(20) : theme.spacing(25),
                 maxWidth: '100%',
                 maxHeight: '100%',
               },
@@ -278,7 +278,7 @@ export default function GlassEvmReceive({
 
       <Box
         sx={{
-          p: isMobile ? 2 : 2.5,
+          p: isMobile ? 1.5 : 2,
           backgroundColor: theme.palette.action.hover,
           borderRadius: isMobile ? 1.5 : 2,
           border: `1px solid ${theme.palette.divider}`,

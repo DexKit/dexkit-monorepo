@@ -197,7 +197,7 @@ export default function GlassScanWalletQrCodeDialog({
               borderRadius: theme.spacing(2.5),
               maxWidth: '520px',
               minWidth: '450px',
-              minHeight: '650px',
+              minHeight: '580px',
               maxHeight: 'calc(100vh - 64px)',
             },
 
@@ -206,7 +206,7 @@ export default function GlassScanWalletQrCodeDialog({
               borderRadius: theme.spacing(3),
               maxWidth: '600px',
               minWidth: '520px',
-              minHeight: '700px',
+              minHeight: '620px',
               maxHeight: 'calc(100vh - 96px)',
             },
 
@@ -219,7 +219,7 @@ export default function GlassScanWalletQrCodeDialog({
             }),
             ...(!isMobile && {
               maxWidth: '500px',
-              minHeight: '600px',
+              minHeight: '550px',
             }),
 
             '& .MuiDialogTitle-root': {
@@ -473,33 +473,25 @@ export default function GlassScanWalletQrCodeDialog({
         <DialogContent
           sx={{
             px: isMobile ? theme.spacing(2) : theme.spacing(3),
-            py: isMobile ? theme.spacing(2) : theme.spacing(3),
-            '&.MuiDialogContent-root': {
-              paddingTop: isMobile ? theme.spacing(2) : theme.spacing(3),
-            },
+            paddingTop: isMobile ? theme.spacing(2) : theme.spacing(3),
+            paddingBottom: isMobile ? theme.spacing(1) : theme.spacing(2),
 
             [theme.breakpoints.down('sm')]: {
               px: theme.spacing(1.5),
-              py: theme.spacing(1.5),
-              '&.MuiDialogContent-root': {
-                paddingTop: theme.spacing(1.5),
-              },
+              paddingTop: theme.spacing(1.5),
+              paddingBottom: theme.spacing(1),
             },
 
             [theme.breakpoints.down(400)]: {
               px: theme.spacing(1),
-              py: theme.spacing(1),
-              '&.MuiDialogContent-root': {
-                paddingTop: theme.spacing(1),
-              },
+              paddingTop: theme.spacing(1),
+              paddingBottom: theme.spacing(1),
             },
 
             [theme.breakpoints.up('lg')]: {
               px: theme.spacing(4),
-              py: theme.spacing(4),
-              '&.MuiDialogContent-root': {
-                paddingTop: theme.spacing(4),
-              },
+              paddingTop: theme.spacing(4),
+              paddingBottom: theme.spacing(2),
             },
           }}
         >

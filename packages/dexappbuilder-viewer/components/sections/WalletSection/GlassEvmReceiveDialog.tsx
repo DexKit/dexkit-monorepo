@@ -133,8 +133,8 @@ export default function GlassEvmReceiveDialog({
             height: '100%',
           }),
           ...(!isMobile && {
-            minHeight: '70vh',
-            maxHeight: '90vh',
+            minHeight: 'auto',
+            maxHeight: '85vh',
             borderRadius: { xs: '16px', sm: '18px', md: '20px' },
           }),
           '& .MuiDialogTitle-root': {
@@ -427,7 +427,8 @@ export default function GlassEvmReceiveDialog({
       <DialogContent
         sx={{
           p: isMobile ? theme.spacing(2) : theme.spacing(3),
-          overflow: 'auto',
+          overflow: 'visible',
+          paddingBottom: isMobile ? theme.spacing(2) : theme.spacing(3),
         }}
       >
         <GlassEvmReceive
