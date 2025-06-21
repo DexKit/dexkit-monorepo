@@ -1,5 +1,23 @@
 # @dexkit/web3forms
 
+## 0.14.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [716f7ca]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [53d4efb]
+  - @dexkit/ui@0.24.0
+  - @dexkit/core@0.19.0
+
 ## 0.13.0
 
 ### Minor Changes

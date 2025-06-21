@@ -1,5 +1,22 @@
 # @dexkit/unlock-widget
 
+## 0.5.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [716f7ca]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [53d4efb]
+  - @dexkit/ui@0.24.0
+
 ## 0.4.0
 
 ### Minor Changes
