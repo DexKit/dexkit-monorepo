@@ -1,9 +1,8 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Container, Grid } from "@mui/material";
-import { ThirdwebSDKProvider } from "@thirdweb-dev/react";
 
-import { THIRDWEB_CLIENT_ID } from "@dexkit/ui/constants/thirdweb";
 import { DexGeneratorPageSection } from "@dexkit/ui/modules/wizard/types/section";
+import ThirdwebV4Provider from "@dexkit/ui/providers/ThirdwebV4Provider";
 import ClaimAirdropERC20Section from "./ClaimAirdropERC20Section";
 import CollectionSection from "./CollectionSection";
 import EditionDropSection from "./EditionDropSection";
@@ -79,13 +78,9 @@ export default function DexGeneratorSection({
 
   return (
     <Container sx={{ py: 2 }}>
-      <ThirdwebSDKProvider
-        signer={signer}
-        activeChain={section?.contract?.chainId}
-        clientId={THIRDWEB_CLIENT_ID}
-      >
+      <ThirdwebV4Provider chainId={section?.contract?.chainId}>
         {renderSection()}
-      </ThirdwebSDKProvider>
+      </ThirdwebV4Provider>
     </Container>
   );
 }

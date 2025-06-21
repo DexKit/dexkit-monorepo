@@ -5,6 +5,7 @@ import AssetRightSection from "@dexkit/ui/modules/nft/components/AssetRightSecti
 import { fetchAssetForQueryClient } from "@dexkit/ui/modules/nft/services/query";
 import DarkblockWrapper from "@dexkit/ui/modules/wizard/components/DarkblockWrapper";
 import { AssetPageSection } from "@dexkit/ui/modules/wizard/types/section";
+import ThirdwebV4Provider from "@dexkit/ui/providers/ThirdwebV4Provider";
 import { hexToString } from "@dexkit/ui/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
@@ -18,7 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
-import { ThirdwebSDKProvider, useContract } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { Suspense, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { FormattedMessage } from "react-intl";
@@ -151,16 +152,13 @@ export default function AssetSection({ section }: AssetSectionProps) {
         </Grid>
         {enableDrops && (
           <Grid item xs={12}>
-            <ThirdwebSDKProvider
-              activeChain={NETWORK_FROM_SLUG(network)?.chainId}
-              signer={signer}
-            >
+            <ThirdwebV4Provider chainId={NETWORK_FROM_SLUG(network)?.chainId}>
               <DropWrapper
                 address={address}
                 tokenId={tokenId}
                 network={network}
               />
-            </ThirdwebSDKProvider>
+            </ThirdwebV4Provider>
           </Grid>
         )}
       </Grid>
