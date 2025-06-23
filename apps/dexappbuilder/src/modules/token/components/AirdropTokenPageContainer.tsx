@@ -5,20 +5,18 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import { useQuery } from '@tanstack/react-query';
 import {
-  ThirdwebSDKProvider,
   useContract,
   useContractRead,
   useContractType,
 } from '@thirdweb-dev/react';
 
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { NextSeo } from 'next-seo';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { getChainIdFromSlug } from '@dexkit/core/utils/blockchain';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
 
 interface Props {
   address?: string;
@@ -131,8 +129,6 @@ function AirdropTokenPageContainer({ address, network }: Props) {
 }
 
 export default function Wrapper(props: Props) {
-  const { signer } = useWeb3React();
-
   return (
     <>
       {/*  <NextSeo
@@ -148,13 +144,11 @@ export default function Wrapper(props: Props) {
         })}
       />*/}
 
-      <ThirdwebSDKProvider
-        clientId={THIRDWEB_CLIENT_ID}
-        activeChain={getChainIdFromSlug(props.network as string)?.chainId}
-        signer={signer}
+      <ThirdwebV4Provider
+        chainId={getChainIdFromSlug(props.network as string)?.chainId}
       >
         <AirdropTokenPageContainer {...props} />
-      </ThirdwebSDKProvider>
+      </ThirdwebV4Provider>
     </>
   );
 }
