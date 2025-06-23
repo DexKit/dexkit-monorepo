@@ -1,10 +1,9 @@
 import { CollectionPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { FormControlLabel, Grid, Switch } from '@mui/material';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { Formik } from 'formik';
 import { FormattedMessage } from 'react-intl';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
 
 export interface DexGeneratorTokenErc721FormProps {
   onChange: (section: CollectionPageSection) => void;
@@ -124,15 +123,11 @@ function DexGeneratorTokenErc721Form({
 }
 
 export default function Wrapper(props: DexGeneratorTokenErc721FormProps) {
-  const { chainId, signer } = useWeb3React();
+  const { chainId } = useWeb3React();
 
   return (
-    <ThirdwebSDKProvider
-      signer={signer}
-      activeChain={chainId}
-      clientId={THIRDWEB_CLIENT_ID}
-    >
+    <ThirdwebV4Provider chainId={chainId}>
       <DexGeneratorTokenErc721Form {...props} />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }

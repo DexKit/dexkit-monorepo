@@ -1,18 +1,16 @@
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Box, CircularProgress, Stack } from '@mui/material';
 import {
-  ThirdwebSDKProvider,
   useClaimConditions,
   useContract,
-  useSetClaimConditions
+  useSetClaimConditions,
 } from '@thirdweb-dev/react';
 
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
 import { Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
 import { ClaimConditionsSchema } from '../../constants/schemas';
 import { ClaimConditionTypeForm } from '../../types';
 import { ClaimConditionsForm } from '../form/ClaimConditionsForm';
@@ -95,7 +93,7 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
                   vertical: 'bottom',
                   horizontal: 'right',
                 },
-              }
+              },
             );
           } catch (error) {
             enqueueSnackbar(
@@ -109,7 +107,7 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
                   vertical: 'bottom',
                   horizontal: 'right',
                 },
-              }
+              },
             );
           } finally {
             actions.setSubmitting(false);
@@ -124,24 +122,13 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
 }
 
 export function ClaimConditionsContainer({ address, network, tokenId }: Props) {
-  const { signer } = useWeb3React();
-
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={NETWORK_FROM_SLUG(network)?.chainId}
-      signer={signer}
-      sdkOptions={{
-        storage: {
-          clientId: THIRDWEB_CLIENT_ID,
-        },
-      }}
-    >
+    <ThirdwebV4Provider chainId={NETWORK_FROM_SLUG(network)?.chainId}>
       <ClaimConditionsContent
         address={address}
         network={network}
         tokenId={tokenId}
       />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }

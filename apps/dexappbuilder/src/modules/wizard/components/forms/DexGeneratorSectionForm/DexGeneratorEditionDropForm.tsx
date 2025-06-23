@@ -1,11 +1,10 @@
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import NFTGrid from '@dexkit/dexappbuilder-viewer/components/NFTGrid';
 import { EditionDropPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
 import { Grid } from '@mui/material';
-import { ThirdwebSDKProvider, useContract, useNFTs } from '@thirdweb-dev/react';
+import { useContract, useNFTs } from '@thirdweb-dev/react';
 import { Formik } from 'formik';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
 
 export interface DexGeneratorEditionDropFormProps {
   onChange: (section: EditionDropPageSection) => void;
@@ -67,17 +66,13 @@ function DexGeneratorEditionDropForm({
 }
 
 export default function Wrapper(props: DexGeneratorEditionDropFormProps) {
-  const { signer } = useWeb3React();
-
   const { section } = props;
 
   return (
-    <ThirdwebSDKProvider
-      signer={signer}
-      activeChain={NETWORK_FROM_SLUG(section?.config.network)?.chainId}
-      clientId={THIRDWEB_CLIENT_ID}
+    <ThirdwebV4Provider
+      chainId={NETWORK_FROM_SLUG(section?.config.network)?.chainId}
     >
       <DexGeneratorEditionDropForm {...props} />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
