@@ -1,10 +1,9 @@
 import { TokenErc20PageSection } from '@dexkit/ui/modules/wizard/types/section';
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { FormControlLabel, Grid, Switch } from '@mui/material';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
 import { Formik } from 'formik';
 import { FormattedMessage } from 'react-intl';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
 
 export interface DexGeneratorTokenErc20FormProps {
   onChange: (section: TokenErc20PageSection) => void;
@@ -26,7 +25,7 @@ function DexGeneratorTokenErc20Form({
 }: DexGeneratorTokenErc20FormProps) {
   const { network, address } = params;
 
-  const handleSubmit = ({ }: FormType) => { };
+  const handleSubmit = ({}: FormType) => {};
 
   const handleValidate = (form: FormType) => {
     if (section) {
@@ -43,13 +42,14 @@ function DexGeneratorTokenErc20Form({
   return (
     <Formik
       initialValues={
-        section && section.type === 'token' ? section.settings : {
-
-          disableBurn: false,
-          disableInfo: false,
-          disableMint: false,
-          disableTransfer: false
-        }
+        section && section.type === 'token'
+          ? section.settings
+          : {
+              disableBurn: false,
+              disableInfo: false,
+              disableMint: false,
+              disableTransfer: false,
+            }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}
@@ -121,15 +121,11 @@ function DexGeneratorTokenErc20Form({
 }
 
 export default function Wrapper(props: DexGeneratorTokenErc20FormProps) {
-  const { chainId, signer } = useWeb3React();
+  const { chainId } = useWeb3React();
 
   return (
-    <ThirdwebSDKProvider
-      signer={signer}
-      activeChain={chainId}
-      clientId={THIRDWEB_CLIENT_ID}
-    >
+    <ThirdwebV4Provider chainId={chainId}>
       <DexGeneratorTokenErc20Form {...props} />
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }

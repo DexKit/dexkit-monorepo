@@ -1,10 +1,16 @@
 import { ContractContainer } from '@/modules/contract-wizard/components/containers/ContractContainer';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
-import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
-import { Container, Divider, Grid, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { ThirdwebSDKProvider } from '@thirdweb-dev/react';
+import ThirdwebV4Provider from '@dexkit/ui/providers/ThirdwebV4Provider';
+import {
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { THIRDWEB_CLIENT_ID } from 'src/constants';
 
 interface Props {
   address: string;
@@ -17,16 +23,11 @@ export default function ManageContractContainer({
   network,
   onGoBack,
 }: Props) {
-  const { signer } = useWeb3React();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <ThirdwebSDKProvider
-      clientId={THIRDWEB_CLIENT_ID}
-      activeChain={NETWORK_FROM_SLUG(network as string)?.chainId}
-      signer={signer}
-    >
+    <ThirdwebV4Provider chainId={NETWORK_FROM_SLUG(network as string)?.chainId}>
       <Container>
         <Grid container spacing={isMobile ? 1.5 : 3}>
           <Grid item xs={12}>
@@ -36,7 +37,7 @@ export default function ManageContractContainer({
                 sx={{
                   fontSize: isMobile ? '1.15rem' : '1.5rem',
                   fontWeight: 600,
-                  mb: 0.5
+                  mb: 0.5,
                 }}
               >
                 <FormattedMessage
@@ -71,6 +72,6 @@ export default function ManageContractContainer({
           </Grid>
         </Grid>
       </Container>
-    </ThirdwebSDKProvider>
+    </ThirdwebV4Provider>
   );
 }
