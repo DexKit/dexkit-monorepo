@@ -1,13 +1,17 @@
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
+import { useAppWizardConfig } from '@dexkit/ui/hooks';
 import {
   AppPageSection,
+  WalletCustomSettings,
   WalletGlassSettings,
   WalletPageSection,
   WalletSettings
 } from '@dexkit/ui/modules/wizard/types/section';
-import { Delete as DeleteIcon, Image as ImageIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, Image as ImageIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  Accordion, AccordionDetails, AccordionSummary,
   Box,
   Button,
   ButtonBase,
@@ -32,14 +36,16 @@ import {
 import '@uiw/react-markdown-preview/markdown.css';
 import '@uiw/react-md-editor/markdown-editor.css';
 import { Formik, useFormikContext } from 'formik';
-import { useEffect, useMemo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { generateCSSVarsTheme } from '../../utils';
 
 interface Props {
   section?: WalletPageSection;
   onSave: (section: AppPageSection) => void;
   onChange: (section: AppPageSection) => void;
   onCancel: () => void;
+  customTheme?: any;
 }
 
 function convertToHex(color: string): string {
@@ -146,12 +152,9 @@ function ColorPickerField({
           size="small"
           sx={{
             flex: 1,
-            maxWidth: { xs: '200px', sm: '240px' },
+            maxWidth: { xs: theme.spacing(25), sm: theme.spacing(30) },
             '& .MuiInputBase-root': {
-              fontSize: {
-                xs: theme.typography.body2.fontSize,
-                sm: theme.typography.body2.fontSize
-              },
+              fontSize: theme.typography.body2.fontSize,
               height: { xs: theme.spacing(4), sm: theme.spacing(4.5) }
             },
           }}
@@ -162,7 +165,7 @@ function ColorPickerField({
                   variant="body2"
                   sx={{
                     color: theme.palette.text.secondary,
-                    fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize }
                   }}
                 >
                   #
@@ -221,7 +224,7 @@ function BackgroundImageSelector({
         />
       </Typography>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2), flexWrap: 'wrap' }}>
         <ButtonBase
           onClick={() => setShowMediaDialog(true)}
           sx={{
@@ -233,7 +236,7 @@ function BackgroundImageSelector({
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 1,
+            gap: theme.spacing(1),
             transition: theme.transitions.create(['border-color', 'background-color']),
             '&:hover': {
               borderColor: theme.palette.primary.main,
@@ -283,8 +286,8 @@ function BackgroundImageSelector({
       </Box>
 
       {value && (
-        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Grid container spacing={2}>
+        <Box sx={{ mt: theme.spacing(3), display: 'flex', flexDirection: 'column', gap: theme.spacing(2) }}>
+          <Grid container spacing={theme.spacing(2)}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small">
                 <InputLabel>
@@ -484,7 +487,7 @@ function BackgroundImageSelector({
 }
 
 const getDefaultGlassSettings = (theme: any): WalletGlassSettings => ({
-  backgroundType: "gradient",
+  backgroundType: "solid",
   backgroundColor: theme.palette.background.default,
   gradientStartColor: theme.palette.background.default,
   gradientEndColor: theme.palette.background.paper,
@@ -501,13 +504,183 @@ const getDefaultGlassSettings = (theme: any): WalletGlassSettings => ({
   hideActivity: false,
 });
 
-function VariantConfigurationTab() {
+const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
+  backgroundType: "solid",
+  backgroundColor: theme.palette.background.default,
+  gradientStartColor: theme.palette.background.default,
+  gradientEndColor: theme.palette.background.paper,
+  gradientDirection: "to bottom",
+  primaryTextColor: theme.palette.text.primary,
+  secondaryTextColor: theme.palette.text.secondary,
+  balanceTextColor: theme.palette.text.primary,
+
+  sendButtonConfig: {
+    backgroundColor: theme.palette.primary.main,
+    textColor: theme.palette.primary.contrastText,
+    borderColor: theme.palette.primary.main,
+    hoverBackgroundColor: theme.palette.primary.dark,
+  },
+  receiveButtonConfig: {
+    backgroundColor: theme.palette.primary.main,
+    textColor: theme.palette.primary.contrastText,
+    borderColor: theme.palette.primary.main,
+    hoverBackgroundColor: theme.palette.primary.dark,
+  },
+  scanButtonConfig: {
+    backgroundColor: theme.palette.secondary.main,
+    textColor: theme.palette.secondary.contrastText,
+    borderColor: theme.palette.secondary.main,
+    hoverBackgroundColor: theme.palette.secondary.dark,
+  },
+  importTokenButtonConfig: {
+    backgroundColor: theme.palette.info.main,
+    textColor: theme.palette.info.contrastText,
+    borderColor: theme.palette.info.main,
+    hoverBackgroundColor: theme.palette.info.dark,
+  },
+
+  networkSelectorConfig: {
+    backgroundColor: theme.palette.background.paper,
+    textColor: theme.palette.text.primary,
+    borderColor: theme.palette.divider,
+    hoverBackgroundColor: theme.palette.action.hover,
+  },
+
+  cardConfig: {
+    backgroundColor: theme.palette.background.paper,
+    borderColor: theme.palette.divider,
+    borderRadius: 8,
+    shadowColor: theme.palette.common.black,
+    shadowIntensity: 0.1,
+  },
+
+  inputConfig: {
+    backgroundColor: theme.palette.background.default,
+    textColor: theme.palette.text.primary,
+    borderColor: theme.palette.divider,
+    focusBorderColor: theme.palette.primary.main,
+    placeholderColor: theme.palette.text.secondary,
+    iconColor: theme.palette.primary.main,
+  },
+  paginationConfig: {
+    textColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.background.paper,
+    buttonColor: theme.palette.text.primary,
+    buttonHoverColor: theme.palette.action.hover,
+    selectBackgroundColor: theme.palette.background.paper,
+    selectTextColor: theme.palette.text.primary,
+  },
+  activityTableConfig: {
+    headerBackgroundColor: theme.palette.background.paper,
+    headerTextColor: theme.palette.text.primary,
+    rowBackgroundColor: theme.palette.background.default,
+    rowTextColor: theme.palette.text.primary,
+    hoverRowBackgroundColor: theme.palette.action.hover,
+    borderColor: theme.palette.divider,
+  },
+  tokenSearchConfig: {
+    backgroundColor: theme.palette.background.default,
+    textColor: theme.palette.text.primary,
+    borderColor: theme.palette.divider,
+    focusBorderColor: theme.palette.primary.main,
+    placeholderColor: theme.palette.text.secondary,
+    iconColor: theme.palette.text.primary,
+  },
+
+  layout: {
+    componentOrder: ["balance", "actions", "search", "tabs", "content"],
+    spacing: 2,
+    actionButtonsLayout: "horizontal",
+    actionButtonsAlignment: "left",
+  },
+
+  visibility: {
+    hideNFTs: false,
+    hideActivity: false,
+    hideTransactions: false,
+    hideTrades: false,
+    hideSearch: false,
+    hideImportToken: false,
+    hideSendButton: false,
+    hideReceiveButton: false,
+    hideScanButton: false,
+    hideNetworkSelector: false,
+    hideBalance: false,
+  },
+
+  tabsConfig: {
+    backgroundColor: theme.palette.background.paper,
+    activeTabColor: theme.palette.primary.main,
+    inactiveTabColor: theme.palette.text.secondary,
+    activeTabTextColor: theme.palette.primary.contrastText,
+    inactiveTabTextColor: theme.palette.text.secondary,
+    tabBarBackgroundColor: theme.palette.background.paper,
+    indicatorColor: theme.palette.primary.main,
+  },
+
+  tokenTableConfig: {
+    headerBackgroundColor: theme.palette.background.paper,
+    headerTextColor: theme.palette.text.primary,
+    rowBackgroundColor: theme.palette.background.default,
+    rowTextColor: theme.palette.text.primary,
+    hoverRowBackgroundColor: theme.palette.action.hover,
+    borderColor: theme.palette.divider,
+  },
+});
+
+function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   const { values, setFieldValue } = useFormikContext<WalletSettings>();
   const theme = useTheme();
+  const { formatMessage } = useIntl();
+
+  const [expandedAccordions, setExpandedAccordions] = useState<string[]>(['background']);
+
+  const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpandedAccordions(prev =>
+      isExpanded
+        ? [...prev, panel]
+        : prev.filter(item => item !== panel)
+    );
+  };
+
+  const getTitleColor = () => {
+    return theme.palette.mode === 'dark' ? '#ffffff' : '#000000';
+  };
+
+  // Helper function for consistent spacing
+  const getFormSpacing = () => theme.spacing(2);
 
   const getCurrentThemeGlassSettings = () => {
+    if (customTheme && customTheme.colorSchemes) {
+      const colorScheme = customTheme.colorSchemes.light || customTheme.colorSchemes.dark;
+
+      if (colorScheme && colorScheme.palette) {
+        const palette = colorScheme.palette;
+
+        const settings: WalletGlassSettings = {
+          backgroundType: "solid",
+          backgroundColor: palette.background?.default || "#FFFFFF",
+          gradientStartColor: palette.background?.default || "#FFFFFF",
+          gradientEndColor: palette.background?.paper || "#FAFAFA",
+          gradientDirection: "to bottom",
+          textColor: palette.text?.primary || "#0E1116",
+          blurIntensity: 40,
+          glassOpacity: 0.10,
+          disableBackground: false,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "scroll",
+          hideNFTs: false,
+          hideActivity: false,
+        };
+
+        return settings;
+      }
+    }
+
     const settings: WalletGlassSettings = {
-      backgroundType: "gradient",
+      backgroundType: "solid",
       backgroundColor: theme.palette.background.default,
       gradientStartColor: theme.palette.background.default,
       gradientEndColor: theme.palette.background.paper,
@@ -525,6 +698,147 @@ function VariantConfigurationTab() {
     };
 
     return settings;
+  };
+
+  const getCurrentThemeCustomSettings = () => {
+    if (customTheme && customTheme.colorSchemes) {
+      const colorScheme = customTheme.colorSchemes.light || customTheme.colorSchemes.dark;
+
+      if (colorScheme && colorScheme.palette) {
+        const palette = colorScheme.palette;
+
+        return {
+          backgroundType: "solid" as const,
+          backgroundColor: palette.background?.default || "#FFFFFF",
+          gradientStartColor: palette.background?.default || "#FFFFFF",
+          gradientEndColor: palette.background?.paper || "#FAFAFA",
+          gradientDirection: "to bottom" as const,
+          primaryTextColor: palette.text?.primary || "#0E1116",
+          secondaryTextColor: palette.text?.secondary || "#656D76",
+          balanceTextColor: palette.text?.primary || "#0E1116",
+
+          sendButtonConfig: {
+            backgroundColor: palette.primary?.main || "#3B51F7",
+            textColor: "#ffffff",
+            borderColor: palette.primary?.main || "#3B51F7",
+            hoverBackgroundColor: palette.primary?.dark || "#081EC4",
+          },
+          receiveButtonConfig: {
+            backgroundColor: palette.primary?.main || "#3B51F7",
+            textColor: "#ffffff",
+            borderColor: palette.primary?.main || "#3B51F7",
+            hoverBackgroundColor: palette.primary?.dark || "#081EC4",
+          },
+          scanButtonConfig: {
+            backgroundColor: palette.secondary?.main || "#FF6B35",
+            textColor: "#ffffff",
+            borderColor: palette.secondary?.main || "#FF6B35",
+            hoverBackgroundColor: palette.secondary?.dark || "#E55A2B",
+          },
+          importTokenButtonConfig: {
+            backgroundColor: palette.info?.main || "#29B6F6",
+            textColor: "#ffffff",
+            borderColor: palette.info?.main || "#29B6F6",
+            hoverBackgroundColor: palette.info?.dark || "#0288D1",
+          },
+
+          networkSelectorConfig: {
+            backgroundColor: palette.background?.paper || "#FAFAFA",
+            textColor: palette.text?.primary || "#0E1116",
+            borderColor: palette.divider || "#E1E4E8",
+            hoverBackgroundColor: palette.action?.hover || "#F6F8FA",
+            dropdownBackgroundColor: palette.background?.paper || "#FAFAFA",
+            dropdownTextColor: palette.text?.primary || "#0E1116",
+          },
+
+          cardConfig: {
+            backgroundColor: palette.background?.paper || "#FAFAFA",
+            borderColor: palette.divider || "#E1E4E8",
+            borderRadius: 8,
+            shadowColor: palette.common?.black || "#000000",
+            shadowIntensity: 0.1,
+          },
+
+          inputConfig: {
+            backgroundColor: palette.background?.default || "#FFFFFF",
+            textColor: palette.text?.primary || "#0E1116",
+            borderColor: palette.divider || "#E1E4E8",
+            focusBorderColor: palette.primary?.main || "#3B51F7",
+            placeholderColor: palette.text?.secondary || "#656D76",
+            iconColor: palette.primary?.main || "#3B51F7",
+          },
+
+          paginationConfig: {
+            textColor: palette.text?.primary || "#0E1116",
+            backgroundColor: palette.background?.paper || "#FAFAFA",
+            buttonColor: palette.text?.primary || "#0E1116",
+            buttonHoverColor: palette.action?.hover || "#F6F8FA",
+            selectBackgroundColor: palette.background?.paper || "#FAFAFA",
+            selectTextColor: palette.text?.primary || "#0E1116",
+          },
+
+          activityTableConfig: {
+            headerBackgroundColor: palette.background?.paper || "#FAFAFA",
+            headerTextColor: palette.text?.primary || "#0E1116",
+            rowBackgroundColor: palette.background?.default || "#FFFFFF",
+            rowTextColor: palette.text?.primary || "#0E1116",
+            hoverRowBackgroundColor: palette.action?.hover || "#F6F8FA",
+            borderColor: palette.divider || "#E1E4E8",
+          },
+
+          tokenSearchConfig: {
+            backgroundColor: palette.background?.default || "#FFFFFF",
+            textColor: palette.text?.primary || "#0E1116",
+            borderColor: palette.divider || "#E1E4E8",
+            focusBorderColor: palette.primary?.main || "#3B51F7",
+            placeholderColor: palette.text?.secondary || "#656D76",
+            iconColor: palette.text?.primary || "#0E1116",
+          },
+
+          layout: {
+            componentOrder: ["balance", "actions", "search", "tabs", "content"],
+            spacing: 2,
+            actionButtonsLayout: "horizontal" as const,
+            actionButtonsAlignment: "left" as const,
+          },
+
+          visibility: {
+            hideNFTs: false,
+            hideActivity: false,
+            hideTransactions: false,
+            hideTrades: false,
+            hideSearch: false,
+            hideImportToken: false,
+            hideSendButton: false,
+            hideReceiveButton: false,
+            hideScanButton: false,
+            hideNetworkSelector: false,
+            hideBalance: false,
+          },
+
+          tabsConfig: {
+            backgroundColor: palette.background?.paper || "#FAFAFA",
+            activeTabColor: palette.primary?.main || "#3B51F7",
+            inactiveTabColor: palette.text?.secondary || "#656D76",
+            activeTabTextColor: "#ffffff",
+            inactiveTabTextColor: palette.text?.secondary || "#656D76",
+            tabBarBackgroundColor: palette.background?.paper || "#FAFAFA",
+            indicatorColor: palette.primary?.main || "#3B51F7",
+          },
+
+          tokenTableConfig: {
+            headerBackgroundColor: palette.background?.paper || "#FAFAFA",
+            headerTextColor: palette.text?.primary || "#0E1116",
+            rowBackgroundColor: palette.background?.default || "#FFFFFF",
+            rowTextColor: palette.text?.primary || "#0E1116",
+            hoverRowBackgroundColor: palette.action?.hover || "#F6F8FA",
+            borderColor: palette.divider || "#E1E4E8",
+          },
+        } as WalletCustomSettings;
+      }
+    }
+
+    return getDefaultCustomSettings(theme);
   };
 
   return (
@@ -550,6 +864,12 @@ function VariantConfigurationTab() {
             <FormattedMessage
               id="glass.variant"
               defaultMessage="Glass"
+            />
+          </MenuItem>
+          <MenuItem value="custom">
+            <FormattedMessage
+              id="custom.variant"
+              defaultMessage="Custom"
             />
           </MenuItem>
         </Select>
@@ -578,8 +898,25 @@ function VariantConfigurationTab() {
               />
             </Typography>
             <RadioGroup
-              value={values.glassSettings?.backgroundType || "gradient"}
-              onChange={(e) => setFieldValue("glassSettings.backgroundType", e.target.value)}
+              value={values.glassSettings?.backgroundType || "solid"}
+              onChange={(e) => {
+                const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                setFieldValue("glassSettings.backgroundType", newType);
+
+                if (newType === 'solid' && !values.glassSettings?.backgroundColor) {
+                  setFieldValue("glassSettings.backgroundColor", theme.palette.background.default);
+                } else if (newType === 'gradient') {
+                  if (!values.glassSettings?.gradientStartColor) {
+                    setFieldValue("glassSettings.gradientStartColor", theme.palette.background.default);
+                  }
+                  if (!values.glassSettings?.gradientEndColor) {
+                    setFieldValue("glassSettings.gradientEndColor", theme.palette.background.paper);
+                  }
+                  if (!values.glassSettings?.gradientDirection) {
+                    setFieldValue("glassSettings.gradientDirection", "to bottom");
+                  }
+                }
+              }}
               row
             >
               <FormControlLabel
@@ -846,6 +1183,1346 @@ function VariantConfigurationTab() {
                 defaultMessage="Note: Cards and input fields automatically use glassmorphism effects for a cohesive visual experience. Text elements inherit the main text color for consistency."
               />
             </Typography>
+
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="outlined"
+                startIcon={<RefreshIcon />}
+                onClick={() => {
+                  const newSettings = getCurrentThemeGlassSettings();
+                  setFieldValue("glassSettings", newSettings);
+                }}
+                sx={{
+                  borderColor: '#ff6b35',
+                  color: '#ff6b35',
+                  backgroundColor: 'transparent',
+                  borderRadius: '8px',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  px: 3,
+                  py: 1,
+                  '&:hover': {
+                    borderColor: '#ff6b35',
+                    backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                  },
+                }}
+              >
+                <FormattedMessage
+                  id="reset.styles"
+                  defaultMessage="RESET STYLES"
+                />
+              </Button>
+            </Box>
+          </Box>
+        </Paper>
+      )}
+
+      {values.variant === "custom" && (
+        <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            <FormattedMessage
+              id="custom.variant"
+              defaultMessage="Custom"
+            />
+          </Typography>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            <FormattedMessage
+              id="custom.description"
+              defaultMessage="Completely customize all wallet elements"
+            />
+          </Typography>
+
+          <Accordion
+            expanded={expandedAccordions.includes('background')}
+            onChange={handleAccordionChange('background')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Background Configuration
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Choose and customize the wallet background appearance
+              </Typography>
+              <RadioGroup
+                value={values.customSettings?.backgroundType || "solid"}
+                onChange={(e) => {
+                  const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                  setFieldValue("customSettings.backgroundType", newType);
+
+                  if (newType === 'solid' && !values.customSettings?.backgroundColor) {
+                    setFieldValue("customSettings.backgroundColor", theme.palette.background.default);
+                  } else if (newType === 'gradient') {
+                    if (!values.customSettings?.gradientStartColor) {
+                      setFieldValue("customSettings.gradientStartColor", theme.palette.background.default);
+                    }
+                    if (!values.customSettings?.gradientEndColor) {
+                      setFieldValue("customSettings.gradientEndColor", theme.palette.background.paper);
+                    }
+                    if (!values.customSettings?.gradientDirection) {
+                      setFieldValue("customSettings.gradientDirection", "to bottom");
+                    }
+                  }
+                }}
+                row
+              >
+                <FormControlLabel
+                  value="solid"
+                  control={<Radio />}
+                  label={
+                    <FormattedMessage
+                      id="custom.background.solid"
+                      defaultMessage="Solid Color"
+                    />
+                  }
+                />
+                <FormControlLabel
+                  value="gradient"
+                  control={<Radio />}
+                  label={
+                    <FormattedMessage
+                      id="custom.background.gradient"
+                      defaultMessage="Gradient"
+                    />
+                  }
+                />
+                <FormControlLabel
+                  value="image"
+                  control={<Radio />}
+                  label={
+                    <FormattedMessage
+                      id="custom.background.image"
+                      defaultMessage="Background Image"
+                    />
+                  }
+                />
+              </RadioGroup>
+
+              {values.customSettings?.backgroundType === "solid" && (
+                <Box sx={{ mt: 2 }}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.background.color",
+                      defaultMessage: "Background Color"
+                    })}
+                    value={values.customSettings?.backgroundColor || theme.palette.background.default}
+                    onChange={(value: string) => setFieldValue("customSettings.backgroundColor", value)}
+                    defaultValue={theme.palette.background.default}
+                  />
+                </Box>
+              )}
+
+              {values.customSettings?.backgroundType === "gradient" && (
+                <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.gradient.start.color",
+                      defaultMessage: "Gradient Start Color"
+                    })}
+                    value={values.customSettings?.gradientStartColor || theme.palette.background.default}
+                    onChange={(value: string) => setFieldValue("customSettings.gradientStartColor", value)}
+                    defaultValue={theme.palette.background.default}
+                  />
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.gradient.end.color",
+                      defaultMessage: "Gradient End Color"
+                    })}
+                    value={values.customSettings?.gradientEndColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.gradientEndColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                  <FormControl fullWidth>
+                    <InputLabel>
+                      <FormattedMessage
+                        id="custom.gradient.direction"
+                        defaultMessage="Gradient Direction"
+                      />
+                    </InputLabel>
+                    <Select
+                      value={values.customSettings?.gradientDirection || "to bottom"}
+                      onChange={(e) => setFieldValue("customSettings.gradientDirection", e.target.value)}
+                      label={formatMessage({
+                        id: "custom.gradient.direction",
+                        defaultMessage: "Gradient Direction"
+                      })}
+                    >
+                      <MenuItem value="to bottom">
+                        <FormattedMessage
+                          id="custom.gradient.direction.bottom"
+                          defaultMessage="Top to Bottom"
+                        />
+                      </MenuItem>
+                      <MenuItem value="to top">
+                        <FormattedMessage
+                          id="custom.gradient.direction.top"
+                          defaultMessage="Bottom to Top"
+                        />
+                      </MenuItem>
+                      <MenuItem value="to right">
+                        <FormattedMessage
+                          id="custom.gradient.direction.right"
+                          defaultMessage="Left to Right"
+                        />
+                      </MenuItem>
+                      <MenuItem value="to left">
+                        <FormattedMessage
+                          id="custom.gradient.direction.left"
+                          defaultMessage="Right to Left"
+                        />
+                      </MenuItem>
+                      <MenuItem value="to bottom right">
+                        <FormattedMessage
+                          id="custom.gradient.direction.bottom.right"
+                          defaultMessage="Diagonal (Top-Left to Bottom-Right)"
+                        />
+                      </MenuItem>
+                      <MenuItem value="to bottom left">
+                        <FormattedMessage
+                          id="custom.gradient.direction.bottom.left"
+                          defaultMessage="Diagonal (Top-Right to Bottom-Left)"
+                        />
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              )}
+
+              {values.customSettings?.backgroundType === "image" && (
+                <Box sx={{ mt: 2 }}>
+                  <BackgroundImageSelector
+                    value={values.customSettings?.backgroundImage}
+                    onChange={(url) => setFieldValue("customSettings.backgroundImage", url)}
+                    sizeValue={values.customSettings?.backgroundSize}
+                    onSizeChange={(size) => setFieldValue("customSettings.backgroundSize", size)}
+                    positionValue={values.customSettings?.backgroundPosition}
+                    onPositionChange={(position) => setFieldValue("customSettings.backgroundPosition", position)}
+                    repeatValue={values.customSettings?.backgroundRepeat}
+                    onRepeatChange={(repeat) => setFieldValue("customSettings.backgroundRepeat", repeat)}
+                    attachmentValue={values.customSettings?.backgroundAttachment}
+                    onAttachmentChange={(attachment) => setFieldValue("customSettings.backgroundAttachment", attachment)}
+                  />
+                </Box>
+              )}
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('wallet')}
+            onChange={handleAccordionChange('wallet')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Wallet Display
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure wallet title and balance appearance
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.wallet.title.color",
+                      defaultMessage: "Wallet Title Color"
+                    })}
+                    value={values.customSettings?.primaryTextColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.primaryTextColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.balance.text.color",
+                      defaultMessage: "Balance Text Color"
+                    })}
+                    value={values.customSettings?.balanceTextColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.balanceTextColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('buttons')}
+            onChange={handleAccordionChange('buttons')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Action Buttons
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Customize the appearance of wallet action buttons
+              </Typography>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.send.button.title"
+                    defaultMessage="Send Button"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.sendButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.sendButtonConfig?.textColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.sendButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.primary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.sendButtonConfig?.borderColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.sendButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.sendButtonConfig?.hoverBackgroundColor || theme.palette.primary.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.sendButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.primary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.receive.button.title"
+                    defaultMessage="Receive Button"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.receiveButtonConfig?.backgroundColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.receiveButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.receiveButtonConfig?.textColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.receiveButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.primary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.receiveButtonConfig?.borderColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.receiveButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.receiveButtonConfig?.hoverBackgroundColor || theme.palette.primary.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.receiveButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.primary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.scan.button.title"
+                    defaultMessage="Scan QR Button"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.scanButtonConfig?.backgroundColor || theme.palette.secondary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.scanButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.secondary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.scanButtonConfig?.textColor || theme.palette.secondary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.scanButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.secondary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.scanButtonConfig?.borderColor || theme.palette.secondary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.scanButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.secondary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.scanButtonConfig?.hoverBackgroundColor || theme.palette.secondary.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.scanButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.secondary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.import.token.button.title"
+                    defaultMessage="Import Token Button"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.importTokenButtonConfig?.backgroundColor || theme.palette.info.main}
+                      onChange={(value: string) => setFieldValue("customSettings.importTokenButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.info.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.importTokenButtonConfig?.textColor || theme.palette.info.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.importTokenButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.info.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.importTokenButtonConfig?.borderColor || theme.palette.info.main}
+                      onChange={(value: string) => setFieldValue("customSettings.importTokenButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.info.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.importTokenButtonConfig?.hoverBackgroundColor || theme.palette.info.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.importTokenButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.info.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('network')}
+            onChange={handleAccordionChange('network')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Network Selector
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Customize the network selector button appearance
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.network.background.color",
+                      defaultMessage: "Background Color"
+                    })}
+                    value={values.customSettings?.networkSelectorConfig?.backgroundColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.networkSelectorConfig.backgroundColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.network.text.color",
+                      defaultMessage: "Text Color"
+                    })}
+                    value={values.customSettings?.networkSelectorConfig?.textColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.networkSelectorConfig.textColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.network.border.color",
+                      defaultMessage: "Border Color"
+                    })}
+                    value={values.customSettings?.networkSelectorConfig?.borderColor || theme.palette.divider}
+                    onChange={(value: string) => setFieldValue("customSettings.networkSelectorConfig.borderColor", value)}
+                    defaultValue={theme.palette.divider}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('card')}
+            onChange={handleAccordionChange('card')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Card Styling
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure card backgrounds, borders, shadows and overall styling
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.card.background.color",
+                      defaultMessage: "Table Background Color"
+                    })}
+                    value={values.customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.cardConfig.backgroundColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.header.background.color",
+                      defaultMessage: "Header Background Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.headerBackgroundColor || values.customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.headerBackgroundColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.card.border.color",
+                      defaultMessage: "Border Color"
+                    })}
+                    value={values.customSettings?.cardConfig?.borderColor || theme.palette.divider}
+                    onChange={(value: string) => setFieldValue("customSettings.cardConfig.borderColor", value)}
+                    defaultValue={theme.palette.divider}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    label={formatMessage({
+                      id: "custom.card.border.radius",
+                      defaultMessage: "Border Radius (px)"
+                    })}
+                    value={values.customSettings?.cardConfig?.borderRadius || 8}
+                    onChange={(e) => setFieldValue("customSettings.cardConfig.borderRadius", parseInt(e.target.value) || 8)}
+                    inputProps={{ min: 0, max: 50 }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.card.shadow.color",
+                      defaultMessage: "Shadow Color"
+                    })}
+                    value={values.customSettings?.cardConfig?.shadowColor || theme.palette.common.black}
+                    onChange={(value: string) => setFieldValue("customSettings.cardConfig.shadowColor", value)}
+                    defaultValue={theme.palette.common.black}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    label={formatMessage({
+                      id: "custom.card.shadow.intensity",
+                      defaultMessage: "Shadow Intensity"
+                    })}
+                    value={values.customSettings?.cardConfig?.shadowIntensity || 0.1}
+                    onChange={(e) => setFieldValue("customSettings.cardConfig.shadowIntensity", parseFloat(e.target.value) || 0.1)}
+                    inputProps={{ min: 0, max: 1, step: 0.1 }}
+                    helperText={formatMessage({
+                      id: "custom.card.shadow.intensity.help",
+                      defaultMessage: "Value between 0 (no shadow) and 1 (strong shadow)"
+                    })}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium', mt: 2 }}>
+                    <FormattedMessage
+                      id="custom.table.rows.title"
+                      defaultMessage="Table Rows Configuration"
+                    />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.row.background.color",
+                      defaultMessage: "Row Background Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.rowBackgroundColor", value)}
+                    defaultValue={theme.palette.background.default}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.row.hover.color",
+                      defaultMessage: "Row Hover Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.hoverRowBackgroundColor", value)}
+                    defaultValue={theme.palette.action.hover}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.row.text.color",
+                      defaultMessage: "Row Text Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.rowTextColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.header.text.color",
+                      defaultMessage: "Header Text Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.headerTextColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.headerTextColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.table.border.color",
+                      defaultMessage: "Table Border Color"
+                    })}
+                    value={values.customSettings?.tokenTableConfig?.borderColor || theme.palette.divider}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.borderColor", value)}
+                    defaultValue={theme.palette.divider}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('visibility')}
+            onChange={handleAccordionChange('visibility')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Visibility & Layout
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Control which elements are visible and configure layout options
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideNFTs || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideNFTs", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.nfts"
+                        defaultMessage="Hide NFTs Tab"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideActivity || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideActivity", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.activity"
+                        defaultMessage="Hide Activity Tab"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideSearch || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideSearch", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.search"
+                        defaultMessage="Hide Search"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideSendButton || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideSendButton", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.send.button"
+                        defaultMessage="Hide Send Button"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideReceiveButton || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideReceiveButton", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.receive.button"
+                        defaultMessage="Hide Receive Button"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideScanButton || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideScanButton", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.scan.button"
+                        defaultMessage="Hide Scan Button"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideImportToken || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideImportToken", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.import.token"
+                        defaultMessage="Hide Import Token"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideNetworkSelector || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideNetworkSelector", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.network.selector"
+                        defaultMessage="Hide Network Selector"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideBalance || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideBalance", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.balance"
+                        defaultMessage="Hide Balance"
+                      />
+                    }
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('search')}
+            onChange={handleAccordionChange('search')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Search & Input
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure the token search bar appearance and behavior
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.background.color",
+                      defaultMessage: "Background Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.backgroundColor", value)}
+                    defaultValue={theme.palette.background.default}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.text.color",
+                      defaultMessage: "Text Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.textColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.border.color",
+                      defaultMessage: "Border Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.borderColor || theme.palette.divider}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.borderColor", value)}
+                    defaultValue={theme.palette.divider}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.focus.border.color",
+                      defaultMessage: "Focus Border Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.focusBorderColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.focusBorderColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.placeholder.color",
+                      defaultMessage: "Placeholder Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.placeholderColor || theme.palette.text.secondary}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.placeholderColor", value)}
+                    defaultValue={theme.palette.text.secondary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.token.search.icon.color",
+                      defaultMessage: "Search Icon Color"
+                    })}
+                    value={values.customSettings?.tokenSearchConfig?.iconColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tokenSearchConfig.iconColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('pagination')}
+            onChange={handleAccordionChange('pagination')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Pagination
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Customize pagination controls for tables and data lists
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.text.color",
+                      defaultMessage: "Text Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.textColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.textColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.background.color",
+                      defaultMessage: "Background Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.backgroundColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.backgroundColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.button.color",
+                      defaultMessage: "Button Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.buttonColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.buttonColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.button.hover.color",
+                      defaultMessage: "Button Hover Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.buttonHoverColor || theme.palette.action.hover}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.buttonHoverColor", value)}
+                    defaultValue={theme.palette.action.hover}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.select.background.color",
+                      defaultMessage: "Select Background Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.selectBackgroundColor || theme.palette.background.paper}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.selectBackgroundColor", value)}
+                    defaultValue={theme.palette.background.paper}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.pagination.select.text.color",
+                      defaultMessage: "Select Text Color"
+                    })}
+                    value={values.customSettings?.paginationConfig?.selectTextColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.paginationConfig.selectTextColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('tables')}
+            onChange={handleAccordionChange('tables')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Tables & Data
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure balance and activity tables appearance
+              </Typography>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  Token Balance Table
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.table.header.text.color",
+                        defaultMessage: "Header Text Color"
+                      })}
+                      value={values.customSettings?.tokenTableConfig?.headerTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.headerTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.table.row.text.color",
+                        defaultMessage: "Row Text Color"
+                      })}
+                      value={values.customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.rowTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.table.row.background.color",
+                        defaultMessage: "Row Background Color"
+                      })}
+                      value={values.customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default}
+                      onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.rowBackgroundColor", value)}
+                      defaultValue={theme.palette.background.default}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.table.row.hover.color",
+                        defaultMessage: "Row Hover Color"
+                      })}
+                      value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                      onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.hoverRowBackgroundColor", value)}
+                      defaultValue={theme.palette.action.hover}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  Activity Table
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.header.background.color",
+                        defaultMessage: "Header Background Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.headerBackgroundColor || theme.palette.background.paper}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.headerBackgroundColor", value)}
+                      defaultValue={theme.palette.background.paper}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.header.text.color",
+                        defaultMessage: "Header Text Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.headerTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.headerTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.row.background.color",
+                        defaultMessage: "Row Background Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.rowBackgroundColor || theme.palette.background.default}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.rowBackgroundColor", value)}
+                      defaultValue={theme.palette.background.default}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.row.text.color",
+                        defaultMessage: "Row Text Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.rowTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.rowTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.hover.row.background.color",
+                        defaultMessage: "Row Hover Background Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.hoverRowBackgroundColor", value)}
+                      defaultValue={theme.palette.action.hover}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.activity.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.activityTableConfig?.borderColor || theme.palette.divider}
+                      onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.borderColor", value)}
+                      defaultValue={theme.palette.divider}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('layout')}
+            onChange={handleAccordionChange('layout')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Layout Configuration
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure button layouts, alignment and spacing
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel>
+                      <FormattedMessage
+                        id="custom.action.buttons.layout"
+                        defaultMessage="Action Buttons Layout"
+                      />
+                    </InputLabel>
+                    <Select
+                      value={values.customSettings?.layout?.actionButtonsLayout || "horizontal"}
+                      onChange={(e) => setFieldValue("customSettings.layout.actionButtonsLayout", e.target.value)}
+                      label={formatMessage({
+                        id: "custom.action.buttons.layout",
+                        defaultMessage: "Action Buttons Layout"
+                      })}
+                    >
+                      <MenuItem value="horizontal">
+                        <FormattedMessage
+                          id="custom.layout.horizontal"
+                          defaultMessage="Horizontal"
+                        />
+                      </MenuItem>
+                      <MenuItem value="vertical">
+                        <FormattedMessage
+                          id="custom.layout.vertical"
+                          defaultMessage="Vertical"
+                        />
+                      </MenuItem>
+                      <MenuItem value="grid">
+                        <FormattedMessage
+                          id="custom.layout.grid"
+                          defaultMessage="Grid"
+                        />
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel>
+                      <FormattedMessage
+                        id="custom.buttons.alignment"
+                        defaultMessage="Buttons Alignment"
+                      />
+                    </InputLabel>
+                    <Select
+                      value={values.customSettings?.layout?.actionButtonsAlignment || "left"}
+                      onChange={(e) => setFieldValue("customSettings.layout.actionButtonsAlignment", e.target.value)}
+                      label={formatMessage({
+                        id: "custom.buttons.alignment",
+                        defaultMessage: "Buttons Alignment"
+                      })}
+                    >
+                      <MenuItem value="left">
+                        <FormattedMessage
+                          id="custom.alignment.left"
+                          defaultMessage="Left"
+                        />
+                      </MenuItem>
+                      <MenuItem value="center">
+                        <FormattedMessage
+                          id="custom.alignment.center"
+                          defaultMessage="Center"
+                        />
+                      </MenuItem>
+                      <MenuItem value="right">
+                        <FormattedMessage
+                          id="custom.alignment.right"
+                          defaultMessage="Right"
+                        />
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography gutterBottom>
+                    <FormattedMessage
+                      id="custom.element.spacing"
+                      defaultMessage="Element Spacing"
+                    />
+                  </Typography>
+                  <Slider
+                    value={values.customSettings?.layout?.spacing || 2}
+                    onChange={(_, value: number | number[]) => setFieldValue("customSettings.layout.spacing", value)}
+                    min={0}
+                    max={8}
+                    step={1}
+                    valueLabelDisplay="auto"
+                    marks={[
+                      { value: 0, label: '0' },
+                      { value: 2, label: '2' },
+                      { value: 4, label: '4' },
+                      { value: 6, label: '6' },
+                      { value: 8, label: '8' },
+                    ]}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
+            <FormattedMessage
+              id="custom.note"
+              defaultMessage="The custom variant allows you to completely customize all visual and functional aspects of the wallet."
+            />
+          </Typography>
+
+          <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="outlined"
+              startIcon={<RefreshIcon />}
+              onClick={() => {
+                const newSettings = getCurrentThemeCustomSettings();
+                setFieldValue("customSettings", newSettings);
+              }}
+              sx={{
+                borderColor: '#ff6b35',
+                color: '#ff6b35',
+                backgroundColor: 'transparent',
+                borderRadius: '8px',
+                textTransform: 'none',
+                fontWeight: 500,
+                px: 3,
+                py: 1,
+                '&:hover': {
+                  borderColor: '#ff6b35',
+                  backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                },
+              }}
+            >
+              <FormattedMessage
+                id="reset.styles"
+                defaultMessage="RESET STYLES"
+              />
+            </Button>
           </Box>
         </Paper>
       )}
@@ -858,20 +2535,80 @@ export default function WalletSectionForm({
   onSave,
   onChange,
   onCancel,
+  customTheme,
 }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
+  const { wizardConfig } = useAppWizardConfig();
+
+  const generatedCustomTheme = useMemo(() => {
+    if (wizardConfig.theme === 'custom') {
+      try {
+        const customThemeLight = wizardConfig.customThemeLight ? JSON.parse(wizardConfig.customThemeLight) : null;
+        const customThemeDark = wizardConfig.customThemeDark ? JSON.parse(wizardConfig.customThemeDark) : null;
+
+        const themeData = {
+          colorSchemes: {
+            light: customThemeLight || {},
+            dark: customThemeDark || {}
+          }
+        };
+
+        return themeData;
+      } catch (error) {
+        console.error("Error parsing custom theme:", error);
+        return null;
+      }
+    }
+
+    if (wizardConfig.theme) {
+      try {
+        const customThemeDark = wizardConfig.customThemeDark ? JSON.parse(wizardConfig.customThemeDark) : {};
+        const customThemeLight = wizardConfig.customThemeLight ? JSON.parse(wizardConfig.customThemeLight) : {};
+
+        const selectedTheme = generateCSSVarsTheme({
+          selectedFont: wizardConfig?.font,
+          cssVarPrefix: 'theme-preview',
+          customTheme: {
+            colorSchemes: {
+              dark: customThemeDark,
+              light: customThemeLight,
+            },
+          },
+          selectedThemeId: wizardConfig?.theme || '',
+        });
+
+        if (selectedTheme?.colorSchemes) {
+          const extractedTheme = {
+            colorSchemes: {
+              light: { palette: selectedTheme.colorSchemes.light?.palette },
+              dark: { palette: selectedTheme.colorSchemes.dark?.palette }
+            }
+          };
+          return extractedTheme;
+        }
+      } catch (error) {
+        console.error("Error generating theme:", error);
+      }
+    }
+
+    return null;
+  }, [wizardConfig.theme, wizardConfig.customThemeLight, wizardConfig.customThemeDark, wizardConfig.font]);
+
+  const finalCustomTheme = customTheme || generatedCustomTheme;
 
   const initialValues = useMemo((): WalletSettings => {
     if (section?.settings) {
       return {
         variant: section.settings.variant || "default",
         glassSettings: section.settings.glassSettings || getDefaultGlassSettings(theme),
+        customSettings: section.settings.customSettings || getDefaultCustomSettings(theme),
       };
     }
     return {
       variant: "default",
       glassSettings: getDefaultGlassSettings(theme),
+      customSettings: getDefaultCustomSettings(theme),
     };
   }, [section, theme]);
 
@@ -913,7 +2650,7 @@ export default function WalletSectionForm({
         {({ submitForm, values, isValid }) => (
           <Grid container spacing={isMobile ? 1.5 : 2}>
             <Grid item xs={12}>
-              <VariantConfigurationTab />
+              <VariantConfigurationTab customTheme={finalCustomTheme} />
             </Grid>
             <Grid item xs={12}>
               <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">

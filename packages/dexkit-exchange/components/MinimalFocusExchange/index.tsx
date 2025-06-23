@@ -32,7 +32,7 @@ const defaultSettings: ExchangeGlassSettings = {
   primaryColor: "#007AFF",
   accentColor: "#34C759",
   textColor: "#FFFFFF",
-  backgroundType: "gradient",
+  backgroundType: "solid",
   backgroundColor: "#1a1a1a",
   backgroundGradient: {
     from: "#1a1a1a",

@@ -2,6 +2,7 @@ import EvmWalletContainer from "@dexkit/ui/modules/wallet/components/containers/
 import { WalletPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { Container, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
+import CustomEvmWalletContainer from "./WalletSection/CustomEvmWalletContainer";
 import GlassEvmWalletContainer from "./WalletSection/GlassEvmWalletContainer";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 
 export function WalletSection({ section }: Props) {
   const theme = useTheme();
-  const { variant, glassSettings } = section.settings || {};
+  const { variant, glassSettings, customSettings } = section.settings || {};
 
   const renderDefaultVariant = () => {
     return (
@@ -485,10 +486,22 @@ export function WalletSection({ section }: Props) {
     );
   };
 
+  const renderCustomVariant = () => {
+    return (
+      <Box py={4}>
+        <Container>
+          <CustomEvmWalletContainer customSettings={customSettings} />
+        </Container>
+      </Box>
+    );
+  };
+
   const renderContent = () => {
     switch (variant) {
       case "glass":
         return renderGlassVariant();
+      case "custom":
+        return renderCustomVariant();
       default:
         return renderDefaultVariant();
     }

@@ -51,6 +51,12 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
 
+  const themeDefaults = useMemo(() => ({
+    backgroundColor: theme.palette.background.default,
+    backgroundPaper: theme.palette.background.paper,
+    textColor: theme.palette.text.primary,
+  }), [theme.palette.background.default, theme.palette.background.paper, theme.palette.text.primary]);
+
   const [selectedChainId, setSelectedChainId] = useState<number | undefined>(
     data?.defaultChainId,
   );
@@ -94,6 +100,44 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
       onChange(formData);
     }
   }, [formData, onChange]);
+
+  useEffect(() => {
+    if (formData?.variant === SwapVariant.Glass) {
+      const glassSettings = formData.glassSettings;
+      const backgroundType = glassSettings?.backgroundType || 'solid';
+
+      const needsInitialization =
+        !glassSettings ||
+        (backgroundType === 'solid' && !glassSettings.backgroundColor) ||
+        (backgroundType === 'gradient' && (!glassSettings.gradientStartColor || !glassSettings.gradientEndColor));
+
+      if (needsInitialization) {
+        setFormData((prevData) => {
+          const newGlassSettings = {
+            ...prevData?.glassSettings,
+            backgroundType: backgroundType,
+            blurIntensity: prevData?.glassSettings?.blurIntensity || 40,
+            glassOpacity: prevData?.glassSettings?.glassOpacity || 0.10,
+            disableBackground: prevData?.glassSettings?.disableBackground || false,
+            textColor: prevData?.glassSettings?.textColor || themeDefaults.textColor,
+          };
+
+          if (backgroundType === 'solid') {
+            newGlassSettings.backgroundColor = prevData?.glassSettings?.backgroundColor || themeDefaults.backgroundColor;
+          } else if (backgroundType === 'gradient') {
+            newGlassSettings.gradientStartColor = prevData?.glassSettings?.gradientStartColor || themeDefaults.backgroundColor;
+            newGlassSettings.gradientEndColor = prevData?.glassSettings?.gradientEndColor || themeDefaults.backgroundPaper;
+            newGlassSettings.gradientDirection = prevData?.glassSettings?.gradientDirection || "to bottom";
+          }
+
+          return {
+            ...prevData,
+            glassSettings: newGlassSettings,
+          };
+        });
+      }
+    }
+  }, [formData?.variant, themeDefaults]);
 
   const handleSelectImage = (file: { url: string }) => {
     setFormData((formData) => ({
@@ -797,15 +841,34 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           />
                         </Typography>
                         <RadioGroup
-                          value={formData?.glassSettings?.backgroundType || "gradient"}
+                          value={formData?.glassSettings?.backgroundType || "solid"}
                           onChange={(e) => {
-                            setFormData((formData) => ({
-                              ...formData,
-                              glassSettings: {
+                            const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                            setFormData((formData) => {
+                              const newGlassSettings = {
                                 ...formData?.glassSettings,
-                                backgroundType: e.target.value as 'solid' | 'gradient' | 'image',
-                              },
-                            }));
+                                backgroundType: newType,
+                              };
+
+                              if (newType === 'solid' && !formData?.glassSettings?.backgroundColor) {
+                                newGlassSettings.backgroundColor = themeDefaults.backgroundColor;
+                              } else if (newType === 'gradient') {
+                                if (!formData?.glassSettings?.gradientStartColor) {
+                                  newGlassSettings.gradientStartColor = themeDefaults.backgroundColor;
+                                }
+                                if (!formData?.glassSettings?.gradientEndColor) {
+                                  newGlassSettings.gradientEndColor = themeDefaults.backgroundPaper;
+                                }
+                                if (!formData?.glassSettings?.gradientDirection) {
+                                  newGlassSettings.gradientDirection = "to bottom";
+                                }
+                              }
+
+                              return {
+                                ...formData,
+                                glassSettings: newGlassSettings,
+                              };
+                            });
                           }}
                           row
                         >

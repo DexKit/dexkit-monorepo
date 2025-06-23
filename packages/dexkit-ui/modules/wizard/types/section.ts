@@ -113,7 +113,136 @@ export interface WalletPageSection extends PageSection {
   settings?: WalletSettings;
 }
 
-export type WalletVariant = "default" | "glass";
+export type WalletVariant = "default" | "glass" | "custom";
+
+export interface WalletCustomSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  primaryTextColor?: string;
+  secondaryTextColor?: string;
+  balanceTextColor?: string;
+
+  sendButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  receiveButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  scanButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  importTokenButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+
+  networkSelectorConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+
+  cardConfig?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    borderRadius?: number;
+    shadowColor?: string;
+    shadowIntensity?: number;
+  };
+
+  inputConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    focusBorderColor?: string;
+    placeholderColor?: string;
+    iconColor?: string;
+  };
+  paginationConfig?: {
+    textColor?: string;
+    backgroundColor?: string;
+    buttonColor?: string;
+    buttonHoverColor?: string;
+    selectBackgroundColor?: string;
+    selectTextColor?: string;
+  };
+  activityTableConfig?: {
+    headerBackgroundColor?: string;
+    headerTextColor?: string;
+    rowBackgroundColor?: string;
+    rowTextColor?: string;
+    hoverRowBackgroundColor?: string;
+    borderColor?: string;
+  };
+  tokenSearchConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    focusBorderColor?: string;
+    placeholderColor?: string;
+    iconColor?: string;
+  };
+
+  layout?: {
+    componentOrder?: Array<"balance" | "actions" | "search" | "tabs" | "content">;
+    spacing?: number;
+    actionButtonsLayout?: "horizontal" | "vertical" | "grid";
+    actionButtonsAlignment?: "left" | "center" | "right";
+  };
+
+  visibility?: {
+    hideNFTs?: boolean;
+    hideActivity?: boolean;
+    hideTransactions?: boolean;
+    hideTrades?: boolean;
+    hideSearch?: boolean;
+    hideImportToken?: boolean;
+    hideSendButton?: boolean;
+    hideReceiveButton?: boolean;
+    hideScanButton?: boolean;
+    hideNetworkSelector?: boolean;
+    hideBalance?: boolean;
+  };
+
+  tabsConfig?: {
+    backgroundColor?: string;
+    activeTabColor?: string;
+    inactiveTabColor?: string;
+    activeTabTextColor?: string;
+    inactiveTabTextColor?: string;
+    tabBarBackgroundColor?: string;
+    indicatorColor?: string;
+  };
+
+  tokenTableConfig?: {
+    headerBackgroundColor?: string;
+    headerTextColor?: string;
+    rowBackgroundColor?: string;
+    rowTextColor?: string;
+    hoverRowBackgroundColor?: string;
+    borderColor?: string;
+  };
+}
 
 export interface WalletGlassSettings {
   backgroundType?: "solid" | "gradient" | "image";
@@ -137,6 +266,7 @@ export interface WalletGlassSettings {
 export interface WalletSettings {
   variant?: WalletVariant;
   glassSettings?: WalletGlassSettings;
+  customSettings?: WalletCustomSettings;
 }
 
 export interface ContractPageSection extends PageSection {
