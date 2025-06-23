@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Token } from "../types";
 
+import { client } from "@dexkit/wallet-connectors/thirdweb/client";
+import { resolveAddress } from "thirdweb/extensions/ens";
 import { ChainId } from "../constants";
-import { NETWORK_PROVIDER } from "../constants/networkProvider";
 import { getPricesByChain } from "../services";
-
 
 export const COIN_PRICES_QUERY = "COIN_PRICES_QUERY";
 
@@ -41,12 +41,11 @@ export function useEnsNameQuery({
       return null
     }
 
-    const provider = NETWORK_PROVIDER(ChainId.Ethereum);
-    if (!provider) {
-      return null;
-    }
+    return await resolveAddress({
+      client,
+      name: address,
+    });
 
-    return await provider.resolveName(address);
   });
 }
 
@@ -60,11 +59,9 @@ export function useEnsNameMutation(
       return
     }
 
-    const provider = NETWORK_PROVIDER(ChainId.Ethereum);
-    if (!provider) {
-      return;
-    }
-
-    return await provider.resolveName(address);
+    return await resolveAddress({
+      client,
+      name: address,
+    });
   });
 }
