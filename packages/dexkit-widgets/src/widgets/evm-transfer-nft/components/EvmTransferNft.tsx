@@ -80,7 +80,6 @@ export default function EvmTransferNft({
 
   const nftTransfer = useNftTransfer({
     contractAddress,
-    provider,
     onSubmit: (hash: string) => {
       if (hash && chainId) {
         createNotification({
