@@ -6,7 +6,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Collapse,
   Divider,
   Grid,
   IconButton,
@@ -23,7 +22,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 
 import React, { Suspense, useEffect, useMemo, useState } from "react";
@@ -31,12 +30,13 @@ import React, { Suspense, useEffect, useMemo, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -409,8 +409,8 @@ const GlassEvmWalletContainer = ({
   const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
   const [selectedAssetTab, setSelectedAssetTab] = useState(AssetTabs.Tokens);
   const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
-  const [isTableOpen, setIsTableOpen] = useState(isDesktop);
   const [search, setSearch] = useState("");
+  const [isTableVisible, setIsTableVisible] = useState(true);
 
   const [filters, setFilters] = useState({
     myNfts: false,
@@ -445,12 +445,12 @@ const GlassEvmWalletContainer = ({
     setSelectedNFTTab(value);
   };
 
-  const handleToggleBalances = () => {
-    setIsTableOpen((value) => !value);
-  };
-
   const handleToggleVisibility = () => {
     setIsBalancesVisible((value) => !value);
+  };
+
+  const handleToggleTable = () => {
+    setIsTableVisible((value) => !value);
   };
 
   const handleOpenReceive = () => {
@@ -697,12 +697,25 @@ const GlassEvmWalletContainer = ({
                       <WalletTotalBalanceCointainer chainId={chainId} />
                     </NoSsr>
                   </Typography>
-                  <IconButton onClick={handleToggleVisibility}>
+                  <IconButton
+                    onClick={handleToggleVisibility}
+                    sx={{
+                      color: textColor,
+                    }}
+                  >
                     {isBalancesVisible ? (
                       <VisibilityIcon />
                     ) : (
                       <VisibilityOffIcon />
                     )}
+                  </IconButton>
+                  <IconButton
+                    onClick={handleToggleTable}
+                    sx={{
+                      color: textColor,
+                    }}
+                  >
+                    {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
                   </IconButton>
                 </Stack>
               </Box>
@@ -832,18 +845,16 @@ const GlassEvmWalletContainer = ({
           </Grid>
         )}
 
-        {isActive && selectedAssetTab === AssetTabs.Tokens && (
+        {isActive && selectedAssetTab === AssetTabs.Tokens && isTableVisible && (
           <Grid item xs={12}>
             <NoSsr>
-              <Collapse in={isTableOpen}>
-                <GlassWalletBalances
-                  blurIntensity={blurIntensity}
-                  glassOpacity={glassOpacity}
-                  textColor={textColor}
-                  chainId={chainId}
-                  filter={search}
-                />
-              </Collapse>
+              <GlassWalletBalances
+                blurIntensity={blurIntensity}
+                glassOpacity={glassOpacity}
+                textColor={textColor}
+                chainId={chainId}
+                filter={search}
+              />
             </NoSsr>
           </Grid>
         )}
@@ -1027,27 +1038,7 @@ const GlassEvmWalletContainer = ({
           )}
         </Grid>
 
-        {isActive && selectedAssetTab === AssetTabs.Tokens && (
-          <Grid item xs={12}>
-            <Button
-              onClick={handleToggleBalances}
-              fullWidth
-              sx={(theme) => ({
-                backgroundColor: theme.palette.background.paper,
-                py: 2,
-              })}
-              startIcon={
-                isTableOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />
-              }
-            >
-              {isTableOpen ? (
-                <FormattedMessage id="close" defaultMessage="Close" />
-              ) : (
-                <FormattedMessage id="open" defaultMessage="Open" />
-              )}
-            </Button>
-          </Grid>
-        )}
+
 
 
         {isActive && selectedAssetTab === AssetTabs.Tokens && !hideActivity && (

@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  Collapse,
   Divider,
   Grid,
   IconButton,
@@ -16,19 +15,19 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
 
+import TableChartIcon from "@mui/icons-material/TableChart";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -102,8 +101,8 @@ const EvmWalletContainer = () => {
   const { isLoggedIn } = useAuth();
 
   const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
-  const [isTableOpen, setIsTableOpen] = useState(isDesktop);
   const [search, setSearch] = useState("");
+  const [isTableVisible, setIsTableVisible] = useState(true);
 
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(
     isBalancesVisibleAtom
@@ -116,12 +115,12 @@ const EvmWalletContainer = () => {
     setSelectedTab(value);
   };
 
-  const handleToggleBalances = () => {
-    setIsTableOpen((value) => !value);
-  };
-
   const handleToggleVisibility = () => {
     setIsBalancesVisible((value) => !value);
+  };
+
+  const handleToggleTable = () => {
+    setIsTableVisible((value) => !value);
   };
 
   const handleOpenReceive = () => {
@@ -174,7 +173,7 @@ const EvmWalletContainer = () => {
         window.open(`/wallet/send/${encodeURIComponent(result)}`, "_blank");
       }
       handleOpenQrCodeScannerClose();
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleOpenQrCode = () => setShowQrCode(true);
@@ -278,12 +277,25 @@ const EvmWalletContainer = () => {
                               <WalletTotalBalanceCointainer chainId={chainId} />
                             </NoSsr>
                           </Typography>
-                          <IconButton onClick={handleToggleVisibility}>
+                          <IconButton
+                            onClick={handleToggleVisibility}
+                            sx={{
+                              color: theme.palette.text.primary,
+                            }}
+                          >
                             {isBalancesVisible ? (
                               <VisibilityIcon />
                             ) : (
                               <VisibilityOffIcon />
                             )}
+                          </IconButton>
+                          <IconButton
+                            onClick={handleToggleTable}
+                            sx={{
+                              color: theme.palette.text.primary,
+                            }}
+                          >
+                            {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
                           </IconButton>
                         </Stack>
                       </Box>
@@ -413,35 +425,11 @@ const EvmWalletContainer = () => {
               )}
             </Grid>
 
-            {isActive && (
+            {isActive && isTableVisible && (
               <Grid item xs={12}>
                 <NoSsr>
-                  <Collapse in={isTableOpen}>
-                    <WalletBalances chainId={chainId} filter={search} />
-                  </Collapse>
+                  <WalletBalances chainId={chainId} filter={search} />
                 </NoSsr>
-              </Grid>
-            )}
-
-            {isActive && (
-              <Grid item xs={12}>
-                <Button
-                  onClick={handleToggleBalances}
-                  fullWidth
-                  sx={(theme) => ({
-                    backgroundColor: theme.palette.background.paper,
-                    py: 2,
-                  })}
-                  startIcon={
-                    isTableOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />
-                  }
-                >
-                  {isTableOpen ? (
-                    <FormattedMessage id="close" defaultMessage="Close" />
-                  ) : (
-                    <FormattedMessage id="open" defaultMessage="Open" />
-                  )}
-                </Button>
               </Grid>
             )}
 

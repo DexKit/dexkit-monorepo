@@ -232,6 +232,16 @@ export interface WalletCustomSettings {
     inactiveTabTextColor?: string;
     tabBarBackgroundColor?: string;
     indicatorColor?: string;
+    tokensTitleColor?: string;
+    nftsTitleColor?: string;
+    tokensIndicatorColor?: string;
+    nftsIndicatorColor?: string;
+    collectedTitleColor?: string;
+    favoritesTitleColor?: string;
+    hiddenTitleColor?: string;
+    collectedIndicatorColor?: string;
+    favoritesIndicatorColor?: string;
+    hiddenIndicatorColor?: string;
   };
 
   tokenTableConfig?: {

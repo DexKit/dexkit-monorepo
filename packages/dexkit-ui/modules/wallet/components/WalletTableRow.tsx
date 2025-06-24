@@ -3,13 +3,13 @@ import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Avatar,
-    Box,
-    Skeleton,
-    Stack,
-    TableCell,
-    TableRow,
-    Typography,
+  Avatar,
+  Box,
+  Skeleton,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import { FormattedNumber } from "react-intl";
 import { TokenBalance } from "../types";
@@ -51,7 +51,12 @@ function WalletTableRow({
           spacing={2}
         >
           <Avatar
-            sx={{ width: "auto", height: "2rem" }}
+            sx={{
+              width: "auto",
+              height: "2rem",
+              filter: !isBalancesVisible ? 'blur(8px)' : 'none',
+              transition: 'filter 0.3s ease'
+            }}
             src={
               token.logoURI
                 ? ipfsUriToUrl(token.logoURI || "")
@@ -60,9 +65,11 @@ function WalletTableRow({
           />
 
           <Box>
-            <Typography variant="body1">{token.name}</Typography>
+            <Typography variant="body1">
+              {isBalancesVisible ? token.name : "**********"}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
-              {token.symbol}
+              {isBalancesVisible ? token.symbol : "*****"}
             </Typography>
           </Box>
         </Stack>

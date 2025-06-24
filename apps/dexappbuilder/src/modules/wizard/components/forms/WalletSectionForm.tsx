@@ -616,6 +616,16 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     inactiveTabTextColor: theme.palette.text.secondary,
     tabBarBackgroundColor: theme.palette.background.paper,
     indicatorColor: theme.palette.primary.main,
+    tokensTitleColor: theme.palette.text.primary,
+    nftsTitleColor: theme.palette.text.primary,
+    tokensIndicatorColor: theme.palette.primary.main,
+    nftsIndicatorColor: theme.palette.primary.main,
+    collectedTitleColor: theme.palette.text.primary,
+    favoritesTitleColor: theme.palette.text.primary,
+    hiddenTitleColor: theme.palette.text.primary,
+    collectedIndicatorColor: theme.palette.primary.main,
+    favoritesIndicatorColor: theme.palette.primary.main,
+    hiddenIndicatorColor: theme.palette.primary.main,
   },
 
   tokenTableConfig: {
@@ -824,6 +834,16 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             inactiveTabTextColor: palette.text?.secondary || "#656D76",
             tabBarBackgroundColor: palette.background?.paper || "#FAFAFA",
             indicatorColor: palette.primary?.main || "#3B51F7",
+            tokensTitleColor: palette.text?.primary || "#0E1116",
+            nftsTitleColor: palette.text?.primary || "#0E1116",
+            tokensIndicatorColor: palette.primary?.main || "#3B51F7",
+            nftsIndicatorColor: palette.primary?.main || "#3B51F7",
+            collectedTitleColor: palette.text?.primary || "#0E1116",
+            favoritesTitleColor: palette.text?.primary || "#0E1116",
+            hiddenTitleColor: palette.text?.primary || "#0E1116",
+            collectedIndicatorColor: palette.primary?.main || "#3B51F7",
+            favoritesIndicatorColor: palette.primary?.main || "#3B51F7",
+            hiddenIndicatorColor: palette.primary?.main || "#3B51F7",
           },
 
           tokenTableConfig: {
@@ -1446,6 +1466,124 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.tokens.title.color",
+                      defaultMessage: "Tokens Tab Title Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.tokensTitleColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.tokensTitleColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.nfts.title.color",
+                      defaultMessage: "NFTs Tab Title Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.nftsTitleColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.nftsTitleColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.tokens.indicator.color",
+                      defaultMessage: "Tokens Tab Underline Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.tokensIndicatorColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.tokensIndicatorColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.nfts.indicator.color",
+                      defaultMessage: "NFTs Tab Underline Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.nftsIndicatorColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.nftsIndicatorColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, fontWeight: 'bold' }}>
+                    <FormattedMessage
+                      id="custom.nft.subtabs.colors"
+                      defaultMessage="NFT Sub-tabs Colors"
+                    />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.collected.title.color",
+                      defaultMessage: "Collected Title Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.collectedTitleColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.collectedTitleColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.favorites.title.color",
+                      defaultMessage: "Favorites Title Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.favoritesTitleColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.favoritesTitleColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.hidden.title.color",
+                      defaultMessage: "Hidden Title Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.hiddenTitleColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.hiddenTitleColor", value)}
+                    defaultValue={theme.palette.text.primary}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.collected.indicator.color",
+                      defaultMessage: "Collected Underline Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.collectedIndicatorColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.collectedIndicatorColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.favorites.indicator.color",
+                      defaultMessage: "Favorites Underline Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.favoritesIndicatorColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.favoritesIndicatorColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.hidden.indicator.color",
+                      defaultMessage: "Hidden Underline Color"
+                    })}
+                    value={values.customSettings?.tabsConfig?.hiddenIndicatorColor || theme.palette.primary.main}
+                    onChange={(value: string) => setFieldValue("customSettings.tabsConfig.hiddenIndicatorColor", value)}
+                    defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
               </Grid>
             </AccordionDetails>
           </Accordion>
@@ -1754,17 +1892,6 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure card backgrounds, borders, shadows and overall styling
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={4}>
-                  <ColorPickerField
-                    label={formatMessage({
-                      id: "custom.card.background.color",
-                      defaultMessage: "Table Background Color"
-                    })}
-                    value={values.customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper}
-                    onChange={(value: string) => setFieldValue("customSettings.cardConfig.backgroundColor", value)}
-                    defaultValue={theme.palette.background.paper}
-                  />
-                </Grid>
                 <Grid item xs={12} sm={4}>
                   <ColorPickerField
                     label={formatMessage({
