@@ -3,6 +3,7 @@ import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Check from '@mui/icons-material/Check';
 import Close from '@mui/icons-material/Close';
+import Code from '@mui/icons-material/Code';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
 import {
@@ -21,6 +22,7 @@ export interface PageSectionsHeaderProps {
   onClose: () => void;
   onPreview: () => void;
   onClone: () => void;
+  onEmbed?: () => void;
   onEditTitle: (title: string) => void;
   onEditLayout: () => void;
   page: AppPage;
@@ -30,6 +32,7 @@ export interface PageSectionsHeaderProps {
 export default function PageSectionsHeader({
   onClose,
   onPreview,
+  onEmbed,
   onClone,
   onEditTitle,
   onEditLayout,
@@ -172,13 +175,26 @@ export default function PageSectionsHeader({
           pr: isMobile ? 0 : 0,
         }}
       >
+        {onEmbed && (
+          <Button
+            onClick={onEmbed}
+            startIcon={<Code fontSize={isMobile ? 'small' : 'medium'} />}
+            size={isMobile ? 'small' : 'medium'}
+            sx={{
+              minWidth: isMobile ? 'auto' : undefined,
+              px: isMobile ? 0.5 : 2,
+            }}
+          >
+            <FormattedMessage id="embed" defaultMessage="Embed" />
+          </Button>
+        )}
         <Button
           onClick={onPreview}
           startIcon={<Visibility fontSize={isMobile ? 'small' : 'medium'} />}
           size={isMobile ? 'small' : 'medium'}
           sx={{
             minWidth: isMobile ? 'auto' : undefined,
-            px: isMobile ? 0.5 : 0.5,
+            px: isMobile ? 0.5 : 2,
           }}
         >
           <FormattedMessage id="preview" defaultMessage="Preview" />

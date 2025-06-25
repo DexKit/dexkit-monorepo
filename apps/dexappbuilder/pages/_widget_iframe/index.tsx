@@ -9,6 +9,7 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsRenderer';
 
 import ProtectedContent from '@dexkit/dexappbuilder-viewer/components/ProtectedContent';
+import { PoweredByDexKit } from '@dexkit/ui/components/PoweredByDexKit';
 import { getWidgetConfig } from '@dexkit/ui/modules/wizard/services/widget';
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
@@ -45,6 +46,7 @@ const WidgetIframePage: NextPage<{
   gatedLayout,
   layout,
   slug,
+  hide_powered_by,
 }) => {
   if (isProtected) {
     return (
@@ -60,6 +62,7 @@ const WidgetIframePage: NextPage<{
             layout={gatedLayout}
             slug={slug}
           />
+          {!hide_powered_by && <PoweredByDexKit />}
         </AuthProvider>
       </SessionProvider>
     );
@@ -69,6 +72,7 @@ const WidgetIframePage: NextPage<{
     <NoSsr>
       <GlobalDialogs />
       <SectionsRenderer sections={sections} layout={layout} />
+      {!hide_powered_by && <PoweredByDexKit />}
     </NoSsr>
   );
 };
@@ -91,23 +95,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   const config = JSON.parse(widget.config) as WidgetConfig;
 
   const homePage = config.page;
-  if (!homePage) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: true,
-      },
-    };
-  }
-
-  if (!homePage) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: true,
-      },
-    };
-  }
 
   if (homePage?.gatedConditions && homePage.gatedConditions.length > 0) {
     return {
@@ -118,10 +105,12 @@ export const getServerSideProps: GetServerSideProps = async ({
         conditions: homePage?.gatedConditions,
         gatedLayout: homePage?.gatedPageLayout,
         site: params?.site,
-        layout: homePage.layout,
+        layout: homePage.layout || null,
         balances: {},
         partialResults: {},
-        hide_powered_by: config.hide_powered_by,
+        hide_powered_by: config?.hide_powered_by
+          ? config.hide_powered_by
+          : false,
       },
     };
   }
@@ -129,9 +118,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      sections: homePage.sections,
-      layout: homePage.layout,
-      hide_powered_by: config.hide_powered_by,
+      sections: homePage.sections || [],
+      layout: homePage.layout || null,
+      hide_powered_by: config?.hide_powered_by ? config.hide_powered_by : false,
     },
   };
 };

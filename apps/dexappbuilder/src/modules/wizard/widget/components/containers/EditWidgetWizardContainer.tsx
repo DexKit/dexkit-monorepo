@@ -556,6 +556,7 @@ export function EditWidgetWizardContainer({
                       }}
                     >
                       <WidgetSectionWizardContainer
+                        id={widget?.id}
                         config={widgetWizard}
                         onSave={handleSave}
                         onChange={handleChange}

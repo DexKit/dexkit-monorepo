@@ -28,6 +28,7 @@ import {
 } from '@dexkit/ui/modules/wizard/types/section';
 import { WidgetConfig } from '@dexkit/ui/modules/wizard/types/widget';
 import { getTheme } from 'src/theme';
+import EmbedWidgetDialog from '../dialogs/EmbedWidgetDialog';
 import { PagesContext } from './EditWidgetWizardContainer';
 
 interface Props {
@@ -38,10 +39,12 @@ interface Props {
   builderKit?: BuilderKit;
   onHasChanges: (hasChanges: boolean) => void;
   siteSlug?: string;
+  id?: number;
   previewUrl?: string;
 }
 
 export default function WidgetSectionWizardContainer({
+  id,
   config,
   siteSlug,
   onSave,
@@ -54,6 +57,7 @@ export default function WidgetSectionWizardContainer({
   const [page, setPage] = useState<AppPage>(config.page);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number>(-1);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEmbed, setIsOpenEmbed] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [showLayoutEdit, setShowLayoutEdit] = useState(false);
@@ -218,8 +222,15 @@ export default function WidgetSectionWizardContainer({
     setShowLayoutEdit(false);
   };
 
+  const handleCloseEmbedWidget = () => {
+    setIsOpenEmbed(false);
+  };
+
   const handleEditLayout = () => {
     setShowLayoutEdit(true);
+  };
+  const onEmbed = () => {
+    setIsOpenEmbed(true);
   };
 
   const handleConfirmEditLayout = (layout: PageSectionsLayout) => {
@@ -240,6 +251,23 @@ export default function WidgetSectionWizardContainer({
           }}
           layout={selectedKey ? page?.layout : undefined}
           onConfirm={handleConfirmEditLayout}
+        />
+      );
+    }
+  };
+
+  const renderEmbedWidgetDialog = () => {
+    if (isOpenEmbed) {
+      return (
+        <EmbedWidgetDialog
+          dialogProps={{
+            open: isOpenEmbed,
+            maxWidth: 'md',
+            fullWidth: true,
+            onClose: handleCloseEmbedWidget,
+          }}
+          widgetId={id}
+          onCancel={handleCloseEmbedWidget}
         />
       );
     }
@@ -280,6 +308,7 @@ export default function WidgetSectionWizardContainer({
     <>
       {renderPreviewDialog()}
       {renderPageLayoutDialog()}
+      {renderEmbedWidgetDialog()}
       {isOpen && (
         <EditSectionDialog
           dialogProps={{
@@ -374,6 +403,7 @@ export default function WidgetSectionWizardContainer({
         </Grid>
         <Grid item xs={12}>
           <PageSections
+            onEmbed={onEmbed}
             onAddSection={onAddSection}
             onAddCustomSection={onAddCustomSection}
             onEditTitle={() => {}}
@@ -389,7 +419,6 @@ export default function WidgetSectionWizardContainer({
             onClone={() => {}}
             onChangeName={() => {}}
             onEditLayout={handleEditLayout}
-            siteId={'site'}
           />
         </Grid>
         <Grid item xs={12}>

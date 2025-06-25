@@ -68,6 +68,7 @@ export interface PageSectionsProps {
   onAction: (action: string, index: number) => void;
   onClose: () => void;
   onClone: () => void;
+  onEmbed?: () => void;
   onEditTitle: (page: string, title: string) => void;
   onEditLayout: () => void;
   onAdd: () => void;
@@ -89,6 +90,7 @@ export default function PageSections({
   onAction,
   onClose,
   onAdd,
+  onEmbed,
   onChangeName,
   onEditTitle,
   onEditLayout,
@@ -273,6 +275,7 @@ export default function PageSections({
         <PageSectionsHeader
           onClose={onClose}
           onClone={onClone}
+          onEmbed={onEmbed}
           onEditTitle={(title) => onEditTitle(pageKey || '', title)}
           onEditLayout={onEditLayout}
           onPreview={onPreview}

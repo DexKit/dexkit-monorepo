@@ -40,7 +40,7 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
   });
   const { mutateAsync: checkoutPlan } = usePlanCheckoutMutation();
   const premiumActivateMutation = useActivatePremiumMutation({ isWidget });
-  const disabelPremiumMutation = useDisablePremiumMutation({ isWidget });
+  const disablePremiumMutation = useDisablePremiumMutation({ isWidget });
   const [openConfirmDisable, setOpenConfirmDisable] = useState(false);
 
   // we check if user has plan, if not subscribe. This should if done once
@@ -102,7 +102,7 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
   const handleDisableFeature = async () => {
     setOpenConfirmDisable(false);
     try {
-      await disabelPremiumMutation.mutateAsync({
+      await disablePremiumMutation.mutateAsync({
         siteId: editSiteId,
       });
       snackBar.enqueueSnackbar(
@@ -252,10 +252,10 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
               variant={'contained'}
               color="error"
               startIcon={
-                disabelPremiumMutation.isLoading && <CircularProgress />
+                disablePremiumMutation.isLoading && <CircularProgress />
               }
               disabled={
-                disabelPremiumMutation.isLoading ||
+                disablePremiumMutation.isLoading ||
                 activeFeatUsageQuery.isLoading
               }
               onClick={() => setOpenConfirmDisable(true)}
