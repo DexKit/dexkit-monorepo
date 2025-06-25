@@ -1,6 +1,7 @@
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
 import { useAppWizardConfig } from '@dexkit/ui/hooks';
+import { SwapVariant } from '@dexkit/ui/modules/wizard/types';
 import {
   AppPageSection,
   WalletCustomSettings,
@@ -538,6 +539,18 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     borderColor: theme.palette.info.main,
     hoverBackgroundColor: theme.palette.info.dark,
   },
+  swapButtonConfig: {
+    backgroundColor: theme.palette.primary.main,
+    textColor: theme.palette.primary.contrastText,
+    borderColor: theme.palette.primary.main,
+    hoverBackgroundColor: theme.palette.primary.dark,
+  },
+  backButtonConfig: {
+    backgroundColor: theme.palette.primary.main,
+    textColor: theme.palette.primary.contrastText,
+    borderColor: theme.palette.primary.main,
+    hoverBackgroundColor: theme.palette.primary.dark,
+  },
 
   networkSelectorConfig: {
     backgroundColor: theme.palette.background.paper,
@@ -575,7 +588,7 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     headerTextColor: theme.palette.text.primary,
     rowBackgroundColor: theme.palette.background.default,
     rowTextColor: theme.palette.text.primary,
-    hoverRowBackgroundColor: theme.palette.action.hover,
+    hoverRowBackgroundColor: theme.palette.primary.main,
     borderColor: theme.palette.divider,
   },
   tokenSearchConfig: {
@@ -608,6 +621,10 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     hideBalance: false,
   },
 
+  swapConfig: {
+    variant: SwapVariant.Classic,
+  },
+
   tabsConfig: {
     backgroundColor: theme.palette.background.paper,
     activeTabColor: theme.palette.primary.main,
@@ -633,7 +650,7 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     headerTextColor: theme.palette.text.primary,
     rowBackgroundColor: theme.palette.background.default,
     rowTextColor: theme.palette.text.primary,
-    hoverRowBackgroundColor: theme.palette.action.hover,
+    hoverRowBackgroundColor: theme.palette.primary.main,
     borderColor: theme.palette.divider,
   },
 });
@@ -851,7 +868,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             headerTextColor: palette.text?.primary || "#0E1116",
             rowBackgroundColor: palette.background?.default || "#FFFFFF",
             rowTextColor: palette.text?.primary || "#0E1116",
-            hoverRowBackgroundColor: palette.action?.hover || "#F6F8FA",
+            hoverRowBackgroundColor: palette.primary.main,
             borderColor: palette.divider || "#E1E4E8",
           },
         } as WalletCustomSettings;
@@ -1284,6 +1301,8 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     if (!values.customSettings?.gradientDirection) {
                       setFieldValue("customSettings.gradientDirection", "to bottom");
                     }
+                  } else if (newType === 'image' && !values.customSettings?.backgroundColor) {
+                    setFieldValue("customSettings.backgroundColor", theme.palette.background.default);
                   }
                 }}
                 row
@@ -1423,6 +1442,22 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     onRepeatChange={(repeat) => setFieldValue("customSettings.backgroundRepeat", repeat)}
                     attachmentValue={values.customSettings?.backgroundAttachment}
                     onAttachmentChange={(attachment) => setFieldValue("customSettings.backgroundAttachment", attachment)}
+                  />
+                </Box>
+              )}
+              {values.customSettings?.backgroundType === "image" && (
+                <Box sx={{ mt: 2 }}>
+                  <Typography gutterBottom>
+                    <FormattedMessage id="custom.background.blur" defaultMessage="Background Blur" />
+                  </Typography>
+                  <Slider
+                    value={values.customSettings?.backgroundBlur ?? 0}
+                    onChange={(_, value) => setFieldValue("customSettings.backgroundBlur", value)}
+                    min={0}
+                    max={40}
+                    step={1}
+                    valueLabelDisplay="auto"
+                    marks={[{ value: 0, label: '0px' }, { value: 20, label: '20px' }, { value: 40, label: '40px' }]}
                   />
                 </Box>
               )}
@@ -1822,6 +1857,116 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   </Grid>
                 </Grid>
               </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.swap.button.title"
+                    defaultMessage="Swap Button"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.swapButtonConfig?.backgroundColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.swapButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.swapButtonConfig?.textColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.swapButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.primary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.swapButtonConfig?.borderColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.swapButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.swapButtonConfig?.hoverBackgroundColor || theme.palette.primary.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.swapButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.primary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
+                  <FormattedMessage
+                    id="custom.back.button.title"
+                    defaultMessage="Back Button (Swap View)"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.backButtonConfig?.backgroundColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.backButtonConfig.backgroundColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.text.color",
+                        defaultMessage: "Text Color"
+                      })}
+                      value={values.customSettings?.backButtonConfig?.textColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.backButtonConfig.textColor", value)}
+                      defaultValue={theme.palette.primary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.border.color",
+                        defaultMessage: "Border Color"
+                      })}
+                      value={values.customSettings?.backButtonConfig?.borderColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.backButtonConfig.borderColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.button.hover.color",
+                        defaultMessage: "Hover Color"
+                      })}
+                      value={values.customSettings?.backButtonConfig?.hoverBackgroundColor || theme.palette.primary.dark}
+                      onChange={(value: string) => setFieldValue("customSettings.backButtonConfig.hoverBackgroundColor", value)}
+                      defaultValue={theme.palette.primary.dark}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
             </AccordionDetails>
           </Accordion>
 
@@ -1981,9 +2126,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       id: "custom.table.row.hover.color",
                       defaultMessage: "Row Hover Color"
                     })}
-                    value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                    value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.primary.main}
                     onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.hoverRowBackgroundColor", value)}
-                    defaultValue={theme.palette.action.hover}
+                    defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -2183,6 +2328,57 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Grid>
               </Grid>
+
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  <FormattedMessage
+                    id="custom.swap.configuration"
+                    defaultMessage="Swap Configuration"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel>
+                        <FormattedMessage
+                          id="custom.swap.variant"
+                          defaultMessage="Swap Widget Variant"
+                        />
+                      </InputLabel>
+                      <Select
+                        value={values.customSettings?.swapConfig?.variant || SwapVariant.Classic}
+                        onChange={(e) => setFieldValue("customSettings.swapConfig.variant", e.target.value as SwapVariant)}
+                        label={formatMessage({
+                          id: "custom.swap.variant",
+                          defaultMessage: "Swap Widget Variant"
+                        })}
+                      >
+                        <MenuItem value={SwapVariant.Classic}>
+                          <FormattedMessage id="classic" defaultMessage="Classic - Traditional swap interface" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.MatchaLike}>
+                          <FormattedMessage id="pro" defaultMessage="Pro - Advanced trading interface" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.UniswapLike}>
+                          <FormattedMessage id="modern" defaultMessage="Modern - Clean, contemporary design" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.Minimal}>
+                          <FormattedMessage id="minimal" defaultMessage="Minimal - Ultra-clean interface" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.Compact}>
+                          <FormattedMessage id="compact" defaultMessage="Compact - Space-efficient for small areas" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.Mobile}>
+                          <FormattedMessage id="mobile" defaultMessage="Mobile - Touch-optimized with gestures" />
+                        </MenuItem>
+                        <MenuItem value={SwapVariant.Glass}>
+                          <FormattedMessage id="glass" defaultMessage="Glass - Modern glassmorphic design" />
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Box>
             </AccordionDetails>
           </Accordion>
 
@@ -2415,9 +2611,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                         id: "custom.table.row.hover.color",
                         defaultMessage: "Row Hover Color"
                       })}
-                      value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                      value={values.customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.primary.main}
                       onChange={(value: string) => setFieldValue("customSettings.tokenTableConfig.hoverRowBackgroundColor", value)}
-                      defaultValue={theme.palette.action.hover}
+                      defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
                 </Grid>
@@ -2478,9 +2674,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                         id: "custom.activity.hover.row.background.color",
                         defaultMessage: "Row Hover Background Color"
                       })}
-                      value={values.customSettings?.activityTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover}
+                      value={values.customSettings?.activityTableConfig?.hoverRowBackgroundColor || theme.palette.primary.main}
                       onChange={(value: string) => setFieldValue("customSettings.activityTableConfig.hoverRowBackgroundColor", value)}
-                      defaultValue={theme.palette.action.hover}
+                      defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -2627,7 +2823,30 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               variant="outlined"
               startIcon={<RefreshIcon />}
               onClick={() => {
-                const newSettings = getCurrentThemeCustomSettings();
+                const currentBackgroundType = values.customSettings?.backgroundType;
+
+                // Usar directamente la función getDefaultCustomSettings que usa el tema global
+                const newSettings = getDefaultCustomSettings(theme);
+
+                // Preservar el tipo de fondo actual
+                if (currentBackgroundType) {
+                  newSettings.backgroundType = currentBackgroundType;
+                }
+
+                // Los botones de swap y back heredan el color del sendButton al resetear
+                newSettings.swapButtonConfig = {
+                  backgroundColor: newSettings.sendButtonConfig?.backgroundColor,
+                  textColor: newSettings.sendButtonConfig?.textColor,
+                  borderColor: newSettings.sendButtonConfig?.borderColor,
+                  hoverBackgroundColor: newSettings.sendButtonConfig?.hoverBackgroundColor,
+                };
+                newSettings.backButtonConfig = {
+                  backgroundColor: newSettings.sendButtonConfig?.backgroundColor,
+                  textColor: newSettings.sendButtonConfig?.textColor,
+                  borderColor: newSettings.sendButtonConfig?.borderColor,
+                  hoverBackgroundColor: newSettings.sendButtonConfig?.hoverBackgroundColor,
+                };
+
                 setFieldValue("customSettings", newSettings);
               }}
               sx={{

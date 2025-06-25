@@ -2,7 +2,7 @@ import { OrderMarketType } from "@dexkit/exchange/constants";
 import { DexkitExchangeSettings } from "@dexkit/exchange/types";
 import { ContractFormParams } from "@dexkit/web3forms/types";
 import React from "react";
-import { AssetFormType, DeployedContract, SwapConfig } from ".";
+import { AssetFormType, DeployedContract, SwapConfig, SwapVariant } from ".";
 import { AssetStoreOptions } from "../../nft/types";
 import { PageSectionVariant, SectionItem, VideoEmbedType } from "./config";
 
@@ -129,6 +129,7 @@ export interface WalletCustomSettings {
   primaryTextColor?: string;
   secondaryTextColor?: string;
   balanceTextColor?: string;
+  backgroundBlur?: number;
 
   sendButtonConfig?: {
     backgroundColor?: string;
@@ -149,6 +150,18 @@ export interface WalletCustomSettings {
     hoverBackgroundColor?: string;
   };
   importTokenButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  swapButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  backButtonConfig?: {
     backgroundColor?: string;
     textColor?: string;
     borderColor?: string;
@@ -222,6 +235,10 @@ export interface WalletCustomSettings {
     hideScanButton?: boolean;
     hideNetworkSelector?: boolean;
     hideBalance?: boolean;
+  };
+
+  swapConfig?: {
+    variant?: SwapVariant;
   };
 
   tabsConfig?: {

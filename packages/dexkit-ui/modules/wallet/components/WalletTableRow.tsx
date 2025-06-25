@@ -2,16 +2,19 @@ import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { CurrencyExchange, SwapHoriz } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  IconButton,
   Skeleton,
   Stack,
   TableCell,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import { FormattedNumber } from "react-intl";
+import { FormattedMessage, FormattedNumber } from "react-intl";
 import { TokenBalance } from "../types";
 
 interface Props {
@@ -20,6 +23,13 @@ interface Props {
   tokenBalance: TokenBalance;
   currency: string;
   price?: number;
+  onClickTradeCoin?: (tokenBalance: TokenBalance) => void;
+  swapButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
 }
 
 function WalletTableRow({
@@ -28,6 +38,8 @@ function WalletTableRow({
   isLoadingCurrency,
   price,
   currency,
+  onClickTradeCoin,
+  swapButtonConfig,
 }: Props) {
   const { chainId } = useWeb3React();
   const { token, balance } = tokenBalance;
@@ -41,9 +53,34 @@ function WalletTableRow({
       currency={currency}
     />
   );
+
+  const handleSwapClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onClickTradeCoin) {
+      onClickTradeCoin(tokenBalance);
+    }
+  };
+
+  const handleExchangeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // TODO: Implement exchange logic
+  };
+
+  const actionButtonStyle = {
+    p: 0.5,
+    bgcolor: swapButtonConfig?.backgroundColor || 'action.hover',
+    color: swapButtonConfig?.textColor || 'text.primary',
+    border: swapButtonConfig?.borderColor ? `1px solid ${swapButtonConfig.borderColor}` : 'none',
+    '&:hover': {
+      bgcolor: swapButtonConfig?.hoverBackgroundColor || 'primary.main',
+      color: swapButtonConfig?.textColor || 'primary.contrastText',
+    },
+    transition: 'all 0.2s ease',
+  };
+
   return (
     <TableRow>
-      <TableCell>
+      <TableCell sx={{ width: '40%' }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -64,7 +101,7 @@ function WalletTableRow({
             }
           />
 
-          <Box>
+          <Box sx={{ flex: 1 }}>
             <Typography variant="body1">
               {isBalancesVisible ? token.name : "**********"}
             </Typography>
@@ -74,7 +111,7 @@ function WalletTableRow({
           </Box>
         </Stack>
       </TableCell>
-      <TableCell>
+      <TableCell sx={{ width: '25%' }}>
         {isLoadingCurrency ? (
           <Skeleton>*****</Skeleton>
         ) : isBalancesVisible ? (
@@ -83,13 +120,37 @@ function WalletTableRow({
           "*****"
         )}
       </TableCell>
-      <TableCell>
+      <TableCell sx={{ width: '25%' }}>
         {isBalancesVisible ? (
           <>
             {<FormattedNumber value={Number(balanceUnits)} />} {token.symbol}
           </>
         ) : (
           "*****"
+        )}
+      </TableCell>
+      <TableCell sx={{ width: '10%' }}>
+        {isBalancesVisible && onClickTradeCoin && (
+          <Stack direction="row" spacing={1} justifyContent="flex-end">
+            <Tooltip title={<FormattedMessage id="swap" defaultMessage="Swap" />}>
+              <IconButton
+                size="small"
+                onClick={handleSwapClick}
+                sx={actionButtonStyle}
+              >
+                <SwapHoriz fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={<FormattedMessage id="exchange" defaultMessage="Exchange" />}>
+              <IconButton
+                size="small"
+                onClick={handleExchangeClick}
+                sx={actionButtonStyle}
+              >
+                <CurrencyExchange fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
         )}
       </TableCell>
     </TableRow>

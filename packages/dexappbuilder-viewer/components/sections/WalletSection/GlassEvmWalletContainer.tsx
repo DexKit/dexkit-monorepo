@@ -17,6 +17,12 @@ import {
   Skeleton,
   Stack,
   Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tabs,
   TextField,
   Tooltip,
@@ -25,7 +31,7 @@ import {
   useTheme
 } from "@mui/material";
 
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -68,6 +74,8 @@ import LoginAppButton from "@dexkit/ui/components/LoginAppButton";
 import { myAppsApi } from "@dexkit/ui/constants/api";
 import { useAppConfig, useAuth, useEvmCoins } from "@dexkit/ui/hooks";
 import { useActiveChainIds } from "@dexkit/ui/hooks/blockchain";
+import { useCurrency } from "@dexkit/ui/hooks/currency";
+import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { AssetMedia } from "@dexkit/ui/modules/nft/components/AssetMedia";
 import TableSkeleton from "@dexkit/ui/modules/nft/components/tables/TableSkeleton";
@@ -78,9 +86,11 @@ import {
   TransactionsTableFilter,
 } from "@dexkit/ui/modules/wallet/components/TransactionsTable";
 import UserActivityTable from "@dexkit/ui/modules/wallet/components/UserActivityTable";
-import WalletBalances from "@dexkit/ui/modules/wallet/components/WalletBalancesTable";
+import WalletTableRow from "@dexkit/ui/modules/wallet/components/WalletTableRow";
 import { WalletTotalBalanceCointainer } from "@dexkit/ui/modules/wallet/components/WalletTotalBalanceContainer";
+import { useERC20BalancesQuery } from "@dexkit/ui/modules/wallet/hooks";
 import { isBalancesVisibleAtom } from "@dexkit/ui/modules/wallet/state";
+import { TokenBalance } from '@dexkit/ui/modules/wallet/types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Send from "@mui/icons-material/Send";
@@ -107,6 +117,7 @@ import GlassEvmSendDialog from "./GlassEvmSendDialog";
 import GlassImportTokenDialog from "./GlassImportTokenDialog";
 import { GlassNetworkSelectButton } from "./GlassNetworkSelectButton";
 import GlassScanWalletQrCodeDialog from "./GlassScanWalletQrCodeDialog";
+import GlassTradeContainer from './GlassTradeContainer';
 
 enum WalletTabs {
   Transactions,
@@ -131,6 +142,18 @@ interface Props {
   textColor?: string;
   hideNFTs?: boolean;
   hideActivity?: boolean;
+  customSettings?: any;
+  onClickTradeCoin?: (tokenBalance: any) => void;
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: string;
+  backgroundPosition?: string;
+  backgroundRepeat?: string;
+  backgroundType?: string;
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  swapVariant?: import('@dexkit/ui/modules/wizard/types').SwapVariant;
 }
 
 const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blurIntensity = 40, glassOpacity = 0.10, textColor = '#ffffff' }: any) => {
@@ -314,87 +337,225 @@ const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blu
   );
 };
 
-const GlassWalletBalances = ({ blurIntensity = 40, glassOpacity = 0.10, textColor = '#ffffff', ...props }: any) => (
-  <Box
-    sx={{
-      background: `rgba(255, 255, 255, ${glassOpacity})`,
-      backdropFilter: `blur(${blurIntensity}px)`,
-      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-      borderRadius: '16px',
-      padding: 2,
-      minHeight: '400px',
-      maxHeight: '600px',
-      overflowY: 'auto',
-      boxShadow: `
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-      `,
-      position: 'relative',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
-        borderRadius: 'inherit',
-        pointerEvents: 'none',
-        zIndex: 1,
-      },
-      '& > *': {
+const GlassWalletBalances = ({
+  blurIntensity = 40,
+  glassOpacity = 0.10,
+  textColor = '#ffffff',
+  isBalancesVisible,
+  chainId,
+  filter,
+  onClickTradeCoin,
+  swapButtonConfig,
+  ...props
+}: any) => {
+  const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
+  const coinPricesQuery = useSimpleCoinPricesQuery({
+    includeNative: true,
+    chainId,
+  });
+
+  const prices = coinPricesQuery.data;
+  const currency = useCurrency();
+
+  const tokenBalancesWithPrices = useMemo(() => {
+    return tokenBalancesQuery?.data?.map((tb: any) => {
+      return {
+        ...tb,
+        price:
+          prices && prices[tb.token.address.toLowerCase()]
+            ? prices[tb.token.address.toLowerCase()][currency.currency]
+            : undefined,
+      };
+    });
+  }, [prices, tokenBalancesQuery.data, currency]);
+
+  const tokenBalancesWithPricesFiltered = useMemo(() => {
+    if (filter) {
+      const lowercasedFilter = filter.toLowerCase();
+      return tokenBalancesWithPrices?.filter(
+        (t: any) =>
+          t?.token?.name?.toLowerCase().search(lowercasedFilter) !== -1 ||
+          t?.token?.symbol?.toLowerCase().search(lowercasedFilter) !== -1 ||
+          t?.token?.address?.toLowerCase().search(lowercasedFilter) !== -1
+      );
+    }
+    return tokenBalancesWithPrices;
+  }, [tokenBalancesWithPrices, filter]);
+
+  const handleClickTradeCoin = useCallback((tokenBalance: any) => {
+    if (onClickTradeCoin) {
+      onClickTradeCoin(tokenBalance);
+    }
+  }, [onClickTradeCoin]);
+
+  return (
+    <Box
+      sx={{
+        background: `rgba(255, 255, 255, ${glassOpacity})`,
+        backdropFilter: `blur(${blurIntensity}px)`,
+        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+        borderRadius: '16px',
+        padding: 2,
+        minHeight: '400px',
+        maxHeight: '600px',
+        overflowY: 'auto',
+        boxShadow: `
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+        `,
         position: 'relative',
-        zIndex: 2,
-      },
-      '& .MuiTypography-root': {
-        color: textColor,
-      },
-      '& .MuiTableCell-root': {
-        color: textColor + ' !important',
-        borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
-      },
-      '& .MuiTableHead-root .MuiTableCell-root': {
-        color: textColor + 'CC !important',
-        fontWeight: 600,
-      },
-      // Scrollbar styling
-      '&::-webkit-scrollbar': {
-        width: '8px',
-      },
-      '&::-webkit-scrollbar-track': {
-        background: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: '4px',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.4)})`,
-        borderRadius: '4px',
-        '&:hover': {
-          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.5)})`,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
+          borderRadius: 'inherit',
+          pointerEvents: 'none',
+          zIndex: 1,
         },
-      },
-    }}
-  >
-    <WalletBalances {...props} />
-  </Box>
-);
+        '& > *': {
+          position: 'relative',
+          zIndex: 2,
+        },
+        '& .MuiTypography-root': {
+          color: textColor,
+        },
+        '& .MuiTableCell-root': {
+          color: textColor + ' !important',
+          borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
+        },
+        '& .MuiTableHead-root .MuiTableCell-root': {
+          color: textColor + 'CC !important',
+          fontWeight: 600,
+        },
+        '& .MuiIconButton-root': {
+          color: textColor + ' !important',
+          '&:hover': {
+            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+          },
+        },
+        '&::-webkit-scrollbar': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.4)})`,
+          borderRadius: '4px',
+          '&:hover': {
+            background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.5)})`,
+          },
+        },
+      }}
+    >
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ width: '40%' }}>
+                <FormattedMessage id="token" defaultMessage="Token" />
+              </TableCell>
+              <TableCell sx={{ width: '25%' }}>
+                <FormattedMessage id="total" defaultMessage="Total" />
+              </TableCell>
+              <TableCell sx={{ width: '25%' }}>
+                <FormattedMessage id="balance" defaultMessage="Balance" />
+              </TableCell>
+              <TableCell sx={{ width: '10%' }}>
+                <FormattedMessage id="actions" defaultMessage="Actions" />
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+              <WalletTableRow
+                key={index}
+                isLoadingCurrency={coinPricesQuery.isLoading}
+                tokenBalance={token}
+                price={token.price}
+                isBalancesVisible={isBalancesVisible}
+                currency={currency.currency}
+                onClickTradeCoin={handleClickTradeCoin}
+                swapButtonConfig={{
+                  backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+                  textColor: textColor,
+                  hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                }}
+              />
+            ))}
+            {tokenBalancesQuery.isLoading &&
+              new Array(4).fill(null).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+};
 
 const GlassEvmWalletContainer = ({
   blurIntensity = 40,
   glassOpacity = 0.10,
   textColor = '#ffffff',
   hideNFTs = false,
-  hideActivity = false
+  hideActivity = false,
+  customSettings,
+  onClickTradeCoin,
+  backgroundColor,
+  backgroundImage,
+  backgroundSize,
+  backgroundPosition,
+  backgroundRepeat,
+  backgroundType,
+  gradientStartColor,
+  gradientEndColor,
+  gradientDirection,
+  swapVariant,
 }: Props) => {
   const appConfig = useAppConfig();
-
+  const theme = useTheme();
+  const [isBalancesVisible, setIsBalancesVisible] = useAtom(isBalancesVisibleAtom);
+  const [isTableVisible, setIsTableVisible] = useState(true);
+  const [chainId, setChainId] = useState<number | undefined>();
+  const [search, setSearch] = useState("");
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
+  const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
+  const [selectedCoinForTrade, setSelectedCoinForTrade] = useState<TokenBalance | null>(null);
   const { account, isActive, chainId: walletChainId, ENSName } = useWeb3React();
-  const [chainId, setChainId] = useState(walletChainId);
+  const intl = useIntl();
+
+  const handleClickTradeCoin = useCallback((tokenBalance: TokenBalance) => {
+    setSelectedCoinForTrade(tokenBalance);
+  }, []);
+
+  const handleBackFromTrade = useCallback(() => {
+    setSelectedCoinForTrade(null);
+  }, []);
 
   const { formatMessage } = useIntl();
   const evmCoins = useEvmCoins({ defaultChainId: chainId });
 
-  const theme = useTheme();
   const { connectWallet } = useWalletConnect();
   const handleConnectWallet = () => {
     connectWallet();
@@ -406,11 +567,7 @@ const GlassEvmWalletContainer = ({
 
   const { isLoggedIn } = useAuth();
 
-  const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
   const [selectedAssetTab, setSelectedAssetTab] = useState(AssetTabs.Tokens);
-  const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
-  const [search, setSearch] = useState("");
-  const [isTableVisible, setIsTableVisible] = useState(true);
 
   const [filters, setFilters] = useState({
     myNfts: false,
@@ -419,10 +576,6 @@ const GlassEvmWalletContainer = ({
     account: '' as string,
   });
   const [showImportAsset, setShowImportAsset] = useState(false);
-
-  const [isBalancesVisible, setIsBalancesVisible] = useAtom(
-    isBalancesVisibleAtom
-  );
 
   const handleChangeTab = (
     event: React.SyntheticEvent<Element, Event>,
@@ -531,6 +684,49 @@ const GlassEvmWalletContainer = ({
   const handleOpenQrCode = () => setShowQrCode(true);
 
   const isMobile = useIsMobile();
+
+  const getContainerBackground = () => {
+    if (backgroundType === 'image' && backgroundImage) {
+      return backgroundColor
+        ? `${backgroundColor}, url(${backgroundImage})`
+        : `url(${backgroundImage})`;
+    } else if (backgroundType === 'solid') {
+      return backgroundColor || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    } else if (backgroundType === 'gradient') {
+      const from = gradientStartColor || '#667eea';
+      const to = gradientEndColor || '#764ba2';
+      const direction = gradientDirection || 'to bottom';
+
+      const directionMap: Record<string, string> = {
+        'to bottom': '180deg',
+        'to top': '0deg',
+        'to right': '90deg',
+        'to left': '270deg',
+        'to bottom right': '135deg',
+        'to bottom left': '225deg',
+      };
+      const gradientDirectionValue = directionMap[direction] || '180deg';
+      return `linear-gradient(${gradientDirectionValue}, ${from}, ${to})`;
+    }
+    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  };
+
+  if (selectedCoinForTrade) {
+    return (
+      <GlassTradeContainer
+        selectedCoin={selectedCoinForTrade}
+        onBack={handleBackFromTrade}
+        blurIntensity={blurIntensity}
+        glassOpacity={glassOpacity}
+        textColor={textColor}
+        backgroundColor={getContainerBackground()}
+        backgroundSize={backgroundSize}
+        backgroundPosition={backgroundPosition}
+        backgroundRepeat={backgroundRepeat}
+        swapVariant={swapVariant}
+      />
+    );
+  }
 
   return (
     <>
@@ -852,8 +1048,15 @@ const GlassEvmWalletContainer = ({
                 blurIntensity={blurIntensity}
                 glassOpacity={glassOpacity}
                 textColor={textColor}
+                isBalancesVisible={isBalancesVisible}
                 chainId={chainId}
                 filter={search}
+                onClickTradeCoin={handleClickTradeCoin}
+                swapButtonConfig={{
+                  backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+                  textColor: textColor,
+                  hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                }}
               />
             </NoSsr>
           </Grid>

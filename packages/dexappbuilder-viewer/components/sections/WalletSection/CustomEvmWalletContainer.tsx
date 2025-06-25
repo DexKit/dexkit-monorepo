@@ -46,7 +46,7 @@ import dynamic from "next/dynamic";
 import { NetworkSelectButton } from "@dexkit/ui/components/NetworkSelectButton";
 
 import ImportTokenDialog from "@dexkit/ui/components/dialogs/ImportTokenDialog";
-import { useAppConfig, useAuth, useEvmCoins } from "@dexkit/ui/hooks";
+import { useAppConfig, useAuth, useEvmCoins, useSwitchNetworkMutation } from "@dexkit/ui/hooks";
 import { useCurrency } from "@dexkit/ui/hooks/currency";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import UserActivityTable from "@dexkit/ui/modules/wallet/components/UserActivityTable";
@@ -75,8 +75,6 @@ import TableSkeleton from "@dexkit/ui/modules/nft/components/tables/TableSkeleto
 import { useAccountAssetsBalance, useHiddenAssets } from "@dexkit/ui/modules/nft/hooks";
 import { truncateErc1155TokenId } from "@dexkit/ui/modules/nft/utils";
 import { WalletCustomSettings } from "@dexkit/ui/modules/wizard/types/section";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -102,6 +100,8 @@ import {
   Select,
   Tooltip,
 } from "@mui/material";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
@@ -124,6 +124,10 @@ const FavoriteAssetsSection = dynamic(
 
 const ImportAssetDialog = dynamic(
   () => import("../../../../../apps/dexappbuilder/src/modules/orders/components/dialogs/ImportAssetDialog")
+);
+
+const TradeContainer = dynamic(
+  () => import("./TradeContainer")
 );
 
 enum WalletTabs {
@@ -250,7 +254,11 @@ const CustomNetworkSelectButton = ({ customSettings, chainId, onChange }: {
   );
 };
 
-const CustomWalletBalances = ({ customSettings, filter }: { customSettings?: WalletCustomSettings, filter?: string }) => {
+const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin }: {
+  customSettings?: WalletCustomSettings,
+  filter?: string,
+  onClickTradeCoin?: (tokenBalance: any) => void
+}) => {
   const theme = useTheme();
   const isBalancesVisible = useIsBalanceVisible();
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, undefined, false);
@@ -329,6 +337,9 @@ const CustomWalletBalances = ({ customSettings, filter }: { customSettings?: Wal
               <TableCell sx={headerCellStyles}>
                 <FormattedMessage id="balance" defaultMessage="Balance" />
               </TableCell>
+              <TableCell sx={headerCellStyles}>
+                <FormattedMessage id="actions" defaultMessage="Actions" />
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody
@@ -378,11 +389,16 @@ const CustomWalletBalances = ({ customSettings, filter }: { customSettings?: Wal
                 price={token.price}
                 isBalancesVisible={isBalancesVisible}
                 currency={currency.currency}
+                onClickTradeCoin={onClickTradeCoin}
+                swapButtonConfig={customSettings?.swapButtonConfig}
               />
             ))}
             {tokenBalancesQuery.isLoading &&
               new Array(4).fill(null).map((_, index) => (
                 <TableRow key={index}>
+                  <TableCell>
+                    <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                  </TableCell>
                   <TableCell>
                     <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
                   </TableCell>
@@ -1131,6 +1147,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const evmCoins = useEvmCoins({ defaultChainId: chainId });
   const theme = useTheme();
   const { connectWallet } = useWalletConnect();
+  const switchNetworkMutation = useSwitchNetworkMutation();
   const handleConnectWallet = () => {
     connectWallet();
   };
@@ -1142,6 +1159,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [selectedAssetTab, setSelectedAssetTab] = useState(AssetTabs.Tokens);
   const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
+  const [selectedCoin, setSelectedCoin] = useState<any>(undefined);
 
   const [filters, setFilters] = useState({
     myNfts: false,
@@ -1193,6 +1211,27 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
 
   const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
 
+  const handleClickTradeCoin = (tokenBalance: any) => {
+    setSelectedCoin(tokenBalance);
+  };
+
+  const handleBackFromTrade = () => {
+    setSelectedCoin(undefined);
+  };
+
+  const handleChangeNetwork = async (newChainId: number) => {
+    setChainId(newChainId);
+
+    if (isActive && walletChainId !== newChainId) {
+      try {
+        await switchNetworkMutation.mutateAsync({ chainId: newChainId });
+      } catch (error) {
+        console.error('Error switching network:', error);
+        setChainId(walletChainId || newChainId);
+      }
+    }
+  };
+
   const handleCopy = () => {
     if (account) {
       if (ENSName) {
@@ -1243,8 +1282,12 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const isMobile = useIsMobile();
 
   const getContainerBackground = () => {
-    if (customSettings?.backgroundType === 'image' && customSettings?.backgroundImage) {
-      return `url(${customSettings.backgroundImage})`;
+    if (customSettings?.backgroundType === 'image') {
+      const color = customSettings.backgroundColor || theme.palette.background.default;
+      if (customSettings?.backgroundImage) {
+        return `${color} url(${customSettings.backgroundImage})`;
+      }
+      return color;
     } else if (customSettings?.backgroundType === 'solid') {
       return customSettings.backgroundColor || theme.palette.background.default;
     } else if (customSettings?.backgroundType === 'gradient') {
@@ -1273,6 +1316,9 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
     backgroundPosition: customSettings?.backgroundPosition || 'center',
     backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
     backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
+    ...(typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0
+      ? { backdropFilter: `blur(${customSettings.backgroundBlur}px)`, WebkitBackdropFilter: `blur(${customSettings.backgroundBlur}px)` }
+      : {}),
   };
 
   const getButtonStyles = (buttonConfig: any) => ({
@@ -1326,495 +1372,528 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
     return customSettings?.primaryTextColor || theme.palette.primary.main;
   };
 
+  if (selectedCoin) {
+    return (
+      <TradeContainer
+        selectedCoin={selectedCoin}
+        onBack={handleBackFromTrade}
+        customSettings={customSettings}
+      />
+    );
+  }
+
   return (
-    <Box sx={containerStyle}>
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        {showQrCode && (
-          <ScanWalletQrCodeDialog
-            DialogProps={{
-              open: showQrCode,
-              maxWidth: "sm",
-              fullWidth: true,
-              fullScreen: isMobile,
-              onClose: handleOpenQrCodeScannerClose,
-            }}
-            onResult={handleAddressResult}
-          />
-        )}
-
-        <EvmReceiveDialog
-          dialogProps={{
-            open: isReceiveOpen,
-            onClose: handleCloseReceive,
-            maxWidth: "sm",
-            fullWidth: true,
-          }}
-          receiver={account}
-          chainId={chainId}
-          coins={evmCoins}
-        />
-
-        <ImportTokenDialog
-          dialogProps={{
-            open: isImportDialogOpen,
-            onClose: handleCloseImportTokenDialog,
-            maxWidth: "xs",
-            fullWidth: true,
+    <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {customSettings?.backgroundType === 'image' && (
+        <Box
+          sx={{
+            position: 'absolute',
+            zIndex: 0,
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: getContainerBackground(),
+            backgroundSize: customSettings?.backgroundSize || 'cover',
+            backgroundPosition: customSettings?.backgroundPosition || 'center',
+            backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
+            backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
+            filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+            WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+            pointerEvents: 'none',
           }}
         />
-
-        {showImportAsset && (
-          <ImportAssetDialog
-            dialogProps={{
-              open: showImportAsset,
-              fullWidth: true,
-              maxWidth: 'xs',
-              onClose: handleToggleImportAsset,
-            }}
-          />
-        )}
-
-        <Grid container spacing={getLayoutSpacing()}>
-          <Grid item xs={12}>
-            <Grid container spacing={1} sx={{ mb: 2 }}>
-              <Grid item xs={12} sm="auto">
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  <FormattedMessage
-                    id="wallet"
-                    defaultMessage="Wallet"
-                  />
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm="auto" sx={{ ml: "auto" }}>
-                <Stack direction="row" spacing={1}>
-                  {!shouldHideElement('networkSelector') && (
-                    <CustomNetworkSelectButton
-                      customSettings={customSettings}
-                      chainId={chainId}
-                      onChange={(newChainId) => setChainId(newChainId)}
-                    />
-                  )}
-                  <IconButton
-                    onClick={handleToggleVisibility}
-                    sx={{
-                      color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                    }}
-                  >
-                    {isBalancesVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                  <IconButton
-                    onClick={handleToggleTable}
-                    sx={{
-                      color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                    }}
-                  >
-                    {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
-                  </IconButton>
-                </Stack>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          {!shouldHideElement('balance') && (
-            <Grid item xs={12}>
-              <CustomWalletTotalBalance
-                customSettings={customSettings}
-                chainId={chainId}
-              />
-            </Grid>
+      )}
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <Container maxWidth="md" sx={{ py: 4 }}>
+          {showQrCode && (
+            <ScanWalletQrCodeDialog
+              DialogProps={{
+                open: showQrCode,
+                maxWidth: "sm",
+                fullWidth: true,
+                fullScreen: isMobile,
+                onClose: handleOpenQrCodeScannerClose,
+              }}
+              onResult={handleAddressResult}
+            />
           )}
 
-          <Grid item xs={12}>
-            <Grid
-              container
-              spacing={getLayoutSpacing()}
-              direction={getActionButtonsDirection() as 'row' | 'column'}
-              justifyContent={getActionButtonsJustifyContent()}
-              alignItems={customSettings?.layout?.actionButtonsLayout === 'vertical' ? (customSettings?.layout?.actionButtonsAlignment === 'center' ? 'center' : customSettings?.layout?.actionButtonsAlignment === 'right' ? 'flex-end' : 'flex-start') : 'center'}
-            >
-              {!shouldHideElement('receiveButton') && (
-                <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
-                  <Button
-                    onClick={handleOpenReceive}
-                    variant="outlined"
-                    startIcon={<VerticalAlignBottomIcon />}
-                    disabled={!isActive}
-                    fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
-                    sx={getButtonStyles(customSettings?.receiveButtonConfig)}
+          <EvmReceiveDialog
+            dialogProps={{
+              open: isReceiveOpen,
+              onClose: handleCloseReceive,
+              maxWidth: "sm",
+              fullWidth: true,
+            }}
+            receiver={account}
+            chainId={chainId}
+            coins={evmCoins}
+          />
+
+          <ImportTokenDialog
+            dialogProps={{
+              open: isImportDialogOpen,
+              onClose: handleCloseImportTokenDialog,
+              maxWidth: "xs",
+              fullWidth: true,
+            }}
+          />
+
+          {showImportAsset && (
+            <ImportAssetDialog
+              dialogProps={{
+                open: showImportAsset,
+                fullWidth: true,
+                maxWidth: 'xs',
+                onClose: handleToggleImportAsset,
+              }}
+            />
+          )}
+
+          <Grid container spacing={getLayoutSpacing()}>
+            <Grid item xs={12}>
+              <Grid container spacing={1} sx={{ mb: 2 }}>
+                <Grid item xs={12} sm="auto">
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: customSettings?.primaryTextColor || theme.palette.text.primary,
+                      fontWeight: 'bold',
+                    }}
                   >
                     <FormattedMessage
-                      id="receive"
-                      defaultMessage="Receive"
+                      id="wallet"
+                      defaultMessage="Wallet"
                     />
-                  </Button>
+                  </Typography>
                 </Grid>
-              )}
-              {!shouldHideElement('sendButton') && (
-                <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
-                  <CustomTransferCoinButton
-                    customSettings={customSettings}
-                    buttonConfig={customSettings?.sendButtonConfig}
-                    fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
-                  />
+                <Grid item xs={12} sm="auto" sx={{ ml: "auto" }}>
+                  <Stack direction="row" spacing={1}>
+                    {!shouldHideElement('networkSelector') && (
+                      <CustomNetworkSelectButton
+                        customSettings={customSettings}
+                        chainId={chainId}
+                        onChange={handleChangeNetwork}
+                      />
+                    )}
+                    <IconButton
+                      onClick={handleToggleVisibility}
+                      sx={{
+                        color: customSettings?.primaryTextColor || theme.palette.text.primary,
+                      }}
+                    >
+                      {isBalancesVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                    <IconButton
+                      onClick={handleToggleTable}
+                      sx={{
+                        color: customSettings?.primaryTextColor || theme.palette.text.primary,
+                      }}
+                    >
+                      {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
+                    </IconButton>
+                  </Stack>
                 </Grid>
-              )}
-              {!shouldHideElement('scanButton') && (
-                <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
-                  <Button
-                    onClick={handleOpenQrCode}
-                    startIcon={<QrCodeScanner />}
-                    variant="outlined"
-                    fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
-                    sx={getButtonStyles(customSettings?.scanButtonConfig)}
-                  >
-                    <FormattedMessage id="scan" defaultMessage="Scan" />
-                  </Button>
-                </Grid>
-              )}
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
+            {!shouldHideElement('balance') && (
+              <Grid item xs={12}>
+                <CustomWalletTotalBalance
+                  customSettings={customSettings}
+                  chainId={chainId}
+                />
+              </Grid>
+            )}
 
-          {!shouldHideElement('search') && (
             <Grid item xs={12}>
-              <Grid container spacing={getLayoutSpacing()} alignItems="center">
-                <Grid
-                  item
-                  xs={isDesktop ? undefined : 12}
-                  sm={isDesktop ? true : undefined}
-                >
-                  <TextField
-                    size="small"
-                    type="search"
-                    placeholder="Search tokens..."
-                    onChange={(ev) => setSearch(ev.currentTarget.value)}
-                    fullWidth
-                    sx={{
-                      backgroundColor: customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default,
-                      borderRadius: theme.shape.borderRadius,
-                      '& .MuiInputBase-root': {
-                        color: `${customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`,
-                        backgroundColor: `${customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default} !important`,
-                      },
-                      '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                          borderColor: `${customSettings?.tokenSearchConfig?.borderColor || theme.palette.divider} !important`,
-                        },
-                        '&:hover fieldset': {
-                          borderColor: `${customSettings?.tokenSearchConfig?.focusBorderColor || theme.palette.primary.main} !important`,
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: `${customSettings?.tokenSearchConfig?.focusBorderColor || theme.palette.primary.main} !important`,
-                        },
-                      },
-                      '& .MuiInputBase-input': {
-                        color: `${customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`,
-                        '&::placeholder': {
-                          color: `${customSettings?.tokenSearchConfig?.placeholderColor || theme.palette.text.secondary} !important`,
-                          opacity: 1,
-                        },
-                      },
-                    }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Search sx={{
-                            color: `${customSettings?.tokenSearchConfig?.iconColor || customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`
-                          }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-                {!shouldHideElement('importToken') && (
-                  <Grid item xs={isDesktop ? undefined : 12}>
+              <Grid
+                container
+                spacing={getLayoutSpacing()}
+                direction={getActionButtonsDirection() as 'row' | 'column'}
+                justifyContent={getActionButtonsJustifyContent()}
+                alignItems={customSettings?.layout?.actionButtonsLayout === 'vertical' ? (customSettings?.layout?.actionButtonsAlignment === 'center' ? 'center' : customSettings?.layout?.actionButtonsAlignment === 'right' ? 'flex-end' : 'flex-start') : 'center'}
+              >
+                {!shouldHideElement('receiveButton') && (
+                  <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
                     <Button
-                      onClick={selectedAssetTab === AssetTabs.Tokens ? handleOpenImportTokenDialog : handleToggleImportAsset}
+                      onClick={handleOpenReceive}
                       variant="outlined"
+                      startIcon={<VerticalAlignBottomIcon />}
                       disabled={!isActive}
-                      startIcon={<ImportExportIcon />}
-                      fullWidth
-                      sx={getButtonStyles(customSettings?.importTokenButtonConfig)}
+                      fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
+                      sx={getButtonStyles(customSettings?.receiveButtonConfig)}
                     >
                       <FormattedMessage
-                        id={selectedAssetTab === AssetTabs.Tokens ? "import.token" : "import.nft"}
-                        defaultMessage={selectedAssetTab === AssetTabs.Tokens ? "Import token" : "Import NFT"}
+                        id="receive"
+                        defaultMessage="Receive"
                       />
+                    </Button>
+                  </Grid>
+                )}
+                {!shouldHideElement('sendButton') && (
+                  <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
+                    <CustomTransferCoinButton
+                      customSettings={customSettings}
+                      buttonConfig={customSettings?.sendButtonConfig}
+                      fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
+                    />
+                  </Grid>
+                )}
+                {!shouldHideElement('scanButton') && (
+                  <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
+                    <Button
+                      onClick={handleOpenQrCode}
+                      startIcon={<QrCodeScanner />}
+                      variant="outlined"
+                      fullWidth={customSettings?.layout?.actionButtonsLayout === 'vertical' || customSettings?.layout?.actionButtonsLayout === 'grid'}
+                      sx={getButtonStyles(customSettings?.scanButtonConfig)}
+                    >
+                      <FormattedMessage id="scan" defaultMessage="Scan" />
                     </Button>
                   </Grid>
                 )}
               </Grid>
             </Grid>
-          )}
 
-          {isActive && (
             <Grid item xs={12}>
-              <Tabs
-                value={selectedAssetTab}
-                onChange={handleChangeAssetTab}
-                sx={{
-                  '& .MuiTabs-indicator': {
-                    backgroundColor: getMainTabIndicatorColor(),
-                  },
-                }}
-              >
-                <Tab
-                  value={AssetTabs.Tokens}
-                  label={
-                    <FormattedMessage
-                      id="tokens"
-                      defaultMessage="Tokens"
+              <Divider />
+            </Grid>
+
+            {!shouldHideElement('search') && (
+              <Grid item xs={12}>
+                <Grid container spacing={getLayoutSpacing()} alignItems="center">
+                  <Grid
+                    item
+                    xs={isDesktop ? undefined : 12}
+                    sm={isDesktop ? true : undefined}
+                  >
+                    <TextField
+                      size="small"
+                      type="search"
+                      placeholder="Search tokens..."
+                      onChange={(ev) => setSearch(ev.currentTarget.value)}
+                      fullWidth
+                      sx={{
+                        backgroundColor: customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default,
+                        borderRadius: theme.shape.borderRadius,
+                        '& .MuiInputBase-root': {
+                          color: `${customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`,
+                          backgroundColor: `${customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default} !important`,
+                        },
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: `${customSettings?.tokenSearchConfig?.borderColor || theme.palette.divider} !important`,
+                          },
+                          '&:hover fieldset': {
+                            borderColor: `${customSettings?.tokenSearchConfig?.focusBorderColor || theme.palette.primary.main} !important`,
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: `${customSettings?.tokenSearchConfig?.focusBorderColor || theme.palette.primary.main} !important`,
+                          },
+                        },
+                        '& .MuiInputBase-input': {
+                          color: `${customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`,
+                          '&::placeholder': {
+                            color: `${customSettings?.tokenSearchConfig?.placeholderColor || theme.palette.text.secondary} !important`,
+                            opacity: 1,
+                          },
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Search sx={{
+                              color: `${customSettings?.tokenSearchConfig?.iconColor || customSettings?.tokenSearchConfig?.textColor || theme.palette.text.primary} !important`
+                            }} />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
-                  }
+                  </Grid>
+                  {!shouldHideElement('importToken') && (
+                    <Grid item xs={isDesktop ? undefined : 12}>
+                      <Button
+                        onClick={selectedAssetTab === AssetTabs.Tokens ? handleOpenImportTokenDialog : handleToggleImportAsset}
+                        variant="outlined"
+                        disabled={!isActive}
+                        startIcon={<ImportExportIcon />}
+                        fullWidth
+                        sx={getButtonStyles(customSettings?.importTokenButtonConfig)}
+                      >
+                        <FormattedMessage
+                          id={selectedAssetTab === AssetTabs.Tokens ? "import.token" : "import.nft"}
+                          defaultMessage={selectedAssetTab === AssetTabs.Tokens ? "Import token" : "Import NFT"}
+                        />
+                      </Button>
+                    </Grid>
+                  )}
+                </Grid>
+              </Grid>
+            )}
+
+            {isActive && (
+              <Grid item xs={12}>
+                <Tabs
+                  value={selectedAssetTab}
+                  onChange={handleChangeAssetTab}
                   sx={{
-                    color: selectedAssetTab === AssetTabs.Tokens
-                      ? (customSettings?.tabsConfig?.tokensTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
-                      : (customSettings?.primaryTextColor || theme.palette.text.primary),
-                    '&.Mui-selected': {
-                      color: customSettings?.tabsConfig?.tokensTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                    '& .MuiTabs-indicator': {
+                      backgroundColor: getMainTabIndicatorColor(),
                     },
                   }}
-                />
-                {!shouldHideElement('nfts') && (
+                >
                   <Tab
-                    value={AssetTabs.NFTs}
+                    value={AssetTabs.Tokens}
                     label={
                       <FormattedMessage
-                        id="nfts"
-                        defaultMessage="NFTs"
+                        id="tokens"
+                        defaultMessage="Tokens"
                       />
                     }
                     sx={{
-                      color: selectedAssetTab === AssetTabs.NFTs
-                        ? (customSettings?.tabsConfig?.nftsTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
+                      color: selectedAssetTab === AssetTabs.Tokens
+                        ? (customSettings?.tabsConfig?.tokensTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
                         : (customSettings?.primaryTextColor || theme.palette.text.primary),
                       '&.Mui-selected': {
-                        color: customSettings?.tabsConfig?.nftsTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                        color: customSettings?.tabsConfig?.tokensTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
                       },
                     }}
                   />
+                  {!shouldHideElement('nfts') && (
+                    <Tab
+                      value={AssetTabs.NFTs}
+                      label={
+                        <FormattedMessage
+                          id="nfts"
+                          defaultMessage="NFTs"
+                        />
+                      }
+                      sx={{
+                        color: selectedAssetTab === AssetTabs.NFTs
+                          ? (customSettings?.tabsConfig?.nftsTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
+                          : (customSettings?.primaryTextColor || theme.palette.text.primary),
+                        '&.Mui-selected': {
+                          color: customSettings?.tabsConfig?.nftsTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                        },
+                      }}
+                    />
+                  )}
+                </Tabs>
+              </Grid>
+            )}
+
+            {isActive && selectedAssetTab === AssetTabs.Tokens && isTableVisible && (
+              <Grid item xs={12}>
+                <CustomWalletBalances
+                  customSettings={customSettings}
+                  filter={search}
+                  onClickTradeCoin={handleClickTradeCoin}
+                />
+              </Grid>
+            )}
+
+            {isActive && selectedAssetTab === AssetTabs.NFTs && (
+              <Grid item xs={12}>
+                <Tabs
+                  value={selectedNFTTab}
+                  onChange={handleChangeNFTTab}
+                  sx={{
+                    '& .MuiTabs-indicator': {
+                      backgroundColor: getNFTSubTabIndicatorColor(),
+                    },
+                  }}
+                >
+                  <Tab
+                    value={NFTTabs.Collected}
+                    label={
+                      <FormattedMessage
+                        id="collected"
+                        defaultMessage="Collected"
+                      />
+                    }
+                    sx={{
+                      color: selectedNFTTab === NFTTabs.Collected
+                        ? (customSettings?.tabsConfig?.collectedTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
+                        : (customSettings?.primaryTextColor || theme.palette.text.primary),
+                      '&.Mui-selected': {
+                        color: customSettings?.tabsConfig?.collectedTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                      },
+                    }}
+                  />
+                  <Tab
+                    value={NFTTabs.Favorites}
+                    label={
+                      <FormattedMessage
+                        id="favorites"
+                        defaultMessage="Favorites"
+                      />
+                    }
+                    sx={{
+                      color: selectedNFTTab === NFTTabs.Favorites
+                        ? (customSettings?.tabsConfig?.favoritesTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
+                        : (customSettings?.primaryTextColor || theme.palette.text.primary),
+                      '&.Mui-selected': {
+                        color: customSettings?.tabsConfig?.favoritesTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                      },
+                    }}
+                  />
+                  <Tab
+                    value={NFTTabs.Hidden}
+                    label={
+                      <FormattedMessage
+                        id="hidden"
+                        defaultMessage="Hidden"
+                      />
+                    }
+                    sx={{
+                      color: selectedNFTTab === NFTTabs.Hidden
+                        ? (customSettings?.tabsConfig?.hiddenTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
+                        : (customSettings?.primaryTextColor || theme.palette.text.primary),
+                      '&.Mui-selected': {
+                        color: customSettings?.tabsConfig?.hiddenTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
+                      },
+                    }}
+                  />
+                </Tabs>
+              </Grid>
+            )}
+
+            {isActive && selectedAssetTab === AssetTabs.NFTs && (
+              <Grid item xs={12}>
+                {selectedNFTTab === NFTTabs.Collected && (
+                  <QueryErrorResetBoundary>
+                    {({ reset }) => (
+                      <ErrorBoundary
+                        onReset={reset}
+                        fallbackRender={({ resetErrorBoundary, error }) => (
+                          <Paper sx={{ p: 1 }}>
+                            <Stack justifyContent="center" alignItems="center">
+                              <Typography variant="h6">
+                                <FormattedMessage
+                                  id="something.went.wrong"
+                                  defaultMessage="Oops, something went wrong"
+                                  description="Something went wrong error message"
+                                />
+                              </Typography>
+                              <Typography variant="body1" color="textSecondary">
+                                {String(error)}
+                              </Typography>
+                              <Button
+                                color="primary"
+                                onClick={resetErrorBoundary}
+                              >
+                                <FormattedMessage
+                                  id="try.again"
+                                  defaultMessage="Try again"
+                                  description="Try again"
+                                />
+                              </Button>
+                            </Stack>
+                          </Paper>
+                        )}
+                      >
+                        <Suspense fallback={<TableSkeleton rows={4} />}>
+                          <CustomWalletAssetsSection
+                            customSettings={customSettings}
+                            filters={{ ...filters, account: account }}
+                            onOpenFilters={() => { }}
+                            onImport={handleToggleImportAsset}
+                            setFilters={setFilters}
+                          />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )}
+                  </QueryErrorResetBoundary>
                 )}
-              </Tabs>
-            </Grid>
-          )}
 
-          {isActive && selectedAssetTab === AssetTabs.Tokens && isTableVisible && (
-            <Grid item xs={12}>
-              <CustomWalletBalances
-                customSettings={customSettings}
-                filter={search}
-              />
-            </Grid>
-          )}
+                {selectedNFTTab === NFTTabs.Favorites && (
+                  <FavoriteAssetsSection
+                    filters={filters}
+                    onOpenFilters={() => { }}
+                    onImport={handleToggleImportAsset}
+                  />
+                )}
 
-          {isActive && selectedAssetTab === AssetTabs.NFTs && (
-            <Grid item xs={12}>
-              <Tabs
-                value={selectedNFTTab}
-                onChange={handleChangeNFTTab}
-                sx={{
-                  '& .MuiTabs-indicator': {
-                    backgroundColor: getNFTSubTabIndicatorColor(),
-                  },
-                }}
-              >
-                <Tab
-                  value={NFTTabs.Collected}
-                  label={
-                    <FormattedMessage
-                      id="collected"
-                      defaultMessage="Collected"
-                    />
-                  }
+                {selectedNFTTab === NFTTabs.Hidden && (
+                  <QueryErrorResetBoundary>
+                    {({ reset }) => (
+                      <ErrorBoundary
+                        onReset={reset}
+                        fallbackRender={({ resetErrorBoundary, error }) => (
+                          <Paper sx={{ p: 1 }}>
+                            <Stack justifyContent="center" alignItems="center">
+                              <Typography variant="h6">
+                                <FormattedMessage
+                                  id="something.went.wrong"
+                                  defaultMessage="Oops, something went wrong"
+                                  description="Something went wrong error message"
+                                />
+                              </Typography>
+                              <Typography variant="body1" color="textSecondary">
+                                {String(error)}
+                              </Typography>
+                              <Button
+                                color="primary"
+                                onClick={resetErrorBoundary}
+                              >
+                                <FormattedMessage
+                                  id="try.again"
+                                  defaultMessage="Try again"
+                                  description="Try again"
+                                />
+                              </Button>
+                            </Stack>
+                          </Paper>
+                        )}
+                      >
+                        <Suspense fallback={<TableSkeleton rows={4} />}>
+                          <CustomWalletAssetsSection
+                            customSettings={customSettings}
+                            filters={filters}
+                            onOpenFilters={() => { }}
+                            hiddenOnly={true}
+                          />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )}
+                  </QueryErrorResetBoundary>
+                )}
+              </Grid>
+            )}
+
+            {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
+              <Grid item xs={12}>
+                <Typography
+                  variant="h6"
                   sx={{
-                    color: selectedNFTTab === NFTTabs.Collected
-                      ? (customSettings?.tabsConfig?.collectedTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
-                      : (customSettings?.primaryTextColor || theme.palette.text.primary),
-                    '&.Mui-selected': {
-                      color: customSettings?.tabsConfig?.collectedTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
-                    },
+                    color: customSettings?.primaryTextColor || theme.palette.text.primary,
+                    fontWeight: 'bold',
+                    mb: 2,
+                    borderBottom: `2px solid ${customSettings?.primaryTextColor || theme.palette.primary.main}`,
+                    pb: 1,
+                    display: 'inline-block',
                   }}
-                />
-                <Tab
-                  value={NFTTabs.Favorites}
-                  label={
-                    <FormattedMessage
-                      id="favorites"
-                      defaultMessage="Favorites"
-                    />
-                  }
-                  sx={{
-                    color: selectedNFTTab === NFTTabs.Favorites
-                      ? (customSettings?.tabsConfig?.favoritesTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
-                      : (customSettings?.primaryTextColor || theme.palette.text.primary),
-                    '&.Mui-selected': {
-                      color: customSettings?.tabsConfig?.favoritesTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
-                    },
-                  }}
-                />
-                <Tab
-                  value={NFTTabs.Hidden}
-                  label={
-                    <FormattedMessage
-                      id="hidden"
-                      defaultMessage="Hidden"
-                    />
-                  }
-                  sx={{
-                    color: selectedNFTTab === NFTTabs.Hidden
-                      ? (customSettings?.tabsConfig?.hiddenTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main)
-                      : (customSettings?.primaryTextColor || theme.palette.text.primary),
-                    '&.Mui-selected': {
-                      color: customSettings?.tabsConfig?.hiddenTitleColor || customSettings?.primaryTextColor || theme.palette.primary.main,
-                    },
-                  }}
-                />
-              </Tabs>
-            </Grid>
-          )}
+                >
+                  <FormattedMessage
+                    id="activity"
+                    defaultMessage="Activity"
+                  />
+                </Typography>
+              </Grid>
+            )}
 
-          {isActive && selectedAssetTab === AssetTabs.NFTs && (
-            <Grid item xs={12}>
-              {selectedNFTTab === NFTTabs.Collected && (
-                <QueryErrorResetBoundary>
-                  {({ reset }) => (
-                    <ErrorBoundary
-                      onReset={reset}
-                      fallbackRender={({ resetErrorBoundary, error }) => (
-                        <Paper sx={{ p: 1 }}>
-                          <Stack justifyContent="center" alignItems="center">
-                            <Typography variant="h6">
-                              <FormattedMessage
-                                id="something.went.wrong"
-                                defaultMessage="Oops, something went wrong"
-                                description="Something went wrong error message"
-                              />
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary">
-                              {String(error)}
-                            </Typography>
-                            <Button
-                              color="primary"
-                              onClick={resetErrorBoundary}
-                            >
-                              <FormattedMessage
-                                id="try.again"
-                                defaultMessage="Try again"
-                                description="Try again"
-                              />
-                            </Button>
-                          </Stack>
-                        </Paper>
-                      )}
-                    >
-                      <Suspense fallback={<TableSkeleton rows={4} />}>
-                        <CustomWalletAssetsSection
-                          customSettings={customSettings}
-                          filters={{ ...filters, account: account }}
-                          onOpenFilters={() => { }}
-                          onImport={handleToggleImportAsset}
-                          setFilters={setFilters}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )}
-                </QueryErrorResetBoundary>
-              )}
-
-              {selectedNFTTab === NFTTabs.Favorites && (
-                <FavoriteAssetsSection
-                  filters={filters}
-                  onOpenFilters={() => { }}
-                  onImport={handleToggleImportAsset}
-                />
-              )}
-
-              {selectedNFTTab === NFTTabs.Hidden && (
-                <QueryErrorResetBoundary>
-                  {({ reset }) => (
-                    <ErrorBoundary
-                      onReset={reset}
-                      fallbackRender={({ resetErrorBoundary, error }) => (
-                        <Paper sx={{ p: 1 }}>
-                          <Stack justifyContent="center" alignItems="center">
-                            <Typography variant="h6">
-                              <FormattedMessage
-                                id="something.went.wrong"
-                                defaultMessage="Oops, something went wrong"
-                                description="Something went wrong error message"
-                              />
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary">
-                              {String(error)}
-                            </Typography>
-                            <Button
-                              color="primary"
-                              onClick={resetErrorBoundary}
-                            >
-                              <FormattedMessage
-                                id="try.again"
-                                defaultMessage="Try again"
-                                description="Try again"
-                              />
-                            </Button>
-                          </Stack>
-                        </Paper>
-                      )}
-                    >
-                      <Suspense fallback={<TableSkeleton rows={4} />}>
-                        <CustomWalletAssetsSection
-                          customSettings={customSettings}
-                          filters={filters}
-                          onOpenFilters={() => { }}
-                          hiddenOnly={true}
-                        />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )}
-                </QueryErrorResetBoundary>
-              )}
-            </Grid>
-          )}
-
-          {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
-            <Grid item xs={12}>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                  fontWeight: 'bold',
-                  mb: 2,
-                  borderBottom: `2px solid ${customSettings?.primaryTextColor || theme.palette.primary.main}`,
-                  pb: 1,
-                  display: 'inline-block',
-                }}
-              >
-                <FormattedMessage
-                  id="activity"
-                  defaultMessage="Activity"
-                />
-              </Typography>
-            </Grid>
-          )}
-
-          {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
-            <Grid item xs={12}>
-              <NoSsr>
-                <CustomUserActivityTable customSettings={customSettings} />
-              </NoSsr>
-            </Grid>
-          )}
-        </Grid>
-      </Container>
+            {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
+              <Grid item xs={12}>
+                <NoSsr>
+                  <CustomUserActivityTable customSettings={customSettings} />
+                </NoSsr>
+              </Grid>
+            )}
+          </Grid>
+        </Container>
+      </Box>
     </Box>
   );
 };

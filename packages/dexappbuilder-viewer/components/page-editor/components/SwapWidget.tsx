@@ -86,7 +86,7 @@ function SwapWidget(props: Props) {
   const [chainId, setChainId] = useState<number>();
 
   useEffect(() => {
-    if (isEditMode) {
+    if (isEditMode || defaultChainId) {
       setChainId(defaultChainId);
     }
   }, [defaultChainId, isEditMode]);
