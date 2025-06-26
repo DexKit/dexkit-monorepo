@@ -16,6 +16,7 @@ interface Props {
   blurIntensity?: number;
   glassOpacity?: number;
   textColor?: string;
+  networkModalTextColor?: string;
 }
 
 const GlassButton = styled(Button)<{
@@ -167,7 +168,8 @@ export function GlassNetworkSelectButton(props: Props) {
     chainId,
     blurIntensity = 20,
     glassOpacity = 0.25,
-    textColor = '#ffffff'
+    textColor = '#ffffff',
+    networkModalTextColor
   } = props;
   const [showSelectSwapNetworkDialog, setShowSelectSwapNetwork] = useState(false);
 
@@ -195,7 +197,7 @@ export function GlassNetworkSelectButton(props: Props) {
           }}
           blurIntensity={blurIntensity}
           glassOpacity={glassOpacity}
-          textColor={textColor}
+          textColor={networkModalTextColor || textColor}
         />
       )}
 

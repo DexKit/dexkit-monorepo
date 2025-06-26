@@ -99,8 +99,8 @@ export default function GlassEvmSendDialog({
           '& .MuiIconButton-root': {
             color: textColor,
             background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-            backdropFilter: `blur(${blurIntensity * 0.5}px)`,
-            WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
+            backdropFilter: `blur(${blurIntensity}px)`,
+            WebkitBackdropFilter: `blur(${blurIntensity}px)`,
             border: '1px solid rgba(255, 255, 255, 0.2)',
             transition: 'all 0.2s ease-in-out',
             borderRadius: '50%',
@@ -110,8 +110,8 @@ export default function GlassEvmSendDialog({
               background: `rgba(255, 255, 255, ${glassOpacity * 1.2})`,
               transform: 'scale(1.05)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-              backdropFilter: `blur(${blurIntensity * 0.7}px)`,
-              WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
+              WebkitBackdropFilter: `blur(${blurIntensity}px)`,
             },
             '&:active': {
               transform: 'scale(0.98)',
@@ -121,7 +121,7 @@ export default function GlassEvmSendDialog({
           '& .MuiTextField-root': {
             '& .MuiOutlinedInput-root': {
               background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-              backdropFilter: `blur(${blurIntensity * 0.6}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
               border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '12px',
               color: textColor,
@@ -165,7 +165,7 @@ export default function GlassEvmSendDialog({
           '& .MuiAutocomplete-root': {
             '& .MuiAutocomplete-inputRoot': {
               background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-              backdropFilter: `blur(${blurIntensity * 0.6}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
               border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '12px',
               color: textColor,

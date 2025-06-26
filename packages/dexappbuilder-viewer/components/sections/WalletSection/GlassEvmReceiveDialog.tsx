@@ -75,8 +75,8 @@ const GlassDialog = styled(Dialog)<{
   },
 
   '& .MuiBackdrop-root': {
-    backdropFilter: 'blur(8px) brightness(0.7)',
-    WebkitBackdropFilter: 'blur(8px) brightness(0.7)',
+    backdropFilter: `blur(${blurIntensity}px) brightness(0.7)`,
+    WebkitBackdropFilter: `blur(${blurIntensity}px) brightness(0.7)`,
     background: 'rgba(0, 0, 0, 0.5)',
   },
 }));

@@ -23,6 +23,10 @@ export interface SwapFeeSummaryProps {
   sellToken?: Token;
   buyToken?: Token;
   provider?: providers.BaseProvider;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapFeeSummary({
@@ -32,6 +36,7 @@ export default function SwapFeeSummary({
   sellToken,
   buyToken,
   provider,
+  swapFees,
 }: SwapFeeSummaryProps) {
   const coinPrices = useCoinPrices({
     currency,

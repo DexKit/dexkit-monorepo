@@ -88,6 +88,12 @@ export interface SwapGlassProps {
   gradientStartColor?: string;
   gradientEndColor?: string;
   gradientDirection?: string;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapGlass({
@@ -148,6 +154,9 @@ export default function SwapGlass({
   gradientStartColor,
   gradientEndColor,
   gradientDirection,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapGlassProps) {
   const theme = useTheme();
   const isMobile = useIsMobile();
@@ -356,6 +365,8 @@ export default function SwapGlass({
                 gradientStartColor={gradientStartColor}
                 gradientEndColor={gradientEndColor}
                 gradientDirection={gradientDirection}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
             </Grid>
 
@@ -427,6 +438,8 @@ export default function SwapGlass({
                 gradientStartColor={gradientStartColor}
                 gradientEndColor={gradientEndColor}
                 gradientDirection={gradientDirection}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
             </Grid>
 

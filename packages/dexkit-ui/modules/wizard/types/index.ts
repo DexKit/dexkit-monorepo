@@ -155,6 +155,11 @@ export interface SwapConfig {
     [chain: number]: ChainConfig;
   };
   glassSettings?: SwapGlassSettings;
+  lockedBuyToken?: any;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: any;
 }
 
 export interface SiteMetadata {

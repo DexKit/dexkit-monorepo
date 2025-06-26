@@ -86,8 +86,8 @@ export default function GlassScanWalletQrCodeDialog({
         styles={{
           '.MuiPopover-root .MuiPaper-root': {
             background: `rgba(255, 255, 255, ${glassOpacity * 0.95}) !important`,
-            backdropFilter: `blur(${blurIntensity * 1.2}px) saturate(180%) brightness(120%) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity * 1.2}px) saturate(180%) brightness(120%) !important`,
+            backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
             border: '1px solid rgba(255, 255, 255, 0.3) !important',
             borderRadius: '16px !important',
             boxShadow: `
@@ -98,8 +98,8 @@ export default function GlassScanWalletQrCodeDialog({
           },
           '.MuiMenu-paper': {
             background: `rgba(255, 255, 255, ${glassOpacity * 0.95}) !important`,
-            backdropFilter: `blur(${blurIntensity * 1.2}px) saturate(180%) brightness(120%) !important`,
-            WebkitBackdropFilter: `blur(${blurIntensity * 1.2}px) saturate(180%) brightness(120%) !important`,
+            backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
+            WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
             border: '1px solid rgba(255, 255, 255, 0.3) !important',
             borderRadius: '16px !important',
             boxShadow: `
@@ -232,8 +232,8 @@ export default function GlassScanWalletQrCodeDialog({
             '& .MuiIconButton-root': {
               color: textColor,
               background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-              backdropFilter: `blur(${blurIntensity * 0.5}px)`,
-              WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
+              WebkitBackdropFilter: `blur(${blurIntensity}px)`,
               border: '1px solid rgba(255, 255, 255, 0.2)',
               transition: 'all 0.2s ease-in-out',
               borderRadius: '50%',
@@ -243,8 +243,8 @@ export default function GlassScanWalletQrCodeDialog({
                 background: `rgba(255, 255, 255, ${glassOpacity * 1.2})`,
                 transform: 'scale(1.05)',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                backdropFilter: `blur(${blurIntensity * 0.7}px)`,
-                WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px)`,
+                backdropFilter: `blur(${blurIntensity}px)`,
+                WebkitBackdropFilter: `blur(${blurIntensity}px)`,
               },
               '&:active': {
                 transform: 'scale(0.98)',
@@ -254,8 +254,8 @@ export default function GlassScanWalletQrCodeDialog({
             '& .MuiFormControl-root': {
               '& .MuiOutlinedInput-root': {
                 background: `rgba(255, 255, 255, ${glassOpacity * 0.9}) !important`,
-                backdropFilter: `blur(${blurIntensity * 0.7}px) saturate(180%) brightness(110%) !important`,
-                WebkitBackdropFilter: `blur(${blurIntensity * 0.7}px) saturate(180%) brightness(110%) !important`,
+                backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(110%) !important`,
+                WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(110%) !important`,
                 border: '1px solid rgba(255, 255, 255, 0.3) !important',
                 borderRadius: '14px !important',
                 color: `${textColor} !important`,
@@ -329,7 +329,7 @@ export default function GlassScanWalletQrCodeDialog({
 
             '& .MuiButton-root': {
               background: `rgba(255, 255, 255, ${glassOpacity * 0.9})`,
-              backdropFilter: `blur(${blurIntensity * 0.7}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '12px',
               color: textColor,
@@ -351,8 +351,8 @@ export default function GlassScanWalletQrCodeDialog({
 
             '& .MuiButton-contained': {
               background: `rgba(255, 255, 255, ${glassOpacity * 1.2}) !important`,
-              backdropFilter: `blur(${blurIntensity * 0.8}px) saturate(180%) brightness(120%) !important`,
-              WebkitBackdropFilter: `blur(${blurIntensity * 0.8}px) saturate(180%) brightness(120%) !important`,
+              backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
+              WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(120%) !important`,
               border: '1px solid rgba(255, 255, 255, 0.4) !important',
               borderRadius: '14px !important',
               color: `${textColor} !important`,
@@ -420,7 +420,7 @@ export default function GlassScanWalletQrCodeDialog({
 
             '& .camera-permission-area': {
               background: `rgba(255, 255, 255, ${glassOpacity * 0.2})`,
-              backdropFilter: `blur(${blurIntensity * 0.4}px)`,
+              backdropFilter: `blur(${blurIntensity}px)`,
               borderRadius: '16px',
               padding: theme.spacing(3),
               border: '1px solid rgba(255, 255, 255, 0.15)',

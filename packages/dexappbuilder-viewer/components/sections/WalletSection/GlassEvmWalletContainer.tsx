@@ -41,8 +41,6 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TableChartIcon from "@mui/icons-material/TableChart";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -93,6 +91,8 @@ import { isBalancesVisibleAtom } from "@dexkit/ui/modules/wallet/state";
 import { TokenBalance } from '@dexkit/ui/modules/wallet/types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Send from "@mui/icons-material/Send";
 import {
   Accordion,
@@ -154,6 +154,11 @@ interface Props {
   gradientEndColor?: string;
   gradientDirection?: string;
   swapVariant?: import('@dexkit/ui/modules/wizard/types').SwapVariant;
+  networkModalTextColor?: string;
+  receiveModalTextColor?: string;
+  sendModalTextColor?: string;
+  scanModalTextColor?: string;
+  importTokenModalTextColor?: string;
 }
 
 const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blurIntensity = 40, glassOpacity = 0.10, textColor = '#ffffff' }: any) => {
@@ -389,128 +394,126 @@ const GlassWalletBalances = ({
   }, [onClickTradeCoin]);
 
   return (
-    <Box
-      sx={{
-        background: `rgba(255, 255, 255, ${glassOpacity})`,
-        backdropFilter: `blur(${blurIntensity}px)`,
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-        borderRadius: '16px',
-        padding: 2,
-        minHeight: '400px',
-        maxHeight: '600px',
-        overflowY: 'auto',
-        boxShadow: `
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-        `,
+  <Box
+    sx={{
+      background: `rgba(255, 255, 255, ${glassOpacity})`,
+      backdropFilter: `blur(${blurIntensity}px)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px)`,
+      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+      borderRadius: '16px',
+      padding: 2,
+        minHeight: props.isTableVisible ? '400px' : '64px',
+        maxHeight: props.isTableVisible ? '600px' : '120px',
+      boxShadow: `
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+      `,
+      position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
+        borderRadius: 'inherit',
+        pointerEvents: 'none',
+        zIndex: 1,
+      },
+      '& > *': {
         position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
-          borderRadius: 'inherit',
-          pointerEvents: 'none',
-          zIndex: 1,
-        },
-        '& > *': {
-          position: 'relative',
-          zIndex: 2,
-        },
-        '& .MuiTypography-root': {
-          color: textColor,
-        },
-        '& .MuiTableCell-root': {
-          color: textColor + ' !important',
-          borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
-        },
-        '& .MuiTableHead-root .MuiTableCell-root': {
-          color: textColor + 'CC !important',
-          fontWeight: 600,
-        },
+        zIndex: 2,
+      },
+      '& .MuiTypography-root': {
+        color: textColor,
+      },
+      '& .MuiTableCell-root': {
+        color: textColor + ' !important',
+        borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
+      },
+      '& .MuiTableHead-root .MuiTableCell-root': {
+        color: textColor + 'CC !important',
+        fontWeight: 600,
+      },
         '& .MuiIconButton-root': {
           color: textColor + ' !important',
-          '&:hover': {
+        '&:hover': {
             backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
-          },
         },
-        '&::-webkit-scrollbar': {
-          width: '8px',
-        },
-        '&::-webkit-scrollbar-track': {
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '4px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.4)})`,
-          borderRadius: '4px',
-          '&:hover': {
-            background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.5)})`,
-          },
-        },
-      }}
-    >
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ width: '40%' }}>
-                <FormattedMessage id="token" defaultMessage="Token" />
-              </TableCell>
-              <TableCell sx={{ width: '25%' }}>
-                <FormattedMessage id="total" defaultMessage="Total" />
-              </TableCell>
-              <TableCell sx={{ width: '25%' }}>
-                <FormattedMessage id="balance" defaultMessage="Balance" />
-              </TableCell>
-              <TableCell sx={{ width: '10%' }}>
-                <FormattedMessage id="actions" defaultMessage="Actions" />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
-              <WalletTableRow
-                key={index}
-                isLoadingCurrency={coinPricesQuery.isLoading}
-                tokenBalance={token}
-                price={token.price}
-                isBalancesVisible={isBalancesVisible}
-                currency={currency.currency}
-                onClickTradeCoin={handleClickTradeCoin}
-                swapButtonConfig={{
-                  backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
-                  textColor: textColor,
-                  hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
-                }}
-              />
-            ))}
-            {tokenBalancesQuery.isLoading &&
-              new Array(4).fill(null).map((_, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+      },
+    }}
+  >
+      {props.isTableVisible && (
+        <Box sx={{ flex: 1, minHeight: 0, maxHeight: '480px', overflowY: 'auto', mb: 1 }}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ width: '40%' }}>
+                    <FormattedMessage id="token" defaultMessage="Token" />
                   </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  <TableCell sx={{ width: '25%' }}>
+                    <FormattedMessage id="total" defaultMessage="Total" />
                   </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  <TableCell sx={{ width: '25%' }}>
+                    <FormattedMessage id="balance" defaultMessage="Balance" />
                   </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                  <TableCell sx={{ width: '10%' }}>
+                    <FormattedMessage id="actions" defaultMessage="Actions" />
                   </TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
-  );
+              </TableHead>
+              <TableBody>
+                {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+                  <WalletTableRow
+                    key={index}
+                    isLoadingCurrency={coinPricesQuery.isLoading}
+                    tokenBalance={token}
+                    price={token.price}
+                    isBalancesVisible={isBalancesVisible}
+                    currency={currency.currency}
+                    onClickTradeCoin={handleClickTradeCoin}
+                    swapButtonConfig={{
+                      backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+                      textColor: textColor,
+                      hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                    }}
+                  />
+                ))}
+                {tokenBalancesQuery.isLoading &&
+                  new Array(4).fill(null).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={props.handleToggleTable}>
+        {props.isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} />}
+        <Typography variant="body2" sx={{ fontWeight: 'bold', letterSpacing: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }}>
+          {props.isTableVisible ? 'CLOSE' : 'OPEN'}
+        </Typography>
+      </Box>
+  </Box>
+);
 };
 
 const GlassEvmWalletContainer = ({
@@ -531,6 +534,11 @@ const GlassEvmWalletContainer = ({
   gradientEndColor,
   gradientDirection,
   swapVariant,
+  networkModalTextColor,
+  receiveModalTextColor,
+  sendModalTextColor,
+  scanModalTextColor,
+  importTokenModalTextColor,
 }: Props) => {
   const appConfig = useAppConfig();
   const theme = useTheme();
@@ -742,7 +750,7 @@ const GlassEvmWalletContainer = ({
           onResult={handleAddressResult}
           blurIntensity={blurIntensity}
           glassOpacity={glassOpacity}
-          textColor={textColor}
+          textColor={scanModalTextColor || textColor}
         />
       )}
 
@@ -759,7 +767,7 @@ const GlassEvmWalletContainer = ({
         coins={evmCoins}
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
-        textColor={textColor}
+        textColor={receiveModalTextColor || textColor}
       />
 
       <GlassEvmSendDialog
@@ -779,7 +787,7 @@ const GlassEvmWalletContainer = ({
         }}
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
-        textColor={textColor}
+        textColor={sendModalTextColor || textColor}
       />
 
       <GlassImportTokenDialog
@@ -792,7 +800,7 @@ const GlassEvmWalletContainer = ({
         }}
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
-        textColor={textColor}
+        textColor={importTokenModalTextColor || textColor}
       />
 
       {showImportAsset && (
@@ -805,7 +813,7 @@ const GlassEvmWalletContainer = ({
           }}
           blurIntensity={blurIntensity}
           glassOpacity={glassOpacity}
-          textColor={textColor}
+          textColor={importTokenModalTextColor || textColor}
         />
       )}
 
@@ -905,14 +913,6 @@ const GlassEvmWalletContainer = ({
                       <VisibilityOffIcon />
                     )}
                   </IconButton>
-                  <IconButton
-                    onClick={handleToggleTable}
-                    sx={{
-                      color: textColor,
-                    }}
-                  >
-                    {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
-                  </IconButton>
                 </Stack>
               </Box>
               <GlassNetworkSelectButton
@@ -921,6 +921,7 @@ const GlassEvmWalletContainer = ({
                 blurIntensity={blurIntensity}
                 glassOpacity={glassOpacity}
                 textColor={textColor}
+                networkModalTextColor={networkModalTextColor}
               />
             </Stack>
           </Grid>
@@ -1041,7 +1042,7 @@ const GlassEvmWalletContainer = ({
           </Grid>
         )}
 
-        {isActive && selectedAssetTab === AssetTabs.Tokens && isTableVisible && (
+        {isActive && selectedAssetTab === AssetTabs.Tokens && (
           <Grid item xs={12}>
             <NoSsr>
               <GlassWalletBalances
@@ -1057,6 +1058,9 @@ const GlassEvmWalletContainer = ({
                   textColor: textColor,
                   hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
                 }}
+                handleToggleTable={handleToggleTable}
+                isTableVisible={isTableVisible}
+                customSettings={customSettings}
               />
             </NoSsr>
           </Grid>
@@ -1455,6 +1459,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       sx={{
         background: `rgba(255, 255, 255, ${glassOpacity})`,
         backdropFilter: `blur(${blurIntensity}px)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px)`,
         border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
         borderRadius: '16px',
         padding: 2,
@@ -1807,6 +1812,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       sx={{
         background: `rgba(255, 255, 255, ${glassOpacity})`,
         backdropFilter: `blur(${blurIntensity}px)`,
+        WebkitBackdropFilter: `blur(${blurIntensity}px)`,
         border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
         borderRadius: '16px',
         padding: 2,

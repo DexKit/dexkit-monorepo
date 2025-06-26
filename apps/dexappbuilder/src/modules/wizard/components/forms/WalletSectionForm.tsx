@@ -1088,6 +1088,36 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 onChange={(value: string) => setFieldValue("glassSettings.textColor", value)}
                 defaultValue={theme.palette.text.primary}
               />
+              <ColorPickerField
+                label="Network Modal Text Color"
+                value={values.glassSettings?.networkModalTextColor || '#fff'}
+                onChange={(value: string) => setFieldValue("glassSettings.networkModalTextColor", value)}
+                defaultValue="#fff"
+              />
+              <ColorPickerField
+                label="Receive Modal Text Color"
+                value={values.glassSettings?.receiveModalTextColor || '#fff'}
+                onChange={(value: string) => setFieldValue("glassSettings.receiveModalTextColor", value)}
+                defaultValue="#fff"
+              />
+              <ColorPickerField
+                label="Send Modal Text Color"
+                value={values.glassSettings?.sendModalTextColor || '#fff'}
+                onChange={(value: string) => setFieldValue("glassSettings.sendModalTextColor", value)}
+                defaultValue="#fff"
+              />
+              <ColorPickerField
+                label="Scan Modal Text Color"
+                value={values.glassSettings?.scanModalTextColor || '#fff'}
+                onChange={(value: string) => setFieldValue("glassSettings.scanModalTextColor", value)}
+                defaultValue="#fff"
+              />
+              <ColorPickerField
+                label="Import Token Modal Text Color"
+                value={values.glassSettings?.importTokenModalTextColor || '#fff'}
+                onChange={(value: string) => setFieldValue("glassSettings.importTokenModalTextColor", value)}
+                defaultValue="#fff"
+              />
             </Box>
 
             <Box sx={{ mt: 3 }}>
@@ -1212,8 +1242,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Box>
             </Box>
 
-
-
+            <Box sx={{ mt: 3 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
               <FormattedMessage
                 id="glass.cards.inputs.note"
@@ -1249,6 +1278,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   defaultMessage="RESET STYLES"
                 />
               </Button>
+              </Box>
             </Box>
           </Box>
         </Paper>

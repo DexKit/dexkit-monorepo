@@ -26,6 +26,8 @@ export interface SwapTokenFieldProps {
   balance?: BigNumber;
   showBalance?: boolean;
   isUserInput?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 function SwapTokenField({
@@ -40,11 +42,37 @@ function SwapTokenField({
   balance,
   showBalance,
   isUserInput,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldProps) {
   const handleMax = () => {
     if (balance) {
       onChange(balance, true);
     }
+  };
+
+  const renderTokenButton = () => {
+    if (!token) {
+      return (
+        <SwapTokenButton
+          ButtonBaseProps={{ onClick: () => onSelectToken() }}
+        />
+      );
+    }
+
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
+
+    return (
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+        }}
+      />
+    );
   };
 
   return (
@@ -79,10 +107,7 @@ function SwapTokenField({
           onFocus={onInputFocus}
           onClick={onInputClick}
         />
-        <SwapTokenButton
-          token={token}
-          ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
-        />
+        {renderTokenButton()}
       </Stack>
       {token && balance && showBalance && (
         <Stack

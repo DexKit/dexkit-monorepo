@@ -109,6 +109,10 @@ export type RenderOptions = {
   myTokensOnlyOnSearch?: boolean;
   enableImportExterTokens?: boolean;
   glassSettings?: SwapGlassSettings;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 };
 
 export type SwapNotificationParams = {

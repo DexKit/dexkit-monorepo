@@ -85,6 +85,12 @@ export interface SwapMobileProps {
   onShowTransak?: () => void;
   onSetToken?: (token?: Token) => void;
   nativeCurrencyPriceQuery?: UseQueryResult<number>;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapMobile({
@@ -134,6 +140,9 @@ export default function SwapMobile({
   onShowTransak,
   onSetToken,
   nativeCurrencyPriceQuery,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapMobileProps) {
   const theme = useTheme();
   const [showQuoteDetails, setShowQuoteDetails] = useState(false);
@@ -264,12 +273,14 @@ export default function SwapMobile({
             price={priceSell}
             priceLoading={priceSellLoading}
             onChange={onChangeSellAmount}
-            onSelectToken={(token) => onSelectToken("sell", token)}
+            onSelectToken={(token?: Token) => onSelectToken("sell", token)}
             showBalance
             isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
             title={<FormattedMessage id="you.pay" defaultMessage="You Pay" />}
           />
 
@@ -312,13 +323,15 @@ export default function SwapMobile({
             price={priceBuy}
             priceLoading={priceBuyLoading}
             onChange={onChangeBuyAmount}
-            onSelectToken={(token) => onSelectToken("buy", token)}
+            onSelectToken={(token?: Token) => onSelectToken("buy", token)}
             showBalance
             isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
             title={<FormattedMessage id="you.receive" defaultMessage="You Receive" />}
           />
         </Stack>

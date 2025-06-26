@@ -1,11 +1,10 @@
 import {
-  Avatar,
   Box,
   Button,
   InputBaseProps,
   Stack,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -14,10 +13,9 @@ import { Token } from "@dexkit/core/types";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
 
-import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { isDexKitToken } from "../../../constants/tokens";
+import SwapTokenButton from '../SwapTokenButton';
 
 export interface SwapTokenFieldCompactProps {
   InputBaseProps?: InputBaseProps;
@@ -35,6 +33,8 @@ export interface SwapTokenFieldCompactProps {
   isBuyToken?: boolean;
   onSetToken?: (token?: Token) => void;
   featuredTokensByChain: Token[];
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 export default function SwapTokenFieldCompact({
@@ -53,6 +53,8 @@ export default function SwapTokenFieldCompact({
   isBuyToken,
   onSetToken,
   featuredTokensByChain,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldCompactProps) {
   const theme = useTheme();
 
@@ -90,46 +92,24 @@ export default function SwapTokenFieldCompact({
       );
     }
 
-    const isKitToken = isDexKitToken(token);
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
 
     return (
-      <Button
-        variant="text"
-        onClick={() => onSelectToken()}
-        sx={{
-          minWidth: { xs: 60, sm: 80 },
-          height: 40,
-          p: 0.5,
-          borderRadius: 1,
-          '&:hover': {
-            bgcolor: 'action.hover',
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+          sx: {
+            minWidth: { xs: 60, sm: 80 },
+            height: 40,
+            p: 0.5,
+            borderRadius: 1,
           },
         }}
-      >
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          <Avatar
-            src={
-              token.logoURI
-                ? token.logoURI
-                : TOKEN_ICON_URL(token.address, token.chainId)
-            }
-            imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{
-              width: 20,
-              height: 20,
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
-            }}
-          >
-            {token.symbol?.[0]}
-          </Avatar>
-          <Typography variant="caption" fontWeight="bold" noWrap>
-            {token.symbol}
-          </Typography>
-          <KeyboardArrowDownIcon fontSize="small" />
-        </Stack>
-      </Button>
+      />
     );
   };
 
@@ -199,7 +179,7 @@ export default function SwapTokenFieldCompact({
 
           <Box textAlign="right">
             <Stack spacing={0.25} alignItems="flex-end">
-              {priceLoading ? (
+              {token && priceLoading ? (
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="loading.price" defaultMessage="Loading..." />
                 </Typography>

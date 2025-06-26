@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Grid,
@@ -8,7 +7,7 @@ import {
   Stack,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -17,10 +16,9 @@ import { Token } from "@dexkit/core/types";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
 
-import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { isDexKitToken } from "../../../constants/tokens";
+import SwapTokenButton from '../SwapTokenButton';
 
 export interface SwapTokenFieldGlassProps {
   InputBaseProps?: InputBaseProps;
@@ -51,6 +49,8 @@ export interface SwapTokenFieldGlassProps {
   gradientStartColor?: string;
   gradientEndColor?: string;
   gradientDirection?: string;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 export default function SwapTokenFieldGlass({
@@ -81,6 +81,8 @@ export default function SwapTokenFieldGlass({
   gradientStartColor,
   gradientEndColor,
   gradientDirection,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldGlassProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -178,88 +180,48 @@ export default function SwapTokenFieldGlass({
       );
     }
 
-    const isKitToken = isDexKitToken(token);
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
 
     return (
-      <Button
-        variant="text"
-        onClick={() => onSelectToken()}
-        sx={{
-          minWidth: {
-            xs: theme.spacing(10),
-            sm: theme.spacing(12),
-            md: theme.spacing(14),
-          },
-          height: {
-            xs: theme.spacing(5),
-            sm: theme.spacing(6),
-            md: theme.spacing(7),
-          },
-          p: theme.spacing(1, 1.5),
-          borderRadius: theme.shape.borderRadius,
-          color: finalTextColor,
-          background: `rgba(128, 128, 128, ${glassOpacity * 0.5})`,
-          backdropFilter: `blur(${blurIntensity * 0.4}px)`,
-          WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
-          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-          boxShadow: theme.shadows[2],
-          '&:hover': {
-            background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
-            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+          sx: {
+            minWidth: {
+              xs: theme.spacing(10),
+              sm: theme.spacing(12),
+              md: theme.spacing(14),
+            },
+            height: {
+              xs: theme.spacing(5),
+              sm: theme.spacing(6),
+              md: theme.spacing(7),
+            },
+            p: theme.spacing(1, 1.5),
+            borderRadius: theme.shape.borderRadius,
             color: finalTextColor,
-            transform: 'scale(1.02)',
-            boxShadow: theme.shadows[4],
+            background: `rgba(128, 128, 128, ${glassOpacity * 0.5})`,
+            backdropFilter: `blur(${blurIntensity * 0.4}px)`,
+            WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
+            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+            boxShadow: theme.shadows[2],
+            '&:hover': {
+              background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
+              borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+              color: finalTextColor,
+              transform: 'scale(1.02)',
+              boxShadow: theme.shadows[4],
+            },
+            transition: theme.transitions.create(['background-color', 'border-color', 'color', 'transform', 'box-shadow'], {
+              duration: theme.transitions.duration.short,
+            }),
           },
-          transition: theme.transitions.create(['background-color', 'border-color', 'color', 'transform', 'box-shadow'], {
-            duration: theme.transitions.duration.short,
-          }),
         }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar
-            src={
-              token.logoURI
-                ? token.logoURI
-                : TOKEN_ICON_URL(token.address, token.chainId)
-            }
-            imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{
-              width: {
-                xs: theme.spacing(2.5),
-                sm: theme.spacing(3),
-                md: theme.spacing(3.5),
-              },
-              height: {
-                xs: theme.spacing(2.5),
-                sm: theme.spacing(3),
-                md: theme.spacing(3.5),
-              },
-              border: `1px solid rgba(255, 255, 255, ${glassOpacity})`,
-              boxShadow: theme.shadows[1],
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
-            }}
-          >
-            {token.symbol?.[0]}
-          </Avatar>
-          <Typography
-            variant={isSmallScreen ? "caption" : "body2"}
-            fontWeight={theme.typography.fontWeightBold}
-            noWrap
-            sx={{
-              maxWidth: {
-                xs: theme.spacing(6),
-                sm: theme.spacing(8),
-                md: theme.spacing(10),
-              },
-            }}
-          >
-            {token.symbol}
-          </Typography>
-          <KeyboardArrowDownIcon fontSize={isSmallScreen ? "small" : "medium"} />
-        </Stack>
-      </Button>
+      />
     );
   };
 

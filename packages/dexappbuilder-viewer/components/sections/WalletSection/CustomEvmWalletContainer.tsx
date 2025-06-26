@@ -33,8 +33,6 @@ import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
 
 import Send from "@mui/icons-material/Send";
-import TableChartIcon from "@mui/icons-material/TableChart";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -78,6 +76,8 @@ import { WalletCustomSettings } from "@dexkit/ui/modules/wizard/types/section";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Accordion,
@@ -254,10 +254,12 @@ const CustomNetworkSelectButton = ({ customSettings, chainId, onChange }: {
   );
 };
 
-const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin }: {
+const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, isTableVisible, handleToggleTable }: {
   customSettings?: WalletCustomSettings,
   filter?: string,
-  onClickTradeCoin?: (tokenBalance: any) => void
+  onClickTradeCoin?: (tokenBalance: any) => void,
+  isTableVisible: boolean,
+  handleToggleTable: () => void
 }) => {
   const theme = useTheme();
   const isBalancesVisible = useIsBalanceVisible();
@@ -320,99 +322,107 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin }: {
 
   return (
     <Box sx={tableStyles}>
-      <TableContainer>
-        <Table>
-          <TableHead
-            sx={{
-              backgroundColor: customSettings?.tokenTableConfig?.headerBackgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-            }}
-          >
-            <TableRow sx={headerRowStyles}>
-              <TableCell sx={headerCellStyles}>
-                <FormattedMessage id="token" defaultMessage="Token" />
-              </TableCell>
-              <TableCell sx={headerCellStyles}>
-                <FormattedMessage id="total" defaultMessage="Total" />
-              </TableCell>
-              <TableCell sx={headerCellStyles}>
-                <FormattedMessage id="balance" defaultMessage="Balance" />
-              </TableCell>
-              <TableCell sx={headerCellStyles}>
-                <FormattedMessage id="actions" defaultMessage="Actions" />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody
-            sx={{
-              '& .MuiTableRow-root': {
-                backgroundColor: customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default,
-                '&:hover': {
-                  backgroundColor: customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover,
-                },
-                '& .MuiTableCell-root': {
-                  borderColor: customSettings?.tokenTableConfig?.borderColor || theme.palette.divider,
-                  '&:first-of-type': {
-                    '& .MuiTypography-body1': {
+      {isTableVisible && (
+        <TableContainer>
+          <Table>
+            <TableHead
+              sx={{
+                backgroundColor: customSettings?.tokenTableConfig?.headerBackgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
+              }}
+            >
+              <TableRow sx={headerRowStyles}>
+                <TableCell sx={headerCellStyles}>
+                  <FormattedMessage id="token" defaultMessage="Token" />
+                </TableCell>
+                <TableCell sx={headerCellStyles}>
+                  <FormattedMessage id="total" defaultMessage="Total" />
+                </TableCell>
+                <TableCell sx={headerCellStyles}>
+                  <FormattedMessage id="balance" defaultMessage="Balance" />
+                </TableCell>
+                <TableCell sx={headerCellStyles}>
+                  <FormattedMessage id="actions" defaultMessage="Actions" />
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody
+              sx={{
+                '& .MuiTableRow-root': {
+                  backgroundColor: customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default,
+                  '&:hover': {
+                    backgroundColor: customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover,
+                  },
+                  '& .MuiTableCell-root': {
+                    borderColor: customSettings?.tokenTableConfig?.borderColor || theme.palette.divider,
+                    '&:first-of-type': {
+                      '& .MuiTypography-body1': {
+                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
+                      },
+                      '& .MuiTypography-body2': {
+                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                      },
+                    },
+                    '&:nth-of-type(2)': {
+                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                      '& *': {
+                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                      },
+                    },
+                    '&:nth-of-type(3)': {
+                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                      '& *': {
+                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                      },
+                    },
+                    '& .MuiTypography-root': {
                       color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
                     },
-                    '& .MuiTypography-body2': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                    '& .MuiSkeleton-root': {
+                      backgroundColor: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary}33`,
                     },
-                  },
-                  '&:nth-of-type(2)': {
-                    color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                    '& *': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                    },
-                  },
-                  '&:nth-of-type(3)': {
-                    color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                    '& *': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                    },
-                  },
-                  '& .MuiTypography-root': {
-                    color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
-                  },
-                  '& .MuiSkeleton-root': {
-                    backgroundColor: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary}33`,
                   },
                 },
-              },
-            }}
-          >
-            {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
-              <WalletTableRow
-                key={index}
-                isLoadingCurrency={coinPricesQuery.isLoading}
-                tokenBalance={token}
-                price={token.price}
-                isBalancesVisible={isBalancesVisible}
-                currency={currency.currency}
-                onClickTradeCoin={onClickTradeCoin}
-                swapButtonConfig={customSettings?.swapButtonConfig}
-              />
-            ))}
-            {tokenBalancesQuery.isLoading &&
-              new Array(4).fill(null).map((_, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
-                  </TableCell>
-                </TableRow>
+              }}
+            >
+              {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+                <WalletTableRow
+                  key={index}
+                  isLoadingCurrency={coinPricesQuery.isLoading}
+                  tokenBalance={token}
+                  price={token.price}
+                  isBalancesVisible={isBalancesVisible}
+                  currency={currency.currency}
+                  onClickTradeCoin={onClickTradeCoin}
+                  swapButtonConfig={customSettings?.swapButtonConfig}
+                />
               ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              {tokenBalancesQuery.isLoading &&
+                new Array(4).fill(null).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={handleToggleTable}>
+        {isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main }} />}
+        <Typography variant="body2" sx={{ fontWeight: 'bold', letterSpacing: 1, color: customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main }}>
+          {isTableVisible ? 'CLOSE' : 'OPEN'}
+        </Typography>
+      </Box>
     </Box>
   );
 };
@@ -1309,17 +1319,6 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
     return theme.palette.background.default;
   };
 
-  const containerStyle = {
-    minHeight: '100vh',
-    background: getContainerBackground(),
-    backgroundSize: customSettings?.backgroundSize || 'cover',
-    backgroundPosition: customSettings?.backgroundPosition || 'center',
-    backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
-    backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
-    ...(typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0
-      ? { backdropFilter: `blur(${customSettings.backgroundBlur}px)`, WebkitBackdropFilter: `blur(${customSettings.backgroundBlur}px)` }
-      : {}),
-  };
 
   const getButtonStyles = (buttonConfig: any) => ({
     backgroundColor: buttonConfig?.backgroundColor || theme.palette.primary.main,
@@ -1384,26 +1383,24 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {customSettings?.backgroundType === 'image' && (
-        <Box
-          sx={{
-            position: 'absolute',
-            zIndex: 0,
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: getContainerBackground(),
-            backgroundSize: customSettings?.backgroundSize || 'cover',
-            backgroundPosition: customSettings?.backgroundPosition || 'center',
-            backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
-            backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
-            filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
-            WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
-            pointerEvents: 'none',
-          }}
-        />
-      )}
+      <Box
+        sx={{
+          position: 'absolute',
+          zIndex: 0,
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: getContainerBackground(),
+          backgroundSize: customSettings?.backgroundSize || 'cover',
+          backgroundPosition: customSettings?.backgroundPosition || 'center',
+          backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
+          backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
+          filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          pointerEvents: 'none',
+        }}
+      />
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Container maxWidth="md" sx={{ py: 4 }}>
           {showQrCode && (
@@ -1484,14 +1481,6 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                       }}
                     >
                       {isBalancesVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                    </IconButton>
-                    <IconButton
-                      onClick={handleToggleTable}
-                      sx={{
-                        color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                      }}
-                    >
-                      {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
                     </IconButton>
                   </Stack>
                 </Grid>
@@ -1684,12 +1673,14 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
               </Grid>
             )}
 
-            {isActive && selectedAssetTab === AssetTabs.Tokens && isTableVisible && (
+            {isActive && selectedAssetTab === AssetTabs.Tokens && (
               <Grid item xs={12}>
                 <CustomWalletBalances
                   customSettings={customSettings}
                   filter={search}
                   onClickTradeCoin={handleClickTradeCoin}
+                  isTableVisible={isTableVisible}
+                  handleToggleTable={handleToggleTable}
                 />
               </Grid>
             )}

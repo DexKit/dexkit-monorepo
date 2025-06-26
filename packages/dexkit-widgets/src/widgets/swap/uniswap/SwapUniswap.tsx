@@ -33,13 +33,14 @@ import SwapTokenFieldUniswap from "./SwapTokenFieldUniswap";
 
 // @ts-ignore
 
-export interface SwapProps {
+export interface SwapUniswapProps {
   chainId?: ChainId;
+  selectedChainId?: ChainId;
   currency: string;
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | unknown
+    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
@@ -47,12 +48,12 @@ export interface SwapProps {
   isActive?: boolean;
   isAutoSlippage?: boolean;
   maxSlippage?: number;
-  sellToken?: Token;
-  buyToken?: Token;
   priceBuy?: string;
   priceBuyLoading?: boolean;
   priceSell?: string;
   priceSellLoading?: boolean;
+  sellToken?: Token;
+  buyToken?: Token;
   sellAmount: BigNumber;
   buyAmount: BigNumber;
   execType?: ExecType;
@@ -68,6 +69,7 @@ export interface SwapProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
+  featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
@@ -78,6 +80,13 @@ export interface SwapProps {
   onShowTransactions: () => void;
   onExec: () => void;
   onShowTransak?: () => void;
+  onSetToken?: (token?: Token) => void;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
@@ -87,44 +96,54 @@ import SwapSwitchTokensUniswapButton from "./SwapSwitchTokensUniswapButton";
 
 export default function SwapUniswap({
   chainId,
+  selectedChainId,
+  currency,
+  disabled,
+  quoteFor,
+  quoteQuery,
+  provider,
+  account,
+  isActivating,
+  isActive,
+  isAutoSlippage,
+  maxSlippage,
   priceBuy,
   priceBuyLoading,
   priceSell,
   priceSellLoading,
-  networkName,
-  disabled,
-  quoteFor,
-  isActive,
-  quoteQuery,
-  execType,
-  isQuoting,
-  buyAmount,
-  sellAmount,
   sellToken,
   buyToken,
-  currency,
-  provider,
-  isExecuting,
-  disableFooter,
+  sellAmount,
+  buyAmount,
+  execType,
   quote,
+  isExecuting,
   clickOnMax,
   sellTokenBalance,
   buyTokenBalance,
   insufficientBalance,
   isProviderReady,
+  isQuoting,
   disableNotificationsButton,
   enableBuyCryptoButton,
+  disableFooter,
+  networkName,
+  featuredTokensByChain,
   onSelectToken,
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
   onChangeNetwork,
+  onToggleChangeNetwork,
   onShowSettings,
   onShowTransactions,
   onExec,
   onShowTransak,
-  onToggleChangeNetwork,
-}: SwapProps) {
+  onSetToken,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
+}: SwapUniswapProps) {
   const { connectWallet } = useWalletConnect();
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
@@ -229,6 +248,11 @@ export default function SwapUniswap({
                 showBalance={isActive}
                 isUserInput={quoteFor === "sell" && clickOnMax === false}
                 disabled={isQuoting && quoteFor === "buy"}
+                featuredTokensByChain={featuredTokensByChain}
+                onSetToken={onSetToken}
+                selectedChainId={selectedChainId}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
               <Stack alignItems="center">
                 <Box
@@ -255,6 +279,11 @@ export default function SwapUniswap({
                 showBalance={isActive}
                 isUserInput={quoteFor === "buy" && clickOnMax === false}
                 disabled={isQuoting && quoteFor === "sell"}
+                featuredTokensByChain={featuredTokensByChain}
+                onSetToken={onSetToken}
+                selectedChainId={selectedChainId}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
             </Stack>
             {quote && (
@@ -265,6 +294,7 @@ export default function SwapUniswap({
                 sellToken={sellToken}
                 buyToken={buyToken}
                 provider={provider}
+                swapFees={swapFees}
               />
             )}
             {insufficientBalance && isActive && (

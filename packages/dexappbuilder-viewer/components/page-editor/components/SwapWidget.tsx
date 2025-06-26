@@ -109,6 +109,10 @@ function SwapWidget(props: Props) {
         variant: variant,
         enableUrlParams: enableUrlParams,
         enableImportExterTokens: formData?.enableImportExternTokens,
+        disableNetworkChange: formData?.disableNetworkChange,
+        disableNetworkSelector: formData?.disableNetworkSelector,
+        keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
+        lockedToken: formData?.lockedToken,
         configsByChain:
           enableUrlParams && configParams?.configByChainParams
             ? configParams.configByChainParams
@@ -120,6 +124,7 @@ function SwapWidget(props: Props) {
         zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
         transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
       }}
+      swapFees={swapState.swapFees}
     />
   );
 }

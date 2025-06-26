@@ -489,6 +489,11 @@ export function WalletSection({ section }: Props) {
               gradientEndColor={glassSettings?.gradientEndColor}
               gradientDirection={glassSettings?.gradientDirection}
               swapVariant={customSettings?.swapConfig?.variant}
+              networkModalTextColor={glassSettings?.networkModalTextColor || '#fff'}
+              receiveModalTextColor={glassSettings?.receiveModalTextColor || '#fff'}
+              sendModalTextColor={glassSettings?.sendModalTextColor || '#fff'}
+              scanModalTextColor={glassSettings?.scanModalTextColor || '#fff'}
+              importTokenModalTextColor={glassSettings?.importTokenModalTextColor || '#fff'}
             />
           </Container>
         </Box>

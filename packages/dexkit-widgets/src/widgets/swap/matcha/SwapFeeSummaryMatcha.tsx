@@ -17,7 +17,7 @@ import { GET_NATIVE_TOKEN } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import { formatStringNumber } from "@dexkit/core/utils";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import { ZeroExGaslessQuoteResponse, ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { useCoinPrices, useGasPrice } from "../../../hooks";
 import { formatBigNumber } from "../../../utils";
 
@@ -25,12 +25,16 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 export interface SwapFeeSummaryMatchaProps {
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null;
   chainId?: ChainId;
   currency: string;
   sellToken?: Token;
   buyToken?: Token;
   provider?: providers.BaseProvider;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
   defaultExpanded?: boolean;
 }
 
@@ -41,6 +45,7 @@ export default function SwapFeeSummaryMatcha({
   sellToken,
   buyToken,
   provider,
+  swapFees,
   defaultExpanded,
 }: SwapFeeSummaryMatchaProps) {
   const coinPrices = useCoinPrices({
@@ -50,7 +55,11 @@ export default function SwapFeeSummaryMatcha({
   });
 
   const maxFee = useMemo(() => {
-    const { fees } = quote || {};
+    if (!quote) {
+      return BigNumber.from(0);
+    }
+
+    const fees = (quote as any).fees;
     if (fees) {
       return BigNumber.from(fees.gasFee?.amount || 0)
         .add(BigNumber.from(fees.integratorFee?.amount || 0))

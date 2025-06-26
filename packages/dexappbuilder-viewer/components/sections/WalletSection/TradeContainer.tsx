@@ -21,6 +21,21 @@ interface Props {
   customSettings?: WalletCustomSettings;
 }
 
+const LockedBuyTokenSwapWidget = ({ formData, ...props }: any) => {
+  return (
+    <SwapWidget
+      {...props}
+      formData={{
+        ...formData,
+        disableNetworkChange: true,
+        disableNetworkSelector: true,
+        keepTokenAlwaysPresent: true,
+        lockedToken: formData.lockedBuyToken,
+      }}
+    />
+  );
+};
+
 export default function TradeContainer({ selectedCoin, onBack, customSettings }: Props) {
   const theme = useTheme();
 
@@ -40,6 +55,7 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
       useGasless: true,
       myTokensOnlyOnSearch: false,
       enableImportExternTokens: true,
+      lockedBuyToken: token,
     };
   }, [selectedCoin.token.chainId, selectedCoin.token.address, customSettings?.swapConfig?.variant]);
 
@@ -71,15 +87,6 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
     return theme.palette.background.default;
   };
 
-  const containerStyle = {
-    minHeight: '100vh',
-    background: getContainerBackground(),
-    backgroundSize: customSettings?.backgroundSize || 'cover',
-    backgroundPosition: customSettings?.backgroundPosition || 'center',
-    backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
-    backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
-  };
-
   const getSwapCardStyles = () => {
     const shadowIntensity = customSettings?.cardConfig?.shadowIntensity || 0.1;
     const hasShadow = shadowIntensity > 0;
@@ -98,40 +105,40 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
     };
   };
 
-  const renderBackground = () => {
-    if (customSettings?.backgroundType === 'image') {
-      const color = customSettings.backgroundColor || theme.palette.background.default;
-      const bg = customSettings?.backgroundImage ? `${color} url(${customSettings.backgroundImage})` : color;
-      return (
-        <Box
-          sx={{
-            position: 'absolute',
-            zIndex: 0,
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: bg,
-            backgroundSize: customSettings?.backgroundSize || 'cover',
-            backgroundPosition: customSettings?.backgroundPosition || 'center',
-            backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
-            backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
-            filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
-            WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
-            pointerEvents: 'none',
-          }}
-        />
-      );
-    }
-    return null;
-  };
+  const isCompactVariant = React.useMemo(() => {
+    const variant = customSettings?.swapConfig?.variant;
+    return variant === SwapVariant.Minimal || variant === SwapVariant.Compact;
+  }, [customSettings?.swapConfig?.variant]);
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {renderBackground()}
+      <Box
+        sx={{
+          position: 'absolute',
+          zIndex: 0,
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: getContainerBackground(),
+          backgroundSize: customSettings?.backgroundSize || 'cover',
+          backgroundPosition: customSettings?.backgroundPosition || 'center',
+          backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
+          backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
+          filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          pointerEvents: 'none',
+        }}
+      />
       <Box sx={{ position: 'relative', zIndex: 1 }}>
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Stack spacing={3}>
+        <Container
+          maxWidth={isCompactVariant ? "sm" : "md"}
+          sx={{
+            py: isCompactVariant ? 2 : 4,
+            px: isCompactVariant ? 1 : 3,
+          }}
+        >
+          <Stack spacing={isCompactVariant ? 2 : 3}>
             <Stack direction="row" alignItems="center" spacing={2}>
               <IconButton
                 onClick={onBack}
@@ -153,7 +160,7 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
                 <ArrowBack />
               </IconButton>
               <Typography
-                variant="h5"
+                variant={isCompactVariant ? "h6" : "h5"}
                 sx={{
                   color: customSettings?.primaryTextColor || theme.palette.text.primary,
                   fontWeight: 'bold',
@@ -174,20 +181,30 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
                 alignItems: 'flex-start',
               }}
             >
-              <Paper
-                sx={{
-                  width: '100%',
-                  maxWidth: '480px',
-                  p: 0,
-                  ...getSwapCardStyles(),
-                }}
-              >
-                <SwapWidget
-                  key={swapWidgetKey}
-                  formData={swapConfig}
-                  isEditMode={false}
-                />
-              </Paper>
+              {isCompactVariant ? (
+                <Box sx={{ width: '100%', maxWidth: '400px' }}>
+                  <LockedBuyTokenSwapWidget
+                    key={swapWidgetKey}
+                    formData={swapConfig}
+                    isEditMode={false}
+                  />
+                </Box>
+              ) : (
+                <Paper
+                  sx={{
+                    width: '100%',
+                    maxWidth: '480px',
+                    p: 0,
+                    ...getSwapCardStyles(),
+                  }}
+                >
+                  <LockedBuyTokenSwapWidget
+                    key={swapWidgetKey}
+                    formData={swapConfig}
+                    isEditMode={false}
+                  />
+                </Paper>
+              )}
             </Box>
           </Stack>
         </Container>

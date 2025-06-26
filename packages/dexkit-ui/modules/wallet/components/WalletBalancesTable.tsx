@@ -1,5 +1,8 @@
 import { ChainId } from "@dexkit/core/constants";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {
+  Box,
   Skeleton,
   Table,
   TableBody,
@@ -7,8 +10,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  useTheme,
 } from "@mui/material";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 import { useCurrency } from "../../../hooks/currency";
@@ -21,9 +26,12 @@ interface Props {
   isBalancesVisible: boolean;
   chainId?: ChainId;
   filter?: string;
+  isTableVisible: boolean;
+  handleToggleTable: () => void;
 }
 
-function WalletBalancesTable({ isBalancesVisible, chainId, filter }: Props) {
+function WalletBalancesTable({ isBalancesVisible, chainId, filter, isTableVisible, handleToggleTable }: Props) {
+  const theme = useTheme();
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
 
   const coinPricesQuery = useSimpleCoinPricesQuery({
@@ -61,49 +69,59 @@ function WalletBalancesTable({ isBalancesVisible, chainId, filter }: Props) {
   }, [tokenBalancesWithPrices, filter]);
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>
-              <FormattedMessage id="token" defaultMessage="Token" />
-            </TableCell>
-            <TableCell>
-              <FormattedMessage id="total" defaultMessage="Total" />
-            </TableCell>
-            <TableCell>
-              <FormattedMessage id="balance" defaultMessage="Balance" />
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tokenBalancesWithPricesFiltered?.map((token, index: number) => (
-            <WalletTableRow
-              key={index}
-              isLoadingCurrency={coinPricesQuery.isLoading}
-              tokenBalance={token}
-              price={token.price}
-              isBalancesVisible={isBalancesVisible}
-              currency={currency.currency}
-            />
-          ))}
-          {tokenBalancesQuery.isLoading &&
-            new Array(4).fill(null).map((_, index) => (
-              <TableRow key={index}>
+    <>
+      {isTableVisible && (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
                 <TableCell>
-                  <Skeleton />
+                  <FormattedMessage id="token" defaultMessage="Token" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton />
+                  <FormattedMessage id="total" defaultMessage="Total" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton />
+                  <FormattedMessage id="balance" defaultMessage="Balance" />
                 </TableCell>
               </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableHead>
+            <TableBody>
+              {tokenBalancesWithPricesFiltered?.map((token, index: number) => (
+                <WalletTableRow
+                  key={index}
+                  isLoadingCurrency={coinPricesQuery.isLoading}
+                  tokenBalance={token}
+                  price={token.price}
+                  isBalancesVisible={isBalancesVisible}
+                  currency={currency.currency}
+                />
+              ))}
+              {tokenBalancesQuery.isLoading &&
+                new Array(4).fill(null).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={handleToggleTable}>
+        {isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: theme.palette.primary.main }} />}
+        <Typography variant="body2" sx={{ fontWeight: 'bold', letterSpacing: 1, color: theme.palette.primary.main }}>
+          {isTableVisible ? 'CLOSE' : 'OPEN'}
+        </Typography>
+      </Box>
+    </>
   );
 }
 
@@ -134,57 +152,21 @@ interface WalletProps {
   filter?: string;
 }
 
-/*function WalletBalances({ chainId }: WalletProps) {
-  const isBalancesVisible = useIsBalanceVisible();
-
-  return (
-    <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundary
-          onReset={reset}
-          fallbackRender={({ resetErrorBoundary, error }) => (
-            <Paper sx={{ p: 1 }}>
-              <Stack justifyContent="center" alignItems="center">
-                <Typography variant="h6">
-                  <FormattedMessage
-                    id="something.went.wrong"
-                    defaultMessage="Oops, something went wrong"
-                    description="Something went wrong error message"
-                  />
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  {String(error)}
-                </Typography>
-                <Button color="primary" onClick={resetErrorBoundary}>
-                  <FormattedMessage
-                    id="try.again"
-                    defaultMessage="Try again"
-                    description="Try again"
-                  />
-                </Button>
-              </Stack>
-            </Paper>
-          )}
-        >
-          <Suspense fallback={<WalletTableSkeleton rows={4} />}>
-            <WalletBalancesTable
-              isBalancesVisible={isBalancesVisible}
-              chainId={chainId}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      )}
-    </QueryErrorResetBoundary>
-  );
-}*/
 function WalletBalances({ chainId, filter }: WalletProps) {
   const isBalancesVisible = useIsBalanceVisible();
+  const [isTableVisible, setIsTableVisible] = useState(false);
+
+  const handleToggleTable = () => {
+    setIsTableVisible(!isTableVisible);
+  };
 
   return (
     <WalletBalancesTable
       isBalancesVisible={isBalancesVisible}
       chainId={chainId}
       filter={filter}
+      isTableVisible={isTableVisible}
+      handleToggleTable={handleToggleTable}
     />
   );
 }

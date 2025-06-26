@@ -106,6 +106,10 @@ export function SwapWidget({
     useGasless,
     myTokensOnlyOnSearch,
     variant,
+    disableNetworkChange,
+    disableNetworkSelector,
+    keepTokenAlwaysPresent,
+    lockedToken,
   } = options;
 
   const [selectedChainId, setSelectedChainId] = useState<ChainId>();
@@ -311,6 +315,47 @@ export function SwapWidget({
     }
   };
 
+  const handleOpenSelectTokenCustom = (selectFor: any, token?: Token) => {
+    if (keepTokenAlwaysPresent && lockedToken) {
+      const isBuyTokenLocked = buyToken?.address?.toLowerCase() === lockedToken.address?.toLowerCase();
+      const isSellTokenLocked = sellToken?.address?.toLowerCase() === lockedToken.address?.toLowerCase();
+
+      if ((selectFor === "buy" && isBuyTokenLocked) || (selectFor === "sell" && isSellTokenLocked)) {
+        return;
+      }
+    }
+
+    handleOpenSelectToken(selectFor, token);
+  };
+
+  const handleToggleSwitchNetworkCustom = () => {
+    if (disableNetworkSelector) {
+      return;
+    }
+
+    if (disableNetworkChange) {
+      return;
+    }
+
+    handleToggleSwitchNetwork();
+  };
+
+  const handleChangeNetworkCustom = (chainId: any) => {
+    if (disableNetworkChange) {
+      return;
+    }
+
+    handleChangeNetwork(chainId);
+  };
+
+  const handleSwapTokensCustom = () => {
+    if (keepTokenAlwaysPresent && lockedToken) {
+      handleSwapTokens();
+    } else {
+      handleSwapTokens();
+    }
+  };
+
   const handleConfirmSwap = useCallback(async () => {
     await handleConfirmExecSwap.mutateAsync();
     !canGasless && handleCloseConfirmSwap();
@@ -348,8 +393,8 @@ export function SwapWidget({
           onClearRecentTokens={handleClearRecentTokens}
           isProviderReady={isProviderReady}
           filteredChainIds={filteredChainIds}
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeNetwork={handleChangeNetwork}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
+          onChangeNetwork={handleChangeNetworkCustom}
           enableImportExterTokens={enableImportExterTokens}
         />
       );
@@ -376,8 +421,8 @@ export function SwapWidget({
           onClearRecentTokens={handleClearRecentTokens}
           isProviderReady={isProviderReady}
           filteredChainIds={filteredChainIds}
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeNetwork={handleChangeNetwork}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
+          onChangeNetwork={handleChangeNetworkCustom}
           enableImportExterTokens={enableImportExterTokens}
         />
       );
@@ -448,48 +493,53 @@ export function SwapWidget({
     if (variant === SwapVariant.MatchaLike) {
       return (
         <SwapMatcha
-          priceBuy={quoteQueryPrice?.buyPrice}
-          priceSell={quoteQueryPrice?.sellPrice}
-          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
-          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
-          onSetToken={handleSetToken}
-          featuredTokensByChain={featuredTokensByChain}
-          currency={currency}
-          disableNotificationsButton={disableNotificationsButton}
           chainId={chainId}
           selectedChainId={selectedChainId}
+          currency={currency}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
-          clickOnMax={clickOnMax}
+          provider={selectedProvider}
+          account={account}
+          isActivating={isActivating}
           isActive={isActive && !disableWallet}
-          buyToken={buyToken}
+          isAutoSlippage={isAutoSlippage}
+          maxSlippage={maxSlippage}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           sellToken={sellToken}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          buyToken={buyToken}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
-          networkName={
-            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
-          }
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeBuyAmount={handleChangeBuyAmount}
-          onChangeSellAmount={handleChangeSellAmount}
-          onExec={handleExecSwap}
           execType={execType}
-          isExecuting={isExecuting}
           quote={quote}
-          isQuoting={isQuoting}
-          provider={selectedProvider}
-          isProviderReady={isProviderReady}
+          isExecuting={isExecuting}
+          clickOnMax={clickOnMax}
           sellTokenBalance={sellTokenBalance}
-          insufficientBalance={insufficientBalance}
           buyTokenBalance={buyTokenBalance}
-          onChangeNetwork={handleChangeNetwork}
+          insufficientBalance={insufficientBalance}
+          isProviderReady={isProviderReady}
+          isQuoting={isQuoting}
+          disableNotificationsButton={disableNotificationsButton}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          disableFooter={disableFooter}
+          networkName={chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined}
+          featuredTokensByChain={featuredTokensByChain}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
+          onChangeSellAmount={handleChangeSellAmount}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeNetwork={handleChangeNetworkCustom}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onShowSettings={handleShowSettings}
           onShowTransactions={handleShowTransactions}
-          onShowTransak={transakApiKey ? handleShowTransak : undefined}
-          disableFooter={disableFooter}
-          enableBuyCryptoButton={enableBuyCryptoButton}
+          onExec={handleExecSwap}
+          onShowTransak={handleShowTransak}
+          onSetToken={handleSetToken}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
@@ -497,45 +547,53 @@ export function SwapWidget({
     if (variant === SwapVariant.UniswapLike) {
       return (
         <SwapUniswap
-          currency={currency}
-          disableNotificationsButton={disableNotificationsButton}
-          priceBuy={quoteQueryPrice?.buyPrice}
-          priceSell={quoteQueryPrice?.sellPrice}
-          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
-          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           chainId={chainId}
+          selectedChainId={selectedChainId}
+          currency={currency}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
-          clickOnMax={clickOnMax}
+          provider={selectedProvider}
+          account={account}
+          isActivating={isActivating}
           isActive={isActive && !disableWallet}
-          buyToken={buyToken}
+          isAutoSlippage={isAutoSlippage}
+          maxSlippage={maxSlippage}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           sellToken={sellToken}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          buyToken={buyToken}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
-          networkName={
-            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
-          }
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeBuyAmount={handleChangeBuyAmount}
-          onChangeSellAmount={handleChangeSellAmount}
-          onExec={handleExecSwap}
           execType={execType}
-          isExecuting={isExecuting}
           quote={quote}
-          isQuoting={isQuoting}
-          provider={selectedProvider}
-          isProviderReady={isProviderReady}
+          isExecuting={isExecuting}
+          clickOnMax={clickOnMax}
           sellTokenBalance={sellTokenBalance}
-          insufficientBalance={insufficientBalance}
           buyTokenBalance={buyTokenBalance}
-          onChangeNetwork={handleChangeNetwork}
+          insufficientBalance={insufficientBalance}
+          isProviderReady={isProviderReady}
+          isQuoting={isQuoting}
+          disableNotificationsButton={disableNotificationsButton}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          disableFooter={disableFooter}
+          networkName={chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined}
+          featuredTokensByChain={featuredTokensByChain}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
+          onChangeSellAmount={handleChangeSellAmount}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeNetwork={handleChangeNetworkCustom}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onShowSettings={handleShowSettings}
           onShowTransactions={handleShowTransactions}
-          onShowTransak={transakApiKey ? handleShowTransak : undefined}
-          disableFooter={disableFooter}
-          enableBuyCryptoButton={enableBuyCryptoButton}
+          onExec={handleExecSwap}
+          onShowTransak={handleShowTransak}
+          onSetToken={handleSetToken}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
@@ -543,48 +601,53 @@ export function SwapWidget({
     if (variant === SwapVariant.Compact) {
       return (
         <SwapCompact
-          currency={currency}
-          disableNotificationsButton={disableNotificationsButton}
-          priceBuy={quoteQueryPrice?.buyPrice}
-          priceSell={quoteQueryPrice?.sellPrice}
-          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
-          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           chainId={chainId}
           selectedChainId={selectedChainId}
+          currency={currency}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
-          clickOnMax={clickOnMax}
+          provider={selectedProvider}
+          account={account}
+          isActivating={isActivating}
           isActive={isActive && !disableWallet}
-          buyToken={buyToken}
+          isAutoSlippage={isAutoSlippage}
+          maxSlippage={maxSlippage}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           sellToken={sellToken}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          buyToken={buyToken}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
-          networkName={
-            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
-          }
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeBuyAmount={handleChangeBuyAmount}
-          onChangeSellAmount={handleChangeSellAmount}
-          onExec={handleExecSwap}
           execType={execType}
-          isExecuting={isExecuting}
           quote={quote}
-          isQuoting={isQuoting}
-          provider={selectedProvider}
-          isProviderReady={isProviderReady}
+          isExecuting={isExecuting}
+          clickOnMax={clickOnMax}
           sellTokenBalance={sellTokenBalance}
-          insufficientBalance={insufficientBalance}
           buyTokenBalance={buyTokenBalance}
-          onChangeNetwork={handleChangeNetwork}
+          insufficientBalance={insufficientBalance}
+          isProviderReady={isProviderReady}
+          isQuoting={isQuoting}
+          disableNotificationsButton={disableNotificationsButton}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          disableFooter={disableFooter}
+          networkName={chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined}
+          featuredTokensByChain={featuredTokensByChain}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
+          onChangeSellAmount={handleChangeSellAmount}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeNetwork={handleChangeNetworkCustom}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onShowSettings={handleShowSettings}
           onShowTransactions={handleShowTransactions}
-          onShowTransak={transakApiKey ? handleShowTransak : undefined}
-          disableFooter={disableFooter}
-          enableBuyCryptoButton={enableBuyCryptoButton}
-          featuredTokensByChain={featuredTokensByChain}
+          onExec={handleExecSwap}
+          onShowTransak={handleShowTransak}
           onSetToken={handleSetToken}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
@@ -592,14 +655,13 @@ export function SwapWidget({
     if (variant === SwapVariant.Minimal) {
       return (
         <SwapMinimal
-          currency={currency}
           chainId={chainId}
           selectedChainId={selectedChainId}
+          currency={currency}
           quoteFor={quoteFor}
-          quoteQuery={quoteQuery}
           priceBuy={quoteQueryPrice?.buyPrice}
-          priceSell={quoteQueryPrice?.sellPrice}
           priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
           priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           sellToken={sellToken}
           buyToken={buyToken}
@@ -608,20 +670,24 @@ export function SwapWidget({
           execType={execType}
           quote={quote}
           isExecuting={isExecuting}
+          clickOnMax={clickOnMax}
           sellTokenBalance={sellTokenBalance}
           buyTokenBalance={buyTokenBalance}
           insufficientBalance={insufficientBalance}
           isProviderReady={isProviderReady}
           isQuoting={isQuoting}
-          isActive={isActive && !disableWallet}
+          isActive={isActive}
           featuredTokensByChain={featuredTokensByChain}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
           onChangeSellAmount={handleChangeSellAmount}
           onChangeBuyAmount={handleChangeBuyAmount}
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onExec={handleExecSwap}
           onSetToken={handleSetToken}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
@@ -629,48 +695,53 @@ export function SwapWidget({
     if (variant === SwapVariant.Mobile) {
       return (
         <SwapMobile
-          currency={currency}
-          disableNotificationsButton={disableNotificationsButton}
-          priceBuy={quoteQueryPrice?.buyPrice}
-          priceSell={quoteQueryPrice?.sellPrice}
-          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
-          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           chainId={chainId}
           selectedChainId={selectedChainId}
+          currency={currency}
           quoteFor={quoteFor}
           quoteQuery={quoteQuery}
-          clickOnMax={clickOnMax}
+          provider={selectedProvider}
+          account={account}
+          isActivating={isActivating}
           isActive={isActive && !disableWallet}
-          buyToken={buyToken}
+          isAutoSlippage={isAutoSlippage}
+          maxSlippage={maxSlippage}
+          priceBuy={quoteQueryPrice?.buyPrice}
+          priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+          priceSell={quoteQueryPrice?.sellPrice}
+          priceSellLoading={quoteQueryPrice?.isLoadingPrice}
           sellToken={sellToken}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          buyToken={buyToken}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
-          networkName={
-            chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
-          }
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
-          onChangeBuyAmount={handleChangeBuyAmount}
-          onChangeSellAmount={handleChangeSellAmount}
-          onExec={handleExecSwap}
           execType={execType}
-          isExecuting={isExecuting}
           quote={quote}
-          isQuoting={isQuoting}
-          provider={selectedProvider}
-          isProviderReady={isProviderReady}
+          isExecuting={isExecuting}
+          clickOnMax={clickOnMax}
           sellTokenBalance={sellTokenBalance}
-          insufficientBalance={insufficientBalance}
           buyTokenBalance={buyTokenBalance}
-          onChangeNetwork={handleChangeNetwork}
+          insufficientBalance={insufficientBalance}
+          isProviderReady={isProviderReady}
+          isQuoting={isQuoting}
+          disableNotificationsButton={disableNotificationsButton}
+          enableBuyCryptoButton={enableBuyCryptoButton}
+          disableFooter={disableFooter}
+          networkName={chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined}
+          featuredTokensByChain={featuredTokensByChain}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
+          onChangeSellAmount={handleChangeSellAmount}
+          onChangeBuyAmount={handleChangeBuyAmount}
+          onChangeNetwork={handleChangeNetworkCustom}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onShowSettings={handleShowSettings}
           onShowTransactions={handleShowTransactions}
-          onShowTransak={transakApiKey ? handleShowTransak : undefined}
-          disableFooter={disableFooter}
-          enableBuyCryptoButton={enableBuyCryptoButton}
-          featuredTokensByChain={featuredTokensByChain}
+          onExec={handleExecSwap}
+          onShowTransak={handleShowTransak}
           onSetToken={handleSetToken}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
@@ -692,14 +763,14 @@ export function SwapWidget({
           isActive={isActive && !disableWallet}
           buyToken={buyToken}
           sellToken={sellToken}
-          onSelectToken={handleOpenSelectToken}
-          onSwapTokens={handleSwapTokens}
+          onSelectToken={handleOpenSelectTokenCustom}
+          onSwapTokens={handleSwapTokensCustom}
           sellAmount={sellAmount}
           buyAmount={buyAmount}
           networkName={
             chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
           }
-          onToggleChangeNetwork={handleToggleSwitchNetwork}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
           onChangeBuyAmount={handleChangeBuyAmount}
           onChangeSellAmount={handleChangeSellAmount}
           onExec={handleExecSwap}
@@ -712,7 +783,7 @@ export function SwapWidget({
           sellTokenBalance={sellTokenBalance}
           insufficientBalance={insufficientBalance}
           buyTokenBalance={buyTokenBalance}
-          onChangeNetwork={handleChangeNetwork}
+          onChangeNetwork={handleChangeNetworkCustom}
           onShowSettings={handleShowSettings}
           onShowTransactions={handleShowTransactions}
           onShowTransak={transakApiKey ? handleShowTransak : undefined}
@@ -732,48 +803,62 @@ export function SwapWidget({
           gradientStartColor={options.glassSettings?.gradientStartColor}
           gradientEndColor={options.glassSettings?.gradientEndColor}
           gradientDirection={options.glassSettings?.gradientDirection}
+          keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+          lockedToken={lockedToken}
+          swapFees={swapFees}
         />
       );
     }
 
     return (
       <Swap
-        currency={currency}
-        disableNotificationsButton={disableNotificationsButton}
         chainId={chainId}
-        activeChainIds={filteredChainIds}
+        selectedChainId={selectedChainId}
+        currency={currency}
         quoteFor={quoteFor}
         quoteQuery={quoteQuery}
-        clickOnMax={clickOnMax}
+        provider={selectedProvider}
+        account={account}
+        isActivating={isActivating}
         isActive={isActive && !disableWallet}
-        buyToken={buyToken}
+        isAutoSlippage={isAutoSlippage}
+        maxSlippage={maxSlippage}
+        priceBuy={quoteQueryPrice?.buyPrice}
+        priceBuyLoading={quoteQueryPrice?.isLoadingPrice}
+        priceSell={quoteQueryPrice?.sellPrice}
+        priceSellLoading={quoteQueryPrice?.isLoadingPrice}
         sellToken={sellToken}
-        onSelectToken={handleOpenSelectToken}
-        onSwapTokens={handleSwapTokens}
+        buyToken={buyToken}
         sellAmount={sellAmount}
         buyAmount={buyAmount}
-        networkName={
-          chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined
-        }
-        onToggleChangeNetwork={handleToggleSwitchNetwork}
-        onChangeBuyAmount={handleChangeBuyAmount}
-        onChangeSellAmount={handleChangeSellAmount}
-        onExec={handleExecSwap}
         execType={execType}
-        isExecuting={isExecuting}
         quote={quote}
-        isQuoting={isQuoting}
-        provider={selectedProvider}
-        isProviderReady={isProviderReady}
+        isExecuting={isExecuting}
+        clickOnMax={clickOnMax}
         sellTokenBalance={sellTokenBalance}
-        insufficientBalance={insufficientBalance}
         buyTokenBalance={buyTokenBalance}
-        onChangeNetwork={handleChangeNetwork}
+        insufficientBalance={insufficientBalance}
+        isProviderReady={isProviderReady}
+        isQuoting={isQuoting}
+        disableNotificationsButton={disableNotificationsButton}
+        enableBuyCryptoButton={enableBuyCryptoButton}
+        disableFooter={disableFooter}
+        networkName={chainId && NETWORKS[chainId] ? NETWORKS[chainId].name : undefined}
+        featuredTokensByChain={featuredTokensByChain}
+        onSelectToken={handleOpenSelectTokenCustom}
+        onSwapTokens={handleSwapTokensCustom}
+        onChangeSellAmount={handleChangeSellAmount}
+        onChangeBuyAmount={handleChangeBuyAmount}
+        onChangeNetwork={handleChangeNetworkCustom}
+        onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
         onShowSettings={handleShowSettings}
         onShowTransactions={handleShowTransactions}
-        onShowTransak={transakApiKey ? handleShowTransak : undefined}
-        disableFooter={disableFooter}
-        enableBuyCryptoButton={enableBuyCryptoButton}
+        onExec={handleExecSwap}
+        onShowTransak={handleShowTransak}
+        onSetToken={handleSetToken}
+        keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+        lockedToken={lockedToken}
+        swapFees={swapFees}
       />
     );
   };
@@ -914,13 +999,13 @@ export function SwapWidget({
 
       {chainId && renderDialogComponent()}
       <SwitchNetworkDialog
-        onChangeNetwork={handleChangeNetwork}
+        onChangeNetwork={handleChangeNetworkCustom}
         activeChainIds={filteredChainIds}
         DialogProps={{
           open: showSwitchNetwork,
           maxWidth: "xs",
           fullWidth: true,
-          onClose: handleToggleSwitchNetwork,
+          onClose: handleToggleSwitchNetworkCustom,
         }}
         chainId={chainId}
       />

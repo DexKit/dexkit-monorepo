@@ -26,8 +26,6 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
 
-import TableChartIcon from "@mui/icons-material/TableChart";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -102,7 +100,6 @@ const EvmWalletContainer = () => {
 
   const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
   const [search, setSearch] = useState("");
-  const [isTableVisible, setIsTableVisible] = useState(true);
 
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(
     isBalancesVisibleAtom
@@ -117,10 +114,6 @@ const EvmWalletContainer = () => {
 
   const handleToggleVisibility = () => {
     setIsBalancesVisible((value) => !value);
-  };
-
-  const handleToggleTable = () => {
-    setIsTableVisible((value) => !value);
   };
 
   const handleOpenReceive = () => {
@@ -289,14 +282,6 @@ const EvmWalletContainer = () => {
                               <VisibilityOffIcon />
                             )}
                           </IconButton>
-                          <IconButton
-                            onClick={handleToggleTable}
-                            sx={{
-                              color: theme.palette.text.primary,
-                            }}
-                          >
-                            {isTableVisible ? <TableChartIcon /> : <TableChartOutlinedIcon />}
-                          </IconButton>
                         </Stack>
                       </Box>
                       <NetworkSelectButton
@@ -425,7 +410,7 @@ const EvmWalletContainer = () => {
               )}
             </Grid>
 
-            {isActive && isTableVisible && (
+            {isActive && (
               <Grid item xs={12}>
                 <NoSsr>
                   <WalletBalances chainId={chainId} filter={search} />

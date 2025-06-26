@@ -288,6 +288,11 @@ export interface WalletGlassSettings {
   textColor?: string;
   hideNFTs?: boolean;
   hideActivity?: boolean;
+  networkModalTextColor?: string;
+  receiveModalTextColor?: string;
+  sendModalTextColor?: string;
+  scanModalTextColor?: string;
+  importTokenModalTextColor?: string;
 }
 
 export interface WalletSettings {
