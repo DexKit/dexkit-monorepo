@@ -13,7 +13,7 @@ import {
   useTokenList,
 } from "@dexkit/ui/hooks";
 import { useQueryClient } from "@tanstack/react-query";
-import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
+import { type SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import dynamic from "next/dynamic";
 
 import { getERC20Name, getERC20Symbol } from "@dexkit/core/services/balances";

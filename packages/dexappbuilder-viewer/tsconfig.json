@@ -2,7 +2,6 @@
   "extends": "tsconfig/react-library.json",
   "include": ["."],
   "compilerOptions": {
-    "outDir": "dist",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "es2021",

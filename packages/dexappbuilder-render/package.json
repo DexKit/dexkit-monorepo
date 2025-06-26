@@ -5,6 +5,16 @@
   "version": "0.0.1",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "type": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./widget": {
+      "type": "./dist/widget.d.ts",
+      "import": "./dist/widget.js"
+    }
+  },
   "scripts": {
     "build": "tsc -b",
     "dev": "tsc -w",
@@ -19,7 +29,40 @@
     "@dexkit/dexappbuilder-viewer": "*",
     "@dexkit/unlock-widget": "*",
     "@dexkit/evm-chains": "^1.15.2",
-    "@dexkit/ui": "*"
+    "@dexkit/ui": "*",
+    "@thirdweb-dev/react": "^4.4.8",
+    "@thirdweb-dev/sdk": "^4.0.35",
+    "@emotion/cache": "^11.7.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/x-data-grid": "^6.16.2",
+    "@mui/x-date-pickers": "^5.0.0-alpha.2",
+    "@mui/icons-material": "5.14.11",
+    "@mui/material": "5.14.11",
+    "@uiw/react-md-editor": "3.25.6",
+    "@traderxyz/nft-swap-sdk": "0.33.0",
+    "@react-page/editor": "5.4.4",
+    "@react-page/plugins-background": "^5.4.4",
+    "@react-page/plugins-divider": "^5.4.4",
+    "@react-page/plugins-html5-video": "^5.4.4",
+    "@react-page/plugins-image": "^5.4.4",
+    "@react-page/plugins-slate": "^5.4.4",
+    "@react-page/plugins-spacer": "^5.4.4",
+    "@react-page/plugins-video": "^5.4.4",
+    "@indexed-finance/multicall": "^2.0.0",
+    "react-intersection-observer": "^9.8.0",
+    "react-error-boundary": "^3.1.4",
+    "react-markdown": "^8.0.3",
+    "remark-gfm": "^3.0.1",
+    "ethers": "^5.7.2",
+    "next": "14.1.4",
+    "next-auth": "^4.20.1",
+    "thirdweb": "^5.93.15",
+    "react-intl": "^5.24.8",
+    "jotai": "1.6.5",
+    "notistack": "^2.0.8",
+    "yet-another-react-lightbox": "^3.17.0"
   },
   "engines": {
     "node": "22.x"

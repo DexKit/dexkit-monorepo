@@ -7119,17 +7119,6 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.16.1":
-  version "6.16.1"
-  resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-6.16.1.tgz"
-  integrity sha512-jiV4kMegueNiaB3Qs0VpHG0Cp+eIZa5upMr9fcdPMPNLhOYnkNtexTyezfptJyfD8Adbjrjt4bbRktBcDCC5DA==
-  dependencies:
-    "@babel/runtime" "^7.23.1"
-    "@mui/utils" "^5.14.11"
-    clsx "^2.0.0"
-    prop-types "^15.8.1"
-    reselect "^4.1.8"
-
 "@mui/x-data-grid@^6.16.2":
   version "6.16.2"
   resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-6.16.2.tgz"
