@@ -74,7 +74,7 @@ function SwapTokenButtonUniswap({
   );
 
   return (
-    <Tooltip title={locked ? <FormattedMessage id="locked.token" defaultMessage="Token bloqueado" /> : ""} arrow disableHoverListener={!locked} disableFocusListener={!locked}>
+    <Tooltip title={locked ? <FormattedMessage id="locked.token" defaultMessage="Locked token" /> : ""} arrow disableHoverListener={!locked} disableFocusListener={!locked}>
       <span>
         <ButtonBase
           {...ButtonBaseProps}

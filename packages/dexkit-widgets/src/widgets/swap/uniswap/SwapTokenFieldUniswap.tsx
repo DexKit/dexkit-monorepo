@@ -11,7 +11,8 @@ import {
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
 
-import { ChainId, Token } from "@dexkit/core/types";
+import { ChainId } from "@dexkit/core/constants/enums";
+import { Token } from "@dexkit/core/types";
 import React from "react";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
