@@ -55,6 +55,9 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
       useGasless: true,
       myTokensOnlyOnSearch: false,
       enableImportExternTokens: true,
+      disableNetworkChange: true,
+      disableNetworkSelector: true,
+      keepTokenAlwaysPresent: true,
       lockedBuyToken: token,
     };
   }, [selectedCoin.token.chainId, selectedCoin.token.address, customSettings?.swapConfig?.variant]);

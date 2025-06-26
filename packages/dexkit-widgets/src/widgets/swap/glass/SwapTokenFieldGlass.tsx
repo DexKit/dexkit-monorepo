@@ -129,6 +129,10 @@ export default function SwapTokenFieldGlass({
     }
   };
 
+  const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+    token?.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+    token?.chainId === lockedToken.chainId;
+
   const renderTokenButton = () => {
     if (!token) {
       return (
@@ -179,10 +183,6 @@ export default function SwapTokenFieldGlass({
         </Button>
       );
     }
-
-    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
-      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
-      token.chainId === lockedToken.chainId;
 
     return (
       <SwapTokenButton
@@ -283,9 +283,15 @@ export default function SwapTokenFieldGlass({
                         fontWeight: theme.typography.fontWeightMedium,
                         border: 'none',
                         outline: 'none',
-                        background: 'transparent',
+                        background: isLocked
+                          ? 'rgba(255, 255, 255, 0.15)'
+                          : 'transparent',
+                        borderRadius: theme.spacing(0.5),
                         color: finalTextColor,
-                        padding: theme.spacing(0.5, 0),
+                        padding: theme.spacing(0.5, 1),
+                        opacity: isLocked ? 0.6 : 1,
+                        cursor: isLocked ? 'not-allowed' : 'text',
+                        pointerEvents: isLocked ? 'none' : 'auto',
                         ...(disabled || !isUserInput ? {
                           pointerEvents: 'none',
                           opacity: 0.6
@@ -298,6 +304,7 @@ export default function SwapTokenFieldGlass({
                         },
                       },
                     },
+                    disabled: disabled || isLocked,
                   }}
                 />
               </Box>

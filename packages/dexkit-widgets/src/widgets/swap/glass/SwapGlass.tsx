@@ -22,7 +22,7 @@ import {
   ZeroExGaslessQuoteResponse,
   ZeroExQuoteResponse,
 } from "@dexkit/ui/modules/swap/types";
-import { Info, Settings, SwapVert } from "@mui/icons-material";
+import { Info, Lock as LockIcon, Settings, SwapVert } from "@mui/icons-material";
 import { useMediaQuery } from "@mui/material";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { SUPPORTED_SWAP_CHAIN_IDS } from "../constants/supportedChainIds";
@@ -90,6 +90,8 @@ export interface SwapGlassProps {
   gradientDirection?: string;
   keepTokenAlwaysPresent?: boolean;
   lockedToken?: Token;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
   swapFees?: {
     recipient: string;
     amount_percentage: number;
@@ -156,6 +158,8 @@ export default function SwapGlass({
   gradientDirection,
   keepTokenAlwaysPresent = false,
   lockedToken,
+  disableNetworkChange = false,
+  disableNetworkSelector = false,
   swapFees,
 }: SwapGlassProps) {
   const theme = useTheme();
@@ -250,30 +254,46 @@ export default function SwapGlass({
               defaultMessage="Network not supported"
             />
           </Typography>
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={onToggleChangeNetwork}
-            sx={{
-              background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
-              backdropFilter: `blur(${blurIntensity * 0.5}px)`,
-              WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
-              border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
-              borderRadius: theme.shape.borderRadius,
-              color: finalTextColor,
-              px: theme.spacing(3),
-              py: theme.spacing(1),
-              '&:hover': {
-                background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-                borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
-              },
-              transition: theme.transitions.create(['background-color', 'border-color'], {
-                duration: theme.transitions.duration.short,
-              }),
-            }}
+          <Tooltip
+            title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+            arrow
+            disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+            disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
           >
-            <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
-          </Button>
+            <span>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                disabled={disableNetworkChange || disableNetworkSelector}
+                tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                aria-disabled={disableNetworkChange || disableNetworkSelector}
+                sx={{
+                  background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
+                  backdropFilter: `blur(${blurIntensity * 0.5}px)`,
+                  WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
+                  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
+                  borderRadius: theme.shape.borderRadius,
+                  color: finalTextColor,
+                  px: theme.spacing(3),
+                  py: theme.spacing(1),
+                  opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                  pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                  cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                  '&:hover': {
+                    background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+                  },
+                  transition: theme.transitions.create(['background-color', 'border-color'], {
+                    duration: theme.transitions.duration.short,
+                  }),
+                }}
+              >
+                <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
+                {(disableNetworkChange || disableNetworkSelector) && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
+              </Button>
+            </span>
+          </Tooltip>
         </Paper>
       </Container>
     );
@@ -536,29 +556,45 @@ export default function SwapGlass({
                     <FormattedMessage id="connect.wallet" defaultMessage="Connect Wallet" />
                   </Button>
                 ) : execType === "switch" ? (
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    size="large"
-                    onClick={onToggleChangeNetwork}
-                    sx={{
-                      py: theme.spacing(1.5),
-                      fontSize: theme.typography.body1.fontSize,
-                      fontWeight: theme.typography.fontWeightMedium,
-                      borderRadius: theme.shape.borderRadius,
-                      background: `rgba(128, 128, 128, ${glassOpacity * 1.4})`,
-                      backdropFilter: `blur(${blurIntensity * 0.8}px)`,
-                      WebkitBackdropFilter: `blur(${blurIntensity * 0.8}px)`,
-                      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.25, 0.55)})`,
-                      color: finalTextColor,
-                      '&:hover': {
-                        background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.2)})`,
-                        borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
-                      },
-                    }}
+                  <Tooltip
+                    title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+                    arrow
+                    disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+                    disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
                   >
-                    <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
-                  </Button>
+                    <span>
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="large"
+                        onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                        disabled={disableNetworkChange || disableNetworkSelector}
+                        tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                        aria-disabled={disableNetworkChange || disableNetworkSelector}
+                        sx={{
+                          py: theme.spacing(1.5),
+                          fontSize: theme.typography.body1.fontSize,
+                          fontWeight: theme.typography.fontWeightMedium,
+                          borderRadius: theme.shape.borderRadius,
+                          background: `rgba(128, 128, 128, ${glassOpacity * 1.4})`,
+                          backdropFilter: `blur(${blurIntensity * 0.8}px)`,
+                          WebkitBackdropFilter: `blur(${blurIntensity * 0.8}px)`,
+                          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.25, 0.55)})`,
+                          color: finalTextColor,
+                          opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                          pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                          cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                          '&:hover': {
+                            background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.2)})`,
+                            borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+                          },
+                        }}
+                      >
+                        <FormattedMessage id="switch.network" defaultMessage="Switch Network" />
+                        {(disableNetworkChange || disableNetworkSelector) && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
+                      </Button>
+                    </span>
+                  </Tooltip>
                 ) : (
                   <Button
                     fullWidth

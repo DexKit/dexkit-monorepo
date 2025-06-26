@@ -4,10 +4,13 @@ import {
   NETWORK_NAME,
   NETWORK_SYMBOL,
 } from "@dexkit/core/constants/networks";
+import LockIcon from "@mui/icons-material/Lock";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import GlassChooseNetworkDialog from "./GlassChooseNetworkDialog";
 
 interface Props {
@@ -17,13 +20,15 @@ interface Props {
   glassOpacity?: number;
   textColor?: string;
   networkModalTextColor?: string;
+  locked?: boolean;
 }
 
 const GlassButton = styled(Button)<{
   blurIntensity: number;
   glassOpacity: number;
   textColor: string;
-}>(({ theme, blurIntensity, glassOpacity, textColor }) => ({
+  locked?: boolean;
+}>(({ theme, blurIntensity, glassOpacity, textColor, locked }) => ({
   position: 'relative',
   background: `rgba(255, 255, 255, ${glassOpacity})`,
   backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(110%)`,
@@ -42,6 +47,13 @@ const GlassButton = styled(Button)<{
     inset 0 -1px 0 rgba(0, 0, 0, 0.1)
   `,
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+
+  ...(locked && {
+    opacity: 0.5,
+    pointerEvents: 'none',
+    cursor: 'not-allowed',
+    background: `rgba(128, 128, 128, ${glassOpacity * 0.5})`,
+  }),
 
   [theme.breakpoints.down('sm')]: {
     fontSize: '0.8rem',
@@ -169,12 +181,15 @@ export function GlassNetworkSelectButton(props: Props) {
     blurIntensity = 20,
     glassOpacity = 0.25,
     textColor = '#ffffff',
-    networkModalTextColor
+    networkModalTextColor,
+    locked = false
   } = props;
   const [showSelectSwapNetworkDialog, setShowSelectSwapNetwork] = useState(false);
 
   const handleOpenSelectNetworkDialog = () => {
-    setShowSelectSwapNetwork(true);
+    if (!locked) {
+      setShowSelectSwapNetwork(true);
+    }
   };
 
   const handleCloseShowNetworkDialog = () => {
@@ -183,7 +198,7 @@ export function GlassNetworkSelectButton(props: Props) {
 
   return (
     <>
-      {showSelectSwapNetworkDialog && (
+      {showSelectSwapNetworkDialog && !locked && (
         <GlassChooseNetworkDialog
           dialogProps={{
             open: showSelectSwapNetworkDialog,
@@ -201,21 +216,34 @@ export function GlassNetworkSelectButton(props: Props) {
         />
       )}
 
-      <GlassButton
-        onClick={handleOpenSelectNetworkDialog}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={textColor}
-        startIcon={
-          <GlassAvatar
-            src={NETWORK_IMAGE(chainId)}
-            textColor={textColor}
-            alt={NETWORK_NAME(chainId) || ""}
-          />
-        }
+      <Tooltip
+        title={locked ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+        arrow
+        disableHoverListener={!locked}
+        disableFocusListener={!locked}
       >
-        {NETWORK_SYMBOL(chainId) || ""}
-      </GlassButton>
+        <span>
+          <GlassButton
+            onClick={handleOpenSelectNetworkDialog}
+            blurIntensity={blurIntensity}
+            glassOpacity={glassOpacity}
+            textColor={textColor}
+            locked={locked}
+            startIcon={
+              <GlassAvatar
+                src={NETWORK_IMAGE(chainId)}
+                textColor={textColor}
+                alt={NETWORK_NAME(chainId) || ""}
+              />
+            }
+            tabIndex={locked ? -1 : undefined}
+            aria-disabled={locked}
+          >
+            {NETWORK_SYMBOL(chainId) || ""}
+            {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
+          </GlassButton>
+        </span>
+      </Tooltip>
     </>
   );
 } 

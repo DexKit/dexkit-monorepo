@@ -9,6 +9,7 @@ import {
   ZeroExQuoteResponse,
 } from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
+import LockIcon from "@mui/icons-material/Lock";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Alert,
@@ -21,7 +22,8 @@ import {
   Divider,
   IconButton,
   LinearProgress,
-  Typography,
+  Tooltip,
+  Typography
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import type { UseQueryResult } from "@tanstack/react-query";
@@ -88,6 +90,8 @@ export interface SwapProps {
   onSetToken?: (token?: Token) => void;
   keepTokenAlwaysPresent?: boolean;
   lockedToken?: Token;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
   swapFees?: {
     recipient: string;
     amount_percentage: number;
@@ -142,6 +146,8 @@ export default function Swap({
   onSetToken,
   keepTokenAlwaysPresent = false,
   lockedToken,
+  disableNetworkChange = false,
+  disableNetworkSelector = false,
   swapFees,
 }: SwapProps) {
   const handleSelectSellToken = (token?: Token, clickOnMax?: boolean) => {
@@ -190,30 +196,51 @@ export default function Swap({
             {isProviderReady &&
               chainId &&
               (isMobile ? (
-                <Button
-                  sx={{
-                    color: (theme) => theme.palette.text.primary,
-                    borderColor: (theme) => theme.palette.divider,
-                  }}
-                  onClick={onToggleChangeNetwork}
-                  startIcon={
-                    NETWORKS[chainId] ? (
-                      <Avatar
-                        sx={{ width: "1rem", height: "1rem" }}
-                        src={NETWORKS[chainId].imageUrl}
-                      />
-                    ) : undefined
-                  }
-                  variant="outlined"
+                <Tooltip
+                  title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+                  arrow
+                  disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+                  disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
                 >
-                  {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
-                </Button>
+                  <span>
+                    <Button
+                      sx={{
+                        color: (theme) => theme.palette.text.primary,
+                        borderColor: (theme) => theme.palette.divider,
+                        opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                        pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                        cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                        background: disableNetworkChange || disableNetworkSelector ? (theme) => theme.palette.action.disabledBackground : undefined,
+                      }}
+                      onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                      disabled={disableNetworkChange || disableNetworkSelector}
+                      startIcon={
+                        NETWORKS[chainId] ? (
+                          <Avatar
+                            sx={{ width: "1rem", height: "1rem" }}
+                            src={NETWORKS[chainId].imageUrl}
+                          />
+                        ) : undefined
+                      }
+                      variant="outlined"
+                      tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                      aria-disabled={disableNetworkChange || disableNetworkSelector}
+                    >
+                      {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
+                      {(disableNetworkChange || disableNetworkSelector) && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
+                    </Button>
+                  </span>
+                </Tooltip>
               ) : (
                 <SwitchNetworkSelect
                   chainId={chainId}
                   activeChainIds={SUPPORTED_SWAP_CHAIN_IDS}
-                  onChangeNetwork={onChangeNetwork}
-                  SelectProps={{ size: "small" }}
+                  onChangeNetwork={disableNetworkChange ? () => { } : onChangeNetwork}
+                  locked={disableNetworkChange || disableNetworkSelector}
+                  SelectProps={{
+                    size: "small",
+                    disabled: disableNetworkChange || disableNetworkSelector
+                  }}
                 />
               ))}
           </Box>

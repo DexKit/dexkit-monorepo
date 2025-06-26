@@ -448,6 +448,12 @@ export function SwapWidget({
           featuredTokens={featuredTokensByChain}
           onClearRecentTokens={handleClearRecentTokens}
           enableImportExterTokens={enableImportExterTokens}
+          filteredChainIds={filteredChainIds}
+          onToggleChangeNetwork={handleToggleSwitchNetworkCustom}
+          onChangeNetwork={handleChangeNetworkCustom}
+          isProviderReady={isProviderReady}
+          disableNetworkChange={disableNetworkChange}
+          disableNetworkSelector={disableNetworkSelector}
           blurIntensity={options.glassSettings?.blurIntensity}
           glassOpacity={options.glassSettings?.glassOpacity}
           disableBackground={options.glassSettings?.disableBackground}
@@ -805,6 +811,8 @@ export function SwapWidget({
           gradientDirection={options.glassSettings?.gradientDirection}
           keepTokenAlwaysPresent={keepTokenAlwaysPresent}
           lockedToken={lockedToken}
+          disableNetworkChange={disableNetworkChange}
+          disableNetworkSelector={disableNetworkSelector}
           swapFees={swapFees}
         />
       );
@@ -858,6 +866,8 @@ export function SwapWidget({
         onSetToken={handleSetToken}
         keepTokenAlwaysPresent={keepTokenAlwaysPresent}
         lockedToken={lockedToken}
+        disableNetworkChange={disableNetworkChange}
+        disableNetworkSelector={disableNetworkSelector}
         swapFees={swapFees}
       />
     );

@@ -14,6 +14,21 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SwapWidget from '../../page-editor/components/SwapWidget';
 
+const LockedBuyTokenSwapWidget = ({ formData, ...props }: any) => {
+  return (
+    <SwapWidget
+      {...props}
+      formData={{
+        ...formData,
+        disableNetworkChange: true,
+        disableNetworkSelector: true,
+        keepTokenAlwaysPresent: true,
+        lockedToken: formData.lockedBuyToken,
+      }}
+    />
+  );
+};
+
 interface Props {
   selectedCoin: TokenBalance;
   onBack: () => void;
@@ -63,6 +78,10 @@ export default function GlassTradeContainer({
       useGasless: true,
       myTokensOnlyOnSearch: false,
       enableImportExternTokens: true,
+      disableNetworkChange: true,
+      disableNetworkSelector: true,
+      keepTokenAlwaysPresent: true,
+      lockedBuyToken: token,
     };
   }, [selectedCoin.token.chainId, selectedCoin.token.address, swapVariant]);
 
@@ -209,7 +228,7 @@ export default function GlassTradeContainer({
             >
               {isCompactVariant ? (
                 <Box sx={{ width: '100%', maxWidth: '400px' }}>
-                  <SwapWidget
+                  <LockedBuyTokenSwapWidget
                     key={swapWidgetKey}
                     formData={swapConfig}
                     isEditMode={false}
@@ -414,7 +433,7 @@ export default function GlassTradeContainer({
                     },
                   }}
                 >
-                  <SwapWidget
+                  <LockedBuyTokenSwapWidget
                     key={swapWidgetKey}
                     formData={swapConfig}
                     isEditMode={false}

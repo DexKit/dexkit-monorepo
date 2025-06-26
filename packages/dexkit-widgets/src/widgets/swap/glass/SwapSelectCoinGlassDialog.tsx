@@ -1,9 +1,12 @@
 import { useIsMobile } from "@dexkit/core/hooks";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import LockIcon from "@mui/icons-material/Lock";
 import Search from "@mui/icons-material/Search";
 
 import {
   Avatar,
   Button,
+  ButtonBase,
   Chip,
   Dialog,
   DialogContent,
@@ -14,6 +17,7 @@ import {
   ListSubheader,
   Paper,
   Stack,
+  Tooltip,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -21,6 +25,7 @@ import type { providers } from "ethers";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { TOKEN_ICON_URL } from "@dexkit/core/constants";
+import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token } from "@dexkit/core/types";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
 import LazyTextField from "@dexkit/ui/components/LazyTextField";
@@ -42,6 +47,12 @@ export interface SwapSelectCoinGlassDialogProps {
   provider?: providers.BaseProvider;
   featuredTokens?: Token[];
   enableImportExterTokens?: boolean;
+  filteredChainIds?: number[];
+  onToggleChangeNetwork?: () => void;
+  onChangeNetwork?: (chainId: number) => void;
+  isProviderReady?: boolean;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
   blurIntensity?: number;
   glassOpacity?: number;
   disableBackground?: boolean;
@@ -69,6 +80,12 @@ export default function SwapSelectCoinGlassDialog({
   onQueryChange,
   onClearRecentTokens,
   enableImportExterTokens,
+  filteredChainIds,
+  onToggleChangeNetwork,
+  onChangeNetwork,
+  isProviderReady,
+  disableNetworkChange = false,
+  disableNetworkSelector = false,
   blurIntensity = 30,
   glassOpacity = 0.10,
   disableBackground = false,
@@ -205,6 +222,129 @@ export default function SwapSelectCoinGlassDialog({
         }}
       />
       <Divider sx={{ borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.15)})` }} />
+
+      {isProviderReady && chainId && filteredChainIds && filteredChainIds.length > 1 && (
+        <>
+          <Paper
+            elevation={0}
+            sx={{
+              p: {
+                xs: theme.spacing(1.5),
+                sm: theme.spacing(2),
+              },
+              background: disableBackground
+                ? `rgba(128, 128, 128, ${Math.min(glassOpacity * 0.6, 0.06)})`
+                : 'rgba(128, 128, 128, 0.09)',
+              backdropFilter: 'blur(20px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(140%)',
+              borderBottom: `1px solid rgba(255, 255, 255, ${glassOpacity * 0.5})`,
+            }}
+          >
+            <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
+              {isMobile ? (
+                <Tooltip
+                  title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+                  arrow
+                  disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+                  disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
+                >
+                  <span>
+                    <ButtonBase
+                      onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                      disabled={disableNetworkChange || disableNetworkSelector}
+                      tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                      aria-disabled={disableNetworkChange || disableNetworkSelector}
+                      sx={{
+                        color: finalTextColor,
+                        borderRadius: theme.shape.borderRadius / 2,
+                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                        background: `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
+                        backdropFilter: `blur(${blurIntensity * 0.4}px)`,
+                        WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
+                        px: theme.spacing(1.5),
+                        py: theme.spacing(1),
+                        opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                        pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                        cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                        '&:hover': {
+                          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.4)})`,
+                          borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
+                        },
+                      }}
+                    >
+                      <Stack direction="row" alignItems="center" spacing={0.5}>
+                        {NETWORKS[chainId] && (
+                          <Avatar
+                            sx={{ width: "1rem", height: "1rem" }}
+                            src={NETWORKS[chainId].imageUrl}
+                          />
+                        )}
+                        <ExpandMore />
+                        {(disableNetworkChange || disableNetworkSelector) && (
+                          <LockIcon fontSize="small" sx={{ color: 'text.disabled' }} />
+                        )}
+                      </Stack>
+                    </ButtonBase>
+                  </span>
+                </Tooltip>
+              ) : (
+                <Tooltip
+                  title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+                  arrow
+                  disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+                  disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
+                >
+                  <span>
+                    <Button
+                      onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                      disabled={disableNetworkChange || disableNetworkSelector}
+                      tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                      aria-disabled={disableNetworkChange || disableNetworkSelector}
+                      startIcon={
+                        NETWORKS[chainId] && (
+                          <Avatar
+                            sx={{ width: "1.5rem", height: "1.5rem" }}
+                            src={NETWORKS[chainId].imageUrl}
+                          />
+                        )
+                      }
+                      endIcon={
+                        <Stack direction="row" alignItems="center" spacing={0.5}>
+                          <ExpandMore />
+                          {(disableNetworkChange || disableNetworkSelector) && (
+                            <LockIcon fontSize="small" sx={{ color: 'text.disabled' }} />
+                          )}
+                        </Stack>
+                      }
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        color: finalTextColor,
+                        borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                        background: `rgba(255, 255, 255, ${glassOpacity * 0.3})`,
+                        backdropFilter: `blur(${blurIntensity * 0.4}px)`,
+                        WebkitBackdropFilter: `blur(${blurIntensity * 0.4}px)`,
+                        px: theme.spacing(2),
+                        py: theme.spacing(0.5),
+                        opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                        pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                        cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                        '&:hover': {
+                          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.4)})`,
+                          borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
+                        },
+                      }}
+                    >
+                      {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
+                    </Button>
+                  </span>
+                </Tooltip>
+              )}
+            </Stack>
+          </Paper>
+          <Divider sx={{ borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity, 0.15)})` }} />
+        </>
+      )}
 
       <Paper
         elevation={0}

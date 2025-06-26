@@ -51,6 +51,10 @@ function SwapTokenField({
     }
   };
 
+  const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+    token?.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+    token?.chainId === lockedToken.chainId;
+
   const renderTokenButton = () => {
     if (!token) {
       return (
@@ -59,10 +63,6 @@ function SwapTokenField({
         />
       );
     }
-
-    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
-      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
-      token.chainId === lockedToken.chainId;
 
     return (
       <SwapTokenButton
@@ -97,8 +97,24 @@ function SwapTokenField({
         <CurrencyField
           InputBaseProps={{
             ...InputBaseProps,
-            sx: { fontSize: "2rem", flex: 1 },
-            disabled,
+            sx: (theme) => ({
+              fontSize: "2rem",
+              flex: 1,
+              '& .MuiInputBase-input': {
+                background: isLocked
+                  ? (theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.1)"
+                    : "rgba(0, 0, 0, 0.08)"
+                  )
+                  : 'transparent',
+                borderRadius: theme.spacing(0.5),
+                padding: theme.spacing(0.5, 1),
+                opacity: isLocked ? 0.6 : 1,
+                cursor: isLocked ? 'not-allowed' : 'text',
+                pointerEvents: isLocked ? 'none' : 'auto',
+              }
+            }),
+            disabled: disabled || isLocked,
           }}
           onChange={onChange}
           value={value}

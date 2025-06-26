@@ -10,6 +10,7 @@ import {
   SelectChangeEvent,
   SelectProps,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { memo, useState } from "react";
@@ -26,6 +27,7 @@ interface SwitchNetworkSelectProps {
   activeChainIds: number[];
   chainId?: ChainId;
   iconOnly?: boolean;
+  locked?: boolean;
 }
 
 function SwitchNetworkSelect({
@@ -34,55 +36,65 @@ function SwitchNetworkSelect({
   activeChainIds,
   chainId,
   iconOnly,
+  locked = false,
 }: SwitchNetworkSelectProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = async (e: SelectChangeEvent<unknown>) => {
-    onChangeNetwork(parseInt(e.target.value as string));
+    if (!locked) {
+      onChangeNetwork(parseInt(e.target.value as string));
+    }
   };
 
-  return (
+  const selectComponent = (
     <Select
       {...SelectProps}
-      disabled={isLoading}
+      disabled={isLoading || locked || SelectProps?.disabled}
       value={chainId ? String(chainId) : ""}
       onChange={handleChange}
-      sx={{ borderRadius: 2, border: "none" }}
+      sx={{
+        borderRadius: 2,
+        border: "none",
+        opacity: locked ? 0.5 : 1,
+        pointerEvents: locked ? 'none' : undefined,
+        cursor: locked ? 'not-allowed' : undefined,
+        ...SelectProps?.sx
+      }}
       IconComponent={ExpandMore}
       renderValue={
         chainId
           ? () => (
-              <Stack
-                spacing={1}
-                direction="row"
-                alignItems="center"
-                alignContent="center"
+            <Stack
+              spacing={1}
+              direction="row"
+              alignItems="center"
+              alignContent="center"
+            >
+              {isLoading ? (
+                <CircularProgress color="inherit" size="1rem" />
+              ) : (
+                <Avatar
+                  sx={{ width: "1rem", height: "1rem" }}
+                  src={
+                    NETWORKS[chainId] ? NETWORKS[chainId].imageUrl : undefined
+                  }
+                />
+              )}
+              <Typography
+                sx={iconOnly ? { width: 0, opacity: "0" } : undefined}
+                component="div"
               >
                 {isLoading ? (
-                  <CircularProgress color="inherit" size="1rem" />
-                ) : (
-                  <Avatar
-                    sx={{ width: "1rem", height: "1rem" }}
-                    src={
-                      NETWORKS[chainId] ? NETWORKS[chainId].imageUrl : undefined
-                    }
+                  <FormattedMessage
+                    id="changing.network"
+                    defaultMessage="Changing Network"
                   />
-                )}
-                <Typography
-                  sx={iconOnly ? { width: 0, opacity: "0" } : undefined}
-                  component="div"
-                >
-                  {isLoading ? (
-                    <FormattedMessage
-                      id="changing.network"
-                      defaultMessage="Changing Network"
-                    />
-                  ) : NETWORKS[chainId] ? (
-                    NETWORKS[chainId].name
-                  ) : undefined}
-                </Typography>
-              </Stack>
-            )
+                ) : NETWORKS[chainId] ? (
+                  NETWORKS[chainId].name
+                ) : undefined}
+              </Typography>
+            </Stack>
+          )
           : undefined
       }
     >
@@ -105,6 +117,21 @@ function SwitchNetworkSelect({
       ))}
     </Select>
   );
+
+  if (locked) {
+    return (
+      <Tooltip
+        title={<FormattedMessage id="locked.network" defaultMessage="Locked network" />}
+        arrow
+      >
+        <span>
+          {selectComponent}
+        </span>
+      </Tooltip>
+    );
+  }
+
+  return selectComponent;
 }
 
 export default memo(SwitchNetworkSelect);
