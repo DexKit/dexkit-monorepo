@@ -21,7 +21,6 @@ import React, { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useAuth } from '@dexkit/ui/hooks/auth';
 import { AppConfig, AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useQueryClient } from '@tanstack/react-query';
@@ -42,6 +41,7 @@ import PoweredByWizardContainer from '@/modules/wizard/components/containers/Pow
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
 import SignConfigDialog from '@/modules/wizard/components/dialogs/SignConfigDialog';
 import { BuilderKit } from '@/modules/wizard/constants';
+import Menu from '@mui/icons-material/Menu';
 import GeneralWizardContainer from './GeneralWizardContainer';
 import WidgetSectionWizardContainer from './WidgetSectionWizardContainer';
 
@@ -90,11 +90,11 @@ export enum ActiveMenu {
   UserEventAnalytics = 'user-event-analytics',
   MarketplaceFees = 'marketplace-fees',
   SwapFees = 'swap-fees',
-  Collections = 'collections',
-  Tokens = 'tokens',
+  Collections = 'data.collections',
+  Tokens = 'data.tokens',
   Integrations = 'integrations',
   Rankings = 'rankings',
-  Networks = 'networks',
+  Networks = 'data.networks',
   CreateContract = 'create.contracts',
   ManageContract = 'manage.contracts',
 }
@@ -154,8 +154,6 @@ export function EditWidgetWizardContainer({
   };
 
   const { formatMessage } = useIntl();
-
-  const { isLoggedIn, user } = useAuth();
 
   const [activeMenu, setActiveMenu] = useState<ActiveMenu>(
     tab || ActiveMenu.General,
@@ -436,6 +434,16 @@ export function EditWidgetWizardContainer({
                   isOnAdminDashboard ? onGoBack : undefined
                 }
               />
+              {isOnAdminDashboard && isMobile && (
+                <Button
+                  onClick={handleShowMenu}
+                  size="small"
+                  variant="outlined"
+                  startIcon={<Menu />}
+                >
+                  <FormattedMessage id="menu" defaultMessage="Menu" />
+                </Button>
+              )}
             </Stack>
           </Grid>
           {/*       <Grid item xs={12} sm={12}>

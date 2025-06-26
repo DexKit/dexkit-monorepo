@@ -15,8 +15,11 @@ import {
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
 
+import { useSendWidgetConfigMutation } from "../../../../whitelabel/hooks/useSendWidgetConfigMutation";
 import { useDeleteWidgetMutation } from "../../../../wizard/hooks/widget";
+import { AppConfig } from "../../../../wizard/types/config";
 import { ADMIN_TABLE_LIST } from "../../../constants";
+import ImportAppConfigDialog from "../../dialogs/ImportAppConfigDialog";
 import Menu from "../MarketplacesTableV2/Menu";
 
 interface Row {
@@ -40,6 +43,16 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
 
   const { formatMessage } = useIntl();
 
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  const [selectedConfig, setSelectedConfig] = useState<number>();
+  const [currentAppConfig, setCurrentAppConfig] = useState<AppConfig | null>(
+    null
+  );
+
+  const sendConfigMutation = useSendWidgetConfigMutation({
+    id: selectedConfig,
+  });
+
   const isMobile = useIsMobile();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -57,7 +70,7 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
 
     if (config) {
       const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        JSON.stringify(config)
+        config?.config
       )}`;
       const link = document.createElement("a");
       link.href = jsonString;
@@ -71,6 +84,101 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
           defaultMessage="Config exported"
         />,
         { variant: "success" }
+      );
+    }
+  };
+
+  const handleCloseImportDialog = () => {
+    setShowImportDialog(false);
+  };
+
+  const handleImport = (id: GridRowId) => {
+    const config = configs.find((c) => c.id === Number(id));
+    console.log("handleImport", config);
+
+    if (config) {
+      const currentAppConfig = JSON.parse(config.config) as AppConfig;
+      setSelectedConfig(Number(id));
+      setCurrentAppConfig(currentAppConfig);
+      setShowImportDialog(true);
+    }
+
+    handleCloseMenu();
+  };
+
+  const handleImportConfig = (
+    importedConfig: AppConfig,
+    shouldRedirect = true
+  ) => {
+    if (selectedConfig) {
+      try {
+        const configString = JSON.stringify(importedConfig);
+
+        enqueueSnackbar(
+          formatMessage({
+            defaultMessage: "Sending configuration...",
+            id: "sending.configuration",
+          }),
+          { variant: "info" }
+        );
+
+        sendConfigMutation.mutate(
+          {
+            config: configString,
+          },
+          {
+            onError: (error) => {
+              enqueueSnackbar(
+                `${formatMessage({
+                  defaultMessage: "Error importing configuration",
+                  id: "error.importing.configuration",
+                })}: ${error?.message || "Unknown error"}. ${formatMessage({
+                  defaultMessage: "Check if the server is running correctly.",
+                  id: "check.server.running",
+                })}`,
+                {
+                  variant: "error",
+                  autoHideDuration: 8000,
+                }
+              );
+            },
+            onSuccess: () => {
+              enqueueSnackbar(
+                formatMessage({
+                  defaultMessage: "Configuration imported successfully",
+                  id: "config.imported.successfully",
+                }),
+                { variant: "success" }
+              );
+
+              if (shouldRedirect && selectedConfig) {
+                setTimeout(() => {
+                  router.push(`/admin/widget/edit/${selectedConfig}`);
+                }, 1000);
+              } else {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }
+            },
+          }
+        );
+      } catch (error) {
+        enqueueSnackbar(
+          formatMessage({
+            defaultMessage: "Error preparing configuration for import",
+            id: "error.preparing.configuration",
+          }),
+          { variant: "error" }
+        );
+      }
+    } else {
+      enqueueSnackbar(
+        formatMessage({
+          defaultMessage: "No DApp selected for import",
+          id: "no.dapp.selected",
+        }),
+        { variant: "error" }
       );
     }
   };
@@ -153,6 +261,9 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
 
   const handleAction = (action: string, id: GridRowId) => {
     switch (action) {
+      case "import":
+        handleImport(id);
+        break;
       case "export":
         handleExport(id);
         break;
@@ -306,6 +417,18 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
           defaultMessage="Do you really want to remove this widget"
         />
       </AppConfirmDialog>
+      <ImportAppConfigDialog
+        DialogProps={{
+          open: showImportDialog,
+          onClose: handleCloseImportDialog,
+          maxWidth: "sm",
+          fullWidth: true,
+        }}
+        isWidget={true}
+        onImport={handleImportConfig}
+        currentConfig={currentAppConfig || undefined}
+        redirectAfterImport={true}
+      />
       <Menu
         anchorEl={anchorEl}
         onAction={handleMenuAction}

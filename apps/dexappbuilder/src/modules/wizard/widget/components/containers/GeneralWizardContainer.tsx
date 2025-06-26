@@ -1,6 +1,13 @@
 import { CURRENCIES, LANGUAGES } from '@dexkit/ui/constants';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { Divider, Grid, MenuItem, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Divider,
+  Grid,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { Field, Formik } from 'formik';
 import { Select, TextField } from 'formik-mui';
 import { useEffect, useState } from 'react';
@@ -97,6 +104,7 @@ export default function GeneralWizardContainer({
             initialValues={generalData}
             onSubmit={handleSubmitGeneral}
             validationSchema={GeneralSchema}
+            enableReinitialize={true}
           >
             {(props) => (
               <>
@@ -153,6 +161,34 @@ export default function GeneralWizardContainer({
                         </MenuItem>
                       ))}
                     </Field>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider></Divider>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Stack
+                      spacing={1}
+                      direction="row"
+                      justifyContent="flex-end"
+                    >
+                      <Button
+                        onClick={() => {
+                          props.resetForm();
+                        }}
+                      >
+                        <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          props.submitForm();
+                        }}
+                        disabled={!props.dirty}
+                      >
+                        <FormattedMessage id="save" defaultMessage="Save" />
+                      </Button>
+                    </Stack>
                   </Grid>
                 </Grid>
               </>
