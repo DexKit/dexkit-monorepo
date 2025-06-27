@@ -127,15 +127,17 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
             config: configString,
           },
           {
-            onError: (error) => {
+            onError: (error: any) => {
               enqueueSnackbar(
                 `${formatMessage({
                   defaultMessage: "Error importing configuration",
                   id: "error.importing.configuration",
-                })}: ${error?.message || "Unknown error"}. ${formatMessage({
-                  defaultMessage: "Check if the server is running correctly.",
-                  id: "check.server.running",
-                })}`,
+                })}: ${error?.message ? error?.message : "Unknown error"}. ${formatMessage(
+                  {
+                    defaultMessage: "Check if the server is running correctly.",
+                    id: "check.server.running",
+                  }
+                )}`,
                 {
                   variant: "error",
                   autoHideDuration: 8000,

@@ -1,7 +1,17 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { useAuth, useLoginAccountMutation } from "../../../hooks/auth";
+import { WidgetResponse } from "../../wizard/types/widget";
 import { upsertWidgetConfig } from "../services/widget";
+interface SendConfigVariables {
+  config: string;
+
+}
+
+export interface UseSendConfigMutationProps {
+  options?: UseMutationOptions<WidgetResponse, Error, SendConfigVariables>;
+}
+
 
 export const useSendWidgetConfigMutation = ({ id }: { id?: number }) => {
   const { account, provider, chainId } = useWeb3React();

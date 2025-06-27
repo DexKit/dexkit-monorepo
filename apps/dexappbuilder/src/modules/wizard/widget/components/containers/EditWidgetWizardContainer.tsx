@@ -26,10 +26,7 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-import {
-  QUERY_ADMIN_WIDGET_CONFIG,
-  useSendWidgetConfigMutation,
-} from '@/modules/wizard/hooks/widget';
+import { QUERY_ADMIN_WIDGET_CONFIG } from '@/modules/wizard/hooks/widget';
 import {
   WidgetConfig,
   WidgetResponse,
@@ -41,6 +38,7 @@ import PoweredByWizardContainer from '@/modules/wizard/components/containers/Pow
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
 import SignConfigDialog from '@/modules/wizard/components/dialogs/SignConfigDialog';
 import { BuilderKit } from '@/modules/wizard/constants';
+import { useSendWidgetConfigMutation } from '@dexkit/ui/modules/whitelabel/hooks/useSendWidgetConfigMutation';
 import Menu from '@mui/icons-material/Menu';
 import GeneralWizardContainer from './GeneralWizardContainer';
 import WidgetSectionWizardContainer from './WidgetSectionWizardContainer';
