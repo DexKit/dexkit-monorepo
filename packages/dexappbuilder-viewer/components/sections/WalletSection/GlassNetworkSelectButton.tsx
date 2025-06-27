@@ -95,7 +95,6 @@ const GlassButton = styled(Button)<{
   },
 
   '&:hover': {
-    transform: 'translateY(-2px) scale(1.02)',
     background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.9)})`,
     boxShadow: `
       0 12px 40px rgba(0, 0, 0, 0.15),
@@ -103,18 +102,6 @@ const GlassButton = styled(Button)<{
       inset 0 -1px 0 rgba(0, 0, 0, 0.1)
     `,
     border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 1)})`,
-
-    [theme.breakpoints.down('sm')]: {
-      transform: 'translateY(-1px) scale(1.01)',
-    },
-  },
-
-  '&:active': {
-    transform: 'translateY(-1px) scale(1.01)',
-
-    [theme.breakpoints.down('sm')]: {
-      transform: 'scale(0.99)',
-    },
   },
 
   '& .MuiButton-startIcon': {
@@ -162,15 +149,10 @@ const GlassAvatar = styled(Avatar)<{ textColor: string }>(({ theme, textColor })
   },
 
   '&:hover': {
-    transform: 'scale(1.1)',
     boxShadow: `
       0 6px 20px rgba(0, 0, 0, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.3)
     `,
-
-    [theme.breakpoints.down('sm')]: {
-      transform: 'scale(1.05)',
-    },
   },
 }));
 

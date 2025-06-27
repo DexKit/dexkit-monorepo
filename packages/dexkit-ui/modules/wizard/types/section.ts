@@ -239,6 +239,10 @@ export interface WalletCustomSettings {
 
   swapConfig?: {
     variant?: SwapVariant;
+    glassSettings?: {
+      blurIntensity?: number;
+      glassOpacity?: number;
+    };
   };
 
   tabsConfig?: {

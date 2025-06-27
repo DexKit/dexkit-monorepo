@@ -17,6 +17,7 @@ import {
   Button,
   ButtonBase,
   Container,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -1243,41 +1244,41 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             </Box>
 
             <Box sx={{ mt: 3 }}>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
-              <FormattedMessage
-                id="glass.cards.inputs.note"
-                defaultMessage="Note: Cards and input fields automatically use glassmorphism effects for a cohesive visual experience. Text elements inherit the main text color for consistency."
-              />
-            </Typography>
-
-            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="outlined"
-                startIcon={<RefreshIcon />}
-                onClick={() => {
-                  const newSettings = getCurrentThemeGlassSettings();
-                  setFieldValue("glassSettings", newSettings);
-                }}
-                sx={{
-                  borderColor: '#ff6b35',
-                  color: '#ff6b35',
-                  backgroundColor: 'transparent',
-                  borderRadius: '8px',
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  px: 3,
-                  py: 1,
-                  '&:hover': {
-                    borderColor: '#ff6b35',
-                    backgroundColor: 'rgba(255, 107, 53, 0.04)',
-                  },
-                }}
-              >
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 4, fontStyle: 'italic' }}>
                 <FormattedMessage
-                  id="reset.styles"
-                  defaultMessage="RESET STYLES"
+                  id="glass.cards.inputs.note"
+                  defaultMessage="Note: Cards and input fields automatically use glassmorphism effects for a cohesive visual experience. Text elements inherit the main text color for consistency."
                 />
-              </Button>
+              </Typography>
+
+              <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<RefreshIcon />}
+                  onClick={() => {
+                    const newSettings = getCurrentThemeGlassSettings();
+                    setFieldValue("glassSettings", newSettings);
+                  }}
+                  sx={{
+                    borderColor: '#ff6b35',
+                    color: '#ff6b35',
+                    backgroundColor: 'transparent',
+                    borderRadius: '8px',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    px: 3,
+                    py: 1,
+                    '&:hover': {
+                      borderColor: '#ff6b35',
+                      backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                    },
+                  }}
+                >
+                  <FormattedMessage
+                    id="reset.styles"
+                    defaultMessage="RESET STYLES"
+                  />
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -2407,6 +2408,72 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       </Select>
                     </FormControl>
                   </Grid>
+
+                  {values.customSettings?.swapConfig?.variant === SwapVariant.Glass && (
+                    <>
+                      <Grid item xs={12}>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'medium', mb: 2 }}>
+                          <FormattedMessage
+                            id="glass.effects.configuration"
+                            defaultMessage="Glass Effects Configuration"
+                          />
+                        </Typography>
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <Typography gutterBottom>
+                          <FormattedMessage
+                            id="glass.blur.intensity"
+                            defaultMessage="Blur Intensity"
+                          />
+                        </Typography>
+                        <Slider
+                          value={values.customSettings?.swapConfig?.glassSettings?.blurIntensity || 30}
+                          onChange={(_, value: number | number[]) => {
+                            setFieldValue("customSettings.swapConfig.glassSettings.blurIntensity", value as number);
+                          }}
+                          min={10}
+                          max={60}
+                          step={5}
+                          valueLabelDisplay="auto"
+                          marks={[
+                            { value: 10, label: '10' },
+                            { value: 30, label: '30' },
+                            { value: 50, label: '50' },
+                          ]}
+                          sx={{ mt: 1 }}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <Typography gutterBottom>
+                          <FormattedMessage
+                            id="glass.opacity"
+                            defaultMessage="Glass Opacity"
+                          />
+                        </Typography>
+                        <Slider
+                          value={(values.customSettings?.swapConfig?.glassSettings?.glassOpacity || 0.10) * 100}
+                          onChange={(_, value: number | number[]) => {
+                            setFieldValue("customSettings.swapConfig.glassSettings.glassOpacity", (value as number) / 100);
+                          }}
+                          min={5}
+                          max={30}
+                          step={1}
+                          getAriaValueText={(value) => `${value}%`}
+                          valueLabelDisplay="auto"
+                          valueLabelFormat={(value) => `${value}%`}
+                          marks={[
+                            { value: 5, label: '5%' },
+                            { value: 15, label: '15%' },
+                            { value: 25, label: '25%' },
+                          ]}
+                          sx={{ mt: 1 }}
+                        />
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
               </Box>
             </AccordionDetails>

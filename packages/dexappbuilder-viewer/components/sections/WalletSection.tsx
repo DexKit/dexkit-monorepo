@@ -24,8 +24,8 @@ export function WalletSection({ section }: Props) {
   };
 
   const renderGlassVariant = () => {
-    const blurIntensity = glassSettings?.blurIntensity || 40;
-    const glassOpacity = glassSettings?.glassOpacity || 0.10;
+    const blurIntensity = customSettings?.swapConfig?.glassSettings?.blurIntensity || glassSettings?.blurIntensity || 40;
+    const glassOpacity = customSettings?.swapConfig?.glassSettings?.glassOpacity || glassSettings?.glassOpacity || 0.10;
     const textColor = glassSettings?.textColor || theme.palette.text.primary;
     const hideNFTs = glassSettings?.hideNFTs || false;
     const hideActivity = glassSettings?.hideActivity || false;
@@ -36,9 +36,11 @@ export function WalletSection({ section }: Props) {
       }
 
       if (glassSettings?.backgroundType === 'image' && glassSettings?.backgroundImage) {
-        return `url(${glassSettings.backgroundImage})`;
+        const background = `url(${glassSettings.backgroundImage})`;
+        return background;
       } else if (glassSettings?.backgroundType === 'solid') {
-        return glassSettings.backgroundColor || theme.palette.background.default;
+        const background = glassSettings.backgroundColor || theme.palette.background.default;
+        return background;
       } else {
         const from = glassSettings?.gradientStartColor || theme.palette.background.default;
         const to = glassSettings?.gradientEndColor || theme.palette.background.paper;
@@ -53,7 +55,8 @@ export function WalletSection({ section }: Props) {
           'to bottom left': '225deg',
         };
         const gradientDirection = directionMap[direction] || '180deg';
-        return `linear-gradient(${gradientDirection}, ${from}, ${to})`;
+        const background = `linear-gradient(${gradientDirection}, ${from}, ${to})`;
+        return background;
       }
     };
 

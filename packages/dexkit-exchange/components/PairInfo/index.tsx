@@ -3,25 +3,23 @@ import { Token } from "@dexkit/core/types";
 import { useCurrency } from "@dexkit/ui/hooks";
 import {
   Box,
-  CardContent,
   Chip,
   Divider,
   Grid,
-  Paper,
   Skeleton,
   Stack,
   Typography,
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import PairButton from "../PairButton";
 
 const usePreviewPlatform = () => {
   try {
-    const { usePreviewPlatform } = require("@dexkit/dexappbuilder-viewer/components/SectionsRenderer");
-    return usePreviewPlatform();
+    const { usePreviewPlatform: usePreviewPlatformHook } = require("@dexkit/dexappbuilder-viewer/components/SectionsRenderer");
+    return usePreviewPlatformHook();
   } catch {
     return null;
   }
@@ -48,6 +46,7 @@ export default function PairInfo({
   priceChangeH24,
   lastPrice,
 }: PairInfoProps) {
+
   const theme = useTheme();
   const isMobileDevice = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -123,7 +122,7 @@ export default function PairInfo({
     return (
       <Box sx={{ textAlign: 'left', minHeight: theme.spacing(2.5) }}>
         <Typography
-          variant="caption"
+          variant="body1"
           color="text.secondary"
           sx={{
             fontSize: theme.typography.overline.fontSize,
@@ -163,11 +162,11 @@ export default function PairInfo({
           />
         ) : (
           <Typography
-            variant="body2"
+            variant="body1"
             sx={{
               color: color,
               fontWeight: theme.typography.fontWeightMedium,
-              fontSize: theme.typography.caption.fontSize,
+              fontSize: theme.typography.body1.fontSize,
               lineHeight: 1,
             }}
           >
@@ -212,10 +211,10 @@ export default function PairInfo({
     return (
       <Box sx={{ textAlign: { xs: 'left', sm: 'center' } }}>
         <Typography
-          variant="caption"
+          variant="body1"
           color="text.secondary"
           sx={{
-            fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.caption.fontSize },
+            fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.body1.fontSize },
             fontWeight: theme.typography.fontWeightMedium,
             textTransform: 'uppercase',
             letterSpacing: 0.5,
@@ -238,7 +237,7 @@ export default function PairInfo({
                 ? theme.palette.success.contrastText
                 : theme.palette.error.contrastText,
               fontWeight: theme.typography.fontWeightBold,
-              fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.caption.fontSize },
+              fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.body1.fontSize },
               height: { xs: theme.spacing(2.25), sm: theme.spacing(2.5) },
               '& .MuiChip-label': {
                 px: theme.spacing(0.75),
@@ -247,11 +246,11 @@ export default function PairInfo({
           />
         ) : (
           <Typography
-            variant="body2"
+            variant="body1"
             sx={{
               color: color,
               fontWeight: theme.typography.fontWeightMedium,
-              fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
+              fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.body1.fontSize },
               lineHeight: 1.2,
             }}
           >
@@ -369,32 +368,16 @@ export default function PairInfo({
   );
 
   return (
-    <Paper
-      elevation={1}
+    <Box
       sx={{
-        borderRadius: { xs: theme.shape.borderRadius, sm: theme.shape.borderRadius * 2 },
-        overflow: 'hidden',
-        border: `1px solid ${theme.palette.divider}`,
+        p: {
+          xs: theme.spacing(0.5),
+          sm: theme.spacing(1.75),
+          md: theme.spacing(2.25)
+        },
       }}
     >
-      <CardContent
-        sx={{
-          p: {
-            xs: theme.spacing(0.5),
-            sm: theme.spacing(1.75),
-            md: theme.spacing(2.25)
-          },
-          '&:last-child': {
-            pb: {
-              xs: theme.spacing(0.5),
-              sm: theme.spacing(1.75),
-              md: theme.spacing(2.25)
-            },
-          },
-        }}
-      >
-        {isMobile ? renderMobileLayout() : renderDesktopLayout()}
-      </CardContent>
-    </Paper>
+      {isMobile ? renderMobileLayout() : renderDesktopLayout()}
+    </Box>
   );
 }

@@ -130,6 +130,10 @@ const TradeContainer = dynamic(
   () => import("./TradeContainer")
 );
 
+const ExchangeContainer = dynamic(
+  () => import("./ExchangeContainer")
+);
+
 enum WalletTabs {
   Activity,
 }
@@ -254,14 +258,16 @@ const CustomNetworkSelectButton = ({ customSettings, chainId, onChange }: {
   );
 };
 
-const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, isTableVisible, handleToggleTable }: {
+const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClickExchangeCoin, isTableVisible, handleToggleTable }: {
   customSettings?: WalletCustomSettings,
   filter?: string,
   onClickTradeCoin?: (tokenBalance: any) => void,
+  onClickExchangeCoin?: (tokenBalance: any) => void,
   isTableVisible: boolean,
   handleToggleTable: () => void
 }) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isBalancesVisible = useIsBalanceVisible();
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, undefined, false);
   const coinPricesQuery = useSimpleCoinPricesQuery({
@@ -323,67 +329,9 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, isTabl
   return (
     <Box sx={tableStyles}>
       {isTableVisible && (
-        <TableContainer>
-          <Table>
-            <TableHead
-              sx={{
-                backgroundColor: customSettings?.tokenTableConfig?.headerBackgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-              }}
-            >
-              <TableRow sx={headerRowStyles}>
-                <TableCell sx={headerCellStyles}>
-                  <FormattedMessage id="token" defaultMessage="Token" />
-                </TableCell>
-                <TableCell sx={headerCellStyles}>
-                  <FormattedMessage id="total" defaultMessage="Total" />
-                </TableCell>
-                <TableCell sx={headerCellStyles}>
-                  <FormattedMessage id="balance" defaultMessage="Balance" />
-                </TableCell>
-                <TableCell sx={headerCellStyles}>
-                  <FormattedMessage id="actions" defaultMessage="Actions" />
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody
-              sx={{
-                '& .MuiTableRow-root': {
-                  backgroundColor: customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default,
-                  '&:hover': {
-                    backgroundColor: customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover,
-                  },
-                  '& .MuiTableCell-root': {
-                    borderColor: customSettings?.tokenTableConfig?.borderColor || theme.palette.divider,
-                    '&:first-of-type': {
-                      '& .MuiTypography-body1': {
-                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
-                      },
-                      '& .MuiTypography-body2': {
-                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                      },
-                    },
-                    '&:nth-of-type(2)': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                      '& *': {
-                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                      },
-                    },
-                    '&:nth-of-type(3)': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                      '& *': {
-                        color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
-                      },
-                    },
-                    '& .MuiTypography-root': {
-                      color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
-                    },
-                    '& .MuiSkeleton-root': {
-                      backgroundColor: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary}33`,
-                    },
-                  },
-                },
-              }}
-            >
+        <>
+          {isMobile ? (
+            <Stack spacing={2} sx={{ mb: 2 }}>
               {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
                 <WalletTableRow
                   key={index}
@@ -393,29 +341,131 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, isTabl
                   isBalancesVisible={isBalancesVisible}
                   currency={currency.currency}
                   onClickTradeCoin={onClickTradeCoin}
-                  swapButtonConfig={customSettings?.swapButtonConfig}
+                  onClickExchangeCoin={onClickExchangeCoin}
+                  swapButtonConfig={{
+                    backgroundColor: customSettings?.swapButtonConfig?.backgroundColor || theme.palette.action.hover,
+                    textColor: customSettings?.swapButtonConfig?.textColor || theme.palette.text.primary,
+                    borderColor: customSettings?.swapButtonConfig?.borderColor,
+                    hoverBackgroundColor: customSettings?.swapButtonConfig?.hoverBackgroundColor || theme.palette.primary.main,
+                  }}
                 />
               ))}
-              {tokenBalancesQuery.isLoading &&
+              {coinPricesQuery.isLoading &&
                 new Array(4).fill(null).map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                  <Card key={index} sx={{
+                    backgroundColor: customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
+                    border: `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
+                    borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
+                  }}>
+                    <CardContent>
+                      <Skeleton height={60} sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    </CardContent>
+                  </Card>
+                ))}
+            </Stack>
+          ) : (
+            // Desktop view: Table layout
+            <TableContainer>
+              <Table>
+                <TableHead
+                  sx={{
+                    backgroundColor: customSettings?.tokenTableConfig?.headerBackgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
+                  }}
+                >
+                  <TableRow sx={headerRowStyles}>
+                    <TableCell sx={headerCellStyles}>
+                      <FormattedMessage id="token" defaultMessage="Token" />
                     </TableCell>
-                    <TableCell>
-                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    <TableCell sx={headerCellStyles}>
+                      <FormattedMessage id="total" defaultMessage="Total" />
                     </TableCell>
-                    <TableCell>
-                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    <TableCell sx={headerCellStyles}>
+                      <FormattedMessage id="balance" defaultMessage="Balance" />
                     </TableCell>
-                    <TableCell>
-                      <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                    <TableCell sx={headerCellStyles}>
+                      <FormattedMessage id="actions" defaultMessage="Actions" />
                     </TableCell>
                   </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                </TableHead>
+                <TableBody
+                  sx={{
+                    '& .MuiTableRow-root': {
+                      backgroundColor: customSettings?.tokenTableConfig?.rowBackgroundColor || theme.palette.background.default,
+                      '&:hover': {
+                        backgroundColor: customSettings?.tokenTableConfig?.hoverRowBackgroundColor || theme.palette.action.hover,
+                      },
+                      '& .MuiTableCell-root': {
+                        borderColor: customSettings?.tokenTableConfig?.borderColor || theme.palette.divider,
+                        '&:first-of-type': {
+                          '& .MuiTypography-body1': {
+                            color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
+                          },
+                          '& .MuiTypography-body2': {
+                            color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                          },
+                        },
+                        '&:nth-of-type(2)': {
+                          color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                          '& *': {
+                            color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                          },
+                        },
+                        '&:nth-of-type(3)': {
+                          color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                          '& *': {
+                            color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary} !important`,
+                          },
+                        },
+                        '& .MuiTypography-root': {
+                          color: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.primary} !important`,
+                        },
+                        '& .MuiSkeleton-root': {
+                          backgroundColor: `${customSettings?.tokenTableConfig?.rowTextColor || theme.palette.text.secondary}33`,
+                        },
+                      },
+                    },
+                  }}
+                >
+                  {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+                    <WalletTableRow
+                      key={index}
+                      isLoadingCurrency={coinPricesQuery.isLoading}
+                      tokenBalance={token}
+                      price={token.price}
+                      isBalancesVisible={isBalancesVisible}
+                      currency={currency.currency}
+                      onClickTradeCoin={onClickTradeCoin}
+                      onClickExchangeCoin={onClickExchangeCoin}
+                      swapButtonConfig={{
+                        backgroundColor: customSettings?.swapButtonConfig?.backgroundColor || theme.palette.action.hover,
+                        textColor: customSettings?.swapButtonConfig?.textColor || theme.palette.text.primary,
+                        borderColor: customSettings?.swapButtonConfig?.borderColor,
+                        hoverBackgroundColor: customSettings?.swapButtonConfig?.hoverBackgroundColor || theme.palette.primary.main,
+                      }}
+                    />
+                  ))}
+                  {coinPricesQuery.isLoading &&
+                    new Array(4).fill(null).map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </>
       )}
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={handleToggleTable}>
         {isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: customSettings?.sendButtonConfig?.backgroundColor || theme.palette.primary.main }} />}
@@ -1170,6 +1220,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const [selectedAssetTab, setSelectedAssetTab] = useState(AssetTabs.Tokens);
   const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
   const [selectedCoin, setSelectedCoin] = useState<any>(undefined);
+  const [selectedCoinForExchange, setSelectedCoinForExchange] = useState<any>(undefined);
 
   const [filters, setFilters] = useState({
     myNfts: false,
@@ -1225,8 +1276,16 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
     setSelectedCoin(tokenBalance);
   };
 
+  const handleClickExchangeCoin = (tokenBalance: any) => {
+    setSelectedCoinForExchange(tokenBalance);
+  };
+
   const handleBackFromTrade = () => {
     setSelectedCoin(undefined);
+  };
+
+  const handleBackFromExchange = () => {
+    setSelectedCoinForExchange(undefined);
   };
 
   const handleChangeNetwork = async (newChainId: number) => {
@@ -1376,6 +1435,16 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
       <TradeContainer
         selectedCoin={selectedCoin}
         onBack={handleBackFromTrade}
+        customSettings={customSettings}
+      />
+    );
+  }
+
+  if (selectedCoinForExchange) {
+    return (
+      <ExchangeContainer
+        selectedCoin={selectedCoinForExchange}
+        onBack={handleBackFromExchange}
         customSettings={customSettings}
       />
     );
@@ -1679,6 +1748,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                   customSettings={customSettings}
                   filter={search}
                   onClickTradeCoin={handleClickTradeCoin}
+                  onClickExchangeCoin={handleClickExchangeCoin}
                   isTableVisible={isTableVisible}
                   handleToggleTable={handleToggleTable}
                 />
@@ -1761,7 +1831,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                         fallbackRender={({ resetErrorBoundary, error }) => (
                           <Paper sx={{ p: 1 }}>
                             <Stack justifyContent="center" alignItems="center">
-                              <Typography variant="h6">
+                              <Typography variant="h1">
                                 <FormattedMessage
                                   id="something.went.wrong"
                                   defaultMessage="Oops, something went wrong"
@@ -1815,7 +1885,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                         fallbackRender={({ resetErrorBoundary, error }) => (
                           <Paper sx={{ p: 1 }}>
                             <Stack justifyContent="center" alignItems="center">
-                              <Typography variant="h6">
+                              <Typography variant="h1">
                                 <FormattedMessage
                                   id="something.went.wrong"
                                   defaultMessage="Oops, something went wrong"
@@ -1857,7 +1927,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
             {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
               <Grid item xs={12}>
                 <Typography
-                  variant="h6"
+                  variant={isMobile ? "h6" : "h5"}
                   sx={{
                     color: customSettings?.primaryTextColor || theme.palette.text.primary,
                     fontWeight: 'bold',

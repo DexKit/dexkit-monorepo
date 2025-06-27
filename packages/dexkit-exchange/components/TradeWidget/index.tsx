@@ -1,15 +1,12 @@
 import {
-  Card,
-  CardContent,
-  CardHeader,
+  Box,
   Divider,
   IconButton,
-  Paper,
   Stack,
   Tabs,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
@@ -77,10 +74,10 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
 
   const isGlassVariant = variant === "glass";
   const textColor = glassSettings?.textColor || theme.palette.text.primary;
-  const buyTabColor = glassSettings?.buyTabColor || theme.palette.success.main;
-  const sellTabColor = glassSettings?.sellTabColor || theme.palette.error.main;
-  const buyTabTextColor = glassSettings?.buyTabTextColor || theme.palette.common.white;
-  const sellTabTextColor = glassSettings?.sellTabTextColor || theme.palette.common.white;
+  const buyTabColor = glassSettings?.buyTabColor || '#10B981';
+  const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
+  const buyTabTextColor = glassSettings?.buyTabTextColor || (theme.palette.mode === 'dark' ? '#000000' : '#FFFFFF');
+  const sellTabTextColor = glassSettings?.sellTabTextColor || (theme.palette.mode === 'dark' ? '#000000' : '#FFFFFF');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 
@@ -137,114 +134,73 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
     "& .MuiTabs-indicator": {
       display: 'none',
     },
-    ...(isMobile && {
-      '& .MuiTabs-flexContainer': {
+    "& .MuiTabs-flexContainer": {
+      gap: theme.spacing(0.5),
+      ...(isMobile && {
         flexDirection: 'column',
         gap: theme.spacing(1),
-      },
-    }),
+        px: theme.spacing(1),
+      }),
+    },
     "& .MuiTab-root": {
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: theme.typography.fontWeightBold,
       textTransform: 'none' as const,
       fontSize: theme.typography.body1.fontSize,
-      minHeight: theme.spacing(5),
+      minHeight: theme.spacing(6),
+      padding: theme.spacing(1.5, 2),
       transition: theme.transitions.create([
         'all'
       ], {
         duration: theme.transitions.duration.short,
       }),
-      borderRadius: theme.shape.borderRadius * 1.5,
-      mx: theme.spacing(0.5),
+      borderRadius: theme.spacing(1),
+      margin: 0,
+      flex: 1,
       ...(isMobile && {
         fontSize: theme.typography.body2.fontSize,
-        minHeight: theme.spacing(4),
-        mx: 0,
-        width: '100%',
+        minHeight: theme.spacing(5),
+        width: 'calc(100% - 16px)',
         mb: theme.spacing(0.5),
-      }),
-      ...(isGlassVariant && {
-        backdropFilter: `blur(${theme.spacing(1.25)}) saturate(150%)`,
-        WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(150%)`,
-        border: `1px solid ${theme.palette.divider}30`,
+        mx: theme.spacing(1),
       }),
       '&:first-of-type': {
-        color: orderSide === "buy" ? `${buyTabTextColor} !important` : `${buyTabColor}80 !important`,
-        backgroundColor: orderSide === "buy"
-          ? `${buyTabColor}${isGlassVariant ? '40' : '20'}`
-          : 'transparent',
-        ...(isMobile && {
-          color: orderSide === "buy" ? `${buyTabTextColor} !important` : `${buyTabColor}DD !important`,
-          backgroundColor: orderSide === "buy"
-            ? `${buyTabColor}${isGlassVariant ? '60' : '40'}`
-            : `${buyTabColor}20`,
-          border: `1px solid ${buyTabColor}${orderSide === "buy" ? '80' : '50'}`,
-          fontWeight: orderSide === "buy" ? theme.typography.fontWeightBold : theme.typography.fontWeightMedium,
-        }),
-        ...(isGlassVariant && orderSide === "buy" && {
-          backdropFilter: `blur(${theme.spacing(1.875)}) saturate(170%)`,
-          WebkitBackdropFilter: `blur(${theme.spacing(1.875)}) saturate(170%)`,
-          borderColor: `${buyTabColor}60`,
-          boxShadow: `0 ${theme.spacing(0.5)} ${theme.spacing(1.5)} ${buyTabColor}20`,
-        }),
+        color: orderSide === "buy" ? `${buyTabTextColor} !important` : `${buyTabColor} !important`,
+        backgroundColor: orderSide === "buy" ? buyTabColor : 'transparent',
+        border: `2px solid ${buyTabColor}`,
+
         '&:hover': {
-          backgroundColor: `${buyTabColor}20`,
-          color: `${buyTabTextColor} !important`,
-          ...(isGlassVariant && {
-            transform: 'scale(1.02)',
-            backdropFilter: `blur(${theme.spacing(1.5)}) saturate(160%)`,
-            WebkitBackdropFilter: `blur(${theme.spacing(1.5)}) saturate(160%)`,
-          }),
+          backgroundColor: orderSide === "buy" ? buyTabColor : `${buyTabColor}20`,
+          color: orderSide === "buy" ? `${buyTabTextColor} !important` : `${buyTabColor} !important`,
         },
+
         '&.Mui-selected': {
+          backgroundColor: `${buyTabColor} !important`,
           color: `${buyTabTextColor} !important`,
-          backgroundColor: `${buyTabColor}${isGlassVariant ? '50' : '30'}`,
-          fontWeight: theme.typography.fontWeightBold,
-          ...(isGlassVariant && {
-            transform: 'scale(1.05)',
-            backdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%)`,
-            WebkitBackdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%)`,
-            boxShadow: `0 ${theme.spacing(0.75)} ${theme.spacing(2)} ${buyTabColor}30`,
-          }),
+          border: `2px solid ${buyTabColor}`,
+          '&:hover': {
+            backgroundColor: `${buyTabColor} !important`,
+            color: `${buyTabTextColor} !important`,
+          },
         },
       },
       '&:last-of-type': {
-        color: orderSide === "sell" ? `${sellTabTextColor} !important` : `${sellTabColor}80 !important`,
-        backgroundColor: orderSide === "sell"
-          ? `${sellTabColor}${isGlassVariant ? '40' : '20'}`
-          : 'transparent',
-        ...(isMobile && {
-          color: orderSide === "sell" ? `${sellTabTextColor} !important` : `${sellTabColor}DD !important`,
-          backgroundColor: orderSide === "sell"
-            ? `${sellTabColor}${isGlassVariant ? '60' : '40'}`
-            : `${sellTabColor}20`,
-          border: `1px solid ${sellTabColor}${orderSide === "sell" ? '80' : '50'}`,
-          fontWeight: orderSide === "sell" ? theme.typography.fontWeightBold : theme.typography.fontWeightMedium,
-        }),
-        ...(isGlassVariant && orderSide === "sell" && {
-          backdropFilter: `blur(${theme.spacing(1.875)}) saturate(170%)`,
-          WebkitBackdropFilter: `blur(${theme.spacing(1.875)}) saturate(170%)`,
-          borderColor: `${sellTabColor}60`,
-          boxShadow: `0 ${theme.spacing(0.5)} ${theme.spacing(1.5)} ${sellTabColor}20`,
-        }),
+        color: orderSide === "sell" ? `${sellTabTextColor} !important` : `${sellTabColor} !important`,
+        backgroundColor: orderSide === "sell" ? sellTabColor : 'transparent',
+        border: `2px solid ${sellTabColor}`,
+
         '&:hover': {
-          backgroundColor: `${sellTabColor}20`,
-          color: `${sellTabTextColor} !important`,
-          ...(isGlassVariant && {
-            transform: 'scale(1.02)',
-            backdropFilter: `blur(${theme.spacing(1.5)}) saturate(160%)`,
-            WebkitBackdropFilter: `blur(${theme.spacing(1.5)}) saturate(160%)`,
-          }),
+          backgroundColor: orderSide === "sell" ? sellTabColor : `${sellTabColor}20`,
+          color: orderSide === "sell" ? `${sellTabTextColor} !important` : `${sellTabColor} !important`,
         },
+
         '&.Mui-selected': {
+          backgroundColor: `${sellTabColor} !important`,
           color: `${sellTabTextColor} !important`,
-          backgroundColor: `${sellTabColor}${isGlassVariant ? '50' : '30'}`,
-          fontWeight: theme.typography.fontWeightBold,
-          ...(isGlassVariant && {
-            transform: 'scale(1.05)',
-            backdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%)`,
-            WebkitBackdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%)`,
-            boxShadow: `0 ${theme.spacing(0.75)} ${theme.spacing(2)} ${sellTabColor}30`,
-          }),
+          border: `2px solid ${sellTabColor}`,
+          '&:hover': {
+            backgroundColor: `${sellTabColor} !important`,
+            color: `${sellTabTextColor} !important`,
+          },
         },
       },
     },
@@ -311,13 +267,16 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
 
   const renderContent = () => {
     return (
-      <Stack spacing={theme.spacing(2)}>
+      <>
         <Tabs
           onChange={handleChangeOrderSide}
           value={orderSide}
           variant="fullWidth"
           orientation={isMobile ? "vertical" : "horizontal"}
-          sx={tabsStyles}
+          sx={{
+            ...tabsStyles,
+            mb: theme.spacing(1.5)
+          }}
         >
           <TradeWidgetTabAlt
             value="buy"
@@ -329,19 +288,22 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
           />
         </Tabs>
 
-        <Divider sx={{ opacity: isGlassVariant ? 0.3 : 1 }} />
+        <Divider sx={{
+          opacity: isGlassVariant ? 0.3 : 1,
+          mb: theme.spacing(1.5)
+        }} />
 
         {chainId &&
           !DEFAULT_ZRX_NETWORKS.includes(chainId) &&
           orderType === "limit" ? (
-          <Stack py={theme.spacing(4)} spacing={theme.spacing(2)}>
-            <Typography align="center" variant="h6" color="text.primary">
+          <Box sx={{ py: theme.spacing(2), textAlign: 'center' }}>
+            <Typography variant="h6" color="text.primary" sx={{ mb: theme.spacing(1) }}>
               <FormattedMessage
                 id="unsupported.network"
                 defaultMessage="Unsupported Network"
               />
             </Typography>
-            <Typography align="center" variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary">
               <FormattedMessage
                 id="please.switch.to.networks"
                 defaultMessage="Please, switch to {networks}"
@@ -352,22 +314,22 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
                 }}
               />
             </Typography>
-          </Stack>
+          </Box>
         ) : chainId && isNativeToken && orderType === "limit" ? (
-          <Stack py={theme.spacing(4)} spacing={theme.spacing(2)}>
-            <Typography align="center" variant="h6" color="text.primary">
+          <Box sx={{ py: theme.spacing(2), textAlign: 'center' }}>
+            <Typography variant="h6" color="text.primary" sx={{ mb: theme.spacing(1) }}>
               <FormattedMessage
                 id="native.coins.are.not.supported.on.limit.orders"
                 defaultMessage="Native coins are not supported on limited orders"
               />
             </Typography>
-            <Typography align="center" variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary">
               <FormattedMessage
                 id="please.use.wrapped.version.of.native.token"
                 defaultMessage="Please use wrapped version of native token"
               />
             </Typography>
-          </Stack>
+          </Box>
         ) : (
           <>
             {orderType == "limit" && quoteToken && baseToken && (
@@ -402,7 +364,7 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
             chainId={chainId}
           />
         ) : null}
-      </Stack>
+      </>
     );
   };
 
@@ -427,74 +389,52 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
         isAutoSlippage={isAutoSlippage}
       />
 
-      <Card
+      <Box
         sx={{
           borderRadius: theme.shape.borderRadius * 2,
           border: `1px solid ${theme.palette.divider}`,
+          p: {
+            xs: theme.spacing(1.5),
+            sm: theme.spacing(2.5),
+            md: theme.spacing(3)
+          },
           ...glassStyles,
         }}
       >
-        <CardHeader
-          title={
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                variant={isMobile ? "h6" : "h5"}
-                sx={{ fontWeight: theme.typography.fontWeightMedium }}
-              >
-                <FormattedMessage id="trade" defaultMessage="Trade" />
-              </Typography>
-              <IconButton
-                size={isMobile ? "small" : "medium"}
-                onClick={() => setShowSettings(true)}
-                sx={{
-                  color: isGlassVariant ? textColor : theme.palette.text.secondary,
-                  '&:hover': {
-                    backgroundColor: isGlassVariant
-                      ? `${theme.palette.common.white}10`
-                      : theme.palette.action.hover,
-                  },
-                }}
-              >
-                <SettingsIcon fontSize={isMobile ? "small" : "medium"} />
-              </IconButton>
-            </Stack>
-          }
-          sx={{
-            p: { xs: theme.spacing(2), sm: theme.spacing(2.5), md: theme.spacing(3) },
-            pb: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-          }}
-        />
-
-        <Divider sx={{ opacity: isGlassVariant ? 0.3 : 1 }} />
-
-        <CardContent
-          sx={{
-            p: { xs: theme.spacing(2), sm: theme.spacing(2.5), md: theme.spacing(3) },
-            '&:last-child': {
-              pb: { xs: theme.spacing(2), sm: theme.spacing(2.5), md: theme.spacing(3) },
-            },
-          }}
+        {/* Header con título y settings */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ mb: theme.spacing(2) }}
         >
-          <Paper
-            variant="outlined"
+          <Typography
+            variant={isMobile ? "body1" : "h6"}
             sx={{
-              p: { xs: theme.spacing(2), sm: theme.spacing(2.5) },
-              borderRadius: theme.shape.borderRadius * 1.5,
-              ...(isGlassVariant && {
-                backgroundColor: 'transparent !important',
-                boxShadow: 'none !important',
-                border: 'none !important',
-              }),
+              fontWeight: theme.typography.fontWeightMedium,
+              color: isGlassVariant ? textColor : 'inherit'
             }}
           >
-            {renderContent()}
-          </Paper>
-        </CardContent>
-      </Card>
+            <FormattedMessage id="trade" defaultMessage="Trade" />
+          </Typography>
+          <IconButton
+            size={isMobile ? "small" : "medium"}
+            onClick={() => setShowSettings(true)}
+            sx={{
+              color: isGlassVariant ? textColor : theme.palette.text.secondary,
+              '&:hover': {
+                backgroundColor: isGlassVariant
+                  ? `${theme.palette.common.white}10`
+                  : theme.palette.action.hover,
+              },
+            }}
+          >
+            <SettingsIcon fontSize={isMobile ? "small" : "medium"} />
+          </IconButton>
+        </Stack>
+
+        {renderContent()}
+      </Box>
     </>
   );
 }

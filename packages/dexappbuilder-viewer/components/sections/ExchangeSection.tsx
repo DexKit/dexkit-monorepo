@@ -1,7 +1,7 @@
 import TradingGraph from "@dexkit/exchange/components/TradingGraph";
 import { GET_GECKOTERMINAL_NETWORK } from "@dexkit/exchange/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Avatar, Box, ButtonBase, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, ButtonBase, Container, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { usePreviewPlatform } from "../SectionsRenderer";
 
 import {
@@ -793,6 +793,7 @@ function ExchangeSection() {
 
   const renderGlassVariant = (glassSettings: any) => {
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const blurIntensity = glassSettings?.blurIntensity || 40;
     const glassOpacity = glassSettings?.glassOpacity || 0.10;
@@ -853,7 +854,6 @@ function ExchangeSection() {
         backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.4)}) !important`,
         backdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08) !important`,
         WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(200%) brightness(1.08) !important`,
-        transform: { xs: 'none', sm: 'translateY(-0.5px)', md: 'translateY(-1px)' },
         boxShadow: {
           xs: `
             0 6px 20px rgba(0, 0, 0, 0.12),
@@ -873,8 +873,9 @@ function ExchangeSection() {
 
     const pairInfoStyles = {
       ...glassmorphismBase,
-      padding: { xs: '16px 20px', sm: '18px 24px', md: '20px 28px' },
-      borderRadius: { xs: '16px !important', sm: '18px !important', md: '20px !important' },
+      padding: { xs: '12px 16px', sm: '16px 20px', md: '20px 28px' },
+      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
+      margin: { xs: '4px', sm: '8px', md: '0' },
       backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
       WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
       '& .MuiPaper-root': {
@@ -908,20 +909,18 @@ function ExchangeSection() {
           backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.3)}) !important`,
           backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
           WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-          transform: { xs: 'scale(1.01)', sm: 'translateY(-0.5px) scale(1.01)', md: 'translateY(-1px) scale(1.02)' },
           boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
-        },
-        '&:active': {
-          transform: { xs: 'scale(0.99)', sm: 'translateY(0) scale(0.99)', md: 'translateY(0) scale(0.98)' },
         },
       },
     };
 
     const tradeWidgetStyles = {
       ...glassmorphismBase,
-      borderRadius: { xs: '16px !important', sm: '18px !important', md: '20px !important' },
+      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
       backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
       WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
+      padding: { xs: '8px', sm: '12px', md: '16px' },
+      margin: { xs: '4px', sm: '8px', md: '0' },
       '& .MuiCard-root': {
         backgroundColor: 'transparent !important',
         boxShadow: 'none !important',
@@ -975,7 +974,6 @@ function ExchangeSection() {
             backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
             WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
             borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) !important`,
-            transform: 'scale(1.01)',
           },
           '&.Mui-focused': {
             backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
@@ -1038,21 +1036,22 @@ function ExchangeSection() {
     const tradingGraphStyles = {
       ...glassmorphismBase,
       overflow: 'hidden',
-      borderRadius: { xs: '16px !important', sm: '18px !important', md: '20px !important' },
-      minHeight: { xs: '300px', sm: '400px', md: '500px' },
+      borderRadius: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
+      minHeight: { xs: '280px', sm: '350px', md: '500px' },
       backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
       WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(1.05) !important`,
+      margin: { xs: '4px', sm: '8px', md: '0' },
       '& .MuiCard-root': {
         backgroundColor: 'transparent !important',
         boxShadow: 'none !important',
         borderRadius: '20px !important',
       },
       '& .MuiCardContent-root': {
-        padding: '20px !important',
+        padding: { xs: '12px !important', sm: '16px !important', md: '20px !important' },
         backgroundColor: 'transparent !important',
         position: 'relative',
         zIndex: 2,
-        borderRadius: '16px',
+        borderRadius: { xs: '12px', sm: '14px', md: '16px' },
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       },
       '& .MuiFormControlLabel-root': {
@@ -1073,7 +1072,6 @@ function ExchangeSection() {
           zIndex: 2,
           '&:hover': {
             filter: 'drop-shadow(0 4px 8px rgba(0, 122, 255, 0.3))',
-            transform: 'scale(1.05)',
           },
         },
       },
@@ -1093,7 +1091,6 @@ function ExchangeSection() {
           backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)}) !important`,
           backdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
           WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(170%) brightness(1.05) !important`,
-          transform: 'scale(1.01)',
           boxShadow: `0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 3, 0.4)}) inset`,
         },
       },
@@ -1135,25 +1132,26 @@ function ExchangeSection() {
       backgroundPosition: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundPosition || 'center') : 'initial',
       backgroundRepeat: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundRepeat || 'no-repeat') : 'initial',
       backgroundAttachment: glassSettings?.backgroundType === 'image' ? (glassSettings?.backgroundAttachment || 'scroll') : 'initial',
-      minHeight: '100vh',
-      p: { xs: theme.spacing(2), sm: theme.spacing(3), md: theme.spacing(4) },
+      minHeight: isMobile ? 'auto' : '100vh',
+      p: { xs: theme.spacing(1), sm: theme.spacing(2), md: theme.spacing(4) },
       position: 'relative',
     };
 
     return (
       <Box sx={containerStyles}>
         <Container
-          maxWidth="lg"
+          maxWidth={isMobile ? false : "lg"}
+          disableGutters={isMobile}
           sx={{
             position: 'relative',
             zIndex: 1,
-            px: { xs: 1, sm: 2, md: 3 }
+            px: { xs: 0.5, sm: 1, md: 3 }
           }}
         >
-          <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+          <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
             {exchangeState.quoteToken && exchangeState.baseToken && (
               <Grid item xs={12}>
-                <Box sx={pairInfoStyles}>
+                <Box sx={pairInfoStyles} id="glass-pair-info-unique">
                   <PairInfo
                     quoteToken={exchangeState.quoteToken}
                     baseToken={exchangeState.baseToken}
@@ -1164,21 +1162,21 @@ function ExchangeSection() {
                         ? selectedPool.attributes.market_cap_usd
                         : undefined
                     }
-                    volume={selectedPool?.attributes.volume_usd.h24}
+                    volume={selectedPool?.attributes.volume_usd?.h24}
                     priceChangeH24={
-                      selectedPool?.attributes.price_change_percentage.h24
+                      selectedPool?.attributes.price_change_percentage?.h24
                     }
                     lastPrice={selectedPool?.attributes.base_token_price_usd}
                   />
                 </Box>
               </Grid>
             )}
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={5} order={{ xs: 1, md: 1 }}>
               <Box sx={tradeWidgetStyles}>
                 <TradeWidget isActive={true} />
               </Box>
             </Grid>
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={7} order={{ xs: 2, md: 2 }}>
               <Box sx={tradingGraphStyles}>
                 <TradingGraph
                   key={selectedAddress}

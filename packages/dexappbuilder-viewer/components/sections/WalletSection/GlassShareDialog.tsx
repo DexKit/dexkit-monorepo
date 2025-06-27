@@ -347,7 +347,6 @@ export default function GlassShareDialog({
                           backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.35)}) !important`,
                           backdropFilter: `blur(${blurIntensity + 5}px) saturate(180%) brightness(1.08) !important`,
                           WebkitBackdropFilter: `blur(${blurIntensity + 5}px) saturate(180%) brightness(1.08) !important`,
-                          transform: { xs: 'scale(1.05)', sm: 'translateY(-2px) scale(1.05)', md: 'translateY(-3px) scale(1.08)' },
                           boxShadow: `
                             0 8px 25px rgba(0, 0, 0, 0.15),
                             inset 0 2px 0 rgba(255, 255, 255, 0.4),
@@ -357,14 +356,6 @@ export default function GlassShareDialog({
                           '&::before': {
                             background: `linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 40%, rgba(255, 255, 255, 0.15) 100%)`,
                           },
-                        },
-
-                        '&:active': {
-                          transform: { xs: 'scale(0.98)', sm: 'scale(0.98)', md: 'scale(0.95)' },
-                          boxShadow: `
-                            0 4px 12px rgba(0, 0, 0, 0.1),
-                            inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                          `,
                         },
                       }}
                     >

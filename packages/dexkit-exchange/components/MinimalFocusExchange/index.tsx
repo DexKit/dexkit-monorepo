@@ -163,7 +163,6 @@ export default function MinimalFocusExchange({
         }`
         : "none",
       "&:hover": {
-        transform: animations?.enabled ? "translateY(-2px)" : "none",
         boxShadow: glassmorphism?.enabled
           ? `0 12px 40px ${alpha("#000000", 0.15)}`
           : theme.shadows[8],

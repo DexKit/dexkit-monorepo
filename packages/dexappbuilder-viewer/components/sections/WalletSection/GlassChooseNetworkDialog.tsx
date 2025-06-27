@@ -361,7 +361,6 @@ const GlassButton = styled(Button)<{
       background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.55, 0.9)})`,
       backdropFilter: 'blur(18px) saturate(220%) brightness(125%)',
       WebkitBackdropFilter: 'blur(18px) saturate(220%) brightness(125%)',
-      transform: 'translateY(-3px) scale(1.02)',
       boxShadow: `
         0 12px 40px rgba(0, 0, 0, 0.25),
         0 6px 20px rgba(255, 255, 255, 0.4),
@@ -369,15 +368,6 @@ const GlassButton = styled(Button)<{
         inset 0 -3px 0 rgba(255, 255, 255, 0.3),
         inset 0 0 25px rgba(255, 255, 255, 0.15)
       `,
-
-      [theme.breakpoints.down('sm')]: {
-        transform: 'translateY(-2px) scale(1.01)',
-      },
-    },
-
-    '&:active': {
-      transform: 'translateY(-1px) scale(0.98)',
-      transition: 'all 0.1s cubic-bezier(0.4, 0, 0.2, 1)',
     },
   } : {
     background: `rgba(255, 255, 255, ${glassOpacity})`,

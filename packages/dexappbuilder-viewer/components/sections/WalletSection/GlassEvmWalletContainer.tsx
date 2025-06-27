@@ -114,6 +114,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import FavoriteAssetsSection from "../../../../../apps/dexappbuilder/src/modules/favorites/components/FavoriteAssetsSection";
 import GlassEvmReceiveDialog from "./GlassEvmReceiveDialog";
 import GlassEvmSendDialog from "./GlassEvmSendDialog";
+import GlassExchangeContainer from './GlassExchangeContainer';
 import GlassImportTokenDialog from "./GlassImportTokenDialog";
 import { GlassNetworkSelectButton } from "./GlassNetworkSelectButton";
 import GlassScanWalletQrCodeDialog from "./GlassScanWalletQrCodeDialog";
@@ -144,6 +145,7 @@ interface Props {
   hideActivity?: boolean;
   customSettings?: any;
   onClickTradeCoin?: (tokenBalance: any) => void;
+  onClickExchangeCoin?: (tokenBalance: any) => void;
   backgroundColor?: string;
   backgroundImage?: string;
   backgroundSize?: string;
@@ -350,9 +352,12 @@ const GlassWalletBalances = ({
   chainId,
   filter,
   onClickTradeCoin,
+  onClickExchangeCoin,
   swapButtonConfig,
   ...props
 }: any) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
   const coinPricesQuery = useSimpleCoinPricesQuery({
     includeNative: true,
@@ -394,126 +399,200 @@ const GlassWalletBalances = ({
   }, [onClickTradeCoin]);
 
   return (
-  <Box
-    sx={{
-      background: `rgba(255, 255, 255, ${glassOpacity})`,
-      backdropFilter: `blur(${blurIntensity}px)`,
+    <Box
+      sx={{
+        background: `rgba(255, 255, 255, ${glassOpacity})`,
+        backdropFilter: `blur(${blurIntensity}px)`,
         WebkitBackdropFilter: `blur(${blurIntensity}px)`,
-      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-      borderRadius: '16px',
-      padding: 2,
+        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+        borderRadius: '16px',
+        padding: 2,
         minHeight: props.isTableVisible ? '400px' : '64px',
         maxHeight: props.isTableVisible ? '600px' : '120px',
-      boxShadow: `
+        boxShadow: `
         0 8px 32px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
         inset 0 -1px 0 rgba(0, 0, 0, 0.1)
       `,
-      position: 'relative',
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
-        borderRadius: 'inherit',
-        pointerEvents: 'none',
-        zIndex: 1,
-      },
-      '& > *': {
-        position: 'relative',
-        zIndex: 2,
-      },
-      '& .MuiTypography-root': {
-        color: textColor,
-      },
-      '& .MuiTableCell-root': {
-        color: textColor + ' !important',
-        borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
-      },
-      '& .MuiTableHead-root .MuiTableCell-root': {
-        color: textColor + 'CC !important',
-        fontWeight: 600,
-      },
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
+          borderRadius: 'inherit',
+          pointerEvents: 'none',
+          zIndex: 1,
+        },
+        '& > *': {
+          position: 'relative',
+          zIndex: 2,
+        },
+        '& .MuiTypography-root': {
+          color: textColor,
+        },
+        '& .MuiTableCell-root': {
+          color: textColor + ' !important',
+          borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
+        },
+        '& .MuiTableHead-root .MuiTableCell-root': {
+          color: textColor + 'CC !important',
+          fontWeight: 600,
+        },
         '& .MuiIconButton-root': {
           color: textColor + ' !important',
-        '&:hover': {
+          '&:hover': {
             backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+          },
         },
-      },
-    }}
-  >
+      }}
+    >
       {props.isTableVisible && (
         <Box sx={{ flex: 1, minHeight: 0, maxHeight: '480px', overflowY: 'auto', mb: 1 }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ width: '40%' }}>
-                    <FormattedMessage id="token" defaultMessage="Token" />
-                  </TableCell>
-                  <TableCell sx={{ width: '25%' }}>
-                    <FormattedMessage id="total" defaultMessage="Total" />
-                  </TableCell>
-                  <TableCell sx={{ width: '25%' }}>
-                    <FormattedMessage id="balance" defaultMessage="Balance" />
-                  </TableCell>
-                  <TableCell sx={{ width: '10%' }}>
-                    <FormattedMessage id="actions" defaultMessage="Actions" />
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
-                  <WalletTableRow
-                    key={index}
-                    isLoadingCurrency={coinPricesQuery.isLoading}
-                    tokenBalance={token}
-                    price={token.price}
-                    isBalancesVisible={isBalancesVisible}
-                    currency={currency.currency}
-                    onClickTradeCoin={handleClickTradeCoin}
-                    swapButtonConfig={{
-                      backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
-                      textColor: textColor,
-                      hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
-                    }}
-                  />
+          {isMobile ? (
+            <Box sx={{ px: 1 }}>
+              {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+                <WalletTableRow
+                  key={index}
+                  isLoadingCurrency={coinPricesQuery.isLoading}
+                  tokenBalance={token}
+                  price={token.price}
+                  isBalancesVisible={isBalancesVisible}
+                  currency={currency.currency}
+                  onClickTradeCoin={handleClickTradeCoin}
+                  onClickExchangeCoin={onClickExchangeCoin}
+                  swapButtonConfig={{
+                    backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+                    textColor: textColor,
+                    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                    hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                  }}
+                />
+              ))}
+              {tokenBalancesQuery.isLoading &&
+                new Array(4).fill(null).map((_, index) => (
+                  <Box key={index} sx={{ mb: 2 }}>
+                    <Card
+                      sx={{
+                        bgcolor: 'transparent',
+                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                        borderRadius: 2,
+                        boxShadow: 'none',
+                      }}
+                    >
+                      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+                        <Stack spacing={2}>
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Skeleton
+                              variant="circular"
+                              width={40}
+                              height={40}
+                              sx={{ backgroundColor: `${textColor}33` }}
+                            />
+                            <Box sx={{ flex: 1 }}>
+                              <Skeleton
+                                variant="text"
+                                width="60%"
+                                sx={{ backgroundColor: `${textColor}33` }}
+                              />
+                              <Skeleton
+                                variant="text"
+                                width="40%"
+                                sx={{ backgroundColor: `${textColor}33` }}
+                              />
+                            </Box>
+                          </Stack>
+                          <Stack direction="row" justifyContent="space-between">
+                            <Skeleton
+                              variant="text"
+                              width="30%"
+                              sx={{ backgroundColor: `${textColor}33` }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              width="30%"
+                              sx={{ backgroundColor: `${textColor}33` }}
+                            />
+                          </Stack>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Box>
                 ))}
-                {tokenBalancesQuery.isLoading &&
-                  new Array(4).fill(null).map((_, index) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
-                      </TableCell>
-                    </TableRow>
+            </Box>
+          ) : (
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ width: '40%' }}>
+                      <FormattedMessage id="token" defaultMessage="Token" />
+                    </TableCell>
+                    <TableCell sx={{ width: '25%' }}>
+                      <FormattedMessage id="total" defaultMessage="Total" />
+                    </TableCell>
+                    <TableCell sx={{ width: '25%' }}>
+                      <FormattedMessage id="balance" defaultMessage="Balance" />
+                    </TableCell>
+                    <TableCell sx={{ width: '10%' }}>
+                      <FormattedMessage id="actions" defaultMessage="Actions" />
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tokenBalancesWithPricesFiltered?.map((token: any, index: number) => (
+                    <WalletTableRow
+                      key={index}
+                      isLoadingCurrency={coinPricesQuery.isLoading}
+                      tokenBalance={token}
+                      price={token.price}
+                      isBalancesVisible={isBalancesVisible}
+                      currency={currency.currency}
+                      onClickTradeCoin={handleClickTradeCoin}
+                      onClickExchangeCoin={onClickExchangeCoin}
+                      swapButtonConfig={{
+                        backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
+                        textColor: textColor,
+                        hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                      }}
+                    />
                   ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  {tokenBalancesQuery.isLoading &&
+                    new Array(4).fill(null).map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </Box>
       )}
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={props.handleToggleTable}>
         {props.isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} />}
-        <Typography variant="body2" sx={{ fontWeight: 'bold', letterSpacing: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', letterSpacing: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }}>
           {props.isTableVisible ? 'CLOSE' : 'OPEN'}
         </Typography>
       </Box>
-  </Box>
-);
+    </Box>
+  );
 };
 
 const GlassEvmWalletContainer = ({
@@ -524,6 +603,7 @@ const GlassEvmWalletContainer = ({
   hideActivity = false,
   customSettings,
   onClickTradeCoin,
+  onClickExchangeCoin,
   backgroundColor,
   backgroundImage,
   backgroundSize,
@@ -546,20 +626,29 @@ const GlassEvmWalletContainer = ({
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [chainId, setChainId] = useState<number | undefined>();
   const [search, setSearch] = useState("");
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
   const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
   const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
   const [selectedCoinForTrade, setSelectedCoinForTrade] = useState<TokenBalance | null>(null);
+  const [selectedCoinForExchange, setSelectedCoinForExchange] = useState<TokenBalance | null>(null);
   const { account, isActive, chainId: walletChainId, ENSName } = useWeb3React();
   const intl = useIntl();
 
-  const handleClickTradeCoin = useCallback((tokenBalance: TokenBalance) => {
+  const handleTradeCoin = (tokenBalance: TokenBalance) => {
     setSelectedCoinForTrade(tokenBalance);
-  }, []);
+  };
 
-  const handleBackFromTrade = useCallback(() => {
+  const handleExchangeCoin = (tokenBalance: TokenBalance) => {
+    setSelectedCoinForExchange(tokenBalance);
+  };
+
+  const handleBackFromTrade = () => {
     setSelectedCoinForTrade(null);
-  }, []);
+  };
+
+  const handleBackFromExchange = () => {
+    setSelectedCoinForExchange(null);
+  };
 
   const { formatMessage } = useIntl();
   const evmCoins = useEvmCoins({ defaultChainId: chainId });
@@ -736,6 +825,22 @@ const GlassEvmWalletContainer = ({
     );
   }
 
+  if (selectedCoinForExchange) {
+    return (
+      <GlassExchangeContainer
+        selectedCoin={selectedCoinForExchange}
+        onBack={handleBackFromExchange}
+        blurIntensity={blurIntensity}
+        glassOpacity={glassOpacity}
+        textColor={textColor}
+        backgroundColor={getContainerBackground()}
+        backgroundSize={backgroundSize}
+        backgroundPosition={backgroundPosition}
+        backgroundRepeat={backgroundRepeat}
+      />
+    );
+  }
+
   return (
     <>
       {showQrCode && (
@@ -834,7 +939,7 @@ const GlassEvmWalletContainer = ({
                   spacing={1}
                 >
                   <Typography
-                    variant="caption"
+                    variant="body1"
                     color="text.secondary"
                   >
                     {ENSName ? ENSName : truncateAddress(account)}
@@ -1052,7 +1157,8 @@ const GlassEvmWalletContainer = ({
                 isBalancesVisible={isBalancesVisible}
                 chainId={chainId}
                 filter={search}
-                onClickTradeCoin={handleClickTradeCoin}
+                onClickTradeCoin={handleTradeCoin}
+                onClickExchangeCoin={handleExchangeCoin}
                 swapButtonConfig={{
                   backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
                   textColor: textColor,
@@ -1110,7 +1216,7 @@ const GlassEvmWalletContainer = ({
                     fallbackRender={({ resetErrorBoundary, error }) => (
                       <Paper sx={{ p: 1 }}>
                         <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h6">
+                          <Typography variant="h1">
                             <FormattedMessage
                               id="something.went.wrong"
                               defaultMessage="Oops, something went wrong"
@@ -1169,7 +1275,7 @@ const GlassEvmWalletContainer = ({
                     fallbackRender={({ resetErrorBoundary, error }) => (
                       <Paper sx={{ p: 1 }}>
                         <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h6">
+                          <Typography variant="h1">
                             <FormattedMessage
                               id="something.went.wrong"
                               defaultMessage="Oops, something went wrong"
@@ -1231,7 +1337,7 @@ const GlassEvmWalletContainer = ({
                 </Typography>
                 <Typography
                   align="center"
-                  variant="body2"
+                  variant="body1"
                   color="textSecondary"
                 >
                   <FormattedMessage
@@ -1258,21 +1364,6 @@ const GlassEvmWalletContainer = ({
                     id="activity"
                     defaultMessage="Activity"
                   />
-                }
-              />
-              <Tab
-                value={WalletTabs.Transactions}
-                label={
-                  <FormattedMessage
-                    id="transactions"
-                    defaultMessage="Transactions"
-                  />
-                }
-              />
-              <Tab
-                value={WalletTabs.Trades}
-                label={
-                  <FormattedMessage id="trades" defaultMessage="Trades" />
                 }
               />
             </Tabs>
@@ -1519,7 +1610,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           '& .MuiTypography-root': {
             color: textColor + ' !important',
           },
-          '& .MuiCardContent-root .MuiTypography-caption': {
+          '& .MuiCardContent-root .MuiTypography-body1': {
             color: textColor + 'CC !important',
           },
           '& .MuiCardContent-root .MuiTypography-body2': {
@@ -1684,7 +1775,7 @@ const GlassFavoriteAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, t
           '& .MuiTypography-root': {
             color: textColor + ' !important',
           },
-          '& .MuiCardContent-root .MuiTypography-caption': {
+          '& .MuiCardContent-root .MuiTypography-body1': {
             color: textColor + 'CC !important',
           },
           '& .MuiCardContent-root .MuiTypography-body2': {
@@ -1872,7 +1963,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           '& .MuiTypography-root': {
             color: textColor + ' !important',
           },
-          '& .MuiCardContent-root .MuiTypography-caption': {
+          '& .MuiCardContent-root .MuiTypography-body1': {
             color: textColor + 'CC !important',
           },
           '& .MuiCardContent-root .MuiTypography-body2': {

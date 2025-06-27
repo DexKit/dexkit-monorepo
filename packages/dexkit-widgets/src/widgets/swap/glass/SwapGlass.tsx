@@ -305,8 +305,10 @@ export default function SwapGlass({
         sx={{
           position: 'relative',
           p: theme.spacing(2),
+          pb: theme.spacing(3),
           [theme.breakpoints.up('sm')]: {
             p: theme.spacing(3),
+            pb: theme.spacing(4),
           },
         }}
       >
@@ -519,7 +521,10 @@ export default function SwapGlass({
             )}
 
             <Grid item xs={12}>
-              <Box sx={{ px: theme.spacing(1) }}>
+              <Box sx={{
+                px: theme.spacing(1),
+                pb: theme.spacing(1)
+              }}>
                 {!isActive ? (
                   <Button
                     fullWidth
@@ -528,8 +533,8 @@ export default function SwapGlass({
                     disabled={!isProviderReady}
                     onClick={onExec}
                     sx={{
-                      py: theme.spacing(2),
-                      fontSize: theme.typography.h6.fontSize,
+                      py: theme.spacing(1.2),
+                      fontSize: theme.typography.body1.fontSize,
                       fontWeight: theme.typography.fontWeightMedium,
                       borderRadius: theme.shape.borderRadius,
                       background: `rgba(128, 128, 128, ${glassOpacity * 1.4})`,
@@ -610,8 +615,8 @@ export default function SwapGlass({
                     }
                     onClick={onExec}
                     sx={{
-                      py: theme.spacing(2),
-                      fontSize: theme.typography.h6.fontSize,
+                      py: theme.spacing(1.2),
+                      fontSize: theme.typography.body1.fontSize,
                       fontWeight: theme.typography.fontWeightMedium,
                       borderRadius: theme.shape.borderRadius,
                       background: `rgba(128, 128, 128, ${glassOpacity * 1.4})`,

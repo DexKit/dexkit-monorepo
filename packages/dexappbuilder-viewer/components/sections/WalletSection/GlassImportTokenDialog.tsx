@@ -202,21 +202,11 @@ const GlassButton = styled(Button, {
       background: rgba(255, 255, 255, ${Math.min(glassOpacity + 0.25, 0.75)});
       backdrop-filter: blur(${theme.spacing(6)}px) saturate(200%) brightness(130%);
       -webkit-backdrop-filter: blur(${theme.spacing(6)}px) saturate(200%) brightness(130%);
-      transform: translateY(-2px) scale(1.02);
       box-shadow: 
         0 12px 35px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.8)}),
         inset 0 -1px 0 rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.9)});
-
-      ${theme.breakpoints.down('sm')} {
-        transform: translateY(-1px) scale(1.01);
-      }
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(1.0);
-      transition: all 0.15s ease-in-out;
     }
 
     &.Mui-disabled {
@@ -237,14 +227,9 @@ const GlassButton = styled(Button, {
 
     &:hover {
       background: rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.5)});
-      transform: translateY(-2px);
       box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
-
-      ${theme.breakpoints.down('sm')} {
-        transform: translateY(-1px);
-      }
     }
   `}
 `;

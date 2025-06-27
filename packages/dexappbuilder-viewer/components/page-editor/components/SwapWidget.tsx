@@ -113,12 +113,13 @@ function SwapWidget(props: Props) {
         disableNetworkSelector: formData?.disableNetworkSelector,
         keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
         lockedToken: formData?.lockedToken,
+        glassSettings: formData?.glassSettings, // Pasar glassSettings al componente Swap
         configsByChain:
           enableUrlParams && configParams?.configByChainParams
             ? configParams.configByChainParams
             : configByChain
-            ? configByChain
-            : {},
+              ? configByChain
+              : {},
         defaultChainId: selectedChainId || chainId || ChainId.Ethereum,
         currency: currency.currency,
         zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
