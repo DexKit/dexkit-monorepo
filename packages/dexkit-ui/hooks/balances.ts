@@ -6,7 +6,7 @@ import {
   UseMutationOptions,
   useQuery,
 } from '@tanstack/react-query';
-import { SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
+import { type SwappableAssetV4 } from '@traderxyz/nft-swap-sdk';
 import { BigNumber, Contract, providers } from 'ethers';
 import { useCallback } from 'react';
 

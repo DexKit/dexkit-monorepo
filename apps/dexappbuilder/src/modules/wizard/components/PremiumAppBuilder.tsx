@@ -3,6 +3,7 @@ import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import {
   CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   CUSTOM_DOMAINS_PRICE,
+  WIDGET_SIGNATURE_FEAT,
 } from '@dexkit/ui/constants/featPayments';
 import {
   useActivatePremiumMutation,
@@ -24,21 +25,22 @@ import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { QUERY_ADMIN_WHITELABEL_CONFIG_NAME } from 'src/hooks/whitelabel';
 
 interface Props {
+  isWidget?: boolean;
   isHidePowered?: boolean;
 }
 
-export function PremiumAppBuilder({ isHidePowered }: Props) {
+export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
   const subscriptionQuery = useSubscription();
   const queryClient = useQueryClient();
   const snackBar = useSnackbar();
   const { formatMessage } = useIntl();
   const { editSiteId } = useEditSiteId();
   const activeFeatUsageQuery = useActiveFeatUsage({
-    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
+    slug: isWidget ? WIDGET_SIGNATURE_FEAT : CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   });
   const { mutateAsync: checkoutPlan } = usePlanCheckoutMutation();
-  const premiumActivateMutation = useActivatePremiumMutation();
-  const disabelPremiumMutation = useDisablePremiumMutation();
+  const premiumActivateMutation = useActivatePremiumMutation({ isWidget });
+  const disablePremiumMutation = useDisablePremiumMutation({ isWidget });
   const [openConfirmDisable, setOpenConfirmDisable] = useState(false);
 
   // we check if user has plan, if not subscribe. This should if done once
@@ -100,7 +102,7 @@ export function PremiumAppBuilder({ isHidePowered }: Props) {
   const handleDisableFeature = async () => {
     setOpenConfirmDisable(false);
     try {
-      await disabelPremiumMutation.mutateAsync({
+      await disablePremiumMutation.mutateAsync({
         siteId: editSiteId,
       });
       snackBar.enqueueSnackbar(
@@ -221,8 +223,8 @@ export function PremiumAppBuilder({ isHidePowered }: Props) {
           <Grid item xs={12}>
             <Alert severity="warning">
               <FormattedMessage
-                id="premium.feature.warning.message"
-                defaultMessage="This is a premium feature please enable it to start using it. Enabling a {feature} costs {price} usd monthly, please make sure you have always credits to not disrupt the service."
+                id={`premium.feature.warning.message${isWidget && 'widget'}`}
+                defaultMessage={`This is a premium feature please enable it to start using it. Enabling a {feature} costs {price} usd monthly, please make sure you have always credits to not disrupt the service.${isWidget && ' Note: You pay this value for all widgets you use not per widget.'}`}
                 values={{
                   price: CUSTOM_DOMAINS_PRICE,
                   feature: isHidePowered ? 'powered by' : 'custom domain',
@@ -250,10 +252,10 @@ export function PremiumAppBuilder({ isHidePowered }: Props) {
               variant={'contained'}
               color="error"
               startIcon={
-                disabelPremiumMutation.isLoading && <CircularProgress />
+                disablePremiumMutation.isLoading && <CircularProgress />
               }
               disabled={
-                disabelPremiumMutation.isLoading ||
+                disablePremiumMutation.isLoading ||
                 activeFeatUsageQuery.isLoading
               }
               onClick={() => setOpenConfirmDisable(true)}

@@ -11,6 +11,7 @@ import { getAppConfig } from 'src/services/app';
 import BillingSection from '@/modules/user/componentes/BillingSection';
 import PaymentsSection from '@/modules/user/componentes/PaymentsSection';
 import SettingsLayout from '@/modules/user/componentes/SettingsLayout';
+import ApiKeyWizardContainer from '@/modules/wizard/components/containers/ApiKeyWizardContainer';
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { myAppsApi } from 'src/services/whitelabel';
@@ -30,6 +31,8 @@ export default function SettingsPage() {
                 {tab === 'payments' && <PaymentsSection />}
                 {/* {tab === 'ai' && <AssitantAISection />} */}
                 {tab === 'billing' && <BillingSection />}
+
+                {tab === 'api-key' && <ApiKeyWizardContainer />}
               </>
             )}
           </SettingsLayout>

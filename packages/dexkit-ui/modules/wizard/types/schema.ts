@@ -262,7 +262,32 @@ export const appConfigSchema = z.object({
   themeMode: z.nativeEnum(ThemeMode).optional(),
 });
 
+export const widgetConfigSchema = z.object({
+  name: z.string(),
+  locale: z.string().optional(),
+  hide_powered_by: z.boolean().optional(),
+  activeChainIds: z.array(z.number()).optional(),
+  font: fontSchema.optional(),
+  defaultThemeMode: z.nativeEnum(ThemeMode).optional(),
+  theme: z.string(),
+  customTheme: z.string().optional(),
+  customThemeLight: z.string().optional(),
+  customThemeDark: z.string().optional(),
+  currency: z.string(),
+  page: appPageSchema,
+  transak: z.object({ enabled: z.boolean() }).optional(),
+  fees: z.array(feeSchema).optional(),
+  swapFees: swapFeeSchema.optional(),
+  format: formatSchema.optional(),
+  collections: z.array(appCollectionSchema).optional(),
+  tokens: z.array(appTokenSchema).optional(),
+  commerce: commerceConfigSchema.optional(),
+  themeMode: z.nativeEnum(ThemeMode).optional(),
+});
+
 export type AppConfigSchema = z.infer<typeof appConfigSchema>;
+
+export type WidgetConfigSchema = z.infer<typeof widgetConfigSchema>;
 
 export const CallToActionSectionSchema = callToActionSectionSchema;
 export const SectionItemSchema = sectionItemSchema; 

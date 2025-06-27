@@ -1,6 +1,9 @@
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
-import { appConfigSchema } from "@dexkit/ui/modules/wizard/types/schema";
+import {
+  appConfigSchema,
+  widgetConfigSchema,
+} from "@dexkit/ui/modules/wizard/types/schema";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Alert,
@@ -13,13 +16,14 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 export interface ImportAppConfigDialogProps {
   DialogProps: DialogProps;
+  isWidget?: boolean;
   onImport: (config: AppConfig, shouldRedirect?: boolean) => void;
   currentConfig?: AppConfig;
   redirectAfterImport?: boolean;
@@ -28,6 +32,7 @@ export interface ImportAppConfigDialogProps {
 export default function ImportAppConfigDialog({
   DialogProps,
   onImport,
+  isWidget,
   currentConfig,
   redirectAfterImport = true,
 }: ImportAppConfigDialogProps) {
@@ -35,14 +40,16 @@ export default function ImportAppConfigDialog({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [jsonContent, setJsonContent] = useState<string | null>(null);
-  const [validatedConfig, setValidatedConfig] = useState<AppConfig | null>(null);
+  const [validatedConfig, setValidatedConfig] = useState<AppConfig | null>(
+    null
+  );
   const [originalJsonData, setOriginalJsonData] = useState<any>(null);
 
   const handleFileChange = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
       setError(null);
       setIsLoading(true);
-      
+
       try {
         const file = event.target.files?.[0];
         if (!file) {
@@ -73,28 +80,32 @@ export default function ImportAppConfigDialog({
         try {
           const jsonData = JSON.parse(fileContent);
           setOriginalJsonData(jsonData);
-          
-          const result = appConfigSchema.safeParse(jsonData);
-          
+
+          const result = isWidget
+            ? widgetConfigSchema.safeParse(jsonData)
+            : appConfigSchema.safeParse(jsonData);
           if (!result.success) {
             setError(
               formatMessage({
                 id: "invalid.config.format",
                 defaultMessage: "Invalid configuration format",
-              }) + ": " + result.error.message
+              }) +
+                ": " +
+                result.error.message
             );
             setValidatedConfig(null);
           } else {
             const configData = { ...result.data };
-            
+
             if (configData.defaultThemeMode) {
-              configData.defaultThemeMode = configData.defaultThemeMode as ThemeMode;
+              configData.defaultThemeMode =
+                configData.defaultThemeMode as ThemeMode;
             }
-            
+
             if (configData.themeMode) {
               configData.themeMode = configData.themeMode as ThemeMode;
             }
-            
+
             setValidatedConfig(configData as AppConfig);
             setError(null);
           }
@@ -119,7 +130,7 @@ export default function ImportAppConfigDialog({
         setIsLoading(false);
       }
     },
-    [formatMessage]
+    [formatMessage, isWidget]
   );
 
   const handleImport = useCallback(() => {
@@ -127,30 +138,33 @@ export default function ImportAppConfigDialog({
       try {
         if (originalJsonData) {
           const finalConfig = JSON.parse(JSON.stringify(originalJsonData));
-          
+
+          if (!isWidget) {
+            finalConfig.email = currentConfig.email;
+            finalConfig.domain = currentConfig.domain;
+          }
           finalConfig.name = currentConfig.name;
-          finalConfig.email = currentConfig.email;
-          finalConfig.domain = currentConfig.domain;
           finalConfig.hide_powered_by = currentConfig.hide_powered_by;
-          
+
           onImport(finalConfig, redirectAfterImport);
         } else {
           const finalConfig = { ...validatedConfig };
+
           finalConfig.name = currentConfig.name;
-          finalConfig.email = currentConfig.email;
-          finalConfig.domain = currentConfig.domain;
           finalConfig.hide_powered_by = currentConfig.hide_powered_by;
-          
+
           onImport(finalConfig, redirectAfterImport);
         }
       } catch (err) {
         console.error("Error processing JSON configuration:", err);
         const finalConfig = { ...validatedConfig };
+        if (!isWidget) {
+          finalConfig.email = currentConfig.email;
+          finalConfig.domain = currentConfig.domain;
+        }
         finalConfig.name = currentConfig.name;
-        finalConfig.email = currentConfig.email;
-        finalConfig.domain = currentConfig.domain;
         finalConfig.hide_powered_by = currentConfig.hide_powered_by;
-        
+
         onImport(finalConfig, redirectAfterImport);
       }
     } else if (validatedConfig) {
@@ -160,22 +174,43 @@ export default function ImportAppConfigDialog({
         onImport(validatedConfig, redirectAfterImport);
       }
     }
-  }, [onImport, validatedConfig, currentConfig, redirectAfterImport, originalJsonData]);
+  }, [
+    onImport,
+    validatedConfig,
+    currentConfig,
+    redirectAfterImport,
+    originalJsonData,
+    isWidget,
+  ]);
 
   return (
     <Dialog {...DialogProps}>
       <DialogTitle>
-        <FormattedMessage
-          id="import.app.configuration"
-          defaultMessage="Import App Configuration"
-        />
+        {isWidget ? (
+          <FormattedMessage
+            id="import.widget.configuration"
+            defaultMessage="Import Widget Configuration"
+          />
+        ) : (
+          <FormattedMessage
+            id="import.app.configuration"
+            defaultMessage="Import App Configuration"
+          />
+        )}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <FormattedMessage
-            id="import.app.configuration.description"
-            defaultMessage="Select a JSON file containing the DApp configuration to import. The file must have a valid configuration format."
-          />
+          {isWidget ? (
+            <FormattedMessage
+              id="import.widget.configuration.description"
+              defaultMessage="Select a JSON file containing the Widget configuration to import. The file must have a valid configuration format."
+            />
+          ) : (
+            <FormattedMessage
+              id="import.app.configuration.description"
+              defaultMessage="Select a JSON file containing the DApp configuration to import. The file must have a valid configuration format."
+            />
+          )}
         </DialogContentText>
         <Stack spacing={2} mt={2}>
           <Button
@@ -184,10 +219,7 @@ export default function ImportAppConfigDialog({
             startIcon={<FileUploadIcon />}
             disabled={isLoading}
           >
-            <FormattedMessage
-              id="select.file"
-              defaultMessage="Select File"
-            />
+            <FormattedMessage id="select.file" defaultMessage="Select File" />
             <input
               type="file"
               accept=".json,application/json"
@@ -248,4 +280,4 @@ export default function ImportAppConfigDialog({
       </DialogActions>
     </Dialog>
   );
-} 
+}

@@ -37,7 +37,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { useNFTBalance } from "@thirdweb-dev/react";
 import { ClaimEligibility, NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
-import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
+import { type SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { BigNumber } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -535,10 +535,10 @@ export function EditionDropSection({ section }: Props) {
             <Card>
               <CardContent>
                 {claimConditions.data?.length === 0 ||
-                  !claimConditions.data ||
-                  claimConditions.data?.every(
-                    (cc) => cc.maxClaimableSupply === "0"
-                  ) ? (
+                !claimConditions.data ||
+                claimConditions.data?.every(
+                  (cc) => cc.maxClaimableSupply === "0"
+                ) ? (
                   <Alert severity="info">
                     <FormattedMessage
                       id={"drop.not.ready.to.mint.yet"}
@@ -662,7 +662,10 @@ export function EditionDropSection({ section }: Props) {
                     ) : !account ? (
                       <ConnectWalletButton />
                     ) : chainId !== networkChainId ? (
-                      <SwitchNetworkButtonWithWarning desiredChainId={networkChainId} fullWidth />
+                      <SwitchNetworkButtonWithWarning
+                        desiredChainId={networkChainId}
+                        fullWidth
+                      />
                     ) : (
                       <Button
                         disabled={

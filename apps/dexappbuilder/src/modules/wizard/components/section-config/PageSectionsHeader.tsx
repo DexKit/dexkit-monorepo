@@ -3,6 +3,7 @@ import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Check from '@mui/icons-material/Check';
 import Close from '@mui/icons-material/Close';
+import Code from '@mui/icons-material/Code';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
 import {
@@ -21,6 +22,7 @@ export interface PageSectionsHeaderProps {
   onClose: () => void;
   onPreview: () => void;
   onClone: () => void;
+  onEmbed?: () => void;
   onEditTitle: (title: string) => void;
   onEditLayout: () => void;
   page: AppPage;
@@ -30,6 +32,7 @@ export interface PageSectionsHeaderProps {
 export default function PageSectionsHeader({
   onClose,
   onPreview,
+  onEmbed,
   onClone,
   onEditTitle,
   onEditLayout,
@@ -78,7 +81,7 @@ export default function PageSectionsHeader({
         flexWrap: isMobile ? 'wrap' : 'nowrap',
         width: '100%',
         justifyContent: 'flex-start',
-        ml: !isMobile ? 0 : undefined
+        ml: !isMobile ? 0 : undefined,
       }}
     >
       <Stack
@@ -88,18 +91,23 @@ export default function PageSectionsHeader({
         sx={{
           width: isMobile ? '100%' : 'auto',
           mb: isMobile ? 0.25 : 0,
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
         }}
       >
-        <IconButton onClick={onClose} sx={{ p: 0 }}>
-          <ArrowBack color="primary" fontSize={isMobile ? "small" : "medium"} />
-        </IconButton>
+        {title && (
+          <IconButton onClick={onClose} sx={{ p: 0 }}>
+            <ArrowBack
+              color="primary"
+              fontSize={isMobile ? 'small' : 'medium'}
+            />
+          </IconButton>
+        )}
         {isEditTitle && pageKey !== 'home' ? (
           <TextField
             inputRef={(ref) => (inputRef.current = ref)}
             value={title}
             variant="standard"
-            size={isMobile ? "small" : "medium"}
+            size={isMobile ? 'small' : 'medium'}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleSave();
@@ -113,8 +121,8 @@ export default function PageSectionsHeader({
             sx={{
               maxWidth: isMobile ? 'calc(100% - 60px)' : undefined,
               '& .MuiInputBase-input': {
-                fontSize: isMobile ? '1.1rem' : '1.5rem'
-              }
+                fontSize: isMobile ? '1.1rem' : '1.5rem',
+              },
             }}
           />
         ) : (
@@ -124,8 +132,10 @@ export default function PageSectionsHeader({
               py: 0,
               borderRadius: (theme) => theme.shape.borderRadius / 2,
               '&: hover': {
-                backgroundColor: pageKey === 'home' ? 'transparent' : (theme) =>
-                  alpha(theme.palette.primary.main, 0.1),
+                backgroundColor:
+                  pageKey === 'home'
+                    ? 'transparent'
+                    : (theme) => alpha(theme.palette.primary.main, 0.1),
               },
               pointerEvents: pageKey === 'home' ? 'none' : 'auto',
             }}
@@ -133,7 +143,7 @@ export default function PageSectionsHeader({
             disabled={pageKey === 'home'}
           >
             <Typography
-              variant={isMobile ? "h6" : "h5"}
+              variant={isMobile ? 'h6' : 'h5'}
               sx={{
                 cursor: pageKey === 'home' ? 'default' : 'pointer',
               }}
@@ -162,27 +172,40 @@ export default function PageSectionsHeader({
           flexWrap: isMobile ? 'wrap' : 'nowrap',
           justifyContent: 'flex-end',
           width: isMobile ? '100%' : 'auto',
-          pr: isMobile ? 0 : 0
+          pr: isMobile ? 0 : 0,
         }}
       >
+        {onEmbed && (
+          <Button
+            onClick={onEmbed}
+            startIcon={<Code fontSize={isMobile ? 'small' : 'medium'} />}
+            size={isMobile ? 'small' : 'medium'}
+            sx={{
+              minWidth: isMobile ? 'auto' : undefined,
+              px: isMobile ? 0.5 : 2,
+            }}
+          >
+            <FormattedMessage id="embed" defaultMessage="Embed" />
+          </Button>
+        )}
         <Button
           onClick={onPreview}
-          startIcon={<Visibility fontSize={isMobile ? "small" : "medium"} />}
-          size={isMobile ? "small" : "medium"}
+          startIcon={<Visibility fontSize={isMobile ? 'small' : 'medium'} />}
+          size={isMobile ? 'small' : 'medium'}
           sx={{
             minWidth: isMobile ? 'auto' : undefined,
-            px: isMobile ? 0.5 : 0.5
+            px: isMobile ? 0.5 : 2,
           }}
         >
           <FormattedMessage id="preview" defaultMessage="Preview" />
         </Button>
         <Button
-          startIcon={<Dashboard fontSize={isMobile ? "small" : "medium"} />}
+          startIcon={<Dashboard fontSize={isMobile ? 'small' : 'medium'} />}
           onClick={onEditLayout}
-          size={isMobile ? "small" : "medium"}
+          size={isMobile ? 'small' : 'medium'}
           sx={{
             minWidth: isMobile ? 'auto' : undefined,
-            px: isMobile ? 2 : 2
+            px: isMobile ? 2 : 2,
           }}
         >
           <FormattedMessage id="edit.layout" defaultMessage="Edit layout" />

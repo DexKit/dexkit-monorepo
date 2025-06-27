@@ -57,7 +57,6 @@ export default function CommerceSectionForm({
       }
       onSubmit={handleSubmit}
       validate={(values: CommerceContent) => {
-        console.log('values', values);
         if (saveOnChange && onChange) {
           onChange(values);
         }

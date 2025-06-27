@@ -9,6 +9,7 @@ import { Token } from "@dexkit/core/types";
 import { SiteContext } from "@dexkit/ui/providers/SiteProvider";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 
+import { useDexKitContext } from "@dexkit/ui/hooks";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits, parseEther } from "viem";
 
@@ -50,7 +51,7 @@ export function useSwapNativePrice({
   }
 
   const { siteId } = useContext(SiteContext);
-
+  const { widgetId, apiKey } = useDexKitContext();
   return useQuery(
     [
       SWAP_NATIVE_PRICE,
@@ -78,7 +79,7 @@ export function useSwapNativePrice({
       } = { ...params };
 
       try {
-        const client = new ZeroExApiClient(chainId, siteId);
+        const client = new ZeroExApiClient(chainId, siteId, widgetId, apiKey);
 
         if (buyToken) {
           // Handle native token case

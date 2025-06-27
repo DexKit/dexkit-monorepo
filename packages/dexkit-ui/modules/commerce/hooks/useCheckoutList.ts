@@ -2,7 +2,6 @@ import { DexkitApiProvider } from "@dexkit/core/providers";
 import { GridSortModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { CheckoutFormType } from "../types";
 
 export const GET_CHECKOUT_LIST = "GET_CHECKOUT_LIST";
 
@@ -21,7 +20,7 @@ export default function useCheckoutList(params: {
         throw new Error("no instance");
       }
 
-      console.log(params);
+
 
       const newParams: any = { ...params };
 

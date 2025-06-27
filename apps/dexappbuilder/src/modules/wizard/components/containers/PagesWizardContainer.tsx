@@ -62,9 +62,26 @@ export default function PagesWizardContainer({
         return responsiveFontSizes(createTheme(JSON.parse(config.customTheme)));
       }
 
+      if (config.theme === 'custom' && config.customThemeDark) {
+        return responsiveFontSizes(
+          createTheme(JSON.parse(config.customThemeDark)),
+        );
+      }
+
+      if (config.theme === 'custom' && config.customThemeLight) {
+        return responsiveFontSizes(
+          createTheme(JSON.parse(config.customThemeLight)),
+        );
+      }
+
       return responsiveFontSizes(getTheme({ name: config.theme }).theme);
     }
-  }, [config.customTheme, config.theme]);
+  }, [
+    config.customTheme,
+    config.theme,
+    config.customThemeDark,
+    config.customThemeLight,
+  ]);
 
   const handleSave = () => {
     const newConfig = { ...config, pages };

@@ -30,7 +30,7 @@ import {
 } from "@mui/material";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { PostOrderResponsePayload } from "@traderxyz/nft-swap-sdk/dist/sdk/v4/orderbook";
-import { BigNumber } from "ethers";
+import type { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";

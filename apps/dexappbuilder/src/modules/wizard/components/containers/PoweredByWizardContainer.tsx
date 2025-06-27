@@ -10,12 +10,16 @@ import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
 import { PremiumAppBuilder } from '../PremiumAppBuilder';
 
-import { CUSTOM_DOMAINS_AND_SIGNATURE_FEAT } from '@dexkit/ui/constants/featPayments';
+import {
+  CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
+  WIDGET_SIGNATURE_FEAT,
+} from '@dexkit/ui/constants/featPayments';
 import { useActiveFeatUsage } from '@dexkit/ui/hooks/payments';
 import HidePoweredContainer from './HidePoweredContainer';
 
 interface Props {
   site?: SiteResponse | null;
+  isWidget?: boolean;
   config: AppConfig;
   onSave: (config: AppConfig) => void;
   onHasChanges: (hasChanges: boolean) => void;
@@ -23,6 +27,7 @@ interface Props {
 export default function PoweredByWizardContainer({
   config,
   onSave,
+  isWidget,
   onHasChanges,
   site,
 }: Props) {
@@ -30,7 +35,7 @@ export default function PoweredByWizardContainer({
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const activeFeatUsageQuery = useActiveFeatUsage({
-    slug: CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
+    slug: isWidget ? WIDGET_SIGNATURE_FEAT : CUSTOM_DOMAINS_AND_SIGNATURE_FEAT,
   });
 
   const isPaid = activeFeatUsageQuery.data
@@ -72,11 +77,11 @@ export default function PoweredByWizardContainer({
         <Divider />
       </Grid>
       <Grid item xs={12}>
-        <PremiumAppBuilder isHidePowered={true} />
+        <PremiumAppBuilder isHidePowered={true} isWidget={isWidget} />
       </Grid>
 
       <Grid item xs={12}>
-        {site?.id !== undefined && (
+        {(site?.id || isWidget) !== undefined && (
           <HidePoweredContainer
             config={config}
             onSave={onSave}
