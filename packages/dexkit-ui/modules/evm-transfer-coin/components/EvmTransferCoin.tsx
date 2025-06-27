@@ -325,6 +325,7 @@ export default function EvmTransferCoin({
         onSubmit={handleSubmit}
         chainId={chainId}
         balance={balance}
+        defaultCoin={defaultCoin}
       />
     </Stack>
   );

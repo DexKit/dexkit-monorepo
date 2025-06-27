@@ -2,7 +2,7 @@ import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { CurrencyExchange, MoreVert, SwapHoriz } from "@mui/icons-material";
+import { CurrencyExchange, MoreVert, Send, SwapHoriz } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -35,12 +35,14 @@ interface Props {
   price?: number;
   onClickTradeCoin?: (tokenBalance: TokenBalance) => void;
   onClickExchangeCoin?: (tokenBalance: TokenBalance) => void;
+  onClickSendCoin?: (tokenBalance: TokenBalance) => void;
   swapButtonConfig?: {
     backgroundColor?: string;
     textColor?: string;
     borderColor?: string;
     hoverBackgroundColor?: string;
   };
+  hideActionsColumn?: boolean;
 }
 
 function WalletTableRow({
@@ -51,7 +53,9 @@ function WalletTableRow({
   currency,
   onClickTradeCoin,
   onClickExchangeCoin,
+  onClickSendCoin,
   swapButtonConfig,
+  hideActionsColumn = false,
 }: Props) {
   const { chainId } = useWeb3React();
   const { token, balance } = tokenBalance;
@@ -82,6 +86,14 @@ function WalletTableRow({
     e.stopPropagation();
     if (onClickExchangeCoin) {
       onClickExchangeCoin(tokenBalance);
+    }
+    handleCloseMenu();
+  };
+
+  const handleSendClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onClickSendCoin) {
+      onClickSendCoin(tokenBalance);
     }
     handleCloseMenu();
   };
@@ -142,6 +154,17 @@ function WalletTableRow({
             sx={actionButtonStyle}
           >
             <CurrencyExchange fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+      {onClickSendCoin && (
+        <Tooltip title={<FormattedMessage id="send" defaultMessage="Send" />}>
+          <IconButton
+            size="small"
+            onClick={handleSendClick}
+            sx={actionButtonStyle}
+          >
+            <Send fontSize="small" />
           </IconButton>
         </Tooltip>
       )}
@@ -249,6 +272,32 @@ function WalletTableRow({
             />
           </MenuItem>
         )}
+        {onClickSendCoin && (
+          <MenuItem
+            onClick={handleSendClick}
+            sx={{
+              color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover,
+              },
+              py: 1.5,
+              px: 2,
+            }}
+          >
+            <ListItemIcon sx={{ color: 'inherit', minWidth: 36 }}>
+              <Send fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary={<FormattedMessage id="send" defaultMessage="Send" />}
+              sx={{
+                '& .MuiTypography-root': {
+                  fontWeight: 500,
+                  fontSize: '0.9rem',
+                }
+              }}
+            />
+          </MenuItem>
+        )}
       </Menu>
     </>
   );
@@ -269,7 +318,6 @@ function WalletTableRow({
         >
           <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
             <Stack spacing={2}>
-              {/* Header con token info y acciones */}
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Stack direction="row" alignItems="center" spacing={2} sx={{ flex: 1, minWidth: 0 }}>
                   <Avatar
@@ -295,7 +343,7 @@ function WalletTableRow({
                   </Box>
                 </Stack>
 
-                {isBalancesVisible && (onClickTradeCoin || onClickExchangeCoin) && (
+                {isBalancesVisible && (onClickTradeCoin || onClickExchangeCoin || onClickSendCoin) && (
                   <Box sx={{ flexShrink: 0 }}>
                     {renderMobileActions()}
                   </Box>
@@ -393,13 +441,15 @@ function WalletTableRow({
           "*****"
         )}
       </TableCell>
-      <TableCell sx={{ width: '10%' }}>
-        {isBalancesVisible && (onClickTradeCoin || onClickExchangeCoin) && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {renderDesktopActions()}
-          </Box>
-        )}
-      </TableCell>
+      {!hideActionsColumn && (
+        <TableCell sx={{ width: '10%' }}>
+          {isBalancesVisible && (onClickTradeCoin || onClickExchangeCoin || onClickSendCoin) && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {renderDesktopActions()}
+            </Box>
+          )}
+        </TableCell>
+      )}
     </TableRow>
   );
 }

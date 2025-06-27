@@ -18,9 +18,9 @@ import { FormattedMessage } from "react-intl";
 import useUserActivity from "../hooks/useUserActivity";
 import UserActivityTableRow from "./UserActivityTableRow";
 
-export interface UserActivityTableProps {}
+export interface UserActivityTableProps { }
 
-export default function UserActivityTable({}: UserActivityTableProps) {
+export default function UserActivityTable({ }: UserActivityTableProps) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const theme = useTheme();
@@ -85,7 +85,7 @@ export default function UserActivityTable({}: UserActivityTableProps) {
         <TableHead>
           <TableRow>
             <TableCell>
-              <FormattedMessage id="activity" defaultMessage="Activity" />
+              <FormattedMessage id="action" defaultMessage="Action" />
             </TableCell>
             <TableCell>
               <FormattedMessage id="date" defaultMessage="Date" />
@@ -107,7 +107,7 @@ export default function UserActivityTable({}: UserActivityTableProps) {
                 rowsPerPage={pageSize}
                 rowsPerPageOptions={isMobile ? [5] : [5, 10]}
                 labelRowsPerPage={isMobile ? "Filas:" : "Rows per page:"}
-                labelDisplayedRows={({ from, to, count }) => 
+                labelDisplayedRows={({ from, to, count }) =>
                   isMobile ? `${from}-${to}/${count}` : `${from}-${to} of ${count}`
                 }
                 sx={{

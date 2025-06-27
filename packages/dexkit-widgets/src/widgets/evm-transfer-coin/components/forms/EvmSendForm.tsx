@@ -39,6 +39,7 @@ export interface EvmSendFormProps {
   chainId?: number;
   balance?: string;
   account?: string;
+  defaultCoin?: Coin;
 }
 
 export function EvmSendForm({
@@ -53,6 +54,7 @@ export function EvmSendForm({
   onSwitchNetwork,
   account,
   balance,
+  defaultCoin,
 }: EvmSendFormProps) {
   const [addressTouched, setAddressTouched] = useState<boolean>(false);
 
@@ -160,7 +162,6 @@ export function EvmSendForm({
           const filtered = filter(options, params);
 
           const { inputValue } = params;
-          // Suggest the creation of a new value
           const isExisting = options.some((option) => inputValue === option);
           if (inputValue !== "" && !isExisting) {
             filtered.push();

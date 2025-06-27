@@ -503,6 +503,9 @@ const getDefaultGlassSettings = (theme: any): WalletGlassSettings => ({
   backgroundAttachment: "scroll",
   hideNFTs: false,
   hideActivity: false,
+  hideSwapAction: false,
+  hideExchangeAction: false,
+  hideSendAction: false,
 });
 
 const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
@@ -619,6 +622,9 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     hideScanButton: false,
     hideNetworkSelector: false,
     hideBalance: false,
+    hideSwapAction: false,
+    hideExchangeAction: false,
+    hideSendAction: false,
   },
 
   swapConfig: {
@@ -1256,6 +1262,75 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <FormattedMessage
                     id="glass.hide.activity.description"
                     defaultMessage="Hide the activity tab to remove transaction history from the wallet"
+                  />
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.glassSettings?.hideSwapAction || false}
+                      onChange={(e) => setFieldValue("glassSettings.hideSwapAction", e.target.checked)}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id="glass.hide.swap.action"
+                      defaultMessage="Hide Swap Action"
+                    />
+                  }
+                />
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage
+                    id="glass.hide.swap.action.description"
+                    defaultMessage="Hide the swap action button from the token table actions column"
+                  />
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.glassSettings?.hideExchangeAction || false}
+                      onChange={(e) => setFieldValue("glassSettings.hideExchangeAction", e.target.checked)}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id="glass.hide.exchange.action"
+                      defaultMessage="Hide Exchange Action"
+                    />
+                  }
+                />
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage
+                    id="glass.hide.exchange.action.description"
+                    defaultMessage="Hide the exchange action button from the token table actions column"
+                  />
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.glassSettings?.hideSendAction || false}
+                      onChange={(e) => setFieldValue("glassSettings.hideSendAction", e.target.checked)}
+                    />
+                  }
+                  label={
+                    <FormattedMessage
+                      id="glass.hide.send.action"
+                      defaultMessage="Hide Send Action"
+                    />
+                  }
+                />
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage
+                    id="glass.hide.send.action.description"
+                    defaultMessage="Hide the send action button from the token table actions column"
                   />
                 </Typography>
               </Box>
@@ -2619,6 +2694,55 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       <FormattedMessage
                         id="custom.hide.balance"
                         defaultMessage="Hide Balance"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideSwapAction || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideSwapAction", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.swap.action"
+                        defaultMessage="Hide Swap Action"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideExchangeAction || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideExchangeAction", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.exchange.action"
+                        defaultMessage="Hide Exchange Action"
+                      />
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.visibility?.hideSendAction || false}
+                        onChange={(e) => setFieldValue("customSettings.visibility.hideSendAction", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.hide.send.action"
+                        defaultMessage="Hide Send Action"
                       />
                     }
                   />

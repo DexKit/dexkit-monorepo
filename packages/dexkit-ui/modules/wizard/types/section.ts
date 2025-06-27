@@ -235,6 +235,9 @@ export interface WalletCustomSettings {
     hideScanButton?: boolean;
     hideNetworkSelector?: boolean;
     hideBalance?: boolean;
+    hideSwapAction?: boolean;
+    hideExchangeAction?: boolean;
+    hideSendAction?: boolean;
   };
 
   swapConfig?: {
@@ -311,6 +314,9 @@ export interface WalletGlassSettings {
   textColor?: string;
   hideNFTs?: boolean;
   hideActivity?: boolean;
+  hideSwapAction?: boolean;
+  hideExchangeAction?: boolean;
+  hideSendAction?: boolean;
   networkModalTextColor?: string;
   receiveModalTextColor?: string;
   sendModalTextColor?: string;

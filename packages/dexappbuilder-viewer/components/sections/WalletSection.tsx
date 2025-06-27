@@ -482,6 +482,9 @@ export function WalletSection({ section }: Props) {
               textColor={textColor}
               hideNFTs={hideNFTs}
               hideActivity={hideActivity}
+              hideSwapAction={glassSettings?.hideSwapAction}
+              hideExchangeAction={glassSettings?.hideExchangeAction}
+              hideSendAction={glassSettings?.hideSendAction}
               customSettings={customSettings}
               backgroundColor={glassSettings?.backgroundColor}
               backgroundImage={glassSettings?.backgroundImage}

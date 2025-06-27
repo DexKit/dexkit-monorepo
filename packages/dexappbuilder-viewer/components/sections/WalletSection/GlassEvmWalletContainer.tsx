@@ -58,6 +58,7 @@ import { useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { Asset } from "@dexkit/core/types/nft";
+import { convertTokenToEvmCoin } from "@dexkit/core/utils";
 import {
   getChainLogoImage,
   getChainName,
@@ -120,6 +121,10 @@ import { GlassNetworkSelectButton } from "./GlassNetworkSelectButton";
 import GlassScanWalletQrCodeDialog from "./GlassScanWalletQrCodeDialog";
 import GlassTradeContainer from './GlassTradeContainer';
 
+const EvmTransferCoinDialog = dynamic(
+  () => import("@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog")
+);
+
 enum WalletTabs {
   Transactions,
   Trades,
@@ -143,6 +148,9 @@ interface Props {
   textColor?: string;
   hideNFTs?: boolean;
   hideActivity?: boolean;
+  hideSwapAction?: boolean;
+  hideExchangeAction?: boolean;
+  hideSendAction?: boolean;
   customSettings?: any;
   onClickTradeCoin?: (tokenBalance: any) => void;
   onClickExchangeCoin?: (tokenBalance: any) => void;
@@ -361,7 +369,11 @@ const GlassWalletBalances = ({
   filter,
   onClickTradeCoin,
   onClickExchangeCoin,
+  onClickSendCoin,
   swapButtonConfig,
+  hideSwapAction = false,
+  hideExchangeAction = false,
+  hideSendAction = false,
   ...props
 }: any) => {
   const theme = useTheme();
@@ -405,6 +417,12 @@ const GlassWalletBalances = ({
       onClickTradeCoin(tokenBalance);
     }
   }, [onClickTradeCoin]);
+
+  const handleClickSendCoin = useCallback((tokenBalance: any) => {
+    if (onClickSendCoin) {
+      onClickSendCoin(tokenBalance);
+    }
+  }, [onClickSendCoin]);
 
   return (
     <Box
@@ -472,8 +490,9 @@ const GlassWalletBalances = ({
                   price={token.price}
                   isBalancesVisible={isBalancesVisible}
                   currency={currency.currency}
-                  onClickTradeCoin={handleClickTradeCoin}
-                  onClickExchangeCoin={onClickExchangeCoin}
+                  onClickTradeCoin={hideSwapAction ? undefined : handleClickTradeCoin}
+                  onClickExchangeCoin={hideExchangeAction ? undefined : onClickExchangeCoin}
+                  onClickSendCoin={hideSendAction ? undefined : handleClickSendCoin}
                   swapButtonConfig={{
                     backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
                     textColor: textColor,
@@ -547,9 +566,11 @@ const GlassWalletBalances = ({
                     <TableCell sx={{ width: '25%' }}>
                       <FormattedMessage id="balance" defaultMessage="Balance" />
                     </TableCell>
-                    <TableCell sx={{ width: '10%' }}>
-                      <FormattedMessage id="actions" defaultMessage="Actions" />
-                    </TableCell>
+                    {!(hideSwapAction && hideExchangeAction && hideSendAction) && (
+                      <TableCell sx={{ width: '10%' }}>
+                        <FormattedMessage id="actions" defaultMessage="Actions" />
+                      </TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -561,13 +582,15 @@ const GlassWalletBalances = ({
                       price={token.price}
                       isBalancesVisible={isBalancesVisible}
                       currency={currency.currency}
-                      onClickTradeCoin={handleClickTradeCoin}
-                      onClickExchangeCoin={onClickExchangeCoin}
+                      onClickTradeCoin={hideSwapAction ? undefined : handleClickTradeCoin}
+                      onClickExchangeCoin={hideExchangeAction ? undefined : onClickExchangeCoin}
+                      onClickSendCoin={hideSendAction ? undefined : handleClickSendCoin}
                       swapButtonConfig={{
                         backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
                         textColor: textColor,
                         hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
                       }}
+                      hideActionsColumn={hideSwapAction && hideExchangeAction && hideSendAction}
                     />
                   ))}
                   {tokenBalancesQuery.isLoading &&
@@ -582,9 +605,11 @@ const GlassWalletBalances = ({
                         <TableCell>
                           <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
                         </TableCell>
-                        <TableCell>
-                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
-                        </TableCell>
+                        {!(hideSwapAction && hideExchangeAction && hideSendAction) && (
+                          <TableCell>
+                            <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                 </TableBody>
@@ -609,6 +634,9 @@ const GlassEvmWalletContainer = ({
   textColor = '#ffffff',
   hideNFTs = false,
   hideActivity = false,
+  hideSwapAction = false,
+  hideExchangeAction = false,
+  hideSendAction = false,
   customSettings,
   onClickTradeCoin,
   onClickExchangeCoin,
@@ -639,6 +667,7 @@ const GlassEvmWalletContainer = ({
   const [isQrCodeDialogOpen, setIsQrCodeDialogOpen] = useState(false);
   const [selectedCoinForTrade, setSelectedCoinForTrade] = useState<TokenBalance | null>(null);
   const [selectedCoinForExchange, setSelectedCoinForExchange] = useState<TokenBalance | null>(null);
+  const [selectedCoinForSend, setSelectedCoinForSend] = useState<TokenBalance | null>(null);
   const { account, isActive, chainId: walletChainId, ENSName } = useWeb3React();
   const intl = useIntl();
 
@@ -816,6 +845,14 @@ const GlassEvmWalletContainer = ({
     return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
   };
 
+  const handleSendCoin = (tokenBalance: TokenBalance) => {
+    setSelectedCoinForSend(tokenBalance);
+  };
+
+  const handleBackFromSend = () => {
+    setSelectedCoinForSend(null);
+  };
+
   if (selectedCoinForTrade) {
     return (
       <GlassTradeContainer
@@ -927,6 +964,28 @@ const GlassEvmWalletContainer = ({
           blurIntensity={blurIntensity}
           glassOpacity={glassOpacity}
           textColor={importTokenModalTextColor || textColor}
+        />
+      )}
+
+      {selectedCoinForSend && selectedCoinForSend.token && (
+        <GlassEvmSendDialog
+          dialogProps={{
+            open: true,
+            onClose: handleBackFromSend,
+            fullWidth: true,
+            maxWidth: "sm",
+          }}
+          params={{
+            ENSName,
+            account: account,
+            chainId: chainId,
+            coins: [convertTokenToEvmCoin(selectedCoinForSend.token)],
+            defaultCoin: convertTokenToEvmCoin(selectedCoinForSend.token),
+            onConnectWallet: handleConnectWallet,
+          }}
+          blurIntensity={blurIntensity}
+          glassOpacity={glassOpacity}
+          textColor={sendModalTextColor || textColor}
         />
       )}
 
@@ -1167,6 +1226,10 @@ const GlassEvmWalletContainer = ({
                 filter={search}
                 onClickTradeCoin={handleTradeCoin}
                 onClickExchangeCoin={handleExchangeCoin}
+                onClickSendCoin={handleSendCoin}
+                hideSwapAction={hideSwapAction}
+                hideExchangeAction={hideExchangeAction}
+                hideSendAction={hideSendAction}
                 swapButtonConfig={{
                   backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
                   textColor: textColor,

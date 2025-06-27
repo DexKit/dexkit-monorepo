@@ -112,10 +112,7 @@ const ScanWalletQrCodeDialog = dynamic(
 );
 
 const EvmTransferCoinDialog = dynamic(
-  () =>
-    import(
-      "@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog"
-    )
+  () => import("@dexkit/ui/modules/evm-transfer-coin/components/dialogs/EvmSendDialog")
 );
 
 const FavoriteAssetsSection = dynamic(
@@ -258,11 +255,12 @@ const CustomNetworkSelectButton = ({ customSettings, chainId, onChange }: {
   );
 };
 
-const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClickExchangeCoin, isTableVisible, handleToggleTable }: {
+const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClickExchangeCoin, onClickSendCoin, isTableVisible, handleToggleTable }: {
   customSettings?: WalletCustomSettings,
   filter?: string,
   onClickTradeCoin?: (tokenBalance: any) => void,
   onClickExchangeCoin?: (tokenBalance: any) => void,
+  onClickSendCoin?: (tokenBalance: any) => void,
   isTableVisible: boolean,
   handleToggleTable: () => void
 }) => {
@@ -340,14 +338,16 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClic
                   price={token.price}
                   isBalancesVisible={isBalancesVisible}
                   currency={currency.currency}
-                  onClickTradeCoin={onClickTradeCoin}
-                  onClickExchangeCoin={onClickExchangeCoin}
+                  onClickTradeCoin={customSettings?.visibility?.hideSwapAction ? undefined : onClickTradeCoin}
+                  onClickExchangeCoin={customSettings?.visibility?.hideExchangeAction ? undefined : onClickExchangeCoin}
+                  onClickSendCoin={customSettings?.visibility?.hideSendAction ? undefined : onClickSendCoin}
                   swapButtonConfig={{
                     backgroundColor: customSettings?.swapButtonConfig?.backgroundColor || theme.palette.action.hover,
                     textColor: customSettings?.swapButtonConfig?.textColor || theme.palette.text.primary,
                     borderColor: customSettings?.swapButtonConfig?.borderColor,
                     hoverBackgroundColor: customSettings?.swapButtonConfig?.hoverBackgroundColor || theme.palette.primary.main,
                   }}
+                  hideActionsColumn={customSettings?.visibility?.hideSwapAction && customSettings?.visibility?.hideExchangeAction && customSettings?.visibility?.hideSendAction}
                 />
               ))}
               {coinPricesQuery.isLoading &&
@@ -364,7 +364,6 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClic
                 ))}
             </Stack>
           ) : (
-            // Desktop view: Table layout
             <TableContainer>
               <Table>
                 <TableHead
@@ -382,9 +381,11 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClic
                     <TableCell sx={headerCellStyles}>
                       <FormattedMessage id="balance" defaultMessage="Balance" />
                     </TableCell>
-                    <TableCell sx={headerCellStyles}>
-                      <FormattedMessage id="actions" defaultMessage="Actions" />
-                    </TableCell>
+                    {!(customSettings?.visibility?.hideSwapAction && customSettings?.visibility?.hideExchangeAction && customSettings?.visibility?.hideSendAction) && (
+                      <TableCell sx={headerCellStyles}>
+                        <FormattedMessage id="actions" defaultMessage="Actions" />
+                      </TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody
@@ -434,14 +435,16 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClic
                       price={token.price}
                       isBalancesVisible={isBalancesVisible}
                       currency={currency.currency}
-                      onClickTradeCoin={onClickTradeCoin}
-                      onClickExchangeCoin={onClickExchangeCoin}
+                      onClickTradeCoin={customSettings?.visibility?.hideSwapAction ? undefined : onClickTradeCoin}
+                      onClickExchangeCoin={customSettings?.visibility?.hideExchangeAction ? undefined : onClickExchangeCoin}
+                      onClickSendCoin={customSettings?.visibility?.hideSendAction ? undefined : onClickSendCoin}
                       swapButtonConfig={{
                         backgroundColor: customSettings?.swapButtonConfig?.backgroundColor || theme.palette.action.hover,
                         textColor: customSettings?.swapButtonConfig?.textColor || theme.palette.text.primary,
                         borderColor: customSettings?.swapButtonConfig?.borderColor,
                         hoverBackgroundColor: customSettings?.swapButtonConfig?.hoverBackgroundColor || theme.palette.primary.main,
                       }}
+                      hideActionsColumn={customSettings?.visibility?.hideSwapAction && customSettings?.visibility?.hideExchangeAction && customSettings?.visibility?.hideSendAction}
                     />
                   ))}
                   {coinPricesQuery.isLoading &&
@@ -456,9 +459,11 @@ const CustomWalletBalances = ({ customSettings, filter, onClickTradeCoin, onClic
                         <TableCell>
                           <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
                         </TableCell>
-                        <TableCell>
-                          <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
-                        </TableCell>
+                        {!(customSettings?.visibility?.hideSwapAction && customSettings?.visibility?.hideExchangeAction && customSettings?.visibility?.hideSendAction) && (
+                          <TableCell>
+                            <Skeleton sx={{ backgroundColor: `${theme.palette.text.secondary}33` }} />
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                 </TableBody>
@@ -481,7 +486,6 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
   const collectionTextColor = customSettings?.nftColors?.collectionColor || customSettings?.cardConfig?.titleTextColor || theme.palette.text.secondary;
   const titleTextColor = customSettings?.nftColors?.titleColor || customSettings?.cardConfig?.subtitleTextColor || theme.palette.text.primary;
 
@@ -1229,8 +1233,9 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [selectedAssetTab, setSelectedAssetTab] = useState(AssetTabs.Tokens);
   const [selectedNFTTab, setSelectedNFTTab] = useState(NFTTabs.Collected);
-  const [selectedCoin, setSelectedCoin] = useState<any>(undefined);
-  const [selectedCoinForExchange, setSelectedCoinForExchange] = useState<any>(undefined);
+  const [selectedCoinForTrade, setSelectedCoinForTrade] = useState<any>(null);
+  const [selectedCoinForExchange, setSelectedCoinForExchange] = useState<any>(null);
+  const [selectedCoinForSend, setSelectedCoinForSend] = useState<any>(null);
 
   const [filters, setFilters] = useState({
     myNfts: false,
@@ -1283,19 +1288,27 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
   const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
 
   const handleClickTradeCoin = (tokenBalance: any) => {
-    setSelectedCoin(tokenBalance);
+    setSelectedCoinForTrade(tokenBalance);
   };
 
   const handleClickExchangeCoin = (tokenBalance: any) => {
     setSelectedCoinForExchange(tokenBalance);
   };
 
+  const handleClickSendCoin = (tokenBalance: any) => {
+    setSelectedCoinForSend(tokenBalance);
+  };
+
   const handleBackFromTrade = () => {
-    setSelectedCoin(undefined);
+    setSelectedCoinForTrade(null);
   };
 
   const handleBackFromExchange = () => {
-    setSelectedCoinForExchange(undefined);
+    setSelectedCoinForExchange(null);
+  };
+
+  const handleBackFromSend = () => {
+    setSelectedCoinForSend(null);
   };
 
   const handleChangeNetwork = async (newChainId: number) => {
@@ -1440,10 +1453,10 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
     return customSettings?.primaryTextColor || theme.palette.primary.main;
   };
 
-  if (selectedCoin) {
+  if (selectedCoinForTrade) {
     return (
       <TradeContainer
-        selectedCoin={selectedCoin}
+        selectedCoin={selectedCoinForTrade}
         onBack={handleBackFromTrade}
         customSettings={customSettings}
       />
@@ -1523,6 +1536,25 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                 fullWidth: true,
                 maxWidth: 'xs',
                 onClose: handleToggleImportAsset,
+              }}
+            />
+          )}
+
+          {selectedCoinForSend && selectedCoinForSend.token && (
+            <EvmTransferCoinDialog
+              dialogProps={{
+                open: true,
+                onClose: handleBackFromSend,
+                fullWidth: true,
+                maxWidth: "sm",
+              }}
+              params={{
+                ENSName,
+                account: account,
+                chainId: chainId,
+                coins: [convertTokenToEvmCoin(selectedCoinForSend.token)],
+                defaultCoin: convertTokenToEvmCoin(selectedCoinForSend.token),
+                onConnectWallet: handleConnectWallet,
               }}
             />
           )}
@@ -1759,6 +1791,7 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                   filter={search}
                   onClickTradeCoin={handleClickTradeCoin}
                   onClickExchangeCoin={handleClickExchangeCoin}
+                  onClickSendCoin={handleClickSendCoin}
                   isTableVisible={isTableVisible}
                   handleToggleTable={handleToggleTable}
                 />
