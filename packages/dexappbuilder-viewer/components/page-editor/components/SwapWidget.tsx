@@ -113,7 +113,6 @@ function SwapWidget(props: Props) {
         disableNetworkSelector: formData?.disableNetworkSelector,
         keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
         lockedToken: formData?.lockedToken,
-        glassSettings: formData?.glassSettings, // Pasar glassSettings al componente Swap
         configsByChain:
           enableUrlParams && configParams?.configByChainParams
             ? configParams.configByChainParams

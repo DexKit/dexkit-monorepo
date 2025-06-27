@@ -482,6 +482,9 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const collectionTextColor = customSettings?.nftColors?.collectionColor || customSettings?.cardConfig?.titleTextColor || theme.palette.text.secondary;
+  const titleTextColor = customSettings?.nftColors?.titleColor || customSettings?.cardConfig?.subtitleTextColor || theme.palette.text.primary;
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -494,8 +497,8 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
     position: "relative",
     height: "100%",
     borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
-    backgroundColor: customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-    border: `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
+    backgroundColor: customSettings?.nftColors?.cardBackgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
+    border: `1px solid ${customSettings?.nftColors?.cardBorderColor || customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
     boxShadow: customSettings?.cardConfig?.enableShadow ? theme.shadows[2] : 'none',
     overflow: 'hidden',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -531,17 +534,24 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
       <CardContent>
         <Typography
           variant="body1"
+          style={{
+            color: collectionTextColor
+          }}
           sx={{
-            color: customSettings?.cardConfig?.titleTextColor || theme.palette.text.primary
+            color: `${collectionTextColor} !important`
           }}
         >
           {asset === undefined ? <Skeleton /> : asset?.collectionName}
         </Typography>
         <Typography
           variant="body1"
+          style={{
+            fontWeight: 600,
+            color: titleTextColor
+          }}
           sx={{
             fontWeight: 600,
-            color: customSettings?.cardConfig?.subtitleTextColor || theme.palette.text.primary
+            color: `${titleTextColor} !important`
           }}
         >
           {asset === undefined ? (

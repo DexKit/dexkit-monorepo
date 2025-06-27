@@ -24,8 +24,8 @@ export function WalletSection({ section }: Props) {
   };
 
   const renderGlassVariant = () => {
-    const blurIntensity = customSettings?.swapConfig?.glassSettings?.blurIntensity || glassSettings?.blurIntensity || 40;
-    const glassOpacity = customSettings?.swapConfig?.glassSettings?.glassOpacity || glassSettings?.glassOpacity || 0.10;
+    const blurIntensity = glassSettings?.blurIntensity || 40;
+    const glassOpacity = glassSettings?.glassOpacity || 0.10;
     const textColor = glassSettings?.textColor || theme.palette.text.primary;
     const hideNFTs = glassSettings?.hideNFTs || false;
     const hideActivity = glassSettings?.hideActivity || false;
@@ -482,6 +482,7 @@ export function WalletSection({ section }: Props) {
               textColor={textColor}
               hideNFTs={hideNFTs}
               hideActivity={hideActivity}
+              customSettings={customSettings}
               backgroundColor={glassSettings?.backgroundColor}
               backgroundImage={glassSettings?.backgroundImage}
               backgroundSize={glassSettings?.backgroundSize}

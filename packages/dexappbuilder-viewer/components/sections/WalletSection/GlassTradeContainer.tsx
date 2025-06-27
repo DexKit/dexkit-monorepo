@@ -24,7 +24,6 @@ const LockedBuyTokenSwapWidget = ({ formData, ...props }: any) => {
         disableNetworkSelector: true,
         keepTokenAlwaysPresent: true,
         lockedToken: formData.lockedBuyToken,
-        glassSettings: formData.glassSettings,
       }}
     />
   );
@@ -83,14 +82,8 @@ export default function GlassTradeContainer({
       disableNetworkSelector: true,
       keepTokenAlwaysPresent: true,
       lockedBuyToken: token,
-      glassSettings: {
-        blurIntensity: blurIntensity,
-        glassOpacity: glassOpacity,
-        textColor: textColor,
-        disableBackground: true,
-      },
     };
-  }, [selectedCoin.token.chainId, selectedCoin.token.address, swapVariant, blurIntensity, glassOpacity, textColor]);
+  }, [selectedCoin.token.chainId, selectedCoin.token.address, swapVariant]);
 
   const swapWidgetKey = React.useMemo(() => {
     return `swap-glass-${selectedCoin.token.chainId}-${selectedCoin.token.address}`;
@@ -370,6 +363,7 @@ export default function GlassTradeContainer({
                         0 6px 20px rgba(0, 0, 0, 0.15),
                         inset 0 1px 0 rgba(255, 255, 255, 0.25)
                       `,
+
                         color: `${textColor} !important`,
                       },
                       '&:disabled': {

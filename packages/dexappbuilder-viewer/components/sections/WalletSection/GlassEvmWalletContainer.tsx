@@ -163,7 +163,7 @@ interface Props {
   importTokenModalTextColor?: string;
 }
 
-const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blurIntensity = 40, glassOpacity = 0.10, textColor = '#ffffff' }: any) => {
+const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blurIntensity = 40, glassOpacity = 0.10, textColor = '#ffffff', customSettings }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -199,10 +199,18 @@ const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blu
         </Box>
       )}
       <CardContent>
-        <Typography variant="body1" sx={{ color: textColor }}>
+        <Typography
+          variant="body1"
+          style={{ color: customSettings?.nftColors?.collectionColor || textColor }}
+          sx={{ color: `${customSettings?.nftColors?.collectionColor || textColor} !important` }}
+        >
           {asset === undefined ? <Skeleton /> : asset?.collectionName}
         </Typography>
-        <Typography variant="body1" sx={{ fontWeight: 600, color: textColor }}>
+        <Typography
+          variant="body1"
+          style={{ fontWeight: 600, color: customSettings?.nftColors?.titleColor || textColor }}
+          sx={{ fontWeight: 600, color: `${customSettings?.nftColors?.titleColor || textColor} !important` }}
+        >
           {asset === undefined ? (
             <Skeleton />
           ) : asset?.metadata?.name ? (
@@ -222,9 +230,9 @@ const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blu
           position: "relative",
           height: "100%",
           borderRadius: "16px",
-          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)})`,
+          background: customSettings?.nftColors?.cardBackgroundColor || `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.25)})`,
           backdropFilter: `blur(${Math.min(blurIntensity - 10, 30)}px)`,
-          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.35)})`,
+          border: `1px solid ${customSettings?.nftColors?.cardBorderColor || `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.15, 0.35)})`}`,
           boxShadow: `
             0 8px 32px rgba(0, 0, 0, 0.1),
             inset 0 1px 0 rgba(255, 255, 255, 0.2),
@@ -1245,6 +1253,7 @@ const GlassEvmWalletContainer = ({
                         blurIntensity={blurIntensity}
                         glassOpacity={glassOpacity}
                         textColor={textColor}
+                        customSettings={customSettings}
                         filters={{ ...filters, account: account }}
                         onOpenFilters={() => { }}
                         onImport={handleToggleImportAsset}
@@ -1261,6 +1270,7 @@ const GlassEvmWalletContainer = ({
                 blurIntensity={blurIntensity}
                 glassOpacity={glassOpacity}
                 textColor={textColor}
+                customSettings={customSettings}
                 filters={filters}
                 onOpenFilters={() => { }}
                 onImport={handleToggleImportAsset}
@@ -1304,6 +1314,7 @@ const GlassEvmWalletContainer = ({
                         blurIntensity={blurIntensity}
                         glassOpacity={glassOpacity}
                         textColor={textColor}
+                        customSettings={customSettings}
                         filters={filters}
                         onOpenFilters={() => { }}
                       />
@@ -1541,6 +1552,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
         textColor={textColor}
+        customSettings={props.customSettings}
       />
     ));
   };
@@ -1894,6 +1906,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
         textColor={textColor}
+        customSettings={props.customSettings}
       />
     ));
   };

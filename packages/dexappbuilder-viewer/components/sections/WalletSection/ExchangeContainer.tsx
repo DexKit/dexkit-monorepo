@@ -40,7 +40,6 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
     };
 
     return {
-      // Propiedades requeridas por DexkitExchangeSettings
       defaultNetwork: token.chainId,
       defaultPairs: {
         [token.chainId]: {
@@ -60,25 +59,28 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
         showPairInfo: true,
         showTradingGraph: true,
         showTradeWidget: true,
-        layout: "horizontal" as const,
+        layout: "grid" as const,
         spacing: 3,
         backgroundColor: customSettings?.cardConfig?.backgroundColor,
         borderRadius: customSettings?.cardConfig?.borderRadius,
         padding: 2,
         componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
-        pairInfoBackgroundColor: customSettings?.cardConfig?.backgroundColor,
-        pairInfoTextColor: customSettings?.primaryTextColor,
+        pairInfoBackgroundColor: customSettings?.exchangeTextColors?.pairInfoBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+        pairInfoTextColor: customSettings?.exchangeTextColors?.pairInfoTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
+        pairInfoSecondaryTextColor: customSettings?.exchangeTextColors?.pairInfoSecondaryTextColor || theme.palette.text.secondary,
         pairInfoBorderColor: customSettings?.cardConfig?.borderColor,
-        tradeWidgetBackgroundColor: customSettings?.cardConfig?.backgroundColor,
-        tradeWidgetTextColor: customSettings?.primaryTextColor,
+        tradeWidgetBackgroundColor: customSettings?.exchangeTextColors?.tradeWidgetBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+        tradeWidgetTextColor: customSettings?.exchangeTextColors?.tradeWidgetTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
         tradeWidgetBorderColor: customSettings?.cardConfig?.borderColor,
         tradeWidgetButtonColor: customSettings?.swapButtonConfig?.backgroundColor,
-        tradeWidgetButtonTextColor: customSettings?.swapButtonConfig?.textColor,
-        tradingGraphBackgroundColor: customSettings?.cardConfig?.backgroundColor,
+        tradeWidgetButtonTextColor: customSettings?.exchangeTextColors?.tradeWidgetButtonTextColor || customSettings?.swapButtonConfig?.textColor,
+        tradeWidgetTabTextColor: customSettings?.exchangeTextColors?.tradeWidgetTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'),
+        tradeWidgetInputTextColor: customSettings?.exchangeTextColors?.tradeWidgetInputTextColor || theme.palette.text.primary,
+        tradingGraphBackgroundColor: customSettings?.exchangeTextColors?.tradingGraphBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+        tradingGraphControlTextColor: customSettings?.exchangeTextColors?.tradingGraphControlTextColor || theme.palette.text.primary,
         tradingGraphBorderColor: customSettings?.cardConfig?.borderColor,
       },
 
-      // Propiedades adicionales para bloqueo
       lockedBaseToken: token,
       lockedQuoteToken: quoteToken,
     };

@@ -245,6 +245,25 @@ export interface WalletCustomSettings {
     };
   };
 
+  exchangeTextColors?: {
+    pairInfoTextColor?: string;
+    pairInfoSecondaryTextColor?: string;
+    pairInfoBackgroundColor?: string;
+    tradeWidgetTextColor?: string;
+    tradeWidgetButtonTextColor?: string;
+    tradeWidgetTabTextColor?: string;
+    tradeWidgetInputTextColor?: string;
+    tradeWidgetBackgroundColor?: string;
+    tradingGraphControlTextColor?: string;
+    tradingGraphBackgroundColor?: string;
+  };
+  nftColors?: {
+    titleColor?: string;
+    collectionColor?: string;
+    cardBackgroundColor?: string;
+    cardBorderColor?: string;
+  };
+
   tabsConfig?: {
     backgroundColor?: string;
     activeTabColor?: string;

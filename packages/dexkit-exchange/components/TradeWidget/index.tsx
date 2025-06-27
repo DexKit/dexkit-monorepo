@@ -20,6 +20,7 @@ import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { DEFAULT_ZRX_NETWORKS } from "../../constants";
 import { useExchangeContext } from "../../hooks";
+import { ExchangeCustomVariantSettings } from "../../types";
 import LimitForm from "./LimitForm";
 import MarketForm from "./SimpleVariant/MarketForm";
 
@@ -35,9 +36,10 @@ const usePreviewPlatform = () => {
 // FIXME: base/quote KIT/USDT
 export interface TradeWidgetProps {
   isActive: boolean;
+  customVariantSettings?: ExchangeCustomVariantSettings;
 }
 
-export default function TradeWidget({ isActive }: TradeWidgetProps) {
+export default function TradeWidget({ isActive, customVariantSettings }: TradeWidgetProps) {
   const theme = useTheme();
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -74,10 +76,10 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
 
   const isGlassVariant = variant === "glass";
   const textColor = glassSettings?.textColor || theme.palette.text.primary;
-  const buyTabColor = glassSettings?.buyTabColor || '#10B981';
-  const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
-  const buyTabTextColor = glassSettings?.buyTabTextColor || (theme.palette.mode === 'dark' ? '#000000' : '#FFFFFF');
-  const sellTabTextColor = glassSettings?.sellTabTextColor || (theme.palette.mode === 'dark' ? '#000000' : '#FFFFFF');
+  const buyTabColor = glassSettings?.buyTabColor || '#10B981'; // Verde más vibrante
+  const sellTabColor = glassSettings?.sellTabColor || '#EF4444'; // Rojo más vibrante
+  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
+  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 
@@ -391,17 +393,17 @@ export default function TradeWidget({ isActive }: TradeWidgetProps) {
 
       <Box
         sx={{
-          borderRadius: theme.shape.borderRadius * 2,
-          border: `1px solid ${theme.palette.divider}`,
           p: {
-            xs: theme.spacing(1.5),
+            xs: theme.spacing(2),
             sm: theme.spacing(2.5),
             md: theme.spacing(3)
           },
+          ...(customVariantSettings?.tradeWidgetBackgroundColor && {
+            backgroundColor: `${customVariantSettings.tradeWidgetBackgroundColor} !important`,
+          }),
           ...glassStyles,
         }}
       >
-        {/* Header con título y settings */}
         <Stack
           direction="row"
           alignItems="center"

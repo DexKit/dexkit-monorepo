@@ -581,6 +581,7 @@ function ExchangeSection() {
                   selectedPool?.attributes.price_change_percentage.h24
                 }
                 lastPrice={selectedPool?.attributes.base_token_price_usd}
+                customVariantSettings={customSettings}
               />
             </Box>
           </Box>
@@ -650,7 +651,7 @@ function ExchangeSection() {
           padding: '0 !important',
           margin: '0 !important',
         }}>
-          <TradeWidget isActive={true} />
+          <TradeWidget isActive={true} customVariantSettings={customSettings} />
         </Box>
       );
 
@@ -694,6 +695,7 @@ function ExchangeSection() {
               address: pool.attributes.address,
             }))}
             showSwaps={showSwaps}
+            customVariantSettings={customSettings}
           />
         </Box>
       );
@@ -986,7 +988,7 @@ function ExchangeSection() {
         },
         '& .MuiInputLabel-root': {
           color: `${textColor.replace('0.95', '0.8')} !important`,
-          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(255, 255, 255, 0.2)' : '0 1px 2px rgba(255, 255, 255, 0.2)',
+          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
           position: 'relative',
           zIndex: 2,
         },
@@ -1060,7 +1062,7 @@ function ExchangeSection() {
         '& .MuiTypography-root': {
           color: `${textColor.replace('0.95', '0.9')} !important`,
           fontWeight: '500',
-          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.2)' : '0 1px 2px rgba(255, 255, 255, 0.2)',
+          textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
           position: 'relative',
           zIndex: 2,
         },
@@ -1260,7 +1262,7 @@ function ExchangeSection() {
           backgroundColor: 'transparent !important',
           color: 'rgba(45, 55, 72, 0.95) !important',
           fontWeight: '600',
-          textShadow: '0 1px 2px rgba(255, 255, 255, 0.3)',
+          textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
           borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
           backdropFilter: 'blur(10px)',
         },
@@ -1348,7 +1350,7 @@ function ExchangeSection() {
           },
           '& .MuiInputLabel-root': {
             color: 'rgba(45, 55, 72, 0.8) !important',
-            textShadow: '0 1px 2px rgba(255, 255, 255, 0.2)',
+            textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
           },
         },
         '& .MuiButton-root': {
