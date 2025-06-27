@@ -38,6 +38,7 @@ import PoweredByWizardContainer from '@/modules/wizard/components/containers/Pow
 import TokenWizardContainer from '@/modules/wizard/components/containers/TokenWizardContainer';
 import SignConfigDialog from '@/modules/wizard/components/dialogs/SignConfigDialog';
 import { BuilderKit } from '@/modules/wizard/constants';
+import CommerceContainerRenderer from '@dexkit/ui/modules/commerce/components/containers/CommerceContainerRenderer';
 import { useSendWidgetConfigMutation } from '@dexkit/ui/modules/whitelabel/hooks/useSendWidgetConfigMutation';
 import Menu from '@mui/icons-material/Menu';
 import GeneralWizardContainer from './GeneralWizardContainer';
@@ -636,6 +637,13 @@ export function EditWidgetWizardContainer({
                     }}
                   />
                 )}
+                <CommerceContainerRenderer
+                  containerId={activeMenu}
+                  onActiveMenu={(activeMenu) => {
+                    setActiveMenu(activeMenu as ActiveMenu);
+                  }}
+                  key={activeMenu}
+                />
               </Stack>
             </Box>
             {/*false && theme && (
