@@ -32,6 +32,46 @@ import {
 } from '../../src/hooks/whitelabel';
 import { getTemplateSites } from '../../src/services/whitelabel';
 
+/*function UseCasesList({ usecases }: { usecases?: string[] }) {
+  const [clickedExpanded, setClickedExpanded] = useState(false);
+  if (!usecases) return null;
+
+  return (
+    <Grid container spacing={1}>
+      {(clickedExpanded ? usecases : usecases?.slice(0, 3) || []).map(
+        (cid, key) => (
+          <Grid item key={`use-${key}`}>
+            <Chip label={cid} size="small" />
+          </Grid>
+        ),
+      )}
+      {(usecases || []).length > 3 && !clickedExpanded && (
+        <Grid item>
+          <Chip
+            onClick={() => setClickedExpanded(!clickedExpanded)}
+            label={`+${usecases?.length - 3} more`}
+            size="small"
+          />
+        </Grid>
+      )}
+    </Grid>
+  );
+}*/
+
+function UseCasesList({ usecases }: { usecases?: string[] }) {
+  if (!usecases) return null;
+
+  return (
+    <Grid container spacing={1}>
+      {(usecases || []).map((cid, key) => (
+        <Grid item key={`use-${key}`}>
+          <Chip label={cid} size="small" />
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
+
 export const SiteTemplatesPage: NextPage = () => {
   //const router = useRouter();
   const [usecases, setUsecases] = useState<string[]>([]);
@@ -126,7 +166,7 @@ export const SiteTemplatesPage: NextPage = () => {
         }}
       />
       <MainLayout>
-        <Box pl={8} pr={8}>
+        <Box pl={isMobile ? 1 : 8} pr={isMobile ? 1 : 8}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <PageHeader
@@ -238,57 +278,59 @@ export const SiteTemplatesPage: NextPage = () => {
                 <Grid container spacing={2}>
                   {sitesQuery?.data?.map((site, key) => (
                     <Grid item xs={12} sm={6} lg={3} key={key}>
-                      <Card sx={{ maxWidth: 300 }}>
-                        <CardActionArea
-                          href={`/site/template/${site.slug}`}
-                          target={'_blank'}
-                        >
-                          <CardMedia sx={{ height: 160 }}>
-                            <div
-                              style={{
-                                position: 'relative',
-                                width: '100%',
-                                height: '100%',
-                              }}
-                            >
-                              <Image
-                                src={site?.metadata?.imageURL}
-                                layout="fill"
-                                objectFit="contain"
-                                alt={' '}
-                              />
-                            </div>
-                          </CardMedia>
+                      <Box
+                        display={'flex'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        alignContent={'center'}
+                      >
+                        <Card sx={{ maxWidth: 300 }}>
+                          <CardActionArea
+                            href={`/site/template/${site.slug}`}
+                            target={'_blank'}
+                          >
+                            <CardMedia sx={{ height: 160 }}>
+                              <div
+                                style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                }}
+                              >
+                                <Image
+                                  src={site?.metadata?.imageURL}
+                                  layout="fill"
+                                  objectFit="contain"
+                                  alt={' '}
+                                />
+                              </div>
+                            </CardMedia>
 
-                          <CardContent>
-                            <Box>
-                              <Stack spacing={2}>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="div"
-                                >
-                                  {site?.metadata?.title}
-                                </Typography>
+                            <CardContent>
+                              <Box>
+                                <Stack spacing={2}>
+                                  <Typography
+                                    gutterBottom
+                                    variant={isMobile ? 'h6' : 'h5'}
+                                    component="div"
+                                  >
+                                    {site?.metadata?.title}
+                                  </Typography>
 
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                >
-                                  {site?.metadata?.subtitle}
-                                </Typography>
-                                <Grid container spacing={1}>
-                                  {site?.metadata?.usecases?.map((cid, key) => (
-                                    <Grid item key={`use-${key}`}>
-                                      <Chip label={cid} size={'small'} />
-                                    </Grid>
-                                  ))}
-                                </Grid>
-                              </Stack>
-                            </Box>
-                          </CardContent>
-                        </CardActionArea>
-                        {/*    <CardActions>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                  >
+                                    {site?.metadata?.subtitle}
+                                  </Typography>
+                                  <UseCasesList
+                                    usecases={site?.metadata?.usecases}
+                                  />
+                                </Stack>
+                              </Box>
+                            </CardContent>
+                          </CardActionArea>
+                          {/*    <CardActions>
                           <Stack
                             spacing={1}
                             direction={'row'}
@@ -304,38 +346,39 @@ export const SiteTemplatesPage: NextPage = () => {
                             ))}
                           </Stack>
                           </CardActions>*/}
-                        <CardActions>
-                          <Stack
-                            spacing={2}
-                            direction={'row'}
-                            sx={{ pl: 2 }}
-                            alignItems={'center'}
-                          >
-                            <Button
-                              variant={'contained'}
-                              href={`/admin/create?clone=${site.slug}`}
-                              target={'_blank'}
+                          <CardActions>
+                            <Stack
+                              spacing={2}
+                              direction={'row'}
+                              sx={{ pl: 2 }}
+                              alignItems={'center'}
                             >
-                              <FormattedMessage
-                                id={'clone'}
-                                defaultMessage={'Clone'}
-                              />
-                            </Button>
-                            {site.previewUrl && (
                               <Button
-                                variant="outlined"
-                                href={site?.previewUrl || ''}
+                                variant={'contained'}
+                                href={`/admin/create?clone=${site.slug}`}
                                 target={'_blank'}
                               >
                                 <FormattedMessage
-                                  id={'view.site'}
-                                  defaultMessage={'View'}
+                                  id={'clone'}
+                                  defaultMessage={'Clone'}
                                 />
                               </Button>
-                            )}
-                          </Stack>
-                        </CardActions>
-                      </Card>
+                              {site.previewUrl && (
+                                <Button
+                                  variant="outlined"
+                                  href={site?.previewUrl || ''}
+                                  target={'_blank'}
+                                >
+                                  <FormattedMessage
+                                    id={'view.site'}
+                                    defaultMessage={'View'}
+                                  />
+                                </Button>
+                              )}
+                            </Stack>
+                          </CardActions>
+                        </Card>
+                      </Box>
                     </Grid>
                   ))}
                 </Grid>
