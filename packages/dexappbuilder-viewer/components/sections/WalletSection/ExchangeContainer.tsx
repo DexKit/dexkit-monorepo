@@ -39,7 +39,9 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
       logoURI: NETWORKS[token.chainId]?.coinImageUrl || NETWORKS[token.chainId]?.imageUrl || '',
     };
 
-    return {
+    const selectedVariant = customSettings?.exchangeConfig?.variant || "default";
+
+    const baseConfig = {
       defaultNetwork: token.chainId,
       defaultPairs: {
         [token.chainId]: {
@@ -54,81 +56,104 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
         },
       },
       availNetworks: [token.chainId],
-      variant: "custom" as const,
-      customVariantSettings: {
-        showPairInfo: true,
-        showTradingGraph: true,
-        showTradeWidget: true,
-        layout: "grid" as const,
-        spacing: 3,
-        backgroundColor: customSettings?.cardConfig?.backgroundColor,
-        borderRadius: customSettings?.cardConfig?.borderRadius,
-        padding: 2,
-        componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
-        pairInfoBackgroundColor: customSettings?.exchangeTextColors?.pairInfoBackgroundColor || customSettings?.cardConfig?.backgroundColor,
-        pairInfoTextColor: customSettings?.exchangeTextColors?.pairInfoTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
-        pairInfoSecondaryTextColor: customSettings?.exchangeTextColors?.pairInfoSecondaryTextColor || theme.palette.text.secondary,
-        pairInfoBorderColor: customSettings?.cardConfig?.borderColor,
-        tradeWidgetBackgroundColor: customSettings?.exchangeTextColors?.tradeWidgetBackgroundColor || customSettings?.cardConfig?.backgroundColor,
-        tradeWidgetTextColor: customSettings?.exchangeTextColors?.tradeWidgetTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
-        tradeWidgetBorderColor: customSettings?.cardConfig?.borderColor,
-        tradeWidgetButtonColor: customSettings?.swapButtonConfig?.backgroundColor,
-        tradeWidgetButtonTextColor: customSettings?.exchangeTextColors?.tradeWidgetButtonTextColor || customSettings?.swapButtonConfig?.textColor,
-        tradeWidgetTabTextColor: customSettings?.exchangeTextColors?.tradeWidgetTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'),
-        tradeWidgetInputTextColor: customSettings?.exchangeTextColors?.tradeWidgetInputTextColor || theme.palette.text.primary,
-        tradingGraphBackgroundColor: customSettings?.exchangeTextColors?.tradingGraphBackgroundColor || customSettings?.cardConfig?.backgroundColor,
-        tradingGraphControlTextColor: customSettings?.exchangeTextColors?.tradingGraphControlTextColor || theme.palette.text.primary,
-        tradingGraphBorderColor: customSettings?.cardConfig?.borderColor,
-      },
-
+      variant: selectedVariant as "default" | "custom",
       lockedBaseToken: token,
       lockedQuoteToken: quoteToken,
     };
-  }, [selectedCoin.token.chainId, selectedCoin.token.address, customSettings]);
+
+    if (selectedVariant === "custom") {
+      return {
+        ...baseConfig,
+        customVariantSettings: {
+          showPairInfo: true,
+          showTradingGraph: true,
+          showTradeWidget: true,
+          layout: "grid" as const,
+          spacing: 3,
+          backgroundColor: customSettings?.cardConfig?.backgroundColor,
+          borderRadius: customSettings?.cardConfig?.borderRadius,
+          padding: 2,
+          componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
+          pairInfoBackgroundColor: customSettings?.exchangeTextColors?.pairInfoBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+          pairInfoTextColor: customSettings?.exchangeTextColors?.pairInfoTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
+          pairInfoSecondaryTextColor: customSettings?.exchangeTextColors?.pairInfoSecondaryTextColor || theme.palette.text.secondary,
+          pairInfoBorderColor: customSettings?.cardConfig?.borderColor,
+          tradeWidgetBackgroundColor: customSettings?.exchangeTextColors?.tradeWidgetBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+          tradeWidgetTextColor: customSettings?.exchangeTextColors?.tradeWidgetTextColor || customSettings?.primaryTextColor || theme.palette.text.primary,
+          tradeWidgetBorderColor: customSettings?.cardConfig?.borderColor,
+          tradeWidgetButtonColor: customSettings?.swapButtonConfig?.backgroundColor,
+          tradeWidgetButtonTextColor: customSettings?.exchangeTextColors?.tradeWidgetButtonTextColor || customSettings?.swapButtonConfig?.textColor,
+          tradeWidgetTabTextColor: customSettings?.exchangeTextColors?.tradeWidgetTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'),
+          tradeWidgetInputTextColor: customSettings?.exchangeTextColors?.tradeWidgetInputTextColor || theme.palette.text.primary,
+          tradingGraphBackgroundColor: customSettings?.exchangeTextColors?.tradingGraphBackgroundColor || customSettings?.cardConfig?.backgroundColor,
+          tradingGraphControlTextColor: customSettings?.exchangeTextColors?.tradingGraphControlTextColor || theme.palette.text.primary,
+          tradingGraphBorderColor: customSettings?.cardConfig?.borderColor,
+        },
+      };
+    }
+
+    return baseConfig;
+  }, [selectedCoin.token.chainId, selectedCoin.token.address, customSettings, theme.palette]);
 
   const exchangeWidgetKey = React.useMemo(() => {
     return `exchange-${selectedCoin.token.chainId}-${selectedCoin.token.address}`;
   }, [selectedCoin.token.chainId, selectedCoin.token.address]);
 
   const getContainerBackground = () => {
-    if (customSettings?.backgroundType === 'image' && customSettings?.backgroundImage) {
-      return `url(${customSettings.backgroundImage})`;
-    } else if (customSettings?.backgroundType === 'solid') {
-      return customSettings.backgroundColor || theme.palette.background.default;
-    } else if (customSettings?.backgroundType === 'gradient') {
-      const from = customSettings?.gradientStartColor || theme.palette.background.default;
-      const to = customSettings?.gradientEndColor || theme.palette.background.paper;
-      const direction = customSettings?.gradientDirection || 'to bottom';
+    const selectedVariant = customSettings?.exchangeConfig?.variant || "default";
 
-      const directionMap: Record<string, string> = {
-        'to bottom': '180deg',
-        'to top': '0deg',
-        'to right': '90deg',
-        'to left': '270deg',
-        'to bottom right': '135deg',
-        'to bottom left': '225deg',
-      };
-      const gradientDirection = directionMap[direction] || '180deg';
-      return `linear-gradient(${gradientDirection}, ${from}, ${to})`;
+    if (selectedVariant === "custom") {
+      if (customSettings?.backgroundType === 'image' && customSettings?.backgroundImage) {
+        return `url(${customSettings.backgroundImage})`;
+      } else if (customSettings?.backgroundType === 'solid') {
+        return customSettings.backgroundColor || theme.palette.background.default;
+      } else if (customSettings?.backgroundType === 'gradient') {
+        const from = customSettings?.gradientStartColor || theme.palette.background.default;
+        const to = customSettings?.gradientEndColor || theme.palette.background.paper;
+        const direction = customSettings?.gradientDirection || 'to bottom';
+
+        const directionMap: Record<string, string> = {
+          'to bottom': '180deg',
+          'to top': '0deg',
+          'to right': '90deg',
+          'to left': '270deg',
+          'to bottom right': '135deg',
+          'to bottom left': '225deg',
+        };
+        const gradientDirection = directionMap[direction] || '180deg';
+        return `linear-gradient(${gradientDirection}, ${from}, ${to})`;
+      }
     }
+
     return theme.palette.background.default;
   };
 
   const getExchangeCardStyles = () => {
-    const shadowIntensity = customSettings?.cardConfig?.shadowIntensity || 0.1;
-    const hasShadow = shadowIntensity > 0;
+    const selectedVariant = customSettings?.exchangeConfig?.variant || "default";
+
+    if (selectedVariant === "custom") {
+      const shadowIntensity = customSettings?.cardConfig?.shadowIntensity || 0.1;
+      const hasShadow = shadowIntensity > 0;
+
+      return {
+        borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
+        backgroundColor: customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
+        border: `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
+        boxShadow: hasShadow ? `0 4px 20px rgba(0, 0, 0, ${shadowIntensity})` : 'none',
+        overflow: 'hidden',
+        '&:hover': {
+          transform: 'none',
+          boxShadow: hasShadow ? `0 8px 30px rgba(0, 0, 0, ${shadowIntensity * 1.5})` : 'none',
+        },
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      };
+    }
 
     return {
-      borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
-      backgroundColor: customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-      border: `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
-      boxShadow: hasShadow ? `0 4px 20px rgba(0, 0, 0, ${shadowIntensity})` : 'none',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: theme.palette.background.paper,
+      border: `1px solid ${theme.palette.divider}`,
       overflow: 'hidden',
-      '&:hover': {
-        transform: 'none',
-        boxShadow: hasShadow ? `0 8px 30px rgba(0, 0, 0, ${shadowIntensity * 1.5})` : 'none',
-      },
-      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     };
   };
 
@@ -143,12 +168,12 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
           width: '100%',
           height: '100%',
           background: getContainerBackground(),
-          backgroundSize: customSettings?.backgroundSize || 'cover',
-          backgroundPosition: customSettings?.backgroundPosition || 'center',
-          backgroundRepeat: customSettings?.backgroundRepeat || 'no-repeat',
-          backgroundAttachment: customSettings?.backgroundAttachment || 'scroll',
-          filter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
-          WebkitFilter: typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          backgroundSize: customSettings?.exchangeConfig?.variant === "custom" ? (customSettings?.backgroundSize || 'cover') : 'cover',
+          backgroundPosition: customSettings?.exchangeConfig?.variant === "custom" ? (customSettings?.backgroundPosition || 'center') : 'center',
+          backgroundRepeat: customSettings?.exchangeConfig?.variant === "custom" ? (customSettings?.backgroundRepeat || 'no-repeat') : 'no-repeat',
+          backgroundAttachment: customSettings?.exchangeConfig?.variant === "custom" ? (customSettings?.backgroundAttachment || 'scroll') : 'scroll',
+          filter: customSettings?.exchangeConfig?.variant === "custom" && typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
+          WebkitFilter: customSettings?.exchangeConfig?.variant === "custom" && typeof customSettings?.backgroundBlur === 'number' && customSettings.backgroundBlur > 0 ? `blur(${customSettings.backgroundBlur}px)` : 'none',
           pointerEvents: 'none',
         }}
       />
@@ -165,17 +190,29 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
               <IconButton
                 onClick={onBack}
                 sx={{
-                  bgcolor: customSettings?.backButtonConfig?.backgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-                  color: customSettings?.backButtonConfig?.textColor || customSettings?.primaryTextColor || theme.palette.text.primary,
+                  bgcolor: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.backButtonConfig?.backgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper)
+                    : theme.palette.background.paper,
+                  color: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.backButtonConfig?.textColor || customSettings?.primaryTextColor || theme.palette.text.primary)
+                    : theme.palette.text.primary,
                   '&:hover': {
-                    bgcolor: customSettings?.backButtonConfig?.hoverBackgroundColor || theme.palette.action.hover,
+                    bgcolor: customSettings?.exchangeConfig?.variant === "custom"
+                      ? (customSettings?.backButtonConfig?.hoverBackgroundColor || theme.palette.action.hover)
+                      : theme.palette.action.hover,
                   },
-                  border: customSettings?.backButtonConfig?.borderColor
-                    ? `1px solid ${customSettings.backButtonConfig.borderColor}`
-                    : `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
-                  borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
-                  boxShadow: customSettings?.cardConfig?.shadowIntensity && customSettings.cardConfig.shadowIntensity > 0
-                    ? `0 2px 8px rgba(0, 0, 0, ${customSettings.cardConfig.shadowIntensity})`
+                  border: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.backButtonConfig?.borderColor
+                      ? `1px solid ${customSettings.backButtonConfig.borderColor}`
+                      : `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`)
+                    : `1px solid ${theme.palette.divider}`,
+                  borderRadius: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius)
+                    : theme.shape.borderRadius,
+                  boxShadow: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.cardConfig?.shadowIntensity && customSettings.cardConfig.shadowIntensity > 0
+                      ? `0 2px 8px rgba(0, 0, 0, ${customSettings.cardConfig.shadowIntensity})`
+                      : 'none')
                     : 'none',
                 }}
               >
@@ -184,7 +221,9 @@ export default function ExchangeContainer({ selectedCoin, onBack, customSettings
               <Typography
                 variant="h5"
                 sx={{
-                  color: customSettings?.primaryTextColor || theme.palette.text.primary,
+                  color: customSettings?.exchangeConfig?.variant === "custom"
+                    ? (customSettings?.primaryTextColor || theme.palette.text.primary)
+                    : theme.palette.text.primary,
                   fontWeight: 'bold',
                 }}
               >

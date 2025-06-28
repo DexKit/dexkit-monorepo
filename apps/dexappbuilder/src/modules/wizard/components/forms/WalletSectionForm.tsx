@@ -631,6 +631,10 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
     variant: SwapVariant.Classic,
   },
 
+  exchangeConfig: {
+    variant: "default" as const,
+  },
+
   exchangeTextColors: {
     pairInfoTextColor: theme.palette.text.primary,
     pairInfoSecondaryTextColor: theme.palette.text.secondary,
@@ -2796,6 +2800,42 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   </Grid>
 
 
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  <FormattedMessage
+                    id="custom.exchange.configuration"
+                    defaultMessage="Exchange Configuration"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel>
+                        <FormattedMessage
+                          id="custom.exchange.variant"
+                          defaultMessage="Exchange Widget Variant"
+                        />
+                      </InputLabel>
+                      <Select
+                        value={values.customSettings?.exchangeConfig?.variant || "default"}
+                        onChange={(e) => setFieldValue("customSettings.exchangeConfig.variant", e.target.value as "default" | "custom")}
+                        label={formatMessage({
+                          id: "custom.exchange.variant",
+                          defaultMessage: "Exchange Widget Variant"
+                        })}
+                      >
+                        <MenuItem value="default">
+                          <FormattedMessage id="default" defaultMessage="Default - Standard exchange interface" />
+                        </MenuItem>
+                        <MenuItem value="custom">
+                          <FormattedMessage id="custom" defaultMessage="Custom - Configurable exchange interface" />
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Box>
             </AccordionDetails>

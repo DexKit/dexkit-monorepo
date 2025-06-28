@@ -248,6 +248,10 @@ export interface WalletCustomSettings {
     };
   };
 
+  exchangeConfig?: {
+    variant?: "default" | "custom";
+  };
+
   exchangeTextColors?: {
     pairInfoTextColor?: string;
     pairInfoSecondaryTextColor?: string;
