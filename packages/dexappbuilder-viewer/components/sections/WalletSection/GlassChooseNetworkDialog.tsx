@@ -4,6 +4,8 @@ import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Network } from "@dexkit/core/types";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
 import { useActiveChainIds } from "@dexkit/ui/hooks/blockchain";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Avatar,
   Box,
@@ -13,6 +15,8 @@ import {
   DialogContent,
   DialogProps,
   Divider,
+  IconButton,
+  InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
@@ -20,10 +24,11 @@ import {
   ListItemText,
   Radio,
   Stack,
+  TextField,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
 interface Props {
   dialogProps: DialogProps;
@@ -424,6 +429,57 @@ const GlassDialogActions = styled(DialogActions)<{
   },
 }));
 
+const GlassTextField = styled(TextField)<{
+  glassOpacity: number;
+  textColor: string;
+}>(({ theme, glassOpacity, textColor }) => ({
+  '& .MuiOutlinedInput-root': {
+    background: `rgba(255, 255, 255, ${Math.min(glassOpacity * 0.8, 0.2)})`,
+    backdropFilter: `blur(10px) saturate(150%)`,
+    WebkitBackdropFilter: `blur(10px) saturate(150%)`,
+    border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.4)})`,
+    borderRadius: theme.spacing(1.5),
+    color: textColor,
+    transition: 'all 0.2s ease-in-out',
+
+    '&:hover': {
+      background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.3)})`,
+      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.6)})`,
+    },
+
+    '&.Mui-focused': {
+      background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.4)})`,
+      border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.8)})`,
+      boxShadow: `0 0 0 2px rgba(255, 255, 255, ${Math.min(glassOpacity * 0.5, 0.2)})`,
+    },
+
+    '& fieldset': {
+      border: 'none',
+    },
+
+    '& input': {
+      color: textColor,
+      '&::placeholder': {
+        color: `${textColor}CC`,
+        opacity: 1,
+      },
+    },
+  },
+
+  '& .MuiInputAdornment-root': {
+    '& .MuiSvgIcon-root': {
+      color: `${textColor}CC`,
+    },
+    '& .MuiIconButton-root': {
+      color: `${textColor}CC`,
+      '&:hover': {
+        background: `rgba(255, 255, 255, ${Math.min(glassOpacity * 0.5, 0.2)})`,
+        color: textColor,
+      },
+    },
+  },
+}));
+
 function GlassChooseNetworkDialog({
   dialogProps,
   onChange,
@@ -436,8 +492,10 @@ function GlassChooseNetworkDialog({
   const { activeChainIds } = useActiveChainIds();
   const isMobile = useIsMobile();
   const theme = useTheme();
+  const { formatMessage } = useIntl();
 
   const [chainId, setChainId] = useState<number | undefined>(selectedChainId);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleClose = () => onClose!({}, "backdropClick");
 
@@ -454,6 +512,32 @@ function GlassChooseNetworkDialog({
     }
 
     setChainId(id);
+  };
+
+  const availableNetworks = useMemo(() => {
+    return Object.keys(NETWORKS)
+      .filter((k) => Number(k) !== selectedChainId)
+      .filter((k) => activeChainIds.includes(Number(k)))
+      .filter((k) => !NETWORKS[parseInt(k)].testnet)
+      .map((key) => ({ key, network: NETWORKS[parseInt(key)] as Network }));
+  }, [activeChainIds, selectedChainId]);
+
+  const filteredNetworks = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return availableNetworks;
+    }
+
+    const lowercaseSearch = searchTerm.toLowerCase();
+    return availableNetworks.filter(({ network }: { network: Network }) =>
+      network.name.toLowerCase().includes(lowercaseSearch) ||
+      network.symbol.toLowerCase().includes(lowercaseSearch)
+    );
+  }, [availableNetworks, searchTerm]);
+
+  const showSearchBar = availableNetworks.length > 10;
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
   };
 
   return (
@@ -535,52 +619,80 @@ function GlassChooseNetworkDialog({
         textColor={textColor}
       >
         <Stack spacing={2}>
+          {showSearchBar && (
+            <Box sx={{ p: 2, pb: 0 }}>
+              <GlassTextField
+                fullWidth
+                size="small"
+                placeholder={formatMessage({
+                  id: "search.networks",
+                  defaultMessage: "Search networks..."
+                })}
+                value={searchTerm}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                glassOpacity={glassOpacity}
+                textColor={textColor}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: searchTerm && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={handleClearSearch}
+                        edge="end"
+                      >
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          )}
           <List disablePadding>
-            {Object.keys(NETWORKS)
-              .filter((k) => Number(k) !== selectedChainId)
-              .filter((k) => activeChainIds.includes(Number(k)))
-              .filter((k) => !NETWORKS[parseInt(k)].testnet)
-              .map((key: any, index: number) => (
-                <GlassListItemButton
-                  selected={(NETWORKS[key] as Network).chainId === chainId}
-                  key={index}
-                  onClick={() =>
-                    handleSelectNetwork((NETWORKS[key] as Network).chainId)
-                  }
-                  glassOpacity={glassOpacity}
-                  textColor={textColor}
-                >
-                  <ListItemIcon>
-                    <Box
-                      sx={{
-                        width: (theme) => theme.spacing(6),
-                        display: "flex",
-                        alignItems: "center",
-                        alignContent: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <GlassAvatar
-                        src={(NETWORKS[key] as Network).imageUrl}
-                        textColor={textColor}
-                        alt={(NETWORKS[key] as Network).name}
-                      />
-                    </Box>
-                  </ListItemIcon>
-
-                  <ListItemText
-                    primary={(NETWORKS[key] as Network).name}
-                    secondary={(NETWORKS[key] as Network).symbol}
-                  />
-                  <ListItemSecondaryAction>
-                    <GlassRadio
-                      name="chainId"
-                      checked={(NETWORKS[key] as Network).chainId === chainId}
+            {filteredNetworks.map(({ key, network }: { key: string, network: Network }, index: number) => (
+              <GlassListItemButton
+                selected={network.chainId === chainId}
+                key={index}
+                onClick={() => handleSelectNetwork(network.chainId)}
+                glassOpacity={glassOpacity}
+                textColor={textColor}
+              >
+                <ListItemIcon>
+                  <Box
+                    sx={{
+                      width: (theme) => theme.spacing(6),
+                      display: "flex",
+                      alignItems: "center",
+                      alignContent: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <GlassAvatar
+                      src={network.imageUrl}
                       textColor={textColor}
+                      alt={network.name}
                     />
-                  </ListItemSecondaryAction>
-                </GlassListItemButton>
-              ))}
+                  </Box>
+                </ListItemIcon>
+
+                <ListItemText
+                  primary={network.name}
+                  secondary={network.symbol}
+                />
+                <ListItemSecondaryAction>
+                  <GlassRadio
+                    name="chainId"
+                    checked={network.chainId === chainId}
+                    textColor={textColor}
+                  />
+                </ListItemSecondaryAction>
+              </GlassListItemButton>
+            ))}
           </List>
         </Stack>
       </GlassDialogContent>

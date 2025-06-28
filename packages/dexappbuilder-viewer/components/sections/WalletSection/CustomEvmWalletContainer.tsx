@@ -200,20 +200,37 @@ const CustomTransferCoinButton = ({ customSettings, buttonConfig, fullWidth }: {
   );
 };
 
-const CustomWalletTotalBalance = ({ customSettings, chainId }: { customSettings?: WalletCustomSettings, chainId?: any }) => {
+const CustomWalletTotalBalance = ({ customSettings, chainId, onToggleVisibility, isBalancesVisible }: {
+  customSettings?: WalletCustomSettings,
+  chainId?: any,
+  onToggleVisibility?: () => void,
+  isBalancesVisible?: boolean
+}) => {
   const theme = useTheme();
 
   return (
-    <Typography
-      variant="h4"
-      sx={{
-        color: customSettings?.balanceTextColor || theme.palette.text.primary,
-        fontSize: { xs: theme.typography.h5.fontSize, sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
-        fontWeight: theme.typography.fontWeightBold,
-      }}
-    >
-      <WalletTotalBalanceCointainer chainId={chainId} />
-    </Typography>
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <Typography
+        variant="h4"
+        sx={{
+          color: customSettings?.balanceTextColor || theme.palette.text.primary,
+          fontSize: { xs: theme.typography.h5.fontSize, sm: theme.typography.h4.fontSize, md: theme.typography.h3.fontSize },
+          fontWeight: theme.typography.fontWeightBold,
+        }}
+      >
+        <WalletTotalBalanceCointainer chainId={chainId} />
+      </Typography>
+      {onToggleVisibility && (
+        <IconButton
+          onClick={onToggleVisibility}
+          sx={{
+            color: customSettings?.primaryTextColor || theme.palette.text.primary,
+          }}
+        >
+          {isBalancesVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </IconButton>
+      )}
+    </Stack>
   );
 };
 
@@ -1561,8 +1578,8 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
 
           <Grid container spacing={getLayoutSpacing()}>
             <Grid item xs={12}>
-              <Grid container spacing={1} sx={{ mb: 2 }}>
-                <Grid item xs={12} sm="auto">
+              <Grid container spacing={1} sx={{ mb: 2 }} alignItems="center">
+                <Grid item xs="auto">
                   <Typography
                     variant="h5"
                     sx={{
@@ -1576,24 +1593,16 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                     />
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm="auto" sx={{ ml: "auto" }}>
-                  <Stack direction="row" spacing={1}>
-                    {!shouldHideElement('networkSelector') && (
+                <Grid item xs sx={{ ml: "auto" }}>
+                  {!shouldHideElement('networkSelector') && (
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <CustomNetworkSelectButton
                         customSettings={customSettings}
                         chainId={chainId}
                         onChange={handleChangeNetwork}
                       />
-                    )}
-                    <IconButton
-                      onClick={handleToggleVisibility}
-                      sx={{
-                        color: customSettings?.primaryTextColor || theme.palette.text.primary,
-                      }}
-                    >
-                      {isBalancesVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                    </IconButton>
-                  </Stack>
+                    </Box>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -1603,6 +1612,8 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                 <CustomWalletTotalBalance
                   customSettings={customSettings}
                   chainId={chainId}
+                  onToggleVisibility={handleToggleVisibility}
+                  isBalancesVisible={isBalancesVisible}
                 />
               </Grid>
             )}
@@ -1712,23 +1723,28 @@ const CustomEvmWalletContainer = ({ customSettings }: Props) => {
                       }}
                     />
                   </Grid>
-                  {!shouldHideElement('importToken') && (
-                    <Grid item xs={isDesktop ? undefined : 12}>
-                      <Button
-                        onClick={selectedAssetTab === AssetTabs.Tokens ? handleOpenImportTokenDialog : handleToggleImportAsset}
-                        variant="outlined"
-                        disabled={!isActive}
-                        startIcon={<ImportExportIcon />}
-                        fullWidth
-                        sx={getButtonStyles(customSettings?.importTokenButtonConfig)}
-                      >
-                        <FormattedMessage
-                          id={selectedAssetTab === AssetTabs.Tokens ? "import.token" : "import.nft"}
-                          defaultMessage={selectedAssetTab === AssetTabs.Tokens ? "Import token" : "Import NFT"}
-                        />
-                      </Button>
-                    </Grid>
-                  )}
+                </Grid>
+              </Grid>
+            )}
+
+            {!shouldHideElement('importToken') && (
+              <Grid item xs={12}>
+                <Grid container spacing={getLayoutSpacing()} justifyContent="flex-end">
+                  <Grid item xs={isDesktop ? "auto" : 12}>
+                    <Button
+                      onClick={selectedAssetTab === AssetTabs.Tokens ? handleOpenImportTokenDialog : handleToggleImportAsset}
+                      variant="outlined"
+                      disabled={!isActive}
+                      startIcon={<ImportExportIcon />}
+                      fullWidth={!isDesktop}
+                      sx={getButtonStyles(customSettings?.importTokenButtonConfig)}
+                    >
+                      <FormattedMessage
+                        id={selectedAssetTab === AssetTabs.Tokens ? "import.token" : "import.nft"}
+                        defaultMessage={selectedAssetTab === AssetTabs.Tokens ? "Import token" : "Import NFT"}
+                      />
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
             )}

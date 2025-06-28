@@ -311,9 +311,6 @@ function WalletTableRow({
             border: swapButtonConfig?.borderColor ? `1px solid ${swapButtonConfig.borderColor}` : `1px solid ${theme.palette.divider}`,
             borderRadius: 2,
             boxShadow: 'none',
-            '&:hover': {
-              bgcolor: swapButtonConfig?.backgroundColor || 'action.hover',
-            },
           }}
         >
           <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>

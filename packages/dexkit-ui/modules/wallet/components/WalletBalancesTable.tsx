@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { useMemo, useState } from "react";
@@ -32,6 +33,7 @@ interface Props {
 
 function WalletBalancesTable({ isBalancesVisible, chainId, filter, isTableVisible, handleToggleTable }: Props) {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
 
   const coinPricesQuery = useSimpleCoinPricesQuery({
@@ -73,19 +75,21 @@ function WalletBalancesTable({ isBalancesVisible, chainId, filter, isTableVisibl
       {isTableVisible && (
         <TableContainer>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <FormattedMessage id="token" defaultMessage="Token" />
-                </TableCell>
-                <TableCell>
-                  <FormattedMessage id="total" defaultMessage="Total" />
-                </TableCell>
-                <TableCell>
-                  <FormattedMessage id="balance" defaultMessage="Balance" />
-                </TableCell>
-              </TableRow>
-            </TableHead>
+            {!isMobile && (
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <FormattedMessage id="token" defaultMessage="Token" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="total" defaultMessage="Total" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="balance" defaultMessage="Balance" />
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+            )}
             <TableBody>
               {tokenBalancesWithPricesFiltered?.map((token, index: number) => (
                 <WalletTableRow

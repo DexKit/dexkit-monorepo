@@ -170,7 +170,7 @@ export function GlassNetworkSelectButton(props: Props) {
 
   const handleOpenSelectNetworkDialog = () => {
     if (!locked) {
-      setShowSelectSwapNetwork(true);
+    setShowSelectSwapNetwork(true);
     }
   };
 
@@ -205,25 +205,25 @@ export function GlassNetworkSelectButton(props: Props) {
         disableFocusListener={!locked}
       >
         <span>
-          <GlassButton
-            onClick={handleOpenSelectNetworkDialog}
-            blurIntensity={blurIntensity}
-            glassOpacity={glassOpacity}
-            textColor={textColor}
+      <GlassButton
+        onClick={handleOpenSelectNetworkDialog}
+        blurIntensity={blurIntensity}
+        glassOpacity={glassOpacity}
+        textColor={textColor}
             locked={locked}
-            startIcon={
-              <GlassAvatar
-                src={NETWORK_IMAGE(chainId)}
-                textColor={textColor}
-                alt={NETWORK_NAME(chainId) || ""}
-              />
-            }
+        startIcon={
+          <GlassAvatar
+            src={NETWORK_IMAGE(chainId)}
+            textColor={textColor}
+            alt={NETWORK_NAME(chainId) || ""}
+          />
+        }
             tabIndex={locked ? -1 : undefined}
             aria-disabled={locked}
-          >
-            {NETWORK_SYMBOL(chainId) || ""}
+      >
+        {NETWORK_SYMBOL(chainId) || ""}
             {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
-          </GlassButton>
+      </GlassButton>
         </span>
       </Tooltip>
     </>

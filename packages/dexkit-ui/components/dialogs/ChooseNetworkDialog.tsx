@@ -1,6 +1,8 @@
 import { ChainId } from "@dexkit/core/constants";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Network } from "@dexkit/core/types";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Avatar,
   Box,
@@ -9,6 +11,8 @@ import {
   DialogActions,
   DialogContent,
   DialogProps,
+  IconButton,
+  InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
@@ -16,9 +20,10 @@ import {
   ListItemText,
   Radio,
   Stack,
+  TextField,
 } from "@mui/material";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useActiveChainIds } from "../../hooks/blockchain";
 import { AppDialogTitle } from "../AppDialogTitle";
 
@@ -35,8 +40,10 @@ function ChooseNetworkDialog({
 }: Props) {
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
+  const { formatMessage } = useIntl();
 
   const [chainId, setChainId] = useState<number | undefined>(selectedChainId);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleClose = () => onClose!({}, "backdropClick");
 
@@ -55,6 +62,32 @@ function ChooseNetworkDialog({
     setChainId(id);
   };
 
+  const availableNetworks = useMemo(() => {
+    return Object.keys(NETWORKS)
+      .filter((k) => Number(k) !== selectedChainId)
+      .filter((k) => activeChainIds.includes(Number(k)))
+      .filter((k) => !NETWORKS[parseInt(k)].testnet)
+      .map((key) => ({ key, network: NETWORKS[parseInt(key)] as Network }));
+  }, [activeChainIds, selectedChainId]);
+
+  const filteredNetworks = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return availableNetworks;
+    }
+
+    const lowercaseSearch = searchTerm.toLowerCase();
+    return availableNetworks.filter(({ network }) =>
+      network.name.toLowerCase().includes(lowercaseSearch) ||
+      network.symbol.toLowerCase().includes(lowercaseSearch)
+    );
+  }, [availableNetworks, searchTerm]);
+
+  const showSearchBar = availableNetworks.length > 10;
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+  };
+
   return (
     <Dialog {...dialogProps}>
       <AppDialogTitle
@@ -69,52 +102,78 @@ function ChooseNetworkDialog({
       />
       <DialogContent dividers sx={{ p: 0 }}>
         <Stack spacing={2}>
+          {showSearchBar && (
+            <Box sx={{ p: 2, pb: 0 }}>
+              <TextField
+                fullWidth
+                size="small"
+                placeholder={formatMessage({
+                  id: "search.networks",
+                  defaultMessage: "Search networks..."
+                })}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: searchTerm && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={handleClearSearch}
+                        edge="end"
+                      >
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          )}
           <List disablePadding>
-            {Object.keys(NETWORKS)
-              .filter((k) => Number(k) !== selectedChainId)
-              .filter((k) => activeChainIds.includes(Number(k)))
-              .filter((k) => !NETWORKS[parseInt(k)].testnet)
-              .map((key: any, index: number) => (
-                <ListItemButton
-                  selected={(NETWORKS[key] as Network).chainId === chainId}
-                  key={index}
-                  onClick={() =>
-                    handleSelectNetwork((NETWORKS[key] as Network).chainId)
-                  }
-                >
-                  <ListItemIcon>
-                    <Box
-                      sx={{
-                        width: (theme) => theme.spacing(6),
-                        display: "flex",
-                        alignItems: "center",
-                        alignContent: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Avatar
-                        src={(NETWORKS[key] as Network).imageUrl}
-                        sx={(theme) => ({
-                          width: "auto",
-                          height: theme.spacing(4),
-                        })}
-                        alt={(NETWORKS[key] as Network).name}
-                      />
-                    </Box>
-                  </ListItemIcon>
-
-                  <ListItemText
-                    primary={(NETWORKS[key] as Network).name}
-                    secondary={(NETWORKS[key] as Network).symbol}
-                  />
-                  <ListItemSecondaryAction>
-                    <Radio
-                      name="chainId"
-                      checked={(NETWORKS[key] as Network).chainId === chainId}
+            {filteredNetworks.map(({ key, network }, index: number) => (
+              <ListItemButton
+                selected={network.chainId === chainId}
+                key={index}
+                onClick={() => handleSelectNetwork(network.chainId)}
+              >
+                <ListItemIcon>
+                  <Box
+                    sx={{
+                      width: (theme) => theme.spacing(6),
+                      display: "flex",
+                      alignItems: "center",
+                      alignContent: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Avatar
+                      src={network.imageUrl}
+                      sx={(theme) => ({
+                        width: "auto",
+                        height: theme.spacing(4),
+                      })}
+                      alt={network.name}
                     />
-                  </ListItemSecondaryAction>
-                </ListItemButton>
-              ))}
+                  </Box>
+                </ListItemIcon>
+
+                <ListItemText
+                  primary={network.name}
+                  secondary={network.symbol}
+                />
+                <ListItemSecondaryAction>
+                  <Radio
+                    name="chainId"
+                    checked={network.chainId === chainId}
+                  />
+                </ListItemSecondaryAction>
+              </ListItemButton>
+            ))}
           </List>
         </Stack>
       </DialogContent>

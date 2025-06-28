@@ -2693,7 +2693,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     label={
                       <FormattedMessage
                         id="custom.hide.balance"
-                        defaultMessage="Hide Balance"
+                        defaultMessage="Hide Total Balance"
                       />
                     }
                   />
