@@ -26,6 +26,8 @@ export interface SwapTokenFieldProps {
   balance?: BigNumber;
   showBalance?: boolean;
   isUserInput?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 function SwapTokenField({
@@ -40,11 +42,37 @@ function SwapTokenField({
   balance,
   showBalance,
   isUserInput,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldProps) {
   const handleMax = () => {
     if (balance) {
       onChange(balance, true);
     }
+  };
+
+  const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+    token?.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+    token?.chainId === lockedToken.chainId;
+
+  const renderTokenButton = () => {
+    if (!token) {
+      return (
+        <SwapTokenButton
+          ButtonBaseProps={{ onClick: () => onSelectToken() }}
+        />
+      );
+    }
+
+    return (
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+        }}
+      />
+    );
   };
 
   return (
@@ -69,8 +97,24 @@ function SwapTokenField({
         <CurrencyField
           InputBaseProps={{
             ...InputBaseProps,
-            sx: { fontSize: "2rem", flex: 1 },
-            disabled,
+            sx: (theme) => ({
+              fontSize: "2rem",
+              flex: 1,
+              '& .MuiInputBase-input': {
+                background: isLocked
+                  ? (theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.1)"
+                    : "rgba(0, 0, 0, 0.08)"
+                  )
+                  : 'transparent',
+                borderRadius: theme.spacing(0.5),
+                padding: theme.spacing(0.5, 1),
+                opacity: isLocked ? 0.6 : 1,
+                cursor: isLocked ? 'not-allowed' : 'text',
+                pointerEvents: isLocked ? 'none' : 'auto',
+              }
+            }),
+            disabled: disabled || isLocked,
           }}
           onChange={onChange}
           value={value}
@@ -79,10 +123,7 @@ function SwapTokenField({
           onFocus={onInputFocus}
           onClick={onInputClick}
         />
-        <SwapTokenButton
-          token={token}
-          ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
-        />
+        {renderTokenButton()}
       </Stack>
       {token && balance && showBalance && (
         <Stack

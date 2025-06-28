@@ -68,11 +68,11 @@ export default function SwapNetworkButtons({
             sx={
               chainId === parseChainId(key)
                 ? {
-                    border: (theme) =>
-                      `1px solid ${theme.palette.primary.main}`,
-                    backgroundColor: (theme) =>
-                      alpha(theme.palette.primary.main, 0.1),
-                  }
+                  border: (theme) =>
+                    `1px solid ${theme.palette.primary.main}`,
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.1),
+                }
                 : undefined
             }
           >

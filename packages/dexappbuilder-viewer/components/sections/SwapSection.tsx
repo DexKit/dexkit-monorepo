@@ -32,6 +32,56 @@ export function SwapSection({ section }: Props) {
 
   const { tokens: appTokens } = useAppConfig();
 
+  const getGlassBackgroundStyles = () => {
+    if (section.config?.variant !== 'glass' || !section.config?.glassSettings) {
+      return {};
+    }
+
+    const {
+      backgroundType,
+      backgroundColor,
+      backgroundImage,
+      backgroundSize,
+      backgroundPosition,
+      gradientStartColor,
+      gradientEndColor,
+      gradientDirection,
+      glassOpacity = 0.10,
+      disableBackground = false,
+    } = section.config.glassSettings;
+
+    if (disableBackground) return {};
+
+    const baseBackground = `rgba(255, 255, 255, ${glassOpacity})`;
+
+    switch (backgroundType) {
+      case 'solid':
+        return {
+          background: backgroundColor || baseBackground,
+        };
+      case 'gradient':
+        const startColor = gradientStartColor || '#ffffff';
+        const endColor = gradientEndColor || '#f0f0f0';
+        const direction = gradientDirection || 'to bottom';
+        return {
+          background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,
+        };
+      case 'image':
+        return {
+          background: backgroundImage
+            ? `url(${backgroundImage})`
+            : baseBackground,
+          backgroundSize: backgroundSize || 'cover',
+          backgroundPosition: backgroundPosition || 'center',
+          backgroundRepeat: 'no-repeat',
+        };
+      default:
+        return {
+          background: baseBackground,
+        };
+    }
+  };
+
   const configParams = useMemo(() => {
     const chainId = parseChainId(params?.get("chainId") ?? "0");
     const buyTokenAddress = params?.get("buyToken");
@@ -99,9 +149,23 @@ export function SwapSection({ section }: Props) {
     ? configParams?.defaultChainId
     : undefined;
 
+  const isGlass = section.config?.variant === 'glass';
+  const glassSettings = section.config?.glassSettings;
+
   return (
-    <Box py={4}>
-      <Container maxWidth="xs" disableGutters>
+    <Box
+      py={4}
+      sx={{
+        ...(isGlass && {
+          ...getGlassBackgroundStyles(),
+          ...(glassSettings && {
+            backdropFilter: `blur(${glassSettings.blurIntensity || 30}px)`,
+            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity || 30}px)`,
+          }),
+        }),
+      }}
+    >
+      <Container maxWidth={isGlass ? 'sm' : 'xs'} disableGutters>
         <SwapWidget
           {...swapState}
           activeChainIds={activeChainIds}
@@ -113,10 +177,14 @@ export function SwapSection({ section }: Props) {
               enableUrlParams && configParams?.configByChain
                 ? configParams.configByChain
                 : section.config?.configByChain
-                ? section.config?.configByChain
-                : {},
+                  ? section.config?.configByChain
+                  : {},
             currency: currency.currency,
             variant: section.config?.variant,
+            glassSettings: {
+              ...section.config?.glassSettings,
+              disableBackground: true,
+            },
             enableUrlParams: enableUrlParams,
             enableImportExterTokens: section.config?.enableImportExternTokens,
             defaultChainId:
@@ -127,6 +195,7 @@ export function SwapSection({ section }: Props) {
             zeroExApiKey: process?.env.NEXT_PUBLIC_ZRX_API_KEY || "",
             transakApiKey: process?.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
           }}
+          swapFees={swapState.swapFees}
         />
       </Container>
     </Box>

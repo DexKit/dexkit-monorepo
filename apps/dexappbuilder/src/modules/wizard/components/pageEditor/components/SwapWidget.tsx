@@ -57,6 +57,7 @@ function SwapWidget(props: Props) {
           zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || '',
           transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
         }}
+        swapFees={swapState.swapFees}
       />
     </Box>
   );

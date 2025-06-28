@@ -244,8 +244,26 @@ export default function MinimalFocusSettings({
               />
             </FormLabel>
             <RadioGroup
-              value={settings.backgroundType || "gradient"}
-              onChange={(e) => handleBackgroundTypeChange(e.target.value as "solid" | "gradient")}
+              value={settings.backgroundType || "solid"}
+              onChange={(e) => {
+                const newType = e.target.value as "solid" | "gradient";
+                handleBackgroundTypeChange(newType);
+
+                if (newType === 'solid' && !settings.backgroundColor) {
+                  onChange({
+                    ...settings,
+                    backgroundType: newType,
+                    backgroundColor: "#1a1a1a"
+                  });
+                } else if (newType === 'gradient' && (!settings.gradientStartColor || !settings.gradientEndColor)) {
+                  onChange({
+                    ...settings,
+                    backgroundType: newType,
+                    gradientStartColor: settings.gradientStartColor || "#1a1a1a",
+                    gradientEndColor: settings.gradientEndColor || "#2d2d2d"
+                  });
+                }
+              }}
               row
             >
               <FormControlLabel

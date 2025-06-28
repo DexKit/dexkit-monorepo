@@ -103,7 +103,7 @@ export default function EvmTransferCoin({
   };
 
   const evmTransferMutation = useEvmTransferMutation({
-    provider,
+    signer: provider?.getSigner(),
     onSubmit: handleSubmitTransaction,
   });
 
@@ -228,6 +228,7 @@ export default function EvmTransferCoin({
         onSubmit={handleSubmit}
         chainId={chainId}
         balance={balance}
+        defaultCoin={defaultCoin}
       />
     </Stack>
   );

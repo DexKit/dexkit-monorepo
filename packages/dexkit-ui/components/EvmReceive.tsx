@@ -317,13 +317,29 @@ export default function EvmReceive({
       </Box>
 
       <Autocomplete
-        disablePortal
+        disablePortal={false}
         id="select-token"
         options={sortedCoins.length > 0 ? sortedCoins : (coins || [])}
         value={coin}
         readOnly={coins && coins.length === 1}
         onChange={handleChangeCoin}
         getOptionLabel={(opt) => opt.name}
+        slotProps={{
+          popper: {
+            placement: 'bottom-start',
+            disablePortal: true,
+            modifiers: [
+              {
+                name: 'flip',
+                enabled: false,
+              },
+              {
+                name: 'preventOverflow',
+                enabled: false,
+              },
+            ],
+          },
+        }}
         renderOption={(props, opt) => {
           const balance = getCoinBalance(opt);
           const isKitToken = isDexKitCoin(opt);

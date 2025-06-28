@@ -2,8 +2,7 @@ import { OrderMarketType } from "@dexkit/exchange/constants";
 import { DexkitExchangeSettings } from "@dexkit/exchange/types";
 import { ContractFormParams } from "@dexkit/web3forms/types";
 import React from "react";
-
-import { AssetFormType, DeployedContract, SwapConfig } from ".";
+import { AssetFormType, DeployedContract, SwapConfig, SwapVariant } from ".";
 import { AssetStoreOptions } from "../../nft/types";
 import { PageSectionVariant, SectionItem, VideoEmbedType } from "./config";
 
@@ -111,6 +110,228 @@ export interface MarkdownEditorPageSection extends PageSection {
 
 export interface WalletPageSection extends PageSection {
   type: "wallet";
+  settings?: WalletSettings;
+}
+
+export type WalletVariant = "default" | "glass" | "custom";
+
+export interface WalletCustomSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  primaryTextColor?: string;
+  secondaryTextColor?: string;
+  balanceTextColor?: string;
+  backgroundBlur?: number;
+
+  sendButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  receiveButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  scanButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  importTokenButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  swapButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+  backButtonConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+
+  networkSelectorConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    hoverBackgroundColor?: string;
+  };
+
+  cardConfig?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    borderRadius?: number;
+    shadowColor?: string;
+    shadowIntensity?: number;
+  };
+
+  inputConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    focusBorderColor?: string;
+    placeholderColor?: string;
+    iconColor?: string;
+  };
+  paginationConfig?: {
+    textColor?: string;
+    backgroundColor?: string;
+    buttonColor?: string;
+    buttonHoverColor?: string;
+    selectBackgroundColor?: string;
+    selectTextColor?: string;
+  };
+  activityTableConfig?: {
+    headerBackgroundColor?: string;
+    headerTextColor?: string;
+    rowBackgroundColor?: string;
+    rowTextColor?: string;
+    hoverRowBackgroundColor?: string;
+    borderColor?: string;
+  };
+  tokenSearchConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    focusBorderColor?: string;
+    placeholderColor?: string;
+    iconColor?: string;
+  };
+
+  layout?: {
+    componentOrder?: Array<"balance" | "actions" | "search" | "tabs" | "content">;
+    spacing?: number;
+    actionButtonsLayout?: "horizontal" | "vertical" | "grid";
+    actionButtonsAlignment?: "left" | "center" | "right";
+  };
+
+  visibility?: {
+    hideNFTs?: boolean;
+    hideActivity?: boolean;
+    hideTransactions?: boolean;
+    hideTrades?: boolean;
+    hideSearch?: boolean;
+    hideImportToken?: boolean;
+    hideSendButton?: boolean;
+    hideReceiveButton?: boolean;
+    hideScanButton?: boolean;
+    hideNetworkSelector?: boolean;
+    hideBalance?: boolean;
+    hideSwapAction?: boolean;
+    hideExchangeAction?: boolean;
+    hideSendAction?: boolean;
+  };
+
+  swapConfig?: {
+    variant?: SwapVariant;
+    glassSettings?: {
+      blurIntensity?: number;
+      glassOpacity?: number;
+    };
+  };
+
+  exchangeConfig?: {
+    variant?: "default" | "custom";
+  };
+
+  exchangeTextColors?: {
+    pairInfoTextColor?: string;
+    pairInfoSecondaryTextColor?: string;
+    pairInfoBackgroundColor?: string;
+    tradeWidgetTextColor?: string;
+    tradeWidgetButtonTextColor?: string;
+    tradeWidgetTabTextColor?: string;
+    tradeWidgetInputTextColor?: string;
+    tradeWidgetBackgroundColor?: string;
+    tradingGraphControlTextColor?: string;
+    tradingGraphBackgroundColor?: string;
+  };
+  nftColors?: {
+    titleColor?: string;
+    collectionColor?: string;
+    cardBackgroundColor?: string;
+    cardBorderColor?: string;
+  };
+
+  tabsConfig?: {
+    backgroundColor?: string;
+    activeTabColor?: string;
+    inactiveTabColor?: string;
+    activeTabTextColor?: string;
+    inactiveTabTextColor?: string;
+    tabBarBackgroundColor?: string;
+    indicatorColor?: string;
+    tokensTitleColor?: string;
+    nftsTitleColor?: string;
+    tokensIndicatorColor?: string;
+    nftsIndicatorColor?: string;
+    collectedTitleColor?: string;
+    favoritesTitleColor?: string;
+    hiddenTitleColor?: string;
+    collectedIndicatorColor?: string;
+    favoritesIndicatorColor?: string;
+    hiddenIndicatorColor?: string;
+  };
+
+  tokenTableConfig?: {
+    headerBackgroundColor?: string;
+    headerTextColor?: string;
+    rowBackgroundColor?: string;
+    rowTextColor?: string;
+    hoverRowBackgroundColor?: string;
+    borderColor?: string;
+  };
+}
+
+export interface WalletGlassSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  glassOpacity?: number;
+  disableBackground?: boolean;
+  textColor?: string;
+  hideNFTs?: boolean;
+  hideActivity?: boolean;
+  hideSwapAction?: boolean;
+  hideExchangeAction?: boolean;
+  hideSendAction?: boolean;
+  networkModalTextColor?: string;
+  receiveModalTextColor?: string;
+  sendModalTextColor?: string;
+  scanModalTextColor?: string;
+  importTokenModalTextColor?: string;
+}
+
+export interface WalletSettings {
+  variant?: WalletVariant;
+  glassSettings?: WalletGlassSettings;
+  customSettings?: WalletCustomSettings;
 }
 
 export interface ContractPageSection extends PageSection {

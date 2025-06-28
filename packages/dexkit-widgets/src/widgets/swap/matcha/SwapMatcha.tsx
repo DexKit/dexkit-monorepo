@@ -79,7 +79,13 @@ export interface SwapMatchaProps {
   onShowTransactions: () => void;
   onExec: () => void;
   onShowTransak?: () => void;
-  onSetToken?: (token: Token) => void;
+  onSetToken?: (token?: Token) => void;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
@@ -129,6 +135,9 @@ export default function SwapMatcha({
   onShowTransak,
   onToggleChangeNetwork,
   onSetToken,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapMatchaProps) {
   const handleSelectSellToken = (token?: Token) => {
     onSelectToken("sell", token);
@@ -241,15 +250,16 @@ export default function SwapMatcha({
                 showBalance={isActive}
                 isUserInput={quoteFor === "sell" && clickOnMax === false}
                 disabled={isQuoting && quoteFor === "buy"}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
               <Stack
                 alignItems="center"
                 sx={{
                   borderTop: (theme) =>
-                    `1px ${
-                      theme.palette.mode === "dark"
-                        ? theme.palette.background.default
-                        : theme.palette.divider
+                    `1px ${theme.palette.mode === "dark"
+                      ? theme.palette.background.default
+                      : theme.palette.divider
                     } solid`,
                 }}
               >
@@ -285,6 +295,8 @@ export default function SwapMatcha({
                     onSetToken!(token);
                   }
                 }}
+                keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+                lockedToken={lockedToken}
               />
             </Stack>
             {quote && (
@@ -298,6 +310,7 @@ export default function SwapMatcha({
                     sellToken={sellToken}
                     buyToken={buyToken}
                     provider={provider}
+                    swapFees={swapFees}
                   />
                 </Box>
               </>

@@ -196,6 +196,7 @@ export default function SwapWizardContainer({
               useGasless: swapFormData?.useGasless,
               myTokensOnlyOnSearch: swapFormData?.myTokensOnlyOnSearch,
             }}
+            swapFees={swapState.swapFees}
           />
         </CssVarsProvider>
       </Grid>

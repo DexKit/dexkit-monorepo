@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  Collapse,
   Divider,
   Grid,
   IconButton,
@@ -16,15 +15,13 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAtom } from "jotai";
@@ -102,7 +99,6 @@ const EvmWalletContainer = () => {
   const { isLoggedIn } = useAuth();
 
   const [selectedTab, setSelectedTab] = useState(WalletTabs.Activity);
-  const [isTableOpen, setIsTableOpen] = useState(isDesktop);
   const [search, setSearch] = useState("");
 
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(
@@ -114,10 +110,6 @@ const EvmWalletContainer = () => {
     value: WalletTabs
   ) => {
     setSelectedTab(value);
-  };
-
-  const handleToggleBalances = () => {
-    setIsTableOpen((value) => !value);
   };
 
   const handleToggleVisibility = () => {
@@ -174,7 +166,7 @@ const EvmWalletContainer = () => {
         window.open(`/wallet/send/${encodeURIComponent(result)}`, "_blank");
       }
       handleOpenQrCodeScannerClose();
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleOpenQrCode = () => setShowQrCode(true);
@@ -234,17 +226,23 @@ const EvmWalletContainer = () => {
                       alignContent="center"
                     >
                       <Box>
-                        <Typography color="textSecondary" variant="caption">
-                          {isBalancesVisible
-                            ? ENSName
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          alignContent="center"
+                          spacing={1}
+                        >
+                          <Typography color="textSecondary" variant="caption">
+                            {isBalancesVisible
                               ? ENSName
-                              : truncateAddress(account)
-                            : "*****"}
+                                ? ENSName
+                                : truncateAddress(account)
+                              : "*****"}
+                          </Typography>
                           <CopyIconButton
                             iconButtonProps={{
                               onClick: handleCopy,
                               size: "small",
-                              color: "inherit",
                             }}
                             tooltip={formatMessage({
                               id: "copy",
@@ -257,9 +255,9 @@ const EvmWalletContainer = () => {
                               description: "Copied text",
                             })}
                           >
-                            <FileCopy fontSize="inherit" color="inherit" />
+                            <FileCopy fontSize="small" color="action" />
                           </CopyIconButton>
-                        </Typography>
+                        </Stack>
 
                         <Stack
                           direction="row"
@@ -272,7 +270,12 @@ const EvmWalletContainer = () => {
                               <WalletTotalBalanceCointainer chainId={chainId} />
                             </NoSsr>
                           </Typography>
-                          <IconButton onClick={handleToggleVisibility}>
+                          <IconButton
+                            onClick={handleToggleVisibility}
+                            sx={{
+                              color: theme.palette.text.primary,
+                            }}
+                          >
                             {isBalancesVisible ? (
                               <VisibilityIcon />
                             ) : (
@@ -410,32 +413,8 @@ const EvmWalletContainer = () => {
             {isActive && (
               <Grid item xs={12}>
                 <NoSsr>
-                  <Collapse in={isTableOpen}>
-                    <WalletBalances chainId={chainId} filter={search} />
-                  </Collapse>
+                  <WalletBalances chainId={chainId} filter={search} />
                 </NoSsr>
-              </Grid>
-            )}
-
-            {isActive && (
-              <Grid item xs={12}>
-                <Button
-                  onClick={handleToggleBalances}
-                  fullWidth
-                  sx={(theme) => ({
-                    backgroundColor: theme.palette.background.paper,
-                    py: 2,
-                  })}
-                  startIcon={
-                    isTableOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />
-                  }
-                >
-                  {isTableOpen ? (
-                    <FormattedMessage id="close" defaultMessage="Close" />
-                  ) : (
-                    <FormattedMessage id="open" defaultMessage="Open" />
-                  )}
-                </Button>
               </Grid>
             )}
 
@@ -463,47 +442,6 @@ const EvmWalletContainer = () => {
                               color="secondary"
                             />
                           )*/}
-                      </Stack>
-
-                      <Stack
-                        direction="row"
-                        spacing={0.5}
-                        alignItems="center"
-                        alignContent="center"
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                          }}
-                          color="primary"
-                          variant="body1"
-                        >
-                          <FormattedMessage id="open" defaultMessage="Open" />
-                        </Typography>
-                        <NavigateNext color="primary" />
-                      </Stack>
-                    </WalletActionButton>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <WalletActionButton
-                      disabled={!isActive}
-                      LinkComponent={Link}
-                      href="/wallet/orders"
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        alignContent="center"
-                      >
-                        <Typography variant="h5">
-                          <FormattedMessage
-                            id="orders"
-                            defaultMessage="Orders"
-                          />
-                        </Typography>
-                        {/* <Chip label="302" color="secondary" /> */}
                       </Stack>
 
                       <Stack

@@ -49,7 +49,7 @@ export interface SwapMinimalProps {
   execType?: ExecType;
   quote?: ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null;
   isExecuting: boolean;
-  clickOnMax?: boolean;
+  clickOnMax: boolean;
   sellTokenBalance?: BigNumber;
   buyTokenBalance?: BigNumber;
   insufficientBalance?: boolean;
@@ -64,13 +64,15 @@ export interface SwapMinimalProps {
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
   onChangeBuyAmount: (value: BigNumber, clickOnMax?: boolean) => void;
-  onChangeNetwork?: (chanId: ChainId) => void;
   onToggleChangeNetwork: () => void;
-  onShowSettings?: () => void;
-  onShowTransactions?: () => void;
   onExec: () => void;
-  onShowTransak?: () => void;
   onSetToken?: (token?: Token) => void;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapMinimal({
@@ -103,6 +105,9 @@ export default function SwapMinimal({
   onToggleChangeNetwork,
   onExec,
   onSetToken,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapMinimalProps) {
   const isNetworkSupported = chainId && SUPPORTED_SWAP_CHAIN_IDS.includes(chainId);
 
@@ -138,12 +143,14 @@ export default function SwapMinimal({
             price={priceSell}
             priceLoading={priceSellLoading}
             onChange={onChangeSellAmount}
-            onSelectToken={(token) => onSelectToken("sell", token)}
+            onSelectToken={(token?: Token) => onSelectToken("sell", token)}
             showBalance
             isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
           />
 
           <Box
@@ -180,13 +187,15 @@ export default function SwapMinimal({
             price={priceBuy}
             priceLoading={priceBuyLoading}
             onChange={onChangeBuyAmount}
-            onSelectToken={(token) => onSelectToken("buy", token)}
-            showBalance={false}
+            onSelectToken={(token?: Token) => onSelectToken("buy", token)}
+            showBalance
             isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
           />
         </Stack>
       </Paper>

@@ -9,6 +9,7 @@ import {
   ZeroExQuoteResponse,
 } from "@dexkit/ui/modules/swap/types";
 import { CreditCard } from "@mui/icons-material";
+import LockIcon from "@mui/icons-material/Lock";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Alert,
@@ -21,7 +22,8 @@ import {
   Divider,
   IconButton,
   LinearProgress,
-  Typography,
+  Tooltip,
+  Typography
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import type { UseQueryResult } from "@tanstack/react-query";
@@ -40,11 +42,12 @@ import { ExecType, SwapSide } from "./types";
 
 export interface SwapProps {
   chainId?: ChainId;
+  selectedChainId?: ChainId;
   currency: string;
   disabled?: boolean;
   quoteFor?: SwapSide;
   quoteQuery?: UseQueryResult<
-    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | unknown
+    ZeroExGaslessQuoteResponse | ZeroExQuoteResponse | null
   >;
   provider?: providers.Web3Provider | providers.BaseProvider;
   account?: string;
@@ -52,6 +55,10 @@ export interface SwapProps {
   isActive?: boolean;
   isAutoSlippage?: boolean;
   maxSlippage?: number;
+  priceBuy?: string;
+  priceBuyLoading?: boolean;
+  priceSell?: string;
+  priceSellLoading?: boolean;
   sellToken?: Token;
   buyToken?: Token;
   sellAmount: BigNumber;
@@ -69,7 +76,7 @@ export interface SwapProps {
   enableBuyCryptoButton?: boolean;
   disableFooter?: boolean;
   networkName?: string;
-  activeChainIds: number[];
+  featuredTokensByChain: Token[];
   onSelectToken: (selectFor: SwapSide, token?: Token) => void;
   onSwapTokens: () => void;
   onChangeSellAmount: (value: BigNumber, clickOnMax?: boolean) => void;
@@ -80,44 +87,68 @@ export interface SwapProps {
   onShowTransactions: () => void;
   onExec: () => void;
   onShowTransak?: () => void;
+  onSetToken?: (token?: Token) => void;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function Swap({
   chainId,
-  networkName,
+  selectedChainId,
+  currency,
   disabled,
   quoteFor,
-  isActive,
   quoteQuery,
-  execType,
-  isQuoting,
-  buyAmount,
-  sellAmount,
+  provider,
+  account,
+  isActivating,
+  isActive,
+  isAutoSlippage,
+  maxSlippage,
+  priceBuy,
+  priceBuyLoading,
+  priceSell,
+  priceSellLoading,
   sellToken,
   buyToken,
-  currency,
-  provider,
-  isExecuting,
-  disableFooter,
+  sellAmount,
+  buyAmount,
+  execType,
   quote,
+  isExecuting,
   clickOnMax,
   sellTokenBalance,
   buyTokenBalance,
   insufficientBalance,
   isProviderReady,
+  isQuoting,
   disableNotificationsButton,
   enableBuyCryptoButton,
+  disableFooter,
+  networkName,
+  featuredTokensByChain,
   onSelectToken,
   onSwapTokens,
   onChangeSellAmount,
   onChangeBuyAmount,
   onChangeNetwork,
+  onToggleChangeNetwork,
   onShowSettings,
   onShowTransactions,
   onExec,
-  activeChainIds,
   onShowTransak,
-  onToggleChangeNetwork,
+  onSetToken,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  disableNetworkChange = false,
+  disableNetworkSelector = false,
+  swapFees,
 }: SwapProps) {
   const handleSelectSellToken = (token?: Token, clickOnMax?: boolean) => {
     onSelectToken("sell", token);
@@ -165,12 +196,24 @@ export default function Swap({
             {isProviderReady &&
               chainId &&
               (isMobile ? (
+                <Tooltip
+                  title={disableNetworkChange || disableNetworkSelector ? <FormattedMessage id="locked.network" defaultMessage="Locked network" /> : ""}
+                  arrow
+                  disableHoverListener={!(disableNetworkChange || disableNetworkSelector)}
+                  disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
+                >
+                  <span>
                 <Button
                   sx={{
                     color: (theme) => theme.palette.text.primary,
                     borderColor: (theme) => theme.palette.divider,
+                        opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
+                        pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
+                        cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
+                        background: disableNetworkChange || disableNetworkSelector ? (theme) => theme.palette.action.disabledBackground : undefined,
                   }}
-                  onClick={onToggleChangeNetwork}
+                      onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
+                      disabled={disableNetworkChange || disableNetworkSelector}
                   startIcon={
                     NETWORKS[chainId] ? (
                       <Avatar
@@ -180,15 +223,24 @@ export default function Swap({
                     ) : undefined
                   }
                   variant="outlined"
+                      tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
+                      aria-disabled={disableNetworkChange || disableNetworkSelector}
                 >
                   {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
+                      {(disableNetworkChange || disableNetworkSelector) && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
                 </Button>
+                  </span>
+                </Tooltip>
               ) : (
                 <SwitchNetworkSelect
                   chainId={chainId}
-                  activeChainIds={activeChainIds}
-                  onChangeNetwork={onChangeNetwork}
-                  SelectProps={{ size: "small" }}
+                  activeChainIds={SUPPORTED_SWAP_CHAIN_IDS}
+                  onChangeNetwork={disableNetworkChange ? () => { } : onChangeNetwork}
+                  locked={disableNetworkChange || disableNetworkSelector}
+                  SelectProps={{
+                    size: "small",
+                    disabled: disableNetworkChange || disableNetworkSelector
+                  }}
                 />
               ))}
           </Box>
@@ -243,6 +295,8 @@ export default function Swap({
               showBalance={isActive}
               isUserInput={quoteFor === "sell" && clickOnMax === false}
               disabled={isQuoting && quoteFor === "buy"}
+              keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+              lockedToken={lockedToken}
             />
             <Stack alignItems="center">
               <Box
@@ -271,6 +325,8 @@ export default function Swap({
               showBalance={isActive}
               isUserInput={quoteFor === "buy" && clickOnMax === false}
               disabled={isQuoting && quoteFor === "sell"}
+              keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+              lockedToken={lockedToken}
             />
           </Stack>
           {quote && (
@@ -281,6 +337,7 @@ export default function Swap({
               sellToken={sellToken}
               buyToken={buyToken}
               provider={provider}
+              swapFees={swapFees}
             />
           )}
           {insufficientBalance && isActive && (

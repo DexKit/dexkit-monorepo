@@ -79,6 +79,10 @@ export function useSwapCurrencyPrice({
   });
 
   return useMemo(() => {
+    if (!params.buyToken || !params.sellToken) {
+      return { isLoadingPrice: false };
+    }
+
     if (
       coinPrices.data &&
       nativeToken?.chainId &&
@@ -104,16 +108,23 @@ export function useSwapCurrencyPrice({
               (currencyPrice / Number(sellTokenToEthRate)),
               { style: "currency", currency }
             ),
-            isLoadingPrice: quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading,
+            isLoadingPrice: false,
           };
         }
       } catch (e) {
-        return {};
+        return { isLoadingPrice: false };
       }
     }
 
-    return { isLoadingPrice: quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading };
+    const hasTokens = Boolean(params.buyToken && params.sellToken);
+    const isActuallyLoading = quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading;
+    
+    return { 
+      isLoadingPrice: hasTokens && isActuallyLoading 
+    };
   }, [
+    params.buyToken,
+    params.sellToken,
     quotePriceBuyToken.isLoading,
     quotePriceBuyToken.data,
     quotePriceSellToken.isLoading,
@@ -121,5 +132,7 @@ export function useSwapCurrencyPrice({
     currency,
     coinPrices.isLoading,
     coinPrices.data,
+    nativeToken?.chainId,
+    intl,
   ]);
 }

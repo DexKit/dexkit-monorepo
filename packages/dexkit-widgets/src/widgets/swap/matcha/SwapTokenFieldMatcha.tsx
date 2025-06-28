@@ -1,3 +1,4 @@
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {
   Box,
   Button,
@@ -5,6 +6,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -13,12 +15,13 @@ import { Token } from "@dexkit/core/types";
 import React from "react";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
-import SwapTokenButtonMatcha from "./SwapTokenButtonMatcha";
+import SwapTokenButton from '../SwapTokenButton';
 
 import type { ChainId } from "@dexkit/core/constants/enums";
 import SelectTokenShortcutMatcha from "./SelectTokenShortcutMatcha";
 
 export interface SwapTokenFieldMatchaProps {
+  title?: React.ReactNode;
   InputBaseProps?: InputBaseProps;
   disabled?: boolean;
   selectedChainId?: ChainId;
@@ -31,42 +34,95 @@ export interface SwapTokenFieldMatchaProps {
   balance?: BigNumber;
   showBalance?: boolean;
   isUserInput?: boolean;
-  title?: React.ReactNode;
   isBuyToken?: boolean;
   onSetToken?: (token?: Token) => void;
   featuredTokensByChain: Token[];
   enableHalfAmount?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
-function SwapTokenFieldMatcha({
+export default function SwapTokenFieldMatcha({
+  title,
   InputBaseProps,
+  disabled,
   selectedChainId,
-  featuredTokensByChain,
   onChange,
-  onSelectToken,
   token,
+  onSelectToken,
+  value,
   price,
   priceLoading,
-  value,
-  disabled,
   balance,
   showBalance,
   isUserInput,
-  title,
   isBuyToken,
   onSetToken,
+  featuredTokensByChain,
   enableHalfAmount,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldMatchaProps) {
-  const handleMax = () => {
-    if (balance) {
+  const theme = useTheme();
+
+  const handleMaxClick = () => {
+    if (balance && !balance.isZero()) {
       onChange(balance, true);
     }
   };
 
-  const handleHalfAmont = () => {
-    if (balance) {
+  const handleHalfClick = () => {
+    if (balance && !balance.isZero()) {
       onChange(balance.div(2), true);
     }
+  };
+
+  const renderTokenButton = () => {
+    if (!token) {
+      return (
+        <Button
+          variant="outlined"
+          onClick={() => onSelectToken()}
+          sx={{
+            minWidth: 120,
+            height: 48,
+            borderRadius: 2,
+            borderStyle: 'dashed',
+            borderWidth: 2,
+            '&:hover': {
+              borderStyle: 'solid',
+              bgcolor: 'action.hover',
+            },
+          }}
+        >
+          <Stack alignItems="center" spacing={0.5}>
+            <Typography variant="body2" fontWeight="medium">
+              <FormattedMessage id="select.token" defaultMessage="Select token" />
+            </Typography>
+            <KeyboardArrowDownIcon fontSize="small" />
+          </Stack>
+        </Button>
+      );
+    }
+
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
+
+    return (
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+          sx: {
+            minWidth: 120,
+            height: 48,
+            borderRadius: 2,
+          },
+        }}
+      />
+    );
   };
 
   return (
@@ -116,17 +172,14 @@ function SwapTokenFieldMatcha({
         </Stack>
 
         <Stack direction="row" justifyContent="space-between" spacing={2}>
-          <SwapTokenButtonMatcha
-            token={token}
-            ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
-          />
+          {renderTokenButton()}
           {token && balance && showBalance ? (
             <Stack direction="row" alignItems="center" spacing={0.5}>
               {enableHalfAmount && (
                 <Button
                   variant="contained"
                   color="inherit"
-                  onClick={handleHalfAmont}
+                  onClick={handleHalfClick}
                   size="small"
                   disableElevation
                   disableTouchRipple
@@ -145,7 +198,7 @@ function SwapTokenFieldMatcha({
               <Button
                 variant="contained"
                 color="inherit"
-                onClick={handleMax}
+                onClick={handleMaxClick}
                 size="small"
                 disableElevation
                 disableTouchRipple
@@ -186,13 +239,13 @@ function SwapTokenFieldMatcha({
           isUserInput={isUserInput}
           decimals={token?.decimals}
         />
-        {priceLoading ? (
+        {token && priceLoading ? (
           <Skeleton>
             <Typography variant="caption" color="text.secondary">
               $-,--
             </Typography>
           </Skeleton>
-        ) : price ? (
+        ) : token && price ? (
           <Typography variant="caption" color="text.secondary">
             {price}
           </Typography>
@@ -201,5 +254,3 @@ function SwapTokenFieldMatcha({
     </Box>
   );
 }
-
-export default SwapTokenFieldMatcha;
