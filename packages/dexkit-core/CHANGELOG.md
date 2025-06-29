@@ -1,5 +1,13 @@
 # @dexkit/core
 
+## 0.19.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 3e9d1ff: fix ens not resolving name on transfer
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+
 ## 0.18.0
 
 ### Minor Changes
