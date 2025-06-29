@@ -76,6 +76,7 @@ export const SectionsMetadata: SectionMetadata[] = [
 export const DEX_GENERATOR_CONTRACT_TYPES: { type: string; name: string }[] = [
   { type: 'DropERC1155', name: 'Edition Drop' },
   { type: 'DropERC20', name: 'Token Drop' },
+  { type: 'DropAllowanceERC20', name: 'Token Allowance Drop' },
   { type: 'DropERC721', name: 'NFT Drop' },
   { type: 'TokenStake', name: 'Token Stake' },
   { type: 'NFTStake', name: 'NFT Stake' },
@@ -88,6 +89,7 @@ export const DEX_GENERATOR_CONTRACT_TYPES: { type: string; name: string }[] = [
 
 export const DEX_GENERATOR_CONTRACT_TYPES_AVAIL = [
   'DropERC20',
+  'DropAllowanceERC20',
   'DropERC1155',
   'DropERC721',
   'EditionStake',

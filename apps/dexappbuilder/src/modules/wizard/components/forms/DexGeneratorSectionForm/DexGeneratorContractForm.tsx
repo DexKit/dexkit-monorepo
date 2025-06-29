@@ -56,6 +56,15 @@ export default function DexGeneratorContractForm({
           section={section?.type === 'token-drop' ? section : undefined}
         />
       );
+    } else if (contractType === 'DropAllowanceERC20') {
+      return (
+        <DexGeneratorTokenDropForm
+          key={`${network}-${address}-${contractType}-${name}`}
+          onChange={handleChange}
+          params={{ network, address }}
+          section={section?.type === 'token-drop' ? section : undefined}
+        />
+      );
     } else if (contractType === 'DropERC721') {
       return (
         <DexGeneratorNFTDropForm
@@ -157,22 +166,29 @@ export default function DexGeneratorContractForm({
 
   return (
     <Box>
-      <Stack sx={{
-        pt: isMobile ? 6 : 8,
-        px: isMobile ? 1 : 2,
-        pb: isMobile ? 1 : 2
-      }} spacing={isMobile ? 1 : 2}>
+      <Stack
+        sx={{
+          pt: isMobile ? 6 : 8,
+          px: isMobile ? 1 : 2,
+          pb: isMobile ? 1 : 2,
+        }}
+        spacing={isMobile ? 1 : 2}
+      >
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
         >
-          <Stack spacing={isMobile ? 0.5 : 1} direction="row" alignItems="center">
+          <Stack
+            spacing={isMobile ? 0.5 : 1}
+            direction="row"
+            alignItems="center"
+          >
             <IconButton size="small" onClick={onCancel}>
-              <ArrowBack fontSize={isMobile ? "small" : "medium"} />
+              <ArrowBack fontSize={isMobile ? 'small' : 'medium'} />
             </IconButton>
             <Typography
-              variant={isMobile ? "body2" : "subtitle1"}
+              variant={isMobile ? 'body2' : 'subtitle1'}
               fontWeight="bold"
               sx={isMobile ? { fontSize: '0.85rem' } : {}}
             >
@@ -186,11 +202,14 @@ export default function DexGeneratorContractForm({
 
           <Stack alignItems="center" direction="row">
             <Link target="_blank" href={`/contract/${network}/${address}`}>
-              <Typography variant={isMobile ? "caption" : "body2"}>
+              <Typography variant={isMobile ? 'caption' : 'body2'}>
                 <FormattedMessage id="admin" defaultMessage="Admin" />{' '}
               </Typography>
             </Link>
-            <OpenInNewIcon fontSize={isMobile ? "small" : "inherit"} color="primary" />
+            <OpenInNewIcon
+              fontSize={isMobile ? 'small' : 'inherit'}
+              color="primary"
+            />
           </Stack>
         </Stack>
         <Divider />

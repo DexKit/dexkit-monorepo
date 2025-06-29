@@ -78,7 +78,7 @@ export default function DexGeneratorSectionForm({
     if (isMobile && containerRef.current) {
       containerRef.current.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'start',
       });
     }
   }, [isMobile]);
@@ -88,7 +88,7 @@ export default function DexGeneratorSectionForm({
       setTimeout(() => {
         containerRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }, 100);
     }
@@ -166,7 +166,7 @@ export default function DexGeneratorSectionForm({
         setTimeout(() => {
           containerRef.current?.scrollIntoView({
             behavior: 'smooth',
-            block: 'start'
+            block: 'start',
           });
         }, 100);
       }
@@ -175,6 +175,19 @@ export default function DexGeneratorSectionForm({
 
       if (network) {
         if (newContract.type === 'DropERC20') {
+          handleChangeSection({
+            section: {
+              type: 'token-drop',
+              settings: {
+                address: newContract.contractAddress,
+                network,
+                variant: 'simple',
+              },
+            },
+            contract: newContract,
+            type: 'dex-generator-section',
+          });
+        } else if (newContract.type === 'DropAllowanceERC20') {
           handleChangeSection({
             section: {
               type: 'token-drop',
@@ -380,8 +393,6 @@ export default function DexGeneratorSectionForm({
     return setChainId(parseChainId(e.target.value));
   };
 
-
-
   return (
     <Box ref={containerRef}>
       <Grid container spacing={isMobile ? 1 : 2}>
@@ -507,9 +518,9 @@ export default function DexGeneratorSectionForm({
                   sx={
                     isMobile
                       ? {
-                        '& .MuiInputBase-input': { typography: 'body2' },
-                        '& .MuiInputLabel-root': { typography: 'body2' },
-                      }
+                          '& .MuiInputBase-input': { typography: 'body2' },
+                          '& .MuiInputLabel-root': { typography: 'body2' },
+                        }
                       : {}
                   }
                 >
@@ -602,7 +613,9 @@ export default function DexGeneratorSectionForm({
                 new Array(isMobile ? 3 : 5).fill(null).map((_, index) => (
                   <Grid item xs={12} key={index}>
                     <Card>
-                      <CardContent sx={isMobile ? { p: { xs: 1, sm: 1.5 } } : {}}>
+                      <CardContent
+                        sx={isMobile ? { p: { xs: 1, sm: 1.5 } } : {}}
+                      >
                         <Typography variant={isMobile ? 'body1' : 'h5'}>
                           <Skeleton />
                         </Typography>
