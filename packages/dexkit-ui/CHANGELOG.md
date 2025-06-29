@@ -1,5 +1,25 @@
 # @dexkit/ui
 
+## 0.24.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- 31f971c: enhance NFT and token drop forms with new variants
+- 53d4efb: Add embed code option on pages admin section
+
+### Patch Changes
+
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [7af06ae]
+  - @dexkit/wallet-connectors@0.7.0
+  - @dexkit/core@0.19.0
+
 ## 0.23.0
 
 ### Minor Changes

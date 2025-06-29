@@ -1,5 +1,36 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.10.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 18c97ca: add custom variants (custom and glass) for exchange section, improve pair selection & mobile UX for complete responsivity on small screens.
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- 31f971c: enhance NFT and token drop forms with new variants
+- 53d4efb: Add embed code option on pages admin section
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [18c97ca]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [e35e0e7]
+- Updated dependencies [53d4efb]
+  - @dexkit/ui@0.24.0
+  - @dexkit/wallet-connectors@0.7.0
+  - @dexkit/exchange@0.15.0
+  - @dexkit/widgets@0.14.0
+  - @dexkit/core@0.19.0
+  - @dexkit/web3forms@0.14.0
+
 ## 0.9.0
 
 ### Minor Changes
