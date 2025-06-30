@@ -22,6 +22,7 @@ import { ExchangePageSection } from "@dexkit/ui/modules/wizard/types/section";
 
 function ExchangeSection() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const exchangeState = useExchangeContext();
   const previewContext = usePreviewPlatform();
   const { chainId, account, signer } = exchangeState;
@@ -794,9 +795,6 @@ function ExchangeSection() {
   };
 
   const renderGlassVariant = (glassSettings: any) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const blurIntensity = glassSettings?.blurIntensity || 40;
     const glassOpacity = glassSettings?.glassOpacity || 0.10;
     const textColor = glassSettings?.textColor || theme.palette.text.primary;

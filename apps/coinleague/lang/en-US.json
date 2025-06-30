@@ -1697,7 +1697,7 @@
     "defaultMessage": "Filter by date"
   },
   "footer.wizard.description": {
-    "defaultMessage": "Create and edit your app's footer menu"
+    "defaultMessage": "Create and edit your app's footer"
   },
   "front.image": {
     "defaultMessage": "Front Image"
@@ -3449,7 +3449,7 @@
     "defaultMessage": "Edit analytics"
   },
   "edit.footer.menu": {
-    "defaultMessage": "Edit Footer menu"
+    "defaultMessage": "Edit Footer"
   },
   "edit.marketplace": {
     "defaultMessage": "Edit Marketplace"
@@ -3518,7 +3518,7 @@
     "defaultMessage": "Floor price"
   },
   "footer.menu": {
-    "defaultMessage": "Footer menu"
+    "defaultMessage": "Footer"
   },
   "gallery": {
     "defaultMessage": "Gallery"

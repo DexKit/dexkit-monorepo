@@ -157,7 +157,7 @@ export default function AdminSidebarContainer({
               title: (
                 <FormattedMessage
                   id="footer.menu"
-                  defaultMessage="Footer Menu"
+                  defaultMessage="Footer"
                 />
               ),
               onlyOwner: true,

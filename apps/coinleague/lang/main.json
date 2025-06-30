@@ -1582,10 +1582,10 @@
     "defaultMessage": "Font"
   },
   "footer.menu": {
-    "defaultMessage": "Footer Menu"
+    "defaultMessage": "Footer"
   },
   "footer.wizard.description": {
-    "defaultMessage": "Create and edit your app's footer menu"
+    "defaultMessage": "Create and edit your app's footer"
   },
   "forbidden": {
     "defaultMessage": "Forbidden"
