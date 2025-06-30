@@ -74,6 +74,23 @@ export type ChainConfig = {
   buyToken?: Token;
 };
 
+export interface SwapGlassSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  glassOpacity?: number;
+  disableBackground?: boolean;
+  textColor?: string;
+}
+
 //TODO: array of tokens by chainId e defaultChainId without
 export type RenderOptions = {
   disableNotificationsButton?: boolean;
@@ -91,6 +108,11 @@ export type RenderOptions = {
   useGasless?: boolean;
   myTokensOnlyOnSearch?: boolean;
   enableImportExterTokens?: boolean;
+  glassSettings?: SwapGlassSettings;
+  disableNetworkChange?: boolean;
+  disableNetworkSelector?: boolean;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 };
 
 export type SwapNotificationParams = {

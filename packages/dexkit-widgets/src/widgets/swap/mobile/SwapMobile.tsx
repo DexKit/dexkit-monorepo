@@ -85,6 +85,12 @@ export interface SwapMobileProps {
   onShowTransak?: () => void;
   onSetToken?: (token?: Token) => void;
   nativeCurrencyPriceQuery?: UseQueryResult<number>;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapMobile({
@@ -134,6 +140,9 @@ export default function SwapMobile({
   onShowTransak,
   onSetToken,
   nativeCurrencyPriceQuery,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapMobileProps) {
   const theme = useTheme();
   const [showQuoteDetails, setShowQuoteDetails] = useState(false);
@@ -264,12 +273,14 @@ export default function SwapMobile({
             price={priceSell}
             priceLoading={priceSellLoading}
             onChange={onChangeSellAmount}
-            onSelectToken={(token) => onSelectToken("sell", token)}
+            onSelectToken={(token?: Token) => onSelectToken("sell", token)}
             showBalance
             isUserInput={quoteFor === "sell" && clickOnMax === false}
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
             title={<FormattedMessage id="you.pay" defaultMessage="You Pay" />}
           />
 
@@ -312,13 +323,15 @@ export default function SwapMobile({
             price={priceBuy}
             priceLoading={priceBuyLoading}
             onChange={onChangeBuyAmount}
-            onSelectToken={(token) => onSelectToken("buy", token)}
+            onSelectToken={(token?: Token) => onSelectToken("buy", token)}
             showBalance
             isUserInput={quoteFor === "buy" && clickOnMax === false}
             isBuyToken
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
             title={<FormattedMessage id="you.receive" defaultMessage="You Receive" />}
           />
         </Stack>
@@ -331,17 +344,17 @@ export default function SwapMobile({
             mt: 2,
             p: 2,
             bgcolor: 'success.light',
-            color: 'success.contrastText',
+            color: '#ffffff',
           }}
         >
           <Stack direction="row" alignItems="center" spacing={1} mb={1}>
-            <CheckCircle sx={{ fontSize: 20 }} />
-            <Typography variant="body2" fontWeight="bold">
+            <CheckCircle sx={{ fontSize: 20, color: '#ffffff' }} />
+            <Typography variant="body2" fontWeight="bold" sx={{ color: '#ffffff' }}>
               <FormattedMessage id="best.rate.found" defaultMessage="Best Rate Found!" />
             </Typography>
           </Stack>
 
-          <Typography variant="body2" sx={{ opacity: 0.9 }}>
+          <Typography variant="body2" sx={{ opacity: 0.9, color: '#ffffff' }}>
             1 {sellToken.symbol} = {(Number(buyAmount.toString()) / Number(sellAmount.toString())).toFixed(6)} {buyToken.symbol}
           </Typography>
 
@@ -351,7 +364,7 @@ export default function SwapMobile({
             onClick={() => setShowQuoteDetails(!showQuoteDetails)}
             sx={{
               mt: 1,
-              color: 'inherit',
+              color: '#ffffff',
               textTransform: 'none',
             }}
           >
@@ -361,8 +374,8 @@ export default function SwapMobile({
           <Collapse in={showQuoteDetails}>
             <Stack spacing={1} sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: 'rgba(255,255,255,0.2)' }}>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption">Price Impact:</Typography>
-                <Typography variant="caption" color="success.contrastText">
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>Price Impact:</Typography>
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>
                   {(() => {
                     if (isQuoting) return '...';
                     if (!quote) return 'N/A';
@@ -373,8 +386,8 @@ export default function SwapMobile({
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption">Gas Fee:</Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>Gas Fee:</Typography>
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>
                   {(() => {
                     const totalFeeWei = (quote as any)?.totalNetworkFee;
 
@@ -390,14 +403,14 @@ export default function SwapMobile({
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption">Route:</Typography>
-                <Typography variant="caption">
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>Route:</Typography>
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>
                   {(quote as any)?.route?.fills?.[0]?.source || (isQuoting ? '...' : 'N/A')}
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="caption">Slippage:</Typography>
-                <Typography variant="caption">{maxSlippage || 0.5}%</Typography>
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>Slippage:</Typography>
+                <Typography variant="caption" sx={{ color: '#ffffff' }}>{maxSlippage || 0.5}%</Typography>
               </Stack>
             </Stack>
           </Collapse>

@@ -21,13 +21,15 @@ import {
   ListItemText,
   Stack,
   TextField,
+  Tooltip,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 
 import { parse } from "eth-url-parser";
 
 import { isDexKitToken } from "@dexkit/widgets/src/constants/tokens";
+import LockIcon from "@mui/icons-material/Lock";
 import dynamic from "next/dynamic";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -57,6 +59,7 @@ export interface EvmSendFormProps {
   chainId?: number;
   balance?: string;
   account?: string;
+  defaultCoin?: Coin;
 }
 
 export function EvmSendForm({
@@ -71,6 +74,7 @@ export function EvmSendForm({
   onSwitchNetwork,
   account,
   balance,
+  defaultCoin,
 }: EvmSendFormProps) {
   const [addressTouched, setAddressTouched] = useState<boolean>(false);
   const isMobile = useIsMobile();
@@ -140,6 +144,21 @@ export function EvmSendForm({
     return false;
   };
 
+  const isTokenLocked = (coin: Coin): boolean => {
+    if (!defaultCoin) return false;
+
+    if (coin.coinType === CoinTypes.EVM_ERC20 && defaultCoin.coinType === CoinTypes.EVM_ERC20) {
+      return coin.contractAddress?.toLowerCase() === defaultCoin.contractAddress?.toLowerCase() &&
+        coin.network.chainId === defaultCoin.network.chainId;
+    }
+
+    if (coin.coinType === CoinTypes.EVM_NATIVE && defaultCoin.coinType === CoinTypes.EVM_NATIVE) {
+      return coin.network.chainId === defaultCoin.network.chainId;
+    }
+
+    return false;
+  };
+
   const sortedCoins = useMemo(() => {
     if (!coins) return [];
 
@@ -161,6 +180,9 @@ export function EvmSendForm({
     value: Coin | null,
     reason: AutocompleteChangeReason
   ) => {
+    if (values.coin && isTokenLocked(values.coin)) {
+      return;
+    }
     onChange({ ...values, coin: value });
   };
 
@@ -262,14 +284,30 @@ export function EvmSendForm({
 
       <Stack spacing={isMobile ? 2.5 : 3}>
         <Autocomplete
-          disablePortal
-          disabled={isSubmitting}
+          disablePortal={false}
+          disabled={isSubmitting || !!defaultCoin}
           id="select-token"
           options={sortedCoins}
           value={values?.coin}
           readOnly={coins && coins.length === 1}
           onChange={handleChangeCoin}
           getOptionLabel={(opt) => opt.name}
+          slotProps={{
+            popper: {
+              placement: 'bottom-start',
+              disablePortal: true,
+              modifiers: [
+                {
+                  name: 'flip',
+                  enabled: false,
+                },
+                {
+                  name: 'preventOverflow',
+                  enabled: false,
+                },
+              ],
+            },
+          }}
           renderOption={(props, opt) => {
             const balance = getCoinBalance(opt);
             const isKitToken = isDexKitCoin(opt);
@@ -334,19 +372,53 @@ export function EvmSendForm({
               </ListItem>
             );
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              disabled={isSubmitting}
-              label={<FormattedMessage id="coin" defaultMessage="Coin" />}
-              size={isMobile ? "medium" : "medium"}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: isMobile ? 1.5 : 2,
-                },
-              }}
-            />
-          )}
+          renderInput={(params) => {
+            const isLocked = !!defaultCoin;
+
+            return (
+              <Tooltip
+                title={isLocked ? <FormattedMessage id="locked.token" defaultMessage="Locked token" /> : ""}
+                arrow
+                disableHoverListener={!isLocked}
+                disableFocusListener={!isLocked}
+              >
+                <span>
+                  <TextField
+                    {...params}
+                    disabled={isSubmitting || isLocked}
+                    label={<FormattedMessage id="coin" defaultMessage="Coin" />}
+                    size={isMobile ? "medium" : "medium"}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: isMobile ? 1.5 : 2,
+                        opacity: isLocked ? 0.5 : 1,
+                        pointerEvents: isLocked ? 'none' : undefined,
+                        cursor: isLocked ? 'not-allowed' : 'pointer',
+                        background: isLocked ? theme.palette.action.disabledBackground : undefined,
+                      },
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <Stack direction="row" alignItems="center" spacing={0.5}>
+                          {params.InputProps.endAdornment}
+                          {isLocked && (
+                            <LockIcon
+                              fontSize="small"
+                              sx={{
+                                color: 'text.disabled',
+                                mr: 1
+                              }}
+                            />
+                          )}
+                        </Stack>
+                      ),
+                    }}
+                  />
+                </span>
+              </Tooltip>
+            );
+          }}
           ListboxProps={{
             sx: {
               maxHeight: isMobile ? theme.spacing(37.5) : theme.spacing(50),
@@ -379,8 +451,8 @@ export function EvmSendForm({
               {...params}
               label={
                 <FormattedMessage
-                  id="address.or.ens"
-                  defaultMessage="Address or ENS"
+                  id="address"
+                  defaultMessage="Address"
                 />
               }
               InputProps={{

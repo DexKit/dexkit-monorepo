@@ -6,10 +6,12 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
 
+import { ChainId } from "@dexkit/core/constants/enums";
 import { Token } from "@dexkit/core/types";
 import React from "react";
 import { formatBigNumber } from "../../../utils";
@@ -17,38 +19,74 @@ import { CurrencyField } from "../CurrencyField";
 import SwapTokenButtonUniswap from "./SwapTokenButtonUniswap";
 
 export interface SwapTokenFieldUniswapProps {
+  title?: React.ReactNode;
   InputBaseProps?: InputBaseProps;
-  priceLoading?: boolean;
-  price?: string;
   disabled?: boolean;
+  selectedChainId?: ChainId;
   onChange: (value: BigNumber, clickOnMax?: boolean) => void;
   token?: Token;
   onSelectToken: (token?: Token) => void;
   value: BigNumber;
+  price?: string;
+  priceLoading?: boolean;
   balance?: BigNumber;
   showBalance?: boolean;
   isUserInput?: boolean;
-  title?: React.ReactNode;
+  isBuyToken?: boolean;
+  onSetToken?: (token?: Token) => void;
+  featuredTokensByChain: Token[];
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
-function SwapTokenFieldUniswap({
+export default function SwapTokenFieldUniswap({
+  title,
   InputBaseProps,
-  onChange,
-  onSelectToken,
-  token,
-  value,
   disabled,
+  selectedChainId,
+  onChange,
+  token,
+  onSelectToken,
+  value,
   price,
   priceLoading,
   balance,
   showBalance,
   isUserInput,
-  title,
+  isBuyToken,
+  onSetToken,
+  featuredTokensByChain,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldUniswapProps) {
-  const handleMax = () => {
-    if (balance) {
+  const theme = useTheme();
+
+  const handleMaxClick = () => {
+    if (balance && !balance.isZero()) {
       onChange(balance, true);
     }
+  };
+
+  const renderTokenButton = () => {
+    if (!token) {
+      return (
+        <SwapTokenButtonUniswap ButtonBaseProps={{ onClick: () => onSelectToken() }} />
+      );
+    }
+
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
+
+    return (
+      <SwapTokenButtonUniswap
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+        }}
+      />
+    );
   };
 
   return (
@@ -90,10 +128,7 @@ function SwapTokenFieldUniswap({
           isUserInput={isUserInput}
           decimals={token?.decimals}
         />
-        <SwapTokenButtonUniswap
-          token={token}
-          ButtonBaseProps={{ onClick: () => onSelectToken(token) }}
-        />
+        {renderTokenButton()}
       </Stack>
       {token && balance && showBalance && (
         <Stack
@@ -107,13 +142,13 @@ function SwapTokenFieldUniswap({
           }}
         >
           <Typography variant="caption" color="text.secondary">
-            {priceLoading ? (
+            {token && priceLoading ? (
               <Skeleton>
                 <Typography variant="caption" color="text.secondary">
                   $-,--
                 </Typography>
               </Skeleton>
-            ) : price ? (
+            ) : token && price ? (
               <Typography variant="caption" color="text.secondary">
                 {price}
               </Typography>
@@ -135,7 +170,7 @@ function SwapTokenFieldUniswap({
               />
             </Typography>
             <Link
-              onClick={handleMax}
+              onClick={handleMaxClick}
               variant="caption"
               sx={{
                 textDecoration: "none",
@@ -152,5 +187,3 @@ function SwapTokenFieldUniswap({
     </Box>
   );
 }
-
-export default SwapTokenFieldUniswap;

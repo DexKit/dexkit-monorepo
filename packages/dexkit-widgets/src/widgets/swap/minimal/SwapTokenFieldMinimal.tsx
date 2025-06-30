@@ -1,11 +1,10 @@
 import {
-  Avatar,
   Box,
   Button,
   InputBaseProps,
   Stack,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -14,10 +13,9 @@ import { Token } from "@dexkit/core/types";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
 
-import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { isDexKitToken } from "../../../constants/tokens";
+import SwapTokenButton from '../SwapTokenButton';
 
 export interface SwapTokenFieldMinimalProps {
   InputBaseProps?: InputBaseProps;
@@ -36,6 +34,8 @@ export interface SwapTokenFieldMinimalProps {
   onSetToken?: (token?: Token) => void;
   featuredTokensByChain: Token[];
   placeholder?: string;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 export default function SwapTokenFieldMinimal({
@@ -52,6 +52,8 @@ export default function SwapTokenFieldMinimal({
   isUserInput,
   isBuyToken,
   placeholder = "0.0",
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldMinimalProps) {
   const theme = useTheme();
 
@@ -86,41 +88,22 @@ export default function SwapTokenFieldMinimal({
       );
     }
 
-    const isKitToken = isDexKitToken(token);
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
 
     return (
-      <Button
-        variant="text"
-        onClick={() => onSelectToken()}
-        sx={{
-          minWidth: 'auto',
-          p: 0.5,
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+          sx: {
+            minWidth: 'auto',
+            p: 0.5,
+          },
         }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar
-            src={
-              token.logoURI
-                ? token.logoURI
-                : TOKEN_ICON_URL(token.address, token.chainId)
-            }
-            imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{
-              width: 24,
-              height: 24,
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
-            }}
-          >
-            {token.symbol?.[0]}
-          </Avatar>
-          <Typography variant="body1" fontWeight="medium">
-            {token.symbol}
-          </Typography>
-          <KeyboardArrowDownIcon fontSize="small" />
-        </Stack>
-      </Button>
+      />
     );
   };
 
@@ -164,52 +147,54 @@ export default function SwapTokenFieldMinimal({
         </Box>
       </Stack>
 
-      {showBalance && balance && token && (
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mt={1}>
-          <Typography variant="caption" color="text.secondary">
-            <FormattedMessage id="balance" defaultMessage="Balance" />: {formatBigNumber(balance, token.decimals)}
-          </Typography>
-          {!isBuyToken && (
-            <Button
-              size="small"
-              variant="text"
-              onClick={handleMaxClick}
-              sx={{
-                minWidth: 'auto',
-                p: 0.25,
-                fontSize: '0.7rem',
-                color: 'primary.main',
-              }}
-            >
-              <FormattedMessage id="max" defaultMessage="MAX" />
-            </Button>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Box>
+          {showBalance && balance && token && (
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <Typography variant="caption" color="text.secondary">
+                {formatBigNumber(balance, token.decimals)}
+              </Typography>
+              {!isBuyToken && (
+                <Button
+                  size="small"
+                  variant="text"
+                  onClick={handleMaxClick}
+                  sx={{
+                    minWidth: 'auto',
+                    p: 0.25,
+                    fontSize: '0.6rem',
+                    color: 'primary.main',
+                  }}
+                >
+                  <FormattedMessage id="max" defaultMessage="MAX" />
+                </Button>
+              )}
+            </Stack>
           )}
-        </Stack>
-      )}
+        </Box>
 
-      {token && (
-        <Box mt={0.5} textAlign="right">
+        <Box textAlign="right">
           <Stack spacing={0.25} alignItems="flex-end">
-            {priceLoading ? (
+            {token && priceLoading ? (
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="loading.price" defaultMessage="Loading..." />
               </Typography>
             ) : (
-              price && (
+              token && price && (
                 <Typography variant="caption" color="text.secondary">
-                  {token.symbol}: {price}
+                  {price}
                 </Typography>
               )
             )}
 
             {!value.isZero() && price && !priceLoading && (
               <Typography variant="caption" color="text.secondary" fontWeight="medium">
-                ~${(Number(formatBigNumber(value, token.decimals)) * parseFloat(price.replace(/[^0-9.-]+/g, ""))).toFixed(2)}
+                ~${(Number(formatBigNumber(value, token?.decimals || 18)) * parseFloat(price.replace(/[^0-9.-]+/g, ""))).toFixed(2)}
               </Typography>
             )}
           </Stack>
         </Box>
-      )}
+      </Stack>
     </Box>
   );
 } 

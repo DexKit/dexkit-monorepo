@@ -24,13 +24,17 @@ export type ExchangeCustomVariantSettings = {
   componentOrder?: string[];
   pairInfoBackgroundColor?: string;
   pairInfoTextColor?: string;
+  pairInfoSecondaryTextColor?: string;
   pairInfoBorderColor?: string;
   tradeWidgetBackgroundColor?: string;
   tradeWidgetTextColor?: string;
   tradeWidgetBorderColor?: string;
   tradeWidgetButtonColor?: string;
   tradeWidgetButtonTextColor?: string;
+  tradeWidgetTabTextColor?: string;
+  tradeWidgetInputTextColor?: string;
   tradingGraphBackgroundColor?: string;
+  tradingGraphControlTextColor?: string;
   tradingGraphBorderColor?: string;
 };
 
@@ -210,13 +214,17 @@ export const ExchangeSettingsSchema = Yup.object({
     componentOrder: Yup.array().of(Yup.string()).optional(),
     pairInfoBackgroundColor: Yup.string().optional(),
     pairInfoTextColor: Yup.string().optional(),
+    pairInfoSecondaryTextColor: Yup.string().optional(),
     pairInfoBorderColor: Yup.string().optional(),
     tradeWidgetBackgroundColor: Yup.string().optional(),
     tradeWidgetTextColor: Yup.string().optional(),
     tradeWidgetBorderColor: Yup.string().optional(),
     tradeWidgetButtonColor: Yup.string().optional(),
     tradeWidgetButtonTextColor: Yup.string().optional(),
+    tradeWidgetTabTextColor: Yup.string().optional(),
+    tradeWidgetInputTextColor: Yup.string().optional(),
     tradingGraphBackgroundColor: Yup.string().optional(),
+    tradingGraphControlTextColor: Yup.string().optional(),
     tradingGraphBorderColor: Yup.string().optional(),
   }).optional(),
   glassSettings: Yup.object({

@@ -1,3 +1,4 @@
+import LockIcon from '@mui/icons-material/Lock';
 import {
   Avatar,
   ButtonBase,
@@ -7,6 +8,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -17,57 +19,71 @@ import { isDexKitToken } from "../../constants/tokens";
 export interface SwapTokenButtonProps {
   token?: Token;
   ButtonBaseProps?: ButtonBaseProps;
+  locked?: boolean;
 }
 
-function SwapTokenButton({ token, ButtonBaseProps }: SwapTokenButtonProps) {
+function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProps) {
   const theme = useTheme();
 
   const isKitToken = isDexKitToken(token);
 
-  return (
-    <ButtonBase
-      {...ButtonBaseProps}
-      sx={(theme) => ({
-        borderRadius: theme.shape.borderRadius / 2,
-        p: 1,
-        border: `1px solid ${theme.palette.mode === "dark"
-          ? lighten(theme.palette.divider, 0.2)
-          : theme.palette.divider
-          }`,
-      })}
-    >
-      {token ? (
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          <Avatar
-            sx={(theme) => ({
-              height: theme.spacing(4),
-              width: theme.spacing(4),
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
-            })}
-            imgProps={{ sx: { objectFit: "fill" } }}
-            src={
-              token.logoURI
-                ? token.logoURI
-                : TOKEN_ICON_URL(token.address, token.chainId)
-            }
-          />
+  const content = token ? (
+    <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Avatar
+        sx={(theme) => ({
+          height: theme.spacing(4),
+          width: theme.spacing(4),
+          ...(isKitToken && theme.palette.mode === 'dark' && {
+            filter: 'invert(1)',
+          })
+        })}
+        imgProps={{ sx: { objectFit: "fill" } }}
+        src={
+          token.logoURI
+            ? token.logoURI
+            : TOKEN_ICON_URL(token.address, token.chainId)
+        }
+      />
+      <Typography
+        sx={{ fontWeight: 600 }}
+        color="text.secondary"
+        variant="body1"
+      >
+        {token?.symbol.toUpperCase()}
+      </Typography>
+      {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
+    </Stack>
+  ) : (
+    <Typography>
+      <FormattedMessage id="select.token" defaultMessage="Select token" />
+    </Typography>
+  );
 
-          <Typography
-            sx={{ fontWeight: 600 }}
-            color="text.secondary"
-            variant="body1"
-          >
-            {token?.symbol.toUpperCase()}
-          </Typography>
-        </Stack>
-      ) : (
-        <Typography>
-          <FormattedMessage id="select.token" defaultMessage="Select token" />
-        </Typography>
-      )}
-    </ButtonBase>
+  return (
+    <Tooltip title={locked ? <FormattedMessage id="locked.token" defaultMessage="Locked token" /> : ""} arrow disableHoverListener={!locked} disableFocusListener={!locked}>
+      <span>
+        <ButtonBase
+          {...ButtonBaseProps}
+          sx={{
+            borderRadius: theme.shape.borderRadius / 2,
+            p: 1,
+            border: `1px solid ${theme.palette.mode === "dark"
+              ? lighten(theme.palette.divider, 0.2)
+              : theme.palette.divider
+              }`,
+            opacity: locked ? 0.5 : 1,
+            pointerEvents: locked ? 'none' : undefined,
+            cursor: locked ? 'not-allowed' : 'pointer',
+            background: locked ? theme.palette.action.disabledBackground : undefined,
+            ...(ButtonBaseProps?.sx || {}),
+          }}
+          tabIndex={locked ? -1 : ButtonBaseProps?.tabIndex}
+          aria-disabled={locked}
+        >
+          {content}
+        </ButtonBase>
+      </span>
+    </Tooltip>
   );
 }
 

@@ -71,6 +71,12 @@ export interface SwapCompactProps {
   onExec: () => void;
   onShowTransak?: () => void;
   onSetToken?: (token?: Token) => void;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapCompact({
@@ -119,6 +125,9 @@ export default function SwapCompact({
   onExec,
   onShowTransak,
   onSetToken,
+  keepTokenAlwaysPresent = false,
+  lockedToken,
+  swapFees,
 }: SwapCompactProps) {
   const isNetworkSupported = chainId && SUPPORTED_SWAP_CHAIN_IDS.includes(chainId);
 
@@ -218,6 +227,8 @@ export default function SwapCompact({
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
           />
 
           <Box
@@ -266,6 +277,8 @@ export default function SwapCompact({
             featuredTokensByChain={featuredTokensByChain}
             onSetToken={onSetToken}
             selectedChainId={selectedChainId}
+            keepTokenAlwaysPresent={keepTokenAlwaysPresent}
+            lockedToken={lockedToken}
           />
         </Stack>
       </Paper>

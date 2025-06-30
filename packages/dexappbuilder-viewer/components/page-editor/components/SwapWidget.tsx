@@ -86,7 +86,7 @@ function SwapWidget(props: Props) {
   const [chainId, setChainId] = useState<number>();
 
   useEffect(() => {
-    if (isEditMode) {
+    if (isEditMode || defaultChainId) {
       setChainId(defaultChainId);
     }
   }, [defaultChainId, isEditMode]);
@@ -109,17 +109,22 @@ function SwapWidget(props: Props) {
         variant: variant,
         enableUrlParams: enableUrlParams,
         enableImportExterTokens: formData?.enableImportExternTokens,
+        disableNetworkChange: formData?.disableNetworkChange,
+        disableNetworkSelector: formData?.disableNetworkSelector,
+        keepTokenAlwaysPresent: formData?.keepTokenAlwaysPresent,
+        lockedToken: formData?.lockedToken,
         configsByChain:
           enableUrlParams && configParams?.configByChainParams
             ? configParams.configByChainParams
             : configByChain
-            ? configByChain
-            : {},
+              ? configByChain
+              : {},
         defaultChainId: selectedChainId || chainId || ChainId.Ethereum,
         currency: currency.currency,
         zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
         transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
       }}
+      swapFees={swapState.swapFees}
     />
   );
 }

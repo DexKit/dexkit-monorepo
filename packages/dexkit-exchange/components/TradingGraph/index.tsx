@@ -1,8 +1,6 @@
 import { useLocale } from "@dexkit/ui/hooks";
 import {
   Box,
-  Card,
-  CardContent,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -12,11 +10,12 @@ import {
   Skeleton,
   Stack,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import React, { useContext, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { DexkitExchangeContext } from "../../contexts";
+import { ExchangeCustomVariantSettings } from "../../types";
 
 const usePreviewPlatform = () => {
   try {
@@ -36,6 +35,7 @@ export interface TradingGraph {
   selectedPool?: string;
   onChange: (value: string) => void;
   onChangeShowSwaps: (value: boolean) => void;
+  customVariantSettings?: ExchangeCustomVariantSettings;
 }
 
 export default function TradingGraph({
@@ -47,6 +47,7 @@ export default function TradingGraph({
   pools,
   onChange,
   selectedPool,
+  customVariantSettings,
 }: TradingGraph) {
   const theme = useTheme();
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
@@ -82,14 +83,17 @@ export default function TradingGraph({
   };
 
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)';
+  const textColor = glassSettings?.textColor || (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.95)' : theme.palette.text.primary);
+  const controlTextColor = customVariantSettings?.tradingGraphControlTextColor || textColor;
+  const customBackgroundColor = customVariantSettings?.tradingGraphBackgroundColor;
   const blurIntensity = glassSettings?.blurIntensity || 20;
   const glassOpacity = glassSettings?.glassOpacity || 0.1;
 
   const cardStyles = useMemo(() => {
     const baseStyles = {
-      borderRadius: theme.shape.borderRadius * 2,
-      border: `1px solid ${theme.palette.divider}`,
+      ...(customBackgroundColor && {
+        backgroundColor: `${customBackgroundColor} !important`,
+      }),
     };
 
     if (!isGlassVariant) return baseStyles;
@@ -108,7 +112,7 @@ export default function TradingGraph({
         backgroundColor: 'transparent !important',
       },
     };
-  }, [isGlassVariant, theme]);
+  }, [isGlassVariant, customBackgroundColor, theme]);
 
   const getControlsStyles = useMemo(() => {
     if (!isGlassVariant) return undefined;
@@ -116,9 +120,9 @@ export default function TradingGraph({
     return {
       '& .MuiFormControlLabel-root': {
         '& .MuiTypography-root': {
-          color: `${textColor} !important`,
+          color: `${controlTextColor} !important`,
           fontWeight: theme.typography.fontWeightMedium,
-          textShadow: textColor.includes('255, 255, 255')
+          textShadow: controlTextColor.includes('255, 255, 255')
             ? '0 1px 2px rgba(0, 0, 0, 0.3)'
             : '0 1px 2px rgba(255, 255, 255, 0.3)',
         },
@@ -147,15 +151,15 @@ export default function TradingGraph({
           border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)}) !important`,
           overflow: 'hidden',
           '& .MuiSelect-select': {
-            color: `${textColor} !important`,
+            color: `${controlTextColor} !important`,
             fontWeight: theme.typography.fontWeightMedium,
-            textShadow: textColor.includes('255, 255, 255')
+            textShadow: controlTextColor.includes('255, 255, 255')
               ? '0 1px 2px rgba(0, 0, 0, 0.3)'
               : '0 1px 2px rgba(255, 255, 255, 0.3)',
             paddingRight: `${theme.spacing(4)} !important`,
           },
           '& .MuiSelect-icon': {
-            color: `${textColor} !important`,
+            color: `${controlTextColor} !important`,
             filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))',
             right: theme.spacing(1),
           },
@@ -224,178 +228,169 @@ export default function TradingGraph({
   }, [isMobile, isSmallScreen, showSwaps, isGlassVariant]);
 
   return (
-    <Card sx={cardStyles}>
-      <CardContent
+    <Box sx={cardStyles}>
+      <Stack
+        direction={{ xs: "row", sm: "row" }}
+        justifyContent={{ xs: "space-between", sm: "flex-end" }}
+        spacing={{ xs: theme.spacing(1), sm: theme.spacing(3) }}
         sx={{
-          p: { xs: theme.spacing(2), sm: theme.spacing(2.5), md: theme.spacing(3) },
-          '&:last-child': {
-            pb: { xs: theme.spacing(2), sm: theme.spacing(2.5), md: theme.spacing(3) },
-          },
+          mb: theme.spacing(2),
+          ...(isMobile && {
+            alignItems: 'center',
+            gap: theme.spacing(1),
+            flexWrap: 'nowrap',
+          })
         }}
       >
-        <Stack
-          direction={{ xs: "row", sm: "row" }}
-          justifyContent={{ xs: "space-between", sm: "flex-end" }}
-          spacing={{ xs: theme.spacing(1), sm: theme.spacing(3) }}
-          sx={{
-            mb: theme.spacing(2),
-            ...(isMobile && {
-              alignItems: 'center',
-              gap: theme.spacing(1),
-              flexWrap: 'nowrap',
-            })
-          }}
-        >
-          <Box sx={getControlsStyles}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={showSwaps}
-                  onChange={handleChangeSwap}
-                  size={isMobile ? "small" : "medium"}
-                />
-              }
-              label={
-                <FormattedMessage id="show.swaps" defaultMessage="Show Swaps" />
-              }
-              sx={{
-                margin: 0,
-                flex: '1 1 auto',
-                '& .MuiFormControlLabel-label': {
-                  fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body1.fontSize },
-                  fontWeight: { xs: 600, sm: 400 },
-                },
-                ...(isMobile && isGlassVariant && {
-                  justifyContent: 'flex-start',
-                  backgroundColor: `rgba(255, 255, 255, 0.25)`,
-                  borderRadius: theme.shape.borderRadius,
-                  padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
-                  backdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
-                  WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
-                  border: `1px solid rgba(255, 255, 255, 0.4)`,
-                  minHeight: theme.spacing(4.5),
-                  alignItems: 'center',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                }),
-                ...(isMobile && !isGlassVariant && {
-                  backgroundColor: theme.palette.background.paper,
-                  borderRadius: theme.shape.borderRadius,
-                  padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
-                  border: `1px solid ${theme.palette.divider}`,
-                  minHeight: theme.spacing(4.5),
-                  alignItems: 'center',
-                  boxShadow: theme.shadows[1],
-                }),
-              }}
-            />
-          </Box>
+        <Box sx={getControlsStyles}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showSwaps}
+                onChange={handleChangeSwap}
+                size={isMobile ? "small" : "medium"}
+              />
+            }
+            label={
+              <FormattedMessage id="show.swaps" defaultMessage="Show Swaps" />
+            }
+            sx={{
+              margin: 0,
+              flex: '1 1 auto',
+              '& .MuiFormControlLabel-label': {
+                fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body1.fontSize },
+                fontWeight: { xs: 600, sm: 400 },
+              },
+              ...(isMobile && isGlassVariant && {
+                justifyContent: 'flex-start',
+                backgroundColor: `rgba(255, 255, 255, 0.25)`,
+                borderRadius: theme.shape.borderRadius,
+                padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
+                backdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
+                WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%)`,
+                border: `1px solid rgba(255, 255, 255, 0.4)`,
+                minHeight: theme.spacing(4.5),
+                alignItems: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+              }),
+              ...(isMobile && !isGlassVariant && {
+                backgroundColor: theme.palette.background.paper,
+                borderRadius: theme.shape.borderRadius,
+                padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
+                border: `1px solid ${theme.palette.divider}`,
+                minHeight: theme.spacing(4.5),
+                alignItems: 'center',
+                boxShadow: theme.shadows[1],
+              }),
+            }}
+          />
+        </Box>
 
-          <Box sx={getControlsStyles}>
-            <FormControl
-              size={isMobile ? "small" : "medium"}
+        <Box sx={getControlsStyles}>
+          <FormControl
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              ...(isMobile && {
+                flex: '0 1 auto',
+                minWidth: theme.spacing(12),
+                maxWidth: theme.spacing(20),
+              }),
+            }}
+          >
+            <Select
+              displayEmpty
+              value={selectedPool || ""}
+              onChange={handleChange}
+              MenuProps={menuProps}
               sx={{
+                minWidth: { xs: theme.spacing(12), sm: theme.spacing(25) },
+                '& .MuiSelect-select': {
+                  fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
+                },
                 ...(isMobile && {
-                  flex: '0 1 auto',
                   minWidth: theme.spacing(12),
                   maxWidth: theme.spacing(20),
+                  width: 'auto',
+                  flex: '0 1 auto',
+                  '& .MuiSelect-select': {
+                    padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
+                    textAlign: 'left',
+                    fontSize: theme.typography.caption.fontSize,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  },
                 }),
               }}
             >
-              <Select
-                displayEmpty
-                value={selectedPool || ""}
-                onChange={handleChange}
-                MenuProps={menuProps}
-                sx={{
-                  minWidth: { xs: theme.spacing(12), sm: theme.spacing(25) },
-                  '& .MuiSelect-select': {
-                    fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
-                  },
-                  ...(isMobile && {
-                    minWidth: theme.spacing(12),
-                    maxWidth: theme.spacing(20),
-                    width: 'auto',
-                    flex: '0 1 auto',
-                    '& .MuiSelect-select': {
-                      padding: `${theme.spacing(0.75)} ${theme.spacing(1)}`,
-                      textAlign: 'left',
-                      fontSize: theme.typography.caption.fontSize,
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    },
-                  }),
-                }}
-              >
-                <MenuItem value="">
-                  <FormattedMessage
-                    id="selecte.a.pair"
-                    defaultMessage="Select a pair"
-                  />
-                </MenuItem>
-                {pools.map((pool, key) => (
-                  <MenuItem value={pool.address} key={key}>
-                    {pool.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-        </Stack>
-
-        <Box
-          sx={{
-            height: chartHeight,
-            borderRadius: theme.shape.borderRadius,
-            overflow: 'hidden',
-            border: isGlassVariant
-              ? `1px solid rgba(255, 255, 255, ${glassOpacity * 2})`
-              : `1px solid ${theme.palette.divider}`,
-            backgroundColor: isGlassVariant
-              ? 'transparent'
-              : theme.palette.background.paper,
-          }}
-        >
-          {isLoading ? (
-            <Box
-              sx={{
-                p: { xs: theme.spacing(2), sm: theme.spacing(3), md: theme.spacing(4) },
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: theme.spacing(2),
-              }}
-            >
-              {[...Array(4)].map((_, index) => (
-                <Skeleton
-                  key={index}
-                  variant="rectangular"
-                  width="100%"
-                  height={theme.spacing(12)}
-                  sx={{ borderRadius: theme.shape.borderRadius }}
+              <MenuItem value="">
+                <FormattedMessage
+                  id="selecte.a.pair"
+                  defaultMessage="Select a pair"
                 />
+              </MenuItem>
+              {pools.map((pool, key) => (
+                <MenuItem value={pool.address} key={key}>
+                  {pool.name}
+                </MenuItem>
               ))}
-            </Box>
-          ) : (
-            selectedPool && (
-              <iframe
-                height="100%"
-                width="100%"
-                id="geckoterminal-embed"
-                title="GeckoTerminal Embed"
-                src={`https://www.geckoterminal.com/${language}/${network}/pools/${selectedPool}?embed=1&info=${showInfo ? "1" : "0"}&swaps=${showSwaps ? "1" : "0"}`}
-                frameBorder="0"
-                allow="clipboard-write"
-                allowFullScreen
-                style={{
-                  border: 'none',
-                  borderRadius: theme.shape.borderRadius,
-                }}
-              />
-            )
-          )}
+            </Select>
+          </FormControl>
         </Box>
-      </CardContent>
-    </Card>
+      </Stack>
+
+      <Box
+        sx={{
+          height: chartHeight,
+          borderRadius: theme.shape.borderRadius,
+          overflow: 'hidden',
+          border: isGlassVariant
+            ? `1px solid rgba(255, 255, 255, ${glassOpacity * 2})`
+            : `1px solid ${theme.palette.divider}`,
+          backgroundColor: isGlassVariant
+            ? 'transparent'
+            : theme.palette.background.paper,
+        }}
+      >
+        {isLoading ? (
+          <Box
+            sx={{
+              p: { xs: theme.spacing(2), sm: theme.spacing(3), md: theme.spacing(4) },
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: theme.spacing(2),
+            }}
+          >
+            {[...Array(4)].map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rectangular"
+                width="100%"
+                height={theme.spacing(12)}
+                sx={{ borderRadius: theme.shape.borderRadius }}
+              />
+            ))}
+          </Box>
+        ) : (
+          selectedPool && (
+            <iframe
+              height="100%"
+              width="100%"
+              id="geckoterminal-embed"
+              title="GeckoTerminal Embed"
+              src={`https://www.geckoterminal.com/${language}/${network}/pools/${selectedPool}?embed=1&info=${showInfo ? "1" : "0"}&swaps=${showSwaps ? "1" : "0"}`}
+              frameBorder="0"
+              allow="clipboard-write"
+              allowFullScreen
+              style={{
+                border: 'none',
+                borderRadius: theme.shape.borderRadius,
+              }}
+            />
+          )
+        )}
+      </Box>
+    </Box>
   );
 }

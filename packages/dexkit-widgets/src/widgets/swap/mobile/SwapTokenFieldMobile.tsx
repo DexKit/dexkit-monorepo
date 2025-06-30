@@ -1,12 +1,11 @@
 import {
-  Avatar,
   Box,
   Button,
   Chip,
   InputBaseProps,
   Stack,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
@@ -15,10 +14,9 @@ import { Token } from "@dexkit/core/types";
 import { formatBigNumber } from "../../../utils";
 import { CurrencyField } from "../CurrencyField";
 
-import { TOKEN_ICON_URL } from "@dexkit/core/constants";
 import type { ChainId } from "@dexkit/core/constants/enums";
 import { AccountBalanceWallet, KeyboardArrowDown } from "@mui/icons-material";
-import { isDexKitToken } from "../../../constants/tokens";
+import SwapTokenButton from '../SwapTokenButton';
 
 export interface SwapTokenFieldMobileProps {
   InputBaseProps?: InputBaseProps;
@@ -37,6 +35,8 @@ export interface SwapTokenFieldMobileProps {
   onSetToken?: (token?: Token) => void;
   featuredTokensByChain: Token[];
   title?: React.ReactNode;
+  keepTokenAlwaysPresent?: boolean;
+  lockedToken?: Token;
 }
 
 export default function SwapTokenFieldMobile({
@@ -56,6 +56,8 @@ export default function SwapTokenFieldMobile({
   onSetToken,
   featuredTokensByChain,
   title,
+  keepTokenAlwaysPresent,
+  lockedToken,
 }: SwapTokenFieldMobileProps) {
   const theme = useTheme();
 
@@ -79,67 +81,36 @@ export default function SwapTokenFieldMobile({
             borderWidth: 2,
             '&:hover': {
               borderStyle: 'solid',
-              bgcolor: 'action.hover',
-              transform: 'scale(1.02)',
             },
-            transition: 'all 0.2s ease',
           }}
         >
           <Stack alignItems="center" spacing={0.5}>
-            <Typography variant="body2" fontWeight="bold">
-              <FormattedMessage id="select.token" defaultMessage="Select" />
+            <Typography variant="caption" color="text.secondary">
+              <FormattedMessage id="select" defaultMessage="Select" />
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown fontSize="small" />
           </Stack>
         </Button>
       );
     }
 
-    const isKitToken = isDexKitToken(token);
+    const isLocked = !!lockedToken && keepTokenAlwaysPresent &&
+      token.address?.toLowerCase() === lockedToken.address?.toLowerCase() &&
+      token.chainId === lockedToken.chainId;
 
     return (
-      <Button
-        variant="outlined"
-        onClick={() => onSelectToken()}
-        sx={{
-          minWidth: 90,
-          height: 56,
-          borderRadius: 3,
-          p: 1,
-          '&:hover': {
-            bgcolor: 'action.hover',
-            borderColor: 'primary.main',
-            transform: 'scale(1.02)',
+      <SwapTokenButton
+        token={token}
+        locked={isLocked}
+        ButtonBaseProps={{
+          onClick: isLocked ? undefined : () => onSelectToken(),
+          sx: {
+            minWidth: 90,
+            height: 56,
+            borderRadius: 3,
           },
-          transition: 'all 0.2s ease',
         }}
-      >
-        <Stack direction="row" alignItems="center" spacing={0.5} width="100%">
-          <Avatar
-            src={
-              token.logoURI
-                ? token.logoURI
-                : TOKEN_ICON_URL(token.address, token.chainId)
-            }
-            imgProps={{ sx: { objectFit: "fill" } }}
-            sx={{
-              width: 24,
-              height: 24,
-              ...(isKitToken && theme.palette.mode === 'dark' && {
-                filter: 'invert(1)',
-              })
-            }}
-          >
-            {token.symbol?.[0]}
-          </Avatar>
-          <Stack alignItems="flex-start" spacing={-0.5} flex={1}>
-            <Typography variant="body2" fontWeight="bold" noWrap sx={{ maxWidth: '50px', lineHeight: 1 }}>
-              {token.symbol}
-            </Typography>
-            <KeyboardArrowDown fontSize="small" sx={{ alignSelf: 'center' }} />
-          </Stack>
-        </Stack>
-      </Button>
+      />
     );
   };
 
@@ -227,7 +198,7 @@ export default function SwapTokenFieldMobile({
             </Stack>
           )}
 
-          {priceLoading ? (
+          {token && priceLoading ? (
             <Box textAlign="right">
               <Chip
                 label={<FormattedMessage id="loading.price" defaultMessage="Loading..." />}

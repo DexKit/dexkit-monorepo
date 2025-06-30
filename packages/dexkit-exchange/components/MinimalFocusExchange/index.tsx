@@ -32,7 +32,7 @@ const defaultSettings: ExchangeGlassSettings = {
   primaryColor: "#007AFF",
   accentColor: "#34C759",
   textColor: "#FFFFFF",
-  backgroundType: "gradient",
+  backgroundType: "solid",
   backgroundColor: "#1a1a1a",
   backgroundGradient: {
     from: "#1a1a1a",
@@ -163,7 +163,6 @@ export default function MinimalFocusExchange({
         }`
         : "none",
       "&:hover": {
-        transform: animations?.enabled ? "translateY(-2px)" : "none",
         boxShadow: glassmorphism?.enabled
           ? `0 12px 40px ${alpha("#000000", 0.15)}`
           : theme.shadows[8],

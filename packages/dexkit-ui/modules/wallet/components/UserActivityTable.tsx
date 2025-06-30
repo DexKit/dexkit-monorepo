@@ -10,17 +10,21 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import useUserActivity from "../hooks/useUserActivity";
 import UserActivityTableRow from "./UserActivityTableRow";
 
-export interface UserActivityTableProps {}
+export interface UserActivityTableProps { }
 
-export default function UserActivityTable({}: UserActivityTableProps) {
+export default function UserActivityTable({ }: UserActivityTableProps) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { account } = useWeb3React();
 
@@ -81,7 +85,7 @@ export default function UserActivityTable({}: UserActivityTableProps) {
         <TableHead>
           <TableRow>
             <TableCell>
-              <FormattedMessage id="activity" defaultMessage="Activity" />
+              <FormattedMessage id="action" defaultMessage="Action" />
             </TableCell>
             <TableCell>
               <FormattedMessage id="date" defaultMessage="Date" />
@@ -101,7 +105,58 @@ export default function UserActivityTable({}: UserActivityTableProps) {
                 count={userActivityQuery.data?.pages[page]?.count || 0}
                 onPageChange={handlePageChange}
                 rowsPerPage={pageSize}
-                rowsPerPageOptions={[5, 10]}
+                rowsPerPageOptions={isMobile ? [5] : [5, 10]}
+                labelRowsPerPage={isMobile ? "Filas:" : "Rows per page:"}
+                labelDisplayedRows={({ from, to, count }) =>
+                  isMobile ? `${from}-${to}/${count}` : `${from}-${to} of ${count}`
+                }
+                sx={{
+                  '& .MuiTablePagination-toolbar': {
+                    flexWrap: isMobile ? 'wrap' : 'nowrap',
+                    minHeight: isMobile ? 'auto' : 52,
+                    paddingLeft: isMobile ? theme.spacing(1) : theme.spacing(2),
+                    paddingRight: isMobile ? theme.spacing(1) : theme.spacing(2),
+                  },
+                  '& .MuiTablePagination-spacer': {
+                    display: isMobile ? 'none' : 'flex',
+                  },
+                  '& .MuiTablePagination-selectLabel': {
+                    fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize,
+                    margin: isMobile ? theme.spacing(0.5, 0.5, 0.5, 0) : 'inherit',
+                    order: isMobile ? 1 : 'inherit',
+                  },
+                  '& .MuiTablePagination-select': {
+                    fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize,
+                    marginLeft: isMobile ? theme.spacing(0.5) : theme.spacing(1),
+                    marginRight: isMobile ? theme.spacing(1) : theme.spacing(2),
+                    order: isMobile ? 2 : 'inherit',
+                  },
+                  '& .MuiTablePagination-displayedRows': {
+                    fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize,
+                    margin: isMobile ? theme.spacing(0.5, 0) : 'inherit',
+                    order: isMobile ? 3 : 'inherit',
+                    width: isMobile ? '100%' : 'auto',
+                    textAlign: isMobile ? 'center' : 'inherit',
+                  },
+                  '& .MuiTablePagination-actions': {
+                    marginLeft: isMobile ? 'auto' : theme.spacing(2.5),
+                    order: isMobile ? 4 : 'inherit',
+                    '& .MuiIconButton-root': {
+                      padding: isMobile ? theme.spacing(0.5) : theme.spacing(1),
+                      '& .MuiSvgIcon-root': {
+                        fontSize: isMobile ? theme.typography.body1.fontSize : theme.typography.h6.fontSize,
+                      },
+                    },
+                  },
+                  [theme.breakpoints.down('xs')]: {
+                    '& .MuiTablePagination-toolbar': {
+                      padding: theme.spacing(1, 0.5),
+                    },
+                    '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+                      fontSize: theme.typography.caption.fontSize,
+                    },
+                  },
+                }}
               />
             )}
           </TableRow>

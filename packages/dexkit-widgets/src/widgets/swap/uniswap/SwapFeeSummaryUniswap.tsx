@@ -17,7 +17,7 @@ import { GET_NATIVE_TOKEN } from "@dexkit/core/constants";
 import { Token } from "@dexkit/core/types";
 import { formatStringNumber } from "@dexkit/core/utils";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
-import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
+import { ZeroExGaslessQuoteResponse, ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { useCoinPrices, useGasPrice } from "../../../hooks";
 import { formatBigNumber } from "../../../utils";
 
@@ -25,12 +25,16 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 
 export interface SwapFeeSummaryUniswapProps {
-  quote?: ZeroExQuoteResponse | null;
+  quote?: ZeroExQuoteResponse | ZeroExGaslessQuoteResponse | null;
   chainId?: ChainId;
   currency: string;
   sellToken?: Token;
   buyToken?: Token;
   provider?: providers.BaseProvider;
+  swapFees?: {
+    recipient: string;
+    amount_percentage: number;
+  };
 }
 
 export default function SwapFeeSummaryUniswap({
@@ -40,6 +44,7 @@ export default function SwapFeeSummaryUniswap({
   sellToken,
   buyToken,
   provider,
+  swapFees,
 }: SwapFeeSummaryUniswapProps) {
   const coinPrices = useCoinPrices({
     currency,
@@ -48,11 +53,18 @@ export default function SwapFeeSummaryUniswap({
   });
 
   const maxFee = useMemo(() => {
-    const { fees } = quote || {};
-    if (fees) {
-      return BigNumber.from(fees.gasFee?.amount || 0)
-        .add(BigNumber.from(fees.integratorFee?.amount || 0))
-        .add(BigNumber.from(fees.zeroExFee?.amount || 0));
+    if (!quote) return BigNumber.from(0);
+
+    if ('fees' in quote && quote.fees) {
+      return BigNumber.from(quote.fees.gasFee?.amount || 0)
+        .add(BigNumber.from(quote.fees.integratorFee?.amount || 0))
+        .add(BigNumber.from(quote.fees.zeroExFee?.amount || 0));
+    }
+
+    if ('gas' in quote && quote.gas) {
+      const gasPrice = BigNumber.from(quote.gasPrice || 0);
+      const gas = BigNumber.from(quote.gas || 0);
+      return gasPrice.mul(gas);
     }
 
     return BigNumber.from(0);
@@ -62,13 +74,12 @@ export default function SwapFeeSummaryUniswap({
     if (quote && quote?.value) {
       return BigNumber.from(quote.value);
     }
-
     return BigNumber.from(0);
   }, [quote]);
 
   const totalFee = useMemo(() => {
     return maxFee;
-  }, [amount, maxFee]);
+  }, [maxFee]);
 
   const totalFiat = useMemo(() => {
     const amount = parseFloat(formatEther(totalFee));
@@ -106,32 +117,6 @@ export default function SwapFeeSummaryUniswap({
 
     return 0.0;
   }, [sellToken, buyToken, quote, toggleSide]);
-
-  /* const fiatNativePrice = useMemo(() => {
-  if (coinPrices.data && chainId && currency) {
-    const t = coinPrices.data[chainId];
-
-    if (t) {
-      const price = t[constants.AddressZero];
-      return price[currency];
-    }
-  }
-}, [coinPrices.data, chainId, currency]);*/
-
-  /*const unitPriceFiat = useMemo(() => {
-    if (
-      buyToken &&
-      sellToken &&
-      quote &&
-      fiatNativePrice &&
-      quote.sellTokenToEthRate &&
-      quote.buyTokenToEthRate
-    ) {
-      return toggleSide
-        ? Number(fiatNativePrice) / Number(quote.sellTokenToEthRate || 0)
-        : Number(fiatNativePrice) / Number(quote.buyTokenToEthRate || 0);
-    }
-  }, [sellToken, buyToken, quote, toggleSide, fiatNativePrice]);*/
 
   const [showSummary, setShowSummary] = useState(false);
 

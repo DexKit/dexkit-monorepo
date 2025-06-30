@@ -555,7 +555,7 @@ function BackgroundImageSelector({
 }
 
 const getDefaultGlassSettings = (theme: any) => ({
-  backgroundType: "gradient" as const,
+  backgroundType: "solid" as const,
   backgroundColor: theme.palette.background.default,
   gradientStartColor: theme.palette.background.default,
   gradientEndColor: theme.palette.background.paper,
@@ -597,7 +597,7 @@ const getCustomGlassSettings = (customTheme?: any) => {
 
   if (palette) {
     return {
-      backgroundType: "gradient" as const,
+      backgroundType: "solid" as const,
       backgroundColor: palette.background?.default || "#FFFFFF",
       gradientStartColor: palette.background?.default || "#FFFFFF",
       gradientEndColor: palette.background?.paper || "#FAFAFA",
@@ -672,7 +672,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
         const palette = colorScheme.palette;
 
         const settings = {
-          backgroundType: "gradient" as const,
+          backgroundType: "solid" as const,
           backgroundColor: palette.background?.default || "#FFFFFF",
           gradientStartColor: palette.background?.default || "#FFFFFF",
           gradientEndColor: palette.background?.paper || "#FAFAFA",
@@ -704,7 +704,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
     }
 
     const settings = {
-      backgroundType: "gradient" as const,
+      backgroundType: "solid" as const,
       backgroundColor: theme.palette.background.default,
       gradientStartColor: theme.palette.background.default,
       gradientEndColor: theme.palette.background.paper,
@@ -1017,8 +1017,25 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               />
             </Typography>
             <RadioGroup
-              value={values.glassSettings?.backgroundType || "gradient"}
-              onChange={(e) => setFieldValue("glassSettings.backgroundType", e.target.value)}
+              value={values.glassSettings?.backgroundType || "solid"}
+              onChange={(e) => {
+                const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                setFieldValue("glassSettings.backgroundType", newType);
+
+                if (newType === 'solid' && !values.glassSettings?.backgroundColor) {
+                  setFieldValue("glassSettings.backgroundColor", theme.palette.background.default);
+                } else if (newType === 'gradient') {
+                  if (!values.glassSettings?.gradientStartColor) {
+                    setFieldValue("glassSettings.gradientStartColor", theme.palette.background.default);
+                  }
+                  if (!values.glassSettings?.gradientEndColor) {
+                    setFieldValue("glassSettings.gradientEndColor", theme.palette.background.paper);
+                  }
+                  if (!values.glassSettings?.gradientDirection) {
+                    setFieldValue("glassSettings.gradientDirection", "to bottom");
+                  }
+                }
+              }}
               row
             >
               <FormControlLabel

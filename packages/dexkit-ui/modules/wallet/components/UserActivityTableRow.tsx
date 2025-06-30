@@ -65,6 +65,15 @@ export default function UserActivityTableRow({
     cells.push(<FormattedMessage id="approve" defaultMessage="Approve" />);
   }
 
+  if (event.type === 'connectAccount') {
+    cells.push(
+      <FormattedMessage
+        id="connect.account"
+        defaultMessage="Connect Account"
+      />
+    );
+  }
+
   if (event.type === UserEvents.buyDropToken) {
     cells.push(<UserActivityBuyDropToken event={event} />);
   }
@@ -481,9 +490,8 @@ export default function UserActivityTableRow({
         values={{
           to: (
             <Link
-              href={`${
-                event.chainId ? getBlockExplorerUrl(event.chainId) : undefined
-              }/address/${to}`}
+              href={`${event.chainId ? getBlockExplorerUrl(event.chainId) : undefined
+                }/address/${to}`}
             >
               {truncateAddress(to)}
             </Link>
@@ -504,9 +512,8 @@ export default function UserActivityTableRow({
         values={{
           from: (
             <Link
-              href={`${
-                event.chainId ? getBlockExplorerUrl(event.chainId) : undefined
-              }/address/${from}`}
+              href={`${event.chainId ? getBlockExplorerUrl(event.chainId) : undefined
+                }/address/${from}`}
             >
               {truncateAddress(from)}
             </Link>
@@ -571,9 +578,8 @@ export default function UserActivityTableRow({
         values={{
           contract: (
             <Link
-              href={`/contract/${
-                event.chainId ? getChainSlug(event.chainId) : undefined
-              }/${address}`}
+              href={`/contract/${event.chainId ? getChainSlug(event.chainId) : undefined
+                }/${address}`}
               target="_blank"
             >
               {name}
@@ -584,10 +590,22 @@ export default function UserActivityTableRow({
     );
   }
 
+  if (cells.length === 0) {
+    cells.push(
+      <FormattedMessage
+        id="unknown.activity"
+        defaultMessage="Unknown activity type: {type}"
+        values={{
+          type: event.type || 'Unknown'
+        }}
+      />
+    );
+  }
+
   return (
     <TableRow>
-      {cells.map((cell) => (
-        <TableCell>{cell}</TableCell>
+      {cells.map((cell, index) => (
+        <TableCell key={index}>{cell}</TableCell>
       ))}
       <TableCell>
         <MomentFormatted date={event.createdAt} format="LLLL" />
@@ -601,7 +619,9 @@ export default function UserActivityTableRow({
             <FormattedMessage id="view.tx" defaultMessage="View" />
           </Link>
         )} */}
-        {event.hash && (
+        {event.type === 'connectAccount' ? (
+          <FormattedMessage id="not.applicable" defaultMessage="N/A" />
+        ) : event.hash ? (
           <Link
             href={`${getBlockExplorerUrl(
               event.chainId ? event.chainId : undefined
@@ -610,7 +630,7 @@ export default function UserActivityTableRow({
           >
             <FormattedMessage id="view.tx" defaultMessage="View" />
           </Link>
-        )}
+        ) : null}
       </TableCell>
     </TableRow>
   );
