@@ -1,5 +1,43 @@
 # dexappbuilder
 
+## 0.27.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 73af35e: Added support for Token Allowance Drops on DexContracts
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- 31f971c: enhance NFT and token drop forms with new variants
+- d5d944a: Added widgets. Now you can create and edit widgets and use them across all your apps. Additionally, you can easily embed widgets or iframes in external apps.
+- 53d4efb: Add embed code option on pages admin section
+- ee44982: add new variants for wallet (glass, custom) with custom modals for better UI/UX and full mobile-responsivity
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [18c97ca]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [d5d944a]
+- Updated dependencies [e35e0e7]
+- Updated dependencies [53d4efb]
+- Updated dependencies [ee44982]
+  - @dexkit/dexappbuilder-viewer@0.10.0
+  - @dexkit/ui@0.24.0
+  - @dexkit/wallet-connectors@0.7.0
+  - @dexkit/dexappbuilder-render@0.1.0
+  - @dexkit/widgets@0.14.0
+  - @dexkit/unlock-widget@0.5.0
+  - @dexkit/core@0.19.0
+  - @dexkit/web3forms@0.14.0
+
 ## 0.26.0
 
 ### Minor Changes
