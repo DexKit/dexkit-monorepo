@@ -20,13 +20,12 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   replaceNodeEnv: true,
-  outDir: 'dist/widget',
+  outDir: 'dist',
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
   entry: {
-    index: 'index.tsx',
-    wallet: 'widgets/wallet.tsx'
+    index: 'index.tsx'
   },
   esbuildOptions(options) {
     options.alias = {
@@ -34,9 +33,11 @@ export default defineConfig({
     }
   },
   injectStyle: true,
-  format: ['iife'],
+  format: ['iife', 'esm'],
   //shims: true,
   minify: true,
+  dts: true,
+
   // esbuildPlugins: [replaceNodeBuiltIns()],
   // plugins: [replaceNodeBuiltIns()],
   //platform: 'browser'

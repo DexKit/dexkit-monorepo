@@ -7,15 +7,18 @@ import type {
   WatchTransactionDialogProperties,
 } from "@dexkit/core/types";
 import { SUPPORTED_LEGACY_CHAIN_IDS } from "@dexkit/evm-chains/constants";
-import React, { SetStateAction } from "react";
 import type {
   AppNotification,
   AppNotificationType,
   CreateAppNotificationParams,
-} from "../types";
+} from "@dexkit/ui/types";
+import React, { SetStateAction } from "react";
 
 export interface DexkitContextState {
   onChangeLocale: (locale: string) => void;
+  provider?: any;
+  apiKey?: string;
+  onConnectWallet?: () => void;
   affiliateReferral?: string;
   notificationTypes: { [key: string]: AppNotificationType };
   createNotification: (params: CreateAppNotificationParams) => void;
@@ -30,6 +33,7 @@ export interface DexkitContextState {
   setTokens: (update: SetStateAction<TokenWhitelabelApp[]>) => void;
   userEventURL?: string;
   siteId?: number;
+  widgetId?: number;
   assets: { [key: string]: Asset };
   transactions: { [key: string]: AppTransaction };
   watchTransactionDialog: WatchTransactionDialogProperties;
@@ -90,4 +94,6 @@ export const DexKitContext = React.createContext<DexkitContextState>({
     }) => {},
     watch: (hash: string) => {},
   },
+  widgetId: undefined,
+  apiKey: undefined,
 });

@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+/*import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -27,7 +27,7 @@ const InitConnector = () => {
   const { connector } = useWeb3React();
 
   useEffect(() => {
-    if (connector.connectEagerly) {
+    if (connector?.connectEagerly) {
       connector.connectEagerly();
     }
   }, [connector]);
@@ -64,4 +64,4 @@ const Template: ComponentStory<typeof AppBuilder> = (args) => {
 
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Default.args = {};
+Default.args = {};*/

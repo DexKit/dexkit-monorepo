@@ -32,9 +32,9 @@ import { useSnackbar } from 'notistack';
 const AddTokenDialog = dynamic(() => import('../dialogs/AddTokenDialog'));
 
 interface Props {
-  config: AppConfig;
+  config: Partial<AppConfig>;
   site?: SiteResponse | null;
-  onSave: (config: AppConfig) => void;
+  onSave: (config: Partial<AppConfig>) => void;
   onHasChanges?: (hasChanges: boolean) => void;
   isOnStepper?: boolean;
   isSwap?: boolean;

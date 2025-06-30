@@ -10,7 +10,7 @@ import {
   InputAdornment,
   InputLabel,
   Stack,
-  useTheme
+  useTheme,
 } from '@mui/material';
 
 import {
@@ -50,9 +50,9 @@ function getSectionType(
       title:
         !section.name && !section.title
           ? formatMessage({
-            id: 'unnamed.section',
-            defaultMessage: 'Unnamed Section',
-          })
+              id: 'unnamed.section',
+              defaultMessage: 'Unnamed Section',
+            })
           : section.name
             ? section.name
             : section.title || '',
@@ -68,6 +68,7 @@ export interface PageSectionsProps {
   onAction: (action: string, index: number) => void;
   onClose: () => void;
   onClone: () => void;
+  onEmbed?: () => void;
   onEditTitle: (page: string, title: string) => void;
   onEditLayout: () => void;
   onAdd: () => void;
@@ -78,6 +79,7 @@ export interface PageSectionsProps {
   onChangeName: (index: number, name: string) => void;
   pageKey?: string;
   siteId?: string;
+  hideEmbedMenu?: boolean;
 }
 
 export default function PageSections({
@@ -88,6 +90,7 @@ export default function PageSections({
   onAction,
   onClose,
   onAdd,
+  onEmbed,
   onChangeName,
   onEditTitle,
   onEditLayout,
@@ -96,6 +99,7 @@ export default function PageSections({
   onAddSection,
   onAddCustomSection,
   onPreview,
+  hideEmbedMenu,
 }: PageSectionsProps) {
   const isMobile = useIsMobile();
   const theme = useTheme();
@@ -212,13 +216,19 @@ export default function PageSections({
       }
 
       return (
-        <Grid item xs={12} key={`${JSON.stringify(section)}-${section.index}`} sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
+        <Grid
+          item
+          xs={12}
+          key={`${JSON.stringify(section)}-${section.index}`}
+          sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
+        >
           <PageSection
             showTopDroppable={section.index === 0}
             index={section.index}
             siteId={siteId}
             page={pageKey}
             expand={!isMobile}
+            hideEmbedMenu={hideEmbedMenu}
             icon={getSectionType(section, formatMessage)?.icon}
             title={getSectionType(section, formatMessage)?.title}
             subtitle={
@@ -265,20 +275,35 @@ export default function PageSections({
         <PageSectionsHeader
           onClose={onClose}
           onClone={onClone}
+          onEmbed={onEmbed}
           onEditTitle={(title) => onEditTitle(pageKey || '', title)}
           onEditLayout={onEditLayout}
           onPreview={onPreview}
           page={page}
           pageKey={pageKey}
         />
-        <Box sx={{
-          width: '100%',
-          px: 0,
-          ml: 0
-        }}>
+        <Box
+          sx={{
+            width: '100%',
+            px: 0,
+            ml: 0,
+          }}
+        >
           <Stack spacing={theme.spacing(0.5)} sx={{ width: '100%' }}>
-            <Stack spacing={theme.spacing(0.5)} direction={isMobile ? 'column' : 'row'} sx={{ width: '100%' }}>
-              <Grid container spacing={theme.spacing(0.5)} sx={{ width: '100%', px: isMobile ? 0 : 0, pb: isMobile ? 0 : theme.spacing(2) }}>
+            <Stack
+              spacing={theme.spacing(0.5)}
+              direction={isMobile ? 'column' : 'row'}
+              sx={{ width: '100%' }}
+            >
+              <Grid
+                container
+                spacing={theme.spacing(0.5)}
+                sx={{
+                  width: '100%',
+                  px: isMobile ? 0 : 0,
+                  pb: isMobile ? 0 : theme.spacing(2),
+                }}
+              >
                 <Grid item xs={12} sm={isMobile ? 12 : 6}>
                   <Stack
                     spacing={theme.spacing(0.25)}
@@ -286,12 +311,14 @@ export default function PageSections({
                     justifyContent="space-between"
                     sx={{
                       width: '100%',
-                      ml: isMobile ? theme.spacing(-2) : 0
+                      ml: isMobile ? theme.spacing(-2) : 0,
                     }}
                   >
                     <Button
-                      size={isMobile ? "small" : "medium"}
-                      startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+                      size={isMobile ? 'small' : 'medium'}
+                      startIcon={
+                        <Add fontSize={isMobile ? 'small' : 'medium'} />
+                      }
                       onClick={onAddSection}
                       variant="outlined"
                       sx={{
@@ -302,13 +329,13 @@ export default function PageSections({
                         pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
-                          "& > *:nth-of-type(1)": {
+                          '& > *:nth-of-type(1)': {
                             fontSize: isMobile ? 16 : 20,
-                          }
+                          },
                         },
                         '& .MuiButton-label': {
-                          whiteSpace: 'nowrap'
-                        }
+                          whiteSpace: 'nowrap',
+                        },
                       }}
                     >
                       {isMobile ? (
@@ -324,8 +351,10 @@ export default function PageSections({
                       )}
                     </Button>
                     <Button
-                      size={isMobile ? "small" : "medium"}
-                      startIcon={<Add fontSize={isMobile ? "small" : "medium"} />}
+                      size={isMobile ? 'small' : 'medium'}
+                      startIcon={
+                        <Add fontSize={isMobile ? 'small' : 'medium'} />
+                      }
                       onClick={onAddCustomSection}
                       variant="outlined"
                       sx={{
@@ -336,13 +365,13 @@ export default function PageSections({
                         pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
                           marginRight: isMobile ? 0.25 : 0.5,
-                          "& > *:nth-of-type(1)": {
+                          '& > *:nth-of-type(1)': {
                             fontSize: isMobile ? 16 : 20,
-                          }
+                          },
                         },
                         '& .MuiButton-label': {
-                          whiteSpace: 'nowrap'
-                        }
+                          whiteSpace: 'nowrap',
+                        },
                       }}
                     >
                       {isMobile ? (
@@ -359,7 +388,12 @@ export default function PageSections({
                     </Button>
                   </Stack>
                 </Grid>
-                <Grid item xs={12} sm={isMobile ? 12 : 6} sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={isMobile ? 12 : 6}
+                  sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}
+                >
                   <Stack
                     spacing={0.25}
                     direction="row"
@@ -372,7 +406,7 @@ export default function PageSections({
                         value={query}
                         onChange={handleChangeQuery}
                         TextFieldProps={{
-                          size: isMobile ? "small" : "medium",
+                          size: isMobile ? 'small' : 'medium',
                           variant: 'standard',
                           sx: {
                             width: '100%',
@@ -381,13 +415,15 @@ export default function PageSections({
                             '& .MuiInputBase-root': {
                               fontSize: isMobile ? '0.875rem' : 'inherit',
                               height: isMobile ? undefined : '40px',
-                              alignItems: 'center'
-                            }
+                              alignItems: 'center',
+                            },
                           },
                           InputProps: {
                             startAdornment: (
                               <InputAdornment position="start">
-                                <Search fontSize={isMobile ? "small" : "medium"} />
+                                <Search
+                                  fontSize={isMobile ? 'small' : 'medium'}
+                                />
                               </InputAdornment>
                             ),
                           },
@@ -398,7 +434,11 @@ export default function PageSections({
                         }}
                       />
                     </Box>
-                    <IconButton onClick={() => setShowFilters(!showFilters)} size={isMobile ? "small" : "medium"} sx={{ p: 0.25, mb: isMobile ? undefined : 1 }}>
+                    <IconButton
+                      onClick={() => setShowFilters(!showFilters)}
+                      size={isMobile ? 'small' : 'medium'}
+                      sx={{ p: 0.25, mb: isMobile ? undefined : 1 }}
+                    >
                       {showFilters ? <FilterAltOffIcon /> : <FilterAltIcon />}
                     </IconButton>
                   </Stack>
@@ -412,7 +452,12 @@ export default function PageSections({
               <Collapse in={showFilters} sx={{ width: '100%' }}>
                 <Card>
                   <Box p={2}>
-                    <Grid container spacing={2} alignItems="center" justifyContent="flex-start">
+                    <Grid
+                      container
+                      spacing={2}
+                      alignItems="center"
+                      justifyContent="flex-start"
+                    >
                       <Grid item xs={12} sm={4}>
                         <FormControl fullWidth>
                           <InputLabel shrink>
@@ -444,9 +489,17 @@ export default function PageSections({
             )}
 
             <Box sx={{ width: '100%', mt: isMobile ? 8 : 1 }}>
-              <Grid container spacing={0} sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}>
+              <Grid
+                container
+                spacing={0}
+                sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}
+              >
                 {renderSections()}
-                <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                >
                   <SectionsPagination
                     pageSize={pageSize}
                     from={offset}

@@ -1,5 +1,5 @@
 import { UserOffChainEvents } from "@dexkit/core/constants/userEvents";
-import { useAppConfig, useThemeMode } from "@dexkit/ui/hooks";
+import { useAppConfig, useDexKitContext, useThemeMode } from "@dexkit/ui/hooks";
 import {
   appMetadata,
   client,
@@ -15,6 +15,7 @@ import { useTrackUserEventsMutation } from "./userEvents";
 export const useWalletConnect = () => {
 
   const { connect, isConnecting } = useConnectModal();
+  const { onConnectWallet } = useDexKitContext()
   const trackUserEvents = useTrackUserEventsMutation();
 
   const { mode } = useThemeMode();
@@ -45,6 +46,11 @@ export const useWalletConnect = () => {
   };
 
   const connectWallet = async () => {
+    if (onConnectWallet) {
+      onConnectWallet();
+      return;
+    }
+
 
     try {
 

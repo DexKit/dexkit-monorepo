@@ -16,7 +16,7 @@ export function useThemeMode() {
     if (userMode) {
       return userMode;
     }
-    if (appConfig.defaultThemeMode) {
+    if (appConfig?.defaultThemeMode) {
       return appConfig.defaultThemeMode;
     }
     return systemPrefersDark ? ThemeMode.dark : ThemeMode.light;

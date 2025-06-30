@@ -167,3 +167,9 @@ export function useEditSiteId() {
 
   return { editSiteId };
 }
+
+export function useEditWidgetId() {
+  const { editWidgetId } = useContext(AdminContext);
+
+  return { editWidgetId };
+}

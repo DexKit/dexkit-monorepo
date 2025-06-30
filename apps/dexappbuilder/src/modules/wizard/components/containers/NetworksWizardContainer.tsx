@@ -17,9 +17,9 @@ import ViewNetworkInfoDialog from '../dialogs/ViewNetworkInfoDialog';
 
 export interface NetworksWizardContainerProps {
   siteId?: number;
-  config: AppConfig;
-  onSave: (config: AppConfig) => void;
-  onChange: (config: AppConfig) => void;
+  config: Partial<AppConfig>;
+  onSave: (config: Partial<AppConfig>) => void;
+  onChange: (config: Partial<AppConfig>) => void;
   onHasChanges?: (changes: boolean) => void;
 }
 

@@ -1,13 +1,6 @@
-import { useEditSiteId } from "@dexkit/ui";
 import AddCreditsButton from "@dexkit/ui/components/AddCreditsButton";
+import { ECOMMERCE_PRICE } from "@dexkit/ui/constants/featPayments";
 import {
-  ECOMMERCE_FEAT,
-  ECOMMERCE_PRICE,
-} from "@dexkit/ui/constants/featPayments";
-import {
-  useActivatePremiumMutation,
-  useActiveFeatUsage,
-  useDisablePremiumMutation,
   usePlanCheckoutMutation,
   useSubscription,
 } from "@dexkit/ui/hooks/payments";
@@ -15,25 +8,14 @@ import Alert from "@mui/material/Alert";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import { useQueryClient } from "@tanstack/react-query";
 import Decimal from "decimal.js";
-import { useSnackbar } from "notistack";
-import { useEffect, useMemo, useState } from "react";
-import { FormattedMessage, FormattedNumber, useIntl } from "react-intl";
+import { useEffect, useMemo } from "react";
+import { FormattedMessage, FormattedNumber } from "react-intl";
 
 export function EcommerceCredits() {
   const subscriptionQuery = useSubscription();
-  const queryClient = useQueryClient();
-  const snackBar = useSnackbar();
-  const { formatMessage } = useIntl();
-  const { editSiteId } = useEditSiteId();
-  const activeFeatUsageQuery = useActiveFeatUsage({
-    slug: ECOMMERCE_FEAT,
-  });
+
   const { mutateAsync: checkoutPlan } = usePlanCheckoutMutation();
-  const premiumActivateMutation = useActivatePremiumMutation();
-  const disabelPremiumMutation = useDisablePremiumMutation();
-  const [openConfirmDisable, setOpenConfirmDisable] = useState(false);
 
   // we check if user has plan, if not subscribe. This should if done once
   useEffect(() => {

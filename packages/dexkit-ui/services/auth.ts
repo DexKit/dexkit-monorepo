@@ -31,13 +31,13 @@ export function setAccessToken(token: string | undefined) {
   access_token = token;
 }
 
-export async function getAccessTokenAndRefresh() {
+export async function getAccessTokenAndRefresh({ isWidget }: { isWidget?: boolean }) {
   if (access_token) {
     return access_token;
   }
   if (!access_token && !refreshedWasCalled) {
     try {
-      const response = await axios.get("/api/dex-auth/refresh-token", {
+      const response = await axios.get(isWidget ? `${AUTH_ENDPOINT}/refresh-token` : "/api/dex-auth/refresh-token", {
         withCredentials: true,
       });
       refreshedWasCalled = false;
@@ -55,15 +55,15 @@ export async function getAccessTokenAndRefresh() {
  * We refresh here the access token, this is called on 401 error
  * @returns
  */
-export async function getRefreshAccessToken() {
+export async function getRefreshAccessToken({ isWidget }: { isWidget?: boolean }) {
   try {
-    const response = await axios.get("/api/dex-auth/refresh-token", {
+    const response = await axios.get(isWidget ? `${AUTH_ENDPOINT}/refresh-token` : "/api/dex-auth/refresh-token", {
       withCredentials: true,
     });
     access_token = response.data.access_token;
     return access_token;
   } catch (error) {
-    await axios.get("/api/dex-auth/logout", { withCredentials: true });
+    await axios.get(isWidget ? `${AUTH_ENDPOINT}/logout` : "/api/dex-auth/logout", { withCredentials: true });
     access_token = undefined;
     return access_token;
   }
@@ -75,8 +75,8 @@ export async function getRefreshAccessToken() {
  * @returns
  */
 
-export async function logoutApp({ accessTk }: { accessTk: string }) {
-  return axios.get<{ logout: boolean }>("/api/dex-auth/logout", {
+export async function logoutApp({ accessTk, isWidget }: { accessTk: string, isWidget?: boolean }) {
+  return axios.get<{ logout: boolean }>(isWidget ? `${AUTH_ENDPOINT}/logout` : "/api/dex-auth/logout", {
     headers: {
       Authorization: `Bearer ${accessTk}`,
     },
@@ -94,15 +94,17 @@ export async function loginApp({
   siteId,
   referral,
   chainId,
+  isWidget,
 }: {
   address: string;
   signature: `0x${string}`;
   chainId?: number;
   siteId?: number;
   referral?: string;
+  isWidget?: boolean;
 }) {
   return axios.post<{ access_token: string; refresh_token: string }>(
-    "/api/dex-auth/login",
+    isWidget ? `${AUTH_ENDPOINT}/login` : "/api/dex-auth/login",
     { data: { address, signature, siteId, referral, chainId } }
   );
 }

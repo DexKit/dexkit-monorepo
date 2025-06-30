@@ -36,6 +36,7 @@ export interface PageSectionProps {
   subtitle?: React.ReactNode;
   id: string;
   expand?: boolean;
+  hideEmbedMenu?: boolean;
   onAction: (action: string) => void;
   onChangeName: (name: string) => void;
   section?: AppPageSection;
@@ -54,6 +55,7 @@ export default function PageSection({
   id,
   expand,
   onAction,
+  hideEmbedMenu,
   onChangeName,
   section,
   active,
@@ -181,7 +183,7 @@ export default function PageSection({
           borderRadius: theme.shape.borderRadius / 8,
           mb: theme.spacing(0.5),
           width: '100%',
-          mx: 0
+          mx: 0,
         }}
         ref={setNodeRef}
       >
@@ -207,11 +209,23 @@ export default function PageSection({
                     />
                   }
                 >
-                  <DragIndicatorIcon {...listeners} {...attributes} sx={isMobile ? { fontSize: theme.typography.fontSize * 1.2 } : undefined} />
+                  <DragIndicatorIcon
+                    {...listeners}
+                    {...attributes}
+                    sx={
+                      isMobile
+                        ? { fontSize: theme.typography.fontSize * 1.2 }
+                        : undefined
+                    }
+                  />
                 </Tooltip>
                 <Box>
                   {isEdit ? (
-                    <Stack direction="row" alignItems="center" spacing={theme.spacing(0.5)}>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={theme.spacing(0.5)}
+                    >
                       <TextField
                         value={name}
                         inputRef={(ref) => (inputRef.current = ref)}
@@ -220,7 +234,15 @@ export default function PageSection({
                         variant="standard"
                         size="small"
                         onKeyDown={handleKeyDown}
-                        sx={isMobile ? { '.MuiInputBase-input': { fontSize: theme.typography.caption.fontSize } } : undefined}
+                        sx={
+                          isMobile
+                            ? {
+                                '.MuiInputBase-input': {
+                                  fontSize: theme.typography.caption.fontSize,
+                                },
+                              }
+                            : undefined
+                        }
                       />
                       {isMobile && (
                         <>
@@ -242,7 +264,7 @@ export default function PageSection({
                   ) : (
                     <Box>
                       <Link
-                        variant={isMobile ? "body2" : "body1"}
+                        variant={isMobile ? 'body2' : 'body1'}
                         underline="none"
                         sx={{ cursor: 'pointer' }}
                         // onClick={handleStopPropagation(handleEdit)}
@@ -252,15 +274,19 @@ export default function PageSection({
                       </Link>
 
                       <Typography
-                        variant={isMobile ? "caption" : "body2"}
+                        variant={isMobile ? 'caption' : 'body2'}
                         color="text.secondary"
-                        sx={isMobile ? {
-                          display: 'block',
-                          maxWidth: theme.spacing(17.5),
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        } : undefined}
+                        sx={
+                          isMobile
+                            ? {
+                                display: 'block',
+                                maxWidth: theme.spacing(17.5),
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }
+                            : undefined
+                        }
                       >
                         {subtitle}
                       </Typography>
@@ -268,11 +294,16 @@ export default function PageSection({
                   )}
                 </Box>
               </Stack>
-              <Stack direction="row" spacing={theme.spacing(0.5)} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={theme.spacing(0.5)}
+                alignItems="center"
+              >
                 {expand && section ? (
                   <Box pr={isMobile ? 0 : theme.spacing(4)}>
                     <PageSectionMenuStack
                       hideDesktop={section?.hideDesktop}
+                      hideEmbedMenu={hideEmbedMenu}
                       hideMobile={section?.hideMobile}
                       isVisible={isVisible}
                       onAction={onAction}
@@ -282,9 +313,9 @@ export default function PageSection({
                 ) : (
                   <IconButton
                     onClick={handleOpenMenu}
-                    size={isMobile ? "small" : "medium"}
+                    size={isMobile ? 'small' : 'medium'}
                   >
-                    <MoreVert fontSize={isMobile ? "small" : "medium"} />
+                    <MoreVert fontSize={isMobile ? 'small' : 'medium'} />
                   </IconButton>
                 )}
               </Stack>

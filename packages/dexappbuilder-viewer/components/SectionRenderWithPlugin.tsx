@@ -14,7 +14,7 @@ export function SectionRender({ section, useLazy }: Props) {
   }
   const sectionToRender = () => {
     if (section.type === "plugin") {
-      //   return <LoadPlugin data={section.data} path={section.pluginPath} />;
+      // return <LoadPlugin data={section.data} path={section.pluginPath} />;
     } else {
       return SectionToRender({ section });
     }

@@ -17,7 +17,7 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha
+  alpha,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
@@ -242,15 +242,19 @@ export default function EditSectionDialog({
   );
 
   const renderSectionHeader = () => (
-    <Grid container alignItems={'center'} sx={{
-      pl: isMobile ? theme.spacing(1) : theme.spacing(3),
-      pt: isMobile ? theme.spacing(4) : theme.spacing(6),
-      pb: isMobile ? theme.spacing(1.5) : theme.spacing(2)
-    }}>
+    <Grid
+      container
+      alignItems={'center'}
+      sx={{
+        pl: isMobile ? theme.spacing(1) : theme.spacing(3),
+        pt: isMobile ? theme.spacing(4) : theme.spacing(6),
+        pb: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+      }}
+    >
       <Grid item xs={3}>
         <IconButton
           aria-label="back"
-          size={isMobile ? "medium" : "large"}
+          size={isMobile ? 'medium' : 'large'}
           onClick={handleClose}
         >
           <ArrowBackIosIcon />
@@ -271,8 +275,7 @@ export default function EditSectionDialog({
               {(sectionMetadata?.titleId &&
                 formatMessage({
                   id: sectionMetadata?.titleId,
-                  defaultMessage:
-                    sectionMetadata?.titleDefaultMessage,
+                  defaultMessage: sectionMetadata?.titleDefaultMessage,
                 })) ||
                 ''}
             </Typography>
@@ -283,7 +286,13 @@ export default function EditSectionDialog({
   );
 
   return (
-    <Dialog {...dialogProps} onClose={handleClose} maxWidth="lg" fullWidth scroll="body">
+    <Dialog
+      {...dialogProps}
+      onClose={handleClose}
+      maxWidth="lg"
+      fullWidth
+      scroll="body"
+    >
       <AppDialogTitle
         title={
           <Stack
@@ -297,7 +306,7 @@ export default function EditSectionDialog({
             </IconButton>
 
             {isEdit ? (
-              <Typography variant={isMobile ? "body1" : "inherit"}>
+              <Typography variant={isMobile ? 'body1' : 'inherit'}>
                 <FormattedMessage
                   id="edit.section"
                   defaultMessage="Edit Section"
@@ -311,7 +320,7 @@ export default function EditSectionDialog({
                 alignContent={'center'}
                 alignItems={'center'}
               >
-                <Typography variant={isMobile ? "subtitle1" : "inherit"}>
+                <Typography variant={isMobile ? 'subtitle1' : 'inherit'}>
                   <FormattedMessage
                     id="add.section"
                     defaultMessage="Add Section"
@@ -327,7 +336,7 @@ export default function EditSectionDialog({
                     defaultMessage: 'Section name',
                   })}
                   InputProps={{
-                    sx: isMobile ? { typography: 'body2' } : undefined
+                    sx: isMobile ? { typography: 'body2' } : undefined,
                   }}
                 />
               </Stack>
@@ -345,7 +354,7 @@ export default function EditSectionDialog({
                   defaultMessage: 'Section name',
                 })}
                 InputProps={{
-                  sx: isMobile ? { typography: 'body2' } : undefined
+                  sx: isMobile ? { typography: 'body2' } : undefined,
                 }}
               />
             )}
@@ -361,7 +370,7 @@ export default function EditSectionDialog({
                 }}
                 onClick={handleEdit}
               >
-                <Typography variant={isMobile ? "body1" : "h6"}>
+                <Typography variant={isMobile ? 'body1' : 'h6'}>
                   {section?.name ||
                     section?.title ||
                     formatMessage({
@@ -387,18 +396,32 @@ export default function EditSectionDialog({
         onClose={handleClose}
       />
       <Divider />
-      <DialogContent sx={{
-        pt: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
-        px: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
-        pb: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: 0,
-        flex: 1
-      }}>
+      <DialogContent
+        sx={{
+          pt: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
+          px: { xs: 0, sm: theme.spacing(2), md: theme.spacing(3) },
+          pb: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          flex: 1,
+        }}
+      >
         {isMobile ? (
-          <Stack spacing={theme.spacing(0.25)} sx={{ minHeight: `calc(100vh - ${theme.spacing(12)})`, overflow: 'visible' }}>
-            <Box sx={{ mb: theme.spacing(0.25), overflow: 'visible', flex: sectionType ? '0 0 auto' : '1 1 auto' }}>
+          <Stack
+            spacing={theme.spacing(0.25)}
+            sx={{
+              minHeight: `calc(100vh - ${theme.spacing(12)})`,
+              overflow: 'visible',
+            }}
+          >
+            <Box
+              sx={{
+                mb: theme.spacing(0.25),
+                overflow: 'visible',
+                flex: sectionType ? '0 0 auto' : '1 1 auto',
+              }}
+            >
               {!sectionType && (
                 <SectionSelector
                   onClickSection={(s) => {
@@ -416,7 +439,13 @@ export default function EditSectionDialog({
             </Box>
 
             {sectionType && (
-              <Box sx={{ mt: theme.spacing(0.25), flex: '1 1 auto', overflow: 'visible' }}>
+              <Box
+                sx={{
+                  mt: theme.spacing(0.25),
+                  flex: '1 1 auto',
+                  overflow: 'visible',
+                }}
+              >
                 {renderPreview()}
               </Box>
             )}
@@ -424,7 +453,15 @@ export default function EditSectionDialog({
         ) : (
           <Box sx={{ display: 'flex', height: '100%', minHeight: 0, flex: 1 }}>
             <PanelGroup direction="horizontal" style={{ height: '100%' }}>
-              <Panel defaultSize={40} minSize={30} style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+              <Panel
+                defaultSize={40}
+                minSize={30}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minHeight: 0,
+                }}
+              >
                 {!sectionType && (
                   <SectionSelector
                     onClickSection={(s) => {
@@ -434,7 +471,14 @@ export default function EditSectionDialog({
                   />
                 )}
                 {sectionType && (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      minHeight: 0,
+                    }}
+                  >
                     {renderSectionHeader()}
                     <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
                       {renderSectionType(sectionType)}
@@ -445,7 +489,11 @@ export default function EditSectionDialog({
 
               <ResizeHandle />
 
-              <Panel defaultSize={60} minSize={40} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Panel
+                defaultSize={60}
+                minSize={40}
+                style={{ display: 'flex', flexDirection: 'column' }}
+              >
                 {renderPreview()}
               </Panel>
             </PanelGroup>

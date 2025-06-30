@@ -1,6 +1,7 @@
 import { EvmCoin } from "@dexkit/core/types";
 import EvmReceive from "@dexkit/ui/components/EvmReceive";
-import { useWeb3React } from "@web3-react/core";
+
+import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import WidgetLayout from "../../components/WidgetLayout";
 
 export interface EvmReceiveWidgetProps {

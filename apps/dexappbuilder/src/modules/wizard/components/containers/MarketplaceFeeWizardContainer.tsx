@@ -11,8 +11,8 @@ import FeesSection from '../sections/FeesSection';
 import { FeeForm } from '../sections/FeesSectionForm';
 
 interface Props {
-  config: AppConfig;
-  onSave: (config: AppConfig) => void;
+  config: Partial<AppConfig>;
+  onSave: (config: Partial<AppConfig>) => void;
   onHasChanges: (hasChanges: boolean) => void;
 }
 

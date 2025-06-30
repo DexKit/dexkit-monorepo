@@ -17,17 +17,20 @@ import type {
 import { Button, CssBaseline, Stack, Typography } from "@mui/material";
 import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
+import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
 import {
   Experimental_CssVarsProvider as CssVarsProvider,
   SupportedColorScheme,
 } from "@mui/material/styles";
 import React from "react";
-import { DexKitContext } from "../context/DexKitContext";
+import { AppErrorBoundary } from "../components/AppErrorBoundary";
+import GaslessTradesUpdater from "../components/GaslessTradesUpdater";
+import TransactionUpdater from "../components/TransactionUpdater";
 import type { AppNotification, AppNotificationType } from "../types";
-import { AppErrorBoundary } from "./AppErrorBoundary";
-import GaslessTradesUpdater from "./GaslessTradesUpdater";
-import TransactionUpdater from "./TransactionUpdater";
 export interface DexkitProviderProps {
+  provider?: any;
+  apiKey?: string;
+  onConnectWallet?: () => void;
   theme: {
     cssVarPrefix?: string | undefined;
     colorSchemes: Record<SupportedColorScheme, Record<string, any>>;
@@ -47,6 +50,7 @@ export interface DexkitProviderProps {
   };
   userEventsURL?: string;
   siteId?: number;
+  widgetId?: number;
   transactionsAtom: WritableAtom<
     {
       [key: string]: AppTransaction;
@@ -65,6 +69,9 @@ export interface DexkitProviderProps {
 }
 
 export function DexkitProvider({
+  apiKey,
+  provider,
+  onConnectWallet,
   children,
   theme,
   affiliateReferral,
@@ -82,6 +89,7 @@ export function DexkitProvider({
   userEventsURL,
   activeChainIds,
   siteId,
+  widgetId,
 }: DexkitProviderProps) {
   const appState = useDexkitContextState({
     notificationTypes,
@@ -98,8 +106,12 @@ export function DexkitProvider({
     <DexKitContext.Provider
       value={{
         ...appState,
+        onConnectWallet,
+        provider,
+        apiKey,
         userEventURL: userEventsURL,
         siteId: siteId,
+        widgetId: widgetId,
         affiliateReferral,
         activeChainIds: activeChainIds ? activeChainIds : [1],
       }}

@@ -13,6 +13,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import type { BigNumber } from "ethers";
 import { SwapSide } from "../types";
 
+import { useDexKitContext } from "@dexkit/core/hooks/useDexKitContext";
 import { SwapVariant } from "@dexkit/ui/modules/wizard/types";
 import { formatUnits } from "viem";
 export interface SwapQuoteParams {
@@ -64,6 +65,8 @@ export function useSwapPrice({
       };
 
   const { siteId } = useContext(SiteContext);
+  const { widgetId, apiKey } = useDexKitContext();
+
 
   return useQuery(
     [
@@ -92,7 +95,8 @@ export function useSwapPrice({
         sellTokenAmount,
         quoteFor,
       } = { ...params };
-      const client = new ZeroExApiClient(chainId, siteId);
+      const client = new ZeroExApiClient(chainId, siteId, widgetId, apiKey);
+
       if (buyToken && sellToken && quoteFor) {
         const quoteParam: ZeroExQuote = {
           chainId,

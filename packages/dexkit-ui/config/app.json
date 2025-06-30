@@ -91,6 +91,11 @@
           "name": "Manage Apps"
         },
         {
+          "type": "Page",
+          "href": "/admin/widget",
+          "name": "Manage Widgets"
+        },
+        {
           "type": "Menu",
           "href": "",
           "name": "Quick Builder App",
@@ -116,6 +121,11 @@
               "name": "Build NFT Store"
             }
           ]
+        },
+        {
+          "type": "Page",
+          "href": "/u/settings?section=api-key",
+          "name": "Api Key"
         }
       ]
     },
@@ -371,7 +381,7 @@
           "chainId": 137,
           "decimals": 6,
           "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
-          "name": "USD Coin (Pos)",
+          "name": "USD Coin (POS)",
           "symbol": "USDCe"
         },
         {

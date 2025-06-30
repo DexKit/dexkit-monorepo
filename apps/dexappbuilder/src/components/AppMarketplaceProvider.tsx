@@ -4,10 +4,13 @@ import {
 } from '@dexkit/evm-chains/constants';
 
 import { EXCHANGE_NOTIFICATION_TYPES } from '@dexkit/exchange/constants/messages';
-import { DexkitProvider } from '@dexkit/ui/components/DexkitProvider';
-import { COMMON_NOTIFICATION_TYPES, WHITELABEL_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
+import {
+  COMMON_NOTIFICATION_TYPES,
+  WHITELABEL_NOTIFICATION_TYPES,
+} from '@dexkit/ui/constants/messages/common';
 import { useLocale } from '@dexkit/ui/hooks/useLocale';
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
+import { DexkitProvider } from '@dexkit/ui/providers/DexkitProvider';
 import { setupSEO, setupTheme } from '@dexkit/ui/services/app';
 import { useAtom } from 'jotai';
 import { DefaultSeo } from 'next-seo';
@@ -47,7 +50,7 @@ export function AppMarketplaceProvider({
 
   const appConfig = propsAppConfig || hookAppConfig;
 
-  console.log("AppMarketplaceProvider - appConfig:", appConfig);
+  console.log('AppMarketplaceProvider - appConfig:', appConfig);
 
   const { locale, onChangeLocale } = useLocale();
 

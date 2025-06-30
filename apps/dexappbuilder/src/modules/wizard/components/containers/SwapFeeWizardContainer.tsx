@@ -11,8 +11,8 @@ import { SwapFeeForm } from '../../types';
 import SwapFeesSection from '../sections/SwapFeesSection';
 
 interface Props {
-  config: AppConfig;
-  onSave: (config: AppConfig) => void;
+  config: Partial<AppConfig>;
+  onSave: (config: Partial<AppConfig>) => void;
   onHasChanges: (hasChanges: boolean) => void;
 }
 

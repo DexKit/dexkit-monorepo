@@ -43,8 +43,6 @@ export default function ProductContentPage({
 
   const theme = useTheme();
 
-  console.log('content', content);
-
   return (
     <Container>
       <Grid container spacing={2}>

@@ -85,11 +85,14 @@ export function useZrxQuoteQuery({
   isEnabled?: boolean;
 }) {
   const { siteId } = useContext(SiteContext);
+  const { widgetId, apiKey } = useDexKitContext();
+  console.log('site id from context quote query', siteId);
+  console.log('widget id from context quote query', widgetId);
 
   return useQuery(
-    [ZRX_QUOTE_QUERY, params],
+    [ZRX_QUOTE_QUERY, params, widgetId, siteId],
     async () => {
-      const zrxClient = new ZeroExApiClient(params.chainId, siteId);
+      const zrxClient = new ZeroExApiClient(params.chainId, siteId, widgetId, apiKey);
 
       if (useGasless) {
         let gaslessParams = params as ZeroExQuoteGasless;
@@ -132,10 +135,11 @@ export const useZrxQuoteMutation = ({
   options?: any;
 }) => {
   const { siteId } = useContext(SiteContext);
+  const { widgetId, apiKey } = useDexKitContext();
   return useMutation(
     [ZRX_QUOTE_QUERY, params],
     async () => {
-      const zrxClient = new ZeroExApiClient(params.chainId, siteId);
+      const zrxClient = new ZeroExApiClient(params.chainId, siteId, widgetId, apiKey);
 
       if (useGasless) {
         let gaslessParams = params as ZeroExQuoteGasless;
@@ -166,7 +170,7 @@ export function useMarketTradeGaslessExec({
   onNotification: (params: any) => void;
 }) {
   const { siteId } = useContext(SiteContext);
-
+  const { widgetId, apiKey } = useDexKitContext();
   const trackUserEvent = useTrackUserEventsMutation();
 
   return useMutation(
@@ -191,7 +195,7 @@ export function useMarketTradeGaslessExec({
         return null;
       }
 
-      const client = new ZeroExApiClient(chainId, siteId);
+      const client = new ZeroExApiClient(chainId, siteId, widgetId, apiKey);
 
       try {
         const { tradeHash } = await client.submitGasless({

@@ -3,7 +3,9 @@
   "include": [
     ".",
     "modules/contract-wizard/components/ContractMetadataHeader.tsx",
-    "hooks/useColumns.tsx"
+    "hooks/useColumns.tsx",
+    "../dexkit-core/providers/DexKitContext.tsx",
+    "../dexappbuilder-viewer/components/WidgetProvider.tsx"
   ],
   "compilerOptions": {
     "resolveJsonModule": true,

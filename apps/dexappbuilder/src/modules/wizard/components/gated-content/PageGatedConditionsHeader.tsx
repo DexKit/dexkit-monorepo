@@ -21,6 +21,8 @@ export interface PageGatedConditionsHeaderProps {
   onPreview: () => void;
   onClone: () => void;
   onEditTitle: (title: string) => void;
+  pageTitle?: string;
+  onEditLayout: () => void;
   page: AppPage;
 }
 
@@ -29,6 +31,8 @@ export default function PageGatedConditionsHeader({
   onPreview,
   onClone,
   onEditTitle,
+  pageTitle,
+  onEditLayout,
   page,
 }: PageGatedConditionsHeaderProps) {
   const [isEditTitle, setIsEditTitle] = useState(false);
@@ -42,7 +46,7 @@ export default function PageGatedConditionsHeader({
     }, 300);
   };
 
-  const [title, setTitle] = useState(page?.title ?? '');
+  const [title, setTitle] = useState(pageTitle ?? '');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -55,7 +59,7 @@ export default function PageGatedConditionsHeader({
 
   const handleCancel = () => {
     setIsEditTitle(false);
-    setTitle(page?.title || '');
+    setTitle(pageTitle || '');
   };
 
   const isMobile = useIsMobile();
@@ -102,7 +106,7 @@ export default function PageGatedConditionsHeader({
                 cursor: 'pointer',
               }}
             >
-              {page?.title}
+              {pageTitle || ''}
             </Typography>
           </ButtonBase>
         )}

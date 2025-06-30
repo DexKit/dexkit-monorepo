@@ -1,11 +1,10 @@
-import Link from '@dexkit/ui/components/AppLink';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Decimal from 'decimal.js';
 import moment from 'moment';
 import { useState } from 'react';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { FormattedNumber, useIntl } from 'react-intl';
 import { useBillingHistoryQuery } from '../../hooks/payments';
 
 interface Row {
@@ -71,7 +70,7 @@ export default function BillingDataGrid() {
         );
       },
     },
-    {
+    /*{
       field: 'view',
       headerName: formatMessage({ id: 'view', defaultMessage: 'View' }),
       width: 150,
@@ -83,7 +82,7 @@ export default function BillingDataGrid() {
           </Link>
         );
       },
-    },
+    },*/
   ];
 
   return (
