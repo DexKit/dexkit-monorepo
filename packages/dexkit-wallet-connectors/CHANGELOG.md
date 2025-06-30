@@ -1,5 +1,21 @@
 # @dexkit/wallet-connectors
 
+## 0.7.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- d5d944a: Added widgets. Now you can create and edit widgets and use them across all your apps. Additionally, you can easily embed widgets or iframes in external apps.
+
+### Patch Changes
+
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [7af06ae]
+- Updated dependencies [d5d944a]
+  - @dexkit/core@0.19.0
+
 ## 0.6.0
 
 ### Minor Changes

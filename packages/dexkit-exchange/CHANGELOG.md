@@ -1,5 +1,27 @@
 # @dexkit/ui
 
+## 0.15.0
+
+### Minor Changes
+
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 18c97ca: add custom variants (custom and glass) for exchange section, improve pair selection & mobile UX for complete responsivity on small screens.
+
+### Patch Changes
+
+- Updated dependencies [a275b3f]
+- Updated dependencies [d823504]
+- Updated dependencies [52dbc2f]
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [7af06ae]
+- Updated dependencies [31f971c]
+- Updated dependencies [d5d944a]
+- Updated dependencies [53d4efb]
+- Updated dependencies [ee44982]
+  - @dexkit/ui@0.24.0
+  - @dexkit/core@0.19.0
+
 ## 0.14.0
 
 ### Minor Changes

@@ -1,5 +1,28 @@
 # @dexkit/ui
 
+## 0.24.0
+
+### Minor Changes
+
+- a275b3f: new variants for collection list component
+- d823504: fix auth error for tokendrop contract
+- 52dbc2f: fix switch wallet issue
+- 716f7ca: added support for pulsechain on thirdweb smart contracts
+- 7af06ae: new swap variants, optimized both for desktop and mobile
+- 31f971c: enhance NFT and token drop forms with new variants
+- d5d944a: Added widgets. Now you can create and edit widgets and use them across all your apps. Additionally, you can easily embed widgets or iframes in external apps.
+- 53d4efb: Add embed code option on pages admin section
+- ee44982: add new variants for wallet (glass, custom) with custom modals for better UI/UX and full mobile-responsivity
+
+### Patch Changes
+
+- Updated dependencies [716f7ca]
+- Updated dependencies [3e9d1ff]
+- Updated dependencies [7af06ae]
+- Updated dependencies [d5d944a]
+  - @dexkit/wallet-connectors@0.7.0
+  - @dexkit/core@0.19.0
+
 ## 0.23.0
 
 ### Minor Changes
