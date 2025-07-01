@@ -15,7 +15,7 @@ import {
   useTheme
 } from "@mui/material";
 import Image from "next/image";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 
 import Link from "@dexkit/ui/components/AppLink";
@@ -33,7 +33,7 @@ const XIcon = (props: any) => (
 );
 
 interface FooterConfig {
-  variant?: 'default' | 'glassmorphic';
+  variant?: 'default' | 'glassmorphic' | 'minimal' | 'invisible';
   glassConfig?: {
     blurIntensity?: number;
     glassOpacity?: number;
@@ -44,6 +44,21 @@ interface FooterConfig {
     backgroundPosition?: string;
     backgroundRepeat?: string;
     backgroundAttachment?: string;
+  };
+  minimalConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    dividerColor?: string;
+    fontSize?: number;
+    showDividers?: boolean;
+    spacing?: number;
+  };
+  invisibleConfig?: {
+    textColor?: string;
+    fontSize?: number;
+    spacing?: number;
+    alignment?: 'left' | 'center' | 'right';
+    showOnlySignature?: boolean;
   };
   customSignature?: {
     enabled?: boolean;
@@ -212,6 +227,102 @@ const GlassmorphicLink = styled(Link)<{
   },
 }));
 
+const MinimalContainer = styled(Box)<{
+  backgroundColor?: string;
+  spacing?: number;
+}>(({ theme, backgroundColor, spacing }) => ({
+  position: 'relative',
+  width: '100%',
+  backgroundColor: backgroundColor || 'transparent',
+  padding: theme.spacing(spacing || 1, 0),
+  borderTop: `1px solid ${theme.palette.divider}`,
+  transition: 'all 0.2s ease-in-out',
+}));
+
+const MinimalLink = styled(Link)<{
+  textColor?: string;
+  fontSize?: number;
+}>(({ theme, textColor, fontSize }) => ({
+  color: textColor || theme.palette.text.secondary,
+  textDecoration: 'none',
+  fontSize: fontSize ? `${fontSize}px` : theme.typography.body2.fontSize,
+  fontWeight: 400,
+  lineHeight: 1.2,
+  transition: 'all 0.2s ease-in-out',
+
+  '&:hover': {
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+  },
+}));
+
+const MinimalIconButton = styled(IconButton)<{
+  textColor?: string;
+}>(({ theme, textColor }) => ({
+  color: textColor || theme.palette.text.secondary,
+  padding: theme.spacing(0.5),
+  transition: 'all 0.2s ease-in-out',
+
+  '&:hover': {
+    color: theme.palette.primary.main,
+    backgroundColor: 'transparent',
+  },
+}));
+
+const MinimalDivider = styled(Box)<{
+  dividerColor?: string;
+}>(({ theme, dividerColor }) => ({
+  width: '1px',
+  height: '16px',
+  backgroundColor: dividerColor || theme.palette.divider,
+  margin: theme.spacing(0, 1),
+}));
+
+const InvisibleContainer = styled(Box)<{
+  spacing?: number;
+}>(({ theme, spacing }) => ({
+  position: 'relative',
+  width: '100%',
+  backgroundColor: 'transparent',
+  padding: theme.spacing(spacing || 0.5, 0),
+  border: 'none',
+  transition: 'all 0.2s ease-in-out',
+}));
+
+const InvisibleText = styled(Typography)<{
+  textColor?: string;
+  fontSize?: number;
+}>(({ theme, textColor, fontSize }) => ({
+  color: textColor || theme.palette.text.disabled,
+  fontSize: fontSize ? `${fontSize}px` : '12px',
+  fontWeight: 300,
+  lineHeight: 1.2,
+  opacity: 0.7,
+  transition: 'all 0.2s ease-in-out',
+
+  '&:hover': {
+    opacity: 1,
+  },
+}));
+
+const InvisibleLink = styled(Link)<{
+  textColor?: string;
+  fontSize?: number;
+}>(({ theme, textColor, fontSize }) => ({
+  color: textColor || theme.palette.text.disabled,
+  textDecoration: 'none',
+  fontSize: fontSize ? `${fontSize}px` : '12px',
+  fontWeight: 300,
+  lineHeight: 1.2,
+  opacity: 0.7,
+  transition: 'all 0.2s ease-in-out',
+
+  '&:hover': {
+    opacity: 1,
+    textDecoration: 'underline',
+  },
+}));
+
 export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
   const theme = useTheme();
   const footerConfig = appConfig.footerConfig || {};
@@ -334,6 +445,324 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
       </Typography>
     );
   };
+
+  if (variant === 'invisible') {
+    const invisibleConfig = footerConfig.invisibleConfig || {};
+    const textColor = invisibleConfig.textColor || theme.palette.text.disabled;
+    const fontSize = invisibleConfig.fontSize || 12;
+    const spacing = invisibleConfig.spacing || 0.5;
+    const alignment = invisibleConfig.alignment || 'center';
+    const showOnlySignature = invisibleConfig.showOnlySignature || false;
+
+    const renderInvisibleSignature = () => {
+      const customSignature = footerConfig.customSignature;
+
+      if (!showAppSignature && !customSignature?.enabled) {
+        return null;
+      }
+
+      if (customSignature?.enabled) {
+        const elements = [];
+
+        if (customSignature.showAppName) {
+          elements.push(appConfig.name);
+        }
+
+        if (customSignature.showLoveBy) {
+          elements.push("made with ❤️ by");
+        }
+
+        elements.push(customSignature.text || "DexKit");
+
+        return (
+          <InvisibleText textColor={textColor} fontSize={fontSize}>
+            {elements.join(' ')}
+          </InvisibleText>
+        );
+      }
+
+      return (
+        <InvisibleText textColor={textColor} fontSize={fontSize}>
+          {appConfig.name} made with ❤️ by{' '}
+          <InvisibleLink
+            href={isPreview ? "#" : "https://www.dexkit.com"}
+            target="_blank"
+            textColor={textColor}
+            fontSize={fontSize}
+          >
+            DexKit
+          </InvisibleLink>
+        </InvisibleText>
+      );
+    };
+
+    if (showOnlySignature) {
+      return (
+        <InvisibleContainer spacing={spacing}>
+          <Container>
+            <Box sx={{ textAlign: alignment }}>
+              {renderInvisibleSignature()}
+            </Box>
+          </Container>
+        </InvisibleContainer>
+      );
+    }
+
+    const elements = [];
+
+    if (appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0) {
+      const menuTexts = appConfig.footerMenuTree
+        .filter(m => !m.children)
+        .map(m => m.name);
+      if (menuTexts.length > 0) {
+        elements.push(...menuTexts);
+      }
+    } else {
+      elements.push("Contact us");
+    }
+
+    if (showAppSignature || footerConfig.customSignature?.enabled) {
+      const customSignature = footerConfig.customSignature;
+
+      if (customSignature?.enabled) {
+        const signatureElements = [];
+
+        if (customSignature.showAppName) {
+          signatureElements.push(appConfig.name);
+        }
+
+        if (customSignature.showLoveBy) {
+          signatureElements.push("made with ❤️ by");
+        }
+
+        signatureElements.push(customSignature.text || "DexKit");
+
+        elements.push(signatureElements.join(' '));
+      } else {
+        elements.push(`${appConfig.name} made with ❤️ by DexKit`);
+      }
+    }
+
+    return (
+      <InvisibleContainer spacing={spacing}>
+        <Container>
+          <Box sx={{ textAlign: alignment }}>
+            <InvisibleText textColor={textColor} fontSize={fontSize}>
+              {elements.join(' · ')}
+            </InvisibleText>
+          </Box>
+        </Container>
+      </InvisibleContainer>
+    );
+  }
+
+  if (variant === 'minimal') {
+    const minimalConfig = footerConfig.minimalConfig || {};
+    const textColor = minimalConfig.textColor || theme.palette.text.secondary;
+    const fontSize = minimalConfig.fontSize || 14;
+    const showDividers = minimalConfig.showDividers !== false;
+    const dividerColor = minimalConfig.dividerColor;
+    const spacing = minimalConfig.spacing || 1;
+
+    const renderMinimalSignature = () => {
+      const customSignature = footerConfig.customSignature;
+
+      if (!showAppSignature && !customSignature?.enabled) {
+        return null;
+      }
+
+      if (customSignature?.enabled) {
+        return (
+          <>
+            {customSignature.showAppName && (
+              <>
+                <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
+                  {appConfig.name}
+                </MinimalLink>
+                {showDividers && <MinimalDivider dividerColor={dividerColor} />}
+              </>
+            )}
+            {customSignature.showLoveBy && (
+              <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+                <FormattedMessage
+                  id="made.with.love.by"
+                  defaultMessage="made with ❤️ by"
+                  description="made with ❤️ by"
+                />
+              </Typography>
+            )}
+            <MinimalLink
+              href={isPreview ? "#" : (customSignature.link || "https://www.dexkit.com")}
+              target="_blank"
+              textColor={textColor}
+              fontSize={fontSize}
+              sx={{ ml: customSignature.showLoveBy ? 0.5 : 0 }}
+            >
+              {customSignature.text || "DexKit"}
+            </MinimalLink>
+          </>
+        );
+      }
+
+      return (
+        <>
+          <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
+            {appConfig.name}
+          </MinimalLink>
+          {showDividers && <MinimalDivider dividerColor={dividerColor} />}
+          <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+            <FormattedMessage
+              id="made.with.love.by"
+              defaultMessage="made with ❤️ by"
+              description="made with ❤️ by"
+            />
+          </Typography>
+          <MinimalLink
+            href={isPreview ? "#" : "https://www.dexkit.com"}
+            target="_blank"
+            textColor={textColor}
+            fontSize={fontSize}
+            sx={{ ml: 0.5 }}
+          >
+            DexKit
+          </MinimalLink>
+        </>
+      );
+    };
+
+    const menuItems: React.ReactNode[] = [];
+    const socialItems: React.ReactNode[] = [];
+    const signatureItems: React.ReactNode[] = [];
+
+    if (appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0) {
+      appConfig.footerMenuTree.forEach((m, key) => {
+        if (m.children) {
+          menuItems.push(<NavbarMenu menu={m} key={key} />);
+        } else {
+          menuItems.push(
+            <MinimalLink
+              href={isPreview ? "#" : m.href || "/"}
+              key={key}
+              aria-label={`footer link ${m.name}`}
+              target={m.type === "External" ? "_blank" : undefined}
+              textColor={textColor}
+              fontSize={fontSize}
+            >
+              <FormattedMessage
+                id={m.name.toLowerCase()}
+                defaultMessage={m.name}
+              />
+            </MinimalLink>
+          );
+        }
+        if (showDividers && key < appConfig.footerMenuTree!.length - 1) {
+          menuItems.push(<MinimalDivider key={`divider-${key}`} dividerColor={dividerColor} />);
+        }
+      });
+    } else {
+      menuItems.push(
+        <MinimalLink
+          href={isPreview ? "" : "https://dexkit.com/contact-us/"}
+          target="_blank"
+          textColor={textColor}
+          fontSize={fontSize}
+          key="contact"
+        >
+          <FormattedMessage
+            id="contact.us"
+            defaultMessage="Contact us"
+            description="Contact us"
+          />
+        </MinimalLink>
+      );
+    }
+
+    if (appConfig?.social) {
+      appConfig.social.forEach((media, index) => {
+        socialItems.push(
+          <Link
+            key={index}
+            href={renderLink(media)}
+            target="_blank"
+            sx={{ textDecoration: 'none' }}
+          >
+            <MinimalIconButton textColor={textColor}>
+              {renderIcon(media)}
+            </MinimalIconButton>
+          </Link>
+        );
+      });
+    }
+
+    if (appConfig?.social_custom && appConfig.social_custom.length > 0) {
+      appConfig.social_custom
+        .filter((m) => m?.link !== undefined)
+        .forEach((media, index) => {
+          socialItems.push(
+            <Link
+              key={`custom-${index}`}
+              href={renderCustomLink(media?.link)}
+              target="_blank"
+              sx={{ textDecoration: 'none' }}
+            >
+              <MinimalIconButton textColor={textColor}>
+                <Image
+                  src={media?.iconUrl}
+                  alt={media?.label || ""}
+                  height={16}
+                  width={16}
+                />
+              </MinimalIconButton>
+            </Link>
+          );
+        });
+    }
+
+    if (showAppSignature || footerConfig.customSignature?.enabled) {
+      const signatureElements = renderMinimalSignature();
+      if (signatureElements) {
+        signatureItems.push(signatureElements);
+      }
+    }
+
+    return (
+      <MinimalContainer
+        backgroundColor={minimalConfig.backgroundColor}
+        spacing={spacing}
+      >
+        <Container>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            spacing={0}
+            sx={{
+              flexWrap: 'wrap',
+              gap: 0,
+              '& > *': {
+                display: 'flex',
+                alignItems: 'center',
+              }
+            }}
+          >
+            {menuItems}
+
+            {menuItems.length > 0 && socialItems.length > 0 && showDividers && (
+              <MinimalDivider dividerColor={dividerColor} />
+            )}
+
+            {socialItems}
+
+            {(menuItems.length > 0 || socialItems.length > 0) && signatureItems.length > 0 && showDividers && (
+              <MinimalDivider dividerColor={dividerColor} />
+            )}
+
+            {signatureItems}
+          </Stack>
+        </Container>
+      </MinimalContainer>
+    );
+  }
 
   if (variant === 'glassmorphic') {
     const glassConfig = footerConfig.glassConfig || {};

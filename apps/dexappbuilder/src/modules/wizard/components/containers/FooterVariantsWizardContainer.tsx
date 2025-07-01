@@ -191,7 +191,7 @@ function ColorPickerField({
 }
 
 interface FooterConfig {
-  variant?: 'default' | 'glassmorphic';
+  variant?: 'default' | 'glassmorphic' | 'minimal' | 'invisible';
   glassConfig?: {
     blurIntensity?: number;
     glassOpacity?: number;
@@ -202,6 +202,21 @@ interface FooterConfig {
     backgroundPosition?: string;
     backgroundRepeat?: string;
     backgroundAttachment?: string;
+  };
+  minimalConfig?: {
+    backgroundColor?: string;
+    textColor?: string;
+    dividerColor?: string;
+    fontSize?: number;
+    showDividers?: boolean;
+    spacing?: number;
+  };
+  invisibleConfig?: {
+    textColor?: string;
+    fontSize?: number;
+    spacing?: number;
+    alignment?: 'left' | 'center' | 'right';
+    showOnlySignature?: boolean;
   };
   customSignature?: {
     enabled?: boolean;
@@ -227,7 +242,7 @@ interface Props {
 }
 
 const FooterConfigSchema = Yup.object().shape({
-  variant: Yup.string().oneOf(['default', 'glassmorphic']),
+  variant: Yup.string().oneOf(['default', 'glassmorphic', 'minimal', 'invisible']),
   glassConfig: Yup.object().shape({
     blurIntensity: Yup.number().min(10).max(60),
     glassOpacity: Yup.number().min(0.05).max(0.5),
@@ -238,6 +253,21 @@ const FooterConfigSchema = Yup.object().shape({
     backgroundPosition: Yup.string(),
     backgroundRepeat: Yup.string(),
     backgroundAttachment: Yup.string(),
+  }),
+  minimalConfig: Yup.object().shape({
+    backgroundColor: Yup.string(),
+    textColor: Yup.string(),
+    dividerColor: Yup.string(),
+    fontSize: Yup.number().min(10).max(24),
+    showDividers: Yup.boolean(),
+    spacing: Yup.number().min(0.5).max(4),
+  }),
+  invisibleConfig: Yup.object().shape({
+    textColor: Yup.string(),
+    fontSize: Yup.number().min(8).max(16),
+    spacing: Yup.number().min(0).max(2),
+    alignment: Yup.string().oneOf(['left', 'center', 'right']),
+    showOnlySignature: Yup.boolean(),
   }),
   customSignature: Yup.object().shape({
     enabled: Yup.boolean(),
@@ -570,6 +600,21 @@ export default function FooterVariantsWizardContainer({
       backgroundRepeat: config.footerConfig?.glassConfig?.backgroundRepeat || 'no-repeat',
       backgroundAttachment: config.footerConfig?.glassConfig?.backgroundAttachment || 'scroll',
     },
+    minimalConfig: {
+      backgroundColor: config.footerConfig?.minimalConfig?.backgroundColor || '',
+      textColor: config.footerConfig?.minimalConfig?.textColor || theme.palette.text.secondary,
+      dividerColor: config.footerConfig?.minimalConfig?.dividerColor || theme.palette.divider,
+      fontSize: config.footerConfig?.minimalConfig?.fontSize || 14,
+      showDividers: config.footerConfig?.minimalConfig?.showDividers ?? true,
+      spacing: config.footerConfig?.minimalConfig?.spacing || 1,
+    },
+    invisibleConfig: {
+      textColor: config.footerConfig?.invisibleConfig?.textColor || theme.palette.text.disabled,
+      fontSize: config.footerConfig?.invisibleConfig?.fontSize || 12,
+      spacing: config.footerConfig?.invisibleConfig?.spacing || 0.5,
+      alignment: config.footerConfig?.invisibleConfig?.alignment || 'center',
+      showOnlySignature: config.footerConfig?.invisibleConfig?.showOnlySignature || false,
+    },
     customSignature: {
       enabled: config.footerConfig?.customSignature?.enabled || false,
       text: config.footerConfig?.customSignature?.text || 'DexKit',
@@ -592,6 +637,8 @@ export default function FooterVariantsWizardContainer({
     const currentConfig = {
       variant: formValues.variant,
       glassConfig: formValues.glassConfig,
+      minimalConfig: formValues.minimalConfig,
+      invisibleConfig: formValues.invisibleConfig,
       customSignature: formValues.customSignature,
       layout: formValues.layout,
     };
@@ -599,6 +646,8 @@ export default function FooterVariantsWizardContainer({
     const originalConfig = {
       variant: config.footerConfig?.variant || 'default',
       glassConfig: config.footerConfig?.glassConfig || initialValues.glassConfig,
+      minimalConfig: config.footerConfig?.minimalConfig || initialValues.minimalConfig,
+      invisibleConfig: config.footerConfig?.invisibleConfig || initialValues.invisibleConfig,
       customSignature: config.footerConfig?.customSignature || initialValues.customSignature,
       layout: config.footerConfig?.layout || initialValues.layout,
     };
@@ -617,13 +666,16 @@ export default function FooterVariantsWizardContainer({
       <Grid item xs={12}>
         <Formik
           initialValues={initialValues}
+          enableReinitialize={true}
           validationSchema={FooterConfigSchema}
           onSubmit={(values) => {
             const newConfig = {
               ...config,
               footerConfig: {
-                variant: values.variant as 'default' | 'glassmorphic',
+                variant: values.variant as 'default' | 'glassmorphic' | 'minimal' | 'invisible',
                 glassConfig: values.glassConfig,
+                minimalConfig: values.minimalConfig,
+                invisibleConfig: values.invisibleConfig,
                 customSignature: values.customSignature,
                 layout: values.layout,
               },
@@ -633,7 +685,16 @@ export default function FooterVariantsWizardContainer({
           }}
         >
           {({ values, setFieldValue, submitForm }) => {
-            // Update form values state when Formik values change
+            if (!values.invisibleConfig) {
+              setFieldValue('invisibleConfig', initialValues.invisibleConfig);
+            }
+            if (!values.minimalConfig) {
+              setFieldValue('minimalConfig', initialValues.minimalConfig);
+            }
+            if (!values.glassConfig) {
+              setFieldValue('glassConfig', initialValues.glassConfig);
+            }
+
             if (JSON.stringify(values) !== JSON.stringify(formValues)) {
               setFormValues(values);
             }
@@ -664,6 +725,18 @@ export default function FooterVariantsWizardContainer({
                           <FormattedMessage
                             id="footer.variant.glassmorphic"
                             defaultMessage="Glassmorphic - Modern glass effect"
+                          />
+                        </MenuItem>
+                        <MenuItem value="minimal">
+                          <FormattedMessage
+                            id="footer.variant.minimal"
+                            defaultMessage="Minimal - Clean and simple"
+                          />
+                        </MenuItem>
+                        <MenuItem value="invisible">
+                          <FormattedMessage
+                            id="footer.variant.invisible"
+                            defaultMessage="Invisible - Text only, no styling"
                           />
                         </MenuItem>
                       </Select>
@@ -800,6 +873,326 @@ export default function FooterVariantsWizardContainer({
                                   <FormattedMessage
                                     id="reset.glassmorphic.settings"
                                     defaultMessage="Reset Glassmorphic Settings"
+                                  />
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </AccordionDetails>
+                      </Accordion>
+                    </Grid>
+                  )}
+
+                  {values.variant === 'minimal' && (
+                    <Grid item xs={12}>
+                      <Accordion defaultExpanded>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography variant="h6">
+                            <FormattedMessage
+                              id="footer.minimal.settings"
+                              defaultMessage="Minimal Settings"
+                            />
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <ColorPickerField
+                                label={formatMessage({
+                                  id: "footer.background.color",
+                                  defaultMessage: "Background Color"
+                                })}
+                                value={values.minimalConfig.backgroundColor}
+                                onChange={(value) => setFieldValue('minimalConfig.backgroundColor', value)}
+                                defaultValue="transparent"
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <ColorPickerField
+                                label={formatMessage({
+                                  id: "footer.text.color",
+                                  defaultMessage: "Text Color"
+                                })}
+                                value={values.minimalConfig.textColor}
+                                onChange={(value) => setFieldValue('minimalConfig.textColor', value)}
+                                defaultValue={theme.palette.text.secondary}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <ColorPickerField
+                                label={formatMessage({
+                                  id: "footer.divider.color",
+                                  defaultMessage: "Divider Color"
+                                })}
+                                value={values.minimalConfig.dividerColor}
+                                onChange={(value) => setFieldValue('minimalConfig.dividerColor', value)}
+                                defaultValue={theme.palette.divider}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <Typography gutterBottom>
+                                <FormattedMessage
+                                  id="footer.font.size"
+                                  defaultMessage="Font Size"
+                                />
+                              </Typography>
+                              <Slider
+                                value={values.minimalConfig.fontSize || 14}
+                                onChange={(_, value) => {
+                                  const numericValue = Array.isArray(value) ? value[0] : value;
+                                  setFieldValue('minimalConfig.fontSize', numericValue);
+                                }}
+                                min={10}
+                                max={24}
+                                step={1}
+                                valueLabelDisplay="auto"
+                                marks={[
+                                  { value: 10, label: '10px' },
+                                  { value: 14, label: '14px' },
+                                  { value: 18, label: '18px' },
+                                  { value: 24, label: '24px' },
+                                ]}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <Typography gutterBottom>
+                                <FormattedMessage
+                                  id="footer.spacing"
+                                  defaultMessage="Spacing"
+                                />
+                              </Typography>
+                              <Slider
+                                value={values.minimalConfig.spacing || 1}
+                                onChange={(_, value) => {
+                                  const numericValue = Array.isArray(value) ? value[0] : value;
+                                  setFieldValue('minimalConfig.spacing', numericValue);
+                                }}
+                                min={0.5}
+                                max={4}
+                                step={0.5}
+                                valueLabelDisplay="auto"
+                                marks={[
+                                  { value: 0.5, label: '0.5' },
+                                  { value: 1, label: '1' },
+                                  { value: 2, label: '2' },
+                                  { value: 4, label: '4' },
+                                ]}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <FormControlLabel
+                                control={
+                                  <Switch
+                                    checked={values.minimalConfig.showDividers}
+                                    onChange={(e) => setFieldValue('minimalConfig.showDividers', e.target.checked)}
+                                  />
+                                }
+                                label={
+                                  <FormattedMessage
+                                    id="footer.show.dividers"
+                                    defaultMessage="Show Dividers"
+                                  />
+                                }
+                              />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                                <Button
+                                  variant="outlined"
+                                  startIcon={<RefreshIcon />}
+                                  onClick={() => {
+                                    setFieldValue('minimalConfig', initialValues.minimalConfig);
+                                  }}
+                                  sx={{
+                                    borderColor: '#ff6b35',
+                                    color: '#ff6b35',
+                                    backgroundColor: 'transparent',
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    fontWeight: 500,
+                                    px: 3,
+                                    py: 1,
+                                    '&:hover': {
+                                      borderColor: '#ff6b35',
+                                      backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                                    },
+                                  }}
+                                >
+                                  <FormattedMessage
+                                    id="reset.minimal.settings"
+                                    defaultMessage="Reset Minimal Settings"
+                                  />
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </AccordionDetails>
+                      </Accordion>
+                    </Grid>
+                  )}
+
+                  {values.variant === 'invisible' && (
+                    <Grid item xs={12}>
+                      <Accordion defaultExpanded>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography variant="h6">
+                            <FormattedMessage
+                              id="footer.invisible.settings"
+                              defaultMessage="Invisible Settings"
+                            />
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <ColorPickerField
+                                label={formatMessage({
+                                  id: "footer.text.color",
+                                  defaultMessage: "Text Color"
+                                })}
+                                value={values.invisibleConfig?.textColor || theme.palette.text.disabled}
+                                onChange={(value) => setFieldValue('invisibleConfig.textColor', value)}
+                                defaultValue={theme.palette.text.disabled}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <FormControl fullWidth>
+                                <InputLabel>
+                                  <FormattedMessage
+                                    id="footer.text.alignment"
+                                    defaultMessage="Text Alignment"
+                                  />
+                                </InputLabel>
+                                <Select
+                                  value={values.invisibleConfig?.alignment || 'center'}
+                                  onChange={(e) => setFieldValue('invisibleConfig.alignment', e.target.value)}
+                                  label="Text Alignment"
+                                >
+                                  <MenuItem value="left">
+                                    <FormattedMessage
+                                      id="footer.alignment.left"
+                                      defaultMessage="Left"
+                                    />
+                                  </MenuItem>
+                                  <MenuItem value="center">
+                                    <FormattedMessage
+                                      id="footer.alignment.center"
+                                      defaultMessage="Center"
+                                    />
+                                  </MenuItem>
+                                  <MenuItem value="right">
+                                    <FormattedMessage
+                                      id="footer.alignment.right"
+                                      defaultMessage="Right"
+                                    />
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <Typography gutterBottom>
+                                <FormattedMessage
+                                  id="footer.font.size"
+                                  defaultMessage="Font Size"
+                                />
+                              </Typography>
+                              <Slider
+                                value={values.invisibleConfig?.fontSize || 12}
+                                onChange={(_, value) => {
+                                  const numericValue = Array.isArray(value) ? value[0] : value;
+                                  setFieldValue('invisibleConfig.fontSize', numericValue);
+                                }}
+                                min={8}
+                                max={16}
+                                step={1}
+                                valueLabelDisplay="auto"
+                                marks={[
+                                  { value: 8, label: '8px' },
+                                  { value: 10, label: '10px' },
+                                  { value: 12, label: '12px' },
+                                  { value: 14, label: '14px' },
+                                  { value: 16, label: '16px' },
+                                ]}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                              <Typography gutterBottom>
+                                <FormattedMessage
+                                  id="footer.spacing"
+                                  defaultMessage="Spacing"
+                                />
+                              </Typography>
+                              <Slider
+                                value={values.invisibleConfig?.spacing || 0.5}
+                                onChange={(_, value) => {
+                                  const numericValue = Array.isArray(value) ? value[0] : value;
+                                  setFieldValue('invisibleConfig.spacing', numericValue);
+                                }}
+                                min={0}
+                                max={2}
+                                step={0.25}
+                                valueLabelDisplay="auto"
+                                marks={[
+                                  { value: 0, label: '0' },
+                                  { value: 0.5, label: '0.5' },
+                                  { value: 1, label: '1' },
+                                  { value: 2, label: '2' },
+                                ]}
+                              />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                              <FormControlLabel
+                                control={
+                                  <Switch
+                                    checked={values.invisibleConfig?.showOnlySignature || false}
+                                    onChange={(e) => setFieldValue('invisibleConfig.showOnlySignature', e.target.checked)}
+                                  />
+                                }
+                                label={
+                                  <FormattedMessage
+                                    id="footer.show.only.signature"
+                                    defaultMessage="Show Only Signature (hide menu and social media)"
+                                  />
+                                }
+                              />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                                <Button
+                                  variant="outlined"
+                                  startIcon={<RefreshIcon />}
+                                  onClick={() => {
+                                    setFieldValue('invisibleConfig', initialValues.invisibleConfig);
+                                  }}
+                                  sx={{
+                                    borderColor: '#ff6b35',
+                                    color: '#ff6b35',
+                                    backgroundColor: 'transparent',
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    fontWeight: 500,
+                                    px: 3,
+                                    py: 1,
+                                    '&:hover': {
+                                      borderColor: '#ff6b35',
+                                      backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                                    },
+                                  }}
+                                >
+                                  <FormattedMessage
+                                    id="reset.invisible.settings"
+                                    defaultMessage="Reset Invisible Settings"
                                   />
                                 </Button>
                               </Box>
