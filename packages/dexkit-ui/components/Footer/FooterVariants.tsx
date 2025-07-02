@@ -33,7 +33,7 @@ const XIcon = (props: any) => (
 );
 
 interface FooterConfig {
-  variant?: 'default' | 'glassmorphic' | 'minimal' | 'invisible';
+  variant?: 'default' | 'glassmorphic' | 'minimal' | 'invisible' | 'custom';
   glassConfig?: {
     blurIntensity?: number;
     glassOpacity?: number;
@@ -59,6 +59,93 @@ interface FooterConfig {
     spacing?: number;
     alignment?: 'left' | 'center' | 'right';
     showOnlySignature?: boolean;
+  };
+  customConfig?: {
+    backgroundColor?: string;
+    backgroundType?: 'solid' | 'gradient' | 'image';
+    gradientDirection?: string;
+    gradientColors?: string[];
+    backgroundImage?: string;
+    backgroundSize?: string;
+    backgroundPosition?: string;
+    backgroundRepeat?: string;
+    backgroundAttachment?: string;
+    backgroundBlur?: number;
+    padding?: number;
+    borderRadius?: number;
+    logo?: {
+      url?: string;
+      width?: number;
+      height?: number;
+      position?: {
+        x: number;
+        y: number;
+      };
+    };
+    columns?: {
+      id: string;
+      title: string;
+      titleStyle?: {
+        fontSize?: number;
+        fontWeight?: 'normal' | 'bold';
+        fontStyle?: 'normal' | 'italic';
+        textDecoration?: 'none' | 'underline';
+        color?: string;
+      };
+      links: {
+        id: string;
+        text: string;
+        url: string;
+        style?: {
+          fontSize?: number;
+          color?: string;
+          hoverColor?: string;
+          fontWeight?: 'normal' | 'bold';
+          fontStyle?: 'normal' | 'italic';
+        };
+      }[];
+      position?: {
+        x: number;
+        y: number;
+        width?: number;
+      };
+    }[];
+    menu?: {
+      position?: {
+        x: number;
+        y: number;
+      };
+      style?: {
+        fontSize?: number;
+        color?: string;
+        hoverColor?: string;
+        fontWeight?: 'normal' | 'bold';
+        fontStyle?: 'normal' | 'italic';
+        spacing?: number;
+        direction?: 'horizontal' | 'vertical';
+      };
+    };
+    socialMedia?: {
+      position?: {
+        x: number;
+        y: number;
+      };
+      iconSize?: number;
+      iconColor?: string;
+      iconHoverColor?: string;
+    };
+    signature?: {
+      position?: {
+        x: number;
+        y: number;
+      };
+      style?: {
+        fontSize?: number;
+        color?: string;
+        fontWeight?: 'normal' | 'bold';
+        fontStyle?: 'normal' | 'italic';
+      };
+    };
   };
   customSignature?: {
     enabled?: boolean;
@@ -323,6 +410,273 @@ const InvisibleLink = styled(Link)<{
   },
 }));
 
+const CustomContainer = styled(Box)<{
+  backgroundColor?: string;
+  backgroundType?: 'solid' | 'gradient' | 'image';
+  gradientDirection?: string;
+  gradientColors?: string[];
+  backgroundImage?: string;
+  backgroundSize?: string;
+  backgroundPosition?: string;
+  backgroundRepeat?: string;
+  backgroundAttachment?: string;
+  backgroundBlur?: number;
+  padding?: number;
+  borderRadius?: number;
+}>(({
+  theme,
+  backgroundColor,
+  backgroundType,
+  gradientDirection,
+  gradientColors,
+  backgroundImage,
+  backgroundSize,
+  backgroundPosition,
+  backgroundRepeat,
+  backgroundAttachment,
+  backgroundBlur,
+  padding,
+  borderRadius
+}) => {
+  let background = backgroundColor || theme.palette.background.paper;
+
+  if (backgroundType === 'gradient' && gradientColors && gradientColors.length >= 2) {
+    const direction = gradientDirection || '45deg';
+    background = `linear-gradient(${direction}, ${gradientColors.join(', ')})`;
+  } else if (backgroundType === 'image' && backgroundImage) {
+    background = `url(${backgroundImage})`;
+  }
+
+  return {
+    position: 'relative',
+    width: '100%',
+    minHeight: '200px',
+    padding: theme.spacing(padding || 4),
+    borderRadius: borderRadius ? `${borderRadius}px` : 0,
+    transition: 'all 0.3s ease-in-out',
+    overflow: 'hidden',
+
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
+      background,
+      backgroundSize: backgroundType === 'image' ? (backgroundSize || 'cover') : undefined,
+      backgroundPosition: backgroundType === 'image' ? (backgroundPosition || 'center') : undefined,
+      backgroundRepeat: backgroundType === 'image' ? (backgroundRepeat || 'no-repeat') : undefined,
+      backgroundAttachment: backgroundType === 'image' ? (backgroundAttachment || 'scroll') : undefined,
+      filter: backgroundBlur ? `blur(${backgroundBlur}px)` : 'none',
+    },
+  };
+});
+
+const CustomColumn = styled(Box)<{
+  x: number;
+  y: number;
+  width?: number;
+  padding?: number;
+}>(({ theme, x, y, width, padding }) => {
+  const paddingValue = padding || 4;
+  const scale = 1 - (paddingValue * 0.05);
+
+  const scaledX = 50 + (x - 50) * scale;
+  const scaledY = 50 + (y - 50) * scale;
+
+  return {
+    position: 'absolute',
+    left: `${scaledX}%`,
+    top: `${scaledY}%`,
+    width: width ? `${width}%` : 'auto',
+    minWidth: '150px',
+    zIndex: 10,
+  };
+});
+
+const CustomColumnTitle = styled(Typography)<{
+  fontSize?: number;
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
+  textDecoration?: 'none' | 'underline';
+  color?: string;
+}>(({ theme, fontSize, fontWeight, fontStyle, textDecoration, color }) => ({
+  fontSize: fontSize ? `${fontSize}px` : theme.typography.h6.fontSize,
+  fontWeight: fontWeight === 'bold' ? 700 : 400,
+  fontStyle: fontStyle || 'normal',
+  textDecoration: textDecoration || 'none',
+  color: color || theme.palette.text.primary,
+  marginBottom: theme.spacing(2),
+  lineHeight: 1.3,
+}));
+
+const CustomLink = styled(Link)<{
+  fontSize?: number;
+  color?: string;
+  hoverColor?: string;
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
+}>(({ theme, fontSize, color, hoverColor, fontWeight, fontStyle }) => ({
+  display: 'block',
+  fontSize: fontSize ? `${fontSize}px` : theme.typography.body2.fontSize,
+  color: color || theme.palette.text.secondary,
+  fontWeight: fontWeight === 'bold' ? 700 : 400,
+  fontStyle: fontStyle || 'normal',
+  textDecoration: 'none',
+  marginBottom: theme.spacing(1),
+  lineHeight: 1.4,
+  transition: 'all 0.2s ease-in-out',
+
+  '&:hover': {
+    color: hoverColor || theme.palette.primary.main,
+    textDecoration: 'underline',
+  },
+}));
+
+const CustomLogo = styled('img')<{
+  width?: number;
+  height?: number;
+  x?: number;
+  y?: number;
+  padding?: number;
+}>(({ width, height, x, y, padding }) => {
+  const paddingValue = padding || 4;
+  const scale = 1 - (paddingValue * 0.05);
+  const xPos = x || 10;
+  const yPos = y || 10;
+  const scaledX = 50 + (xPos - 50) * scale;
+  const scaledY = 50 + (yPos - 50) * scale;
+
+  return {
+    position: 'absolute',
+    width: width ? `${width}px` : 'auto',
+    height: height ? `${height}px` : 'auto',
+    maxWidth: '200px',
+    maxHeight: '100px',
+    objectFit: 'contain',
+    zIndex: 10,
+    left: `${scaledX}%`,
+    top: `${scaledY}%`,
+    transform: 'none',
+  };
+});
+
+const CustomSocialContainer = styled(Box)<{
+  x: number;
+  y: number;
+  padding?: number;
+}>(({ x, y, padding }) => {
+  const paddingValue = padding || 4;
+  const scale = 1 - (paddingValue * 0.05);
+  const scaledX = 50 + (x - 50) * scale;
+  const scaledY = 50 + (y - 50) * scale;
+
+  return {
+    position: 'absolute',
+    left: `${scaledX}%`,
+    top: `${scaledY}%`,
+    zIndex: 10,
+    display: 'flex',
+    gap: '8px',
+  };
+});
+
+const CustomSocialIcon = styled(IconButton)<{
+  iconSize?: number;
+  iconColor?: string;
+  iconHoverColor?: string;
+}>(({ theme, iconSize, iconColor, iconHoverColor }) => ({
+  color: iconColor || theme.palette.text.primary,
+  fontSize: iconSize ? `${iconSize}px` : '24px',
+  padding: theme.spacing(1),
+  transition: 'all 0.2s ease-in-out',
+
+  '& svg': {
+    fontSize: iconSize ? `${iconSize}px` : '24px',
+  },
+
+  '&:hover': {
+    color: iconHoverColor || theme.palette.primary.main,
+    transform: 'scale(1.1)',
+  },
+}));
+
+const CustomSignature = styled(Box)<{
+  x: number;
+  y: number;
+  fontSize?: number;
+  color?: string;
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
+  padding?: number;
+}>(({ theme, x, y, fontSize, color, fontWeight, fontStyle, padding }) => {
+  const paddingValue = padding || 4;
+  const scale = 1 - (paddingValue * 0.05);
+  const scaledX = 50 + (x - 50) * scale;
+  const scaledY = 50 + (y - 50) * scale;
+
+  return {
+    position: 'absolute',
+    left: `${scaledX}%`,
+    top: `${scaledY}%`,
+    zIndex: 10,
+    fontSize: fontSize ? `${fontSize}px` : theme.typography.body2.fontSize,
+    color: color || theme.palette.text.secondary,
+    fontWeight: fontWeight === 'bold' ? 700 : 400,
+    fontStyle: fontStyle || 'normal',
+    lineHeight: 1.4,
+  };
+});
+
+const CustomMenuContainer = styled(Box)<{
+  x: number;
+  y: number;
+  direction?: 'horizontal' | 'vertical';
+  spacing?: number;
+  padding?: number;
+}>(({ theme, x, y, direction, spacing, padding }) => {
+  const paddingValue = padding || 4;
+  const scale = 1 - (paddingValue * 0.05);
+  const scaledX = 50 + (x - 50) * scale;
+  const scaledY = 50 + (y - 50) * scale;
+  const isVertical = direction === 'vertical';
+  const spacingValue = spacing || 2;
+
+  return {
+    position: 'absolute',
+    left: `${scaledX}%`,
+    top: `${scaledY}%`,
+    zIndex: 10,
+    display: 'flex',
+    flexDirection: isVertical ? 'column' : 'row',
+    gap: isVertical ? `${spacingValue * 4}px` : `${spacingValue * 8}px`,
+  };
+});
+
+const CustomMenuLink = styled(Link)<{
+  fontSize?: number;
+  color?: string;
+  hoverColor?: string;
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
+}>(({ theme, fontSize, color, hoverColor, fontWeight, fontStyle }) => ({
+  fontSize: fontSize ? `${fontSize}px` : '14px',
+  color: color || '#333333',
+  fontWeight: fontWeight === 'bold' ? 700 : 400,
+  fontStyle: fontStyle || 'normal',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  lineHeight: 1.4,
+  whiteSpace: 'nowrap',
+  transition: 'all 0.2s ease-in-out',
+  '&:hover': {
+    color: hoverColor || theme.palette.primary.main,
+    textDecoration: 'underline',
+  },
+}));
+
 export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
   const theme = useTheme();
   const footerConfig = appConfig.footerConfig || {};
@@ -462,84 +816,129 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
       }
 
       if (customSignature?.enabled) {
-        const elements = [];
-
-        if (customSignature.showAppName) {
-          elements.push(appConfig.name);
-        }
-
-        if (customSignature.showLoveBy) {
-          elements.push("made with ❤️ by");
-        }
-
-        elements.push(customSignature.text || "DexKit");
-
         return (
-          <InvisibleText textColor={textColor} fontSize={fontSize}>
-            {elements.join(' ')}
-          </InvisibleText>
+          <Typography component="span" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+            {customSignature.showAppName && (
+              <>
+                <Link href="/" sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                  {appConfig.name}
+                </Link>
+                {" · "}
+              </>
+            )}
+            {customSignature.showLoveBy && "made with ❤️ by "}
+            <Link
+              href={isPreview ? "#" : (customSignature.link || "https://www.dexkit.com")}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease-in-out',
+                '&:hover': {
+                  color: footerConfig.customConfig?.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              {customSignature.text || "DexKit"}
+            </Link>
+          </Typography>
         );
       }
 
       return (
-        <InvisibleText textColor={textColor} fontSize={fontSize}>
-          {appConfig.name} made with ❤️ by{' '}
-          <InvisibleLink
+        <Typography component="span" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+          <Link href="/" sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+            {appConfig.name}
+          </Link>
+          {" · made with ❤️ by "}
+          <Link
             href={isPreview ? "#" : "https://www.dexkit.com"}
             target="_blank"
-            textColor={textColor}
-            fontSize={fontSize}
+            rel="noopener noreferrer"
+            sx={{
+              color: 'inherit',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease-in-out',
+              '&:hover': {
+                color: footerConfig.customConfig?.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                textDecoration: 'underline'
+              }
+            }}
           >
             DexKit
-          </InvisibleLink>
-        </InvisibleText>
+          </Link>
+        </Typography>
       );
     };
 
     if (showOnlySignature) {
+      const signatureElements = renderInvisibleSignature();
+      if (!signatureElements) return null;
+
       return (
         <InvisibleContainer spacing={spacing}>
           <Container>
             <Box sx={{ textAlign: alignment }}>
-              {renderInvisibleSignature()}
+              {signatureElements}
             </Box>
           </Container>
         </InvisibleContainer>
       );
     }
 
-    const elements = [];
+    const elements: React.ReactNode[] = [];
 
     if (appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0) {
-      const menuTexts = appConfig.footerMenuTree
-        .filter(m => !m.children)
-        .map(m => m.name);
-      if (menuTexts.length > 0) {
-        elements.push(...menuTexts);
-      }
+      const menuElements = appConfig.footerMenuTree.map((m, key) =>
+        m.children ? (
+          <NavbarMenu menu={m} key={key} />
+        ) : (
+          <Link
+            key={key}
+            href={isPreview ? "#" : m.href || "/"}
+            aria-label={`footer link ${m.name}`}
+            target={m.type === "External" ? "_blank" : undefined}
+            sx={{
+              color: textColor,
+              textDecoration: 'none',
+              '&:hover': { textDecoration: 'underline' }
+            }}
+          >
+            <FormattedMessage
+              id={m.name.toLowerCase()}
+              defaultMessage={m.name}
+            />
+          </Link>
+        )
+      );
+      elements.push(...menuElements);
     } else {
-      elements.push("Contact us");
+      elements.push(
+        <Link
+          key="contact"
+          href={isPreview ? "" : "https://dexkit.com/contact-us/"}
+          target="_blank"
+          sx={{
+            color: textColor,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' }
+          }}
+        >
+          <FormattedMessage
+            id="contact.us"
+            defaultMessage="Contact us"
+            description="Contact us"
+          />
+        </Link>
+      );
     }
 
     if (showAppSignature || footerConfig.customSignature?.enabled) {
-      const customSignature = footerConfig.customSignature;
-
-      if (customSignature?.enabled) {
-        const signatureElements = [];
-
-        if (customSignature.showAppName) {
-          signatureElements.push(appConfig.name);
-        }
-
-        if (customSignature.showLoveBy) {
-          signatureElements.push("made with ❤️ by");
-        }
-
-        signatureElements.push(customSignature.text || "DexKit");
-
-        elements.push(signatureElements.join(' '));
-      } else {
-        elements.push(`${appConfig.name} made with ❤️ by DexKit`);
+      const signatureElements = renderInvisibleSignature();
+      if (signatureElements) {
+        elements.push(signatureElements);
       }
     }
 
@@ -547,9 +946,14 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
       <InvisibleContainer spacing={spacing}>
         <Container>
           <Box sx={{ textAlign: alignment }}>
-            <InvisibleText textColor={textColor} fontSize={fontSize}>
-              {elements.join(' · ')}
-            </InvisibleText>
+            <Typography component="div" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+              {elements.map((element, index) => (
+                <span key={index}>
+                  {element}
+                  {index < elements.length - 1 && " · "}
+                </span>
+              ))}
+            </Typography>
           </Box>
         </Container>
       </InvisibleContainer>
@@ -575,15 +979,12 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         return (
           <>
             {customSignature.showAppName && (
-              <>
-                <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
-                  {appConfig.name}
-                </MinimalLink>
-                {showDividers && <MinimalDivider dividerColor={dividerColor} />}
-              </>
+              <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
+                {appConfig.name}
+              </MinimalLink>
             )}
             {customSignature.showLoveBy && (
-              <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+              <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: customSignature.showAppName ? 0.5 : 0 }}>
                 <FormattedMessage
                   id="made.with.love.by"
                   defaultMessage="made with ❤️ by"
@@ -596,7 +997,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               target="_blank"
               textColor={textColor}
               fontSize={fontSize}
-              sx={{ ml: customSignature.showLoveBy ? 0.5 : 0 }}
+              sx={{ ml: customSignature.showLoveBy ? 0.5 : (customSignature.showAppName ? 0.5 : 0) }}
             >
               {customSignature.text || "DexKit"}
             </MinimalLink>
@@ -609,8 +1010,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
           <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
             {appConfig.name}
           </MinimalLink>
-          {showDividers && <MinimalDivider dividerColor={dividerColor} />}
-          <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px` }}>
+          <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: 0.5 }}>
             <FormattedMessage
               id="made.with.love.by"
               defaultMessage="made with ❤️ by"
@@ -934,6 +1334,224 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
           </Grid>
         </Container>
       </GlassmorphicContainer>
+    );
+  }
+
+  if (variant === 'custom') {
+    const config = footerConfig.customConfig || {};
+    const socialLinks = [
+      ...(appConfig?.social || []).map(social => ({
+        icon: renderIcon(social),
+        url: renderLink(social)
+      })),
+      ...(appConfig?.social_custom || [])
+        .filter(m => m?.link !== undefined)
+        .map(media => ({
+          icon: (
+            <Image
+              src={media?.iconUrl}
+              alt={media?.label || ""}
+              height={config.socialMedia?.iconSize || 24}
+              width={config.socialMedia?.iconSize || 24}
+            />
+          ),
+          url: renderCustomLink(media?.link)
+        }))
+    ];
+
+    const signatureText = (() => {
+      const customSignature = footerConfig.customSignature;
+
+      if (customSignature?.enabled) {
+        return (
+          <span>
+            {customSignature.showAppName && (
+              <>
+                <Link href="/" sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                  {appConfig.name}
+                </Link>
+                {" · "}
+              </>
+            )}
+            {customSignature.showLoveBy && "made with ❤️ by "}
+            <Link
+              href={isPreview ? "#" : (customSignature.link || "https://www.dexkit.com")}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease-in-out',
+                '&:hover': {
+                  color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              {customSignature.text || "DexKit"}
+            </Link>
+          </span>
+        );
+      }
+
+      return (
+        <span>
+          <Link href="/" sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+            {appConfig.name}
+          </Link>
+          {" · made with ❤️ by "}
+          <Link
+            href={isPreview ? "#" : "https://www.dexkit.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: 'inherit',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease-in-out',
+              '&:hover': {
+                color: config.socialMedia?.iconHoverColor || theme.palette.primary.main,
+                textDecoration: 'underline'
+              }
+            }}
+          >
+            DexKit
+          </Link>
+        </span>
+      );
+    })();
+
+    return (
+      <CustomContainer
+        backgroundColor={config.backgroundColor}
+        backgroundType={config.backgroundType}
+        gradientDirection={config.gradientDirection}
+        gradientColors={config.gradientColors}
+        backgroundImage={config.backgroundImage}
+        backgroundSize={config.backgroundSize}
+        backgroundPosition={config.backgroundPosition}
+        backgroundRepeat={config.backgroundRepeat}
+        backgroundAttachment={config.backgroundAttachment}
+        backgroundBlur={config.backgroundBlur}
+        padding={config.padding}
+        borderRadius={config.borderRadius}
+      >
+        {config.logo?.url && (
+          <CustomLogo
+            src={config.logo.url}
+            alt="Footer Logo"
+            width={config.logo.width}
+            height={config.logo.height}
+            x={config.logo.position?.x}
+            y={config.logo.position?.y}
+            padding={config.padding}
+          />
+        )}
+
+        {config.columns?.map((column) => (
+          <CustomColumn
+            key={column.id}
+            x={column.position?.x || 0}
+            y={column.position?.y || 0}
+            width={column.position?.width}
+            padding={config.padding}
+          >
+            <CustomColumnTitle
+              fontSize={column.titleStyle?.fontSize}
+              fontWeight={column.titleStyle?.fontWeight}
+              fontStyle={column.titleStyle?.fontStyle}
+              textDecoration={column.titleStyle?.textDecoration}
+              color={column.titleStyle?.color}
+            >
+              {column.title}
+            </CustomColumnTitle>
+
+            {column.links.map((link) => (
+              <CustomLink
+                key={link.id}
+                href={isPreview ? "#" : link.url}
+                fontSize={link.style?.fontSize}
+                color={link.style?.color}
+                hoverColor={link.style?.hoverColor}
+                fontWeight={link.style?.fontWeight}
+                fontStyle={link.style?.fontStyle}
+                target={link.url.startsWith('http') ? '_blank' : undefined}
+                rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                {link.text}
+              </CustomLink>
+            ))}
+          </CustomColumn>
+        ))}
+
+        {config.menu && appConfig.footerMenuTree && appConfig.footerMenuTree.length > 0 && (
+          <CustomMenuContainer
+            x={config.menu.position?.x || 5}
+            y={config.menu.position?.y || 40}
+            direction={config.menu.style?.direction || 'vertical'}
+            spacing={config.menu.style?.spacing || 2}
+            padding={config.padding}
+          >
+            {appConfig.footerMenuTree.map((menuItem, index) => (
+              <CustomMenuLink
+                key={index}
+                href={isPreview ? "#" : (menuItem.href || "/")}
+                fontSize={config.menu?.style?.fontSize}
+                color={config.menu?.style?.color}
+                hoverColor={config.menu?.style?.hoverColor}
+                fontWeight={config.menu?.style?.fontWeight}
+                fontStyle={config.menu?.style?.fontStyle}
+                target={menuItem.type === "External" ? "_blank" : undefined}
+                rel={menuItem.type === "External" ? "noopener noreferrer" : undefined}
+              >
+                <FormattedMessage
+                  id={menuItem.name.toLowerCase()}
+                  defaultMessage={menuItem.name}
+                />
+              </CustomMenuLink>
+            ))}
+          </CustomMenuContainer>
+        )}
+
+        {config.socialMedia && socialLinks.length > 0 && (
+          <CustomSocialContainer
+            x={config.socialMedia.position?.x || 0}
+            y={config.socialMedia.position?.y || 0}
+            padding={config.padding}
+          >
+            {socialLinks.map((social, index) => (
+              <Link
+                key={index}
+                href={isPreview ? "#" : social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ textDecoration: 'none' }}
+              >
+                <CustomSocialIcon
+                  iconSize={config.socialMedia?.iconSize}
+                  iconColor={config.socialMedia?.iconColor}
+                  iconHoverColor={config.socialMedia?.iconHoverColor}
+                >
+                  {social.icon}
+                </CustomSocialIcon>
+              </Link>
+            ))}
+          </CustomSocialContainer>
+        )}
+
+        {config.signature && signatureText && (showAppSignature || footerConfig.customSignature?.enabled) && (
+          <CustomSignature
+            x={config.signature.position?.x || 0}
+            y={config.signature.position?.y || 0}
+            fontSize={config.signature.style?.fontSize}
+            color={config.signature.style?.color}
+            fontWeight={config.signature.style?.fontWeight}
+            fontStyle={config.signature.style?.fontStyle}
+            padding={config.padding}
+          >
+            {signatureText}
+          </CustomSignature>
+        )}
+      </CustomContainer>
     );
   }
 
