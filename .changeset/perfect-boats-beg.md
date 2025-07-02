@@ -12,4 +12,4 @@
 "widget-render": minor
 ---
 
-Add footer visual variants (glass and custom) for increased customization
+Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization. 

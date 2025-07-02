@@ -2520,51 +2520,6 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            {values.customConfig?.logo?.url && (
-                              <Grid item xs={12}>
-                                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
-                                  <FormattedMessage
-                                    id="footer.logo.positioning"
-                                    defaultMessage="Logo"
-                                  />
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
-                                  <FormattedMessage
-                                    id="footer.logo.positioning.help"
-                                    defaultMessage="Position your logo anywhere on the footer (X: 0-90%, Y: 0-90%)"
-                                  />
-                                </Typography>
-                                <Grid container spacing={2}>
-                                  <Grid item xs={6} sm={2}>
-                                    <TextField
-                                      fullWidth
-                                      type="number"
-                                      label={formatMessage({
-                                        id: "footer.logo.x.position",
-                                        defaultMessage: "X Position (%)"
-                                      })}
-                                      value={values.customConfig?.logo?.position?.x || 10}
-                                      onChange={(e) => setFieldValue('customConfig.logo.position.x', parseInt(e.target.value) || 10)}
-                                      inputProps={{ min: 0, max: 90 }}
-                                    />
-                                  </Grid>
-                                  <Grid item xs={6} sm={2}>
-                                    <TextField
-                                      fullWidth
-                                      type="number"
-                                      label={formatMessage({
-                                        id: "footer.logo.y.position",
-                                        defaultMessage: "Y Position (%)"
-                                      })}
-                                      value={values.customConfig?.logo?.position?.y || 10}
-                                      onChange={(e) => setFieldValue('customConfig.logo.position.y', parseInt(e.target.value) || 10)}
-                                      inputProps={{ min: 0, max: 90 }}
-                                    />
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            )}
-
                             <Grid item xs={12}>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
                                 <FormattedMessage
