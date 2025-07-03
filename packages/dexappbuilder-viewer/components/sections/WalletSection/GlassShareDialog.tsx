@@ -10,7 +10,6 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import LinkIcon from "@mui/icons-material/Link";
 import ShareIcon from "@mui/icons-material/Share";
 import TelegramIcon from "@mui/icons-material/Telegram";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 import {
@@ -23,14 +22,21 @@ import {
   IconButton,
   InputAdornment,
   Stack,
+  SvgIcon,
   TextField,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useSnackbar } from "notistack";
 
 import { FormattedMessage, useIntl } from "react-intl";
+
+const XIcon = (props: any) => (
+  <SvgIcon {...props}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </SvgIcon>
+);
 
 interface Props {
   dialogProps: DialogProps;
@@ -122,7 +128,7 @@ const socialShareOptions = [
   {
     value: "x",
     title: <FormattedMessage id="x" defaultMessage="X" />,
-    icon: <TwitterIcon />,
+    icon: <XIcon />,
     color: "#000000",
   },
   {

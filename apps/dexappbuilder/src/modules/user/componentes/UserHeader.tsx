@@ -5,11 +5,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import { ShareButton } from '@dexkit/ui/components/ShareButton';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import Verified from '@mui/icons-material/Verified';
-import { Chip, IconButton, Stack, Tooltip, useTheme } from '@mui/material';
+import { Chip, IconButton, Stack, SvgIcon, Tooltip, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
+
+const XIcon = (props: any) => (
+  <SvgIcon {...props}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </SvgIcon>
+);
 
 interface Props {
   username?: string;
@@ -44,16 +49,16 @@ export function UserHeader(props: Props) {
   } = props;
   const theme = useTheme();
 
-  const isNftImage = 
+  const isNftImage =
     (!!profileNft || !!nftChainId || !!nftAddress || !!nftId) ||
     (profileImageURL && (
-    profileImageURL.includes('metadata.ens.domains') || 
-    profileImageURL.includes('ipfs') || 
-    profileImageURL.includes('arweave') ||
-    profileImageURL.startsWith('data:') ||
-    !profileImageURL.startsWith('/')
+      profileImageURL.includes('metadata.ens.domains') ||
+      profileImageURL.includes('ipfs') ||
+      profileImageURL.includes('arweave') ||
+      profileImageURL.startsWith('data:') ||
+      !profileImageURL.startsWith('/')
     ));
-    
+
   const NETWORK_COLORS: Record<string, string> = {
     'ethereum': '#627EEA',
     'polygon': '#8247E5',
@@ -69,10 +74,10 @@ export function UserHeader(props: Props) {
     'BNB Chain': '#F0B90B',
   };
 
-  console.log('UserHeader NFT props:', { 
-    nftChainId, 
-    nftAddress, 
-    nftId, 
+  console.log('UserHeader NFT props:', {
+    nftChainId,
+    nftAddress,
+    nftId,
     hasProfileNft: !!profileNft,
     profileNftData: profileNft,
     isNftImage
@@ -80,7 +85,7 @@ export function UserHeader(props: Props) {
 
   const getNetworkIdFromChainId = (chainId?: number): string => {
     if (!chainId) return '';
-    
+
     switch (chainId) {
       case 1:
         return 'ethereum';
@@ -102,7 +107,7 @@ export function UserHeader(props: Props) {
 
   const getNetworkName = (chainId?: number): string => {
     if (!chainId) return '';
-    
+
     switch (chainId) {
       case 1:
         return 'Ethereum';
@@ -124,7 +129,7 @@ export function UserHeader(props: Props) {
 
   const getNetworkColor = (chainId?: number): string => {
     if (!chainId) return '#627EEA';
-    
+
     switch (chainId) {
       case 1:
         return '#627EEA';
@@ -145,14 +150,14 @@ export function UserHeader(props: Props) {
   };
 
   const nftName = profileNft?.metadata?.name || profileNft?.name || profileNft?.collectionName || "";
-  
+
   let networkName = "";
   if (typeof profileNft?.networkId === 'string') {
     networkName = profileNft.networkId.charAt(0).toUpperCase() + profileNft.networkId.slice(1);
   } else if (nftChainId) {
     networkName = getNetworkName(nftChainId);
   }
-  
+
   let networkColor = "#627EEA";
   if (networkName in NETWORK_COLORS) {
     networkColor = NETWORK_COLORS[networkName];
@@ -261,7 +266,7 @@ export function UserHeader(props: Props) {
           <ShareButton />
         </Stack>
       </Grid>
-      
+
       {isNftImage && (
         <Grid item xs={12}>
           <Stack direction="row" spacing={1} alignItems="center" mt={0.5} mb={1}>
@@ -270,7 +275,7 @@ export function UserHeader(props: Props) {
                 {nftName}
               </Typography>
             )}
-            
+
             {networkName && (
               <Chip
                 label={networkName}
@@ -284,7 +289,7 @@ export function UserHeader(props: Props) {
                 }}
               />
             )}
-            
+
             <Chip
               label="NFT"
               color="secondary"
@@ -299,7 +304,7 @@ export function UserHeader(props: Props) {
           </Stack>
         </Grid>
       )}
-      
+
       {shortBio && (
         <Grid item xs={12}>
           <Typography
@@ -335,7 +340,7 @@ export function UserHeader(props: Props) {
             {false && (
               <Box>
                 <IconButton aria-label="twitter">
-                  <TwitterIcon />
+                  <XIcon />
                 </IconButton>
                 <IconButton aria-label="discord">
                   <Image

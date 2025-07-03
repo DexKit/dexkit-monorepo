@@ -6,14 +6,14 @@ import {
   Grid,
   IconButton,
   Stack,
+  SvgIcon,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material"; // always use @mui/material instead of @mui/system
 
 import Facebook from "@mui/icons-material/Facebook";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import Reddit from "@mui/icons-material/Reddit";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTube from "@mui/icons-material/YouTube";
 import Image from "next/image";
 import { useMemo } from "react";
@@ -25,7 +25,14 @@ import type {
   AppConfig,
   SocialMedia,
 } from "@dexkit/ui/modules/wizard/types/config";
+import { FooterVariants } from "./Footer/FooterVariants";
 import NavbarMenu from "./Menu";
+
+const XIcon = (props: any) => (
+  <SvgIcon {...props}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </SvgIcon>
+);
 
 interface Props {
   appNFT?: AssetAPI;
@@ -34,12 +41,16 @@ interface Props {
 }
 
 export function Footer({ appConfig, isPreview, appNFT }: Props) {
+  if ((appConfig as any).footerConfig?.variant && (appConfig as any).footerConfig.variant !== 'default') {
+    return <FooterVariants appConfig={appConfig as any} isPreview={isPreview} appNFT={appNFT} />;
+  }
+
   const theme = useTheme();
   const renderIcon = (media: SocialMedia) => {
     if (media?.type === "instagram") {
       return <InstagramIcon />;
     } else if (media?.type === "twitter") {
-      return <TwitterIcon />;
+      return <XIcon />;
     } else if (media?.type === "reddit") {
       return <Reddit />;
     } else if (media?.type === "youtube") {
