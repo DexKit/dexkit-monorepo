@@ -1,5 +1,17 @@
 # @dexkit/web3forms
 
+## 0.15.0
+
+### Minor Changes
+
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
+### Patch Changes
+
+- Updated dependencies [eefb4b8]
+  - @dexkit/core@0.20.0
+  - @dexkit/ui@0.25.0
+
 ## 0.14.0
 
 ### Minor Changes

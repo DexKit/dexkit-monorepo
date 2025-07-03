@@ -1,5 +1,21 @@
 # @dexkit/dexappbuilder-viewer
 
+## 0.11.0
+
+### Minor Changes
+
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
+### Patch Changes
+
+- Updated dependencies [eefb4b8]
+  - @dexkit/wallet-connectors@0.8.0
+  - @dexkit/exchange@0.16.0
+  - @dexkit/widgets@0.15.0
+  - @dexkit/core@0.20.0
+  - @dexkit/ui@0.25.0
+  - @dexkit/web3forms@0.15.0
+
 ## 0.10.0
 
 ### Minor Changes

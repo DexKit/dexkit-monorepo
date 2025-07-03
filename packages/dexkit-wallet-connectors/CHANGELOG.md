@@ -1,5 +1,16 @@
 # @dexkit/wallet-connectors
 
+## 0.8.0
+
+### Minor Changes
+
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
+### Patch Changes
+
+- Updated dependencies [eefb4b8]
+  - @dexkit/core@0.20.0
+
 ## 0.7.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @dexkit/widgets
 
+## 0.15.0
+
+### Minor Changes
+
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
 ## 0.14.0
 
 ### Minor Changes
