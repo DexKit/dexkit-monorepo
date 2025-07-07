@@ -6,7 +6,7 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
@@ -27,7 +27,7 @@ import {
   Popover,
   Stack,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 
 import { getChainLogoImage, getChainName } from "@dexkit/core/utils/blockchain";
@@ -48,6 +48,7 @@ const SelectNetworkDialog = dynamic(
 );
 
 import Link from "@dexkit/ui/components/AppLink";
+import AppProfileMenu from "@dexkit/ui/components/AppProfileMenu";
 import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDialog";
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
@@ -182,13 +183,264 @@ function Navbar({ appConfig, isPreview }: Props) {
     setProfileMenuAnchorEl(null);
   };
 
+  const glassVariant =
+    appConfig.menuSettings?.layout?.type === "navbar" &&
+    appConfig.menuSettings?.layout?.variant === "glass";
+  const glassSettings = glassVariant
+    ? appConfig.menuSettings?.layout?.glassSettings || {}
+    : {};
+
+  const getGlassBackground = () => {
+    if (!glassVariant || glassSettings.disableBackground) return 'transparent';
+
+    const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection } = glassSettings;
+
+    if (backgroundType === 'image' && backgroundImage) {
+      return backgroundImage;
+    } else if (backgroundType === 'gradient' && gradientStartColor && gradientEndColor) {
+      return `linear-gradient(${gradientDirection || 'to bottom'}, ${gradientStartColor}, ${gradientEndColor})`;
+    } else if (backgroundColor) {
+      return backgroundColor;
+    }
+
+    return `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`;
+  };
+
+  const getGlassOverlay = () => {
+    if (!glassVariant || glassSettings.disableBackground) return {};
+
+    if (glassSettings.backgroundType === 'image' && glassSettings.backgroundImage) {
+      return {
+        position: 'relative' as const,
+        '&::before': {
+          content: '""',
+          position: 'absolute' as const,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `rgba(255,255,255,${glassSettings.glassOpacity ?? 0.1})`,
+          backdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
+          WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
+          pointerEvents: 'none' as const,
+          zIndex: 1,
+        },
+        '& > *': {
+          position: 'relative' as const,
+          zIndex: 2,
+        }
+      };
+    }
+
+    return {};
+  };
+
+  const getLogoSize = () => {
+    if (!glassVariant) return { width: 48, height: 48 };
+
+    const { logoSize, customLogoWidth, customLogoHeight } = glassSettings;
+
+    let width, height;
+
+    switch (logoSize) {
+      case 'small':
+        width = height = 32;
+        break;
+      case 'large':
+        width = height = 64;
+        break;
+      case 'custom':
+        width = customLogoWidth || 32;
+        height = customLogoHeight || 32;
+        break;
+      default:
+        width = height = 48;
+        break;
+    }
+
+    return {
+      width: Number(width),
+      height: Number(height)
+    };
+  };
+
+  const organizeNavbarElements = () => {
+    if (!glassVariant) return null;
+
+    const logoSizes = getLogoSize();
+
+    const logoElement = appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
+      <Link href={isPreview ? "#" : "/"} key="logo">
+        <Image
+          src={appConfig?.logoDark?.url || ""}
+          alt={appConfig.name}
+          title={appConfig.name}
+          height={logoSizes.height}
+          width={logoSizes.width}
+        />
+      </Link>
+    ) : appConfig?.logo ? (
+      <Link href={isPreview ? "#" : "/"} key="logo">
+        <Image
+          src={appConfig?.logo.url}
+          alt={appConfig.name}
+          title={appConfig.name}
+          width={logoSizes.width}
+          height={logoSizes.height}
+        />
+      </Link>
+    ) : (
+      <Link
+        sx={{ textDecoration: "none" }}
+        variant="h6"
+        color="primary"
+        href={isPreview ? "#" : "/"}
+        key="logo"
+      >
+        {appConfig.name}
+      </Link>
+    );
+
+    const menuElement = appConfig.menuTree ? (
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={2}
+        key="menu"
+      >
+        {appConfig.menuTree.map((m, key) =>
+          m.children ? (
+            <NavbarMenu menu={m} key={key} isPreview={isPreview} />
+          ) : (
+            <Button
+              color="inherit"
+              href={isPreview ? "#" : m.href || "/"}
+              sx={{
+                fontWeight: 600,
+                textDecoration: "none",
+                textTransform: "none",
+                fontSize: "inherit",
+                ...(glassVariant && glassSettings.textColor && {
+                  color: glassSettings.textColor,
+                }),
+              }}
+              key={key}
+              LinkComponent={Link}
+              startIcon={
+                m.data?.iconName ? (
+                  <Icon>{m.data?.iconName}</Icon>
+                ) : undefined
+              }
+            >
+              {m.name}
+            </Button>
+          )
+        )}
+      </Stack>
+    ) : null;
+
+    const actionsElement = (
+      <Stack direction="row" alignItems="center" spacing={2} key="actions">
+        {isActive && (
+          <ButtonBase
+            onClick={handleShowProfileMenu}
+            sx={{
+              borderRadius: "50%",
+              ...(glassVariant && glassSettings.iconColor && {
+                color: glassSettings.iconColor,
+              }),
+            }}
+          >
+            <Avatar
+              sx={{ height: "1.5rem", width: "1.5rem" }}
+              src={user?.profileImageURL}
+            />
+          </ButtonBase>
+        )}
+
+        {!isActive ? (
+          <ConnectWalletButton />
+        ) : (
+          <WalletButton />
+        )}
+
+        {appConfig.commerce?.enabled && (
+          <NoSsr>
+            <CommerceCartIconButton
+              iconColor={glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined}
+            />
+          </NoSsr>
+        )}
+        <NoSsr>
+          <IconButton
+            onClick={handleOpenTransactions}
+            aria-label="notifications"
+            sx={{
+              ...(glassVariant && glassSettings.iconColor && {
+                color: glassSettings.iconColor,
+              }),
+            }}
+          >
+            <Badge
+              variant={
+                hasPendingTransactions &&
+                  filteredUncheckedTransactions.length === 0
+                  ? "dot"
+                  : "standard"
+              }
+              color="primary"
+              badgeContent={
+                filteredUncheckedTransactions.length > 0
+                  ? filteredUncheckedTransactions.length
+                  : undefined
+              }
+              invisible={
+                !hasPendingTransactions &&
+                filteredUncheckedTransactions.length === 0
+              }
+            >
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </NoSsr>
+        <IconButton
+          onClick={handleSettingsMenuClick}
+          aria-label="settings"
+          sx={{
+            ...(glassVariant && glassSettings.iconColor && {
+              color: glassSettings.iconColor,
+            }),
+          }}
+        >
+          <SettingsIcon />
+        </IconButton>
+      </Stack>
+    );
+
+    const positions: { left: React.ReactNode[]; center: React.ReactNode[]; right: React.ReactNode[] } = {
+      left: [],
+      center: [],
+      right: []
+    };
+
+    const logoPos = (glassSettings.logoPosition || 'left') as 'left' | 'center' | 'right';
+    const menuPos = (glassSettings.menuPosition || 'center') as 'left' | 'center' | 'right';
+    const actionsPos = (glassSettings.actionsPosition || 'right') as 'left' | 'center' | 'right';
+
+    if (logoElement) positions[logoPos].push(logoElement);
+    if (menuElement) positions[menuPos].push(menuElement);
+    if (actionsElement) positions[actionsPos].push(actionsElement);
+
+    return positions;
+  };
+
   return (
     <>
-      {/* <AppProfileMenu
+      <AppProfileMenu
         open={showProfileMenu}
         onClose={handleCloseProfileMenu}
         anchorEl={profileAnchorMenuEl}
-      /> */}
+      />
       <CommercePopover
         PopoverProps={{
           open: showProfileMenu,
@@ -316,9 +568,39 @@ function Navbar({ appConfig, isPreview }: Props) {
         variant="elevation"
         color="default"
         position="sticky"
-        sx={{ zIndex: 10 }}
+        sx={{
+          zIndex: 10,
+          ...(glassVariant && {
+            ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage ? {
+              backgroundImage: `url(${getGlassBackground()})`,
+              backgroundSize: glassSettings.backgroundSize || 'cover',
+              backgroundPosition: glassSettings.backgroundPosition || 'center',
+              backgroundRepeat: 'no-repeat',
+            } : {
+              background: getGlassBackground(),
+            }),
+            backdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
+            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
+            boxShadow: '0 4px 32px 0 rgba(31, 38, 135, 0.15)',
+            border: '1px solid rgba(255,255,255,0.18)',
+            transition: 'background 0.3s, backdrop-filter 0.3s',
+            ...(glassSettings.borderRadius !== undefined && {
+              borderRadius: `${glassSettings.borderRadius}px`,
+              overflow: 'hidden',
+            }),
+            ...getGlassOverlay(),
+          }),
+        }}
       >
-        <Toolbar variant="dense" sx={{ py: 1 }}>
+        <Toolbar
+          variant="dense"
+          sx={{
+            py: 1,
+            ...(glassVariant && {
+              color: glassSettings.textColor || '#0E1116',
+            }),
+          }}
+        >
           {isMobile && (
             <IconButton
               edge="start"
@@ -330,322 +612,440 @@ function Navbar({ appConfig, isPreview }: Props) {
               <MenuIcon />
             </IconButton>
           )}
-          {appConfig.logoDark &&
-          appConfig.logoDark?.url &&
-          mode === ThemeMode.dark ? (
-            <Link href={isPreview ? "#" : "/"}>
-              <Image
-                src={appConfig?.logoDark?.url || ""}
-                alt={appConfig.name}
-                title={appConfig.name}
-                height={
-                  isMobile && appConfig?.logoDark?.heightMobile
-                    ? Number(appConfig?.logoDark?.heightMobile)
-                    : Number(
-                        appConfig?.logoDark?.height ||
+
+          {glassVariant && !isMobile ? (
+            (() => {
+              const organizedElements = organizeNavbarElements();
+              if (!organizedElements) return null;
+
+              return (
+                <>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ flexGrow: 0 }}
+                  >
+                    {organizedElements.left.map((element, index) => (
+                      <Box key={`left-${index}`}>{element}</Box>
+                    ))}
+                  </Stack>
+
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{
+                      flexGrow: 1,
+                      justifyContent: 'center',
+                      px: 2
+                    }}
+                  >
+                    {organizedElements.center.map((element, index) => (
+                      <Box key={`center-${index}`}>{element}</Box>
+                    ))}
+                  </Stack>
+
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ flexGrow: 0 }}
+                  >
+                    {organizedElements.right.map((element, index) => (
+                      <Box key={`right-${index}`}>{element}</Box>
+                    ))}
+                  </Stack>
+                </>
+              );
+            })()
+          ) : glassVariant && isMobile ? (
+            <>
+              <Box sx={{ flexGrow: 1 }}>
+                {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
+                  <Link href={isPreview ? "#" : "/"}>
+                    <Image
+                      src={appConfig?.logoDark?.url || ""}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      height={getLogoSize().height}
+                      width={getLogoSize().width}
+                    />
+                  </Link>
+                ) : appConfig?.logo ? (
+                  <Link href={isPreview ? "#" : "/"}>
+                    <Image
+                      src={appConfig?.logo.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={getLogoSize().width}
+                      height={getLogoSize().height}
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    sx={{ textDecoration: "none" }}
+                    variant="h6"
+                    color="primary"
+                    href={isPreview ? "#" : "/"}
+                  >
+                    {appConfig.name}
+                  </Link>
+                )}
+              </Box>
+
+              <Stack direction="row" alignItems="center" spacing={1}>
+                {isActive && (
+                  <ButtonBase
+                    onClick={handleShowProfileMenu}
+                    sx={{
+                      borderRadius: "50%",
+                      ...(glassVariant && glassSettings.iconColor && {
+                        color: glassSettings.iconColor,
+                      }),
+                    }}
+                  >
+                    <Avatar
+                      sx={{ height: "1.5rem", width: "1.5rem" }}
+                      src={user?.profileImageURL}
+                    />
+                  </ButtonBase>
+                )}
+                {appConfig.commerce?.enabled && (
+                  <NoSsr>
+                    <CommerceCartIconButton
+                      iconColor={glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined}
+                    />
+                  </NoSsr>
+                )}
+                <NoSsr>
+                  <IconButton
+                    onClick={handleOpenTransactions}
+                    aria-label="notifications"
+                    sx={{
+                      ...(glassVariant && glassSettings.iconColor && {
+                        color: glassSettings.iconColor,
+                      }),
+                    }}
+                  >
+                    <Badge
+                      variant={
+                        hasPendingTransactions &&
+                          filteredUncheckedTransactions.length === 0
+                          ? "dot"
+                          : "standard"
+                      }
+                      color="primary"
+                      badgeContent={
+                        filteredUncheckedTransactions.length > 0
+                          ? filteredUncheckedTransactions.length
+                          : undefined
+                      }
+                      invisible={
+                        !hasPendingTransactions &&
+                        filteredUncheckedTransactions.length === 0
+                      }
+                    >
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </NoSsr>
+                <IconButton
+                  onClick={handleSettingsMenuClick}
+                  aria-label="settings"
+                  sx={{
+                    ...(glassVariant && glassSettings.iconColor && {
+                      color: glassSettings.iconColor,
+                    }),
+                  }}
+                >
+                  <SettingsIcon />
+                </IconButton>
+              </Stack>
+            </>
+          ) : (
+            <>
+              {appConfig.logoDark &&
+                appConfig.logoDark?.url &&
+                mode === ThemeMode.dark ? (
+                <Link href={isPreview ? "#" : "/"}>
+                  <Image
+                    src={appConfig?.logoDark?.url || ""}
+                    alt={appConfig.name}
+                    title={appConfig.name}
+                    height={
+                      isMobile && appConfig?.logoDark?.heightMobile
+                        ? Number(appConfig?.logoDark?.heightMobile)
+                        : Number(
+                          appConfig?.logoDark?.height ||
                           appConfig?.logo?.height ||
                           theme.spacing(6)
-                      )
-                }
-                width={
-                  isMobile && appConfig?.logoDark?.widthMobile
-                    ? Number(appConfig?.logoDark?.widthMobile)
-                    : Number(
-                        appConfig?.logoDark?.width ||
+                        )
+                    }
+                    width={
+                      isMobile && appConfig?.logoDark?.widthMobile
+                        ? Number(appConfig?.logoDark?.widthMobile)
+                        : Number(
+                          appConfig?.logoDark?.width ||
                           appConfig?.logo?.width ||
                           theme.spacing(6)
-                      )
-                }
-              />
-            </Link>
-          ) : appConfig?.logo ? (
-            <Link href={isPreview ? "#" : "/"}>
-              <Image
-                src={appConfig?.logo.url}
-                alt={appConfig.name}
-                title={appConfig.name}
-                width={
-                  isMobile && appConfig?.logo?.widthMobile
-                    ? Number(appConfig?.logo?.widthMobile)
-                    : Number(appConfig?.logo?.width || theme.spacing(6))
-                }
-                height={
-                  isMobile && appConfig?.logo?.heightMobile
-                    ? Number(appConfig?.logo?.heightMobile)
-                    : Number(appConfig?.logo?.height || theme.spacing(6))
-                }
-              />
-            </Link>
-          ) : (
-            <Link
-              sx={{ textDecoration: "none" }}
-              variant="h6"
-              color="primary"
-              href={isPreview ? "#" : "/"}
-            >
-              {appConfig.name}
-            </Link>
-          )}
-          {appConfig?.searchbar?.enabled && (
-            <Stack
-              direction="row"
-              alignItems="center"
-              sx={{
-                flexGrow: 3,
-                display: { xs: "none", md: "flex" },
-                justifyContent: "center",
-                px: 2,
-              }}
-            >
-              <SearchBar
-                hideCollections={appConfig?.searchbar?.hideCollections}
-                hideTokens={appConfig?.searchbar?.hideTokens}
-                isPreview={isPreview}
-              />
-            </Stack>
-          )}
+                        )
+                    }
+                  />
+                </Link>
+              ) : appConfig?.logo ? (
+                <Link href={isPreview ? "#" : "/"}>
+                  <Image
+                    src={appConfig?.logo.url}
+                    alt={appConfig.name}
+                    title={appConfig.name}
+                    width={
+                      isMobile && appConfig?.logo?.widthMobile
+                        ? Number(appConfig?.logo?.widthMobile)
+                        : Number(appConfig?.logo?.width || theme.spacing(6))
+                    }
+                    height={
+                      isMobile && appConfig?.logo?.heightMobile
+                        ? Number(appConfig?.logo?.heightMobile)
+                        : Number(appConfig?.logo?.height || theme.spacing(6))
+                    }
+                  />
+                </Link>
+              ) : (
+                <Link
+                  sx={{ textDecoration: "none" }}
+                  variant="h6"
+                  color="primary"
+                  href={isPreview ? "#" : "/"}
+                >
+                  {appConfig.name}
+                </Link>
+              )}
+              {appConfig?.searchbar?.enabled && (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{
+                    flexGrow: 3,
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "center",
+                    px: 2,
+                  }}
+                >
+                  <SearchBar
+                    hideCollections={appConfig?.searchbar?.hideCollections}
+                    hideTokens={appConfig?.searchbar?.hideTokens}
+                    isPreview={isPreview}
+                  />
+                </Stack>
+              )}
 
-          {isMobile && appConfig?.searchbar?.enabled && (
-            <Stack
-              direction="row"
-              alignItems="center"
-              sx={{
-                flexGrow: 3,
-                justifyContent: "flex-end",
-                px: 2,
-              }}
-            >
-              <SearchBarMobile
-                hideCollections={appConfig?.searchbar?.hideCollections}
-                hideTokens={appConfig?.searchbar?.hideTokens}
-                isPreview={isPreview}
-              />
-            </Stack>
-          )}
-          <Stack
-            direction="row"
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-              center: "right",
-              justifyContent: "flex-end",
-              px: 2,
-            }}
-            alignItems="center"
-            spacing={2}
-          >
-            {(appConfig.menuSettings?.layout?.type === undefined ||
-              (appConfig.menuSettings?.layout?.type === "navbar" &&
-                (appConfig.menuSettings?.layout?.variant === "default" ||
-                  appConfig.menuSettings?.layout?.variant === undefined))) &&
-            appConfig.menuTree ? (
+              {isMobile && appConfig?.searchbar?.enabled && (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{
+                    flexGrow: 3,
+                    justifyContent: "flex-end",
+                    px: 2,
+                  }}
+                >
+                  <SearchBarMobile
+                    hideCollections={appConfig?.searchbar?.hideCollections}
+                    hideTokens={appConfig?.searchbar?.hideTokens}
+                    isPreview={isPreview}
+                  />
+                </Stack>
+              )}
               <Stack
                 direction="row"
                 sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", md: "flex" },
                   center: "right",
                   justifyContent: "flex-end",
+                  px: 2,
                 }}
                 alignItems="center"
                 spacing={2}
               >
-                {appConfig.menuTree.map((m, key) =>
-                  m.children ? (
-                    <NavbarMenu menu={m} key={key} isPreview={isPreview} />
-                  ) : (
-                    <Button
-                      color="inherit"
-                      href={isPreview ? "#" : m.href || "/"}
+                {(appConfig.menuSettings?.layout?.type === undefined ||
+                  (appConfig.menuSettings?.layout?.type === "navbar" &&
+                    (appConfig.menuSettings?.layout?.variant === "default" ||
+                      appConfig.menuSettings?.layout?.variant === "alt" ||
+                      appConfig.menuSettings?.layout?.variant === undefined))) &&
+                  appConfig.menuTree ? (
+                  <Stack
+                    direction="row"
+                    sx={{
+                      center: "right",
+                      justifyContent: "flex-end",
+                    }}
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    {appConfig.menuTree.map((m, key) =>
+                      m.children ? (
+                        <NavbarMenu menu={m} key={key} isPreview={isPreview} />
+                      ) : (
+                        <Button
+                          color="inherit"
+                          href={isPreview ? "#" : m.href || "/"}
+                          sx={{
+                            fontWeight: 600,
+                            textDecoration: "none",
+                            textTransform: "none",
+                            fontSize: "inherit",
+                          }}
+                          key={key}
+                          LinkComponent={Link}
+                          startIcon={
+                            m.data?.iconName ? (
+                              <Icon>{m.data?.iconName}</Icon>
+                            ) : undefined
+                          }
+                        >
+                          {m.name}
+                        </Button>
+                      )
+                    )}
+                  </Stack>
+                ) : (
+                  false && (
+                    <Stack
+                      direction="row"
                       sx={{
-                        fontWeight: 600,
-                        textDecoration: "none",
-                        textTransform: "none",
-                        fontSize: "inherit",
+                        center: "right",
+                        justifyContent: "flex-end",
                       }}
-                      key={key}
-                      LinkComponent={Link}
-                      startIcon={
-                        m.data?.iconName ? (
-                          <Icon>{m.data?.iconName}</Icon>
-                        ) : undefined
-                      }
+                      alignItems="center"
+                      spacing={2}
                     >
-                      {m.name}
-                    </Button>
+                      <Link
+                        color="inherit"
+                        href={isPreview ? "#" : "/"}
+                        sx={{ fontWeight: 600, textDecoration: "none" }}
+                      >
+                        <FormattedMessage id="home" defaultMessage="Home" />
+                      </Link>
+                      <Link
+                        color="inherit"
+                        href={isPreview ? "#" : "/swap"}
+                        sx={{ fontWeight: 600, textDecoration: "none" }}
+                      >
+                        <FormattedMessage id="swap" defaultMessage="Swap" />
+                      </Link>
+                      {isActive && (
+                        <Link
+                          color="inherit"
+                          href={isPreview ? "#" : "/wallet"}
+                          sx={{ fontWeight: 600, textDecoration: "none" }}
+                        >
+                          <FormattedMessage id="wallet" defaultMessage="Wallet" />
+                        </Link>
+                      )}
+                    </Stack>
                   )
                 )}
-              </Stack>
-            ) : (
-              false && (
+                {isActive && (
+                  <ButtonBase
+                    onClick={handleShowProfileMenu}
+                    sx={{ borderRadius: "50%" }}
+                  >
+                    <Avatar
+                      sx={{ height: "1.5rem", width: "1.5rem" }}
+                      src={user?.profileImageURL}
+                    />
+                  </ButtonBase>
+                )}
                 <Stack
                   direction="row"
-                  sx={{
-                    center: "right",
-                    justifyContent: "flex-end",
-                  }}
-                  alignItems="center"
                   spacing={2}
+                  alignItems="center"
+                  alignContent="center"
                 >
-                  <Link
-                    color="inherit"
-                    href={isPreview ? "#" : "/"}
-                    sx={{ fontWeight: 600, textDecoration: "none" }}
-                  >
-                    <FormattedMessage id="home" defaultMessage="Home" />
-                  </Link>
-                  <Link
-                    color="inherit"
-                    href={isPreview ? "#" : "/swap"}
-                    sx={{ fontWeight: 600, textDecoration: "none" }}
-                  >
-                    <FormattedMessage id="swap" defaultMessage="Swap" />
-                  </Link>
-                  {isActive && (
-                    <Link
-                      color="inherit"
-                      href={isPreview ? "#" : "/wallet"}
-                      sx={{ fontWeight: 600, textDecoration: "none" }}
-                    >
-                      <FormattedMessage id="wallet" defaultMessage="Wallet" />
-                    </Link>
-                  )}
-                </Stack>
-              )
-            )}
-            {isActive && (
-              <ButtonBase
-                onClick={handleShowProfileMenu}
-                sx={{ borderRadius: "50%" }}
-              >
-                <Avatar
-                  sx={{ height: "1.5rem", width: "1.5rem" }}
-                  src={user?.profileImageURL}
-                />
-              </ButtonBase>
-            )}
-            <Stack
-              direction="row"
-              spacing={2}
-              alignItems="center"
-              alignContent="center"
-            >
-              {/* <Button variant="outlined" color="primary">
-                Buy ETH
-              </Button> */}
+                  {/* <Button variant="outlined" color="primary">
+                    Buy ETH
+                  </Button> */}
 
-              {false && (
-                <ButtonBase
-                  onClick={handleOpenSelectNetworkDialog}
-                  sx={(theme) => ({
-                    px: 2,
-                    py: 1,
-                    border: `1px solid ${theme.palette.divider}`,
-                    borderRadius: theme.spacing(1),
-                  })}
-                >
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar
-                      src={getChainLogoImage(chainId)}
+                  {false && (
+                    <ButtonBase
+                      onClick={handleOpenSelectNetworkDialog}
                       sx={(theme) => ({
-                        width: "auto",
-                        height: theme.spacing(2),
+                        px: 2,
+                        py: 1,
+                        border: `1px solid ${theme.palette.divider}`,
+                        borderRadius: theme.spacing(1),
                       })}
-                      alt={getChainName(chainId) || ""}
-                    />
-                    <Typography variant="body1">
-                      {getChainName(chainId)}
-                    </Typography>
-                    <KeyboardArrowDownIcon />
-                  </Stack>
-                </ButtonBase>
-              )}
-
-              {!isActive ? (
-                <ConnectWalletButton />
-              ) : (
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <WalletButton />
-
-                  {appConfig.commerce?.enabled && (
-                    <NoSsr>
-                      <CommerceCartIconButton />
-                    </NoSsr>
-                  )}
-                  <NoSsr>
-                    <IconButton
-                      onClick={handleOpenTransactions}
-                      aria-label="notifications"
                     >
-                      <Badge
-                        variant={
-                          hasPendingTransactions &&
-                          filteredUncheckedTransactions.length === 0
-                            ? "dot"
-                            : "standard"
-                        }
-                        color="primary"
-                        badgeContent={
-                          filteredUncheckedTransactions.length > 0
-                            ? filteredUncheckedTransactions.length
-                            : undefined
-                        }
-                        invisible={
-                          !hasPendingTransactions &&
-                          filteredUncheckedTransactions.length === 0
-                        }
-                      >
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
-                  </NoSsr>
-                </Stack>
-              )}
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Avatar
+                          src={getChainLogoImage(chainId)}
+                          sx={(theme) => ({
+                            width: "auto",
+                            height: theme.spacing(2),
+                          })}
+                          alt={getChainName(chainId) || ""}
+                        />
+                        <Typography variant="body1">
+                          {getChainName(chainId)}
+                        </Typography>
+                        <KeyboardArrowDownIcon />
+                      </Stack>
+                    </ButtonBase>
+                  )}
 
-              <IconButton
-                onClick={handleSettingsMenuClick}
-                aria-label="settings"
-              >
-                <SettingsIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
-          <Box
-            sx={{
-              display: {
-                sm: "none",
-                xs: "flex",
-                flexGrow: 1,
-                justifyContent: "flex-end",
-              },
-            }}
-          >
-            <NoSsr>
-              <IconButton
-                onClick={handleOpenTransactions}
-                aria-label="notifications"
-              >
-                <Badge
-                  variant={
-                    hasPendingTransactions &&
-                    filteredUncheckedTransactions.length === 0
-                      ? "dot"
-                      : "standard"
-                  }
-                  color="primary"
-                  badgeContent={
-                    filteredUncheckedTransactions.length > 0
-                      ? filteredUncheckedTransactions.length
-                      : undefined
-                  }
-                  invisible={
-                    !hasPendingTransactions &&
-                    filteredUncheckedTransactions.length === 0
-                  }
-                >
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </NoSsr>
-          </Box>
+                  {!isActive ? (
+                    <ConnectWalletButton />
+                  ) : (
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                      <WalletButton />
+
+                      {appConfig.commerce?.enabled && (
+                        <NoSsr>
+                          <CommerceCartIconButton />
+                        </NoSsr>
+                      )}
+                      <NoSsr>
+                        <IconButton
+                          onClick={handleOpenTransactions}
+                          aria-label="notifications"
+                        >
+                          <Badge
+                            variant={
+                              hasPendingTransactions &&
+                                filteredUncheckedTransactions.length === 0
+                                ? "dot"
+                                : "standard"
+                            }
+                            color="primary"
+                            badgeContent={
+                              filteredUncheckedTransactions.length > 0
+                                ? filteredUncheckedTransactions.length
+                                : undefined
+                            }
+                            invisible={
+                              !hasPendingTransactions &&
+                              filteredUncheckedTransactions.length === 0
+                            }
+                          >
+                            <NotificationsIcon />
+                          </Badge>
+                        </IconButton>
+                      </NoSsr>
+                    </Stack>
+                  )}
+
+                  <IconButton
+                    onClick={handleSettingsMenuClick}
+                    aria-label="settings"
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </>

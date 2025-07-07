@@ -23,10 +23,44 @@ export interface MenuTree {
   children?: MenuTree[];
 }
 
+export interface NavbarGlassSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  glassOpacity?: number;
+  disableBackground?: boolean;
+  textColor?: string;
+  iconColor?: string;
+  logoPosition?: "left" | "center" | "right";
+  menuPosition?: "left" | "center" | "right";
+  actionsPosition?: "left" | "center" | "right";
+  logoSize?: "small" | "medium" | "large" | "custom";
+  customLogoWidth?: number;
+  customLogoHeight?: number;
+  borderRadius?: number;
+  tabBuyColor?: string;
+  tabSellColor?: string;
+  tabBuyTextColor?: string;
+  tabSellTextColor?: string;
+  fillButtonColor?: string;
+  fillButtonTextColor?: string;
+  outlineButtonColor?: string;
+  outlineButtonTextColor?: string;
+}
+
 export interface MenuSettings {
   layout?: {
     type?: string;
     variant?: string;
+    glassSettings?: NavbarGlassSettings;
   };
 }
 
