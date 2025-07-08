@@ -84,12 +84,12 @@ export default function MarketForm({
   const secondaryTextColor = isGlassVariant
     ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
     : theme.palette.text.secondary;
-  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main;
-  const fillButtonTextColor = glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText;
-  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark;
-  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText;
-  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled;
-  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground;
+  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.10})` : theme.palette.primary.main);
+  const fillButtonTextColor = glassSettings?.fillButtonTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
+  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.10) + 0.1, 0.2)})` : theme.palette.primary.dark);
+  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
+  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.10) * 0.5})` : theme.palette.action.disabled);
+  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || (isGlassVariant ? `${glassSettings?.textColor || '#ffffff'}80` : theme.palette.action.disabledBackground);
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -370,10 +370,12 @@ export default function MarketForm({
             ...(isGlassVariant && {
               backdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
               WebkitBackdropFilter: `blur(${theme.spacing(2.5)}) saturate(180%) brightness(1.05)`,
-              border: `1px solid ${fillButtonBackgroundColor}60`,
+              border: `1px solid rgba(255, 255, 255, 0.3)`,
               boxShadow: `
-                0 ${theme.spacing(0.75)} ${theme.spacing(2.5)} ${fillButtonBackgroundColor}25,
-                0 ${theme.spacing(0.25)} 0 rgba(255, 255, 255, 0.1) inset
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
               `,
             }),
           },
@@ -386,9 +388,12 @@ export default function MarketForm({
             ...(isGlassVariant && {
               backdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
               WebkitBackdropFilter: `blur(${theme.spacing(3.125)}) saturate(200%) brightness(1.08)`,
+              border: `1px solid rgba(255, 255, 255, 0.4)`,
               boxShadow: `
-                0 ${theme.spacing(1)} ${theme.spacing(3.5)} ${fillButtonHoverBackgroundColor}35,
-                0 ${theme.spacing(0.375)} 0 rgba(255, 255, 255, 0.15) inset
+                0 6px 20px rgba(0, 0, 0, 0.15),
+                0 3px 12px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
               `,
             }),
           },
@@ -404,8 +409,12 @@ export default function MarketForm({
             ...(isGlassVariant && {
               backdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
               WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
-              border: `1px solid ${fillButtonDisabledBackgroundColor}40`,
-              boxShadow: 'none',
+              border: `1px solid rgba(255, 255, 255, 0.15)`,
+              boxShadow: `
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05)
+              `,
             }),
           },
           backgroundColor: `${fillButtonBackgroundColor} !important`,

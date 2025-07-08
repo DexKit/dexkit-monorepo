@@ -1044,10 +1044,18 @@ export function NavbarLayoutContainer({
 }: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [hasChanged, setHasChanged] = useState(false);
 
   const handleSubmit = async (values: MenuSettings) => {
     onSave({ ...config, menuSettings: values });
+    setHasChanged(false);
   };
+
+  useEffect(() => {
+    if (onHasChanges) {
+      onHasChanges(hasChanged);
+    }
+  }, [onHasChanges, hasChanged]);
 
   return (
     <Formik
@@ -1071,8 +1079,9 @@ export function NavbarLayoutContainer({
           }
       }
       validate={(values: MenuSettings) => {
-        onHasChanges(true);
-        onChange({ ...config, menuSettings: values });
+        setHasChanged(true);
+        const newConfig = { ...config, menuSettings: values };
+        onChange(newConfig);
       }}
       validationSchema={toFormikValidationSchema(formSchema)}
     >
