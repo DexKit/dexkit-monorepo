@@ -161,11 +161,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => { },
-  setIsEditPage: () => { },
-  setOldPage: () => { },
+  setSelectedKey: () => {},
+  setIsEditPage: () => {},
+  setOldPage: () => {},
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => { },
+  handleCancelEdit: (hasChanges?: boolean) => {},
 });
 
 function TourButton() {
@@ -190,7 +190,33 @@ function TourButton() {
 export function EditWizardContainer({ site }: Props) {
   const config = useMemo(() => {
     if (site?.config) {
-      return JSON.parse(site?.config);
+      const parsedConfig = JSON.parse(site?.config);
+      // Check if pre generated pages exists
+      if (parsedConfig.pages && !parsedConfig.pages['swap']) {
+        parsedConfig.pages['swap'] = {
+          key: 'swap',
+          title: 'Swap',
+          sections: [
+            {
+              type: 'swap',
+              title: 'Swap',
+            },
+          ],
+        };
+      }
+      if (parsedConfig.pages && !parsedConfig.pages['wallet']) {
+        parsedConfig.pages['wallet'] = {
+          key: 'wallet',
+          title: 'Wallet',
+          sections: [
+            {
+              type: 'wallet',
+              title: 'Wallet',
+            },
+          ],
+        };
+      }
+      return parsedConfig;
     }
   }, [site?.config]);
 
@@ -382,7 +408,9 @@ export function EditWizardContainer({ site }: Props) {
     >
       <Drawer open={isMenuOpen} onClose={handleCloseMenu}>
         <Box
-          sx={(theme) => ({ minWidth: theme.spacing(theme.breakpoints.values.sm / 16) })}
+          sx={(theme) => ({
+            minWidth: theme.spacing(theme.breakpoints.values.sm / 16),
+          })}
         >
           <Box sx={{ p: theme.spacing(2) }}>
             <Stack
@@ -489,7 +517,10 @@ export function EditWizardContainer({ site }: Props) {
         isEdit={true}
       />
       <Container maxWidth={'xl'}>
-        <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}>
+        <Grid
+          container
+          spacing={isMobile ? theme.spacing(0.5) : theme.spacing(2)}
+        >
           <Grid item xs={12}>
             {!isMobile && (
               <Stack
@@ -538,7 +569,11 @@ export function EditWizardContainer({ site }: Props) {
           <Grid item xs={12} sm={12}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               {!isMobile ? (
-                <Stack direction={'row'} alignItems={'center'} spacing={theme.spacing(2)}>
+                <Stack
+                  direction={'row'}
+                  alignItems={'center'}
+                  spacing={theme.spacing(2)}
+                >
                   <Typography variant="h5">
                     <FormattedMessage id="edit.app" defaultMessage="Edit App" />
                   </Typography>
@@ -578,7 +613,11 @@ export function EditWizardContainer({ site }: Props) {
                   onChangeMenu={(menu) => setActiveBuilderKit(menu)}
                 />
               )}
-              <Stack direction={'row'} alignItems={'center'} spacing={theme.spacing(2)}>
+              <Stack
+                direction={'row'}
+                alignItems={'center'}
+                spacing={theme.spacing(2)}
+              >
                 <PreviewAppButton
                   appConfig={wizardConfig}
                   site={site?.slug}
@@ -662,7 +701,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -686,7 +725,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -771,7 +810,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                      user?.address?.toLowerCase() && (
+                        user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 
