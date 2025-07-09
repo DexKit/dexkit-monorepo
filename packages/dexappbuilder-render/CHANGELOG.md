@@ -1,5 +1,18 @@
 # @dexkit/dexappbuilder-render
 
+## 0.2.0
+
+### Minor Changes
+
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
+### Patch Changes
+
+- Updated dependencies [eefb4b8]
+  - @dexkit/dexappbuilder-viewer@0.11.0
+  - @dexkit/unlock-widget@0.6.0
+  - @dexkit/ui@0.25.0
+
 ## 0.1.0
 
 ### Minor Changes
