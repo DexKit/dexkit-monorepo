@@ -872,7 +872,6 @@ function Navbar({ appConfig, isPreview }: Props) {
                 {(appConfig.menuSettings?.layout?.type === undefined ||
                   (appConfig.menuSettings?.layout?.type === "navbar" &&
                     (appConfig.menuSettings?.layout?.variant === "default" ||
-                      appConfig.menuSettings?.layout?.variant === "alt" ||
                       appConfig.menuSettings?.layout?.variant === undefined))) &&
                   appConfig.menuTree ? (
                   <Stack
@@ -965,8 +964,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                   alignContent="center"
                 >
                   {/* <Button variant="outlined" color="primary">
-                    Buy ETH
-                  </Button> */}
+                Buy ETH
+              </Button> */}
 
                   {false && (
                     <ButtonBase

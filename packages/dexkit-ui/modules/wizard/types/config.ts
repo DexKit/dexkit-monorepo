@@ -56,11 +56,30 @@ export interface NavbarGlassSettings {
   outlineButtonTextColor?: string;
 }
 
+export interface BottomBarSettings {
+  showText?: boolean;
+  backgroundColor?: string;
+  textColor?: string;
+  activeColor?: string;
+  iconSize?: "small" | "medium" | "large";
+  customIconSize?: number;
+  fontSize?: number;
+  showBorder?: boolean;
+  borderColor?: string;
+  elevation?: number;
+}
+
+export interface MiniSidebarSettings {
+  startExpanded?: boolean;
+}
+
 export interface MenuSettings {
   layout?: {
     type?: string;
     variant?: string;
     glassSettings?: NavbarGlassSettings;
+    bottomBarSettings?: BottomBarSettings;
+    miniSidebarSettings?: MiniSidebarSettings;
   };
 }
 

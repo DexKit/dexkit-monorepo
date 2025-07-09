@@ -34,6 +34,7 @@ export * from "./ui";
 export * from "./useDexkitContextState";
 
 export * from "./useWatchTransactionsDialog";
+export * from "./useSidebarVariant";
 
 export { useAppConfig, useDexKitContext, useLocale, useThemeMode };
 

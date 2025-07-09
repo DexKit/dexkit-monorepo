@@ -31,22 +31,21 @@ export default class MyDocument extends Document {
           )}
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons"
+            href="https://fonts.googleapis.com/css?family=Material+Icons&display=optional"
           />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone"
+            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone&display=optional"
           />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp"
+            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp&display=optional"
           />
           {(this.props as any).emotionStyleTags}
           <Script
             id="google-analytics-script"
-            src={`https://www.googletagmanager.com/gtag/js?id=${
-              appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
-            }`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
+              }`}
             strategy="afterInteractive"
           />
           <Script id="google-analytics" strategy="afterInteractive">

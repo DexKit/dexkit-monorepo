@@ -23,7 +23,6 @@ import {
 
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
-import Navbar from '@dexkit/ui/components/Navbar';
 import { Delete as DeleteIcon, Image as ImageIcon } from '@mui/icons-material';
 import {
   Alert,
@@ -41,7 +40,7 @@ import {
   TextField
 } from '@mui/material';
 import { Field, Formik } from 'formik';
-import { Select as FormikSelect } from 'formik-mui';
+import { Select as FormikSelect, TextField as FormikTextField } from 'formik-mui';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import MenuSection from '../sections/MenuSection';
@@ -888,72 +887,122 @@ function NavbarGlassSettingsPanel({
           <FormattedMessage id="glass.glassmorphism.effects" defaultMessage="Glassmorphism Effects" />
         </Typography>
 
-        <Box sx={{ mt: 2 }}>
-          <Typography gutterBottom>
-            <FormattedMessage
-              id="glass.blur.intensity"
-              defaultMessage="Blur Intensity"
-            />
-          </Typography>
-          <Slider
-            value={values.layout?.glassSettings?.blurIntensity || 40}
-            onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.blurIntensity', value)}
-            min={10}
-            max={60}
-            step={5}
-            valueLabelDisplay="auto"
-            marks={[
-              { value: 10, label: '10' },
-              { value: 30, label: '30' },
-              { value: 50, label: '50' },
-            ]}
-          />
-        </Box>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={12} sm={4}>
+            <Box sx={{ px: 1 }}>
+              <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                <FormattedMessage
+                  id="glass.blur.intensity"
+                  defaultMessage="Blur Intensity"
+                />
+              </Typography>
+              <Slider
+                value={values.layout?.glassSettings?.blurIntensity || 40}
+                onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.blurIntensity', value)}
+                min={10}
+                max={60}
+                step={5}
+                valueLabelDisplay="auto"
+                size="small"
+                sx={{
+                  height: 6,
+                  '& .MuiSlider-thumb': {
+                    height: 16,
+                    width: 16,
+                  },
+                  '& .MuiSlider-track': {
+                    height: 6,
+                  },
+                  '& .MuiSlider-rail': {
+                    height: 6,
+                  },
+                }}
+                marks={[
+                  { value: 10, label: <Typography variant="caption">10</Typography> },
+                  { value: 30, label: <Typography variant="caption">30</Typography> },
+                  { value: 50, label: <Typography variant="caption">50</Typography> },
+                ]}
+              />
+            </Box>
+          </Grid>
 
-        <Box sx={{ mt: 2 }}>
-          <Typography gutterBottom>
-            <FormattedMessage
-              id="glass.opacity"
-              defaultMessage="Glass Opacity"
-            />
-          </Typography>
-          <Slider
-            value={values.layout?.glassSettings?.glassOpacity || 0.10}
-            onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.glassOpacity', value)}
-            min={0.01}
-            max={0.15}
-            step={0.01}
-            valueLabelDisplay="auto"
-            marks={[
-              { value: 0.05, label: '0.05' },
-              { value: 0.10, label: '0.10' },
-              { value: 0.15, label: '0.15' },
-            ]}
-          />
-        </Box>
+          <Grid item xs={12} sm={4}>
+            <Box sx={{ px: 1 }}>
+              <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                <FormattedMessage
+                  id="glass.opacity"
+                  defaultMessage="Glass Opacity"
+                />
+              </Typography>
+              <Slider
+                value={values.layout?.glassSettings?.glassOpacity || 0.10}
+                onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.glassOpacity', value)}
+                min={0.01}
+                max={0.15}
+                step={0.01}
+                valueLabelDisplay="auto"
+                size="small"
+                sx={{
+                  height: 6,
+                  '& .MuiSlider-thumb': {
+                    height: 16,
+                    width: 16,
+                  },
+                  '& .MuiSlider-track': {
+                    height: 6,
+                  },
+                  '& .MuiSlider-rail': {
+                    height: 6,
+                  },
+                }}
+                marks={[
+                  { value: 0.05, label: <Typography variant="caption">0.05</Typography> },
+                  { value: 0.10, label: <Typography variant="caption">0.10</Typography> },
+                  { value: 0.15, label: <Typography variant="caption">0.15</Typography> },
+                ]}
+              />
+            </Box>
+          </Grid>
 
-        <Box sx={{ mt: 2 }}>
-          <Typography gutterBottom>
-            <FormattedMessage
-              id="glass.border.radius"
-              defaultMessage="Border Radius"
-            />
-          </Typography>
-          <Slider
-            value={values.layout?.glassSettings?.borderRadius || 0}
-            onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.borderRadius', value)}
-            min={0}
-            max={50}
-            step={1}
-            valueLabelDisplay="auto"
-            marks={[
-              { value: 0, label: '0' },
-              { value: 15, label: '15' },
-              { value: 30, label: '30' },
-              { value: 50, label: '50' },
-            ]}
-          />
-        </Box>
+          <Grid item xs={12} sm={4}>
+            <Box sx={{ px: 1 }}>
+              <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                <FormattedMessage
+                  id="glass.border.radius"
+                  defaultMessage="Border Radius"
+                />
+              </Typography>
+              <Slider
+                value={values.layout?.glassSettings?.borderRadius || 0}
+                onChange={(_, value: number | number[]) => setFieldValue('layout.glassSettings.borderRadius', value)}
+                min={0}
+                max={50}
+                step={1}
+                valueLabelDisplay="auto"
+                size="small"
+                sx={{
+                  height: 6,
+                  '& .MuiSlider-thumb': {
+                    height: 16,
+                    width: 16,
+                  },
+                  '& .MuiSlider-track': {
+                    height: 6,
+                  },
+                  '& .MuiSlider-rail': {
+                    height: 6,
+                  },
+                }}
+                marks={[
+                  { value: 0, label: <Typography variant="caption">0</Typography> },
+                  { value: 15, label: <Typography variant="caption">15</Typography> },
+                  { value: 30, label: <Typography variant="caption">30</Typography> },
+                  { value: 50, label: <Typography variant="caption">50</Typography> },
+                ]}
+              />
+            </Box>
+          </Grid>
+        </Grid>
 
         <Box sx={{ mt: 2 }}>
           <FormControlLabel
@@ -979,6 +1028,173 @@ function NavbarGlassSettingsPanel({
         </Box>
       </Box>
     </Box>
+  );
+}
+
+function BottomBarSettingsPanel({
+  values,
+  setFieldValue,
+  theme
+}: {
+  values: any;
+  setFieldValue: (field: string, value: any) => void;
+  theme: any;
+}) {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Grid container spacing={isMobile ? 2 : 3}>
+      <Grid item xs={12}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          <FormattedMessage id="bottom.bar.settings" defaultMessage="Bottom Bar Settings" />
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={values.layout?.bottomBarSettings?.showText ?? true}
+              onChange={(e) => setFieldValue('layout.bottomBarSettings.showText', e.target.checked)}
+            />
+          }
+          label={<FormattedMessage id="show.text.labels" defaultMessage="Show Text Labels" />}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={values.layout?.bottomBarSettings?.showBorder ?? true}
+              onChange={(e) => setFieldValue('layout.bottomBarSettings.showBorder', e.target.checked)}
+            />
+          }
+          label={<FormattedMessage id="show.border" defaultMessage="Show Border" />}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <FormControl fullWidth>
+          <Field
+            fullWidth
+            component={FormikSelect}
+            name="layout.bottomBarSettings.iconSize"
+            label={<FormattedMessage id="icon.size" defaultMessage="Icon Size" />}
+          >
+            <MenuItem value="small">
+              <FormattedMessage id="small" defaultMessage="Small" />
+            </MenuItem>
+            <MenuItem value="medium">
+              <FormattedMessage id="medium" defaultMessage="Medium" />
+            </MenuItem>
+            <MenuItem value="large">
+              <FormattedMessage id="large" defaultMessage="Large" />
+            </MenuItem>
+          </Field>
+        </FormControl>
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <Field
+          component={FormikTextField}
+          name="layout.bottomBarSettings.fontSize"
+          label={<FormattedMessage id="font.size" defaultMessage="Font Size (px)" />}
+          type="number"
+          inputProps={{ min: 8, max: 20 }}
+          fullWidth
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <Field
+          component={FormikTextField}
+          name="layout.bottomBarSettings.elevation"
+          label={<FormattedMessage id="elevation" defaultMessage="Elevation" />}
+          type="number"
+          inputProps={{ min: 0, max: 24 }}
+          fullWidth
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <ColorPickerField
+          label="Background Color"
+          value={values.layout?.bottomBarSettings?.backgroundColor || theme.palette.background.paper}
+          onChange={(color) => setFieldValue('layout.bottomBarSettings.backgroundColor', color)}
+          defaultValue={theme.palette.background.paper}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <ColorPickerField
+          label="Text Color"
+          value={values.layout?.bottomBarSettings?.textColor || theme.palette.text.primary}
+          onChange={(color) => setFieldValue('layout.bottomBarSettings.textColor', color)}
+          defaultValue={theme.palette.text.primary}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <ColorPickerField
+          label="Active Color"
+          value={values.layout?.bottomBarSettings?.activeColor || theme.palette.primary.main}
+          onChange={(color) => setFieldValue('layout.bottomBarSettings.activeColor', color)}
+          defaultValue={theme.palette.primary.main}
+        />
+      </Grid>
+
+      {values.layout?.bottomBarSettings?.showBorder && (
+        <Grid item xs={12} sm={4}>
+          <ColorPickerField
+            label="Border Color"
+            value={values.layout?.bottomBarSettings?.borderColor || theme.palette.divider}
+            onChange={(color) => setFieldValue('layout.bottomBarSettings.borderColor', color)}
+            defaultValue={theme.palette.divider}
+          />
+        </Grid>
+      )}
+    </Grid>
+  );
+}
+
+function MiniSidebarSettingsPanel({
+  values,
+  setFieldValue,
+  theme
+}: {
+  values: any;
+  setFieldValue: (field: string, value: any) => void;
+  theme: any;
+}) {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Grid container spacing={isMobile ? 2 : 3}>
+      <Grid item xs={12}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          <FormattedMessage id="mini.sidebar.settings" defaultMessage="Mini Sidebar Settings" />
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={values.layout?.miniSidebarSettings?.startExpanded ?? false}
+              onChange={(e) => setFieldValue('layout.miniSidebarSettings.startExpanded', e.target.checked)}
+            />
+          }
+          label={<FormattedMessage id="start.expanded" defaultMessage="Start Expanded" />}
+        />
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          <FormattedMessage
+            id="start.expanded.description"
+            defaultMessage="When enabled, the mini sidebar will start in expanded state when the page loads"
+          />
+        </Typography>
+      </Grid>
+    </Grid>
   );
 }
 
@@ -1068,6 +1284,18 @@ export function NavbarLayoutContainer({
               type: config.menuSettings.layout?.type || 'navbar',
               variant: config.menuSettings.layout?.variant || 'default',
               glassSettings: config.menuSettings.layout?.glassSettings || {},
+              bottomBarSettings: {
+                showText: true,
+                showBorder: true,
+                iconSize: 'medium',
+                fontSize: 12,
+                elevation: 3,
+                ...config.menuSettings.layout?.bottomBarSettings
+              },
+              miniSidebarSettings: {
+                startExpanded: false,
+                ...config.menuSettings.layout?.miniSidebarSettings
+              },
             },
           }
           : {
@@ -1075,6 +1303,16 @@ export function NavbarLayoutContainer({
               type: 'navbar',
               variant: 'default',
               glassSettings: {},
+              bottomBarSettings: {
+                showText: true,
+                showBorder: true,
+                iconSize: 'medium',
+                fontSize: 12,
+                elevation: 3,
+              },
+              miniSidebarSettings: {
+                startExpanded: false,
+              },
             },
           }
       }
@@ -1155,6 +1393,21 @@ export function NavbarLayoutContainer({
                       <FormattedMessage id="mini" defaultMessage="Mini" />
                     </MenuItem>
                   )}
+                  {values.layout?.type === 'sidebar' && (
+                    <MenuItem value="dense">
+                      <FormattedMessage id="dense" defaultMessage="Dense" />
+                    </MenuItem>
+                  )}
+                  {values.layout?.type === 'sidebar' && (
+                    <MenuItem value="prominent">
+                      <FormattedMessage id="prominent" defaultMessage="Prominent" />
+                    </MenuItem>
+                  )}
+                  {values.layout?.type === 'sidebar' && (
+                    <MenuItem value="bottom">
+                      <FormattedMessage id="bottom.bar" defaultMessage="Bottom Bar" />
+                    </MenuItem>
+                  )}
                   {values.layout?.type === 'navbar' && (
                     <MenuItem value="alt">
                       <FormattedMessage id="alt" defaultMessage="Alt" />
@@ -1177,63 +1430,20 @@ export function NavbarLayoutContainer({
                 <Grid item xs={12}>
                   <NavbarGlassSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
                 </Grid>
-                <Grid item xs={12}>
-                  <Box sx={{ mt: 4, mb: 2 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                      <FormattedMessage id="navbar.preview" defaultMessage="Navbar Preview" />
-                    </Typography>
-                    <Box sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, overflow: 'hidden', background: theme.palette.background.paper }}>
-                      <Navbar
-                        appConfig={{
-                          ...config,
-                          name: config.name || "Demo App",
-                          logo: config.logo || {
-                            url: "/favicon.ico",
-                            width: 32,
-                            height: 32
-                          },
-                          menuTree: config.menuTree || [
-                            { name: "Home", type: "Page", href: "/" },
-                            { name: "Swap", type: "Page", href: "/swap" },
-                            { name: "Wallet", type: "Page", href: "/wallet" }
-                          ],
-                          menuSettings: {
-                            ...config.menuSettings,
-                            layout: {
-                              type: values.layout?.type || 'navbar',
-                              variant: values.layout?.variant || 'default',
-                              glassSettings: {
-                                backgroundType: values.layout?.glassSettings?.backgroundType || 'solid',
-                                backgroundColor: values.layout?.glassSettings?.backgroundColor || theme.palette.background.default,
-                                backgroundImage: values.layout?.glassSettings?.backgroundImage,
-                                backgroundSize: values.layout?.glassSettings?.backgroundSize || 'cover',
-                                backgroundPosition: values.layout?.glassSettings?.backgroundPosition || 'center',
-                                gradientStartColor: values.layout?.glassSettings?.gradientStartColor || '#ffffff',
-                                gradientEndColor: values.layout?.glassSettings?.gradientEndColor || '#000000',
-                                gradientDirection: values.layout?.glassSettings?.gradientDirection || 'to bottom',
-                                textColor: values.layout?.glassSettings?.textColor || theme.palette.text.primary,
-                                iconColor: values.layout?.glassSettings?.iconColor || theme.palette.text.primary,
-                                blurIntensity: values.layout?.glassSettings?.blurIntensity || 40,
-                                glassOpacity: values.layout?.glassSettings?.glassOpacity || 0.10,
-                                disableBackground: values.layout?.glassSettings?.disableBackground || false,
-                                logoPosition: values.layout?.glassSettings?.logoPosition || "left",
-                                menuPosition: values.layout?.glassSettings?.menuPosition || "center",
-                                actionsPosition: values.layout?.glassSettings?.actionsPosition || "right",
-                                logoSize: values.layout?.glassSettings?.logoSize || "medium",
-                                customLogoWidth: values.layout?.glassSettings?.customLogoWidth || 32,
-                                customLogoHeight: values.layout?.glassSettings?.customLogoHeight || 32,
-                                ...values.layout?.glassSettings
-                              }
-                            },
-                          },
-                        }}
-                        isPreview={false}
-                      />
-                    </Box>
-                  </Box>
-                </Grid>
               </>
             )}
+            {values.layout?.type === 'sidebar' && values.layout?.variant === 'bottom' && (
+              <Grid item xs={12}>
+                <BottomBarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
+              </Grid>
+            )}
+            {values.layout?.type === 'sidebar' && values.layout?.variant === 'mini' && (
+              <Grid item xs={12}>
+                <MiniSidebarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
+              </Grid>
+            )}
+
+
             <Grid item xs={12}>
               <Box>
                 <Stack direction="row" justifyContent="flex-end">

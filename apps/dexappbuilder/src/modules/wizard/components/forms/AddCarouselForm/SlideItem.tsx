@@ -118,6 +118,7 @@ export default function SlideItem({
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={onSelectImage} size={isMobile ? "small" : "medium"} edge="end" sx={isMobile ? { padding: theme.spacing(0.25) } : {}}>
+                      {/* eslint-disable-next-line jsx-a11y/alt-text */}
                       <Image fontSize={isMobile ? "small" : "medium"} />
                     </IconButton>
                   </InputAdornment>
