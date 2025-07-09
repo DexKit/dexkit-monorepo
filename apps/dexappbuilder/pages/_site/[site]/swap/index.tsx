@@ -1,39 +1,21 @@
-import SwapSection from '@dexkit/dexappbuilder-viewer/components/sections/SwapSection';
+import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { SwapPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { NoSsr } from '@mui/material';
+import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
-import { useAppConfig } from 'src/hooks/app';
 import { getAppConfig } from 'src/services/app';
 
-const SwapPage: NextPage = () => {
+const SwapPage: NextPage<{
+  sections: AppPageSection[];
+  layout?: PageSectionsLayout;
+}> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
-  const appConfig = useAppConfig();
-  const swapSection = useMemo(() => {
-    const swapSectionPageIndex = appConfig.pages['home']?.sections.findIndex(
-      (s) => s.type === 'swap'
-    );
-    if (swapSectionPageIndex !== -1) {
-      return (
-        (appConfig.pages['home']?.sections[
-          swapSectionPageIndex
-        ] as SwapPageSection) ||
-        ({
-          type: 'swap',
-        } as SwapPageSection)
-      );
-    }
-    return {
-      type: 'swap',
-    } as SwapPageSection;
-  }, [appConfig]);
 
   return (
     <>
@@ -60,10 +42,8 @@ const SwapPage: NextPage = () => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <NoSsr>
-                <SwapSection section={swapSection} />
-              </NoSsr>
+            <Grid item xs={12}>
+              <SectionsRenderer sections={sections} layout={layout} />
             </Grid>
           </Grid>
         </Container>
@@ -79,12 +59,33 @@ type Params = {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext<Params>) => {
-  const configResponse = await getAppConfig(params?.site, 'home');
+  if (params !== undefined) {
+    const { site } = params;
 
+    const configResponse = await getAppConfig(site, 'swap');
+    const { appConfig } = configResponse;
+
+    const page = appConfig.pages['swap'] || {};
+    const sections = page?.sections || [
+      {
+        type: 'swap',
+        title: 'Swap',
+      },
+    ];
+
+    return {
+      props: {
+        page: 'swap',
+        layout: page?.layout || null,
+        sections: sections,
+        site: params?.site,
+        ...configResponse,
+      },
+      revalidate: REVALIDATE_PAGE_TIME,
+    };
+  }
   return {
-    props: {
-      ...configResponse,
-    },
+    props: {},
     revalidate: REVALIDATE_PAGE_TIME,
   };
 };

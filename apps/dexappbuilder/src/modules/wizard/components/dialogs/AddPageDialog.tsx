@@ -19,6 +19,8 @@ import { Grid, LinearProgress } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 
+const notAllowedTitles = ['home', 'wallet', 'swap'];
+
 interface PageOptions {
   title: string;
 }
@@ -69,13 +71,17 @@ export default function AddPageDialog({
       <Formik
         initialValues={{ ...item }}
         onSubmit={(values, helpers) => {
-          if (values.title === 'Home') {
+          if (notAllowedTitles.includes(values.title?.toLowerCase() || '')) {
             helpers.setFieldError(
               'title',
-              formatMessage({
-                id: 'use.home.as.title.not.allowed',
-                defaultMessage: 'Use Home as title is not allowed for pages',
-              })
+              formatMessage(
+                {
+                  id: 'use.home.as.title.not.allowed',
+                  defaultMessage:
+                    'Use {title} as title is not allowed for pages',
+                },
+                { title: values.title || '' },
+              ),
             );
             return;
           }

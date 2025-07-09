@@ -34,6 +34,8 @@ export const HELP_FIELD_TEXT = {
   'custom.text.primary.color': 'Text color',
 };
 
+export const CORE_PAGES_KEYS = ['home', 'wallet', 'swap'];
+
 export const CORE_PAGES: { [key: string]: AppPageOptions } = {
   ['swap']: {
     title: 'Swap',

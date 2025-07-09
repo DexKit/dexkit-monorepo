@@ -19,6 +19,7 @@ import LockIcon from '@mui/icons-material/LockOutlined';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
 import React, { MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { CORE_PAGES_KEYS } from '../../constants';
 
 export interface PageProps {
   page: AppPage;
@@ -158,7 +159,7 @@ export default function Page({
                 <LinkOutlined fontSize={isMobile ? 'medium' : 'medium'} />
               </Tooltip>
             </IconButton>
-            {pageKey !== 'home' && (
+            {!CORE_PAGES_KEYS.includes(pageKey) && (
               <IconButton
                 onClick={handleAction(onEditConditions)}
                 color={
@@ -187,7 +188,7 @@ export default function Page({
               </IconButton>
             )}
 
-            {pageKey !== 'home' && (
+            {!CORE_PAGES_KEYS.includes(pageKey) && (
               <IconButton
                 onClick={handleAction(onRemove)}
                 size={isMobile ? 'small' : 'medium'}

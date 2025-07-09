@@ -6,13 +6,17 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { NextSeo } from 'next-seo';
 
-import EvmWalletContainer from '@dexkit/ui/modules/wallet/components/containers/EvmWalletContainer';
-import { REVALIDATE_PAGE_TIME } from 'src/constants';
-
+import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
+import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import AuthMainLayout from 'src/components/layouts/authMain';
+import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from '../../../../src/services/app';
 
-const WalletPage: NextPage = () => {
+const WalletPage: NextPage<{
+  sections: AppPageSection[];
+  layout?: PageSectionsLayout;
+}> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -46,7 +50,7 @@ const WalletPage: NextPage = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <EvmWalletContainer />
+              <SectionsRenderer sections={sections} layout={layout} />
             </Grid>
           </Grid>
         </Container>
@@ -65,10 +69,25 @@ export const getStaticProps: GetStaticProps = async ({
   if (params !== undefined) {
     const { site } = params;
 
-    const configResponse = await getAppConfig(site, 'home');
+    const configResponse = await getAppConfig(site, 'wallet');
+    const { appConfig } = configResponse;
+
+    const page = appConfig.pages['wallet'] || {};
+    const sections = page?.sections || [
+      {
+        type: 'wallet',
+        title: 'Wallet',
+      },
+    ];
 
     return {
-      props: { ...configResponse },
+      props: {
+        page: 'wallet',
+        layout: page?.layout || null,
+        sections: sections,
+        site: params?.site,
+        ...configResponse,
+      },
       revalidate: REVALIDATE_PAGE_TIME,
     };
   }
