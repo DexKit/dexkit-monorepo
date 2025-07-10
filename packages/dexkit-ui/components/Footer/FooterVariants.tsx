@@ -248,12 +248,20 @@ const GlassmorphicContainer = styled(Box)<{
     },
 
     [theme.breakpoints.down('sm')]: {
-      borderRadius: 0,
+      borderRadius: Math.min(appliedBorderRadius, 12),
+      minHeight: '60px',
+      padding: theme.spacing(1, 0),
       '&::before': {
-        borderRadius: 0,
+        borderRadius: Math.min(appliedBorderRadius, 12),
       },
       '&::after': {
-        borderRadius: 0,
+        borderRadius: Math.min(appliedBorderRadius, 12),
+        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.4)})`,
+        boxShadow: `
+          0 -1px 10px rgba(0, 0, 0, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.6)}),
+          inset 0 -1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 1.5, 0.3)})
+        `,
       },
     },
   };
@@ -1180,13 +1188,21 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
       if (menuPosition === position) {
         sections.push(
-          <Box key="menu">
+          <Box key="menu" sx={{ width: '100%' }}>
             {appConfig.footerMenuTree ? (
               <Stack
                 direction="row"
                 alignItems="center"
                 spacing={2}
-                sx={{ justifyContent: position === 'center' ? 'center' : position === 'right' ? 'flex-end' : 'flex-start' }}
+                sx={{
+                  justifyContent: position === 'center' ? 'center' : position === 'right' ? 'flex-end' : 'flex-start',
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                  gap: { xs: 1, sm: 2 },
+                  '& > a': {
+                    flexShrink: 0,
+                    minWidth: 'fit-content'
+                  }
+                }}
               >
                 {appConfig.footerMenuTree.map((m, key) =>
                   m.children ? (
@@ -1200,6 +1216,11 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       target={m.type === "External" ? "_blank" : undefined}
                       textColor={textColor}
                       glassOpacity={glassOpacity}
+                      sx={{
+                        fontSize: { xs: '0.875rem', sm: '1rem' },
+                        padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) },
+                        whiteSpace: 'nowrap'
+                      }}
                     >
                       <FormattedMessage
                         id={m.name.toLowerCase()}
@@ -1216,6 +1237,10 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                 target="_blank"
                 textColor={textColor}
                 glassOpacity={glassOpacity}
+                sx={{
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
+                  padding: { xs: theme.spacing(0.5, 1), sm: theme.spacing(1, 2) }
+                }}
               >
                 <FormattedMessage
                   id="contact.us"
@@ -1238,8 +1263,24 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
       if (socialMediaPosition === position) {
         sections.push(
-          <Box key="social" sx={{ display: 'flex', justifyContent: position === 'center' ? 'center' : position === 'right' ? 'flex-end' : 'flex-start' }}>
-            <Stack direction="row" spacing={1}>
+          <Box key="social" sx={{
+            display: 'flex',
+            justifyContent: position === 'center' ? 'center' : position === 'right' ? 'flex-end' : 'flex-start',
+            width: '100%'
+          }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                justifyContent: { xs: 'flex-end', sm: position === 'center' ? 'center' : position === 'right' ? 'flex-end' : 'flex-start' },
+                gap: { xs: 1, sm: 1 },
+                maxWidth: { xs: '100%', sm: 'auto' },
+                '& > a': {
+                  flexShrink: 0
+                }
+              }}
+            >
               {appConfig?.social &&
                 appConfig.social.map((media, index) => (
                   <Link
@@ -1252,6 +1293,10 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                       size="small"
                       glassOpacity={glassOpacity}
                       textColor={textColor}
+                      sx={{
+                        minWidth: { xs: 36, sm: 'auto' },
+                        minHeight: { xs: 36, sm: 'auto' }
+                      }}
                     >
                       {renderIcon(media)}
                     </GlassmorphicIconButton>
@@ -1272,6 +1317,10 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
                         size="small"
                         glassOpacity={glassOpacity}
                         textColor={textColor}
+                        sx={{
+                          minWidth: { xs: 36, sm: 'auto' },
+                          minHeight: { xs: 36, sm: 'auto' }
+                        }}
                       >
                         <Image
                           src={media?.iconUrl}
@@ -1293,6 +1342,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
     return (
       <GlassmorphicContainer
         py={2}
+        px={{ xs: 1, sm: 2 }}
         blurIntensity={blurIntensity}
         glassOpacity={glassOpacity}
         backgroundColor={glassConfig.backgroundColor}
@@ -1303,31 +1353,59 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         backgroundAttachment={glassConfig.backgroundAttachment}
         borderRadius={borderRadius}
       >
-        <Container>
+        <Container maxWidth="lg">
           <Grid
             container
             alignItems="center"
             alignContent="center"
-            spacing={2}
+            spacing={{ xs: 1, sm: 2 }}
             sx={{
               flexDirection: { xs: "column", sm: "row" },
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              minHeight: { xs: 'auto', sm: '50px' }
             }}
           >
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-              <Stack spacing={1} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+            <Grid item xs={12} sm={4} sx={{
+              display: 'flex',
+              justifyContent: { xs: 'center', sm: 'flex-start' },
+              order: { xs: 2, sm: 1 }
+            }}>
+              <Stack spacing={{ xs: 0.5, sm: 1 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
                 {renderSection('left')}
               </Stack>
             </Grid>
 
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Stack spacing={1} alignItems="center">
+            <Grid item xs={12} sm={4} sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              order: { xs: 1, sm: 2 }
+            }}>
+              <Stack spacing={{ xs: 0.5, sm: 1 }} alignItems="center">
                 {renderSection('center')}
               </Stack>
             </Grid>
 
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
-              <Stack spacing={1} alignItems={{ xs: 'center', sm: 'flex-end' }}>
+            <Grid item xs={12} sm={4} sx={{
+              display: 'flex',
+              justifyContent: { xs: 'flex-end', sm: 'flex-end' },
+              order: { xs: 3, sm: 3 }
+            }}>
+              <Stack
+                spacing={{ xs: 0.5, sm: 1 }}
+                alignItems={{ xs: 'flex-end', sm: 'flex-end' }}
+                sx={{
+                  width: '100%',
+                  '& > div': {
+                    width: '100%',
+                    '& > div': {
+                      flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                      justifyContent: { xs: 'flex-end', sm: 'flex-end' },
+                      gap: { xs: 1, sm: 1 },
+                      maxWidth: { xs: '100%', sm: 'auto' }
+                    }
+                  }
+                }}
+              >
                 {renderSection('right')}
               </Stack>
             </Grid>
@@ -1557,8 +1635,8 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
   const layoutConfig = footerConfig.layout || {};
   const borderRadius = layoutConfig.borderRadius || 0;
-  const signaturePosition = layoutConfig.signaturePosition || 'left';
-  const menuPosition = layoutConfig.menuPosition || 'center';
+  const signaturePosition = layoutConfig.signaturePosition || 'center';
+  const menuPosition = layoutConfig.menuPosition || 'left';
   const socialMediaPosition = layoutConfig.socialMediaPosition || 'right';
 
   const renderDefaultSection = (position: 'left' | 'center' | 'right') => {

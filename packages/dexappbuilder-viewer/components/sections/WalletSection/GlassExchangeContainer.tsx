@@ -219,13 +219,13 @@ export default function GlassExchangeContainer({
                 <ArrowBack sx={{ fontSize: isMobile ? '1.25rem' : '1.5rem' }} />
               </IconButton>
               <Typography
-                variant={isMobile ? "h6" : "h5"}
+                variant="body1"
                 component="h2"
                 sx={{
                   color: `${textColor} !important`,
                   fontWeight: '600 !important',
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-                  fontSize: isMobile ? '1.1rem !important' : '1.5rem !important',
+                  fontSize: isMobile ? '1.25rem !important' : '1.5rem !important',
                   background: 'transparent !important',
                   backgroundColor: 'transparent !important',
                   backdropFilter: 'none !important',
@@ -234,6 +234,7 @@ export default function GlassExchangeContainer({
                   borderRadius: '0 !important',
                   padding: '0 !important',
                   margin: '0 !important',
+                  marginLeft: '8px !important',
                   boxShadow: 'none !important',
                   display: 'inline !important',
                   position: 'static !important',
@@ -243,6 +244,15 @@ export default function GlassExchangeContainer({
                   },
                   '&::after': {
                     display: 'none !important',
+                  },
+                  '&:hover': {
+                    background: 'transparent !important',
+                    backgroundColor: 'transparent !important',
+                    backdropFilter: 'none !important',
+                    WebkitBackdropFilter: 'none !important',
+                    transform: 'none !important',
+                    boxShadow: 'none !important',
+                    scale: 'none !important',
                   },
                 }}
               >

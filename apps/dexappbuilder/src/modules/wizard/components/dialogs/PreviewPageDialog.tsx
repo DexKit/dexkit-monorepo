@@ -80,6 +80,7 @@ export default function PreviewPageDialog({
       {...dialogProps}
       sx={{ p: 0, m: 0 }}
       fullScreen={isMobile}
+      maxWidth={isMobile ? false : 'xl'}
       PaperProps={{
         sx: {
           maxWidth: isMobile ? '100vw' : undefined,
@@ -90,6 +91,10 @@ export default function PreviewPageDialog({
           borderRadius: isMobile ? 0 : undefined,
           overflow: 'auto',
           bgcolor: 'background.default',
+          ...(isMobile && {
+            display: 'flex',
+            flexDirection: 'column',
+          }),
         }
       }}
     >
@@ -104,6 +109,15 @@ export default function PreviewPageDialog({
             top: theme.spacing(1),
             color: theme.palette.grey[500],
             zIndex: theme.zIndex.modal + 1,
+            ...(isMobile && {
+              right: theme.spacing(0.5),
+              top: theme.spacing(0.5),
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: '#ffffff',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              },
+            }),
           }}
         >
           <CloseIcon />

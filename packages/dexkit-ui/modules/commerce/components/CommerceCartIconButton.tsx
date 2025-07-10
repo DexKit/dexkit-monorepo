@@ -5,9 +5,11 @@ import { dexkitCartAtom } from "../atoms";
 
 import { useRouter } from "next/router";
 
-export interface CommerceCartIconButtonProps {}
+export interface CommerceCartIconButtonProps {
+  iconColor?: string;
+}
 
-export default function CommerceCartIconButton({}: CommerceCartIconButtonProps) {
+export default function CommerceCartIconButton({ iconColor }: CommerceCartIconButtonProps) {
   const cartState = useAtomValue(dexkitCartAtom);
 
   const router = useRouter();
@@ -17,7 +19,14 @@ export default function CommerceCartIconButton({}: CommerceCartIconButtonProps) 
   };
 
   return (
-    <IconButton onClick={handleClick}>
+    <IconButton
+      onClick={handleClick}
+      sx={{
+        ...(iconColor && {
+          color: iconColor,
+        }),
+      }}
+    >
       <Badge
         variant="standard"
         color="primary"

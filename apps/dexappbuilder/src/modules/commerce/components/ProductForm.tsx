@@ -231,7 +231,10 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                   ),
               }}
             >
-              {!values.imageUrl && <Image fontSize="large" />}
+              {!values.imageUrl && (
+                // eslint-disable-next-line jsx-a11y/alt-text
+                <Image fontSize="large" />
+              )}
             </Stack>
           </ButtonBase>
         </Grid>
