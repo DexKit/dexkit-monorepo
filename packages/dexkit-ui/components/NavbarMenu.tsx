@@ -22,13 +22,27 @@ interface Props {
   anchor?: HTMLElement | null;
   child?: boolean;
   ref?: (ref: HTMLElement | null) => void;
+  customStyles?: {
+    textColor?: string;
+    hoverColor?: string;
+    iconColor?: string;
+    iconSize?: string;
+    showIcons?: boolean;
+  };
 }
 
 export interface MenuItemProps {
   item: MenuTree;
+  customStyles?: {
+    textColor?: string;
+    hoverColor?: string;
+    iconColor?: string;
+    iconSize?: string;
+    showIcons?: boolean;
+  };
 }
 
-export function MenuItem({ item }: MenuItemProps) {
+export function MenuItem({ item, customStyles }: MenuItemProps) {
   const menuRef = React.useRef<HTMLElement | null>(null);
 
   return (
@@ -37,12 +51,13 @@ export function MenuItem({ item }: MenuItemProps) {
       menu={item}
       anchor={menuRef.current}
       child
+      customStyles={customStyles}
     />
   );
 }
 
 export default function NavbarMenu(props: Props) {
-  const { menu, isPreview, anchor, child } = props;
+  const { menu, isPreview, anchor, child, customStyles } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -64,9 +79,16 @@ export default function NavbarMenu(props: Props) {
           LinkComponent={Link}
           href={item.href || ""}
         >
-          {item.data?.iconName && (
+          {(customStyles?.showIcons !== false) && item.data?.iconName && (
             <ListItemIcon>
-              <Icon>{item.data?.iconName}</Icon>
+              <Icon
+                sx={{
+                  color: customStyles?.iconColor || 'inherit',
+                  fontSize: customStyles?.iconSize === 'small' ? '1rem' : customStyles?.iconSize === 'large' ? '1.5rem' : '1.25rem',
+                }}
+              >
+                {item.data?.iconName}
+              </Icon>
             </ListItemIcon>
           )}
 
@@ -92,7 +114,7 @@ export default function NavbarMenu(props: Props) {
     }
 
     if (item.type === "Menu" && item.children) {
-      return <MenuItem item={item} />;
+      return <MenuItem item={item} key={key} customStyles={customStyles} />;
     }
   };
 
@@ -106,9 +128,16 @@ export default function NavbarMenu(props: Props) {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          {menu.data?.iconName && (
+          {(customStyles?.showIcons !== false) && menu.data?.iconName && (
             <ListItemIcon>
-              <Icon>{menu.data?.iconName}</Icon>
+              <Icon
+                sx={{
+                  color: customStyles?.iconColor || 'inherit',
+                  fontSize: customStyles?.iconSize === 'small' ? '1rem' : customStyles?.iconSize === 'large' ? '1.5rem' : '1.25rem',
+                }}
+              >
+                {menu.data?.iconName}
+              </Icon>
             </ListItemIcon>
           )}
 
@@ -124,12 +153,24 @@ export default function NavbarMenu(props: Props) {
           sx={{
             fontWeight: 600,
             textDecoration: "none",
-            color: "text.primary",
+            color: customStyles?.textColor || "text.primary",
             textTransform: "none",
             fontSize: "inherit",
+            '&:hover': {
+              color: customStyles?.hoverColor || undefined,
+            },
           }}
           startIcon={
-            menu.data?.iconName ? <Icon>{menu.data?.iconName}</Icon> : undefined
+            (customStyles?.showIcons !== false) && menu.data?.iconName ? (
+              <Icon
+                sx={{
+                  color: customStyles?.iconColor || 'inherit',
+                  fontSize: customStyles?.iconSize === 'small' ? '1rem' : customStyles?.iconSize === 'large' ? '1.5rem' : '1.25rem',
+                }}
+              >
+                {menu.data?.iconName}
+              </Icon>
+            ) : undefined
           }
           endIcon={<ExpandMoreIcon />}
           onClick={handleClick}

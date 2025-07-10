@@ -48,7 +48,6 @@ const SelectNetworkDialog = dynamic(
 );
 
 import Link from "@dexkit/ui/components/AppLink";
-import AppProfileMenu from "@dexkit/ui/components/AppProfileMenu";
 import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDialog";
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
@@ -57,6 +56,7 @@ import {
   useDexKitContext,
   useDrawerIsOpen,
   useLocale,
+  useNavbarVariant,
   useNotifications,
   useSelectNetworkDialog,
   useShowAppTransactions,
@@ -64,11 +64,12 @@ import {
   useShowSelectLocale,
   useThemeMode,
 } from "@dexkit/ui/hooks";
+import CommercePopover from "@dexkit/ui/modules/commerce/components/CommercePopover";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { useSiteId } from "../hooks/useSiteId";
 import CommerceCartIconButton from "../modules/commerce/components/CommerceCartIconButton";
-import CommercePopover from "../modules/commerce/components/CommercePopover";
 import { ConnectWalletButton } from "./ConnectWalletButton";
+import CustomNavbar from "./CustomNavbar";
 import NavbarMenu from "./NavbarMenu";
 import { ThemeModeSelector } from "./ThemeModeSelector";
 
@@ -182,6 +183,12 @@ function Navbar({ appConfig, isPreview }: Props) {
     setShowProfileMenu(false);
     setProfileMenuAnchorEl(null);
   };
+
+  const { isCustom, customSettings } = useNavbarVariant(appConfig);
+
+  if (isCustom && customSettings) {
+    return <CustomNavbar appConfig={appConfig} isPreview={isPreview} customSettings={customSettings} />;
+  }
 
   const glassVariant =
     appConfig.menuSettings?.layout?.type === "navbar" &&
@@ -310,7 +317,16 @@ function Navbar({ appConfig, isPreview }: Props) {
       >
         {appConfig.menuTree.map((m, key) =>
           m.children ? (
-            <NavbarMenu menu={m} key={key} isPreview={isPreview} />
+            <NavbarMenu
+              menu={m}
+              key={key}
+              isPreview={isPreview}
+              customStyles={{
+                textColor: glassVariant && glassSettings.textColor ? glassSettings.textColor : undefined,
+                iconColor: glassVariant && glassSettings.iconColor ? glassSettings.iconColor : undefined,
+                showIcons: true,
+              }}
+            />
           ) : (
             <Button
               color="inherit"
@@ -328,7 +344,11 @@ function Navbar({ appConfig, isPreview }: Props) {
               LinkComponent={Link}
               startIcon={
                 m.data?.iconName ? (
-                  <Icon>{m.data?.iconName}</Icon>
+                  <Icon sx={{
+                    ...(glassVariant && glassSettings.iconColor && {
+                      color: glassSettings.iconColor,
+                    }),
+                  }}>{m.data?.iconName}</Icon>
                 ) : undefined
               }
             >
@@ -436,11 +456,6 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   return (
     <>
-      <AppProfileMenu
-        open={showProfileMenu}
-        onClose={handleCloseProfileMenu}
-        anchorEl={profileAnchorMenuEl}
-      />
       <CommercePopover
         PopoverProps={{
           open: showProfileMenu,
@@ -448,8 +463,8 @@ function Navbar({ appConfig, isPreview }: Props) {
           anchorEl: profileAnchorMenuEl,
           anchorOrigin: { horizontal: "left", vertical: "bottom" },
         }}
-        enableCommerce={!appConfig.commerce?.enabled}
-        enableBilling={!siteId}
+        enableCommerce={appConfig.commerce?.enabled}
+        enableBilling={!!siteId}
       />
       <Menu
         id="settings-menu"
@@ -606,7 +621,12 @@ function Navbar({ appConfig, isPreview }: Props) {
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
+              sx={{
+                mr: 2,
+                ...(glassVariant && glassSettings.iconColor && {
+                  color: glassSettings.iconColor,
+                }),
+              }}
               onClick={handleToggleDrawer}
             >
               <MenuIcon />
@@ -885,7 +905,16 @@ function Navbar({ appConfig, isPreview }: Props) {
                   >
                     {appConfig.menuTree.map((m, key) =>
                       m.children ? (
-                        <NavbarMenu menu={m} key={key} isPreview={isPreview} />
+                        <NavbarMenu
+                          menu={m}
+                          key={key}
+                          isPreview={isPreview}
+                          customStyles={{
+                            textColor: undefined,
+                            iconColor: undefined,
+                            showIcons: true,
+                          }}
+                        />
                       ) : (
                         <Button
                           color="inherit"
@@ -900,7 +929,11 @@ function Navbar({ appConfig, isPreview }: Props) {
                           LinkComponent={Link}
                           startIcon={
                             m.data?.iconName ? (
-                              <Icon>{m.data?.iconName}</Icon>
+                              <Icon sx={{
+                                ...(glassVariant && glassSettings.iconColor && {
+                                  color: glassSettings.iconColor,
+                                }),
+                              }}>{m.data?.iconName}</Icon>
                             ) : undefined
                           }
                         >

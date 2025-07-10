@@ -7,11 +7,20 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select from '@mui/material/Select';
+import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
 import Tab from '@mui/material/Tab';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -23,21 +32,15 @@ import {
 
 import { useIsMobile } from '@dexkit/core';
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
-import { Delete as DeleteIcon, Image as ImageIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, ExpandMore as ExpandMoreIcon, Image as ImageIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   ButtonBase,
-  FormControl,
   InputAdornment,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Radio,
-  RadioGroup,
-  Select,
-  Slider,
-  Switch,
-  TextField
+  Paper
 } from '@mui/material';
 import { Field, Formik } from 'formik';
 import { Select as FormikSelect, TextField as FormikTextField } from 'formik-mui';
@@ -1026,6 +1029,69 @@ function NavbarGlassSettingsPanel({
             />
           </Typography>
         </Box>
+
+        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="outlined"
+            startIcon={<RefreshIcon />}
+            onClick={() => {
+              const isDarkMode = theme.palette.mode === 'dark';
+              const resetSettings = {
+                backgroundType: 'solid',
+                backgroundColor: isDarkMode ? theme.palette.background.default : theme.palette.background.paper,
+                backgroundImage: '',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'scroll',
+                gradientStartColor: isDarkMode ? theme.palette.background.default : theme.palette.background.paper,
+                gradientEndColor: isDarkMode ? theme.palette.background.paper : theme.palette.background.default,
+                gradientDirection: 'to bottom',
+                blurIntensity: 40,
+                glassOpacity: 0.1,
+                disableBackground: false,
+                textColor: theme.palette.text.primary,
+                iconColor: theme.palette.text.primary,
+                logoPosition: 'left',
+                menuPosition: 'center',
+                actionsPosition: 'right',
+                logoSize: 'medium',
+                customLogoWidth: 48,
+                customLogoHeight: 48,
+                borderRadius: 0,
+                tabBuyColor: theme.palette.primary.main,
+                tabSellColor: theme.palette.secondary.main,
+                tabBuyTextColor: theme.palette.primary.contrastText,
+                tabSellTextColor: theme.palette.secondary.contrastText,
+                fillButtonColor: theme.palette.primary.main,
+                fillButtonTextColor: theme.palette.primary.contrastText,
+                outlineButtonColor: theme.palette.primary.main,
+                outlineButtonTextColor: theme.palette.primary.main,
+              };
+
+              setFieldValue('layout.glassSettings', resetSettings);
+            }}
+            sx={{
+              borderColor: '#ff6b35',
+              color: '#ff6b35',
+              backgroundColor: 'transparent',
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              px: 3,
+              py: 1,
+              '&:hover': {
+                borderColor: '#ff6b35',
+                backgroundColor: 'rgba(255, 107, 53, 0.04)',
+              },
+            }}
+          >
+            <FormattedMessage
+              id="reset.styles"
+              defaultMessage="RESET STYLES"
+            />
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
@@ -1198,6 +1264,522 @@ function MiniSidebarSettingsPanel({
   );
 }
 
+function CustomNavbarSettingsPanel({
+  values,
+  setFieldValue,
+  theme
+}: {
+  values: any;
+  setFieldValue: (field: string, value: any) => void;
+  theme: any;
+}) {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Grid container spacing={isMobile ? 2 : 3}>
+      <Grid item xs={12}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          <FormattedMessage id="custom.navbar.settings" defaultMessage="Custom Navbar Settings" />
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.background.settings" defaultMessage="Background Settings" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <RadioGroup
+                  value={values.layout?.customSettings?.backgroundType || 'solid'}
+                  onChange={(e) => {
+                    const newType = e.target.value;
+                    setFieldValue('layout.customSettings.backgroundType', newType);
+                    if (newType === 'solid' && !values.layout?.customSettings?.backgroundColor) {
+                      setFieldValue('layout.customSettings.backgroundColor', theme.palette.background.default);
+                    }
+                  }}
+                  row
+                >
+                  <FormControlLabel value="solid" control={<Radio />} label={<FormattedMessage id="custom.background.solid" defaultMessage="Solid Color" />} />
+                  <FormControlLabel value="gradient" control={<Radio />} label={<FormattedMessage id="custom.background.gradient" defaultMessage="Gradient" />} />
+                  <FormControlLabel value="image" control={<Radio />} label={<FormattedMessage id="custom.background.image" defaultMessage="Background Image" />} />
+                </RadioGroup>
+              </Grid>
+
+              {values.layout?.customSettings?.backgroundType === 'solid' && (
+                <Grid item xs={12}>
+                  <ColorPickerField
+                    label="Background Color"
+                    value={values.layout?.customSettings?.backgroundColor || theme.palette.background.default}
+                    onChange={(color) => setFieldValue('layout.customSettings.backgroundColor', color)}
+                    defaultValue={theme.palette.background.default}
+                  />
+                </Grid>
+              )}
+
+              {values.layout?.customSettings?.backgroundType === 'gradient' && (
+                <>
+                  <Grid item xs={6}>
+                    <ColorPickerField
+                      label="Start Color"
+                      value={values.layout?.customSettings?.gradientStartColor || '#ff0000'}
+                      onChange={(color) => setFieldValue('layout.customSettings.gradientStartColor', color)}
+                      defaultValue="#ff0000"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ColorPickerField
+                      label="End Color"
+                      value={values.layout?.customSettings?.gradientEndColor || '#0000ff'}
+                      onChange={(color) => setFieldValue('layout.customSettings.gradientEndColor', color)}
+                      defaultValue="#0000ff"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel id="gradient-direction-label">Gradient Direction</InputLabel>
+                      <Select
+                        labelId="gradient-direction-label"
+                        id="gradient-direction-select"
+                        value={values.layout?.customSettings?.gradientDirection || 'to right'}
+                        onChange={(e) => setFieldValue('layout.customSettings.gradientDirection', e.target.value)}
+                        label="Gradient Direction"
+                      >
+                        <MenuItem value="to right">To Right</MenuItem>
+                        <MenuItem value="to left">To Left</MenuItem>
+                        <MenuItem value="to bottom">To Bottom</MenuItem>
+                        <MenuItem value="to top">To Top</MenuItem>
+                        <MenuItem value="to bottom right">To Bottom Right</MenuItem>
+                        <MenuItem value="to bottom left">To Bottom Left</MenuItem>
+                        <MenuItem value="to top right">To Top Right</MenuItem>
+                        <MenuItem value="to top left">To Top Left</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </>
+              )}
+
+              {values.layout?.customSettings?.backgroundType === 'image' && (
+                <Grid item xs={12}>
+                  <BackgroundImageSelector
+                    value={values.layout?.customSettings?.backgroundImage}
+                    onChange={(url) => setFieldValue('layout.customSettings.backgroundImage', url)}
+                    sizeValue={values.layout?.customSettings?.backgroundSize || 'cover'}
+                    onSizeChange={(size) => setFieldValue('layout.customSettings.backgroundSize', size)}
+                    positionValue={values.layout?.customSettings?.backgroundPosition || 'center'}
+                    onPositionChange={(position) => setFieldValue('layout.customSettings.backgroundPosition', position)}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.layout.positioning" defaultMessage="Layout & Positioning" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="logo-position-label">Logo Position</InputLabel>
+                  <Select
+                    labelId="logo-position-label"
+                    id="logo-position-select"
+                    value={values.layout?.customSettings?.logoPosition || 'left'}
+                    onChange={(e) => setFieldValue('layout.customSettings.logoPosition', e.target.value)}
+                    label="Logo Position"
+                  >
+                    <MenuItem value="left">Left</MenuItem>
+                    <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="right">Right</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="menu-position-label">Menu Position</InputLabel>
+                  <Select
+                    labelId="menu-position-label"
+                    id="menu-position-select"
+                    value={values.layout?.customSettings?.menuPosition || 'center'}
+                    onChange={(e) => setFieldValue('layout.customSettings.menuPosition', e.target.value)}
+                    label="Menu Position"
+                  >
+                    <MenuItem value="left">Left</MenuItem>
+                    <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="right">Right</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="actions-position-label">Actions Position</InputLabel>
+                  <Select
+                    labelId="actions-position-label"
+                    id="actions-position-select"
+                    value={values.layout?.customSettings?.actionsPosition || 'right'}
+                    onChange={(e) => setFieldValue('layout.customSettings.actionsPosition', e.target.value)}
+                    label="Actions Position"
+                  >
+                    <MenuItem value="left">Left</MenuItem>
+                    <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="right">Right</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.logo.settings" defaultMessage="Logo Settings" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.layout?.customSettings?.showLogo !== false}
+                      onChange={(e) => setFieldValue('layout.customSettings.showLogo', e.target.checked)}
+                    />
+                  }
+                  label="Show Logo"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel>Logo Size</InputLabel>
+                  <Select
+                    value={values.layout?.customSettings?.logoSize || 'medium'}
+                    onChange={(e) => setFieldValue('layout.customSettings.logoSize', e.target.value)}
+                    label="Logo Size"
+                  >
+                    <MenuItem value="small">Small</MenuItem>
+                    <MenuItem value="medium">Medium</MenuItem>
+                    <MenuItem value="large">Large</MenuItem>
+                    <MenuItem value="custom">Custom</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              {values.layout?.customSettings?.logoSize === 'custom' && (
+                <>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      label="Width (px)"
+                      type="number"
+                      value={values.layout?.customSettings?.customLogoWidth || 48}
+                      onChange={(e) => setFieldValue('layout.customSettings.customLogoWidth', parseInt(e.target.value))}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      label="Height (px)"
+                      type="number"
+                      value={values.layout?.customSettings?.customLogoHeight || 48}
+                      onChange={(e) => setFieldValue('layout.customSettings.customLogoHeight', parseInt(e.target.value))}
+                    />
+                  </Grid>
+                </>
+              )}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.text.colors" defaultMessage="Text & Colors" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <ColorPickerField
+                  label="Text Color"
+                  value={values.layout?.customSettings?.textColor || theme.palette.text.primary}
+                  onChange={(color) => setFieldValue('layout.customSettings.textColor', color)}
+                  defaultValue={theme.palette.text.primary}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <ColorPickerField
+                  label="Menu Hover Color"
+                  value={values.layout?.customSettings?.menuHoverColor || theme.palette.primary.main}
+                  onChange={(color) => setFieldValue('layout.customSettings.menuHoverColor', color)}
+                  defaultValue={theme.palette.primary.main}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <ColorPickerField
+                  label="Icon Color"
+                  value={values.layout?.customSettings?.iconColor || theme.palette.text.primary}
+                  onChange={(color) => setFieldValue('layout.customSettings.iconColor', color)}
+                  defaultValue={theme.palette.text.primary}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <ColorPickerField
+                  label="Icon Hover Color"
+                  value={values.layout?.customSettings?.iconHoverColor || theme.palette.primary.main}
+                  onChange={(color) => setFieldValue('layout.customSettings.iconHoverColor', color)}
+                  defaultValue={theme.palette.primary.main}
+                />
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.spacing.dimensions" defaultMessage="Spacing & Dimensions" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Height (px)"
+                  type="number"
+                  value={values.layout?.customSettings?.height || 64}
+                  onChange={(e) => setFieldValue('layout.customSettings.height', parseInt(e.target.value))}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Padding"
+                  type="number"
+                  value={values.layout?.customSettings?.padding || 8}
+                  onChange={(e) => setFieldValue('layout.customSettings.padding', parseInt(e.target.value))}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Menu Spacing"
+                  type="number"
+                  value={values.layout?.customSettings?.menuSpacing || 16}
+                  onChange={(e) => setFieldValue('layout.customSettings.menuSpacing', parseInt(e.target.value))}
+                />
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.visual.effects" defaultMessage="Visual Effects" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
+                <Typography gutterBottom sx={{ mb: 2 }}>Opacity</Typography>
+                <Slider
+                  value={1 - (values.layout?.customSettings?.opacity || 0)}
+                  onChange={(_, value) => setFieldValue('layout.customSettings.opacity', 1 - (value as number))}
+                  min={0}
+                  max={0.9}
+                  step={0.1}
+                  marks={[
+                    { value: 0, label: '100%' },
+                    { value: 0.5, label: '50%' },
+                    { value: 0.9, label: '10%' }
+                  ]}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => `${Math.round((1 - value) * 100)}%`}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Typography gutterBottom sx={{ mb: 2 }}>Border Radius</Typography>
+                <Slider
+                  value={values.layout?.customSettings?.borderRadius || 0}
+                  onChange={(_, value) => setFieldValue('layout.customSettings.borderRadius', value as number)}
+                  min={0}
+                  max={50}
+                  step={1}
+                  marks={[
+                    { value: 0, label: '0' },
+                    { value: 10, label: '10' },
+                    { value: 25, label: '25' },
+                    { value: 50, label: '50' }
+                  ]}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => `${value}px`}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Typography gutterBottom sx={{ mb: 2 }}>Background Blur</Typography>
+                <Slider
+                  value={values.layout?.customSettings?.blurIntensity || 0}
+                  onChange={(_, value) => setFieldValue('layout.customSettings.blurIntensity', value as number)}
+                  min={0}
+                  max={50}
+                  step={1}
+                  marks={[
+                    { value: 0, label: 'Off' },
+                    { value: 10, label: '10' },
+                    { value: 25, label: '25' },
+                    { value: 50, label: '50' }
+                  ]}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => value === 0 ? 'Off' : `${value}px`}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <FormattedMessage id="custom.effects.styling" defaultMessage="Effects & Styling" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.layout?.customSettings?.showShadow || false}
+                      onChange={(e) => setFieldValue('layout.customSettings.showShadow', e.target.checked)}
+                    />
+                  }
+                  label="Show Shadow"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.layout?.customSettings?.showBorder || false}
+                      onChange={(e) => setFieldValue('layout.customSettings.showBorder', e.target.checked)}
+                    />
+                  }
+                  label="Show Border"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.layout?.customSettings?.showIcons !== false}
+                      onChange={(e) => setFieldValue('layout.customSettings.showIcons', e.target.checked)}
+                    />
+                  }
+                  label="Show Icons"
+                />
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="outlined"
+            startIcon={<RefreshIcon />}
+            onClick={() => {
+              const isDarkMode = theme.palette.mode === 'dark';
+              const resetSettings = {
+                backgroundType: 'solid',
+                backgroundColor: isDarkMode ? theme.palette.background.default : theme.palette.background.paper,
+                blurIntensity: 0,
+                borderRadius: 0,
+                padding: 1,
+                height: 64,
+                logoPosition: 'left',
+                logoSize: 'medium',
+                showLogo: true,
+                menuPosition: 'center',
+                menuHoverColor: theme.palette.primary.main,
+                menuActiveColor: theme.palette.primary.main,
+                menuFontSize: 16,
+                menuFontWeight: '600',
+                menuSpacing: 2,
+                actionsPosition: 'right',
+                iconColor: theme.palette.text.primary,
+                iconHoverColor: theme.palette.primary.main,
+                iconSize: 'medium',
+                showIcons: true,
+                textColor: theme.palette.text.primary,
+                linkColor: theme.palette.primary.main,
+                linkHoverColor: theme.palette.primary.dark,
+                showShadow: false,
+                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                shadowIntensity: 4,
+                showBorder: false,
+                borderColor: theme.palette.divider,
+                borderWidth: 1,
+                borderPosition: 'bottom',
+                opacity: 1,
+                mobileHeight: 56,
+                mobilePadding: 1,
+                mobileLogoSize: 'medium',
+              };
+
+              setFieldValue('layout.customSettings', resetSettings);
+            }}
+            sx={{
+              borderColor: '#ff6b35',
+              color: '#ff6b35',
+              backgroundColor: 'transparent',
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              px: 3,
+              py: 1,
+              '&:hover': {
+                borderColor: '#ff6b35',
+                backgroundColor: 'rgba(255, 107, 53, 0.04)',
+              },
+            }}
+          >
+            <FormattedMessage
+              id="reset.styles"
+              defaultMessage="RESET STYLES"
+            />
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
+  );
+}
+
 const formSchema = z.object({
   layout: z
     .object({
@@ -1284,6 +1866,11 @@ export function NavbarLayoutContainer({
               type: config.menuSettings.layout?.type || 'navbar',
               variant: config.menuSettings.layout?.variant || 'default',
               glassSettings: config.menuSettings.layout?.glassSettings || {},
+              customSettings: {
+                opacity: 1,
+                blurIntensity: 0,
+                ...config.menuSettings.layout?.customSettings
+              },
               bottomBarSettings: {
                 showText: true,
                 showBorder: true,
@@ -1303,6 +1890,10 @@ export function NavbarLayoutContainer({
               type: 'navbar',
               variant: 'default',
               glassSettings: {},
+              customSettings: {
+                opacity: 1,
+                blurIntensity: 0,
+              },
               bottomBarSettings: {
                 showText: true,
                 showBorder: true,
@@ -1418,6 +2009,11 @@ export function NavbarLayoutContainer({
                       <FormattedMessage id="glass.variant" defaultMessage="Glass" />
                     </MenuItem>
                   )}
+                  {values.layout?.type === 'navbar' && (
+                    <MenuItem value="custom">
+                      <FormattedMessage id="custom.variant" defaultMessage="Custom" />
+                    </MenuItem>
+                  )}
                 </Field>
               </FormControl>
             </Grid>
@@ -1440,6 +2036,11 @@ export function NavbarLayoutContainer({
             {values.layout?.type === 'sidebar' && values.layout?.variant === 'mini' && (
               <Grid item xs={12}>
                 <MiniSidebarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
+              </Grid>
+            )}
+            {values.layout?.type === 'navbar' && values.layout?.variant === 'custom' && (
+              <Grid item xs={12}>
+                <CustomNavbarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
               </Grid>
             )}
 
