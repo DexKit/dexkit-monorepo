@@ -1,7 +1,3 @@
-import { SearchBar } from "@dexkit/ui/components/SearchBar";
-import SearchBarMobile from "@dexkit/ui/components/SearchBarMobile";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
@@ -30,7 +26,6 @@ import {
   useTheme
 } from "@mui/material";
 
-import { getChainLogoImage, getChainName } from "@dexkit/core/utils/blockchain";
 import AttachMoney from "@mui/icons-material/AttachMoney";
 import Language from "@mui/icons-material/Language";
 import NotificationsIcon from "@mui/icons-material/NotificationsOutlined";
@@ -47,8 +42,11 @@ const SelectNetworkDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/SelectNetworkDialog")
 );
 
+import { getChainLogoImage, getChainName } from "@dexkit/core/utils/blockchain";
 import Link from "@dexkit/ui/components/AppLink";
 import NotificationsDialog from "@dexkit/ui/components/dialogs/NotificationsDialog";
+import { SearchBar } from "@dexkit/ui/components/SearchBar";
+import SearchBarMobile from "@dexkit/ui/components/SearchBarMobile";
 import { ThemeMode } from "@dexkit/ui/constants/enum";
 import {
   useAuthUserQuery,
@@ -62,10 +60,12 @@ import {
   useShowAppTransactions,
   useShowSelectCurrency,
   useShowSelectLocale,
-  useThemeMode,
+  useThemeMode
 } from "@dexkit/ui/hooks";
 import CommercePopover from "@dexkit/ui/modules/commerce/components/CommercePopover";
 import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useSiteId } from "../hooks/useSiteId";
 import CommerceCartIconButton from "../modules/commerce/components/CommerceCartIconButton";
 import { ConnectWalletButton } from "./ConnectWalletButton";
@@ -437,15 +437,17 @@ function Navbar({ appConfig, isPreview }: Props) {
       </Stack>
     );
 
-    const positions: { left: React.ReactNode[]; center: React.ReactNode[]; right: React.ReactNode[] } = {
+    const positions: { [key: string]: any[] } = {
       left: [],
+      'center-left': [],
       center: [],
+      'center-right': [],
       right: []
     };
 
-    const logoPos = (glassSettings.logoPosition || 'left') as 'left' | 'center' | 'right';
-    const menuPos = (glassSettings.menuPosition || 'center') as 'left' | 'center' | 'right';
-    const actionsPos = (glassSettings.actionsPosition || 'right') as 'left' | 'center' | 'right';
+    const logoPos = (glassSettings.logoPosition || 'left') as 'left' | 'center' | 'right' | 'center-left' | 'center-right';
+    const menuPos = (glassSettings.menuPosition || 'center') as 'left' | 'center' | 'right' | 'center-left' | 'center-right';
+    const actionsPos = (glassSettings.actionsPosition || 'right') as 'left' | 'center' | 'right' | 'center-left' | 'center-right';
 
     if (logoElement) positions[logoPos].push(logoElement);
     if (menuElement) positions[menuPos].push(menuElement);
@@ -453,6 +455,30 @@ function Navbar({ appConfig, isPreview }: Props) {
 
     return positions;
   };
+
+  const renderElementsInPosition = (position: string, elements: any[]) => {
+    if (elements.length === 0) return null;
+
+    return (
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={2}
+        sx={{
+          flexGrow: 1,
+          justifyContent: position === 'center' ? 'center' : undefined,
+          px: position === 'center-left' || position === 'center-right' ? 2 : 0,
+        }}
+      >
+        {elements.map((element, index) => (
+          <Box key={`${position}-${index}`}>{element}</Box>
+        ))}
+      </Stack>
+    );
+  };
+
+  const positions = organizeNavbarElements();
+  const { left = [], 'center-left': centerLeft = [], center = [], 'center-right': centerRight = [], right = [] } = positions || {};
 
   return (
     <>
@@ -611,8 +637,13 @@ function Navbar({ appConfig, isPreview }: Props) {
           variant="dense"
           sx={{
             py: 1,
-            ...(glassVariant && {
-              color: glassSettings.textColor || '#0E1116',
+            height: 64,
+            color: glassSettings.textColor,
+            position: 'relative',
+            zIndex: 2,
+            ...(glassSettings.borderRadius !== undefined && glassSettings.borderRadius > 0 && {
+              borderRadius: `${glassSettings.borderRadius}px`,
+              overflow: 'hidden',
             }),
           }}
         >
@@ -632,53 +663,14 @@ function Navbar({ appConfig, isPreview }: Props) {
               <MenuIcon />
             </IconButton>
           )}
-
-          {glassVariant && !isMobile ? (
-            (() => {
-              const organizedElements = organizeNavbarElements();
-              if (!organizedElements) return null;
-
-              return (
-                <>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
-                    sx={{ flexGrow: 0 }}
-                  >
-                    {organizedElements.left.map((element, index) => (
-                      <Box key={`left-${index}`}>{element}</Box>
-                    ))}
-                  </Stack>
-
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
-                    sx={{
-                      flexGrow: 1,
-                      justifyContent: 'center',
-                      px: 2
-                    }}
-                  >
-                    {organizedElements.center.map((element, index) => (
-                      <Box key={`center-${index}`}>{element}</Box>
-                    ))}
-                  </Stack>
-
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
-                    sx={{ flexGrow: 0 }}
-                  >
-                    {organizedElements.right.map((element, index) => (
-                      <Box key={`right-${index}`}>{element}</Box>
-                    ))}
-                  </Stack>
-                </>
-              );
-            })()
+          {!isMobile && glassVariant ? (
+            <>
+              {renderElementsInPosition('left', left)}
+              {renderElementsInPosition('center-left', centerLeft)}
+              {renderElementsInPosition('center', center)}
+              {renderElementsInPosition('center-right', centerRight)}
+              {renderElementsInPosition('right', right)}
+            </>
           ) : glassVariant && isMobile ? (
             <>
               <Box sx={{ flexGrow: 1 }}>
@@ -713,7 +705,6 @@ function Navbar({ appConfig, isPreview }: Props) {
                   </Link>
                 )}
               </Box>
-
               <Stack direction="row" alignItems="center" spacing={1}>
                 {isActive && (
                   <ButtonBase
@@ -785,32 +776,14 @@ function Navbar({ appConfig, isPreview }: Props) {
             </>
           ) : (
             <>
-              {appConfig.logoDark &&
-                appConfig.logoDark?.url &&
-                mode === ThemeMode.dark ? (
+              {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
                 <Link href={isPreview ? "#" : "/"}>
                   <Image
                     src={appConfig?.logoDark?.url || ""}
                     alt={appConfig.name}
                     title={appConfig.name}
-                    height={
-                      isMobile && appConfig?.logoDark?.heightMobile
-                        ? Number(appConfig?.logoDark?.heightMobile)
-                        : Number(
-                          appConfig?.logoDark?.height ||
-                          appConfig?.logo?.height ||
-                          theme.spacing(6)
-                        )
-                    }
-                    width={
-                      isMobile && appConfig?.logoDark?.widthMobile
-                        ? Number(appConfig?.logoDark?.widthMobile)
-                        : Number(
-                          appConfig?.logoDark?.width ||
-                          appConfig?.logo?.width ||
-                          theme.spacing(6)
-                        )
-                    }
+                    height={isMobile && appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6))}
+                    width={isMobile && appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6))}
                   />
                 </Link>
               ) : appConfig?.logo ? (
@@ -819,16 +792,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                     src={appConfig?.logo.url}
                     alt={appConfig.name}
                     title={appConfig.name}
-                    width={
-                      isMobile && appConfig?.logo?.widthMobile
-                        ? Number(appConfig?.logo?.widthMobile)
-                        : Number(appConfig?.logo?.width || theme.spacing(6))
-                    }
-                    height={
-                      isMobile && appConfig?.logo?.heightMobile
-                        ? Number(appConfig?.logo?.heightMobile)
-                        : Number(appConfig?.logo?.height || theme.spacing(6))
-                    }
+                    width={isMobile && appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6))}
+                    height={isMobile && appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6))}
                   />
                 </Link>
               ) : (
@@ -841,7 +806,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                   {appConfig.name}
                 </Link>
               )}
-              {appConfig?.searchbar?.enabled && (
+              {appConfig?.searchbar?.enabled && !isMobile && (
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -859,7 +824,6 @@ function Navbar({ appConfig, isPreview }: Props) {
                   />
                 </Stack>
               )}
-
               {isMobile && appConfig?.searchbar?.enabled && (
                 <Stack
                   direction="row"

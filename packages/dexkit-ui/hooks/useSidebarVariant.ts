@@ -11,7 +11,6 @@ export function useSidebarVariant(appConfig?: AppConfig) {
     const isMini = isSidebar && sidebarVariant === "mini";
     const isDense = isSidebar && sidebarVariant === "dense";
     const isProminent = isSidebar && sidebarVariant === "prominent";
-    const isBottom = isSidebar && sidebarVariant === "bottom";
     const miniSidebarSettings = appConfig?.menuSettings?.layout?.miniSidebarSettings;
     const startExpanded = miniSidebarSettings?.startExpanded ?? false;
 
@@ -21,7 +20,6 @@ export function useSidebarVariant(appConfig?: AppConfig) {
       isMini,
       isDense,
       isProminent,
-      isBottom,
       miniSidebarSettings,
       startExpanded,
     };
@@ -29,7 +27,6 @@ export function useSidebarVariant(appConfig?: AppConfig) {
 
   const getSidebarWidth = useMemo(() => {
     if (!sidebarInfo.isSidebar) return 0;
-    if (sidebarInfo.isBottom) return "100%";
     if (sidebarInfo.isDense) return 180;
     if (sidebarInfo.isProminent) return 320;
     return theme.breakpoints.values.sm / 2;

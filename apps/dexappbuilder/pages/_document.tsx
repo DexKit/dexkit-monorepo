@@ -29,18 +29,10 @@ export default class MyDocument extends Document {
               rel="stylesheet"
             />
           )}
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons&display=optional"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone&display=optional"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp&display=optional"
-          />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" />
           {(this.props as any).emotionStyleTags}
           <Script
             id="google-analytics-script"

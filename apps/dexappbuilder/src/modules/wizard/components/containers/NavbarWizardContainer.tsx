@@ -783,6 +783,12 @@ function NavbarGlassSettingsPanel({
                 <MenuItem value="center">
                   <FormattedMessage id="glass.position.center" defaultMessage="Center" />
                 </MenuItem>
+                <MenuItem value="center-left">
+                  <FormattedMessage id="glass.position.centerLeft" defaultMessage="Center Left" />
+                </MenuItem>
+                <MenuItem value="center-right">
+                  <FormattedMessage id="glass.position.centerRight" defaultMessage="Center Right" />
+                </MenuItem>
                 <MenuItem value="right">
                   <FormattedMessage id="glass.position.right" defaultMessage="Right" />
                 </MenuItem>
@@ -806,6 +812,12 @@ function NavbarGlassSettingsPanel({
                 <MenuItem value="center">
                   <FormattedMessage id="glass.position.center" defaultMessage="Center" />
                 </MenuItem>
+                <MenuItem value="center-left">
+                  <FormattedMessage id="glass.position.centerLeft" defaultMessage="Center Left" />
+                </MenuItem>
+                <MenuItem value="center-right">
+                  <FormattedMessage id="glass.position.centerRight" defaultMessage="Center Right" />
+                </MenuItem>
                 <MenuItem value="right">
                   <FormattedMessage id="glass.position.right" defaultMessage="Right" />
                 </MenuItem>
@@ -828,6 +840,12 @@ function NavbarGlassSettingsPanel({
                 </MenuItem>
                 <MenuItem value="center">
                   <FormattedMessage id="glass.position.center" defaultMessage="Center" />
+                </MenuItem>
+                <MenuItem value="center-left">
+                  <FormattedMessage id="glass.position.centerLeft" defaultMessage="Center Left" />
+                </MenuItem>
+                <MenuItem value="center-right">
+                  <FormattedMessage id="glass.position.centerRight" defaultMessage="Center Right" />
                 </MenuItem>
                 <MenuItem value="right">
                   <FormattedMessage id="glass.position.right" defaultMessage="Right" />
@@ -1401,6 +1419,8 @@ function CustomNavbarSettingsPanel({
                   >
                     <MenuItem value="left">Left</MenuItem>
                     <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="center-left">Center Left</MenuItem>
+                    <MenuItem value="center-right">Center Right</MenuItem>
                     <MenuItem value="right">Right</MenuItem>
                   </Select>
                 </FormControl>
@@ -1417,6 +1437,8 @@ function CustomNavbarSettingsPanel({
                   >
                     <MenuItem value="left">Left</MenuItem>
                     <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="center-left">Center Left</MenuItem>
+                    <MenuItem value="center-right">Center Right</MenuItem>
                     <MenuItem value="right">Right</MenuItem>
                   </Select>
                 </FormControl>
@@ -1433,6 +1455,8 @@ function CustomNavbarSettingsPanel({
                   >
                     <MenuItem value="left">Left</MenuItem>
                     <MenuItem value="center">Center</MenuItem>
+                    <MenuItem value="center-left">Center Left</MenuItem>
+                    <MenuItem value="center-right">Center Right</MenuItem>
                     <MenuItem value="right">Right</MenuItem>
                   </Select>
                 </FormControl>
@@ -1994,11 +2018,6 @@ export function NavbarLayoutContainer({
                       <FormattedMessage id="prominent" defaultMessage="Prominent" />
                     </MenuItem>
                   )}
-                  {values.layout?.type === 'sidebar' && (
-                    <MenuItem value="bottom">
-                      <FormattedMessage id="bottom.bar" defaultMessage="Bottom Bar" />
-                    </MenuItem>
-                  )}
                   {values.layout?.type === 'navbar' && (
                     <MenuItem value="alt">
                       <FormattedMessage id="alt" defaultMessage="Alt" />
@@ -2012,6 +2031,11 @@ export function NavbarLayoutContainer({
                   {values.layout?.type === 'navbar' && (
                     <MenuItem value="custom">
                       <FormattedMessage id="custom.variant" defaultMessage="Custom" />
+                    </MenuItem>
+                  )}
+                  {values.layout?.type === 'navbar' && (
+                    <MenuItem value="bottom">
+                      <FormattedMessage id="bottom.bar" defaultMessage="Bottom Bar" />
                     </MenuItem>
                   )}
                 </Field>
@@ -2028,7 +2052,7 @@ export function NavbarLayoutContainer({
                 </Grid>
               </>
             )}
-            {values.layout?.type === 'sidebar' && values.layout?.variant === 'bottom' && (
+            {values.layout?.type === 'navbar' && values.layout?.variant === 'bottom' && (
               <Grid item xs={12}>
                 <BottomBarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
               </Grid>

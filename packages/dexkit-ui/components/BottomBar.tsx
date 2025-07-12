@@ -125,9 +125,7 @@ export default function BottomBar({ appConfig, isPreview }: Props) {
             icon={
               menuItem.data?.iconName ? (
                 <Icon>{menuItem.data.iconName}</Icon>
-              ) : (
-                <Icon>home</Icon>
-              )
+              ) : null
             }
             component={isPreview ? "button" : Link}
             href={isPreview ? undefined : menuItem.href || "/"}

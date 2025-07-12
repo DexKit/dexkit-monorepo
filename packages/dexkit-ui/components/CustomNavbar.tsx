@@ -365,7 +365,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
 
     const positions: { [key: string]: string[] } = {
       left: [],
+      'center-left': [],
       center: [],
+      'center-right': [],
       right: []
     };
 
@@ -501,7 +503,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
 
     return (
       <Stack direction="row" alignItems="center" spacing={actionSpacing}>
-        {isActive && (
+        {isActive && !isMobile && (
           <ButtonBase
             onClick={handleShowProfileMenu}
             sx={{
@@ -522,7 +524,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           </ButtonBase>
         )}
 
-        {!isActive ? (
+        {!isActive && !isMobile ? (
           <Box sx={{
             '& .MuiButton-root': {
               ...(customSettings.walletButtonTextColor && {
@@ -592,7 +594,7 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           }}>
             <ConnectWalletButton />
           </Box>
-        ) : (
+        ) : !isMobile && (
           <Box sx={{
             '& .MuiButton-root': {
               ...(customSettings.walletButtonTextColor && {
@@ -840,7 +842,9 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           {!isMobile ? (
             <>
               {renderElementsInPosition('left', positions.left)}
+              {renderElementsInPosition('center-left', positions['center-left'])}
               {renderElementsInPosition('center', positions.center)}
+              {renderElementsInPosition('center-right', positions['center-right'])}
               {renderElementsInPosition('right', positions.right)}
             </>
           ) : (

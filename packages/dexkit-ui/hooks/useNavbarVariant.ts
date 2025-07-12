@@ -8,6 +8,7 @@ export function useNavbarVariant(appConfig?: AppConfig) {
     const isDefault = isNavbar && (navbarVariant === "default" || !navbarVariant);
     const isGlass = isNavbar && navbarVariant === "glass";
     const isCustom = isNavbar && navbarVariant === "custom";
+    const isBottom = isNavbar && navbarVariant === "bottom";
 
     const glassSettings = appConfig?.menuSettings?.layout?.glassSettings;
     const customSettings = appConfig?.menuSettings?.layout?.customSettings;
@@ -18,6 +19,7 @@ export function useNavbarVariant(appConfig?: AppConfig) {
       isDefault,
       isGlass,
       isCustom,
+      isBottom,
       glassSettings,
       customSettings,
     };

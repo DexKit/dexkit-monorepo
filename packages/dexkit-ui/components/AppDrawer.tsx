@@ -50,7 +50,6 @@ import { ThemeModeSelector } from "./ThemeModeSelector";
 
 import { useRouter } from "next/router";
 import { useWalletConnect } from "../hooks/wallet";
-import BottomBar from "./BottomBar";
 import { ConnectButton } from "./ConnectButton";
 
 const ScanWalletQrCodeDialog = dynamic(
@@ -99,7 +98,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const user = userQuery.data;
 
   const isMobile = useIsMobile();
-  const { isMini, isDense, isProminent, isBottom, isSidebar, startExpanded } = useSidebarVariant(appConfig);
+  const { isMini, isDense, isProminent, isSidebar, startExpanded } = useSidebarVariant(appConfig);
 
   const [isMiniSidebar, setIsMiniSidebar] = useAtom(isMiniSidebarAtom);
 
@@ -144,13 +143,8 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
 
   const handleOpenQrCode = () => setShowQrCode(true);
 
-  if (!isMobile && isBottom) {
-    return <BottomBar appConfig={appConfig} isPreview={false} />;
-  }
-
   const getSidebarWidth = () => {
     if (!isMobile && isSidebar && isMiniOpen) return "auto";
-    if (isBottom) return "100%";
     if (isDense) return "180px";
     if (isProminent) return "320px";
     return `${theme.breakpoints.values.sm / 2}px`;

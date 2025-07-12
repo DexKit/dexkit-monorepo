@@ -6,7 +6,6 @@ import React, { useEffect, useMemo } from "react";
 const AppDrawer = dynamic(() => import("../AppDrawer"));
 
 import { useIsMobile } from "@dexkit/core";
-import { useSidebarVariant } from "@dexkit/ui/hooks/useSidebarVariant";
 import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { isMobile } from "@dexkit/wallet-connectors/utils/userAgent";
 import { ErrorBoundary } from "react-error-boundary";
@@ -17,6 +16,7 @@ import {
   useDrawerIsOpen,
   useThemeMode,
 } from "../../hooks";
+import { useNavbarVariant } from "../../hooks/useNavbarVariant";
 import BottomBar from "../BottomBar";
 import { Footer } from "../Footer";
 import Navbar from "../Navbar";
@@ -38,7 +38,7 @@ const WrapperLayout: React.FC<{
 }> = ({ children, appConfig, isPreview }) => {
   const isDrawerOpen = useDrawerIsOpen();
   const isMobileUI = useIsMobile();
-  const { isBottom } = useSidebarVariant(appConfig);
+  const { isBottom } = useNavbarVariant(appConfig);
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
   const mobileView = isMobile || isMobileUI;
