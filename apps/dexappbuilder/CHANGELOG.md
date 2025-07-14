@@ -1,5 +1,26 @@
 # dexappbuilder
 
+## 0.28.0
+
+### Minor Changes
+
+- 846b6b2: New layout variants for Navbar were added (glass, minimal, custom) for total customization.
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+- c36a6c9: Allow now to customize pages wallet and swap
+
+### Patch Changes
+
+- Updated dependencies [846b6b2]
+- Updated dependencies [eefb4b8]
+  - @dexkit/wallet-connectors@0.8.0
+  - @dexkit/dexappbuilder-render@0.2.0
+  - @dexkit/dexappbuilder-viewer@0.11.0
+  - @dexkit/widgets@0.15.0
+  - @dexkit/unlock-widget@0.6.0
+  - @dexkit/core@0.20.0
+  - @dexkit/ui@0.25.0
+  - @dexkit/web3forms@0.15.0
+
 ## 0.27.0
 
 ### Minor Changes

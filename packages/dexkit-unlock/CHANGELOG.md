@@ -1,5 +1,18 @@
 # @dexkit/unlock-widget
 
+## 0.6.0
+
+### Minor Changes
+
+- 846b6b2: New layout variants for Navbar were added (glass, minimal, custom) for total customization.
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+
+### Patch Changes
+
+- Updated dependencies [846b6b2]
+- Updated dependencies [eefb4b8]
+  - @dexkit/ui@0.25.0
+
 ## 0.5.0
 
 ### Minor Changes
