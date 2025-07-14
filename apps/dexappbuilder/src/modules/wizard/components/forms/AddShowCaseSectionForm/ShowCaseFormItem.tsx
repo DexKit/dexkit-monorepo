@@ -187,6 +187,7 @@ export default function ShowCaseFormItem({
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton onClick={onSelectImage}>
+                            {/* eslint-disable-next-line jsx-a11y/alt-text */}
                             <Image />
                           </IconButton>
                         </InputAdornment>
@@ -386,6 +387,7 @@ export default function ShowCaseFormItem({
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton onClick={onSelectImage}>
+                            {/* eslint-disable-next-line jsx-a11y/alt-text */}
                             <Image />
                           </IconButton>
                         </InputAdornment>

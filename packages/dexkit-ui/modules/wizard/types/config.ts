@@ -23,10 +23,114 @@ export interface MenuTree {
   children?: MenuTree[];
 }
 
+export interface NavbarGlassSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  glassOpacity?: number;
+  disableBackground?: boolean;
+  textColor?: string;
+  iconColor?: string;
+  logoPosition?: "left" | "center" | "right";
+  menuPosition?: "left" | "center" | "right";
+  actionsPosition?: "left" | "center" | "right";
+  logoSize?: "small" | "medium" | "large" | "custom";
+  customLogoWidth?: number;
+  customLogoHeight?: number;
+  borderRadius?: number;
+  tabBuyColor?: string;
+  tabSellColor?: string;
+  tabBuyTextColor?: string;
+  tabSellTextColor?: string;
+  fillButtonColor?: string;
+  fillButtonTextColor?: string;
+  outlineButtonColor?: string;
+  outlineButtonTextColor?: string;
+}
+
+export interface NavbarCustomSettings {
+  backgroundType?: "solid" | "gradient" | "image";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  backgroundAttachment?: "fixed" | "scroll";
+  gradientStartColor?: string;
+  gradientEndColor?: string;
+  gradientDirection?: string;
+  blurIntensity?: number;
+  borderRadius?: number;
+  padding?: number;
+  height?: number;
+  logoPosition?: "left" | "center" | "right" | "center-left" | "center-right";
+  logoSize?: "small" | "medium" | "large" | "custom";
+  customLogoWidth?: number;
+  customLogoHeight?: number;
+  showLogo?: boolean;
+  menuPosition?: "left" | "center" | "right" | "center-left" | "center-right";
+  menuHoverColor?: string;
+  menuActiveColor?: string;
+  menuFontSize?: number;
+  menuFontWeight?: "normal" | "bold" | "400" | "500" | "600" | "700";
+  menuSpacing?: number;
+  actionsPosition?: "left" | "center" | "right" | "center-left" | "center-right";
+  iconColor?: string;
+  iconHoverColor?: string;
+  iconSize?: "small" | "medium" | "large";
+  showIcons?: boolean;
+  textColor?: string;
+  linkColor?: string;
+  linkHoverColor?: string;
+  walletButtonTextColor?: string;
+  showShadow?: boolean;
+  shadowColor?: string;
+  shadowIntensity?: number;
+  showBorder?: boolean;
+  borderColor?: string;
+  borderWidth?: number;
+  borderPosition?: "top" | "bottom" | "both";
+  opacity?: number;
+  mobileHeight?: number;
+  mobilePadding?: number;
+  mobileLogoSize?: "small" | "medium" | "large" | "custom";
+  mobileCustomLogoWidth?: number;
+  mobileCustomLogoHeight?: number;
+}
+
+export interface BottomBarSettings {
+  showText?: boolean;
+  backgroundColor?: string;
+  textColor?: string;
+  activeColor?: string;
+  iconSize?: "small" | "medium" | "large";
+  customIconSize?: number;
+  fontSize?: number;
+  showBorder?: boolean;
+  borderColor?: string;
+  elevation?: number;
+}
+
+export interface MiniSidebarSettings {
+  startExpanded?: boolean;
+}
+
 export interface MenuSettings {
   layout?: {
     type?: string;
     variant?: string;
+    glassSettings?: NavbarGlassSettings;
+    customSettings?: NavbarCustomSettings;
+    bottomBarSettings?: BottomBarSettings;
+    miniSidebarSettings?: MiniSidebarSettings;
   };
 }
 

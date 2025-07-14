@@ -119,7 +119,15 @@ export default function PreviewPagePlatform({
               justifyContent: 'center',
               p: isMobile ? 0 : theme.spacing(0.5),
               overflow: 'visible',
-              minHeight: 0
+              minHeight: 0,
+              ...(isMobile && {
+                minHeight: '85vh',
+                height: '100%',
+              }),
+              ...(!isMobile && {
+                minHeight: previewPlatform === 'mobile' ? '85vh' : '80vh',
+                height: '100%',
+              }),
             }}
           >
             {page && site ? (
@@ -142,7 +150,12 @@ export default function PreviewPagePlatform({
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
-                  p: theme.spacing(0.125)
+                  p: theme.spacing(0.125),
+                  ...(isMobile && {
+                    minHeight: '85vh',
+                    height: '100%',
+                    borderRadius: theme.spacing(1),
+                  }),
                 }}
               >
                 {pagePreview}

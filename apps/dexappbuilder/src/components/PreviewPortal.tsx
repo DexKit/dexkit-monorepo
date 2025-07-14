@@ -23,12 +23,22 @@ interface PreviewIframeProps {
 
 const PreviewIframe = styled('iframe')<PreviewIframeProps>(({ theme, isMobile, isfullscreen, isdesktopview }) => ({
   border: 'none',
-  height: isfullscreen ? '100vh' : theme.spacing(62.5), // 100vh o 500px
-  width: isfullscreen ? '100vw' : (isMobile && isdesktopview ? '135%' : (isMobile ? '100%' : theme.spacing(62.5))), // 100vw, 100% o 500px
-  maxWidth: isfullscreen ? '100vw' : (isMobile && isdesktopview ? '135%' : (isMobile ? '100%' : theme.spacing(62.5))),
-  transform: isMobile && isdesktopview ? 'scale(0.65)' : 'none',
+  height: isfullscreen ? '100vh' : (isMobile ? '90vh' : '85vh'),
+  width: isfullscreen ? '100vw' : (isMobile && isdesktopview ? '150%' : (isMobile ? '100%' : theme.spacing(62.5))),
+  maxWidth: isfullscreen ? '100vw' : (isMobile && isdesktopview ? '150%' : (isMobile ? '100%' : theme.spacing(62.5))),
+  transform: isMobile && isdesktopview ? 'scale(0.7)' : 'none',
   transformOrigin: 'top left',
   overflow: 'auto',
+  ...(isMobile && !isfullscreen && {
+    minHeight: '85vh',
+    borderRadius: theme.spacing(1),
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+  }),
+  ...(!isMobile && !isfullscreen && {
+    minHeight: '80vh',
+    borderRadius: theme.spacing(1),
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+  }),
 }));
 
 export interface PreviewPortalProps {
@@ -70,13 +80,21 @@ export const PreviewPortal = ({ index, site, page, previewPlatform = 'mobile' }:
     <Box
       sx={{
         position: 'relative',
-        width: isMobile ? (isDesktopView ? '150%' : '100%') : 'auto',
-        height: shouldBeFullscreen ? '100vh' : 'auto',
+        width: isMobile ? (isDesktopView ? '160%' : '100%') : 'auto',
+        height: shouldBeFullscreen ? '100vh' : (isMobile ? '90vh' : '85vh'),
         overflow: 'auto',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: isDesktopView && isMobile ? 'flex-start' : 'center',
         ml: isDesktopView && isMobile ? -2 : 0,
+        ...(isMobile && !shouldBeFullscreen && {
+          padding: theme.spacing(0.5),
+          minHeight: '85vh',
+        }),
+        ...(!isMobile && !shouldBeFullscreen && {
+          padding: theme.spacing(0.5),
+          minHeight: '80vh',
+        }),
       }}
     >
       <PreviewIframe
@@ -90,7 +108,9 @@ export const PreviewPortal = ({ index, site, page, previewPlatform = 'mobile' }:
         <Backdrop
           sx={{
             color: theme.palette.common.white,
-            position: 'absolute'
+            position: 'absolute',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1,
           }}
           open
         >

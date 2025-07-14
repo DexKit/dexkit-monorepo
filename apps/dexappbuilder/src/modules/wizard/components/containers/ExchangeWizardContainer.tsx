@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CssVarsTheme, Theme } from '@mui/material/styles';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { StepperButtonProps } from '../../types';
 import { StepperButtons } from '../steppers/StepperButtons';
@@ -22,6 +22,7 @@ interface Props {
   theme: Omit<Theme, 'palette'> & CssVarsTheme;
   onSave: (config: AppConfig) => void;
   onChange: (config: AppConfig) => void;
+  onHasChanges: (hasChanges: boolean) => void;
   isOnStepper?: boolean;
   stepperButtonProps?: StepperButtonProps;
 }
@@ -31,12 +32,14 @@ export default function ExchangeWizardContainer({
   theme,
   onSave,
   onChange,
+  onHasChanges,
   isOnStepper,
   stepperButtonProps,
 }: Props) {
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
   const { activeChainIds } = useActiveChainIds();
+  const [hasChanged, setHasChanged] = useState(false);
 
   const [exchangeFormData, setExchangeFormData] = useState<
     DexkitExchangeSettings | undefined
@@ -47,6 +50,12 @@ export default function ExchangeWizardContainer({
       ) as ExchangePageSection
     )?.settings,
   );
+
+  useEffect(() => {
+    if (onHasChanges) {
+      onHasChanges(hasChanged);
+    }
+  }, [onHasChanges, hasChanged]);
 
   const tokens = useMemo<AppToken[]>(() => {
     let tokens = config?.tokens?.length ? config?.tokens[0].tokens || [] : [];
@@ -101,10 +110,12 @@ export default function ExchangeWizardContainer({
 
   const handleSave = () => {
     onSave(changeConfig(config, exchangeFormData));
+    setHasChanged(false);
   };
 
   const handleOnChange = (form: DexkitExchangeSettings) => {
     setExchangeFormData(form);
+    setHasChanged(true);
     onChange(changeConfig(config, form));
   };
 

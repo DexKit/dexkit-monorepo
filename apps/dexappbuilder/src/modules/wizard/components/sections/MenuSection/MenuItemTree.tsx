@@ -223,6 +223,7 @@ export default function MenuItemTree({
                 {item.data?.iconName ? (
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
+                  // eslint-disable-next-line jsx-a11y/alt-text
                   <Image fontSize={isMobile ? "small" : "medium"} />
                 )}
               </IconButton>
@@ -265,6 +266,7 @@ export default function MenuItemTree({
                 {item.data?.iconName ? (
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
+                  // eslint-disable-next-line jsx-a11y/alt-text
                   <Image fontSize={isMobile ? "small" : "medium"} />
                 )}
               </IconButton>
@@ -323,6 +325,7 @@ export default function MenuItemTree({
                 {item.data?.iconName ? (
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
+                  // eslint-disable-next-line jsx-a11y/alt-text
                   <Image fontSize={isMobile ? "small" : "medium"} />
                 )}
               </IconButton>
