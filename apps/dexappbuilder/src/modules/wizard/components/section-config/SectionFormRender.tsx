@@ -10,7 +10,7 @@ import { Box, Button, Grid, Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CardForm } from 'src/modules/components/cards/forms/CardForm';
+import { MultiCardForm } from 'src/modules/components/cards/forms/MultiCardForm';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
 import AddShowCaseSectionForm from '../forms/AddShowCaseSectionForm';
@@ -388,20 +388,65 @@ export function SectionFormRender({
       />
     );
   } else if (sectionType === 'card') {
+    const defaultConfig = {
+      cards: [{
+        id: 'card-1',
+        title: 'New Card',
+        description: '',
+        image: '',
+        actions: [{ label: '', href: '' }],
+        layout: {
+          x: 0,
+          y: 0,
+          w: 4,
+          h: 2,
+          minW: 2,
+          maxW: 6,
+          minH: 2,
+          maxH: 4,
+        },
+      }],
+      gridSettings: {
+        cols: 12,
+        rowHeight: 150,
+        margin: [10, 10] as [number, number],
+        containerPadding: [10, 10] as [number, number],
+        compactType: null,
+        allowOverlap: false,
+        preventCollision: false,
+        isDraggable: true,
+        isResizable: true,
+      },
+      responsive: {
+        breakpoints: {
+          lg: 1200,
+          md: 996,
+          sm: 768,
+          xs: 480,
+          xxs: 0,
+        },
+        cols: {
+          lg: 12,
+          md: 10,
+          sm: 6,
+          xs: 4,
+          xxs: 2,
+        },
+      },
+    };
+
     return (
-      <CardForm
-        initialValues={section?.type === 'card' ? section.settings : { title: '' }}
+      <MultiCardForm
+        initialValues={section?.type === 'card' ? section.settings : defaultConfig}
         onSubmit={(values) => {
           onSave({
             type: 'card',
-            title: values.title,
             settings: values,
           });
         }}
         onChange={(values) => {
           onChange({
             type: 'card',
-            title: values.title,
             settings: values,
           });
         }}

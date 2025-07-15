@@ -1,28 +1,25 @@
-import Card from '@dexkit/dexappbuilder-viewer/components/Card';
-import { CardPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { Box } from '@mui/material';
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { usePreviewPlatform } from '../SectionsRenderer';
+import { MultiCardConfig } from '../types/card';
+import Card from './Card';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-interface Props {
-  section: CardPageSection;
+interface CardsGridLayoutProps {
+  config: MultiCardConfig;
+  onLayoutChange?: (layout: any[], allLayouts: any) => void;
+  editable?: boolean;
 }
 
-export default function CardSection({ section }: Props) {
-  const previewContext = usePreviewPlatform();
-  const editable = previewContext?.editable || false;
-  const onLayoutChange = previewContext?.onLayoutChange;
-
-  if (!section?.settings || !section.settings.cards || section.settings.cards.length === 0) {
-    return null;
-  }
-
-  const { cards, gridSettings, responsive } = section.settings;
+export const CardsGridLayout: React.FC<CardsGridLayoutProps> = ({
+  config,
+  onLayoutChange,
+  editable = false,
+}) => {
+  const { cards, gridSettings, responsive } = config;
 
   const layouts = React.useMemo(() => {
     const layout = cards.map(card => ({
@@ -35,9 +32,9 @@ export default function CardSection({ section }: Props) {
       maxW: card.layout.maxW || 6,
       minH: card.layout.minH || 2,
       maxH: card.layout.maxH || 4,
-      static: !editable,
-      isDraggable: editable,
-      isResizable: editable,
+      static: !editable || card.layout.static || false,
+      isDraggable: editable && (card.layout.isDraggable ?? gridSettings.isDraggable),
+      isResizable: editable && (card.layout.isResizable ?? gridSettings.isResizable),
     }));
 
     if (responsive) {
@@ -48,7 +45,7 @@ export default function CardSection({ section }: Props) {
     }
 
     return { lg: layout };
-  }, [cards, editable, responsive]);
+  }, [cards, editable, gridSettings, responsive]);
 
   const breakpoints = responsive?.breakpoints || { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
   const cols = responsive?.cols || {
@@ -63,9 +60,9 @@ export default function CardSection({ section }: Props) {
     <Box
       sx={{
         width: '100%',
-        py: 2,
+        minHeight: 200,
         '& .react-grid-item': {
-          transition: editable ? 'all 200ms ease' : 'none',
+          transition: 'all 200ms ease',
           '&.react-grid-item.resizing': {
             transition: 'none',
           },
@@ -74,7 +71,7 @@ export default function CardSection({ section }: Props) {
           },
         },
         '& .react-resizable-handle': {
-          display: editable ? 'block' : 'none', 
+          display: editable ? 'block' : 'none',
         },
       }}
     >
@@ -89,40 +86,41 @@ export default function CardSection({ section }: Props) {
         compactType={gridSettings.compactType}
         allowOverlap={gridSettings.allowOverlap}
         preventCollision={gridSettings.preventCollision}
-        isDraggable={editable}
-        isResizable={editable}
-        onLayoutChange={editable ? onLayoutChange : undefined}
+        isDraggable={editable && gridSettings.isDraggable}
+        isResizable={editable && gridSettings.isResizable}
+        onLayoutChange={onLayoutChange}
+        draggableCancel=".card-action-button"
       >
-        {cards.map(card => {
-          return (
-            <Box
-              key={card.id}
+        {cards.map(card => (
+          <Box
+            key={card.id}
+            sx={{
+              height: '100%',
+              cursor: editable ? 'move' : 'default',
+            }}
+          >
+            <Card
+              id={card.id}
+              title={card.title}
+              description={card.description}
+              image={card.image}
+              imageFile={card.imageFile}
+              actions={card.actions?.map(action => ({
+                ...action,
+                onClick: editable ? undefined : action.onClick,
+              }))}
               sx={{
                 height: '100%',
                 cursor: editable ? 'move' : 'default',
+                '& .MuiButton-root': {
+                  className: 'card-action-button',
+                },
+                ...card.sx,
               }}
-            >
-              <Card
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                image={card.image}
-                actions={card.actions?.map(action => ({
-                  ...action,
-                  onClick: editable ? undefined : action.onClick,
-                }))}
-                sx={{
-                  height: '100%',
-                  cursor: editable ? 'move' : 'default',
-                  '& .MuiButton-root': {
-                    className: 'card-action-button',
-                  },
-                }}
-              />
-            </Box>
-          );
-        })}
+            />
+          </Box>
+        ))}
       </ResponsiveGridLayout>
     </Box>
   );
-}
+}; 

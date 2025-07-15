@@ -154,6 +154,44 @@ export default function EditSectionDialog({
     setChangedSection(section);
   };
 
+  const handleLayoutChange = (currentLayout: any[]) => {
+    console.log('EditSectionDialog handleLayoutChange called:', currentLayout);
+
+    if (changedSection?.type === 'card' && changedSection.settings) {
+      const layoutToUse = currentLayout;
+
+      console.log('Current changedSection cards:', changedSection.settings.cards);
+
+      const updatedSection = {
+        ...changedSection,
+        settings: {
+          ...changedSection.settings,
+          cards: changedSection.settings.cards.map((card: any) => {
+            const layoutItem = layoutToUse.find((l: any) => l.i === card.id);
+            if (layoutItem) {
+              const updatedCard = {
+                ...card,
+                layout: {
+                  ...card.layout,
+                  x: layoutItem.x,
+                  y: layoutItem.y,
+                  w: layoutItem.w,
+                  h: layoutItem.h,
+                },
+              };
+              console.log(`EditSectionDialog Card ${card.id} layout updated:`, card.layout, '->', updatedCard.layout);
+              return updatedCard;
+            }
+            return card;
+          }),
+        },
+      };
+
+      console.log('EditSectionDialog calling handleChange with:', updatedSection);
+      handleChange(updatedSection);
+    }
+  };
+
   const handleEdit = () => {
     setIsEditName(true);
     setTimeout(() => {
@@ -180,7 +218,7 @@ export default function EditSectionDialog({
   const renderSectionType = (sectionType?: SectionType) => {
     return (
       <SectionFormRender
-        section={section}
+        section={changedSection || section}
         sectionType={sectionType}
         onSave={handleSave}
         onClose={isEdit ? handleClose : () => setSectionType(undefined)}
@@ -238,6 +276,8 @@ export default function EditSectionDialog({
       }
       disabled={true}
       enableOverflow={true}
+      editable={sectionType === 'card'}
+      onLayoutChange={sectionType === 'card' ? handleLayoutChange : undefined}
     />
   );
 

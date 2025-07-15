@@ -8,36 +8,45 @@ export interface CardAction {
 }
 
 export interface CardProps {
+  id: string;
   title: string;
   description?: string;
   image?: string;
+  imageFile?: File;
   actions?: CardAction[];
   sx?: object;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, image, actions, sx }) => {
+const Card: React.FC<CardProps> = ({ id, title, description, image, imageFile, actions, sx }) => {
+  const imageSource = React.useMemo(() => {
+    if (imageFile) {
+      return URL.createObjectURL(imageFile);
+    }
+    return image;
+  }, [image, imageFile]);
+
   return (
     <MuiCard
       sx={{
-        maxWidth: 345,
-        minWidth: 260,
-        m: 'auto',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         boxShadow: 3,
         borderRadius: 3,
-        p: 0,
+        overflow: 'hidden',
         ...sx,
       }}
     >
-      {image && (
+      {imageSource && (
         <CardMedia
           component="img"
           height="180"
-          image={image}
+          image={imageSource}
           alt={title}
-          sx={{ objectFit: 'cover', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+          sx={{ objectFit: 'cover' }}
         />
       )}
-      <CardContent sx={{ pb: 1.5 }}>
+      <CardContent sx={{ flexGrow: 1, pb: 1.5 }}>
         <Typography gutterBottom variant="h6" component="div" sx={{ fontWeight: 700, mb: 0.5 }}>
           {title}
         </Typography>
@@ -47,8 +56,8 @@ const Card: React.FC<CardProps> = ({ title, description, image, actions, sx }) =
           </Typography>
         )}
       </CardContent>
-      {actions && actions.length > 0 && actions[0].label && (
-        <CardActions sx={{ pt: 0, pb: 2, px: 2 }}>
+      {actions && actions.length > 0 && actions.some(action => action.label) && (
+        <CardActions sx={{ pt: 0, pb: 2, px: 2, mt: 'auto' }}>
           {actions.map((action, idx) =>
             action.href ? (
               <Button
@@ -66,7 +75,15 @@ const Card: React.FC<CardProps> = ({ title, description, image, actions, sx }) =
                 {action.label}
               </Button>
             ) : (
-              <Button key={idx} size="medium" variant="contained" color="primary" fullWidth onClick={action.onClick} sx={{ fontWeight: 600 }}>
+              <Button
+                key={idx}
+                size="medium"
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={action.onClick}
+                sx={{ fontWeight: 600 }}
+              >
                 {action.label}
               </Button>
             )

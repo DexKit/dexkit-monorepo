@@ -212,9 +212,9 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
   {
     type: 'card',
     titleId: 'card',
-    titleDefaultMessage: 'Card',
+    titleDefaultMessage: 'Cards',
     category: 'visual-components',
-    description: 'Componente visual de tarjeta personalizable para mostrar información, imágenes y acciones.',
+    description: 'Customizable card component to display information, images and actions in a flexible grid layout.',
     icon: <WidgetsIcon fontSize="large" />,
   },
   /* {

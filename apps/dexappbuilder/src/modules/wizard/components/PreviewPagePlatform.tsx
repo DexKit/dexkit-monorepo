@@ -23,6 +23,8 @@ interface Props {
   site?: string;
   index?: number;
   layout?: PageSectionsLayout;
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
 export default function PreviewPagePlatform({
@@ -36,6 +38,8 @@ export default function PreviewPagePlatform({
   site,
   index,
   layout,
+  editable,
+  onLayoutChange,
 }: Props) {
   const [previewPlatform, setPreviewPlatform] = useState<'desktop' | 'mobile'>('desktop');
   const isMobile = useIsMobile();
@@ -55,6 +59,8 @@ export default function PreviewPagePlatform({
       withLayout={withLayout}
       appConfig={appConfig}
       layout={layout}
+      editable={editable}
+      onLayoutChange={onLayoutChange}
     />
   );
 

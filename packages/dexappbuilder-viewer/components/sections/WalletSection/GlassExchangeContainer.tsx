@@ -202,7 +202,6 @@ export default function GlassExchangeContainer({
               height: '100%',
             }}
           >
-            {/* Header con botón back y título */}
             <Stack
               direction="row"
               alignItems="center"

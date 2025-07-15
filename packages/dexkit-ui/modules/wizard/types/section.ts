@@ -598,15 +598,46 @@ export interface WidgetPageSection extends PageSection {
 export interface CardPageSection extends PageSection {
   type: "card";
   settings: {
-    title: string;
-    description?: string;
-    image?: string;
-    actions?: Array<{
-      label: string;
-      href?: string;
-      onClick?: () => void;
+    cards: Array<{
+      id: string;
+      title: string;
+      description?: string;
+      image?: string;
+      imageFile?: File;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+      }>;
+      layout: {
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+        minW?: number;
+        maxW?: number;
+        minH?: number;
+        maxH?: number;
+        static?: boolean;
+        isDraggable?: boolean;
+        isResizable?: boolean;
+      };
     }>;
-    sx?: object;
+    gridSettings: {
+      cols: number;
+      rowHeight: number;
+      margin: [number, number];
+      containerPadding: [number, number];
+      compactType: 'vertical' | 'horizontal' | null;
+      allowOverlap?: boolean;
+      preventCollision?: boolean;
+      isDraggable?: boolean;
+      isResizable?: boolean;
+    };
+    responsive?: {
+      breakpoints: Record<string, number>;
+      cols: Record<string, number>;
+    };
   };
 }
 
