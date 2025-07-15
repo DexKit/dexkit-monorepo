@@ -240,4 +240,8 @@ export const SECTION_CONFIG: {
     title: { id: 'widget', defaultMessage: 'Widget' },
     icon: <WidgetsIcon />,
   },
+  card: {
+    title: { id: 'card', defaultMessage: 'Card' },
+    icon: <AppsIcon />,
+  },
 };

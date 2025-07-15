@@ -39,6 +39,7 @@ const UserContractSection = dynamic(
 const CommerceSection = dynamic(
   () => import("@dexkit/ui/modules/commerce/components/CommerceSection")
 );
+const CardSection = dynamic(() => import("./sections/CardSection"));
 
 interface Props {
   section: AppPageSection;
@@ -102,6 +103,8 @@ export function SectionToRender({ section }: Props) {
     return <ReferralSection section={section} />;
   } else if (section.type === "widget") {
     return <WidgetSection section={section} />;
+  } else if (section.type === "card") {
+    return <CardSection section={section} />;
   }
 }
 

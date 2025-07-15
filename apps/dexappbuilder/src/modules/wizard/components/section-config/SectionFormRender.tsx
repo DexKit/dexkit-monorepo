@@ -10,6 +10,7 @@ import { Box, Button, Grid, Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { CardForm } from 'src/modules/components/cards/forms/CardForm';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
 import AddShowCaseSectionForm from '../forms/AddShowCaseSectionForm';
@@ -62,13 +63,13 @@ export function SectionFormRender({
     section?.type === 'referral'
       ? section
       : {
-          type: 'referral',
-          title: '',
-          subtitle: '',
-          config: {
-            showStats: true,
-          },
+        type: 'referral',
+        title: '',
+        subtitle: '',
+        config: {
+          showStats: true,
         },
+      },
   );
 
   useEffect(() => {
@@ -384,6 +385,26 @@ export function SectionFormRender({
         saveOnChange={true}
         editWidgetId={widgetId}
         showSaveButton
+      />
+    );
+  } else if (sectionType === 'card') {
+    return (
+      <CardForm
+        initialValues={section?.type === 'card' ? section.settings : { title: '' }}
+        onSubmit={(values) => {
+          onSave({
+            type: 'card',
+            title: values.title,
+            settings: values,
+          });
+        }}
+        onChange={(values) => {
+          onChange({
+            type: 'card',
+            title: values.title,
+            settings: values,
+          });
+        }}
       />
     );
   }

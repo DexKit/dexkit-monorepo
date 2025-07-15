@@ -42,6 +42,7 @@ export type SectionType =
   | "commerce"
   | "referral"
   | "widget"
+  | "card"
 
   ;
 
@@ -594,6 +595,21 @@ export interface WidgetPageSection extends PageSection {
   };
 }
 
+export interface CardPageSection extends PageSection {
+  type: "card";
+  settings: {
+    title: string;
+    description?: string;
+    image?: string;
+    actions?: Array<{
+      label: string;
+      href?: string;
+      onClick?: () => void;
+    }>;
+    sx?: object;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -782,7 +798,8 @@ export type AppPageSection =
   | PluginPageSection
   | CommercePageSection
   | ReferralPageSection
-  | WidgetPageSection;
+  | WidgetPageSection
+  | CardPageSection;
 
 export interface SectionMetadata {
   type: SectionType;

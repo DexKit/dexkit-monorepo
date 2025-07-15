@@ -209,6 +209,14 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     description: 'Create widgets and use them across your apps.',
     icon: <WidgetsIcon fontSize="large" />,
   },
+  {
+    type: 'card',
+    titleId: 'card',
+    titleDefaultMessage: 'Card',
+    category: 'visual-components',
+    description: 'Componente visual de tarjeta personalizable para mostrar información, imágenes y acciones.',
+    icon: <WidgetsIcon fontSize="large" />,
+  },
   /* {
     type: 'referral',
     titleId: 'referral.program',
@@ -239,5 +247,9 @@ export const SectionCategory = [
   {
     value: 'low-code',
     title: 'Low code',
+  },
+  {
+    value: 'visual-components',
+    title: 'Visual Components',
   },
 ];
