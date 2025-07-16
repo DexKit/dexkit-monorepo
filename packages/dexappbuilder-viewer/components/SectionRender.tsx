@@ -40,6 +40,7 @@ const CommerceSection = dynamic(
   () => import("@dexkit/ui/modules/commerce/components/CommerceSection")
 );
 const CardSection = dynamic(() => import("./sections/CardSection"));
+const AccordionSection = dynamic(() => import("./sections/AccordionSection"));
 
 interface Props {
   section: AppPageSection;
@@ -105,6 +106,8 @@ export function SectionToRender({ section }: Props) {
     return <WidgetSection section={section} />;
   } else if (section.type === "card") {
     return <CardSection section={section} />;
+  } else if (section.type === "accordion") {
+    return <AccordionSection section={section} />;
   }
 }
 

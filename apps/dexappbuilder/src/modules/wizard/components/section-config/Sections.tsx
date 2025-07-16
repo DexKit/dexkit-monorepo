@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material/Token';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ViewCarousel from '@mui/icons-material/ViewCarousel';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import WalletIcon from '@mui/icons-material/Wallet';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 
@@ -216,6 +217,14 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     category: 'visual-components',
     description: 'Customizable card component to display information, images and actions in a flexible grid layout.',
     icon: <WidgetsIcon fontSize="large" />,
+  },
+  {
+    type: 'accordion',
+    titleId: 'accordion',
+    titleDefaultMessage: 'Accordion',
+    category: 'visual-components',
+    description: 'Interactive accordion component to organize and display content in expandable/collapsible sections.',
+    icon: <ViewListIcon fontSize="large" />,
   },
   /* {
     type: 'referral',

@@ -43,6 +43,7 @@ export type SectionType =
   | "referral"
   | "widget"
   | "card"
+  | "accordion"
 
   ;
 
@@ -641,6 +642,69 @@ export interface CardPageSection extends PageSection {
   };
 }
 
+export interface AccordionPageSection extends PageSection {
+  type: "accordion";
+  settings: {
+    accordions: Array<{
+      id: string;
+      title: string;
+      content: string;
+      summary?: string;
+      expanded?: boolean;
+      disabled?: boolean;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+      }>;
+      titleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      contentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      ariaControls?: string;
+      ariaExpanded?: boolean;
+      sx?: any;
+      summaryProps?: any;
+      detailsProps?: any;
+      expandIcon?: string;
+      collapseIcon?: string;
+    }>;
+    settings: {
+      variant?: 'elevation' | 'outlined';
+      square?: boolean;
+      disableGutters?: boolean;
+      defaultExpanded?: string[];
+      expandedIds?: string[];
+      allowMultiple?: boolean;
+      unmountOnExit?: boolean;
+      headingComponent?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div';
+      transitionDuration?: number | 'auto';
+      transitionEasing?: string;
+      spacing?: number;
+      fullWidth?: boolean;
+      elevation?: number;
+      borderRadius?: number;
+      sx?: any;
+      actionsPlacement?: 'summary' | 'details' | 'both';
+      actionsAlignment?: 'left' | 'center' | 'right';
+      defaultExpandIcon?: string;
+      defaultCollapseIcon?: string;
+      iconPosition?: 'start' | 'end';
+      hideExpandIcon?: boolean;
+      defaultTitleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      defaultContentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      disableRipple?: boolean;
+      focusRipple?: boolean;
+      className?: string;
+      onChange?: (accordionId: string, expanded: boolean) => void;
+    };
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -830,7 +894,8 @@ export type AppPageSection =
   | CommercePageSection
   | ReferralPageSection
   | WidgetPageSection
-  | CardPageSection;
+  | CardPageSection
+  | AccordionPageSection;
 
 export interface SectionMetadata {
   type: SectionType;

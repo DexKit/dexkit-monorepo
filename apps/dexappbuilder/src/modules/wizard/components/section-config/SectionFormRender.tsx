@@ -10,6 +10,7 @@ import { Box, Button, Grid, Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { AccordionForm } from 'src/modules/components/accordion/forms/AccordionForm';
 import { MultiCardForm } from 'src/modules/components/cards/forms/MultiCardForm';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
@@ -447,6 +448,62 @@ export function SectionFormRender({
         onChange={(values) => {
           onChange({
             type: 'card',
+            settings: values,
+          });
+        }}
+      />
+    );
+  } else if (sectionType === 'accordion') {
+    const defaultConfig = {
+      accordions: [{
+        id: 'accordion-1',
+        title: 'Accordion Item 1',
+        content: 'Enter your content here...',
+        summary: '',
+        expanded: false,
+        disabled: false,
+        actions: [],
+        titleVariant: 'h6' as const,
+        contentVariant: 'body1' as const,
+        expandIcon: 'ExpandMore',
+      }],
+      settings: {
+        variant: 'elevation' as const,
+        square: false,
+        disableGutters: false,
+        allowMultiple: false,
+        unmountOnExit: false,
+        headingComponent: 'h3' as const,
+        transitionDuration: 'auto' as const,
+        spacing: 1,
+        fullWidth: true,
+        elevation: 1,
+        borderRadius: 4,
+        actionsPlacement: 'details' as const,
+        actionsAlignment: 'left' as const,
+        defaultExpandIcon: 'ExpandMore',
+        iconPosition: 'end' as const,
+        hideExpandIcon: false,
+        defaultTitleVariant: 'h6' as const,
+        defaultContentVariant: 'body1' as const,
+        disableRipple: false,
+        focusRipple: true,
+        defaultExpanded: [],
+      },
+    };
+
+    return (
+      <AccordionForm
+        initialValues={section?.type === 'accordion' ? section.settings : defaultConfig}
+        onSubmit={(values) => {
+          onSave({
+            type: 'accordion',
+            settings: values,
+          });
+        }}
+        onChange={(values) => {
+          onChange({
+            type: 'accordion',
             settings: values,
           });
         }}

@@ -26,6 +26,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import Wallet from '@mui/icons-material/Wallet';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import React from 'react';
@@ -243,5 +244,9 @@ export const SECTION_CONFIG: {
   card: {
     title: { id: 'card', defaultMessage: 'Card' },
     icon: <AppsIcon />,
+  },
+  accordion: {
+    title: { id: 'accordion', defaultMessage: 'Accordion' },
+    icon: <ViewListIcon />,
   },
 };
