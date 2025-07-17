@@ -411,111 +411,156 @@ export default function StepperSection({ section }: Props) {
     );
   }
 
-  // Regular Stepper
-  const StepperComponent = variant === 'outlined' ? Paper : Box;
   const stepperWrapperProps = variant === 'outlined'
     ? { elevation: 0, variant: 'outlined' as const, square }
     : {};
 
+  const commonProps = {
+    sx: {
+      width: fullWidth ? '100%' : 'auto',
+      ...(variant !== 'outlined' && { boxShadow: 'none' }),
+      ...sx
+    },
+    className
+  };
+
+  const stepperContent = (
+    <StyledStepper
+      activeStep={activeStep}
+      orientation={orientation}
+      alternativeLabel={alternativeLabel}
+      connector={renderConnector()}
+      customBorderRadius={borderRadius}
+      customElevation={variant === 'elevation' ? elevation : 0}
+      customPadding={padding}
+      nonLinear={nonLinear}
+      {...stepperProps}
+    >
+      {steps.map((step, index) => {
+        const stepProps: { completed?: boolean } = {};
+        if (isStepComplete(index)) {
+          stepProps.completed = true;
+        }
+        if (isStepSkipped(index)) {
+          stepProps.completed = false;
+        }
+
+        return (
+          <Step key={step.id} {...stepProps} disabled={step.disabled} sx={step.sx} {...step.stepProps}>
+            {nonLinear ? (
+              <StepButton
+                color="inherit"
+                onClick={handleStep(index)}
+                optional={
+                  step.optional ? (
+                    <Typography variant="caption">Optional</Typography>
+                  ) : null
+                }
+                {...step.stepButtonProps}
+              >
+                <StepLabel
+                  error={step.error}
+                  StepIconComponent={renderStepIcon}
+                  StepIconProps={stepIconProps}
+                  {...step.stepLabelProps}
+                >
+                  {step.label}
+                  {step.description && orientation === 'horizontal' && (
+                    <Typography variant="caption" display="block" color="text.secondary">
+                      {step.description}
+                    </Typography>
+                  )}
+                </StepLabel>
+              </StepButton>
+            ) : (
+              <StepLabel
+                optional={
+                  step.optional ? (
+                    <Typography variant="caption">Optional</Typography>
+                  ) : null
+                }
+                error={step.error}
+                StepIconComponent={renderStepIcon}
+                StepIconProps={stepIconProps}
+                {...step.stepLabelProps}
+              >
+                {step.label}
+                {step.description && orientation === 'horizontal' && (
+                  <Typography variant="caption" display="block" color="text.secondary">
+                    {step.description}
+                  </Typography>
+                )}
+              </StepLabel>
+            )}
+
+            {orientation === 'vertical' && (
+              <StepContent
+                TransitionProps={{
+                  unmountOnExit,
+                  ...(typeof transitionDuration === 'number' && { timeout: transitionDuration }),
+                }}
+                {...step.stepContentProps}
+              >
+                <Typography variant="body1" component="div" sx={{ mb: 2 }}>
+                  {step.content}
+                </Typography>
+                {renderActions(step, 'content')}
+                {index === activeStep && renderNavigationButtons()}
+              </StepContent>
+            )}
+          </Step>
+        );
+      })}
+    </StyledStepper>
+  );
+
+  if (variant === 'outlined') {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Paper {...stepperWrapperProps} {...commonProps}>
+          {stepperContent}
+          {orientation === 'horizontal' && (
+            <Box sx={{ p: 2 }}>
+              {allStepsCompleted() ? (
+                <React.Fragment>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    All steps completed - you&apos;re finished
+                  </Typography>
+                  {allowStepReset && showResetButton && (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                      <Box sx={{ flex: '1 1 auto' }} />
+                      <Button onClick={handleReset}>{resetButtonText}</Button>
+                    </Box>
+                  )}
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                    {steps[activeStep]?.label}
+                  </Typography>
+                  {steps[activeStep]?.description && (
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {steps[activeStep].description}
+                    </Typography>
+                  )}
+                  <Typography variant="body1" component="div" sx={{ mb: 2 }}>
+                    {steps[activeStep]?.content}
+                  </Typography>
+                  {renderActions(steps[activeStep], 'content')}
+                  {renderNavigationButtons()}
+                </React.Fragment>
+              )}
+            </Box>
+          )}
+        </Paper>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <StepperComponent
-        {...stepperWrapperProps}
-        sx={{
-          width: fullWidth ? '100%' : 'auto',
-          ...(variant !== 'outlined' && { boxShadow: 'none' }),
-          ...sx
-        }}
-        className={className}
-      >
-        <StyledStepper
-          activeStep={activeStep}
-          orientation={orientation}
-          alternativeLabel={alternativeLabel}
-          connector={renderConnector()}
-          customBorderRadius={borderRadius}
-          customElevation={variant === 'elevation' ? elevation : 0}
-          customPadding={padding}
-          nonLinear={nonLinear}
-          {...stepperProps}
-        >
-          {steps.map((step, index) => {
-            const stepProps: { completed?: boolean } = {};
-            if (isStepComplete(index)) {
-              stepProps.completed = true;
-            }
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-
-            return (
-              <Step key={step.id} {...stepProps} disabled={step.disabled} sx={step.sx} {...step.stepProps}>
-                {nonLinear ? (
-                  <StepButton
-                    color="inherit"
-                    onClick={handleStep(index)}
-                    optional={
-                      step.optional ? (
-                        <Typography variant="caption">Optional</Typography>
-                      ) : null
-                    }
-                    {...step.stepButtonProps}
-                  >
-                    <StepLabel
-                      error={step.error}
-                      StepIconComponent={renderStepIcon}
-                      StepIconProps={stepIconProps}
-                      {...step.stepLabelProps}
-                    >
-                      {step.label}
-                      {step.description && orientation === 'horizontal' && (
-                        <Typography variant="caption" display="block" color="text.secondary">
-                          {step.description}
-                        </Typography>
-                      )}
-                    </StepLabel>
-                  </StepButton>
-                ) : (
-                  <StepLabel
-                    optional={
-                      step.optional ? (
-                        <Typography variant="caption">Optional</Typography>
-                      ) : null
-                    }
-                    error={step.error}
-                    StepIconComponent={renderStepIcon}
-                    StepIconProps={stepIconProps}
-                    {...step.stepLabelProps}
-                  >
-                    {step.label}
-                    {step.description && orientation === 'horizontal' && (
-                      <Typography variant="caption" display="block" color="text.secondary">
-                        {step.description}
-                      </Typography>
-                    )}
-                  </StepLabel>
-                )}
-
-                {orientation === 'vertical' && (
-                  <StepContent
-                    TransitionProps={{
-                      unmountOnExit,
-                      ...(typeof transitionDuration === 'number' && { timeout: transitionDuration }),
-                    }}
-                    {...step.stepContentProps}
-                  >
-                    <Typography variant="body1" component="div" sx={{ mb: 2 }}>
-                      {step.content}
-                    </Typography>
-                    {renderActions(step, 'content')}
-                    {index === activeStep && renderNavigationButtons()}
-                  </StepContent>
-                )}
-              </Step>
-            );
-          })}
-        </StyledStepper>
-
+      <Box {...commonProps}>
+        {stepperContent}
         {orientation === 'horizontal' && (
           <Box sx={{ p: 2 }}>
             {allStepsCompleted() ? (
@@ -549,7 +594,7 @@ export default function StepperSection({ section }: Props) {
             )}
           </Box>
         )}
-      </StepperComponent>
+      </Box>
     </Container>
   );
 } 
