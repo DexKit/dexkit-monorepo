@@ -12,6 +12,8 @@ import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { AccordionForm } from 'src/modules/components/accordion/forms/AccordionForm';
 import { MultiCardForm } from 'src/modules/components/cards/forms/MultiCardForm';
+import { StepperForm } from 'src/modules/components/stepper/forms/StepperForm';
+import { MultiStepperConfig } from 'src/modules/components/stepper/types/stepper';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
 import AddShowCaseSectionForm from '../forms/AddShowCaseSectionForm';
@@ -505,6 +507,97 @@ export function SectionFormRender({
           onChange({
             type: 'accordion',
             settings: values,
+          });
+        }}
+      />
+    );
+  } else if (sectionType === 'stepper') {
+    const defaultConfig: MultiStepperConfig = {
+      steps: [{
+        id: 'step-1',
+        label: 'Step 1',
+        content: 'Enter your step content here...',
+        description: '',
+        completed: false,
+        optional: false,
+        error: false,
+        disabled: false,
+        actions: [],
+      }],
+      settings: {
+        orientation: 'horizontal' as const,
+        variant: 'elevation' as const,
+        linear: true,
+        alternativeLabel: false,
+        elevation: 1,
+        borderRadius: 4,
+        square: false,
+        nonLinear: false,
+        allowStepSkipping: false,
+        allowStepReset: false,
+        mobileStepper: false,
+        mobileStepperVariant: 'dots' as const,
+        mobileStepperPosition: 'bottom' as const,
+        mobileStepperLinearProgress: false,
+        fullWidth: true,
+        spacing: 2,
+        padding: 24,
+        showBackButton: true,
+        showNextButton: true,
+        showSkipButton: false,
+        showResetButton: false,
+        backButtonText: 'Back',
+        nextButtonText: 'Next',
+        skipButtonText: 'Skip',
+        resetButtonText: 'Reset',
+        finishButtonText: 'Finish',
+        completedStepIcon: 'Check',
+        errorStepIcon: 'Warning',
+        hideStepIcons: false,
+        customStepIcons: {},
+        unmountOnExit: false,
+        transitionDuration: 'auto' as const,
+        validateOnNext: false,
+      },
+      activeStep: 0,
+      completedSteps: [],
+      skippedSteps: [],
+    };
+
+    // Convert StepperPageSection.settings to MultiStepperConfig format
+    const getInitialValues = (): MultiStepperConfig => {
+      if (section?.type === 'stepper') {
+        const { steps, ...settingsWithoutSteps } = section.settings;
+        return {
+          steps: steps || defaultConfig.steps,
+          settings: settingsWithoutSteps,
+          activeStep: 0,
+          completedSteps: [],
+          skippedSteps: [],
+        };
+      }
+      return defaultConfig;
+    };
+
+    return (
+      <StepperForm
+        initialValues={getInitialValues()}
+        onSubmit={(values) => {
+          onSave({
+            type: 'stepper',
+            settings: {
+              steps: values.steps,
+              ...values.settings,
+            },
+          });
+        }}
+        onChange={(values) => {
+          onChange({
+            type: 'stepper',
+            settings: {
+              steps: values.steps,
+              ...values.settings,
+            },
           });
         }}
       />

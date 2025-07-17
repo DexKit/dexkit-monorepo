@@ -1,0 +1,214 @@
+import { z } from 'zod';
+
+export const StepActionSchema = z.object({
+  label: z.string().min(1, 'Action label is required'),
+  href: z.string().url().optional(),
+  onClick: z.function().optional(),
+  variant: z.enum(['text', 'outlined', 'contained']).optional(),
+  color: z.enum(['inherit', 'primary', 'secondary', 'success', 'error', 'info', 'warning']).optional(),
+  size: z.enum(['small', 'medium', 'large']).optional(),
+  startIcon: z.string().optional(),
+  endIcon: z.string().optional(),
+  disabled: z.boolean().optional(),
+  sx: z.any().optional(),
+});
+
+export const StepItemSchema = z.object({
+  id: z.string().min(1, 'Step ID is required'),
+  label: z.string().min(1, 'Step label is required'),
+  content: z.string().min(1, 'Step content is required'),
+  description: z.string().optional(),
+  completed: z.boolean().optional(),
+  optional: z.boolean().optional(),
+  error: z.boolean().optional(),
+  disabled: z.boolean().optional(),
+  icon: z.string().optional(),
+  actions: z.array(StepActionSchema).optional(),
+  sx: z.any().optional(),
+  stepProps: z.any().optional(),
+  stepLabelProps: z.any().optional(),
+  stepContentProps: z.any().optional(),
+  stepButtonProps: z.any().optional(),
+});
+
+export const StepperSettingsSchema = z.object({
+  // Basic settings
+  orientation: z.enum(['horizontal', 'vertical']).optional(),
+  variant: z.enum(['elevation', 'outlined']).optional(),
+  linear: z.boolean().optional(),
+  alternativeLabel: z.boolean().optional(),
+
+  // Visual settings
+  connector: z.string().optional(),
+  elevation: z.number().min(0).max(24).optional(),
+  borderRadius: z.number().min(0).optional(),
+  square: z.boolean().optional(),
+
+  // Interaction settings
+  nonLinear: z.boolean().optional(),
+  allowStepSkipping: z.boolean().optional(),
+  allowStepReset: z.boolean().optional(),
+
+  // Mobile stepper settings
+  mobileStepper: z.boolean().optional(),
+  mobileStepperVariant: z.enum(['text', 'dots', 'progress']).optional(),
+  mobileStepperPosition: z.enum(['bottom', 'top', 'static']).optional(),
+  mobileStepperLinearProgress: z.boolean().optional(),
+
+  // Layout settings
+  fullWidth: z.boolean().optional(),
+  spacing: z.number().min(0).max(10).optional(),
+  padding: z.number().min(0).optional(),
+
+  // Navigation settings
+  showBackButton: z.boolean().optional(),
+  showNextButton: z.boolean().optional(),
+  showSkipButton: z.boolean().optional(),
+  showResetButton: z.boolean().optional(),
+  backButtonText: z.string().optional(),
+  nextButtonText: z.string().optional(),
+  skipButtonText: z.string().optional(),
+  resetButtonText: z.string().optional(),
+  finishButtonText: z.string().optional(),
+
+  // Step icon settings
+  defaultStepIcon: z.string().optional(),
+  completedStepIcon: z.string().optional(),
+  errorStepIcon: z.string().optional(),
+  hideStepIcons: z.boolean().optional(),
+  customStepIcons: z.record(z.string()).optional(),
+
+  // Step content settings
+  unmountOnExit: z.boolean().optional(),
+  transitionDuration: z.union([z.number().min(0), z.literal('auto')]).optional(),
+  transitionEasing: z.string().optional(),
+
+  // Validation settings
+  validateOnNext: z.boolean().optional(),
+
+  // Event handlers
+  onStepChange: z.function().optional(),
+  onStepClick: z.function().optional(),
+  onComplete: z.function().optional(),
+  onReset: z.function().optional(),
+
+  // Style customization
+  sx: z.any().optional(),
+  className: z.string().optional(),
+  stepperProps: z.any().optional(),
+  stepIconProps: z.any().optional(),
+  stepConnectorProps: z.any().optional(),
+});
+
+export const MultiStepperConfigSchema = z.object({
+  steps: z.array(StepItemSchema).min(1, 'At least one step is required'),
+  settings: StepperSettingsSchema,
+  activeStep: z.number().min(0).optional(),
+  completedSteps: z.array(z.number()).optional(),
+  skippedSteps: z.array(z.number()).optional(),
+}).refine((data) => {
+  // Validate that activeStep is within bounds
+  if (data.activeStep !== undefined && data.activeStep >= data.steps.length) {
+    return false;
+  }
+
+  // Validate that non-linear mode is required for step skipping
+  if (data.settings.allowStepSkipping && data.settings.linear !== false) {
+    return false;
+  }
+
+  // Validate completed steps are within bounds
+  if (data.completedSteps) {
+    return data.completedSteps.every(step => step >= 0 && step < data.steps.length);
+  }
+
+  // Validate skipped steps are within bounds
+  if (data.skippedSteps) {
+    return data.skippedSteps.every(step => step >= 0 && step < data.steps.length);
+  }
+
+  return true;
+}, {
+  message: "Invalid stepper configuration",
+});
+
+export const StepperPageSectionSchema = z.object({
+  type: z.literal("stepper"),
+  settings: z.object({
+    steps: z.array(z.object({
+      id: z.string().min(1, 'Step ID is required'),
+      label: z.string().min(1, 'Step label is required'),
+      content: z.string().min(1, 'Step content is required'),
+      description: z.string().optional(),
+      completed: z.boolean().optional(),
+      optional: z.boolean().optional(),
+      error: z.boolean().optional(),
+      disabled: z.boolean().optional(),
+      icon: z.string().optional(),
+      actions: z.array(z.object({
+        label: z.string().min(1, 'Action label is required'),
+        href: z.string().url().optional(),
+        onClick: z.function().optional(),
+        variant: z.enum(['text', 'outlined', 'contained']).optional(),
+        color: z.enum(['inherit', 'primary', 'secondary', 'success', 'error', 'info', 'warning']).optional(),
+        size: z.enum(['small', 'medium', 'large']).optional(),
+        startIcon: z.string().optional(),
+        endIcon: z.string().optional(),
+        disabled: z.boolean().optional(),
+        sx: z.any().optional(),
+      })).optional(),
+      sx: z.any().optional(),
+      stepProps: z.any().optional(),
+      stepLabelProps: z.any().optional(),
+      stepContentProps: z.any().optional(),
+      stepButtonProps: z.any().optional(),
+    })).min(1, 'At least one step is required'),
+    orientation: z.enum(['horizontal', 'vertical']).optional(),
+    variant: z.enum(['elevation', 'outlined']).optional(),
+    linear: z.boolean().optional(),
+    alternativeLabel: z.boolean().optional(),
+    connector: z.string().optional(),
+    elevation: z.number().min(0).max(24).optional(),
+    borderRadius: z.number().min(0).optional(),
+    square: z.boolean().optional(),
+    nonLinear: z.boolean().optional(),
+    allowStepSkipping: z.boolean().optional(),
+    allowStepReset: z.boolean().optional(),
+    mobileStepper: z.boolean().optional(),
+    mobileStepperVariant: z.enum(['text', 'dots', 'progress']).optional(),
+    mobileStepperPosition: z.enum(['bottom', 'top', 'static']).optional(),
+    mobileStepperLinearProgress: z.boolean().optional(),
+    fullWidth: z.boolean().optional(),
+    spacing: z.number().min(0).max(10).optional(),
+    padding: z.number().min(0).optional(),
+    showBackButton: z.boolean().optional(),
+    showNextButton: z.boolean().optional(),
+    showSkipButton: z.boolean().optional(),
+    showResetButton: z.boolean().optional(),
+    backButtonText: z.string().optional(),
+    nextButtonText: z.string().optional(),
+    skipButtonText: z.string().optional(),
+    resetButtonText: z.string().optional(),
+    finishButtonText: z.string().optional(),
+    defaultStepIcon: z.string().optional(),
+    completedStepIcon: z.string().optional(),
+    errorStepIcon: z.string().optional(),
+    hideStepIcons: z.boolean().optional(),
+    customStepIcons: z.record(z.string()).optional(),
+    unmountOnExit: z.boolean().optional(),
+    transitionDuration: z.union([z.number().min(0), z.literal('auto')]).optional(),
+    transitionEasing: z.string().optional(),
+    validateOnNext: z.boolean().optional(),
+    onStepChange: z.function().optional(),
+    onStepClick: z.function().optional(),
+    onComplete: z.function().optional(),
+    onReset: z.function().optional(),
+    sx: z.any().optional(),
+    className: z.string().optional(),
+    stepperProps: z.any().optional(),
+    stepIconProps: z.any().optional(),
+    stepConnectorProps: z.any().optional(),
+  }),
+});
+
+

@@ -226,6 +226,14 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     description: 'Interactive accordion component to organize and display content in expandable/collapsible sections.',
     icon: <ViewListIcon fontSize="large" />,
   },
+  {
+    type: 'stepper',
+    titleId: 'stepper',
+    titleDefaultMessage: 'Stepper',
+    category: 'visual-components',
+    description: 'Step-by-step navigation component to guide users through processes with horizontal or vertical layouts.',
+    icon: <ViewListIcon fontSize="large" />,
+  },
   /* {
     type: 'referral',
     titleId: 'referral.program',

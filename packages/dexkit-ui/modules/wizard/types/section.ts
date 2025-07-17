@@ -44,6 +44,7 @@ export type SectionType =
   | "widget"
   | "card"
   | "accordion"
+  | "stepper"
 
   ;
 
@@ -705,6 +706,85 @@ export interface AccordionPageSection extends PageSection {
   };
 }
 
+export interface StepperPageSection extends PageSection {
+  type: "stepper";
+  settings: {
+    steps: Array<{
+      id: string;
+      label: string;
+      content: string;
+      description?: string;
+      completed?: boolean;
+      optional?: boolean;
+      error?: boolean;
+      disabled?: boolean;
+      icon?: string;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+        sx?: any;
+      }>;
+      sx?: any;
+      stepProps?: any;
+      stepLabelProps?: any;
+      stepContentProps?: any;
+      stepButtonProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'elevation' | 'outlined';
+    linear?: boolean;
+    alternativeLabel?: boolean;
+    connector?: string;
+    elevation?: number;
+    borderRadius?: number;
+    square?: boolean;
+    nonLinear?: boolean;
+    allowStepSkipping?: boolean;
+    allowStepReset?: boolean;
+    mobileStepper?: boolean;
+    mobileStepperVariant?: 'text' | 'dots' | 'progress';
+    mobileStepperPosition?: 'bottom' | 'top' | 'static';
+    mobileStepperLinearProgress?: boolean;
+    fullWidth?: boolean;
+    spacing?: number;
+    padding?: number;
+    showBackButton?: boolean;
+    showNextButton?: boolean;
+    showSkipButton?: boolean;
+    showResetButton?: boolean;
+    backButtonText?: string;
+    nextButtonText?: string;
+    skipButtonText?: string;
+    resetButtonText?: string;
+    finishButtonText?: string;
+    defaultStepIcon?: string;
+    completedStepIcon?: string;
+    errorStepIcon?: string;
+    hideStepIcons?: boolean;
+    customStepIcons?: Record<number, string>;
+    unmountOnExit?: boolean;
+    transitionDuration?: number | 'auto';
+    transitionEasing?: string;
+    validateOnNext?: boolean;
+    onStepChange?: (activeStep: number, previousStep: number) => void;
+    onStepClick?: (step: number) => void;
+    onComplete?: () => void;
+    onReset?: () => void;
+    sx?: any;
+    className?: string;
+    stepperProps?: any;
+    stepIconProps?: any;
+    stepConnectorProps?: any;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -895,7 +975,8 @@ export type AppPageSection =
   | ReferralPageSection
   | WidgetPageSection
   | CardPageSection
-  | AccordionPageSection;
+  | AccordionPageSection
+  | StepperPageSection;
 
 export interface SectionMetadata {
   type: SectionType;

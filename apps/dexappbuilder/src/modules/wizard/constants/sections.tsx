@@ -249,4 +249,8 @@ export const SECTION_CONFIG: {
     title: { id: 'accordion', defaultMessage: 'Accordion' },
     icon: <ViewListIcon />,
   },
+  stepper: {
+    title: { id: 'stepper', defaultMessage: 'Stepper' },
+    icon: <ViewListIcon />,
+  },
 };

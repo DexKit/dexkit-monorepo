@@ -35,6 +35,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { MultiAccordionConfigSchema } from '../schemas/accordion';
 import { AccordionItem, defaultAccordionItem, defaultAccordionSettings, MultiAccordionConfig } from '../types/accordion';
+import { IconPickerField } from 'src/components/IconPickerField';
 
 interface AccordionFormProps {
   initialValues: MultiAccordionConfig;
@@ -514,12 +515,12 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
+          <IconPickerField
             label={<FormattedMessage id="accordion.settings.expand.icon" defaultMessage="Expand Icon" />}
             value={formik.values.settings.defaultExpandIcon || 'ExpandMore'}
-            onChange={(e) => formik.setFieldValue('settings.defaultExpandIcon', e.target.value)}
-            helperText="Material UI icon name (e.g., ExpandMore, Add, ArrowDropDown)"
+            onChange={(iconName: string) => formik.setFieldValue('settings.defaultExpandIcon', iconName)}
+            placeholder="Select expand icon..."
+            helperText={<FormattedMessage id="accordion.icon.helper" defaultMessage="Choose from Material UI icons" />}
           />
         </Grid>
 

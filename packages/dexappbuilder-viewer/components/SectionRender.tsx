@@ -41,6 +41,7 @@ const CommerceSection = dynamic(
 );
 const CardSection = dynamic(() => import("./sections/CardSection"));
 const AccordionSection = dynamic(() => import("./sections/AccordionSection"));
+const StepperSection = dynamic(() => import("./sections/StepperSection"));
 
 interface Props {
   section: AppPageSection;
@@ -108,6 +109,8 @@ export function SectionToRender({ section }: Props) {
     return <CardSection section={section} />;
   } else if (section.type === "accordion") {
     return <AccordionSection section={section} />;
+  } else if (section.type === "stepper") {
+    return <StepperSection section={section} />;
   }
 }
 
