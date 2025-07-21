@@ -42,6 +42,7 @@ const CommerceSection = dynamic(
 const CardSection = dynamic(() => import("./sections/CardSection"));
 const AccordionSection = dynamic(() => import("./sections/AccordionSection"));
 const StepperSection = dynamic(() => import("./sections/StepperSection"));
+const TabsSection = dynamic(() => import("./sections/TabsSection"));
 
 interface Props {
   section: AppPageSection;
@@ -111,6 +112,11 @@ export function SectionToRender({ section }: Props) {
     return <AccordionSection section={section} />;
   } else if (section.type === "stepper") {
     return <StepperSection section={section} />;
+  } else if (section.type === "tabs") {
+    return <TabsSection settings={{
+      id: `tabs-section-${Date.now()}`,
+      ...section.settings
+    }} />;
   }
 }
 
@@ -129,8 +135,12 @@ export function SectionRender({ section, useLazy }: Props) {
       return (
         <Box
           sx={{
-            px: 0,
-            py: 0,
+            px: '0 !important',
+            py: '0 !important',
+            margin: '0 !important',
+            padding: '0 !important',
+            minHeight: '0 !important',
+            height: 'auto !important',
             width: "100%",
             display: "flex",
             flexDirection: "column",
@@ -144,8 +154,12 @@ export function SectionRender({ section, useLazy }: Props) {
       return (
         <Box
           sx={{
-            px: 0,
-            py: 0,
+            px: '0 !important',
+            py: '0 !important',
+            margin: '0 !important',
+            padding: '0 !important',
+            minHeight: '0 !important',
+            height: 'auto !important',
             width: "100%",
             display: "flex",
             flexDirection: "column",

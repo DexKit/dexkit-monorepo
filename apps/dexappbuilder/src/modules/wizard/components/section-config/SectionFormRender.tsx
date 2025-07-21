@@ -14,6 +14,8 @@ import { AccordionForm } from 'src/modules/components/accordion/forms/AccordionF
 import { MultiCardForm } from 'src/modules/components/cards/forms/MultiCardForm';
 import { StepperForm } from 'src/modules/components/stepper/forms/StepperForm';
 import { MultiStepperConfig } from 'src/modules/components/stepper/types/stepper';
+import TabsForm from 'src/modules/components/tabs/forms/TabsForm';
+import { TabsFormValues } from 'src/modules/components/tabs/types/tabs';
 import { myAppsApi } from 'src/services/whitelabel';
 import AddCarouselForm from '../forms/AddCarouselForm';
 import AddShowCaseSectionForm from '../forms/AddShowCaseSectionForm';
@@ -600,6 +602,112 @@ export function SectionFormRender({
             },
           });
         }}
+      />
+    );
+  } else if (sectionType === 'tabs') {
+    const defaultConfig: TabsFormValues = {
+      tabs: [{
+        label: 'Tab 1',
+        content: 'Enter your tab content here...',
+        icon: '',
+        iconPosition: 'top',
+        disabled: false,
+        wrapped: false,
+        tempId: crypto.randomUUID(),
+      }, {
+        label: 'Tab 2',
+        content: 'Enter your second tab content here...',
+        icon: '',
+        iconPosition: 'top',
+        disabled: false,
+        wrapped: false,
+        tempId: crypto.randomUUID(),
+      }],
+      orientation: 'horizontal',
+      variant: 'standard',
+      indicatorColor: 'primary',
+      textColor: 'primary',
+      centered: false,
+      allowScrollButtonsMobile: false,
+      scrollButtons: 'auto',
+      selectionFollowsFocus: false,
+      visibleScrollbar: false,
+      fullWidth: false,
+      borderRadius: 4,
+      elevation: 0,
+      padding: 16,
+    };
+
+    const getInitialValues = (): TabsFormValues => {
+      if (section?.type === 'tabs') {
+        const { tabs, ...restSettings } = section.settings;
+        return {
+          ...defaultConfig,
+          ...restSettings,
+          tabs: tabs?.map(tab => ({
+            label: tab.label,
+            content: tab.content,
+            icon: tab.icon,
+            iconPosition: tab.iconPosition,
+            disabled: tab.disabled,
+            wrapped: tab.wrapped,
+            sx: tab.sx,
+            tabProps: tab.tabProps,
+            tempId: tab.id,
+          })) || defaultConfig.tabs,
+        };
+      }
+      return defaultConfig;
+    };
+
+    return (
+      <TabsForm
+        initialValues={getInitialValues()}
+        onSubmit={(values: TabsFormValues) => {
+          const settings = {
+            id: crypto.randomUUID(),
+            ...values,
+            tabs: values.tabs.map((tab, index) => ({
+              id: tab.tempId || `tab-${index + 1}`,
+              label: tab.label,
+              content: tab.content,
+              icon: tab.icon,
+              iconPosition: tab.iconPosition,
+              disabled: tab.disabled,
+              wrapped: tab.wrapped,
+              sx: tab.sx,
+              tabProps: tab.tabProps,
+            })),
+          };
+
+          onSave({
+            type: 'tabs',
+            settings,
+          });
+        }}
+        onChange={(values: TabsFormValues) => {
+          const settings = {
+            id: crypto.randomUUID(),
+            ...values,
+            tabs: values.tabs.map((tab, index) => ({
+              id: tab.tempId || `tab-${index + 1}`,
+              label: tab.label,
+              content: tab.content,
+              icon: tab.icon,
+              iconPosition: tab.iconPosition,
+              disabled: tab.disabled,
+              wrapped: tab.wrapped,
+              sx: tab.sx,
+              tabProps: tab.tabProps,
+            })),
+          };
+
+          onChange({
+            type: 'tabs',
+            settings,
+          });
+        }}
+        onCancel={onClose}
       />
     );
   }

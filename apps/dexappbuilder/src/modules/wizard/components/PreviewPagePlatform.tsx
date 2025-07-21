@@ -111,7 +111,6 @@ export default function PreviewPagePlatform({
             sx={{
               flex: 1,
               overflow: enableOverflow ? 'auto' : 'hidden',
-              p: theme.spacing(2)
             }}
           >
             {pagePreview}
@@ -123,7 +122,6 @@ export default function PreviewPagePlatform({
               display: 'flex',
               alignItems: 'flex-start',
               justifyContent: 'center',
-              p: isMobile ? 0 : theme.spacing(0.5),
               overflow: 'visible',
               minHeight: 0,
               ...(isMobile && {
@@ -156,7 +154,6 @@ export default function PreviewPagePlatform({
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
-                  p: theme.spacing(0.125),
                   ...(isMobile && {
                     minHeight: '85vh',
                     height: '100%',

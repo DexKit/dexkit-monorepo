@@ -45,6 +45,7 @@ export type SectionType =
   | "card"
   | "accordion"
   | "stepper"
+  | "tabs"
 
   ;
 
@@ -785,6 +786,40 @@ export interface StepperPageSection extends PageSection {
   };
 }
 
+export interface TabsPageSection extends PageSection {
+  type: "tabs";
+  settings: {
+    tabs: Array<{
+      id: string;
+      label: string;
+      content: string;
+      icon?: string;
+      iconPosition?: 'start' | 'end' | 'top' | 'bottom';
+      disabled?: boolean;
+      wrapped?: boolean;
+      sx?: any;
+      tabProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'standard' | 'scrollable' | 'fullWidth';
+    indicatorColor?: 'primary' | 'secondary';
+    textColor?: 'primary' | 'secondary' | 'inherit';
+    centered?: boolean;
+    allowScrollButtonsMobile?: boolean;
+    scrollButtons?: boolean | 'auto';
+    selectionFollowsFocus?: boolean;
+    visibleScrollbar?: boolean;
+    fullWidth?: boolean;
+    borderRadius?: number;
+    elevation?: number;
+    padding?: number;
+    backgroundColor?: string;
+    className?: string;
+    sx?: any;
+    tabsProps?: any;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -976,7 +1011,8 @@ export type AppPageSection =
   | WidgetPageSection
   | CardPageSection
   | AccordionPageSection
-  | StepperPageSection;
+  | StepperPageSection
+  | TabsPageSection;
 
 export interface SectionMetadata {
   type: SectionType;
