@@ -524,6 +524,7 @@ export function SectionFormRender({
         optional: false,
         error: false,
         disabled: false,
+        iconColor: '',
         actions: [],
       }],
       settings: {

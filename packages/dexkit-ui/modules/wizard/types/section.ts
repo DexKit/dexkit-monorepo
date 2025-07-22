@@ -720,6 +720,7 @@ export interface StepperPageSection extends PageSection {
       error?: boolean;
       disabled?: boolean;
       icon?: string;
+      iconColor?: string;
       actions?: Array<{
         label: string;
         href?: string;

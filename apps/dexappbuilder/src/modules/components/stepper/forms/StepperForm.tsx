@@ -18,16 +18,20 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Paper,
   Select,
   Slider,
+  Stack,
   Switch,
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { useFormik } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -35,6 +39,132 @@ import { FormattedMessage } from 'react-intl';
 import { IconPickerField } from '../../../../components/IconPickerField';
 import { MultiStepperConfigSchema } from '../schemas/stepper';
 import { defaultStepItem, defaultStepperSettings, MultiStepperConfig, StepItem } from '../types/stepper';
+
+function convertToHex(color: string): string {
+  if (color.startsWith('#')) {
+    return color;
+  }
+
+  if (color.startsWith('rgb')) {
+    const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (rgbMatch) {
+      const r = parseInt(rgbMatch[1]);
+      const g = parseInt(rgbMatch[2]);
+      const b = parseInt(rgbMatch[3]);
+      return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+  }
+
+  return color;
+}
+
+function ColorPickerField({
+  label,
+  value,
+  onChange,
+  defaultValue = "#000000"
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  defaultValue?: string;
+}) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const hexDefaultValue = convertToHex(defaultValue);
+  const hexValue = value ? convertToHex(value) : hexDefaultValue;
+
+  return (
+    <Box sx={{ mb: theme.spacing(1.5) }}>
+      <Typography
+        variant={isMobile ? "caption" : "body2"}
+        gutterBottom
+        sx={{
+          fontWeight: theme.typography.fontWeightMedium,
+          color: theme.palette.text.primary,
+          mb: theme.spacing(1)
+        }}
+      >
+        {label}
+      </Typography>
+      <Stack
+        direction="row"
+        spacing={theme.spacing(1.5)}
+        alignItems="center"
+        sx={{
+          flexWrap: 'nowrap',
+          width: '100%'
+        }}
+      >
+        <Paper
+          elevation={1}
+          sx={{
+            p: theme.spacing(0.125),
+            borderRadius: theme.shape.borderRadius,
+            border: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
+            width: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
+            height: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
+            minWidth: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            flexShrink: 0,
+            transition: theme.transitions.create(['box-shadow', 'border-color']),
+            '&:hover': {
+              boxShadow: theme.shadows[2],
+              borderColor: theme.palette.primary.main,
+            },
+          }}
+        >
+          <input
+            type="color"
+            value={hexValue}
+            onChange={(e) => onChange(e.target.value)}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              borderRadius: theme.shape.borderRadius,
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+            }}
+          />
+        </Paper>
+        <TextField
+          value={value || ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={hexDefaultValue}
+          size="small"
+          sx={{
+            flex: 1,
+            maxWidth: { xs: theme.spacing(25), sm: theme.spacing(30) },
+            '& .MuiInputBase-root': {
+              fontSize: theme.typography.body2.fontSize,
+              height: { xs: theme.spacing(4), sm: theme.spacing(4.5) }
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize }
+                  }}
+                >
+                  #
+                </Typography>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
+    </Box>
+  );
+}
 
 interface StepperFormProps {
   initialValues: MultiStepperConfig;
@@ -237,6 +367,15 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                   value={step.icon || ''}
                   onChange={(iconName: string) => updateStep(step.id, 'icon', iconName)}
                   placeholder="Select an icon..."
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <ColorPickerField
+                  label="Icon Color"
+                  value={step.iconColor || ''}
+                  onChange={(color) => updateStep(step.id, 'iconColor', color)}
+                  defaultValue="#1976d2"
                 />
               </Grid>
 

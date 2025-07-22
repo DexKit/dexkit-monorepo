@@ -48,14 +48,38 @@ interface Props {
 function getIconComponent(iconName?: string): React.ReactElement | null {
   if (!iconName) return null;
 
-  const IconComponent = (Icons as any)[iconName];
-  if (!IconComponent) return null;
+  const variations = [
+    iconName,
+    iconName.charAt(0).toUpperCase() + iconName.slice(1),
+    iconName.replace(/_/g, ''),
+    iconName.split('_').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(''),
+    iconName.replace(/([a-z])([A-Z])/g, '$1$2'),
+  ];
+
+  let IconComponent = null;
+  let foundVariation = '';
+
+  for (const variation of variations) {
+    IconComponent = (Icons as any)[variation];
+    if (IconComponent) {
+      foundVariation = variation;
+      break;
+    }
+  }
+
+  if (!IconComponent) {
+    console.warn('❌ Icon not found for any variation of:', iconName, variations);
+    return null;
+  }
 
   return <IconComponent />;
 }
 
 export default function StepperSection({ section }: Props) {
   const { steps, ...settings } = section.settings;
+
   const {
     orientation = 'horizontal',
     variant = 'elevation',
@@ -99,7 +123,6 @@ export default function StepperSection({ section }: Props) {
     stepConnectorProps,
   } = settings;
 
-  // State management
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [skippedSteps, setSkippedSteps] = useState<Set<number>>(new Set());
@@ -138,7 +161,7 @@ export default function StepperSection({ section }: Props) {
 
   const handleNext = useCallback(() => {
     if (validateOnNext && steps[activeStep]?.error) {
-      return; // Don't proceed if step validation failed
+      return;
     }
 
     const newActiveStep =
@@ -148,7 +171,6 @@ export default function StepperSection({ section }: Props) {
 
     setActiveStep(newActiveStep);
 
-    // Mark current step as completed
     const newCompletedSteps = new Set(completedSteps);
     newCompletedSteps.add(activeStep);
     setCompletedSteps(newCompletedSteps);
@@ -192,7 +214,6 @@ export default function StepperSection({ section }: Props) {
     const newActiveStep = activeStep + 1;
     setActiveStep(newActiveStep);
 
-    // Mark step as skipped
     const newSkippedSteps = new Set(skippedSteps);
     newSkippedSteps.add(activeStep);
     setSkippedSteps(newSkippedSteps);
@@ -278,32 +299,69 @@ export default function StepperSection({ section }: Props) {
       return null;
     }
 
-    // Custom step icon for this specific step
     if (step?.icon) {
       const StepIconComponent = getIconComponent(step.icon);
-      return StepIconComponent || <span>{props.icon}</span>;
+      if (StepIconComponent) {
+        return React.cloneElement(StepIconComponent, {
+          style: {
+            color: step.iconColor || 'inherit',
+            fontSize: 'inherit'
+          }
+        });
+      }
+      return <span>{props.icon}</span>;
     }
 
-    // Custom step icons by index
     if (customStepIcons && customStepIcons[stepIndex]) {
       const CustomIconComponent = getIconComponent(customStepIcons[stepIndex]);
-      return CustomIconComponent || <span>{props.icon}</span>;
+      if (CustomIconComponent) {
+        return React.cloneElement(CustomIconComponent, {
+          style: {
+            color: step?.iconColor || 'inherit',
+            fontSize: 'inherit'
+          }
+        });
+      }
+      return <span>{props.icon}</span>;
     }
 
-    // State-based icons
     if (error && errorStepIcon) {
       const ErrorIconComponent = getIconComponent(errorStepIcon);
-      return ErrorIconComponent || <span>{props.icon}</span>;
+      if (ErrorIconComponent) {
+        return React.cloneElement(ErrorIconComponent, {
+          style: {
+            color: step?.iconColor || 'inherit',
+            fontSize: 'inherit'
+          }
+        });
+      }
+      return <span>{props.icon}</span>;
     }
 
     if (completed && completedStepIcon) {
       const CompletedIconComponent = getIconComponent(completedStepIcon);
-      return CompletedIconComponent || <span>{props.icon}</span>;
+      if (CompletedIconComponent) {
+        return React.cloneElement(CompletedIconComponent, {
+          style: {
+            color: step?.iconColor || 'inherit',
+            fontSize: 'inherit'
+          }
+        });
+      }
+      return <span>{props.icon}</span>;
     }
 
     if (defaultStepIcon) {
       const DefaultIconComponent = getIconComponent(defaultStepIcon);
-      return DefaultIconComponent || <span>{props.icon}</span>;
+      if (DefaultIconComponent) {
+        return React.cloneElement(DefaultIconComponent, {
+          style: {
+            color: step?.iconColor || 'inherit',
+            fontSize: 'inherit'
+          }
+        });
+      }
+      return <span>{props.icon}</span>;
     }
 
     return <span>{props.icon}</span>;
@@ -353,23 +411,38 @@ export default function StepperSection({ section }: Props) {
     return null;
   }
 
-  // Mobile Stepper
   if (mobileStepper) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ width: fullWidth ? '100%' : 'auto', ...sx }} className={className}>
           <Paper square elevation={variant === 'outlined' ? 0 : elevation} variant={variant}>
             <Box sx={{ p: padding / 8 }}>
-              {/* Current step content */}
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  mb: 2,
+                }}
+              >
                 {steps[activeStep]?.label}
               </Typography>
               {steps[activeStep]?.description && (
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mb: 2,
+                  }}
+                >
                   {steps[activeStep].description}
                 </Typography>
               )}
-              <Typography variant="body1" component="div" sx={{ mb: 2 }}>
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{
+                  mb: 2,
+                }}
+              >
                 {steps[activeStep]?.content}
               </Typography>
               {renderActions(steps[activeStep], 'content')}
@@ -463,10 +536,18 @@ export default function StepperSection({ section }: Props) {
                   StepIconComponent={renderStepIcon}
                   StepIconProps={stepIconProps}
                   {...step.stepLabelProps}
+                  sx={{
+                    ...step.stepLabelProps?.sx
+                  }}
                 >
                   {step.label}
                   {step.description && orientation === 'horizontal' && (
-                    <Typography variant="caption" display="block" color="text.secondary">
+                    <Typography
+                      variant="caption"
+                      display="block"
+                      sx={{
+                      }}
+                    >
                       {step.description}
                     </Typography>
                   )}
@@ -501,7 +582,13 @@ export default function StepperSection({ section }: Props) {
                 }}
                 {...step.stepContentProps}
               >
-                <Typography variant="body1" component="div" sx={{ mb: 2 }}>
+                <Typography
+                  variant="body1"
+                  component="div"
+                  sx={{
+                    mb: 2,
+                  }}
+                >
                   {step.content}
                 </Typography>
                 {renderActions(step, 'content')}
@@ -535,15 +622,31 @@ export default function StepperSection({ section }: Props) {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      mb: 2,
+                    }}
+                  >
                     {steps[activeStep]?.label}
                   </Typography>
                   {steps[activeStep]?.description && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                      }}
+                    >
                       {steps[activeStep].description}
                     </Typography>
                   )}
-                  <Typography variant="body1" component="div" sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body1"
+                    component="div"
+                    sx={{
+                      mb: 2,
+                    }}
+                  >
                     {steps[activeStep]?.content}
                   </Typography>
                   {renderActions(steps[activeStep], 'content')}

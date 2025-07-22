@@ -22,6 +22,7 @@ export interface StepItem {
   error?: boolean;
   disabled?: boolean;
   icon?: string;
+  iconColor?: string;
   actions?: StepAction[];
   sx?: any;
   stepProps?: any;
@@ -31,35 +32,24 @@ export interface StepItem {
 }
 
 export interface StepperSettings {
-  // Basic settings
   orientation?: 'horizontal' | 'vertical';
   variant?: 'elevation' | 'outlined';
   linear?: boolean;
   alternativeLabel?: boolean;
-
-  // Visual settings
   connector?: string;
   elevation?: number;
   borderRadius?: number;
   square?: boolean;
-
-  // Interaction settings
   nonLinear?: boolean;
   allowStepSkipping?: boolean;
   allowStepReset?: boolean;
-
-  // Mobile stepper settings
   mobileStepper?: boolean;
   mobileStepperVariant?: 'text' | 'dots' | 'progress';
   mobileStepperPosition?: 'bottom' | 'top' | 'static';
   mobileStepperLinearProgress?: boolean;
-
-  // Layout settings
   fullWidth?: boolean;
   spacing?: number;
   padding?: number;
-
-  // Navigation settings
   showBackButton?: boolean;
   showNextButton?: boolean;
   showSkipButton?: boolean;
@@ -69,29 +59,19 @@ export interface StepperSettings {
   skipButtonText?: string;
   resetButtonText?: string;
   finishButtonText?: string;
-
-  // Step icon settings
   defaultStepIcon?: string;
   completedStepIcon?: string;
   errorStepIcon?: string;
   hideStepIcons?: boolean;
   customStepIcons?: Record<number, string>;
-
-  // Step content settings
   unmountOnExit?: boolean;
   transitionDuration?: number | 'auto';
   transitionEasing?: string;
-
-  // Validation settings
   validateOnNext?: boolean;
-
-  // Event handlers
   onStepChange?: (activeStep: number, previousStep: number) => void;
   onStepClick?: (step: number) => void;
   onComplete?: () => void;
   onReset?: () => void;
-
-  // Style customization
   sx?: any;
   className?: string;
   stepperProps?: any;
@@ -120,6 +100,10 @@ export interface StepperPageSection {
       error?: boolean;
       disabled?: boolean;
       icon?: string;
+      iconColor?: string;
+      labelColor?: string;
+      contentColor?: string;
+      descriptionColor?: string;
       actions?: Array<{
         label: string;
         href?: string;
@@ -186,7 +170,6 @@ export interface StepperPageSection {
   };
 }
 
-// Default configurations
 export const defaultStepItem: StepItem = {
   id: '',
   label: 'Step Label',
@@ -195,6 +178,7 @@ export const defaultStepItem: StepItem = {
   optional: false,
   error: false,
   disabled: false,
+  iconColor: '',
   actions: [],
 };
 
