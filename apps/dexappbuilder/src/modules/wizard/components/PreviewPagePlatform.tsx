@@ -154,6 +154,7 @@ export default function PreviewPagePlatform({
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
+                  p: theme.spacing(0.125),
                   ...(isMobile && {
                     minHeight: '85vh',
                     height: '100%',
