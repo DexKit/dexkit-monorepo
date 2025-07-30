@@ -1,3 +1,4 @@
+import { DKMDEditorInput } from '@dexkit/ui/components';
 import {
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -455,16 +456,14 @@ const TabsFormContent: React.FC<TabsFormContentProps> = ({
                         </Grid>
 
                         <Grid item xs={12}>
-                          <TextField
-                            name={`tabs.${index}.content`}
+                          <DKMDEditorInput
                             label="Tab Content"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={tab.content}
-                            onChange={handleChange}
+                            value={tab.content || ''}
+                            onChange={(value: string) => setFieldValue(`tabs.${index}.content`, value)}
                             error={!!(errors.tabs?.[index] as any)?.content && (touched.tabs?.[index] as any)?.content}
-                            helperText={getFormikError((errors.tabs?.[index] as any), 'content')}
+                            errorText={getFormikError((errors.tabs?.[index] as any), 'content')}
+                            helperText="Use markdown formatting and AI assistance for rich content"
+                            height={200}
                           />
                         </Grid>
 

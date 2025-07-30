@@ -1,3 +1,4 @@
+import { DKMDEditorInput } from '@dexkit/ui/components';
 import {
   Add as AddIcon,
   ContentCopy as CopyIcon,
@@ -33,9 +34,9 @@ import {
 import { useFormik } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { IconPickerField } from 'src/components/IconPickerField';
 import { MultiAccordionConfigSchema } from '../schemas/accordion';
 import { AccordionItem, defaultAccordionItem, defaultAccordionSettings, MultiAccordionConfig } from '../types/accordion';
-import { IconPickerField } from 'src/components/IconPickerField';
 
 interface AccordionFormProps {
   initialValues: MultiAccordionConfig;
@@ -230,14 +231,12 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
+                <DKMDEditorInput
                   label={<FormattedMessage id="accordion.content" defaultMessage="Content" />}
-                  value={accordion.content}
-                  onChange={(e) => updateAccordion(accordion.id, 'content', e.target.value)}
-                  variant="outlined"
+                  value={accordion.content || ''}
+                  onChange={(value: string) => updateAccordion(accordion.id, 'content', value)}
+                  helperText={<FormattedMessage id="accordion.content.helper" defaultMessage="Use markdown formatting and AI assistance for rich content" />}
+                  height={200}
                 />
               </Grid>
               <Grid item xs={12} md={6}>

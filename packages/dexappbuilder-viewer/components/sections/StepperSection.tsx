@@ -1,3 +1,4 @@
+import { MarkdownRenderer } from '@dexkit/ui/components';
 import { StepperPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import * as Icons from '@mui/icons-material';
 import {
@@ -436,15 +437,13 @@ export default function StepperSection({ section }: Props) {
                   {steps[activeStep].description}
                 </Typography>
               )}
-              <Typography
+              <MarkdownRenderer
+                content={steps[activeStep]?.content}
                 variant="body1"
-                component="div"
                 sx={{
                   mb: 2,
                 }}
-              >
-                {steps[activeStep]?.content}
-              </Typography>
+              />
               {renderActions(steps[activeStep], 'content')}
             </Box>
           </Paper>
@@ -582,15 +581,13 @@ export default function StepperSection({ section }: Props) {
                 }}
                 {...step.stepContentProps}
               >
-                <Typography
+                <MarkdownRenderer
+                  content={step.content}
                   variant="body1"
-                  component="div"
                   sx={{
                     mb: 2,
                   }}
-                >
-                  {step.content}
-                </Typography>
+                />
                 {renderActions(step, 'content')}
                 {index === activeStep && renderNavigationButtons()}
               </StepContent>
@@ -640,15 +637,13 @@ export default function StepperSection({ section }: Props) {
                       {steps[activeStep].description}
                     </Typography>
                   )}
-                  <Typography
+                  <MarkdownRenderer
+                    content={steps[activeStep]?.content}
                     variant="body1"
-                    component="div"
                     sx={{
                       mb: 2,
                     }}
-                  >
-                    {steps[activeStep]?.content}
-                  </Typography>
+                  />
                   {renderActions(steps[activeStep], 'content')}
                   {renderNavigationButtons()}
                 </React.Fragment>
@@ -688,9 +683,11 @@ export default function StepperSection({ section }: Props) {
                     {steps[activeStep].description}
                   </Typography>
                 )}
-                <Typography variant="body1" component="div" sx={{ mb: 2 }}>
-                  {steps[activeStep]?.content}
-                </Typography>
+                <MarkdownRenderer
+                  content={steps[activeStep]?.content}
+                  variant="body1"
+                  sx={{ mb: 2 }}
+                />
                 {renderActions(steps[activeStep], 'content')}
                 {renderNavigationButtons()}
               </React.Fragment>

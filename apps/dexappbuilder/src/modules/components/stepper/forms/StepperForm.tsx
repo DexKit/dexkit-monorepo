@@ -1,3 +1,4 @@
+import { DKMDEditorInput } from '@dexkit/ui/components';
 import {
   Add as AddIcon,
   ContentCopy as CopyIcon,
@@ -380,15 +381,14 @@ export const StepperForm: React.FC<StepperFormProps> = ({
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
+                <DKMDEditorInput
                   label={<FormattedMessage id="stepper.step.content" defaultMessage="Step Content" />}
-                  value={step.content}
-                  onChange={(e) => updateStep(step.id, 'content', e.target.value)}
+                  value={step.content || ''}
+                  onChange={(value: string) => updateStep(step.id, 'content', value)}
                   error={Boolean(getFieldError(`steps.${index}.content`))}
-                  helperText={getFieldError(`steps.${index}.content`)}
+                  errorText={getFieldError(`steps.${index}.content`)}
+                  helperText={<FormattedMessage id="stepper.step.content.helper" defaultMessage="Use markdown formatting and AI assistance for rich content" />}
+                  height={200}
                 />
               </Grid>
 

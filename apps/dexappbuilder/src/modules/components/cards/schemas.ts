@@ -1,16 +1,20 @@
 import { z } from 'zod';
 
 export const cardActionSchema = z.object({
-  label: z.string().min(1, 'Label is required'),
+  label: z.string().optional(),
   onClick: z.function().optional(),
-  href: z.string().url().optional(),
+  href: z.string().optional().refine((val) => !val || val === '' || /^https?:\/\/.+/.test(val), {
+    message: 'Must be a valid URL if provided'
+  }),
 });
 
 export const cardSchema = z.object({
   id: z.string().min(1, 'ID is required'),
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
-  image: z.string().url().optional(),
+  image: z.string().optional().refine((val) => !val || val === '' || /^https?:\/\/.+/.test(val), {
+    message: 'Must be a valid URL if provided'
+  }),
   imageFile: z.instanceof(File).optional(),
   actions: z.array(cardActionSchema).optional(),
   sx: z.any().optional(),

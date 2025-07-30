@@ -1,3 +1,4 @@
+import { DKMDEditorInput } from '@dexkit/ui/components';
 import {
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -39,6 +40,7 @@ function validate(values: MultiCardConfig) {
   } catch (e) {
     const errors: Record<string, any> = {};
     if (e instanceof z.ZodError) {
+      console.log('MultiCardForm validation errors:', e.errors);
       e.errors.forEach(err => {
         const path = err.path.join('.');
         errors[path] = err.message;
@@ -218,13 +220,12 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                       required
                       fullWidth
                     />
-                    <TextField
+                    <DKMDEditorInput
                       label={<FormattedMessage id="card.description" defaultMessage="Description" />}
                       value={card.description || ''}
-                      onChange={(e) => updateCard(card.id, { description: e.target.value })}
-                      multiline
-                      rows={2}
-                      fullWidth
+                      onChange={(value) => updateCard(card.id, { description: value })}
+                      helperText={<FormattedMessage id="card.description.helper" defaultMessage="Use markdown formatting and AI assistance for rich content" />}
+                      height={150}
                     />
                     <Typography variant="subtitle2">
                       <FormattedMessage id="card.image" defaultMessage="Image" />

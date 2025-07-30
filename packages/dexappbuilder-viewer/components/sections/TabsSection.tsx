@@ -1,3 +1,4 @@
+import { MarkdownRenderer } from '@dexkit/ui/components';
 import * as Icons from '@mui/icons-material';
 import {
   Box,
@@ -57,16 +58,17 @@ const TabPanel: React.FC<TabPanelProps> = ({
           }}
         >
           {typeof children === 'string' ? (
-            <Typography component="div" sx={{
-              fontSize: `${contentFontSize}px`,
-              margin: '0 !important',
-              padding: '0 !important',
-              minHeight: 'auto !important',
-              height: 'auto !important',
-              ...(contentFontColor && { color: contentFontColor }),
-            }}>
-              {children}
-            </Typography>
+            <MarkdownRenderer
+              content={children}
+              sx={{
+                fontSize: `${contentFontSize}px`,
+                margin: '0 !important',
+                padding: '0 !important',
+                minHeight: 'auto !important',
+                height: 'auto !important',
+                ...(contentFontColor && { color: contentFontColor }),
+              }}
+            />
           ) : (
             children
           )}

@@ -17,7 +17,7 @@ const CompletationPopover = dynamic(() => import("./CompletationPopover"), {
 });
 
 export interface CompletationProviderProps {
-  children: ({}: {
+  children: ({ }: {
     ref: React.MutableRefObject<HTMLElement | null>;
     inputAdornment: (position: "start" | "end") => React.ReactNode;
     open: () => void;
@@ -46,7 +46,7 @@ export default function CompletationProvider({
   const [showAiComp, setShowAiComp] = useState(false);
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const [defaultPrompt, setDefaultPrompt] = useState("");
-  const ref = useRef<HTMLInputElement | null>(null);
+  const ref = useRef<HTMLElement | null>(null);
   const completationMutation = useCompletation();
   const promptHistory = useRef<{ role: string; content: string }[] | null>(
     null
@@ -63,7 +63,7 @@ export default function CompletationProvider({
 
   const handleCompletation = useCallback(async () => {
     setShowAiComp(true);
-  }, [handleOpenComp]);
+  }, []);
 
   const inputAdornment = useCallback(
     (position: "start" | "end") => {
@@ -180,7 +180,7 @@ export default function CompletationProvider({
         <CompletationPopover
           open={showAiComp}
           onClose={handleClose}
-          anchorEl={ref.current}
+          anchorEl={document.body}
           onGenerate={handleGenerate}
           output={completationMutation.data?.output || output}
           onConfirm={handleConfirmCompletation}
@@ -190,6 +190,7 @@ export default function CompletationProvider({
           filteredActions={filteredActions}
         />
       )}
+
       {children({ ref, open: handleCompletation, inputAdornment })}
     </CompletationContext.Provider>
   );

@@ -1,3 +1,4 @@
+import { DKMDEditorInput } from '@dexkit/ui/components';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import React, { useEffect } from 'react';
@@ -53,15 +54,14 @@ export const CardForm: React.FC<{
         helperText={formik.errors.title}
         required
       />
-      <TextField
+      <DKMDEditorInput
         label={<FormattedMessage id="card.description" defaultMessage="Description" />}
-        name="description"
-        value={formik.values.description}
-        onChange={formik.handleChange}
+        value={formik.values.description || ''}
+        onChange={(value: string) => formik.setFieldValue('description', value)}
         error={!!formik.errors.description}
-        helperText={formik.errors.description}
-        multiline
-        rows={2}
+        errorText={formik.errors.description}
+        helperText={<FormattedMessage id="card.description.helper" defaultMessage="Use markdown formatting and AI assistance for rich content" />}
+        height={200}
       />
       <TextField
         label={<FormattedMessage id="card.imageUrl" defaultMessage="Image URL" />}

@@ -1,4 +1,5 @@
 import { Button, CardActions, CardContent, CardMedia, Card as MuiCard, Typography } from '@mui/material';
+import { MarkdownRenderer } from '@dexkit/ui/components';
 import React from 'react';
 
 export interface CardAction {
@@ -43,9 +44,12 @@ const Card: React.FC<CardProps> = ({ id, title, description, image, actions, sx 
           {title}
         </Typography>
         {description && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            {description}
-          </Typography>
+          <MarkdownRenderer 
+            content={description} 
+            variant="body2" 
+            color="text.secondary" 
+            sx={{ mb: 1 }} 
+          />
         )}
       </CardContent>
       {actions && actions.length > 0 && actions.some(action => action.label) && (

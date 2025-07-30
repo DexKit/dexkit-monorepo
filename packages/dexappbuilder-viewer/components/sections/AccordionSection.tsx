@@ -1,4 +1,5 @@
 import { AccordionPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { MarkdownRenderer } from '@dexkit/ui/components';
 import * as Icons from '@mui/icons-material';
 import {
   AccordionDetails,
@@ -225,13 +226,11 @@ export default function AccordionSection({ section }: Props) {
                 </StyledAccordionSummary>
 
                 <AccordionDetails {...accordion.detailsProps}>
-                  <Typography
+                  <MarkdownRenderer
+                    content={accordion.content}
                     variant={accordion.contentVariant || defaultContentVariant}
-                    component="div"
                     sx={{ whiteSpace: 'pre-wrap' }}
-                  >
-                    {accordion.content}
-                  </Typography>
+                  />
                   {renderActions(accordion, 'details')}
                 </AccordionDetails>
               </StyledAccordion>
