@@ -4,12 +4,15 @@ import {
   NumberInput,
   SimpleForm,
   TextInput,
-} from 'react-admin';
+} from "react-admin";
+import { HidePoweredByField } from "../../components/HidePoweredByField";
+import { HolderTextField } from "../../components/HolderTextField";
 
 export const SiteEdit = () => (
   <Edit>
     <SimpleForm>
       <TextInput source="slug" disabled />
+      <TextInput source="owner" disabled />
       {/*  <TextInput source="id" />
       <DateInput source="createdAt" />
       <DateInput source="updatedAt" />
@@ -29,6 +32,11 @@ export const SiteEdit = () => (
       <TextInput source="previewUrl" />*/}
       <NumberInput source="featuredScore" />
       <BooleanInput source="isTemplate" />
+      <HidePoweredByField source="config" label="HidePoweredBy" />
+      <HolderTextField source="owner" label="HoldKit" />
+      {/* <TextInput source="signature" />
+      {/* <TextInput source="config" />*/}
+      {/* <TextInput source="domainSetupResponse" />
       {/*   <NumberInput source="nftId" />*/}
     </SimpleForm>
   </Edit>
