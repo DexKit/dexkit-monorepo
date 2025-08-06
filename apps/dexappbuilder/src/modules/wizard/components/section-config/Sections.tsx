@@ -3,13 +3,16 @@ import CallToActionIcon from '@mui/icons-material/CallToAction';
 import CodeIcon from '@mui/icons-material/Code';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 import GavelIcon from '@mui/icons-material/Gavel';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import LinkIcon from '@mui/icons-material/Link';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import TabIcon from '@mui/icons-material/Tab';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import {
   default as Token,
@@ -209,6 +212,38 @@ export const SECTION_TYPES_DATA: SectionMetadata[] = [
     description: 'Create widgets and use them across your apps.',
     icon: <WidgetsIcon fontSize="large" />,
   },
+  {
+    type: 'card',
+    titleId: 'card',
+    titleDefaultMessage: 'Cards',
+    category: 'visual-components',
+    description: 'Customizable card component to display information, images and actions in a flexible grid layout.',
+    icon: <WidgetsIcon fontSize="large" />,
+  },
+  {
+    type: 'accordion',
+    titleId: 'accordion',
+    titleDefaultMessage: 'Accordion',
+    category: 'visual-components',
+    description: 'Interactive accordion component to organize and display content in expandable/collapsible sections.',
+    icon: <ExpandMoreIcon fontSize="large" />,
+  },
+  {
+    type: 'stepper',
+    titleId: 'stepper',
+    titleDefaultMessage: 'Stepper',
+    category: 'visual-components',
+    description: 'Step-by-step navigation component to guide users through processes with horizontal or vertical layouts.',
+    icon: <LinearScaleIcon fontSize="large" />,
+  },
+  {
+    type: 'tabs',
+    titleId: 'tabs',
+    titleDefaultMessage: 'Tabs',
+    category: 'visual-components',
+    description: 'Organize content in tab format with horizontal or vertical navigation and customizable styling.',
+    icon: <TabIcon fontSize="large" />,
+  },
   /* {
     type: 'referral',
     titleId: 'referral.program',
@@ -239,5 +274,9 @@ export const SectionCategory = [
   {
     value: 'low-code',
     title: 'Low code',
+  },
+  {
+    value: 'visual-components',
+    title: 'Visual Components',
   },
 ];

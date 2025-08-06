@@ -17,13 +17,16 @@ import CallToAction from '@mui/icons-material/CallToAction';
 import Code from '@mui/icons-material/Code';
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import CollectionsIcon from '@mui/icons-material/Collections';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GavelIcon from '@mui/icons-material/Gavel';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import LinkIcon from '@mui/icons-material/Link';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import StoreIcon from '@mui/icons-material/Store';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import TabIcon from '@mui/icons-material/Tab';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import Wallet from '@mui/icons-material/Wallet';
@@ -239,5 +242,21 @@ export const SECTION_CONFIG: {
   widget: {
     title: { id: 'widget', defaultMessage: 'Widget' },
     icon: <WidgetsIcon />,
+  },
+  card: {
+    title: { id: 'card', defaultMessage: 'Card' },
+    icon: <AppsIcon />,
+  },
+  accordion: {
+    title: { id: 'accordion', defaultMessage: 'Accordion' },
+    icon: <ExpandMoreIcon />,
+  },
+  stepper: {
+    title: { id: 'stepper', defaultMessage: 'Stepper' },
+    icon: <LinearScaleIcon />,
+  },
+  tabs: {
+    title: { id: 'tabs', defaultMessage: 'Tabs' },
+    icon: <TabIcon />,
   },
 };

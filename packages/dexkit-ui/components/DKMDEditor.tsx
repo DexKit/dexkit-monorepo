@@ -48,6 +48,7 @@ export default function DKMDEditor({ setValue, value }: Props) {
           value={value}
           onChange={setValue}
           ref={ref}
+          style={{ height: '300px' }}
           commands={[
             ...commands.getCommands(),
             {
@@ -62,8 +63,11 @@ export default function DKMDEditor({ setValue, value }: Props) {
                   <button
                     disabled={disabled}
                     onClick={(evn) => {
-                      // evn.stopPropagation();
-                      executeCommand(command, command.groupName);
+                      evn.preventDefault();
+                      evn.stopPropagation();
+                      setTimeout(() => {
+                        executeCommand(command, command.groupName);
+                      }, 0);
                     }}
                   >
                     <AutoAwesome fontSize="inherit" />

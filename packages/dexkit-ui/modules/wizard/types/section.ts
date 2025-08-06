@@ -42,6 +42,10 @@ export type SectionType =
   | "commerce"
   | "referral"
   | "widget"
+  | "card"
+  | "accordion"
+  | "stepper"
+  | "tabs"
 
   ;
 
@@ -594,6 +598,229 @@ export interface WidgetPageSection extends PageSection {
   };
 }
 
+export interface CardPageSection extends PageSection {
+  type: "card";
+  settings: {
+    cards: Array<{
+      id: string;
+      title: string;
+      description?: string;
+      image?: string;
+      imageFile?: File;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+      }>;
+      layout: {
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+        minW?: number;
+        maxW?: number;
+        minH?: number;
+        maxH?: number;
+        static?: boolean;
+        isDraggable?: boolean;
+        isResizable?: boolean;
+      };
+    }>;
+    gridSettings: {
+      cols: number;
+      rowHeight: number;
+      margin: [number, number];
+      containerPadding: [number, number];
+      compactType: 'vertical' | 'horizontal' | null;
+      allowOverlap?: boolean;
+      preventCollision?: boolean;
+      isDraggable?: boolean;
+      isResizable?: boolean;
+    };
+    responsive?: {
+      breakpoints: Record<string, number>;
+      cols: Record<string, number>;
+    };
+  };
+}
+
+export interface AccordionPageSection extends PageSection {
+  type: "accordion";
+  settings: {
+    accordions: Array<{
+      id: string;
+      title: string;
+      content: string;
+      summary?: string;
+      expanded?: boolean;
+      disabled?: boolean;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+      }>;
+      titleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      contentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      ariaControls?: string;
+      ariaExpanded?: boolean;
+      sx?: any;
+      summaryProps?: any;
+      detailsProps?: any;
+      expandIcon?: string;
+      collapseIcon?: string;
+    }>;
+    settings: {
+      variant?: 'elevation' | 'outlined';
+      square?: boolean;
+      disableGutters?: boolean;
+      defaultExpanded?: string[];
+      expandedIds?: string[];
+      allowMultiple?: boolean;
+      unmountOnExit?: boolean;
+      headingComponent?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div';
+      transitionDuration?: number | 'auto';
+      transitionEasing?: string;
+      spacing?: number;
+      fullWidth?: boolean;
+      elevation?: number;
+      borderRadius?: number;
+      sx?: any;
+      actionsPlacement?: 'summary' | 'details' | 'both';
+      actionsAlignment?: 'left' | 'center' | 'right';
+      defaultExpandIcon?: string;
+      defaultCollapseIcon?: string;
+      iconPosition?: 'start' | 'end';
+      hideExpandIcon?: boolean;
+      defaultTitleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      defaultContentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      disableRipple?: boolean;
+      focusRipple?: boolean;
+      className?: string;
+      onChange?: (accordionId: string, expanded: boolean) => void;
+    };
+  };
+}
+
+export interface StepperPageSection extends PageSection {
+  type: "stepper";
+  settings: {
+    steps: Array<{
+      id: string;
+      label: string;
+      content: string;
+      description?: string;
+      completed?: boolean;
+      optional?: boolean;
+      error?: boolean;
+      disabled?: boolean;
+      icon?: string;
+      iconColor?: string;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+        sx?: any;
+      }>;
+      sx?: any;
+      stepProps?: any;
+      stepLabelProps?: any;
+      stepContentProps?: any;
+      stepButtonProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'elevation' | 'outlined';
+    linear?: boolean;
+    alternativeLabel?: boolean;
+    connector?: string;
+    elevation?: number;
+    borderRadius?: number;
+    square?: boolean;
+    nonLinear?: boolean;
+    allowStepSkipping?: boolean;
+    allowStepReset?: boolean;
+    mobileStepper?: boolean;
+    mobileStepperVariant?: 'text' | 'dots' | 'progress';
+    mobileStepperPosition?: 'bottom' | 'top' | 'static';
+    mobileStepperLinearProgress?: boolean;
+    fullWidth?: boolean;
+    spacing?: number;
+    padding?: number;
+    showBackButton?: boolean;
+    showNextButton?: boolean;
+    showSkipButton?: boolean;
+    showResetButton?: boolean;
+    backButtonText?: string;
+    nextButtonText?: string;
+    skipButtonText?: string;
+    resetButtonText?: string;
+    finishButtonText?: string;
+    defaultStepIcon?: string;
+    completedStepIcon?: string;
+    errorStepIcon?: string;
+    hideStepIcons?: boolean;
+    customStepIcons?: Record<number, string>;
+    unmountOnExit?: boolean;
+    transitionDuration?: number | 'auto';
+    transitionEasing?: string;
+    validateOnNext?: boolean;
+    onStepChange?: (activeStep: number, previousStep: number) => void;
+    onStepClick?: (step: number) => void;
+    onComplete?: () => void;
+    onReset?: () => void;
+    sx?: any;
+    className?: string;
+    stepperProps?: any;
+    stepIconProps?: any;
+    stepConnectorProps?: any;
+  };
+}
+
+export interface TabsPageSection extends PageSection {
+  type: "tabs";
+  settings: {
+    tabs: Array<{
+      id: string;
+      label: string;
+      content: string;
+      icon?: string;
+      iconPosition?: 'start' | 'end' | 'top' | 'bottom';
+      disabled?: boolean;
+      wrapped?: boolean;
+      sx?: any;
+      tabProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'standard' | 'scrollable' | 'fullWidth';
+    indicatorColor?: 'primary' | 'secondary';
+    textColor?: 'primary' | 'secondary' | 'inherit';
+    centered?: boolean;
+    allowScrollButtonsMobile?: boolean;
+    scrollButtons?: boolean | 'auto';
+    selectionFollowsFocus?: boolean;
+    visibleScrollbar?: boolean;
+    fullWidth?: boolean;
+    borderRadius?: number;
+    elevation?: number;
+    padding?: number;
+    backgroundColor?: string;
+    className?: string;
+    sx?: any;
+    tabsProps?: any;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -782,7 +1009,11 @@ export type AppPageSection =
   | PluginPageSection
   | CommercePageSection
   | ReferralPageSection
-  | WidgetPageSection;
+  | WidgetPageSection
+  | CardPageSection
+  | AccordionPageSection
+  | StepperPageSection
+  | TabsPageSection;
 
 export interface SectionMetadata {
   type: SectionType;
