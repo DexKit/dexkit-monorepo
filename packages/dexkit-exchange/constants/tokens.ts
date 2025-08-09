@@ -161,6 +161,25 @@ export const DAI_TOKEN_BASE: Token = {
   logoURI: DAI_LOGO_URL,
 };
 
+export const USDT_TOKEN_BASE: Token = {
+  address: "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+  decimals: 6,
+  name: "Tether USD",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Base,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const COINBASE_WRAPPED_STAKED: Token = {
+  chainId: ChainId.Base,
+  address: "0x4200000000000000000000000000000000000006",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
 export const USDC_TOKEN_ETH: Token = {
   address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
   decimals: 6,
@@ -248,10 +267,12 @@ export const DUMMY_TOKEN: Token = {
 
 export const DEFAULT_BASE_TOKENS = {
   [ChainId.Polygon]: [DAI_TOKEN, USDT_TOKEN],
+  [ChainId.Base]: [COINBASE_WRAPPED_STAKED, DAI_TOKEN_BASE, USDT_TOKEN_BASE],
 };
 
 export const DEFAULT_QUOTE_TOKENS = {
   [ChainId.Polygon]: [KIT_TOKEN],
+  [ChainId.Base]: [USDC_TOKEN_BASE],
 };
 
 export const QUOTE_TOKENS_SUGGESTION = [
@@ -261,12 +282,14 @@ export const QUOTE_TOKENS_SUGGESTION = [
   USDT_TOKEN_OPT,
   USDT_TOKEN_BSC,
   USDT_TOKEN_POLYGON,
+  USDT_TOKEN_BASE,
 
   DAI_TOKEN_ETH,
   DAI_TOKEN_AVAX,
   DAI_TOKEN_OPT,
   DAI_TOKEN_POLYGON,
   DAI_TOKEN_BSC,
+  DAI_TOKEN_BASE,
 
   USDC_TOKEN_ETH,
   USDC_TOKEN_POLYGON,
@@ -401,15 +424,6 @@ export const WRAPPED_BNB: Token = {
   symbol: "WBNB",
   coingeckoId: "bnb",
   logoURI: WRAPPED_BNB_LOGO_URL,
-};
-
-export const COINBASE_WRAPPED_STAKED: Token = {
-  chainId: ChainId.Base,
-  address: "0x4200000000000000000000000000000000000006",
-  name: "Wrapped Ether",
-  symbol: "WETH",
-  decimals: 18,
-  logoURI: WRAPPED_ETH_LOGO_URL,
 };
 
 export const WRAPPED_ETH_MODE: Token = {

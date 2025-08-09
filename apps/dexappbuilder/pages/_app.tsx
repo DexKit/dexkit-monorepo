@@ -4,10 +4,11 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import type { } from '@mui/material/themeCssVarsAugmentation';
 
 import defaultAppConfig from '@dexkit/ui/config/app.minimal.json';
 
+import '../src/styles/editSectionDialog.css';
 import './customCss.css';
 
 import { setupTheme } from '@dexkit/ui/services/app';

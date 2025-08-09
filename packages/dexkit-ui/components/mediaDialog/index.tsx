@@ -293,7 +293,14 @@ export default function MediaDialog({
         isSuccess={deleteFileMutation.isSuccess}
         error={deleteFileMutation.error}
       />
-      <Dialog {...dialogProps} onClose={handleClose}>
+      <Dialog
+        {...dialogProps}
+        onClose={handleClose}
+        sx={{
+          zIndex: 10000,
+          ...dialogProps.sx,
+        }}
+      >
         <AppDialogTitle
           icon={<BrowseGalleryIcon />}
           title={<FormattedMessage id="gallery" defaultMessage="Gallery 1" />}
