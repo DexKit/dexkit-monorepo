@@ -15,8 +15,14 @@
   },
   "favicon_url": "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/images/logo/favicon.ico",
   "social": [
-    { "type": "instagram", "handle": "dexkit.io" },
-    { "type": "twitter", "handle": "dexkit" }
+    {
+      "type": "instagram",
+      "handle": "dexkit.io"
+    },
+    {
+      "type": "twitter",
+      "handle": "dexkit"
+    }
   ],
   "transak": {
     "enabled": true
@@ -42,7 +48,6 @@
       "name": "Contact us"
     }
   ],
-
   "menuTree": [
     {
       "type": "Page",
@@ -60,7 +65,6 @@
       "name": "Wallet"
     }
   ],
-
   "collections": [
     {
       "image": "/assets/kittygotchi/banner_eth.svg",
@@ -101,7 +105,10 @@
       },
       "tags": {},
       "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/images/logo.png",
-      "keywords": ["dexkit", "default"],
+      "keywords": [
+        "dexkit",
+        "default"
+      ],
       "tokens": [
         {
           "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",

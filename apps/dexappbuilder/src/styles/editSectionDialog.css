@@ -1,0 +1,53 @@
+.MuiPopover-root,
+.MuiMenu-root,
+.MuiPopper-root {
+  z-index: 9999 !important;
+}
+
+.MuiPopover-root .MuiPaper-root,
+.MuiMenu-root .MuiPaper-root,
+.MuiPopover-root .MuiMenu-paper,
+.MuiMenu-root .MuiMenu-paper {
+  z-index: 9999 !important;
+}
+
+.MuiSelect-popper,
+.MuiAutocomplete-popper {
+  z-index: 9999 !important;
+}
+
+.MuiPopover-root .MuiBackdrop-root {
+  z-index: 9998 !important;
+}
+
+[role="listbox"],
+[role="menu"] {
+  z-index: 9999 !important;
+}
+
+[data-testid*="select"],
+[data-testid*="menu"] {
+  z-index: 9999 !important;
+}
+
+.MuiDialog-root:has([role="dialog"] .MuiDialogTitle-root:contains("Gallery")),
+.MuiDialog-root:has(.MuiDialogContent-root .MuiGrid-root .MuiGrid-item),
+body:has(.MuiDialogTitle-root:contains("Gallery")) .MuiDialog-root {
+  z-index: 10000 !important;
+}
+
+.MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")),
+.MuiDialog-root:has(.MuiStack-root:contains("FROM GALLERY")),
+.MuiDialog-root:has(.MuiStack-root:contains("FROM URL")) {
+  z-index: 10000 !important;
+}
+
+.MuiDialog-root .MuiDialogContent-root:has(.MuiGrid-container .MuiGrid-item img),
+.MuiDialog-root:has(.MuiDialogContent-root .MuiPagination-root) {
+  z-index: 10000 !important;
+}
+
+.MuiDialog-root:has(.MuiDialogTitle-root:contains("Gallery")) .MuiDialog-paper,
+.MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")) .MuiDialog-paper {
+  z-index: 10000 !important;
+}

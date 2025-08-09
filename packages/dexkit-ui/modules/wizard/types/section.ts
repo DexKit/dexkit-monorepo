@@ -257,20 +257,21 @@ export interface WalletCustomSettings {
 
   exchangeConfig?: {
     variant?: "default" | "custom";
+    inheritWalletColors?: boolean;
+
+    tradeWidgetPrimaryTextColor?: string;
+    tradeWidgetButtonTextColor?: string;
+    tradeWidgetInputTextColor?: string;
+    tradeWidgetTabTextColor?: string;
+    fillAmountButtonActiveColor?: string;
+    fillAmountButtonInactiveColor?: string;
+    fillAmountButtonActiveTextColor?: string;
+    fillAmountButtonInactiveTextColor?: string;
+    tokenInfoBarBackgroundColor?: string;
+    tokenInfoBarPrimaryTextColor?: string;
   };
 
-  exchangeTextColors?: {
-    pairInfoTextColor?: string;
-    pairInfoSecondaryTextColor?: string;
-    pairInfoBackgroundColor?: string;
-    tradeWidgetTextColor?: string;
-    tradeWidgetButtonTextColor?: string;
-    tradeWidgetTabTextColor?: string;
-    tradeWidgetInputTextColor?: string;
-    tradeWidgetBackgroundColor?: string;
-    tradingGraphControlTextColor?: string;
-    tradingGraphBackgroundColor?: string;
-  };
+
   nftColors?: {
     titleColor?: string;
     collectionColor?: string;
@@ -306,6 +307,18 @@ export interface WalletCustomSettings {
     hoverRowBackgroundColor?: string;
     borderColor?: string;
   };
+
+  filterConfig?: {
+    closeArrowColor?: string;
+  };
+
+  removePadding?: boolean;
+  customPadding?: {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+  };
 }
 
 export interface WalletGlassSettings {
@@ -333,6 +346,13 @@ export interface WalletGlassSettings {
   sendModalTextColor?: string;
   scanModalTextColor?: string;
   importTokenModalTextColor?: string;
+  removePadding?: boolean;
+  customPadding?: {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+  };
 }
 
 export interface WalletSettings {
