@@ -152,13 +152,13 @@ export function useActiveFeatUsage({ slug }: { slug: string }) {
 export function useActivatePremiumMutation({ isWidget }: { isWidget?: boolean }) {
   const { instance } = useContext(DexkitApiProvider);
   return useMutation(async ({ siteId }: { siteId?: number }) => {
-    return instance?.post(`/premium-appbuilder/charge-amount${isWidget && '-widget'}`, { siteId });
+    return instance?.post(`/premium-appbuilder/charge-amount${isWidget ? '-widget' : ''}`, { siteId });
   });
 }
 
 export function useDisablePremiumMutation({ isWidget }: { isWidget?: boolean }) {
   const { instance } = useContext(DexkitApiProvider);
   return useMutation(async ({ siteId }: { siteId?: number }) => {
-    return instance?.post(`/premium-appbuilder/disable${isWidget && '-widget'}`, { siteId });
+    return instance?.post(`/premium-appbuilder/disable${isWidget ? '-widget' : ''}`, { siteId });
   });
 }
