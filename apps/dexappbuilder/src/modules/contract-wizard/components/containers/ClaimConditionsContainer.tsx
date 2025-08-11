@@ -35,13 +35,15 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
   const phases: ClaimConditionTypeForm[] = useMemo(() => {
     if (data) {
       return data.map((p) => {
+        const priceValue = p.currencyMetadata.displayValue;
+
         return {
-          startTime: p.startTime.toISOString().slice(0, -1),
+          startTime: p.startTime.toISOString().slice(0, 19),
           name: p?.metadata?.name || '',
-          waitInSeconds: p.waitInSeconds.toNumber(),
-          price: Number(p.currencyMetadata.displayValue),
-          maxClaimableSupply: p.maxClaimableSupply,
-          maxClaimablePerWallet: p.maxClaimablePerWallet,
+          waitInSeconds: p.waitInSeconds.toNumber().toString(),
+          price: priceValue,
+          maxClaimableSupply: (p.maxClaimableSupply === '1000000' || p.maxClaimableSupply.toString() === '1000000') ? 'unlimited' : p.maxClaimableSupply,
+          maxClaimablePerWallet: (p.maxClaimablePerWallet === '1000000' || p.maxClaimablePerWallet.toString() === '1000000') ? 'unlimited' : p.maxClaimablePerWallet,
           currencyAddress: p.currencyAddress,
         };
       });
@@ -73,11 +75,19 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
                     name: p.name,
                   },
                   currencyAddress: p.currencyAddress,
-                  price: p.price,
-                  maxClaimablePerWallet: p.maxClaimablePerWallet,
-                  maxClaimableSupply: p.maxClaimableSupply,
+                  price: (() => {
+                    const priceStr = typeof p.price === 'string' ? p.price : p.price.toString();
+                    if (!priceStr || priceStr.trim() === '' || isNaN(parseFloat(priceStr))) {
+                      return '0';
+                    }
+                    return priceStr;
+                  })(),
+                  maxClaimablePerWallet: p.maxClaimablePerWallet === 'unlimited' ? 1_000_000 :
+                    (typeof p.maxClaimablePerWallet === 'string' ? parseInt(p.maxClaimablePerWallet) : p.maxClaimablePerWallet),
+                  maxClaimableSupply: p.maxClaimableSupply === 'unlimited' ? 1_000_000 :
+                    (typeof p.maxClaimableSupply === 'string' ? parseInt(p.maxClaimableSupply) : p.maxClaimableSupply),
                   startTime: new Date(p.startTime),
-                  waitInSeconds: p.waitInSeconds,
+                  waitInSeconds: typeof p.waitInSeconds === 'string' ? parseInt(p.waitInSeconds) : p.waitInSeconds,
                 };
               }),
             });
