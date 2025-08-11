@@ -1,4 +1,4 @@
-interface WizardItemAttribute {}
+interface WizardItemAttribute { }
 
 export interface CollectionForm {
   name: string;
@@ -23,8 +23,8 @@ export interface CollectionOwnershipNFTFormType {
 export interface ClaimConditionTypeForm {
   startTime: Date | string;
   name: string;
-  waitInSeconds: number;
-  price: number;
+  waitInSeconds: number | string;
+  price: number | string;
   maxClaimableSupply: number | string;
   maxClaimablePerWallet: number | string;
   merkleRoot?: string;

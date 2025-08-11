@@ -508,6 +508,10 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
         return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
       }
 
+      if (available >= 1000000) {
+        return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+      }
+
       return available.toLocaleString();
     } catch (e) {
       return "0";
@@ -1558,10 +1562,17 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </b>
                 </Typography>
                 <Typography color="text.secondary">
-                  {activeClaimCondition.data?.maxClaimableSupply === "unlimited"
-                    ? formatMessage({ id: "unlimited", defaultMessage: "Unlimited" })
-                    : Number(activeClaimCondition.data?.maxClaimableSupply).toLocaleString()
-                  }
+                  {(() => {
+                    const supply = activeClaimCondition.data?.maxClaimableSupply;
+                    if (supply === "unlimited") {
+                      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+                    }
+                    const supplyNum = Number(supply);
+                    if (supplyNum >= 1000000) {
+                      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+                    }
+                    return supplyNum.toLocaleString();
+                  })()}
                 </Typography>
               </Stack>
             )}
@@ -1595,10 +1606,17 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   </b>
                 </Typography>
                 <Typography color="text.secondary">
-                  {activeClaimCondition.data?.maxClaimablePerWallet === "unlimited"
-                    ? formatMessage({ id: "unlimited", defaultMessage: "Unlimited" })
-                    : Number(activeClaimCondition.data?.maxClaimablePerWallet).toLocaleString()
-                  }
+                  {(() => {
+                    const perWallet = activeClaimCondition.data?.maxClaimablePerWallet;
+                    if (perWallet === "unlimited") {
+                      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+                    }
+                    const perWalletNum = Number(perWallet);
+                    if (perWalletNum >= 1000000) {
+                      return formatMessage({ id: "unlimited", defaultMessage: "Unlimited" });
+                    }
+                    return perWalletNum.toLocaleString();
+                  })()}
                 </Typography>
               </Stack>
             )}

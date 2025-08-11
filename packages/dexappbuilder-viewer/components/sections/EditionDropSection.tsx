@@ -535,10 +535,10 @@ export function EditionDropSection({ section }: Props) {
             <Card>
               <CardContent>
                 {claimConditions.data?.length === 0 ||
-                !claimConditions.data ||
-                claimConditions.data?.every(
-                  (cc) => cc.maxClaimableSupply === "0"
-                ) ? (
+                  !claimConditions.data ||
+                  claimConditions.data?.every(
+                    (cc) => cc.maxClaimableSupply === "0"
+                  ) ? (
                   <Alert severity="info">
                     <FormattedMessage
                       id={"drop.not.ready.to.mint.yet"}
@@ -562,8 +562,13 @@ export function EditionDropSection({ section }: Props) {
                       : <b>{priceText}</b>
                     </Typography>
                     <Typography variant="body2">
-                      {activeClaimCondition.data?.maxClaimablePerWallet.toString() ||
-                        "unlimited"}{" "}
+                      {(() => {
+                        const perWallet = activeClaimCondition.data?.maxClaimablePerWallet;
+                        if (!perWallet) return "unlimited";
+                        const perWalletNum = Number(perWallet);
+                        if (perWalletNum >= 1000000) return "unlimited";
+                        return perWalletNum.toLocaleString();
+                      })()} {" "}
                       <FormattedMessage
                         id={"per.wallet"}
                         defaultMessage={"per wallet"}

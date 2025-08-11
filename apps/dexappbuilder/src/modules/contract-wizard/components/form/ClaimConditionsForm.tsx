@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { NATIVE_TOKEN_ADDRESS } from '@thirdweb-dev/sdk';
 import { FieldArray, Form, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -120,7 +121,15 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
                     variant="outlined"
                     fullWidth
                     sx={{ py: theme.spacing(1.5) }}
-                    onClick={() => arrayHelper.push({ name: 'new phase' })}
+                    onClick={() => arrayHelper.push({
+                      name: 'new phase',
+                      startTime: new Date().toISOString().slice(0, 19),
+                      waitInSeconds: '0',
+                      price: '0',
+                      maxClaimableSupply: 'unlimited',
+                      maxClaimablePerWallet: 'unlimited',
+                      currencyAddress: NATIVE_TOKEN_ADDRESS
+                    })}
                   >
                     <FormattedMessage
                       id="add.claim.condition"
