@@ -173,5 +173,13 @@
       "description": "A Marketplace is a contract where you can buy and sell NFTs, similar to platforms like OpenSea or Rarible.",
       "url": "https://docs.dexkit.com/defi-products/dexgenerator/thirdweb-contracts/marketplace"
     }
+  },
+  "DropAllowanceERC20": {
+    "name": "DropAllowanceERC20",
+    "videos": [],
+    "documentation": {
+      "description": "DropAllowanceERC20 is an extended version of the Token Drop contract that allows users to set the ERC-20 token they want to sell using an allowance-based system.",
+      "url": "https://docs.dexkit.com/defi-products/dexcontracts/dexkit-contracts/dropallowanceerc20"
+    }
   }
 }

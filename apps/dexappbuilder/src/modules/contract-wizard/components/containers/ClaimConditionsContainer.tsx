@@ -42,8 +42,8 @@ function ClaimConditionsContent({ address, network, tokenId }: Props) {
           name: p?.metadata?.name || '',
           waitInSeconds: p.waitInSeconds.toNumber().toString(),
           price: priceValue,
-          maxClaimableSupply: (p.maxClaimableSupply === '1000000' || p.maxClaimableSupply.toString() === '1000000') ? 'unlimited' : p.maxClaimableSupply,
-          maxClaimablePerWallet: (p.maxClaimablePerWallet === '1000000' || p.maxClaimablePerWallet.toString() === '1000000') ? 'unlimited' : p.maxClaimablePerWallet,
+          maxClaimableSupply: p.maxClaimableSupply,
+          maxClaimablePerWallet: p.maxClaimablePerWallet,
           currencyAddress: p.currencyAddress,
         };
       });
