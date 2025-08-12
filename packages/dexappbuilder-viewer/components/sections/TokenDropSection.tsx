@@ -1601,7 +1601,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 <Typography color="text.secondary">
                   {activeClaimCondition.data?.maxClaimablePerWallet === "unlimited"
                     ? formatMessage({ id: "unlimited", defaultMessage: "Unlimited" })
-                    : Number(activeClaimCondition.data?.maxClaimablePerWallet).toLocaleString()
+                    : Number(activeClaimCondition.data?.maxClaimablePerWallet || 0).toLocaleString()
                   }
                 </Typography>
               </Stack>
