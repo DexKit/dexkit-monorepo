@@ -562,13 +562,10 @@ export function EditionDropSection({ section }: Props) {
                       : <b>{priceText}</b>
                     </Typography>
                     <Typography variant="body2">
-                      {(() => {
-                        const perWallet = activeClaimCondition.data?.maxClaimablePerWallet;
-                        if (!perWallet) return "unlimited";
-                        const perWalletNum = Number(perWallet);
-                        if (perWalletNum >= 1000000) return "unlimited";
-                        return perWalletNum.toLocaleString();
-                      })()} {" "}
+                      {activeClaimCondition.data?.maxClaimablePerWallet === "unlimited"
+                        ? "unlimited"
+                        : Number(activeClaimCondition.data?.maxClaimablePerWallet || 0).toLocaleString()
+                      } {" "}
                       <FormattedMessage
                         id={"per.wallet"}
                         defaultMessage={"per wallet"}
