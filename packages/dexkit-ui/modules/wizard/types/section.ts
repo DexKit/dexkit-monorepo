@@ -863,6 +863,12 @@ export interface CarouselSlide {
   overlayColor?: string;
   overlayPercentage?: number;
   action?: SlideAction;
+  imageScaling?: 'cover' | 'contain' | 'fill' | 'center' | 'mosaic' | 'expanded';
+  imagePosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  visualEffect?: 'none' | 'pulse' | 'float' | 'zoom' | 'slide' | 'rotate' | 'shake' | 'glow';
+  effectIntensity?: 'low' | 'medium' | 'high';
+  effectSpeed?: 'slow' | 'normal' | 'fast';
+  effectDirection?: 'horizontal' | 'vertical' | 'diagonal' | 'radial';
 }
 
 export interface CarouselFormType {
@@ -870,6 +876,39 @@ export interface CarouselFormType {
   height?: {
     mobile?: number;
     desktop?: number;
+  };
+  paddingTop?: number;
+  paddingBottom?: number;
+  pagination?: {
+    show?: boolean;
+    position?: 'top' | 'bottom' | 'left' | 'right';
+    alignment?: 'start' | 'center' | 'end';
+    size?: 'small' | 'medium' | 'large';
+    spacing?: number;
+    activeColor?: string;
+    inactiveColor?: string;
+    activeSize?: number;
+    inactiveSize?: number;
+    activeOpacity?: number;
+    inactiveOpacity?: number;
+    showNumbers?: boolean;
+    showProgress?: boolean;
+    customStyle?: 'dots' | 'bars' | 'circles' | 'squares' | 'lines';
+    animation?: 'fade' | 'scale' | 'slide' | 'bounce' | 'none';
+  };
+  navigation?: {
+    show?: boolean;
+    position?: 'inside' | 'outside';
+    size?: 'small' | 'medium' | 'large';
+    color?: string;
+    backgroundColor?: string;
+    hoverColor?: string;
+    hoverBackgroundColor?: string;
+    borderRadius?: number;
+    opacity?: number;
+    hoverOpacity?: number;
+    showOnHover?: boolean;
+    arrowStyle?: 'chevron' | 'triangle' | 'circle' | 'square';
   };
   slides: CarouselSlide[];
 }
@@ -923,6 +962,17 @@ export type ShowCaseItemImage = {
   url?: string;
   page?: string;
   actionType?: "link" | "page";
+  customImageScaling?: "cover" | "contain" | "fill" | "center" | "mosaic" | "expanded";
+  customImagePosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  customHoverEffect?: "none" | "zoom" | "lift" | "glow" | "fade" | "slide" | "rotate" | "scale";
+  customCardStyle?: "default" | "minimal" | "elevated" | "bordered" | "glassmorphism";
+  customBorderRadius?: number;
+  customShadowIntensity?: "none" | "low" | "medium" | "high";
+  customOverlayColor?: string;
+  customOverlayOpacity?: number;
+  customOverlayStyle?: "linear-top" | "linear-bottom" | "linear-left" | "linear-right" | "linear-top-left" | "linear-top-right" | "linear-bottom-left" | "linear-bottom-right" | "radial-center" | "radial-top" | "radial-bottom" | "radial-left" | "radial-right" | "radial-top-left" | "radial-top-right" | "radial-bottom-left" | "radial-bottom-right" | "uniform";
+  showTextBelow?: boolean;
+  priority?: "low" | "normal" | "high";
 };
 
 export type ShowCaseItem =
@@ -936,6 +986,15 @@ export type ShowCaseParams = {
   paddingTop: number;
   paddingBottom: number;
   items: ShowCaseItem[];
+  layout: "grid" | "masonry" | "carousel" | "list";
+  columns: { desktop: number; tablet: number; mobile: number };
+  showOverlay: boolean;
+  textOverlay: boolean;
+  textOverlayPosition: "top" | "center" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
+  textOverlayBackground: "none" | "solid" | "gradient" | "blur";
+  textOverlayBackgroundColor: string;
+  textOverlayTextColor: string;
+  textOverlayBorderRadius: number;
 };
 
 export interface ShowCasePageSection extends PageSection {
