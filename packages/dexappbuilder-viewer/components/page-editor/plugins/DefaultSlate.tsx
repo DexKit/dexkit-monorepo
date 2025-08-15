@@ -6,8 +6,75 @@ import slate from "@react-page/plugins-slate";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import FormatLineSpacingIcon from "@mui/icons-material/FormatLineSpacing";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { ColorPickerField } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
+import { useMemo } from "react";
+
+const mobileCenteredText = pluginFactories.createComponentPlugin<{}>({
+  addHoverButton: false,
+  addToolbarButton: false,
+  type: "MobileCenteredText",
+  object: "block",
+  icon: <TextFieldsIcon />,
+  label: "Mobile Centered Text",
+  Component: ({ children, attributes, ...props }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const style = useMemo(() => ({
+      textAlign: (isMobile ? 'center' : 'inherit') as 'center' | 'inherit',
+      width: '100%',
+      display: 'block' as const
+    }), [isMobile]);
+
+    return (
+      <div {...attributes} style={style} {...props}>
+        {children}
+      </div>
+    );
+  },
+  controls: {
+    type: "autoform",
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  },
+});
+
+const mobileTextAlignment = pluginFactories.createComponentPlugin<{}>({
+  addHoverButton: false,
+  addToolbarButton: false,
+  type: "MobileTextAlignment",
+  object: "mark",
+  icon: <TextFieldsIcon />,
+  label: "Mobile Text Alignment",
+  Component: ({ children, attributes, ...props }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const style = useMemo(() => ({
+      textAlign: (isMobile ? 'center' : 'inherit') as 'center' | 'inherit',
+      display: 'inline-block' as const,
+      width: (isMobile ? '100%' : 'auto') as string
+    }), [isMobile]);
+
+    return (
+      <span {...attributes} style={style} {...props}>
+        {children}
+      </span>
+    );
+  },
+  controls: {
+    type: "autoform",
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  },
+});
+
 const colorSlate = pluginFactories.createComponentPlugin<{
   color: string;
 }>({
@@ -100,6 +167,8 @@ export const DefaultSlate = slate((def) => ({
       color: colorSlate,
       fontSize: fontSlate,
       lineHeight: lineHeightSlate,
+      mobileCenteredText: mobileCenteredText,
+      mobileTextAlignment: mobileTextAlignment,
     },
   },
 }));

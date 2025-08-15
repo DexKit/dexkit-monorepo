@@ -93,7 +93,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
     if (item.type === "image" && item.customBorderRadius !== undefined) {
       return item.customBorderRadius;
     }
-    return sectionSettings?.borderRadius || 8;
+    return sectionSettings?.borderRadius || 1;
   };
 
   const getShadowIntensity = (): 'none' | 'low' | 'medium' | 'high' => {
@@ -351,7 +351,6 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
 
     const backgroundSizeValue = backgroundSize[scaling];
     const backgroundPositionValue = backgroundPosition[position];
-
     const backgroundRepeat = scaling === 'mosaic' ? 'repeat' : 'no-repeat';
 
     const keyframes = scaling === 'mosaic' ? {
@@ -581,6 +580,10 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
         {(item?.title || item?.subtitle) && (item.showTextBelow !== false) && (
           <CardContent sx={{
             minHeight: (theme) => theme.spacing(12),
+            display: item.textAlign === 'center' ? 'flex' : 'block',
+            alignItems: item.textAlign === 'center' ? 'center' : 'flex-start',
+            justifyContent: item.textAlign === 'center' ? 'center' : 'flex-start',
+            textAlign: item.textAlign || 'inherit',
             '@media (max-width: 600px)': {
               minHeight: theme.spacing(10),
               padding: theme.spacing(1.5),
@@ -590,13 +593,14 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
               padding: theme.spacing(1),
             },
           }}>
-            <Stack spacing={1}>
+            <Stack spacing={1} alignItems={item.textAlign === 'center' ? 'center' : 'flex-start'}>
               <Box>
                 {item.title && (
                   <Typography
                     sx={{
                       textOverflow: "ellipsis",
                       overflow: "hidden",
+                      textAlign: item.textAlign || 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.9rem',
                         lineHeight: 1.2,
@@ -618,6 +622,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       sx: {
                         textOverflow: "ellipsis",
                         overflow: "hidden",
+                        textAlign: item.textAlign || 'inherit',
                         '@media (max-width: 600px)': {
                           fontSize: '0.8rem',
                           lineHeight: 1.2,
@@ -677,6 +682,10 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
         <Divider />
         <CardContent sx={{
           minHeight: (theme) => theme.spacing(16),
+          display: item.textAlign === 'center' ? 'flex' : 'block',
+          alignItems: item.textAlign === 'center' ? 'center' : 'flex-start',
+          justifyContent: item.textAlign === 'center' ? 'center' : 'flex-start',
+          textAlign: item.textAlign || 'inherit',
           '@media (max-width: 600px)': {
             minHeight: theme.spacing(14),
             padding: theme.spacing(1.5),
@@ -686,12 +695,13 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
             padding: theme.spacing(1),
           },
         }}>
-          <Stack spacing={1}>
+          <Stack spacing={1} alignItems={item.textAlign === 'center' ? 'center' : 'flex-start'}>
             <Box>
               <Typography
                 sx={{
                   textOverflow: "ellipsis",
                   overflow: "hidden",
+                  textAlign: item.textAlign || 'inherit',
                   '@media (max-width: 600px)': {
                     fontSize: '0.9rem',
                     lineHeight: 1.2,
@@ -718,6 +728,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                   sx: {
                     textOverflow: "ellipsis",
                     overflow: "hidden",
+                    textAlign: item.textAlign || 'inherit',
                     '@media (max-width: 600px)': {
                       fontSize: '0.8rem',
                       lineHeight: 1.2,
@@ -737,6 +748,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                     sx: {
                       textOverflow: "ellipsis",
                       overflow: "hidden",
+                      textAlign: item.textAlign || 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.8rem',
                         lineHeight: 1.2,
@@ -791,6 +803,10 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
       <Divider />
       <CardContent sx={{
         minHeight: (theme) => theme.spacing(16),
+        display: item.textAlign === 'center' ? 'flex' : 'block',
+        alignItems: item.textAlign === 'center' ? 'center' : 'flex-start',
+        justifyContent: item.textAlign === 'center' ? 'center' : 'flex-start',
+        textAlign: item.textAlign || 'inherit',
         '@media (max-width: 600px)': {
           minHeight: theme.spacing(14),
           padding: theme.spacing(1.5),
@@ -800,12 +816,13 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
           padding: theme.spacing(1),
         },
       }}>
-        <Stack spacing={1}>
+        <Stack spacing={1} alignItems={item.textAlign === 'center' ? 'center' : 'flex-start'}>
           <Box>
             <Typography
               sx={{
                 textOverflow: "ellipsis",
                 overflow: "hidden",
+                textAlign: item.textAlign || 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.9rem',
                   lineHeight: 1.2,
@@ -832,6 +849,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
               sx={{
                 textOverflow: "ellipsis",
                 overflow: "hidden",
+                textAlign: item.textAlign || 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.8rem',
                   lineHeight: 1.2,
@@ -857,6 +875,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                     sx: {
                       textOverflow: "ellipsis",
                       overflow: "hidden",
+                      textAlign: item.textAlign || 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.8rem',
                         lineHeight: 1.2,

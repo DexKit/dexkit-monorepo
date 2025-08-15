@@ -243,7 +243,7 @@ function Navbar({ appConfig, isPreview }: Props) {
   };
 
   const getLogoSize = () => {
-    if (!glassVariant) return { width: 48, height: 48 };
+    if (!glassVariant) return { width: isMobile ? 24 : 48, height: isMobile ? 24 : 48 };
 
     const { logoSize, customLogoWidth, customLogoHeight } = glassSettings;
 
@@ -251,17 +251,17 @@ function Navbar({ appConfig, isPreview }: Props) {
 
     switch (logoSize) {
       case 'small':
-        width = height = 32;
+        width = height = isMobile ? 16 : 32;
         break;
       case 'large':
-        width = height = 64;
+        width = height = isMobile ? 32 : 64;
         break;
       case 'custom':
-        width = customLogoWidth || 32;
-        height = customLogoHeight || 32;
+        width = isMobile ? (customLogoWidth ? customLogoWidth / 2 : 16) : (customLogoWidth || 32);
+        height = isMobile ? (customLogoHeight ? customLogoHeight / 2 : 16) : (customLogoHeight || 32);
         break;
       default:
-        width = height = 48;
+        width = height = isMobile ? 24 : 48;
         break;
     }
 
@@ -636,11 +636,13 @@ function Navbar({ appConfig, isPreview }: Props) {
         <Toolbar
           variant="dense"
           sx={{
-            py: 1,
-            height: 64,
+            py: isMobile ? 0.5 : 1,
+            height: isMobile ? 56 : 64,
             color: glassSettings.textColor,
             position: 'relative',
             zIndex: 2,
+            display: 'flex',
+            alignItems: 'center',
             ...(glassSettings.borderRadius !== undefined && glassSettings.borderRadius > 0 && {
               borderRadius: `${glassSettings.borderRadius}px`,
               overflow: 'hidden',
@@ -648,20 +650,30 @@ function Navbar({ appConfig, isPreview }: Props) {
           }}
         >
           {isMobile && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{
-                mr: 2,
-                ...(glassVariant && glassSettings.iconColor && {
-                  color: glassSettings.iconColor,
-                }),
-              }}
-              onClick={handleToggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              minHeight: isMobile ? '56px' : '64px'
+            }}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  mr: isMobile ? 1.5 : 2,
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  ...(glassVariant && glassSettings.iconColor && {
+                    color: glassSettings.iconColor,
+                  }),
+                }}
+                onClick={handleToggleDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
           )}
           {!isMobile && glassVariant ? (
             <>
@@ -673,7 +685,13 @@ function Navbar({ appConfig, isPreview }: Props) {
             </>
           ) : glassVariant && isMobile ? (
             <>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                minHeight: isMobile ? '56px' : '64px'
+              }}>
                 {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
                   <Link href={isPreview ? "#" : "/"}>
                     <Image
@@ -705,19 +723,24 @@ function Navbar({ appConfig, isPreview }: Props) {
                   </Link>
                 )}
               </Box>
-              <Stack direction="row" alignItems="center" spacing={1}>
+              <Stack direction="row" alignItems="center" spacing={isMobile ? 0.5 : 1}>
                 {isActive && (
                   <ButtonBase
                     onClick={handleShowProfileMenu}
                     sx={{
                       borderRadius: "50%",
+                      minWidth: '44px',
+                      minHeight: '44px',
                       ...(glassVariant && glassSettings.iconColor && {
                         color: glassSettings.iconColor,
                       }),
                     }}
                   >
                     <Avatar
-                      sx={{ height: "1.5rem", width: "1.5rem" }}
+                      sx={{
+                        height: isMobile ? "1.25rem" : "1.5rem",
+                        width: isMobile ? "1.25rem" : "1.5rem"
+                      }}
                       src={user?.profileImageURL}
                     />
                   </ButtonBase>
@@ -734,6 +757,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                     onClick={handleOpenTransactions}
                     aria-label="notifications"
                     sx={{
+                      minWidth: '44px',
+                      minHeight: '44px',
                       ...(glassVariant && glassSettings.iconColor && {
                         color: glassSettings.iconColor,
                       }),
@@ -765,6 +790,8 @@ function Navbar({ appConfig, isPreview }: Props) {
                   onClick={handleSettingsMenuClick}
                   aria-label="settings"
                   sx={{
+                    minWidth: '44px',
+                    minHeight: '44px',
                     ...(glassVariant && glassSettings.iconColor && {
                       color: glassSettings.iconColor,
                     }),
@@ -776,36 +803,44 @@ function Navbar({ appConfig, isPreview }: Props) {
             </>
           ) : (
             <>
-              {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
-                <Link href={isPreview ? "#" : "/"}>
-                  <Image
-                    src={appConfig?.logoDark?.url || ""}
-                    alt={appConfig.name}
-                    title={appConfig.name}
-                    height={isMobile && appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6))}
-                    width={isMobile && appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6))}
-                  />
-                </Link>
-              ) : appConfig?.logo ? (
-                <Link href={isPreview ? "#" : "/"}>
-                  <Image
-                    src={appConfig?.logo.url}
-                    alt={appConfig.name}
-                    title={appConfig.name}
-                    width={isMobile && appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6))}
-                    height={isMobile && appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6))}
-                  />
-                </Link>
-              ) : (
-                <Link
-                  sx={{ textDecoration: "none" }}
-                  variant="h6"
-                  color="primary"
-                  href={isPreview ? "#" : "/"}
-                >
-                  {appConfig.name}
-                </Link>
-              )}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                height: '100%',
+                minHeight: isMobile ? '56px' : '64px'
+              }}>
+                {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
+                  <Link href={isPreview ? "#" : "/"}>
+                    <Image
+                      src={appConfig?.logoDark?.url || ""}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      height={isMobile ? (appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6)) / 2) : (appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6)))}
+                      width={isMobile ? (appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6)) / 2) : (appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6)))}
+                    />
+                  </Link>
+                ) : appConfig?.logo ? (
+                  <Link href={isPreview ? "#" : "/"}>
+                    <Image
+                      src={appConfig?.logo.url}
+                      alt={appConfig.name}
+                      title={appConfig.name}
+                      width={isMobile ? (appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6)) / 2) : (appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6)))}
+                      height={isMobile ? (appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6)) / 2) : (appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6)))}
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    sx={{ textDecoration: "none" }}
+                    variant="h6"
+                    color="primary"
+                    href={isPreview ? "#" : "/"}
+                  >
+                    {appConfig.name}
+                  </Link>
+                )}
+              </Box>
               {appConfig?.searchbar?.enabled && !isMobile && (
                 <Stack
                   direction="row"

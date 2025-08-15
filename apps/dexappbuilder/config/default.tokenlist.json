@@ -244,6 +244,46 @@
       "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdt.jpg",
       "name": "Tether USD",
       "symbol": "USDT"
+    },
+    {
+      "address": "0x7866E48C74CbFB8183cd1a929cd9b95a7a5CB4F4",
+      "chainId": 1,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+      "name": "DexKit",
+      "symbol": "KIT"
+    },
+    {
+      "address": "0x4D0Def42Cf57D6f27CD4983042a55dce1C9F853c",
+      "chainId": 137,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+      "name": "DexKit",
+      "symbol": "KIT"
+    },
+    {
+      "address": "0x314593fa9a2fa16432913dBcCC96104541d32D11",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+      "name": "DexKit",
+      "symbol": "KIT"
+    },
+    {
+      "address": "0x9134283aFaF6E1B45689EC0b0c82fF2B232BCb30",
+      "chainId": 42161,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+      "name": "DexKit",
+      "symbol": "KIT"
+    },
+    {
+      "address": "0x946f8b0ef009f3f5b1b35e6511a82a58b09d8d4e",
+      "chainId": 8453,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/DexKit/assets/main/icons/dexkit.svg",
+      "name": "DexKit",
+      "symbol": "KIT"
     }
   ]
 }

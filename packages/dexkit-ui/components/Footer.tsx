@@ -8,6 +8,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
+  useMediaQuery,
   useTheme
 } from "@mui/material"; // always use @mui/material instead of @mui/system
 
@@ -46,6 +47,9 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
   }
 
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
   const renderIcon = (media: SocialMedia) => {
     if (media?.type === "instagram") {
       return <InstagramIcon />;
@@ -97,32 +101,38 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
 
   return (
     <Box
-      py={2}
+      py={isMobile ? 4 : isTablet ? 3 : 2}
       sx={{
         bgcolor: "background.paper",
-        minHeight: "50px",
+        minHeight: isMobile ? "120px" : isTablet ? "100px" : "60px",
         width: "100%",
+        borderTop: `1px solid ${theme.palette.divider}`,
       }}
     >
-      <Container>
+      <Container maxWidth="lg">
         <Grid
           container
           justifyContent="space-between"
           alignItems="center"
           alignContent="center"
-          spacing={2}
-          sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          spacing={isMobile ? 3 : 2}
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            textAlign: { xs: "center", sm: "left" },
+            py: isMobile ? 2 : 1
+          }}
         >
-          <Grid item>
+          <Grid item xs={12} sm={4} order={{ xs: 1, sm: 1 }}>
             {appConfig.footerMenuTree ? (
               <Stack
-                direction="row"
+                direction={isMobile ? "row" : "row"}
                 sx={{
-                  center: "right",
-                  justifyContent: "flex-end",
+                  justifyContent: isMobile ? "center" : "flex-start",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: isMobile ? 1 : 0
                 }}
-                alignItems="center"
-                spacing={2}
+                spacing={isMobile ? 0 : 2}
               >
                 {appConfig.footerMenuTree.map((m, key) =>
                   m.children ? (
@@ -132,8 +142,22 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                       color="inherit"
                       href={isPreview ? "#" : m.href || "/"}
                       key={key}
-                      aria-label={`social media link ${m.name}`}
+                      aria-label={`footer menu link ${m.name}`}
                       target={m.type === "External" ? "_blank" : undefined}
+                      sx={{
+                        fontSize: isMobile ? '0.9rem' : '0.875rem',
+                        py: isMobile ? 0.75 : 0.5,
+                        px: isMobile ? 1.5 : 1,
+                        borderRadius: 2,
+                        fontWeight: isMobile ? 500 : 400,
+                        transition: 'all 0.2s ease-in-out',
+                        whiteSpace: 'nowrap',
+                        '&:hover': {
+                          backgroundColor: theme.palette.action.hover,
+                          transform: isMobile ? 'translateY(-1px)' : 'none',
+                          boxShadow: isMobile ? theme.shadows[2] : 'none'
+                        }
+                      }}
                     >
                       <FormattedMessage
                         id={m.name.toLowerCase()}
@@ -144,23 +168,77 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                 )}
               </Stack>
             ) : (
-              <Link
-                href={isPreview ? "" : "https://dexkit.com/contact-us/"}
-                color="inherit"
-                target="_blank"
+              <Stack
+                direction="row"
+                spacing={isMobile ? 2 : 1}
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexWrap: "wrap"
+                }}
               >
-                <FormattedMessage
-                  id="contact.us"
-                  defaultMessage="Contact us"
-                  description="Contact us"
-                />
-              </Link>
+                <Link
+                  href={isPreview ? "" : "https://dexkit.com/contact-us/"}
+                  color="inherit"
+                  target="_blank"
+                  sx={{
+                    fontSize: isMobile ? '0.9rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 0.5,
+                    px: isMobile ? 1.5 : 1,
+                    borderRadius: 2,
+                    fontWeight: isMobile ? 500 : 400,
+                    transition: 'all 0.2s ease-in-out',
+                    whiteSpace: 'nowrap',
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.hover,
+                      transform: isMobile ? 'translateY(-1px)' : 'none',
+                      boxShadow: isMobile ? theme.shadows[2] : 'none'
+                    }
+                  }}
+                >
+                  <FormattedMessage
+                    id="contact.us"
+                    defaultMessage="Contact us"
+                    description="Contact us"
+                  />
+                </Link>
+                <Link
+                  href={isPreview ? "#" : "/app-version"}
+                  color="inherit"
+                  sx={{
+                    fontSize: isMobile ? '0.9rem' : '0.875rem',
+                    py: isMobile ? 0.75 : 0.5,
+                    px: isMobile ? 1.5 : 1,
+                    borderRadius: 2,
+                    fontWeight: isMobile ? 500 : 400,
+                    transition: 'all 0.2s ease-in-out',
+                    whiteSpace: 'nowrap',
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.hover,
+                      transform: isMobile ? 'translateY(-1px)' : 'none',
+                      boxShadow: isMobile ? theme.shadows[2] : 'none'
+                    }
+                  }}
+                >
+                  App version
+                </Link>
+              </Stack>
             )}
           </Grid>
+
           {showAppSignature && (
-            <Grid item>
-              <Typography variant="body1" align="center">
-                <Link href="/" color="primary">
+            <Grid item xs={12} sm={4} order={{ xs: 2, sm: 2 }}>
+              <Typography
+                variant={isMobile ? "body1" : "body2"}
+                align="center"
+                sx={{
+                  fontSize: isMobile ? '0.9rem' : '0.875rem',
+                  lineHeight: isMobile ? 1.6 : 1.4,
+                  color: theme.palette.text.secondary,
+                  px: isMobile ? 2 : 0
+                }}
+              >
+                <Link href="/" color="primary" sx={{ fontWeight: 600 }}>
                   {appConfig.name}
                 </Link>{" "}
                 <FormattedMessage
@@ -173,14 +251,23 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                   href={isPreview ? "#" : "https://www.dexkit.com"}
                   target="_blank"
                   color="inherit"
+                  sx={{ fontWeight: 600 }}
                 >
                   <strong>DexKit</strong>
                 </Link>
               </Typography>
             </Grid>
           )}
-          <Grid item>
-            <Stack direction="row" spacing={1}>
+
+          <Grid item xs={12} sm={4} order={{ xs: 3, sm: 3 }}>
+            <Stack
+              direction="row"
+              spacing={isMobile ? 2 : 1.5}
+              sx={{
+                justifyContent: isMobile ? "center" : "flex-end",
+                alignItems: "center"
+              }}
+            >
               {appConfig?.social &&
                 appConfig.social.map((media, index) => (
                   <IconButton
@@ -188,7 +275,18 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                     href={renderLink(media)}
                     LinkComponent={Link}
                     target="_blank"
-                    size="small"
+                    size={isMobile ? "large" : "medium"}
+                    sx={{
+                      minWidth: isMobile ? '48px' : '44px',
+                      minHeight: isMobile ? '48px' : '44px',
+                      backgroundColor: theme.palette.action.hover,
+                      transition: 'all 0.2s ease-in-out',
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.selected,
+                        transform: 'scale(1.1)',
+                        boxShadow: theme.shadows[4]
+                      }
+                    }}
                   >
                     {renderIcon(media)}
                   </IconButton>
@@ -203,13 +301,24 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                       href={renderCustomLink(media?.link)}
                       LinkComponent={Link}
                       target="_blank"
-                      size="small"
+                      size={isMobile ? "large" : "medium"}
+                      sx={{
+                        minWidth: isMobile ? '48px' : '44px',
+                        minHeight: isMobile ? '48px' : '44px',
+                        backgroundColor: theme.palette.action.hover,
+                        transition: 'all 0.2s ease-in-out',
+                        '&:hover': {
+                          backgroundColor: theme.palette.action.selected,
+                          transform: 'scale(1.1)',
+                          boxShadow: theme.shadows[4]
+                        }
+                      }}
                     >
                       <Image
                         src={media?.iconUrl}
                         alt={media?.label || ""}
-                        height={24}
-                        width={24}
+                        height={isMobile ? 32 : 28}
+                        width={isMobile ? 32 : 28}
                       />
                     </IconButton>
                   ))}

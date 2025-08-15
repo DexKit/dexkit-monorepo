@@ -941,6 +941,7 @@ export type ShowCaseItemAsset = {
   contractAddress: string;
   tokenId: string;
   chainId: number;
+  textAlign?: "left" | "center" | "right";
 };
 
 export type ShowCaseItemCollection = {
@@ -951,6 +952,7 @@ export type ShowCaseItemCollection = {
   contractAddress: string;
   tokenId: string;
   chainId: number;
+  textAlign?: "left" | "center" | "right";
 };
 
 export type ShowCaseItemImage = {
@@ -962,6 +964,7 @@ export type ShowCaseItemImage = {
   url?: string;
   page?: string;
   actionType?: "link" | "page";
+  textAlign?: "left" | "center" | "right";
   customImageScaling?: "cover" | "contain" | "fill" | "center" | "mosaic" | "expanded";
   customImagePosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
   customHoverEffect?: "none" | "zoom" | "lift" | "glow" | "fade" | "slide" | "rotate" | "scale";
