@@ -6,6 +6,7 @@ import AppLink from '@dexkit/ui/components/AppLink';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
 import WidgetsTable from '@dexkit/ui/modules/admin/components/tables/Widgets';
 import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
@@ -59,6 +60,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
   const { isLoggedIn, user } = useAuth();
   const snackbar = useSnackbar();
   const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
   const configsQuery = useWidgetsByOwnerQuery();
   const router = useRouter();
 
@@ -189,7 +191,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
           <Button
             variant="outlined"
             color="inherit"
-            onClick={() => connectWalletDialog.setOpen(true)}
+            onClick={connectWallet}
             startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
           >

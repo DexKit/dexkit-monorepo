@@ -70,6 +70,12 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
 
   const handleClose = () => onClose!({}, "backdropClick");
 
+  const handleDialogClose = (event: any, reason: string) => {
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+      onClose!(event, reason);
+    }
+  };
+
   const handleSwitchNetwork = async () => {
     if (chainId !== undefined) {
       await switchNetworkMutation.mutateAsync({ chainId });
@@ -95,7 +101,17 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   return (
     <Dialog
       {...dialogProps}
+      onClose={handleDialogClose}
       fullScreen={isMobile}
+      sx={{
+        zIndex: 10001,
+        '& .MuiDialog-paper': {
+          zIndex: 10001,
+        },
+        '& .MuiBackdrop-root': {
+          zIndex: 10000,
+        }
+      }}
       PaperProps={{
         sx: {
           ...(isMobile && {
@@ -121,13 +137,16 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           />
         }
         onClose={handleClose}
+        sx={{
+          zIndex: 10002,
+        }}
       />
 
       <Box
         sx={{
           position: 'sticky',
           top: 0,
-          zIndex: theme.zIndex.appBar,
+          zIndex: 10002,
           backgroundColor: theme.palette.background.paper,
           borderBottom: `1px solid ${theme.palette.divider}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
@@ -200,6 +219,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           p: 0,
           flex: 1,
           overflow: 'auto',
+          zIndex: 10002,
         }}
       >
         <Stack spacing={isMobile ? 0 : 1}>
@@ -329,6 +349,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
           backgroundColor: theme.palette.background.paper,
           borderTop: `1px solid ${theme.palette.divider}`,
+          zIndex: 10002,
         }}
       >
         <Button

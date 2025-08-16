@@ -39,3 +39,4 @@ sitemap-0.xml
 # cursor params
 .cursorrules
 .cursorignore
+/.cursorrules.backup

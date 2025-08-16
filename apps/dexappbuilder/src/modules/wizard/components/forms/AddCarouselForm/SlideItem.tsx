@@ -19,10 +19,11 @@ import {
 import Grid from '@mui/material/Grid';
 import { Field, useField } from 'formik';
 import { Select, TextField } from 'formik-mui';
-import { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { CORE_PAGES } from '@/modules/wizard/constants';
+import { useIsMobile } from '@dexkit/core';
 import { CarouselSlide } from '@dexkit/ui/modules/wizard/types/section';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -51,6 +52,8 @@ export default function SlideItem({
 }: SlideItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const theme = useTheme();
+  const isMobileHook = useIsMobile();
+  const [showDirectionField, setShowDirectionField] = useState(false);
 
   const [props, meta, helpers] = useField<CarouselSlide>(`slides[${index}]`);
 
@@ -62,6 +65,37 @@ export default function SlideItem({
     `slides[${index}].overlayPercentage`,
   );
 
+  const [effectProps, effectMeta, effectHelpers] = useField<string>(
+    `slides[${index}].visualEffect`,
+  );
+
+  const [effectIntensityProps, effectIntensityMeta, effectIntensityHelpers] = useField<string>(
+    `slides[${index}].effectIntensity`,
+  );
+
+  const [effectSpeedProps, effectSpeedMeta, effectSpeedHelpers] = useField<string>(
+    `slides[${index}].effectSpeed`,
+  );
+
+  const [effectDirectionProps, effectDirectionMeta, effectDirectionHelpers] = useField<string>(
+    `slides[${index}].effectDirection`,
+  );
+
+  useEffect(() => {
+    const directionalEffects = ['slide', 'shake'];
+    setShowDirectionField(directionalEffects.includes(effectProps.value || 'none'));
+  }, [effectProps.value]);
+
+  const handleVisualEffectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newEffect = event.target.value;
+    effectHelpers.setValue(newEffect);
+
+    const directionalEffects = ['slide', 'shake'];
+    if (!directionalEffects.includes(newEffect)) {
+      effectDirectionHelpers.setValue('horizontal');
+    }
+  };
+
   const allPages = useMemo(() => {
     return Object.keys(CORE_PAGES).map((key) => ({
       page: key,
@@ -72,7 +106,7 @@ export default function SlideItem({
   if (isEditing) {
     return (
       <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
-        <Alert severity="info" sx={isMobile ? {
+        <Alert severity="info" sx={isMobileHook ? {
           fontSize: theme.typography.caption.fontSize,
           py: 0,
           px: theme.spacing(1),
@@ -86,7 +120,7 @@ export default function SlideItem({
           />
         </Alert>
 
-        <Grid container spacing={isMobile ? theme.spacing(0.5) : theme.spacing(1)}>
+        <Grid container spacing={isMobileHook ? theme.spacing(0.5) : theme.spacing(1)}>
           <Grid item xs={12}>
             <Field
               component={TextField}
@@ -97,34 +131,34 @@ export default function SlideItem({
               name={`slides[${index}].imageUrl`}
               InputLabelProps={{
                 shrink: true,
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
               inputProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)} ${theme.spacing(0.5)} ${theme.spacing(0.5)}`
                 } : {}
               }}
-              size={isMobile ? "small" : "medium"}
+              size={isMobileHook ? "small" : "medium"}
               margin="dense"
               InputProps={{
                 shrink: true,
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   height: theme.spacing(4.375)
                 } : {},
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={onSelectImage} size={isMobile ? "small" : "medium"} edge="end" sx={isMobile ? { padding: theme.spacing(0.25) } : {}}>
+                    <IconButton onClick={onSelectImage} size={isMobileHook ? "small" : "medium"} edge="end" sx={isMobileHook ? { padding: theme.spacing(0.25) } : {}}>
                       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                      <Image fontSize={isMobile ? "small" : "medium"} />
+                      <Image fontSize={isMobileHook ? "small" : "medium"} />
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -134,26 +168,375 @@ export default function SlideItem({
             />
           </Grid>
 
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="image.scaling" defaultMessage="Image Scaling" />
+              }
+              name={`slides[${index}].imageScaling`}
+              defaultValue="cover"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="image.scaling.help"
+                  defaultMessage="Choose how the image should be scaled and displayed"
+                />
+              }
+            >
+              <MenuItem value="cover">
+                <FormattedMessage id="scaling.cover" defaultMessage="Cover (Fill container)" />
+              </MenuItem>
+              <MenuItem value="contain">
+                <FormattedMessage id="scaling.contain" defaultMessage="Contain (Fit in container)" />
+              </MenuItem>
+              <MenuItem value="fill">
+                <FormattedMessage id="scaling.fill" defaultMessage="Fill (Stretch)" />
+              </MenuItem>
+              <MenuItem value="center">
+                <FormattedMessage id="scaling.center" defaultMessage="Center (No scaling)" />
+              </MenuItem>
+              <MenuItem value="mosaic">
+                <FormattedMessage id="scaling.mosaic" defaultMessage="Mosaic (Pattern)" />
+              </MenuItem>
+              <MenuItem value="expanded">
+                <FormattedMessage id="scaling.expanded" defaultMessage="Expanded (Zoom)" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="image.position" defaultMessage="Image Position" />
+              }
+              name={`slides[${index}].imagePosition`}
+              defaultValue="center"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="image.position.help"
+                  defaultMessage="Choose where the image should be positioned within the container"
+                />
+              }
+            >
+              <MenuItem value="center">
+                <FormattedMessage id="position.center" defaultMessage="Center" />
+              </MenuItem>
+              <MenuItem value="top">
+                <FormattedMessage id="position.top" defaultMessage="Top" />
+              </MenuItem>
+              <MenuItem value="bottom">
+                <FormattedMessage id="position.bottom" defaultMessage="Bottom" />
+              </MenuItem>
+              <MenuItem value="left">
+                <FormattedMessage id="position.left" defaultMessage="Left" />
+              </MenuItem>
+              <MenuItem value="right">
+                <FormattedMessage id="position.right" defaultMessage="Right" />
+              </MenuItem>
+              <MenuItem value="top-left">
+                <FormattedMessage id="position.top-left" defaultMessage="Top Left" />
+              </MenuItem>
+              <MenuItem value="top-right">
+                <FormattedMessage id="position.top-right" defaultMessage="Top Right" />
+              </MenuItem>
+              <MenuItem value="bottom-left">
+                <FormattedMessage id="position.bottom-left" defaultMessage="Bottom Left" />
+              </MenuItem>
+              <MenuItem value="bottom-right">
+                <FormattedMessage id="position.bottom-right" defaultMessage="Bottom Right" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>
+              <FormattedMessage id="visual.effects" defaultMessage="Visual Effects" />
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="visual.effect" defaultMessage="Visual Effect" />
+              }
+              name={`slides[${index}].visualEffect`}
+              defaultValue="none"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="visual.effect.help"
+                  defaultMessage="Choose a visual effect to apply to the image"
+                />
+              }
+              onChange={handleVisualEffectChange}
+            >
+              <MenuItem value="none">
+                <FormattedMessage id="effect.none" defaultMessage="None" />
+              </MenuItem>
+              <MenuItem value="pulse">
+                <FormattedMessage id="effect.pulse" defaultMessage="Pulse" />
+              </MenuItem>
+              <MenuItem value="float">
+                <FormattedMessage id="effect.float" defaultMessage="Float" />
+              </MenuItem>
+              <MenuItem value="zoom">
+                <FormattedMessage id="effect.zoom" defaultMessage="Zoom" />
+              </MenuItem>
+              <MenuItem value="slide">
+                <FormattedMessage id="effect.slide" defaultMessage="Slide" />
+              </MenuItem>
+              <MenuItem value="rotate">
+                <FormattedMessage id="effect.rotate" defaultMessage="Rotate" />
+              </MenuItem>
+              <MenuItem value="shake">
+                <FormattedMessage id="effect.shake" defaultMessage="Shake" />
+              </MenuItem>
+              <MenuItem value="glow">
+                <FormattedMessage id="effect.glow" defaultMessage="Glow" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="effect.intensity" defaultMessage="Effect Intensity" />
+              }
+              name={`slides[${index}].effectIntensity`}
+              defaultValue="medium"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="effect.intensity.help"
+                  defaultMessage="Set the intensity of the visual effect"
+                />
+              }
+            >
+              <MenuItem value="low">
+                <FormattedMessage id="intensity.low" defaultMessage="Low" />
+              </MenuItem>
+              <MenuItem value="medium">
+                <FormattedMessage id="intensity.medium" defaultMessage="Medium" />
+              </MenuItem>
+              <MenuItem value="high">
+                <FormattedMessage id="intensity.high" defaultMessage="High" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="effect.speed" defaultMessage="Effect Speed" />
+              }
+              name={`slides[${index}].effectSpeed`}
+              defaultValue="normal"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="effect.speed.help"
+                  defaultMessage="Set the speed of the visual effect"
+                />
+              }
+            >
+              <MenuItem value="slow">
+                <FormattedMessage id="speed.slow" defaultMessage="Slow" />
+              </MenuItem>
+              <MenuItem value="normal">
+                <FormattedMessage id="speed.normal" defaultMessage="Normal" />
+              </MenuItem>
+              <MenuItem value="fast">
+                <FormattedMessage id="speed.fast" defaultMessage="Fast" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              select
+              label={
+                <FormattedMessage id="effect.direction" defaultMessage="Effect Direction" />
+              }
+              name={`slides[${index}].effectDirection`}
+              defaultValue="horizontal"
+              InputLabelProps={{
+                shrink: true,
+                style: isMobileHook ? {
+                  fontSize: theme.typography.caption.fontSize
+                } : {}
+              }}
+              size={isMobileHook ? "small" : "medium"}
+              margin="dense"
+              helperText={
+                <FormattedMessage
+                  id="effect.direction.help"
+                  defaultMessage="Set the direction of the visual effect"
+                />
+              }
+              sx={{
+                display: showDirectionField ? 'block' : 'none'
+              }}
+            >
+              <MenuItem value="horizontal">
+                <FormattedMessage id="direction.horizontal" defaultMessage="Horizontal" />
+              </MenuItem>
+              <MenuItem value="vertical">
+                <FormattedMessage id="direction.vertical" defaultMessage="Vertical" />
+              </MenuItem>
+              <MenuItem value="diagonal">
+                <FormattedMessage id="direction.diagonal" defaultMessage="Diagonal" />
+              </MenuItem>
+              <MenuItem value="radial">
+                <FormattedMessage id="direction.radial" defaultMessage="Radial" />
+              </MenuItem>
+            </Field>
+          </Grid>
+
+          {/* Image Preview */}
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle2" gutterBottom>
+                <FormattedMessage id="image.preview" defaultMessage="Image Preview" />
+              </Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: 120,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1,
+                  overflow: 'hidden',
+                  position: 'relative',
+                  bgcolor: 'background.paper',
+                }}
+              >
+                {imgProps.value && (
+                  <Box
+                    sx={{
+                      backgroundImage: `url("${imgProps.value}")`,
+                      backgroundSize: (() => {
+                        const scaling = props.value.imageScaling || 'cover';
+                        switch (scaling) {
+                          case 'cover': return 'cover';
+                          case 'contain': return 'contain';
+                          case 'fill': return '100% 100%';
+                          case 'center': return 'auto';
+                          case 'mosaic': return '50px 50px';
+                          case 'expanded': return '120%';
+                          default: return 'cover';
+                        }
+                      })(),
+                      backgroundPosition: (() => {
+                        const position = props.value.imagePosition || 'center';
+                        switch (position) {
+                          case 'center': return 'center center';
+                          case 'top': return 'center top';
+                          case 'bottom': return 'center bottom';
+                          case 'left': return 'left center';
+                          case 'right': return 'right center';
+                          case 'top-left': return 'left top';
+                          case 'top-right': return 'right top';
+                          case 'bottom-left': return 'left bottom';
+                          case 'bottom-right': return 'right bottom';
+                          default: return 'center center';
+                        }
+                      })(),
+                      backgroundRepeat: props.value.imageScaling === 'mosaic' ? 'repeat' : 'no-repeat',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                )}
+                {!imgProps.value && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100%',
+                      color: 'text.secondary',
+                    }}
+                  >
+                    <FormattedMessage id="no.image.selected" defaultMessage="No image selected" />
+                  </Box>
+                )}
+              </Box>
+            </Box>
+          </Grid>
+
           <Grid item xs={6}>
             <Field
               component={TextField}
               fullWidth
               name={`slides[${index}].title`}
               label={<FormattedMessage id="title" defaultMessage="Title" />}
-              size={isMobile ? "small" : "medium"}
+              size={isMobileHook ? "small" : "medium"}
               margin="dense"
               inputProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -168,20 +551,20 @@ export default function SlideItem({
               fullWidth
               name={`slides[${index}].subtitle`}
               label={<FormattedMessage id="subtitle" defaultMessage="subtitle" />}
-              size={isMobile ? "small" : "medium"}
+              size={isMobileHook ? "small" : "medium"}
               margin="dense"
               inputProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -202,7 +585,7 @@ export default function SlideItem({
               }
               format="rgb"
               name={`slides[${index}].overlayColor`}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -227,7 +610,7 @@ export default function SlideItem({
               }
               format="rgb"
               name={`slides[${index}].textColor`}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -245,9 +628,9 @@ export default function SlideItem({
             />
           </Grid>
 
-          <Grid item xs={12} sx={{ mt: isMobile ? 0 : 1 }}>
+          <Grid item xs={12} sx={{ mt: isMobileHook ? 0 : 1 }}>
             <Box sx={{ px: theme.spacing(1) }}>
-              <Typography variant="caption" sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}>
+              <Typography variant="caption" sx={isMobileHook ? { fontSize: theme.typography.caption.fontSize } : {}}>
                 <FormattedMessage id="overlay.percentage" defaultMessage="Overlay percentage" />: {perProps.value || 0}%
               </Typography>
               <Slider
@@ -257,7 +640,7 @@ export default function SlideItem({
                     perImgHelpers.setValue(value);
                   }
                 }}
-                size={isMobile ? "small" : "medium"}
+                size={isMobileHook ? "small" : "medium"}
                 sx={{ padding: `${theme.spacing(0.75)} 0` }}
               />
             </Box>
@@ -274,20 +657,20 @@ export default function SlideItem({
                 />
               }
               name={`slides[${index}].action.caption`}
-              size={isMobile ? "small" : "medium"}
+              size={isMobileHook ? "small" : "medium"}
               margin="dense"
               inputProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   padding: theme.spacing(0.5)
                 } : {}
               }}
               InputLabelProps={{
-                style: isMobile ? {
+                style: isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize
                 } : {}
               }}
-              sx={isMobile ? {
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize,
@@ -299,8 +682,8 @@ export default function SlideItem({
           <Grid item xs={6}>
             <FormControl
               fullWidth
-              size={isMobile ? "small" : "medium"}
-              sx={isMobile ? {
+              size={isMobileHook ? "small" : "medium"}
+              sx={isMobileHook ? {
                 '& .MuiInputBase-root': {
                   height: theme.spacing(4.375),
                   fontSize: theme.typography.caption.fontSize
@@ -321,8 +704,8 @@ export default function SlideItem({
                     defaultMessage="Action type"
                   />
                 }
-                size={isMobile ? "small" : "medium"}
-                sx={isMobile ? {
+                size={isMobileHook ? "small" : "medium"}
+                sx={isMobileHook ? {
                   fontSize: theme.typography.caption.fontSize,
                   '& .MuiInputLabel-root': { fontSize: theme.typography.caption.fontSize }
                 } : {}}
@@ -341,8 +724,8 @@ export default function SlideItem({
             {meta.value?.action?.type === 'page' ? (
               <FormControl
                 fullWidth
-                size={isMobile ? "small" : "medium"}
-                sx={isMobile ? {
+                size={isMobileHook ? "small" : "medium"}
+                sx={isMobileHook ? {
                   '& .MuiInputBase-root': {
                     height: theme.spacing(4.375),
                     fontSize: theme.typography.caption.fontSize
@@ -358,8 +741,8 @@ export default function SlideItem({
                   component={Select}
                   name={`slides[${index}].action.page`}
                   label={<FormattedMessage id="page" defaultMessage="Page" />}
-                  size={isMobile ? "small" : "medium"}
-                  sx={isMobile ? {
+                  size={isMobileHook ? "small" : "medium"}
+                  sx={isMobileHook ? {
                     fontSize: theme.typography.caption.fontSize,
                     '& .MuiInputLabel-root': { fontSize: theme.typography.caption.fontSize }
                   } : {}}
@@ -377,20 +760,20 @@ export default function SlideItem({
                 fullWidth
                 label={<FormattedMessage id="url" defaultMessage="URL" />}
                 name={`slides[${index}].action.url`}
-                size={isMobile ? "small" : "medium"}
+                size={isMobileHook ? "small" : "medium"}
                 margin="dense"
                 inputProps={{
-                  style: isMobile ? {
+                  style: isMobileHook ? {
                     fontSize: theme.typography.caption.fontSize,
                     padding: theme.spacing(0.5)
                   } : {}
                 }}
                 InputLabelProps={{
-                  style: isMobile ? {
+                  style: isMobileHook ? {
                     fontSize: theme.typography.caption.fontSize
                   } : {}
                 }}
-                sx={isMobile ? {
+                sx={isMobileHook ? {
                   '& .MuiInputBase-root': {
                     height: theme.spacing(4.375),
                     fontSize: theme.typography.caption.fontSize,
@@ -405,21 +788,21 @@ export default function SlideItem({
             <Stack spacing={theme.spacing(1)} alignItems="center" direction="row">
               <Button
                 onClick={() => setIsEditing(false)}
-                startIcon={<Check fontSize={isMobile ? "small" : "medium"} />}
+                startIcon={<Check fontSize={isMobileHook ? "small" : "medium"} />}
                 size="small"
                 variant="outlined"
                 disabled={Boolean(imgMeta.error)}
-                sx={isMobile ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
+                sx={isMobileHook ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
               <Button
                 color="error"
                 variant="outlined"
-                startIcon={<Delete fontSize={isMobile ? "small" : "medium"} />}
+                startIcon={<Delete fontSize={isMobileHook ? "small" : "medium"} />}
                 onClick={onRemove}
                 size="small"
-                sx={isMobile ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
+                sx={isMobileHook ? { fontSize: theme.typography.caption.fontSize, padding: `${theme.spacing(0.25)} ${theme.spacing(1)}` } : {}}
               >
                 <FormattedMessage id="remove" defaultMessage="Remove" />
               </Button>
@@ -433,7 +816,7 @@ export default function SlideItem({
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <Stack
-        spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
+        spacing={isMobileHook ? theme.spacing(1) : theme.spacing(2)}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
@@ -441,22 +824,22 @@ export default function SlideItem({
         <Avatar
           variant="rounded"
           src={meta.value.imageUrl}
-          sx={isMobile ? { width: theme.spacing(3.5), height: theme.spacing(3.5) } : {}}
+          sx={isMobileHook ? { width: theme.spacing(3.5), height: theme.spacing(3.5) } : {}}
         />
         {meta.value.title && (
           <Box>
             <Typography
-              variant={isMobile ? "caption" : "body1"}
+              variant={isMobileHook ? "caption" : "body1"}
               fontWeight="bold"
-              sx={isMobile ? { fontSize: theme.typography.body2.fontSize } : {}}
+              sx={isMobileHook ? { fontSize: theme.typography.body2.fontSize } : {}}
             >
               {meta.value.title}
             </Typography>
             {meta.value.subtitle && (
               <Typography
-                variant={isMobile ? "caption" : "body2"}
+                variant={isMobileHook ? "caption" : "body2"}
                 color="text.secondary"
-                sx={isMobile ? { fontSize: theme.typography.caption.fontSize } : {}}
+                sx={isMobileHook ? { fontSize: theme.typography.caption.fontSize } : {}}
               >
                 {meta.value.subtitle}
               </Typography>
@@ -466,21 +849,21 @@ export default function SlideItem({
       </Stack>
 
       <Stack
-        spacing={isMobile ? 0 : theme.spacing(0.5)}
+        spacing={isMobileHook ? 0 : theme.spacing(0.5)}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
       >
-        <IconButton disabled={disableUp} onClick={onUp} size={isMobile ? "small" : "medium"}>
+        <IconButton disabled={disableUp} onClick={onUp} size={isMobileHook ? "small" : "medium"}>
           <ArrowUpwardIcon fontSize="inherit" />
         </IconButton>
-        <IconButton disabled={disableDown} onClick={onDown} size={isMobile ? "small" : "medium"}>
+        <IconButton disabled={disableDown} onClick={onDown} size={isMobileHook ? "small" : "medium"}>
           <ArrowDownwardIcon fontSize="inherit" />
         </IconButton>
-        <IconButton onClick={() => setIsEditing(true)} size={isMobile ? "small" : "medium"}>
+        <IconButton onClick={() => setIsEditing(true)} size={isMobileHook ? "small" : "medium"}>
           <Edit fontSize="inherit" />
         </IconButton>
-        <IconButton color="error" onClick={onRemove} size={isMobile ? "small" : "medium"}>
+        <IconButton color="error" onClick={onRemove} size={isMobileHook ? "small" : "medium"}>
           <Delete fontSize="inherit" />
         </IconButton>
       </Stack>

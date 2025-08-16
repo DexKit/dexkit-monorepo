@@ -6,6 +6,7 @@ import {
   Drawer,
   Grid,
   IconButton,
+  InputAdornment,
   Stack,
   Typography,
   useMediaQuery,
@@ -348,6 +349,19 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                               defaultMessage="Name of your app"
                             />
                           }
+                          helperText={
+                            <FormattedMessage
+                              id="app.name.domain.hint.updated"
+                              defaultMessage="Enter your app name (domain will be yourname.dexkit.app)"
+                            />
+                          }
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                .dexkit.app
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       </Grid>
                       <Grid item xs={12}>
