@@ -12,6 +12,7 @@ import '../src/styles/editSectionDialog.css';
 import './customCss.css';
 
 import { setupTheme } from '@dexkit/ui/services/app';
+import SecurityProvider from '../src/components/SecurityProvider';
 
 import {
   AppMarketplaceProvider,
@@ -61,6 +62,7 @@ export default function MyApp(props: MyAppProps) {
   );
 
   React.useEffect(() => {
+
     router.events.on('routeChangeStart', () => {
       setLoading(true);
     });
@@ -110,39 +112,41 @@ export default function MyApp(props: MyAppProps) {
         />
       </Head>
       <CacheProvider value={emotionCache}>
-        <AuthStateProvider>
-          <SiteProvider siteId={siteId} slug={site}>
-            <AppUIConfigContext.Provider
-              value={{ appConfig: config, appNFT, siteId }}
-            >
-              <ThirdwebProvider>
-                <QueryClientProvider client={queryClient}>
-                  <Hydrate state={pageProps.dehydratedState}>
-                    <DefaultSeo {...SEO} />
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                      <AppMarketplaceProvider
-                        appLocaleMessages={appLocaleMessages}
-                      >
-                        <Backdrop
-                          open={loading}
-                          sx={{
-                            color:
-                              theme?.colorSchemes?.light?.palette?.primary
-                                ?.main,
-                            zIndex: theme.zIndex.drawer + 1,
-                          }}
+        <SecurityProvider>
+          <AuthStateProvider>
+            <SiteProvider siteId={siteId} slug={site}>
+              <AppUIConfigContext.Provider
+                value={{ appConfig: config, appNFT, siteId }}
+              >
+                <ThirdwebProvider>
+                  <QueryClientProvider client={queryClient}>
+                    <Hydrate state={pageProps.dehydratedState}>
+                      <DefaultSeo {...SEO} />
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <AppMarketplaceProvider
+                          appLocaleMessages={appLocaleMessages}
                         >
-                          <CircularProgress color="inherit" size={80} />
-                        </Backdrop>
-                        {getLayout(<Component {...pageProps} />)}
-                      </AppMarketplaceProvider>
-                    </LocalizationProvider>
-                  </Hydrate>
-                </QueryClientProvider>
-              </ThirdwebProvider>
-            </AppUIConfigContext.Provider>
-          </SiteProvider>
-        </AuthStateProvider>
+                          <Backdrop
+                            open={loading}
+                            sx={{
+                              color:
+                                theme?.colorSchemes?.light?.palette?.primary
+                                  ?.main,
+                              zIndex: theme.zIndex.drawer + 1,
+                            }}
+                          >
+                            <CircularProgress color="inherit" size={80} />
+                          </Backdrop>
+                          {getLayout(<Component {...pageProps} />)}
+                        </AppMarketplaceProvider>
+                      </LocalizationProvider>
+                    </Hydrate>
+                  </QueryClientProvider>
+                </ThirdwebProvider>
+              </AppUIConfigContext.Provider>
+            </SiteProvider>
+          </AuthStateProvider>
+        </SecurityProvider>
       </CacheProvider>
       <Analytics />
     </>

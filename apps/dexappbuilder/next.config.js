@@ -1,8 +1,8 @@
+import securityConfig from './next.config.security.js';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    productionBrowserSourceMaps: false,
-    serverSourceMaps: false,
     optimizePackageImports: ['ethers'],
     turbo: {
       resolveAlias: {
@@ -27,19 +27,48 @@ const nextConfig = {
     'react-dnd',
     'mui-color-input',
   ],
-  webpack(config) {
-    /*config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    })*/
-
-
+  webpack(config, { dev, isServer }) {
+    // Basic webpack configuration
     config.resolve.alias = {
       ...config.resolve.alias,
       'react/jsx-runtime.js': 'react/jsx-runtime',
       'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
     };
+
+    // Security-specific webpack configuration
+    if (!dev && !isServer) {
+      // Client-side only optimizations
+      config.devtool = false;
+
+      // Optimize bundle splitting for client
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+          mui: {
+            test: /[\\/]node_modules[\\/]@mui[\\/]/,
+            name: 'mui',
+            chunks: 'all',
+            priority: 10,
+          },
+        },
+      };
+    }
+
+    // Server-side specific configurations
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push({
+        'self': 'globalThis',
+        'window': 'globalThis',
+        'document': 'globalThis',
+      });
+    }
+
     return config;
   },
   images: {
@@ -58,6 +87,15 @@ const nextConfig = {
       'dexkit-storage.nyc3.digitaloceanspaces.com',
       'dexkit-test.nyc3.digitaloceanspaces.com',
     ],
+  },
+
+  // Security configurations from security config
+  poweredByHeader: securityConfig.poweredByHeader,
+  compress: securityConfig.compress,
+
+  // Security headers
+  async headers() {
+    return securityConfig.headers();
   },
 };
 
