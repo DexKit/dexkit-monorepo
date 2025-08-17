@@ -7,7 +7,7 @@ import {
 } from "../services/auth";
 
 export const DEXKIT_UI_BASE_API_URL =
-  process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT || "http://localhost:5000";
+  process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT || "https://nft-api.dexkit.com";
 //const DEXKIT_UI_BASE_API_URL = 'https://nft-api.dexkit.com'
 export const DEXKIT_NFT_BASE_URL = `${DEXKIT_UI_BASE_API_URL}`;
 
@@ -15,7 +15,7 @@ export const DEXKIT_STORAGE_MERKLE_TREE_URL =
   "https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com/dexkit/merkle-tree/";
 
 export const TRADER_BASE_API = "https://0x-orderbook.dexkit.com";
-//export const TRADER_BASE_API = 'http://localhost:5000'
+//export const TRADER_BASE_API = 'https://0x-orderbook.dexkit.com'
 
 export const TRADER_ORDERBOOK_API = `${TRADER_BASE_API}/orderbook/orders`;
 
