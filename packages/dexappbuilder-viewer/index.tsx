@@ -7,6 +7,7 @@ import { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SectionRender } from "./components/SectionRenderWithPlugin";
+import UnderConstructionViewer from "./components/UnderConstructionViewer";
 import { WidgetProvider } from "./components/WidgetProvider";
 import { useWhitelabelConfigQuery } from "./hooks";
 
@@ -30,9 +31,19 @@ export function RenderDexAppBuilder({
   const configResponse = useWhitelabelConfigQuery({ slug, page });
 
   if (configResponse.data) {
-    const toRender = (
-      JSON.parse(configResponse.data.config) as AppConfig
-    ).pages[page || "home"].sections
+    const appConfig = JSON.parse(configResponse.data.config) as AppConfig;
+
+    if (appConfig.underConstruction) {
+      return withLayout ? (
+        <MainLayout>
+          <UnderConstructionViewer />
+        </MainLayout>
+      ) : (
+        <UnderConstructionViewer />
+      );
+    }
+
+    const toRender = appConfig.pages[page || "home"].sections
       .filter((s) => (section ? section === s.type : true))
       .map((section, k) => <SectionRender key={k} section={section} />);
 
@@ -61,6 +72,16 @@ export function RenderDexAppBuilderFromConfig({
   page?: string;
   withLayout?: boolean;
 }) {
+  if (config.underConstruction) {
+    return withLayout ? (
+      <MainLayout>
+        <UnderConstructionViewer />
+      </MainLayout>
+    ) : (
+      <UnderConstructionViewer />
+    );
+  }
+
   const toRender = config.pages[page || "home"].sections.map((section, k) => (
     <SectionRender key={k} section={section} />
   ));

@@ -16,6 +16,7 @@ import { getDKAssetOrderbook } from '@dexkit/ui/modules/nft/services';
 import { fetchMultipleAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query';
 import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
+import { checkUnderConstruction } from '../../../src/utils/underConstruction';
 
 const Home: NextPage<{
   sections: AppPageSection[];
@@ -41,6 +42,11 @@ export const getStaticProps: GetStaticProps = async ({
 
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
+
+  const underConstructionRedirect = checkUnderConstruction(appConfig);
+  if (underConstructionRedirect) {
+    return underConstructionRedirect;
+  }
 
   const homePage = appConfig.pages.home;
 

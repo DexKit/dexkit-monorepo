@@ -86,6 +86,16 @@ export const getStaticProps: GetStaticProps = async ({
   const queryClient = new QueryClient();
 
   const configResponse = await getAppConfig(params?.site, 'home');
+  const { appConfig } = configResponse;
+
+  if (appConfig.underConstruction) {
+    return {
+      redirect: {
+        destination: '/under-construction',
+        permanent: false,
+      },
+    };
+  }
 
   /*  for (let collection of collectionListJson.collections) {
     const provider = getProviderByChainId(collection.chainId);

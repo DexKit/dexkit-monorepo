@@ -50,6 +50,7 @@ export default function GeneralWizardContainer({
           heightMobile: form.logoHeightMobile || 48,
         },
         locale: form.locale,
+        underConstruction: form.underConstruction,
       };
       onSave(newConfig);
     }
@@ -78,6 +79,7 @@ export default function GeneralWizardContainer({
           heightMobile: form?.logoHeightMobile || 48,
         },
         locale: form.locale,
+        underConstruction: form.underConstruction,
       };
       onChange(newConfig);
     }
@@ -97,6 +99,7 @@ export default function GeneralWizardContainer({
         logoHeightMobile: Number(config.logo?.heightMobile || 48),
         logoWidthMobile: Number(config.logo?.widthMobile || 48),
         name: config.name,
+        underConstruction: config.underConstruction ?? false,
       });
     }
   }, []);
