@@ -16,7 +16,6 @@ import { getDKAssetOrderbook } from '@dexkit/ui/modules/nft/services';
 import { fetchMultipleAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query';
 import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { checkUnderConstruction } from '../../../src/utils/underConstruction';
 
 const Home: NextPage<{
   sections: AppPageSection[];
@@ -43,9 +42,15 @@ export const getStaticProps: GetStaticProps = async ({
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
 
-  const underConstructionRedirect = checkUnderConstruction(appConfig);
-  if (underConstructionRedirect) {
-    return underConstructionRedirect;
+  // Check underConstruction only for production domains (.dexkit.app)
+  // In development/preview domains, this check is already handled by getAppConfig
+  if (params?.site?.startsWith('dexkit.app') && appConfig.underConstruction) {
+    return {
+      redirect: {
+        destination: '/under-construction',
+        permanent: false,
+      },
+    };
   }
 
   const homePage = appConfig.pages.home;
@@ -80,7 +85,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',
