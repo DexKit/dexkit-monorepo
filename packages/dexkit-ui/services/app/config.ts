@@ -3,6 +3,17 @@ import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import getLocaleMessages from "../i18n";
 import { getConfig, getSitemapConfig } from "../whitelabel";
 
+/**
+ * Configuration service for DexAppBuilder applications
+ * 
+ * IMPORTANT: The underConstruction flag behavior:
+ * - In production domains (.dexkit.app): Respects the underConstruction flag from config
+ * - In development/preview domains (dexappbuilder.dexkit.com, localhost, etc.): Always ignores underConstruction flag
+ * 
+ * This ensures users can preview their app during development while maintaining the under construction
+ * functionality for production sites.
+ */
+
 export async function getAppConfig(
   site?: string,
   appPage?: string
@@ -77,7 +88,6 @@ export async function getAppConfig(
     }
     const appConfigJson = (await import("../../config/app.json")).default;
     const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
-    return Promise.resolve({ appConfig });
   }
 
   if (site?.startsWith("dexkit.app")) {
@@ -124,6 +134,7 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
+feat/under-construction-feature
         const appConfig = {
           ...rawAppConfig,
           underConstruction: rawAppConfig.underConstruction ?? false
@@ -306,6 +317,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
         return {
           appConfig: {
             ...JSON.parse(configResponse.config) as AppConfig,
+feat/under-construction-feature
             underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
           },
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,

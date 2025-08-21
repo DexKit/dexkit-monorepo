@@ -57,6 +57,17 @@ export const getStaticProps: GetStaticProps = async ({
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
 
+  // Check underConstruction only for production domains (.dexkit.app)
+  // In development/preview domains, this check is already handled by getAppConfig
+  if (params?.site?.startsWith('dexkit.app') && appConfig.underConstruction) {
+    return {
+      redirect: {
+        destination: '/under-construction',
+        permanent: false,
+      },
+    };
+  }
+
   const homePage = appConfig.pages.home;
 
   const sections = homePage?.sections || [];
