@@ -1,11 +1,13 @@
 import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
@@ -14,8 +16,20 @@ import { getAppConfig } from 'src/services/app';
 const SwapPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
-}> = ({ sections, layout }) => {
+  appConfig: AppConfig;
+}> = ({ sections, layout, appConfig }) => {
   const { formatMessage } = useIntl();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (appConfig.underConstruction) {
+      router.replace('/under-construction');
+    }
+  }, [appConfig.underConstruction, router]);
+
+  if (appConfig.underConstruction) {
+    return null;
+  }
 
   return (
     <>
@@ -64,15 +78,6 @@ export const getStaticProps: GetStaticProps = async ({
 
     const configResponse = await getAppConfig(site, 'swap');
     const { appConfig } = configResponse;
-
-    if (appConfig.underConstruction) {
-      return {
-        redirect: {
-          destination: '/under-construction',
-          permanent: false,
-        },
-      };
-    }
 
     const page = appConfig.pages['swap'] || {};
     const sections = page?.sections || [

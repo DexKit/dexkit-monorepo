@@ -3,17 +3,6 @@ import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import getLocaleMessages from "../i18n";
 import { getConfig, getSitemapConfig } from "../whitelabel";
 
-/**
- * Configuration service for DexAppBuilder applications
- * 
- * IMPORTANT: The underConstruction flag behavior:
- * - In production domains (.dexkit.app): Respects the underConstruction flag from config
- * - In development/preview domains (dexappbuilder.dexkit.com, localhost, etc.): Always ignores underConstruction flag
- * 
- * This ensures users can preview their app during development while maintaining the under construction
- * functionality for production sites.
- */
-
 export async function getAppConfig(
   site?: string,
   appPage?: string
@@ -68,10 +57,9 @@ export async function getAppConfig(
       const configResponse = (await getConfig({ slug: slug[1], appPage })).data;
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        // In development/preview mode, always ignore underConstruction flag
         const appConfig = {
           ...rawAppConfig,
-          underConstruction: false
+          underConstruction: rawAppConfig.underConstruction ?? false
         } as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
@@ -88,7 +76,7 @@ export async function getAppConfig(
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: false } as AppConfig;
+    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
     return Promise.resolve({ appConfig });
   }
 
@@ -136,10 +124,9 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        // In localhost development mode, always ignore underConstruction flag
         const appConfig = {
           ...rawAppConfig,
-          underConstruction: false
+          underConstruction: rawAppConfig.underConstruction ?? false
         } as AppConfig;
 
         const appLocaleMessages = JSON.stringify(
@@ -279,7 +266,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: false } as AppConfig;
+    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
     return Promise.resolve({ appConfig });
   }
 
@@ -319,8 +306,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
         return {
           appConfig: {
             ...JSON.parse(configResponse.config) as AppConfig,
-            // In localhost development mode, always ignore underConstruction flag
-            underConstruction: false
+            underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
           },
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
           siteId: configResponse?.id,

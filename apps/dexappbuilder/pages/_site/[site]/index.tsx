@@ -5,6 +5,8 @@ import type {
   GetStaticPropsContext,
   NextPage,
 } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import MainLayout from '../../../src/components/layouts/main';
 
 import { dehydrate, QueryClient } from '@tanstack/react-query';
@@ -14,13 +16,26 @@ import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsR
 import { GET_ASSETS_ORDERBOOK } from '@dexkit/ui/modules/nft/hooks';
 import { getDKAssetOrderbook } from '@dexkit/ui/modules/nft/services';
 import { fetchMultipleAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query';
-import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 
 const Home: NextPage<{
   sections: AppPageSection[];
   layout: PageSectionsLayout;
-}> = ({ sections, layout }) => {
+  appConfig: AppConfig;
+}> = ({ sections, layout, appConfig }) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (appConfig.underConstruction) {
+      router.replace('/under-construction');
+    }
+  }, [appConfig.underConstruction, router]);
+
+  if (appConfig.underConstruction) {
+    return null;
+  }
+
   return (
     <MainLayout disablePadding>
       <SectionsRenderer sections={sections} layout={layout} />
@@ -41,17 +56,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
-
-  // Check underConstruction only for production domains (.dexkit.app)
-  // In development/preview domains, this check is already handled by getAppConfig
-  if (params?.site?.startsWith('dexkit.app') && appConfig.underConstruction) {
-    return {
-      redirect: {
-        destination: '/under-construction',
-        permanent: false,
-      },
-    };
-  }
 
   const homePage = appConfig.pages.home;
 
