@@ -72,6 +72,15 @@ export const getStaticProps: GetStaticProps = async ({
     const configResponse = await getAppConfig(site, 'wallet');
     const { appConfig } = configResponse;
 
+    if (appConfig.underConstruction) {
+      return {
+        redirect: {
+          destination: '/under-construction',
+          permanent: false,
+        },
+      };
+    }
+
     const page = appConfig.pages['wallet'] || {};
     const sections = page?.sections || [
       {

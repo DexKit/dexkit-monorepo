@@ -5,6 +5,7 @@ import {
   ButtonBase,
   Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   InputLabel,
@@ -12,6 +13,7 @@ import {
   Select,
   Stack,
   styled,
+  Switch,
   TextField,
   Tooltip,
   Typography,
@@ -40,6 +42,7 @@ export interface GeneralSectionForm {
   logoHeight?: number;
   logoWidthMobile?: number;
   logoHeightMobile?: number;
+  underConstruction?: boolean;
 }
 
 const FormSchema: Yup.SchemaOf<GeneralSectionForm> = Yup.object().shape({
@@ -54,6 +57,7 @@ const FormSchema: Yup.SchemaOf<GeneralSectionForm> = Yup.object().shape({
   logoHeight: Yup.number().min(0),
   logoWidthMobile: Yup.number().min(0),
   logoHeightMobile: Yup.number().min(0),
+  underConstruction: Yup.boolean(),
 });
 
 interface Props {
@@ -156,6 +160,7 @@ export default function GeneralSection({
       logoWidth: 48,
       logoHeightMobile: 48,
       logoWidthMobile: 48,
+      underConstruction: false,
     },
     enableReinitialize: true,
     onSubmit: handleSubmit,
@@ -618,6 +623,46 @@ export default function GeneralSection({
                   </FormHelperText>
                 )}
               </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sx={{ mt: 3 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formik.values.underConstruction || false}
+                    onChange={(event) => {
+                      formik.setFieldValue('underConstruction', event.target.checked);
+                      if (onChange) {
+                        onChange({ ...formik.values, underConstruction: event.target.checked });
+                      }
+                    }}
+                    name="underConstruction"
+                    color="primary"
+                  />
+                }
+                label={
+                  <Box>
+                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                      <FormattedMessage
+                        id="under.construction.toggle"
+                        defaultMessage="Show Under Construction Page"
+                      />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                      <FormattedMessage
+                        id="under.construction.toggle.description"
+                        defaultMessage="When enabled, visitors will see an under construction page instead of your app content. Disable this when you're ready to launch."
+                      />
+                    </Typography>
+                  </Box>
+                }
+                sx={{
+                  alignItems: 'flex-start',
+                  '& .MuiFormControlLabel-label': {
+                    ml: 1,
+                  },
+                }}
+              />
             </Grid>
 
             <Grid item xs={12} sx={{ mt: 2 }}>

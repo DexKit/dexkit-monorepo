@@ -65,6 +65,15 @@ export const getStaticProps: GetStaticProps = async ({
     const configResponse = await getAppConfig(site, 'swap');
     const { appConfig } = configResponse;
 
+    if (appConfig.underConstruction) {
+      return {
+        redirect: {
+          destination: '/under-construction',
+          permanent: false,
+        },
+      };
+    }
+
     const page = appConfig.pages['swap'] || {};
     const sections = page?.sections || [
       {
