@@ -134,7 +134,6 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-feat/under-construction-feature
         const appConfig = {
           ...rawAppConfig,
           underConstruction: rawAppConfig.underConstruction ?? false
