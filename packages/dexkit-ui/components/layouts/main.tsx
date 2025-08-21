@@ -43,7 +43,9 @@ const WrapperLayout: React.FC<{
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
   const mobileView = isMobile || isMobileUI;
 
-  if (isBottom && !mobileView) {
+  const isUnderConstruction = appConfig.underConstruction;
+
+  if (isBottom && !mobileView && !isUnderConstruction) {
     return (
       <Box
         style={{
@@ -60,7 +62,7 @@ const WrapperLayout: React.FC<{
     );
   }
 
-  if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView) {
+  if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView && !isUnderConstruction) {
     return (
       <Box
         sx={{
@@ -151,6 +153,8 @@ const MainLayout: React.FC<Props> = ({
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
 
+  const isUnderConstruction = appConfig.underConstruction;
+
   const render = () => (
     <ErrorBoundary
       fallbackRender={({ error, resetErrorBoundary }) => (
@@ -175,7 +179,7 @@ const MainLayout: React.FC<Props> = ({
         </Stack>
       )}
     >
-      {isDrawerOpen.isOpen && (
+      {isDrawerOpen.isOpen && !isUnderConstruction && (
         <AppDrawer
           open={isDrawerOpen.isOpen}
           onClose={handleCloseDrawer}
@@ -183,11 +187,11 @@ const MainLayout: React.FC<Props> = ({
         />
       )}
 
-      {!mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
-      {!mobileView && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && !isUnderConstruction && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && !isUnderConstruction && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
 
       <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
-        {mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && !isUnderConstruction && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
           <ErrorBoundary
@@ -217,15 +221,17 @@ const MainLayout: React.FC<Props> = ({
           </ErrorBoundary>
         </Box>
 
-        <Box
-          className="preview-footer"
-          sx={{
-            position: "relative",
-            zIndex: 10
-          }}
-        >
-          <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
-        </Box>
+        {!isUnderConstruction && (
+          <Box
+            className="preview-footer"
+            sx={{
+              position: "relative",
+              zIndex: 10
+            }}
+          >
+            <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
+          </Box>
+        )}
       </WrapperLayout>
     </ErrorBoundary>
   );

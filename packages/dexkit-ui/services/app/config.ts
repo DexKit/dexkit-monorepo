@@ -68,10 +68,9 @@ export async function getAppConfig(
       const configResponse = (await getConfig({ slug: slug[1], appPage })).data;
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        // In development/preview mode, always ignore underConstruction flag
         const appConfig = {
           ...rawAppConfig,
-          underConstruction: false
+          underConstruction: rawAppConfig.underConstruction ?? false
         } as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
@@ -88,8 +87,7 @@ export async function getAppConfig(
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: false } as AppConfig;
-    return Promise.resolve({ appConfig });
+    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
   }
 
   if (site?.startsWith("dexkit.app")) {
@@ -136,10 +134,10 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        // In localhost development mode, always ignore underConstruction flag
+feat/under-construction-feature
         const appConfig = {
           ...rawAppConfig,
-          underConstruction: false
+          underConstruction: rawAppConfig.underConstruction ?? false
         } as AppConfig;
 
         const appLocaleMessages = JSON.stringify(
@@ -279,7 +277,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: false } as AppConfig;
+    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
     return Promise.resolve({ appConfig });
   }
 
@@ -319,8 +317,8 @@ export async function getAppSitemapConfig(site?: string): Promise<{
         return {
           appConfig: {
             ...JSON.parse(configResponse.config) as AppConfig,
-            // In localhost development mode, always ignore underConstruction flag
-            underConstruction: false
+feat/under-construction-feature
+            underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
           },
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
           siteId: configResponse?.id,

@@ -1499,5 +1499,12 @@
   "your.user.profile.was.updated": "Tu perfil de usuario ha sido actualizado",
   "your.wallet.is.not.connected": "Your wallet is not connected",
   "youtube": "YouTube",
-  "youtube.channel": "Canal de YouTube"
+  "youtube.channel": "Canal de YouTube",
+  "under.construction": "En Construcción",
+  "under.construction.message": "¡Estamos trabajando duro para traerte algo increíble. ¡Por favor, vuelve pronto!",
+  "under.construction.toggle.label": "Modo En Construcción",
+  "under.construction.toggle.description": "Cuando está habilitado, los visitantes verán una página de construcción en lugar de tu aplicación. Puedes probar esto usando el botón de vista previa.",
+  "under.construction.preview.message": "Así es como se verá tu sitio cuando el modo de construcción esté habilitado. Los usuarios verán esta página en lugar de tu contenido principal.",
+  "refresh.page": "Actualizar Página",
+  "under.construction.footer": "Esta página se muestra porque la aplicación está actualmente en modo de construcción."
 }
