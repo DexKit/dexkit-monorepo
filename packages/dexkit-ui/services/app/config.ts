@@ -134,7 +134,6 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-feat/under-construction-feature
         const appConfig = {
           ...rawAppConfig,
           underConstruction: rawAppConfig.underConstruction ?? false
@@ -317,7 +316,6 @@ export async function getAppSitemapConfig(site?: string): Promise<{
         return {
           appConfig: {
             ...JSON.parse(configResponse.config) as AppConfig,
-feat/under-construction-feature
             underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
           },
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
