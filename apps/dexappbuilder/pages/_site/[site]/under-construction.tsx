@@ -157,7 +157,11 @@ const UnderConstructionPage: NextPage<UnderConstructionPageProps> = ({
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
-  const site = params?.site as string;
+  let site = params?.site as string;
+
+  if (site && site.includes(':') && site.startsWith('dexkit.app:')) {
+    site = site.split(':')[1];
+  }
 
   if (!site) {
     return {
@@ -168,11 +172,17 @@ export const getStaticProps: GetStaticProps = async ({
   try {
     const configResponse = await getAppConfig(site);
 
+    const cleanProps = {
+      appConfig: configResponse.appConfig,
+      appLocaleMessages: configResponse.appLocaleMessages || {},
+      siteId: configResponse.siteId || null,
+      slug: configResponse.slug || null,
+      appNFT: configResponse.appNFT || null,
+      site,
+    };
+
     return {
-      props: {
-        ...configResponse,
-        site,
-      },
+      props: cleanProps,
       revalidate: 300,
     };
   } catch (error) {
@@ -185,7 +195,9 @@ export const getStaticProps: GetStaticProps = async ({
           name: 'App',
         } as AppConfig,
         appLocaleMessages: {},
-        siteId: site,
+        siteId: null,
+        slug: null,
+        appNFT: null,
         site,
       },
       revalidate: 300,
