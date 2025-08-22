@@ -88,6 +88,7 @@ export async function getAppConfig(
     }
     const appConfigJson = (await import("../../config/app.json")).default;
     const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
+    return Promise.resolve({ appConfig });
   }
 
   if (site?.startsWith("dexkit.app")) {
