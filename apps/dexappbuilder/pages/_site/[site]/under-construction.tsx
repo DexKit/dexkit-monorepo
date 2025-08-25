@@ -1,7 +1,6 @@
 import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
@@ -23,6 +22,7 @@ const UnderConstructionPage: NextPage<UnderConstructionPageProps> = ({
   const router = useRouter();
   const theme = useTheme();
 
+  /* useEffect(() => {
   useEffect(() => {
     if (!appConfig.underConstruction && router.asPath === '/under-construction') {
       router.replace('/', undefined, { shallow: true });
@@ -31,7 +31,7 @@ const UnderConstructionPage: NextPage<UnderConstructionPageProps> = ({
 
   if (!appConfig.underConstruction) {
     return null;
-  }
+  } */
 
   return (
     <MainLayout disablePadding>
