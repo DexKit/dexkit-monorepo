@@ -10,7 +10,6 @@ import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/Sectio
 import { AppConfig, PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import { getAppConfig } from '../../../../src/services/app';
@@ -19,11 +18,10 @@ const WalletPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout, appConfig }) => {
+}> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
-  const router = useRouter();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (appConfig.underConstruction) {
       router.replace('/under-construction');
     }
@@ -31,7 +29,7 @@ const WalletPage: NextPage<{
 
   if (appConfig.underConstruction) {
     return null;
-  }
+  } */
 
   return (
     <>

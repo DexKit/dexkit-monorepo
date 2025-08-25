@@ -24,9 +24,8 @@ const Home: NextPage<{
   layout: PageSectionsLayout;
   appConfig: AppConfig;
 }> = ({ sections, layout, appConfig }) => {
-  const router = useRouter();
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (appConfig.underConstruction) {
       router.replace('/under-construction');
     }
@@ -34,7 +33,7 @@ const Home: NextPage<{
 
   if (appConfig.underConstruction) {
     return null;
-  }
+  } */
 
   return (
     <MainLayout disablePadding>
@@ -59,7 +58,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   // Check underConstruction only for production domains (.dexkit.app)
   // In development/preview domains, this check is already handled by getAppConfig
-  if (params?.site?.startsWith('dexkit.app') && appConfig.underConstruction) {
+  if (appConfig.underConstruction) {
     return {
       redirect: {
         destination: '/under-construction',

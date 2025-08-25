@@ -5,8 +5,6 @@ import { Container, Grid } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
 import MainLayout from '../../../src/components/layouts/main';
@@ -19,9 +17,8 @@ interface Props {
 
 const Collections: NextPage<Props> = ({ appConfig }) => {
   const { formatMessage } = useIntl();
-  const router = useRouter();
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (appConfig.underConstruction) {
       router.replace('/under-construction');
     }
@@ -29,7 +26,7 @@ const Collections: NextPage<Props> = ({ appConfig }) => {
 
   if (appConfig.underConstruction) {
     return null;
-  }
+  } */
 
   return (
     <>
@@ -100,7 +97,6 @@ export const getStaticProps: GetStaticProps = async ({
   const queryClient = new QueryClient();
 
   const configResponse = await getAppConfig(params?.site, 'home');
-  const { appConfig } = configResponse;
 
   /*  for (let collection of collectionListJson.collections) {
     const provider = getProviderByChainId(collection.chainId);
