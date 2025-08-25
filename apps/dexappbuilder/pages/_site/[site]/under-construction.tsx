@@ -23,6 +23,7 @@ const UnderConstructionPage: NextPage<UnderConstructionPageProps> = ({
   const theme = useTheme();
 
   /* useEffect(() => {
+  useEffect(() => {
     if (!appConfig.underConstruction && router.asPath === '/under-construction') {
       router.replace('/', undefined, { shallow: true });
     }
