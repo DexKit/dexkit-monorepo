@@ -6,8 +6,6 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
@@ -17,11 +15,10 @@ const SwapPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout, appConfig }) => {
+}> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
-  const router = useRouter();
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (appConfig.underConstruction) {
       router.replace('/under-construction');
     }
@@ -29,7 +26,7 @@ const SwapPage: NextPage<{
 
   if (appConfig.underConstruction) {
     return null;
-  }
+  } */
 
   return (
     <>
