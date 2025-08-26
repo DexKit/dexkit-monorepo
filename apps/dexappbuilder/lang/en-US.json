@@ -4602,37 +4602,5 @@
   "your.transaction.has.been.confirmed": {
     "defaultMessage": "Your transaction has been confirmed",
     "description": "Your transaction has been confirmed"
-  },
-  "under.construction.title": {
-    "defaultMessage": "Under Construction",
-    "description": "Under construction page title"
-  },
-  "under.construction.subtitle": {
-    "defaultMessage": "We're working hard to build something amazing for you. This page is currently under construction and will be available soon.",
-    "description": "Under construction page subtitle"
-  },
-  "under.construction.description": {
-    "defaultMessage": "Our team is putting the finishing touches on your application. Check back soon to see the final result!",
-    "description": "Under construction page description"
-  },
-  "under.construction.go.home": {
-    "defaultMessage": "Go to Home",
-    "description": "Under construction page go home button"
-  },
-  "under.construction.toggle": {
-    "defaultMessage": "Show Under Construction Page",
-    "description": "Toggle to show under construction page"
-  },
-  "under.construction.toggle.description": {
-    "defaultMessage": "When enabled, visitors will see an under construction page instead of your app content. Disable this when you're ready to launch.",
-    "description": "Description for under construction toggle"
-  },
-  "under.construction.enabled": {
-    "defaultMessage": "Under construction mode is enabled",
-    "description": "Message when under construction is enabled"
-  },
-  "under.construction.disabled": {
-    "defaultMessage": "Under construction mode is disabled",
-    "description": "Message when under construction is disabled"
   }
 }

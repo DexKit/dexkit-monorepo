@@ -18,15 +18,6 @@ const SwapPage: NextPage<{
 }> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
 
-/*   useEffect(() => {
-    if (appConfig.underConstruction) {
-      router.replace('/under-construction');
-    }
-  }, [appConfig.underConstruction, router]);
-
-  if (appConfig.underConstruction) {
-    return null;
-  } */
 
   return (
     <>
@@ -75,15 +66,6 @@ export const getStaticProps: GetStaticProps = async ({
 
     const configResponse = await getAppConfig(site, 'swap');
     const { appConfig } = configResponse;
-
-    if (appConfig.underConstruction) {
-      return {
-        redirect: {
-          destination: '/under-construction',
-          permanent: false,
-        },
-      };
-    }
 
     const page = appConfig.pages['swap'] || {};
     const sections = page?.sections || [

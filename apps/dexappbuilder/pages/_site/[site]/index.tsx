@@ -5,8 +5,6 @@ import type {
   GetStaticPropsContext,
   NextPage,
 } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import MainLayout from '../../../src/components/layouts/main';
 
 import { dehydrate, QueryClient } from '@tanstack/react-query';
@@ -24,16 +22,6 @@ const Home: NextPage<{
   layout: PageSectionsLayout;
   appConfig: AppConfig;
 }> = ({ sections, layout, appConfig }) => {
-
-/*   useEffect(() => {
-    if (appConfig.underConstruction) {
-      router.replace('/under-construction');
-    }
-  }, [appConfig.underConstruction, router]);
-
-  if (appConfig.underConstruction) {
-    return null;
-  } */
 
   return (
     <MainLayout disablePadding>
@@ -56,16 +44,6 @@ export const getStaticProps: GetStaticProps = async ({
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
 
-  // Check underConstruction only for production domains (.dexkit.app)
-  // In development/preview domains, this check is already handled by getAppConfig
-  if (appConfig.underConstruction) {
-    return {
-      redirect: {
-        destination: '/under-construction',
-        permanent: false,
-      },
-    };
-  }
 
   const homePage = appConfig.pages.home;
 

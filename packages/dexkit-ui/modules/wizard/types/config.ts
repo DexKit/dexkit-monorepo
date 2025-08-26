@@ -326,7 +326,7 @@ export interface AppConfig {
   };
   tokens?: AppToken[];
   commerce?: CommerceConfig;
-  underConstruction?: boolean;
+
 }
 export interface ConfigResponse {
   id: number;

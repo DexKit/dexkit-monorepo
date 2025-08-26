@@ -4617,37 +4617,5 @@
   "your.transaction.has.been.confirmed": {
     "defaultMessage": "Tu transacción ha sido confirmada",
     "description": "Tu transacción ha sido confirmada"
-  },
-  "under.construction.title": {
-    "defaultMessage": "En Construcción",
-    "description": "Título de la página en construcción"
-  },
-  "under.construction.subtitle": {
-    "defaultMessage": "Estamos trabajando arduamente para construir algo increíble para ti. Esta página está actualmente en construcción y estará disponible pronto.",
-    "description": "Subtítulo de la página en construcción"
-  },
-  "under.construction.description": {
-    "defaultMessage": "Nuestro equipo está poniendo los toques finales a tu aplicación. ¡Vuelve pronto para ver el resultado final!",
-    "description": "Descripción de la página en construcción"
-  },
-  "under.construction.go.home": {
-    "defaultMessage": "Ir al Inicio",
-    "description": "Botón para ir al inicio en la página en construcción"
-  },
-  "under.construction.toggle": {
-    "defaultMessage": "Mostrar Página en Construcción",
-    "description": "Toggle para mostrar página en construcción"
-  },
-  "under.construction.toggle.description": {
-    "defaultMessage": "Cuando está habilitado, los visitantes verán una página en construcción en lugar del contenido de tu aplicación. Deshabilita esto cuando estés listo para lanzar.",
-    "description": "Descripción para el toggle de construcción"
-  },
-  "under.construction.enabled": {
-    "defaultMessage": "El modo en construcción está habilitado",
-    "description": "Mensaje cuando la construcción está habilitada"
-  },
-  "under.construction.disabled": {
-    "defaultMessage": "El modo en construcción está deshabilitado",
-    "description": "Mensaje cuando la construcción está deshabilitada"
   }
 }
