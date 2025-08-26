@@ -320,7 +320,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                     ...defaultConfig,
                     ...clonedConfig,
                     ...values,
-                    underConstruction: false,
+
                   };
                   setShowSendingConfig(true);
                   sendConfigMutation.mutateAsync({

@@ -18,15 +18,7 @@ interface Props {
 const Collections: NextPage<Props> = ({ appConfig }) => {
   const { formatMessage } = useIntl();
 
-/*   useEffect(() => {
-    if (appConfig.underConstruction) {
-      router.replace('/under-construction');
-    }
-  }, [appConfig.underConstruction, router]);
 
-  if (appConfig.underConstruction) {
-    return null;
-  } */
 
   return (
     <>

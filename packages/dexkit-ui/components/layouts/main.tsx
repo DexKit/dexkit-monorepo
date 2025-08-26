@@ -43,9 +43,8 @@ const WrapperLayout: React.FC<{
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
   const mobileView = isMobile || isMobileUI;
 
-  const isUnderConstruction = appConfig.underConstruction;
 
-  if (isBottom && !mobileView && !isUnderConstruction) {
+  if (isBottom && !mobileView) {
     return (
       <Box
         style={{
@@ -62,7 +61,7 @@ const WrapperLayout: React.FC<{
     );
   }
 
-  if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView && !isUnderConstruction) {
+  if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView) {
     return (
       <Box
         sx={{
@@ -153,7 +152,7 @@ const MainLayout: React.FC<Props> = ({
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
 
-  const isUnderConstruction = appConfig.underConstruction;
+
 
   const render = () => (
     <ErrorBoundary
@@ -179,7 +178,7 @@ const MainLayout: React.FC<Props> = ({
         </Stack>
       )}
     >
-      {isDrawerOpen.isOpen && !isUnderConstruction && (
+      {isDrawerOpen.isOpen && (
         <AppDrawer
           open={isDrawerOpen.isOpen}
           onClose={handleCloseDrawer}
@@ -187,11 +186,11 @@ const MainLayout: React.FC<Props> = ({
         />
       )}
 
-      {!mobileView && !isUnderConstruction && <Navbar appConfig={appConfig} isPreview={isPreview} />}
-      {!mobileView && !isUnderConstruction && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
 
       <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
-        {mobileView && !isUnderConstruction && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
           <ErrorBoundary
@@ -221,7 +220,7 @@ const MainLayout: React.FC<Props> = ({
           </ErrorBoundary>
         </Box>
 
-        {!isUnderConstruction && (
+        {(
           <Box
             className="preview-footer"
             sx={{

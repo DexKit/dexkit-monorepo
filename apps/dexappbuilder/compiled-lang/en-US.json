@@ -1491,12 +1491,5 @@
   "your.user.profile.was.updated": "Your user profile was updated",
   "your.wallet.is.not.connected": "Your wallet is not connected",
   "youtube": "Vimeo",
-  "youtube.channel": "Youtube channel",
-  "under.construction": "Under Construction",
-  "under.construction.message": "We're working hard to bring you something amazing. Please check back soon!",
-  "under.construction.toggle.label": "Under Construction Mode",
-  "under.construction.toggle.description": "When enabled, visitors will see an under construction page instead of your app. You can test this using the preview button.",
-  "under.construction.preview.message": "This is how your site will look when under construction mode is enabled. Users will see this page instead of your main content.",
-  "refresh.page": "Refresh Page",
-  "under.construction.footer": "This page is displayed because the app is currently in under construction mode."
+  "youtube.channel": "Youtube channel"
 }

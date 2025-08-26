@@ -5,13 +5,6 @@ import { getConfig, getSitemapConfig } from "../whitelabel";
 
 /**
  * Configuration service for DexAppBuilder applications
- * 
- * IMPORTANT: The underConstruction flag behavior:
- * - In production domains (.dexkit.app): Respects the underConstruction flag from config
- * - In development/preview domains (dexappbuilder.dexkit.com, localhost, etc.): Always ignores underConstruction flag
- * 
- * This ensures users can preview their app during development while maintaining the under construction
- * functionality for production sites.
  */
 
 export async function getAppConfig(
@@ -68,10 +61,7 @@ export async function getAppConfig(
       const configResponse = (await getConfig({ slug: slug[1], appPage })).data;
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        const appConfig = {
-          ...rawAppConfig,
-          underConstruction: rawAppConfig.underConstruction ?? false
-        } as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
         );
@@ -87,7 +77,7 @@ export async function getAppConfig(
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
+    const appConfig = appConfigJson as AppConfig;
     return Promise.resolve({ appConfig });
   }
 
@@ -100,10 +90,7 @@ export async function getAppConfig(
       ).data;
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        const appConfig = {
-          ...rawAppConfig,
-          underConstruction: rawAppConfig.underConstruction ?? false
-        } as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
         );
@@ -135,10 +122,7 @@ export async function getAppConfig(
 
       if (configResponse) {
         const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-        const appConfig = {
-          ...rawAppConfig,
-          underConstruction: rawAppConfig.underConstruction ?? false
-        } as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
 
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
@@ -185,10 +169,7 @@ export async function getAppConfig(
   const configResponse = (await getConfig({ domain: site, appPage })).data;
   if (configResponse) {
     const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
-    const appConfig = {
-      ...rawAppConfig,
-      underConstruction: rawAppConfig.underConstruction ?? false
-    } as AppConfig;
+    const appConfig = rawAppConfig as AppConfig;
     const appLocaleMessages = JSON.stringify(
       await getLocaleMessages(appConfig.locale)
     );
@@ -265,11 +246,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       const configResponse = (await getSitemapConfig({ slug: slug[1] })).data;
       if (configResponse) {
         return {
-          appConfig: {
-            ...JSON.parse(configResponse.config) as AppConfig,
-            // In development/preview mode, always ignore underConstruction flag
-            underConstruction: false
-          },
+          appConfig: JSON.parse(configResponse.config) as AppConfig,
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
           siteId: configResponse?.id,
           slug: configResponse?.slug,
@@ -277,7 +254,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    const appConfig = { ...appConfigJson, underConstruction: appConfigJson.underConstruction ?? false } as AppConfig;
+    const appConfig = appConfigJson as AppConfig;
     return Promise.resolve({ appConfig });
   }
 
@@ -290,10 +267,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       ).data;
       if (configResponse) {
         return {
-          appConfig: {
-            ...JSON.parse(configResponse.config) as AppConfig,
-            underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
-          },
+          appConfig: JSON.parse(configResponse.config) as AppConfig,
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
           siteId: configResponse?.id,
           slug: configResponse?.slug,
@@ -315,10 +289,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
 
       if (configResponse) {
         return {
-          appConfig: {
-            ...JSON.parse(configResponse.config) as AppConfig,
-            underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
-          },
+          appConfig: JSON.parse(configResponse.config) as AppConfig,
           appNFT: configResponse.nft === undefined ? null : configResponse.nft,
           siteId: configResponse?.id,
           slug: configResponse?.slug,
@@ -351,10 +322,7 @@ export async function getAppSitemapConfig(site?: string): Promise<{
   const configResponse = (await getSitemapConfig({ domain: site })).data;
   if (configResponse) {
     return {
-      appConfig: {
-        ...JSON.parse(configResponse.config) as AppConfig,
-        underConstruction: (JSON.parse(configResponse.config) as AppConfig).underConstruction ?? false
-      },
+      appConfig: JSON.parse(configResponse.config) as AppConfig,
       appNFT: configResponse.nft === undefined ? null : configResponse.nft,
       siteId: configResponse?.id,
       slug: configResponse?.slug,

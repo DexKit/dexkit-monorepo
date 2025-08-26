@@ -260,7 +260,7 @@ export const appConfigSchema = z.object({
   tokens: z.array(appTokenSchema).optional(),
   commerce: commerceConfigSchema.optional(),
   themeMode: z.nativeEnum(ThemeMode).optional(),
-  underConstruction: z.boolean().optional(),
+
 });
 
 export const widgetConfigSchema = z.object({
