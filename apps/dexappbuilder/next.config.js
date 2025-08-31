@@ -1,16 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    productionBrowserSourceMaps: false,
-    serverSourceMaps: false,
-    optimizePackageImports: ['ethers'],
-    turbo: {
-      resolveAlias: {
-        'react/jsx-runtime.js': 'react/jsx-runtime',
-        'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
-      },
-    },
+    optimizePackageImports: ['ethers']
   },
+
+
+
   transpilePackages: [
     '@dexkit/widgets',
     '@dexkit/ui',
@@ -27,6 +22,7 @@ const nextConfig = {
     'react-dnd',
     'mui-color-input',
   ],
+
   webpack(config) {
     /*config.module.rules.push({
       test: /\.svg$/i,
@@ -34,14 +30,35 @@ const nextConfig = {
       use: ['@svgr/webpack'],
     })*/
 
-
+    // Exclude Magic Wallet modules to prevent import errors
     config.resolve.alias = {
       ...config.resolve.alias,
       'react/jsx-runtime.js': 'react/jsx-runtime',
       'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
+      '@magic-ext/oauth': false,
+      '@magic-sdk/admin': false,
+      'magic-sdk': false,
     };
+
+    // Exclude Magic Wallet from being bundled
+    config.externals = config.externals || [];
+    if (typeof config.externals === 'function') {
+      const originalExternals = config.externals;
+      config.externals = (context, request, callback) => {
+        if (request && (
+          request.includes('@magic-ext/oauth') ||
+          request.includes('@magic-sdk/admin') ||
+          request.includes('magic-sdk')
+        )) {
+          return callback(null, 'commonjs ' + request);
+        }
+        return originalExternals(context, request, callback);
+      };
+    }
+
     return config;
   },
+
   images: {
     domains: [
       'i.seadn.io',
@@ -59,6 +76,13 @@ const nextConfig = {
       'dexkit-test.nyc3.digitaloceanspaces.com',
     ],
   },
+
+  turbopack: {
+    resolveAlias: {
+      'react/jsx-runtime.js': 'react/jsx-runtime',
+      'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
+    }
+  }
 };
 
 export default nextConfig;

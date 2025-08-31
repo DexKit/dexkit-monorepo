@@ -1,37 +1,30 @@
-import { DexkitApiProvider } from '@dexkit/core/providers';
-import { useCompletation } from '@dexkit/ui/hooks/ai';
-import { Button, Container } from '@mui/material';
+import { default as DynamicImport } from 'next/dynamic';
 import AuthMainLayout from 'src/components/layouts/authMain';
-import { myAppsApi } from 'src/services/whitelabel';
 
-export default function AiPage() {
-  const completationMutation = useCompletation();
+// Import the component dynamically to avoid SSR issues
+const AiSettingsPageComponent = DynamicImport(
+  () => import('@/modules/settings/AiSettingsPageComponent'),
+  { ssr: false }
+);
 
-  const handleClick = async () => {
-    await completationMutation.mutateAsync({
-      messages: [
-        { role: 'system', content: 'Hello' },
-        { role: 'user', content: 'How are you?' },
-      ],
-    });
-  };
-
-  return (
-    <Container>
-      {JSON.stringify(completationMutation.data)}
-      <Button onClick={handleClick} variant="contained">
-        Call
-      </Button>
-    </Container>
-  );
+export default function AiSettingsPage() {
+  return <AiSettingsPageComponent />;
 }
 
-(AiPage as any).getLayout = function getLayout(page: any) {
-  return (
-    <AuthMainLayout noSsr>
-      <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-        {page}
-      </DexkitApiProvider.Provider>
-    </AuthMainLayout>
-  );
+(AiSettingsPage as any).getLayout = function getLayout(page: any) {
+  return <AuthMainLayout>{page}</AuthMainLayout>;
 };
+
+// Prevent prerendering by returning no paths
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
+  };
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

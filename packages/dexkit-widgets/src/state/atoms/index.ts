@@ -47,6 +47,27 @@ export const notificationsAtom = atomWithStorage<AppNotification[]>(
   []
 );
 
+// Add missing atoms required by DexkitProvider
+export const tokensAtom = atomWithStorage<any[]>(
+  'dexkit.tokens',
+  []
+);
+
+export const assetsAtom = atomWithStorage<{ [key: string]: any }>(
+  'dexkit.assets',
+  {}
+);
+
+export const hiddenAssetsAtom = atomWithStorage<{ [key: string]: boolean }>(
+  'dexkit.hiddenAssets',
+  {}
+);
+
+export const currencyUserAtom = atomWithStorage<string>(
+  'dexkit.currency',
+  'USD'
+);
+
 export const recentTokensAtom = atomWithStorage<
   { token: Token; count: number }[]
 >("recentTokens", []);

@@ -42,11 +42,11 @@ export interface DexkitProviderProps {
   onChangeLocale: (locale: string) => void;
   notificationTypes: { [key: string]: AppNotificationType };
   localeMessages?:
-    | Record<string, string>
-    | Record<string, MessageFormatElement[]>;
+  | Record<string, string>
+  | Record<string, MessageFormatElement[]>;
   children: React.ReactNode | React.ReactNode[];
   options?: {
-    magicRedirectUrl: string;
+    magicRedirectUrl?: string;
   };
   userEventsURL?: string;
   siteId?: number;

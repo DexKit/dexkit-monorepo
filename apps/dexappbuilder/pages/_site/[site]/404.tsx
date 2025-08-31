@@ -1,3 +1,5 @@
+export const generateStaticParams = () => []
+
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';

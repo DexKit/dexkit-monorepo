@@ -19,7 +19,8 @@ import { DexkitApiProvider } from '@dexkit/core/providers';
 import { myAppsApi } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Settings from '@mui/icons-material/Settings';
-import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import React from 'react';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import ChevronRight from '@mui/icons-material/ChevronRight';
@@ -30,6 +31,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import useNotificationsCountUnread from '@dexkit/ui/modules/commerce/hooks/useNotificatonsCountUnread';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useEffect, useState as useStateOriginal } from 'react';
 
 import AppsIcon from '@mui/icons-material/Apps';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -50,26 +52,52 @@ export interface DashboardLayoutProps {
   page?: string;
 }
 
-function RequireLogin({
+const RequireLogin = dynamic(() => Promise.resolve(({
   page,
   children,
 }: {
   page: string;
   children: React.ReactNode;
-}) {
+}) => {
   const { isActive } = useWeb3React();
 
   const connectWalletDialog = useConnectWalletDialog();
 
   const { data } = useNotificationsCountUnread({ scope: 'Store' });
 
-  const [open, setOpen] = useState(
+  const [open, setOpen] = useStateOriginal(
     ['categories', 'products', 'collections'].includes(page),
   );
+
+  const [isClient, setIsClient] = useStateOriginal(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleToggleMenu = () => {
     setOpen((value) => !value);
   };
+
+  // Only render when client-side to avoid SSR issues
+  if (!isClient) {
+    return (
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={3}>
+            <Paper>
+              <List disablePadding>
+                {/* Loading skeleton */}
+              </List>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            {children}
+          </Grid>
+        </Grid>
+      </Container>
+    );
+  }
 
   if (isActive) {
     return (
@@ -281,7 +309,7 @@ function RequireLogin({
       </Stack>
     </Box>
   );
-}
+}), { ssr: false });
 
 export default function DashboardLayout({
   children,
@@ -291,13 +319,7 @@ export default function DashboardLayout({
     <AuthMainLayout noSsr>
       <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
         <RequireLogin page={page ?? ''}>
-          <Container>
-            <Grid container justifyContent="center" spacing={2}>
-              <Grid item xs={12}>
-                {children}
-              </Grid>
-            </Grid>
-          </Container>
+          {children}
         </RequireLogin>
       </DexkitApiProvider.Provider>
     </AuthMainLayout>

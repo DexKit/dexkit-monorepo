@@ -1,3 +1,5 @@
+export const generateStaticParams = () => [];
+
 import ContractNftItemContainer from '@/modules/contract-wizard/components/containers/ContractNftItemContainer';
 import ThirdwebV4Provider from '@/modules/contract-wizard/provider/ThirdwebV4Provider';
 import Container from '@mui/material/Container';

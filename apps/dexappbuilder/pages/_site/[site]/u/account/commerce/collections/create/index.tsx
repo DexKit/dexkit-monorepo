@@ -1,98 +1,30 @@
-import DashboardLayout from '@/modules/commerce/components/layout/DashboardLayout';
-import ProductCollectionForm from '@/modules/commerce/components/ProductCollectionForm';
+import { default as DynamicImport } from 'next/dynamic';
+import AuthMainLayout from 'src/components/layouts/authMain';
 
-import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { ProductCollectionSchema } from '@dexkit/ui/modules/commerce/schemas';
-import { Grid, Typography } from '@mui/material';
-import { Formik } from 'formik';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { FormattedMessage } from 'react-intl';
-import { toFormikValidationSchema } from 'zod-formik-adapter';
+// Import the component dynamically to avoid SSR issues
+const CreateCollectionPageComponent = DynamicImport(
+  () => import('@/modules/commerce/CreateCollectionPageComponent'),
+  { ssr: false }
+);
 
-import useCreateProductCollection from '@dexkit/ui/modules/commerce/hooks/useCreateProductCollection';
-import { ProductCollectionType } from '@dexkit/ui/modules/commerce/types';
-
-function CreateProductCollectionComponent() {
-  const { mutateAsync: create } = useCreateProductCollection();
-
-  const { enqueueSnackbar } = useSnackbar();
-
-  const router = useRouter();
-
-  const handleSubmit = async (values: ProductCollectionType) => {
-    try {
-      await create(values);
-      enqueueSnackbar(
-        <FormattedMessage
-          id="collection.created"
-          defaultMessage="Collection created"
-        />,
-        { variant: 'success' },
-      );
-      router.push('/u/account/commerce/collections');
-    } catch (err) {
-      enqueueSnackbar(String(err), { variant: 'error' });
-    }
-  };
-
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <PageHeader
-          breadcrumbs={[
-            {
-              caption: (
-                <FormattedMessage id="commerce" defaultMessage="Commerce" />
-              ),
-              uri: '/u/account/commerce',
-            },
-            {
-              caption: (
-                <FormattedMessage
-                  id="collections"
-                  defaultMessage="Collections"
-                />
-              ),
-              uri: '/u/account/commerce/collections',
-            },
-            {
-              caption: <FormattedMessage id="create" defaultMessage="Create" />,
-              uri: '/u/account/commerce/collections/create',
-              active: true,
-            },
-          ]}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h5">
-          <FormattedMessage id="create" defaultMessage="Create" />
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Formik
-          onSubmit={handleSubmit}
-          validationSchema={toFormikValidationSchema(ProductCollectionSchema)}
-          initialValues={{
-            name: '',
-            items: [],
-          }}
-        >
-          {({}) => (
-            <>
-              <ProductCollectionForm />
-            </>
-          )}
-        </Formik>
-      </Grid>
-    </Grid>
-  );
+export default function CreateCollectionPage() {
+  return <CreateCollectionPageComponent />;
 }
 
-export default function CreateProductCollectionPage() {
-  return (
-    <DashboardLayout page="collections">
-      <CreateProductCollectionComponent />
-    </DashboardLayout>
-  );
+(CreateCollectionPage as any).getLayout = function getLayout(page: any) {
+  return <AuthMainLayout>{page}</AuthMainLayout>;
+};
+
+// Prevent prerendering by returning no paths
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
+  };
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }

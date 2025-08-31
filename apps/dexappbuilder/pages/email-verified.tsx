@@ -1,13 +1,14 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import type { NextPage } from 'next';
-import MainLayout from '../src/components/layouts/main';
 
 import Image from 'next/image';
 
 import Link from '@dexkit/ui/components/AppLink';
 import { FormattedMessage } from 'react-intl';
+import MainLayout from 'src/components/layouts/main';
 import catHeroImg from '../public/assets/images/cat-hero.svg';
+
 const EmailVerifiedPage: NextPage = (props: any) => {
   return (
     <MainLayout>
@@ -28,7 +29,7 @@ const EmailVerifiedPage: NextPage = (props: any) => {
                 color="primary"
               >
                 <FormattedMessage
-                  id="email.verified.with.success"
+                  id="email.with.success"
                   defaultMessage="Email with success"
                 />
               </Typography>
@@ -37,10 +38,7 @@ const EmailVerifiedPage: NextPage = (props: any) => {
                 variant="h1"
                 component="h1"
               >
-                <FormattedMessage
-                  id="email.verified"
-                  defaultMessage="Email verified"
-                />
+                <FormattedMessage id="email.verified" defaultMessage="Email verified" />
               </Typography>
               <Box
                 sx={{
@@ -56,10 +54,7 @@ const EmailVerifiedPage: NextPage = (props: any) => {
                   variant="contained"
                   color="primary"
                 >
-                  <FormattedMessage
-                    id="back.to.home"
-                    defaultMessage="Back to Home"
-                  />
+                  <FormattedMessage id="back.to.home" defaultMessage="Back to Home" />
                 </Button>
               </Box>
             </Grid>
@@ -87,3 +82,10 @@ const EmailVerifiedPage: NextPage = (props: any) => {
 };
 
 export default EmailVerifiedPage;
+
+// Prevent prerendering by using getStaticProps
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

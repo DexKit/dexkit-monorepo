@@ -40,7 +40,7 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
     pageSize: 5,
   });
 
-  const { data } = useOrderList({
+  const { data, isLoading } = useOrderList({
     limit: paginationModel.pageSize,
     page: paginationModel.page,
     status,
@@ -132,7 +132,14 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
         },
       },
     ] as GridColDef<Order>[];
-  }, []);
+  }, [formatMessage]);
+
+  // Show loading state during pre-render
+  if (isLoading || !data) {
+    return <LoadingOverlay />;
+  }
+
+
 
   return (
     <Box>

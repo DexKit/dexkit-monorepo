@@ -53,7 +53,7 @@ export function PageHeader({
         </Typography>
       );
     }
-    return;
+    return null;
   };
 
   const handleGoBack = () => router.back();

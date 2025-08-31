@@ -296,6 +296,7 @@ export default function MediaDialog({
       <Dialog
         {...dialogProps}
         onClose={handleClose}
+        data-dialog-type="gallery"
         sx={{
           zIndex: 10000,
           ...dialogProps.sx,
@@ -305,6 +306,7 @@ export default function MediaDialog({
           icon={<BrowseGalleryIcon />}
           title={<FormattedMessage id="gallery" defaultMessage="Gallery 1" />}
           onClose={handleClose}
+          data-title="Gallery"
         />
         <DialogContent dividers>
           <Grid container spacing={2}>
@@ -847,6 +849,7 @@ export default function MediaDialog({
             variant="contained"
             onClick={handleConfirmSelectedFile}
             disabled={!selectedFile}
+            data-button-text="Select Image"
           >
             <FormattedMessage id="select.image" defaultMessage="Select Image" />
           </Button>
