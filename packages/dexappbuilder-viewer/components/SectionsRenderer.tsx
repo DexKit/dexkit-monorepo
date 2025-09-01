@@ -170,8 +170,8 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
   const renderDesktopTabs = () => {
     if (layout?.type === "tabs") {
       if (
-        layout.layout?.desktop.position === "top" ||
-        layout.layout?.desktop.position === "side"
+        layout.layout?.desktop?.position === "top" ||
+        layout.layout?.desktop?.position === "side"
       ) {
         return sections.map((section, index) => {
           if (isMobile && section?.hideMobile) {
@@ -306,7 +306,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
                 item
                 xs={12}
                 sm={
-                  !isMobile && layout.layout?.desktop.position === "side" ? 3 : 12
+                  !isMobile && layout.layout?.desktop?.position === "side" ? 3 : 12
                 }
               >
                 <Tabs
@@ -316,7 +316,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
                   orientation={
                     isMobile
                       ? "horizontal"
-                      : layout.layout?.desktop.position === "side"
+                      : layout.layout?.desktop?.position === "side"
                         ? "vertical"
                         : "horizontal"
                   }
@@ -332,7 +332,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
                 item
                 xs={12}
                 sm={
-                  !isMobile && layout.layout?.desktop.position === "side" ? 9 : 12
+                  !isMobile && layout.layout?.desktop?.position === "side" ? 9 : 12
                 }
               >
                 {renderPanels()}

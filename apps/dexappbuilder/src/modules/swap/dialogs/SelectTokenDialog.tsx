@@ -1,4 +1,4 @@
-import { ChainId, TOKEN_ICON_URL } from '@dexkit/core/constants';
+import { ChainId, TOKEN_ICON_URL, ZEROEX_NATIVE_TOKEN_ADDRESS } from '@dexkit/core/constants';
 import Close from '@mui/icons-material/Close';
 import {
   Avatar,
@@ -59,6 +59,10 @@ function SelectTokenDialog({
 
   const allTokens = useMemo(() => {
     if (data) {
+      if (data.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+        return tokens;
+      }
+      
       const tokenExists = tokens.find(
         (t) => t.address.toLowerCase() === data?.address.toLowerCase(),
       );

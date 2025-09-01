@@ -186,11 +186,13 @@ const MainLayout: React.FC<Props> = ({
         />
       )}
 
-      {!mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
-      {!mobileView && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant === "alt" && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant !== "alt" && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
 
       <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
-        {mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant !== "alt" && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
           <ErrorBoundary

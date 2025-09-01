@@ -1501,7 +1501,7 @@ const GlassEvmWalletContainer = ({
           </Grid>
         )}
 
-        {!isLoggedIn && isActive && (
+        {!isLoggedIn && isActive && selectedTab !== WalletTabs.Activity && (
           <Grid item xs={12}>
             <LoginAppButton />
           </Grid>

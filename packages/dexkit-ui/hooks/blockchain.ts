@@ -246,17 +246,23 @@ export function useTokenList({
     }
 
     if (includeNative) {
-      return [
-        {
-          address: ZEROEX_NATIVE_TOKEN_ADDRESS,
-          chainId,
-          decimals: 18,
-          logoURI: NETWORK_COIN_IMAGE(chainId),
-          name: NETWORK_COIN_NAME(chainId),
-          symbol: NETWORK_COIN_SYMBOL(chainId),
-        },
-        ...tokenList,
-      ] as TokenWhitelabelApp[];
+      const nativeTokenExists = tokenList.some(
+        (t) => t.address?.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase()
+      );
+      
+      if (!nativeTokenExists) {
+        return [
+          {
+            address: ZEROEX_NATIVE_TOKEN_ADDRESS,
+            chainId,
+            decimals: 18,
+            logoURI: NETWORK_COIN_IMAGE(chainId),
+            name: NETWORK_COIN_NAME(chainId),
+            symbol: NETWORK_COIN_SYMBOL(chainId),
+          },
+          ...tokenList,
+        ] as TokenWhitelabelApp[];
+      }
     }
 
     return [...tokenList] as TokenWhitelabelApp[];

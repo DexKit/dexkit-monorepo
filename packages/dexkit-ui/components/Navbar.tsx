@@ -243,7 +243,14 @@ function Navbar({ appConfig, isPreview }: Props) {
   };
 
   const getLogoSize = () => {
-    if (!glassVariant) return { width: isMobile ? 24 : 48, height: isMobile ? 24 : 48 };
+    if (!glassVariant) {
+      // Default logo size for navbar
+      const defaultSize = isMobile ? 32 : 48;
+      return { 
+        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)), 
+        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize)) 
+      };
+    }
 
     const { logoSize, customLogoWidth, customLogoHeight } = glassSettings;
 
@@ -257,8 +264,12 @@ function Navbar({ appConfig, isPreview }: Props) {
         width = height = isMobile ? 32 : 64;
         break;
       case 'custom':
-        width = isMobile ? (customLogoWidth ? customLogoWidth / 2 : 16) : (customLogoWidth || 32);
-        height = isMobile ? (customLogoHeight ? customLogoHeight / 2 : 16) : (customLogoHeight || 32);
+        width = isMobile ? 
+          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) : 
+          Math.max(1, Number(customLogoWidth || 32));
+        height = isMobile ? 
+          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) : 
+          Math.max(1, Number(customLogoHeight || 32));
         break;
       default:
         width = height = isMobile ? 24 : 48;
@@ -266,8 +277,8 @@ function Navbar({ appConfig, isPreview }: Props) {
     }
 
     return {
-      width: Number(width),
-      height: Number(height)
+      width: Math.max(1, Number(width)),
+      height: Math.max(1, Number(height))
     };
   };
 
@@ -690,7 +701,14 @@ function Navbar({ appConfig, isPreview }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100%',
-                minHeight: isMobile ? '56px' : '64px'
+                minHeight: isMobile ? '56px' : '64px',
+                maxWidth: '200px',
+                overflow: 'hidden',
+                '& img': {
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }
               }}>
                 {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
                   <Link href={isPreview ? "#" : "/"}>
@@ -808,7 +826,14 @@ function Navbar({ appConfig, isPreview }: Props) {
                 alignItems: 'center',
                 justifyContent: 'flex-start',
                 height: '100%',
-                minHeight: isMobile ? '56px' : '64px'
+                minHeight: isMobile ? '56px' : '64px',
+                maxWidth: '200px',
+                overflow: 'hidden',
+                '& img': {
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }
               }}>
                 {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
                   <Link href={isPreview ? "#" : "/"}>
@@ -816,8 +841,26 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logoDark?.url || ""}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      height={isMobile ? (appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6)) / 2) : (appConfig?.logoDark?.heightMobile ? Number(appConfig?.logoDark?.heightMobile) : Number(appConfig?.logoDark?.height || appConfig?.logo?.height || theme.spacing(6)))}
-                      width={isMobile ? (appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6)) / 2) : (appConfig?.logoDark?.widthMobile ? Number(appConfig?.logoDark?.widthMobile) : Number(appConfig?.logoDark?.width || appConfig?.logo?.width || theme.spacing(6)))}
+                      height={isMobile ? 
+                        (appConfig?.logoDark?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48) / 2)
+                        ) : 
+                        (appConfig?.logoDark?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48))
+                        )
+                      }
+                      width={isMobile ? 
+                        (appConfig?.logoDark?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48) / 2)
+                        ) : 
+                        (appConfig?.logoDark?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48))
+                        )
+                      }
                     />
                   </Link>
                 ) : appConfig?.logo ? (
@@ -826,8 +869,26 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logo.url}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      width={isMobile ? (appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6)) / 2) : (appConfig?.logo?.widthMobile ? Number(appConfig?.logo?.widthMobile) : Number(appConfig?.logo?.width || theme.spacing(6)))}
-                      height={isMobile ? (appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6)) / 2) : (appConfig?.logo?.heightMobile ? Number(appConfig?.logo?.heightMobile) : Number(appConfig?.logo?.height || theme.spacing(6)))}
+                      width={isMobile ? 
+                        (appConfig?.logo?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logo?.width || 48) / 2)
+                        ) : 
+                        (appConfig?.logo?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logo?.width || 48))
+                        )
+                      }
+                      height={isMobile ? 
+                        (appConfig?.logo?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logo?.height || 48) / 2)
+                        ) : 
+                        (appConfig?.logo?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                          Math.max(1, Number(appConfig?.logo?.height || 48))
+                        )
+                      }
                     />
                   </Link>
                 ) : (

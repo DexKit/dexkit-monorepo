@@ -190,17 +190,23 @@ export function useAllTokenList({
       }
     }
     if (includeNative && chainId) {
-      return [
-        {
-          address: ZEROEX_NATIVE_TOKEN_ADDRESS,
-          chainId,
-          decimals: 18,
-          logoURI: getNativeCurrencyImage(chainId),
-          name: getNativeCurrencySymbol(chainId),
-          symbol: getNativeCurrencySymbol(chainId),
-        },
-        ...tokenList,
-      ] as Token[];
+      const nativeTokenExists = tokenList.some(
+        (t) => t.address?.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS?.toLowerCase()
+      );
+      
+      if (!nativeTokenExists) {
+        return [
+          {
+            address: ZEROEX_NATIVE_TOKEN_ADDRESS,
+            chainId,
+            decimals: 18,
+            logoURI: getNativeCurrencyImage(chainId),
+            name: getNativeCurrencySymbol(chainId),
+            symbol: getNativeCurrencySymbol(chainId),
+          },
+          ...tokenList,
+        ] as Token[];
+      }
     } else {
       for (const ch of Object.keys(NETWORKS)) {
         const chain = Number(ch);
