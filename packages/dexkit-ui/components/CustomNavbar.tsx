@@ -330,8 +330,8 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
           width = height = 64;
           break;
         case 'custom':
-          width = mobileCustomLogoWidth || customLogoWidth || 48;
-          height = mobileCustomLogoHeight || customLogoHeight || 48;
+          width = Math.max(1, Number(mobileCustomLogoWidth || customLogoWidth || 48));
+          height = Math.max(1, Number(mobileCustomLogoHeight || customLogoHeight || 48));
           break;
         default:
           width = height = 48;
@@ -349,8 +349,8 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         width = height = 64;
         break;
       case 'custom':
-        width = customLogoWidth || 48;
-        height = customLogoHeight || 48;
+        width = Math.max(1, Number(customLogoWidth || 48));
+        height = Math.max(1, Number(customLogoHeight || 48));
         break;
       default:
         width = height = 48;
@@ -747,7 +747,15 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
         {elements.map((element, index) => {
           switch (element) {
             case 'logo':
-              return <Box key={`${position}-logo-${index}`}>{renderLogo()}</Box>;
+              return <Box key={`${position}-logo-${index}`} sx={{ 
+                maxWidth: '200px', 
+                overflow: 'hidden',
+                '& img': {
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }
+              }}>{renderLogo()}</Box>;
             case 'menu':
               return <Box key={`${position}-menu-${index}`}>{renderMenu()}</Box>;
             case 'actions':
@@ -849,7 +857,16 @@ function CustomNavbar({ appConfig, isPreview, customSettings }: Props) {
             </>
           ) : (
             <>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box sx={{ 
+                flexGrow: 1,
+                maxWidth: '200px',
+                overflow: 'hidden',
+                '& img': {
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }
+              }}>
                 {renderLogo()}
               </Box>
               {renderActions()}

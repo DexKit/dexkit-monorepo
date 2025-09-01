@@ -152,8 +152,8 @@ export function SectionsRenderer({ sections, layout }: Props) {
   const renderDesktopTabs = () => {
     if (layout?.type === 'tabs') {
       if (
-        layout.layout?.desktop.position === 'top' ||
-        layout.layout?.desktop.position === 'side'
+        layout.layout?.desktop?.position === 'top' ||
+        layout.layout?.desktop?.position === 'side'
       ) {
         return sections.map((section, index) => {
           if (isMobile && section?.hideMobile) {
@@ -285,10 +285,10 @@ export function SectionsRenderer({ sections, layout }: Props) {
               item
               xs={12}
               sm={
-                !isMobile && layout.layout?.desktop.position === 'side' ? 3 : 12
+                !isMobile && layout.layout?.desktop?.position === 'side' ? 3 : 12
               }
               sx={
-                !isMobile && layout.layout?.desktop.position === 'side'
+                !isMobile && layout.layout?.desktop?.position === 'side'
                   ? {
                     height: '100vh',
                     position: 'sticky',
@@ -305,7 +305,7 @@ export function SectionsRenderer({ sections, layout }: Props) {
                 orientation={
                   isMobile
                     ? 'horizontal'
-                    : layout.layout?.desktop.position === 'side'
+                    : layout.layout?.desktop?.position === 'side'
                       ? 'vertical'
                       : 'horizontal'
                 }
@@ -314,7 +314,7 @@ export function SectionsRenderer({ sections, layout }: Props) {
                 }}
                 value={tab}
                 sx={
-                  !isMobile && layout.layout?.desktop.position === 'side'
+                  !isMobile && layout.layout?.desktop?.position === 'side'
                     ? {
                       height: '100%',
                       '& .MuiTabs-flexContainer': {
@@ -356,7 +356,7 @@ export function SectionsRenderer({ sections, layout }: Props) {
               item
               xs={12}
               sm={
-                !isMobile && layout.layout?.desktop.position === 'side' ? 9 : 12
+                !isMobile && layout.layout?.desktop?.position === 'side' ? 9 : 12
               }
             >
               {renderPanels()}

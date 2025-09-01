@@ -1,5 +1,6 @@
 import type { ChainId } from "@dexkit/core";
 import { ERC20Abi } from "@dexkit/core/constants/abis";
+import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import { useNetworkProvider } from "@dexkit/core/hooks/blockchain";
 import type { Token } from "@dexkit/core/types";
 import type { CallInput } from "@indexed-finance/multicall";
@@ -15,6 +16,10 @@ export default function useFetchTokenData({ chainId }: { chainId?: ChainId }) {
 
   return useMutation(
     async ({ contractAddress }: { contractAddress: string }) => {
+      if (contractAddress.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+        return null;
+      }
+      
       const multical = await getMulticallFromProvider(provider);
 
       const iface = new utils.Interface(ERC20Abi);

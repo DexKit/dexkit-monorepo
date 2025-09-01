@@ -1,4 +1,4 @@
-import { ChainId } from "@dexkit/core";
+import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import { isAddressEqual } from "@dexkit/core/utils";
 import { useAtom } from "jotai";
@@ -19,6 +19,10 @@ export default function useSwapImportTokens({
   }, [chainId]);
 
   const add = useCallback((token: Token) => {
+    if (token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+      return;
+    }
+    
     const found = tokens.find(
       (t) =>
         t.chainId === token.chainId && isAddressEqual(token.address, t.address)

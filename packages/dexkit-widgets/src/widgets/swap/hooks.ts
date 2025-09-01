@@ -4,7 +4,7 @@ import type { providers } from "ethers";
 import { BigNumber, Contract } from "ethers";
 import { ERC20Abi } from "../../constants/abis";
 
-import { ChainId } from "@dexkit/core";
+import { ChainId, ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import { isAddressEqual } from "@dexkit/core/utils";
 import useFetchTokenData from "@dexkit/ui/hooks/useFetchTokenData";
@@ -84,6 +84,12 @@ export function useSelectImport({
   const fetchTokenData = useFetchTokenData({ chainId });
 
   const handleChangeQuery = (value: string) => {
+    if (value.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+      fetchTokenData.reset();
+      onQueryChange(value);
+      return;
+    }
+    
     if (isAddress(value) && enableImportExterTokens) {
       fetchTokenData.mutate({ contractAddress: value });
     } else {
@@ -110,6 +116,12 @@ export function useSelectImport({
   }, [fetchTokenData.data]);
 
   const handleSelect = (token: Token, isExtern?: boolean) => {
+    if (isExtern && token.address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+      fetchTokenData.reset();
+      onSelect(token, false);
+      return;
+    }
+    
     if (isExtern) {
       importedTokens.add(token);
     }
