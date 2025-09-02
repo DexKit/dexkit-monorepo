@@ -8,10 +8,12 @@ import { isAddressEqual, parseChainId } from "@dexkit/core/utils";
 import { useActiveChainIds, useAppConfig, useCurrency } from "@dexkit/ui/hooks";
 import { useSwapState } from "@dexkit/ui/modules/swap/hooks";
 import { SwapPageSection } from "@dexkit/ui/modules/wizard/types/section";
+import { useAtomValue } from "jotai";
 import { useMemo } from "react";
 
 import { Token } from "@dexkit/core/types";
 import { useSearchParams } from "next/navigation";
+import { tokensAtom } from "../../state/atoms";
 
 interface Props {
   section: SwapPageSection;
@@ -27,10 +29,16 @@ export function SwapSection({ section }: Props) {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
   const swapState = useSwapState();
-
   const params = useSearchParams();
-
   const { tokens: appTokens } = useAppConfig();
+  const userTokens = useAtomValue(tokensAtom) || [];
+
+  const allTokens = useMemo(() => {
+    const appTokensList = appTokens?.length ? appTokens[0].tokens || [] : [];
+    return [...appTokensList, ...userTokens];
+  }, [appTokens, userTokens]);
+
+
 
   const getGlassBackgroundStyles = () => {
     if (section.config?.variant !== 'glass' || !section.config?.glassSettings) {
@@ -87,7 +95,7 @@ export function SwapSection({ section }: Props) {
     const buyTokenAddress = params?.get("buyToken");
     const sellTokenAddress = params?.get("sellToken");
 
-    let tokens = appTokens?.length ? appTokens[0].tokens || [] : [];
+    let tokens = allTokens;
 
     let buyToken: Token | undefined;
     let sellToken: Token | undefined;
@@ -108,49 +116,109 @@ export function SwapSection({ section }: Props) {
       );
     }
 
-    if (chainId) {
+    const targetChainId = chainId || section.config?.defaultChainId;
+
+    if (targetChainId) {
       const config = {
         ...section.config,
-        defaultChainId: chainId,
+        defaultChainId: targetChainId,
         configByChain: {
           ...section.config?.configByChain,
         },
       };
 
-      config.configByChain[chainId] = {
-        slippage: 0,
+      config.configByChain[targetChainId] = {
+        ...config.configByChain[targetChainId],
+        slippage: section.config?.configByChain?.[targetChainId]?.slippage ?? 0,
       };
 
-      if (section.config?.configByChain?.[chainId]?.slippage) {
-        config.configByChain[chainId].slippage =
-          section.config?.configByChain?.[chainId].slippage;
-      }
-
       if (buyToken) {
-        config.configByChain[chainId].buyToken = buyToken;
-      } else if (section.config?.configByChain?.[chainId]?.buyToken) {
-        config.configByChain[chainId].buyToken =
-          section.config?.configByChain?.[chainId].buyToken;
+        config.configByChain[targetChainId].buyToken = buyToken;
+      } else if (section.config?.configByChain?.[targetChainId]?.buyToken) {
+        const configuredBuyToken = section.config?.configByChain?.[targetChainId].buyToken;
+
+        if (!configuredBuyToken?.logoURI) {
+          const tokenWithLogo = allTokens.find(t =>
+            isAddressEqual(t.address, configuredBuyToken.address) &&
+            t.chainId === configuredBuyToken.chainId
+          );
+          if (tokenWithLogo?.logoURI) {
+            config.configByChain[targetChainId].buyToken = {
+              ...configuredBuyToken,
+              logoURI: tokenWithLogo.logoURI
+            };
+          } else {
+            config.configByChain[targetChainId].buyToken = configuredBuyToken;
+          }
+        } else {
+          config.configByChain[targetChainId].buyToken = configuredBuyToken;
+        }
       }
 
       if (sellToken) {
-        config.configByChain[chainId].sellToken = sellToken;
-      } else if (section.config?.configByChain?.[chainId]?.sellToken) {
-        config.configByChain[chainId].sellToken =
-          section.config?.configByChain?.[chainId].sellToken;
+        config.configByChain[targetChainId].sellToken = sellToken;
+      } else if (section.config?.configByChain?.[targetChainId]?.sellToken) {
+        const configuredSellToken = section.config?.configByChain?.[targetChainId].sellToken;
+
+        if (!configuredSellToken?.logoURI) {
+          const tokenWithLogo = allTokens.find(t =>
+            isAddressEqual(t.address, configuredSellToken.address) &&
+            t.chainId === configuredSellToken.chainId
+          );
+          if (tokenWithLogo?.logoURI) {
+            config.configByChain[targetChainId].sellToken = {
+              ...configuredSellToken,
+              logoURI: tokenWithLogo.logoURI
+            };
+          } else {
+            config.configByChain[targetChainId].sellToken = configuredSellToken;
+          }
+        } else {
+          config.configByChain[targetChainId].sellToken = configuredSellToken;
+        }
       }
 
       return config;
     }
-  }, [params, appTokens, section]);
+
+    return undefined;
+  }, [params, allTokens, section]);
+
+  const processedConfig = configParams || section.config;
 
   const enableUrlParams = Boolean(section.config?.enableUrlParams);
   let selectedChainId = enableUrlParams
-    ? configParams?.defaultChainId
+    ? processedConfig?.defaultChainId
     : undefined;
 
   const isGlass = section.config?.variant === 'glass';
   const glassSettings = section.config?.glassSettings;
+
+  const featuredTokens = useMemo(() => {
+    return allTokens
+      .filter((t) => !t?.disableFeatured)
+      .map((t) => ({
+        chainId: t.chainId as number,
+        address: t.address,
+        decimals: t.decimals,
+        name: t.name,
+        symbol: t.symbol,
+        logoURI: t.logoURI,
+      }));
+  }, [allTokens]);
+
+  const nonFeaturedTokens = useMemo(() => {
+    return allTokens
+      .filter((t) => t?.disableFeatured)
+      .map((t) => ({
+        chainId: t.chainId as number,
+        address: t.address,
+        decimals: t.decimals,
+        name: t.name,
+        symbol: t.symbol,
+        logoURI: t.logoURI,
+      }));
+  }, [allTokens]);
 
   return (
     <Box
@@ -174,10 +242,10 @@ export function SwapSection({ section }: Props) {
             useGasless: section.config?.useGasless,
             myTokensOnlyOnSearch: section.config?.myTokensOnlyOnSearch,
             configsByChain:
-              enableUrlParams && configParams?.configByChain
-                ? configParams.configByChain
-                : section.config?.configByChain
-                  ? section.config?.configByChain
+              enableUrlParams && processedConfig?.configByChain
+                ? processedConfig.configByChain
+                : processedConfig?.configByChain
+                  ? processedConfig.configByChain
                   : {},
             currency: currency.currency,
             variant: section.config?.variant,
@@ -190,10 +258,12 @@ export function SwapSection({ section }: Props) {
             defaultChainId:
               selectedChainId ||
               chainId ||
-              section.config?.defaultChainId ||
+              processedConfig?.defaultChainId ||
               ChainId.Ethereum,
             zeroExApiKey: process?.env.NEXT_PUBLIC_ZRX_API_KEY || "",
             transakApiKey: process?.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
+            featuredTokens,
+            nonFeaturedTokens,
           }}
           swapFees={swapState.swapFees}
         />

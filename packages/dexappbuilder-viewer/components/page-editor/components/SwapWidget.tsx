@@ -6,8 +6,10 @@ import { useSwapState } from "@dexkit/ui/modules/swap/hooks";
 import { SwapConfig } from "@dexkit/ui/modules/wizard/types";
 import { SwapWidget as Swap } from "@dexkit/widgets/src/widgets/swap";
 import { ChainConfig } from "@dexkit/widgets/src/widgets/swap/types";
+import { useAtomValue } from "jotai";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import { tokensAtom } from "../../../state/atoms";
 
 interface Props {
   formData?: SwapConfig;
@@ -19,17 +21,22 @@ function SwapWidget(props: Props) {
   const { isEditMode, formData } = props;
   const defaultChainId = formData?.defaultChainId;
   const { tokens: appTokens } = useAppConfig();
+  const userTokens = useAtomValue(tokensAtom) || [];
   const configByChain = formData?.configByChain;
   const variant = formData?.variant;
   const params = useSearchParams();
+
+  const allTokens = useMemo(() => {
+    const appTokensList = appTokens?.length ? appTokens[0].tokens || [] : [];
+    return [...appTokensList, ...userTokens];
+  }, [appTokens, userTokens]);
 
   const configParams = useMemo(() => {
     const chainId = parseChainId(params?.get("chainId") ?? "0");
     const buyTokenAddress = params?.get("buyToken");
     const sellTokenAddress = params?.get("sellToken");
 
-    let tokens = appTokens?.length ? appTokens[0].tokens || [] : [];
-
+    let tokens = allTokens;
     let buyToken: Token | undefined;
     let sellToken: Token | undefined;
 
@@ -66,20 +73,20 @@ function SwapWidget(props: Props) {
       if (buyToken) {
         configByChainParams[chainId].buyToken = buyToken;
       } else if (configByChain?.[chainId]?.buyToken && configByChainParams) {
-        configByChainParams[chainId].buyToken =
-          configByChain?.[chainId].buyToken;
+        const configuredBuyToken = configByChain?.[chainId].buyToken;
+        configByChainParams[chainId].buyToken = configuredBuyToken;
       }
 
       if (sellToken) {
         configByChainParams[chainId].sellToken = sellToken;
       } else if (configByChain?.[chainId]?.sellToken && configByChainParams) {
-        configByChainParams[chainId].sellToken =
-          configByChain?.[chainId].sellToken;
+        const configuredSellToken = configByChain?.[chainId].sellToken;
+        configByChainParams[chainId].sellToken = configuredSellToken;
       }
 
       return { configByChainParams, chainId };
     }
-  }, [params, appTokens, formData]);
+  }, [params, allTokens, formData]);
 
   const enableUrlParams = Boolean(formData?.enableUrlParams);
 
@@ -97,6 +104,32 @@ function SwapWidget(props: Props) {
 
   let selectedChainId =
     enableUrlParams && !isEditMode ? configParams?.chainId : undefined;
+
+  const featuredTokens = useMemo(() => {
+    return allTokens
+      .filter((t) => !t?.disableFeatured)
+      .map((t) => ({
+        chainId: t.chainId as number,
+        address: t.address,
+        decimals: t.decimals,
+        name: t.name,
+        symbol: t.symbol,
+        logoURI: t.logoURI,
+      }));
+  }, [allTokens]);
+
+  const nonFeaturedTokens = useMemo(() => {
+    return allTokens
+      .filter((t) => t?.disableFeatured)
+      .map((t) => ({
+        chainId: t.chainId as number,
+        address: t.address,
+        decimals: t.decimals,
+        name: t.name,
+        symbol: t.symbol,
+        logoURI: t.logoURI,
+      }));
+  }, [allTokens]);
 
   return (
     <Swap
@@ -123,6 +156,8 @@ function SwapWidget(props: Props) {
         currency: currency.currency,
         zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
         transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
+        featuredTokens,
+        nonFeaturedTokens,
       }}
       swapFees={swapState.swapFees}
     />
