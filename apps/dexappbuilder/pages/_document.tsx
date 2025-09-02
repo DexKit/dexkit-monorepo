@@ -6,12 +6,15 @@ import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { getInitColorSchemeScript } from '@mui/material/styles';
 import Script from 'next/script';
 import createEmotionCache from '../src/createEmotionCache';
+import { generateNonce } from '../src/utils/security';
 
 export default class MyDocument extends Document {
   render() {
     const { appConfig } = ((this.props as any).pageProps as {
       appConfig: AppConfig;
     }) || { appConfig: {} };
+
+    const nonce = generateNonce();
 
     return (
       <Html lang="en">
@@ -39,8 +42,9 @@ export default class MyDocument extends Document {
             src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
               }`}
             strategy="afterInteractive"
+            nonce={nonce}
           />
-          <Script id="google-analytics" strategy="afterInteractive">
+          <Script id="google-analytics" strategy="afterInteractive" nonce={nonce}>
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateCustomDomainCSP, validateCustomDomain } from './src/config/customDomains';
 
 export const config = {
   matcher: [
@@ -67,8 +68,9 @@ function isBasePath(path: string) {
 export default function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
-  let hostname = req.headers.get('host') || 'marketplace.localhost';
+  const securityHeaders = generateDynamicSecurityHeaders(req);
 
+  let hostname = req.headers.get('host') || 'marketplace.localhost';
   hostname = hostname.replace(':3001', '');
 
   if (url.pathname.startsWith('/super-admin')) {
@@ -100,6 +102,7 @@ export default function middleware(req: NextRequest) {
       hostname = `${hostname}:${search}`;
     }
   }
+
   if (hostname === 'test.dev.dexkit.app') {
     // we pass here the search param to be used on get config
     const search = url.searchParams.get('mid');
@@ -121,20 +124,130 @@ export default function middleware(req: NextRequest) {
       hostname = `dexkit.app:${slug}`;
     }
   }
+
+  if (isCustomExternalDomain(hostname)) {
+    console.log(`Custom external domain detected: ${hostname}`);
+  }
+
   // only for testing
   /*if (hostname.startsWith('localhost')) {
     hostname = `localhost:arbitrum`;
   }*/
 
+  let response: NextResponse;
+
   if (isBasePath(url.pathname)) {
     // rewrite everything else to `/_sites/[site] dynamic route
     url.pathname = `/_site/${hostname}${url.pathname}`;
-
-    return NextResponse.rewrite(url);
+    response = NextResponse.rewrite(url);
   } else {
     // is not on base path, let's go to custom pages
     url.pathname = `/_custom/${hostname}${url.pathname}`;
-
-    return NextResponse.rewrite(url);
+    response = NextResponse.rewrite(url);
   }
+
+  Object.entries(securityHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+
+  return response;
+}
+
+function isCustomExternalDomain(hostname: string): boolean {
+  const cleanHostname = hostname.replace(/:\d+$/, '');
+
+  const isInternalDomain =
+    cleanHostname.endsWith('.dexkit.app') ||
+    cleanHostname.endsWith('.dexkit.com') ||
+    cleanHostname === 'localhost' ||
+    cleanHostname === '127.0.0.1' ||
+    cleanHostname === 'marketplace.localhost' ||
+    cleanHostname === 'ploobit-swap.dexkit.app' ||
+    cleanHostname === 'whitelabel-nft.dexkit.com' ||
+    cleanHostname === 'dexappbuilder.dexkit.com' ||
+    cleanHostname === 'dexappbuilder-dev.dexkit.com' ||
+    cleanHostname === 'dexappbuilder.com' ||
+    cleanHostname === 'test.dev.dexkit.app';
+
+  return !isInternalDomain;
+}
+
+function generateDynamicSecurityHeaders(req: NextRequest) {
+  const hostname = req.headers.get('host') || 'marketplace.localhost';
+  const cleanHostname = hostname.replace(/:\d+$/, '');
+
+  if (isCustomExternalDomain(cleanHostname)) {
+    const validation = validateCustomDomain(cleanHostname);
+    if (!validation.isValid) {
+      console.warn(`Security warning: Invalid custom domain "${cleanHostname}": ${validation.reason}`);
+      return {
+        'Content-Security-Policy': [
+          "default-src 'self'",
+          "script-src 'self'",
+          "style-src 'self'",
+          "font-src 'self'",
+          "img-src 'self'",
+          "connect-src 'self'",
+          "frame-src 'none'",
+          "object-src 'none'",
+          "base-uri 'self'",
+          "form-action 'self'",
+          "frame-ancestors 'none'"
+        ].join('; '),
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'no-referrer',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), fullscreen=(), picture-in-picture=()',
+        'X-Content-Type-Options': 'nosniff',
+        'X-DNS-Prefetch-Control': 'off',
+        'X-Download-Options': 'noopen',
+        'X-Permitted-Cross-Domain-Policies': 'none'
+      };
+    }
+
+    const csp = generateCustomDomainCSP(cleanHostname);
+
+    return {
+      'Content-Security-Policy': csp,
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'credentialless',
+      'X-Frame-Options': 'SAMEORIGIN',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), fullscreen=(self), picture-in-picture=(self)',
+      'X-Content-Type-Options': 'nosniff',
+      'X-DNS-Prefetch-Control': 'off',
+      'X-Download-Options': 'noopen',
+      'X-Permitted-Cross-Domain-Policies': 'none'
+    };
+  }
+
+  return {
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://vercel.live https://vercel.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com data:",
+      "img-src 'self' data: https: blob: https://i.seadn.io https://dweb.link https://ipfs.io https://ipfs.moralis.io https://dashboard.mypinata.cloud https://raw.githubusercontent.com https://arpeggi.io https://arweave.net https://i.ibb.co https://assets.otherside.xyz https://dexkit-storage.nyc3.cdn.digitaloceanspaces.com https://dexkit-storage.nyc3.digitaloceanspaces.com https://dexkit-test.nyc3.digitaloceanspaces.com",
+      "connect-src 'self' https: wss: https://api.dexkit.com https://*.dexkit.app https://*.dexkit.com https://vercel.live https://vercel.com https://c.thirdweb.com https://*.rpc.thirdweb.com",
+      "frame-src 'self' https://vercel.live https://vercel.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'",
+      "upgrade-insecure-requests"
+    ].join('; '),
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+    'Cross-Origin-Embedder-Policy': 'credentialless',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), fullscreen=(self), picture-in-picture=(self)',
+    'X-Content-Type-Options': 'nosniff',
+    'X-DNS-Prefetch-Control': 'off',
+    'X-Download-Options': 'noopen',
+    'X-Permitted-Cross-Domain-Policies': 'none'
+  };
 }
