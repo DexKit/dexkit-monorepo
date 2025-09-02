@@ -137,7 +137,7 @@ export function SwapSection({ section }: Props) {
       } else if (section.config?.configByChain?.[targetChainId]?.buyToken) {
         const configuredBuyToken = section.config?.configByChain?.[targetChainId].buyToken;
 
-        if (!configuredBuyToken?.logoURI) {
+        if (configuredBuyToken && !configuredBuyToken.logoURI) {
           const tokenWithLogo = allTokens.find(t =>
             isAddressEqual(t.address, configuredBuyToken.address) &&
             t.chainId === configuredBuyToken.chainId
@@ -150,7 +150,7 @@ export function SwapSection({ section }: Props) {
           } else {
             config.configByChain[targetChainId].buyToken = configuredBuyToken;
           }
-        } else {
+        } else if (configuredBuyToken) {
           config.configByChain[targetChainId].buyToken = configuredBuyToken;
         }
       }
@@ -160,7 +160,7 @@ export function SwapSection({ section }: Props) {
       } else if (section.config?.configByChain?.[targetChainId]?.sellToken) {
         const configuredSellToken = section.config?.configByChain?.[targetChainId].sellToken;
 
-        if (!configuredSellToken?.logoURI) {
+        if (configuredSellToken && !configuredSellToken.logoURI) {
           const tokenWithLogo = allTokens.find(t =>
             isAddressEqual(t.address, configuredSellToken.address) &&
             t.chainId === configuredSellToken.chainId
@@ -173,7 +173,7 @@ export function SwapSection({ section }: Props) {
           } else {
             config.configByChain[targetChainId].sellToken = configuredSellToken;
           }
-        } else {
+        } else if (configuredSellToken) {
           config.configByChain[targetChainId].sellToken = configuredSellToken;
         }
       }
