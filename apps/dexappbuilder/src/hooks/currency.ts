@@ -42,9 +42,9 @@ export function useFiatRatio({
   contractAddress?: string;
   currency?: string;
 }) {
-  return useQuery(
-    [GET_FIAT_RATION, chainId, contractAddress, currency],
-    async () => {
+  return useQuery({
+    queryKey: [GET_FIAT_RATION, chainId, contractAddress, currency],
+    queryFn: async () => {
       if (!chainId || !contractAddress || !currency) {
         return;
       }
@@ -61,7 +61,7 @@ export function useFiatRatio({
 
       return response.data[contractAddress][currency];
     }
-  );
+  });
 }
 
 export const GET_NATIVE_COIN_PRICE = 'GET_NATIVE_COIN_PRICE';
@@ -70,9 +70,9 @@ export const useNativeCoinPriceQuery = (defaultChainId?: number) => {
   const { provider, chainId: walletChainId } = useWeb3React();
   const chainId = defaultChainId || walletChainId;
   const currency = useCurrency();
-  return useQuery(
-    [GET_NATIVE_COIN_PRICE, chainId, currency],
-    async () => {
+  return useQuery({
+    queryKey: [GET_NATIVE_COIN_PRICE, chainId, currency],
+    queryFn: async () => {
       if (provider === undefined || chainId === undefined) {
         return;
       }
@@ -88,6 +88,6 @@ export const useNativeCoinPriceQuery = (defaultChainId?: number) => {
         }
       }
     },
-    { enabled: provider !== undefined, suspense: true }
-  );
+    enabled: provider !== undefined,
+  });
 };

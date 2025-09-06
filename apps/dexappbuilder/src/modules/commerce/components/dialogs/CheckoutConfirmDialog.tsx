@@ -39,9 +39,9 @@ export default function CheckoutConfirmDialog({
 
   const { provider } = useWeb3React();
 
-  const txQuery = useQuery(
-    [GET_TX_STATUS_QUERY, txHash],
-    async () => {
+  const txQuery = useQuery({
+    queryKey: [GET_TX_STATUS_QUERY, txHash],
+    queryFn: async () => {
       if (!txHash || !provider) {
         return 'waiting_transfer';
       }
@@ -54,8 +54,8 @@ export default function CheckoutConfirmDialog({
 
       return 'pending';
     },
-    { refetchInterval: 5000 },
-  );
+    refetchInterval: 5000,
+  });
 
   const renderContent = () => {
     if (txQuery.isLoading) {

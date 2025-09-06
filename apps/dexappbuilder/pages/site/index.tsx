@@ -1,5 +1,5 @@
 import Link from '@dexkit/ui/components/AppLink';
-import { Container, Grid, Skeleton, Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Container, Grid, NoSsr, Skeleton, Stack, useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -7,8 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
@@ -22,12 +23,22 @@ import {
 import { getSites } from '../../src/services/whitelabel';
 
 export const SiteIndexPage: NextPage = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const sitesQuery = useWhitelabelSitesListQuery({});
   const { formatMessage } = useIntl();
   const appConfig = useAppConfig();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
@@ -71,16 +82,18 @@ export const SiteIndexPage: NextPage = () => {
                 breadcrumbs={[
                   {
                     caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
+                      <NoSsr><FormattedMessage id="home" defaultMessage="Home" /></NoSsr>
                     ),
                     uri: '/',
                   },
                   {
                     caption: (
-                      <FormattedMessage
-                        id="site.list"
-                        defaultMessage="Site list"
-                      />
+                      <NoSsr>
+                        <FormattedMessage
+                          id="site.list"
+                          defaultMessage="Site list"
+                        />
+                      </NoSsr>
                     ),
                     uri: '/site',
                     active: true,
@@ -89,7 +102,7 @@ export const SiteIndexPage: NextPage = () => {
                 showTitleOnDesktop={true}
               />
             </Grid>
-            {sitesQuery?.data?.map((site, key) => (
+            {(sitesQuery?.data as any)?.map((site: any, key: number) => (
               <Grid
                 item
                 xs={12}
@@ -201,10 +214,12 @@ export const SiteIndexPage: NextPage = () => {
                             fontWeight: 600
                           }}
                         >
-                          <FormattedMessage
-                            id={'buy.app'}
-                            defaultMessage={'Buy App'}
-                          />
+                          <NoSsr>
+                            <FormattedMessage
+                              id={'buy.app'}
+                              defaultMessage={'Buy App'}
+                            />
+                          </NoSsr>
                         </Button>
                       )}
                       {site.previewUrl && (
@@ -230,10 +245,12 @@ export const SiteIndexPage: NextPage = () => {
                             }
                           }}
                         >
-                          <FormattedMessage
-                            id={'view.site'}
-                            defaultMessage={'View'}
-                          />
+                          <NoSsr>
+                            <FormattedMessage
+                              id={'view.site'}
+                              defaultMessage={'View'}
+                            />
+                          </NoSsr>
                         </Link>
                       )}
                     </Stack>
@@ -241,7 +258,7 @@ export const SiteIndexPage: NextPage = () => {
                 </Card>
               </Grid>
             ))}
-            {!sitesQuery?.isLoading && (!sitesQuery?.data || sitesQuery.data.length === 0) && (
+            {!sitesQuery?.isLoading && (!sitesQuery?.data || (sitesQuery.data as any).length === 0) && (
               <Grid item xs={12}>
                 <Card
                   sx={{
@@ -256,19 +273,23 @@ export const SiteIndexPage: NextPage = () => {
                     color="text.secondary"
                     sx={{ mb: 2 }}
                   >
-                    <FormattedMessage
-                      id="no.sites.found"
-                      defaultMessage="No sites found"
-                    />
+                    <NoSsr>
+                      <FormattedMessage
+                        id="no.sites.found"
+                        defaultMessage="No sites found"
+                      />
+                    </NoSsr>
                   </Typography>
                   <Typography
                     variant="body2"
                     color="text.secondary"
                   >
-                    <FormattedMessage
-                      id="no.sites.description"
-                      defaultMessage="There are no sites available at the moment. Please check back later."
-                    />
+                    <NoSsr>
+                      <FormattedMessage
+                        id="no.sites.description"
+                        defaultMessage="There are no sites available at the moment. Please check back later."
+                      />
+                    </NoSsr>
                   </Typography>
                 </Card>
               </Grid>
@@ -320,10 +341,12 @@ export const SiteIndexPage: NextPage = () => {
                           variant={isMobile ? "h6" : "h5"}
                           component="div"
                         >
-                          <FormattedMessage
-                            id={'title'}
-                            defaultMessage={'title'}
-                          />
+                          <NoSsr>
+                            <FormattedMessage
+                              id={'title'}
+                              defaultMessage={'title'}
+                            />
+                          </NoSsr>
                         </Typography>
                       </Skeleton>
                       <Skeleton>
@@ -332,10 +355,12 @@ export const SiteIndexPage: NextPage = () => {
                           color="text.secondary"
                           sx={{ height: isMobile ? '80px' : '100px' }}
                         >
-                          <FormattedMessage
-                            id={'description'}
-                            defaultMessage={'description'}
-                          />
+                          <NoSsr>
+                            <FormattedMessage
+                              id={'description'}
+                              defaultMessage={'description'}
+                            />
+                          </NoSsr>
                         </Typography>
                       </Skeleton>
                     </CardContent>
@@ -363,10 +388,12 @@ export const SiteIndexPage: NextPage = () => {
                           }}
                         >
                           <Skeleton>
-                            <FormattedMessage
-                              id={'clone'}
-                              defaultMessage={'clone'}
-                            />
+                            <NoSsr>
+                              <FormattedMessage
+                                id={'clone'}
+                                defaultMessage={'clone'}
+                              />
+                            </NoSsr>
                           </Skeleton>
                         </Button>
 
@@ -377,10 +404,12 @@ export const SiteIndexPage: NextPage = () => {
                           }}
                         >
                           <Skeleton>
-                            <FormattedMessage
-                              id={'view'}
-                              defaultMessage={'View'}
-                            />
+                            <NoSsr>
+                              <FormattedMessage
+                                id={'view'}
+                                defaultMessage={'View'}
+                              />
+                            </NoSsr>
                           </Skeleton>
                         </Button>
                       </Stack>
@@ -395,13 +424,7 @@ export const SiteIndexPage: NextPage = () => {
   );
 };
 
-type Params = {
-  site?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
+export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   const sitesResponse = await getSites({});
@@ -410,16 +433,15 @@ export const getStaticProps: GetStaticProps = async ({
     appConfig: JSON.parse(resp.config) as AppConfig,
   }));
 
-  await queryClient.prefetchQuery(
-    [QUERY_WHITELABEL_SITES_QUERY],
-    async () => data,
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QUERY_WHITELABEL_SITES_QUERY],
+    queryFn: async () => data,
+  });
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
     },
-    revalidate: 3000,
   };
 };
 

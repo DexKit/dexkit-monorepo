@@ -6,11 +6,13 @@ import { CategoryType } from '../../types/index';
 export default function useCreateCategory() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (data: CategoryType) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (data: CategoryType) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance?.post('/product-category/', data)).data;
+      return (await instance?.post('/product-category/', data)).data;
+    },
   });
 }

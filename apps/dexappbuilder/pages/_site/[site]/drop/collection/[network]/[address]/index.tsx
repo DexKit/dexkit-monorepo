@@ -226,7 +226,7 @@ const CollectionPage: NextPage = () => {
                         >
                           {collection?.syncStatus ===
                             CollectionSyncStatus.Synced ||
-                          collection?.syncStatus ===
+                            collection?.syncStatus ===
                             CollectionSyncStatus.Syncing ? (
                             <AssetListCollection
                               contractAddress={address as string}
@@ -312,13 +312,13 @@ export const getStaticProps: GetStaticProps = async ({
     if (collection?.syncStatus === CollectionSyncStatus.NotSynced) {
       getSyncCollectionData(network, address);
     }
-    await queryClient.prefetchQuery(
-      [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
-      async () => {
+    await queryClient.prefetchQuery({
+      queryKey: [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
+      queryFn: async () => {
         return collectionAssets;
       },
-    );
-  } catch {}
+    });
+  } catch { }
 
   try {
     if (
@@ -326,18 +326,17 @@ export const getStaticProps: GetStaticProps = async ({
       IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
     ) {
       const { data } = await getRariCollectionStats(
-        `${
-          MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+        `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
         }:${address}`,
         MAP_COIN_TO_RARIBLE[network],
       );
 
-      await queryClient.prefetchQuery(
-        [GET_COLLECTION_STATS, network, address],
-        async () => {
+      await queryClient.prefetchQuery({
+        queryKey: [GET_COLLECTION_STATS, network, address],
+        queryFn: async () => {
           return data;
         },
-      );
+      });
     }
   } catch (e) {
     console.log(e);
@@ -347,29 +346,29 @@ export const getStaticProps: GetStaticProps = async ({
   if (!collection) {
     try {
       collection = await getCollectionData(provider, address as string);
-    } catch {}
+    } catch { }
   }
 
-  await queryClient.prefetchQuery(
-    [
+  await queryClient.prefetchQuery({
+    queryKey: [
       GET_COLLECTION_DATA,
       address as string,
       NETWORK_FROM_SLUG(network)?.chainId,
     ],
-    async () => {
+    queryFn: async () => {
       return collection;
     },
-  );
+  });
 
   const filters: TraderOrderFilter = { nftToken: address };
   try {
     const assets = await getCollectionAssetsFromOrderbook(provider, filters);
 
-    await queryClient.prefetchQuery(
-      [COLLECTION_ASSETS_FROM_ORDERBOOK, filters],
-      async () => assets,
-    );
-  } catch {}
+    await queryClient.prefetchQuery({
+      queryKey: [COLLECTION_ASSETS_FROM_ORDERBOOK, filters],
+      queryFn: async () => assets,
+    });
+  } catch { }
 
   return {
     props: { dehydratedState: dehydrate(queryClient), ...configResponse },

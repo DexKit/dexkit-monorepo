@@ -109,11 +109,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 export function EditWidgetWizardContainer({
@@ -212,7 +212,7 @@ export function EditWidgetWizardContainer({
         {
           onSuccess: () => {
             setHasChanges(false);
-            queryClient.invalidateQueries([QUERY_ADMIN_WIDGET_CONFIG]);
+            queryClient.invalidateQueries({ queryKey: [QUERY_ADMIN_WIDGET_CONFIG] });
           },
         },
       );

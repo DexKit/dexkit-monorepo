@@ -42,30 +42,30 @@ const CustomPage: NextPage<{
   slug,
   layout,
 }) => {
-  if (isProtected) {
-    return (
-      <SessionProvider>
-        <AuthMainLayout>
-          <ProtectedContent
-            site={site}
-            page={page}
-            isProtected={isProtected}
-            conditions={conditions}
-            layout={gatedLayout}
-            slug={slug}
-            pageLayout={layout}
-          />
-        </AuthMainLayout>
-      </SessionProvider>
-    );
-  }
+    if (isProtected) {
+      return (
+        <SessionProvider>
+          <AuthMainLayout>
+            <ProtectedContent
+              site={site}
+              page={page}
+              isProtected={isProtected}
+              conditions={conditions}
+              layout={gatedLayout}
+              slug={slug}
+              pageLayout={layout}
+            />
+          </AuthMainLayout>
+        </SessionProvider>
+      );
+    }
 
-  return (
-    <MainLayout disablePadding>
-      <SectionsRenderer sections={sections} layout={layout} />
-    </MainLayout>
-  );
-};
+    return (
+      <MainLayout disablePadding>
+        <SectionsRenderer sections={sections} layout={layout} />
+      </MainLayout>
+    );
+  };
 
 type Params = {
   site?: string;
@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({
   const sections = homePage?.sections || [];
 
   await fetchMultipleAssetForQueryClient({
-    queryClient,
+    queryClient: queryClient as any,
     sections: sections,
   });
 
@@ -160,10 +160,10 @@ export const getStaticProps: GetStaticProps = async ({
     if (section.type === 'asset-store') {
       const maker = section.config?.storeAccount?.toLowerCase();
       const assetResponse = await getDKAssetOrderbook({ maker });
-      await queryClient.prefetchQuery(
-        [GET_ASSETS_ORDERBOOK, { maker }],
-        async () => assetResponse.data,
-      );
+      await queryClient.prefetchQuery({
+        queryKey: [GET_ASSETS_ORDERBOOK, { maker }],
+        queryFn: async () => assetResponse.data,
+      });
     }
   }
 

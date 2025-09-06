@@ -31,8 +31,8 @@ export function useCreateCollection(
   provider?: providers.Web3Provider,
   onSubmitted?: (hash: string) => void,
 ) {
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       name,
       symbol,
       royalty,
@@ -70,7 +70,7 @@ export function useCreateCollection(
         tx: contract.deployTransaction.hash,
       };
     },
-  );
+  });
 }
 
 export function useCreateItems(
@@ -80,8 +80,8 @@ export function useCreateItems(
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       contractAddress,
       items,
     }: {
@@ -115,58 +115,64 @@ export function useCreateItems(
 
       return await tx.wait();
     },
-  );
+  });
 }
 
 export function useUploadImagesMutation() {
-  return useMutation(async (files: (File | null)[]) => {
-    const items = [];
+  return useMutation({
+    mutationFn: async (files: (File | null)[]) => {
+      const items = [];
 
-    for (let file of files) {
+      for (let file of files) {
+        let form = new FormData();
+
+        if (file) {
+          form.append('file', file);
+        }
+
+        let resp = await wizardBaseAPI.post<{ hash: string }>(
+          '/nft/image/upload',
+          form,
+        );
+
+        items.push(resp.data.hash);
+      }
+
+      return items;
+    },
+  });
+}
+
+export function useUploadImageMutation() {
+  return useMutation({
+    mutationFn: async (file: File) => {
       let form = new FormData();
 
-      if (file) {
-        form.append('file', file);
-      }
+      form.append('file', file);
 
       let resp = await wizardBaseAPI.post<{ hash: string }>(
         '/nft/image/upload',
         form,
       );
 
-      items.push(resp.data.hash);
-    }
-
-    return items;
-  });
-}
-
-export function useUploadImageMutation() {
-  return useMutation(async (file: File) => {
-    let form = new FormData();
-
-    form.append('file', file);
-
-    let resp = await wizardBaseAPI.post<{ hash: string }>(
-      '/nft/image/upload',
-      form,
-    );
-
-    return resp.data.hash;
+      return resp.data.hash;
+    },
   });
 }
 
 export function useSendItemsMetadataMutation() {
-  return useMutation(async (items: WizardItem[]) => {
-    return (
-      await wizardBaseAPI.post<{ hashes: string[]; error: null | string }>(
-        '/nft/metadata',
-        {
-          metadata_type: 'items',
-          data: items,
-        },
-      )
-    ).data.hashes;
+  return useMutation({
+    mutationFn: async (items: WizardItem[]) => {
+      return (
+        await wizardBaseAPI.post<{ hashes: string[]; error: null | string }>(
+          '/nft/metadata',
+          {
+            metadata_type: 'items',
+            data: items,
+          },
+        )
+      ).data.hashes;
+    },
   });
 }
 
@@ -174,8 +180,8 @@ export function useCreateAssetsMetadataMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       nfts,
       network,
       address,
@@ -195,15 +201,15 @@ export function useCreateAssetsMetadataMutation() {
         })
       ).data;
     },
-  );
+  });
 }
 
 export function useEditAssetMetadataMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       nft,
       network,
       address,
@@ -223,7 +229,7 @@ export function useEditAssetMetadataMutation() {
         })
       ).data;
     },
-  );
+  });
 }
 //@deprecated
 export function useCreateAIImageMutation() {
@@ -231,24 +237,25 @@ export function useCreateAIImageMutation() {
   const loginMutation = useLoginAccountMutation();
   // const isHoldingKit = useAccountHoldDexkitMutation();
   const setIsHoldingKitDialog = useSetAtom(holdsKitDialogAtom);
-  return useMutation(async ({ description }: { description: string }) => {
-    return
-    try {
-      //   await isHoldingKit.mutateAsync();
-    } catch {
-      setIsHoldingKitDialog(true);
-      return;
-    }
+  return useMutation({
+    mutationFn: async ({ description }: { description: string }) => {
+      try {
+        //   await isHoldingKit.mutateAsync();
+      } catch {
+        setIsHoldingKitDialog(true);
+        return;
+      }
 
-    if (!isLoggedIn) {
-      await loginMutation.mutateAsync();
-    }
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
 
-    return (
-      await dexKitAppApi.post<any>('/account-file/create-image-ai', {
-        description,
-      })
-    ).data.url;
+      return (
+        await dexKitAppApi.post<any>('/account-file/create-image-ai', {
+          description,
+        })
+      ).data.url;
+    },
   });
 }
 
@@ -256,40 +263,44 @@ export function useCreateCollectionMetadataMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(async (collection: WizardCollection) => {
-    if (!isLoggedIn) {
-      await loginMutation.mutateAsync();
-    }
+  return useMutation({
+    mutationFn: async (collection: WizardCollection) => {
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
 
-    //TODO: adapt to ERC1155
+      //TODO: adapt to ERC1155
 
-    return (
-      await dexKitAppApi.post<CollectionAPI>('/contract/create', {
-        type: 'ERC721',
-        tx: collection.tx,
-        networkId: collection.networkId,
-        address: collection.address,
-        metadata: JSON.stringify({
-          description: collection.description,
-          image: collection.image,
-          external_link: collection.external_link,
-        }),
-      })
-    ).data;
+      return (
+        await dexKitAppApi.post<CollectionAPI>('/contract/create', {
+          type: 'ERC721',
+          tx: collection.tx,
+          networkId: collection.networkId,
+          address: collection.address,
+          metadata: JSON.stringify({
+            description: collection.description,
+            image: collection.image,
+            external_link: collection.external_link,
+          }),
+        })
+      ).data;
+    },
   });
 }
 
 export function useSendCollectionMetadataMutation() {
-  return useMutation(async (collection: WizardCollection) => {
-    return (
-      await wizardBaseAPI.post<{ hash: string; error: null | string }>(
-        '/nft/metadata',
-        {
-          metadata_type: 'collection',
-          data: collection,
-        },
-      )
-    ).data.hash;
+  return useMutation({
+    mutationFn: async (collection: WizardCollection) => {
+      return (
+        await wizardBaseAPI.post<{ hash: string; error: null | string }>(
+          '/nft/metadata',
+          {
+            metadata_type: 'collection',
+            data: collection,
+          },
+        )
+      ).data.hash;
+    },
   });
 }
 
@@ -316,24 +327,26 @@ export function useLazyMintMutation({
 }) {
   const { contract } = useContract(address);
 
-  return useMutation(async ({ metadatas }: any) => {
-    if (!metadatas) {
-      return;
-    }
-    let tx;
-    if (isERC1155) {
-      tx = await contract?.erc1155.lazyMint.prepare(metadatas);
-    } else {
-      tx = await contract?.erc721.lazyMint.prepare(metadatas);
-    }
-    const sentTx = await tx?.send();
+  return useMutation({
+    mutationFn: async ({ metadatas }: any) => {
+      if (!metadatas) {
+        return;
+      }
+      let tx;
+      if (isERC1155) {
+        tx = await contract?.erc1155.lazyMint.prepare(metadatas);
+      } else {
+        tx = await contract?.erc721.lazyMint.prepare(metadatas);
+      }
+      const sentTx = await tx?.send();
 
-    if (onSubmitted && sentTx?.hash) {
-      onSubmitted(sentTx?.hash);
-    }
-    if (sentTx) {
-      return await sentTx.wait();
-    }
+      if (onSubmitted && sentTx?.hash) {
+        onSubmitted(sentTx?.hash);
+      }
+      if (sentTx) {
+        return await sentTx.wait();
+      }
+    },
   });
 }
 
@@ -344,16 +357,18 @@ export function useFetchAssetsMutation({
   address?: string;
   network?: string;
 }) {
-  return useMutation(async ({ tokenIds }: { tokenIds: string[] }) => {
-    if (!address || !network || tokenIds.length === 0) {
-      return;
-    }
-    const assets = await getMultipleAssetDexKitApi({
-      contractAddress: address,
-      networkId: network,
-      tokenIds,
-    });
-    return assets;
+  return useMutation({
+    mutationFn: async ({ tokenIds }: { tokenIds: string[] }) => {
+      if (!address || !network || tokenIds.length === 0) {
+        return;
+      }
+      const assets = await getMultipleAssetDexKitApi({
+        contractAddress: address,
+        networkId: network,
+        tokenIds,
+      });
+      return assets;
+    },
   });
 }
 
@@ -376,39 +391,42 @@ export function useFetchAssetsMutation({
 export function useCollectionMetadataQuery(address?: string) {
   const { provider } = useWeb3React();
 
-  return useQuery([address, provider], async () => {
-    if (!provider || !address) {
-      return;
-    }
+  return useQuery({
+    queryKey: [address, provider],
+    queryFn: async () => {
+      if (!provider || !address) {
+        return;
+      }
 
-    const contract = new Contract(
-      address,
-      ERC721Abi,
-      provider.getSigner(),
-    );
+      const contract = new Contract(
+        address,
+        ERC721Abi,
+        provider.getSigner(),
+      );
 
-    let contractURI: string = await contract.contractURI();
+      let contractURI: string = await contract.contractURI();
 
-    if (isIpfsUri(contractURI)) {
-      let cleanImageHash = new URL(contractURI).pathname.replace('//', '');
-      contractURI = `https://ipfs.io/ipfs/${cleanImageHash}`;
-    }
+      if (isIpfsUri(contractURI)) {
+        let cleanImageHash = new URL(contractURI).pathname.replace('//', '');
+        contractURI = `https://ipfs.io/ipfs/${cleanImageHash}`;
+      }
 
-    let metadata: { name: string; description: string; image: string } =
-      await axios.get(contractURI).then((response) => response.data);
+      let metadata: { name: string; description: string; image: string } =
+        await axios.get(contractURI).then((response) => response.data);
 
-    let contractImage = metadata.image;
+      let contractImage = metadata.image;
 
-    if (isIpfsUri(contractImage)) {
-      let cleanImageHash = new URL(contractImage).pathname.replace('//', '');
-      contractImage = `https://ipfs.io/ipfs/${cleanImageHash}`;
-    }
+      if (isIpfsUri(contractImage)) {
+        let cleanImageHash = new URL(contractImage).pathname.replace('//', '');
+        contractImage = `https://ipfs.io/ipfs/${cleanImageHash}`;
+      }
 
-    return {
-      image: contractImage,
-      name: metadata.name,
-      description: metadata.description,
-    };
+      return {
+        image: contractImage,
+        name: metadata.name,
+        description: metadata.description,
+      };
+    },
   });
 }
 
@@ -479,10 +497,13 @@ export function useCollectionMetadataQuery(address?: string) {
 export const TOKEN_CONTRACT_DATA = 'TOKEN_CONTRACT_DATA';
 
 export function useTokenContractData() {
-  return useQuery([TOKEN_CONTRACT_DATA], async () => {
-    return (
-      await axios.get<{ bytecode: string; abi: any }>(ERC20_BASE_CONTRACT_URL)
-    ).data;
+  return useQuery({
+    queryKey: [TOKEN_CONTRACT_DATA],
+    queryFn: async () => {
+      return (
+        await axios.get<{ bytecode: string; abi: any }>(ERC20_BASE_CONTRACT_URL)
+      ).data;
+    },
   });
 }
 
@@ -492,25 +513,27 @@ export function useCreateToken(
 ) {
   const { data: contractData } = useTokenContractData();
 
-  return useMutation(async ({ name, symbol, maxSupply }: TokenForm) => {
-    if (!provider || !contractData) {
-      return;
-    }
+  return useMutation({
+    mutationFn: async ({ name, symbol, maxSupply }: TokenForm) => {
+      if (!provider || !contractData) {
+        return;
+      }
 
-    const { bytecode, abi } = contractData;
+      const { bytecode, abi } = contractData;
 
-    const contractFactory = new ContractFactory(
-      abi,
-      bytecode,
-      provider.getSigner(),
-    );
+      const contractFactory = new ContractFactory(
+        abi,
+        bytecode,
+        provider.getSigner(),
+      );
 
-    const contract = await contractFactory.deploy(name, symbol, maxSupply);
+      const contract = await contractFactory.deploy(name, symbol, maxSupply);
 
-    if (onSubmitted) {
-      onSubmitted(contract.deployTransaction.hash, contract.address);
-    }
+      if (onSubmitted) {
+        onSubmitted(contract.deployTransaction.hash, contract.address);
+      }
 
-    return await contract.deployTransaction.wait();
+      return await contract.deployTransaction.wait();
+    },
   });
 }

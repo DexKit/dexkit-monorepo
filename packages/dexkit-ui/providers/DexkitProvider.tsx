@@ -46,7 +46,7 @@ export interface DexkitProviderProps {
   | Record<string, MessageFormatElement[]>;
   children: React.ReactNode | React.ReactNode[];
   options?: {
-    magicRedirectUrl?: string;
+    // magicRedirectUrl?: string; // Removed Magic support
   };
   userEventsURL?: string;
   siteId?: number;

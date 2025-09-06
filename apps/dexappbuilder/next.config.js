@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    optimizePackageImports: ['ethers']
+    optimizePackageImports: ['ethers'],
   },
 
-
+  // Moved from experimental to root level
+  serverExternalPackages: [],
 
   transpilePackages: [
     '@dexkit/widgets',
@@ -23,12 +24,19 @@ const nextConfig = {
     'mui-color-input',
   ],
 
-  webpack(config) {
-    /*config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    })*/
+  // SWC minification is enabled by default in Next.js 15
+
+  // Additional Next.js 15 compatibility settings
+  compiler: {
+    removeConsole: false,
+  },
+
+  // React 19 compatibility
+  reactStrictMode: false,
+
+
+  webpack(config, { isServer }) {
+    // Enhanced webpack config to completely exclude Magic modules
 
     // Exclude Magic Wallet modules to prevent import errors
     config.resolve.alias = {
@@ -36,25 +44,59 @@ const nextConfig = {
       'react/jsx-runtime.js': 'react/jsx-runtime',
       'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
       '@magic-ext/oauth': false,
+      '@magic-ext/oauth/dist/es/index.mjs': false,
+      '@magic-ext/oauth/dist/es/core': false,
+      '@magic-ext/oauth/dist/es': false,
       '@magic-sdk/admin': false,
       'magic-sdk': false,
+      '@magic-sdk/react': false,
+      '@magic-sdk/provider': false,
     };
 
-    // Exclude Magic Wallet from being bundled
-    config.externals = config.externals || [];
-    if (typeof config.externals === 'function') {
-      const originalExternals = config.externals;
-      config.externals = (context, request, callback) => {
-        if (request && (
-          request.includes('@magic-ext/oauth') ||
-          request.includes('@magic-sdk/admin') ||
-          request.includes('magic-sdk')
-        )) {
-          return callback(null, 'commonjs ' + request);
-        }
-        return originalExternals(context, request, callback);
-      };
-    }
+    // Add fallback for Magic modules
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      '@magic-ext/oauth': false,
+      '@magic-sdk/admin': false,
+      'magic-sdk': false,
+      '@magic-sdk/react': false,
+      '@magic-sdk/provider': false,
+    };
+
+    // Enhanced module rules for Magic modules
+    config.module.rules.push({
+      test: /node_modules\/(@magic-ext\/oauth|@magic-sdk|magic-sdk)/,
+      use: 'null-loader'
+    });
+
+    // Additional rule for thirdweb magic connectors
+    config.module.rules.push({
+      test: /node_modules\/@thirdweb-dev\/.*\/magic/,
+      use: 'null-loader'
+    });
+
+    // Exclude Magic from thirdweb imports
+    config.module.rules.push({
+      test: /node_modules\/@magic-ext\/oauth/,
+      use: 'null-loader'
+    });
+
+    // Exclude Magic from thirdweb magic imports
+    config.module.rules.push({
+      test: /node_modules\/@thirdweb-dev\/.*magic.*\.js$/,
+      use: 'null-loader'
+    });
+
+    // More aggressive Magic exclusion
+    config.module.rules.push({
+      test: /node_modules\/@magic-ext\/oauth\/dist\/es\/index\.mjs$/,
+      use: 'null-loader'
+    });
+
+    config.module.rules.push({
+      test: /node_modules\/@magic-ext\/oauth\/dist\/es\/core/,
+      use: 'null-loader'
+    });
 
     return config;
   },

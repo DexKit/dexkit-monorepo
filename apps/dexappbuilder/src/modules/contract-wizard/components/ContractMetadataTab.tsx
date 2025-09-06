@@ -3,9 +3,9 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Box, CircularProgress, Grid } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {
-    useContract,
-    useContractMetadata,
-    useContractMetadataUpdate,
+  useContract,
+  useContractMetadata,
+  useContractMetadataUpdate,
 } from '@thirdweb-dev/react';
 import { ContractMetadataFormType } from '../types';
 import MetadataUpdateForm from './form/MetadataUpdateForm';
@@ -26,8 +26,8 @@ export default function ContractMetadataTab({
 
   const { chainId } = useWeb3React();
 
-  const updateMutation = useMutation(
-    async ({ values }: { values: ContractMetadataFormType }) => {
+  const updateMutation = useMutation({
+    mutationFn: async ({ values }: { values: ContractMetadataFormType }) => {
       let call = await contract?.metadata.update.prepare(values);
 
       let params = { contractName: contractMetadata.data?.name || '' };
@@ -49,7 +49,7 @@ export default function ContractMetadataTab({
 
       return await tx?.wait();
     },
-  );
+  });
 
   const handleSubmit = async (values: ContractMetadataFormType) => {
     try {

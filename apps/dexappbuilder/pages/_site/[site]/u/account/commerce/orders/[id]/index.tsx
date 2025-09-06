@@ -57,16 +57,16 @@ function OrderComponent({ order }: OrderComponentProps) {
     return statusText[status];
   };
 
-  const { mutateAsync: finalize, isLoading: isFinalizeLoading } =
-    useFinalizeOrder();
-  const { mutateAsync: refund, isLoading: isRefundLoading } = useRefundOrder();
-  const { mutateAsync: cancel, isLoading: isCancelLoading } = useCancelOrder();
+  const { mutateAsync: finalize, isPending: isFinalizeLoading } =
+    useFinalizeOrder() as any;
+  const { mutateAsync: refund, isPending: isRefundLoading } = useRefundOrder() as any;
+  const { mutateAsync: cancel, isPending: isCancelLoading } = useCancelOrder() as any;
 
   const { enqueueSnackbar } = useSnackbar();
 
   const handleFinalized = async () => {
     try {
-      await finalize({ id: order.id });
+      await (finalize as any)({ id: order.id });
       enqueueSnackbar(
         <FormattedMessage
           id="order.finalize"
@@ -83,7 +83,7 @@ function OrderComponent({ order }: OrderComponentProps) {
 
   const handleCancel = async () => {
     try {
-      await cancel({ id: order.id });
+      await (cancel as any)({ id: order.id });
       enqueueSnackbar(
         <FormattedMessage
           id="order.cancelled"
@@ -100,7 +100,7 @@ function OrderComponent({ order }: OrderComponentProps) {
 
   const handleRefund = async () => {
     try {
-      await refund({ id: order.id });
+      await (refund as any)({ id: order.id });
       enqueueSnackbar(
         <FormattedMessage
           id="order.refunded"
@@ -152,9 +152,8 @@ function OrderComponent({ order }: OrderComponentProps) {
               <Typography variant="body2">
                 <Link
                   target="_blank"
-                  href={`${getBlockExplorerUrl(order.chainId)}/address/${
-                    order.senderAddress
-                  }`}
+                  href={`${getBlockExplorerUrl(order.chainId)}/address/${order.senderAddress
+                    }`}
                 >
                   {truncateAddress(order.senderAddress)}
                 </Link>
@@ -167,9 +166,8 @@ function OrderComponent({ order }: OrderComponentProps) {
               <Typography variant="body2">
                 <Link
                   target="_blank"
-                  href={`${getBlockExplorerUrl(order.chainId)}/address/${
-                    order.contractAddress
-                  }`}
+                  href={`${getBlockExplorerUrl(order.chainId)}/address/${order.contractAddress
+                    }`}
                 >
                   {tokenData?.name}
                 </Link>
@@ -214,19 +212,19 @@ function OrderComponent({ order }: OrderComponentProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items?.map((item: any, index: any) => (
+              {items && Array.isArray(items) ? items.map((item: any, index: any) => (
                 <TableRow key={index}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>
-                    {item.price} {tokenData?.symbol.toUpperCase()}
+                    {item.price} {tokenData?.symbol?.toUpperCase()}
                   </TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>
                     {new Decimal(item.quantity).mul(item.price).toNumber()}{' '}
-                    {tokenData?.symbol.toUpperCase()}
+                    {tokenData?.symbol?.toUpperCase()}
                   </TableCell>
                 </TableRow>
-              ))}
+              )) : null}
             </TableBody>
           </Table>
         </TableContainer>
@@ -261,9 +259,26 @@ export default function OrderPage() {
 
   const { data, isFetchedAfterMount } = useOrder({ id: id as string });
 
-  return data && isFetchedAfterMount && <OrderComponent order={data} />;
+  if (!data || !isFetchedAfterMount || !id || typeof data !== 'object' || !('id' in data)) {
+    return null;
+  }
+
+  return <OrderComponent order={data as Order} />;
 }
 
 OrderPage.getLayout = (page: any) => {
   return <DashboardLayout page="orders">{page}</DashboardLayout>;
 };
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
+  };
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

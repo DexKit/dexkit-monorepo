@@ -40,7 +40,7 @@ export default function BillingDetail() {
         tab="billing"
         title={
           billingQuery.data ? (
-            moment(billingQuery.data.periodStart).format('MM/YYYY')
+            moment((billingQuery.data as any).periodStart).format('MM/YYYY')
           ) : (
             <Skeleton />
           )
@@ -62,9 +62,9 @@ export default function BillingDetail() {
                     <Typography variant="body1">
                       {billingQuery.data ? (
                         <Link
-                          href={`/u/settings/billing/${billingQuery.data.id}`}
+                          href={`/u/settings/billing/${(billingQuery.data as any).id}`}
                         >
-                          {moment(billingQuery.data.periodStart).format(
+                          {moment((billingQuery.data as any).periodStart).format(
                             'MM/YYYY',
                           )}
                         </Link>
@@ -83,8 +83,8 @@ export default function BillingDetail() {
                           style="currency"
                           currencyDisplay="narrowSymbol"
                           currency="USD"
-                          value={new Decimal(billingQuery.data?.available)
-                            .minus(new Decimal(billingQuery.data?.used))
+                          value={new Decimal((billingQuery.data as any)?.available)
+                            .minus(new Decimal((billingQuery.data as any)?.used))
                             .toNumber()}
                           minimumFractionDigits={4}
                         />
@@ -98,7 +98,7 @@ export default function BillingDetail() {
                       <FormattedMessage id="start" defaultMessage="Start" />
                     </Typography>
                     <Typography variant="body1">
-                      {moment(billingQuery.data?.periodStart).format(
+                      {moment((billingQuery.data as any)?.periodStart).format(
                         'DD/MM/YYYY HH:mm:ss',
                       )}{' '}
                     </Typography>
@@ -108,7 +108,7 @@ export default function BillingDetail() {
                       <FormattedMessage id="end" defaultMessage="End" />
                     </Typography>
                     <Typography variant="body1">
-                      {moment(billingQuery.data?.periodEnd).format(
+                      {moment((billingQuery.data as any)?.periodEnd).format(
                         'DD/MM/YYYY HH:mm:ss',
                       )}
                     </Typography>
@@ -157,7 +157,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

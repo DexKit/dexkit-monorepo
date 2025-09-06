@@ -55,9 +55,9 @@ const THIRD_WEB_STAKE_TIMEUNITS: {
   id: string;
   defaultMessage: string;
 }[] = [
-  { value: (3600).toString(), id: 'one.hour', defaultMessage: '1 hour' },
-  { value: (24 * 3600).toString(), id: 'one.day', defaultMessage: '1 day' },
-];
+    { value: (3600).toString(), id: 'one.hour', defaultMessage: '1 hour' },
+    { value: (24 * 3600).toString(), id: 'one.day', defaultMessage: '1 day' },
+  ];
 
 export interface ContractStakeErc721ContainerProps {
   address: string;
@@ -96,27 +96,27 @@ export default function ContractStakeErc721Container({
     return formatBigNumber(rewardsPerUnitTime, rewardTokenBalance?.decimals);
   }, [rewardsPerUnitTime, rewardTokenBalance?.decimals]);
 
-  const { data: allowance } = useQuery(
-    ['REWARD_TOKEN_ALLOWANCE', rewardTokenAddress],
-    async () => {
+  const { data: allowance } = useQuery({
+    queryKey: ['REWARD_TOKEN_ALLOWANCE', rewardTokenAddress],
+    queryFn: async () => {
       return await rewardToken?.erc20.allowance(address);
     },
-  );
+  });
 
   const { mutateAsync: approve } = useThirdwebApprove({
-    contract: rewardToken,
+    contract: rewardToken as any,
     address,
   });
 
   const { watchTransactionDialog } = useDexKitContext();
 
   const withdrawRewardTokensMutation = useWithdrawRewardsMutation({
-    contract,
+    contract: contract as any,
     rewardDecimals: rewardTokenBalance?.decimals,
   });
 
   const depositRewardTokensMutation = useDepositRewardTokensMutation({
-    contract,
+    contract: contract as any,
     rewardDecimals: rewardTokenBalance?.decimals,
   });
 
@@ -156,23 +156,23 @@ export default function ContractStakeErc721Container({
         const result = await depositRewardTokensMutation.mutateAsync({
           amount: amountParsed,
         });
-        
+
         if (result && 'requiresApproval' in result && result.requiresApproval) {
           await approve({ amount: amountParsed.mul(1000).toString() });
-          
+
           await depositRewardTokensMutation.mutateAsync({
             amount: amountParsed,
           });
         }
-        
+
         refetchRewardsBalance();
         refetchRewardTokenBalance();
       } catch (depositErr: any) {
         console.error('Error during deposit:', depositErr);
-        
+
         if (depositErr.message && depositErr.message.includes('insufficient allowance')) {
           await approve({ amount: amountParsed.mul(10).toString() });
-          
+
           await depositRewardTokensMutation.mutateAsync({
             amount: amountParsed,
           });
@@ -184,9 +184,9 @@ export default function ContractStakeErc721Container({
       }
     } catch (err: any) {
       console.error('Error during deposit process:', err);
-      
+
       let errorMessage = err.message || 'Unknown error during deposit';
-      
+
       if (errorMessage.includes('insufficient allowance')) {
         errorMessage = 'Insufficient allowance. Please try again.';
       } else if (errorMessage.includes('user rejected') || errorMessage.includes('rejected transaction')) {
@@ -194,13 +194,13 @@ export default function ContractStakeErc721Container({
       } else if (errorMessage.includes('out-of-bounds') || errorMessage.includes('overflow')) {
         errorMessage = 'Value out of bounds. Try with a smaller amount.';
       }
-      
+
       watchTransactionDialog.setError(new Error(errorMessage));
     }
   };
 
-  const setDefaultTimeUnit = useSetDefaultTimeUnit({ contract });
-  const setRewardsPerUnitTimeMutation = useSetRewardsPerUnitTime({ contract });
+  const setDefaultTimeUnit = useSetDefaultTimeUnit({ contract: contract as any });
+  const setRewardsPerUnitTimeMutation = useSetRewardsPerUnitTime({ contract: contract as any });
 
   const handleSubmitTimeUnit = async ({ timeUnit }: { timeUnit: string }) => {
     await setDefaultTimeUnit.mutateAsync({ timeUnit });
@@ -279,8 +279,8 @@ export default function ContractStakeErc721Container({
                     rewardTimeUnit?.toNumber() <= 60
                       ? `${rewardTimeUnit?.toNumber()}s`
                       : moment
-                          .duration(rewardTimeUnit?.toNumber(), 'seconds')
-                          .humanize(),
+                        .duration(rewardTimeUnit?.toNumber(), 'seconds')
+                        .humanize(),
                 }}
               />
             </Typography>

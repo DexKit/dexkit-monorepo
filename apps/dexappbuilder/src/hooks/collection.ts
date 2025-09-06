@@ -22,9 +22,9 @@ interface Props {
 export const useAssetListFromCollection = (params: Props) => {
   const { network, address, traitsFilter, skip, take } = params
 
-  return useQuery(
-    [GET_ASSET_LIST_FROM_COLLECTION, network, address, traitsFilter, skip, take],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ASSET_LIST_FROM_COLLECTION, network, address, traitsFilter, skip, take],
+    queryFn: async () => {
       /* let traitsFilterString;
        if (traitsFilter) {
          traitsFilterString = traitsFilter.map(t => `${t.property}.${t.value}`);
@@ -57,7 +57,6 @@ export const useAssetListFromCollection = (params: Props) => {
         take,
         total
       };
-
-    }
-  );
+    },
+  });
 };

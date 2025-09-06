@@ -6,16 +6,16 @@ export function useSaveApiKeyMutation() {
   const { instance } = useContext(DexkitApiProvider);
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async (params: { siteId: number; type: string; value: string }) => {
+  return useMutation({
+    mutationFn: async (params: { siteId: number; type: string; value: string }) => {
       const result = (await instance?.post('/integrations/apikeys', params))
         ?.status;
 
-      queryClient.refetchQueries([GET_INTEGRATION_API_KEY]);
+      queryClient.refetchQueries({ queryKey: [GET_INTEGRATION_API_KEY] });
 
       return result;
-    }
-  );
+    },
+  });
 }
 
 export const GET_INTEGRATION_API_KEY = 'GET_INTEGRATION_API_KEY';
@@ -29,9 +29,9 @@ export function useGetApiKeyQuery({
 }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery<{ type: string; value: string; siteId: number }>(
-    [GET_INTEGRATION_API_KEY, siteId, type],
-    async () => {
+  return useQuery<{ type: string; value: string; siteId: number }>({
+    queryKey: [GET_INTEGRATION_API_KEY, siteId, type],
+    queryFn: async () => {
       if (siteId === undefined || instance === undefined) {
         return null;
       }
@@ -42,8 +42,8 @@ export function useGetApiKeyQuery({
 
       return result;
     },
-    { enabled: instance !== undefined }
-  );
+    enabled: instance !== undefined,
+  });
 }
 
 export const GET_INTEGRATION_DATA_QUERY = 'GET_INTEGRATION_DATA_QUERY';
@@ -64,12 +64,15 @@ export function useIntegrationDataQuery({
     siteId: number;
     createdAt: string;
     updatedAt: string;
-  }>([GET_INTEGRATION_DATA_QUERY, siteId, type], async () => {
-    if (siteId === undefined) {
-      return null;
-    }
+  }>({
+    queryKey: [GET_INTEGRATION_DATA_QUERY, siteId, type],
+    queryFn: async () => {
+      if (siteId === undefined) {
+        return null;
+      }
 
-    return (await instance?.get(`/integrations/${siteId}/${type}`))?.data;
+      return (await instance?.get(`/integrations/${siteId}/${type}`))?.data;
+    },
   });
 }
 
@@ -82,16 +85,17 @@ export function useSaveIntegrationMutation({
 }) {
   const { instance } = useContext(DexkitApiProvider);
   const queryClient = useQueryClient();
-  return useMutation(async ({ data }: { data: any }) => {
-    if (siteId === undefined) {
-      return null;
-    }
+  return useMutation({
+    mutationFn: async ({ data }: { data: any }) => {
+      if (siteId === undefined) {
+        return null;
+      }
 
-    const response = (await instance?.post(`/integrations/${siteId}/${type}`, { data }))
-      ?.data;
+      const response = (await instance?.post(`/integrations/${siteId}/${type}`, { data }))
+        ?.data;
 
-    queryClient.refetchQueries([GET_INTEGRATION_DATA_QUERY]);
-    return response;
-
+      queryClient.refetchQueries({ queryKey: [GET_INTEGRATION_DATA_QUERY] });
+      return response;
+    },
   });
 }

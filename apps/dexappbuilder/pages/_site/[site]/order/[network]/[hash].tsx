@@ -148,13 +148,13 @@ export const getStaticProps: GetStaticProps = async ({
         tokenId: order.nftTokenId || '',
         chainId: chainId as ChainId,
       };
-      await fetchAssetForQueryClient({ queryClient, item });
+      await fetchAssetForQueryClient({ queryClient: queryClient as any, item });
     }
 
-    await queryClient.prefetchQuery(
-      [GET_NFT_ORDERS, orderFilter],
-      async () => orders,
-    );
+    await queryClient.prefetchQuery({
+      queryKey: [GET_NFT_ORDERS, orderFilter],
+      queryFn: async () => orders,
+    });
 
     return {
       props: {

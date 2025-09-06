@@ -29,9 +29,9 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
-  Hydrate,
+  HydrationBoundary,
   QueryClient,
-  QueryClientProvider,
+  QueryClientProvider
 } from '@tanstack/react-query';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -53,7 +53,6 @@ export default function MyApp(props: MyAppProps) {
     new QueryClient({
       defaultOptions: {
         queries: {
-          suspense: false,
           staleTime: 60 * 1000,
         },
       },
@@ -117,7 +116,7 @@ export default function MyApp(props: MyAppProps) {
             >
               <ThirdwebProvider>
                 <QueryClientProvider client={queryClient}>
-                  <Hydrate state={pageProps.dehydratedState}>
+                  <HydrationBoundary state={pageProps.dehydratedState as any}>
                     <DefaultSeo {...SEO} />
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                       <AppMarketplaceProvider
@@ -137,7 +136,7 @@ export default function MyApp(props: MyAppProps) {
                         {getLayout(<Component {...pageProps} />)}
                       </AppMarketplaceProvider>
                     </LocalizationProvider>
-                  </Hydrate>
+                  </HydrationBoundary>
                 </QueryClientProvider>
               </ThirdwebProvider>
             </AppUIConfigContext.Provider>

@@ -168,10 +168,10 @@ export function UserAccounts(props: Props) {
                   .includes(account?.toLowerCase() || '')}
                 onClick={() => userAddAcountMutation.mutate()}
                 startIcon={
-                  userAddAcountMutation.isLoading && <CircularProgress />
+                  userAddAcountMutation.isPending && <CircularProgress />
                 }
               >
-                {userAddAcountMutation.isLoading ? (
+                {userAddAcountMutation.isPending ? (
                   <FormattedMessage
                     id={'sign.message'}
                     defaultMessage={'Sign message'}

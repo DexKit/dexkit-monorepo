@@ -136,34 +136,34 @@ export default function UserGeneralForm({
   const validateNFTMutation = useValidateNFTOwnershipMutation();
   const setNftProfileMutation = useSetNftProfileMutation();
   const { account, provider, signMessage } = useWeb3React();
-  
+
   const handleProfileClick = (event: MouseEvent<HTMLElement>) => {
     setProfileMenuAnchor(event.currentTarget);
   };
-  
+
   const handleMenuClose = () => {
     setProfileMenuAnchor(null);
   };
-  
+
   const handleSelectFromGallery = () => {
     setMediaFieldToEdit('profileImageURL');
     setOpenMediaDialog(true);
     handleMenuClose();
   };
-  
+
   const handleSelectFromNFTs = () => {
     setOpenNftSelector(true);
     handleMenuClose();
   };
-  
+
   const handleErrorClose = () => {
     setError(null);
   };
-  
+
   const handleSuccessClose = () => {
     setSuccess(null);
   };
-  
+
   return (
     <>
       <Stack>
@@ -296,10 +296,10 @@ export default function UserGeneralForm({
                   return true;
                 } catch (err: any) {
                   console.error('Error in setPfpNft:', err);
-                  const errorMessage = err.data?.message || 
-                    err.message || 
+                  const errorMessage = err.data?.message ||
+                    err.message ||
                     'Error signing the message or setting the NFT as PFP.';
-                  
+
                   if (errorMessage.includes('user rejected') || errorMessage.includes('User rejected')) {
                     setError('You rejected the message signature. This NFT cannot be used as a profile picture without confirming ownership.');
                   } else if (errorMessage.includes('unknown account') || errorMessage.includes('UNSUPPORTED_OPERATION')) {
@@ -322,9 +322,9 @@ export default function UserGeneralForm({
                   nftAddress: values.nftAddress,
                   nftId: values.nftId,
                 });
-                
+
                 const pfpSuccess = await setPfpNft();
-                
+
                 if (pfpSuccess) {
                   await mainUpsert();
                   helpers.resetForm({ values });
@@ -341,8 +341,8 @@ export default function UserGeneralForm({
                 );
                 setError(
                   validationOrPfpError.data?.message ||
-                    validationOrPfpError.message ||
-                    'An error occurred while validating the NFT or setting it as a profile picture.',
+                  validationOrPfpError.message ||
+                  'An error occurred while validating the NFT or setting it as a profile picture.',
                 );
               }
             } else {
@@ -357,8 +357,8 @@ export default function UserGeneralForm({
                 );
                 setError(
                   upsertError.data?.message ||
-                    upsertError.message ||
-                    'An error occurred while saving profile.',
+                  upsertError.message ||
+                  'An error occurred while saving profile.',
                 );
               }
             }
@@ -438,7 +438,7 @@ export default function UserGeneralForm({
                         nft,
                       );
                     }
-                    
+
                     if (!address) {
                       throw new Error(
                         'The selected NFT does not have a valid contract address',
@@ -449,7 +449,7 @@ export default function UserGeneralForm({
                         'The selected NFT does not have a valid chainId',
                       );
                     }
-                    
+
                     validateNFTMutation.mutate(
                       {
                         nftChainId: chainId,
@@ -464,7 +464,7 @@ export default function UserGeneralForm({
                           setFieldValue('nftAddress', address);
                           setFieldValue('nftId', tokenId);
                           setFieldValue('dbAssetId', parsedDbAssetId);
-                          
+
                           if (onChange) {
                             onChange({
                               ...values,
@@ -480,7 +480,7 @@ export default function UserGeneralForm({
                         onError: (error: any) => {
                           setError(
                             error.message ||
-                              'Error validating NFT ownership on selection.',
+                            'Error validating NFT ownership on selection.',
                           );
                           setFieldValue('profileNft', undefined);
                           setFieldValue(
@@ -525,8 +525,8 @@ export default function UserGeneralForm({
                   <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                     <Button
                       onClick={handleProfileClick}
-                      sx={{ 
-                        p: 0, 
+                      sx={{
+                        p: 0,
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
@@ -540,7 +540,7 @@ export default function UserGeneralForm({
                         <EmptyImageProfile />
                       )}
                     </Button>
-                    
+
                     <Menu
                       anchorEl={profileMenuAnchor}
                       open={Boolean(profileMenuAnchor)}
@@ -559,8 +559,8 @@ export default function UserGeneralForm({
                           <AddPhotoAlternateIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage 
-                            id="select.from.gallery" 
+                          <FormattedMessage
+                            id="select.from.gallery"
                             defaultMessage="Select from Gallery"
                           />
                         </ListItemText>
@@ -570,8 +570,8 @@ export default function UserGeneralForm({
                           <CollectionsIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                          <FormattedMessage 
-                            id="select.from.nfts" 
+                          <FormattedMessage
+                            id="select.from.nfts"
                             defaultMessage="Select from NFTs"
                           />
                         </ListItemText>
@@ -588,14 +588,14 @@ export default function UserGeneralForm({
                         values.profileNft.name ||
                         values.profileNft.collectionName}
                       {values.profileNft.networkId && (
-                        <Chip 
+                        <Chip
                           size="small"
                           label={
                             typeof values.profileNft.networkId === 'string'
                               ? values.profileNft.networkId
-                                  .charAt(0)
-                                  .toUpperCase() +
-                                values.profileNft.networkId.slice(1)
+                                .charAt(0)
+                                .toUpperCase() +
+                              values.profileNft.networkId.slice(1)
                               : values.profileNft.networkId
                           }
                           color="primary"
@@ -604,7 +604,7 @@ export default function UserGeneralForm({
                         />
                       )}
                       {values.nftAddress && values.nftId && (
-                        <Chip 
+                        <Chip
                           size="small"
                           label="NFT"
                           color="secondary"
@@ -628,8 +628,8 @@ export default function UserGeneralForm({
                         setOpenMediaDialog(true);
                         setMediaFieldToEdit('backgroundImageURL');
                       }}
-                      sx={{ 
-                        p: 0, 
+                      sx={{
+                        p: 0,
                         borderRadius: 1,
                         '&:hover': {
                           opacity: 0.8,
@@ -675,15 +675,15 @@ export default function UserGeneralForm({
                     <Button
                       disabled={
                         !isValid ||
-                        validateNFTMutation.isLoading ||
-                        setNftProfileMutation.isLoading
+                        validateNFTMutation.isPending ||
+                        setNftProfileMutation.isPending
                       }
                       onClick={submitForm}
                       variant="contained"
                       color="primary"
                     >
-                      {validateNFTMutation.isLoading ||
-                      setNftProfileMutation.isLoading ? (
+                      {validateNFTMutation.isPending ||
+                        setNftProfileMutation.isPending ? (
                         <FormattedMessage
                           id="saving.profile"
                           defaultMessage="Saving..."
@@ -695,10 +695,10 @@ export default function UserGeneralForm({
                   </Stack>
                 </Grid>
               </Grid>
-              
-              <Snackbar 
-                open={error !== null} 
-                autoHideDuration={6000} 
+
+              <Snackbar
+                open={error !== null}
+                autoHideDuration={6000}
                 onClose={handleErrorClose}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
@@ -711,9 +711,9 @@ export default function UserGeneralForm({
                 </Alert>
               </Snackbar>
               {success && (
-                <Snackbar 
-                  open={success !== null} 
-                  autoHideDuration={6000} 
+                <Snackbar
+                  open={success !== null}
+                  autoHideDuration={6000}
                   onClose={handleSuccessClose}
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 >

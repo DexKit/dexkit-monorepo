@@ -8,6 +8,7 @@ import {
   CardActionArea,
   Chip,
   Grid,
+  NoSsr,
   Skeleton,
   Stack,
 } from '@mui/material';
@@ -18,10 +19,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { UsecasesAccordion } from 'src/components/UsecasesAccordion';
 import MainLayout from '../../src/components/layouts/main';
@@ -31,32 +32,6 @@ import {
   useWhitelabelTemplateSitesListQuery,
 } from '../../src/hooks/whitelabel';
 import { getTemplateSites } from '../../src/services/whitelabel';
-
-/*function UseCasesList({ usecases }: { usecases?: string[] }) {
-  const [clickedExpanded, setClickedExpanded] = useState(false);
-  if (!usecases) return null;
-
-  return (
-    <Grid container spacing={1}>
-      {(clickedExpanded ? usecases : usecases?.slice(0, 3) || []).map(
-        (cid, key) => (
-          <Grid item key={`use-${key}`}>
-            <Chip label={cid} size="small" />
-          </Grid>
-        ),
-      )}
-      {(usecases || []).length > 3 && !clickedExpanded && (
-        <Grid item>
-          <Chip
-            onClick={() => setClickedExpanded(!clickedExpanded)}
-            label={`+${usecases?.length - 3} more`}
-            size="small"
-          />
-        </Grid>
-      )}
-    </Grid>
-  );
-}*/
 
 function UseCasesList({ usecases }: { usecases?: string[] }) {
   if (!usecases) return null;
@@ -73,20 +48,13 @@ function UseCasesList({ usecases }: { usecases?: string[] }) {
 }
 
 export const SiteTemplatesPage: NextPage = () => {
-  //const router = useRouter();
-  const [usecases, setUsecases] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
-  /* const usecases = useMemo(() => {
-    const use = router?.query?.usecases;
-    if (use) {
-      if (use instanceof Array) {
-        return use;
-      } else {
-        return [use];
-      }
-    }
-    return [];
-  }, [router?.query?.usecases]);*/
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const [usecases, setUsecases] = useState<string[]>([]);
 
   const sitesQuery = useWhitelabelTemplateSitesListQuery({
     usecases: usecases,
@@ -106,26 +74,19 @@ export const SiteTemplatesPage: NextPage = () => {
         newUsecases.push(use);
       }
       setUsecases(newUsecases);
-      /*router.push({
-        pathname: '/site/templates',
-        query: { usecases: newUsecases },
-      });*/
     } else {
       setUsecases([]);
-      //router.push({ pathname: '/site/templates' });
     }
   };
 
   const renderSidebar = (onClose?: () => void) => {
     return (
       <SidebarFilters
-        title={<FormattedMessage id="filters" defaultMessage="Filters" />}
+        title={<NoSsr><FormattedMessage id="filters" defaultMessage="Filters" /></NoSsr>}
         onClose={onClose}
       >
         <SidebarFiltersContent>
           <Stack spacing={1}>
-            {/* <NetworkwAccordion onFilterNetworks={onFilterNetworkChanged} />*/}
-
             <UsecasesAccordion
               onFilterUsecase={onFilterUsecase}
               selectedUsecases={usecases}
@@ -136,6 +97,10 @@ export const SiteTemplatesPage: NextPage = () => {
       </SidebarFilters>
     );
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
@@ -173,16 +138,18 @@ export const SiteTemplatesPage: NextPage = () => {
                 breadcrumbs={[
                   {
                     caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
+                      <NoSsr><FormattedMessage id="home" defaultMessage="Home" /></NoSsr>
                     ),
                     uri: '/',
                   },
                   {
                     caption: (
-                      <FormattedMessage
-                        id="site.templates"
-                        defaultMessage="Site templates"
-                      />
+                      <NoSsr>
+                        <FormattedMessage
+                          id="site.templates"
+                          defaultMessage="Site templates"
+                        />
+                      </NoSsr>
                     ),
                     uri: '/site',
                     active: true,
@@ -215,37 +182,45 @@ export const SiteTemplatesPage: NextPage = () => {
                               variant="h5"
                               component="div"
                             >
-                              <FormattedMessage
-                                id={'title'}
-                                defaultMessage={'title'}
-                              />
+                              <NoSsr>
+                                <FormattedMessage
+                                  id={'title'}
+                                  defaultMessage={'title'}
+                                />
+                              </NoSsr>
                             </Typography>
                           </Skeleton>
                           <Skeleton>
                             <Typography variant="body2" color="text.secondary">
-                              <FormattedMessage
-                                id={'description'}
-                                defaultMessage={'description'}
-                              />
+                              <NoSsr>
+                                <FormattedMessage
+                                  id={'description'}
+                                  defaultMessage={'description'}
+                                />
+                              </NoSsr>
                             </Typography>
                           </Skeleton>
                         </CardContent>
                         <CardActions>
                           <Button size="small">
                             <Skeleton>
-                              <FormattedMessage
-                                id={'clone'}
-                                defaultMessage={'clone'}
-                              />
+                              <NoSsr>
+                                <FormattedMessage
+                                  id={'clone'}
+                                  defaultMessage={'clone'}
+                                />
+                              </NoSsr>
                             </Skeleton>
                           </Button>
 
                           <Button size="small">
                             <Skeleton>
-                              <FormattedMessage
-                                id={'view'}
-                                defaultMessage={'View'}
-                              />
+                              <NoSsr>
+                                <FormattedMessage
+                                  id={'view'}
+                                  defaultMessage={'View'}
+                                />
+                              </NoSsr>
                             </Skeleton>
                           </Button>
                         </CardActions>
@@ -255,7 +230,7 @@ export const SiteTemplatesPage: NextPage = () => {
                 </Grid>
               )}
 
-              {sitesQuery?.data?.length === 0 && !sitesQuery?.isLoading && (
+              {(sitesQuery?.data as any)?.length === 0 && !sitesQuery?.isLoading && (
                 <Box sx={{ py: 4 }}>
                   <Stack
                     justifyContent="center"
@@ -265,18 +240,20 @@ export const SiteTemplatesPage: NextPage = () => {
                   >
                     <SearchOffIcon sx={{ fontSize: '70px' }} />
                     <Typography variant="body1" color="textSecondary">
-                      <FormattedMessage
-                        id="no.templates.found.for.this.usecase"
-                        defaultMessage="No templates found for this usecase"
-                      />
+                      <NoSsr>
+                        <FormattedMessage
+                          id="no.templates.found.for.this.usecase"
+                          defaultMessage="No templates found for this usecase"
+                        />
+                      </NoSsr>
                     </Typography>
                   </Stack>
                 </Box>
               )}
 
-              {sitesQuery?.data?.length !== 0 && (
+              {(sitesQuery?.data as any)?.length !== 0 && (
                 <Grid container spacing={2}>
-                  {sitesQuery?.data?.map((site, key) => (
+                  {(sitesQuery?.data as any)?.map((site: any, key: number) => (
                     <Grid item xs={12} sm={6} lg={3} key={key}>
                       <Box
                         display={'flex'}
@@ -298,9 +275,9 @@ export const SiteTemplatesPage: NextPage = () => {
                                 }}
                               >
                                 <Image
-                                  src={site?.metadata?.imageURL}
-                                  layout="fill"
-                                  objectFit="contain"
+                                  src={site?.metadata?.imageURL || ''}
+                                  fill
+                                  style={{ objectFit: 'contain' }}
                                   alt={' '}
                                 />
                               </div>
@@ -330,22 +307,6 @@ export const SiteTemplatesPage: NextPage = () => {
                               </Box>
                             </CardContent>
                           </CardActionArea>
-                          {/*    <CardActions>
-                          <Stack
-                            spacing={1}
-                            direction={'row'}
-                            sx={{ p: 2 }}
-                            style={{ overflow: 'scroll', overflowY: 'hidden' }}
-                          >
-                            {site?.metadata?.usecases?.map((cid, key) => (
-                              <Chip
-                                label={cid}
-                                size={'small'}
-                                key={`use-${key}`}
-                              />
-                            ))}
-                          </Stack>
-                          </CardActions>*/}
                           <CardActions>
                             <Stack
                               spacing={2}
@@ -358,10 +319,12 @@ export const SiteTemplatesPage: NextPage = () => {
                                 href={`/admin/create?clone=${site.slug}`}
                                 target={'_blank'}
                               >
-                                <FormattedMessage
-                                  id={'clone'}
-                                  defaultMessage={'Clone'}
-                                />
+                                <NoSsr>
+                                  <FormattedMessage
+                                    id={'clone'}
+                                    defaultMessage={'Clone'}
+                                  />
+                                </NoSsr>
                               </Button>
                               {site.previewUrl && (
                                 <Button
@@ -369,10 +332,12 @@ export const SiteTemplatesPage: NextPage = () => {
                                   href={site?.previewUrl || ''}
                                   target={'_blank'}
                                 >
-                                  <FormattedMessage
-                                    id={'view.site'}
-                                    defaultMessage={'View'}
-                                  />
+                                  <NoSsr>
+                                    <FormattedMessage
+                                      id={'view.site'}
+                                      defaultMessage={'View'}
+                                    />
+                                  </NoSsr>
                                 </Button>
                               )}
                             </Stack>
@@ -391,28 +356,21 @@ export const SiteTemplatesPage: NextPage = () => {
   );
 };
 
-type Params = {
-  site?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
+export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   const sitesResponse = await getTemplateSites({});
   const data = sitesResponse.data;
 
-  await queryClient.prefetchQuery(
-    [QUERY_WHITELABEL_TEMPLATE_SITES_QUERY],
-    async () => data,
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QUERY_WHITELABEL_TEMPLATE_SITES_QUERY],
+    queryFn: async () => data,
+  });
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
     },
-    revalidate: 60000,
   };
 };
 

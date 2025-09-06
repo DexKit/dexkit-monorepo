@@ -227,7 +227,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
           fullWidth: true,
           onClose: handleCloseSendingConfig,
         }}
-        isLoading={sendConfigMutation.isLoading}
+        isLoading={sendConfigMutation.isPending}
         isSuccess={sendConfigMutation.isSuccess}
         error={sendConfigMutation.error}
         data={sendConfigMutation.data}

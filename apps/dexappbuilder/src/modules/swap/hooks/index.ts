@@ -38,7 +38,7 @@ export function useSearchSwapTokens({
   const coinSearchQuery = usePlatformCoinSearch({ keyword, network });
 
   const tokens = useMemo(() => {
-    if (coinSearchQuery.data) {
+    if (coinSearchQuery.data && Array.isArray(coinSearchQuery.data)) {
       let coins = coinSearchQuery.data
         .filter((c) => Boolean(getNetworkSlugFromChainId(c.chainId)))
         .map((c: DkApiPlatformCoin) => {
@@ -111,9 +111,9 @@ export function usePlatformCoinSearch({
   keyword?: string;
   network?: string;
 }) {
-  return useQuery(
-    [COIN_PLATFORM_SEARCH_QUERY, keyword, network],
-    async ({ signal }) => {
+  return useQuery({
+    queryKey: [COIN_PLATFORM_SEARCH_QUERY, keyword, network],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       if (keyword) {
         const req = await getApiCoinPlatforms({ signal, keyword, network });
 
@@ -122,7 +122,7 @@ export function usePlatformCoinSearch({
 
       return [];
     },
-  );
+  });
 }
 
 export const COIN_SEARCH_QUERY = 'COIN_SEARCH_QUERY';
@@ -134,9 +134,12 @@ export function useCoinSearch({
   keyword?: string;
   network?: string;
 }) {
-  return useQuery([COIN_SEARCH_QUERY, keyword, network], async ({ signal }) => {
-    const req = await getApiCoins({ signal, keyword, network });
+  return useQuery({
+    queryKey: [COIN_SEARCH_QUERY, keyword, network],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
+      const req = await getApiCoins({ signal, keyword, network });
 
-    return req.data;
+      return req.data;
+    },
   });
 }

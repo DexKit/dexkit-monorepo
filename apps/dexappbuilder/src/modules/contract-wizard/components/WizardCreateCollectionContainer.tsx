@@ -3,8 +3,8 @@ import CreateCollectionDialog from '@/modules/contract-wizard/components/dialogs
 
 import { CollectionFormSchema } from '@/modules/contract-wizard/constants/schemas';
 import {
-    useCreateCollection,
-    useCreateCollectionMetadataMutation,
+  useCreateCollection,
+  useCreateCollectionMetadataMutation,
 } from '@/modules/contract-wizard/hooks';
 import { CollectionForm } from '@/modules/contract-wizard/types';
 import { getNetworkSlugFromChainId } from '@dexkit/core/utils/blockchain';
@@ -18,8 +18,8 @@ import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
-    DEXKIT_DISCORD_SUPPORT_CHANNEL,
-    MIN_KIT_HOLDING_AI_GENERATION,
+  DEXKIT_DISCORD_SUPPORT_CHANNEL,
+  MIN_KIT_HOLDING_AI_GENERATION,
 } from 'src/constants';
 
 const INITIAL_VALUES: CollectionForm = {
@@ -124,16 +124,16 @@ function WizardCreateCollectionContainer() {
           maxWidth: 'sm',
         }}
         transactionHash={deployHash}
-        isLoading={createCollectionMutation.isLoading}
+        isLoading={createCollectionMutation.isPending}
         isDone={createCollectionMutation.isSuccess}
         isError={createCollectionMutation.isError}
-        isLoadingMeta={upCollectionMetadataMutation.isLoading}
+        isLoadingMeta={upCollectionMetadataMutation.isPending}
         isErrorMeta={upCollectionMetadataMutation.isError}
         isDoneMeta={upCollectionMetadataMutation.isSuccess}
         chainId={chainId}
         contractAddress={contractAddress}
-        // onCreateCollection={handleCreateCollection}
-        //onReset={handleReset}
+      // onCreateCollection={handleCreateCollection}
+      //onReset={handleReset}
       />
       <AppConfirmDialog
         DialogProps={{
@@ -148,7 +148,7 @@ function WizardCreateCollectionContainer() {
             defaultMessage="Creating collection"
           />
         }
-        onConfirm={() => {}}
+        onConfirm={() => { }}
       >
         <Typography variant="body1">
           <FormattedMessage

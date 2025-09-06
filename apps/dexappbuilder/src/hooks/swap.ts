@@ -192,9 +192,9 @@ export function useSwapQuote({
   maxSlippage?: number;
   onSuccess?: (quote?: Quote) => void;
 }) {
-  return useQuery<Quote, Error>(
-    ['SWAP_TOKENS', chainId, buyToken, sellToken, buyAmount, sellAmount],
-    async () => {
+  return useQuery<Quote, Error>({
+    queryKey: ['SWAP_TOKENS', chainId, buyToken, sellToken, buyAmount, sellAmount],
+    queryFn: async () => {
       if (
         (buyToken === undefined && sellToken === undefined) ||
         (buyAmount === undefined && sellAmount === undefined) ||
@@ -244,15 +244,12 @@ export function useSwapQuote({
           throw err;
         });
     },
-    {
-      onSuccess,
-      enabled:
-        buyToken !== undefined &&
-        sellToken !== undefined &&
-        (sellAmount !== '' || buyAmount !== ''),
-      refetchInterval: 5000,
-    }
-  );
+    enabled:
+      buyToken !== undefined &&
+      sellToken !== undefined &&
+      (sellAmount !== '' || buyAmount !== ''),
+    refetchInterval: 5000,
+  });
 }
 
 export function useExecSwap(
@@ -261,22 +258,25 @@ export function useExecSwap(
 ) {
   const { provider } = useWeb3React();
 
-  return useMutation(async (quote?: Quote) => {
-    if (!quote || !provider) {
-      throw new Error('Needs to pass valid quote');
-    }
+  return useMutation({
+    mutationFn: async (quote?: Quote) => {
+      if (!quote || !provider) {
+        throw new Error('Needs to pass valid quote');
+      }
 
-    const tx = await provider.getSigner().sendTransaction({
-      data: quote?.data,
-      gasPrice: BigNumber.from(quote?.gasPrice),
-      value: BigNumber.from(quote?.value),
-      to: quote?.to,
-    });
-    if (onSuccess) {
-      onSuccess!(tx.hash);
-    }
-    const receipt = await tx.wait();
+      const tx = await provider.getSigner().sendTransaction({
+        data: quote?.data,
+        gasPrice: BigNumber.from(quote?.gasPrice),
+        value: BigNumber.from(quote?.value),
+        to: quote?.to,
+      });
+      if (onSuccess) {
+        onSuccess!(tx.hash);
+      }
+      const receipt = await tx.wait();
 
-    return receipt.status === 1 && receipt.confirmations >= 1;
-  }, options);
+      return receipt.status === 1 && receipt.confirmations >= 1;
+    },
+    ...options,
+  });
 }

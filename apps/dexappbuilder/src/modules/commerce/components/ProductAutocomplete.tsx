@@ -41,7 +41,7 @@ export default function ProductAutocomplete({
 
   return (
     <Autocomplete
-      options={products?.items ?? []}
+      options={(products as any)?.items ?? []}
       value={product ?? null}
       sx={{ minWidth: { sm: theme.spacing(37.5) } }}
       getOptionLabel={(t) => t.name}

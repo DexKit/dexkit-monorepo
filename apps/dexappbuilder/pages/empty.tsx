@@ -1,13 +1,24 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, NoSsr, Typography } from '@mui/material';
 import type { NextPage } from 'next';
 
 import Image from 'next/image';
 
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import MainLayout from 'src/components/layouts/main';
 import catHeroImg from '../public/assets/images/cat-hero.svg';
 
-const Empty: NextPage = (props: any) => {
+const Empty: NextPage = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <MainLayout>
       <Box sx={{ py: 8 }}>
@@ -26,17 +37,21 @@ const Empty: NextPage = (props: any) => {
                 variant="body1"
                 color="primary"
               >
-                <FormattedMessage
-                  id="oop.page.not.found"
-                  defaultMessage="Oops, page not found"
-                />
+                <NoSsr>
+                  <FormattedMessage
+                    id="oop.page.not.found"
+                    defaultMessage="Oops, page not found"
+                  />
+                </NoSsr>
               </Typography>
               <Typography
                 sx={{ textAlign: { sm: 'left', xs: 'center' } }}
                 variant="h1"
                 component="h1"
               >
-                <FormattedMessage id="error.404" defaultMessage="Error 404" />
+                <NoSsr>
+                  <FormattedMessage id="error.404" defaultMessage="Error 404" />
+                </NoSsr>
               </Typography>
             </Grid>
             <Grid
@@ -64,8 +79,7 @@ const Empty: NextPage = (props: any) => {
 
 export default Empty;
 
-// Prevent prerendering by using getStaticProps
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {},
   };

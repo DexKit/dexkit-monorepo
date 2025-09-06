@@ -60,8 +60,8 @@ function useContractMetadata(contract: any) {
         console.warn("Error loading metadata:", err.message);
         if (isMounted) {
           setError(err);
-          setMetadata({ 
-            name: "Staking Contract", 
+          setMetadata({
+            name: "Staking Contract",
             description: "Metadata not available"
           });
         }
@@ -75,9 +75,9 @@ function useContractMetadata(contract: any) {
     const timeoutId = setTimeout(() => {
       if (isMounted && loading) {
         setError(new Error("The IPFS connection has expired. Using basic contract information."));
-        setMetadata({ 
-          name: "Staking Contract", 
-          description: "Metadata not available due to IPFS timeout" 
+        setMetadata({
+          name: "Staking Contract",
+          description: "Metadata not available due to IPFS timeout"
         });
         setLoading(false);
       }
@@ -223,11 +223,11 @@ export default function StakeErc1155Section({
         return await tx?.wait();
       } catch (error: any) {
         console.error("Error during staking:", error);
-        
+
         let errorMessage = error.message || 'Unknown error during staking';
-        
-        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
-           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') ||
+          errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
           errorMessage = 'Transaction cancelled.';
         } else if (errorMessage.includes('MetaMask Tx Signature')) {
           errorMessage = 'Transaction cancelled.';
@@ -239,7 +239,7 @@ export default function StakeErc1155Section({
             errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
           }
         }
-        
+
         watchTransactionDialog.setError(new Error(errorMessage));
         throw error;
       }
@@ -287,11 +287,11 @@ export default function StakeErc1155Section({
         return await tx?.wait();
       } catch (error: any) {
         console.error("Error during unstaking:", error);
-        
+
         let errorMessage = error.message || 'Unknown error during unstaking';
-        
-        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
-           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') ||
+          errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
           errorMessage = 'Transaction cancelled.';
         } else if (errorMessage.includes('MetaMask Tx Signature')) {
           errorMessage = 'Transaction cancelled.';
@@ -303,7 +303,7 @@ export default function StakeErc1155Section({
             errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
           }
         }
-        
+
         watchTransactionDialog.setError(new Error(errorMessage));
         throw error;
       }
@@ -357,22 +357,22 @@ export default function StakeErc1155Section({
         return res;
       } catch (error: any) {
         console.error("Error during claim rewards:", error);
-        
+
         if (error.code === -32002) {
           watchTransactionDialog.setError(new Error("There is already a pending request in the wallet. Please resolve that request first."));
         } else if (error.code === 4001) {
           watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
         } else if (
           error.message && (
-            error.message.includes("429") || 
-            error.message.includes("rate limit") || 
+            error.message.includes("429") ||
+            error.message.includes("rate limit") ||
             error.message.includes("too many requests")
           )
         ) {
           watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
         } else if (
           error.message && (
-            error.message.includes("timeout") || 
+            error.message.includes("timeout") ||
             error.message.includes("timed out") ||
             error.message.includes("exceeded") ||
             error.message.includes("server error")
@@ -388,7 +388,7 @@ export default function StakeErc1155Section({
   );
 
   const approveForAllMuation = useApproveForAll({
-    contract: stakingTokenContract,
+    contract: stakingTokenContract as any,
     address,
   });
 

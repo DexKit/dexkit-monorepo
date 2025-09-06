@@ -43,9 +43,9 @@
     "react-markdown": "^8.0.3",
     "remark-gfm": "^3.0.1",
     "ethers": "^5.7.2",
-    "next": "14.1.4",
+    "next": "15.5.2",
     "next-auth": "^4.20.1",
-    "thirdweb": "^5.93.15",
+    "thirdweb": "^5.105.41",
     "react-intl": "^5.24.8",
     "yet-another-react-lightbox": "^3.17.0"
   },

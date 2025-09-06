@@ -85,7 +85,7 @@ export default function SiteMetadataSection({ id, slug, siteMetadata }: Props) {
         }}
         isEdit={slug !== undefined}
         isDone={upsertSiteMetadataMutation.isSuccess}
-        isLoading={upsertSiteMetadataMutation.isLoading}
+        isLoading={upsertSiteMetadataMutation.isPending}
         isError={upsertSiteMetadataMutation.isError}
       />
       <Formik

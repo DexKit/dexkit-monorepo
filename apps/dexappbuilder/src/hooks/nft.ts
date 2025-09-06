@@ -34,39 +34,39 @@ export function useErc20Balance(
   contractAddress?: string,
   account?: string,
 ) {
-  return useQuery<BigNumber | undefined>(
-    [GET_ERC20_BALANCE, contractAddress, account],
-    async () => {
+  return useQuery<BigNumber | undefined>({
+    queryKey: [GET_ERC20_BALANCE, contractAddress, account],
+    queryFn: async () => {
       if (!contractAddress || !account || !provider) {
         return undefined;
       }
 
       return getERC20Balance(contractAddress, account, provider);
     },
-    {
-      enabled: contractAddress !== undefined && account !== undefined,
-    },
-  );
+    enabled: contractAddress !== undefined && account !== undefined,
+  });
 }
 
 export function useWrapEtherMutation(
   provider?: providers.BaseProvider,
   chainId?: number,
 ) {
-  return useMutation(async ({ amount }: { amount: BigNumber }) => {
-    if (chainId === undefined) {
-      return;
-    }
+  return useMutation({
+    mutationFn: async ({ amount }: { amount: BigNumber }) => {
+      if (chainId === undefined) {
+        return;
+      }
 
-    const contractAddress = WRAPPED_ETHER_CONTRACT[chainId];
+      const contractAddress = WRAPPED_ETHER_CONTRACT[chainId];
 
-    if (contractAddress === undefined) {
-      return;
-    }
+      if (contractAddress === undefined) {
+        return;
+      }
 
-    const contract = new Contract(contractAddress, WETHAbi, provider);
+      const contract = new Contract(contractAddress, WETHAbi, provider);
 
-    return await contract.deposit({ value: amount });
+      return await contract.deposit({ value: amount });
+    },
   });
 }
 

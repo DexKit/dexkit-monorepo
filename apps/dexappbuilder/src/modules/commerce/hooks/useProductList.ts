@@ -13,9 +13,9 @@ export default function useProductList(params: {
 }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_PRODUCT_LIST, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_PRODUCT_LIST, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -32,10 +32,8 @@ export default function useProductList(params: {
         await instance.get('/products', { params: newParams })
       ).data;
     },
-    {
-      refetchOnMount: 'always',
-      refetchOnWindowFocus: 'always',
-      staleTime: 1000,
-    },
-  );
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    staleTime: 1000,
+  });
 }

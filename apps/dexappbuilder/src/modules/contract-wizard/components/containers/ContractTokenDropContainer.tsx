@@ -67,9 +67,9 @@ export default function ContractTokenDropContainer({
     setShowTransfer(true);
   };
 
-  const { data: token } = useQuery(
-    ['GET_TOKEN_METADATA', chainId, isLoading, address],
-    async () => {
+  const { data: token } = useQuery({
+    queryKey: ['GET_TOKEN_METADATA', chainId, isLoading, address],
+    queryFn: async () => {
       if (chainId) {
         const network = NETWORKS[chainId];
 
@@ -92,7 +92,7 @@ export default function ContractTokenDropContainer({
         }
       }
     },
-  );
+  });
 
   return (
     <>

@@ -66,17 +66,15 @@ export function useSwitchNetwork() {
 export function useSwitchNetworkMutation() {
   const switchChain = useSwitchActiveWalletChain();
 
-  return useMutation<unknown, Error, { chainId: number }>(
-    async ({ chainId }) => {
+  return useMutation<unknown, Error, { chainId: number }>({
+    mutationFn: async ({ chainId }) => {
       if (chainId) {
         await switchChain(defineChain(chainId));
         return true
       }
       return null
-
-
     },
-  );
+  });
 }
 
 

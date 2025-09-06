@@ -5,11 +5,13 @@ import { useContext } from 'react';
 export default function useRefundOrder() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (params: { id: string }) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (params: { id: string }) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance.post(`/orders/${params.id}/refund`)).data;
+      return (await instance.post(`/orders/${params.id}/refund`)).data;
+    }
   });
 }

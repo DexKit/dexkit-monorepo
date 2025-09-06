@@ -38,7 +38,7 @@ export {
   useDeleteMyAppMutation,
   useDeletePageTemplateMutation,
   usePageTemplatesByOwnerQuery,
-  useWhitelabelConfigsByOwnerQuery,
+  useWhitelabelConfigsByOwnerQuery
 };
 //import SiteConfig from '../../config/dexappbuilder.json';
 
@@ -51,8 +51,8 @@ export const useSendConfigMutation = ({ slug }: { slug?: string }) => {
     slug: slug as string,
   });
 
-  return useMutation(
-    async ({ config, email }: { config: AppConfig; email?: string }) => {
+  return useMutation({
+    mutationFn: async ({ config, email }: { config: AppConfig; email?: string }) => {
       if (account && provider && chainId !== undefined) {
         const type = AppWhitelabelType.MARKETPLACE;
         if (!isLoggedIn) {
@@ -69,7 +69,7 @@ export const useSendConfigMutation = ({ slug }: { slug?: string }) => {
         return response.data;
       }
     },
-  );
+  });
 };
 
 export const useUpsertPageTemplateMutation = () => {
@@ -78,19 +78,23 @@ export const useUpsertPageTemplateMutation = () => {
   const loginMutation = useLoginAccountMutation();
   const queryClient = useQueryClient();
 
-  return useMutation(async ({ data }: { data?: PageTemplateFormData }) => {
-    if (account && provider && chainId !== undefined && data) {
-      if (!isLoggedIn) {
-        await loginMutation.mutateAsync();
+  return useMutation({
+    mutationFn: async ({ data }: { data?: PageTemplateFormData }) => {
+      if (account && provider && chainId !== undefined && data) {
+        if (!isLoggedIn) {
+          await loginMutation.mutateAsync();
+        }
+        await upsertPageTemplate(data);
+        if (data.id) {
+          queryClient.invalidateQueries({
+            queryKey: [
+              QUERY_PAGE_TEMPLATES_CONFIG_BY_ID,
+              data.id,
+            ],
+          });
+        }
       }
-      await upsertPageTemplate(data);
-      if (data.id) {
-        queryClient.invalidateQueries([
-          QUERY_PAGE_TEMPLATES_CONFIG_BY_ID,
-          data.id,
-        ]);
-      }
-    }
+    },
   });
 };
 
@@ -101,11 +105,14 @@ export const useWhitelabelSitesListQuery = (queryParameters: {
   skip?: number;
   take?: number;
 }) => {
-  return useQuery([QUERY_WHITELABEL_SITES_QUERY], async () => {
-    return (await getSites(queryParameters)).data.map((resp) => ({
-      ...resp,
-      appConfig: JSON.parse(resp.config) as AppConfig,
-    }));
+  return useQuery({
+    queryKey: [QUERY_WHITELABEL_SITES_QUERY],
+    queryFn: async () => {
+      return (await getSites(queryParameters)).data.map((resp) => ({
+        ...resp,
+        appConfig: JSON.parse(resp.config) as AppConfig,
+      }));
+    },
   });
 };
 
@@ -118,19 +125,22 @@ export const useWhitelabelTemplateSitesListQuery = (queryParameters: {
   skip?: number;
   take?: number;
 }) => {
-  return useQuery(
-    [QUERY_WHITELABEL_TEMPLATE_SITES_QUERY, queryParameters.usecases],
-    async () => {
+  return useQuery({
+    queryKey: [QUERY_WHITELABEL_TEMPLATE_SITES_QUERY, queryParameters.usecases],
+    queryFn: async () => {
       return (await getTemplateSites(queryParameters)).data;
     },
-  );
+  });
 };
 
 export const GET_SITE_METADATA_QUERY = 'GET_SITE_METADATA_QUERY';
 
 export const useSiteMetadataQuery = ({ slug }: { slug: string }) => {
-  return useQuery([GET_SITE_METADATA_QUERY], async () => {
-    return (await getSiteMetadata({ slug })).data;
+  return useQuery({
+    queryKey: [GET_SITE_METADATA_QUERY],
+    queryFn: async () => {
+      return (await getSiteMetadata({ slug })).data;
+    },
   });
 };
 
@@ -138,10 +148,13 @@ export const QUERY_PAGE_TEMPLATES_CONFIG_BY_ID =
   'GET_PAGE_TEMPLATES_CONFIG_BY_ID_QUERY';
 
 export const usePageTemplateByIdQuery = ({ id }: { id: string }) => {
-  return useQuery([QUERY_PAGE_TEMPLATES_CONFIG_BY_ID, id], async () => {
-    if (!id) return;
+  return useQuery({
+    queryKey: [QUERY_PAGE_TEMPLATES_CONFIG_BY_ID, id],
+    queryFn: async () => {
+      if (!id) return;
 
-    return (await getPageTemplateById(id)).data;
+      return (await getPageTemplateById(id)).data;
+    },
   });
 };
 
@@ -159,17 +172,18 @@ export const useWhitelabelConfigQuery = ({
   domain?: string;
   slug?: string;
 }) => {
-  return useQuery(
-    [QUERY_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
-    async () => {
+  return useQuery({
+    queryKey: [QUERY_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
+    queryFn: async () => {
       if (domain === undefined && slug === undefined) {
         return null;
       }
 
       return (await getConfig({ domain, slug })).data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false },
-  );
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 };
 
 /**
@@ -184,17 +198,18 @@ export const useTemplateWhitelabelConfigQuery = ({
   domain?: string;
   slug?: string;
 }) => {
-  return useQuery(
-    [QUERY_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
-    async () => {
+  return useQuery({
+    queryKey: [QUERY_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
+    queryFn: async () => {
       if (domain === undefined && slug === undefined) {
         return null;
       }
 
       return (await getTemplateConfig({ domain, slug })).data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false },
-  );
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 };
 
 export const QUERY_ADMIN_WHITELABEL_CONFIG_NAME =
@@ -213,9 +228,9 @@ export const useAdminWhitelabelConfigQuery = ({
 }) => {
   const { setIsLoggedIn } = useAuth();
 
-  return useQuery(
-    [QUERY_ADMIN_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
-    async () => {
+  return useQuery({
+    queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME, domain || null, slug || null],
+    queryFn: async () => {
       if (domain === undefined && slug === undefined) {
         return null;
       }
@@ -227,26 +242,31 @@ export const useAdminWhitelabelConfigQuery = ({
       }
       return response.data;
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false },
-  );
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 };
 
 export const useDomainConfigStatusMutation = () => {
   const { account } = useWeb3React();
   const { refetch } = useWhitelabelConfigsByOwnerQuery({ owner: account });
 
-  return useMutation(async ({ domain }: { domain: string }) => {
-    await getDomainConfigStatus(domain);
-    refetch();
+  return useMutation({
+    mutationFn: async ({ domain }: { domain: string }) => {
+      await getDomainConfigStatus(domain);
+      refetch();
+    },
   });
 };
 
 export const useVerifyDomainMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(async ({ domain }: { domain: string }) => {
-    await getVerifyDomain(domain);
-    queryClient.invalidateQueries([QUERY_WHITELABEL_CONFIG_NAME]);
+  return useMutation({
+    mutationFn: async ({ domain }: { domain: string }) => {
+      await getVerifyDomain(domain);
+      queryClient.invalidateQueries({ queryKey: [QUERY_WHITELABEL_CONFIG_NAME] });
+    },
   });
 };
 
@@ -259,14 +279,16 @@ export const useSetupDomainConfigMutation = () => {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(async ({ domain }: { domain: string }) => {
-    if (account && provider && chainId !== undefined) {
-      if (!isLoggedIn) {
-        await loginMutation.mutateAsync();
+  return useMutation({
+    mutationFn: async ({ domain }: { domain: string }) => {
+      if (account && provider && chainId !== undefined) {
+        if (!isLoggedIn) {
+          await loginMutation.mutateAsync();
+        }
+        await setupDomainConfig(domain);
+        queryClient.invalidateQueries({ queryKey: [QUERY_WHITELABEL_CONFIG_NAME] });
       }
-      await setupDomainConfig(domain);
-      queryClient.invalidateQueries([QUERY_WHITELABEL_CONFIG_NAME]);
-    }
+    },
   });
 };
 
@@ -279,8 +301,8 @@ export const useUpsertWhitelabelAssetMutation = () => {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation<any, any, any>(
-    async ({
+  return useMutation<any, any, any>({
+    mutationFn: async ({
       siteId,
       nft,
     }: {
@@ -299,10 +321,10 @@ export const useUpsertWhitelabelAssetMutation = () => {
           await loginMutation.mutateAsync();
         }
         await upsertWhitelabelAsset(siteId, nft);
-        queryClient.invalidateQueries([QUERY_WHITELABEL_CONFIG_NAME]);
+        queryClient.invalidateQueries({ queryKey: [QUERY_WHITELABEL_CONFIG_NAME] });
       }
     },
-  );
+  });
 };
 
 export const useUpsertSiteMetadataMutation = () => {
@@ -310,8 +332,8 @@ export const useUpsertSiteMetadataMutation = () => {
 
   const queryClient = useQueryClient();
 
-  return useMutation<any, any, any>(
-    async ({
+  return useMutation<any, any, any>({
+    mutationFn: async ({
       siteId,
       siteMetadata,
     }: {
@@ -320,8 +342,8 @@ export const useUpsertSiteMetadataMutation = () => {
     }) => {
       if (account) {
         await upsertSiteMetadata(siteId, siteMetadata);
-        queryClient.invalidateQueries([GET_SITE_METADATA_QUERY]);
+        queryClient.invalidateQueries({ queryKey: [GET_SITE_METADATA_QUERY] });
       }
     },
-  );
+  });
 };

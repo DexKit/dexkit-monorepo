@@ -20,9 +20,9 @@ export const useAdminWidgetConfigQuery = ({
   const { setIsLoggedIn } = useAuth();
 
 
-  return useQuery(
-    [QUERY_ADMIN_WIDGET_CONFIG, id || null],
-    async () => {
+  return useQuery({
+    queryKey: [QUERY_ADMIN_WIDGET_CONFIG, id || null],
+    queryFn: async () => {
       if (id === undefined) {
         return null;
       }
@@ -33,10 +33,9 @@ export const useAdminWidgetConfigQuery = ({
         setIsLoggedIn(false);
       }
       return response.data
-
-
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false }
-  );
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 };
 

@@ -57,7 +57,7 @@ export const ExchangeQuickBuilderPage: NextPage = () => {
       <ConfigWizardProvider>
         <AuthProvider>
           <MainLayout noSsr={true}>
-            <ExchangeStepperContainer site={site} />
+            <ExchangeStepperContainer site={site as any} />
           </MainLayout>
         </AuthProvider>
       </ConfigWizardProvider>
@@ -86,7 +86,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

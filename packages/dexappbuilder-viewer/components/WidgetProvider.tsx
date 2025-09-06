@@ -125,7 +125,7 @@ export function WidgetProvider({
                 : SUPPORTED_DEXAPPBUILDER_CHAIN_IDS
             }
             options={{
-              magicRedirectUrl: "",
+              // magicRedirectUrl: "", // Removed Magic support
             }}
             notificationTypes={{
               ...WHITELABEL_NOTIFICATION_TYPES,

@@ -58,14 +58,14 @@ export default function ContractAirdropErc20Container({
     'token',
   );
 
-  const { data: allowance } = useQuery(
-    ['REWARD_TOKEN_ALLOWANCE', tokenAddress],
-    async () => {
+  const { data: allowance } = useQuery({
+    queryKey: ['REWARD_TOKEN_ALLOWANCE', tokenAddress],
+    queryFn: async () => {
       return await tokenContract?.erc20.allowance(address);
     },
-  );
+  });
 
-  const approve = useThirdwebApprove({ contract: tokenContract, address });
+  const approve = useThirdwebApprove({ contract: tokenContract as any, address });
 
   const { chainId } = useWeb3React();
 
@@ -99,8 +99,8 @@ export default function ContractAirdropErc20Container({
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const airdropMutation = useMutation(
-    async ({
+  const airdropMutation = useMutation({
+    mutationFn: async ({
       recipients,
     }: {
       recipients: { address: string; quantity: string }[];
@@ -175,7 +175,7 @@ export default function ContractAirdropErc20Container({
         throw err;
       }
     },
-  );
+  });
 
   const handleConfirm = (data: { address: string; quantity: string }[]) => {
     setRecipients(data);
@@ -392,7 +392,7 @@ export default function ContractAirdropErc20Container({
                           </Box>
                           <Button
                             size="small"
-                            disabled={airdropMutation.isLoading}
+                            disabled={airdropMutation.isPending}
                             onClick={handleSelectRecipients}
                             variant="outlined"
                           >
@@ -423,13 +423,13 @@ export default function ContractAirdropErc20Container({
                 <Stack direction="row">
                   <Button
                     startIcon={
-                      airdropMutation.isLoading ? (
+                      airdropMutation.isPending ? (
                         <CircularProgress color="inherit" size="1rem" />
                       ) : undefined
                     }
                     disabled={
                       recipients.length === 0 ||
-                      airdropMutation.isLoading ||
+                      airdropMutation.isPending ||
                       !tokenAddress ||
                       (tokenBalance && totalAmount.gt(tokenBalance.value))
                     }

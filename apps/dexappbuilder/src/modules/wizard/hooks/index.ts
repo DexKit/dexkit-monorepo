@@ -36,12 +36,15 @@ import { useAppWizardConfig } from '@dexkit/ui/hooks/app/useAppWizardConfig';
 export { useAppWizardConfig, useCheckGatedConditions };
 
 export function useTokenListUrl(url?: string) {
-  return useQuery([TOKEN_LIST_URL, url], async () => {
-    if (!url) {
-      return;
-    }
+  return useQuery({
+    queryKey: [TOKEN_LIST_URL, url],
+    queryFn: async () => {
+      if (!url) {
+        return;
+      }
 
-    return await getTokenList(url);
+      return await getTokenList(url);
+    },
   });
 }
 
@@ -93,23 +96,25 @@ export function usePreviewThemeFromConfig({
 }
 
 export function useSendSiteConfirmationLinkMutation() {
-  return useMutation(async ({ siteId }: { siteId?: number }) => {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error('Need access token');
-    }
-    if (!siteId) {
-      throw new Error('Need to pass site id');
-    }
-    return await requestEmailConfirmatioForSite({ siteId, accessToken });
+  return useMutation({
+    mutationFn: async ({ siteId }: { siteId?: number }) => {
+      const accessToken = getAccessToken();
+      if (!accessToken) {
+        throw new Error('Need access token');
+      }
+      if (!siteId) {
+        throw new Error('Need to pass site id');
+      }
+      return await requestEmailConfirmatioForSite({ siteId, accessToken });
+    },
   });
 }
 
 export function useAddPermissionMemberMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       siteId,
       permissions,
       account,
@@ -123,33 +128,33 @@ export function useAddPermissionMemberMutation() {
       }
 
       await addPermissionsMemberSite({ siteId, permissions, account });
-      query.refetchQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
+      query.refetchQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
 
       return true;
     },
-  );
+  });
 }
 
 export function useDeleteMemberMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({ siteId, account }: { siteId?: number; account?: string }) => {
+  return useMutation({
+    mutationFn: async ({ siteId, account }: { siteId?: number; account?: string }) => {
       if (!siteId || !account) {
         throw Error('missing data to update');
       }
       await deleteMemberSite({ siteId, account });
-      query.refetchQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
+      query.refetchQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
       return true;
     },
-  );
+  });
 }
 
 export function useAddAppVersionMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       siteId,
       version,
       description,
@@ -165,21 +170,21 @@ export function useAddAppVersionMutation() {
       }
 
       await upsertAppVersion({ siteId, version, description, versionId });
-      query.refetchQueries([GET_APP_VERSIONS_QUERY]);
+      query.refetchQueries({ queryKey: [GET_APP_VERSIONS_QUERY] });
       if (versionId) {
-        query.refetchQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
+        query.refetchQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
       }
 
       return true;
     },
-  );
+  });
 }
 
 export function useDeleteAppVersionMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       siteId,
       siteVersionId,
     }: {
@@ -190,17 +195,17 @@ export function useDeleteAppVersionMutation() {
         throw Error('missing data to update');
       }
       await deleteAppVersion({ siteId, siteVersionId });
-      query.refetchQueries([GET_APP_VERSIONS_QUERY]);
+      query.refetchQueries({ queryKey: [GET_APP_VERSIONS_QUERY] });
       return true;
     },
-  );
+  });
 }
 
 export function useSetAppVersionMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       siteId,
       siteVersionId,
     }: {
@@ -211,10 +216,10 @@ export function useSetAppVersionMutation() {
         throw Error('missing data to update');
       }
       await setAppVersion({ siteId, siteVersionId });
-      query.refetchQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
+      query.refetchQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
       return true;
     },
-  );
+  });
 }
 
 export const GET_APP_VERSIONS_QUERY = 'GET_APP_VERSIONS_QUERY';
@@ -242,9 +247,9 @@ export function useAppVersionListQuery({
     skip?: number;
     take?: number;
     total?: number;
-  }>(
-    [GET_APP_VERSIONS_QUERY, sort, page, pageSize, filter, siteId],
-    async () => {
+  }>({
+    queryKey: [GET_APP_VERSIONS_QUERY, sort, page, pageSize, filter, siteId],
+    queryFn: async () => {
       if (!siteId) {
         return { data: [] };
       }
@@ -269,7 +274,7 @@ export function useAppVersionListQuery({
         })
       ).data;
     },
-  );
+  });
 }
 
 export const GET_APP_VERSION_QUERY = 'GET_APP_VERSION_QUERY';
@@ -283,15 +288,18 @@ export function useAppVersionQuery({
 }) {
   return useQuery<{
     config: string | undefined;
-  }>([GET_APP_VERSION_QUERY, appVersionId, siteId], async () => {
-    if (!siteId || !appVersionId) {
-      return { config: undefined };
-    }
-    return (
-      await myAppsApi.get<{
-        config: string;
-      }>(`/site/single-version/${siteId}/${appVersionId}`)
-    ).data;
+  }>({
+    queryKey: [GET_APP_VERSION_QUERY, appVersionId, siteId],
+    queryFn: async () => {
+      if (!siteId || !appVersionId) {
+        return { config: undefined };
+      }
+      return (
+        await myAppsApi.get<{
+          config: string;
+        }>(`/site/single-version/${siteId}/${appVersionId}`)
+      ).data;
+    },
   });
 }
 
@@ -300,8 +308,8 @@ export function useAppVersionQuery({
 export function useAddAppRankingMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       siteId,
       title,
       from,
@@ -344,21 +352,21 @@ export function useAddAppRankingMutation() {
         });
       }
 
-      query.refetchQueries([GET_APP_RANKINGS_QUERY]);
+      query.refetchQueries({ queryKey: [GET_APP_RANKINGS_QUERY] });
       if (rankingId) {
-        query.refetchQueries([GET_APP_RANKING_QUERY]);
+        query.refetchQueries({ queryKey: [GET_APP_RANKING_QUERY] });
       }
 
       return true;
     },
-  );
+  });
 }
 
 export function useDeleteAppRankingMutation() {
   const query = useQueryClient();
 
-  return useMutation(
-    async ({ siteId, rankingId }: { siteId?: number; rankingId?: number }) => {
+  return useMutation({
+    mutationFn: async ({ siteId, rankingId }: { siteId?: number; rankingId?: number }) => {
       if (!siteId || !rankingId) {
         throw Error('missing data to update');
       }
@@ -366,5 +374,5 @@ export function useDeleteAppRankingMutation() {
       await query.invalidateQueries({ queryKey: [GET_APP_RANKINGS_QUERY] });
       return true;
     },
-  );
+  });
 }

@@ -145,7 +145,7 @@ export const getStaticProps: GetStaticProps = async ({
       tokenId: id || '',
       chainId: getChainIdFromSlug(network || '')?.chainId as ChainId,
     };
-    await fetchAssetForQueryClient({ queryClient, item });
+    await fetchAssetForQueryClient({ queryClient: queryClient as any, item });
 
     try {
       if (
@@ -156,7 +156,7 @@ export const getStaticProps: GetStaticProps = async ({
           `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
           }:${address}:${id}`,
         );
-        await queryClient.prefetchQuery(
+        await (queryClient as any).prefetchQuery(
           [BEST_SELL_ORDER_RARIBLE, network, address, id],
           async () => {
             return data;
@@ -192,7 +192,7 @@ export const getStaticProps: GetStaticProps = async ({
 
     return {
       props: {
-        dehydratedState: dehydrate(queryClient),
+        dehydratedState: dehydrate(queryClient as any),
         ...configResponse,
         enableDarkblock: enableDarkblock,
       },

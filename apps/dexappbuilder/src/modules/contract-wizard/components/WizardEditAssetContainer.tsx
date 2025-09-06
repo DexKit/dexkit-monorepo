@@ -1,8 +1,8 @@
 import { CollectionItemSchema } from '@/modules/contract-wizard/constants/schemas';
 import { useEditAssetMetadataMutation } from '@/modules/contract-wizard/hooks';
 import {
-    CollectionItemFormType,
-    WizardItem,
+  CollectionItemFormType,
+  WizardItem,
 } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
@@ -73,7 +73,7 @@ function WizardEditAssetContainer(props: Props) {
           network,
         });
       }
-    } catch {}
+    } catch { }
   };
 
   const handleCloseConfirm = () => {
@@ -97,7 +97,7 @@ function WizardEditAssetContainer(props: Props) {
           fullWidth: true,
           maxWidth: 'sm',
         }}
-        isLoadingMeta={uploadItemsMetadataMutation.isLoading}
+        isLoadingMeta={uploadItemsMetadataMutation.isPending}
         isErrorMeta={uploadItemsMetadataMutation.isError}
         isDoneMeta={uploadItemsMetadataMutation.isSuccess}
         chainId={chainId}

@@ -230,8 +230,8 @@ export default function CategoriesTable({ }: CategoriesTableProps) {
       <Box>
         <DataGrid
           columns={columns}
-          rows={data?.items ?? []}
-          rowCount={data?.totalItems}
+          rows={(data as any)?.items ?? []}
+          rowCount={(data as any)?.totalItems}
           paginationMode="client"
           getRowId={(row) => String(row.id)}
           paginationModel={paginationModel}

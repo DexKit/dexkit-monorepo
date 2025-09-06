@@ -38,19 +38,19 @@ export function GenerateAIImageButton({ description, onImageUrl }: Props) {
       <Button
         variant="contained"
         startIcon={
-          generateImageMutation.isLoading && (
+          generateImageMutation.isPending && (
             <CircularProgress size={theme.spacing(3)} />
           )
         }
         disabled={
           !description ||
-          generateImageMutation.isLoading ||
+          generateImageMutation.isPending ||
           isHoldingKitQuery.isLoading
         }
         onClick={handleCreateImage}
       >
         {' '}
-        {generateImageMutation.isLoading ? (
+        {generateImageMutation.isPending ? (
           <FormattedMessage
             id={'generating.image'}
             defaultMessage={'Generating Image...'}

@@ -7,9 +7,9 @@ export const GET_PRODUCT_QUERY = 'GET_PRODUCT_QUERY';
 export default function useProduct(params: { id?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_PRODUCT_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_PRODUCT_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -21,10 +21,8 @@ export default function useProduct(params: { id?: string }) {
       return (await instance.get(`/products/${params.id}`))
         .data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }
