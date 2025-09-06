@@ -222,17 +222,15 @@ const MainLayout: React.FC<Props> = ({
           </ErrorBoundary>
         </Box>
 
-        {(
-          <Box
-            className="preview-footer"
-            sx={{
-              position: "relative",
-              zIndex: 10
-            }}
-          >
-            <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
-          </Box>
-        )}
+        <Box
+          className="preview-footer"
+          sx={{
+            position: "relative",
+            zIndex: 10
+          }}
+        >
+          <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
+        </Box>
       </WrapperLayout>
     </ErrorBoundary>
   );

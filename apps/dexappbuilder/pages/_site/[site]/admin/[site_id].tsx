@@ -50,7 +50,7 @@ export const WizardPage: NextPage = () => {
           <Alert severity="error">{String(configError)}</Alert>
         </Grid>
       )}
-      <EditWizardContainer site={config} />
+      <EditWizardContainer site={config as any} />
     </>
   );
 };
@@ -78,7 +78,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

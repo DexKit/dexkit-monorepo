@@ -30,15 +30,13 @@
   z-index: 9999 !important;
 }
 
-.MuiDialog-root:has([role="dialog"] .MuiDialogTitle-root:contains("Gallery")),
-.MuiDialog-root:has(.MuiDialogContent-root .MuiGrid-root .MuiGrid-item),
-body:has(.MuiDialogTitle-root:contains("Gallery")) .MuiDialog-root {
+/* Gallery dialog specific z-index */
+.MuiDialog-root[data-dialog-type="gallery"] {
   z-index: 10000 !important;
 }
 
-.MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")),
-.MuiDialog-root:has(.MuiStack-root:contains("FROM GALLERY")),
-.MuiDialog-root:has(.MuiStack-root:contains("FROM URL")) {
+/* Image picker dialog specific z-index */
+.MuiDialog-root[data-dialog-type="image-picker"] {
   z-index: 10000 !important;
 }
 
@@ -47,7 +45,8 @@ body:has(.MuiDialogTitle-root:contains("Gallery")) .MuiDialog-root {
   z-index: 10000 !important;
 }
 
-.MuiDialog-root:has(.MuiDialogTitle-root:contains("Gallery")) .MuiDialog-paper,
-.MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")) .MuiDialog-paper {
+/* Gallery and image picker paper z-index */
+.MuiDialog-root[data-dialog-type="gallery"] .MuiDialog-paper,
+.MuiDialog-root[data-dialog-type="image-picker"] .MuiDialog-paper {
   z-index: 10000 !important;
 }

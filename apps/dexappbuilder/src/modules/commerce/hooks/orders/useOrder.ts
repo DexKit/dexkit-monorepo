@@ -7,9 +7,9 @@ export const GET_ORDER_QUERY = 'GET_ORDER_QUERY';
 export default function useOrder(params: { id?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_ORDER_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ORDER_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -20,10 +20,8 @@ export default function useOrder(params: { id?: string }) {
 
       return (await instance.get/*<Order>*/(`/orders/${params.id}`)).data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

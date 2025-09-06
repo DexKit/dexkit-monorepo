@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import GenericForm from '@dexkit/web3forms/components/GenericForm';
 import {
   Avatar,
@@ -89,8 +91,8 @@ export default function DeployPage() {
 
   const { slug, creator } = query;
 
-  const contractTutorial: ContractTutorial | undefined = slug ? 
-    (contractTutorials as Record<string, ContractTutorial>)[slug as string] : 
+  const contractTutorial: ContractTutorial | undefined = slug ?
+    (contractTutorials as Record<string, ContractTutorial>)[slug as string] :
     undefined;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
@@ -391,9 +393,8 @@ export default function DeployPage() {
                 },
                 {
                   caption: thirdwebMetadataQuery.data?.displayName,
-                  uri: `/forms/deploy/${
-                    creator as string
-                  }/${thirdwebMetadataQuery.data?.name}`,
+                  uri: `/forms/deploy/${creator as string
+                    }/${thirdwebMetadataQuery.data?.name}`,
                   active: true,
                 },
               ]}
@@ -450,7 +451,7 @@ export default function DeployPage() {
                             </Typography>
                             <Typography variant="body1">
                               {thirdwebMetadataQuery.data?.publisher &&
-                              getBlockExplorerUrl(chainId) ? (
+                                getBlockExplorerUrl(chainId) ? (
                                 <FormattedMessage
                                   id="published.by.publisher"
                                   defaultMessage="Published by: {publisher}"
@@ -547,18 +548,18 @@ export default function DeployPage() {
                       }
                     />
                   </Grid>
-                  
+
                   {contractTutorial && (
                     <Grid item xs={12}>
                       <Paper elevation={0} sx={{ p: 2, mt: 2, bgcolor: 'background.paper' }}>
                         <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-                          <FormattedMessage 
-                            id="learn.more.about.contract" 
-                            defaultMessage="Learn more about {contractName}" 
-                            values={{ contractName: contractTutorial.name }} 
+                          <FormattedMessage
+                            id="learn.more.about.contract"
+                            defaultMessage="Learn more about {contractName}"
+                            values={{ contractName: contractTutorial.name }}
                           />
                         </Typography>
-                        
+
                         <Grid container spacing={3}>
                           {contractTutorial.videos.length > 0 && contractTutorial.videos.map((video, index) => (
                             <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 6} key={video.id}>
@@ -581,7 +582,7 @@ export default function DeployPage() {
                               </Card>
                             </Grid>
                           ))}
-                          
+
                           <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 12}>
                             <Card sx={{ height: '100%' }}>
                               <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -594,9 +595,9 @@ export default function DeployPage() {
                                     {contractTutorial.documentation.description}
                                   </Typography>
                                 </Box>
-                                <Button 
-                                  variant="outlined" 
-                                  component={Link} 
+                                <Button
+                                  variant="outlined"
+                                  component={Link}
                                   href={contractTutorial.documentation.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -647,7 +648,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

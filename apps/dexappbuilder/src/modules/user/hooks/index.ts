@@ -25,8 +25,8 @@ export function useClaimCampaignMutation({
   onSuccess?: ({ txHash }: { txHash: string }) => void;
 }) {
   const queryClient = useQueryClient();
-  return useMutation(
-    async () => {
+  return useMutation({
+    mutationFn: async () => {
       const response = await axios.post<{ txHash: string }>(
         `/api/airdrop/websummit`,
         undefined,
@@ -35,16 +35,14 @@ export function useClaimCampaignMutation({
 
       return response.data;
     },
-    {
-      onSuccess(data) {
-        if (onSuccess) {
-          onSuccess(data);
-        }
+    onSuccess(data: any) {
+      if (onSuccess) {
+        onSuccess(data);
+      }
 
-        queryClient.refetchQueries([GET_USER_CLAIM_CAMPAIGN_QUERY]);
-      },
+      queryClient.refetchQueries({ queryKey: [GET_USER_CLAIM_CAMPAIGN_QUERY] });
     },
-  );
+  });
 }
 
 export const GET_USER_CLAIM_CAMPAIGN_QUERY = 'GET_USER_CLAIM_CAMPAIGN_QUERY';
@@ -52,9 +50,9 @@ export const GET_USER_CLAIM_CAMPAIGN_QUERY = 'GET_USER_CLAIM_CAMPAIGN_QUERY';
 export function useUserClaimCampaignQuery() {
   const { account } = useWeb3React();
   const { isLoggedIn } = useAuth();
-  return useQuery(
-    [GET_USER_CLAIM_CAMPAIGN_QUERY, account, isLoggedIn],
-    async () => {
+  return useQuery({
+    queryKey: [GET_USER_CLAIM_CAMPAIGN_QUERY, account, isLoggedIn],
+    queryFn: async () => {
       if (!account) {
         return;
       }
@@ -64,40 +62,44 @@ export function useUserClaimCampaignQuery() {
       const { data } = await getClaimCampaign();
       return data;
     },
-  );
+  });
 }
 
 export function useAddAccountUserMutation() {
   const { account, provider, signMessage } = useWeb3React();
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
-  return useMutation(async () => {
-    if (!provider || !account) {
-      return;
-    }
-    if (!isLoggedIn) {
-      return;
-    }
-    const messageToSign = await getUserAddAccountMessage({ address: account });
-    const signature = await signMessage({
-      message: messageToSign.data,
-    });
-    const user = await postUserAddAccount({ signature, address: account });
-    queryClient.refetchQueries([GET_AUTH_USER]);
-    return user;
+  return useMutation({
+    mutationFn: async () => {
+      if (!provider || !account) {
+        return;
+      }
+      if (!isLoggedIn) {
+        return;
+      }
+      const messageToSign = await getUserAddAccountMessage({ address: account });
+      const signature = await signMessage({
+        message: messageToSign.data,
+      });
+      const user = await postUserAddAccount({ signature, address: account });
+      queryClient.refetchQueries({ queryKey: [GET_AUTH_USER] });
+      return user;
+    },
   });
 }
 
 export function useRemoveAccountUserMutation() {
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
-  return useMutation(async (account?: string) => {
-    if (!isLoggedIn || !account) {
-      return;
-    }
-    const user = await postUserRemoveAccount({ address: account });
-    queryClient.refetchQueries([GET_AUTH_USER]);
-    return user;
+  return useMutation({
+    mutationFn: async (account?: string) => {
+      if (!isLoggedIn || !account) {
+        return;
+      }
+      const user = await postUserRemoveAccount({ address: account });
+      queryClient.refetchQueries({ queryKey: [GET_AUTH_USER] });
+      return user;
+    },
   });
 }
 
@@ -105,37 +107,43 @@ export function useUpsertUserMutation() {
   const { isLoggedIn } = useAuth();
   const siteId = useSiteId();
   const loginMutation = useLoginAccountMutation();
-  return useMutation(async (user?: UserOptions) => {
-    if (!user) {
-      return;
-    }
-    if (!isLoggedIn) {
-      await loginMutation.mutateAsync();
-    }
-    await upsertUser({ ...user, createdOnSiteId: siteId });
+  return useMutation({
+    mutationFn: async (user?: UserOptions) => {
+      if (!user) {
+        return;
+      }
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
+      await upsertUser({ ...user, createdOnSiteId: siteId });
+    },
   });
 }
 
 export function useUserConnectTwitterMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
-  return useMutation(async () => {
-    if (!isLoggedIn) {
-      await loginMutation.mutateAsync();
-    }
+  return useMutation({
+    mutationFn: async () => {
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
 
-    await getUserConnectTwitter();
+      await getUserConnectTwitter();
+    },
   });
 }
 
 export function useUserConnectDiscordMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
-  return useMutation(async () => {
-    if (!isLoggedIn) {
-      await loginMutation.mutateAsync();
-    }
-    await getUserConnectDiscord();
+  return useMutation({
+    mutationFn: async () => {
+      if (!isLoggedIn) {
+        await loginMutation.mutateAsync();
+      }
+      await getUserConnectDiscord();
+    },
   });
 }
 
@@ -143,33 +151,36 @@ export const GET_USER_BY_USERNAME_QUERY = 'GET_USER_BY_USERNAME_QUERY';
 
 export function useUserQuery(username?: string) {
   const { isLoggedIn } = useAuth();
-  return useQuery(
-    [GET_USER_BY_USERNAME_QUERY, username, isLoggedIn],
-    async () => {
+  return useQuery({
+    queryKey: [GET_USER_BY_USERNAME_QUERY, username, isLoggedIn],
+    queryFn: async () => {
       if (username) {
         const userRequest = await getUserByUsername(username);
         return userRequest.data;
       }
       return null;
     },
-  );
+  });
 }
 
 export const GET_AUTH_USER = 'GET_AUTH_USER';
 export function useAuthUserQuery() {
   const { account } = useWeb3React();
   const { isLoggedIn } = useAuth();
-  return useQuery([GET_AUTH_USER, account, isLoggedIn], async () => {
-    if (account && isLoggedIn) {
-      try {
-        const userRequest = await getUserByAccount();
-        return userRequest.data || null;
-      } catch (error) {
-        console.error('Error fetching auth user:', error);
-        return null;
+  return useQuery({
+    queryKey: [GET_AUTH_USER, account, isLoggedIn],
+    queryFn: async () => {
+      if (account && isLoggedIn) {
+        try {
+          const userRequest = await getUserByAccount();
+          return userRequest.data || null;
+        } catch (error) {
+          console.error('Error fetching auth user:', error);
+          return null;
+        }
       }
-    }
-    return null;
+      return null;
+    },
   });
 }
 
@@ -177,8 +188,8 @@ export function useValidateNFTOwnershipMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       nftChainId,
       nftAddress,
       nftId,
@@ -222,7 +233,7 @@ export function useValidateNFTOwnershipMutation() {
         throw new Error(errorMessage);
       }
     },
-  );
+  });
 }
 
 export function useSetNftProfileMutation() {
@@ -230,22 +241,20 @@ export function useSetNftProfileMutation() {
   const { isLoggedIn } = useAuth();
   const loginMutation = useLoginAccountMutation();
 
-  return useMutation(
-    async (data: { nftId: number; signature: string }) => {
+  return useMutation({
+    mutationFn: async (data: { nftId: number; signature: string }) => {
       if (!isLoggedIn) {
         await loginMutation.mutateAsync();
       }
       const response = await setNftProfile(data);
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([GET_AUTH_USER]);
-      },
-      onError: (error: any) => {
-        console.error('Error setting NFT profile:', error);
-        throw error;
-      },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_AUTH_USER] });
     },
-  );
+    onError: (error: any) => {
+      console.error('Error setting NFT profile:', error);
+      throw error;
+    },
+  });
 }

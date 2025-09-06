@@ -249,22 +249,22 @@ export default function StakeErc721Section({
       return true;
     } catch (error: any) {
       console.error("Error during claim rewards:", error);
-      
+
       if (error.code === -32002) {
         watchTransactionDialog.setError(new Error("There is already a pending transaction in your wallet. Please resolve that transaction first."));
       } else if (error.code === 4001) {
         watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
       } else if (
         error.message && (
-          error.message.includes("429") || 
-          error.message.includes("rate limit") || 
+          error.message.includes("429") ||
+          error.message.includes("rate limit") ||
           error.message.includes("too many requests")
         )
       ) {
         watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
       } else if (
         error.message && (
-          error.message.includes("timeout") || 
+          error.message.includes("timeout") ||
           error.message.includes("timed out") ||
           error.message.includes("exceeded") ||
           error.message.includes("server error")
@@ -293,7 +293,7 @@ export default function StakeErc721Section({
   const { data: stakingTokenContract } = useContract(stakingAddress, "custom");
 
   const approveForAllMuation = useApproveForAll({
-    contract: stakingTokenContract,
+    contract: stakingTokenContract as any,
     address,
   });
 
@@ -447,8 +447,8 @@ export default function StakeErc721Section({
 
                           <Typography color="text.secondary">
                             {rewardRatio &&
-                            rewardTimeUnit &&
-                            rewardTokenBalance ? (
+                              rewardTimeUnit &&
+                              rewardTokenBalance ? (
                               <>
                                 {formatBigNumber(
                                   rewardRatio,

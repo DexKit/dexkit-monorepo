@@ -171,7 +171,7 @@ export const getStaticProps: GetStaticProps = async ({
       tokenId: id || '',
       chainId: NETWORK_FROM_SLUG(network || '')?.chainId as ChainId,
     };
-    await fetchAssetForQueryClient({ queryClient, item });
+    await fetchAssetForQueryClient({ queryClient: queryClient as any, item });
 
     try {
       if (
@@ -179,16 +179,15 @@ export const getStaticProps: GetStaticProps = async ({
         IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
       ) {
         const { data } = await getRariAsset(
-          `${
-            MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+          `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
           }:${address}:${id}`,
         );
-        await queryClient.prefetchQuery(
-          [BEST_SELL_ORDER_RARIBLE, network, address, id],
-          async () => {
+        await queryClient.prefetchQuery({
+          queryKey: [BEST_SELL_ORDER_RARIBLE, network, address, id],
+          queryFn: async () => {
             return data;
           },
-        );
+        });
       }
     } catch (e) {
       console.log(e);

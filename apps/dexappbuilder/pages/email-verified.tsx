@@ -1,14 +1,26 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, NoSsr, Typography } from '@mui/material';
 import type { NextPage } from 'next';
-import MainLayout from '../src/components/layouts/main';
 
 import Image from 'next/image';
 
 import Link from '@dexkit/ui/components/AppLink';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import MainLayout from 'src/components/layouts/main';
 import catHeroImg from '../public/assets/images/cat-hero.svg';
-const EmailVerifiedPage: NextPage = (props: any) => {
+
+const EmailVerifiedPage: NextPage = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <MainLayout>
       <Box sx={{ py: 8 }}>
@@ -27,20 +39,21 @@ const EmailVerifiedPage: NextPage = (props: any) => {
                 variant="body1"
                 color="primary"
               >
-                <FormattedMessage
-                  id="email.verified.with.success"
-                  defaultMessage="Email with success"
-                />
+                <NoSsr>
+                  <FormattedMessage
+                    id="email.with.success"
+                    defaultMessage="Email with success"
+                  />
+                </NoSsr>
               </Typography>
               <Typography
                 sx={{ textAlign: { sm: 'left', xs: 'center' } }}
                 variant="h1"
                 component="h1"
               >
-                <FormattedMessage
-                  id="email.verified"
-                  defaultMessage="Email verified"
-                />
+                <NoSsr>
+                  <FormattedMessage id="email.verified" defaultMessage="Email verified" />
+                </NoSsr>
               </Typography>
               <Box
                 sx={{
@@ -56,10 +69,9 @@ const EmailVerifiedPage: NextPage = (props: any) => {
                   variant="contained"
                   color="primary"
                 >
-                  <FormattedMessage
-                    id="back.to.home"
-                    defaultMessage="Back to Home"
-                  />
+                  <NoSsr>
+                    <FormattedMessage id="back.to.home" defaultMessage="Back to Home" />
+                  </NoSsr>
                 </Button>
               </Box>
             </Grid>
@@ -87,3 +99,9 @@ const EmailVerifiedPage: NextPage = (props: any) => {
 };
 
 export default EmailVerifiedPage;
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}

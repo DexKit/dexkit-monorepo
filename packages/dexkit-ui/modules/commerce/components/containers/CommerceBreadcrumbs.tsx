@@ -49,10 +49,10 @@ export function CommerceBreadcrumbs({
         </Typography>
       );
     }
-    return;
+    return null;
   };
 
-  const handleGoBack = () => {};
+  const handleGoBack = () => { };
 
   const handleClick = useCallback(
     (containerId: string, params?: { [key: string]: string }) => {

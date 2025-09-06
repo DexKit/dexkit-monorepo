@@ -8,8 +8,8 @@ import { BigNumber, ethers } from 'ethers';
 export default function useCheckoutTransfer() {
   const { data: provider } = useJsonRpcProvider({ chainId: ChainId.Ethereum });
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       address,
       amount,
       token,
@@ -34,5 +34,5 @@ export default function useCheckoutTransfer() {
         return await tx.wait();
       }
     },
-  );
+  });
 }

@@ -54,7 +54,7 @@ export function UserContainer({ username }: { username?: string }) {
   const { account } = useWeb3React();
   const [search, setSearch] = useState<string>();
   const defaultAccount =
-    user?.accounts && user?.accounts.length ? user?.accounts[0].address : '';
+    (user as any)?.accounts && (user as any)?.accounts.length ? (user as any)?.accounts[0].address : '';
 
   const assetOrderbookQuery = useAssetsOrderBook({
     maker: defaultAccount,
@@ -96,7 +96,7 @@ export function UserContainer({ username }: { username?: string }) {
                         defaultMessage="User profile"
                       />
                     ),
-                    uri: `/u/${user?.username}`,
+                    uri: `/u/${(user as any)?.username}`,
                     active: true,
                   },
                 ]}
@@ -104,36 +104,36 @@ export function UserContainer({ username }: { username?: string }) {
             </Stack>
           </Grid>
 
-          {user?.accounts
-            ?.map((a) => a.address.toLowerCase())
+          {(user as any)?.accounts
+            ?.map((a: any) => a.address.toLowerCase())
             .includes(account?.toLowerCase() || '') && (
-            <Grid item xs={12} sm={12}>
-              <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                {!isMobile && (
-                  <Typography variant="h5">
-                    <FormattedMessage
-                      id="user.profile.value"
-                      defaultMessage="User Profile: {username}"
-                      values={{
-                        username: user?.username,
-                      }}
-                    />
-                  </Typography>
-                )}
-                <IconButton onClick={() => router.push(`/u/edit`)}>
-                  <Edit />
-                </IconButton>
-              </Stack>
-            </Grid>
-          )}
+              <Grid item xs={12} sm={12}>
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                  {!isMobile && (
+                    <Typography variant="h5">
+                      <FormattedMessage
+                        id="user.profile.value"
+                        defaultMessage="User Profile: {username}"
+                        values={{
+                          username: (user as any)?.username,
+                        }}
+                      />
+                    </Typography>
+                  )}
+                  <IconButton onClick={() => router.push(`/u/edit`)}>
+                    <Edit />
+                  </IconButton>
+                </Stack>
+              </Grid>
+            )}
 
           <Grid item xs={12}>
             <UserHeader
-              {...user}
-              profileNft={user?.nftProfile}
-              nftChainId={user?.nftProfile?.chainId as number}
-              nftAddress={user?.nftProfile?.address}
-              nftId={user?.nftProfile?.tokenId}
+              {...(user as any)}
+              profileNft={(user as any)?.nftProfile}
+              nftChainId={(user as any)?.nftProfile?.chainId as number}
+              nftAddress={(user as any)?.nftProfile?.address}
+              nftId={(user as any)?.nftProfile?.tokenId}
             />
           </Grid>
           <Grid item xs={12}>
@@ -216,12 +216,12 @@ export function UserContainer({ username }: { username?: string }) {
                           ...filters,
                           account: filters.account || defaultAccount,
                         }}
-                        accounts={user?.accounts?.map((a) =>
+                        accounts={(user as any)?.accounts?.map((a: any) =>
                           a.address.toLowerCase(),
                         )}
                         setFilters={setFilters}
-                        onOpenFilters={() => {}}
-                        onImport={() => {}}
+                        onOpenFilters={() => { }}
+                        onImport={() => { }}
                       />
                     </Suspense>
                   </ErrorBoundary>

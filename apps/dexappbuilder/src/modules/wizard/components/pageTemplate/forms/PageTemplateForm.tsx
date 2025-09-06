@@ -37,7 +37,7 @@ export default function PageTemplateForm({ initialValues }: Props) {
           fullWidth: true,
           onClose: handleCloseUpsertPageTemplate,
         }}
-        isLoading={upsertPageTemplateMutation.isLoading}
+        isLoading={upsertPageTemplateMutation.isPending}
         isSuccess={upsertPageTemplateMutation.isSuccess}
         error={upsertPageTemplateMutation.error}
         isEdit={!!initialValues}

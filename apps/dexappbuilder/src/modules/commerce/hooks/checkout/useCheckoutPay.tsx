@@ -5,8 +5,8 @@ import { useContext } from 'react';
 export default function useCheckoutPay() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(
-    async ({
+  return useMutation({
+    mutationFn: async ({
       id,
       hash,
       tokenAddress,
@@ -42,5 +42,5 @@ export default function useCheckoutPay() {
       return (await instance.post(/*<Order>*/ `/checkouts/${id}/pay`, params))
         .data;
     },
-  );
+  });
 }

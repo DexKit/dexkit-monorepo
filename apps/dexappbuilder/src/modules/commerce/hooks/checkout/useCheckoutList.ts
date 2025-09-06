@@ -13,9 +13,9 @@ export default function useCheckoutList(params: {
 }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_CHECKOUT_LIST, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_CHECKOUT_LIST, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -37,10 +37,8 @@ export default function useCheckoutList(params: {
         }>*/('/checkouts', { params: newParams })
       ).data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

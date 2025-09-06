@@ -255,12 +255,10 @@ export default function EditSectionDialog({
       .MuiPopover-root .MuiPaper-root, .MuiMenu-root .MuiPaper-root {
         z-index: 9999 !important;
       }
-      /* MediaDialog (Gallery) must be above everything */
-      [role="dialog"]:has(.MuiDialogTitle-root:contains("Gallery")) {
+      [role="dialog"][data-dialog-type="gallery"] {
         z-index: 10000 !important;
       }
-      /* Alternative targeting for MediaDialog */
-      .MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")) {
+      .MuiDialog-root[data-dialog-type="gallery"] {
         z-index: 10000 !important;
       }
     `;

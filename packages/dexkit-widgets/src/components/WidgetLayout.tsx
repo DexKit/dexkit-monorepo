@@ -59,7 +59,6 @@ const WidgetLayout = ({ children }: Props) => {
   };
 
   const walletActivate = useWalletActivate({
-    magicRedirectUrl: process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || "",
     selectedWalletAtom,
   });
 

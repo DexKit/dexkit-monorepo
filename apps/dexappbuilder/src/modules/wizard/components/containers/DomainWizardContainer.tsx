@@ -111,7 +111,7 @@ export default function DomainWizardContainer({
         {
           onSuccess: () => {
             setIsDeploySignOpen(false);
-            queryClient.invalidateQueries([QUERY_ADMIN_WHITELABEL_CONFIG_NAME]);
+            queryClient.invalidateQueries({ queryKey: [QUERY_ADMIN_WHITELABEL_CONFIG_NAME] });
           },
           onError: console.log,
         },
@@ -246,7 +246,7 @@ export default function DomainWizardContainer({
           fullWidth: true,
           onClose: handleCloseDeployDomain,
         }}
-        isLoading={deployDomainMutation.isLoading}
+        isLoading={deployDomainMutation.isPending}
         isSuccess={deployDomainMutation.isSuccess}
         error={deployDomainMutation.error}
       />
@@ -257,7 +257,7 @@ export default function DomainWizardContainer({
           fullWidth: true,
           onClose: handleCloseCheckDeploy,
         }}
-        isLoading={verifyDomainMutation.isLoading}
+        isLoading={verifyDomainMutation.isPending}
         isSuccess={verifyDomainMutation.isSuccess}
         error={verifyDomainMutation.error}
       />

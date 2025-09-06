@@ -51,10 +51,10 @@ export const WizardWidgetEditPage: NextPage = () => {
   });
 
   const config = useMemo(() => {
-    if (widget?.config) {
-      return JSON.parse(widget?.config);
+    if ((widget as any)?.config) {
+      return JSON.parse((widget as any)?.config);
     }
-  }, [widget?.config]);
+  }, [(widget as any)?.config]);
 
   const theme = useTheme();
 
@@ -123,7 +123,7 @@ export const WizardWidgetEditPage: NextPage = () => {
       ) : (
         <AdminContext.Provider value={{ editWidgetId: Number(id) }}>
           <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-            {widget && <EditWidgetWizardContainer widget={widget} />}
+            {widget ? <EditWidgetWizardContainer widget={widget as any} /> : null}
           </DexkitApiProvider.Provider>
         </AdminContext.Provider>
       )}
@@ -156,7 +156,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

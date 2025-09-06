@@ -7,9 +7,9 @@ export const GET_CATEGORY_QUERY = 'GET_CATEGORY_QUERY';
 export default function useCategory(params: { id?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_CATEGORY_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_CATEGORY_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -22,10 +22,8 @@ export default function useCategory(params: { id?: string }) {
         await instance.get(`/product-category/${params.id}`)
       ).data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

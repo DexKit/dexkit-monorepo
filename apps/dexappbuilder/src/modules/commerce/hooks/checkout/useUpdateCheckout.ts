@@ -6,11 +6,13 @@ import { CheckoutFormType } from '../../types';
 export default function useUpdateCheckout() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (data: CheckoutFormType) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (data: CheckoutFormType) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance?.put(`/checkouts/${data?.id}`, data)).data;
+      return (await instance?.put(`/checkouts/${data?.id}`, data)).data;
+    },
   });
 }

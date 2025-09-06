@@ -115,7 +115,7 @@ export default function WalletStepperContainer({ site }: Props) {
           fullWidth: true,
           onClose: handleCloseSendingConfig,
         }}
-        isLoading={sendConfigMutation.isLoading}
+        isLoading={sendConfigMutation.isPending}
         isSuccess={sendConfigMutation.isSuccess}
         error={sendConfigMutation.error}
         isEdit={true}

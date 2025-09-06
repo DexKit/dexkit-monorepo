@@ -7,9 +7,9 @@ export const GET_USER_ORDER_QUERY = 'GET_USER_ORDER_QUERY';
 export default function useUserOrder(params: { id?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_USER_ORDER_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_USER_ORDER_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -21,10 +21,8 @@ export default function useUserOrder(params: { id?: string }) {
       return (await instance.get/*<Order>*/(`/orders/user-orders/${params.id}`))
         .data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

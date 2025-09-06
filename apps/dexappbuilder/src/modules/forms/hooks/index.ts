@@ -38,12 +38,12 @@ export {
   useContractVisibility,
   useDeployableContractsQuery,
   useListDeployedContracts,
-  useSaveContractDeployed,
+  useSaveContractDeployed
 };
 
 export function useCreateFormMutation({ templateId }: { templateId?: number }) {
-  return useMutation(
-    async (params: {
+  return useMutation({
+    mutationFn: async (params: {
       creatorAddress: string;
       params: ContractFormParams;
       name: string;
@@ -68,12 +68,12 @@ export function useCreateFormMutation({ templateId }: { templateId?: number }) {
         templateId: data.template?.id,
       } as ContractFormData;
     },
-  );
+  });
 }
 
 export function useUpdateFormMutation() {
-  return useMutation(
-    async (params: {
+  return useMutation({
+    mutationFn: async (params: {
       id: number;
       name: string;
       description: string;
@@ -86,15 +86,15 @@ export function useUpdateFormMutation() {
         params: JSON.stringify(params.params),
       });
     },
-  );
+  });
 }
 
 export const GET_FORM = 'GET_FORM';
 
 export function useFormQuery({ id }: { id?: number }) {
-  return useQuery<ContractFormData | null>(
-    [GET_FORM, id],
-    async ({ signal }) => {
+  return useQuery<ContractFormData | null>({
+    queryKey: [GET_FORM, id],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       if (!id) {
         return null;
       }
@@ -110,13 +110,13 @@ export function useFormQuery({ id }: { id?: number }) {
         templateId: data.template?.id,
       } as ContractFormData;
     },
-    { enabled: id !== undefined },
-  );
+    enabled: id !== undefined,
+  });
 }
 
 export function useCreateFormTemplateMutation() {
-  return useMutation(
-    async (params: {
+  return useMutation({
+    mutationFn: async (params: {
       abi: string;
       name: string;
       description: string;
@@ -131,12 +131,12 @@ export function useCreateFormTemplateMutation() {
         })
       ).data;
     },
-  );
+  });
 }
 
 export function useUpdateFormTemplateMutation() {
-  return useMutation(
-    async (params: {
+  return useMutation({
+    mutationFn: async (params: {
       id: number;
       abi: string;
       name: string;
@@ -153,15 +153,15 @@ export function useUpdateFormTemplateMutation() {
         })
       ).data;
     },
-  );
+  });
 }
 
 export const GET_FORM_TEMPLATE_QUERY = 'GET_FORM_TEMPLATE_QUERY';
 
 export function useFormTemplateQuery({ id }: { id?: number }) {
-  return useQuery<FormTemplate | null>(
-    [GET_FORM_TEMPLATE_QUERY, id],
-    async ({ signal }) => {
+  return useQuery<FormTemplate | null>({
+    queryKey: [GET_FORM_TEMPLATE_QUERY, id],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       if (!id) {
         return null;
       }
@@ -177,8 +177,9 @@ export function useFormTemplateQuery({ id }: { id?: number }) {
         name: data.name,
       } as FormTemplate;
     },
-    { enabled: id !== undefined, refetchOnWindowFocus: false },
-  );
+    enabled: id !== undefined,
+    refetchOnWindowFocus: false,
+  });
 }
 
 export const LIST_FORMS = 'LIST_FORMS';
@@ -190,9 +191,9 @@ export function useListFormsQuery({
   creatorAddress?: string;
   query?: string;
 }) {
-  return useQuery<ContractFormData[] | null>(
-    [LIST_FORMS, creatorAddress, query],
-    async ({ signal }) => {
+  return useQuery<ContractFormData[] | null>({
+    queryKey: [LIST_FORMS, creatorAddress, query],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       if (!creatorAddress) {
         return null;
       }
@@ -213,7 +214,7 @@ export function useListFormsQuery({
           }) as ContractFormData,
       );
     },
-  );
+  });
 }
 
 export const LIST_FORM_TEMPLATES = 'LIST_FORM_TEMPLATES';
@@ -225,9 +226,9 @@ export function useListFormTemplatesQuery({
   creatorAddress?: string;
   query?: string;
 }) {
-  return useQuery<FormTemplate[] | null>(
-    [LIST_FORM_TEMPLATES, creatorAddress, query],
-    async ({ signal }) => {
+  return useQuery<FormTemplate[] | null>({
+    queryKey: [LIST_FORM_TEMPLATES, creatorAddress, query],
+    queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       if (!creatorAddress) {
         return null;
       }
@@ -252,8 +253,8 @@ export function useListFormTemplatesQuery({
           }) as FormTemplate,
       );
     },
-    { enabled: creatorAddress !== undefined },
-  );
+    enabled: creatorAddress !== undefined,
+  });
 }
 
 export interface UseDeployContractParam {
@@ -267,18 +268,20 @@ export function useDeployContractMutation({
   abi: any[];
   bytecode: string;
 }) {
-  return useMutation(async (params: UseDeployContractParam) => {
-    const contractFactory = new ContractFactory(abi, bytecode);
+  return useMutation({
+    mutationFn: async (params: UseDeployContractParam) => {
+      const contractFactory = new ContractFactory(abi, bytecode);
 
-    const contract = await contractFactory.deploy(params.args);
+      const contract = await contractFactory.deploy(params.args);
 
-    return contract;
+      return contract;
+    },
   });
 }
 
 export function useSaveInstanceMutation() {
-  return useMutation(
-    async (params: {
+  return useMutation({
+    mutationFn: async (params: {
       templateId: number;
       chainId: ChainId;
       contractAddress: string;
@@ -287,7 +290,7 @@ export function useSaveInstanceMutation() {
     }) => {
       return await createTemplateInstance(params);
     },
-  );
+  });
 }
 
 const LIST_INSTANCES_QUERY = 'LIST_INSTANCES_QUERY';
@@ -297,28 +300,32 @@ export function useListTemplateInstances({
 }: {
   templateId?: number;
 }) {
-  return useQuery(
-    [LIST_INSTANCES_QUERY, templateId],
-    async () => {
+  return useQuery({
+    queryKey: [LIST_INSTANCES_QUERY, templateId],
+    queryFn: async () => {
       if (!templateId) {
         return null;
       }
 
       return await listTemplateInstances(templateId);
     },
-    { enabled: templateId !== undefined },
-  );
+    enabled: templateId !== undefined,
+  });
 }
 
 export function useCloseFormMutation() {
-  return useMutation(async ({ id }: { id: number }) => {
-    return await cloneForm({ id });
+  return useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      return await cloneForm({ id });
+    },
   });
 }
 
 export function useDeleteFormMutation() {
-  return useMutation(async ({ id }: { id: number }) => {
-    return await deleteForm({ id });
+  return useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      return await deleteForm({ id });
+    },
   });
 }
 
@@ -348,9 +355,9 @@ export function useInfiniteListDeployedContracts({
       chainId?: number;
     }[];
     nextCursor?: number;
-  }>(
-    [INFINITE_LIST_DEPLOYED_CONTRACTS, page, owner, name, chainId],
-    async ({ pageParam }) => {
+  }>({
+    queryKey: [INFINITE_LIST_DEPLOYED_CONTRACTS, page, owner, name, chainId],
+    queryFn: async ({ pageParam }: { pageParam?: any }) => {
       if (instance) {
         return (
           await instance.get('/forms/deploy/list', {
@@ -361,8 +368,7 @@ export function useInfiniteListDeployedContracts({
 
       return { items: [], nextCursor: undefined };
     },
-    {
-      getNextPageParam: ({ nextCursor }) => nextCursor,
-    },
-  );
+    getNextPageParam: ({ nextCursor }: { nextCursor?: any }) => nextCursor,
+    initialPageParam: 0,
+  });
 }

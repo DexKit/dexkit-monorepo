@@ -87,7 +87,7 @@ export default function FormsListContractsPage() {
 
   const handleClose = async () => {
     setShowImport(false);
-    await queryClient.invalidateQueries(['LIST_DEPLOYED_CONTRACTS']);
+    await queryClient.invalidateQueries({ queryKey: ['LIST_DEPLOYED_CONTRACTS'] });
   };
 
   const handleOpen = () => {

@@ -46,7 +46,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const configResponse = await getAppConfig(params?.site, 'no-page-defined');
 
-  await queryClient.prefetchQuery([GET_AUTH_USER], async () => data);
+  await queryClient.prefetchQuery({
+    queryKey: [GET_AUTH_USER],
+    queryFn: async () => data,
+  });
 
   return {
     props: {

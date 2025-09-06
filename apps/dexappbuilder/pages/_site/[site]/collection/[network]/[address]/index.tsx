@@ -83,138 +83,138 @@ const CollectionPage: NextPage<{
   disableSecondarySells: boolean;
   isLock: boolean;
 }) => {
-  const router = useRouter();
-  const { formatMessage } = useIntl();
-  const { address, network } = router.query;
-  const chainId = NETWORK_FROM_SLUG(network as string)?.chainId;
-  const [search, setSearch] = useState<string>();
+    const router = useRouter();
+    const { formatMessage } = useIntl();
+    const { address, network } = router.query;
+    const chainId = NETWORK_FROM_SLUG(network as string)?.chainId;
+    const [search, setSearch] = useState<string>();
 
-  const { data: contractType } = useContractType(address as string);
+    const { data: contractType } = useContractType(address as string);
 
-  const isDrop = useMemo(() => {
-    return contractType?.endsWith('drop');
-  }, [contractType]);
+    const isDrop = useMemo(() => {
+      return contractType?.endsWith('drop');
+    }, [contractType]);
 
-  const { data: collection } = useCollection(address as string, chainId);
+    const { data: collection } = useCollection(address as string, chainId);
 
-  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+    const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value);
+    };
 
-  const [buyNowChecked, setBuyNowChecked] = useState(false);
+    const [buyNowChecked, setBuyNowChecked] = useState(false);
 
-  const handleChangeBuyNow = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBuyNowChecked(event.target.checked);
-  };
+    const handleChangeBuyNow = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setBuyNowChecked(event.target.checked);
+    };
 
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const handleCloseDrawer = () => setIsFiltersOpen(false);
+    const handleCloseDrawer = () => setIsFiltersOpen(false);
 
-  const renderSidebar = (onClose?: () => void) => {
-    return (
-      <SidebarFilters
-        title={<FormattedMessage id="filters" defaultMessage="Filters" />}
-        onClose={onClose}
-      >
-        <SidebarFiltersContent>
-          <Stack spacing={1}>
-            <TextField
-              fullWidth
-              size="small"
-              type="search"
-              value={search}
-              onChange={handleChangeSearch}
-              placeholder={formatMessage({
-                id: 'search.in.collection',
-                defaultMessage: 'Search in collection',
-              })}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Search color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Typography>
-              <FormattedMessage defaultMessage={'Status'} id={'status'} />
-            </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={buyNowChecked}
-                    onChange={handleChangeBuyNow}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                  />
-                }
-                label={
-                  <FormattedMessage defaultMessage={'Buy now'} id={'buy.now'} />
-                }
-              />
-            </FormGroup>
-            <Typography>
-              <FormattedMessage defaultMessage={'Traits'} id={'traits'} />
-            </Typography>
-            <CollectionTraits address={address as string} chainId={chainId} />
-          </Stack>
-        </SidebarFiltersContent>
-      </SidebarFilters>
-    );
-  };
-
-  const renderDrawer = () => {
-    return (
-      <Drawer open={isFiltersOpen} onClose={handleCloseDrawer}>
-        <Box
-          sx={(theme) => ({ minWidth: `${theme.breakpoints.values.sm / 2}px` })}
+    const renderSidebar = (onClose?: () => void) => {
+      return (
+        <SidebarFilters
+          title={<FormattedMessage id="filters" defaultMessage="Filters" />}
+          onClose={onClose}
         >
-          {renderSidebar(handleCloseDrawer)}
-        </Box>
-      </Drawer>
+          <SidebarFiltersContent>
+            <Stack spacing={1}>
+              <TextField
+                fullWidth
+                size="small"
+                type="search"
+                value={search}
+                onChange={handleChangeSearch}
+                placeholder={formatMessage({
+                  id: 'search.in.collection',
+                  defaultMessage: 'Search in collection',
+                })}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Search color="primary" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Typography>
+                <FormattedMessage defaultMessage={'Status'} id={'status'} />
+              </Typography>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={buyNowChecked}
+                      onChange={handleChangeBuyNow}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                  }
+                  label={
+                    <FormattedMessage defaultMessage={'Buy now'} id={'buy.now'} />
+                  }
+                />
+              </FormGroup>
+              <Typography>
+                <FormattedMessage defaultMessage={'Traits'} id={'traits'} />
+              </Typography>
+              <CollectionTraits address={address as string} chainId={chainId} />
+            </Stack>
+          </SidebarFiltersContent>
+        </SidebarFilters>
+      );
+    };
+
+    const renderDrawer = () => {
+      return (
+        <Drawer open={isFiltersOpen} onClose={handleCloseDrawer}>
+          <Box
+            sx={(theme) => ({ minWidth: `${theme.breakpoints.values.sm / 2}px` })}
+          >
+            {renderSidebar(handleCloseDrawer)}
+          </Box>
+        </Drawer>
+      );
+    };
+
+    const collectionPage = (
+      <>
+        <NextSeo title={collection?.name || ''} />
+        {renderDrawer()}
+
+        <CollectionSection
+          section={{
+            type: 'collection',
+            config: {
+              address: address as string,
+              network: network as string,
+              hideFilters: isDesktop,
+              hideAssets: false,
+              hideDrops: !isDrop,
+              hideHeader: false,
+              showPageHeader: true,
+              isLock,
+              enableDarkblock,
+              disableSecondarySells,
+              showCollectionStats: true,
+              showSidebarOnDesktop: true,
+            },
+          }}
+        />
+      </>
     );
+    if (disableSecondarySells) {
+      return (
+        <MainLayout>
+          <Container>{collectionPage}</Container>
+        </MainLayout>
+      );
+    } else {
+      return <MainLayout disablePadding>{collectionPage}</MainLayout>;
+    }
   };
-
-  const collectionPage = (
-    <>
-      <NextSeo title={collection?.name || ''} />
-      {renderDrawer()}
-
-      <CollectionSection
-        section={{
-          type: 'collection',
-          config: {
-            address: address as string,
-            network: network as string,
-            hideFilters: isDesktop,
-            hideAssets: false,
-            hideDrops: !isDrop,
-            hideHeader: false,
-            showPageHeader: true,
-            isLock,
-            enableDarkblock,
-            disableSecondarySells,
-            showCollectionStats: true,
-            showSidebarOnDesktop: true,
-          },
-        }}
-      />
-    </>
-  );
-  if (disableSecondarySells) {
-    return (
-      <MainLayout>
-        <Container>{collectionPage}</Container>
-      </MainLayout>
-    );
-  } else {
-    return <MainLayout disablePadding>{collectionPage}</MainLayout>;
-  }
-};
 
 function Wrapper(props: any) {
   const { chainId } = useWeb3React();
@@ -280,13 +280,13 @@ export const getStaticProps: GetStaticProps = async ({
     if (collection?.syncStatus === CollectionSyncStatus.NotSynced) {
       getSyncCollectionData(network, address);
     }
-    await queryClient.prefetchQuery(
-      [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
-      async () => {
+    await queryClient.prefetchQuery({
+      queryKey: [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
+      queryFn: async () => {
         return collectionAssets;
       },
-    );
-  } catch {}
+    });
+  } catch { }
 
   try {
     if (
@@ -294,18 +294,17 @@ export const getStaticProps: GetStaticProps = async ({
       IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
     ) {
       const { data } = await getRariCollectionStats(
-        `${
-          MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+        `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
         }:${address}`,
         MAP_COIN_TO_RARIBLE[network],
       );
 
-      await queryClient.prefetchQuery(
-        [GET_COLLECTION_STATS, network, address],
-        async () => {
+      await queryClient.prefetchQuery({
+        queryKey: [GET_COLLECTION_STATS, network, address],
+        queryFn: async () => {
           return data;
         },
-      );
+      });
     }
   } catch (e) {
     console.log(e);
@@ -315,7 +314,7 @@ export const getStaticProps: GetStaticProps = async ({
   if (!collection) {
     try {
       collection = await getCollectionData(provider, address as string);
-    } catch {}
+    } catch { }
   }
   const chainId = NETWORK_FROM_SLUG(network)?.chainId;
 
@@ -343,27 +342,33 @@ export const getStaticProps: GetStaticProps = async ({
           ? NFTType.ERC1155
           : NFTType.ERC721;
 
-        await queryClient.prefetchQuery(key, async () => {
-          let coll = collection || ({} as Collection);
+        await queryClient.prefetchQuery({
+          queryKey: key,
+          queryFn: async () => {
+            let coll = collection || ({} as Collection);
 
-          return {
-            address,
-            name: metadata.name,
-            chainId: NETWORK_FROM_SLUG(network)?.chainId,
-            symbol: metadata.symbol,
-            description: metadata.description,
-            imageUrl: metadata.image,
-            nftType: type,
-            ...omitNull(coll),
-          } as Collection;
+            return {
+              address,
+              name: metadata.name,
+              chainId: NETWORK_FROM_SLUG(network)?.chainId,
+              symbol: metadata.symbol,
+              description: metadata.description,
+              imageUrl: metadata.image,
+              nftType: type,
+              ...omitNull(coll),
+            } as Collection;
+          },
         });
       }
     }
-  } catch {}
+  } catch { }
 
   if (!isTw) {
-    await queryClient.prefetchQuery(key, async () => {
-      return collection;
+    await queryClient.prefetchQuery({
+      queryKey: key,
+      queryFn: async () => {
+        return collection;
+      },
     });
   }
 
@@ -371,11 +376,11 @@ export const getStaticProps: GetStaticProps = async ({
   try {
     const assets = await getCollectionAssetsFromOrderbook(provider, filters);
 
-    await queryClient.prefetchQuery(
-      [COLLECTION_ASSETS_FROM_ORDERBOOK, filters],
-      async () => assets,
-    );
-  } catch {}
+    await queryClient.prefetchQuery({
+      queryKey: [COLLECTION_ASSETS_FROM_ORDERBOOK, filters],
+      queryFn: async () => assets,
+    });
+  } catch { }
 
   let enableDarkblock = false;
 
@@ -401,7 +406,7 @@ export const getStaticProps: GetStaticProps = async ({
         enableDarkblock = true;
       }
     }
-  } catch {}
+  } catch { }
 
   const appCollection = configResponse.appConfig.collections?.find(
     (c) =>

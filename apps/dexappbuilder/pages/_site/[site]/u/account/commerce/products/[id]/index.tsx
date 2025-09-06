@@ -23,7 +23,7 @@ function UpdateProductComponent({ product }: UpdateProductComponentProps) {
 
   const handleSubmit = async (values: ProductFormType) => {
     try {
-      await updateProduct(values);
+      await (updateProduct as any)(values);
       enqueueSnackbar(
         <FormattedMessage
           id="product.updated"
@@ -96,10 +96,11 @@ function UpdateProductPagePage() {
     id: id as string,
   });
 
-  return (
-    product &&
-    isFetchedAfterMount && <UpdateProductComponent product={product} />
-  );
+  if (!product || !isFetchedAfterMount) {
+    return null;
+  }
+
+  return <UpdateProductComponent product={product as any} />;
 }
 
 export default function UpdateProductPage() {
@@ -108,4 +109,17 @@ export default function UpdateProductPage() {
       <UpdateProductPagePage />
     </DashboardLayout>
   );
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
+  };
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }

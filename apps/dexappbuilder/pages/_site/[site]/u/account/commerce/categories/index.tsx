@@ -1,64 +1,30 @@
-import DashboardLayout from '@/modules/commerce/components/layout/DashboardLayout';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { FormattedMessage } from 'react-intl';
+import { default as DynamicImport } from 'next/dynamic';
+import AuthMainLayout from 'src/components/layouts/authMain';
 
-import CategoriesTable from '@/modules/commerce/components/CheckoutsCategories';
-import { useState } from 'react';
+// Import the component dynamically to avoid SSR issues
+const CategoriesPageComponent = DynamicImport(
+  () => import('@/modules/commerce/CategoriesPageComponent'),
+  { ssr: false }
+);
 
-import { GET_CATEGORY_LIST } from '@/modules/commerce/hooks/useCategoryList';
-import CreateCategoryFormDialog from '@dexkit/ui/modules/commerce/components/dialogs/CreateCategoryFormDialog';
-import Add from '@mui/icons-material/Add';
-import { useQueryClient } from '@tanstack/react-query';
+export default function CategoriesPage() {
+  return <CategoriesPageComponent />;
+}
 
-export default function CommerceCategoriesPage() {
-  const [open, setOpen] = useState(false);
+(CategoriesPage as any).getLayout = function getLayout(page: any) {
+  return <AuthMainLayout>{page}</AuthMainLayout>;
+};
 
-  const handleOpen = () => {
-    setOpen(true);
+// Prevent prerendering by returning no paths
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
   };
+}
 
-  const handleClose = () => {
-    setOpen(false);
+export async function getStaticProps() {
+  return {
+    props: {},
   };
-
-  const queryClient = useQueryClient();
-
-  return (
-    <>
-      <DashboardLayout page="categories">
-        <CreateCategoryFormDialog
-          DialogProps={{ open, onClose: handleClose }}
-          onRefetch={async () => {
-            await queryClient.refetchQueries([GET_CATEGORY_LIST]);
-          }}
-        />
-        <Stack spacing={2}>
-          <Box>
-            <Typography variant="h6">
-              <FormattedMessage id="categories" defaultMessage="Categories" />
-            </Typography>
-            <Typography variant="body1">
-              <FormattedMessage
-                id="create.categories.description.text"
-                defaultMessage="Create categories to organize your products for easier management."
-              />
-            </Typography>
-          </Box>
-          <Box>
-            <Button
-              startIcon={<Add />}
-              onClick={handleOpen}
-              variant="contained"
-            >
-              <FormattedMessage
-                id="new.category"
-                defaultMessage="New category"
-              />
-            </Button>
-          </Box>
-          <CategoriesTable />
-        </Stack>
-      </DashboardLayout>
-    </>
-  );
 }

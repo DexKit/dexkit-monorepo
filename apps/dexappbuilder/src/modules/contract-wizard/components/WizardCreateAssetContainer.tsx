@@ -2,12 +2,12 @@ import CollectionItemsCard from '@/modules/contract-wizard/components/Collection
 import CreateAssetDialog from '@/modules/contract-wizard/components/dialogs/CreateAssetDialog';
 import { CollectionItemsSchema } from '@/modules/contract-wizard/constants/schemas';
 import {
-    useCreateAssetsMetadataMutation,
-    useCreateItems,
+  useCreateAssetsMetadataMutation,
+  useCreateItems,
 } from '@/modules/contract-wizard/hooks';
 import {
-    CollectionItemsForm,
-    WizardItem,
+  CollectionItemsForm,
+  WizardItem,
 } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
@@ -19,9 +19,9 @@ import { FormattedMessage } from 'react-intl';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { getERC721TotalSupply } from '@dexkit/ui/modules/nft/services';
 import {
-    DEXKIT_DISCORD_SUPPORT_CHANNEL,
-    DEXKIT_NFT_METADATA_URI,
-    MIN_KIT_HOLDING_AI_GENERATION,
+  DEXKIT_DISCORD_SUPPORT_CHANNEL,
+  DEXKIT_NFT_METADATA_URI,
+  MIN_KIT_HOLDING_AI_GENERATION,
 } from 'src/constants';
 
 interface Props {
@@ -95,9 +95,8 @@ function WizardCreateAssetContainer(props: Props) {
           ) {
             itemsMinted.push({
               to: account,
-              tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                (totalSupply?.toNumber() || 0) + totalItems
-              }`,
+              tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalSupply?.toNumber() || 0) + totalItems
+                }`,
             });
             totalItems++;
           }
@@ -119,9 +118,8 @@ function WizardCreateAssetContainer(props: Props) {
             const item = collectionItemsFormValues?.items[index];
             nfts.push({
               id: String((totalSupply?.toNumber() || 0) + totalItems),
-              tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                (totalSupply?.toNumber() || 0) + totalItems
-              }`,
+              tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalSupply?.toNumber() || 0) + totalItems
+                }`,
               attributes: item.attributes || [],
               description: item.description || '',
               image: item.file || '',
@@ -176,10 +174,10 @@ function WizardCreateAssetContainer(props: Props) {
           maxWidth: 'sm',
         }}
         transactionHash={itemsTxHash}
-        isLoading={createItemsMutation.isLoading}
+        isLoading={createItemsMutation.isPending}
         isDone={createItemsMutation.isSuccess}
         isError={createItemsMutation.isError}
-        isLoadingMeta={uploadItemsMetadataMutation.isLoading}
+        isLoadingMeta={uploadItemsMetadataMutation.isPending}
         isErrorMeta={uploadItemsMetadataMutation.isError}
         isDoneMeta={uploadItemsMetadataMutation.isSuccess}
         chainId={chainId}

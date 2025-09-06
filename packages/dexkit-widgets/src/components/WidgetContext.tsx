@@ -4,8 +4,12 @@ import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import {
+  assetsAtom,
+  currencyUserAtom,
+  hiddenAssetsAtom,
   notificationsAtom,
   selectedWalletAtom,
+  tokensAtom,
   transactionsAtomV2,
 } from "../state/atoms";
 
@@ -25,14 +29,16 @@ export function WidgetContext({ children }: AppMarketplaceContextProps) {
         defaultLocale={locale}
         theme={theme}
         selectedWalletAtom={selectedWalletAtom}
-        options={{
-          magicRedirectUrl: process.env.NEXT_PUBLIC_MAGIC_REDIRECT_URL || "",
-        }}
+        options={{}}
         notificationTypes={{
           ...COMMON_NOTIFICATION_TYPES,
         }}
         transactionsAtom={transactionsAtomV2}
         notificationsAtom={notificationsAtom}
+        tokensAtom={tokensAtom}
+        assetsAtom={assetsAtom}
+        hiddenAssetsAtom={hiddenAssetsAtom}
+        currencyUserAtom={currencyUserAtom}
         onChangeLocale={(loc) => setLocale(loc)}
       >
         {children}

@@ -149,7 +149,7 @@ export default function UserOrdersTable({ query, status }: OrdersTableProps) {
     <Box>
       <DataGrid
         columns={columns}
-        rows={data?.items ?? []}
+        rows={(data as any)?.items ?? []}
         rowCount={0}
         paginationMode="server"
         getRowId={(row) => String(row.id)}

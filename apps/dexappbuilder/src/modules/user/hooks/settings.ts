@@ -7,9 +7,9 @@ export const ADD_PAYMENT_INTENT_QUERY = 'ADD_PAYMENT_INTENT_QUERY';
 export default function useAddPaymentIntent() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [ADD_PAYMENT_INTENT_QUERY],
-    async () => {
+  return useQuery({
+    queryKey: [ADD_PAYMENT_INTENT_QUERY],
+    queryFn: async () => {
       const result = (
         await instance?.get(
           '/payments/add-method-intent',
@@ -18,10 +18,8 @@ export default function useAddPaymentIntent() {
 
       return result;
     },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-    },
-  );
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 }

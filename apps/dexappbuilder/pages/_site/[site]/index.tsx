@@ -53,20 +53,20 @@ export const getStaticProps: GetStaticProps = async ({
     if (section.type === 'asset-store') {
       const maker = section.config?.storeAccount?.toLowerCase();
       const assetResponse = await getDKAssetOrderbook({ maker });
-      await queryClient.prefetchQuery(
-        [GET_ASSETS_ORDERBOOK, { maker: maker || null }],
-        async () => assetResponse.data,
-      );
+      await queryClient.prefetchQuery({
+        queryKey: [GET_ASSETS_ORDERBOOK, { maker: maker || null }],
+        queryFn: async () => assetResponse.data,
+      });
     }
   }
   await fetchMultipleAssetForQueryClient({
-    queryClient,
+    queryClient: queryClient as any,
     sections: sections,
   });
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient as any),
       sections: sections,
       layout: homePage?.layout || null,
       ...configResponse,

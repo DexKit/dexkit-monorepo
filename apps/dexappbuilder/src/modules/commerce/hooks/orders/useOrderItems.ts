@@ -7,9 +7,9 @@ export const GET_ORDER_ITEMS_QUERY = 'GET_ORDER_ITEMS_QUERY';
 export default function useOrderItems(params: { id?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_ORDER_ITEMS_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ORDER_ITEMS_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -21,10 +21,8 @@ export default function useOrderItems(params: { id?: string }) {
       return (await instance.get/*<OrderItem[]>*/(`/orders/${params.id}/items`))
         .data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

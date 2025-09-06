@@ -18,8 +18,9 @@ export default async function handler(
   );
 
   if (!collection) {
-    return res.status(404).end();
+    res.status(404).end();
+    return;
   }
 
-  return res.json(collection);
+  res.json(collection);
 }

@@ -98,7 +98,7 @@ export function useDexkitContextState({
     checkAllNotifications,
     onChangeLocale,
     notificationTypes,
-    notifications: notifications.reverse(),
+    notifications: [...notifications].reverse(),
     watchTransactionDialog,
   };
 }

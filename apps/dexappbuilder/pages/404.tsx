@@ -1,12 +1,12 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import type { NextPage } from 'next';
-import MainLayout from '../src/components/layouts/main';
 
 import Image from 'next/image';
 
 import Link from '@dexkit/ui/components/AppLink';
 import { FormattedMessage } from 'react-intl';
+import MainLayout from 'src/components/layouts/main';
 import catHeroImg from '../public/assets/images/cat-hero.svg';
 
 const NotFound: NextPage = (props: any) => {
@@ -54,10 +54,7 @@ const NotFound: NextPage = (props: any) => {
                   variant="contained"
                   color="primary"
                 >
-                  <FormattedMessage
-                    id="back.to.home"
-                    defaultMessage="Back to Home"
-                  />
+                  <FormattedMessage id="back.to.home" defaultMessage="Back to Home" />
                 </Button>
               </Box>
             </Grid>
@@ -85,3 +82,10 @@ const NotFound: NextPage = (props: any) => {
 };
 
 export default NotFound;
+
+// Prevent prerendering by using getStaticProps
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

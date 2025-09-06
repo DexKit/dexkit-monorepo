@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { useUpsertUserMutation } from '../../hooks';
 import { UserOptions } from '@dexkit/ui/types/ai';
+import { useUpsertUserMutation } from '../../hooks';
 import UpsertUserDialog from '../dialogs/UpsertuserDialog';
 import UserGeneralForm from '../forms/UserGeneralForm';
 
@@ -68,7 +68,7 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
           fullWidth: true,
           onClose: () => setShowUpsertUser(false),
         }}
-        isLoading={upsertUserMutation.isLoading}
+        isLoading={upsertUserMutation.isPending}
         isSuccess={upsertUserMutation.isSuccess}
         error={upsertUserMutation.error}
         username={userForm?.username}

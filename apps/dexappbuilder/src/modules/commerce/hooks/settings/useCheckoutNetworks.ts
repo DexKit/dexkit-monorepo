@@ -13,9 +13,9 @@ export default function useCheckoutNetworks() {
 
   const { data } = useSiteOwner({ id: id ?? 0 });
 
-  return useQuery(
-    [GET_CHECKOUT_NETWORKS],
-    async () => {
+  return useQuery({
+    queryKey: [GET_CHECKOUT_NETWORKS],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -26,6 +26,8 @@ export default function useCheckoutNetworks() {
         })
       ).data;
     },
-    { refetchOnWindowFocus: true, refetchOnMount: true, refetchInterval: 5000 },
-  );
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    refetchInterval: 5000,
+  });
 }

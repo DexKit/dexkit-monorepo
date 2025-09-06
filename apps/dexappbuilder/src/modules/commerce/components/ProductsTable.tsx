@@ -57,7 +57,7 @@ export interface ProducstTableProps { }
 
 export default function ProductsTable({ }: ProducstTableProps) {
   const [query, setQuery] = useState('');
-  const theme = useTheme(); 
+  const theme = useTheme();
 
   const [productName, setProductName] = useState<string>();
 
@@ -83,7 +83,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { mutateAsync: deleteProduct, isLoading } = useDeleteProduct();
+  const { mutateAsync: deleteProduct, isPending: isLoading } = useDeleteProduct();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showConfirmDuplicate, setShowConfirmDuplicate] = useState(false);
@@ -444,8 +444,8 @@ export default function ProductsTable({ }: ProducstTableProps) {
             }}
             sortModel={sortModel}
             columns={columns}
-            rowCount={data?.totalItems}
-            rows={data?.items ?? []}
+            rowCount={(data as any)?.totalItems}
+            rows={(data as any)?.items ?? []}
             paginationMode="server"
             checkboxSelection
             paginationModel={paginationModel}

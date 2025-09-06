@@ -12,9 +12,9 @@ export default function useOrderList(params: {
 }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery(
-    [GET_ORDER_LIST_QUERY, params],
-    async () => {
+  return useQuery({
+    queryKey: [GET_ORDER_LIST_QUERY, params],
+    queryFn: async () => {
       if (!instance) {
         throw new Error('no instance');
       }
@@ -28,10 +28,8 @@ export default function useOrderList(params: {
         }>*/('/orders', { params })
       ).data;
     },
-    {
-      refetchOnWindowFocus: 'always',
-      refetchOnMount: 'always',
-      staleTime: Infinity,
-    },
-  );
+    refetchOnWindowFocus: 'always',
+    refetchOnMount: 'always',
+    staleTime: Infinity,
+  });
 }

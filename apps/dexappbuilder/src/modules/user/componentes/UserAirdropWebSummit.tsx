@@ -68,7 +68,7 @@ export function UserAirdropWebsummit() {
           onClose: () => setOpen(false),
         }}
         isError={claimCampaignMutation.isError}
-        isLoading={claimCampaignMutation.isLoading}
+        isLoading={claimCampaignMutation.isPending}
         isSuccess={claimCampaignMutation.isSuccess}
         title={
           <FormattedMessage

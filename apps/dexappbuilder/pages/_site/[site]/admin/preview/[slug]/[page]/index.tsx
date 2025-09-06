@@ -28,8 +28,8 @@ function PreviewPage() {
   const { data } = useAdminWhitelabelConfigQuery({ slug: slug as string });
 
   const appConfig = useMemo(() => {
-    if (data?.config) {
-      return JSON.parse(data.config) as AppConfig;
+    if ((data as any)?.config) {
+      return JSON.parse((data as any).config) as AppConfig;
     }
   }, [data]);
 

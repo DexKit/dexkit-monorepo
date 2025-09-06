@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import {
   Box,
   Container,
@@ -203,7 +205,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

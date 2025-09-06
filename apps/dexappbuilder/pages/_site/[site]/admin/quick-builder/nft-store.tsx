@@ -45,7 +45,7 @@ export const AssetStoreQuickWizard: NextPage = () => {
       <ConfigWizardProvider>
         <AuthProvider>
           <MainLayout>
-            <AssetStoreStepperContainer site={site} />
+            <AssetStoreStepperContainer site={site as any} />
           </MainLayout>
         </AuthProvider>
       </ConfigWizardProvider>
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

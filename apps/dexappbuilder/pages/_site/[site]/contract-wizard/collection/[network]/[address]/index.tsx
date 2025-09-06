@@ -234,13 +234,13 @@ const ContractWizardCollectionPage: NextPage = () => {
                           {(collection?.syncStatus ===
                             CollectionSyncStatus.Synced ||
                             collection?.syncStatus ===
-                              CollectionSyncStatus.Syncing) && (
-                            <AssetListContractCollection
-                              contractAddress={address as string}
-                              network={network as string}
-                              search={search}
-                            />
-                          )}
+                            CollectionSyncStatus.Syncing) && (
+                              <AssetListContractCollection
+                                contractAddress={address as string}
+                                network={network as string}
+                                search={search}
+                              />
+                            )}
                         </AppErrorBoundary>
                       </NoSsr>
                     </Grid>
@@ -271,19 +271,19 @@ export const getStaticProps: GetStaticProps = async ({
   const contract = await getApiContractCollectionData(network, address);
   const collection = contract?.collection;
 
-  await queryClient.prefetchQuery(
-    [GET_COLLECTION_DATA, address as string, network],
-    async () => {
+  await queryClient.prefetchQuery({
+    queryKey: [GET_COLLECTION_DATA, address as string, network],
+    queryFn: async () => {
       return collection;
     },
-  );
+  });
 
-  await queryClient.prefetchQuery(
-    [GET_CONTRACT_COLLECTION_DATA, address as string, network],
-    async () => {
+  await queryClient.prefetchQuery({
+    queryKey: [GET_CONTRACT_COLLECTION_DATA, address as string, network],
+    queryFn: async () => {
       return contract;
     },
-  );
+  });
 
   let collectionAssets: Asset[] = [];
   if (
@@ -324,30 +324,29 @@ export const getStaticProps: GetStaticProps = async ({
     getSyncCollectionData(network, address);
   }
 
-  await queryClient.prefetchQuery(
-    [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
-    async () => {
+  await queryClient.prefetchQuery({
+    queryKey: [GET_ASSET_LIST_FROM_COLLECTION, network, address, 0, 50],
+    queryFn: async () => {
       return collectionAssets;
     },
-  );
+  });
   try {
     if (
       network &&
       IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
     ) {
       const { data } = await getRariCollectionStats(
-        `${
-          MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+        `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
         }:${address}`,
         MAP_COIN_TO_RARIBLE[network],
       );
 
-      await queryClient.prefetchQuery(
-        [GET_COLLECTION_STATS, network, address],
-        async () => {
+      await queryClient.prefetchQuery({
+        queryKey: [GET_COLLECTION_STATS, network, address],
+        queryFn: async () => {
           return data;
         },
-      );
+      });
     }
   } catch (e) {
     console.log(e);

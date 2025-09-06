@@ -72,7 +72,7 @@ export default function AddVersionFormDialog({
               mutationAddVersion.reset();
             },
           }}
-          isLoading={mutationAddVersion.isLoading}
+          isLoading={mutationAddVersion.isPending}
           isSuccess={mutationAddVersion.isSuccess}
           error={mutationAddVersion.error}
         />

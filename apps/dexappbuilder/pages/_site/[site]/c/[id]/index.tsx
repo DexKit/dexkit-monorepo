@@ -123,7 +123,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    onConfirm: () => {},
+    onConfirm: () => { },
     onSubmit: async (hash, params) => {
       setHash(hash);
 
@@ -137,8 +137,8 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
       if (chainId && token && userCheckout.data && account) {
         try {
-          const result = await checkoutPay({
-            id: userCheckout.data.id,
+          const result = await (checkoutPay as any)({
+            id: (userCheckout.data as any).id,
             chainId: chainId,
             hash,
             tokenAddress: token?.address,
@@ -170,7 +170,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
   });
 
   const initialValues = useMemo(() => {
-    const result = (userCheckout.data?.items ?? ([] as CheckoutItem[])).reduce(
+    const result = ((userCheckout.data as any)?.items ?? ([] as CheckoutItem[])).reduce(
       (prev: any, curr: any) => {
         prev[curr.id] = {
           quantity: curr.quantity,
@@ -190,7 +190,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
   }>({});
 
   const total = useMemo(() => {
-    if (Object.keys(items).length > 0 && userCheckout.data?.editable) {
+    if (Object.keys(items).length > 0 && (userCheckout.data as any)?.editable) {
       return Object.keys(items).reduce((prev, curr) => {
         return prev.add(
           new Decimal(items[curr].price).mul(items[curr].quantity),
@@ -200,7 +200,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
     if (userCheckout.data) {
       return sumItems(
-        userCheckout.data.items.map((c: any) =>
+        (userCheckout.data as any).items.map((c: any) =>
           new Decimal(c.price).mul(c.quantity),
         ),
       );
@@ -235,7 +235,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const { data: availNetworks, refetch } = useCheckoutNetworks();
 
-  const chainIds = availNetworks?.map((n: any) => n.chainId) ?? [];
+  const chainIds = (availNetworks as any)?.map((n: any) => n.chainId) ?? [];
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
@@ -302,7 +302,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
             !hasSufficientBalance ||
             disabled ||
             !token ||
-            (userCheckout.data?.requireEmail && (!email || !isValidEmail)) ||
+            ((userCheckout.data as any)?.requireEmail && (!email || !isValidEmail)) ||
             !receiverData ||
             !receiverData?.receiver
           }
@@ -348,15 +348,15 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
   }, [providerChainId]);
 
   const handleConfirm = async () => {
-    if (token && userCheckout.data?.owner) {
+    if (token && (userCheckout.data as any)?.owner) {
       try {
         await transfer({
-          address: userCheckout.data?.owner,
+          address: (userCheckout.data as any)?.owner,
           amount: total.toNumber(),
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
           chainId: chainId as number,
         });
-      } catch (err) {}
+      } catch (err) { }
     }
   };
 
@@ -419,7 +419,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                   caption: (
                     <FormattedMessage id="checkout" defaultMessage="Checkout" />
                   ),
-                  uri: `/c/${userCheckout.data?.id}`,
+                  uri: `/c/${(userCheckout.data as any)?.id}`,
                   active: true,
                 },
               ]}
@@ -448,7 +448,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                 <>
                   <CheckoutUserItemList
                     token={token}
-                    items={userCheckout.data?.items ?? []}
+                    items={(userCheckout.data as any)?.items ?? []}
                     editable={isEdit}
                   />
                   {isEdit && (
@@ -487,7 +487,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                   <Typography variant="h5">
                     <FormattedMessage id="checkout" defaultMessage="Checkout" />
                   </Typography>
-                  {userCheckout.data?.editable && !isEdit && (
+                  {(userCheckout.data as any)?.editable && !isEdit && (
                     <IconButton onClick={handleEdit}>
                       <Tooltip
                         title={
@@ -626,7 +626,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                       </Link>
                     </Typography>
                   )}
-                  {userCheckout.data?.requireEmail && (
+                  {(userCheckout.data as any)?.requireEmail && (
                     <Stack spacing={2}>
                       <Box>
                         <Typography variant="body1" color="text.secondary">
@@ -762,7 +762,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

@@ -4,13 +4,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { Asset } from '@dexkit/core/types/nft';
 import { getAssetData, getAssetDexKitApi, getAssetMetadata } from '@dexkit/ui/modules/nft/services';
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
   let asset: Asset | undefined;
   const { chainId, contractAddress, tokenId } = req.query;
+
+  if (!chainId || !contractAddress || !tokenId) {
+    res.status(400).json({ error: 'Missing required parameters' });
+    return;
+  }
+
   try {
     const provider = getProviderByChainId(parseInt(chainId as string));
 
@@ -25,8 +31,10 @@ export default async function handler(
   }
 
   if (!asset) {
-    return res.status(404).end();
+    res.status(404).json({ error: 'Asset not found' });
+    return;
   }
+
   try {
     const assetAPI = await getAssetDexKitApi({
       networkId: getChainSlug(parseInt(chainId as string)) as string,
@@ -36,13 +44,14 @@ export default async function handler(
     if (assetAPI) {
       if (assetAPI.rawData) {
         const metadata = JSON.parse(assetAPI.rawData);
-        return res.json({
+        res.json({
           ...asset,
           metadata: {
             ...metadata,
             image: assetAPI.imageUrl,
           },
         });
+        return;
       }
     }
   } catch (e) {
@@ -55,5 +64,5 @@ export default async function handler(
     name: `${asset.collectionName} #${asset.id}`,
   });
 
-  return res.json({ ...asset, metadata });
+  res.json({ ...asset, metadata });
 }

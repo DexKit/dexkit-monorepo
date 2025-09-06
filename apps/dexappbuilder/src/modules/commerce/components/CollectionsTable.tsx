@@ -63,6 +63,13 @@ export default function CollectionsTable({ }: CollectionsTableProps) {
 
   const [showDeleteMany, setShowDeleteMany] = useState(false);
 
+  const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
+    [],
+  );
+
+  const { mutateAsync: deleteMany, isLoading: isDeletingMany } =
+    useDeleteManyCollections();
+
   const handleDelete = useCallback((id: string) => {
     return () => {
       setSelectedId(id);
@@ -118,18 +125,18 @@ export default function CollectionsTable({ }: CollectionsTableProps) {
         ),
       },
     ] as GridColDef<CategoryType>[];
-  }, []);
+  }, [formatMessage, handleDelete]);
 
-  const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
-    [],
-  );
+  const router = useRouter();
+
+  // Show loading state during pre-render
+  if (isLoading || !data) {
+    return <LoadingOverlay />;
+  }
 
   const handleCloseDeleteMany = () => {
     setShowDeleteMany(false);
   };
-
-  const { mutateAsync: deleteMany, isLoading: isDeletingMany } =
-    useDeleteManyCollections();
 
   const handleConfirmDeleteMany = async () => {
     try {
@@ -149,8 +156,6 @@ export default function CollectionsTable({ }: CollectionsTableProps) {
 
     handleCloseDeleteMany();
   };
-
-  const router = useRouter();
 
   return (
     <>

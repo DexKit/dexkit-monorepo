@@ -2,11 +2,11 @@ import CollectionItemsCard from '@/modules/contract-wizard/components/Collection
 import CreateAssetDialog from '@/modules/contract-wizard/components/dialogs/CreateAssetDialog';
 import { CollectionItemsSchema } from '@/modules/contract-wizard/constants/schemas';
 import {
-    useCreateAssetsMetadataMutation,
-    useCreateCollectionMetadataMutation,
-    useCreateItems,
-    useFetchAssetsMutation,
-    useLazyMintMutation,
+  useCreateAssetsMetadataMutation,
+  useCreateCollectionMetadataMutation,
+  useCreateItems,
+  useFetchAssetsMutation,
+  useLazyMintMutation,
 } from '@/modules/contract-wizard/hooks';
 import { CollectionItemsForm } from '@/modules/contract-wizard/types';
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
@@ -16,18 +16,18 @@ import { Formik } from 'formik';
 import { ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
-    DEXKIT_DISCORD_SUPPORT_CHANNEL,
-    DEXKIT_NFT_METADATA_URI,
-    MIN_KIT_HOLDING_AI_GENERATION,
+  DEXKIT_DISCORD_SUPPORT_CHANNEL,
+  DEXKIT_NFT_METADATA_URI,
+  MIN_KIT_HOLDING_AI_GENERATION,
 } from 'src/constants';
 
 import { useContractCollection } from '@dexkit/ui/modules/nft/hooks/collection';
 import { useContractCreation } from '@dexkit/web3forms/hooks';
 import {
-    useContract,
-    useContractMetadata,
-    useMintNFT,
-    useTotalCount,
+  useContract,
+  useContractMetadata,
+  useMintNFT,
+  useTotalCount,
 } from '@thirdweb-dev/react';
 
 interface Props {
@@ -61,7 +61,7 @@ function WizardCreateAssetContainerV2(props: Props) {
 
   const {
     mutateAsync: lazyMint,
-    isLoading: IsLoadingLazy,
+    isPending: IsLoadingLazy,
     isError: isErrorLazy,
     isSuccess: isSuccessLazy,
   } = useLazyMintMutation({
@@ -162,9 +162,8 @@ function WizardCreateAssetContainerV2(props: Props) {
             const item = collectionItemsFormValues?.items[index];
 
             await mintNft({
-              metadata: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                (totalCount?.toNumber() || 0) + totalItems
-              }`,
+              metadata: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalCount?.toNumber() || 0) + totalItems
+                }`,
               to: account,
               supply: collectionItemsFormValues?.items[index].quantity,
             });
@@ -173,9 +172,8 @@ function WizardCreateAssetContainerV2(props: Props) {
               nfts: [
                 {
                   id: String((totalCount?.toNumber() || 0) + totalItems),
-                  tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${
-                    (totalCount?.toNumber() || 0) + totalItems
-                  }`,
+                  tokenURI: `${DEXKIT_NFT_METADATA_URI}/${network}/${address.toLowerCase()}/${(totalCount?.toNumber() || 0) + totalItems
+                    }`,
                   attributes: item.attributes || [],
                   description: item.description || '',
                   image: item.file || '',
@@ -234,7 +232,7 @@ function WizardCreateAssetContainerV2(props: Props) {
         isLoading={isLoadingMint || IsLoadingLazy}
         isDone={isSuccess || isSuccessLazy}
         isError={isError || isErrorLazy}
-        isLoadingMeta={uploadItemsMetadataMutation.isLoading}
+        isLoadingMeta={uploadItemsMetadataMutation.isPending}
         isErrorMeta={uploadItemsMetadataMutation.isError}
         isDoneMeta={uploadItemsMetadataMutation.isSuccess}
         chainId={chainId}

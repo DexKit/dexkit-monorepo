@@ -216,7 +216,7 @@ export function UserEditContainer({
           fullWidth: true,
           onClose: () => setShowUpsertUser(false),
         }}
-        isLoading={upsertUserMutation.isLoading}
+        isLoading={upsertUserMutation.isPending}
         isSuccess={upsertUserMutation.isSuccess}
         error={upsertUserMutation.error}
         isEdit={user !== undefined}

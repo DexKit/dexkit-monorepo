@@ -91,7 +91,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
       .map(Number);
 
     try {
-      await update({ chainIds });
+      await (update as any)({ chainIds });
       enqueueSnackbar(
         <FormattedMessage
           id="networks.updated"

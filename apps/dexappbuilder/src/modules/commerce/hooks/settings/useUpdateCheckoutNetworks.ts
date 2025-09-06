@@ -6,11 +6,13 @@ import { CheckoutNetworksUpdateType } from '../../types';
 export default function useUpdateCheckoutNetworks() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (data: CheckoutNetworksUpdateType) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (data: CheckoutNetworksUpdateType) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance.put('/checkouts-networks', data)).data;
+      return (await instance.put('/checkouts-networks', data)).data;
+    },
   });
 }

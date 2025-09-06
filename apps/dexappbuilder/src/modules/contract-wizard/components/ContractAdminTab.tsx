@@ -49,8 +49,8 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
 
   const { chainId } = useWeb3React();
 
-  const setAllRolesMutation = useMutation(
-    async ({ roles }: { roles: Roles }) => {
+  const setAllRolesMutation = useMutation({
+    mutationFn: async ({ roles }: { roles: Roles }) => {
       const call = await contract?.roles.setAll.prepare(
         roles as {
           [x: string & {}]: string[];
@@ -85,7 +85,7 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
 
       return await tx?.wait();
     },
-  );
+  });
 
   const handleSubmit = async (values: Roles) => {
     try {

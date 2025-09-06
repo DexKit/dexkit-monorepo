@@ -3,24 +3,24 @@ import AppDataTableDialog from '@dexkit/ui/components/dialogs/AppDataTableDialog
 import { useApproveForAll } from '@dexkit/ui/modules/contract-wizard/hooks/thirdweb';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {
-    useContract,
-    useContractRead,
-    useNFTBalance,
+  useContract,
+  useContractRead,
+  useNFTBalance,
 } from '@thirdweb-dev/react';
 import { utils } from 'ethers';
 import { SyntheticEvent, useState } from 'react';
@@ -48,7 +48,7 @@ export default function ContractAirdropErc721Container({
 
   const { data: tokenContract } = useContract(contractAddress);
 
-  const approve = useApproveForAll({ address, contract: tokenContract });
+  const approve = useApproveForAll({ address, contract: tokenContract as any });
 
   const { chainId } = useWeb3React();
 
@@ -65,8 +65,8 @@ export default function ContractAirdropErc721Container({
     [account, address],
   );
 
-  const airdropMutation = useMutation(
-    async ({
+  const airdropMutation = useMutation({
+    mutationFn: async ({
       recipients,
     }: {
       recipients: { recipient: string; tokenId: number }[];
@@ -114,7 +114,7 @@ export default function ContractAirdropErc721Container({
 
       return await tx?.wait();
     },
-  );
+  });
 
   const handleConfirm = (data: { [key: string]: string }[]) => {
     setRecipients(
@@ -312,7 +312,7 @@ export default function ContractAirdropErc721Container({
                           </Box>
                           <Button
                             size="small"
-                            disabled={airdropMutation.isLoading}
+                            disabled={airdropMutation.isPending}
                             onClick={handleSelectRecipients}
                             variant="outlined"
                           >
@@ -334,13 +334,13 @@ export default function ContractAirdropErc721Container({
                 <Stack direction="row">
                   <Button
                     startIcon={
-                      airdropMutation.isLoading ? (
+                      airdropMutation.isPending ? (
                         <CircularProgress color="inherit" size="1rem" />
                       ) : undefined
                     }
                     disabled={
                       recipients.length === 0 ||
-                      airdropMutation.isLoading ||
+                      airdropMutation.isPending ||
                       !contractAddress
                     }
                     onClick={handleAirdrop}

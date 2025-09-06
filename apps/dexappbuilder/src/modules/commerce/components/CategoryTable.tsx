@@ -134,8 +134,8 @@ export default function CategoryTable({ query, onShare }: CategoryTableProps) {
       <Box>
         <DataGrid
           columns={columns}
-          rows={data?.items ?? []}
-          rowCount={data?.items.length}
+          rows={(data as any)?.items ?? []}
+          rowCount={(data as any)?.items.length}
           paginationMode="client"
           getRowId={(row) => String(row.id)}
           paginationModel={paginationModel}

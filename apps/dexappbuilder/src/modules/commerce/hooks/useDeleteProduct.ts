@@ -5,11 +5,13 @@ import { useContext } from 'react';
 export default function useDeleteProduct() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (data: { id: string }) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (data: { id: string }) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance?.delete(`/products/${data.id}`)).data;
+      return (await instance?.delete(`/products/${data.id}`)).data;
+    }
   });
 }

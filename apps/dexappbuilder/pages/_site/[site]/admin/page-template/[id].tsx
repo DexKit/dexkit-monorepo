@@ -19,10 +19,11 @@ export const PageTemplateEdit: NextPage = () => {
     id: id as string,
   });
 
-  return (
-    (pageTemplate && <PageTemplateContainer pageTemplate={pageTemplate} />) ||
-    null
-  );
+  if (!pageTemplate) {
+    return null;
+  }
+
+  return <PageTemplateContainer pageTemplate={pageTemplate as any} />;
 };
 
 (PageTemplateEdit as any).getLayout = function getLayout(page: any) {
@@ -50,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

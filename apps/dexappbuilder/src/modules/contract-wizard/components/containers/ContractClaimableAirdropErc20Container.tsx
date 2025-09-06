@@ -1,8 +1,8 @@
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
 import {
-    formatBigNumber,
-    isAddressEqual,
-    truncateAddress,
+  formatBigNumber,
+  isAddressEqual,
+  truncateAddress,
 } from '@dexkit/core/utils';
 import { formatUnits } from '@dexkit/core/utils/ethers/formatUnits';
 import { useDexKitContext } from '@dexkit/ui';
@@ -10,26 +10,26 @@ import { DEXKIT_STORAGE_MERKLE_TREE_URL } from '@dexkit/ui/constants/api';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useAsyncMemo } from '@dexkit/widgets/src/hooks';
 import {
-    Alert,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
 } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-    NATIVE_TOKEN_ADDRESS,
-    useBalance,
-    useContract,
-    useContractRead,
+  NATIVE_TOKEN_ADDRESS,
+  useBalance,
+  useContract,
+  useContractRead,
 } from '@thirdweb-dev/react';
 import { BigNumber, constants } from 'ethers';
 import { SyntheticEvent, useMemo, useState } from 'react';
@@ -76,12 +76,12 @@ export default function ContractClaimableAirdropErc20Container({
     'openClaimLimitPerWallet',
   );
 
-  const tokenMetadataQuery = useQuery(
-    ['token_metadata', isFetched],
-    async () => {
+  const tokenMetadataQuery = useQuery({
+    queryKey: ['token_metadata', isFetched],
+    queryFn: async () => {
       return tokenContract?.erc20?.get();
     },
-  );
+  });
 
   const openClaimLimitFormatted = useMemo(() => {
     if (
@@ -108,16 +108,16 @@ export default function ContractClaimableAirdropErc20Container({
   const { account } = useWeb3React();
 
   const tokenAddress = tokenAirdropAdress;
-  const { data: allowance, refetch: refetchAllowance } = useQuery(
-    ['AIRDROP_TOKEN_ALLOWANCE', tokenAirdropAdress],
-    async () => {
+  const { data: allowance, refetch: refetchAllowance } = useQuery({
+    queryKey: ['AIRDROP_TOKEN_ALLOWANCE', tokenAirdropAdress],
+    queryFn: async () => {
       return await tokenContract?.erc20.allowance(address);
     },
-  );
+  });
 
   const contractChain = NETWORK_FROM_SLUG(network)?.chainId;
 
-  const approve = useThirdwebApprove({ contract: tokenContract, address });
+  const approve = useThirdwebApprove({ contract: tokenContract as any, address });
 
   const { chainId } = useWeb3React();
 
@@ -146,20 +146,22 @@ export default function ContractClaimableAirdropErc20Container({
     [availableAmount, tokenContract],
   );
 
-  const airdropMutation = useMutation(async () => {
-    const metadata = await tokenContract?.erc20.get();
+  const airdropMutation = useMutation({
+    mutationFn: async () => {
+      const metadata = await tokenContract?.erc20.get();
 
-    if (
-      !isAddressEqual(tokenAddress, NATIVE_TOKEN_ADDRESS) &&
-      !isAddressEqual(tokenAddress, constants.AddressZero)
-    ) {
-      if (!allowance?.value.gte(availableAmount)) {
-        await approve.mutateAsync({
-          amount: formatUnits(availableAmount, metadata?.decimals),
-        });
-        refetchAllowance();
+      if (
+        !isAddressEqual(tokenAddress, NATIVE_TOKEN_ADDRESS) &&
+        !isAddressEqual(tokenAddress, constants.AddressZero)
+      ) {
+        if (!allowance?.value.gte(availableAmount)) {
+          await approve.mutateAsync({
+            amount: formatUnits(availableAmount, metadata?.decimals),
+          });
+          refetchAllowance();
+        }
       }
-    }
+    },
   });
 
   const handleConfirm = (data: { address: string; quantity: string }[]) => {
@@ -358,13 +360,13 @@ export default function ContractClaimableAirdropErc20Container({
                   <Stack direction="row">
                     <Button
                       startIcon={
-                        airdropMutation.isLoading ? (
+                        airdropMutation.isPending ? (
                           <CircularProgress color="inherit" size="1rem" />
                         ) : undefined
                       }
                       disabled={
                         contractChain !== chainId ||
-                        airdropMutation.isLoading ||
+                        airdropMutation.isPending ||
                         (tokenBalance && totalAmount.gt(tokenBalance?.value)) ||
                         owner?.toLowerCase() !== account?.toLowerCase() ||
                         !tokenAddress

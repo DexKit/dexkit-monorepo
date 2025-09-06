@@ -40,8 +40,11 @@ function AirdropTokenPageContainer({ address, network }: Props) {
 
   const { data } = useContractType(contractAddressAirdropQuery.data as string);
 
-  const tokenMetadataQuery = useQuery(['token_metadata'], async () => {
-    return tokenContract?.erc20?.get();
+  const tokenMetadataQuery = useQuery({
+    queryKey: ['token_metadata'],
+    queryFn: async () => {
+      return tokenContract?.erc20?.get();
+    },
   });
 
   const contractRead = useContractRead(tokenContract, 'contractType');

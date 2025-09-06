@@ -30,7 +30,7 @@ export async function dkGetTrustedForwarders(
 
   const storage = new ThirdwebStorage({ clientId });
 
-  let trustedForwarders = await getTrustedForwarders(provider, storage);
+  let trustedForwarders = await getTrustedForwarders(provider, storage as any);
 
   return trustedForwarders;
 }

@@ -190,8 +190,8 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
   const checkoutQuery = useCheckoutData({ id });
 
-  const transferMutation = useMutation(
-    async ({
+  const transferMutation = useMutation({
+    mutationFn: async ({
       address,
       amount,
       token,
@@ -211,8 +211,8 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
         return await tx.wait();
       }
-    }
-  );
+    },
+  });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -396,7 +396,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
         id={id}
         total={total}
         txHash={hash}
-        isLoading={transferMutation.isLoading}
+        isLoading={transferMutation.isPending}
         onConfirm={handleConfirm}
       />
       <Container>

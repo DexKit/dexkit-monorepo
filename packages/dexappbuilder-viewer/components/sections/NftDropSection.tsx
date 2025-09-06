@@ -558,7 +558,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
     quantity,
   ]);
 
-  const nftDropClaim = useClaimNft({ contract });
+  const nftDropClaim = useClaimNft({ contract: contract as any });
 
   const handleClaimNft = async () => {
     const values = {

@@ -90,9 +90,9 @@ export default function ContractTokenAllowanceDropContainer({
     setShowTransfer(true);
   };
 
-  const { data: token } = useQuery(
-    ['GET_TOKEN_METADATA', chainId, isLoading, address],
-    async () => {
+  const { data: token } = useQuery({
+    queryKey: ['GET_TOKEN_METADATA', chainId, isLoading, address],
+    queryFn: async () => {
       if (chainId) {
         const network = NETWORKS[chainId];
 
@@ -115,23 +115,23 @@ export default function ContractTokenAllowanceDropContainer({
         }
       }
     },
-  );
+  });
 
-  const { data: allowance } = useQuery(
-    [
+  const { data: allowance } = useQuery({
+    queryKey: [
       'GET_TOKEN_ALLOWANCE_ON_DROP',
       isLoadingToken,
       address,
       chainId,
       tokenOwner,
     ],
-    async () => {
+    queryFn: async () => {
       if (chainId && tokenContract && tokenOwner && address) {
         return await tokenContract?.allowanceOf(tokenOwner, address);
       }
       return null;
     },
-  );
+  });
 
   return (
     <>

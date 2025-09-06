@@ -46,7 +46,7 @@ export const SwapQuickWizard: NextPage = () => {
       <ConfigWizardProvider>
         <AuthProvider>
           <MainLayout noSsr={true}>
-            <SwapStepperContainer site={site} />
+            <SwapStepperContainer site={site as any} />
           </MainLayout>
         </AuthProvider>
       </ConfigWizardProvider>
@@ -75,7 +75,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

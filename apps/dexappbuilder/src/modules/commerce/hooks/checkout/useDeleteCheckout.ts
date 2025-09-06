@@ -5,11 +5,13 @@ import { useContext } from 'react';
 export default function useDeleteCheckout() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useMutation(async (data: { id: string }) => {
-    if (!instance) {
-      throw new Error('no instance');
-    }
+  return useMutation({
+    mutationFn: async (data: { id: string }) => {
+      if (!instance) {
+        throw new Error('no instance');
+      }
 
-    return (await instance?.delete(`/checkouts/${data.id}`)).data;
+      return (await instance?.delete(`/checkouts/${data.id}`)).data;
+    },
   });
 }

@@ -54,7 +54,7 @@ export function ConfirmationEmailMessage({
             maxWidth: 'sm',
           }}
           isSuccess={siteConfirmationMutation.isSuccess}
-          isLoading={siteConfirmationMutation.isLoading}
+          isLoading={siteConfirmationMutation.isPending}
           isError={siteConfirmationMutation.isError}
           error={siteConfirmationMutation.error}
         />

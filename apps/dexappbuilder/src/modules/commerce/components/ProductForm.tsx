@@ -96,7 +96,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { mutateAsync: deleteProduct, isLoading } = useDeleteProduct();
+  const { mutateAsync: deleteProduct, isPending: isLoading } = useDeleteProduct();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -287,7 +287,7 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 onChange={(value: ProductCategoryType | null) => {
                   setFieldValue('category', value);
                 }}
-                categories={categories?.items ?? []}
+                categories={(categories as any)?.items ?? []}
               />
             </Grid>
             <Grid item>

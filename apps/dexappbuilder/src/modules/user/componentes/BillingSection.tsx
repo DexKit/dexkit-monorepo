@@ -62,8 +62,8 @@ export default function BillingSection() {
 
   const credits = useMemo(() => {
     if (subscriptionQuery.data) {
-      return new Decimal(subscriptionQuery.data?.creditsAvailable)
-        .minus(new Decimal(subscriptionQuery.data?.creditsUsed))
+      return new Decimal((subscriptionQuery.data as any)?.creditsAvailable)
+        .minus(new Decimal((subscriptionQuery.data as any)?.creditsUsed))
         .toNumber();
     }
 

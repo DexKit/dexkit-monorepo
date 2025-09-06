@@ -41,11 +41,11 @@ export default function AddPaymentMethodDialog({
       />
       <Divider />
       <DialogContent>
-        {addPaymentIntent.data && (
+        {Boolean(addPaymentIntent.data) && (
           <Elements
             stripe={stripePromise}
             options={{
-              clientSecret: addPaymentIntent.data?.clientSecret,
+              clientSecret: (addPaymentIntent.data as any)?.clientSecret,
             }}
           >
             <AddCardForm />

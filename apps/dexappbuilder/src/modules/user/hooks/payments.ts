@@ -8,8 +8,11 @@ export const USER_PAYMENT_METHODS = 'USER_PAYMENT_METHODS';
 export function useUserPaymentMethods() {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery([USER_PAYMENT_METHODS], async () => {
-    return (await instance?.get('/payments/methods'))?.data;
+  return useQuery({
+    queryKey: [USER_PAYMENT_METHODS],
+    queryFn: async () => {
+      return (await instance?.get('/payments/methods'))?.data;
+    },
   });
 }
 
@@ -27,8 +30,11 @@ interface ServerParams {
 export function useBillingHistoryQuery(params: ServerParams) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery([BILLING_HISTORY_QUERY], async () => {
-    return (await instance?.get('/payments/billing-history', { params }))?.data;
+  return useQuery({
+    queryKey: [BILLING_HISTORY_QUERY],
+    queryFn: async () => {
+      return (await instance?.get('/payments/billing-history', { params }))?.data;
+    },
   });
 }
 
@@ -37,8 +43,11 @@ export const BILLING_QUERY = 'BILLING_QUERY';
 export function useBillingQuery({ id }: { id: number }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery([BILLING_QUERY, id], async () => {
-    return (await instance?.get(`/payments/billing/${id}`))?.data;
+  return useQuery({
+    queryKey: [BILLING_QUERY, id],
+    queryFn: async () => {
+      return (await instance?.get(`/payments/billing/${id}`))?.data;
+    },
   });
 }
 
@@ -47,8 +56,11 @@ export const BILLING_BY_FEATURE_QUERY = 'BILLING_QUERY';
 export function useBillingUsageByFeature({ id }: { id: number }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery([BILLING_BY_FEATURE_QUERY, id], async () => {
-    return (await instance?.get(`/payments/billing/${id}`))?.data;
+  return useQuery({
+    queryKey: [BILLING_BY_FEATURE_QUERY, id],
+    queryFn: async () => {
+      return (await instance?.get(`/payments/billing/${id}`))?.data;
+    },
   });
 }
 
@@ -62,8 +74,11 @@ export function useBillingByFeatQuery({
   feat?: string;
 }) {
   const { instance } = useContext(DexkitApiProvider);
-  return useQuery<FeatureSum[]>([BILLING_BY_FEAT_QUERY, id, feat], async () => {
-    return (await instance?.get(`/payments/billing/${id}/summary`))?.data;
+  return useQuery<FeatureSum[]>({
+    queryKey: [BILLING_BY_FEAT_QUERY, id, feat],
+    queryFn: async () => {
+      return (await instance?.get(`/payments/billing/${id}/summary`))?.data;
+    },
   });
 }
 
@@ -72,8 +87,11 @@ export const FEAT_QUERY = 'FEAT_QUERY';
 export function useFeatQuery({ id }: { id: number }) {
   const { instance } = useContext(DexkitApiProvider);
 
-  return useQuery<Feature>([FEAT_QUERY, id], async () => {
-    return (await instance?.get(`/payments/feat/${id}`))?.data;
+  return useQuery<Feature>({
+    queryKey: [FEAT_QUERY, id],
+    queryFn: async () => {
+      return (await instance?.get(`/payments/feat/${id}`))?.data;
+    },
   });
 }
 
@@ -81,7 +99,10 @@ export const SUBSCRIPTION_QUERY = 'SUBSCRIPTION_QUERY';
 
 export function useSubscription() {
   const { instance } = useContext(DexkitApiProvider);
-  return useQuery<Subscription>([SUBSCRIPTION_QUERY], async () => {
-    return (await instance?.get('/payments/subscription'))?.data;
+  return useQuery<Subscription>({
+    queryKey: [SUBSCRIPTION_QUERY],
+    queryFn: async () => {
+      return (await instance?.get('/payments/subscription'))?.data;
+    },
   });
 }

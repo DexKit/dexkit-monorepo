@@ -25,7 +25,7 @@ function CheckoutGeneralSettingsFormBase({
 
   const handleSubmit = async (value: CheckoutSettingsType) => {
     try {
-      await update(value);
+      await (update as any)(value);
 
       enqueueSnackbar(
         <FormattedMessage

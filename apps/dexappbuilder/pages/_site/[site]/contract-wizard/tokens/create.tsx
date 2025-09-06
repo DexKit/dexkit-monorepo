@@ -6,24 +6,24 @@ import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Grid,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import type {
-    GetStaticPaths,
-    GetStaticPathsContext,
-    GetStaticProps,
-    GetStaticPropsContext,
-    NextPage,
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  NextPage,
 } from 'next';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -83,7 +83,7 @@ const WizardCreateTokenPage: NextPage = () => {
 
     if (formValue) {
       try {
-        await createTokenMutation.mutateAsync({ ...formValue });
+        await (createTokenMutation as any).mutateAsync({ ...formValue });
       } catch (err) {
         enqueueSnackbar(
           formatMessage({
@@ -123,7 +123,7 @@ const WizardCreateTokenPage: NextPage = () => {
           fullWidth: true,
           maxWidth: 'xs',
         }}
-        isLoading={createTokenMutation.isLoading}
+        isLoading={createTokenMutation.isPending}
         isDone={createTokenMutation.isSuccess}
         chainId={chainId}
         contractAddress={contractAddress}
@@ -288,7 +288,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

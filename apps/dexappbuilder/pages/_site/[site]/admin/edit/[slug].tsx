@@ -54,10 +54,10 @@ export const WizardEditPage: NextPage = () => {
   const theme = useTheme();
 
   const config = useMemo(() => {
-    if (site?.config) {
-      return JSON.parse(site?.config);
+    if ((site as any)?.config) {
+      return JSON.parse((site as any)?.config);
     }
-  }, [site?.config]);
+  }, [(site as any)?.config]);
 
   return (
     <>
@@ -126,10 +126,10 @@ export const WizardEditPage: NextPage = () => {
         </Box>
       ) : (
         <AdminContext.Provider
-          value={{ editSiteId: site?.id, editAppConfig: config }}
+          value={{ editSiteId: (site as any)?.id, editAppConfig: config }}
         >
           <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-            <EditWizardContainer site={site} />
+            <EditWizardContainer site={site as any} />
           </DexkitApiProvider.Provider>
         </AdminContext.Provider>
       )}
@@ -162,7 +162,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

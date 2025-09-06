@@ -8,10 +8,8 @@ import { atomWithStorage } from "jotai/utils";
 import { useWeb3React } from "./useWeb3React";
 
 export function useWalletActivate({
-  magicRedirectUrl,
   selectedWalletAtom,
 }: {
-  magicRedirectUrl: string;
   selectedWalletAtom: PrimitiveAtom<string>;
 }) {
   const { chainId } = useWeb3React();
@@ -35,19 +33,10 @@ export function useWalletActivate({
       }
     )
 
-    if (params?.loginType) {
-      // This should be deprecated
-      setWalletConnector("magic");
+    // This should be deprecated
+    setWalletConnector(params?.connectorName);
 
-
-    } else {
-
-      // This should be deprecated
-      setWalletConnector(params?.connectorName);
-
-
-      return null;
-    }
+    return null;
   });
 
   return { connectorName: walletConnector, mutation };
