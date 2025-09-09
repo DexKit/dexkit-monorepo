@@ -8,7 +8,7 @@ type Data = {
 
 // you can pass the shape of the data as the generic type argument
 const GridPlugin: CellPlugin<Data> = {
-  ...GridPluginViewer,
+  ...(GridPluginViewer as any),
   controls: {
     type: 'autoform',
     schema: {

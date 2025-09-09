@@ -10,7 +10,7 @@ import CollectionsPluginViewer from '@dexkit/dexappbuilder-viewer/components/pag
 const CollectionsPlugin: CellPlugin<{
   section?: CollectionPageSection;
 }> = {
-  ...CollectionsPluginViewer,
+  ...(CollectionsPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

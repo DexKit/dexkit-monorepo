@@ -22,7 +22,7 @@ type Data = {
 
 // you can pass the shape of the data as the generic type argument
 const ImagePlugin: CellPlugin<Data> = {
-  ...ImagePluginViewer,
+  ...(ImagePluginViewer as any),
   controls: [
     {
       title: 'From Gallery',

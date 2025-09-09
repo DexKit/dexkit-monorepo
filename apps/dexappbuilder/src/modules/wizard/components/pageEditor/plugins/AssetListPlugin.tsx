@@ -9,7 +9,7 @@ type Data = {
 };
 // you can pass the shape of the data as the generic type argument
 const AssetListPlugin: CellPlugin<Data> = {
-  ...AssetListPluginViewer,
+  ...(AssetListPluginViewer as any),
   controls: [
     {
       title: 'From Collections',

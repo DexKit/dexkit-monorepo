@@ -76,6 +76,7 @@ import { useActiveChainIds } from "@dexkit/ui/hooks/blockchain";
 import { useCurrency } from "@dexkit/ui/hooks/currency";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
+import { FavoriteAssetsSection } from "@dexkit/ui/modules/favorites/components";
 import { AssetMedia } from "@dexkit/ui/modules/nft/components/AssetMedia";
 import { useAccountAssetsBalance, useHiddenAssets } from "@dexkit/ui/modules/nft/hooks";
 import { truncateErc1155TokenId } from "@dexkit/ui/modules/nft/utils";
@@ -111,7 +112,6 @@ import {
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ErrorBoundary } from "react-error-boundary";
-import FavoriteAssetsSection from "../../../../../apps/dexappbuilder/src/modules/favorites/components/FavoriteAssetsSection";
 import GlassEvmReceiveDialog from "./GlassEvmReceiveDialog";
 import GlassEvmSendDialog from "./GlassEvmSendDialog";
 import GlassExchangeContainer from './GlassExchangeContainer';

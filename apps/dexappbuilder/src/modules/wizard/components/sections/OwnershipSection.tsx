@@ -114,7 +114,7 @@ export default function OwnershipSection({ id, nft, isMobile }: Props) {
           },
         }}
         isDone={upsertWhitelabelNFTmutation.isSuccess}
-        isLoading={upsertWhitelabelNFTmutation.isLoading}
+        isLoading={upsertWhitelabelNFTmutation.isPending}
         isError={upsertWhitelabelNFTmutation.isError}
         asset={nft}
       />

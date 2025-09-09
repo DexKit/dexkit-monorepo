@@ -57,7 +57,7 @@ export default function AddMemberFormDialog({ dialogProps, siteId }: Props) {
               mutationAddMember.reset();
             },
           }}
-          isLoading={mutationAddMember.isLoading}
+          isLoading={mutationAddMember.isPending}
           isSuccess={mutationAddMember.isSuccess}
           error={mutationAddMember.error}
         />

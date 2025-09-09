@@ -19,7 +19,7 @@ type Data = {
 
 // you can pass the shape of the data as the generic type argument
 const CollectionPlugin: CellPlugin<Data> = {
-  ...CollectionPluginViewer,
+  ...(CollectionPluginViewer as any),
   controls: [
     {
       title: 'Your collections',

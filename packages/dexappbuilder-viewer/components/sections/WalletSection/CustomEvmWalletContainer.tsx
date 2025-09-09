@@ -116,11 +116,11 @@ const EvmTransferCoinDialog = dynamic(
 );
 
 const FavoriteAssetsSection = dynamic(
-  () => import("../../../../../apps/dexappbuilder/src/modules/favorites/components/FavoriteAssetsSection")
+  () => import("@dexkit/ui/modules/favorites/components").then(mod => ({ default: mod.FavoriteAssetsSection }))
 );
 
 const ImportAssetDialog = dynamic(
-  () => import("../../../../../apps/dexappbuilder/src/modules/orders/components/dialogs/ImportAssetDialog")
+  () => import("@dexkit/ui/modules/orders/components/dialogs/ImportAssetDialog")
 );
 
 const TradeContainer = dynamic(

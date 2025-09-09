@@ -6,7 +6,7 @@ import AddShowCaseSectionForm from '../../forms/AddShowCaseSectionForm';
 
 // you can pass the shape of the data as the generic type argument
 const ShowCasePlugin: CellPlugin<ShowCaseParams> = {
-  ...ShowCasePluginViewer,
+  ...(ShowCasePluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

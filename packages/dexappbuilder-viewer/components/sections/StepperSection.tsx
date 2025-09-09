@@ -303,7 +303,7 @@ export default function StepperSection({ section }: Props) {
     if (step?.icon) {
       const StepIconComponent = getIconComponent(step.icon);
       if (StepIconComponent) {
-        return React.cloneElement(StepIconComponent, {
+        return React.cloneElement(StepIconComponent as any, {
           style: {
             color: step.iconColor || 'inherit',
             fontSize: 'inherit'
@@ -316,7 +316,7 @@ export default function StepperSection({ section }: Props) {
     if (customStepIcons && customStepIcons[stepIndex]) {
       const CustomIconComponent = getIconComponent(customStepIcons[stepIndex]);
       if (CustomIconComponent) {
-        return React.cloneElement(CustomIconComponent, {
+        return React.cloneElement(CustomIconComponent as any, {
           style: {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
@@ -329,7 +329,7 @@ export default function StepperSection({ section }: Props) {
     if (error && errorStepIcon) {
       const ErrorIconComponent = getIconComponent(errorStepIcon);
       if (ErrorIconComponent) {
-        return React.cloneElement(ErrorIconComponent, {
+        return React.cloneElement(ErrorIconComponent as any, {
           style: {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
@@ -342,7 +342,7 @@ export default function StepperSection({ section }: Props) {
     if (completed && completedStepIcon) {
       const CompletedIconComponent = getIconComponent(completedStepIcon);
       if (CompletedIconComponent) {
-        return React.cloneElement(CompletedIconComponent, {
+        return React.cloneElement(CompletedIconComponent as any, {
           style: {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
@@ -355,7 +355,7 @@ export default function StepperSection({ section }: Props) {
     if (defaultStepIcon) {
       const DefaultIconComponent = getIconComponent(defaultStepIcon);
       if (DefaultIconComponent) {
-        return React.cloneElement(DefaultIconComponent, {
+        return React.cloneElement(DefaultIconComponent as any, {
           style: {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'

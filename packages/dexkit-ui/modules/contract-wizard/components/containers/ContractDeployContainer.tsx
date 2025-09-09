@@ -53,11 +53,11 @@ import useThirdwebContractMetadataQuery, {
 import { useTrustedForwarders } from "@dexkit/web3forms/hooks/useTrustedForwarders";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 
+import { contractTutorials } from "@dexkit/core/constants";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useSnackbar } from "notistack";
 import { FormattedMessage, useIntl } from "react-intl";
-import contractTutorials from "../../../../../../apps/dexappbuilder/src/constants/contract-tutorials.json";
 import { THIRDWEB_CLIENT_ID } from "../../../../constants/thirdweb";
 import { useSaveContractDeployed } from "../../../forms/hooks";
 

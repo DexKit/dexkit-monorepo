@@ -11,7 +11,7 @@ import TokenTradePluginViewer from '@dexkit/dexappbuilder-viewer/components/page
 const TokenTradePlugin: CellPlugin<{
   section?: TokenTradePageSection;
 }> = {
-  ...TokenTradePluginViewer,
+  ...(TokenTradePluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

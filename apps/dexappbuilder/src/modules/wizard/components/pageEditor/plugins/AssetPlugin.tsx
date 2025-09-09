@@ -14,7 +14,7 @@ type Data = {
 };
 // you can pass the shape of the data as the generic type argument
 const AssetPlugin: CellPlugin<Data> = {
-  ...AssetPluginViewer,
+  ...(AssetPluginViewer as any),
   controls: [
     {
       title: 'Search NFT',

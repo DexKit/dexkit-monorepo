@@ -7,13 +7,13 @@ import ButtonPluginViewer from '@dexkit/dexappbuilder-viewer/components/page-edi
 type Data = {
   variant: 'text' | 'contained' | 'outlined';
   color:
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'inherit'
-    | 'primary'
-    | 'info'
-    | 'warning';
+  | 'secondary'
+  | 'success'
+  | 'error'
+  | 'inherit'
+  | 'primary'
+  | 'info'
+  | 'warning';
   size: 'small' | 'medium' | 'large';
   href: string;
   text: string;
@@ -27,7 +27,7 @@ type Data = {
 
 // you can pass the shape of the data as the generic type argument
 const ButtonPlugin: CellPlugin<Data> = {
-  ...ButtonPluginViewer,
+  ...(ButtonPluginViewer as any),
   controls: {
     type: 'autoform',
     schema: {

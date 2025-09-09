@@ -208,7 +208,7 @@ export default function MaskEditor({
             width={canvasSize.width}
             height={canvasSize.height}
             style={{ position: "absolute" }}
-            ref={(ref) => (canvas.current = ref)}
+            ref={(ref) => { canvas.current = ref; }}
           />
 
           <canvas
@@ -219,7 +219,7 @@ export default function MaskEditor({
               opacity: 0.4,
               imageRendering: "crisp-edges",
             }}
-            ref={(ref) => (maskCanvas.current = ref)}
+            ref={(ref) => { maskCanvas.current = ref; }}
           />
           <canvas
             width={canvasSize.width}
@@ -228,7 +228,7 @@ export default function MaskEditor({
               position: "absolute",
               display: isEditing ? "block" : "none",
             }}
-            ref={(ref) => (circleCanvas.current = ref)}
+            ref={(ref) => { circleCanvas.current = ref; }}
             onMouseMove={handleDrawCircle}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}

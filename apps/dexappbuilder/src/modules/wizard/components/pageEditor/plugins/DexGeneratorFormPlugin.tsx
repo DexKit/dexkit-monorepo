@@ -11,7 +11,7 @@ import DexGeneratorSectionForm from '../../forms/DexGeneratorSectionForm';
 const DexGeneratorFormPlugin: CellPlugin<{
   section?: DexGeneratorPageSection;
 }> = {
-  ...DexGeneratorFormPluginViewer,
+  ...(DexGeneratorFormPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

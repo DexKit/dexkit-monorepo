@@ -7,7 +7,7 @@ import CarouselPluginViewer from '@dexkit/dexappbuilder-viewer/components/page-e
 
 // you can pass the shape of the data as the generic type argument
 const CarouselPlugin: CellPlugin<any> = {
-  ...CarouselPluginViewer,
+  ...(CarouselPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

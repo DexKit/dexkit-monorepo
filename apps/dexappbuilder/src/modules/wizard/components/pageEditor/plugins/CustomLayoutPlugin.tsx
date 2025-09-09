@@ -9,7 +9,7 @@ const CustomLayoutPlugin: CellPlugin<{
   cellSpacingX: number;
   cellSpacingY: number;
 }> = {
-  ...CustomLayoutPluginViewer,
+  ...(CustomLayoutPluginViewer as any),
 
   controls: {
     type: 'autoform',

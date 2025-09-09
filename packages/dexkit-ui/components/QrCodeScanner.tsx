@@ -46,5 +46,5 @@ export default function QrCodeScanner({
     };
   }, [videoRef.current]);
 
-  return <CustomView ref={(ref) => (videoRef.current = ref)} />;
+  return <CustomView ref={(ref) => { videoRef.current = ref; }} />;
 }

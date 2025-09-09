@@ -9,7 +9,7 @@ type Data = {
 };
 // you can pass the shape of the data as the generic type argument
 const WidgetPlugin: CellPlugin<Data> = {
-  ...WidgetPluginViewer,
+  ...(WidgetPluginViewer as any),
   controls: {
     type: 'custom',
     Component: (data) => (

@@ -1,3 +1,4 @@
+import { TransactionStatus } from "@dexkit/core/constants";
 import { getBlockExplorerUrl } from "@dexkit/core/utils/blockchain";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
@@ -10,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { TransactionStatus } from "../../../../apps/dexappbuilder/src/types/blockchain";
 
 interface Props {
   hash?: string;

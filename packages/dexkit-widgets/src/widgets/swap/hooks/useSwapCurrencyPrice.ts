@@ -118,9 +118,9 @@ export function useSwapCurrencyPrice({
 
     const hasTokens = Boolean(params.buyToken && params.sellToken);
     const isActuallyLoading = quotePriceBuyToken.isLoading || coinPrices.isLoading || quotePriceSellToken.isLoading;
-    
-    return { 
-      isLoadingPrice: hasTokens && isActuallyLoading 
+
+    return {
+      isLoadingPrice: hasTokens && isActuallyLoading
     };
   }, [
     params.buyToken,

@@ -9,7 +9,7 @@ import ContractFormPluginViewer from '@dexkit/dexappbuilder-viewer/components/pa
 
 // you can pass the shape of the data as the generic type argument
 const ContractFormPlugin: CellPlugin<ContractFormParams> = {
-  ...ContractFormPluginViewer,
+  ...(ContractFormPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => (

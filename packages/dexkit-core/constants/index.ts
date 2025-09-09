@@ -198,3 +198,7 @@ export const IPFS_GATEWAY = "https://gateway.pinata.cloud/ipfs/";
 
 export const MY_APPS_ENDPOINT =
   process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT ?? "http://localhost:3005";
+
+// Export contract tutorials
+export { default as contractTutorials } from "./contract-tutorials.json";
+

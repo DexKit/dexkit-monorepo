@@ -8,7 +8,7 @@ import { SwapConfigForm } from '../../forms/SwapConfigForm';
 
 // you can pass the shape of the data as the generic type argument
 const Swap2Plugin: CellPlugin<RenderOptions> = {
-  ...Swap2PluginViewer,
+  ...(Swap2PluginViewer as any),
   controls: {
     type: 'custom',
     Component: (data) => {

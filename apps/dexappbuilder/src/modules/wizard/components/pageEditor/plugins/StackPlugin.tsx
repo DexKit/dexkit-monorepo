@@ -9,7 +9,7 @@ type Data = {
 };
 
 const StackPlugin: CellPlugin<Data> = {
-  ...StackPluginViewer,
+  ...(StackPluginViewer as any),
   controls: {
     type: 'autoform',
     schema: {

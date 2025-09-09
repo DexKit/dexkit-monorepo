@@ -12,7 +12,7 @@ import { generateCSSVarsTheme } from '../../../utils';
 import ExchangePluginViewer from '@dexkit/dexappbuilder-viewer/components/page-editor/plugins/ExchangePlugin';
 
 const ExchangePlugin: CellPlugin<DexkitExchangeSettings> = {
-  ...ExchangePluginViewer,
+  ...(ExchangePluginViewer as any),
   title: "Exchange",
   controls: {
     type: 'custom',

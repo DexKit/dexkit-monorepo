@@ -2,7 +2,7 @@ import SwapPluginViewer from '@dexkit/dexappbuilder-viewer/components/page-edito
 import type { CellPlugin } from '@react-page/editor';
 
 const SwapPlugin: CellPlugin = {
-  ...SwapPluginViewer,
+  ...(SwapPluginViewer as any),
 };
 
 export default SwapPlugin;

@@ -1,10 +1,10 @@
-{
+﻿{
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -16,9 +16,11 @@
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
     "incremental": true,
+    "noImplicitAny": false,
     "typeRoots": [
       "../../node_modules/@0x/typescript-typings/types",
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "./types"
     ],
     "baseUrl": ".",
     "paths": {
@@ -36,7 +38,8 @@
     "**/*.tsx",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

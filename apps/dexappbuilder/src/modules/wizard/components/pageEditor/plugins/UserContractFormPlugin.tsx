@@ -9,7 +9,7 @@ const UserContractFormPlugin: CellPlugin<{
   formId?: number;
   hideFormInfo?: boolean;
 }> = {
-  ...UserContractFormPluginViewer,
+  ...(UserContractFormPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {

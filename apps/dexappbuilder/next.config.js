@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
+  /* experimental: {
     optimizePackageImports: ['ethers'],
-  },
+  }, */
 
   // Moved from experimental to root level
   serverExternalPackages: [],
@@ -51,6 +51,8 @@ const nextConfig = {
       'magic-sdk': false,
       '@magic-sdk/react': false,
       '@magic-sdk/provider': false,
+      '@noble/hashes': '../../node_modules/@noble/hashes',
+      '@noble/curves': '../../node_modules/@noble/curves',
     };
 
     // Add fallback for Magic modules

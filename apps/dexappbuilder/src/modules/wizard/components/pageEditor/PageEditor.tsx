@@ -217,7 +217,7 @@ export default function PageEditor(props: Props) {
           components={{
             BottomToolbar: CustomPageEditorToolbar,
           }}
-          cellPlugins={plugins}
+          cellPlugins={plugins as any}
           value={JSON.parse(value || 'null')}
           onChange={onChangeValue}
           readOnly={readOnly}

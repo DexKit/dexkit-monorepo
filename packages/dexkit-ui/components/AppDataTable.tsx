@@ -140,7 +140,7 @@ function EditToolbar(props: EditToolbarProps) {
       <input
         style={{ display: "none" }}
         type="file"
-        ref={(ref) => (inputRef.current = ref)}
+        ref={(ref) => { inputRef.current = ref; }}
         onChange={handleChangeFile}
         accept=".csv"
       />

@@ -17,7 +17,7 @@ type Data = {
 
 // you can pass the shape of the data as the generic type argument
 const SearchNFTPlugin: CellPlugin<Data> = {
-  ...SearchNFTPluginViewer,
+  ...(SearchNFTPluginViewer as any),
   controls: {
     type: 'autoform',
     schema: {

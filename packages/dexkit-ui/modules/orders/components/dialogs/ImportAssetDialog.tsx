@@ -1,49 +1,52 @@
-import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import Launch from "@mui/icons-material/Launch";
 import {
-    Alert,
-    Autocomplete,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
-import { FormikHelpers, useFormik } from "formik";
-import Image from "next/image";
-import { SyntheticEvent, useEffect, useMemo, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { AppDialogTitle } from "../../../../components/AppDialogTitle";
-import Link from "../../../../components/AppLink";
-
-import { AppCollection } from "../../../wizard/types/config";
-
-import { NETWORK_EXPLORER } from "@dexkit/core/constants/networks";
-import { useDebounce } from "@dexkit/core/hooks/misc";
-import { Asset } from "@dexkit/core/types/nft";
-import { isAddressEqual, truncateAddress } from "@dexkit/core/utils";
-import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
-import { ipfsUriToUrl } from "@dexkit/core/utils/ipfs";
-import { useSnackbar } from "notistack";
-import * as Yup from "yup";
+  getBlockExplorerUrl,
+  isAddressEqual,
+  truncateAddress,
+} from '@dexkit/core/utils/blockchain';
+import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
+import Launch from '@mui/icons-material/Launch';
 import {
-    useAsset,
-    useAssetMetadata,
-    useFavoriteAssets,
-} from "../../../nft/hooks";
-import { useCollections } from "../../../nft/hooks/collection";
-import { getAssetData, getAssetMetadata } from "../../../nft/services";
+  Alert,
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { FormikHelpers, useFormik } from 'formik';
+import Image from 'next/image';
+import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+
+import { isAddress } from '@dexkit/core/utils/ethers/isAddress';
+import { useSnackbar } from 'notistack';
+import * as Yup from 'yup';
+
+import { Asset } from '@dexkit/core/types/nft';
+import { ipfsUriToUrl } from '@dexkit/core/utils/ipfs';
+import { AppDialogTitle } from '@dexkit/ui/components/AppDialogTitle';
+import Link from '@dexkit/ui/components/AppLink';
+import {
+  useAsset,
+  useAssetMetadata,
+  useFavoriteAssets,
+} from '@dexkit/ui/modules/nft/hooks';
+import {
+  getAssetData,
+  getAssetMetadata,
+} from '@dexkit/ui/modules/nft/services';
 
 interface Form {
   contractAddress: string;
@@ -52,7 +55,7 @@ interface Form {
 
 const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
   contractAddress: Yup.string()
-    .test("address", (value) => {
+    .test('address', (value) => {
       return value !== undefined ? isAddress(value) : true;
     })
     .required(),
@@ -62,9 +65,11 @@ const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
 
 interface Props {
   dialogProps: DialogProps;
+  collections?: Array<{ name: string; contractAddress: string; backgroundImage?: string; chainId?: number }>;
+  onImport?: (asset: Asset) => void;
 }
 
-export default function ImportAssetDialog({ dialogProps }: Props) {
+export default function ImportAssetDialog({ dialogProps, collections = [], onImport }: Props) {
   const favorites = useFavoriteAssets();
 
   const { onClose } = dialogProps;
@@ -80,38 +85,39 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
     tokenId: string;
   }>();
 
-  const collections = useCollections();
-
-  const [selectedOption, setSelectedOption] = useState<AppCollection | null>(
-    null
-  );
+  const [selectedOption, setSelectedOption] = useState<{
+    name: string;
+    contractAddress: string;
+    backgroundImage?: string;
+    chainId?: number;
+  } | null>(null);
 
   const handleSubmit = async (
     values: Form,
-    formikHelpers: FormikHelpers<Form>
+    formikHelpers: FormikHelpers<Form>,
   ) => {
     try {
       if (!provider) {
         throw new Error(
           formatMessage({
-            id: "provider.not.found",
-            defaultMessage: "Provider not found",
-          })
+            id: 'provider.not.found',
+            defaultMessage: 'Provider not found',
+          }),
         );
       }
 
       const assetData = await getAssetData(
         provider,
         values.contractAddress,
-        values.tokenId
+        values.tokenId,
       );
 
       if (!assetData?.tokenURI) {
         throw new Error(
           formatMessage({
-            id: "the.nft.has.no.metadata",
-            defaultMessage: "The NFT has no metadata",
-          })
+            id: 'the.nft.has.no.metadata',
+            defaultMessage: 'The NFT has no metadata',
+          }),
         );
       }
 
@@ -126,55 +132,60 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
       if (favorites.isFavorite(newObject)) {
         enqueueSnackbar(
           formatMessage({
-            defaultMessage: "NFT already imported",
-            id: "nft.already.imported",
+            defaultMessage: 'NFT already imported',
+            id: 'nft.already.imported',
           }),
           {
-            variant: "error",
+            variant: 'error',
             anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "right",
+              vertical: 'bottom',
+              horizontal: 'right',
             },
-          }
+          },
         );
       } else {
         favorites.add(newObject);
 
+        // Call custom onImport callback if provided
+        if (onImport) {
+          onImport(newObject);
+        }
+
         enqueueSnackbar(
           formatMessage({
-            defaultMessage: "NFT imported",
-            id: "nft.imported",
+            defaultMessage: 'NFT imported',
+            id: 'nft.imported',
           }),
           {
-            variant: "success",
+            variant: 'success',
             anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "right",
+              vertical: 'bottom',
+              horizontal: 'right',
             },
-          }
+          },
         );
       }
     } catch (err: any) {
       enqueueSnackbar(
         formatMessage(
           {
-            defaultMessage: "Error while importing NFT: {error}",
-            id: "error.while.importing.nft",
+            defaultMessage: 'Error while importing NFT: {error}',
+            id: 'error.while.importing.nft',
           },
-          { error: String(err) }
+          { error: String(err) },
         ),
         {
-          variant: "error",
+          variant: 'error',
           anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "right",
+            vertical: 'bottom',
+            horizontal: 'right',
           },
-        }
+        },
       );
     }
 
     if (onClose) {
-      onClose({}, "backdropClick");
+      onClose({}, 'backdropClick');
     }
 
     formikHelpers.resetForm();
@@ -184,7 +195,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
 
   const handleClose = () => {
     if (onClose) {
-      onClose({}, "backdropClick");
+      onClose({}, 'backdropClick');
     }
     formik.resetForm();
     setSelectedOption(null);
@@ -192,28 +203,24 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
   };
 
   const formik = useFormik<Form>({
-    initialValues: { contractAddress: "", tokenId: "" },
+    initialValues: { contractAddress: '', tokenId: '' },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });
 
   const options = useMemo(() => {
-    if (collections) {
-      return collections;
-    }
-
-    return [];
+    return collections || [];
   }, [collections]);
 
   const handleChangeCollection = (
     event: SyntheticEvent,
-    value: AppCollection | null
+    value: typeof selectedOption,
   ) => {
     setSelectedOption(value);
     if (value?.contractAddress && isAddress(value?.contractAddress)) {
       formik.setValues(
-        { contractAddress: value?.contractAddress, tokenId: "" },
-        true
+        { contractAddress: value?.contractAddress, tokenId: '' },
+        true,
       );
     }
   };
@@ -222,25 +229,39 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
     formik.submitForm();
   };
 
-  const lazyAddress = useDebounce<string>(formik.values.contractAddress, 500);
-
-  const lazyTokenId = useDebounce<string>(formik.values.tokenId, 500);
+  // Simple debounce implementation
+  const [debouncedContractAddress, setDebouncedContractAddress] = useState('');
+  const [debouncedTokenId, setDebouncedTokenId] = useState('');
 
   useEffect(() => {
-    if (lazyAddress !== "" && lazyTokenId !== "") {
+    const timer = setTimeout(() => {
+      setDebouncedContractAddress(formik.values.contractAddress);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [formik.values.contractAddress]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedTokenId(formik.values.tokenId);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [formik.values.tokenId]);
+
+  useEffect(() => {
+    if (debouncedContractAddress !== '' && debouncedTokenId !== '') {
       setAssetParams({
-        contractAddress: lazyAddress,
-        tokenId: lazyTokenId.toString(),
+        contractAddress: debouncedContractAddress,
+        tokenId: debouncedTokenId.toString(),
       });
     }
-  }, [lazyAddress, lazyTokenId]);
+  }, [debouncedContractAddress, debouncedTokenId]);
 
   const { data: asset, isLoading: assetIsLoading } = useAsset(
     assetParams?.contractAddress,
     assetParams?.tokenId,
     undefined,
     true,
-    selectedOption?.chainId
+    selectedOption?.chainId,
   );
 
   const { data: metadata, isLoading: metadataIsLoading } =
@@ -261,20 +282,23 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                   {metadata?.image === undefined ? (
                     <Skeleton
                       variant="rectangular"
-                      sx={{ height: "100%", width: "100%" }}
+                      sx={{ height: '100%', width: '100%' }}
                     />
                   ) : (
                     <Box
                       sx={{
-                        position: "relative",
-                        height: "100%",
-                        width: "100%",
+                        position: 'relative',
+                        height: '100%',
+                        width: '100%',
                       }}
                     >
                       <Image
-                        fill
                         alt={metadata?.name}
-                        src={ipfsUriToUrl(metadata?.image || "")}
+                        src={ipfsUriToUrl(metadata?.image || '')}
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                        }}
                         objectFit="contain"
                       />
                     </Box>
@@ -299,8 +323,8 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                     <FormattedMessage id="owned.by" defaultMessage="Owned by" />
                   </Typography>
                   <Link
-                    href={`${NETWORK_EXPLORER(
-                      asset?.chainId
+                    href={`${getBlockExplorerUrl(
+                      asset?.chainId,
                     )}/address/${asset?.owner}`}
                     color="primary"
                     target="_blank"
@@ -328,43 +352,45 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
           )}
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Autocomplete
-                  disablePortal
-                  options={options}
-                  value={selectedOption}
-                  onChange={handleChangeCollection}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={formatMessage({
-                        id: "collections",
-                        defaultMessage: "Collections",
-                      })}
-                    />
-                  )}
-                  getOptionLabel={(option) => option.name}
-                  renderOption={(props, option: AppCollection) => (
-                    <ListItemButton
-                      component="li"
-                      {...props}
-                      key={option.contractAddress}
-                    >
-                      <ListItemAvatar>
-                        <Avatar src={option.backgroundImage} />
-                      </ListItemAvatar>
-                      <ListItemText primary={option.name} />
-                    </ListItemButton>
-                  )}
-                  fullWidth
-                />
-              </Grid>
+              {collections.length > 0 && (
+                <Grid item xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    options={options}
+                    value={selectedOption}
+                    onChange={handleChangeCollection}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={formatMessage({
+                          id: 'collections',
+                          defaultMessage: 'Collections',
+                        })}
+                      />
+                    )}
+                    getOptionLabel={(option) => option.name}
+                    renderOption={(props, option) => (
+                      <ListItemButton
+                        component="li"
+                        {...props}
+                        key={option.contractAddress}
+                      >
+                        <ListItemAvatar>
+                          <Avatar src={option.backgroundImage} />
+                        </ListItemAvatar>
+                        <ListItemText primary={option.name} />
+                      </ListItemButton>
+                    )}
+                    fullWidth
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   InputLabelProps={{
-                    shrink: formik.values.contractAddress !== "",
+                    shrink: formik.values.contractAddress !== '',
                   }}
                   value={formik.values.contractAddress}
                   onChange={formik.handleChange}

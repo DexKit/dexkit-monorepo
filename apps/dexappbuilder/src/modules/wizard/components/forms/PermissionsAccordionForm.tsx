@@ -146,7 +146,7 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
               mutationAddMember.reset();
             },
           }}
-          isLoading={mutationAddMember.isLoading}
+          isLoading={mutationAddMember.isPending}
           isSuccess={mutationAddMember.isSuccess}
           error={mutationAddMember.error}
           isEdit={true}

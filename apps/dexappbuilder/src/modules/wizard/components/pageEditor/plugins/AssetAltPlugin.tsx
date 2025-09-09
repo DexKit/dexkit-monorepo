@@ -6,7 +6,7 @@ import AssetSectionForm from '../../forms/AssetSectionForm';
 
 // you can pass the shape of the data as the generic type argument
 const AssetAltPlugin: CellPlugin<AssetFormType> = {
-  ...AssetAltPluginViewer,
+  ...(AssetAltPluginViewer as any),
   controls: {
     type: 'custom',
     Component: ({ data, onChange }) => {
@@ -16,7 +16,7 @@ const AssetAltPlugin: CellPlugin<AssetFormType> = {
           onChange={(section) => {
             onChange(section.config);
           }}
-          onCancel={() => {}}
+          onCancel={() => { }}
           onSave={(section) => {
             onChange(section.config);
           }}
