@@ -16,7 +16,7 @@ import {
   COIN_LEAGUES_FACTORY_ADDRESS_V3,
   GAME_ENDED,
   GAME_WAITING,
-  GET_LEAGUES_CHAIN_ID
+  GET_LEAGUES_CHAIN_ID,
 } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
@@ -28,7 +28,7 @@ import {
   useWinner,
 } from '@/modules/coinleague/hooks/coinleague';
 import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory';
-import { Coin } from '@/modules/coinleague/types';
+import { Coin, Game } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 
@@ -60,9 +60,15 @@ import { useNotifications } from '@/modules/common/hooks/app';
 import { AppNotificationType } from '@/modules/common/types/app';
 import { TransactionStatus } from '@/modules/common/types/transactions';
 
+import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
 import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
-import { TOKEN_ALLOWANCE_QUERY, useApproveToken, useErc20BalanceQuery, useTokenAllowanceQuery } from '@dexkit/core/hooks/coin';
+import {
+  TOKEN_ALLOWANCE_QUERY,
+  useApproveToken,
+  useErc20BalanceQuery,
+  useTokenAllowanceQuery,
+} from '@dexkit/core/hooks/coin';
 import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
 import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import { Check, Edit } from '@mui/icons-material';
@@ -85,7 +91,7 @@ const CoinLeagueGame: NextPage = () => {
   const [isSelectMultiple, setIsSelectMultiple] = useState(false);
 
   const [selectedCoins, setSelectedCoins] = useState<{ [key: string]: Coin }>(
-    {}
+    {},
   );
 
   const { connectWallet } = useWalletConnect();
@@ -102,19 +108,17 @@ const CoinLeagueGame: NextPage = () => {
 
   const factoryAddress = useFactoryAddress();
 
-
-
   const gameOnChainQuery = useCoinLeagueGameOnChainQuery({
     factoryAddress,
     id: id as string,
     provider,
   });
- 
+
   const erc20Balance = useErc20BalanceQuery({
     contractAddress: gameOnChainQuery.data?.coin_to_play,
     account,
     provider,
-    chainId
+    chainId,
   });
 
   const tokenAllowanceQuery = useTokenAllowanceQuery({
@@ -129,7 +133,7 @@ const CoinLeagueGame: NextPage = () => {
       erc20Balance.data &&
       gameOnChainQuery.data &&
       erc20Balance.data.gte(
-        BigNumber.from(gameOnChainQuery.data?.amount_to_play)
+        BigNumber.from(gameOnChainQuery.data?.amount_to_play),
       )
     );
   }, [gameOnChainQuery.data, erc20Balance.data]);
@@ -178,7 +182,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Joining Game #{id}',
               id: 'join.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -199,7 +203,7 @@ const CoinLeagueGame: NextPage = () => {
     affiliate: affiliate as string,
     captainCoinFeed: selectedCaptain?.address,
     coinFeeds: Object.keys(selectedCoins).map(
-      (key) => selectedCoins[key].address
+      (key) => selectedCoins[key].address,
     ),
     factoryAddress,
     gameId: id as string,
@@ -223,7 +227,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Starting Game #{id}',
               id: 'starting.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -267,7 +271,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Approve Coin League Token Spend',
               id: 'approve.coin.league.token.spend',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -331,7 +335,7 @@ const CoinLeagueGame: NextPage = () => {
               defaultMessage: 'Claim Game #{id}',
               id: 'claim.game.id',
             },
-            { id }
+            { id },
           ) as string,
           hash,
           checked: false,
@@ -354,7 +358,7 @@ const CoinLeagueGame: NextPage = () => {
     factoryAddress,
     onSubmited: handleClaimSubmit,
     provider,
-    signer
+    signer,
   });
 
   const handleCloseCoinDialog = () => {
@@ -397,21 +401,21 @@ const CoinLeagueGame: NextPage = () => {
   };
 
   const handleApproveToken = async () => {
-    await approveTokenMutation.mutateAsync({ spender: factoryAddress,
+    await approveTokenMutation.mutateAsync({
+      spender: factoryAddress,
       tokenContract: gameOnChainQuery.data?.coin_to_play,
       signer,
       onSubmited: handleApproveSubmit,
-   
     });
   };
 
   const handleJoinGame = async () => {
     if (!hasSufficientAllowance) {
-      await approveTokenMutation.mutateAsync({ spender: factoryAddress,
+      await approveTokenMutation.mutateAsync({
+        spender: factoryAddress,
         tokenContract: gameOnChainQuery.data?.coin_to_play,
         signer,
         onSubmited: handleApproveSubmit,
-     
       });
     }
 
@@ -451,15 +455,15 @@ const CoinLeagueGame: NextPage = () => {
             isSelectMultiple
               ? selectedCoins
               : selectedCaptain
-              ? { [selectedCaptain.address]: selectedCaptain }
-              : {}
+                ? { [selectedCaptain.address]: selectedCaptain }
+                : {}
           }
           excludeTokens={
             !isSelectMultiple
               ? selectedCoins
               : selectedCaptain
-              ? { [selectedCaptain.address]: selectedCaptain }
-              : {}
+                ? { [selectedCaptain.address]: selectedCaptain }
+                : {}
           }
           onSave={handleSave}
         />
@@ -481,7 +485,7 @@ const CoinLeagueGame: NextPage = () => {
                     defaultMessage="Coin League"
                   />
                 ),
-                uri: '/coinleague',
+                uri: '/',
               },
               {
                 caption: (
@@ -491,7 +495,7 @@ const CoinLeagueGame: NextPage = () => {
                     values={{ id: gameOnChainQuery.data?.id }}
                   />
                 ),
-                uri: '/coinleague',
+                uri: '/',
                 active: true,
               },
             ]}
@@ -552,7 +556,7 @@ const CoinLeagueGame: NextPage = () => {
             getGameStatus(gameOnChainQuery.data) === GAME_ENDED &&
             !isAddressEqual(
               winner?.winner_address,
-              ethers.constants.AddressZero
+              ethers.constants.AddressZero,
             ) && (
               <GameWinnerCard
                 account={account}
@@ -745,6 +749,16 @@ const CoinLeagueGame: NextPage = () => {
               </Paper>
             )}
           </Box>
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            alignContent={'flex-end'}
+            alignItems={'flex-end'}
+          >
+            <GameActionsButton
+              game={gameOnChainQuery.data as unknown as Game}
+            />
+          </Box>
 
           {!isActive &&
             gameOnChainQuery.data &&
@@ -804,33 +818,34 @@ export const getStaticProps: GetStaticProps = async ({
     const { id, network } = params;
 
     if (network && id) {
-      try{
-      const chain = getChainIdFromName(network);
+      try {
+        const chain = getChainIdFromName(network);
 
-      if (chain) {
-        const factoryAddress =
-          COIN_LEAGUES_FACTORY_ADDRESS_V3[GET_LEAGUES_CHAIN_ID(chain.chainId)];
+        if (chain) {
+          const factoryAddress =
+            COIN_LEAGUES_FACTORY_ADDRESS_V3[
+              GET_LEAGUES_CHAIN_ID(chain.chainId)
+            ];
 
-        const provider = getProviderByChainId(chain.chainId);
+          const provider = getProviderByChainId(chain.chainId);
 
-        if (provider) {
-          const game = await getCoinLeagueGameOnChain(
-            provider,
-            factoryAddress,
-            id as string
-          );
+          if (provider) {
+            const game = await getCoinLeagueGameOnChain(
+              provider,
+              factoryAddress,
+              id as string,
+            );
 
-          await queryClient.prefetchQuery(
-            [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
-            async () => game
-          );
+            await queryClient.prefetchQuery(
+              [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
+              async () => game,
+            );
+          }
         }
+      } catch (e) {
+        console.log('error fetching data');
       }
-    }catch(e){
-      console.log('error fetching data')
     }
-    }
- 
   }
 
   return {

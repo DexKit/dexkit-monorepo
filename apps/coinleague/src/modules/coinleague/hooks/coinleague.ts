@@ -247,7 +247,7 @@ export function useGamesFilters({
 }: {
   myGames: boolean;
 }): GameFiltersState {
-  const [orderByGame, setOrderByGame] = useState(GameOrderBy.HighLevel);
+  const [orderByGame, setOrderByGame] = useState(GameOrderBy.AboutStart);
   const [numberOfPlayers, setNumberOfPlayers] = useState<NumberOfPLayers>(
     NumberOfPLayers.ALL
   );
@@ -263,7 +263,7 @@ export function useGamesFilters({
   const [isMyGames, setIsMyGames] = useState(myGames);
 
   const reset = useCallback(() => {
-    setOrderByGame(GameOrderBy.HighLevel);
+    setOrderByGame(GameOrderBy.AboutStart);
     setNumberOfPlayers(NumberOfPLayers.ALL);
     setStakeAmount(GameStakeAmount.ALL);
     setGameLevel(GameLevel.All);
@@ -389,6 +389,7 @@ export function useJoinGameMutation({
     ) {
       return;
     }
+
 
     const tx = await joinGame({
       factoryAddress,

@@ -7,13 +7,14 @@ import { COINLEAGUE_DEFAULT_AFFILIATE } from '../constants';
 import coinLeagueFactoryAbi from '../constants/ABI/CoinLeagueFactoryV3.json';
 import { Game, GameParamsV3 } from '../types';
 
+
 export const getCoinLeagueV3Contract = async ({ address, provider, signer, useSigner }: {
   address: string,
   provider: providers.BaseProvider | providers.Web3Provider,
   signer?: providers.JsonRpcSigner,
   useSigner?: boolean
 }) => {
-  if (useSigner && signer instanceof providers.JsonRpcSigner) {
+  if (useSigner && signer) {
     return new Contract(
       address,
       coinLeagueFactoryAbi,

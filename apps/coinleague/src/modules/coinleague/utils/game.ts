@@ -5,13 +5,12 @@ import { gql } from 'graphql-request';
 import {
   CoinToPlay,
   CoinToPlayInterface,
-  CREATOR_LABELS,
   GAME_ABORTED,
   GAME_ENDED,
   GAME_STARTED,
   GAME_WAITING,
   NativeCoinAddress,
-  PriceFeeds,
+  PriceFeeds
 } from '../constants';
 import { GameDuration, GameLevel, GameOrderBy } from '../constants/enums';
 import { CoinLeagueGame } from '../types';
@@ -28,7 +27,9 @@ export const GET_GAME_LEVEL = (
     coinToPlay &&
     coinToPlay.address.toLowerCase() !== NativeCoinAddress.toLowerCase()
   ) {
-    if (entry.lt(ethers.utils.parseUnits('2', coinToPlay.decimals))) {
+    if (entry.lt(ethers.utils.parseUnits('0.99', coinToPlay.decimals))) {
+      return 'Novice';
+    } else if (entry.lt(ethers.utils.parseUnits('2', coinToPlay.decimals))) {
       return 'Beginner';
     } else if (entry.lt(ethers.utils.parseUnits('11', coinToPlay.decimals))) {
       return 'Intermediate';
@@ -85,8 +86,20 @@ export const GET_GAME_LEVEL_AMOUNTS = (
   const isStable =
     coinToPlay &&
     coinToPlay.address.toLowerCase() !==
-      ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase();
+    ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase();
   switch (gameLevel) {
+    case GameLevel.Novice:
+      if (isStable) {
+        return ethers.utils.parseUnits('0.001', coinToPlay.decimals);
+      }
+      switch (chainId) {
+        case ChainId.Polygon:
+          return ethers.utils.parseEther('1');
+        case ChainId.BSC:
+          return ethers.utils.parseEther('0.01');
+        default:
+          return ethers.utils.parseEther('1');
+      }
     case GameLevel.Beginner:
       if (isStable) {
         return ethers.utils.parseUnits('1', coinToPlay.decimals);
@@ -339,12 +352,15 @@ export const GET_CREATOR_LABELS = (address?: string) => {
   if (!address) {
     return false;
   }
-  const creator = CREATOR_LABELS.find(
-    (a) => a.address.toLowerCase() === address.toLowerCase()
-  );
-  if (creator) {
-    return creator.label;
-  }
+  /*  if(CREATOR_LABELS.length){
+          const creator = CREATOR_LABELS.find(
+          (a) => a?.address.toLowerCase() === address.toLowerCase()
+        );
+          if (creator) {
+            return creator?.label;
+          }
+    }*/
+
 };
 
 export const getIconByCoin = (coin: string, chainId: ChainId) => {

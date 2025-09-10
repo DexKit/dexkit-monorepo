@@ -87,11 +87,11 @@ export default function CreateGameDialog({ dialogProps }: Props) {
   const form = useFormik<Form>({
     onSubmit: handleSubmit,
     initialValues: {
-      gameLevel: GameLevel.Beginner,
+      gameLevel: GameLevel.Novice,
       gameType: GameType.Bull,
-      maxCoins: 1,
-      duration: process.env.NODE_ENV === 'development' ? 60 + 5 : 60 * 60,
-      maxPlayers: 2,
+      maxCoins: 2,
+      duration: process.env.NODE_ENV === 'development' ? 60 * 60 : 60 * 60,
+      maxPlayers: 50,
       startDate: moment().toDate().getTime(),
     },
   });
@@ -160,6 +160,9 @@ export default function CreateGameDialog({ dialogProps }: Props) {
                 error={form.touched.gameLevel && Boolean(form.errors.gameLevel)}
                 fullWidth
               >
+                <MenuItem value={GameLevel.Novice}>
+                  <FormattedMessage id="novice" defaultMessage="Novice" />
+                </MenuItem>
                 <MenuItem value={GameLevel.Beginner}>
                   <FormattedMessage id="beginner" defaultMessage="Beginner" />
                 </MenuItem>
@@ -242,37 +245,6 @@ export default function CreateGameDialog({ dialogProps }: Props) {
                 <MenuItem value={1}>1</MenuItem>
                 <MenuItem value={2}>2</MenuItem>
                 <MenuItem value={5}>5</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel>
-                <FormattedMessage
-                  id="max.players"
-                  defaultMessage="Max players"
-                />
-              </InputLabel>
-              <Select
-                name="maxPlayers"
-                type="number"
-                value={form.values.maxPlayers}
-                onChange={form.handleChange}
-                label={
-                  <FormattedMessage
-                    id="max.players"
-                    defaultMessage="Max Players"
-                  />
-                }
-                error={
-                  form.touched.maxPlayers && Boolean(form.errors.maxPlayers)
-                }
-                fullWidth
-              >
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
               </Select>
             </FormControl>
             <FormControl>
