@@ -545,7 +545,7 @@ const CoinLeagueGame: NextPage = () => {
           factoryAddress={factoryAddress}
           onJoin={handleJoinGame}
           isInGame={isInGame}
-          canJoinGame={canJoinGame && isWaiting}
+          canJoinGame={(canJoinGame as boolean) && isWaiting}
           isJoining={joinGameMutation.isLoading}
           onStart={handleStartGame}
           canStart={isInGame && isWaiting && hasSufficientPlayers}
