@@ -1,10 +1,4 @@
-import type {
-  GetStaticPaths,
-  GetStaticPathsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-  NextPage,
-} from 'next';
+import type { NextPage } from 'next';
 
 import CloseIcon from '@mui/icons-material/Close';
 import WalletIcon from '@mui/icons-material/Wallet';
@@ -42,7 +36,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -790,72 +784,12 @@ const CoinLeagueGame: NextPage = () => {
   );
 };
 
-export const CoinleagueGameWithLayout = () => {
+const CoinleagueGameWithLayout = () => {
   return (
     <MainLayout>
       <CoinLeagueGame />
     </MainLayout>
   );
-};
-
-type Params = {
-  id?: string;
-  network?: string;
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
-
-  /*if (params) {
-    const { id, network } = params;
-
-    if (network && id) {
-      try {
-        const chain = getChainIdFromName(network);
-
-        if (chain) {
-          const factoryAddress =
-            COIN_LEAGUES_FACTORY_ADDRESS_V3[
-              GET_LEAGUES_CHAIN_ID(chain.chainId)
-            ];
-
-          const provider = getProviderByChainId(chain.chainId);
-
-          if (provider) {
-            const game = await getCoinLeagueGameOnChain(
-              provider,
-              factoryAddress,
-              id as string,
-            );
-
-            await queryClient.prefetchQuery(
-              [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
-              async () => game,
-            );
-          }
-        }
-      } catch (e) {
-        console.log('error fetching data');
-      }
-    }
-  }*/
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<
-  Params
-> = ({}: GetStaticPathsContext) => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
 };
 
 export default CoinleagueGameWithLayout;

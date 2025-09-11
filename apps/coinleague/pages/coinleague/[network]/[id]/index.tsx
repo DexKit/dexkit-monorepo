@@ -790,7 +790,7 @@ const CoinLeagueGame: NextPage = () => {
   );
 };
 
-export const CoinleagueGameWithLayout = () => {
+const CoinleagueGameWithLayout = () => {
   return (
     <MainLayout>
       <CoinLeagueGame />
