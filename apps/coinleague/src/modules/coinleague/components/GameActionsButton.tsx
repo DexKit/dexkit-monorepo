@@ -20,8 +20,8 @@ export default function GameActionsButton({ game }: Props) {
       const date = new Date().getTime() / 1000;
 
       return (
-        game.started &&
-        !game.finished &&
+        game?.started &&
+        !game?.finished &&
         date > Number(game.start_timestamp) + Number(game.duration)
       );
     }
@@ -32,8 +32,8 @@ export default function GameActionsButton({ game }: Props) {
       const date = new Date().getTime() / 1000;
 
       return (
-        !game.started &&
-        date > Number(game.start_timestamp) &&
+        !game?.started &&
+        date > Number(game?.start_timestamp) &&
         Number(game.players.length) < 2
       );
     }
@@ -76,14 +76,14 @@ export default function GameActionsButton({ game }: Props) {
       sx={{
         fontWeight: 600,
       }}
-      disabled={game.finished || isLoading || needPlayers || aboutToStart}
+      disabled={game?.finished || isLoading || needPlayers || aboutToStart}
     >
       <Typography>
         {canStart ? (
           <FormattedMessage id="start.game" defaultMessage="Start game" />
         ) : canEnd ? (
           <FormattedMessage id="end.game" defaultMessage="End game" />
-        ) : game.finished ? (
+        ) : game?.finished ? (
           <FormattedMessage id="ended" defaultMessage="Ended" />
         ) : aboutToStart ? (
           <GameCounterSpan startsAt={Number(game.start_timestamp)} />
@@ -94,8 +94,8 @@ export default function GameActionsButton({ game }: Props) {
             <FormattedMessage id="game.started" defaultMessage="Game started" />{' '}
             :{' '}
             <GameCountdown
-              duration={Number(game.duration)}
-              startTimestamp={Number(game.start_timestamp)}
+              duration={Number(game?.duration)}
+              startTimestamp={Number(game?.start_timestamp)}
             />
           </>
         )}
