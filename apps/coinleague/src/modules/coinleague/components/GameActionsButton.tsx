@@ -12,8 +12,6 @@ interface Props {
 }
 
 export default function GameActionsButton({ game }: Props) {
-  console.log(game);
-
   const endGame = useGameEnd({ game });
   const startGame = useGameStart({ game });
 
