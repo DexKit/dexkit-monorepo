@@ -18,7 +18,7 @@ import {
   useCoinLeagueGameOnChainQuery,
   useCoinToPlay,
 } from '../hooks/coinleague';
-import { getGameStatus, GET_GAME_LEVEL } from '../utils/game';
+import { GET_GAME_LEVEL, getGameStatus } from '../utils/game';
 import { GET_LABEL_FROM_DURATION } from '../utils/time';
 import GameCountdown from './GameCountdown';
 import GameCounterSpan from './GameCounterSpan';
@@ -64,9 +64,9 @@ export function GameOverviewCard({
     if (game && coinToPlay) {
       return ethers.utils.formatUnits(
         BigNumber.from(game?.amount_to_play).mul(
-          BigNumber.from(game.num_players)
+          BigNumber.from(game.num_players),
         ),
-        coinToPlay.decimals
+        coinToPlay.decimals,
       );
     }
 
@@ -83,7 +83,7 @@ export function GameOverviewCard({
 
     const entry = ethers.utils.formatUnits(
       BigNumber.from(game?.amount_to_play),
-      coinToPlay?.decimals
+      coinToPlay?.decimals,
     );
 
     return [
@@ -141,10 +141,11 @@ export function GameOverviewCard({
                   {isLoading ? (
                     <Skeleton />
                   ) : (
+                    game &&
                     GET_GAME_LEVEL(
                       BigNumber.from(game?.amount_to_play),
                       chainId,
-                      game?.coin_to_play
+                      game?.coin_to_play,
                     )
                   )}
                 </Typography>

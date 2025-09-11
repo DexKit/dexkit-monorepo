@@ -56,6 +56,7 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
+import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
   TOKEN_ALLOWANCE_QUERY,
   useApproveToken,
@@ -66,7 +67,6 @@ import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers } from 'ethers';
-import MainLayout from 'src/components/layouts/main';
 
 // NOTE: use only on chain
 
@@ -535,10 +535,14 @@ const CoinLeagueGame: NextPage = () => {
           factoryAddress={factoryAddress}
           onJoin={handleJoinGame}
           isInGame={isInGame}
-          canJoinGame={(canJoinGame as boolean) && isWaiting}
+          canJoinGame={(canJoinGame as boolean) && (isWaiting as boolean)}
           isJoining={joinGameMutation.isLoading}
           onStart={handleStartGame}
-          canStart={isInGame && isWaiting && hasSufficientPlayers}
+          canStart={
+            isInGame &&
+            (isWaiting as boolean) &&
+            (hasSufficientPlayers as boolean)
+          }
           isStarting={startGameMutation.isLoading}
           onRefetch={handleRefetchGame}
         />
