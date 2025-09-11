@@ -1,10 +1,4 @@
-import type {
-  GetStaticPaths,
-  GetStaticPathsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-  NextPage,
-} from 'next';
+import type { NextPage } from 'next';
 
 import CloseIcon from '@mui/icons-material/Close';
 import WalletIcon from '@mui/icons-material/Wallet';
@@ -12,12 +6,7 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
 import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
-import {
-  COIN_LEAGUES_FACTORY_ADDRESS_V3,
-  GAME_ENDED,
-  GAME_WAITING,
-  GET_LEAGUES_CHAIN_ID,
-} from '@/modules/coinleague/constants';
+import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
   useCoinLeagueClaim,
@@ -48,7 +37,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -62,14 +51,12 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
-import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
 import {
   TOKEN_ALLOWANCE_QUERY,
   useApproveToken,
   useErc20BalanceQuery,
   useTokenAllowanceQuery,
 } from '@dexkit/core/hooks/coin';
-import { getProviderByChainId } from '@dexkit/core/utils/blockchain';
 import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
@@ -804,7 +791,7 @@ const CoinLeagueGame: NextPage = () => {
   );
 };
 
-type Params = {
+/*type Params = {
   id?: string;
   network?: string;
 };
@@ -862,6 +849,6 @@ export const getStaticPaths: GetStaticPaths<
     paths: [],
     fallback: 'blocking',
   };
-};
+};*/
 
 export default CoinLeagueGame;
