@@ -803,7 +803,8 @@ const CoinLeagueGame: NextPage = () => {
 export const CoinleagueGameWithLayout = () => {
   return (
     <MainLayout>
-      <CoinLeagueGame />
+      {/* <CoinLeagueGame />*/}
+      {'Test'}
     </MainLayout>
   );
 };
