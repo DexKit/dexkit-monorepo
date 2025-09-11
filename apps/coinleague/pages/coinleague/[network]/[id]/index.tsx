@@ -1,4 +1,10 @@
-import type { NextPage } from 'next';
+import type {
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  NextPage,
+} from 'next';
 
 import CloseIcon from '@mui/icons-material/Close';
 import WalletIcon from '@mui/icons-material/Wallet';
@@ -791,7 +797,7 @@ const CoinLeagueGame: NextPage = () => {
   );
 };
 
-/*type Params = {
+type Params = {
   id?: string;
   network?: string;
 };
@@ -799,7 +805,7 @@ const CoinLeagueGame: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
+  /* const queryClient = new QueryClient();
 
   if (params) {
     const { id, network } = params;
@@ -833,12 +839,10 @@ export const getStaticProps: GetStaticProps = async ({
         console.log('error fetching data');
       }
     }
-  }
+  }*/
 
   return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
+    props: {},
   };
 };
 
@@ -849,6 +853,6 @@ export const getStaticPaths: GetStaticPaths<
     paths: [],
     fallback: 'blocking',
   };
-};*/
+};
 
 export default CoinLeagueGame;
