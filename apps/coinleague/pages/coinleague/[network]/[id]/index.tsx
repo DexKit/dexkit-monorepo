@@ -144,6 +144,7 @@ const CoinLeagueGame: NextPage = () => {
   const hasSufficientAllowance = useMemo(() => {
     return (
       gameOnChainQuery.data &&
+      gameOnChainQuery.data?.amount_to_play &&
       tokenAllowanceQuery.data?.gte(gameOnChainQuery.data?.amount_to_play)
     );
   }, [gameOnChainQuery.data, tokenAllowanceQuery.data]);
@@ -294,7 +295,7 @@ const CoinLeagueGame: NextPage = () => {
   const approveTokenMutation = useApproveToken();
 
   const playerAddresses = useMemo(() => {
-    if (gameOnChainQuery.data) {
+    if (gameOnChainQuery.data && gameOnChainQuery.data?.players) {
       return gameOnChainQuery.data?.players.map((p) => p.player_address);
     }
   }, [gameOnChainQuery.data]);
@@ -449,7 +450,7 @@ const CoinLeagueGame: NextPage = () => {
           }}
           maxCoins={
             isSelectMultiple && gameOnChainQuery.data
-              ? gameOnChainQuery.data.num_coins - 1
+              ? gameOnChainQuery.data?.num_coins - 1
               : 1
           }
           chainId={chainId}

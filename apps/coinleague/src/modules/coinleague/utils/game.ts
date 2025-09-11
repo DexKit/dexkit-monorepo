@@ -373,11 +373,11 @@ export const getIconByCoin = (coin: string, chainId: ChainId) => {
 };
 
 export function getGameStatus(game: CoinLeagueGame): string {
-  if (game.finished) {
+  if (game?.finished) {
     return GAME_ENDED;
-  } else if (game.started) {
+  } else if (game?.started) {
     return GAME_STARTED;
-  } else if (game.aborted) {
+  } else if (game?.aborted) {
     return GAME_ABORTED;
   }
   return GAME_WAITING;
