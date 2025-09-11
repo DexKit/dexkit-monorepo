@@ -43,7 +43,6 @@ import {
   Typography,
 } from '@mui/material';
 import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -71,14 +70,15 @@ import MainLayout from 'src/components/layouts/main';
 // NOTE: use only on chain
 
 const CoinLeagueGame: NextPage = () => {
-  const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const { addNotification } = useNotifications();
 
   const { account, provider, isActive, signer } = useWeb3React();
-  const { network, id, affiliate } = router.query;
+
+  const network = 'polygon';
+  const id = '37';
+  const affiliate = '0x';
 
   const [showSelectCoin, setShowSelectCoin] = useState(false);
   const [isSelectMultiple, setIsSelectMultiple] = useState(false);
