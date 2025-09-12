@@ -45,7 +45,7 @@ export const NETWORKS: { [key: number]: Network } = {
     slug: 'polygon',
     coingeckoId: 'matic-network',
     wrappedAddress: `0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270`,
-    providerRpcUrl: `https://poly-rpc.gateway.pokt.network`,
+    providerRpcUrl: `https://polygon-rpc.com/`,
     imageUrl: polygonIcon.src,
   },
   [ChainId.BSC]: {

@@ -75,7 +75,7 @@ import {
 import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, ethers, providers } from 'ethers';
 
 import dynamic from 'next/dynamic';
 
@@ -93,8 +93,15 @@ const CoinLeagueGame: NextPage = () => {
 
   const { addNotification } = useNotifications();
 
-  const { account, provider, isActive, signer } = useWeb3React();
+  const { account, isActive, signer } = useWeb3React();
+
   const { network, id, affiliate } = router.query;
+
+  const chainId = useMemo(() => {
+    return getChainIdFromName(network as string)?.chainId;
+  }, [network]);
+
+  const provider = getProviderByChainId(chainId) as providers.Web3Provider;
 
   const [showSelectCoin, setShowSelectCoin] = useState(false);
   const [isSelectMultiple, setIsSelectMultiple] = useState(false);
@@ -110,10 +117,6 @@ const CoinLeagueGame: NextPage = () => {
   }, [selectedCoins]);
 
   const [selectedCaptain, setSelectedCaptain] = useState<Coin>();
-
-  const chainId = useMemo(() => {
-    return getChainIdFromName(network as string)?.chainId;
-  }, [network]);
 
   const factoryAddress = useFactoryAddress();
 
@@ -866,7 +869,7 @@ export const getStaticProps: GetStaticProps = async ({
             );
 
             await queryClient.prefetchQuery(
-              [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
+              [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
               async () => game,
             );
           }
