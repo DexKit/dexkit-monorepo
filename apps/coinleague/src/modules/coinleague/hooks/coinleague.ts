@@ -34,6 +34,7 @@ import {
 } from '../services/coinleague';
 import {
   createGame,
+  endGame,
   getGamesData,
   getWinner,
   joinGame,
@@ -442,6 +443,46 @@ export function useStartGameMutation({
     }
 
     const tx = await startGame({ factoryAddress, provider, id: gameId, signer });
+
+    if (onSubmit) {
+      onSubmit(tx.hash);
+    }
+
+    return await tx.wait();
+  }, options);
+}
+
+export function useEndGameMutation({
+  options,
+  gameId,
+  factoryAddress,
+  provider,
+  onSubmit,
+  signer
+}: {
+  gameId?: string;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
+  onSubmit?: (hash: string) => void;
+  factoryAddress?: string;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
+}) {
+  return useMutation(async () => {
+    if (!provider || !gameId || !factoryAddress || !signer) {
+      return;
+    }
+
+    const tx = await endGame({ factoryAddress, provider, id: gameId, signer });
 
     if (onSubmit) {
       onSubmit(tx.hash);

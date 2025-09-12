@@ -30,12 +30,15 @@ interface Props {
   factoryAddress: string;
   onJoin: () => void;
   onStart: () => void;
+  onEnd: () => void;
   onRefetch: () => void;
   isStarting?: boolean;
+  isEnding?: boolean;
   isInGame?: boolean;
   isJoining?: boolean;
   canJoinGame?: boolean;
   canStart?: boolean;
+  canEnd?: boolean;
 }
 
 export function GameOverviewCard({
@@ -51,6 +54,9 @@ export function GameOverviewCard({
   canJoinGame,
   canStart,
   isJoining,
+  canEnd,
+  isEnding,
+  onEnd,
 }: Props) {
   const { data: game, isLoading } = useCoinLeagueGameOnChainQuery({
     id,
@@ -270,7 +276,7 @@ export function GameOverviewCard({
                 disabled={isStarting}
                 onClick={onStart}
                 startIcon={
-                  isJoining ? (
+                  isStarting ? (
                     <CircularProgress color="inherit" size="1rem" />
                   ) : (
                     <PlayArrow />
@@ -280,7 +286,28 @@ export function GameOverviewCard({
                 color="primary"
                 sx={{ marginTop: 0 }}
               >
-                <FormattedMessage id="join.game" defaultMessage="Start Game" />
+                <FormattedMessage id="start.game" defaultMessage="Start Game" />
+              </Button>
+            </Box>
+          )}
+          {isInGame && canEnd && (
+            <Box sx={{ mt: { xs: 2, sm: 0 } }}>
+              <Button
+                fullWidth
+                disabled={isEnding}
+                onClick={onStart}
+                startIcon={
+                  isEnding ? (
+                    <CircularProgress color="inherit" size="1rem" />
+                  ) : (
+                    <PlayArrow />
+                  )
+                }
+                variant="contained"
+                color="primary"
+                sx={{ marginTop: 0 }}
+              >
+                <FormattedMessage id="end.game" defaultMessage="End Game" />
               </Button>
             </Box>
           )}

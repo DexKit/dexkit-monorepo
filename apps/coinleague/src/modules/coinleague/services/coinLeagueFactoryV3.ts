@@ -68,7 +68,7 @@ export const endGame = async ({ factoryAddress, signer, id, provider }: {
   signer: providers.JsonRpcSigner,
   id: string
 }) => {
-  return (await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider })).endGame(
+  return (await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider, useSigner: true })).endGame(
     id
   ) as Promise<ContractTransaction>;
 };
@@ -80,7 +80,7 @@ export const startGame = async ({ signer, provider, id, factoryAddress }: {
   id: string
 }) => {
   return (
-    await getCoinLeagueV3Contract({ address: factoryAddress, provider, useSigner: true })
+    await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider, useSigner: true })
   ).startGame(id) as Promise<ContractTransaction>;
 };
 

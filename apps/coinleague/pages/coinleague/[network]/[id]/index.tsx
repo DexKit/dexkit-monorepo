@@ -16,13 +16,14 @@ import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
   useCoinLeagueClaim,
   useCoinLeagueGameOnChainQuery,
+  useEndGameMutation,
   useGameProfilesState,
   useJoinGameMutation,
   useStartGameMutation,
   useWinner,
 } from '@/modules/coinleague/hooks/coinleague';
 import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory';
-import { Coin, Game } from '@/modules/coinleague/types';
+import { Coin } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import {
   getChainIdFromName,
@@ -57,7 +58,6 @@ import { useNotifications } from '@/modules/common/hooks/app';
 import { AppNotificationType } from '@/modules/common/types/app';
 import { TransactionStatus } from '@/modules/common/types/transactions';
 
-import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
@@ -178,6 +178,20 @@ const CoinLeagueGame: NextPage = () => {
 
   const { formatMessage } = useIntl();
 
+  const game = gameOnChainQuery.data;
+
+  const canEnd = useMemo(() => {
+    if (game) {
+      const date = new Date().getTime() / 1000;
+
+      return (
+        game.started &&
+        !game.finished &&
+        date > Number(game.start_timestamp) + Number(game.duration)
+      );
+    }
+  }, [game]);
+
   const handleJoinSubmit = (hash: string) => {
     if (chainId !== undefined) {
       const now = Date.now();
@@ -258,6 +272,46 @@ const CoinLeagueGame: NextPage = () => {
     provider,
     signer,
     onSubmit: handleStartSubmit,
+    options: {
+      onSuccess: handleRefetchGame,
+    },
+  });
+
+  const handleEndGameSubmit = (hash: string) => {
+    if (chainId !== undefined) {
+      const now = Date.now();
+
+      addNotification({
+        notification: {
+          type: AppNotificationType.Transaction,
+          title: formatMessage(
+            {
+              defaultMessage: 'Ending Game #{id}',
+              id: 'ending.game.id',
+            },
+            { id },
+          ) as string,
+          hash,
+          checked: false,
+          created: now,
+          icon: 'play_arrow',
+          body: '',
+        },
+        transaction: {
+          status: TransactionStatus.Pending,
+          created: now,
+          chainId,
+        },
+      });
+    }
+  };
+
+  const endGameMutation = useEndGameMutation({
+    factoryAddress,
+    gameId: id as string,
+    provider,
+    signer,
+    onSubmit: handleEndGameSubmit,
     options: {
       onSuccess: handleRefetchGame,
     },
@@ -442,6 +496,10 @@ const CoinLeagueGame: NextPage = () => {
     await startGameMutation.mutateAsync();
   };
 
+  const handleEndGame = async () => {
+    await endGameMutation.mutateAsync();
+  };
+
   const handleClaim = async () => {
     await claimMutation.mutateAsync();
   };
@@ -566,6 +624,9 @@ const CoinLeagueGame: NextPage = () => {
               (hasSufficientPlayers as boolean)
             }
             isStarting={startGameMutation.isLoading}
+            onEnd={handleEndGame}
+            canEnd={canEnd}
+            isEnding={endGameMutation.isLoading}
             onRefetch={handleRefetchGame}
           />
         </ErrorBoundaryUI>
@@ -771,7 +832,7 @@ const CoinLeagueGame: NextPage = () => {
               </Paper>
             )}
           </Box>
-          <Box
+          {/* <Box
             display={'flex'}
             justifyContent={'flex-end'}
             alignContent={'flex-end'}
@@ -780,7 +841,7 @@ const CoinLeagueGame: NextPage = () => {
             <GameActionsButton
               game={gameOnChainQuery.data as unknown as Game}
             />
-          </Box>
+          </Box>*/}
         </ErrorBoundaryUI>
         <ErrorBoundaryUI>
           {!isActive &&

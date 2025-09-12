@@ -607,7 +607,7 @@ export const MaticPriceFeeds = [
     baseName: 'Axie Infinity',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b/logo.png',
     quote: 'USD',
-    tv: 'FTX:AXSUSD',
+    tv: 'BITSTAMP:AXSUSD',
   },
   {
     address: '0xF626964Ba5e81405f47e8004F0b276Bb974742B5',
@@ -647,7 +647,7 @@ export const MaticPriceFeeds = [
     baseName: 'DODO',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x43Dfc4159D86F3A37A5A4B3D4580b888ad7d4DDd/logo.png',
     quote: 'USD',
-    tv: 'FTX:DODOUSD',
+    tv: 'BINANCE:DODOUSDT',
   },
   /* {
       address: '0x392AcaA165a882dfC63D3aeB4c446b95Fa7013B0',
@@ -825,7 +825,7 @@ export const MaticPriceFeeds = [
     baseName: 'Shiba Inu',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE/logo.png',
     quote: 'USD',
-    tv: 'FTX:SHIBUSD',
+    tv: 'BINANCE:SHIBUSDT',
   },
   {
     address: '0xBB3eF70953fC3766bec4Ab7A9BF05B6E4caf89c6',
@@ -833,7 +833,7 @@ export const MaticPriceFeeds = [
     baseName: 'Smooth Love Potion',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xCC8Fa225D80b9c7D42F96e9570156c65D6cAAa25/logo.png',
     quote: 'USD',
-    tv: 'FTX:SLPUSD',
+    tv: 'OKX:SLPUSD',
   },
   /*  {
       address: '0x9bce696Fb0DcE1ed4DDb94305757dEDc745f3786',
