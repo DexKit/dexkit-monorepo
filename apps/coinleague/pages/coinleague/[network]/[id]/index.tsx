@@ -621,7 +621,10 @@ const CoinLeagueGame: NextPage = () => {
             canStart={
               isInGame &&
               (isWaiting as boolean) &&
-              (hasSufficientPlayers as boolean)
+              (hasSufficientPlayers as boolean) &&
+              !!gameOnChainQuery.data &&
+              new Date().getTime() / 1000 >
+                Number(gameOnChainQuery.data.start_timestamp)
             }
             isStarting={startGameMutation.isLoading}
             onEnd={handleEndGame}
