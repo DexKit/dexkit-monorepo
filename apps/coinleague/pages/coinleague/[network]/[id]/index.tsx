@@ -11,7 +11,6 @@ import WalletIcon from '@mui/icons-material/Wallet';
 
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
-import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
 import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
@@ -25,8 +24,8 @@ import {
 import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory';
 import { Coin, Game } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
-
 import { getChainIdFromName, isAddressEqual } from '@/modules/common/utils';
+import { ErrorBoundaryUI } from '@dexkit/ui/components/ErrorBoundary';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
@@ -42,7 +41,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -56,7 +55,6 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
-import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
   TOKEN_ALLOWANCE_QUERY,
   useApproveToken,
@@ -463,7 +461,9 @@ const CoinLeagueGame: NextPage = () => {
         />
       )}
       <Stack spacing={2}>
-        <TickerTapeTV />
+        {/* <ErrorBoundaryUI>
+          <TickerTapeTV />
+        </ErrorBoundaryUI>*/}
         <AppPageHeader
           breadcrumbs={[
             {
@@ -492,83 +492,173 @@ const CoinLeagueGame: NextPage = () => {
             },
           ]}
         />
-        {!hasSufficientAllowance && isActive && !isInGame && isWaiting && (
-          <Alert
-            severity="warning"
-            action={
-              <Button
-                disabled={approveTokenMutation.isLoading}
-                startIcon={
-                  approveTokenMutation.isLoading ? (
-                    <CircularProgress size="1rem" color="inherit" />
-                  ) : (
-                    <Check />
-                  )
-                }
-                size="small"
-                onClick={handleApproveToken}
-                variant="outlined"
-              >
-                <FormattedMessage id="approve" defaultMessage="Approve" />
-              </Button>
-            }
-          >
-            <FormattedMessage
-              id="need.token.approval.to.join.the.game"
-              defaultMessage="Need token approval to join the game"
-            />
-          </Alert>
-        )}
-        {!hasSufficientFunds && !isInGame && isActive && isWaiting && (
-          <Alert severity="warning">
-            <FormattedMessage
-              id="insufficient.funds"
-              defaultMessage="Insufficient funds"
-            />
-          </Alert>
-        )}
-
-        <GameOverviewCard
-          chainId={getChainIdFromName(network as string)?.chainId}
-          id={id as string}
-          provider={provider}
-          factoryAddress={factoryAddress}
-          onJoin={handleJoinGame}
-          isInGame={isInGame}
-          canJoinGame={(canJoinGame as boolean) && (isWaiting as boolean)}
-          isJoining={joinGameMutation.isLoading}
-          onStart={handleStartGame}
-          canStart={
-            isInGame &&
-            (isWaiting as boolean) &&
-            (hasSufficientPlayers as boolean)
-          }
-          isStarting={startGameMutation.isLoading}
-          onRefetch={handleRefetchGame}
-        />
-
-        {isActive &&
-          gameOnChainQuery.data &&
-          getGameStatus(gameOnChainQuery.data) === GAME_ENDED &&
-          !isAddressEqual(
-            winner?.winner_address,
-            ethers.constants.AddressZero,
-          ) && (
-            <GameWinnerCard
-              account={account}
-              game={gameOnChainQuery.data}
-              chainId={chainId}
-              claimed={winner?.claimed}
-              onClaim={handleClaim}
-              isClaiming={claimMutation.isLoading}
-            />
+        <ErrorBoundaryUI>
+          {!hasSufficientAllowance && isActive && !isInGame && isWaiting && (
+            <Alert
+              severity="warning"
+              action={
+                <Button
+                  disabled={approveTokenMutation.isLoading}
+                  startIcon={
+                    approveTokenMutation.isLoading ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : (
+                      <Check />
+                    )
+                  }
+                  size="small"
+                  onClick={handleApproveToken}
+                  variant="outlined"
+                >
+                  <FormattedMessage id="approve" defaultMessage="Approve" />
+                </Button>
+              }
+            >
+              <FormattedMessage
+                id="need.token.approval.to.join.the.game"
+                defaultMessage="Need token approval to join the game"
+              />
+            </Alert>
           )}
+          {!hasSufficientFunds && !isInGame && isActive && isWaiting && (
+            <Alert severity="warning">
+              <FormattedMessage
+                id="insufficient.funds"
+                defaultMessage="Insufficient funds"
+              />
+            </Alert>
+          )}
+        </ErrorBoundaryUI>
+        <ErrorBoundaryUI>
+          <GameOverviewCard
+            chainId={getChainIdFromName(network as string)?.chainId}
+            id={id as string}
+            provider={provider}
+            factoryAddress={factoryAddress}
+            onJoin={handleJoinGame}
+            isInGame={isInGame}
+            canJoinGame={(canJoinGame as boolean) && (isWaiting as boolean)}
+            isJoining={joinGameMutation.isLoading}
+            onStart={handleStartGame}
+            canStart={
+              isInGame &&
+              (isWaiting as boolean) &&
+              (hasSufficientPlayers as boolean)
+            }
+            isStarting={startGameMutation.isLoading}
+            onRefetch={handleRefetchGame}
+          />
+        </ErrorBoundaryUI>
+        <ErrorBoundaryUI>
+          {isActive &&
+            gameOnChainQuery.data &&
+            getGameStatus(gameOnChainQuery.data) === GAME_ENDED &&
+            !isAddressEqual(
+              winner?.winner_address,
+              ethers.constants.AddressZero,
+            ) && (
+              <GameWinnerCard
+                account={account}
+                game={gameOnChainQuery.data}
+                chainId={chainId}
+                claimed={winner?.claimed}
+                onClaim={handleClaim}
+                isClaiming={claimMutation.isLoading}
+              />
+            )}
+        </ErrorBoundaryUI>
+        <ErrorBoundaryUI>
+          {isActive && !isInGame && isWaiting && (
+            <Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Box>
+                    <Card>
+                      <Box sx={{ p: 2 }}>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                            <FormattedMessage
+                              id="captain.coin"
+                              defaultMessage="Captain Coin"
+                            />
+                          </Typography>
 
-        {isActive && !isInGame && isWaiting && (
-          <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Box>
+                          <Button
+                            variant="outlined"
+                            onClick={handleSelectCaptain}
+                            size="small"
+                          >
+                            <FormattedMessage
+                              id="select"
+                              defaultMessage="Select"
+                            />
+                          </Button>
+                        </Stack>
+                      </Box>
+                      <Divider />
+                      <Box sx={{ p: 2 }}>
+                        {selectedCaptain ? (
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="space-between"
+                          >
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <Avatar src={selectedCaptain.logo}>
+                                <Token />
+                              </Avatar>
+                              <Box>
+                                <Typography variant="body1">
+                                  {selectedCaptain.baseName}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                >
+                                  {selectedCaptain.base}
+                                </Typography>
+                              </Box>
+                            </Stack>
+
+                            {selectedCaptain && (
+                              <IconButton onClick={handleRemoveCaptain}>
+                                <CloseIcon />
+                              </IconButton>
+                            )}
+                          </Stack>
+                        ) : (
+                          <Box>
+                            <Typography variant="h5" align="center">
+                              <FormattedMessage
+                                id="no.captain"
+                                defaultMessage="No Captain"
+                              />
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              color="textSecondary"
+                            >
+                              <FormattedMessage
+                                id="please.select.your.captain.coin"
+                                defaultMessage="Please, select your captain coin"
+                              />
+                            </Typography>
+                          </Box>
+                        )}
+                      </Box>
+                    </Card>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <Card>
                     <Box sx={{ p: 2 }}>
                       <Stack
@@ -578,61 +668,44 @@ const CoinLeagueGame: NextPage = () => {
                       >
                         <Typography variant="body1" sx={{ fontWeight: 600 }}>
                           <FormattedMessage
-                            id="captain.coin"
-                            defaultMessage="Captain Coin"
+                            id="your.coins"
+                            defaultMessage="Your coins"
                           />
                         </Typography>
 
                         <Button
                           variant="outlined"
-                          onClick={handleSelectCaptain}
+                          onClick={handleSelectCoins}
+                          startIcon={<Edit />}
                           size="small"
                         >
-                          <FormattedMessage
-                            id="select"
-                            defaultMessage="Select"
-                          />
+                          {coinList.length > 0 ? (
+                            <FormattedMessage id="edit" defaultMessage="Edit" />
+                          ) : (
+                            <FormattedMessage
+                              id="select"
+                              defaultMessage="Select"
+                            />
+                          )}
                         </Button>
                       </Stack>
                     </Box>
-                    <Divider />
-                    <Box sx={{ p: 2 }}>
-                      {selectedCaptain ? (
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
-                          >
-                            <Avatar src={selectedCaptain.logo}>
-                              <Token />
-                            </Avatar>
-                            <Box>
-                              <Typography variant="body1">
-                                {selectedCaptain.baseName}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary">
-                                {selectedCaptain.base}
-                              </Typography>
-                            </Box>
-                          </Stack>
-
-                          {selectedCaptain && (
-                            <IconButton onClick={handleRemoveCaptain}>
-                              <CloseIcon />
-                            </IconButton>
-                          )}
-                        </Stack>
-                      ) : (
-                        <Box>
+                    {coinList.length > 0 ? (
+                      <>
+                        <Divider />
+                        <GameCoinList
+                          coins={coinList}
+                          onRemove={handleRemoveCoin}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Divider />
+                        <Box sx={{ p: 2 }}>
                           <Typography variant="h5" align="center">
                             <FormattedMessage
                               id="no.captain"
-                              defaultMessage="No Captain"
+                              defaultMessage="No Coins"
                             />
                           </Typography>
                           <Typography
@@ -641,154 +714,94 @@ const CoinLeagueGame: NextPage = () => {
                             color="textSecondary"
                           >
                             <FormattedMessage
-                              id="please.select.your.captain.coin"
-                              defaultMessage="Please, select your captain coin"
+                              id="please.select.your.coins"
+                              defaultMessage="Please, select your coins"
                             />
                           </Typography>
                         </Box>
-                      )}
-                    </Box>
+                      </>
+                    )}
                   </Card>
-                </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Card>
-                  <Box sx={{ p: 2 }}>
-                    <Stack
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                        <FormattedMessage
-                          id="your.coins"
-                          defaultMessage="Your coins"
-                        />
-                      </Typography>
-
-                      <Button
-                        variant="outlined"
-                        onClick={handleSelectCoins}
-                        startIcon={<Edit />}
-                        size="small"
-                      >
-                        {coinList.length > 0 ? (
-                          <FormattedMessage id="edit" defaultMessage="Edit" />
-                        ) : (
-                          <FormattedMessage
-                            id="select"
-                            defaultMessage="Select"
-                          />
-                        )}
-                      </Button>
-                    </Stack>
-                  </Box>
-                  {coinList.length > 0 ? (
-                    <>
-                      <Divider />
-                      <GameCoinList
-                        coins={coinList}
-                        onRemove={handleRemoveCoin}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Divider />
-                      <Box sx={{ p: 2 }}>
-                        <Typography variant="h5" align="center">
-                          <FormattedMessage
-                            id="no.captain"
-                            defaultMessage="No Coins"
-                          />
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          align="center"
-                          color="textSecondary"
-                        >
-                          <FormattedMessage
-                            id="please.select.your.coins"
-                            defaultMessage="Please, select your coins"
-                          />
-                        </Typography>
-                      </Box>
-                    </>
-                  )}
-                </Card>
-              </Grid>
-            </Grid>
-          </Box>
-        )}
-        <Typography variant="h5">
-          <FormattedMessage id="players" defaultMessage="Players" />
-        </Typography>
-        <Box>
-          {gameOnChainQuery.data && chainId && (
-            <Paper>
-              <PlayersList
-                gameType={gameOnChainQuery.data.game_type - 1}
-                profiles={gameProfilesStateQuery.profiles}
-                players={gameOnChainQuery.data?.players}
-                chainId={chainId}
-                account={account}
-                game={gameOnChainQuery.data}
-                showWinners={
-                  getGameStatus(gameOnChainQuery.data) === GAME_ENDED
-                }
-                hideCoins={
-                  getGameStatus(gameOnChainQuery.data) === GAME_WAITING
-                }
-              />
-            </Paper>
-          )}
-        </Box>
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          alignContent={'flex-end'}
-          alignItems={'flex-end'}
-        >
-          <GameActionsButton game={gameOnChainQuery.data as unknown as Game} />
-        </Box>
-
-        {!isActive &&
-          gameOnChainQuery.data &&
-          getGameStatus(gameOnChainQuery.data) !== GAME_ENDED && (
-            <Box>
-              <Stack
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                alignContent="center"
-              >
-                <Box>
-                  <Typography variant="h5" align="center">
-                    <FormattedMessage
-                      id="connect.wallet"
-                      defaultMessage="Connect wallet"
-                    />
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    align="center"
-                  >
-                    <FormattedMessage
-                      id="you.need.to.connect.your.wallet.to.continue"
-                      defaultMessage="You need to connect to you wallet to continue"
-                    />
-                  </Typography>
-                </Box>
-                <Button
-                  startIcon={<WalletIcon />}
-                  onClick={handleConnectWallet}
-                  variant="contained"
-                >
-                  <FormattedMessage id="connect" defaultMessage="Connect" />
-                </Button>
-              </Stack>
             </Box>
           )}
+        </ErrorBoundaryUI>
+        <ErrorBoundaryUI>
+          <Typography variant="h5">
+            <FormattedMessage id="players" defaultMessage="Players" />
+          </Typography>
+          <Box>
+            {gameOnChainQuery.data && chainId && (
+              <Paper>
+                <PlayersList
+                  gameType={gameOnChainQuery.data.game_type - 1}
+                  profiles={gameProfilesStateQuery.profiles}
+                  players={gameOnChainQuery.data?.players}
+                  chainId={chainId}
+                  account={account}
+                  game={gameOnChainQuery.data}
+                  showWinners={
+                    getGameStatus(gameOnChainQuery.data) === GAME_ENDED
+                  }
+                  hideCoins={
+                    getGameStatus(gameOnChainQuery.data) === GAME_WAITING
+                  }
+                />
+              </Paper>
+            )}
+          </Box>
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            alignContent={'flex-end'}
+            alignItems={'flex-end'}
+          >
+            <GameActionsButton
+              game={gameOnChainQuery.data as unknown as Game}
+            />
+          </Box>
+        </ErrorBoundaryUI>
+        <ErrorBoundaryUI>
+          {!isActive &&
+            gameOnChainQuery.data &&
+            getGameStatus(gameOnChainQuery.data) !== GAME_ENDED && (
+              <Box>
+                <Stack
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                  alignContent="center"
+                >
+                  <Box>
+                    <Typography variant="h5" align="center">
+                      <FormattedMessage
+                        id="connect.wallet"
+                        defaultMessage="Connect wallet"
+                      />
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="textSecondary"
+                      align="center"
+                    >
+                      <FormattedMessage
+                        id="you.need.to.connect.your.wallet.to.continue"
+                        defaultMessage="You need to connect to you wallet to continue"
+                      />
+                    </Typography>
+                  </Box>
+                  <Button
+                    startIcon={<WalletIcon />}
+                    onClick={handleConnectWallet}
+                    variant="contained"
+                  >
+                    <FormattedMessage id="connect" defaultMessage="Connect" />
+                  </Button>
+                </Stack>
+              </Box>
+            )}
+        </ErrorBoundaryUI>
       </Stack>
     </>
   );
@@ -796,9 +809,9 @@ const CoinLeagueGame: NextPage = () => {
 
 const CoinleagueGameWithLayout = () => {
   return (
-    <MainLayout>
-      <h1>Test</h1>
-    </MainLayout>
+    // <MainLayout>
+    <h1>Test</h1>
+    //</MainLayout>
   );
 };
 
@@ -810,7 +823,7 @@ type Params = {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext<Params>) => {
-  const queryClient = new QueryClient();
+  //const queryClient = new QueryClient();
 
   /*if (params) {
     const { id, network } = params;
@@ -848,7 +861,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      //   dehydratedState: dehydrate(queryClient),
     },
   };
 };
