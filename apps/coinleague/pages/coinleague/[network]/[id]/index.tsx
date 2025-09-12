@@ -64,7 +64,6 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
-import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
 import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
@@ -473,9 +472,9 @@ const CoinLeagueGame: NextPage = () => {
         />
       )}
       <Stack spacing={2}>
-        <ErrorBoundaryUI>
+        {/*<ErrorBoundaryUI>
           <TickerTapeTV />
-        </ErrorBoundaryUI>
+        </ErrorBoundaryUI>*/}
         <AppPageHeader
           breadcrumbs={[
             {
