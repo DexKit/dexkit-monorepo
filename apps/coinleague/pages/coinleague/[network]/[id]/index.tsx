@@ -72,6 +72,7 @@ import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
 import dynamic from 'next/dynamic';
+import { parseEther } from 'viem';
 
 const TickerTapeTV = dynamic(
   () => import('@/modules/coinleague/components/TickerTapeTV'),
@@ -412,8 +413,10 @@ const CoinLeagueGame: NextPage = () => {
       spender: factoryAddress,
       tokenContract: gameOnChainQuery.data?.coin_to_play,
       signer,
+      amount: BigNumber.from(parseEther('1000000000').toString()),
       onSubmited: handleApproveSubmit,
     });
+    handleApproveSuccess();
   };
 
   const handleJoinGame = async () => {
@@ -422,8 +425,10 @@ const CoinLeagueGame: NextPage = () => {
         spender: factoryAddress,
         tokenContract: gameOnChainQuery.data?.coin_to_play,
         signer,
+        amount: BigNumber.from(parseEther('1000000000').toString()),
         onSubmited: handleApproveSubmit,
       });
+      await handleApproveSuccess();
     }
 
     await joinGameMutation.mutateAsync();
