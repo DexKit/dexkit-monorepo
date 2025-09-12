@@ -116,11 +116,7 @@ export function GameOverviewCard({
             >
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="id" defaultMessage="ID" />
-                  )}
+                  <FormattedMessage id="id" defaultMessage="ID" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : game?.id}
@@ -128,14 +124,10 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage
-                      id="game.level"
-                      defaultMessage="Game Level"
-                    />
-                  )}
+                  <FormattedMessage
+                    id="game.level"
+                    defaultMessage="Game Level"
+                  />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -152,11 +144,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="duration" defaultMessage="Duration" />
-                  )}
+                  <FormattedMessage id="duration" defaultMessage="Duration" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : GET_LABEL_FROM_DURATION(duration)}
@@ -164,11 +152,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="entry" defaultMessage="Entry" />
-                  )}
+                  <FormattedMessage id="entry" defaultMessage="Entry" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -182,11 +166,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="type" defaultMessage="Type" />
-                  )}
+                  <FormattedMessage id="type" defaultMessage="Type" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -200,11 +180,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="coins" defaultMessage="Coins" />
-                  )}
+                  <FormattedMessage id="coins" defaultMessage="Coins" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : strPad(coins)}
@@ -212,11 +188,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="players" defaultMessage="Players" />
-                  )}
+                  <FormattedMessage id="players" defaultMessage="Players" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -231,11 +203,7 @@ export function GameOverviewCard({
 
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="prize" defaultMessage="Prize" />
-                  )}
+                  <FormattedMessage id="prize" defaultMessage="Prize" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -250,14 +218,10 @@ export function GameOverviewCard({
               {game && getGameStatus(game) === GAME_WAITING && (
                 <Grid item>
                   <Typography variant="caption" color="textSecondary">
-                    {isLoading ? (
-                      <Skeleton />
-                    ) : (
-                      <FormattedMessage
-                        id="starts.at"
-                        defaultMessage="Starts at"
-                      />
-                    )}
+                    <FormattedMessage
+                      id="starts.at"
+                      defaultMessage="Starts at"
+                    />
                   </Typography>
                   <Typography variant="body2">
                     <GameCounterSpan startsAt={game.start_timestamp} />

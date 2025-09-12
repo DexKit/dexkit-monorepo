@@ -78,7 +78,8 @@ export const GET_GAME_LEVEL = (
 export const GET_GAME_LEVEL_AMOUNTS = (
   gameLevel: GameLevel,
   chainId = ChainId.Polygon,
-  coinToPlayAddress?: string
+  //This needs to be passed if using a new coin. We are passing here USDT
+  coinToPlayAddress = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
 ) => {
   const coinToPlay = CoinToPlay[chainId]?.find(
     (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase()
@@ -87,6 +88,7 @@ export const GET_GAME_LEVEL_AMOUNTS = (
     coinToPlay &&
     coinToPlay.address.toLowerCase() !==
     ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase();
+
   switch (gameLevel) {
     case GameLevel.Novice:
       if (isStable) {

@@ -72,6 +72,9 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           <MenuItem value={GameLevel.All}>
             <FormattedMessage id="app.coinLeagues.all" defaultMessage="All" />
           </MenuItem>
+          <MenuItem value={GameLevel.Novice}>
+            <FormattedMessage id="novice" defaultMessage="Novice" />
+          </MenuItem>
           <MenuItem value={GameLevel.Beginner}>
             <FormattedMessage id="beginner" defaultMessage="Beginner" />
           </MenuItem>

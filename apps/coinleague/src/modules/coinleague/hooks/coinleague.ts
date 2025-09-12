@@ -118,6 +118,7 @@ export const useCoinLeagueGames = (
     ).toString();
 
     variables.entry = entryAmount;
+
   }
 
   if (filters?.numberOfPlayers !== NumberOfPLayers.ALL) {

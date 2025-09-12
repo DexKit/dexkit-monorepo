@@ -11,12 +11,7 @@ import WalletIcon from '@mui/icons-material/Wallet';
 
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
-import {
-  COIN_LEAGUES_FACTORY_ADDRESS_V3,
-  GAME_ENDED,
-  GAME_WAITING,
-  GET_LEAGUES_CHAIN_ID,
-} from '@/modules/coinleague/constants';
+import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
   useCoinLeagueClaim,
@@ -50,7 +45,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -64,7 +59,6 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
-import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
   TOKEN_ALLOWANCE_QUERY,
@@ -846,7 +840,7 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext<Params>) => {
   const queryClient = new QueryClient();
 
-  if (params) {
+  /*  if (params) {
     const { id, network } = params;
 
     if (network && id) {
@@ -868,21 +862,25 @@ export const getStaticProps: GetStaticProps = async ({
               id as string,
             );
 
-            await queryClient.prefetchQuery(
-              [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
-              async () => game,
-            );
+            if (game) {
+              await queryClient.prefetchQuery(
+                [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
+                async () => {
+                  return game;
+                },
+              );
+            }
           }
         }
       } catch (e) {
         console.log('error fetching data');
       }
     }
-  }
+  }*/
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      // dehydratedState: dehydrate(queryClient),
     },
   };
 };
