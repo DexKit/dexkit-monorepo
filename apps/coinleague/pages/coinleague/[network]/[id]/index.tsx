@@ -55,6 +55,7 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
+import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
   TOKEN_ALLOWANCE_QUERY,
   useApproveToken,
@@ -809,9 +810,9 @@ const CoinLeagueGame: NextPage = () => {
 
 const CoinleagueGameWithLayout = () => {
   return (
-    // <MainLayout>
-    <h1>Test</h1>
-    //</MainLayout>
+    <MainLayout>
+      <CoinLeagueGame />
+    </MainLayout>
   );
 };
 
