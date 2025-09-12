@@ -797,7 +797,7 @@ const CoinLeagueGame: NextPage = () => {
 const CoinleagueGameWithLayout = () => {
   return (
     <MainLayout>
-      <h1>Test</h1>
+      <CoinLeagueGame />
     </MainLayout>
   );
 };
