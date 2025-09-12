@@ -11,7 +11,12 @@ import WalletIcon from '@mui/icons-material/Wallet';
 
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
-import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
+import {
+  COIN_LEAGUES_FACTORY_ADDRESS_V3,
+  GAME_ENDED,
+  GAME_WAITING,
+  GET_LEAGUES_CHAIN_ID,
+} from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
   useCoinLeagueClaim,
@@ -24,7 +29,11 @@ import {
 import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory';
 import { Coin, Game } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
-import { getChainIdFromName, isAddressEqual } from '@/modules/common/utils';
+import {
+  getChainIdFromName,
+  getProviderByChainId,
+  isAddressEqual,
+} from '@/modules/common/utils';
 import { ErrorBoundaryUI } from '@dexkit/ui/components/ErrorBoundary';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
@@ -41,7 +50,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
+import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -55,6 +64,8 @@ import { TransactionStatus } from '@/modules/common/types/transactions';
 
 import GameActionsButton from '@/modules/coinleague/components/GameActionsButton';
 import GameWinnerCard from '@/modules/coinleague/components/GameWinnerCard';
+import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
+import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import {
   TOKEN_ALLOWANCE_QUERY,
@@ -462,9 +473,9 @@ const CoinLeagueGame: NextPage = () => {
         />
       )}
       <Stack spacing={2}>
-        {/* <ErrorBoundaryUI>
+        <ErrorBoundaryUI>
           <TickerTapeTV />
-        </ErrorBoundaryUI>*/}
+        </ErrorBoundaryUI>
         <AppPageHeader
           breadcrumbs={[
             {
@@ -824,9 +835,9 @@ type Params = {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext<Params>) => {
-  //const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
 
-  /*if (params) {
+  if (params) {
     const { id, network } = params;
 
     if (network && id) {
@@ -858,11 +869,11 @@ export const getStaticProps: GetStaticProps = async ({
         console.log('error fetching data');
       }
     }
-  }*/
+  }
 
   return {
     props: {
-      //   dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
