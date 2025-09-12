@@ -336,7 +336,7 @@ export function useCoinLeagueGameOnChainQuery({
   id?: string;
 }) {
   return useQuery<CoinLeagueGame | undefined>(
-    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
+    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
     async () => {
       if (!provider || !factoryAddress || !id) {
         return undefined;

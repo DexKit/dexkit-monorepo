@@ -77,6 +77,13 @@ import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers } from 'ethers';
 
+import dynamic from 'next/dynamic';
+
+const TickerTapeTV = dynamic(
+  () => import('@/modules/coinleague/components/TickerTapeTV'),
+  { ssr: false },
+);
+
 // NOTE: use only on chain
 
 const CoinLeagueGame: NextPage = () => {
@@ -472,9 +479,9 @@ const CoinLeagueGame: NextPage = () => {
         />
       )}
       <Stack spacing={2}>
-        {/*<ErrorBoundaryUI>
+        <ErrorBoundaryUI>
           <TickerTapeTV />
-        </ErrorBoundaryUI>*/}
+        </ErrorBoundaryUI>
         <AppPageHeader
           breadcrumbs={[
             {
