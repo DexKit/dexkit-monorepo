@@ -234,20 +234,23 @@ export function GameOverviewCard({
                   </Typography>
                 </Grid>
               )}
-              {game && getGameStatus(game) === GAME_STARTED && (
-                <Grid item>
-                  <Typography variant="caption" color="textSecondary">
-                    <FormattedMessage id="Ends in" defaultMessage="Ends in" />
-                  </Typography>
-                  <Typography variant="body2">
-                    <GameCountdown
-                      duration={game.duration}
-                      startTimestamp={game.start_timestamp}
-                      onEnd={onRefetch}
-                    />
-                  </Typography>
-                </Grid>
-              )}
+              {game &&
+                getGameStatus(game) === GAME_STARTED &&
+                new Date().getTime() / 1000 <
+                  game.start_timestamp + game.duration && (
+                  <Grid item>
+                    <Typography variant="caption" color="textSecondary">
+                      <FormattedMessage id="Ends in" defaultMessage="Ends in" />
+                    </Typography>
+                    <Typography variant="body2">
+                      <GameCountdown
+                        duration={game.duration}
+                        startTimestamp={game.start_timestamp}
+                        onEnd={onRefetch}
+                      />
+                    </Typography>
+                  </Grid>
+                )}
             </Grid>
           </Box>
           {!isInGame && canJoinGame && (
@@ -295,7 +298,7 @@ export function GameOverviewCard({
               <Button
                 fullWidth
                 disabled={isEnding}
-                onClick={onStart}
+                onClick={onEnd}
                 startIcon={
                   isEnding ? (
                     <CircularProgress color="inherit" size="1rem" />

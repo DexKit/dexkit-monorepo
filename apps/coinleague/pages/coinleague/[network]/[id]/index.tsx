@@ -10,7 +10,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import WalletIcon from '@mui/icons-material/Wallet';
 
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
-import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
 import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
@@ -71,6 +70,7 @@ import { Check, Edit } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
+import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
 import dynamic from 'next/dynamic';
 import { parseEther } from 'viem';
 
@@ -652,7 +652,7 @@ const CoinLeagueGame: NextPage = () => {
             )}
         </ErrorBoundaryUI>
         <ErrorBoundaryUI>
-          {isActive && !isInGame && isWaiting && (
+          {isActive && isWaiting && (
             <Box>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>

@@ -631,7 +631,7 @@ export const MaticPriceFeeds = [
     baseName: 'Convex',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B/logo.png',
     quote: 'USD',
-    tv: 'FTX:CVXUSD',
+    tv: 'BINANCE:CVXUSDT',
   },
   {
     address: '0x4205eC5fd179A843caa7B0860a8eC7D980013359',
