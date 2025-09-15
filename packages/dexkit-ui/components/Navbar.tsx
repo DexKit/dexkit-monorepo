@@ -246,9 +246,9 @@ function Navbar({ appConfig, isPreview }: Props) {
     if (!glassVariant) {
       // Default logo size for navbar
       const defaultSize = isMobile ? 32 : 48;
-      return { 
-        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)), 
-        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize)) 
+      return {
+        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)),
+        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize))
       };
     }
 
@@ -264,11 +264,11 @@ function Navbar({ appConfig, isPreview }: Props) {
         width = height = isMobile ? 32 : 64;
         break;
       case 'custom':
-        width = isMobile ? 
-          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) : 
+        width = isMobile ?
+          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) :
           Math.max(1, Number(customLogoWidth || 32));
-        height = isMobile ? 
-          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) : 
+        height = isMobile ?
+          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) :
           Math.max(1, Number(customLogoHeight || 32));
         break;
       default:
@@ -841,23 +841,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logoDark?.url || ""}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      height={isMobile ? 
-                        (appConfig?.logoDark?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                      height={isMobile ?
+                        (appConfig?.logoDark?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48) / 2)
-                        ) : 
-                        (appConfig?.logoDark?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                        ) :
+                        (appConfig?.logoDark?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48))
                         )
                       }
-                      width={isMobile ? 
-                        (appConfig?.logoDark?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                      width={isMobile ?
+                        (appConfig?.logoDark?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48) / 2)
-                        ) : 
-                        (appConfig?.logoDark?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                        ) :
+                        (appConfig?.logoDark?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48))
                         )
                       }
@@ -869,23 +869,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logo.url}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      width={isMobile ? 
-                        (appConfig?.logo?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                      width={isMobile ?
+                        (appConfig?.logo?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.width || 48) / 2)
-                        ) : 
-                        (appConfig?.logo?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                        ) :
+                        (appConfig?.logo?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.width || 48))
                         )
                       }
-                      height={isMobile ? 
-                        (appConfig?.logo?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                      height={isMobile ?
+                        (appConfig?.logo?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.height || 48) / 2)
-                        ) : 
-                        (appConfig?.logo?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                        ) :
+                        (appConfig?.logo?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.height || 48))
                         )
                       }
@@ -935,6 +935,84 @@ function Navbar({ appConfig, isPreview }: Props) {
                     hideTokens={appConfig?.searchbar?.hideTokens}
                     isPreview={isPreview}
                   />
+                </Stack>
+              )}
+              {isMobile && (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{
+                    marginLeft: 'auto',
+                    justifyContent: 'flex-end',
+                    flexGrow: 0,
+                    minWidth: 'fit-content'
+                  }}
+                >
+                  {isActive && (
+                    <ButtonBase
+                      onClick={handleShowProfileMenu}
+                      sx={{
+                        borderRadius: "50%",
+                        minWidth: '44px',
+                        minHeight: '44px',
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          height: "1.25rem",
+                          width: "1.25rem"
+                        }}
+                        src={user?.profileImageURL}
+                      />
+                    </ButtonBase>
+                  )}
+                  {appConfig.commerce?.enabled && (
+                    <NoSsr>
+                      <CommerceCartIconButton />
+                    </NoSsr>
+                  )}
+                  <NoSsr>
+                    <IconButton
+                      onClick={handleOpenTransactions}
+                      aria-label="notifications"
+                      sx={{
+                        minWidth: '44px',
+                        minHeight: '44px',
+                      }}
+                    >
+                      <Badge
+                        variant={
+                          hasPendingTransactions &&
+                            filteredUncheckedTransactions.length === 0
+                            ? "dot"
+                            : "standard"
+                        }
+                        color="primary"
+                        badgeContent={
+                          filteredUncheckedTransactions.length > 0
+                            ? filteredUncheckedTransactions.length
+                            : undefined
+                        }
+                        invisible={
+                          !hasPendingTransactions &&
+                          filteredUncheckedTransactions.length === 0
+                        }
+                      >
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                  </NoSsr>
+                  <IconButton
+                    onClick={handleSettingsMenuClick}
+                    aria-label="settings"
+                    sx={{
+                      minWidth: '44px',
+                      minHeight: '44px',
+                    }}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
                 </Stack>
               )}
               <Stack
