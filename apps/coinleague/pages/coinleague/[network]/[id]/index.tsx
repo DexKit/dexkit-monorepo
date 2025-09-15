@@ -10,7 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import WalletIcon from '@mui/icons-material/Wallet';
 
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
-import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
+import {
+  GAME_ENDED,
+  GAME_WAITING,
+  GET_LEAGUES_CHAIN_ID,
+} from '@/modules/coinleague/constants';
 import {
   COIN_LEAGUE_GAME_ONCHAIN_QUERY,
   useCoinLeagueClaim,
@@ -45,7 +49,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -71,6 +75,8 @@ import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
+import { getCoinLeagueGameOnChain } from '@/modules/coinleague/services/coinleague';
+import { COIN_LEAGUES_FACTORY_ADDRESS_V3 } from '@/modules/common/constants/champions';
 import dynamic from 'next/dynamic';
 import { parseEther } from 'viem';
 
@@ -909,7 +915,7 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext<Params>) => {
   const queryClient = new QueryClient();
 
-  /*  if (params) {
+  if (params) {
     const { id, network } = params;
 
     if (network && id) {
@@ -945,11 +951,11 @@ export const getStaticProps: GetStaticProps = async ({
         console.log('error fetching data');
       }
     }
-  }*/
+  }
 
   return {
     props: {
-      // dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

@@ -54,7 +54,7 @@ function PlayersListItem({
 }: Props) {
   const profile = useMemo(() => {
     return profiles?.find((p) =>
-      isAddressEqual(p.address, player.player_address)
+      isAddressEqual(p.address, player.player_address),
     );
   }, [profiles, player, chainId]);
 
@@ -91,7 +91,10 @@ function PlayersListItem({
         </ListItemAvatar>
         <ListItemText
           primary={
-            <Link color="inherit" href="/coinleague/">
+            <Link
+              color="inherit"
+              href={`/coinleague/profile/${player.player_address}`}
+            >
               {isAddressEqual(account, player.player_address) ? (
                 <FormattedMessage id="you" defaultMessage="You" />
               ) : profile ? (
