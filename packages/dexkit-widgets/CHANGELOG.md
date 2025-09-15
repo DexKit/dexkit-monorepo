@@ -1,5 +1,13 @@
 # @dexkit/widgets
 
+## 0.15.0
+
+### Minor Changes
+
+- 846b6b2: New layout variants for Navbar were added (glass, minimal, custom) for total customization.
+- eefb4b8: Add footer visual variants (glassmorphic, minimal, invisible and custom) for increased customization.
+- 1ced984: Add new MUI components to use on DexAppBuilder (card, cards list, accordion, tree view, stepper, image list)
+
 ## 0.14.0
 
 ### Minor Changes
