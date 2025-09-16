@@ -378,7 +378,7 @@ const CoinLeagueGame: NextPage = () => {
     return gameOnChainQuery.data && gameOnChainQuery.data.players?.length >= 2;
   }, [gameOnChainQuery.data]);
 
-  const { data: winner } = useWinner({
+  const { data: winner, refetch: refetchWinner } = useWinner({
     id: id as string,
     account,
     provider,
@@ -421,6 +421,11 @@ const CoinLeagueGame: NextPage = () => {
     onSubmited: handleClaimSubmit,
     provider,
     signer,
+    options: {
+      onSuccess() {
+        refetchWinner();
+      },
+    },
   });
 
   const handleCloseCoinDialog = () => {
@@ -820,6 +825,7 @@ const CoinLeagueGame: NextPage = () => {
               <Paper>
                 <PlayersList
                   gameType={gameOnChainQuery.data.game_type - 1}
+                  isLoadingGame={gameOnChainQuery.isLoading}
                   profiles={gameProfilesStateQuery.profiles}
                   players={gameOnChainQuery.data?.players}
                   chainId={chainId}

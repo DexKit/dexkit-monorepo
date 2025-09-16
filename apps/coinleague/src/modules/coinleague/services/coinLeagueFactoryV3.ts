@@ -1,5 +1,5 @@
 import { getMulticall } from '@/modules/common/services/multicall';
-import { CallInput } from '@indexed-finance/multicall';
+import type { CallInput } from '@indexed-finance/multicall';
 import { BigNumber, Contract, ContractTransaction, providers } from 'ethers';
 import { Interface } from 'ethers/lib/utils';
 import { COINLEAGUE_DEFAULT_AFFILIATE } from '../constants';

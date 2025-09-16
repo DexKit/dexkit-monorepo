@@ -31,6 +31,7 @@ import {
   getCoinLeagueGame,
   getCoinLeagueGameOnChain,
   getCurrentCoinPrice,
+  getPlayersScoreGame,
 } from '../services/coinleague';
 import {
   createGame,
@@ -45,6 +46,7 @@ import { getProfiles } from '../services/profileApi';
 import {
   ChampionMetadata,
   CoinLeagueGame,
+  CoinLeagueGameCoinFeed,
   CoinLeaguesChampion,
   GameFiltersState,
   GameGraph,
@@ -349,6 +351,35 @@ export function useCoinLeagueGameOnChainQuery({
     }
   );
 }
+export const PLAYERS_SCORES_QUERY = 'PLAYERS_SCORES_QUERY';
+
+export function usePlayersScoresQuery({
+  game,
+  factoryAddress,
+  provider,
+}: {
+  factoryAddress: string;
+  provider?: providers.Web3Provider;
+  game: CoinLeagueGame
+}) {
+  return useQuery<{ playerScoreSorted: { score: number, address: string }[], coinFeeds: { [key: string]: CoinLeagueGameCoinFeed } } | undefined>(
+    [PLAYERS_SCORES_QUERY, factoryAddress, game, provider],
+    async () => {
+      if (!provider || !factoryAddress || !game) {
+        return undefined;
+      }
+
+      if (game.started && !game.finished) {
+        return await getPlayersScoreGame({ provider, factoryAddress, game });
+      }
+    }
+  );
+}
+
+
+
+
+
 
 export function useJoinGameMutation({
   options,
@@ -604,7 +635,8 @@ export function useCoinLeagueClaim({
   factoryAddress,
   provider,
   onSubmited,
-  signer
+  signer,
+  options,
 }: {
   account?: string;
   id: string;
@@ -612,6 +644,17 @@ export function useCoinLeagueClaim({
   provider?: providers.Web3Provider;
   signer?: providers.JsonRpcSigner;
   onSubmited?: (hash: string) => void;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
 }) {
   return useMutation(async () => {
     if (!provider || !account || !id || !factoryAddress || !signer) {
@@ -625,7 +668,7 @@ export function useCoinLeagueClaim({
     }
 
     return await tx.wait();
-  });
+  }, options);
 }
 
 const COIN_LEAGUES_CHAMPION_URL_NUMBAI =
