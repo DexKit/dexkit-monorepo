@@ -115,7 +115,7 @@ export async function getPlayersScoreGame({ game, factoryAddress, provider }: { 
   const playersScores: { score: number, address: string }[] = [];
 
   for (let player of game.players) {
-    const playerCoinPriceFeeds: { captainCoin: { address: string, currentPrice: number }, coinFeeds: { address: string, currentPrice: number }[] } = { captainCoin: { address: '0x', currentPrice: BigNumber.from(0) }, coinFeeds: [] };
+    const playerCoinPriceFeeds: { captainCoin: { address: string, currentPrice: number }, coinFeeds: { address: string, currentPrice: number }[] } = { captainCoin: { address: '0x', currentPrice: 0 }, coinFeeds: [] };
 
     const index = coinCurrentPrices.findIndex((val) => val.coin === player.captain_coin);
 
@@ -207,6 +207,7 @@ export async function getPlayersScoreGame({ game, factoryAddress, provider }: { 
 
     coinFeeds[feed.coin].score = String(((end_price - start_price) * 100000) / end_price);
   }
+  console.log(coinFeeds);
 
   return { playerScoreSorted, coinFeeds };
 

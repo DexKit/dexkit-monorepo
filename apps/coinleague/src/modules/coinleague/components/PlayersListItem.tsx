@@ -99,7 +99,7 @@ function PlayersListItem({
         }
       }
     }
-  }, [game.game_type, coinFeeds]);
+  }, [game.game_type, coinFeeds, player.captain_coin]);
 
   return (
     <>
