@@ -137,7 +137,7 @@ function PlayersListItem({
               {isAddressEqual(account, player.player_address) ? (
                 <FormattedMessage id="you" defaultMessage="You" />
               ) : profile ? (
-                profile.username
+                profile?.user?.username
               ) : (
                 truncateAddress(player.player_address)
               )}
