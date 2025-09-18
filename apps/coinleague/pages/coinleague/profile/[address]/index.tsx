@@ -185,9 +185,9 @@ const CoinLeagueProfilePage: NextPage = () => {
             alignItems="center"
             alignContent="center"
           >
-            {profileQuery.data && profileQuery.data.profileImageURL ? (
+            {profileQuery.data && profileQuery.data.user.profileImageURL ? (
               <ProfileImage
-                image={getNormalizedUrl(profileQuery.data.profileImageURL)}
+                image={getNormalizedUrl(profileQuery.data.user.profileImageURL)}
               />
             ) : (
               <Avatar />
@@ -195,7 +195,7 @@ const CoinLeagueProfilePage: NextPage = () => {
             <Box>
               <Typography variant="body1">
                 {profileQuery.data && !profileQuery.error
-                  ? profileQuery.data.username
+                  ? profileQuery.data.user.username
                   : isAddress(address as string)
                     ? reduceAddress(address as string)
                     : null}
