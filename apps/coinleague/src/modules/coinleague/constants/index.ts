@@ -883,11 +883,11 @@ export const AFFILIATE_FIELD = 'league-affiliate';
 
 export const GAME_METADATA_API =
   process.env.NODE_ENV === 'development'
-    ? //'http://localhost:4001'
-    'https://coinleague-app-api-yxwk6.ondigitalocean.app'
-    : process.env.REACT_APP_PROFILE_API;
+    ? 'http://localhost:3001'
+    //'https://coinleague-app-api-yxwk6.ondigitalocean.app'
+    : process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT;
 
-export const PROFILE_API = `${GAME_METADATA_API}/api/profile`;
+export const PROFILE_API = `${GAME_METADATA_API}/user`;
 
 export enum Months {
   February = 'February',

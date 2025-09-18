@@ -114,11 +114,17 @@ function PlayersListItem({
             alignItems="center"
             alignContent="center"
           >
-            <Typography>{strPad(position + 1)}°</Typography>
+            {isLoadingScore ? (
+              <Skeleton>
+                <Typography>-.--°</Typography>
+              </Skeleton>
+            ) : (
+              <Typography>{strPad(position + 1)}°</Typography>
+            )}
           </Stack>
         )}
         <ListItemAvatar>
-          <Avatar src={ipfsUriToUrl(profile?.profileImage || '')}>
+          <Avatar src={ipfsUriToUrl(profile?.user?.profileImageURL || '')}>
             <PersonIcon />
           </Avatar>
         </ListItemAvatar>
