@@ -62,6 +62,7 @@ export enum GameType {
 
 export enum GameLevel {
   All = 0,
+  Novice,
   Beginner,
   Intermediate,
   Advanced,

@@ -31,9 +31,11 @@ import {
   getCoinLeagueGame,
   getCoinLeagueGameOnChain,
   getCurrentCoinPrice,
+  getPlayersScoreGame,
 } from '../services/coinleague';
 import {
   createGame,
+  endGame,
   getGamesData,
   getWinner,
   joinGame,
@@ -44,6 +46,7 @@ import { getProfiles } from '../services/profileApi';
 import {
   ChampionMetadata,
   CoinLeagueGame,
+  CoinLeagueGameCoinFeed,
   CoinLeaguesChampion,
   GameFiltersState,
   GameGraph,
@@ -118,6 +121,7 @@ export const useCoinLeagueGames = (
     ).toString();
 
     variables.entry = entryAmount;
+
   }
 
   if (filters?.numberOfPlayers !== NumberOfPLayers.ALL) {
@@ -247,7 +251,7 @@ export function useGamesFilters({
 }: {
   myGames: boolean;
 }): GameFiltersState {
-  const [orderByGame, setOrderByGame] = useState(GameOrderBy.HighLevel);
+  const [orderByGame, setOrderByGame] = useState(GameOrderBy.AboutStart);
   const [numberOfPlayers, setNumberOfPlayers] = useState<NumberOfPLayers>(
     NumberOfPLayers.ALL
   );
@@ -263,7 +267,7 @@ export function useGamesFilters({
   const [isMyGames, setIsMyGames] = useState(myGames);
 
   const reset = useCallback(() => {
-    setOrderByGame(GameOrderBy.HighLevel);
+    setOrderByGame(GameOrderBy.AboutStart);
     setNumberOfPlayers(NumberOfPLayers.ALL);
     setStakeAmount(GameStakeAmount.ALL);
     setGameLevel(GameLevel.All);
@@ -336,16 +340,46 @@ export function useCoinLeagueGameOnChainQuery({
   id?: string;
 }) {
   return useQuery<CoinLeagueGame | undefined>(
-    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
+    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
     async () => {
       if (!provider || !factoryAddress || !id) {
-        return;
+        return undefined;
       }
 
       return await getCoinLeagueGameOnChain(provider, factoryAddress, id);
+
     }
   );
 }
+export const PLAYERS_SCORES_QUERY = 'PLAYERS_SCORES_QUERY';
+
+export function usePlayersScoresQuery({
+  game,
+  factoryAddress,
+  provider,
+}: {
+  factoryAddress: string;
+  provider?: providers.Web3Provider;
+  game: CoinLeagueGame
+}) {
+  return useQuery<{ playerScoreSorted: { score: number, address: string }[], coinFeeds: { [key: string]: CoinLeagueGameCoinFeed } } | undefined>(
+    [PLAYERS_SCORES_QUERY, factoryAddress, game, provider],
+    async () => {
+      if (!provider || !factoryAddress || !game) {
+        return undefined;
+      }
+
+      if (game.started && !game.finished) {
+        return await getPlayersScoreGame({ provider, factoryAddress, game });
+      }
+    }
+  );
+}
+
+
+
+
+
 
 export function useJoinGameMutation({
   options,
@@ -389,6 +423,7 @@ export function useJoinGameMutation({
     ) {
       return;
     }
+
 
     const tx = await joinGame({
       factoryAddress,
@@ -439,6 +474,46 @@ export function useStartGameMutation({
     }
 
     const tx = await startGame({ factoryAddress, provider, id: gameId, signer });
+
+    if (onSubmit) {
+      onSubmit(tx.hash);
+    }
+
+    return await tx.wait();
+  }, options);
+}
+
+export function useEndGameMutation({
+  options,
+  gameId,
+  factoryAddress,
+  provider,
+  onSubmit,
+  signer
+}: {
+  gameId?: string;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
+  onSubmit?: (hash: string) => void;
+  factoryAddress?: string;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
+}) {
+  return useMutation(async () => {
+    if (!provider || !gameId || !factoryAddress || !signer) {
+      return;
+    }
+
+    const tx = await endGame({ factoryAddress, provider, id: gameId, signer });
 
     if (onSubmit) {
       onSubmit(tx.hash);
@@ -560,7 +635,8 @@ export function useCoinLeagueClaim({
   factoryAddress,
   provider,
   onSubmited,
-  signer
+  signer,
+  options,
 }: {
   account?: string;
   id: string;
@@ -568,6 +644,17 @@ export function useCoinLeagueClaim({
   provider?: providers.Web3Provider;
   signer?: providers.JsonRpcSigner;
   onSubmited?: (hash: string) => void;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
 }) {
   return useMutation(async () => {
     if (!provider || !account || !id || !factoryAddress || !signer) {
@@ -581,7 +668,7 @@ export function useCoinLeagueClaim({
     }
 
     return await tx.wait();
-  });
+  }, options);
 }
 
 const COIN_LEAGUES_CHAMPION_URL_NUMBAI =

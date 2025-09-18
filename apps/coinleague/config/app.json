@@ -9,12 +9,16 @@
   "logo": {
     "url": "/logo.png",
     "height": 50,
-    "width": 100
+    "width": 100,
+    "widthMobile": 100,
+    "heightMobile": 50
   },
   "logoDark": {
     "url": "/logo.png",
     "height": 50,
-    "width": 100
+    "width": 100,
+    "widthMobile": 100,
+    "heightMobile": 50
   },
   "favicon_url": "/favicon.ico",
   "social": [
@@ -57,11 +61,6 @@
       "type": "External",
       "href": "https://dexkit.com/contact-us",
       "name": "Contact us"
-    },
-    {
-      "type": "page",
-      "href": "/admin/app-version",
-      "name": "App version"
     }
   ],
   "menuTree": [
@@ -72,11 +71,6 @@
     },
     {
       "type": "Page",
-      "href": "/profile",
-      "name": "Profile"
-    },
-    {
-      "type": "Page",
       "href": "/coinleague/ranking",
       "name": "Ranking"
     },
@@ -84,11 +78,6 @@
       "type": "Page",
       "href": "/coinleague/affiliates",
       "name": "Affiliates"
-    },
-    {
-      "type": "Page",
-      "href": "/wallet",
-      "name": "Wallet"
     }
   ],
   "collections": [

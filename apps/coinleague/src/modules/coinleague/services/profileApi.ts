@@ -99,6 +99,6 @@ export const getProfile = async (address: string) => {
  */
 export const getProfiles = (addresses: string[]): Promise<GameProfile[]> => {
   return axios
-    .post<GameProfile[]>(`${PROFILE_API}/get-all-address`, { addresses })
+    .post<GameProfile[]>(`${PROFILE_API}/all/addresses`, { addresses })
     .then((response) => response.data);
 };

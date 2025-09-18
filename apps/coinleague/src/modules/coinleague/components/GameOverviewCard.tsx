@@ -18,7 +18,7 @@ import {
   useCoinLeagueGameOnChainQuery,
   useCoinToPlay,
 } from '../hooks/coinleague';
-import { getGameStatus, GET_GAME_LEVEL } from '../utils/game';
+import { GET_GAME_LEVEL, getGameStatus } from '../utils/game';
 import { GET_LABEL_FROM_DURATION } from '../utils/time';
 import GameCountdown from './GameCountdown';
 import GameCounterSpan from './GameCounterSpan';
@@ -30,12 +30,15 @@ interface Props {
   factoryAddress: string;
   onJoin: () => void;
   onStart: () => void;
+  onEnd: () => void;
   onRefetch: () => void;
   isStarting?: boolean;
+  isEnding?: boolean;
   isInGame?: boolean;
   isJoining?: boolean;
   canJoinGame?: boolean;
   canStart?: boolean;
+  canEnd?: boolean;
 }
 
 export function GameOverviewCard({
@@ -51,6 +54,9 @@ export function GameOverviewCard({
   canJoinGame,
   canStart,
   isJoining,
+  canEnd,
+  isEnding,
+  onEnd,
 }: Props) {
   const { data: game, isLoading } = useCoinLeagueGameOnChainQuery({
     id,
@@ -64,9 +70,9 @@ export function GameOverviewCard({
     if (game && coinToPlay) {
       return ethers.utils.formatUnits(
         BigNumber.from(game?.amount_to_play).mul(
-          BigNumber.from(game.num_players)
+          BigNumber.from(game.num_players),
         ),
-        coinToPlay.decimals
+        coinToPlay.decimals,
       );
     }
 
@@ -83,7 +89,7 @@ export function GameOverviewCard({
 
     const entry = ethers.utils.formatUnits(
       BigNumber.from(game?.amount_to_play),
-      coinToPlay?.decimals
+      coinToPlay?.decimals,
     );
 
     return [
@@ -116,11 +122,7 @@ export function GameOverviewCard({
             >
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="id" defaultMessage="ID" />
-                  )}
+                  <FormattedMessage id="id" defaultMessage="ID" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : game?.id}
@@ -128,34 +130,27 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage
-                      id="game.level"
-                      defaultMessage="Game Level"
-                    />
-                  )}
+                  <FormattedMessage
+                    id="game.level"
+                    defaultMessage="Game Level"
+                  />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
                     <Skeleton />
                   ) : (
+                    game &&
                     GET_GAME_LEVEL(
                       BigNumber.from(game?.amount_to_play),
                       chainId,
-                      game?.coin_to_play
+                      game?.coin_to_play,
                     )
                   )}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="duration" defaultMessage="Duration" />
-                  )}
+                  <FormattedMessage id="duration" defaultMessage="Duration" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : GET_LABEL_FROM_DURATION(duration)}
@@ -163,11 +158,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="entry" defaultMessage="Entry" />
-                  )}
+                  <FormattedMessage id="entry" defaultMessage="Entry" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -181,11 +172,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="type" defaultMessage="Type" />
-                  )}
+                  <FormattedMessage id="type" defaultMessage="Type" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -199,11 +186,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="coins" defaultMessage="Coins" />
-                  )}
+                  <FormattedMessage id="coins" defaultMessage="Coins" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : strPad(coins)}
@@ -211,11 +194,7 @@ export function GameOverviewCard({
               </Grid>
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="players" defaultMessage="Players" />
-                  )}
+                  <FormattedMessage id="players" defaultMessage="Players" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -230,11 +209,7 @@ export function GameOverviewCard({
 
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <FormattedMessage id="prize" defaultMessage="Prize" />
-                  )}
+                  <FormattedMessage id="prize" defaultMessage="Prize" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -249,34 +224,33 @@ export function GameOverviewCard({
               {game && getGameStatus(game) === GAME_WAITING && (
                 <Grid item>
                   <Typography variant="caption" color="textSecondary">
-                    {isLoading ? (
-                      <Skeleton />
-                    ) : (
-                      <FormattedMessage
-                        id="starts.at"
-                        defaultMessage="Starts at"
-                      />
-                    )}
+                    <FormattedMessage
+                      id="starts.at"
+                      defaultMessage="Starts at"
+                    />
                   </Typography>
                   <Typography variant="body2">
                     <GameCounterSpan startsAt={game.start_timestamp} />
                   </Typography>
                 </Grid>
               )}
-              {game && getGameStatus(game) === GAME_STARTED && (
-                <Grid item>
-                  <Typography variant="caption" color="textSecondary">
-                    <FormattedMessage id="Ends in" defaultMessage="Ends in" />
-                  </Typography>
-                  <Typography variant="body2">
-                    <GameCountdown
-                      duration={game.duration}
-                      startTimestamp={game.start_timestamp}
-                      onEnd={onRefetch}
-                    />
-                  </Typography>
-                </Grid>
-              )}
+              {game &&
+                getGameStatus(game) === GAME_STARTED &&
+                new Date().getTime() / 1000 <
+                  game.start_timestamp + game.duration && (
+                  <Grid item>
+                    <Typography variant="caption" color="textSecondary">
+                      <FormattedMessage id="Ends in" defaultMessage="Ends in" />
+                    </Typography>
+                    <Typography variant="body2">
+                      <GameCountdown
+                        duration={game.duration}
+                        startTimestamp={game.start_timestamp}
+                        onEnd={onRefetch}
+                      />
+                    </Typography>
+                  </Grid>
+                )}
             </Grid>
           </Box>
           {!isInGame && canJoinGame && (
@@ -305,7 +279,7 @@ export function GameOverviewCard({
                 disabled={isStarting}
                 onClick={onStart}
                 startIcon={
-                  isJoining ? (
+                  isStarting ? (
                     <CircularProgress color="inherit" size="1rem" />
                   ) : (
                     <PlayArrow />
@@ -315,7 +289,28 @@ export function GameOverviewCard({
                 color="primary"
                 sx={{ marginTop: 0 }}
               >
-                <FormattedMessage id="join.game" defaultMessage="Start Game" />
+                <FormattedMessage id="start.game" defaultMessage="Start Game" />
+              </Button>
+            </Box>
+          )}
+          {isInGame && canEnd && (
+            <Box sx={{ mt: { xs: 2, sm: 0 } }}>
+              <Button
+                fullWidth
+                disabled={isEnding}
+                onClick={onEnd}
+                startIcon={
+                  isEnding ? (
+                    <CircularProgress color="inherit" size="1rem" />
+                  ) : (
+                    <PlayArrow />
+                  )
+                }
+                variant="contained"
+                color="primary"
+                sx={{ marginTop: 0 }}
+              >
+                <FormattedMessage id="end.game" defaultMessage="End Game" />
               </Button>
             </Box>
           )}

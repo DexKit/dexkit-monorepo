@@ -49,7 +49,7 @@ const ProfileEditPage: NextPage = () => {
 
   const isUsernameInvalid = useCallback(() => {
     return (
-      lazyUsername !== (profileQuery.data?.username || '') &&
+      lazyUsername !== (profileQuery.data?.user?.username || '') &&
       !profileChecker.data?.isAvailable
     );
   }, [profileChecker.data, lazyUsername, profileQuery.data]);
@@ -64,7 +64,7 @@ const ProfileEditPage: NextPage = () => {
         setUsername('');
       }
     },
-    []
+    [],
   );
 
   const renderUsernameCheck = useCallback(() => {
@@ -72,7 +72,7 @@ const ProfileEditPage: NextPage = () => {
       return <CircularProgress color="primary" size="1rem" />;
     }
 
-    if (lazyUsername !== (profileQuery.data?.username || '')) {
+    if (lazyUsername !== (profileQuery.data?.user?.username || '')) {
       if (profileChecker.data?.isAvailable) {
         return (
           <CheckCircle
@@ -96,14 +96,14 @@ const ProfileEditPage: NextPage = () => {
               formatMessage({
                 id: 'profile.update',
                 defaultMessage: 'Profile updated',
-              })
+              }),
             );
           } else {
             setSuccessMessage(
               formatMessage({
                 id: 'profile.created',
                 defaultMessage: 'Profile created',
-              })
+              }),
             );
           }
         },
@@ -181,7 +181,7 @@ const ProfileEditPage: NextPage = () => {
           </Box>
           <Box>
             <ProfileImage
-              image={profileQuery.data?.profileImage}
+              image={profileQuery.data?.user?.profileImageURL}
               onClick={handleOpenSelectImageDialog}
             />
           </Box>
@@ -232,7 +232,7 @@ const ProfileEditPage: NextPage = () => {
               disabled={
                 profileUpdater.onPostMetadataMutation.isLoading ||
                 profileUpdater.onPostOnlyUsernameMetadataMutation.isLoading ||
-                (lazyUsername !== (profileQuery.data?.username || '') &&
+                (lazyUsername !== (profileQuery.data?.user?.username || '') &&
                   !profileChecker.data?.isAvailable) ||
                 username === ''
               }

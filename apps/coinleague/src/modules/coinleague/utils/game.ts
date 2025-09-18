@@ -5,13 +5,12 @@ import { gql } from 'graphql-request';
 import {
   CoinToPlay,
   CoinToPlayInterface,
-  CREATOR_LABELS,
   GAME_ABORTED,
   GAME_ENDED,
   GAME_STARTED,
   GAME_WAITING,
   NativeCoinAddress,
-  PriceFeeds,
+  PriceFeeds
 } from '../constants';
 import { GameDuration, GameLevel, GameOrderBy } from '../constants/enums';
 import { CoinLeagueGame } from '../types';
@@ -28,7 +27,9 @@ export const GET_GAME_LEVEL = (
     coinToPlay &&
     coinToPlay.address.toLowerCase() !== NativeCoinAddress.toLowerCase()
   ) {
-    if (entry.lt(ethers.utils.parseUnits('2', coinToPlay.decimals))) {
+    if (entry.lt(ethers.utils.parseUnits('0.99', coinToPlay.decimals))) {
+      return 'Novice';
+    } else if (entry.lt(ethers.utils.parseUnits('2', coinToPlay.decimals))) {
       return 'Beginner';
     } else if (entry.lt(ethers.utils.parseUnits('11', coinToPlay.decimals))) {
       return 'Intermediate';
@@ -77,7 +78,8 @@ export const GET_GAME_LEVEL = (
 export const GET_GAME_LEVEL_AMOUNTS = (
   gameLevel: GameLevel,
   chainId = ChainId.Polygon,
-  coinToPlayAddress?: string
+  //This needs to be passed if using a new coin. We are passing here USDT
+  coinToPlayAddress = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
 ) => {
   const coinToPlay = CoinToPlay[chainId]?.find(
     (c) => c.address.toLowerCase() === coinToPlayAddress?.toLowerCase()
@@ -85,8 +87,21 @@ export const GET_GAME_LEVEL_AMOUNTS = (
   const isStable =
     coinToPlay &&
     coinToPlay.address.toLowerCase() !==
-      ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase();
+    ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase();
+
   switch (gameLevel) {
+    case GameLevel.Novice:
+      if (isStable) {
+        return ethers.utils.parseUnits('0.001', coinToPlay.decimals);
+      }
+      switch (chainId) {
+        case ChainId.Polygon:
+          return ethers.utils.parseEther('1');
+        case ChainId.BSC:
+          return ethers.utils.parseEther('0.01');
+        default:
+          return ethers.utils.parseEther('1');
+      }
     case GameLevel.Beginner:
       if (isStable) {
         return ethers.utils.parseUnits('1', coinToPlay.decimals);
@@ -195,7 +210,7 @@ export const GET_GAME_ORDER_VARIABLES = (orderBy?: GameOrderBy) => {
     case GameOrderBy.LowLevel:
       return { orderBy: 'entry', orderDirection: 'asc' };
     case GameOrderBy.AboutStart:
-      return { orderBy: 'startsAt', orderDirection: 'asc' };
+      return { orderBy: 'startsAt', orderDirection: 'desc' };
     case GameOrderBy.MostFull:
       return { orderBy: 'currentPlayers', orderDirection: 'desc' };
     case GameOrderBy.MostEmpty:
@@ -339,12 +354,15 @@ export const GET_CREATOR_LABELS = (address?: string) => {
   if (!address) {
     return false;
   }
-  const creator = CREATOR_LABELS.find(
-    (a) => a.address.toLowerCase() === address.toLowerCase()
-  );
-  if (creator) {
-    return creator.label;
-  }
+  /*  if(CREATOR_LABELS.length){
+          const creator = CREATOR_LABELS.find(
+          (a) => a?.address.toLowerCase() === address.toLowerCase()
+        );
+          if (creator) {
+            return creator?.label;
+          }
+    }*/
+
 };
 
 export const getIconByCoin = (coin: string, chainId: ChainId) => {
@@ -357,11 +375,11 @@ export const getIconByCoin = (coin: string, chainId: ChainId) => {
 };
 
 export function getGameStatus(game: CoinLeagueGame): string {
-  if (game.finished) {
+  if (game?.finished) {
     return GAME_ENDED;
-  } else if (game.started) {
+  } else if (game?.started) {
     return GAME_STARTED;
-  } else if (game.aborted) {
+  } else if (game?.aborted) {
     return GAME_ABORTED;
   }
   return GAME_WAITING;
