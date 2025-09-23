@@ -1,3 +1,5 @@
+import securityConfig from './next.config.security.js';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -34,7 +36,6 @@ const nextConfig = {
       use: ['@svgr/webpack'],
     })*/
 
-
     config.resolve.alias = {
       ...config.resolve.alias,
       'react/jsx-runtime.js': 'react/jsx-runtime',
@@ -58,6 +59,15 @@ const nextConfig = {
       'dexkit-storage.nyc3.digitaloceanspaces.com',
       'dexkit-test.nyc3.digitaloceanspaces.com',
     ],
+  },
+
+  // Security configurations from security config
+  poweredByHeader: securityConfig.poweredByHeader,
+  compress: securityConfig.compress,
+
+  // Security headers
+  async headers() {
+    return securityConfig.headers();
   },
 };
 
