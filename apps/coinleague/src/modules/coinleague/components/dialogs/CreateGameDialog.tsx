@@ -21,6 +21,8 @@ import {
   useCoinToPlay,
   useCoinToPlayStable,
   useCreateGameMutation,
+  useCreateGameServerMutation,
+  useTotalGamesMutation,
 } from '../../hooks/coinleague';
 import { useFactoryAddress } from '../../hooks/coinleagueFactory';
 import { GET_GAME_LEVEL_AMOUNTS } from '../../utils/game';
@@ -63,24 +65,45 @@ export default function CreateGameDialog({ dialogProps }: Props) {
     onHash: handleTxHash,
   });
 
+  const totalGamesMutation = useTotalGamesMutation({
+    factoryAddress,
+    provider,
+  });
+
+  const createGameServerMutation = useCreateGameServerMutation();
+
   const coinToPlay = useCoinToPlayStable(chainId);
   const ctop = useCoinToPlay();
 
-  const handleSubmit = (values: Form, helpers: FormikHelpers<Form>) => {
-    createGameMutation.mutate({
+  const handleSubmit = async (values: Form, helpers: FormikHelpers<Form>) => {
+    const amountToPlay = GET_GAME_LEVEL_AMOUNTS(
+      values.gameLevel,
+      chainId,
+      coinToPlay?.address,
+    );
+
+    await createGameMutation.mutateAsync({
       type: values.gameType - 1,
       duration: values.duration,
       isNFT: false,
       numCoins: values.maxCoins,
       numPlayers: values.maxPlayers,
-      amountUnit: GET_GAME_LEVEL_AMOUNTS(
-        values.gameLevel,
-        chainId,
-        coinToPlay?.address,
-      ),
+      amountUnit: amountToPlay,
       coin_to_play: coinToPlay?.address || '',
       startTimestamp: values.startDate / 1000,
       abortTimestamp: values.startDate / 1000 + values.duration * 3,
+    });
+
+    const gameId = await totalGamesMutation.mutateAsync();
+
+    createGameServerMutation.mutate({
+      id: gameId?.toNumber() as number,
+      chainId: chainId as number,
+      startGame: values.startDate,
+      duration: values.duration,
+      type: values.gameType - 1,
+      amountToPlay: amountToPlay.toString(),
+      coinToPlay: coinToPlay?.address as string,
     });
   };
 
@@ -294,11 +317,19 @@ export default function CreateGameDialog({ dialogProps }: Props) {
       <DialogActions>
         <Button
           onClick={handleSubmitForm}
+          disabled={createGameMutation.isLoading}
           type="submit"
           variant="contained"
           color="primary"
         >
-          <FormattedMessage id="create" defaultMessage="Create" />
+          {createGameMutation.isLoading ? (
+            <FormattedMessage
+              id="submitting.create.game.dialog"
+              defaultMessage="Submitting..."
+            />
+          ) : (
+            <FormattedMessage id="create" defaultMessage="Create" />
+          )}
         </Button>
 
         <Button onClick={handleClose} type="submit">

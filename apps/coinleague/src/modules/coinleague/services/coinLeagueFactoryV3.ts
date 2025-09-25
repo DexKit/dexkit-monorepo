@@ -145,3 +145,12 @@ export const getWinner = async (
     account
   );
 };
+
+export const getTotalGames = async ({ factoryAddress, provider }: {
+  factoryAddress: string,
+  provider: providers.Web3Provider
+}) => {
+  return (await getCoinLeagueV3Contract({ address: factoryAddress, provider })).totalGames(
+
+  ) as Promise<BigNumber>;
+};

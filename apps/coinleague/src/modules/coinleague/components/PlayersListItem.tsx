@@ -27,6 +27,7 @@ import Cup from '@/modules/common/components/icons/Cup';
 import Link from '@/modules/common/components/Link';
 import { ipfsUriToUrl } from '@/modules/common/utils/ipfs';
 import { strPad } from '@/modules/common/utils/strings';
+import { useIsMobile } from '@dexkit/core';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 import Token from '@mui/icons-material/Token';
@@ -77,6 +78,8 @@ function PlayersListItem({
     setExpanded((value) => !value);
   };
 
+  const isMobile = useIsMobile();
+
   const captainCoinScore = useMemo(() => {
     if (game) {
       const gameType = game.game_type;
@@ -123,11 +126,19 @@ function PlayersListItem({
             )}
           </Stack>
         )}
-        <ListItemAvatar>
-          <Avatar src={ipfsUriToUrl(profile?.user?.profileImageURL || '')}>
-            <PersonIcon />
-          </Avatar>
-        </ListItemAvatar>
+        {!isMobile && (
+          <ListItemAvatar>
+            <Avatar
+              src={ipfsUriToUrl(profile?.user?.profileImageURL || '')}
+              sx={{
+                width: isMobile ? 30 : undefined,
+                height: isMobile ? 30 : undefined,
+              }}
+            >
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+        )}
         <ListItemText
           primary={
             <Link
@@ -186,6 +197,7 @@ function PlayersListItem({
               </Skeleton>
             ) : (
               <Typography
+                variant={isMobile ? 'caption' : undefined}
                 sx={(theme) => ({
                   color:
                     score > 0
@@ -199,7 +211,9 @@ function PlayersListItem({
           </Box>
         )}
         {(!hideCoins || isAddressEqual(player.player_address, account)) && (
-          <Box sx={{ pl: 2, alignItem: 'center', display: 'flex' }}>
+          <Box
+            sx={{ pl: isMobile ? 0 : 2, alignItem: 'center', display: 'flex' }}
+          >
             <IconButton onClick={handleToggleExpand}>
               {!expanded ? <ExpandMore /> : <ExpandLess />}
             </IconButton>

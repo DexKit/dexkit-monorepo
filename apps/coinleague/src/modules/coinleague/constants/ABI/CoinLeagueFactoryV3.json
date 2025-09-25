@@ -115,6 +115,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "new_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "HouseFeeChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "playerAddress",
         "type": "address"
@@ -160,7 +173,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "settingsAddress",
+        "name": "settings_address",
         "type": "address"
       }
     ],
@@ -630,6 +643,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "house_fee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address[]",
@@ -767,8 +793,21 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "new_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setHouseFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
-        "name": "newSettings",
+        "name": "new_settings",
         "type": "address"
       }
     ],
@@ -801,6 +840,19 @@
     "name": "startGame",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalGames",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

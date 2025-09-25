@@ -5,6 +5,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { Coin } from '../types';
 import { GameOrderBy } from './enums';
 
+import { BasePriceFeeds } from './PriceFeeds/base';
 import { BSCPriceFeeds } from './PriceFeeds/bsc';
 
 export const DEXKIT_MULTIPLIER_HOLDING = BigNumber.from(50).mul(
@@ -865,12 +866,14 @@ export const PriceFeeds: { [key: number]: Coin[] } = {
   [ChainId.Mumbai]: MumbaiPriceFeeds,
   [ChainId.Polygon]: MaticPriceFeeds,
   [ChainId.BSC]: BSCPriceFeeds,
+  [ChainId.Base]: BasePriceFeeds,
 };
 
 export const COIN_LEAGUES_FACTORY_ADDRESS_V3 = {
   [ChainId.Mumbai]: '0xb33f24f9ddc38725F2b791e63Fb26E6CEc5e842A',
   [ChainId.Polygon]: '0x32970224454512599C9057d24288AA3b11fFA952',
   [ChainId.BSC]: '',
+  [ChainId.Base]: '',
 };
 
 export const DISABLE_CHAMPIONS_ID = '500000';
@@ -969,6 +972,20 @@ export const CoinToPlay: { [key in ChainId]?: CoinToPlayInterface[] } = {
       decimals: 6,
     },
   ],
+  [ChainId.Base]: [
+    {
+      address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    {
+      address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+      name: 'USDC',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+  ],
 };
 
 export const StableCoinToPlay: { [key in ChainId]?: CoinToPlayInterface } = {
@@ -984,6 +1001,12 @@ export const StableCoinToPlay: { [key in ChainId]?: CoinToPlayInterface } = {
     symbol: 'USDT',
     decimals: 6,
   },
+  [ChainId.Base]: {
+    address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+    name: 'USDC',
+    symbol: 'USDC',
+    decimals: 6,
+  },
 };
 
 export const GET_LEAGUES_CHAIN_ID = (chainId?: ChainId) => {
@@ -992,6 +1015,9 @@ export const GET_LEAGUES_CHAIN_ID = (chainId?: ChainId) => {
   }
   if (chainId && chainId === ChainId.BSC) {
     return ChainId.BSC;
+  }
+  if (chainId && chainId === ChainId.Base) {
+    return ChainId.Base;
   }
   // return ChainId.Matic;
   return ChainId.Polygon;

@@ -24,7 +24,7 @@ import { ContractReceipt, providers } from 'ethers';
 import { request } from 'graphql-request';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { CoinToPlay, StableCoinToPlay } from '../constants';
+import { CoinToPlay, GAME_METADATA_API, StableCoinToPlay } from '../constants';
 import {
   claimGame,
   getChampionMetadata,
@@ -37,6 +37,7 @@ import {
   createGame,
   endGame,
   getGamesData,
+  getTotalGames,
   getWinner,
   joinGame,
   startGame,
@@ -63,6 +64,8 @@ import { getNetworkProvider } from '../utils/network';
 import { useLeaguesChainInfo } from './chain';
 import { useFactoryAddress } from './coinleagueFactory';
 import { useIsNFTGame } from './nft';
+
+import axios from 'axios';
 
 interface GamesFilterParams {
   accounts?: string[];
@@ -565,6 +568,39 @@ export function useCreateGameMutation({
     return await tx.wait();
   });
 }
+
+
+export function useCreateGameServerMutation() {
+  return useMutation(async (params?: { id: number, chainId: number, startGame: number, duration: number, type: number, amountToPlay: string, coinToPlay: string }) => {
+    if (!params) {
+      return null;
+    }
+
+    return axios
+      .post(`${GAME_METADATA_API}/coinleague/create-game`, { ...params })
+
+  });
+}
+
+export function useTotalGamesMutation({
+  factoryAddress,
+  provider,
+
+}: {
+  provider?: providers.Web3Provider;
+
+  factoryAddress?: string;
+
+}) {
+  return useMutation(async () => {
+    if (!provider || !factoryAddress) {
+      return;
+    }
+    const total = await getTotalGames({ factoryAddress, provider });
+    return total;
+  });
+}
+
 
 export const COINLEAGUE_GAME_COIN = 'COINLEAGUE_GAME_COIN';
 
