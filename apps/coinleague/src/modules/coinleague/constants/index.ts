@@ -887,6 +887,7 @@ export const AFFILIATE_FIELD = 'league-affiliate';
 export const GAME_METADATA_API =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3001'
+    //'https://nft-api.dexkit.com'
     //'https://coinleague-app-api-yxwk6.ondigitalocean.app'
     : process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT;
 

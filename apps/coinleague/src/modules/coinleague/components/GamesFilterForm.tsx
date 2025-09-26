@@ -164,6 +164,9 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           <MenuItem value={NumberOfPLayers.TEN}>
             <FormattedMessage id="ten" defaultMessage="10" />
           </MenuItem>
+          <MenuItem value={NumberOfPLayers.FIFTY}>
+            <FormattedMessage id="fifty" defaultMessage="50" />
+          </MenuItem>
         </Select>
       </FormControl>
       <FormControl>
@@ -226,6 +229,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           type="checkbox"
           name="isMyGames"
           onChange={handleChange}
+          checked={gameFilters.isMyGames}
           value={gameFilters.isMyGames}
         />
       </Stack>
@@ -241,6 +245,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           type="checkbox"
           name="isJackpot"
           onChange={handleChange}
+          checked={gameFilters.isJackpot}
           value={gameFilters.isJackpot}
         />
       </Stack>

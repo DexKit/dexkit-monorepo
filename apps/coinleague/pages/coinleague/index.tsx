@@ -15,6 +15,7 @@ import {
   GameType,
   NumberOfPLayers,
 } from '@/modules/coinleague/constants/enums';
+import { useLeaguesChainInfo } from '@/modules/coinleague/hooks/chain';
 import {
   useCoinLeagueGames,
   useGamesFilters,
@@ -26,7 +27,6 @@ import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
 import GameController from '@/modules/common/components/icons/GameController';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
-import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { getWindowUrl } from '@/modules/common/utils/browser';
 import { ErrorBoundaryUI } from '@dexkit/ui/components/ErrorBoundary';
@@ -57,7 +57,7 @@ import {
 } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
+import { SyntheticEvent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const CreateGameDialog = dynamic(
@@ -104,15 +104,13 @@ const CoinLeagueIndex: NextPage = () => {
 
   const [showFilters, setShowFilters] = useState(false);
 
+  const { chainId: gameChainId } = useLeaguesChainInfo();
+
   const gamesQuery = useCoinLeagueGames({
     status: status,
     accounts: filters.isMyGames && account ? [account] : undefined,
     filters: filters,
   });
-
-  const gameChainId = useMemo(() => {
-    return chainId ? chainId : ChainId.Polygon;
-  }, [chainId]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

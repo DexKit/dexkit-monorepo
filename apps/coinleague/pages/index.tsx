@@ -7,6 +7,7 @@ import GamesTable from '@/modules/coinleague/components/GamesTable';
 import TickerTapeTV from '@/modules/coinleague/components/TickerTapeTV';
 import { GET_GAME_ORDER_OPTIONS } from '@/modules/coinleague/constants';
 import { CoinLeagueGameStatus } from '@/modules/coinleague/constants/enums';
+import { useLeaguesChainInfo } from '@/modules/coinleague/hooks/chain';
 import {
   useCoinLeagueGames,
   useGamesFilters,
@@ -17,7 +18,6 @@ import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
-import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { getWindowUrl } from '@/modules/common/utils/browser';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
@@ -43,7 +43,7 @@ import {
 } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
+import { SyntheticEvent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const CreateGameDialog = dynamic(
@@ -81,10 +81,7 @@ const CoinLeagueIndex: NextPage = () => {
     accounts: filters.isMyGames && account ? [account] : undefined,
     filters: filters,
   });
-
-  const gameChainId = useMemo(() => {
-    return chainId ? chainId : ChainId.Polygon;
-  }, [chainId]);
+  const { chainId: gameChainId } = useLeaguesChainInfo();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

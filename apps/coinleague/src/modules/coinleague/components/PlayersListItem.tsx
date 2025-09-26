@@ -70,7 +70,7 @@ function PlayersListItem({
 
   const score = useMemo(() => {
     return Number(player.score);
-  }, [player]);
+  }, [player?.score]);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -79,13 +79,15 @@ function PlayersListItem({
   };
 
   const isMobile = useIsMobile();
+  const captainScore = Object.keys(coinFeeds).length
+    ? Number(coinFeeds[player.captain_coin].score)
+    : 0;
 
   const captainCoinScore = useMemo(() => {
     if (game) {
       const gameType = game.game_type;
       // 0 equals bull game
       if (gameType === 0) {
-        const captainScore = Number(coinFeeds[player.captain_coin].score);
         // if bull game and captain score positive we add the multiplier
         if (captainScore) {
           return captainScore * 1.2;
@@ -93,7 +95,6 @@ function PlayersListItem({
           return captainScore;
         }
       } else {
-        const captainScore = Number(coinFeeds[player.captain_coin].score);
         // if bear game and captain score negative we add the multiplier
         if (captainScore) {
           return captainScore;
@@ -102,7 +103,7 @@ function PlayersListItem({
         }
       }
     }
-  }, [game.game_type, coinFeeds, player.captain_coin]);
+  }, [game.game_type, captainScore]);
 
   return (
     <>
@@ -122,7 +123,9 @@ function PlayersListItem({
                 <Typography>-.--°</Typography>
               </Skeleton>
             ) : (
-              <Typography>{strPad(position + 1)}°</Typography>
+              <Typography variant={isMobile ? 'body2' : undefined}>
+                {strPad(position + 1)}°
+              </Typography>
             )}
           </Stack>
         )}
@@ -147,7 +150,7 @@ function PlayersListItem({
             >
               {isAddressEqual(account, player.player_address) ? (
                 <FormattedMessage id="you" defaultMessage="You" />
-              ) : profile ? (
+              ) : profile && profile?.user && profile?.user?.username ? (
                 profile?.user?.username
               ) : (
                 truncateAddress(player.player_address)
@@ -197,7 +200,7 @@ function PlayersListItem({
               </Skeleton>
             ) : (
               <Typography
-                variant={isMobile ? 'caption' : undefined}
+                variant={isMobile ? 'body2' : undefined}
                 sx={(theme) => ({
                   color:
                     score > 0
