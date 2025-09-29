@@ -70,7 +70,7 @@ const AffiliatesPage: NextPage = () => {
                   defaultMessage="Coin League"
                 />
               ),
-              uri: '/coinleague',
+              uri: '/',
             },
             {
               caption: (

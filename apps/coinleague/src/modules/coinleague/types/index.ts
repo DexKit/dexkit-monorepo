@@ -93,9 +93,11 @@ export interface GameMetadata {
 export interface GameProfile {
   id: string;
   address: string;
-  username: string;
-  profileImage: string;
-  coverImage: string;
+  user: {
+    username: string;
+    backgroundImageURL: string,
+    profileImageURL: string,
+  }
   tokenAddress: string;
   tokenId: string;
   chainId: ChainId;

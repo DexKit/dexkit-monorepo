@@ -23,12 +23,12 @@ const RankingPage: NextPage = () => {
   const rankingQuery = useRanking(tab, isNFT, chainId);
 
   const { profiles } = useGameProfilesState(
-    rankingQuery.data?.map((p) => p.id)
+    rankingQuery.data?.map((p) => p.id),
   );
 
   const handleChangeTab = (
     _event: React.ChangeEvent<{}>,
-    newValue: RankingType
+    newValue: RankingType,
   ) => {
     setTab(newValue);
   };
@@ -50,7 +50,7 @@ const RankingPage: NextPage = () => {
                     defaultMessage="Coin League"
                   />
                 ),
-                uri: '/coinleague',
+                uri: '/',
               },
               {
                 caption: (

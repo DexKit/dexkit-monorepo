@@ -67,8 +67,8 @@ export default function RankingListItem({
         <ListItemAvatar>
           <Avatar
             src={
-              profile?.profileImage
-                ? ipfsUriToUrl(profile?.profileImage)
+              profile?.user?.profileImageURL
+                ? ipfsUriToUrl(profile?.user?.profileImageURL)
                 : undefined
             }
           >
@@ -76,7 +76,11 @@ export default function RankingListItem({
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={profile ? profile.username : truncateAddress(address)}
+          primary={
+            profile?.user?.username
+              ? profile?.user?.username
+              : truncateAddress(address)
+          }
         />
         <Box
           display="flex"
@@ -143,7 +147,7 @@ export default function RankingListItem({
               <Typography variant="subtitle1">
                 {joinsCount
                   ? `${Number(((winsCount || 0) / joinsCount) * 100).toFixed(
-                      2
+                      2,
                     )}%`
                   : '0%'}
               </Typography>

@@ -32,6 +32,7 @@ import { AppConfigContext } from '../src/contexts';
 
 import './customCss.css';
 
+import { AutoConnectEthereumProvider } from '@/modules/common/components/AutoConnectEthereumProvider';
 import type { AssetAPI } from '@dexkit/ui/modules/nft/types';
 import type { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import SiteProvider from '@dexkit/ui/providers/SiteProvider';
@@ -265,6 +266,7 @@ export default function MyApp(props: MyAppProps) {
               value={{ appConfig: config, appNFT, siteId }}
             >
               <ThirdwebProvider>
+                <AutoConnectEthereumProvider />
                 <QueryClientProvider client={queryClient}>
                   <Hydrate state={pageProps.dehydratedState}>
                     <DefaultSeo {...SEO} />
