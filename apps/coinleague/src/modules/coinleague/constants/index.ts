@@ -873,7 +873,7 @@ export const COIN_LEAGUES_FACTORY_ADDRESS_V3 = {
   [ChainId.Mumbai]: '0xb33f24f9ddc38725F2b791e63Fb26E6CEc5e842A',
   [ChainId.Polygon]: '0x32970224454512599C9057d24288AA3b11fFA952',
   [ChainId.BSC]: '',
-  [ChainId.Base]: '',
+  [ChainId.Base]: '0x34C21825ef6Bfbf69cb8748B4587f88342da7aFb',
 };
 
 export const DISABLE_CHAMPIONS_ID = '500000';

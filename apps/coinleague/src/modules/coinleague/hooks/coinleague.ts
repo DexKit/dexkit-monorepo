@@ -571,7 +571,7 @@ export function useCreateGameMutation({
 
 
 export function useCreateGameServerMutation() {
-  return useMutation(async (params?: { id: number, chainId: number, startGame: number, duration: number, type: number, amountToPlay: string, coinToPlay: string }) => {
+  return useMutation(async (params?: { id: number, chainId: number, startGame: number, abortGame: number, duration: number, type: number, amountToPlay: string, coinToPlay: string }) => {
     if (!params) {
       return null;
     }

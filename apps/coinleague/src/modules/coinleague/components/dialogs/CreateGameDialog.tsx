@@ -91,7 +91,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
       amountUnit: amountToPlay,
       coin_to_play: coinToPlay?.address || '',
       startTimestamp: values.startDate / 1000,
-      abortTimestamp: values.startDate / 1000 + values.duration * 3,
+      abortTimestamp: values.startDate / 1000 + values.duration,
     });
 
     const gameId = await totalGamesMutation.mutateAsync();
@@ -100,6 +100,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
       id: gameId?.toNumber() as number,
       chainId: chainId as number,
       startGame: values.startDate,
+      abortGame: values.startDate / 1000 + values.duration,
       duration: values.duration,
       type: values.gameType - 1,
       amountToPlay: amountToPlay.toString(),

@@ -48,6 +48,17 @@ export const NETWORKS: { [key: number]: Network } = {
     providerRpcUrl: `https://polygon-rpc.com/`,
     imageUrl: polygonIcon.src,
   },
+  [ChainId.Base]: {
+    chainId: ChainId.Base,
+    symbol: 'Base',
+    explorerUrl: 'https://basescan.org',
+    name: 'Base',
+    slug: 'base',
+    coingeckoId: 'ethereum',
+    wrappedAddress: `0x4200000000000000000000000000000000000006`,
+    providerRpcUrl: `https://mainnet.base.org`,
+    imageUrl: polygonIcon.src,
+  },
   [ChainId.BSC]: {
     chainId: ChainId.BSC,
     symbol: 'BNB',
