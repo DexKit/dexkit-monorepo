@@ -44,24 +44,30 @@ export async function getCoinLeagueGameOnChain(
     const feeds = await contract.playerCoinFeeds(index, id);
 
     for (let feed of feeds) {
-      const coin = await contract.coins(id, feed);
+      if (!coinFeeds[feed]) {
+        const coin = await contract.coins(id, feed);
 
-      coinFeeds[feed] = {
-        address: coin.coin_feed,
-        end_price: coin.end_price.toString(),
-        start_price: coin.start_price.toString(),
-        score: coin.score.toString(),
+        coinFeeds[feed] = {
+          address: coin.coin_feed,
+          end_price: coin.end_price.toString(),
+          start_price: coin.start_price.toString(),
+          score: coin.score.toString(),
+        };
+      }
+    }
+
+    if (!coinFeeds[p.captain_coin]) {
+      const captainCoin = await contract.coins(id, p.captain_coin);
+
+      coinFeeds[p.captain_coin] = {
+        address: captainCoin.coin_feed,
+        end_price: captainCoin.end_price.toString(),
+        start_price: captainCoin.start_price.toString(),
+        score: captainCoin.score.toString(),
       };
     }
 
-    const captainCoin = await contract.coins(id, p.captain_coin);
 
-    coinFeeds[p.captain_coin] = {
-      address: captainCoin.coin_feed,
-      end_price: captainCoin.end_price.toString(),
-      start_price: captainCoin.start_price.toString(),
-      score: captainCoin.score.toString(),
-    };
 
     gamePlayers.push({
       captain_coin: p.captain_coin,

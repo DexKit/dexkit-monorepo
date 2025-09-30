@@ -88,7 +88,7 @@ const CoinLeagueGame: NextPage = () => {
 
   const { addNotification } = useNotifications();
 
-  const { account, isActive, signer } = useWeb3React();
+  const { account, isActive, signer, chainId: accountChainID } = useWeb3React();
 
   const { network, id, affiliate } = router.query;
 
@@ -97,6 +97,8 @@ const CoinLeagueGame: NextPage = () => {
   }, [network]);
 
   const provider = getProviderByChainId(chainId) as providers.Web3Provider;
+
+  const isSameChainId = accountChainID === chainId;
 
   const [showSelectCoin, setShowSelectCoin] = useState(false);
   const [isSelectMultiple, setIsSelectMultiple] = useState(false);
@@ -139,6 +141,7 @@ const CoinLeagueGame: NextPage = () => {
     return (
       erc20Balance.data &&
       gameOnChainQuery.data &&
+      isSameChainId &&
       erc20Balance.data.gte(
         BigNumber.from(gameOnChainQuery.data?.amount_to_play),
       )
@@ -149,21 +152,29 @@ const CoinLeagueGame: NextPage = () => {
     return (
       gameOnChainQuery.data &&
       gameOnChainQuery.data?.amount_to_play &&
+      isSameChainId &&
       tokenAllowanceQuery.data?.gte(gameOnChainQuery.data?.amount_to_play)
     );
-  }, [gameOnChainQuery.data, tokenAllowanceQuery.data]);
+  }, [gameOnChainQuery.data, tokenAllowanceQuery.data, isSameChainId]);
 
   const canJoinGame = useMemo(() => {
     const countSelectedCoins = Object.keys(selectedCoins).length;
 
     const numCoins = gameOnChainQuery.data?.num_coins || 0;
 
+    const notStarted = !gameOnChainQuery.data?.started;
+
     const isAllCoinsSelecteds =
       gameOnChainQuery.data &&
       countSelectedCoins === numCoins - 1 &&
       selectedCaptain;
 
-    return isAllCoinsSelecteds && hasSufficientFunds && hasSufficientAllowance;
+    return (
+      isAllCoinsSelecteds &&
+      hasSufficientFunds &&
+      hasSufficientAllowance &&
+      notStarted
+    );
   }, [
     selectedCaptain,
     selectedCoins,

@@ -253,7 +253,7 @@ export function GameOverviewCard({
                 )}
             </Grid>
           </Box>
-          {!isInGame && canJoinGame && (
+          {canJoinGame && (
             <Box sx={{ mt: { xs: 2, sm: 0 } }}>
               <Button
                 fullWidth

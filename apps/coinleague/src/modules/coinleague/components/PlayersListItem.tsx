@@ -89,14 +89,14 @@ function PlayersListItem({
       // 0 equals bull game
       if (gameType === 0) {
         // if bull game and captain score positive we add the multiplier
-        if (captainScore) {
+        if (captainScore > 0) {
           return captainScore * 1.2;
         } else {
           return captainScore;
         }
       } else {
         // if bear game and captain score negative we add the multiplier
-        if (captainScore) {
+        if (captainScore > 0) {
           return captainScore;
         } else {
           return captainScore * 1.2;
