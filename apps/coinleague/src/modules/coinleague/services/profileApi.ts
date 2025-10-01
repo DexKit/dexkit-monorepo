@@ -88,7 +88,7 @@ export const remove = (sig: string, message: string, account: string) => {
 
 export const getProfile = async (address: string) => {
   return axios
-    .get<GameProfile>(`${PROFILE_API}/${address}`)
+    .get<GameProfile>(`${PROFILE_API}/address/${address}`)
     .then((response) => response.data);
 };
 
