@@ -1,12 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  Grid,
-  Stack,
-  Typography,
-  alpha,
-  styled,
-} from '@mui/material';
+import { Box, ButtonBase, Grid, Stack, Typography, styled } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
@@ -154,14 +146,14 @@ export default function PageGatedLayoutTab({
                             position: 'relative',
                             p: 2,
                             borderRadius: (theme) =>
-                              theme.shape.borderRadius / 2,
+                              typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                             alignItems: 'center',
                             justifyContent: 'center',
                             width: '100%',
                             backgroundColor: (theme) =>
                               theme.palette.mode === 'light'
                                 ? 'rgba(0,0,0, 0.2)'
-                                : alpha(theme.palette.common.white, 0.1),
+                                : theme.alpha(theme.palette.common.white, 0.1),
 
                             backgroundImage: `url('${values.layout.frontImage}')`,
                             backgroundRepeat: 'no-repeat',
@@ -182,7 +174,7 @@ export default function PageGatedLayoutTab({
                                 theme.palette.getContrastText(
                                   theme.palette.mode === 'light'
                                     ? 'rgba(0,0,0, 0.2)'
-                                    : alpha(theme.palette.common.white, 0.1),
+                                    : theme.alpha(theme.palette.common.white, 0.1),
                                 ),
                             }}
                           >
@@ -211,7 +203,7 @@ export default function PageGatedLayoutTab({
                             backgroundColor: 'black',
                             width: '100%',
                             borderRadius: (theme) =>
-                              theme.shape.borderRadius / 2,
+                              typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                             alignItems: 'center',
                             justifyContent: 'center',
                             position: 'relative',

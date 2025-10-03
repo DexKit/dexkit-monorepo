@@ -6,7 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export interface CheckoutTokenAutocompleteProps {
-  label?: string | React.ReactNode;
+  label?: string | any;
   chainId?: number;
   data?: any;
   disabled?: boolean;

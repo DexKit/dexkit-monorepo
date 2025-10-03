@@ -53,7 +53,7 @@ export default function CollectionFormCard() {
         <CardContent>
           <Form>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack direction="row" justifyContent="center">
                     <Button
@@ -78,7 +78,7 @@ export default function CollectionFormCard() {
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   name="name"
                   component={TextField}
@@ -86,7 +86,7 @@ export default function CollectionFormCard() {
                   label={<FormattedMessage id="name" defaultMessage="Name" />}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   name="symbol"
                   component={TextField}
@@ -105,7 +105,7 @@ export default function CollectionFormCard() {
                   label={<FormattedMessage id="URL" defaultMessage="URL" />}
                 />
                 </Grid>*/}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   name="description"
                   component={TextField}
@@ -127,7 +127,7 @@ export default function CollectionFormCard() {
                 </Box>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   name="royalty"
                   component={TextField}
@@ -142,7 +142,7 @@ export default function CollectionFormCard() {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   disabled={!isValid}
                   onClick={submitForm}

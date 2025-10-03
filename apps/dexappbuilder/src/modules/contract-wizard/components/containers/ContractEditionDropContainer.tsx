@@ -54,9 +54,8 @@ export default function ContractEditionDropContainer({
         address={address}
         isLazyMint
       />
-
       <Grid container spacing={isMobile ? 1 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs
             value={tab}
             onChange={handleChangeTab}
@@ -92,9 +91,9 @@ export default function ContractEditionDropContainer({
           </Tabs>
         </Grid>
         {tab === 'nfts' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={isMobile ? 1 : 2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   variant="outlined"
                   onClick={() => setOpenMintDialog(true)}
@@ -110,7 +109,11 @@ export default function ContractEditionDropContainer({
                 </Button>
               </Grid>
 
-              <Grid item xs={12} sm={isMobile ? 12 : 3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: isMobile ? 12 : 3
+                }}>
                 <TextField
                   fullWidth
                   size={isMobile ? "small" : "small"}
@@ -136,7 +139,7 @@ export default function ContractEditionDropContainer({
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography
                   variant={isMobile ? "h6" : "h5"}
                   sx={{
@@ -152,7 +155,7 @@ export default function ContractEditionDropContainer({
                 </Typography>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <NoSsr>
                   <AppErrorBoundary
                     fallbackRender={({ error, resetErrorBoundary }) => (
@@ -184,12 +187,12 @@ export default function ContractEditionDropContainer({
           </Grid>
         )}
         {tab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {tab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

@@ -337,7 +337,6 @@ export default function WidgetSectionWizardContainer({
           onSave={handleSaveSection}
         />
       )}
-
       <AppConfirmDialog
         DialogProps={{
           open: openHasChangesConfirm,
@@ -384,7 +383,7 @@ export default function WidgetSectionWizardContainer({
         </Stack>
       </AppConfirmDialog>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="column">
             <Typography fontWeight="bold" variant="h6">
               <FormattedMessage id="Components" defaultMessage="Components" />
@@ -398,10 +397,10 @@ export default function WidgetSectionWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageSections
             onEmbed={onEmbed}
             onAddSection={onAddSection}
@@ -421,10 +420,10 @@ export default function WidgetSectionWizardContainer({
             onEditLayout={handleEditLayout}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={1} direction="row" justifyContent="flex-end">
             <Button
               onClick={handleCancel}

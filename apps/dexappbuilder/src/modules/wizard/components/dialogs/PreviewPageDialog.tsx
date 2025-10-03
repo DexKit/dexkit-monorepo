@@ -57,7 +57,7 @@ export default function PreviewPageDialog({
           [colorScheme]: {
             ...baseTheme.theme.colorSchemes[colorScheme],
             palette: {
-              ...baseTheme.theme.colorSchemes[colorScheme].palette,
+              ...baseTheme.theme.colorSchemes[colorScheme]?.palette,
               mode: mode
             }
           }

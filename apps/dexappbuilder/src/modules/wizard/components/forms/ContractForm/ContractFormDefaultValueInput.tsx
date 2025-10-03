@@ -160,7 +160,7 @@ export default function ContractFormDefaultValueInput({
 
             if (tupleParams[component.name]?.inputType === 'switch') {
               return (
-                <Grid xs={12} item key={key}>
+                <Grid key={key} size={12}>
                   <FormControlLabel
                     control={
                       <Switch
@@ -178,7 +178,7 @@ export default function ContractFormDefaultValueInput({
           }
 
           return (
-            <Grid xs={12} item key={key}>
+            <Grid key={key} size={12}>
               <FastField
                 component={TextField}
                 name={`${inputName}.${component.name}`}

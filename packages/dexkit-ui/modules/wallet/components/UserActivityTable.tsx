@@ -37,7 +37,7 @@ export default function UserActivityTable({ }: UserActivityTableProps) {
     ) {
       return (
         <TableRow>
-          <TableCell colSpan={5}>
+          <TableCell {...({ colSpan: 5 } as any)}>
             <Stack sx={{ py: 2 }} alignItems="center" justifyContent="center">
               <Typography variant="body1" color="textSecondary">
                 <FormattedMessage

@@ -71,7 +71,7 @@ export const useCoinPricesQuery = ({
       if (tokens.length === 0) {
         return prices;
       }
-      const addresses = tokens.map((t) => t.address);
+      const addresses = tokens.map((t: any) => t.address);
       const tokenPrices = await getTokenPrices({
         addresses,
         currency,

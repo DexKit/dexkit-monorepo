@@ -6,15 +6,7 @@ import Close from '@mui/icons-material/Close';
 import Code from '@mui/icons-material/Code';
 import Dashboard from '@mui/icons-material/Dashboard';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
-import {
-  Button,
-  ButtonBase,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-  alpha,
-} from '@mui/material';
+import { Button, ButtonBase, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -104,11 +96,11 @@ export default function PageSectionsHeader({
         )}
         {isEditTitle && pageKey !== 'home' ? (
           <TextField
-            inputRef={(ref) => (inputRef.current = ref)}
+            inputRef={(ref: any) => (inputRef.current = ref)}
             value={title}
             variant="standard"
             size={isMobile ? 'small' : 'medium'}
-            onKeyDown={(e) => {
+            onKeyDown={(e: any) => {
               if (e.key === 'Enter') {
                 handleSave();
               }
@@ -130,12 +122,12 @@ export default function PageSectionsHeader({
             sx={{
               px: 0.25,
               py: 0,
-              borderRadius: (theme) => theme.shape.borderRadius / 2,
+              borderRadius: (theme: any) => Number(theme.shape.borderRadius) / 2,
               '&: hover': {
                 backgroundColor:
                   pageKey === 'home'
                     ? 'transparent'
-                    : (theme) => alpha(theme.palette.primary.main, 0.1),
+                    : (theme) => theme.alpha(theme.palette.primary.main, 0.1),
               },
               pointerEvents: pageKey === 'home' ? 'none' : 'auto',
             }}
@@ -163,7 +155,6 @@ export default function PageSectionsHeader({
           </Stack>
         )}
       </Stack>
-
       <Stack
         direction="row"
         spacing={isMobile ? 0.25 : 0.5}

@@ -58,7 +58,7 @@ export default function MetadataUpdateForm({
         setFieldValue,
         isValid,
         isSubmitting,
-      }) => (
+      }: any) => (
         <>
           <MediaDialog
             dialogProps={{
@@ -78,7 +78,11 @@ export default function MetadataUpdateForm({
             }}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 3
+              }}>
               <Box>
                 <Stack direction="row" justifyContent="center">
                   <ButtonBase
@@ -94,7 +98,7 @@ export default function MetadataUpdateForm({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderRadius: (theme) => theme.shape.borderRadius / 2,
+                      borderRadius: (theme) => Number(theme.shape.borderRadius) / 2,
                       border: (theme) =>
                         `1px solid ${
                           errors.image
@@ -112,9 +116,13 @@ export default function MetadataUpdateForm({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 9
+              }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <CompletationProvider
                     onCompletation={(output: string) => {
                       setFieldValue('name', output);
@@ -137,7 +145,7 @@ export default function MetadataUpdateForm({
                     )}
                   </CompletationProvider>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <MarkdownDescriptionField
                     name="description"
                         label={
@@ -156,7 +164,7 @@ export default function MetadataUpdateForm({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 disabled={isSubmitting || !isValid}
                 startIcon={

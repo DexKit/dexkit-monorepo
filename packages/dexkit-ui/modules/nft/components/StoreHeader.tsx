@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import Box from "@mui/material/Box";
 
@@ -22,7 +22,7 @@ export function StoreHeader(props: Props) {
   const theme = useTheme();
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sx={{ backgroundImage: `url(${backgroundImageURL})` }}>
+      <Grid size={12} sx={{ backgroundImage: `url(${backgroundImageURL})` }}>
         <Box
           sx={{
             display: "flex",
@@ -54,7 +54,7 @@ export function StoreHeader(props: Props) {
           )}
         </Box>
       </Grid>
-      <Grid item xs>
+      <Grid size="auto">
         <Typography
           sx={{
             display: "block",
@@ -69,7 +69,7 @@ export function StoreHeader(props: Props) {
         </Typography>
       </Grid>
       {title && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography
             sx={{
               display: "block",
@@ -85,7 +85,7 @@ export function StoreHeader(props: Props) {
         </Grid>
       )}
       {description && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography
             sx={{
               display: "block",

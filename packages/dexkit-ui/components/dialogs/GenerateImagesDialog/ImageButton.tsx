@@ -45,7 +45,7 @@ export default function ImageButton({
           {!selectable && (
             <IconButton
               size="small"
-              onClick={(e) => onOpenMenu(src, e.currentTarget)}
+              onClick={(e: any) => onOpenMenu(src, e.currentTarget)}
               sx={{
                 backgroundColor: (theme) => theme.palette.common.white,
                 "&:hover": {

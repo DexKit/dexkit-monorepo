@@ -404,23 +404,78 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext<Params>) => {
   const queryClient = new QueryClient();
 
-  const sitesResponse = await getSites({});
-  const data = sitesResponse.data.map((resp) => ({
-    ...resp,
-    appConfig: JSON.parse(resp.config) as AppConfig,
-  }));
+  try {
+    const sitesResponse = await getSites({ 
+      take: 50,
+      skip: 0 
+    });
+    
+    const data = sitesResponse.data.map((resp) => {
+      try {
+        const config = JSON.parse(resp.config) as Partial<AppConfig>;
+        return {
+          ...resp,
+          appConfig: {
+            name: config.name || 'Unknown Site',
+            description: (config as any).description || null,
+            logo: config.logo || undefined,
+            theme: config.theme || 'default',
+            domain: config.domain || '',
+            email: config.email || '',
+            currency: config.currency || 'USD',
+            pages: config.pages || {},
+            ...(config.menuTree && { menuTree: config.menuTree }),
+            ...(config.menuSettings && { menuSettings: config.menuSettings }),
+            ...(config.searchbar && { searchbar: config.searchbar }),
+            ...(config.analytics && { analytics: config.analytics }),
+            ...(config.commerce && { commerce: config.commerce }),
+          } as AppConfig,
+        };
+      } catch (error) {
+        console.error('Error parsing config for site:', resp.id, error);
+        return {
+          ...resp,
+          appConfig: {
+            name: 'Unknown Site',
+            description: null,
+            logo: undefined,
+            theme: 'default',
+            domain: '',
+            email: '',
+            currency: 'USD',
+            pages: {},
+          } as AppConfig,
+        };
+      }
+    });
 
-  await queryClient.prefetchQuery(
-    [QUERY_WHITELABEL_SITES_QUERY],
-    async () => data,
-  );
+    await queryClient.prefetchQuery(
+      [QUERY_WHITELABEL_SITES_QUERY],
+      async () => data,
+    );
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: 3000,
-  };
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+      revalidate: 3000,
+    };
+  } catch (error) {
+    console.error('Error fetching sites:', error);
+    
+    // Return empty data if API fails
+    await queryClient.prefetchQuery(
+      [QUERY_WHITELABEL_SITES_QUERY],
+      async () => [],
+    );
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+      revalidate: 60, // Shorter revalidate time for failed requests
+    };
+  }
 };
 
 export default SiteIndexPage;

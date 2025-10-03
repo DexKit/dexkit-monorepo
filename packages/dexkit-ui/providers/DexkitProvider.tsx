@@ -19,8 +19,7 @@ import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
 import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
-  SupportedColorScheme,
+  ThemeProvider,
 } from "@mui/material/styles";
 import React from "react";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
@@ -31,10 +30,7 @@ export interface DexkitProviderProps {
   provider?: any;
   apiKey?: string;
   onConnectWallet?: () => void;
-  theme: {
-    cssVarPrefix?: string | undefined;
-    colorSchemes: Record<SupportedColorScheme, Record<string, any>>;
-  };
+  theme: any;
   affiliateReferral?: string;
   locale: string;
   activeChainIds?: number[];
@@ -116,47 +112,51 @@ export function DexkitProvider({
         activeChainIds: activeChainIds ? activeChainIds : [1],
       }}
     >
-      <IntlProvider
-        locale={locale}
-        defaultLocale={locale}
-        messages={localeMessages}
-      >
-        <AppErrorBoundary
-          fallbackRender={({ resetErrorBoundary, error }) => (
-            <Stack justifyContent="center" alignItems="center">
-              <Typography variant="h6">
-                <FormattedMessage
-                  id="something.went.wrong"
-                  defaultMessage="Oops, something went wrong"
-                  description="Something went wrong error message"
-                />
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                {String(error)}
-              </Typography>
-              <Button color="primary" onClick={resetErrorBoundary}>
-                <FormattedMessage
-                  id="try.again"
-                  defaultMessage="Try again"
-                  description="Try again"
-                />
-              </Button>
-            </Stack>
-          )}
-        >
-          <CssVarsProvider theme={theme}>
-            <SnackbarProvider
-              maxSnack={3}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <CssBaseline />
-              {children}
-              <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
-              <GaslessTradesUpdater />
-            </SnackbarProvider>
-          </CssVarsProvider>
-        </AppErrorBoundary>
-      </IntlProvider>
+      {(React as any).createElement(IntlProvider, {
+        locale: locale,
+        defaultLocale: locale,
+        messages: localeMessages,
+        children: (
+          <AppErrorBoundary
+            fallbackRender={({ resetErrorBoundary, error }: any) => (
+              <Stack justifyContent="center" alignItems="center">
+                <Typography variant="h6">
+                  <FormattedMessage
+                    id="something.went.wrong"
+                    defaultMessage="Oops, something went wrong"
+                    description="Something went wrong error message"
+                  />
+                </Typography>
+                <Typography variant="body1" color="textSecondary">
+                  {String(error)}
+                </Typography>
+                <Button color="primary" onClick={resetErrorBoundary}>
+                  <FormattedMessage
+                    id="try.again"
+                    defaultMessage="Try again"
+                    description="Try again"
+                  />
+                </Button>
+              </Stack>
+            )}
+          >
+            <ThemeProvider theme={theme}>
+              {(React as any).createElement(SnackbarProvider, {
+                maxSnack: 3,
+                anchorOrigin: { horizontal: "right", vertical: "bottom" },
+                children: (
+                  <>
+                    <CssBaseline />
+                    {children}
+                    <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
+                    <GaslessTradesUpdater />
+                  </>
+                )
+              })}
+            </ThemeProvider>
+          </AppErrorBoundary>
+        )
+      })}
     </DexKitContext.Provider>
   );
 }

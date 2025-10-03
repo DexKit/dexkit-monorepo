@@ -10,7 +10,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  alpha,
   AutocompleteChangeReason,
   Autocomplete as AutocompleteMUI,
   AutocompleteRenderInputParams,
@@ -277,7 +276,7 @@ export default function LeaderboardRule({
       )}
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction="row" alignItems="center" spacing={2}>
               {isEdit ? (
                 <Field
@@ -307,10 +306,10 @@ export default function LeaderboardRule({
                     px: 1,
                     py: 0.25,
 
-                    borderRadius: (theme) => theme.shape.borderRadius / 2,
+                    borderRadius: (theme: any) => theme.shape.borderRadius / 2,
                     '&: hover': {
                       backgroundColor: (theme) =>
-                        alpha(theme.palette.primary.main, 0.1),
+                        theme.alpha(theme.palette.primary.main, 0.1),
                     },
                   }}
                   onClick={handleEdit}
@@ -333,7 +332,7 @@ export default function LeaderboardRule({
             </Stack>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Field
               disabled={!edit}
               component={TextField}
@@ -344,9 +343,13 @@ export default function LeaderboardRule({
               label={<FormattedMessage id="points" defaultMessage="Points" />}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 4
+                }}>
                 <FormControl fullWidth variant="filled">
                   <AutocompleteMUI
                     disabled={!edit}
@@ -408,7 +411,11 @@ export default function LeaderboardRule({
               UserEvents.loginSignMessage &&
             values.settings[index]?.userEventType !==
               UserEvents.connectAccount && (
-              <Grid item xs={12} sm={9}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 9
+                }}>
                 <Accordion disableGutters>
                   <AccordionSummary
                     sx={{
@@ -440,7 +447,7 @@ export default function LeaderboardRule({
               </Grid>
             )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {edit ? (
               <Box>
                 <Stack direction="row" spacing={2}>

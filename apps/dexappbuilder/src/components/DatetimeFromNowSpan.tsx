@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { memo } from 'react';
+import React from 'react';
 
 export function DatetimeFromNowSpan({
   value,
@@ -10,4 +10,4 @@ export function DatetimeFromNowSpan({
   return <span>{moment(new Date(value)).fromNow()}</span>;
 }
 
-export default memo(DatetimeFromNowSpan);
+export default DatetimeFromNowSpan;

@@ -15,7 +15,11 @@ const SwapPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout }) => {
+}> = ({ sections, layout }: {
+  sections: AppPageSection[];
+  layout?: PageSectionsLayout;
+  appConfig: AppConfig;
+}) => {
   const { formatMessage } = useIntl();
 
 
@@ -68,7 +72,7 @@ export const getStaticProps: GetStaticProps = async ({
     const { appConfig } = configResponse;
 
     const page = appConfig.pages['swap'] || {};
-    const sections = page?.sections || [
+    const sections = (page as any)?.sections || [
       {
         type: 'swap',
         title: 'Swap',
@@ -78,7 +82,7 @@ export const getStaticProps: GetStaticProps = async ({
     return {
       props: {
         page: 'swap',
-        layout: page?.layout || null,
+        layout: (page as any)?.layout || null,
         sections: sections,
         site: params?.site,
         ...configResponse,

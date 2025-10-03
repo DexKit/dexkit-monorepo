@@ -60,7 +60,7 @@ const createDefaultConfig = (): TabsConfig => ({
 
 const convertConfigToFormValues = (config: TabsConfig): TabsFormValues => {
   return {
-    tabs: config.tabs.map(tab => ({
+    tabs: config.tabs.map((tab: any) => ({
       label: tab.label,
       content: tab.content,
       icon: tab.icon,
@@ -99,7 +99,7 @@ const convertConfigToFormValues = (config: TabsConfig): TabsFormValues => {
 const convertFormValuesToConfig = (values: TabsFormValues, currentConfig: TabsConfig): TabsConfig => {
   return {
     ...currentConfig,
-    tabs: values.tabs.map((tab, index) => ({
+    tabs: values.tabs.map((tab: any, index: any) => ({
       id: tab.tempId || currentConfig.tabs[index]?.id || crypto.randomUUID(),
       label: tab.label,
       content: tab.content,
@@ -148,7 +148,7 @@ export const useTabsConfig = ({
       ...initialConfig,
       id: initialConfig.id || defaultConfig.id,
       tabs: initialConfig.tabs?.length ?
-        initialConfig.tabs.map(tab => ({
+        initialConfig.tabs.map((tab: any) => ({
           ...createDefaultTab(),
           ...tab,
           id: tab.id || crypto.randomUUID(),
@@ -188,7 +188,7 @@ export const useTabsConfig = ({
 
     const newConfig = {
       ...config,
-      tabs: config.tabs.filter(tab => tab.id !== tabId),
+      tabs: config.tabs.filter((tab: any) => tab.id !== tabId),
     };
     onChange?.(newConfig);
   }, [config, onChange]);
@@ -196,7 +196,7 @@ export const useTabsConfig = ({
   const updateTab = useCallback((tabId: string, updates: Partial<TabConfig>) => {
     const newConfig = {
       ...config,
-      tabs: config.tabs.map(tab =>
+      tabs: config.tabs.map((tab: any) =>
         tab.id === tabId ? { ...tab, ...updates } : tab
       ),
     };

@@ -22,7 +22,7 @@ import Close from '@mui/icons-material/Close';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { NextSeo } from 'next-seo';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import theDefaultConfig from '../../../../../config/wizard.default.app.json';
@@ -233,8 +233,9 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
         data={sendConfigMutation.data}
       />
       <Container maxWidth={'xl'}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Header Section */}
+          <Box>
             <Stack
               direction="row"
               alignItems="center"
@@ -285,61 +286,65 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                 </Button>
               )}
             </Stack>
-          </Grid>
-          {/* <Grid item xs={12} sm={12}>
-            <WelcomeMessage />
-          </Grid> */}
-          <Grid item xs={12} sm={12}>
-            {/* <Typography variant="body2">
-              <FormattedMessage
-                id="start.for.free"
-                defaultMessage="Start for free"
-              />
-            </Typography>*/}
+          </Box>
+
+          {/* Title Section */}
+          <Box>
             <Typography variant="h5">
               <FormattedMessage
                 id="create.your.app"
                 defaultMessage="Create your App"
               />
             </Typography>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Stack spacing={2}>
-              <Formik
-                validationSchema={FormSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                  let clonedConfig = {};
-                  if (
-                    clonedConfigQuery.data &&
-                    !clonedConfigQuery.data.nft &&
-                    clonedConfigQuery.data?.isTemplate
-                  ) {
-                    clonedConfig = JSON.parse(clonedConfigQuery.data.config);
-                  }
-                  const submitConfig = {
-                    ...defaultConfig,
-                    ...clonedConfig,
-                    ...values,
+          </Box>
 
-                  };
-                  setShowSendingConfig(true);
-                  sendConfigMutation.mutateAsync({
-                    config: submitConfig,
-                    email: values.email,
-                  });
-                  setSubmitting(false);
-                }}
-                enableReinitialize={true}
-                initialValues={{
-                  name: '',
-                  email: '',
-                  domain: '',
-                }}
-              >
-                {({ isValid }) => (
-                  <Form>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
+          {/* Main Content - Two Column Layout */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 3,
+            alignItems: 'flex-start'
+          }}>
+            {/* Left Column - Form */}
+            <Box sx={{ 
+              flex: { xs: '1', md: '0 0 400px' },
+              width: { xs: '100%', md: '400px' }
+            }}>
+              <Stack spacing={2}>
+                <Formik
+                  validationSchema={FormSchema}
+                  onSubmit={(values, { setSubmitting }) => {
+                    let clonedConfig = {};
+                    if (
+                      clonedConfigQuery.data &&
+                      !clonedConfigQuery.data.nft &&
+                      clonedConfigQuery.data?.isTemplate
+                    ) {
+                      clonedConfig = JSON.parse(clonedConfigQuery.data.config);
+                    }
+                    const submitConfig = {
+                      ...defaultConfig,
+                      ...clonedConfig,
+                      ...values,
+
+                    };
+                    setShowSendingConfig(true);
+                    sendConfigMutation.mutateAsync({
+                      config: submitConfig,
+                      email: values.email,
+                    });
+                    setSubmitting(false);
+                  }}
+                  enableReinitialize={true}
+                  initialValues={{
+                    name: '',
+                    email: '',
+                    domain: '',
+                  }}
+                >
+                  {({ isValid }: any) => (
+                    <Form>
+                      <Stack spacing={2}>
                         <Field
                           component={TextField}
                           fullWidth
@@ -364,8 +369,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                             ),
                           }}
                         />
-                      </Grid>
-                      <Grid item xs={12}>
+                        
                         <Field
                           component={TextField}
                           fullWidth
@@ -377,24 +381,24 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                             />
                           }
                         />
-                      </Grid>
 
-                      <Grid item xs={12}>
-                        <Stack
-                          spacing={1}
-                          direction="row"
-                          justifyContent="flex-start"
-                        >
+                        <Box sx={{ 
+                          display: 'flex', 
+                          justifyContent: 'flex-end',
+                          pt: 1
+                        }}>
                           {isActive ? (
                             <Button
                               disabled={!isValid}
                               type="submit"
                               variant="contained"
                               color="primary"
+                              size="large"
+                              sx={{ minWidth: 140 }}
                             >
                               <FormattedMessage
                                 id="create.app"
-                                defaultMessage="Create App"
+                                defaultMessage="CREATE APP"
                               />
                             </Button>
                           ) : (
@@ -402,69 +406,75 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                               variant="outlined"
                               color="inherit"
                               endIcon={<ChevronRightIcon />}
+                              size="large"
                             />
                           )}
-                        </Stack>
-                      </Grid>
-                    </Grid>
-                  </Form>
-                )}
-              </Formik>
-            </Stack>
-          </Grid>
-          {!isMobile && (
-            <Grid item xs={12} sm={8}>
-              <CssVarsProvider theme={selectedTheme}>
-                <Container>
-                  <Stack spacing={2}>
-                    {clonedConfigQuery?.data?.nft && (
-                      <Typography variant="subtitle1">
-                        <FormattedMessage
-                          id="this.app.is.not.clonable"
-                          defaultMessage="This app is not clonable."
-                        />
-                      </Typography>
-                    )}
+                        </Box>
+                      </Stack>
+                    </Form>
+                  )}
+                </Formik>
+              </Stack>
+            </Box>
 
-                    {slug && !clonedConfigQuery?.data?.nft && (
-                      <Typography variant="subtitle1">
-                        <FormattedMessage
-                          id="you.are.cloning"
-                          defaultMessage="You are cloning site: <b>{site}</b>. Check it live <a>here</a> "
-                          values={{
-                            site: slug,
-                            //@ts-ignore
-                            b: (chunks) => <b>{chunks}</b>,
-                            //@ts-ignore
-                            a: (chunks: any): ReactNode => (
-                              <a
-                                className="external_link"
-                                target="_blank"
-                                href={
-                                  IS_STAGING
-                                    ? `https://${slug}.dev.dexkit.app`
-                                    : `https://${slug}.dexkit.app`
-                                }
-                                rel="noreferrer"
-                              >
-                                {chunks}
-                              </a>
-                            ),
-                          }}
-                        />
-                      </Typography>
-                    )}
-                    <PagePreviewPaper
-                      sections={currentPage.sections}
-                      name={currentPage.title || 'Home'}
-                      hideButtons={currentPage?.key !== 'home'}
-                    />
-                  </Stack>
-                </Container>
-              </CssVarsProvider>
-            </Grid>
-          )}
-        </Grid>
+            {/* Right Column - Preview */}
+            {!isMobile && (
+              <Box sx={{ 
+                flex: 1,
+                minWidth: 0
+              }}>
+                <CssVarsProvider theme={selectedTheme}>
+                  <Box>
+                    <Stack spacing={2}>
+                      {clonedConfigQuery?.data?.nft && (
+                        <Typography variant="subtitle1">
+                          <FormattedMessage
+                            id="this.app.is.not.clonable"
+                            defaultMessage="This app is not clonable."
+                          />
+                        </Typography>
+                      )}
+
+                      {slug && !clonedConfigQuery?.data?.nft && (
+                        <Typography variant="subtitle1">
+                          <FormattedMessage
+                            id="you.are.cloning"
+                            defaultMessage="You are cloning site: <b>{site}</b>. Check it live <a>here</a> "
+                            values={{
+                              site: slug,
+                              //@ts-ignore
+                              b: (chunks) => <b>{chunks}</b>,
+                              //@ts-ignore
+                              a: (chunks: any): ReactNode => (
+                                <a
+                                  className="external_link"
+                                  target="_blank"
+                                  href={
+                                    IS_STAGING
+                                      ? `https://${slug}.dev.dexkit.app`
+                                      : `https://${slug}.dexkit.app`
+                                  }
+                                  rel="noreferrer"
+                                >
+                                  {chunks}
+                                </a>
+                              ),
+                            }}
+                          />
+                        </Typography>
+                      )}
+                      <PagePreviewPaper
+                        sections={currentPage.sections}
+                        name={currentPage.title || 'Home'}
+                        hideButtons={currentPage?.key !== 'home'}
+                      />
+                    </Stack>
+                  </Box>
+                </CssVarsProvider>
+              </Box>
+            )}
+          </Box>
+        </Box>
       </Container>
     </>
   );

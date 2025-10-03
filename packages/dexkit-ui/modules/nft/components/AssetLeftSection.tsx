@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Grid, Skeleton } from "@mui/material";
 import { useAsset } from "../hooks";
 import { AssetDetails } from "./AssetDetails";

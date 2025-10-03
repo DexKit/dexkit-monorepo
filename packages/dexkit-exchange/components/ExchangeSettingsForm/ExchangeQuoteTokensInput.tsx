@@ -113,26 +113,30 @@ export default function ExchangeQuoteTokensInput({
         </MenuItem>
       )}
       renderTags={(value: readonly Token[], getTagProps) =>
-        value.map((option: Token, index: number) => (
-          <Chip
-            icon={
-              <Avatar
-                sx={{ height: isMobile ? "0.85rem" : "1rem", width: isMobile ? "0.85rem" : "1rem" }}
-                src={
-                  option.logoURI
-                    ? option.logoURI
-                    : TOKEN_ICON_URL(option.address, option.chainId)
-                }
-              >
-                <TokenIcon fontSize="small" />
-              </Avatar>
-            }
-            variant="outlined"
-            label={option.symbol.toUpperCase()}
-            size={isMobile ? "small" : "medium"}
-            {...getTagProps({ index })}
-          />
-        ))
+        value.map((option: Token, index: number) => {
+          const { key, ...tagProps } = getTagProps({ index });
+          return (
+            <Chip
+              key={key}
+              icon={
+                <Avatar
+                  sx={{ height: isMobile ? "0.85rem" : "1rem", width: isMobile ? "0.85rem" : "1rem" }}
+                  src={
+                    option.logoURI
+                      ? option.logoURI
+                      : TOKEN_ICON_URL(option.address, option.chainId)
+                  }
+                >
+                  <TokenIcon fontSize="small" />
+                </Avatar>
+              }
+              variant="outlined"
+              label={option.symbol.toUpperCase()}
+              size={isMobile ? "small" : "medium"}
+              {...tagProps}
+            />
+          );
+        })
       }
       getOptionLabel={(opt) => opt.symbol.toUpperCase()}
       renderInput={(params) => {

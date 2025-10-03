@@ -185,7 +185,7 @@ export default function FormsAccountPage() {
                     <TableBody>
                       {listFormsQuery.data?.length === 0 && (
                         <TableRow>
-                          <TableCell colSpan={3}>
+                          <TableCell sx={{ gridColumn: '1 / -1' }}>
                             <Box>
                               <Stack spacing={2} alignItems="center">
                                 <Info fontSize="large" />

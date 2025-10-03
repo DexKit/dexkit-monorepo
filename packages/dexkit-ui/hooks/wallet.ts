@@ -41,8 +41,16 @@ export const useWalletConnect = () => {
   }, [config.logo, config.logoDark, config.name, mode]);
 
   const colors = {
-    modalBg: theme.palette.background.default,
-    primaryButtonBg: theme.palette.action.active,
+    modalBg: mode === ThemeMode.dark ? '#151b22' : '#ffffff',
+    primaryButtonBg: mode === ThemeMode.dark ? theme.palette.primary.main : theme.palette.primary.main,
+    accentButtonBg: mode === ThemeMode.dark ? '#1a1a1a' : '#f5f5f5',
+    accentButtonText: mode === ThemeMode.dark ? '#ffffff' : '#000000',
+    primaryButtonText: mode === ThemeMode.dark ? '#ffffff' : '#ffffff',
+    secondaryButtonBg: mode === ThemeMode.dark ? '#1a1a1a' : '#f5f5f5',
+    secondaryButtonText: mode === ThemeMode.dark ? '#ffffff' : '#000000',
+    textPrimary: mode === ThemeMode.dark ? '#ffffff' : '#000000',
+    textSecondary: mode === ThemeMode.dark ? '#737372' : '#666666',
+    borderColor: mode === ThemeMode.dark ? '#333333' : '#e0e0e0',
   };
 
   const connectWallet = async () => {

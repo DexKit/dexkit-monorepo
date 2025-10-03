@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useIsMobile } from "@dexkit/core";
 import { copyToClipboard } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";

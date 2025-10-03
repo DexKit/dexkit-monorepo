@@ -32,7 +32,7 @@ export function NotificationMessage({ types, type, values }: Props) {
     <FormattedMessage
       id={types[type]?.id || "id"}
       defaultMessage={types[type]?.message || "message"}
-      values={renderValues(values)}
+      values={renderValues(values) as any}
     />
   );
 }

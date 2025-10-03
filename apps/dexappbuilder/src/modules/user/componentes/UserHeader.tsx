@@ -176,14 +176,12 @@ export function UserHeader(props: Props) {
   return (
     <Grid container spacing={2}>
       <Grid
-        item
-        xs={12}
         sx={(theme) => ({
           height: theme.spacing(20),
           position: 'relative',
           backgroundImage: `url(${backgroundImageURL})`,
         })}
-      >
+        size={12}>
         {profileImageURL ? (
           <Box
             sx={(theme) => ({
@@ -224,7 +222,7 @@ export function UserHeader(props: Props) {
           />
         )}
       </Grid>
-      <Grid item xs>
+      <Grid size="grow">
         <Stack
           direction={'row'}
           alignItems={'center'}
@@ -266,9 +264,8 @@ export function UserHeader(props: Props) {
           <ShareButton />
         </Stack>
       </Grid>
-
       {isNftImage && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="row" spacing={1} alignItems="center" mt={0.5} mb={1}>
             {nftName && (
               <Typography variant="caption" component="div">
@@ -304,9 +301,8 @@ export function UserHeader(props: Props) {
           </Stack>
         </Grid>
       )}
-
       {shortBio && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography
             sx={{
               display: 'block',
@@ -321,9 +317,8 @@ export function UserHeader(props: Props) {
           </Typography>
         </Grid>
       )}
-
       {bio && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="row" justifyContent="space-between">
             <Typography
               sx={{

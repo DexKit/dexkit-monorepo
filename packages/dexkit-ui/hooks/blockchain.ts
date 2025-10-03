@@ -61,7 +61,7 @@ export function useAllTokenList({
   let tokens = tokenListJson;
 
   if (onlyTradable) {
-    tokens = tokens.filter((t) => Boolean(t.tradable));
+    tokens = tokens.filter((t: any) => Boolean(t.tradable));
   }
 
   return useMemo(() => {
@@ -198,7 +198,7 @@ export function useTokenList({
   let tokens = [...tokensValues, ...tokenListJson];
 
   if (onlyTradable) {
-    tokens = tokens.filter((t) => Boolean(t.tradable));
+    tokens = tokens.filter((t: any) => Boolean(t.tradable));
   }
 
   return useMemo(() => {

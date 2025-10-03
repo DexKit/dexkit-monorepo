@@ -84,7 +84,7 @@ function CreateProductComponent() {
             collections: [],
           }}
         >
-          {({ isValid, submitForm, errors }) => (
+          {({ isValid, submitForm, errors }: any) => (
             <>
               <ProductForm isValid={isValid} onSubmit={submitForm} />
             </>

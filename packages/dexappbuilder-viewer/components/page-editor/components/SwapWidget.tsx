@@ -42,7 +42,7 @@ function SwapWidget(props: Props) {
 
     if (chainId && buyTokenAddress) {
       buyToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -50,7 +50,7 @@ function SwapWidget(props: Props) {
 
     if (chainId && sellTokenAddress) {
       sellToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -107,8 +107,8 @@ function SwapWidget(props: Props) {
 
   const featuredTokens = useMemo(() => {
     return allTokens
-      .filter((t) => !t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => !t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,
@@ -120,8 +120,8 @@ function SwapWidget(props: Props) {
 
   const nonFeaturedTokens = useMemo(() => {
     return allTokens
-      .filter((t) => t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,

@@ -55,7 +55,7 @@ function UpsertUserDialog({
   };
 
   const handleToggleDetails = () => {
-    setShowDetails((value) => !value);
+    setShowDetails((value: boolean) => !value);
   };
 
   return (

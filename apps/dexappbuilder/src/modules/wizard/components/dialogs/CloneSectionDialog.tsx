@@ -79,7 +79,7 @@ export default function CloneSectionDialog({
         <Stack spacing={3}>
           <TextField
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: any) => setName(e.target.value)}
             label={
               <FormattedMessage
                 id="new.section.name"

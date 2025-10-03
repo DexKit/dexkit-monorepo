@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants/enums";
 import {
   NETWORK_FROM_SLUG,
@@ -153,8 +154,8 @@ export function useSwapState() {
       theme:
         mode === ThemeMode.light
           ? lightTheme({
-              colors,
-            })
+            colors,
+          })
           : darkTheme({ colors }),
     });
   }

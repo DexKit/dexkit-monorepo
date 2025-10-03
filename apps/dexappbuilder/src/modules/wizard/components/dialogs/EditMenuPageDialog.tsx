@@ -182,11 +182,11 @@ export default function EditMenuPageDialog({
         initialValues={getInitials()}
         validationSchema={MenuOptionsSchema}
       >
-        {({ submitForm, isSubmitting, isValid, values, errors }) => (
+        {({ submitForm, isSubmitting, isValid, values, errors }: any) => (
           <Form>
             <DialogContent dividers>
               <Grid container spacing={4}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={Select}
                     name="type"
@@ -215,7 +215,7 @@ export default function EditMenuPageDialog({
                 </Grid>
                 {values.type === 'Page' && (
                   <>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Field
                         component={Select}
                         name="name"
@@ -233,7 +233,7 @@ export default function EditMenuPageDialog({
                     {/*TODO: this implementation should be changed on the future*/}
                     {values.name === CUSTOM_PAGE_KEY && (
                       <>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             component={TextField}
                             name="title"
@@ -245,7 +245,7 @@ export default function EditMenuPageDialog({
                             }
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             component={TextField}
                             name="uri"
@@ -264,7 +264,7 @@ export default function EditMenuPageDialog({
                 )}
 
                 {values.type !== 'Page' && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       name="name"
@@ -275,7 +275,7 @@ export default function EditMenuPageDialog({
                   </Grid>
                 )}
                 {values.type === 'External' && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       name="href"

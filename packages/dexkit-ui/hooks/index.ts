@@ -53,7 +53,7 @@ export function useNotifications() {
   const { notifications, transactions } = useDexKitContext();
 
   const uncheckedTransactions = useMemo(() => {
-    return notifications.filter((n) => !n.checked);
+    return notifications.filter((n: any) => !n.checked);
   }, [notifications, chainId]);
 
   const pendingTransactions = useMemo(() => {
@@ -75,7 +75,7 @@ export function useNotifications() {
   }, [pendingTransactions]);
 
   const filteredUncheckedTransactions = useMemo(() => {
-    return uncheckedTransactions.filter((tx) => {
+    return uncheckedTransactions.filter((tx: any) => {
       if (tx.metadata) {
         const txChainId = tx.metadata["chainId"];
 

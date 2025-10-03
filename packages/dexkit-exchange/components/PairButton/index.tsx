@@ -33,7 +33,7 @@ export default function PairButton({
       disabled={!onClick}
       sx={{
         p: { xs: theme.spacing(0.75), sm: theme.spacing(1), md: theme.spacing(1.5) },
-        borderRadius: { xs: theme.shape.borderRadius * 1.5, sm: theme.shape.borderRadius * 2 },
+        borderRadius: { xs: Number(theme.shape.borderRadius) * 1.5, sm: Number(theme.shape.borderRadius) * 2 },
         backgroundColor: theme.palette.action.hover,
         border: `1px solid ${theme.palette.divider}`,
         transition: theme.transitions.create([

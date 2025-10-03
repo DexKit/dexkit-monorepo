@@ -111,100 +111,96 @@ export default function TokenInfo({ address, chainId }: TokenSummaryProps) {
         alignItems={"center"}
         alignContent={"center"}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            {/* <Typography variant="caption" color="text.secondary">
-              <FormattedMessage id="token" defaultMessage="Token" />
-        </Typography>*/}
-            <Stack
-              flexDirection={"row"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Avatar
-                src={token?.logoURI}
-                imgProps={{ sx: { objectFit: "fill" } }}
-              ></Avatar>
+        <Stack spacing={3} alignItems="center">
+          <Stack
+            flexDirection={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={1}
+          >
+            <Avatar
+              src={token?.logoURI}
+              imgProps={{ sx: { objectFit: "fill" } }}
+            ></Avatar>
 
-              <Box
-                sx={{ pl: 1 }}
-                display={"flex"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-              >
-                <Typography variant="h6">{token?.symbol}</Typography>
-                {getBlockExplorerUrl(chainId) && (
-                  <Link
-                    href={getTokenBlockExplorerUrl({ chainId, address }) || " "}
-                    target="_blank"
-                    underline="hover"
-                    variant="caption"
-                  >
-                    <FormattedMessage id="explorer" defaultMessage="Explorer" />
-                  </Link>
-                )}
-              </Box>
-            </Stack>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid
-              container
-              spacing={2}
+            <Box
+              sx={{ pl: 1 }}
+              display={"flex"}
               justifyContent={"center"}
-              justifyItems={"center"}
+              flexDirection={"column"}
             >
-              <Grid item>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage
-                    id="your.balance"
-                    defaultMessage="Your balance"
+              <Typography variant="h6">{token?.symbol}</Typography>
+              {getBlockExplorerUrl(chainId) && (
+                <Link
+                  href={getTokenBlockExplorerUrl({ chainId, address }) || " "}
+                  target="_blank"
+                  underline="hover"
+                  variant="caption"
+                >
+                  <FormattedMessage id="explorer" defaultMessage="Explorer" />
+                </Link>
+              )}
+            </Box>
+          </Stack>
+
+          <Stack
+            direction="row"
+            spacing={4}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Box textAlign="center">
+              <Typography variant="caption" color="text.secondary">
+                <FormattedMessage
+                  id="your.balance"
+                  defaultMessage="Your balance"
+                />
+              </Typography>
+              <Typography variant="h6">
+                {account
+                  ? formatBigNumber(tokenBalance.data, token?.decimals)
+                  : "-"}{" "}
+                {token?.symbol}
+              </Typography>
+            </Box>
+            
+            <Box textAlign="center">
+              <Typography variant="caption" color="text.secondary">
+                <FormattedMessage id="actions" defaultMessage="Actions" />
+              </Typography>
+              <Stack spacing={2} direction="row">
+                <Button
+                  fullWidth
+                  startIcon={<Send />}
+                  color="inherit"
+                  variant="outlined"
+                  onClick={handleOpenSend}
+                >
+                  <FormattedMessage id="send" defaultMessage="Send" />
+                </Button>
+                <Button
+                  startIcon={<VerticalAlignBottomIcon />}
+                  color="inherit"
+                  variant="outlined"
+                  fullWidth
+                  onClick={handleOpenReceive}
+                >
+                  <FormattedMessage id="receive" defaultMessage="Receive" />
+                </Button>
+                {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
+                {false && (
+                  <TransakWidget
+                    buttonProps={{
+                      color: "inherit",
+                      variant: "outlined",
+                      fullWidth: true,
+                    }}
                   />
-                </Typography>
-                <Typography variant="h6">
-                  {account
-                    ? formatBigNumber(tokenBalance.data, token?.decimals)
-                    : "-"}{" "}
-                  {token?.symbol}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage id="actions" defaultMessage="Actions" />
-                </Typography>
-                <Stack spacing={2} direction="row">
-                  <Button
-                    fullWidth
-                    startIcon={<Send />}
-                    color="inherit"
-                    variant="outlined"
-                    onClick={handleOpenSend}
-                  >
-                    <FormattedMessage id="send" defaultMessage="Send" />
-                  </Button>
-                  <Button
-                    startIcon={<VerticalAlignBottomIcon />}
-                    color="inherit"
-                    variant="outlined"
-                    fullWidth
-                    onClick={handleOpenReceive}
-                  >
-                    <FormattedMessage id="receive" defaultMessage="Receive" />
-                  </Button>
-                  {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
-                  {false && (
-                    <TransakWidget
-                      buttonProps={{
-                        color: "inherit",
-                        variant: "outlined",
-                        fullWidth: true,
-                      }}
-                    />
-                  )}
-                </Stack>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+                )}
+              </Stack>
+            </Box>
+          </Stack>
+        </Stack>
       </Box>
     </>
   );

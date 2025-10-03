@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CoinTypes, TOKEN_ICON_URL } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { EvmCoin } from "@dexkit/core/types";

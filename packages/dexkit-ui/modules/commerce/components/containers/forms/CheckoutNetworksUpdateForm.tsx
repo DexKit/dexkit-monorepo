@@ -9,12 +9,13 @@ import {
   Checkbox,
   Divider,
   FormControlLabel,
-  Grid,
   InputAdornment,
   Stack,
   Switch,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -36,6 +37,8 @@ const commerceSettingsAtomTestnets = atomWithStorage(
 
 function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [query, setQuery] = useState<string>("");
 
@@ -109,87 +112,105 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
   const { goBack } = useParams();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Box>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <TextField
-              variant="standard"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              placeholder={formatMessage({
-                id: "search.networks",
-                defaultMessage: "Search networks",
-              })}
-              value={query}
-              onChange={handleChange}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={showTestnets}
-                  onChange={() => setShowTestnets((value) => !value)}
+    <Stack spacing={2}>
+      <Box>
+        <Stack 
+          direction={isMobile ? "column" : "row"} 
+          alignItems={isMobile ? "stretch" : "center"} 
+          spacing={2}
+        >
+          <TextField
+            variant="standard"
+            size="small"
+            fullWidth={isMobile}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            placeholder={formatMessage({
+              id: "search.networks",
+              defaultMessage: "Search networks",
+            })}
+            value={query}
+            onChange={handleChange}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showTestnets}
+                onChange={() => setShowTestnets((value) => !value)}
+              />
+            }
+            label={
+              <FormattedMessage
+                id="show.testnets"
+                defaultMessage="Show testnets"
+              />
+            }
+          />
+        </Stack>
+      </Box>
+      
+      <Box>
+        <Box
+          sx={{ 
+            display: 'grid',
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)',
+            gap: 2,
+            height: isMobile ? "auto" : "18rem",
+            maxHeight: isMobile ? "none" : "18rem",
+            overflowY: isMobile ? "visible" : "auto"
+          }}
+        >
+          {availNetworks.map((network, key) => (
+            <Box key={key}>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Switch
+                  checked={Boolean(checked[network.chainId])}
+                  onClick={handleToggle(network.chainId)}
                 />
-              }
-              label={
-                <FormattedMessage
-                  id="show.testnets"
-                  defaultMessage="Show testnets"
-                />
-              }
-            />
-          </Stack>
+                <Typography variant="body2" sx={{ fontSize: isMobile ? '0.875rem' : '1rem' }}>
+                  {network.name}
+                </Typography>
+              </Stack>
+            </Box>
+          ))}
         </Box>
-      </Grid>
-      <Grid item xs={6}>
-        <Box>
-          <Grid
-            container
-            spacing={2}
-            direction="column"
-            alignItems="flex-start"
-            justifyContent="flex-start"
-            wrap="wrap"
-            sx={{ height: "18rem" }}
+      </Box>
+      
+      <Divider />
+      
+      <Box sx={{ mt: 2 }}>
+        <Stack 
+          direction="row" 
+          justifyContent="flex-end" 
+          spacing={2}
+          sx={{ 
+            "& > *": {
+              width: isMobile ? "50%" : "auto"
+            }
+          }}
+        >
+          <Button 
+            onClick={goBack} 
+            fullWidth={isMobile}
+            variant={isMobile ? "outlined" : "text"}
           >
-            {availNetworks.map((network, key) => (
-              <Grid item key={key}>
-                <Box>
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Switch
-                      checked={Boolean(checked[network.chainId])}
-                      onClick={handleToggle(network.chainId)}
-                    />
-                    <Typography>{network.name}</Typography>
-                  </Stack>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
-      <Grid item xs={12}>
-        <Box>
-          <Stack direction="row" justifyContent="flex-end" spacing={2}>
-            <Button onClick={goBack}>
-              <FormattedMessage id="cancel" defaultMessage="Cancel" />
-            </Button>
-            <Button variant="contained" onClick={handleSave}>
-              <FormattedMessage id="save" defaultMessage="Save" />
-            </Button>
-          </Stack>
-        </Box>
-      </Grid>
-    </Grid>
+            <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={handleSave} 
+            fullWidth={isMobile}
+          >
+            <FormattedMessage id="save" defaultMessage="Save" />
+          </Button>
+        </Stack>
+      </Box>
+    </Stack>
   );
 }
 

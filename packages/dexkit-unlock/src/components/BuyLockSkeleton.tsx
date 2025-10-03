@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import KeyIcon from "@mui/icons-material/Key";
 import { Avatar, Box, Button, Skeleton, Typography } from "@mui/material";

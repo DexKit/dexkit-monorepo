@@ -40,7 +40,7 @@ function NotificationsPageComponent() {
   const handleChangeRowsPerPage = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFilter((values) => ({
+    setFilter((values: any) => ({
       ...values,
       pageSize: parseInt(event.target.value, 10),
     }));
@@ -79,7 +79,7 @@ function NotificationsPageComponent() {
         <Paper>
           <Tabs
             onChange={async (e, value) => {
-              setFilter((filter) => ({ ...filter, page: 0, status: value }));
+              setFilter((filter: any) => ({ ...filter, page: 0, status: value }));
 
               await refetch();
             }}
@@ -134,7 +134,7 @@ function NotificationsPageComponent() {
           page={notifications?.currentPage ?? 0}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           onPageChange={(e, value) => {
-            setFilter((values) => ({ ...values, page: value }));
+            setFilter((values: any) => ({ ...values, page: value }));
           }}
           rowsPerPage={filter.pageSize}
           onRowsPerPageChange={handleChangeRowsPerPage}

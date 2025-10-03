@@ -126,7 +126,7 @@ const ContractWizardCollectionPage: NextPage = () => {
     <>
       <NextSeo title={collection?.name || ''} />
       {renderDrawer()}
-      <MainLayout disablePadding>
+      <MainLayout disablePadding isPreview={false}>
         <Grid container>
           {isDesktop && (
             <Grid item xs={12} sm={2}>

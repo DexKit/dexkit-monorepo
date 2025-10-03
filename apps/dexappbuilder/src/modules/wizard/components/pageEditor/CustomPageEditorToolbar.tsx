@@ -9,7 +9,7 @@ const BottomToolbarStyled = styled(BottomToolbar)(({ theme }) => ({
   },
 }));
 
-const CustomPageEditorToolbar = memo<BottomToolbarProps>((props) => {
+const CustomPageEditorToolbar = memo<BottomToolbarProps>((props: any) => {
   const isMobile = useIsMobile();
   const theme = useTheme();
 

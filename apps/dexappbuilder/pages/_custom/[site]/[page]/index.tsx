@@ -41,6 +41,19 @@ const CustomPage: NextPage<{
   gatedLayout,
   slug,
   layout,
+}: {
+  sections: AppPageSection[];
+  account?: string;
+  isProtected: boolean;
+  conditions?: GatedCondition[];
+  gatedLayout?: GatedPageLayout;
+  layout?: PageSectionsLayout;
+  result: boolean;
+  site: string;
+  page: string;
+  partialResults: { [key: number]: boolean };
+  balances: { [key: number]: string };
+  slug?: string;
 }) => {
   if (isProtected) {
     return (

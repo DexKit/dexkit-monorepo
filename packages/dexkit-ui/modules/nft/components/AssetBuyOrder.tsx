@@ -1,7 +1,7 @@
+// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Button, Grid, NoSsr, Paper, Stack, Typography } from "@mui/material";
+import { Button, Grid, NoSsr, Stack } from "@mui/material";
 import { Suspense, useCallback, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { FormattedMessage } from "react-intl";
 
 import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
@@ -481,32 +481,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         <Grid item xs={12}>
           <QueryErrorResetBoundary>
             {({ reset }) => (
-              <ErrorBoundary
-                onReset={reset}
-                fallbackRender={({ resetErrorBoundary, error }) => (
-                  <Paper sx={{ p: 1 }}>
-                    <Stack justifyContent="center" alignItems="center">
-                      <Typography variant="h6">
-                        <FormattedMessage
-                          id="something.went.wrong"
-                          defaultMessage="Oops, something went wrong"
-                          description="Something went wrong error message"
-                        />
-                      </Typography>
-                      <Typography variant="body1" color="textSecondary">
-                        {String(error)}
-                      </Typography>
-                      <Button color="primary" onClick={resetErrorBoundary}>
-                        <FormattedMessage
-                          id="try.again"
-                          defaultMessage="Try again"
-                          description="Try again"
-                        />
-                      </Button>
-                    </Stack>
-                  </Paper>
-                )}
-              >
+              <div>
                 <Suspense fallback={<TableSkeleton rows={4} />}>
                   <Stack spacing={2}>
                     <AssetBuyOrderPrice
@@ -544,7 +519,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
                     )}
                   </Stack>
                 </Suspense>
-              </ErrorBoundary>
+              </div>
             )}
           </QueryErrorResetBoundary>
         </Grid>

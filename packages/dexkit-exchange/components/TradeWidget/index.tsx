@@ -6,7 +6,8 @@ import {
   Tabs,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
+  useColorScheme
 } from "@mui/material";
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
@@ -41,10 +42,12 @@ export interface TradeWidgetProps {
 
 export default function TradeWidget({ isActive, customVariantSettings }: TradeWidgetProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const previewContext = usePreviewPlatform();
   const isMobile = previewContext ? previewContext.isMobile : isMobileDevice;
+  const isDarkMode = mode === 'dark';
 
   const {
     quoteToken,
@@ -75,11 +78,11 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
   );
 
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || theme.palette.text.primary;
-  const buyTabColor = glassSettings?.buyTabColor || '#10B981'; // Verde más vibrante
-  const sellTabColor = glassSettings?.sellTabColor || '#EF4444'; // Rojo más vibrante
-  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
-  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
+  const textColor = glassSettings?.textColor || (isDarkMode ? '#ffffff' : theme.palette.text.primary);
+  const buyTabColor = glassSettings?.buyTabColor || '#10B981';
+  const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
+  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (isDarkMode ? '#FFFFFF' : '#000000');
+  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (isDarkMode ? '#FFFFFF' : '#000000');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 
@@ -385,8 +388,8 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
             defaultMessage="Market Settings"
           />
         }
-        onAutoSlippage={(auto) => setAutoSlippage(auto)}
-        onChangeSlippage={(sl) => setSlippage(sl)}
+        onAutoSlippage={(auto: any) => setAutoSlippage(auto)}
+        onChangeSlippage={(sl: any) => setSlippage(sl)}
         maxSlippage={slippage as number}
         isAutoSlippage={isAutoSlippage}
       />

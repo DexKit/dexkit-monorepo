@@ -6,7 +6,9 @@ import {
 } from '@dexkit/web3forms/types';
 import {
   createTheme,
-  experimental_extendTheme as extendTheme,
+  alpha,
+  lighten,
+  darken,
 } from '@mui/material/styles';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -63,14 +65,22 @@ export function generateTheme({
         : customTheme?.colorSchemes?.light;
     return fontFamily
       ? createTheme({
-        typography: {
-          fontFamily,
-        },
-        ...paletteTheme,
-      })
-      : createTheme({
-        ...paletteTheme,
-      });
+          typography: {
+            fontFamily,
+          },
+          ...paletteTheme,
+          // Add color manipulation functions for MUI v7
+          alpha,
+          lighten,
+          darken,
+        } as any)
+      :         createTheme({
+          ...paletteTheme,
+          // Add color manipulation functions for MUI v7
+          alpha,
+          lighten,
+          darken,
+        } as any);
   }
   const theme = getTheme({ name: selectedThemeId }).theme;
   let paletteTheme =
@@ -79,17 +89,25 @@ export function generateTheme({
       : theme.colorSchemes.light;
   return fontFamily
     ? createTheme({
-      typography: {
-        fontFamily,
-      },
-      ...paletteTheme,
-    })
+        typography: {
+          fontFamily,
+        },
+        ...paletteTheme,
+        // Add color manipulation functions for MUI v7
+        alpha,
+        lighten,
+        darken,
+      } as any)
     : createTheme({
-      typography: {
-        fontFamily,
-      },
-      ...paletteTheme,
-    });
+        typography: {
+          fontFamily,
+        },
+        ...paletteTheme,
+        // Add color manipulation functions for MUI v7
+        alpha,
+        lighten,
+        darken,
+      } as any);
 }
 
 export function generateCSSVarsTheme({
@@ -112,30 +130,49 @@ export function generateCSSVarsTheme({
 
   if (selectedThemeId === 'custom') {
     return fontFamily
-      ? extendTheme({
-        ...customTheme,
-        cssVarPrefix: cssVarPrefix,
-        typography: {
-          fontFamily,
-        },
-      })
-      : extendTheme({ ...customTheme, cssVarPrefix });
+      ? createTheme({
+          ...customTheme,
+          typography: {
+            fontFamily,
+          },
+          // Add color manipulation functions for MUI v7
+          alpha,
+          lighten,
+          darken,
+        } as any)
+      : createTheme({ 
+          ...customTheme,
+          // Add color manipulation functions for MUI v7
+          alpha,
+          lighten,
+          darken,
+        } as any);
   }
 
   const theme = getTheme({ name: selectedThemeId }).theme;
 
-  return fontFamily
-    ? extendTheme({
-      cssVarPrefix: cssVarPrefix,
+  // For MUI v7, extract palette from colorSchemes if available
+  let paletteProps = {};
+  if (theme.colorSchemes?.light?.palette) {
+    paletteProps = { palette: theme.colorSchemes.light.palette };
+  } else if (theme.colorSchemes?.dark?.palette) {
+    paletteProps = { palette: theme.colorSchemes.dark.palette };
+  }
+  
+  const themeConfig = {
+    ...paletteProps,
+    ...(fontFamily && {
       typography: {
         fontFamily,
-      },
-      colorSchemes: theme.colorSchemes,
-    })
-    : extendTheme({
-      cssVarPrefix: cssVarPrefix,
-      colorSchemes: theme.colorSchemes,
-    });
+      }
+    }),
+    // Add color manipulation functions for MUI v7
+    alpha,
+    lighten,
+    darken,
+  };
+  
+  return createTheme(themeConfig);
 }
 
 export function inputMapping(abi: AbiFragment[]) {

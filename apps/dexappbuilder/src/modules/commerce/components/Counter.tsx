@@ -34,7 +34,7 @@ export default function Counter({ onAction, amount, limit }: CounterProps) {
         <Add />
       </IconButton>
       <Select variant="standard" value={amount} onChange={handleChange}>
-        {selectOptions.map((_, index) => (
+        {selectOptions.map((_: any, index: number) => (
           <MenuItem key={index + 1} value={index + 1}>
             {index + 1}
           </MenuItem>

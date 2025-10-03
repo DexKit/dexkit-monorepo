@@ -122,7 +122,7 @@ export default function SwapStepperContainer({ site }: Props) {
         isEdit={true}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             alignItems="center"
@@ -163,7 +163,11 @@ export default function SwapStepperContainer({ site }: Props) {
         {/* <Grid item xs={12} sm={12}>
           <WelcomeMessage />
         </Grid> */}
-        <Grid item xs={12} sm={12}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 12
+          }}>
           <Stack direction={'row'} justifyContent={'space-between'}>
             {!isMobile && (
               <Typography variant="h5">
@@ -178,7 +182,11 @@ export default function SwapStepperContainer({ site }: Props) {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={12}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 12
+          }}>
           <SwapStepper
             onSave={handleSave}
             onChange={handleChange}

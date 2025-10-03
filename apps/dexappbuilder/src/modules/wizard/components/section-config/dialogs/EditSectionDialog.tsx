@@ -17,7 +17,6 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
@@ -72,7 +71,7 @@ function ResizeHandle() {
           width: theme.spacing(0.5),
           height: theme.spacing(5),
           backgroundColor: '#e0e0e0',
-          borderRadius: theme.shape.borderRadius / 4,
+          borderRadius: Number(theme.shape.borderRadius) / 4,
         }}
       />
     </PanelResizeHandle>
@@ -316,7 +315,7 @@ export default function EditSectionDialog({
         pb: isMobile ? theme.spacing(1.5) : theme.spacing(2),
       }}
     >
-      <Grid item xs={3}>
+      <Grid size={3}>
         <IconButton
           aria-label="back"
           size={isMobile ? 'medium' : 'large'}
@@ -325,7 +324,7 @@ export default function EditSectionDialog({
           <ArrowBackIosIcon />
         </IconButton>
       </Grid>
-      <Grid item xs={7}>
+      <Grid size={7}>
         <Box display={'flex'} justifyContent={'center'}>
           <Stack
             justifyContent={'center'}
@@ -369,42 +368,39 @@ export default function EditSectionDialog({
     >
       <AppDialogTitle
         title={
-          <Stack
-            spacing={theme.spacing(1)}
-            direction={'row'}
-            alignContent={'center'}
-            alignItems={'center'}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: theme.spacing(1),
+            }}
           >
             <IconButton aria-label="close dialog" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
 
             {isEdit ? (
-              <Typography variant={isMobile ? 'body1' : 'inherit'}>
-                <FormattedMessage
-                  id="edit.section"
-                  defaultMessage="Edit Section"
-                />
-                :
-              </Typography>
+              <FormattedMessage
+                id="edit.section"
+                defaultMessage="Edit Section"
+              />
             ) : (
-              <Stack
-                spacing={theme.spacing(2)}
-                direction={'row'}
-                alignContent={'center'}
-                alignItems={'center'}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: theme.spacing(2),
+                }}
               >
-                <Typography variant={isMobile ? 'subtitle1' : 'inherit'}>
-                  <FormattedMessage
-                    id="add.section"
-                    defaultMessage="Add Section"
-                  />
-                </Typography>
+                <FormattedMessage
+                  id="add.section"
+                  defaultMessage="Add Section"
+                />
                 <TextField
                   variant="standard"
                   onChange={handleChangeName}
                   value={name}
-                  inputRef={(ref) => (inputNameRef.current = ref)}
+                  inputRef={(ref: any) => (inputNameRef.current = ref)}
                   placeholder={formatMessage({
                     id: 'section.name',
                     defaultMessage: 'Section name',
@@ -413,14 +409,14 @@ export default function EditSectionDialog({
                     sx: isMobile ? { typography: 'body2' } : undefined,
                   }}
                 />
-              </Stack>
+              </Box>
             )}
             {isEditName && (
               <TextField
                 variant="standard"
                 onChange={handleChangeName}
                 value={name}
-                inputRef={(ref) => (inputNameRef.current = ref)}
+                inputRef={(ref: any) => (inputNameRef.current = ref)}
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
                 placeholder={formatMessage({
@@ -437,9 +433,9 @@ export default function EditSectionDialog({
                 sx={{
                   px: theme.spacing(1),
                   py: theme.spacing(0.25),
-                  borderRadius: theme.shape.borderRadius * 0.5,
+                  borderRadius: Number(theme.shape.borderRadius) * 0.5,
                   '&: hover': {
-                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                    backgroundColor: theme.alpha(theme.palette.primary.main, 0.1),
                   },
                 }}
                 onClick={handleEdit}
@@ -464,7 +460,7 @@ export default function EditSectionDialog({
                 <Edit />
               </IconButton>
             )}
-          </Stack>
+          </Box>
         }
         hideCloseButton
         onClose={handleClose}
@@ -518,6 +514,7 @@ export default function EditSectionDialog({
                   mt: theme.spacing(0.25),
                   flex: '1 1 auto',
                   overflow: 'visible',
+                  px: isMobile ? 2 : 0,
                 }}
               >
                 {renderPreview()}

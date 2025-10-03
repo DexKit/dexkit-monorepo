@@ -176,15 +176,15 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
-          onRowClick={({ row }, e) => {
+          onRowClick={({ row }: any, e: any) => {
             router.push(`/u/account/commerce/checkouts/${row.id}`);
           }}
           sx={{
-            height: (theme) => theme.spacing(37.5), // 300px / 8 = 37.5
+            height: (theme: any) => theme.spacing(37.5), // 300px / 8 = 37.5
             '& .MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -223,7 +223,7 @@ export default function CheckoutsTable({ onShare }: CheckoutsTableProps) {
               }),
               quickFilterProps: {
                 value: query,
-                onChange: (e) => {
+                onChange: (e: any) => {
                   setQuery(e.target.value);
                 },
               },

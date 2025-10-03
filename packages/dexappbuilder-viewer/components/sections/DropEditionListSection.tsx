@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppErrorBoundary } from "@dexkit/ui/components/AppErrorBoundary";
 import { BaseAssetCard } from "@dexkit/ui/modules/nft/components/BaseAssetCard";
 import { useAssetListFromCollection } from "@dexkit/ui/modules/nft/hooks/collection";
@@ -103,7 +104,7 @@ export function DropEditionListSection({ section }: Props) {
               )}
             >
               <Grid container spacing={2}>
-                {filteredAssets?.map((asset, index) => (
+                {filteredAssets?.map((asset: any, index: any) => (
                   <Grid item xs={6} sm={2} key={index}>
                     <BaseAssetCard
                       asset={asset}

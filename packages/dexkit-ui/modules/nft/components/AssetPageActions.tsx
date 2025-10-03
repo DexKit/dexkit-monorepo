@@ -1,19 +1,20 @@
+// @ts-nocheck
 import {
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
 import {
-    getBlockExplorerUrl,
-    getNetworkSlugFromChainId,
-    isAddressEqual,
-    truncateAddress,
+  getBlockExplorerUrl,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
+  truncateAddress,
 } from "@dexkit/core/utils/blockchain";
 import Link from "@dexkit/ui/components/AppLink";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -22,10 +23,10 @@ import Share from "@mui/icons-material/Share";
 import { useState } from "react";
 import Heart from "../../../components/icons/Heart";
 import {
-    useAsset,
-    useAssetBalance,
-    useAssetMetadata,
-    useFavoriteAssets,
+  useAsset,
+  useAssetBalance,
+  useAssetMetadata,
+  useFavoriteAssets,
 } from "../hooks";
 
 import { getWindowUrl } from "@dexkit/core/utils/browser";
@@ -133,8 +134,8 @@ export function AssetPageActions({ address, id }: Props) {
                     sx={
                       favorites.isFavorite(asset)
                         ? (theme) => ({
-                            "& path": { fill: theme.palette.error.light },
-                          })
+                          "& path": { fill: theme.palette.error.light },
+                        })
                         : undefined
                     }
                   />

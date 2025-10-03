@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Stack } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-mui";
 import { FormattedMessage } from "react-intl";
@@ -17,9 +17,9 @@ export default function ProductCollectionForm({
   const { goBack } = useParams();
 
   return (
-    <Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+    <Box sx={{ maxWidth: '800px', width: '100%' }}>
+      <Stack spacing={3}>
+        <Box>
           <Field
             label={<FormattedMessage id="name" defaultMessage="Name" />}
             component={TextField}
@@ -27,30 +27,43 @@ export default function ProductCollectionForm({
             fullWidth
             disabled={disabled}
           />
-        </Grid>
-        <Grid item xs={12}>
+        </Box>
+
+        <Box>
           <ProductCollectionFormProducts />
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-        </Grid>
-        <Grid item xs={12}>
-          <Box>
-            <Stack justifyContent="flex-end" direction="row" spacing={2}>
-              <Button onClick={goBack}>
-                <FormattedMessage id="Cancel" defaultMessage="Cancel" />
-              </Button>
-              <Button
-                onClick={submitForm}
-                disabled={!isValid || isSubmitting || disabled}
-                variant="contained"
-              >
-                <FormattedMessage id="save" defaultMessage="Save" />
-              </Button>
-            </Stack>
-          </Box>
-        </Grid>
-      </Grid>
+        </Box>
+        <Divider />
+
+        <Box>
+          <Stack justifyContent="flex-end" direction="row" spacing={2}>
+            <Button 
+              onClick={goBack}
+              sx={{
+                color: 'primary.main',
+                textTransform: 'uppercase',
+                fontWeight: 'normal'
+              }}
+            >
+              <FormattedMessage id="cancel" defaultMessage="CANCEL" />
+            </Button>
+            <Button
+              onClick={submitForm}
+              disabled={!isValid || isSubmitting || disabled}
+              variant="contained"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                textTransform: 'uppercase',
+                fontWeight: 'normal',
+                px: 3,
+                py: 1
+              }}
+            >
+              <FormattedMessage id="save" defaultMessage="SAVE" />
+            </Button>
+          </Stack>
+        </Box>
+      </Stack>
     </Box>
   );
 }

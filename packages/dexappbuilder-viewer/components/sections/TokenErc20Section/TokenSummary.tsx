@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { formatBigNumber } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";

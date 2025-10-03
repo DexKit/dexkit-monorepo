@@ -15,7 +15,7 @@ interface Props {
   appConfig: AppConfig;
 }
 
-const Collections: NextPage<Props> = ({ appConfig }) => {
+const Collections: NextPage<Props> = ({ appConfig }: Props) => {
   const { formatMessage } = useIntl();
 
 

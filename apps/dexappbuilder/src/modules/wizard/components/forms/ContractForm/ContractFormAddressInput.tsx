@@ -137,7 +137,7 @@ export default function ContractFormAddressInput({
     <CustomAutocomplete
       isLoading={listDeployedContractQuery.isLoading}
       onChange={handleChangeAutoComplete}
-      options={contractList.map((item) => ({
+      options={contractList.map((item: any) => ({
         label: item.name,
         value: item.contractAddress,
       }))}

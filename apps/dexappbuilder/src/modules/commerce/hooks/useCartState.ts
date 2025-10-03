@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useState } from 'react';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
@@ -99,7 +99,7 @@ export interface CartStateParams {
 }
 
 export default function useCartState({ onAction }: CartStateParams) {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, setState] = useState({
     items: [
       {
         description: 'NFT Art',
@@ -109,6 +109,10 @@ export default function useCartState({ onAction }: CartStateParams) {
       },
     ] as CartItem[],
   });
+
+  const dispatch = useCallback((action: Action) => {
+    setState((prevState: any) => reducer(prevState, action));
+  }, []);
 
   const handleAction = useCallback(
     async (action: Action) => {

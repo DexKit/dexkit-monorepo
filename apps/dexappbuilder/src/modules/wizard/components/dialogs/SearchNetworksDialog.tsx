@@ -90,9 +90,9 @@ export default function SearchNetworksDialog({
 
   const handleToggleNetwork = (network: any) => {
     return () => {
-      if (selectedNetworks.find((n) => n.chainId === network.chainId)) {
+      if (selectedNetworks.find((n: any) => n.chainId === network.chainId)) {
         setSelectedNetworks(
-          selectedNetworks.filter((n) => n.chainId !== network.chainId),
+          selectedNetworks.filter((n: any) => n.chainId !== network.chainId),
         );
       } else {
         setSelectedNetworks(selectedNetworks.concat(network));
@@ -102,7 +102,7 @@ export default function SearchNetworksDialog({
 
   const isSelected = useCallback(
     (network: any) => {
-      return selectedNetworks.find((n) => n.chainId === network.chainId);
+      return selectedNetworks.find((n: any) => n.chainId === network.chainId);
     },
     [selectedNetworks],
   );
@@ -141,7 +141,7 @@ export default function SearchNetworksDialog({
             <TextField
               label="Search"
               value={queryText}
-              onChange={(e) => setQueryText(e.target.value)}
+              onChange={(e: any) => setQueryText(e.target.value)}
               fullWidth
               size={isMobile ? "small" : "medium"}
               InputProps={{

@@ -18,7 +18,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
       id: `accordion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
 
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       accordions: [...prev.accordions, newAccordion],
     }));
@@ -27,28 +27,28 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, []);
 
   const updateAccordion = useCallback((accordionId: string, updates: Partial<AccordionItem>) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      accordions: prev.accordions.map(accordion =>
+      accordions: prev.accordions.map((accordion: any) =>
         accordion.id === accordionId ? { ...accordion, ...updates } : accordion
       ),
     }));
   }, []);
 
   const removeAccordion = useCallback((accordionId: string) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
-      accordions: prev.accordions.filter(accordion => accordion.id !== accordionId),
+      accordions: prev.accordions.filter((accordion: any) => accordion.id !== accordionId),
       settings: {
         ...prev.settings,
-        defaultExpanded: prev.settings.defaultExpanded?.filter(id => id !== accordionId),
-        expandedIds: prev.settings.expandedIds?.filter(id => id !== accordionId),
+        defaultExpanded: prev.settings.defaultExpanded?.filter((id: any) => id !== accordionId),
+        expandedIds: prev.settings.expandedIds?.filter((id: any) => id !== accordionId),
       },
     }));
   }, []);
 
   const moveAccordion = useCallback((fromIndex: number, toIndex: number) => {
-    setConfig(prev => {
+    setConfig((prev: any) => {
       const newAccordions = [...prev.accordions];
       const [movedAccordion] = newAccordions.splice(fromIndex, 1);
       newAccordions.splice(toIndex, 0, movedAccordion);
@@ -61,7 +61,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, []);
 
   const duplicateAccordion = useCallback((accordionId: string) => {
-    const accordion = config.accordions.find(acc => acc.id === accordionId);
+    const accordion = config.accordions.find((acc: any) => acc.id === accordionId);
     if (!accordion) return null;
 
     const duplicatedAccordion: AccordionItem = {
@@ -70,7 +70,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
       title: `${accordion.title} (Copy)`,
     };
 
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       accordions: [...prev.accordions, duplicatedAccordion],
     }));
@@ -79,14 +79,14 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, [config.accordions]);
 
   const updateSettings = useCallback((updates: Partial<AccordionSettings>) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       settings: { ...prev.settings, ...updates },
     }));
   }, []);
 
   const toggleAccordionExpansion = useCallback((accordionId: string) => {
-    setConfig(prev => {
+    setConfig((prev: any) => {
       const isExpanded = prev.settings.expandedIds?.includes(accordionId) ||
         prev.settings.defaultExpanded?.includes(accordionId);
 
@@ -94,7 +94,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
 
       if (isExpanded) {
         newExpandedIds = (prev.settings.expandedIds || prev.settings.defaultExpanded || [])
-          .filter(id => id !== accordionId);
+          .filter((id: any) => id !== accordionId);
       } else {
         const currentExpanded = prev.settings.expandedIds || prev.settings.defaultExpanded || [];
 
@@ -116,7 +116,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, []);
 
   const setDefaultExpanded = useCallback((accordionIds: string[]) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       settings: {
         ...prev.settings,
@@ -126,7 +126,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, []);
 
   const resetExpansion = useCallback(() => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       settings: {
         ...prev.settings,
@@ -136,7 +136,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
   }, []);
 
   const clearExpansion = useCallback(() => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       settings: {
         ...prev.settings,
@@ -151,28 +151,28 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
       return;
     }
 
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       settings: {
         ...prev.settings,
-        expandedIds: prev.accordions.map(acc => acc.id),
+        expandedIds: prev.accordions.map((acc: any) => acc.id),
       },
     }));
   }, [config.settings.allowMultiple]);
 
   const getExpandedAccordions = useCallback(() => {
     const expandedIds = config.settings.expandedIds || config.settings.defaultExpanded || [];
-    return config.accordions.filter(accordion => expandedIds.includes(accordion.id));
+    return config.accordions.filter((accordion: any) => expandedIds.includes(accordion.id));
   }, [config.accordions, config.settings.expandedIds, config.settings.defaultExpanded]);
 
   const getAccordionById = useCallback((accordionId: string) => {
-    return config.accordions.find(accordion => accordion.id === accordionId);
+    return config.accordions.find((accordion: any) => accordion.id === accordionId);
   }, [config.accordions]);
 
   const validateConfig = useCallback(() => {
     const errors: string[] = [];
 
-    const ids = config.accordions.map(acc => acc.id);
+    const ids = config.accordions.map((acc: any) => acc.id);
     const uniqueIds = new Set(ids);
     if (ids.length !== uniqueIds.size) {
       errors.push('Duplicate accordion IDs found');
@@ -180,7 +180,7 @@ export function useAccordionConfig(initialConfig?: Partial<MultiAccordionConfig>
 
     if (config.settings.defaultExpanded) {
       const accordionIds = new Set(ids);
-      const invalidIds = config.settings.defaultExpanded.filter(id => !accordionIds.has(id));
+      const invalidIds = config.settings.defaultExpanded.filter((id: any) => !accordionIds.has(id));
       if (invalidIds.length > 0) {
         errors.push(`Default expanded IDs not found: ${invalidIds.join(', ')}`);
       }

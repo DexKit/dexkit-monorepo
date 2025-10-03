@@ -13,6 +13,8 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -45,6 +47,9 @@ export function WidgetForm({
   saveOnChange,
   showSaveButton,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [query, setQuery] = useState<string>();
 
   const listWidgetsQuery = useWidgetsByOwnerQuery();
@@ -109,9 +114,9 @@ export function WidgetForm({
   }, [onSave, selectedWidgetId]);
 
   return (
-    <Box>
+    <Box sx={{ px: isMobile ? 2 : 0 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <LazyTextField
             TextFieldProps={{
               size: 'small',
@@ -128,10 +133,10 @@ export function WidgetForm({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
-            {filteredData?.map((widget) => (
-              <Grid key={widget.id} item xs={12}>
+            {filteredData?.map((widget: any) => (
+              <Grid key={widget.id} size={12}>
                 <WidgetFormCard
                   id={widget.id}
                   name={widget.configParsed.name}
@@ -142,7 +147,7 @@ export function WidgetForm({
             ))}
             {listWidgetsQuery.isLoading &&
               new Array(5).fill(null).map((_, index) => (
-                <Grid item xs={12} key={index}>
+                <Grid key={index} size={12}>
                   <Card>
                     <CardContent>
                       <Typography variant="h5">
@@ -156,7 +161,7 @@ export function WidgetForm({
                 </Grid>
               ))}
             {listWidgetsQuery.data && listWidgetsQuery.data?.length === 0 && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box py={2}>
                   <Stack spacing={2} alignItems="center">
                     <TipsAndUpdatesIcon fontSize="large" />
@@ -195,7 +200,7 @@ export function WidgetForm({
         </Grid>
 
         {showSaveButton && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"

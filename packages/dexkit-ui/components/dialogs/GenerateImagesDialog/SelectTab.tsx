@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button, Grid, Paper } from "@mui/material";

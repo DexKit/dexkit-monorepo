@@ -5,23 +5,19 @@ import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-// Add support for the sx prop for consistency with the other branches.
 const Anchor = styled("a")({});
 
 interface NextLinkComposedProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
+  extends Omit<React.HTMLAttributes<HTMLAnchorElement>, "href">,
     Omit<
       NextLinkProps,
-      "href" | "as" | "passHref" | "onMouseEnter" | "onClick" | "onTouchStart"
+      "href" | "as" | "onMouseEnter" | "onClick" | "onTouchStart"
     > {
   to: NextLinkProps["href"];
   linkAs?: NextLinkProps["as"];
 }
 
-export const NextLinkComposed = React.forwardRef<
-  HTMLAnchorElement,
-  NextLinkComposedProps
->(function NextLinkComposed(props, ref) {
+export const NextLinkComposed = (React as any).forwardRef(function NextLinkComposed(props: NextLinkComposedProps, ref: any) {
   const {
     to,
     linkAs,
@@ -29,7 +25,6 @@ export const NextLinkComposed = React.forwardRef<
     scroll,
     shallow,
     prefetch,
-    legacyBehavior = true,
     locale,
     ...other
   } = props;
@@ -42,12 +37,10 @@ export const NextLinkComposed = React.forwardRef<
       replace={replace}
       scroll={scroll}
       shallow={shallow}
-      passHref
       locale={locale}
-      legacyBehavior={legacyBehavior}
-    >
-      <Anchor ref={ref} {...other} />
-    </NextLink>
+      ref={ref}
+      {...other}
+    />
   );
 });
 
@@ -55,29 +48,26 @@ export type LinkProps = {
   activeClassName?: string;
   as?: NextLinkProps["as"];
   href: NextLinkProps["href"];
-  linkAs?: NextLinkProps["as"]; // Useful when the as prop is shallow by styled().
+  linkAs?: NextLinkProps["as"];
   noLinkStyle?: boolean;
 } & Omit<NextLinkComposedProps, "to" | "linkAs" | "href"> &
   Omit<MuiLinkProps, "href">;
 
-// A styled version of the Next.js Link component:
-// https://nextjs.org/docs/api-reference/next/link
-const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  props,
-  ref
+const Link = (React as any).forwardRef(function Link(
+  props: LinkProps,
+  ref: any
 ) {
   const {
     activeClassName = "active",
     as,
     className: classNameProps,
     href,
-    legacyBehavior,
     linkAs: linkAsProp,
     locale,
     noLinkStyle,
     prefetch,
     replace,
-    role, // Link don't have roles.
+    role,
     scroll,
     shallow,
     ...other
@@ -89,16 +79,30 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     [activeClassName]: router.pathname === pathname && activeClassName,
   });
 
+  const defaultLinkStyles = {
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none',
+    },
+    '&:visited': {
+      color: 'inherit',
+    },
+    '&:link': {
+      color: 'inherit',
+    },
+  };
+
   const isExternal =
     typeof href === "string" &&
     (href.indexOf("http") === 0 || href.indexOf("mailto:") === 0);
 
   if (isExternal) {
     if (noLinkStyle) {
-      return <Anchor className={className} href={href} ref={ref} {...other} />;
+      return <Anchor className={className} href={href} ref={ref} sx={defaultLinkStyles} {...other} />;
     }
 
-    return <MuiLink className={className} href={href} ref={ref} {...other} />;
+    return <MuiLink className={className} href={href} ref={ref} sx={defaultLinkStyles} {...other} />;
   }
 
   const linkAs = linkAsProp || as;
@@ -109,7 +113,6 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     scroll,
     shallow,
     prefetch,
-    legacyBehavior,
     locale,
   };
 
@@ -118,6 +121,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
       <NextLinkComposed
         className={className}
         ref={ref}
+        sx={defaultLinkStyles}
         {...nextjsProps}
         {...other}
       />
@@ -129,6 +133,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
       component={NextLinkComposed as any}
       className={className}
       ref={ref}
+      sx={defaultLinkStyles}
       {...nextjsProps}
       {...other}
     />

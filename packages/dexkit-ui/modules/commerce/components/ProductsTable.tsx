@@ -39,7 +39,6 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
 import useDeleteManyProducts from "@dexkit/ui/modules/commerce/hooks/useDeleteManyProducts";
 import useDuplicateProduct from "../hooks/useDuplicateProduct";
-import CustomToolbar from "./CustomToolbar";
 import useParams from "./containers/hooks/useParams";
 
 const AppConfirmDialog = dynamic(
@@ -167,16 +166,22 @@ export default function ProductsTable({}: ProducstTableProps) {
           defaultMessage: "Image",
         }),
         renderCell: ({ row }) => (
-          <Avatar variant="rounded" src={row.imageUrl ?? ""}>
-            <InventoryIcon />
-          </Avatar>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <Avatar variant="rounded" src={row.imageUrl ?? ""}>
+              <InventoryIcon />
+            </Avatar>
+          </Box>
         ),
       },
       {
         field: "name",
         flex: 1,
         headerName: formatMessage({ id: "item", defaultMessage: "Item" }),
-        renderCell: ({ row }) => <Typography>{row.name}</Typography>,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.name}</Typography>
+          </Box>
+        ),
       },
       {
         disableColumnMenu: true,
@@ -190,22 +195,26 @@ export default function ProductsTable({}: ProducstTableProps) {
         renderCell: ({ row }) => {
           if (row.publishedAt) {
             return (
-              <Chip
-                color="success"
-                label={<FormattedMessage id="active" defaultMessage="Active" />}
-                sx={{ color: (theme) => theme.palette.common.white }}
-              />
+              <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+                <Chip
+                  color="success"
+                  label={<FormattedMessage id="active" defaultMessage="Active" />}
+                  sx={{ color: (theme) => theme.palette.common.white }}
+                />
+              </Box>
             );
           }
 
           return (
-            <Chip
-              color="error"
-              label={
-                <FormattedMessage id="inactive" defaultMessage="Inactive" />
-              }
-              sx={{ color: (theme) => theme.palette.common.white }}
-            />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+              <Chip
+                color="error"
+                label={
+                  <FormattedMessage id="inactive" defaultMessage="Inactive" />
+                }
+                sx={{ color: (theme) => theme.palette.common.white }}
+              />
+            </Box>
           );
         },
       },
@@ -220,16 +229,18 @@ export default function ProductsTable({}: ProducstTableProps) {
           defaultMessage: "Category",
         }),
         renderCell: ({ row }) => (
-          <Typography variant="inherit">
-            {row.category?.name ? (
-              row.category?.name
-            ) : (
-              <FormattedMessage
-                id="uncategorized"
-                defaultMessage="Uncategorized"
-              />
-            )}
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography variant="inherit">
+              {row.category?.name ? (
+                row.category?.name
+              ) : (
+                <FormattedMessage
+                  id="uncategorized"
+                  defaultMessage="Uncategorized"
+                />
+              )}
+            </Typography>
+          </Box>
         ),
       },
       {
@@ -239,15 +250,17 @@ export default function ProductsTable({}: ProducstTableProps) {
         flex: 1,
         headerName: formatMessage({ id: "price", defaultMessage: "Price" }),
         renderCell: ({ row }) => (
-          <Typography variant="inherit">
-            <FormattedNumber
-              minimumFractionDigits={2}
-              maximumFractionDigits={18}
-              signDisplay="never"
-              value={new Decimal(row.price).toNumber()}
-            />{" "}
-            USD
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography variant="inherit">
+              <FormattedNumber
+                minimumFractionDigits={2}
+                maximumFractionDigits={18}
+                signDisplay="never"
+                value={new Decimal(row.price).toNumber()}
+              />{" "}
+              USD
+            </Typography>
+          </Box>
         ),
       },
 
@@ -258,39 +271,41 @@ export default function ProductsTable({}: ProducstTableProps) {
         sortable: false,
         headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
         renderCell: ({ row }) => (
-          <Stack direction="row" spacing={1}>
-            <IconButton size="small" onClick={handleShowPreview(row.id ?? "")}>
-              <Tooltip
-                title={
-                  <FormattedMessage
-                    id="preview.in.store"
-                    defaultMessage="Preview in store"
-                  />
-                }
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Stack direction="row" spacing={1}>
+              <IconButton size="small" onClick={handleShowPreview(row.id ?? "")}>
+                <Tooltip
+                  title={
+                    <FormattedMessage
+                      id="preview.in.store"
+                      defaultMessage="Preview in store"
+                    />
+                  }
+                >
+                  <VisibilityIcon fontSize="small" />
+                </Tooltip>
+              </IconButton>
+              <IconButton size="small" onClick={handleDuplicate(row.id ?? "")}>
+                <Tooltip
+                  title={
+                    <FormattedMessage id="duplicate" defaultMessage="Duplicate" />
+                  }
+                >
+                  <ContentCopyIcon fontSize="small" />
+                </Tooltip>
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={handleDelete(row.id ?? "", row.name)}
               >
-                <VisibilityIcon fontSize="small" />
-              </Tooltip>
-            </IconButton>
-            <IconButton size="small" onClick={handleDuplicate(row.id ?? "")}>
-              <Tooltip
-                title={
-                  <FormattedMessage id="duplicate" defaultMessage="Duplicate" />
-                }
-              >
-                <ContentCopyIcon fontSize="small" />
-              </Tooltip>
-            </IconButton>
-            <IconButton
-              size="small"
-              onClick={handleDelete(row.id ?? "", row.name)}
-            >
-              <Tooltip
-                title={<FormattedMessage id="delete" defaultMessage="Delete" />}
-              >
-                <Delete fontSize="small" color="error" />
-              </Tooltip>
-            </IconButton>
-          </Stack>
+                <Tooltip
+                  title={<FormattedMessage id="delete" defaultMessage="Delete" />}
+                >
+                  <Delete fontSize="small" color="error" />
+                </Tooltip>
+              </IconButton>
+            </Stack>
+          </Box>
         ),
       },
     ] as GridColDef<ProductFormType>[];
@@ -473,18 +488,14 @@ export default function ProductsTable({}: ProducstTableProps) {
             sortingOrder={["asc", "desc"]}
             slotProps={{
               toolbar: {
-                placeholder: formatMessage({
-                  id: "search.products",
-                  defaultMessage: "Search products",
-                }),
-                onDelete: () => {
-                  setShowDeleteMany(true);
-                },
-                showDelete: selectionModel.length > 0,
                 printOptions: { disableToolbarButton: true },
                 csvOptions: { disableToolbarButton: true },
                 showQuickFilter: true,
                 quickFilterProps: {
+                  placeholder: formatMessage({
+                    id: "search.products",
+                    defaultMessage: "Search products",
+                  }),
                   value: query,
                   onChange: (e) => {
                     setQuery(e.target.value);
@@ -522,7 +533,6 @@ export default function ProductsTable({}: ProducstTableProps) {
             }}
             pageSizeOptions={[5, 10, 25]}
             slots={{
-              toolbar: CustomToolbar,
               noRowsOverlay: noRowsOverlay(
                 <FormattedMessage
                   id="no.products"

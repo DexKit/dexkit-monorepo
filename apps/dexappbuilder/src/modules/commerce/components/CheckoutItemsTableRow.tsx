@@ -72,7 +72,7 @@ export default function CheckoutItemsTableRow({
       <TableCell>
         <FieldArray
           name="items"
-          render={({ handleRemove }) => (
+          render={({ handleRemove }: any) => (
             <IconButton onClick={handleRemove(index)}>
               <Delete color="error" />
             </IconButton>

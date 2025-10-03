@@ -83,7 +83,7 @@ export default function useColumns(type?: string) {
         <FormattedMessage id="network" defaultMessage="Network" />
       ),
       minWidth: 200,
-      valueGetter: ({ row }) => {
+      valueGetter: ({ row }: any) => {
         return NETWORK_NAME(row.chainId);
       },
     };
@@ -131,8 +131,16 @@ export default function useColumns(type?: string) {
         defaultMessage: 'Created At',
       }),
       minWidth: 200,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: ({ row }: any) => {
+        if (!row || !row.createdAt) {
+          return 'N/A';
+        }
+        try {
+          return new Date(row.createdAt).toLocaleString();
+        } catch (error) {
+          console.error('Error formatting date in useColumns:', error, 'Row:', row);
+          return 'Invalid Date';
+        }
       },
     };
 
@@ -1662,7 +1670,7 @@ export default function useColumns(type?: string) {
             <FormattedMessage id="network" defaultMessage="Network" />
           ),
           minWidth: 200,
-          valueGetter: ({ row }) => {
+          valueGetter: ({ row }: any) => {
             return NETWORK_NAME(row.processedMetadata.chainId);
           },
         },

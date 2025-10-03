@@ -131,8 +131,7 @@ export function DexAppBuilderRender({ appProps }: { appProps: MyAppProps }) {
                       <Backdrop
                         open={loading}
                         sx={{
-                          color:
-                            theme?.colorSchemes?.light?.palette?.primary?.main,
+                          color: theme?.palette?.primary?.main,
                           zIndex: theme.zIndex.drawer + 1,
                         }}
                       >

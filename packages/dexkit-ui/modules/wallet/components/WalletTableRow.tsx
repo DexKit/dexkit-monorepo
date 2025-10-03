@@ -389,7 +389,7 @@ function WalletTableRow({
 
   return (
     <TableRow>
-      <TableCell sx={{ width: '40%' }}>
+      <TableCell sx={{ width: '45%', minWidth: '200px' }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -398,8 +398,9 @@ function WalletTableRow({
         >
           <Avatar
             sx={{
-              width: "auto",
-              height: "2rem",
+              width: 32,
+              height: 32,
+              flexShrink: 0,
               filter: !isBalancesVisible ? 'blur(8px)' : 'none',
               transition: 'filter 0.3s ease'
             }}
@@ -410,38 +411,44 @@ function WalletTableRow({
             }
           />
 
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="body1">
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography variant="body1" sx={{ fontWeight: 500 }} noWrap>
               {isBalancesVisible ? token.name : "**********"}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" color="textSecondary" noWrap>
               {isBalancesVisible ? token.symbol : "*****"}
             </Typography>
           </Box>
         </Stack>
       </TableCell>
-      <TableCell sx={{ width: '25%' }}>
+      <TableCell sx={{ width: '25%', textAlign: 'right', minWidth: '100px' }}>
         {isLoadingCurrency ? (
-          <Skeleton>*****</Skeleton>
+          <Skeleton width={80}>*****</Skeleton>
         ) : isBalancesVisible ? (
-          totalInCurrency
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            {totalInCurrency}
+          </Typography>
         ) : (
-          "*****"
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            *****
+          </Typography>
         )}
       </TableCell>
-      <TableCell sx={{ width: '25%' }}>
+      <TableCell sx={{ width: '25%', textAlign: 'right', minWidth: '100px' }}>
         {isBalancesVisible ? (
-          <>
-            {<FormattedNumber value={Number(balanceUnits)} />} {token.symbol}
-          </>
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            <FormattedNumber value={Number(balanceUnits)} /> {token.symbol}
+          </Typography>
         ) : (
-          "*****"
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            *****
+          </Typography>
         )}
       </TableCell>
       {!hideActionsColumn && (
-        <TableCell sx={{ width: '10%' }}>
+        <TableCell sx={{ width: '5%', textAlign: 'center', minWidth: '80px' }}>
           {isBalancesVisible && (onClickTradeCoin || onClickExchangeCoin || onClickSendCoin) && (
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               {renderDesktopActions()}
             </Box>
           )}

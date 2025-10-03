@@ -66,9 +66,14 @@ export default function SelectThemeSection({
     <Box>
       <Grid container spacing={isMobile ? 1 : 2}>
         {availThemes.map(
-          (entry) =>
+          (entry: any) =>
             entry && (
-              <Grid item xs={6} sm={6} key={entry.key}>
+              <Grid
+                key={entry.key}
+                size={{
+                  xs: 6,
+                  sm: 6
+                }}>
                 <WizardThemeButton
                   selected={props.value === entry.key}
                   name={entry.name}

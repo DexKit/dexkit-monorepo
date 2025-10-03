@@ -26,7 +26,7 @@ type Data = {
 };
 
 // you can pass the shape of the data as the generic type argument
-const ButtonPlugin: CellPlugin<Data> = {
+const ButtonPlugin = {
   ...ButtonPluginViewer,
   controls: {
     type: 'autoform',
@@ -84,7 +84,7 @@ const ButtonPlugin: CellPlugin<Data> = {
           type: 'string',
           title: 'Link to open image click',
           uniforms: {
-            showIf(data) {
+            showIf(data: any) {
               return data.action === 'Open link';
             },
           },
@@ -93,7 +93,7 @@ const ButtonPlugin: CellPlugin<Data> = {
           type: 'string',
           uniforms: {
             component: PagesPicker,
-            showIf(data) {
+            showIf(data: any) {
               return data.action === 'Open page';
             },
           },
@@ -102,7 +102,7 @@ const ButtonPlugin: CellPlugin<Data> = {
           type: 'boolean',
           title: 'Open in new tab?',
           uniforms: {
-            showIf(data) {
+            showIf(data: any) {
               return data.action == 'Open link';
             },
           },

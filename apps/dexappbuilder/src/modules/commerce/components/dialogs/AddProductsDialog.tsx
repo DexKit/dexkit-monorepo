@@ -41,9 +41,9 @@ export default function AddProductsDialog({
     (id: string) => {
       return () => {
         if (isSelected(id)) {
-          setSection((selection) => selection.filter((s) => s !== id));
+          setSection((selection: any) => selection.filter((s: any) => s !== id));
         } else {
-          setSection((selection) => [...selection, id]);
+          setSection((selection: any) => [...selection, id]);
         }
       };
     },

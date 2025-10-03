@@ -1,6 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_ORDER_LIST_QUERY = 'GET_ORDER_LIST_QUERY';
 
@@ -10,7 +10,7 @@ export default function useOrderList(params: {
   status: string;
   q?: string;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery(
     [GET_ORDER_LIST_QUERY, params],
@@ -20,7 +20,7 @@ export default function useOrderList(params: {
       }
 
       return (
-        await instance.get/*<{
+        await (instance as any).get/*<{
           items: Order[];
           totalItems: number;
           totalPages: number;

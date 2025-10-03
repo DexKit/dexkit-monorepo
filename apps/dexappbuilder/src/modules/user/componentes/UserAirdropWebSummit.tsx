@@ -164,7 +164,7 @@ export function UserAirdropWebsummit() {
         }
       />
       <Grid container spacing={2} justifyContent={'center'} alignItems="center">
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             spacing={2}
             justifyContent={'center'}
@@ -190,14 +190,18 @@ export function UserAirdropWebsummit() {
           </Stack>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Box display={'flex'} justifyContent={'center'}>
             {!user && <LoginAppButton />}
           </Box>
         </Grid>
 
         {!claimCampaignQuery.isLoading && !claimData && isLoggedIn && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={'flex'} justifyContent={'center'}>
               <Button
                 variant={'contained'}
@@ -216,7 +220,7 @@ export function UserAirdropWebsummit() {
         )}
 
         {claimData && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={2} justifyContent={'start'} alignItems={'center'}>
               <CelebrationIcon color={'success'} sx={{ fontSize: 80 }} />
               <Typography variant="h6">

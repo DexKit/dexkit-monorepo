@@ -47,7 +47,7 @@ export default function FormsContractsPage() {
 
   const handlePrevPage = () => {
     if (page - 1 >= 1) {
-      setPage((p) => p - 1);
+      setPage((p: number) => p - 1);
     }
   };
 
@@ -56,7 +56,7 @@ export default function FormsContractsPage() {
       listDeployedContractQuery.fetchNextPage();
     }
 
-    setPage((p) => p + 1);
+    setPage((p: number) => p + 1);
   };
 
   return (

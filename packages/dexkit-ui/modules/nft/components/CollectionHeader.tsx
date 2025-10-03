@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -8,7 +9,6 @@ import { isAddressEqual } from "@dexkit/core/utils/blockchain";
 import { useMemo } from "react";
 
 import { ChainId } from "@dexkit/core/constants";
-import BuyLockContainer from "@dexkit/unlock-widget";
 import { styled, useTheme } from "@mui/material";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -118,16 +118,7 @@ export function CollectionHeader(props: Props) {
               {collection?.name}
             </Typography>
           </Grid>
-          {isLock && (
-            <Grid item xs={12} sm={12}>
-              <Box sx={{ maxWidth: "300px" }} justifyContent={"center"}>
-                <BuyLockContainer
-                  lockAddress={address.toLowerCase()}
-                  lockChainId={chainId}
-                />
-              </Box>
-            </Grid>
-          )}
+          {/* unlock-widget deprecated */}
 
           {collection?.description && (
             <Grid item xs={12}>

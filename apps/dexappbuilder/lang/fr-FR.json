@@ -1281,9 +1281,6 @@
     "defaultMessage": "Accepter",
     "description": "Accept"
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Accéder à darkblock pour obtenir plus d'informations"
-  },
   "access.requirements": {
     "defaultMessage": "Conditions d'accès"
   },
@@ -2076,15 +2073,6 @@
   "dark": {
     "defaultMessage": "Sombre"
   },
-  "darkblock": {
-    "defaultMessage": "Bloc sombre"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock est un protocole décentralisé qui permet aux créateurs de contenu de publier et de distribuer du contenu exclusif à leurs fans sans avoir besoin de plateformes centralisées à token. Cette intégration est utilisée sur la page des actifs pour les réseaux supportés par Darkblock."
-  },
   "data": {
     "defaultMessage": "Données"
   },
@@ -2375,18 +2363,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Classement vide"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Activer Darkblock Asset"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Activer la collection Darkblock"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Activer Darkblock sur la page de l'asset"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Activer Darkblock sur la page de la collection"
   },
   "enable.drop": {
     "defaultMessage": "Activer Darkblock"

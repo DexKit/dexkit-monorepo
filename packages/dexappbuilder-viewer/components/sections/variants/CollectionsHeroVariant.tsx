@@ -1,6 +1,6 @@
 import { CollectionFromApiCard } from "@dexkit/ui/modules/nft/components";
 import { CollectionAppPageSection } from "@dexkit/ui/modules/wizard/types/section";
-import { Box, Card, CardContent, Chip, Grid, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Card, CardContent, Chip, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { usePreviewPlatform } from "../../SectionsRenderer";
 
@@ -49,10 +49,16 @@ export function CollectionsHeroVariant({ section, disabled }: Props) {
 
   return (
     <Stack spacing={{ xs: isExtraSmall ? 0.75 : 1, sm: 2, md: 3 }}>
-      <Grid container spacing={{ xs: isExtraSmall ? 0.75 : 1, sm: 2, md: 3 }}>
-        {/* Hero Collection */}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' }, 
+        gap: { xs: isExtraSmall ? 0.75 : 1, sm: 2, md: 3 } 
+      }}>
         {heroItem && heroItem.type === "collection" && (
-          <Grid item xs={12} md={8}>
+          <Box sx={{ 
+            width: { xs: '100%', md: '66.666%' },
+            flex: { xs: 'none', md: '0 0 66.666%' }
+          }}>
             <Card
               elevation={4}
               sx={{
@@ -173,15 +179,23 @@ export function CollectionsHeroVariant({ section, disabled }: Props) {
                 )}
               </Box>
             </Card>
-          </Grid>
+          </Box>
         )}
 
-        <Grid item xs={12} md={4}>
-          <Grid container spacing={{ xs: isExtraSmall ? 0.5 : 0.75, sm: 1.5, md: 2 }} sx={{ pt: 1 }}>
+        <Box sx={{ 
+          width: { xs: '100%', md: '33.333%' },
+          flex: { xs: 'none', md: '0 0 33.333%' }
+        }}>
+          <Box sx={{ 
+            display: 'grid',
+            gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: '1fr' },
+            gap: { xs: isExtraSmall ? 0.5 : 0.75, sm: 1.5, md: 2 },
+            pt: 1
+          }}>
             {sidebarItems.map((item, index) => {
               if (item.type === "collection") {
                 return (
-                  <Grid key={index} item xs={6} md={12}>
+                  <Box key={index}>
                     <Card
                       elevation={2}
                       sx={{
@@ -239,21 +253,26 @@ export function CollectionsHeroVariant({ section, disabled }: Props) {
                         </Box>
                       )}
                     </Card>
-                  </Grid>
+                  </Box>
                 );
               }
               return null;
             })}
-          </Grid>
-        </Grid>
-      </Grid>
+          </Box>
+        </Box>
+      </Box>
 
       {additionalItems.length > 0 && (
-        <Grid container spacing={{ xs: isExtraSmall ? 0.5 : 0.75, sm: 1.5, md: 2 }} sx={{ pt: 1 }}>
+        <Box sx={{ 
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+          gap: { xs: isExtraSmall ? 0.5 : 0.75, sm: 1.5, md: 2 },
+          pt: 1
+        }}>
           {additionalItems.map((item, index) => {
             if (item.type === "collection") {
               return (
-                <Grid key={index + 4} item xs={12} sm={6} md={4}>
+                <Box key={index + 4}>
                   <Card
                     elevation={2}
                     sx={{
@@ -310,13 +329,13 @@ export function CollectionsHeroVariant({ section, disabled }: Props) {
                         </Typography>
                       </Box>
                     )}
-                  </Card>
-                </Grid>
+                    </Card>
+                </Box>
               );
             }
             return null;
           })}
-        </Grid>
+        </Box>
       )}
     </Stack>
   );

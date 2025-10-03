@@ -74,7 +74,7 @@ export const pendingTransactionsAtom = atom<any, any>(
     return pendingTxs;
   },
   (get, set, arg) => {
-    return set(transactionsAtom, arg);
+    return set(transactionsAtom as any, arg);
   }
 );
 

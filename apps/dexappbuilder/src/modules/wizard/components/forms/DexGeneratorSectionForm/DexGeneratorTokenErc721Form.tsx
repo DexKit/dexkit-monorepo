@@ -56,16 +56,16 @@ function DexGeneratorTokenErc721Form({
       onSubmit={handleSubmit}
       validate={handleValidate}
     >
-      {({ setFieldValue, values }) => (
+      {({ setFieldValue, values }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.hideAssets}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('hideAssets', e.target.checked)
                       }
                     />
@@ -78,12 +78,12 @@ function DexGeneratorTokenErc721Form({
                   }
                 />
               </Grid>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.hideFilters}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('hideFilters', e.target.checked)
                       }
                     />
@@ -96,12 +96,12 @@ function DexGeneratorTokenErc721Form({
                   }
                 />
               </Grid>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.hideHeader}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('hideHeader', e.target.checked)
                       }
                     />

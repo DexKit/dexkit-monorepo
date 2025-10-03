@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useIsMobile } from "@dexkit/core";
 import { AppConfirmDialog } from "@dexkit/ui";
 import MoreVert from "@mui/icons-material/MoreVert";
-import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -309,22 +309,26 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
       field: "name",
       headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
       minWidth: 200,
+      headerAlign: 'left',
+      align: 'left',
       renderCell: (params) => {
         return (
-          <Typography
-            sx={(theme) => ({
-              fontSize: isMobile
-                ? theme.typography.fontSize * 1.25
-                : theme.typography.fontSize,
-            })}
-            fontWeight="400"
-          >
-            {params.value}
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Typography
+              sx={(theme) => ({
+                fontSize: isMobile
+                  ? theme.typography.fontSize * 1.25
+                  : theme.typography.fontSize,
+              })}
+              fontWeight="400"
+            >
+              {params.value}
+            </Typography>
+          </Box>
         );
       },
-      valueGetter: ({ row }) => {
-        return row.name;
+      valueGetter: (value: any, row: any) => {
+        return (row as Row).name;
       },
     },
     {
@@ -350,43 +354,48 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
       minWidth: isMobile ? 150 : undefined,
       headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
       headerAlign: "center",
+      align: "center",
       renderCell: ({ row, id }) => {
         if (isMobile) {
           return (
-            <IconButton
-              onClick={(e) => {
-                setAnchorEl(e.currentTarget);
-                setRowId(id);
-              }}
-            >
-              <MoreVert />
-            </IconButton>
+            <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+              <IconButton
+                onClick={(e: any) => {
+                  setAnchorEl(e.currentTarget);
+                  setRowId(id);
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </Box>
           );
         }
 
         return (
-          <Stack
-            sx={{ width: "100%" }}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {ADMIN_TABLE_LIST.map((item, index) => (
-              <Tooltip
-                key={index}
-                title={
-                  <FormattedMessage
-                    id={item.text.id}
-                    defaultMessage={item.text.defaultMessage}
-                  />
-                }
-              >
-                <IconButton onClick={() => handleAction(item.value, id)}>
-                  {item.icon}
-                </IconButton>
-              </Tooltip>
-            ))}
-          </Stack>
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Stack
+              sx={{ width: "100%" }}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              {ADMIN_TABLE_LIST.map((item, index) => (
+                <Tooltip
+                  key={index}
+                  title={
+                    <FormattedMessage
+                      id={item.text.id}
+                      defaultMessage={item.text.defaultMessage}
+                    />
+                  }
+                >
+                  <IconButton onClick={() => handleAction(item.value, id)}>
+                    {item.icon}
+                  </IconButton>
+                </Tooltip>
+              ))}
+            </Stack>
+          </Box>
         );
       },
     },
@@ -437,30 +446,42 @@ export default function WidgetsTable({ configs, onEditWidget }: Props) {
         onClose={handleCloseMenu}
         open={Boolean(anchorEl)}
       />
-      <DataGrid
-        getRowId={(row) => row.id as number}
-        autoHeight
-        rows={configs || []}
-        columns={columns}
-        rowCount={configs.length}
-        paginationModel={paginationModel}
-        paginationMode="server"
-        disableColumnFilter
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-          },
-          pagination: { sx: { mx: 0.75 } },
-        }}
-        sortModel={sortModel}
-        onPaginationModelChange={setPaginationModel}
-        filterMode="server"
-        onFilterModelChange={onFilterChange}
-        onSortModelChange={handleSortModelChange}
-        pageSizeOptions={[5, 10, 25, 50]}
-        disableRowSelectionOnClick
-        loading={false}
-      />
+      <Box sx={{
+        width: '100%',
+        height: { xs: 400, sm: 500 },
+        '& .MuiDataGrid-root': {
+          border: 'none',
+        }
+      }}>
+        <DataGrid
+          getRowId={(row: any) => row.id as number}
+          rows={configs || []}
+          columns={columns}
+          rowCount={configs.length}
+          paginationModel={paginationModel}
+          paginationMode="server"
+          disableColumnFilter
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+            pagination: { sx: { mx: 0.75 } },
+          }}
+          sortModel={sortModel}
+          onPaginationModelChange={setPaginationModel}
+          filterMode="server"
+          onFilterModelChange={onFilterChange}
+          onSortModelChange={handleSortModelChange}
+          pageSizeOptions={[5, 10, 25, 50]}
+          disableRowSelectionOnClick
+          loading={false}
+          sx={{
+            width: '100%',
+            maxWidth: '100%',
+            border: 'none',
+          }}
+        />
+      </Box>
     </>
   );
 }

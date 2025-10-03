@@ -86,9 +86,6 @@
   "abi": {
     "defaultMessage": "ABI"
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Access darkblock to get more information"
-  },
   "access.requirements": {
     "defaultMessage": "Access Requirements"
   },
@@ -744,15 +741,6 @@
   "custom": {
     "defaultMessage": "Custom"
   },
-  "darkblock": {
-    "defaultMessage": "Darkblock"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock is a decentralized protocol that allows content creators to publish and distribute exclusive content to their fans without the need for centralized token-gating platforms. This integration is utilized on the Asset page for the networks supported by Darkblock."
-  },
   "default.amount.to.send.to.the.contract": {
     "defaultMessage": "Default amount to send to the contract"
   },
@@ -968,18 +956,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Empty leaderboard"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Enable Darkblock Asset"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Enable Darkblock Collection"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Enable Darkblock on Asset page"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Enable Darkblock on Collection page"
   },
   "enable.drop": {
     "defaultMessage": "Enable Darkblock"

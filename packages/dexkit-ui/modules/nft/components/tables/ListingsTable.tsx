@@ -130,7 +130,7 @@ export function ListingsTable({
     if (tempOrders?.length === 0 && !raribleAsset?.bestSellOrder) {
       return (
         <TableRow>
-          <TableCell colSpan={4}>
+          <TableCell {...({ colSpan: 4 } as any)}>
             <Stack justifyContent="center" alignItems="center">
               <Typography variant="body1" color="textSecondary">
                 <FormattedMessage
@@ -228,7 +228,7 @@ export function ListingsTable({
                     defaultMessage="Expiration"
                   />
                 </TableCell>
-                <TableCell component="th" colSpan={3}>
+                <TableCell component="th" {...({ colSpan: 3 } as any)}>
                   <FormattedMessage id="from" defaultMessage="From" />
                 </TableCell>
               </TableRow>

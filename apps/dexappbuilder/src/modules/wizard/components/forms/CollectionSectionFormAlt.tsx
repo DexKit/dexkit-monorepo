@@ -158,9 +158,9 @@ export default function CollectionSectionFormAlt({
       validationSchema={CreateCollectionFormSchema}
       validateOnChange
     >
-      {({ submitForm, isValid, values, setFieldValue, errors, setValues }) => (
+      {({ submitForm, isValid, values, setFieldValue, errors, setValues }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs sx={{ mb: 2 }} value={tab} onChange={handleChangeTab}>
               <Tab
                 value="import"
@@ -178,7 +178,7 @@ export default function CollectionSectionFormAlt({
             </Tabs>
             {tab === 'import' ? (
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControl fullWidth>
                     <Field
                       component={Select}
@@ -200,21 +200,21 @@ export default function CollectionSectionFormAlt({
                           >
                             <Avatar
                               src={ipfsUriToUrl(
-                                networks.find((n) => n.slug === value)
+                                networks.find((n: any) => n.slug === value)
                                   ?.imageUrl || '',
                               )}
                               style={{ width: 'auto', height: '1rem' }}
                             />
                             <Typography variant="body1">
-                              {networks.find((n) => n.slug === value)?.name}
+                              {networks.find((n: any) => n.slug === value)?.name}
                             </Typography>
                           </Stack>
                         );
                       }}
                     >
                       {networks
-                        .filter((n) => activeChainIds.includes(n.chainId))
-                        .map((n) => (
+                        .filter((n: any) => activeChainIds.includes(n.chainId))
+                        .map((n: any) => (
                           <MenuItem key={n.slug} value={n.slug}>
                             <ListItemIcon>
                               <Avatar
@@ -228,7 +228,7 @@ export default function CollectionSectionFormAlt({
                     </Field>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -264,7 +264,7 @@ export default function CollectionSectionFormAlt({
               </Box>
             )}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography>
@@ -273,7 +273,7 @@ export default function CollectionSectionFormAlt({
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControlLabel
                       control={
                         <Field
@@ -330,7 +330,7 @@ export default function CollectionSectionFormAlt({
             </Accordion>
           </Grid>
           {showSaveButton && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack spacing={1} direction="row" justifyContent="flex-end">
                   <Button onClick={onCancel}>

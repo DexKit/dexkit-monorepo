@@ -15,7 +15,7 @@ export const PagesPicker = connectField<{
   value: string;
   label: string;
   onChange: (v: string | void) => void;
-}>((props) => {
+}>((props: any) => {
   const { wizardConfig } = useAppWizardConfig();
   const pages = wizardConfig.pages;
   const isMobile = useIsMobile();

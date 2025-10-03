@@ -49,7 +49,7 @@ export default function CarouselSection({ section }: CarouselProps) {
       return setIndex(0);
     }
 
-    setIndex((index) => index + 1);
+    setIndex((index: any) => index + 1);
   };
 
   const handlePrev = () => {
@@ -57,7 +57,7 @@ export default function CarouselSection({ section }: CarouselProps) {
       return setIndex(slides?.length - 1);
     }
 
-    setIndex((index) => index - 1);
+    setIndex((index: any) => index - 1);
   };
 
   const getArrowIcons = (arrowStyle: string | undefined) => {

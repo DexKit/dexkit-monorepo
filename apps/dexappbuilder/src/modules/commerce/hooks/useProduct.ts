@@ -1,11 +1,11 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_PRODUCT_QUERY = 'GET_PRODUCT_QUERY';
 
 export default function useProduct(params: { id?: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery(
     [GET_PRODUCT_QUERY, params],
@@ -18,7 +18,7 @@ export default function useProduct(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/products/${params.id}`))
+      return (await (instance as any).get(`/products/${params.id}`))
         .data;
     },
     {

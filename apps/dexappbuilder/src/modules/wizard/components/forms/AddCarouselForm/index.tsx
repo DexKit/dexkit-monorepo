@@ -210,7 +210,7 @@ export default function AddCarouselForm({
             isSubmitting,
             setFieldValue,
             errors,
-          }) => (
+          }: any) => (
             <>
               <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
                 <MediaDialog
@@ -220,14 +220,14 @@ export default function AddCarouselForm({
                     fullWidth: true,
                     onClose: handleClose,
                   }}
-                  onConfirmSelectFile={(file) =>
+                  onConfirmSelectFile={(file: any) =>
                     setFieldValue(`slides[${index}].imageUrl`, file.url)
                   }
                 />
               </DexkitApiProvider.Provider>
               <Box sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion defaultExpanded sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -243,7 +243,11 @@ export default function AddCarouselForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -267,7 +271,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -291,7 +299,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -315,7 +327,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -339,7 +355,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -368,7 +388,7 @@ export default function AddCarouselForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -384,7 +404,11 @@ export default function AddCarouselForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -420,7 +444,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -453,7 +481,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -486,7 +518,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -525,7 +561,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                               <Field
                                 component={TextField}
@@ -569,7 +609,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                               <Field
                                 component={TextField}
@@ -613,7 +657,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -637,7 +685,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -661,7 +713,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -685,7 +741,11 @@ export default function AddCarouselForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -718,7 +778,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -749,7 +813,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -785,7 +853,7 @@ export default function AddCarouselForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -801,7 +869,11 @@ export default function AddCarouselForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -811,7 +883,7 @@ export default function AddCarouselForm({
                               </Typography>
                               <Switch
                                 checked={values.navigation?.show || false}
-                                onChange={(e) => setFieldValue('navigation.show', e.target.checked)}
+                                onChange={(e: any) => setFieldValue('navigation.show', e.target.checked)}
                                 sx={{
                                   '& .MuiSwitch-switchBase.Mui-checked': {
                                     color: theme.palette.primary.main,
@@ -823,7 +895,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -853,7 +929,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -886,7 +966,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -922,7 +1006,11 @@ export default function AddCarouselForm({
                               </MenuItem>
                             </Field>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                               <Field
                                 component={TextField}
@@ -966,7 +1054,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                               <Field
                                 component={TextField}
@@ -1010,7 +1102,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -1041,7 +1137,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -1051,7 +1151,7 @@ export default function AddCarouselForm({
                               </Typography>
                               <Switch
                                 checked={values.navigation?.showOnHover || false}
-                                onChange={(e) => setFieldValue('navigation.showOnHover', e.target.checked)}
+                                onChange={(e: any) => setFieldValue('navigation.showOnHover', e.target.checked)}
                                 sx={{
                                   '& .MuiSwitch-switchBase.Mui-checked': {
                                     color: theme.palette.primary.main,
@@ -1063,7 +1163,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -1094,7 +1198,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -1128,7 +1236,11 @@ export default function AddCarouselForm({
                               />
                             </Box>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -1162,7 +1274,7 @@ export default function AddCarouselForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -1178,7 +1290,7 @@ export default function AddCarouselForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         {values.slides.length === 0 && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Paper
                               sx={{
                                 p: isMobile ? theme.spacing(0.5) : theme.spacing(2),
@@ -1223,7 +1335,7 @@ export default function AddCarouselForm({
                                 </Box>
                                 <FieldArray
                                   name="slides"
-                                  render={(arrayHelpers) => (
+                                  render={(arrayHelpers: any) => (
                                     <Button
                                       onClick={arrayHelpers.handlePush({
                                         title: "",
@@ -1254,18 +1366,18 @@ export default function AddCarouselForm({
                           </Grid>
                         )}
 
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <FieldArray
                             name="slides"
-                            render={(arrayHelpers) => (
+                            render={(arrayHelpers: any) => (
                               <Grid
                                 container
                                 spacing={
                                   isMobile ? theme.spacing(0.5) : theme.spacing(2)
                                 }
                               >
-                                {values.slides.map((_, index, arr) => (
-                                  <Grid item xs={12} key={index}>
+                                {values.slides.map((_: any, index: any, arr: any) => (
+                                  <Grid key={index} size={12}>
                                     <SlideItem
                                       index={index}
                                       onUp={arrayHelpers.handleSwap(index, index - 1)}
@@ -1282,7 +1394,7 @@ export default function AddCarouselForm({
                                   </Grid>
                                 ))}
                                 {values.slides.length > 0 && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <Button
                                       onClick={arrayHelpers.handlePush({
                                         title: "",
@@ -1324,7 +1436,7 @@ export default function AddCarouselForm({
                   </Grid>
 
                   {!disableButtons && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Stack direction="row" spacing={theme.spacing(1)} justifyContent="flex-end" sx={{ mt: theme.spacing(0.5) }}>
                         {onCancel && (
                           <Button onClick={onCancel} size={isMobile ? "small" : "medium"} sx={isMobile ? { py: theme.spacing(0.5) } : {}}>

@@ -54,13 +54,13 @@ function FooterMenuContainer({ config, onSave, onChange, onHasChanges }: Props) 
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <MenuSection menu={menu} onSetMenu={setMenu} pages={config.pages} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"
@@ -93,7 +93,7 @@ export default function FooterMenuWizardContainer(props: Props) {
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -119,10 +119,10 @@ export default function FooterMenuWizardContainer(props: Props) {
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="footer configuration tabs">

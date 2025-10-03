@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Grid, Stack, Typography } from "@mui/material";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";

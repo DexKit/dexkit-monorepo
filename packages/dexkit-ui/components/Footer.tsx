@@ -122,7 +122,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
             py: isMobile ? 2 : 1
           }}
         >
-          <Grid item xs={12} sm={4} order={{ xs: 1, sm: 1 }}>
+          <Grid size={{ xs: 12, sm: 4 }} order={{ xs: 1, sm: 1 }}>
             {appConfig.footerMenuTree ? (
               <Stack
                 direction={isMobile ? "row" : "row"}
@@ -227,7 +227,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
           </Grid>
 
           {showAppSignature && (
-            <Grid item xs={12} sm={4} order={{ xs: 2, sm: 2 }}>
+            <Grid size={{ xs: 12, sm: 4 }} order={{ xs: 2, sm: 2 }}>
               <Typography
                 variant={isMobile ? "body1" : "body2"}
                 align="center"
@@ -259,7 +259,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
             </Grid>
           )}
 
-          <Grid item xs={12} sm={4} order={{ xs: 3, sm: 3 }}>
+          <Grid size={{ xs: 12, sm: 4 }} order={{ xs: 3, sm: 3 }}>
             <Stack
               direction="row"
               spacing={isMobile ? 2 : 1.5}

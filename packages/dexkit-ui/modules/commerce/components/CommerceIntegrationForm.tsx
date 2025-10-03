@@ -29,7 +29,7 @@ export default function CommerceIntegrationForm({
         touched,
         setFieldTouched,
         submitForm,
-      }) => (
+      }: any) => (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControlLabel

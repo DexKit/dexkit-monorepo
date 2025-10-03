@@ -17,7 +17,7 @@ export function UserAirdropWebSummitContainer() {
     <>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -48,7 +48,11 @@ export function UserAirdropWebSummitContainer() {
           </Grid>
 
           {!isMobile && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Stack direction={'row'} justifyContent={'space-between'}>
                 <Typography variant="h5">
                   <FormattedMessage
@@ -60,7 +64,11 @@ export function UserAirdropWebSummitContainer() {
             </Grid>
           )}
 
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <UserAirdropWebsummit />
           </Grid>
         </Grid>

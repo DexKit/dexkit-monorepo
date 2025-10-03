@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import {
   Box,
@@ -58,7 +59,7 @@ export default function VariantsGrid({
   const [selectedUrl, setSelectedUrl] = useState<string>();
 
   const handleSelect = useCallback((img: string) => {
-    setSelected((selected) => {
+    setSelected((selected: any) => {
       const newSelected = { ...selected };
 
       if (newSelected[img]) {

@@ -70,13 +70,13 @@ function ImportTokenDialog({ dialogProps }: Props) {
   const handleSubmit = useCallback(
     (values: Form, formikHelpers: FormikHelpers<Form>) => {
       const token = tokens.find(
-        (t) =>
+        (t: any) =>
           t.chainId === values.chainId &&
           isAddressEqual(values.contractAddress, t.address)
       );
 
       if (!token) {
-        setTokens((value) => [
+        setTokens((value: any) => [
           ...value,
           {
             address: values.contractAddress.toLocaleLowerCase(),
@@ -145,7 +145,7 @@ function ImportTokenDialog({ dialogProps }: Props) {
       name: string;
       symbol: string;
     }) => {
-      formik.setValues((value) => ({ ...value, name, decimals, symbol }), true);
+      formik.setValues((value: any) => ({ ...value, name, decimals, symbol }), true);
     },
     onError: (err: AxiosError) => {
       formik.resetForm();
@@ -168,7 +168,7 @@ function ImportTokenDialog({ dialogProps }: Props) {
   useEffect(() => {
     if (lazyAddress !== "") {
       const token = tokens.find(
-        (t) =>
+        (t: any) =>
           t.chainId === formik.values.chainId &&
           isAddressEqual(lazyAddress, t.address)
       );

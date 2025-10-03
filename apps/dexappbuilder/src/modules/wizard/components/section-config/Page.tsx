@@ -1,7 +1,6 @@
 import { AppPage } from '@dexkit/ui/modules/wizard/types/config';
 import {
   Card,
-  CardActionArea,
   IconButton,
   Link,
   Stack,
@@ -59,10 +58,13 @@ export default function Page({
     <Card
       sx={{ width: isMobile ? `calc(100% - ${theme.spacing(1)})` : '100%' }}
     >
-      <CardActionArea
-        sx={{
-          px: isMobile ? theme.spacing(1) : theme.spacing(2),
-          py: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+      <div
+        style={{
+          cursor: 'pointer',
+          paddingLeft: isMobile ? theme.spacing(1) : theme.spacing(2),
+          paddingRight: isMobile ? theme.spacing(1) : theme.spacing(2),
+          paddingTop: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+          paddingBottom: isMobile ? theme.spacing(1.5) : theme.spacing(1),
         }}
         onClick={onSelect}
       >
@@ -142,7 +144,7 @@ export default function Page({
             <IconButton
               onMouseDown={handleMouseDown}
               LinkComponent={Link}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: any) => e.stopPropagation()}
               href={`${previewUrl}/${pageKey}`}
               target="_blank"
               size={isMobile ? 'small' : 'medium'}
@@ -208,7 +210,7 @@ export default function Page({
             )}
           </Stack>
         </Stack>
-      </CardActionArea>
+      </div>
     </Card>
   );
 }

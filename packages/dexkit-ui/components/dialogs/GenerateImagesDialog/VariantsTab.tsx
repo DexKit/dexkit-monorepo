@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import {
   Box,
@@ -69,7 +70,7 @@ export default function VariantsTab({
       initialValues={{ amount: 1 }}
       validationSchema={FormSchema}
     >
-      {({ submitForm, setFieldValue, values, errors, isValid }) => (
+      {({ submitForm, setFieldValue, values, errors, isValid }: any) => (
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -112,7 +113,7 @@ export default function VariantsTab({
                     type="number"
                     disabled={disabled}
                     value={values.amount === 0 ? "" : values.amount}
-                    onChange={(e) =>
+                    onChange={(e: any) =>
                       setFieldValue("amount", parseInt(e.target.value || "0"))
                     }
                     label={

@@ -10,7 +10,6 @@ import { fetchAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query'
 
 import AssetHead from '@dexkit/ui/modules/nft/components/AssetHead';
 
-import { DARKBLOCK_SUPPORTED_CHAIN_IDS } from '@/modules/wizard/constants';
 import { getIntegrationData } from '@/modules/wizard/services/integrations';
 import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core/constants';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
@@ -41,11 +40,7 @@ import { truncateErc1155TokenId } from '@dexkit/ui/modules/nft/utils';
 
 import { getAppConfig } from '../../../../../../src/services/app';
 
-const AssetDetailPage: NextPage<any> = ({
-  enableDarkblock,
-}: {
-  enableDarkblock: boolean;
-}) => {
+const AssetDetailPage: NextPage<any> = () => {
   const router = useRouter();
 
   const { address, id } = router.query;
@@ -114,7 +109,6 @@ const AssetDetailPage: NextPage<any> = ({
                 address: address as string,
                 network: getNetworkSlugFromChainId(asset?.chainId) || '',
                 tokenId: id as string,
-                enableDarkblock: enableDarkblock,
               },
             }}
           />
@@ -166,35 +160,11 @@ export const getStaticProps: GetStaticProps = async ({
     } catch (e) {
       console.log(e);
     }
-    let enableDarkblock = false;
-
-    try {
-      if (
-        DARKBLOCK_SUPPORTED_CHAIN_IDS.includes(
-          NETWORK_FROM_SLUG(network)?.chainId as ChainId,
-        )
-      ) {
-        const darkBlock = await getIntegrationData({
-          siteId: configResponse.siteId ?? undefined,
-          type: 'darkblock',
-          instance: axios.create({
-            baseURL: MY_APPS_ENDPOINT,
-            headers: {
-              'DexKit-Api-Key': process.env.MARKETPLACE_API_KEY as string,
-            },
-          }),
-        });
-        if (darkBlock?.settings?.enableDarkblock) {
-          enableDarkblock = true;
-        }
-      }
-    } catch { }
 
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
         ...configResponse,
-        enableDarkblock: enableDarkblock,
       },
       revalidate: REVALIDATE_PAGE_TIME,
     };

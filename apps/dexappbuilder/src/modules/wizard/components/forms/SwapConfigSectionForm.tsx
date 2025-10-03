@@ -32,7 +32,7 @@ export function SwapConfigSectionForm({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <SwapConfigForm
           data={data}
           onChange={(d) => setData(d)}
@@ -41,7 +41,7 @@ export function SwapConfigSectionForm({
           }
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={2} direction="row" justifyContent="flex-end">
           <Button onClick={onCancel}>
             <FormattedMessage id="cancel" defaultMessage="Cancel" />

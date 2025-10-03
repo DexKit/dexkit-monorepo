@@ -1,11 +1,14 @@
 import {
   Alert,
+  Box,
   Button,
   FormControl,
   Grid,
   Link,
   MenuItem,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import { CommerceContent } from '@dexkit/ui/modules/wizard/types/section';
@@ -36,6 +39,9 @@ export default function CommerceSectionForm({
   initialValues,
   saveOnChange,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleSubmit = (values: CommerceContent) => {
     if (onSubmit) {
       onSubmit(values);
@@ -62,15 +68,15 @@ export default function CommerceSectionForm({
         }
       }}
     >
-      {({ submitForm, values, isValid }) => (
-        <div>
+      {({ submitForm, values, isValid }: any) => (
+        <Box sx={{ px: isMobile ? 2 : 0 }}>
           <ChangeListener
             isValid={isValid}
             values={values}
             onChange={onChange}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1">
                 <FormattedMessage
                   id="edit.commerce.products.and.settings"
@@ -84,7 +90,7 @@ export default function CommerceSectionForm({
             </Grid>
             {isFetched &&
               (!settings?.notificationEmail || !settings?.receiverAddress) && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert
                     severity="error"
                     action={
@@ -109,7 +115,7 @@ export default function CommerceSectionForm({
                 </Grid>
               )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Field
                   fullWidth
@@ -138,19 +144,19 @@ export default function CommerceSectionForm({
                 </Field>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {values.type === 'store' && <StoreForm />}
               {values.type === 'checkout' && <CheckoutForm />}
               {values.type === 'single-product' && <SingleProductForm />}
               {values.type === 'collection' && <CollectionForm />}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button onClick={submitForm} variant="contained">
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       )}
     </Formik>
   );

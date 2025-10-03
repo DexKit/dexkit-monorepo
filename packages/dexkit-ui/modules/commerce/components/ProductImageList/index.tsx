@@ -36,7 +36,7 @@ export default function ProductImageList({
             width: "100%",
             hegiht: "100%",
             aspectRatio: "1/1",
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
             border: `1px solid ${theme.palette.grey[200]}`,
 
             backgroundColor: theme.palette.background.paper,

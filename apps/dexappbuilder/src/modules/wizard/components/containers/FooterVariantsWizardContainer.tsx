@@ -146,7 +146,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -159,7 +159,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -514,7 +514,6 @@ function BackgroundImageSelector({
           defaultMessage="Background Image"
         />
       </Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2), flexWrap: 'wrap' }}>
         <ButtonBase
           onClick={() => setShowMediaDialog(true)}
@@ -573,11 +572,14 @@ function BackgroundImageSelector({
           </Button>
         )}
       </Box>
-
       {value && (
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -617,7 +619,11 @@ function BackgroundImageSelector({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -663,7 +669,11 @@ function BackgroundImageSelector({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -703,7 +713,11 @@ function BackgroundImageSelector({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -734,7 +748,6 @@ function BackgroundImageSelector({
           </Grid>
         </Box>
       )}
-
       <MediaDialog
         dialogProps={{
           open: showMediaDialog,
@@ -925,7 +938,7 @@ export default function FooterVariantsWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Formik
           initialValues={initialValues}
           enableReinitialize={true}
@@ -947,7 +960,7 @@ export default function FooterVariantsWizardContainer({
             setHasChanged(false);
           }}
         >
-          {({ values, setFieldValue, submitForm }) => {
+          {({ values, setFieldValue, submitForm }: any) => {
             if (currentSetFieldValue !== setFieldValue) {
               setCurrentSetFieldValue(() => setFieldValue);
             }
@@ -975,7 +988,7 @@ export default function FooterVariantsWizardContainer({
             return (
               <Form>
                 <Grid container spacing={isMobile ? 1.5 : 3}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <InputLabel>
                         <FormattedMessage
@@ -1023,7 +1036,7 @@ export default function FooterVariantsWizardContainer({
                   </Grid>
 
                   {values.variant === 'glassmorphic' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion defaultExpanded>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -1035,7 +1048,11 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.blur.intensity"
@@ -1061,7 +1078,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.glass.opacity"
@@ -1087,7 +1108,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.background.color",
@@ -1099,7 +1124,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.text.color",
@@ -1111,7 +1140,7 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <BackgroundImageSelector
                                 value={values.glassConfig.backgroundImage}
                                 onChange={(url) => setFieldValue('glassConfig.backgroundImage', url)}
@@ -1126,7 +1155,7 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                                 <Button
                                   variant="outlined"
@@ -1163,7 +1192,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'minimal' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion defaultExpanded>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -1175,7 +1204,11 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.background.color",
@@ -1187,7 +1220,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.text.color",
@@ -1199,7 +1236,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.divider.color",
@@ -1211,7 +1252,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.font.size"
@@ -1237,7 +1282,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.spacing"
@@ -1263,12 +1312,16 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <FormControlLabel
                                 control={
                                   <Switch
                                     checked={values.minimalConfig.showDividers}
-                                    onChange={(e) => setFieldValue('minimalConfig.showDividers', e.target.checked)}
+                                    onChange={(e: any) => setFieldValue('minimalConfig.showDividers', e.target.checked)}
                                   />
                                 }
                                 label={
@@ -1280,7 +1333,7 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                                 <Button
                                   variant="outlined"
@@ -1317,7 +1370,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'invisible' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion defaultExpanded>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -1329,7 +1382,11 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <ColorPickerField
                                 label={formatMessage({
                                   id: "footer.text.color",
@@ -1341,7 +1398,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <FormControl fullWidth>
                                 <InputLabel>
                                   <FormattedMessage
@@ -1376,7 +1437,11 @@ export default function FooterVariantsWizardContainer({
                               </FormControl>
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.font.size"
@@ -1403,7 +1468,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.spacing"
@@ -1429,12 +1498,12 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <FormControlLabel
                                 control={
                                   <Switch
                                     checked={values.invisibleConfig?.showOnlySignature || false}
-                                    onChange={(e) => setFieldValue('invisibleConfig.showOnlySignature', e.target.checked)}
+                                    onChange={(e: any) => setFieldValue('invisibleConfig.showOnlySignature', e.target.checked)}
                                   />
                                 }
                                 label={
@@ -1446,7 +1515,7 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
                                 <Button
                                   variant="outlined"
@@ -1483,7 +1552,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion defaultExpanded>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -1495,7 +1564,11 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <FormControl fullWidth>
                                 <InputLabel>
                                   <FormattedMessage
@@ -1531,7 +1604,11 @@ export default function FooterVariantsWizardContainer({
                             </Grid>
 
                             {(values.customConfig?.backgroundType === 'solid' || !values.customConfig?.backgroundType) && (
-                              <Grid item xs={12} sm={6}>
+                              <Grid
+                                size={{
+                                  xs: 12,
+                                  sm: 6
+                                }}>
                                 <ColorPickerField
                                   label={formatMessage({
                                     id: "footer.background.color",
@@ -1546,7 +1623,11 @@ export default function FooterVariantsWizardContainer({
 
                             {values.customConfig?.backgroundType === 'gradient' && (
                               <>
-                                <Grid item xs={12} sm={6}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
                                   <TextField
                                     fullWidth
                                     label={formatMessage({
@@ -1554,11 +1635,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Gradient Direction"
                                     })}
                                     value={values.customConfig?.gradientDirection || '45deg'}
-                                    onChange={(e) => setFieldValue('customConfig.gradientDirection', e.target.value)}
+                                    onChange={(e: any) => setFieldValue('customConfig.gradientDirection', e.target.value)}
                                     placeholder="45deg"
                                   />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.gradient.color1",
@@ -1573,7 +1658,11 @@ export default function FooterVariantsWizardContainer({
                                     defaultValue="#ff6b6b"
                                   />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.gradient.color2",
@@ -1592,7 +1681,7 @@ export default function FooterVariantsWizardContainer({
                             )}
 
                             {values.customConfig?.backgroundType === 'image' && (
-                              <Grid item xs={12}>
+                              <Grid size={12}>
                                 <BackgroundImageSelector
                                   value={values.customConfig?.backgroundImage}
                                   onChange={(url) => setFieldValue('customConfig.backgroundImage', url)}
@@ -1609,7 +1698,11 @@ export default function FooterVariantsWizardContainer({
                             )}
 
                             {(values.customConfig?.backgroundType === 'image' || values.customConfig?.backgroundType === 'gradient') && (
-                              <Grid item xs={12} sm={6}>
+                              <Grid
+                                size={{
+                                  xs: 12,
+                                  sm: 6
+                                }}>
                                 <Typography gutterBottom>
                                   <FormattedMessage
                                     id="footer.background.blur"
@@ -1644,7 +1737,11 @@ export default function FooterVariantsWizardContainer({
                               </Grid>
                             )}
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.padding"
@@ -1671,7 +1768,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.border.radius"
@@ -1703,7 +1804,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -1715,7 +1816,7 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
                                 <FormattedMessage
                                   id="footer.columns.management"
@@ -1723,7 +1824,7 @@ export default function FooterVariantsWizardContainer({
                                 />
                               </Typography>
 
-                              {values.customConfig?.columns?.map((column, index) => (
+                              {values.customConfig?.columns?.map((column: any, index: number) => (
                                 <Box key={column.id} sx={{
                                   border: `1px solid ${theme.palette.divider}`,
                                   borderRadius: 2,
@@ -1749,7 +1850,11 @@ export default function FooterVariantsWizardContainer({
                                   </Stack>
 
                                   <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid
+                                      size={{
+                                        xs: 12,
+                                        sm: 6
+                                      }}>
                                       <TextField
                                         fullWidth
                                         label={formatMessage({
@@ -1757,7 +1862,7 @@ export default function FooterVariantsWizardContainer({
                                           defaultMessage: "Column Title"
                                         })}
                                         value={column.title}
-                                        onChange={(e) => {
+                                        onChange={(e: any) => {
                                           const newColumns = [...(values.customConfig?.columns || [])];
                                           newColumns[index] = { ...column, title: e.target.value };
                                           setFieldValue('customConfig.columns', newColumns);
@@ -1765,7 +1870,11 @@ export default function FooterVariantsWizardContainer({
                                       />
                                     </Grid>
 
-                                    <Grid item xs={12} sm={2}>
+                                    <Grid
+                                      size={{
+                                        xs: 12,
+                                        sm: 2
+                                      }}>
                                       <TextField
                                         fullWidth
                                         type="number"
@@ -1774,7 +1883,7 @@ export default function FooterVariantsWizardContainer({
                                           defaultMessage: "X Position (%)"
                                         })}
                                         value={column.position?.x || 0}
-                                        onChange={(e) => {
+                                        onChange={(e: any) => {
                                           const newColumns = [...(values.customConfig?.columns || [])];
                                           newColumns[index] = {
                                             ...column,
@@ -1791,7 +1900,11 @@ export default function FooterVariantsWizardContainer({
                                       />
                                     </Grid>
 
-                                    <Grid item xs={12} sm={2}>
+                                    <Grid
+                                      size={{
+                                        xs: 12,
+                                        sm: 2
+                                      }}>
                                       <TextField
                                         fullWidth
                                         type="number"
@@ -1800,7 +1913,7 @@ export default function FooterVariantsWizardContainer({
                                           defaultMessage: "Y Position (%)"
                                         })}
                                         value={column.position?.y || 0}
-                                        onChange={(e) => {
+                                        onChange={(e: any) => {
                                           const newColumns = [...(values.customConfig?.columns || [])];
                                           newColumns[index] = {
                                             ...column,
@@ -1817,7 +1930,11 @@ export default function FooterVariantsWizardContainer({
                                       />
                                     </Grid>
 
-                                    <Grid item xs={12} sm={2}>
+                                    <Grid
+                                      size={{
+                                        xs: 12,
+                                        sm: 2
+                                      }}>
                                       <TextField
                                         fullWidth
                                         type="number"
@@ -1826,7 +1943,7 @@ export default function FooterVariantsWizardContainer({
                                           defaultMessage: "Width (%)"
                                         })}
                                         value={column.position?.width || 20}
-                                        onChange={(e) => {
+                                        onChange={(e: any) => {
                                           const newColumns = [...(values.customConfig?.columns || [])];
                                           newColumns[index] = {
                                             ...column,
@@ -1847,7 +1964,7 @@ export default function FooterVariantsWizardContainer({
                                       />
                                     </Grid>
 
-                                    <Grid item xs={12}>
+                                    <Grid size={12}>
                                       <Typography variant="caption" sx={{ fontWeight: 'medium', mb: 1, display: 'block' }}>
                                         <FormattedMessage
                                           id="footer.column.title.style"
@@ -1855,7 +1972,12 @@ export default function FooterVariantsWizardContainer({
                                         />
                                       </Typography>
                                       <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6} md={2.4}>
+                                        <Grid
+                                          size={{
+                                            xs: 12,
+                                            sm: 6,
+                                            md: 2.4
+                                          }}>
                                           <TextField
                                             fullWidth
                                             type="number"
@@ -1865,7 +1987,7 @@ export default function FooterVariantsWizardContainer({
                                               defaultMessage: "Font Size"
                                             })}
                                             value={column.titleStyle?.fontSize || 16}
-                                            onChange={(e) => {
+                                            onChange={(e: any) => {
                                               const newColumns = [...(values.customConfig?.columns || [])];
                                               newColumns[index] = {
                                                 ...column,
@@ -1880,7 +2002,12 @@ export default function FooterVariantsWizardContainer({
                                           />
                                         </Grid>
 
-                                        <Grid item xs={6} sm={3} md={2.4}>
+                                        <Grid
+                                          size={{
+                                            xs: 6,
+                                            sm: 3,
+                                            md: 2.4
+                                          }}>
                                           <FormControl fullWidth size="small">
                                             <InputLabel>Font Weight</InputLabel>
                                             <Select
@@ -1904,7 +2031,12 @@ export default function FooterVariantsWizardContainer({
                                           </FormControl>
                                         </Grid>
 
-                                        <Grid item xs={6} sm={3} md={2.4}>
+                                        <Grid
+                                          size={{
+                                            xs: 6,
+                                            sm: 3,
+                                            md: 2.4
+                                          }}>
                                           <FormControl fullWidth size="small">
                                             <InputLabel>Font Style</InputLabel>
                                             <Select
@@ -1928,7 +2060,12 @@ export default function FooterVariantsWizardContainer({
                                           </FormControl>
                                         </Grid>
 
-                                        <Grid item xs={6} sm={3} md={2.4}>
+                                        <Grid
+                                          size={{
+                                            xs: 6,
+                                            sm: 3,
+                                            md: 2.4
+                                          }}>
                                           <FormControl fullWidth size="small">
                                             <InputLabel>
                                               <FormattedMessage
@@ -1967,7 +2104,12 @@ export default function FooterVariantsWizardContainer({
                                           </FormControl>
                                         </Grid>
 
-                                        <Grid item xs={12} sm={6} md={2.4}>
+                                        <Grid
+                                          size={{
+                                            xs: 12,
+                                            sm: 6,
+                                            md: 2.4
+                                          }}>
                                           <ColorPickerField
                                             label="Title Color"
                                             value={column.titleStyle?.color || theme.palette.text.primary}
@@ -1988,7 +2130,7 @@ export default function FooterVariantsWizardContainer({
                                       </Grid>
                                     </Grid>
 
-                                    <Grid item xs={12}>
+                                    <Grid size={12}>
                                       <Typography variant="caption" sx={{ fontWeight: 'medium', mb: 1, display: 'block' }}>
                                         <FormattedMessage
                                           id="footer.column.links"
@@ -1996,7 +2138,7 @@ export default function FooterVariantsWizardContainer({
                                         />
                                       </Typography>
 
-                                      {column.links.map((link, linkIndex) => (
+                                      {column.links.map((link: any, linkIndex: number) => (
                                         <Box key={link.id} sx={{
                                           border: `1px solid ${theme.palette.divider}`,
                                           borderRadius: 1,
@@ -2005,13 +2147,17 @@ export default function FooterVariantsWizardContainer({
                                           backgroundColor: theme.palette.background.default
                                         }}>
                                           <Grid container spacing={2} alignItems="center">
-                                            <Grid item xs={12} sm={4}>
+                                            <Grid
+                                              size={{
+                                                xs: 12,
+                                                sm: 4
+                                              }}>
                                               <TextField
                                                 fullWidth
                                                 size="small"
                                                 label="Link Text"
                                                 value={link.text}
-                                                onChange={(e) => {
+                                                onChange={(e: any) => {
                                                   const newColumns = [...(values.customConfig?.columns || [])];
                                                   const newLinks = [...column.links];
                                                   newLinks[linkIndex] = { ...link, text: e.target.value };
@@ -2020,13 +2166,17 @@ export default function FooterVariantsWizardContainer({
                                                 }}
                                               />
                                             </Grid>
-                                            <Grid item xs={12} sm={4}>
+                                            <Grid
+                                              size={{
+                                                xs: 12,
+                                                sm: 4
+                                              }}>
                                               <TextField
                                                 fullWidth
                                                 size="small"
                                                 label="URL"
                                                 value={link.url}
-                                                onChange={(e) => {
+                                                onChange={(e: any) => {
                                                   const newColumns = [...(values.customConfig?.columns || [])];
                                                   const newLinks = [...column.links];
                                                   newLinks[linkIndex] = { ...link, url: e.target.value };
@@ -2035,7 +2185,11 @@ export default function FooterVariantsWizardContainer({
                                                 }}
                                               />
                                             </Grid>
-                                            <Grid item xs={12} sm={2.4}>
+                                            <Grid
+                                              size={{
+                                                xs: 12,
+                                                sm: 2.4
+                                              }}>
                                               <ColorPickerField
                                                 label="Link Color"
                                                 value={link.style?.color || theme.palette.text.secondary}
@@ -2052,7 +2206,11 @@ export default function FooterVariantsWizardContainer({
                                                 defaultValue={theme.palette.text.secondary}
                                               />
                                             </Grid>
-                                            <Grid item xs={12} sm={2.4}>
+                                            <Grid
+                                              size={{
+                                                xs: 12,
+                                                sm: 2.4
+                                              }}>
                                               <ColorPickerField
                                                 label="Hover Color"
                                                 value={link.style?.hoverColor || theme.palette.primary.main}
@@ -2069,7 +2227,11 @@ export default function FooterVariantsWizardContainer({
                                                 defaultValue={theme.palette.primary.main}
                                               />
                                             </Grid>
-                                            <Grid item xs={12} sm={0.6}>
+                                            <Grid
+                                              size={{
+                                                xs: 12,
+                                                sm: 0.6
+                                              }}>
                                               <Button
                                                 size="small"
                                                 color="error"
@@ -2160,7 +2322,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -2172,7 +2334,7 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box sx={{ mb: 2 }}>
                                 <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
                                   <FormattedMessage
@@ -2241,7 +2403,11 @@ export default function FooterVariantsWizardContainer({
 
                             {values.customConfig?.logo?.url && (
                               <>
-                                <Grid item xs={12} sm={4}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 4
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2250,11 +2416,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Width (px)"
                                     })}
                                     value={values.customConfig?.logo?.width || 100}
-                                    onChange={(e) => setFieldValue('customConfig.logo.width', parseInt(e.target.value) || 100)}
+                                    onChange={(e: any) => setFieldValue('customConfig.logo.width', parseInt(e.target.value) || 100)}
                                   />
                                 </Grid>
 
-                                <Grid item xs={12} sm={4}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 4
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2263,11 +2433,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Height (px)"
                                     })}
                                     value={values.customConfig?.logo?.height || 50}
-                                    onChange={(e) => setFieldValue('customConfig.logo.height', parseInt(e.target.value) || 50)}
+                                    onChange={(e: any) => setFieldValue('customConfig.logo.height', parseInt(e.target.value) || 50)}
                                   />
                                 </Grid>
 
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2276,11 +2450,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "X Position (%)"
                                     })}
                                     value={values.customConfig?.logo?.position?.x || 10}
-                                    onChange={(e) => setFieldValue('customConfig.logo.position.x', parseInt(e.target.value) || 10)}
+                                    onChange={(e: any) => setFieldValue('customConfig.logo.position.x', parseInt(e.target.value) || 10)}
                                     inputProps={{ min: 0, max: 90 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2289,7 +2467,7 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Y Position (%)"
                                     })}
                                     value={values.customConfig?.logo?.position?.y || 10}
-                                    onChange={(e) => setFieldValue('customConfig.logo.position.y', parseInt(e.target.value) || 10)}
+                                    onChange={(e: any) => setFieldValue('customConfig.logo.position.y', parseInt(e.target.value) || 10)}
                                     inputProps={{ min: 0, max: 90 }}
                                   />
                                 </Grid>
@@ -2302,7 +2480,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -2314,7 +2492,7 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
                                 <FormattedMessage
                                   id="footer.menu.configuration"
@@ -2323,7 +2501,7 @@ export default function FooterVariantsWizardContainer({
                               </Typography>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
                                 <FormattedMessage
                                   id="footer.menu.position"
@@ -2337,7 +2515,11 @@ export default function FooterVariantsWizardContainer({
                                 />
                               </Typography>
                               <Grid container spacing={2}>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2346,11 +2528,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "X Position (%)"
                                     })}
                                     value={values.customConfig?.menu?.position?.x || 5}
-                                    onChange={(e) => setFieldValue('customConfig.menu.position.x', parseInt(e.target.value) || 5)}
+                                    onChange={(e: any) => setFieldValue('customConfig.menu.position.x', parseInt(e.target.value) || 5)}
                                     inputProps={{ min: 0, max: 80 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2359,14 +2545,14 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Y Position (%)"
                                     })}
                                     value={values.customConfig?.menu?.position?.y || 40}
-                                    onChange={(e) => setFieldValue('customConfig.menu.position.y', parseInt(e.target.value) || 40)}
+                                    onChange={(e: any) => setFieldValue('customConfig.menu.position.y', parseInt(e.target.value) || 40)}
                                     inputProps={{ min: 0, max: 85 }}
                                   />
                                 </Grid>
                               </Grid>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
                                 <FormattedMessage
                                   id="footer.menu.style"
@@ -2374,7 +2560,12 @@ export default function FooterVariantsWizardContainer({
                                 />
                               </Typography>
                               <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6} md={3}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6,
+                                    md: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2383,12 +2574,17 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Font Size (px)"
                                     })}
                                     value={values.customConfig?.menu?.style?.fontSize || 14}
-                                    onChange={(e) => setFieldValue('customConfig.menu.style.fontSize', parseInt(e.target.value) || 14)}
+                                    onChange={(e: any) => setFieldValue('customConfig.menu.style.fontSize', parseInt(e.target.value) || 14)}
                                     inputProps={{ min: 12, max: 20 }}
                                   />
                                 </Grid>
 
-                                <Grid item xs={12} sm={6} md={3}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6,
+                                    md: 3
+                                  }}>
                                   <FormControl fullWidth>
                                     <InputLabel id="font-weight-label">
                                       <FormattedMessage
@@ -2399,7 +2595,7 @@ export default function FooterVariantsWizardContainer({
                                     <Select
                                       labelId="font-weight-label"
                                       value={values.customConfig?.menu?.style?.fontWeight || 'normal'}
-                                      onChange={(e) => setFieldValue('customConfig.menu.style.fontWeight', e.target.value)}
+                                      onChange={(e: any) => setFieldValue('customConfig.menu.style.fontWeight', e.target.value)}
                                       label={formatMessage({
                                         id: "footer.menu.fontWeight",
                                         defaultMessage: "Font Weight"
@@ -2411,7 +2607,12 @@ export default function FooterVariantsWizardContainer({
                                   </FormControl>
                                 </Grid>
 
-                                <Grid item xs={12} sm={6} md={3}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6,
+                                    md: 3
+                                  }}>
                                   <FormControl fullWidth>
                                     <InputLabel id="font-style-label">
                                       <FormattedMessage
@@ -2422,7 +2623,7 @@ export default function FooterVariantsWizardContainer({
                                     <Select
                                       labelId="font-style-label"
                                       value={values.customConfig?.menu?.style?.fontStyle || 'normal'}
-                                      onChange={(e) => setFieldValue('customConfig.menu.style.fontStyle', e.target.value)}
+                                      onChange={(e: any) => setFieldValue('customConfig.menu.style.fontStyle', e.target.value)}
                                       label={formatMessage({
                                         id: "footer.menu.fontStyle",
                                         defaultMessage: "Font Style"
@@ -2434,7 +2635,12 @@ export default function FooterVariantsWizardContainer({
                                   </FormControl>
                                 </Grid>
 
-                                <Grid item xs={12} sm={6} md={3}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6,
+                                    md: 3
+                                  }}>
                                   <FormControl fullWidth>
                                     <InputLabel id="direction-label">
                                       <FormattedMessage
@@ -2445,7 +2651,7 @@ export default function FooterVariantsWizardContainer({
                                     <Select
                                       labelId="direction-label"
                                       value={values.customConfig?.menu?.style?.direction || 'vertical'}
-                                      onChange={(e) => setFieldValue('customConfig.menu.style.direction', e.target.value)}
+                                      onChange={(e: any) => setFieldValue('customConfig.menu.style.direction', e.target.value)}
                                       label={formatMessage({
                                         id: "footer.menu.direction",
                                         defaultMessage: "Direction"
@@ -2469,9 +2675,13 @@ export default function FooterVariantsWizardContainer({
                               </Grid>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.menu.color",
@@ -2482,7 +2692,11 @@ export default function FooterVariantsWizardContainer({
                                     defaultValue="#333333"
                                   />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid
+                                  size={{
+                                    xs: 12,
+                                    sm: 6
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.menu.hoverColor",
@@ -2496,7 +2710,11 @@ export default function FooterVariantsWizardContainer({
                               </Grid>
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.menu.spacing"
@@ -2528,7 +2746,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -2540,7 +2758,7 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
                                 <FormattedMessage
                                   id="footer.social.media.positioning"
@@ -2554,7 +2772,11 @@ export default function FooterVariantsWizardContainer({
                                 />
                               </Typography>
                               <Grid container spacing={2}>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2563,11 +2785,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "X Position (%)"
                                     })}
                                     value={values.customConfig?.socialMedia?.position?.x || 75}
-                                    onChange={(e) => setFieldValue('customConfig.socialMedia.position.x', parseInt(e.target.value) || 75)}
+                                    onChange={(e: any) => setFieldValue('customConfig.socialMedia.position.x', parseInt(e.target.value) || 75)}
                                     inputProps={{ min: 60, max: 85 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2576,11 +2802,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Y Position (%)"
                                     })}
                                     value={values.customConfig?.socialMedia?.position?.y || 70}
-                                    onChange={(e) => setFieldValue('customConfig.socialMedia.position.y', parseInt(e.target.value) || 70)}
+                                    onChange={(e: any) => setFieldValue('customConfig.socialMedia.position.y', parseInt(e.target.value) || 70)}
                                     inputProps={{ min: 10, max: 80 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2589,11 +2819,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Icon Size (px)"
                                     })}
                                     value={values.customConfig?.socialMedia?.iconSize || 24}
-                                    onChange={(e) => setFieldValue('customConfig.socialMedia.iconSize', parseInt(e.target.value) || 24)}
+                                    onChange={(e: any) => setFieldValue('customConfig.socialMedia.iconSize', parseInt(e.target.value) || 24)}
                                     inputProps={{ min: 16, max: 48 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.social.icon.color",
@@ -2604,7 +2838,11 @@ export default function FooterVariantsWizardContainer({
                                     defaultValue="#333333"
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={3}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 3
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.social.icon.hoverColor",
@@ -2618,7 +2856,7 @@ export default function FooterVariantsWizardContainer({
                               </Grid>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
                                 <FormattedMessage
                                   id="footer.signature.positioning"
@@ -2632,7 +2870,11 @@ export default function FooterVariantsWizardContainer({
                                 />
                               </Typography>
                               <Grid container spacing={2}>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2641,11 +2883,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "X Position (%)"
                                     })}
                                     value={values.customConfig?.signature?.position?.x || 10}
-                                    onChange={(e) => setFieldValue('customConfig.signature.position.x', parseInt(e.target.value) || 10)}
+                                    onChange={(e: any) => setFieldValue('customConfig.signature.position.x', parseInt(e.target.value) || 10)}
                                     inputProps={{ min: 0, max: 60 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2654,11 +2900,15 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Y Position (%)"
                                     })}
                                     value={values.customConfig?.signature?.position?.y || 80}
-                                    onChange={(e) => setFieldValue('customConfig.signature.position.y', parseInt(e.target.value) || 80)}
+                                    onChange={(e: any) => setFieldValue('customConfig.signature.position.y', parseInt(e.target.value) || 80)}
                                     inputProps={{ min: 70, max: 85 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <TextField
                                     fullWidth
                                     type="number"
@@ -2667,16 +2917,20 @@ export default function FooterVariantsWizardContainer({
                                       defaultMessage: "Font Size (px)"
                                     })}
                                     value={values.customConfig?.signature?.style?.fontSize || 14}
-                                    onChange={(e) => setFieldValue('customConfig.signature.style.fontSize', parseInt(e.target.value) || 14)}
+                                    onChange={(e: any) => setFieldValue('customConfig.signature.style.fontSize', parseInt(e.target.value) || 14)}
                                     inputProps={{ min: 10, max: 20 }}
                                   />
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <FormControl fullWidth>
                                     <InputLabel>Font Weight</InputLabel>
                                     <Select
                                       value={values.customConfig?.signature?.style?.fontWeight || 'normal'}
-                                      onChange={(e) => setFieldValue('customConfig.signature.style.fontWeight', e.target.value)}
+                                      onChange={(e: any) => setFieldValue('customConfig.signature.style.fontWeight', e.target.value)}
                                       label="Font Weight"
                                     >
                                       <MenuItem value="normal">Normal</MenuItem>
@@ -2684,12 +2938,16 @@ export default function FooterVariantsWizardContainer({
                                     </Select>
                                   </FormControl>
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <FormControl fullWidth>
                                     <InputLabel>Font Style</InputLabel>
                                     <Select
                                       value={values.customConfig?.signature?.style?.fontStyle || 'normal'}
-                                      onChange={(e) => setFieldValue('customConfig.signature.style.fontStyle', e.target.value)}
+                                      onChange={(e: any) => setFieldValue('customConfig.signature.style.fontStyle', e.target.value)}
                                       label="Font Style"
                                     >
                                       <MenuItem value="normal">Normal</MenuItem>
@@ -2697,7 +2955,11 @@ export default function FooterVariantsWizardContainer({
                                     </Select>
                                   </FormControl>
                                 </Grid>
-                                <Grid item xs={6} sm={2}>
+                                <Grid
+                                  size={{
+                                    xs: 6,
+                                    sm: 2
+                                  }}>
                                   <ColorPickerField
                                     label={formatMessage({
                                       id: "footer.signature.color",
@@ -2717,7 +2979,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'custom' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -2729,7 +2991,7 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
                                 <FormattedMessage
                                   id="footer.custom.preview.description"
@@ -2800,7 +3062,7 @@ export default function FooterVariantsWizardContainer({
                                   );
                                 })()}
 
-                                {values.customConfig?.columns?.map((column) => {
+                                {values.customConfig?.columns?.map((column: any) => {
                                   const paddingValue = values.customConfig?.padding || 4;
                                   const scale = 1 - (paddingValue * 0.05);
                                   const xPos = column.position?.x || 0;
@@ -2835,7 +3097,7 @@ export default function FooterVariantsWizardContainer({
                                         {column.title}
                                       </Typography>
 
-                                      {column.links.map((link) => (
+                                      {column.links.map((link: any) => (
                                         <Typography
                                           key={link.id}
                                           variant="body2"
@@ -3008,7 +3270,7 @@ export default function FooterVariantsWizardContainer({
                               </Typography>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
                                 <Button
                                   variant="outlined"
@@ -3044,7 +3306,7 @@ export default function FooterVariantsWizardContainer({
                                         height: 50,
                                         position: { x: 10, y: 10 },
                                       },
-                                      columns: currentColumns.map(column => ({
+                                      columns: currentColumns.map((column: any) => ({
                                         ...column,
                                         position: {
                                           ...column.position,
@@ -3111,7 +3373,7 @@ export default function FooterVariantsWizardContainer({
                   )}
 
                   {values.variant === 'glassmorphic' && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography variant="h6">
@@ -3123,7 +3385,11 @@ export default function FooterVariantsWizardContainer({
                         </AccordionSummary>
                         <AccordionDetails>
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 6
+                              }}>
                               <Typography gutterBottom>
                                 <FormattedMessage
                                   id="footer.border.radius"
@@ -3149,7 +3415,11 @@ export default function FooterVariantsWizardContainer({
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <FormControl fullWidth>
                                 <InputLabel>
                                   <FormattedMessage
@@ -3179,7 +3449,11 @@ export default function FooterVariantsWizardContainer({
                               </FormControl>
                             </Grid>
 
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <FormControl fullWidth>
                                 <InputLabel>
                                   <FormattedMessage
@@ -3209,7 +3483,11 @@ export default function FooterVariantsWizardContainer({
                               </FormControl>
                             </Grid>
 
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <FormControl fullWidth>
                                 <InputLabel>
                                   <FormattedMessage
@@ -3244,7 +3522,7 @@ export default function FooterVariantsWizardContainer({
                               values.layout.menuPosition,
                               values.layout.socialMediaPosition
                             ) && (
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Typography variant="body2" color="error" sx={{ textAlign: 'center' }}>
                                     <FormattedMessage
                                       id="footer.positions.error"
@@ -3254,7 +3532,7 @@ export default function FooterVariantsWizardContainer({
                                 </Grid>
                               )}
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium' }}>
                                 <FormattedMessage
                                   id="footer.layout.preview"
@@ -3336,11 +3614,11 @@ export default function FooterVariantsWizardContainer({
 
 
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Divider />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Stack spacing={1} direction="row" justifyContent="flex-end">
                       <Button
                         variant="contained"
@@ -3371,7 +3649,6 @@ export default function FooterVariantsWizardContainer({
           }}
         </Formik>
       </Grid>
-
       <MediaDialog
         dialogProps={{
           open: showLogoMediaDialog,

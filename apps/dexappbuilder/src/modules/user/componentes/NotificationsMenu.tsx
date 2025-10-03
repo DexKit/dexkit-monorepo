@@ -82,7 +82,7 @@ export function NotificationsMenu() {
             </Typography>
           </Box>
         ) : (
-          notifications.map((notification) => {
+          notifications.map((notification: any) => {
             const isNftRelated = notification.metadata?.type === 'nft_profile_removed';
             
             return (

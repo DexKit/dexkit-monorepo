@@ -105,36 +105,25 @@ export function CollectionsGridVariant({ section, disabled }: Props) {
     }
   };
 
-  if (featuredItem && regularItems.length <= 4) {
-    return (
-      <Grid container spacing={{ xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 }}>
-        {/* Featured Collection */}
-        <Grid item xs={12} md={6}>
-          {renderCollectionCard(featuredItem, true)}
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={{ xs: isExtraSmall ? 1 : 1.5, sm: 2 }}>
-            {regularItems.map((item, index) => (
-              <Grid key={index} item xs={12} sm={6}>
-                {renderCollectionCard(item)}
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
-    );
-  }
-
   const allItems = featuredItem ? [featuredItem, ...regularItems] : regularItems;
 
   return (
-    <Grid container spacing={{ xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 }}>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: '1fr',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)'
+        },
+        gap: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 }
+      }}
+    >
       {allItems.map((item, index) => (
-        <Grid key={index} item xs={12} sm={6} md={4}>
+        <Box key={index}>
           {renderCollectionCard(item, item.type === "collection" && item.featured)}
-        </Grid>
+        </Box>
       ))}
-    </Grid>
+    </Box>
   );
 } 

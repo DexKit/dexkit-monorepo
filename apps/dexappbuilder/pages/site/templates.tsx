@@ -101,7 +101,7 @@ export const SiteTemplatesPage: NextPage = () => {
     let newUsecases = [...usecases];
     if (use) {
       if (usecases.includes(use)) {
-        newUsecases = usecases.filter((u) => u !== use);
+        newUsecases = usecases.filter((u: any) => u !== use);
       } else {
         newUsecases.push(use);
       }

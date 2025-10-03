@@ -1,4 +1,4 @@
-import { ButtonBase, Container, Stack, alpha, styled, useTheme } from '@mui/material';
+import { ButtonBase, Container, Stack, styled, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
@@ -21,7 +21,7 @@ export const ImagePicker = connectField<{
   value: string;
   label: string;
   onChange: (v: string | void) => void;
-}>((props) => {
+}>((props: any) => {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const isMobile = useIsMobile();
   const theme = useTheme();
@@ -59,11 +59,11 @@ export const ImagePicker = connectField<{
           sx={{
             height: theme.spacing(isMobile ? 20 : 24),
             width: theme.spacing(isMobile ? 20 : 24),
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: (theme: any) => theme.shape.borderRadius / 2,
             backgroundColor:
               theme.palette.mode === 'light'
                 ? 'rgba(0,0,0, 0.2)'
-                : alpha(theme.palette.common.white, 0.1),
+                : theme.alpha(theme.palette.common.white, 0.1),
           }}
         >
           <Stack

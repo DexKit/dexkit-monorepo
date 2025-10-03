@@ -200,7 +200,7 @@ export default function PageSections({
   }, [JSON.stringify(filteredSections), offset, limit, JSON.stringify(page)]);
 
   const renderSections = () => {
-    return pageList?.map((section, index) => {
+    return pageList?.map((section: any, index: any) => {
       if (hideDesktop && hideMobile) {
         if (section.hideDesktop && section.hideMobile) {
           return null;
@@ -217,11 +217,9 @@ export default function PageSections({
 
       return (
         <Grid
-          item
-          xs={12}
           key={`${JSON.stringify(section)}-${section.index}`}
           sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
-        >
+          size={12}>
           <PageSection
             showTopDroppable={section.index === 0}
             index={section.index}
@@ -304,14 +302,18 @@ export default function PageSections({
                   pb: isMobile ? 0 : theme.spacing(2),
                 }}
               >
-                <Grid item xs={12} sm={isMobile ? 12 : 6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: isMobile ? 12 : 6
+                  }}>
                   <Stack
-                    spacing={theme.spacing(0.25)}
+                    spacing={theme.spacing(0.5)}
                     direction="row"
                     justifyContent="space-between"
                     sx={{
                       width: '100%',
-                      ml: isMobile ? theme.spacing(-2) : 0,
+                      ml: 0,
                     }}
                   >
                     <Button
@@ -323,8 +325,8 @@ export default function PageSections({
                       variant="outlined"
                       sx={{
                         flex: 1,
-                        maxWidth: 'calc(50% - 2px)',
-                        px: isMobile ? 1 : 1,
+                        maxWidth: 'calc(50% - 4px)',
+                        px: isMobile ? 1.5 : 1,
                         pb: isMobile ? undefined : 1.5,
                         pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
@@ -359,8 +361,8 @@ export default function PageSections({
                       variant="outlined"
                       sx={{
                         flex: 1,
-                        maxWidth: 'calc(50% - 2px)',
-                        px: isMobile ? 1 : 1,
+                        maxWidth: 'calc(50% - 4px)',
+                        px: isMobile ? 1.5 : 1,
                         pb: isMobile ? undefined : 1.5,
                         pt: isMobile ? undefined : 1.5,
                         '& .MuiButton-startIcon': {
@@ -389,11 +391,11 @@ export default function PageSections({
                   </Stack>
                 </Grid>
                 <Grid
-                  item
-                  xs={12}
-                  sm={isMobile ? 12 : 6}
                   sx={{ mt: isMobile ? theme.spacing(0.5) : 0 }}
-                >
+                  size={{
+                    xs: 12,
+                    sm: isMobile ? 12 : 6
+                  }}>
                   <Stack
                     spacing={0.25}
                     direction="row"
@@ -458,7 +460,11 @@ export default function PageSections({
                       alignItems="center"
                       justifyContent="flex-start"
                     >
-                      <Grid item xs={12} sm={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 4
+                        }}>
                         <FormControl fullWidth>
                           <InputLabel shrink>
                             <FormattedMessage
@@ -472,7 +478,11 @@ export default function PageSections({
                           />
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 4
+                        }}>
                         <VisibilityAutocomplete
                           onChange={(desktop, mobile) => {
                             setHideDesktop(desktop);
@@ -495,11 +505,7 @@ export default function PageSections({
                 sx={{ width: '100%', px: 0, ml: isMobile ? 0 : 0 }}
               >
                 {renderSections()}
-                <Grid
-                  item
-                  xs={12}
-                  sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                >
+                <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} size={12}>
                   <SectionsPagination
                     pageSize={pageSize}
                     from={offset}

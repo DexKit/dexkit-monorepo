@@ -165,8 +165,8 @@ export default function ContractListDataGrid({
       headerName: "Created At",
       minWidth: 200,
       flex: 1,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
       },
     },
     {
@@ -178,8 +178,8 @@ export default function ContractListDataGrid({
       field: "chainId",
       headerName: "Network",
       width: 110,
-      valueGetter: ({ row }) => {
-        return NETWORK_NAME(row.chainId);
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
     },
     {
@@ -189,11 +189,10 @@ export default function ContractListDataGrid({
       renderCell: (params: any) => (
         <Link
           target="_blank"
-          href={`${NETWORK_EXPLORER(params.row.chainId)}/address/${
-            params.row.contractAddress
-          }`}
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress
+            }`}
         >
-          {truncateAddress(params.row.contractAddress)}
+          {truncateAddress(params.row?.contractAddress)}
         </Link>
       ),
     },
@@ -208,8 +207,8 @@ export default function ContractListDataGrid({
               <IconButton
                 onClick={() =>
                   onClickContract({
-                    address: row.contractAddress,
-                    network: NETWORK_SLUG(row.chainId) as string,
+                    address: row?.contractAddress,
+                    network: NETWORK_SLUG(row?.chainId) as string,
                   })
                 }
                 size="small"
@@ -228,9 +227,8 @@ export default function ContractListDataGrid({
             ) : (
               <IconButton
                 LinkComponent={Link}
-                href={`/contract/${NETWORK_SLUG(row.chainId)}/${
-                  row.contractAddress
-                }`}
+                href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress
+                  }`}
                 size="small"
               >
                 <Tooltip
@@ -251,7 +249,7 @@ export default function ContractListDataGrid({
             ) : (
               <IconButton
                 LinkComponent={Link}
-                href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`}
+                href={`/forms/create?contractAddress=${row?.contractAddress}&chainId=${row?.chainId}`}
                 target="_blank"
                 size="small"
               >
@@ -267,8 +265,8 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             )}
-            <IconButton onClick={handleHideContract(row.id)}>
-              {row.hide ? (
+            <IconButton onClick={handleHideContract(row?.id)}>
+              {row?.hide ? (
                 <Tooltip
                   title={
                     <FormattedMessage

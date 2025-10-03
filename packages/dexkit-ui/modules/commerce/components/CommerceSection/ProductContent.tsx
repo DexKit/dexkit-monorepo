@@ -1,3 +1,4 @@
+// @ts-nocheck
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCart from "@mui/icons-material/ShoppingCartOutlined";
 

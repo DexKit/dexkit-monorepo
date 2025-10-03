@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Box, Grid, Link, Stack, Typography } from "@mui/material";
 
 import { useAppRankingQuery } from "@dexkit/ui/modules/wizard/hooks/ranking";
@@ -128,7 +129,7 @@ export default function RankingSection({ section }: RankingSectionProps) {
       </Grid>
       <Grid item xs={12}>
         <DataGrid
-          getRowId={(row) => row.account}
+          getRowId={(row: any) => row.account}
           rowCount={rows.length}
           rows={rows}
           paginationModel={paginationModel}

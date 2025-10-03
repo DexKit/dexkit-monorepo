@@ -1,7 +1,7 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { GridSortModel } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_CATEGORY_LIST = 'GET_CATEGORY_LIST';
 
@@ -11,7 +11,7 @@ export default function useCategoryList(params: {
   q?: string;
   sortModel?: GridSortModel;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery(
     [GET_CATEGORY_LIST, params],
@@ -28,7 +28,7 @@ export default function useCategoryList(params: {
 
       delete newParams['sortModel'];
 
-      return (await instance.get('/product-category', { params: newParams }))
+      return (await (instance as any).get('/product-category', { params: newParams }))
         .data;
     },
     {

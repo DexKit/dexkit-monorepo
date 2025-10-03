@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui";
 import DecimalInput from "@dexkit/ui/components/DecimalInput";

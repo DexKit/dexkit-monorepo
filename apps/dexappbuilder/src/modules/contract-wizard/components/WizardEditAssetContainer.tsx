@@ -123,7 +123,7 @@ function WizardEditAssetContainer(props: Props) {
         </Typography>
       </AppConfirmDialog>
       <Grid container spacing={2} justifyContent="center">
-        <Grid container item xs={12} justifyContent="left">
+        <Grid container justifyContent="left" size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -164,7 +164,7 @@ function WizardEditAssetContainer(props: Props) {
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h5">
             <FormattedMessage
               id="edit.nft.id"
@@ -175,7 +175,7 @@ function WizardEditAssetContainer(props: Props) {
             />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
               defaultMessage="To create NFTs, name and image are mandatory. When creating the nfts please wait till end, could take a while to finish!"
@@ -184,7 +184,7 @@ function WizardEditAssetContainer(props: Props) {
           </Alert>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {asset && (
             <Formik
               initialValues={{

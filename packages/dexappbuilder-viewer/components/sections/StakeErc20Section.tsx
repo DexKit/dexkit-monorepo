@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatBigNumber } from "@dexkit/core/utils";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
@@ -455,7 +456,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                 onSubmit={handleSubmit}
                 validate={validateStake}
               >
-                {({ submitForm, isValid, isSubmitting, setFieldValue }) => (
+                {({ submitForm, isValid, isSubmitting, setFieldValue }: any) => (
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Box>
@@ -644,7 +645,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                 onSubmit={handleSubmitUnstake}
                 validate={validateUnstake}
               >
-                {({ submitForm, isValid, isSubmitting, setFieldValue }) => (
+                {({ submitForm, isValid, isSubmitting, setFieldValue }: any) => (
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Box>

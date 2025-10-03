@@ -19,7 +19,8 @@ import { useCreateFormTemplateMutation } from '@/modules/forms/hooks';
 import { CreateTemplateSchemaType } from '@/modules/forms/types';
 import { MarkdownDescriptionField } from '@dexkit/ui/components';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import { TextField } from 'formik-mui';
+import dynamic from 'next/dynamic';
+const FormikTextField = dynamic(() => import('formik-mui').then(mod => ({ default: mod.TextField })), { ssr: false });
 import { useSnackbar } from 'notistack';
 
 export default function CreateTemplatePage() {
@@ -107,12 +108,12 @@ export default function CreateTemplatePage() {
                   onSubmit={handleSubmit}
                   validationSchema={CreateTemplateSchema}
                 >
-                  {({ submitForm, isValid, errors, isSubmitting }) => (
+                  {({ submitForm, isValid, errors, isSubmitting }: any) => (
                     <Form>
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
                           <Field
-                            component={TextField}
+                            component={FormikTextField}
                             name="name"
                             fullWidth
                             label={
@@ -145,7 +146,7 @@ export default function CreateTemplatePage() {
                         </Grid>
                         <Grid item xs={12}>
                           <Field
-                            component={TextField}
+                            component={FormikTextField}
                             name="bytecode"
                             fullWidth
                             multiline

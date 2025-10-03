@@ -118,7 +118,7 @@ export default function GatedConditionsFormDialog({
         let condition = conditions[index];
         if (condition.type === 'coin') {
           let findToken = featuredTokens.find(
-            (t) =>
+            (t: any) =>
               t.address === condition.address &&
               t.chainId === condition.chainId,
           );
@@ -184,7 +184,7 @@ export default function GatedConditionsFormDialog({
               values,
               setFieldValue,
               errors,
-            }) => (
+            }: any) => (
               <Form>
                 {false && (
                   <Alert role="info">
@@ -238,18 +238,18 @@ export default function GatedConditionsFormDialog({
                   <TabPanel value="1">
                     <FieldArray
                       name="conditions"
-                      render={(arrayHelpers) => (
+                      render={(arrayHelpers: any) => (
                         <Box sx={{ p: 2 }}>
-                          {values.conditions.map((condition, index) => (
+                          {values.conditions.map((condition: any, index: any) => (
                             <Box sx={{ p: 2 }} key={index}>
                               <Grid container spacing={4} key={index}>
                                 {index !== 0 && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <Divider />
                                   </Grid>
                                 )}
                                 {index !== 0 && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <FormControl fullWidth variant="filled">
                                       <InputLabel shrink>
                                         <FormattedMessage
@@ -283,7 +283,7 @@ export default function GatedConditionsFormDialog({
                                     </FormControl>
                                   </Grid>
                                 )}
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Stack
                                     direction="row"
                                     justifyContent={'space-between'}
@@ -309,7 +309,7 @@ export default function GatedConditionsFormDialog({
                                   </Stack>
                                 </Grid>
 
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <FormControl fullWidth>
                                     <InputLabel shrink>
                                       <FormattedMessage
@@ -348,7 +348,7 @@ export default function GatedConditionsFormDialog({
                                   </FormControl>
                                 </Grid>
                                 {condition?.type === 'collection' && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <CollectionItemAutocomplete
                                       onChange={(coll: any) => {
                                         selectedCollections[index] = coll;
@@ -390,7 +390,7 @@ export default function GatedConditionsFormDialog({
                                   </Grid>
                                 )}
                                 {condition?.type === 'coin' && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <SearchTokenAutocomplete
                                       label="Search coin"
                                       tokens={featuredTokens}
@@ -424,7 +424,7 @@ export default function GatedConditionsFormDialog({
                                 )}
 
                                 {condition?.protocol === 'ERC1155' && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <Field
                                       component={TextField}
                                       name={`conditions[${index}].tokenId`}
@@ -439,7 +439,7 @@ export default function GatedConditionsFormDialog({
                                   </Grid>
                                 )}
 
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Field
                                     component={TextField}
                                     name={`conditions[${index}].amount`}
@@ -483,7 +483,7 @@ export default function GatedConditionsFormDialog({
                   </TabPanel>
                   <TabPanel value="2">
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Field
                           component={TextField}
                           type="text"
@@ -497,7 +497,7 @@ export default function GatedConditionsFormDialog({
                           name="layout.accessRequirementsMessage"
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Stack spacing={2}>
                           <Box pl={2}>
                             <Typography variant="caption">
@@ -518,7 +518,7 @@ export default function GatedConditionsFormDialog({
                           />
                         </Stack>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Stack
                           direction={'row'}
                           spacing={2}

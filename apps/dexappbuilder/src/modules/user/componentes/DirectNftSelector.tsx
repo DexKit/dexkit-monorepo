@@ -445,7 +445,7 @@ export function DirectNftSelector({
   };
 
   const toggleNetwork = (networkId: string) => {
-    setSelectedNetworks((prev) => {
+    setSelectedNetworks((prev: string[]) => {
       if (prev.includes(networkId)) {
         return prev.filter((id) => id !== networkId);
       } else {
@@ -515,7 +515,7 @@ export function DirectNftSelector({
   }, [nfts, selectedNetworks, searchTerm, sortBy]);
 
   const networkStats = useMemo(() => {
-    return nfts.reduce((acc: Record<string, number>, nft) => {
+    return nfts.reduce((acc: Record<string, number>, nft: any) => {
       const network = nft.networkId || getNetworkFromChainId(nft.chainId);
       if (network) {
         acc[network] = (acc[network] || 0) + 1;
@@ -588,10 +588,9 @@ export function DirectNftSelector({
           </IconButton>
         </Stack>
       </DialogTitle>
-
       <DialogContent sx={{ pb: 1, px: { xs: 1, sm: 2 } }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={2}>
               <Box
                 sx={{
@@ -618,7 +617,7 @@ export function DirectNftSelector({
                     fullWidth
                     placeholder="Search by name or collection..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e: any) => setSearchTerm(e.target.value)}
                     InputProps={{
                       startAdornment: (
                         <SearchIcon color="action" sx={{ mr: 1 }} />
@@ -793,15 +792,15 @@ export function DirectNftSelector({
                     </Stack>
 
                     <Grid container spacing={2}>
-                      {paginatedNfts.map((nft, index) => (
+                      {paginatedNfts.map((nft: any, index: number) => (
                         <Grid
-                          item
-                          xs={6}
-                          sm={4}
-                          md={3}
-                          lg={2}
                           key={`nft-${index}`}
-                        >
+                          size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 3,
+                            lg: 2
+                          }}>
                           <NftCard
                             nft={nft}
                             isSelected={isNftSelected(nft)}
@@ -837,7 +836,6 @@ export function DirectNftSelector({
           </Grid>
         </Grid>
       </DialogContent>
-
       <DialogActions
         sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}
       >

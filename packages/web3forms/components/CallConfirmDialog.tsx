@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 

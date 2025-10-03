@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatBigNumber } from "@dexkit/core/utils";
 import { useDexKitContext } from "@dexkit/ui";

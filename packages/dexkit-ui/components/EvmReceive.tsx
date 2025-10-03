@@ -83,7 +83,7 @@ export default function EvmReceive({
     if (!allTokenBalances) return {};
 
     const map: Record<string, TokenBalance> = {};
-    allTokenBalances.forEach((tb) => {
+    allTokenBalances.forEach((tb: any) => {
       if (tb.token.address) {
         const key = `${tb.token.chainId}-${tb.token.address.toLowerCase()}`;
         map[key] = tb;
@@ -99,7 +99,7 @@ export default function EvmReceive({
 
     if (coin.coinType === CoinTypes.EVM_NATIVE) {
       const nativeBalance = allTokenBalances.find(
-        (tb) => {
+        (tb: any) => {
           return (
             (tb.token.address.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
               tb.token.symbol === coin.symbol) &&

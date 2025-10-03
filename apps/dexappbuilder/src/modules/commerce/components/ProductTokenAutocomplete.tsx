@@ -33,7 +33,7 @@ export default function ProductTokenAutocomplete({
   const value = useMemo(() => {
     return (
       tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, propsField.value) &&
           t.chainId === props.value.chainId,
       ) ?? null

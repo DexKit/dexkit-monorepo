@@ -17,7 +17,11 @@ const WalletPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout }) => {
+}> = ({ sections, layout }: {
+  sections: AppPageSection[];
+  layout?: PageSectionsLayout;
+  appConfig: AppConfig;
+}) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -74,7 +78,7 @@ export const getStaticProps: GetStaticProps = async ({
     const { appConfig } = configResponse;
 
     const page = appConfig.pages['wallet'] || {};
-    const sections = page?.sections || [
+    const sections = (page as any)?.sections || [
       {
         type: 'wallet',
         title: 'Wallet',
@@ -84,7 +88,7 @@ export const getStaticProps: GetStaticProps = async ({
     return {
       props: {
         page: 'wallet',
-        layout: page?.layout || null,
+        layout: (page as any)?.layout || null,
         sections: sections,
         site: params?.site,
         ...configResponse,

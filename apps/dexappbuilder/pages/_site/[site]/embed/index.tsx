@@ -50,6 +50,21 @@ const EmbedPage: NextPage<{
   layout,
   hide_powered_by,
   slug,
+}: {
+  sections: AppPageSection[];
+  account?: string;
+  isProtected: boolean;
+  conditions?: GatedCondition[];
+  gatedLayout?: GatedPageLayout;
+  layout?: PageSectionsLayout;
+  result: boolean;
+  site: string;
+  page: string;
+  partialResults: { [key: number]: boolean };
+  balances: { [key: number]: string };
+  slug?: string;
+  hideLayout: boolean;
+  hide_powered_by: boolean;
 }) => {
   if (isProtected) {
     if (hideLayout) {
@@ -99,7 +114,7 @@ const EmbedPage: NextPage<{
     );
   } else {
     return (
-      <MainLayout disablePadding noSsr={true}>
+      <MainLayout disablePadding noSsr={true} isPreview={false}>
         <SectionsRenderer sections={sections} layout={layout} />
       </MainLayout>
     );

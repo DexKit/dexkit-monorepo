@@ -38,8 +38,8 @@ export function useUserNotifications() {
     try {
       await axios.post(`/api/user/notifications/${notificationId}/read`);
       
-      setNotifications(prevNotifications => 
-        prevNotifications.map(notification => 
+      setNotifications((prevNotifications: any) => 
+        prevNotifications.map((notification: any) => 
           notification.id === notificationId 
             ? { ...notification, readAt: new Date().toISOString() } 
             : notification
@@ -67,7 +67,7 @@ export function useUserNotifications() {
 
   return {
     notifications,
-    unreadCount: notifications.filter(n => !n.readAt).length,
+    unreadCount: notifications.filter((n: any) => !n.readAt).length,
     loading,
     error,
     fetchNotifications,

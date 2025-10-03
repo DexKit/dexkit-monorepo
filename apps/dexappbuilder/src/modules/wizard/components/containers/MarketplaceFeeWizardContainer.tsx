@@ -34,12 +34,12 @@ export default function MarketplaceFeeWizardContainer({
 
   const handleSaveFees = (fee: FeeForm) => {
     setHasChanged(true);
-    setFees((values) => [...values, fee]);
+    setFees((values: any) => [...values, fee]);
   };
 
   const handleRemoveFees = useCallback((index: number) => {
     setHasChanged(true);
-    setFees((value) => {
+    setFees((value: any) => {
       const newArr = [...value];
 
       newArr.splice(index, 1);
@@ -63,7 +63,7 @@ export default function MarketplaceFeeWizardContainer({
     if (fees) {
       const newConfig = {
         ...config,
-        fees: fees.map((f) => {
+        fees: fees.map((f: any) => {
           return {
             amount_percentage: f.amountPercentage,
             recipient: f.recipient,
@@ -76,7 +76,7 @@ export default function MarketplaceFeeWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -105,10 +105,14 @@ export default function MarketplaceFeeWizardContainer({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         <FeesSection
           fees={fees}
           onSave={handleSaveFees}
@@ -116,10 +120,10 @@ export default function MarketplaceFeeWizardContainer({
           isMobile={isMobile}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"
