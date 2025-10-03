@@ -86,8 +86,6 @@ export function useZrxQuoteQuery({
 }) {
   const { siteId } = useContext(SiteContext);
   const { widgetId, apiKey } = useDexKitContext();
-  console.log('site id from context quote query', siteId);
-  console.log('widget id from context quote query', widgetId);
 
   return useQuery(
     [ZRX_QUOTE_QUERY, params, widgetId, siteId],

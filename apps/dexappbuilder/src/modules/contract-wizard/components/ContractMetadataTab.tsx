@@ -63,7 +63,7 @@ export default function ContractMetadataTab({
     return (
       <Box sx={{ py: 4 }}>
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item>
+          <Grid>
             <CircularProgress color="primary" size="2rem" />
           </Grid>
         </Grid>
@@ -72,6 +72,6 @@ export default function ContractMetadataTab({
   }
 
   return (
-    <MetadataUpdateForm onSubmit={handleSubmit} data={contractMetadata.data} />
+    <MetadataUpdateForm onSubmit={handleSubmit} data={contractMetadata.data as any} />
   );
 }

@@ -114,7 +114,7 @@ export default function CheckoutItemsTable({ name }: CheckoutItemsTableProps) {
         <TableBody>
           {props.value.length === 0 && (
             <TableRow>
-              <TableCell colSpan={6}>
+              <TableCell {...({ colSpan: 6 } as any)}>
                 <Stack alignItems="center">
                   <Box sx={{ fontSize: "3rem" }}>
                     <ShoppingBagIcon fontSize="inherit" />

@@ -1,4 +1,4 @@
-import { Tab, darken, lighten } from "@mui/material";
+import { Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TradeWidgetTabAlt = styled(Tab)(({ theme }) => {
@@ -6,8 +6,8 @@ export const TradeWidgetTabAlt = styled(Tab)(({ theme }) => {
     "&.Mui-selected": {
       backgroundColor:
         theme.palette.mode === "dark"
-          ? lighten(theme.palette.background.paper, 0.2)
-          : darken(theme.palette.background.paper, 0.1),
+          ? theme.lighten(theme.palette.background.paper, 0.2)
+          : theme.darken(theme.palette.background.paper, 0.1),
     },
   };
 });

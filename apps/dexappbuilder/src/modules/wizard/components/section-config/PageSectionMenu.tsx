@@ -32,7 +32,7 @@ export default function PageSectionMenu({
 
   return (
     <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
-      {menuArr.map((menu, index) => (
+      {menuArr.map((menu: any, index: any) => (
         <MenuItem
           value={menu.value}
           key={index}

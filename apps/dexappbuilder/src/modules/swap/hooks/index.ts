@@ -88,7 +88,7 @@ export function useSearchSwapTokens({
 
       if (keyword) {
         tokens = tokens.filter(
-          (c) =>
+          (c: any) =>
             c.name.toLowerCase().search(keyword?.toLowerCase()) > -1 ||
             c.symbol.toLowerCase().search(keyword?.toLowerCase()) > -1,
         );

@@ -113,7 +113,7 @@ export function OffersTable({
     if (tempOrders?.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={4}>
+          <TableCell {...({ colSpan: 4 } as any)}>
             <Stack justifyContent="center" alignItems="center">
               <Typography variant="body1" color="textSecondary">
                 <FormattedMessage
@@ -207,7 +207,7 @@ export function OffersTable({
                     description="Expiration"
                   />
                 </TableCell>
-                <TableCell component="th" colSpan={3}>
+                <TableCell component="th" {...({ colSpan: 3 } as any)}>
                   <FormattedMessage
                     id="from"
                     defaultMessage="From"

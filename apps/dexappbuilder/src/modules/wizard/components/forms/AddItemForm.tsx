@@ -215,7 +215,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
 
   return (
     <Grid container spacing={2} sx={{ p: { xs: 1, sm: 2 } }}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControl fullWidth required>
           <InputLabel>
             <FormattedMessage id="item.type" defaultMessage="Item Type" />
@@ -250,7 +250,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
             <Tab label="Your collections" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={value} index={1}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CollectionItemAutocomplete
                 onChange={(coll) => handleCompleteCollectionAsset(coll)}
                 value={assetForm.values}
@@ -258,7 +258,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
             </Grid>
           </TabPanel>
           <TabPanel value={value} index={0}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Select
                   fullWidth
@@ -315,7 +315,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 label={
                   <FormattedMessage
@@ -337,7 +337,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               />
             </Grid>
           </TabPanel>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               label={
                 <FormattedMessage id="token.id" defaultMessage="Token ID" />
@@ -355,7 +355,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               }
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CompletationProvider
               onCompletation={(output: string) => {
                 assetForm.setFieldValue('title', output);
@@ -411,7 +411,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
             <Tab label="Your collections" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={value} index={1}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <CollectionItemAutocomplete
                 onChange={(coll) => handleCompleteCollection(coll)}
                 value={collectionForm.values}
@@ -419,7 +419,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
             </Grid>
           </TabPanel>
           <TabPanel value={value} index={0}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Select
                   fullWidth
@@ -477,7 +477,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 label={
                   <FormattedMessage
@@ -498,7 +498,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body2">
                 <FormattedMessage
                   id="background.image"
@@ -514,7 +514,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               </Button>
             </Grid>
           </TabPanel>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CompletationProvider
               onCompletation={(output: string) => {
                 collectionForm.setFieldValue('title', output);
@@ -541,7 +541,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               )}
             </CompletationProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CompletationProvider
               onCompletation={(output: string) => {
                 collectionForm.setFieldValue('subtitle', output);
@@ -570,7 +570,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               )}
             </CompletationProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth>
               <InputLabel>
                 <FormattedMessage id="variant" defaultMessage="Variant" />
@@ -593,7 +593,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControlLabel
               label={
                 <FormattedMessage id="featured" defaultMessage="Featured" />
@@ -609,7 +609,7 @@ export default function AddItemForm({ item, onCancel, onSubmit }: Props) {
           </Grid>
         </>
       )}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack direction="row" spacing={1} justifyContent="flex-end">
           <Button
             disabled={

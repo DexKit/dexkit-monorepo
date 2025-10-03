@@ -27,7 +27,7 @@ import {
   GetStaticPropsContext,
   NextPage,
 } from 'next';
-import { ChangeEvent, ReactNode, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { DEXKIT_DISCORD_SUPPORT_CHANNEL, WIZARD_DOCS_URL } from 'src/constants';
@@ -46,11 +46,11 @@ export const PageTemplateIndexPage: NextPage = () => {
 
   const lazySearch = useDebounce<string>(search, 500);
 
-  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, []);
 
-  const handleHrefDiscord = (chunks: any): ReactNode => (
+  const handleHrefDiscord = (chunks: any): React.ReactNode => (
     <a
       className="external_link"
       target="_blank"
@@ -61,7 +61,7 @@ export const PageTemplateIndexPage: NextPage = () => {
     </a>
   );
 
-  const handleHrefDocs = (chunks: any): ReactNode => (
+  const handleHrefDocs = (chunks: any): React.ReactNode => (
     <a
       className="external_link"
       target="_blank"

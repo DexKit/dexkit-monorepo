@@ -24,7 +24,7 @@ const Image = styled("img")(({ theme }) => ({
   width: "100%",
   aspectRatio: "1/1",
   objectFit: "cover",
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
   border: `1px solid ${theme.palette.grey[200]}`,
 
   backgroundColor: theme.palette.background.paper,
@@ -188,7 +188,7 @@ export default function ProductImagesDialog({
                       right: 0,
                       bottom: 0,
                       backgroundColor: "rgba(0,0,0, 0.5)",
-                      borderRadius: theme.shape.borderRadius / 2,
+                      borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       border: `1px solid ${theme.palette.grey[200]}`,
                     })}
                   />

@@ -64,9 +64,8 @@ export default function TeamWizardContainer({ site }: Props) {
         }}
         siteId={site?.id}
       />
-
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -93,11 +92,11 @@ export default function TeamWizardContainer({ site }: Props) {
           </Stack>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isMobile ? (
             <MobileButton
               variant="contained"
@@ -121,7 +120,7 @@ export default function TeamWizardContainer({ site }: Props) {
             </Button>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {site?.permissions && site.permissions.length > 0 ? (
             <Box sx={{ overflowX: isMobile ? 'hidden' : 'visible', width: '100%' }}>
               <PermissionsAccordionForm

@@ -64,7 +64,7 @@ export default function SwapFeeWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -90,11 +90,14 @@ export default function SwapFeeWizardContainer({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         <SwapFeesSection
           fee={swapFee}
           onSave={handleSaveSwapFee}
@@ -102,10 +105,10 @@ export default function SwapFeeWizardContainer({
           isMobile={isMobile}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"

@@ -105,11 +105,11 @@ export default function AddRankingFormDialog({
             handleClose();
           }}
         >
-          {({ submitForm, values, setFieldValue, isSubmitting, isValid }) => (
+          {({ submitForm, values, setFieldValue, isSubmitting, isValid }: any) => (
             <Form>
               <DialogContent sx={{ p: 4 }} dividers>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack spacing={2}>
                         <CompletationProvider
@@ -138,7 +138,7 @@ export default function AddRankingFormDialog({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack spacing={2}>
                         <CompletationProvider
@@ -172,7 +172,7 @@ export default function AddRankingFormDialog({
               </DialogContent>
 
               <DialogActions sx={{ px: 4, py: 2 }}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button color="primary" onClick={handleClose}>
                       <FormattedMessage id="cancel" defaultMessage="cancel" />

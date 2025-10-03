@@ -1,6 +1,9 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { createTheme, alpha, lighten, darken } from '@mui/material/styles';
 
-export default extendTheme({
+export default createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'class',
+  },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
   },
@@ -110,5 +113,9 @@ export default extendTheme({
         },
       },
     }
-  }
-});
+  },
+  // Add color manipulation functions for MUI v7
+  alpha,
+  lighten,
+  darken,
+} as any);

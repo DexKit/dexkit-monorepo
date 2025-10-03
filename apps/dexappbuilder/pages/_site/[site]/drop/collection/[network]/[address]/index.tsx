@@ -37,7 +37,7 @@ import {
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import MainLayout from 'src/components/layouts/main';
@@ -76,7 +76,7 @@ const CollectionPage: NextPage = () => {
 
   const { data: collection } = useCollection(address as string, chainId);
 
-  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSearch = (e: any) => {
     setSearch(e.target.value);
   };
 
@@ -135,7 +135,7 @@ const CollectionPage: NextPage = () => {
     <>
       <NextSeo title={collection?.name || ''} />
       {renderDrawer()}
-      <MainLayout disablePadding>
+      <MainLayout disablePadding isPreview={false}>
         <Grid container>
           {isDesktop && (
             <Grid item xs={12} sm={2}>
@@ -234,15 +234,13 @@ const CollectionPage: NextPage = () => {
                               search={search}
                             />
                           ) : (
-                            <Suspense fallback={<TableSkeleton rows={4} />}>
-                              <AssetList
-                                contractAddress={address as string}
-                                chainId={
-                                  NETWORK_FROM_SLUG(network as string)?.chainId
-                                }
-                                search={search}
-                              />
-                            </Suspense>
+                            <AssetList
+                              contractAddress={address as string}
+                              chainId={
+                                NETWORK_FROM_SLUG(network as string)?.chainId
+                              }
+                              search={search}
+                            />
                           )}
                         </AppErrorBoundary>
                       </NoSsr>

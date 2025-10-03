@@ -1,6 +1,5 @@
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
-  alpha,
   Badge,
   Box,
   Button,
@@ -9,6 +8,7 @@ import {
   DialogContent,
   DialogProps,
   Divider,
+  alpha,
   Stack,
   Tab,
   Tabs,
@@ -115,7 +115,7 @@ export default function NotificationsDialog({
             iconPosition="start"
             value="app"
             sx={{
-              borderRadius: (theme) => theme.shape.borderRadius / 2,
+              borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
               "&.Mui-selected": {
                 background: (theme) => alpha(theme.palette.primary.main, 0.1),
               },
@@ -146,7 +146,7 @@ export default function NotificationsDialog({
             iconPosition="start"
             label={<FormattedMessage id="commerce" defaultMessage="Commerce" />}
             sx={{
-              borderRadius: (theme) => theme.shape.borderRadius / 2,
+              borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
               "&.Mui-selected": {
                 background: (theme) => alpha(theme.palette.primary.main, 0.1),
               },

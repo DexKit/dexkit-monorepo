@@ -306,7 +306,7 @@ export function useGasPrice({
 
 
 export function useTransactionDialog() {
-  const updateTransactions = useUpdateAtom(transactionsAtom);
+  const updateTransactions = useUpdateAtom(transactionsAtom as any);
 
   const [isOpen, setDialogIsOpen] = useAtom(transactionDialogOpenAtom);
   const [hash, setHash] = useAtom(transactionDialogHashAtom);
@@ -323,30 +323,30 @@ export function useTransactionDialog() {
   const { chainId } = useWeb3React();
 
   const watch = useCallback((hash: string) => {
-    setHash(hash);
+    (setHash as any)(hash);
   }, []);
 
   const open = useCallback((type: string, values: Record<string, any>) => {
-    setDialogIsOpen(true);
-    setValues(values);
-    setType(type);
+    (setDialogIsOpen as any)(true);
+    ((setValues as any) as any)(values);
+    ((setType as any) as any)(type);
   }, []);
 
   const close = useCallback(() => {
-    setDialogIsOpen(false);
-    setType(undefined);
-    setValues(undefined);
+    (setDialogIsOpen as any)(false);
+    (setType as any)(undefined);
+    (setValues as any)(undefined);
   }, []);
 
   const showDialog = useCallback(
     (open: boolean, metadata?: TransactionMetadata, type?: TransactionType) => {
-      setDialogIsOpen(open);
-      setMetadata(metadata);
+      (setDialogIsOpen as any)(open);
+      (setMetadata as any)(metadata);
 
       if (!open) {
-        setHash(undefined);
-        setMetadata(undefined);
-        setType(undefined);
+        (setHash as any)(undefined);
+        (setMetadata as any)(undefined);
+        (setType as any)(undefined);
       }
     },
     []
@@ -355,16 +355,16 @@ export function useTransactionDialog() {
   const setDialogError = useCallback(
     (error?: Error) => {
       if (isOpen) {
-        setError(error);
+        (setError as any)(error);
       }
     },
-    [setError, isOpen]
+    [(setError as any), isOpen]
   );
 
   const addTransaction = useCallback(
     (hash: string, type: TransactionType, metadata?: TransactionMetadata) => {
       if (chainId !== undefined) {
-        setHash(hash);
+        (setHash as any)(hash);
 
         updateTransactions((txs) => ({
           ...txs,
@@ -387,21 +387,20 @@ export function useTransactionDialog() {
     open,
     close,
     redirectUrl,
-    setRedirectUrl,
+    setRedirectUrl: setRedirectUrl as any,
     error,
     hash,
     metadata,
     type,
-    setHash,
+    watch: (setHash as any),
     isOpen,
-    setDialogIsOpen,
-    setError,
-    setMetadata,
-    setType,
+    setDialogIsOpen: (setDialogIsOpen as any),
+    setError: (setError as any),
+    setMetadata: (setMetadata as any),
+    setType: (setType as any),
     showDialog,
     setDialogError,
     addTransaction,
-    watch,
   };
 }
 

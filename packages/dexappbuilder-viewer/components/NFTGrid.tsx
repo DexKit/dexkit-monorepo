@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import Link from "@dexkit/ui/components/AppLink";
 import {

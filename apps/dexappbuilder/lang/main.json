@@ -112,9 +112,6 @@
     "defaultMessage": "Accept",
     "description": "Accept"
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Access darkblock to get more information"
-  },
   "access.requirements": {
     "defaultMessage": "Access Requirements"
   },
@@ -1067,15 +1064,6 @@
   "dark": {
     "defaultMessage": "Dark"
   },
-  "darkblock": {
-    "defaultMessage": "Darkblock"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock is a decentralized protocol that allows content creators to publish and distribute exclusive content to their fans without the need for centralized token-gating platforms. This integration is utilized on the Asset page for the networks supported by Darkblock."
-  },
   "data": {
     "defaultMessage": "Data"
   },
@@ -1392,20 +1380,8 @@
   "empty.leaderboard": {
     "defaultMessage": "Empty leaderboard"
   },
-  "enable.darkblock": {
-    "defaultMessage": "Enable Darkblock Asset"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Enable Darkblock Collection"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Enable Darkblock on Asset page"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Enable Darkblock on Collection page"
-  },
   "enable.drop": {
-    "defaultMessage": "Enable Darkblock"
+    "defaultMessage": "Enable Drop"
   },
   "enable.fiat": {
     "defaultMessage": "Enable Fiat"

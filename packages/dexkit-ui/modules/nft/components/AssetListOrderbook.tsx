@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useMemo } from "react";

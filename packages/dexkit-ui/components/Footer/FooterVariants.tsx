@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Facebook from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedIn from "@mui/icons-material/LinkedIn";

@@ -7,7 +7,6 @@ import {
   CardActionArea,
   CardContent,
   Divider,
-  Grid,
   IconButton,
   InputAdornment,
   Menu,
@@ -30,6 +29,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -737,7 +737,7 @@ const GlassEvmWalletContainer = ({
   };
 
   const handleToggleTable = () => {
-    setIsTableVisible((value) => !value);
+    setIsTableVisible((value: any) => !value);
   };
 
   const handleOpenReceive = () => {
@@ -766,7 +766,7 @@ const GlassEvmWalletContainer = ({
     setIsImportDialogOpen(true);
   };
 
-  const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
+  const handleToggleImportAsset = () => setShowImportAsset((value: any) => !value);
 
   const handleCopy = () => {
     if (account) {
@@ -1159,7 +1159,7 @@ const GlassEvmWalletContainer = ({
               <TextField
                 size="small"
                 type="search"
-                onChange={(ev) => setSearch(ev.currentTarget.value)}
+                onChange={(ev: any) => setSearch(ev.currentTarget.value)}
                 fullWidth
                 InputProps={{
                   endAdornment: (
@@ -1281,36 +1281,8 @@ const GlassEvmWalletContainer = ({
           <Grid item xs={12}>
             {selectedNFTTab === NFTTabs.Collected && (
               <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Paper sx={{ p: 1 }}>
-                        <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h1">
-                            <FormattedMessage
-                              id="something.went.wrong"
-                              defaultMessage="Oops, something went wrong"
-                              description="Something went wrong error message"
-                            />
-                          </Typography>
-                          <Typography variant="body1" color="textSecondary">
-                            {String(error)}
-                          </Typography>
-                          <Button
-                            color="primary"
-                            onClick={resetErrorBoundary}
-                          >
-                            <FormattedMessage
-                              id="try.again"
-                              defaultMessage="Try again"
-                              description="Try again"
-                            />
-                          </Button>
-                        </Stack>
-                      </Paper>
-                    )}
-                  >
+                {({ reset }: any) => (
+                  <div>
                     <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
                       <GlassWalletAssetsSection
                         blurIntensity={blurIntensity}
@@ -1323,7 +1295,7 @@ const GlassEvmWalletContainer = ({
                         setFilters={setFilters}
                       />
                     </Suspense>
-                  </ErrorBoundary>
+                  </div>
                 )}
               </QueryErrorResetBoundary>
             )}
@@ -1342,36 +1314,8 @@ const GlassEvmWalletContainer = ({
 
             {selectedNFTTab === NFTTabs.Hidden && (
               <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Paper sx={{ p: 1 }}>
-                        <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h1">
-                            <FormattedMessage
-                              id="something.went.wrong"
-                              defaultMessage="Oops, something went wrong"
-                              description="Something went wrong error message"
-                            />
-                          </Typography>
-                          <Typography variant="body1" color="textSecondary">
-                            {String(error)}
-                          </Typography>
-                          <Button
-                            color="primary"
-                            onClick={resetErrorBoundary}
-                          >
-                            <FormattedMessage
-                              id="try.again"
-                              defaultMessage="Try again"
-                              description="Try again"
-                            />
-                          </Button>
-                        </Stack>
-                      </Paper>
-                    )}
-                  >
+                {({ reset }: any) => (
+                  <div>
                     <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
                       <GlassHiddenAssetsSection
                         blurIntensity={blurIntensity}
@@ -1382,7 +1326,7 @@ const GlassEvmWalletContainer = ({
                         onOpenFilters={() => { }}
                       />
                     </Suspense>
-                  </ErrorBoundary>
+                  </div>
                 )}
               </QueryErrorResetBoundary>
             )}
@@ -1538,8 +1482,8 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
 
   const filteredAssetList = useMemo(() => {
     return assets
-      .filter((asset) => !isHidden(asset))
-      .filter((asset) => {
+      .filter((asset: any) => !isHidden(asset))
+      .filter((asset: any) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -1549,7 +1493,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
             -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (props.filters?.myNfts) {
           return asset.owner === props.filters?.account;
         }
@@ -1604,7 +1548,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return filteredAssetList.map((asset: any, index: any) => (
       <GlassAssetCard
         asset={asset}
         key={index}
@@ -1916,7 +1860,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   const filteredAssetList = useMemo(() => {
     return assetList
       .filter(isHidden)
-      .filter((asset) => {
+      .filter((asset: any) => {
         return (
           asset?.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -1925,7 +1869,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
             -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (props.filters?.networks && props.filters?.networks.length) {
           return props.filters.networks.includes(
             getNetworkSlugFromChainId(asset?.chainId) || ""
@@ -1965,7 +1909,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return filteredAssetList.map((asset: any, index: any) => (
       <GlassAssetCard
         asset={asset}
         key={index}

@@ -1,3 +1,4 @@
+import { NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import { CollectionAppPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { Box, Card, Chip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -38,33 +39,39 @@ export function CollectionsMasonryVariant({ section, disabled }: Props) {
     <Box
       sx={{
         columnCount: { xs: isExtraSmall ? 1 : 2, sm: 2, md: 3, lg: 4 },
-        columnGap: { xs: isExtraSmall ? 1 : 1.5, sm: 2 },
+        columnGap: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 2.5 },
+        columnFill: 'balance',
         '& > *': {
           breakInside: 'avoid',
-          mb: { xs: isExtraSmall ? 1 : 1.5, sm: 2 },
+          mb: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 2.5 },
+          display: 'inline-block',
+          width: '100%'
         }
       }}
     >
       {allItems.map((item, index) => {
         if (item.type === "collection") {
-          const baseHeight = isExtraSmall ? 160 : isMobile ? 180 : 220;
-          const randomHeight = baseHeight + Math.floor(Math.random() * (isExtraSmall ? 60 : isMobile ? 80 : 120));
+          const heights = [200, 250, 300, 180, 220, 280, 240, 260];
+          const randomHeight = heights[index % heights.length];
+          
           return (
             <Card
               key={index}
-              elevation={2}
+              elevation={3}
               sx={{
                 position: 'relative',
-                overflow: isMobile ? 'visible' : 'hidden',
-                transition: 'transform 0.2s ease-in-out',
+                overflow: 'hidden',
+                transition: 'all 0.3s ease-in-out',
                 '&:hover': {
-                  transform: 'scale(1.02)',
+                  transform: 'translateY(-4px)',
+                  boxShadow: 6,
                 }
               }}
             >
               <Box
                 sx={{
-                  height: { xs: randomHeight * 0.85, sm: randomHeight * 0.9, md: randomHeight },
+                  height: '100%',
+                  minHeight: { xs: randomHeight * 0.8, sm: randomHeight * 0.85, md: randomHeight },
                   backgroundImage: `url(${item.backgroundImageUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
@@ -81,17 +88,35 @@ export function CollectionsMasonryVariant({ section, disabled }: Props) {
                   }
                 }}
               >
+                <Chip
+                  label={NETWORK_SLUG(item.chainId)?.toUpperCase()}
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    position: 'absolute',
+                    top: { xs: 6, sm: 8, md: 10 },
+                    right: { xs: 6, sm: 8, md: 10 },
+                    fontSize: { xs: '0.6rem', sm: '0.65rem', md: '0.7rem' },
+                    height: { xs: 18, sm: 20, md: 22 },
+                    backgroundColor: 'rgba(255,255,255,0.95)',
+                    color: 'rgba(0,0,0,0.8)',
+                    borderColor: 'rgba(0,0,0,0.2)',
+                    fontWeight: 'bold',
+                    zIndex: 3
+                  }}
+                />
+
                 {item.featured && (
                   <Chip
-                    label="★"
+                    label="Featured"
                     color="primary"
                     size="small"
                     sx={{
                       position: 'absolute',
-                      top: { xs: 6, sm: 8, md: 10 },
+                      top: { xs: 30, sm: 32, md: 34 },
                       right: { xs: 6, sm: 8, md: 10 },
-                      fontSize: { xs: '0.6rem', sm: '0.65rem', md: '0.75rem' },
-                      zIndex: 2
+                      fontSize: { xs: '0.6rem', sm: '0.65rem', md: '0.7rem' },
+                      zIndex: 4
                     }}
                   />
                 )}

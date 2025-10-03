@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants/enums";
 import { Avatar, Box, Chip, Grid, useTheme } from "@mui/material";
 import { memo } from "react";

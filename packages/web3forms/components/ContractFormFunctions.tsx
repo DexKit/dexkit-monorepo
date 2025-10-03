@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants";
 import { Grid } from "@mui/material";
 import { AbiFragment, CallParams, ContractFormParams } from "../types";

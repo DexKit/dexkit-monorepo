@@ -33,7 +33,7 @@ const TabPanel: React.FC<TabPanelProps> = ({
   contentFontSize = 16,
   contentFontColor,
   ...other
-}) => {
+}: any) => {
   return (
     <div
       role="tabpanel"
@@ -78,7 +78,7 @@ const TabPanel: React.FC<TabPanelProps> = ({
   );
 };
 
-const TabsSection: React.FC<TabsSectionProps> = ({ settings, className }) => {
+const TabsSection: React.FC<TabsSectionProps> = ({ settings, className }: any) => {
 
   const {
     tabs = [],
@@ -269,7 +269,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ settings, className }) => {
         }}
         {...tabsProps}
       >
-        {tabs.map((tab, index) => {
+        {tabs.map((tab: any, index: any) => {
           const icon = renderTabIcon(tab.icon);
           const label = renderTabLabel(tab.label, tab.wrapped);
 
@@ -374,7 +374,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ settings, className }) => {
           },
         }}
       >
-        {tabs.map((tab, index) => (
+        {tabs.map((tab: any, index: any) => (
           <TabPanel
             key={tab.id}
             value={activeTab}

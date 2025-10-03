@@ -55,16 +55,16 @@ export default function ContractNftDropContainer({
         isLazyMint
       />
       <Grid container spacing={isMobile ? 1 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <NFTDropSummary contract={contract} />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={isMobile ? 1 : 2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Tabs
                 value={currTab}
                 onChange={handleChange}
@@ -109,16 +109,16 @@ export default function ContractNftDropContainer({
               </Tabs>
             </Grid>
             {currTab === 'claim-conditions' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <ClaimConditionsContainer address={address} network={network} />
               </Grid>
             )}
             {currTab === 'nfts' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={isMobile ? 1 : 2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={isMobile ? 1 : 2}>
-                      <Grid item>
+                      <Grid>
                         <Button
                           onClick={handleMint}
                           variant="contained"
@@ -134,7 +134,7 @@ export default function ContractNftDropContainer({
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography
                       variant={isMobile ? "h6" : "h5"}
                       sx={{
@@ -145,7 +145,7 @@ export default function ContractNftDropContainer({
                       <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     {nftsQuery.data ? (
                       <NFTGrid
                         nfts={nftsQuery.data}
@@ -158,12 +158,12 @@ export default function ContractNftDropContainer({
               </Grid>
             )}
             {currTab === 'metadata' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <ContractMetadataTab address={address} />
               </Grid>
             )}
             {currTab === 'admin' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <ContractAdminTab address={address} />
               </Grid>
             )}

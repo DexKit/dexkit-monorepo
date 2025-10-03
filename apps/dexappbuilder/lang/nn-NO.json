@@ -1281,9 +1281,6 @@
     "defaultMessage": "Godta",
     "description": "Accept"
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Få tilgang til darkblock for å få mer informasjon"
-  },
   "access.requirements": {
     "defaultMessage": "Tilgangskrav"
   },
@@ -2076,15 +2073,6 @@
   "dark": {
     "defaultMessage": "Mørk"
   },
-  "darkblock": {
-    "defaultMessage": "Mørkeblokk"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock er et desentralisert protokoll som lar innholdsskapere publisere og distribuere eksklusivt innhold til sine fans uten behov for sentraliserte token-portplattformer. Denne integrasjonen brukes på Asset-siden for nettverkene som støttes av Darkblock."
-  },
   "data": {
     "defaultMessage": "Data"
   },
@@ -2375,18 +2363,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Tomt leaderboard"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Aktiver Darkblock-ressurs"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Aktiver Darkblock-samling"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Aktiver Darkblock på ressurssiden"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Aktiver Darkblock på samlingssiden"
   },
   "enable.drop": {
     "defaultMessage": "Aktiver Darkblock"

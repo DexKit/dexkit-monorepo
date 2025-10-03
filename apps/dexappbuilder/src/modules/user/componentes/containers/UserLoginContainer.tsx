@@ -33,7 +33,7 @@ export function UserLoginContainer() {
     <>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -62,10 +62,18 @@ export function UserLoginContainer() {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Stack direction={'row'} justifyContent={'space-between'}></Stack>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Stack spacing={2} alignContent={'center'} alignItems={'center'}>
               <Typography variant="h5">
                 <FormattedMessage id="login.app" defaultMessage="Login app" />

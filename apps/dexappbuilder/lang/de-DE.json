@@ -1200,9 +1200,6 @@
   "You.are.not.eligible.to.mint.at.this.time.": {
     "defaultMessage": "Sie sind momentan nicht berechtigt, Mintvorgänge durchzuführen."
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Zugriff auf Darkblock, um weitere Informationen zu erhalten"
-  },
   "access.requirements.message": {
     "defaultMessage": "Zugriffsanforderungen Meldung"
   },
@@ -1495,15 +1492,6 @@
   "csv.file.to.import.on.aidrop.contract": {
     "defaultMessage": "CSV-Datei, die in Airdrop-Verträge importiert werden soll"
   },
-  "darkblock": {
-    "defaultMessage": "Dunkelblock"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock ist ein dezentralisiertes Protokoll, das es Content-Erstellern ermöglicht, exklusive Inhalte für ihre Fans zu veröffentlichen und zu verteilen, ohne auf zentralisierte Token-Gating-Plattformen angewiesen zu sein. Diese Integration wird auf der Asset-Seite für die von Darkblock unterstützten Netzwerke genutzt."
-  },
   "default.currency": {
     "defaultMessage": "Standardwährung"
   },
@@ -1611,18 +1599,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Leere Bestenliste"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Darkblock Asset aktivieren"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Darkblock-Sammlung aktivieren"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Darkblock auf der Asset-Seite aktivieren"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Darkblock auf der Sammlungsseite aktivieren"
   },
   "enable.drop": {
     "defaultMessage": "Darkblock aktivieren"

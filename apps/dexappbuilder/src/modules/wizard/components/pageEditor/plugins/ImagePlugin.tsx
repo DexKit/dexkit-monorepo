@@ -21,7 +21,7 @@ type Data = {
 };
 
 // you can pass the shape of the data as the generic type argument
-const ImagePlugin: CellPlugin<Data> = {
+const ImagePlugin = {
   ...ImagePluginViewer,
   controls: [
     {
@@ -87,7 +87,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'string',
               title: 'Link to open image click',
               uniforms: {
-                showIf(data) {
+                showIf(data: any) {
                   return data.action === 'Open link';
                 },
               },
@@ -96,7 +96,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'string',
               uniforms: {
                 component: PagesPicker,
-                showIf(data) {
+                showIf(data: any) {
                   return data.action === 'Open page';
                 },
               },
@@ -105,7 +105,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'boolean',
               title: 'Open in new tab?',
               uniforms: {
-                showIf(data) {
+                showIf(data: any) {
                   return (
                     data.action == 'Open page' || data.action == 'Open link'
                   );
@@ -171,7 +171,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'string',
               title: 'Link to open image click',
               uniforms: {
-                showIf(data) {
+                showIf(data: any) {
                   return data.action === 'Open link';
                 },
               },
@@ -180,7 +180,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'string',
               uniforms: {
                 component: PagesPicker,
-                showIf(data) {
+                showIf(data: any) {
                   return data.action === 'Open page';
                 },
               },
@@ -189,7 +189,7 @@ const ImagePlugin: CellPlugin<Data> = {
               type: 'boolean',
               title: 'Open in new tab?',
               uniforms: {
-                showIf(data) {
+                showIf(data: any) {
                   return (
                     data.action == 'Open page' || data.action == 'Open link'
                   );

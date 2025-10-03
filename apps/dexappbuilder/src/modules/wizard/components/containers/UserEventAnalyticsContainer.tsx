@@ -199,15 +199,23 @@ function OnChainDataGrid({
       field: 'createdAt',
       headerName: 'Created At',
       minWidth: 200,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value: any, row: any) => {
+        if (!row || !row.createdAt) {
+          return 'N/A';
+        }
+        try {
+          return new Date(row.createdAt).toLocaleString();
+        } catch (error) {
+          console.error('Error formatting date in UserEventAnalyticsContainer:', error, 'Row:', row);
+          return 'Invalid Date';
+        }
       },
     },
     {
       field: 'type',
       headerName: 'Type',
       minWidth: 150,
-      valueGetter: ({ row }) => {
+      valueGetter: (value: any, row: any) => {
         return beautifyCamelCase(row.type);
       },
     },
@@ -215,7 +223,7 @@ function OnChainDataGrid({
       field: 'chainId',
       headerName: 'Network',
       minWidth: 110,
-      valueGetter: ({ row }) => {
+      valueGetter: (value: any, row: any) => {
         return NETWORK_NAME(row.chainId);
       },
     },
@@ -369,7 +377,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
         event={event}
       />
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -395,10 +403,10 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
               id={'add.ref.to.track.referrals'}
@@ -408,7 +416,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
             />
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -435,22 +443,30 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
               </Box>
               <TabPanel value="1">
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={2}>
                       <DexkitApiProvider.Provider
                         value={{ instance: myAppsApi }}
                       >
-                        <Grid item xs={12} sm={3}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 3
+                          }}>
                           <CountEventsCard
                             filters={filters}
                             disableDetails={filters.type !== ''}
                           />
                         </Grid>
-                        <Grid item xs={12} sm={3}>
+                        <Grid
+                          size={{
+                            xs: 12,
+                            sm: 3
+                          }}>
                           <CountAccountsCard filters={filters} />
                         </Grid>
                         {filters.type !== '' && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Accordion>
                               <AccordionSummary expandIcon={<ExpandMore />}>
                                 <Typography>
@@ -464,17 +480,29 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                               <AccordionDetails sx={{ py: 2 }}>
                                 <Grid container spacing={2}>
                                   {filters.type === UserOnChainEvents.swap && (
-                                    <Grid item xs={12} sm={4}>
+                                    <Grid
+                                      size={{
+                                        xs: 12,
+                                        sm: 4
+                                      }}>
                                       <CountFeesCard filters={filters} />
                                     </Grid>
                                   )}
                                   {filters.type ===
                                     UserOnChainEvents.buyDropCollection && (
                                     <>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountNftDropsCard filters={filters} />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountNftDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -506,7 +534,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                         />
                                       </Grid>
 
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountNftDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -537,7 +569,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountNftDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -568,7 +604,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountNftDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -604,12 +644,20 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                   {filters.type ===
                                     UserOnChainEvents.buyDropEdition && (
                                     <>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsCard
                                           filters={filters}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -640,7 +688,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -671,7 +723,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -702,7 +758,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -733,7 +793,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -769,7 +833,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                   {filters.type ===
                                     UserOnChainEvents.buyDropToken && (
                                     <>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountTokenDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -803,7 +871,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountTokenDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -837,7 +909,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountTokenDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -871,7 +947,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountTokenDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -910,12 +990,20 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                   {filters.type ===
                                     UserOnChainEvents.buyDropEdition && (
                                     <>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsCard
                                           filters={filters}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -946,7 +1034,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -977,7 +1069,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -1008,7 +1104,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -1039,7 +1139,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           }}
                                         />
                                       </Grid>
-                                      <Grid item xs={12} sm={4}>
+                                      <Grid
+                                        size={{
+                                          xs: 12,
+                                          sm: 4
+                                        }}>
                                         <CountEditionDropsByGroupCard
                                           title={
                                             <FormattedMessage
@@ -1078,7 +1182,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                           </Grid>
                         )}
                       </DexkitApiProvider.Provider>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Box>
                           <Formik
                             initialValues={DEFAULT_VALUES}
@@ -1097,7 +1201,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                               errors,
                               touched,
                               resetForm,
-                            }) => (
+                            }: any) => (
                               <>
                                 <ChangeListener
                                   isValid={isValid}
@@ -1107,7 +1211,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                   values={values}
                                 />
                                 <Grid container spacing={2}>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <FormControl fullWidth>
                                       <Field
                                         fullWidth
@@ -1145,7 +1253,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                       </Field>
                                     </FormControl>
                                   </Grid>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <DateTimePicker
                                       label={
                                         <FormattedMessage
@@ -1162,12 +1274,16 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           );
                                         }
                                       }}
-                                      renderInput={(props) => (
+                                      renderInput={(props: any) => (
                                         <MuiTextField {...props} fullWidth />
                                       )}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <DateTimePicker
                                       label={
                                         <FormattedMessage
@@ -1181,12 +1297,16 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                           setFieldValue('end', value?.format());
                                         }
                                       }}
-                                      renderInput={(props) => (
+                                      renderInput={(props: any) => (
                                         <MuiTextField {...props} fullWidth />
                                       )}
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <FormControl fullWidth>
                                       <Field
                                         component={Select}
@@ -1278,7 +1398,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                       </Field>
                                     </FormControl>
                                   </Grid>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <Field
                                       component={TextField}
                                       name="referral"
@@ -1297,7 +1421,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                       fullWidth
                                     />
                                   </Grid>
-                                  <Grid item xs={12} sm={4}>
+                                  <Grid
+                                    size={{
+                                      xs: 12,
+                                      sm: 4
+                                    }}>
                                     <Field
                                       component={TextField}
                                       name="from"
@@ -1310,7 +1438,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                       fullWidth
                                     />
                                   </Grid>
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <Box>
                                       <Stack
                                         spacing={2}
@@ -1353,7 +1481,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     {filters.type === '' ? (
                       <OnChainDataGrid
                         siteId={siteId}
@@ -1374,7 +1502,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                 </Grid>
               </TabPanel>
               <TabPanel value="2">
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Formik
                       initialValues={DEFAULT_VALUES}
@@ -1391,7 +1519,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                         errors,
                         touched,
                         resetForm,
-                      }) => (
+                      }: any) => (
                         <>
                           <ChangeListener
                             isValid={isValid}
@@ -1401,7 +1529,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                             values={values}
                           />
                           <Grid container spacing={2}>
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <FormControl fullWidth>
                                 <Field
                                   fullWidth
@@ -1433,7 +1565,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                 </Field>
                               </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <DateTimePicker
                                 label={
                                   <FormattedMessage
@@ -1447,12 +1583,16 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                     setFieldValue('start', value?.format());
                                   }
                                 }}
-                                renderInput={(props) => (
+                                renderInput={(props: any) => (
                                   <MuiTextField {...props} fullWidth />
                                 )}
                               />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <DateTimePicker
                                 label={
                                   <FormattedMessage
@@ -1466,13 +1606,17 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                     setFieldValue('end', value?.format());
                                   }
                                 }}
-                                renderInput={(props) => (
+                                renderInput={(props: any) => (
                                   <MuiTextField {...props} fullWidth />
                                 )}
                               />
                             </Grid>
 
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <Field
                                 component={TextField}
                                 name="referral"
@@ -1488,7 +1632,11 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                 fullWidth
                               />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid
+                              size={{
+                                xs: 12,
+                                sm: 4
+                              }}>
                               <Field
                                 component={TextField}
                                 name="from"
@@ -1501,7 +1649,7 @@ export default function UserEventAnalyticsContainer({ siteId }: Props) {
                                 fullWidth
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Box>
                                 <Stack
                                   spacing={2}

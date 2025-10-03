@@ -72,7 +72,7 @@ function OrderRightSection({ order }: Props) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const token = useMemo(() => {
-    return tokens.find((t) => isAddressEqual(t.address, order?.erc20Token));
+    return tokens.find((t: any) => isAddressEqual(t.address, order?.erc20Token));
   }, [tokens, order]);
 
   const { createNotification, watchTransactionDialog } = useDexKitContext();

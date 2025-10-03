@@ -9,7 +9,7 @@ export default function StoreForm() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControlLabel
           control={<Field component={Checkbox} name="params.emailRequired" />}
           label={

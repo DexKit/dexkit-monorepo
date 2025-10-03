@@ -1,11 +1,11 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_CHECKOUT_QUERY = 'GET_CHECKOUT_QUERY';
 
 export default function useCheckout(params: { id?: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery(
     [GET_CHECKOUT_QUERY, params],
@@ -18,7 +18,7 @@ export default function useCheckout(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/checkouts/${params.id}`))
+      return (await (instance as any).get(`/checkouts/${params.id}`))
         .data;
     },
     {

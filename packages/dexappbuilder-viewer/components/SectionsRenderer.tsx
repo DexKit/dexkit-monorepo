@@ -13,7 +13,6 @@ import {
   Tab,
   Tabs,
   Typography,
-  alpha,
   useTheme,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -65,8 +64,8 @@ function BottomNavAction({
         p: 2,
         width: "100%",
         height: "100%",
-        backgroundColor: (theme) =>
-          active ? alpha(theme.palette.primary.main, 0.05) : undefined,
+        backgroundColor: (theme: any) =>
+          active ? theme.alpha(theme.palette.primary.main, 0.05) : undefined,
       }}
     >
       <Stack alignItems="center" spacing={1}>
@@ -109,35 +108,9 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
     }
 
     return (
-      <ErrorBoundary
-        key={key}
-        fallbackRender={({ error, resetErrorBoundary }) => (
-          <Stack justifyContent="center" alignItems="center">
-            <Typography variant="h6">
-              <FormattedMessage
-                id="something.went.wrong.with.section.type.contact.support"
-                defaultMessage="Oops, something went wrong with section type {sectionType}. Contact support"
-                description="Something went wrong error message"
-                values={{
-                  sectionType: section?.type || " ",
-                }}
-              />
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {String(error)}
-            </Typography>
-            <Button color="primary" onClick={resetErrorBoundary}>
-              <FormattedMessage
-                id="try.again"
-                defaultMessage="Try again"
-                description="Try again"
-              />
-            </Button>
-          </Stack>
-        )}
-      >
+      <div key={key}>
         <SectionRender section={section} useLazy={key > 2} />
-      </ErrorBoundary>
+      </div>
     );
   });
 
@@ -301,13 +274,17 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
       <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile, editable, onLayoutChange }}>
         <TabContext value={tab}>
           <Box>
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                sm={
-                  !isMobile && layout.layout?.desktop?.position === "side" ? 3 : 12
-                }
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: layout.layout?.desktop?.position === "side" ? 'row' : 'column' },
+                gap: 2
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: '100%', sm: !isMobile && layout.layout?.desktop?.position === "side" ? '25%' : '100%' }
+                }}
               >
                 <Tabs
                   centered
@@ -327,17 +304,15 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
                 >
                   {isMobile ? renderMobileTabs() : renderDesktopTabs()}
                 </Tabs>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={
-                  !isMobile && layout.layout?.desktop?.position === "side" ? 9 : 12
-                }
+              </Box>
+              <Box
+                sx={{
+                  width: { xs: '100%', sm: !isMobile && layout.layout?.desktop?.position === "side" ? '75%' : '100%' }
+                }}
               >
                 {renderPanels()}
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Box>
         </TabContext>
       </PreviewPlatformContext.Provider>
@@ -346,7 +321,20 @@ export function SectionsRenderer({ sections, layout, previewPlatform, editable, 
 
   return (
     <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile, editable, onLayoutChange }}>
-      {sectionsToRender}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: theme.spacing(3),
+          width: '100%',
+          minHeight: '100%',
+          '& > div': {
+            width: '100%'
+          }
+        }}
+      >
+        {sectionsToRender}
+      </Box>
     </PreviewPlatformContext.Provider>
   );
 }

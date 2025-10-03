@@ -1,7 +1,7 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { GridSortModel } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_CHECKOUT_LIST = 'GET_CHECKOUT_LIST';
 
@@ -11,7 +11,7 @@ export default function useCheckoutList(params: {
   q?: string;
   sortModel?: GridSortModel;
 }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery(
     [GET_CHECKOUT_LIST, params],
@@ -29,7 +29,7 @@ export default function useCheckoutList(params: {
       delete newParams['sortModel'];
 
       return (
-        await instance.get/*<{
+        await (instance as any).get/*<{
           items: CheckoutFormType[];
           totalItems: number;
           totalPages: number;

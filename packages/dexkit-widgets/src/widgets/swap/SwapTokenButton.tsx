@@ -1,13 +1,5 @@
 import LockIcon from '@mui/icons-material/Lock';
-import {
-  Avatar,
-  ButtonBase,
-  ButtonBaseProps,
-  lighten,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, ButtonBase, ButtonBaseProps, Stack, Typography, useTheme } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -65,10 +57,10 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
         <ButtonBase
           {...ButtonBaseProps}
           sx={{
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: (theme.shape.borderRadius as any) / 2,
             p: 1,
             border: `1px solid ${theme.palette.mode === "dark"
-              ? lighten(theme.palette.divider, 0.2)
+              ? theme.lighten(theme.palette.divider, 0.2)
               : theme.palette.divider
               }`,
             opacity: locked ? 0.5 : 1,

@@ -29,7 +29,7 @@ export default function DurationSelect({
   return (
     <FormControl fullWidth>
       <InputLabel>{SelectProps?.label}</InputLabel>
-      <Select onChange={handleChange} value={value} {...SelectProps} fullWidth>
+      <Select onChange={handleChange} value={value} {...(SelectProps as any)} fullWidth>
         {ORDER_LIMIT_DURATIONS.map((duration, key) => (
           <MenuItem key={key} value={duration.value}>
             <FormattedMessage

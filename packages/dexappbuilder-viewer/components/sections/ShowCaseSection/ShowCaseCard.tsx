@@ -549,33 +549,49 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
   };
 
   if (item.type === "image") {
+    const hasValidLink = item.actionType && item?.actionType === "link" && item?.url;
+    const hasValidPage = item.actionType && item.actionType === "page" && item?.page;
+    const href = hasValidLink ? item.url : hasValidPage ? item?.page : null;
+
     return (
       <Card sx={getCardStyles()}>
-        <CardActionArea
-          LinkComponent={Link}
-          href={
-            item.actionType && item?.actionType === "link" && item?.url
-              ? item.url
-              : item.actionType && item.actionType === "page" && item?.page
-                ? item?.page
-                : ""
-          }
-          sx={getHoverStyles()}
-        >
-          {item.imageUrl ? (
-            renderEnhancedImage(item.imageUrl)
-          ) : (
-            <Skeleton
-              variant="rectangular"
-              sx={{
-                aspectRatio: "1/1",
-                display: "block",
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          )}
-        </CardActionArea>
+        {href ? (
+          <CardActionArea
+            LinkComponent={Link}
+            href={href}
+            sx={getHoverStyles()}
+          >
+            {item.imageUrl ? (
+              renderEnhancedImage(item.imageUrl)
+            ) : (
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  aspectRatio: "1/1",
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+          </CardActionArea>
+        ) : (
+          <Box sx={getHoverStyles()}>
+            {item.imageUrl ? (
+              renderEnhancedImage(item.imageUrl)
+            ) : (
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  aspectRatio: "1/1",
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+          </Box>
+        )}
         <Divider />
         {(item?.title || item?.subtitle) && (item.showTextBelow !== false) && (
           <CardContent sx={{

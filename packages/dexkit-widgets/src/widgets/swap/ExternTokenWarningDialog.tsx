@@ -62,7 +62,7 @@ export default function ExternTokenWarningDialog({
           </Box>
         </Stack>
       </DialogContent>
-      <DialogActions onClick={handleClose} sx={{ px: 4, py: 1 }}>
+      <DialogActions {...({ onClick: handleClose } as any)} sx={{ px: 4, py: 1 }}>
         <Button>
           <FormattedMessage id="cancel" defaultMessage="cancel" />
         </Button>

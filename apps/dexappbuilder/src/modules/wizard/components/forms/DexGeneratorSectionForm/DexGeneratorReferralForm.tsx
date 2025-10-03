@@ -114,7 +114,7 @@ export default function DexGeneratorReferralForm({
       onSubmit={() => {}}
       enableReinitialize
     >
-      {({ values, setFieldValue }) => {
+      {({ values, setFieldValue }: any) => {
         const handleChange =
           (field: string) =>
           (
@@ -161,18 +161,18 @@ export default function DexGeneratorReferralForm({
 
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label={<FormattedMessage id="title" defaultMessage="Title" />}
                 name="title"
                 value={values.title}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   handleChange('title')(e);
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label={
@@ -180,12 +180,12 @@ export default function DexGeneratorReferralForm({
                 }
                 name="subtitle"
                 value={values.subtitle}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   handleChange('subtitle')(e);
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControlLabel
                 control={
                   <Switch
@@ -202,8 +202,7 @@ export default function DexGeneratorReferralForm({
                 }
               />
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControlLabel
                 control={
                   <Switch
@@ -220,8 +219,7 @@ export default function DexGeneratorReferralForm({
                 }
               />
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="subtitle1" gutterBottom>
                 <FormattedMessage
@@ -236,11 +234,10 @@ export default function DexGeneratorReferralForm({
                 />
               </Typography>
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Paper variant="outlined" sx={{ p: 2 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <InputLabel id="leaderboard-select-label">
                         <FormattedMessage

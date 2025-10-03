@@ -127,7 +127,7 @@ export default function CollectionsSectionForm({
         }}
       />
       <Grid container spacing={isMobile ? 1.5 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl required fullWidth size={isMobile ? "small" : "medium"}>
             <InputLabel sx={{ fontSize: isMobile ? "0.875rem" : undefined }}>
               <FormattedMessage id="chainId" defaultMessage="Chain ID" />
@@ -206,7 +206,7 @@ export default function CollectionsSectionForm({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             required
             name="contractAddress"
@@ -243,7 +243,7 @@ export default function CollectionsSectionForm({
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             required
             name="name"
@@ -274,7 +274,7 @@ export default function CollectionsSectionForm({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
             <FormattedMessage
               id="collection.image"
@@ -294,7 +294,7 @@ export default function CollectionsSectionForm({
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant={isMobile ? "body2" : "body1"} sx={{ mb: 1 }}>
             <FormattedMessage
               id="background.image"
@@ -314,7 +314,7 @@ export default function CollectionsSectionForm({
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             name="description"
             onChange={formik.handleChange}
@@ -341,7 +341,7 @@ export default function CollectionsSectionForm({
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             name="uri"
             onChange={formik.handleChange}
@@ -361,12 +361,12 @@ export default function CollectionsSectionForm({
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             control={
               <Switch
                 checked={formik.values.disableSecondarySells}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   formik.setFieldValue(
                     'disableSecondarySells',
                     e.target.checked,
@@ -386,7 +386,7 @@ export default function CollectionsSectionForm({
             }
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={1} direction="row" justifyContent="flex-end">
             <Button
               disabled={!formik.isValid}

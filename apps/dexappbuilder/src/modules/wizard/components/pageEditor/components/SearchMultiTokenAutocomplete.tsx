@@ -42,7 +42,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
   });
 
   const options = useMemo(() => {
-    return tokensQuery.tokens.sort((a, b) => {
+    return tokensQuery.tokens.sort((a: any, b: any) => {
       return a.name.localeCompare(b.name);
     });
   }, [tokensQuery.tokens]);
@@ -78,7 +78,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
                 defaultMessage: 'Search tokens',
               })
           }
-          onChange={(ev) => setSearch(ev.currentTarget.value)}
+          onChange={(ev: any) => setSearch(ev.currentTarget.value)}
           sx={{
             '& .MuiInputBase-input': {
               fontSize: isMobile ? theme.typography.body2.fontSize : undefined

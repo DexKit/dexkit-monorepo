@@ -3,20 +3,40 @@ import { FormattedMessage } from 'react-intl';
 
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
 import CreditsDataGrid from './tables/CreditsDataGrid';
+import { useIsMobile } from '@dexkit/ui/hooks/misc';
 
 export default function CreditSection() {
+  const isMobile = useIsMobile();
+
   return (
     <>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" sx={{
+        fontSize: isMobile ? '1.1rem' : '1.25rem',
+        mb: 2
+      }}>
         <FormattedMessage id="credit.history" defaultMessage="Credit History" />
       </Typography>
-      <Card>
-        <CardContent>
+      <Card sx={{
+        overflow: 'hidden',
+        '& .MuiCardContent-root': {
+          padding: isMobile ? 1 : 2
+        }
+      }}>
+        <CardContent sx={{
+          '& button': {
+            width: isMobile ? '100%' : 'auto'
+          }
+        }}>
           <AddCreditsButton />
         </CardContent>
         <Divider />
         <CardContent>
-          <Alert severity="info">
+          <Alert severity="info" sx={{
+            fontSize: isMobile ? '0.8rem' : '0.875rem',
+            '& .MuiAlert-message': {
+              lineHeight: isMobile ? 1.3 : 1.4
+            }
+          }}>
             <FormattedMessage
               id="credits.expire.oneYear"
               defaultMessage="Your added credits will expire one year from the date of addition. Please utilize them before expiry."
@@ -24,62 +44,7 @@ export default function CreditSection() {
           </Alert>
         </CardContent>
         <Divider />
-        {/* <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <FormattedMessage id="status" defaultMessage="Status" />
-              </TableCell>
-              <TableCell>
-                <FormattedMessage id="Created" defaultMessage="Created" />
-              </TableCell>
-              <TableCell>
-                <FormattedMessage id="amount" defaultMessage="Amount" />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {credits?.map((credit: any, index: number) => (
-              <TableRow key={index}>
-                <TableCell>
-                  {credit.enabled ? (
-                    <Chip
-                      size="small"
-                      color="success"
-                      variant="outlined"
-                      label={formatMessage({
-                        id: 'credited',
-                        defaultMessage: 'Credited',
-                      })}
-                    />
-                  ) : (
-                    <Chip
-                      size="small"
-                      color="warning"
-                      variant="outlined"
-                      label={formatMessage({
-                        id: 'payment.pending',
-                        defaultMessage: 'Payment Pending',
-                      })}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {moment(credit.createdAt).format('DD/MM/YYYY hh:mm:ss')}
-                </TableCell>
-                <TableCell>
-                  <FormattedNumber
-                    style="currency"
-                    currency="USD"
-                    value={new Decimal(credit.amount).toNumber()}
-                    minimumFractionDigits={4}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>*/}
-        <CreditsDataGrid></CreditsDataGrid>
+        <CreditsDataGrid />
       </Card>
     </>
   );

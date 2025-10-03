@@ -176,7 +176,7 @@ export default function SocialWizardContainer({
         onSave(config);
       }}
     >
-      {({ submitForm, values, setFieldValue, isValid, dirty }) => (
+      {({ submitForm, values, setFieldValue, isValid, dirty }: any) => (
         <Form>
           <OnChangeListener
             values={values}
@@ -197,7 +197,7 @@ export default function SocialWizardContainer({
                   setMediaFieldToEdit(undefined);
                 },
               }}
-              onConfirmSelectFile={(file) => {
+              onConfirmSelectFile={(file: any) => {
                 if (mediaFieldToEdit && file) {
                   setFieldValue(mediaFieldToEdit, file.url);
                   /*if (onChange) {
@@ -212,7 +212,7 @@ export default function SocialWizardContainer({
           <Grid container spacing={isMobile ? 1.5 : 3}>
             {!isTabContext && (
               <>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
                     <Typography
                       variant={isMobile ? 'h6' : 'h5'}
@@ -241,13 +241,13 @@ export default function SocialWizardContainer({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
               </>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="instagram"
@@ -266,7 +266,7 @@ export default function SocialWizardContainer({
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="twitter"
@@ -285,7 +285,7 @@ export default function SocialWizardContainer({
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="youtube"
@@ -304,7 +304,7 @@ export default function SocialWizardContainer({
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="linkedin"
@@ -323,7 +323,7 @@ export default function SocialWizardContainer({
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="facebook"
@@ -343,7 +343,7 @@ export default function SocialWizardContainer({
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="reddit"
@@ -361,12 +361,12 @@ export default function SocialWizardContainer({
             </Grid>
             <FieldArray
               name="custom"
-              render={(arrayHelpers) => (
+              render={(arrayHelpers: any) => (
                 <Box p={2}>
                   <Stack spacing={2}>
                     {values.custom &&
                       values.custom.length > 0 &&
-                      values.custom.map((media, index) => (
+                      values.custom.map((media: any, index: any) => (
                         <Stack key={index} spacing={1} direction={'row'}>
                           <Button
                             onClick={() => {
@@ -449,10 +449,10 @@ export default function SocialWizardContainer({
               />
               </Grid>*/}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={1} direction="row" justifyContent="flex-end">
                 <Button
                   disabled={!dirty}

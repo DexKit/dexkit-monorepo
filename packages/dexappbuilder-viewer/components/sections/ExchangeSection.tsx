@@ -1,7 +1,7 @@
 import TradingGraph from "@dexkit/exchange/components/TradingGraph";
 import { GET_GECKOTERMINAL_NETWORK } from "@dexkit/exchange/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Avatar, Box, ButtonBase, Container, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, ButtonBase, Container, Grid, Typography, useMediaQuery, useTheme, useColorScheme } from "@mui/material";
 import { usePreviewPlatform } from "../SectionsRenderer";
 
 import {
@@ -22,12 +22,14 @@ import { ExchangePageSection } from "@dexkit/ui/modules/wizard/types/section";
 
 function ExchangeSection() {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const exchangeState = useExchangeContext();
   const previewContext = usePreviewPlatform();
   const { chainId, account, signer } = exchangeState;
   const { isActive } = useWeb3React();
   const [open, setOpen] = useState(false);
+  const isDarkMode = mode === 'dark';
 
   const getContrastColor = (backgroundColor: string): string => {
     if (!backgroundColor) return '#000000';
@@ -80,7 +82,7 @@ function ExchangeSection() {
   }, [geckoTerminalTopPoolsQuery.data]);
 
   const selectedPool = useMemo(() => {
-    return pools.find((pool) =>
+    return pools.find((pool: any) =>
       isAddressEqual(pool.attributes.address, selectedAddress)
     );
   }, [selectedAddress, pools]);
@@ -97,7 +99,7 @@ function ExchangeSection() {
         const baseSymbol = exchangeState.baseToken.symbol.toUpperCase();
         const quoteSymbol = exchangeState.quoteToken.symbol.toUpperCase();
 
-        const exactMatch = pools.find(pool => {
+        const exactMatch = pools.find((pool: any) => {
           const poolName = pool.attributes.name.toUpperCase();
           return poolName.includes(baseSymbol) && poolName.includes(quoteSymbol);
         });
@@ -125,7 +127,7 @@ function ExchangeSection() {
         <Container maxWidth="xl">
           <Grid container spacing={2}>
             {exchangeState.quoteToken && exchangeState.baseToken && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <PairInfo
                   quoteToken={exchangeState.quoteToken}
                   baseToken={exchangeState.baseToken}
@@ -144,12 +146,12 @@ function ExchangeSection() {
                 />
               </Grid>
             )}
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <TradeWidget isActive={true} />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TradingGraph
                     key={selectedAddress}
                     isLoading={isLoadingPool}
@@ -157,7 +159,7 @@ function ExchangeSection() {
                     onChangeShowSwaps={handleChangeShowSwap}
                     selectedPool={selectedAddress}
                     network={network}
-                    pools={pools.map((pool) => ({
+                    pools={pools.map((pool: any) => ({
                       name: pool.attributes.name,
                       address: pool.attributes.address,
                     }))}
@@ -174,7 +176,7 @@ function ExchangeSection() {
     return (
       <Grid container spacing={2}>
         {exchangeState.quoteToken && exchangeState.baseToken && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PairInfo
               quoteToken={exchangeState.quoteToken}
               baseToken={exchangeState.baseToken}
@@ -193,12 +195,12 @@ function ExchangeSection() {
             />
           </Grid>
         )}
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <TradeWidget isActive={true} />
         </Grid>
-        <Grid item xs={12} sm={8}>
+        <Grid size={{ xs: 12, sm: 8 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TradingGraph
                 key={selectedAddress}
                 isLoading={isLoadingPool}
@@ -206,7 +208,7 @@ function ExchangeSection() {
                 onChangeShowSwaps={handleChangeShowSwap}
                 selectedPool={selectedAddress}
                 network={network}
-                pools={pools.map((pool) => ({
+                pools={pools.map((pool: any) => ({
                   name: pool.attributes.name,
                   address: pool.attributes.address,
                 }))}
@@ -594,7 +596,7 @@ function ExchangeSection() {
       }
 
       return (
-        <Grid item xs={12} key="pairInfo">
+        <Grid size={12} key="pairInfo">
           {content}
         </Grid>
       );
@@ -661,7 +663,7 @@ function ExchangeSection() {
       }
 
       return (
-        <Grid item xs={12} md={showTradingGraph ? 6 : 12} lg={showTradingGraph ? 5 : 12} key="tradeWidget">
+        <Grid size={{ xs: 12, md: showTradingGraph ? 6 : 12, lg: showTradingGraph ? 5 : 12 }} key="tradeWidget">
           {content}
         </Grid>
       );
@@ -691,7 +693,7 @@ function ExchangeSection() {
             onChangeShowSwaps={handleChangeShowSwap}
             selectedPool={selectedAddress}
             network={network}
-            pools={pools.map((pool) => ({
+            pools={pools.map((pool: any) => ({
               name: pool.attributes.name,
               address: pool.attributes.address,
             }))}
@@ -706,7 +708,7 @@ function ExchangeSection() {
       }
 
       return (
-        <Grid item xs={12} md={showTradeWidget ? 6 : 12} lg={showTradeWidget ? 7 : 12} key="tradingGraph">
+        <Grid size={{ xs: 12, md: showTradeWidget ? 6 : 12, lg: showTradeWidget ? 7 : 12 }} key="tradingGraph">
           {content}
         </Grid>
       );
@@ -781,7 +783,7 @@ function ExchangeSection() {
           {componentOrder.map((componentType: string) => {
             if (componentType === 'pairInfo') {
               return (
-                <Grid item xs={12} key={componentType}>
+                <Grid size={12} key={componentType}>
                   {renderComponentByType(componentType, true)}
                 </Grid>
               );
@@ -1150,7 +1152,7 @@ function ExchangeSection() {
         >
           <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
             {exchangeState.quoteToken && exchangeState.baseToken && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box sx={pairInfoStyles} id="glass-pair-info-unique">
                   <PairInfo
                     quoteToken={exchangeState.quoteToken}
@@ -1171,12 +1173,12 @@ function ExchangeSection() {
                 </Box>
               </Grid>
             )}
-            <Grid item xs={12} md={5} order={{ xs: 1, md: 1 }}>
+            <Grid size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 1 }}>
               <Box sx={tradeWidgetStyles}>
                 <TradeWidget isActive={true} />
               </Box>
             </Grid>
-            <Grid item xs={12} md={7} order={{ xs: 2, md: 2 }}>
+            <Grid size={{ xs: 12, md: 7 }} order={{ xs: 2, md: 2 }}>
               <Box sx={tradingGraphStyles}>
                 <TradingGraph
                   key={selectedAddress}
@@ -1185,7 +1187,7 @@ function ExchangeSection() {
                   onChangeShowSwaps={handleChangeShowSwap}
                   selectedPool={selectedAddress}
                   network={network}
-                  pools={pools.map((pool) => ({
+                  pools={pools.map((pool: any) => ({
                     name: pool.attributes.name,
                     address: pool.attributes.address,
                   }))}

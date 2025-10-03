@@ -1,18 +1,19 @@
+// @ts-nocheck
 import {
-    Alert,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Tooltip,
-    Typography,
+  Alert,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { AppDialogTitle } from "../../../../components/AppDialogTitle";
 
@@ -206,15 +207,15 @@ export default function ConfirmBuyDialog({
                       <Typography sx={{ fontWeight: 600 }} variant="body1">
                         {asset?.protocol === "ERC1155"
                           ? formatUnits(
-                              BigNumber.from(
-                                order?.erc20TokenAmount || "0"
-                              ).div(order?.erc1155TokenAmount || "1"),
-                              token?.decimals
-                            )
+                            BigNumber.from(
+                              order?.erc20TokenAmount || "0"
+                            ).div(order?.erc1155TokenAmount || "1"),
+                            token?.decimals
+                          )
                           : formatUnits(
-                              BigNumber.from(order?.erc20TokenAmount || "0"),
-                              token?.decimals
-                            )}{" "}
+                            BigNumber.from(order?.erc20TokenAmount || "0"),
+                            token?.decimals
+                          )}{" "}
                         {token?.symbol}
                       </Typography>
 

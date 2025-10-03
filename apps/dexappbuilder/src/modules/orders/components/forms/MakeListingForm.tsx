@@ -79,7 +79,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
     if (form.isValid) {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
+      const decimals = tokenList.find((t: any) => t.address === values.tokenAddress)
         ?.decimals;
 
       if (!isValidDecimal(values.price, decimals || 0)) {
@@ -117,7 +117,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
   });
 
   const tokenSelected = useMemo(() => {
-    const tokenIndex = tokenList.findIndex((t) =>
+    const tokenIndex = tokenList.findIndex((t: any) =>
       isAddressEqual(t.address, form.values.tokenAddress),
     );
 
@@ -141,9 +141,13 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
   return (
     <form onSubmit={form.handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth variant="outlined">
                 <Select
                   fullWidth
@@ -191,7 +195,11 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <TextField
                 disabled={tokenSelected === undefined}
                 value={form.values.price}
@@ -213,13 +221,13 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <DurationSelect
             label={<FormattedMessage id="expiry" defaultMessage="Expiry" />}
             onChange={handleChangeExpiryDuration}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography variant="inherit" sx={{ fontWeight: 600 }}>
@@ -262,7 +270,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
           </Accordion>
         </Grid>
         {tokenSelected && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert severity="info">
               <FormattedMessage
                 id="the.buyer.will.pay.percentage.in.fees"
@@ -280,7 +288,7 @@ export default function MakeListingForm({ onConfirm, disabled }: Props) {
             </Alert>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Button
             onClick={handleFormSubmit}
             disabled={!form.isValid || disabled}

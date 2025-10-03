@@ -8,10 +8,10 @@ interface StepperGroupProps {
   onChange?: (config: MultiStepperConfig) => void;
 }
 
-export const StepperGroup: React.FC<StepperGroupProps> = ({
+export const StepperGroup = ({
   config,
   onChange,
-}) => {
+}: StepperGroupProps) => {
   const { steps, settings, activeStep: controlledActiveStep, completedSteps, skippedSteps } = config;
   const {
     spacing = 2,

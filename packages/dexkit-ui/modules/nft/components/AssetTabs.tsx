@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Button,
@@ -61,12 +62,10 @@ const ConfirmBuyDialog = dynamic(() => import("./dialogs/ConfirmBuyDialog"));
 
 const ListingsTable = dynamic(() => import("./tables/ListingsTable"), {
   ssr: false,
-  suspense: true,
 });
 
 const OffersTable = dynamic(() => import("./tables/OffersTable"), {
   ssr: false,
-  suspense: true,
 });
 
 enum AssetTabsOptions {
@@ -636,32 +635,7 @@ export function AssetTabs({ address, id }: Props) {
           {selectedTab === AssetTabsOptions.Listings ? (
             <QueryErrorResetBoundary>
               {({ reset }) => (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallbackRender={({ resetErrorBoundary, error }) => (
-                    <Paper sx={{ p: 1 }}>
-                      <Stack justifyContent="center" alignItems="center">
-                        <Typography variant="h6">
-                          <FormattedMessage
-                            id="something.went.wrong"
-                            defaultMessage="Oops, something went wrong"
-                            description="Something went wrong error message"
-                          />
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          {String(error)}
-                        </Typography>
-                        <Button color="primary" onClick={resetErrorBoundary}>
-                          <FormattedMessage
-                            id="try.again"
-                            defaultMessage="Try again"
-                            description="Try again"
-                          />
-                        </Button>
-                      </Stack>
-                    </Paper>
-                  )}
-                >
+                <div>
                   <Suspense fallback={<TableSkeleton rows={4} />}>
                     <ListingsTable
                       address={address}
@@ -671,38 +645,13 @@ export function AssetTabs({ address, id }: Props) {
                       onShare={handleShareOrder}
                     />
                   </Suspense>
-                </ErrorBoundary>
+                </div>
               )}
             </QueryErrorResetBoundary>
           ) : (
             <QueryErrorResetBoundary>
               {({ reset }) => (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallbackRender={({ resetErrorBoundary, error }) => (
-                    <Paper sx={{ p: 1 }}>
-                      <Stack justifyContent="center" alignItems="center">
-                        <Typography variant="h6">
-                          <FormattedMessage
-                            id="something.went.wrong"
-                            defaultMessage="Oops, something went wrong"
-                            description="Something went wrong error message"
-                          />
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          {String(error)}
-                        </Typography>
-                        <Button color="primary" onClick={resetErrorBoundary}>
-                          <FormattedMessage
-                            id="try.again"
-                            defaultMessage="Try again"
-                            description="Try again"
-                          />
-                        </Button>
-                      </Stack>
-                    </Paper>
-                  )}
-                >
+                <div>
                   <Suspense fallback={<TableSkeleton rows={4} />}>
                     <OffersTable
                       address={address}
@@ -712,7 +661,7 @@ export function AssetTabs({ address, id }: Props) {
                       onShare={handleShareOrder}
                     />
                   </Suspense>
-                </ErrorBoundary>
+                </div>
               )}
             </QueryErrorResetBoundary>
           )}

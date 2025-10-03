@@ -122,7 +122,7 @@ export default function EditTemplatePage() {
                     onSubmit={handleSubmit}
                     validationSchema={CreateTemplateSchema}
                   >
-                    {({ submitForm, isValid, errors, isSubmitting }) => (
+                    {({ submitForm, isValid, errors, isSubmitting }: any) => (
                       <Form>
                         <Grid container spacing={2}>
                           <Grid item xs={12}>

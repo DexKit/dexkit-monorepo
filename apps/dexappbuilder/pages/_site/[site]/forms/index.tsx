@@ -87,132 +87,101 @@ export default function FormsPage() {
             ]}
           />
           <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
+            <Stack spacing={3}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{ mb: 2 }}
+              >
                 <Box>
-                  <Grid
-                    container
-                    spacing={2}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Grid item>
-                      <Box>
-                        <Typography variant="h4">
-                          <FormattedMessage
-                            id="web3forms.deplopy"
-                            defaultMessage="DexGenerator"
-                          />
-                        </Typography>
-                        {/* <Typography variant="body1" color="text.secondary">
-                          <FormattedMessage
-                            id="explore.our.new.tool.dexgenerator"
-                            defaultMessage="Explore our new tool: DexGenerator"
-                          />
-          </Typography>*/}
-                      </Box>
-                    </Grid>
-                    <Grid item>
-                      <Stack direction="row" spacing={2}>
-                        <Button
-                          LinkComponent={Link}
-                          href="/forms/contracts/list"
-                          variant="outlined"
-                        >
-                          <FormattedMessage
-                            id="manage.contracts"
-                            defaultMessage="Manage Contracts"
-                          />
-                        </Button>
-                        {isActive ? (
-                          <Button
-                            LinkComponent={Link}
-                            href={`/forms/account/${account}`}
-                            variant="outlined"
-                          >
-                            <FormattedMessage
-                              id="manage.forms"
-                              defaultMessage="Manage Forms"
-                            />
-                          </Button>
-                        ) : (
-                          <ConnectButton variant="outlined" />
-                        )}
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h5">
-                  <FormattedMessage
-                    id="create.forms"
-                    defaultMessage="Create forms"
-                  />
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
-                    <ContractButton
-                      onClick={handleCreateCustom}
-                      title={
-                        <FormattedMessage id="custom" defaultMessage="Custom" />
-                      }
-                      description={
-                        <FormattedMessage
-                          id="create.custom.form"
-                          defaultMessage="Create custom form"
-                        />
-                      }
-                      creator={{
-                        imageUrl:
-                          'https://raw.githubusercontent.com/DexKit/assets/main/images/logo_256x256.png',
-                        name: 'DexKit',
-                      }}
+                  <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
+                    <FormattedMessage
+                      id="web3forms.deplopy"
+                      defaultMessage="DexGenerator"
                     />
-                  </Grid>
-                </Grid>
-              </Grid>
-              {/*   <Grid item xs={12}>
-                <Typography variant="h5">
-                  <FormattedMessage
-                    id="forms.by.the.community"
-                    defaultMessage="Forms by the community"
-                  />
-                </Typography>
-                    </Grid>*/}
-              {/*   <Grid item xs={12}>
-                <Paper sx={{ p: 2 }}>
-                  <Stack
-                    spacing={2}
-                    alignItems="center"
-                    justifyContent="center"
+                  </Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                    <FormattedMessage
+                      id="create.forms"
+                      defaultMessage="Create forms"
+                    />
+                  </Typography>
+                </Box>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    LinkComponent={Link}
+                    href="/forms/contracts/list"
+                    variant="outlined"
+                    color="primary"
+                    sx={{
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      backgroundColor: 'white',
+                      borderColor: 'primary.light',
+                      color: 'primary.main',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                        backgroundColor: 'white',
+                      }
+                    }}
                   >
-                    <TipsAndUpdates fontSize="large" />
-                    <Box>
-                      <Typography align="center" variant="h5">
-                        <FormattedMessage
-                          id="coming.soon"
-                          defaultMessage="Coming soon"
-                        />
-                      </Typography>
-                      <Typography
-                        align="center"
-                        variant="body1"
-                        color="text.secondary"
-                      >
-                        <FormattedMessage
-                          id="forms.by.the.community.will.be.available.soon"
-                          defaultMessage="Forms by the community will be available soon"
-                        />
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Paper>
-                    </Grid>*/}
-            </Grid>
+                    <FormattedMessage
+                      id="manage.contracts"
+                      defaultMessage="MANAGE CONTRACTS"
+                    />
+                  </Button>
+                  {isActive ? (
+                    <Button
+                      LinkComponent={Link}
+                      href={`/forms/account/${account}`}
+                      variant="outlined"
+                      color="primary"
+                      sx={{
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        backgroundColor: 'white',
+                        borderColor: 'primary.light',
+                        color: 'primary.main',
+                        '&:hover': {
+                          borderColor: 'primary.main',
+                          color: 'primary.main',
+                          backgroundColor: 'white',
+                        }
+                      }}
+                    >
+                      <FormattedMessage
+                        id="manage.forms"
+                        defaultMessage="MANAGE FORMS"
+                      />
+                    </Button>
+                  ) : (
+                    <ConnectButton variant="outlined" />
+                  )}
+                </Stack>
+              </Stack>
+
+              <Box sx={{ maxWidth: '400px' }}>
+                <ContractButton
+                  onClick={handleCreateCustom}
+                  title={
+                    <FormattedMessage id="custom" defaultMessage="Custom" />
+                  }
+                  description={
+                    <FormattedMessage
+                      id="create.custom.form"
+                      defaultMessage="Create custom form"
+                    />
+                  }
+                  creator={{
+                    imageUrl:
+                      'https://raw.githubusercontent.com/DexKit/assets/main/images/logo_256x256.png',
+                    name: 'DexKit',
+                  }}
+                />
+              </Box>
+            </Stack>
           </Box>
         </Stack>
       </Container>

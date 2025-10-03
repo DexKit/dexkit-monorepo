@@ -68,9 +68,8 @@ export default function AssetSectionForm({
 
   const { siteId } = useContext(SiteContext);
 
-  const darkblockQuery = useIntegrationDataQuery({ type: 'darkblock', siteId });
 
-  return darkblockQuery.isFetched ? (
+  return (
     <Formik
       initialValues={
         section
@@ -82,11 +81,6 @@ export default function AssetSectionForm({
               enableFiat: section.config.enableFiat
                 ? section.config.enableFiat
                 : false,
-              enableDarkblock: section.config.enableDarkblock
-                ? section.config.enableDarkblock
-                : darkblockQuery.data
-                ? darkblockQuery.data.settings.enableDarkblock
-                : false,
             }
           : {
               address: '',
@@ -94,16 +88,15 @@ export default function AssetSectionForm({
               tokenId: '',
               enableDrops: false,
               enableFiat: false,
-              enableDarkblock: false,
             }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}
     >
-      {({ setValues, values, isValid, submitForm }) => (
+      {({ setValues, values, isValid, submitForm }: any) => (
         <>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Field
                   component={Select}
@@ -122,21 +115,21 @@ export default function AssetSectionForm({
                       >
                         <Avatar
                           src={ipfsUriToUrl(
-                            networks.find((n) => n.slug === value)?.imageUrl ||
+                            networks.find((n: any) => n.slug === value)?.imageUrl ||
                               '',
                           )}
                           style={{ width: 'auto', height: '1rem' }}
                         />
                         <Typography variant="body1">
-                          {networks.find((n) => n.slug === value)?.name}
+                          {networks.find((n: any) => n.slug === value)?.name}
                         </Typography>
                       </Stack>
                     );
                   }}
                 >
                   {networks
-                    .filter((n) => activeChainIds.includes(n.chainId))
-                    .map((n) => (
+                    .filter((n: any) => activeChainIds.includes(n.chainId))
+                    .map((n: any) => (
                       <MenuItem key={n.slug} value={n.slug}>
                         <ListItemIcon>
                           <Avatar
@@ -150,7 +143,7 @@ export default function AssetSectionForm({
                 </Field>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Tabs value={tab} onChange={handleChangeTab}>
                 <Tab
                   value="import"
@@ -170,9 +163,9 @@ export default function AssetSectionForm({
               </Tabs>
             </Grid>
             {tab === 'import' ? (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       fullWidth
@@ -185,7 +178,7 @@ export default function AssetSectionForm({
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       fullWidth
@@ -201,9 +194,9 @@ export default function AssetSectionForm({
                 </Grid>
               </Grid>
             ) : (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <CollectionItemAutocomplete
                         value={{
@@ -226,7 +219,7 @@ export default function AssetSectionForm({
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       fullWidth
@@ -243,9 +236,9 @@ export default function AssetSectionForm({
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item>
+                <Grid>
                   <FormControlLabel
                     control={
                       <Field
@@ -262,7 +255,7 @@ export default function AssetSectionForm({
                     }
                   />
                 </Grid>
-                <Grid item>
+                <Grid>
                   <FormControlLabel
                     control={
                       <Field
@@ -279,30 +272,10 @@ export default function AssetSectionForm({
                     }
                   />
                 </Grid>
-                {darkblockQuery.data &&
-                  darkblockQuery.data.settings.enableDarkblock && (
-                    <Grid item>
-                      <FormControlLabel
-                        control={
-                          <Field
-                            component={Switch}
-                            name="enableDarkblock"
-                            type="checkbox"
-                          />
-                        }
-                        label={
-                          <FormattedMessage
-                            id="enable.drop"
-                            defaultMessage="Enable Darkblock"
-                          />
-                        }
-                      />
-                    </Grid>
-                  )}
               </Grid>
             </Grid>
             {showSaveButton && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack justifyContent="flex-end" direction="row" spacing={1}>
                     <Button onClick={onCancel}>
@@ -323,5 +296,5 @@ export default function AssetSectionForm({
         </>
       )}
     </Formik>
-  ) : null;
+  );
 }

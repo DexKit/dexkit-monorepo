@@ -7,48 +7,55 @@ import { SpacerState } from '../types/state';
 
 const faintBlack = 'rgba(0, 0, 0, 0.12)';
 
-const SpacerResizable: React.FC<CellPluginComponentProps<SpacerState>> = (
-  props
+const SpacerResizable = (
+  props: CellPluginComponentProps<SpacerState>
 ) => {
   const [height, setHeight] = useState(props.data?.height ?? 24);
   useEffect(() => setHeight(props.data?.height), [props.data?.height]);
   const { onChange } = props;
 
   return (
-    <Resizable
-      //@ts-ignore
-      onResize={(e, { size }) => {
-        setHeight(size?.height ?? 0);
-      }}
-      //@ts-ignore
-      onResizeStop={(e, { size }) =>
-        onChange({
-          height: size?.height,
-        })
-      }
-      height={height}
-      width={0}
-    >
-      <div style={{ height: height, position: 'relative' }}>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            height: '24px',
-            width: '100%',
-            background: faintBlack,
-            textAlign: 'center',
-          }}
+    <div style={{ height: height, position: 'relative' }}>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '0',
+          height: '24px',
+          width: '100%',
+          background: faintBlack,
+          textAlign: 'center',
+          cursor: 'row-resize',
+        }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          const startY = e.clientY;
+          const startHeight = height;
+          
+          const handleMouseMove = (e: MouseEvent) => {
+            const newHeight = startHeight + (e.clientY - startY);
+            setHeight(Math.max(0, newHeight));
+          };
+          
+          const handleMouseUp = () => {
+            onChange({
+              height: height,
+            });
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+          };
+          
+          document.addEventListener('mousemove', handleMouseMove);
+          document.addEventListener('mouseup', handleMouseUp);
+        }}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          style={{ color: 'white', width: 24, height: 24 }}
         >
-          <svg
-            viewBox="0 0 24 24"
-            style={{ color: 'white', width: 24, height: 24 }}
-          >
-            <path d="M20 9H4v2h16V9zM4 15h16v-2H4v2z" />
-          </svg>
-        </div>
+          <path d="M20 9H4v2h16V9zM4 15h16v-2H4v2z" />
+        </svg>
       </div>
-    </Resizable>
+    </div>
   );
 };
 

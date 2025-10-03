@@ -1,11 +1,12 @@
 import {
+  Box,
   Button,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogProps,
-  Grid,
+  Stack,
 } from "@mui/material";
 
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -83,16 +84,14 @@ export default function EditCategoryFormDialog({
             sx={{ px: 4, py: 2 }}
           />
           <DialogContent dividers>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Field
-                  label={<FormattedMessage id="name" defaultMessage="Name" />}
-                  component={TextField}
-                  name="name"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
+            <Stack spacing={2}>
+              <Field
+                label={<FormattedMessage id="name" defaultMessage="Name" />}
+                component={TextField}
+                name="name"
+                fullWidth
+              />
+            </Stack>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 4 }}>
             <Button disabled={isLoading} onClick={handleClose}>

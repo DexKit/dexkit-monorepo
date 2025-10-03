@@ -1,10 +1,6 @@
 import {
+  Box,
   Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
   TextField,
   useMediaQuery,
@@ -24,13 +20,11 @@ import * as Yup from 'yup';
 import { useDebounce } from '../../../../hooks/misc';
 
 interface Form {
-  videoType: string;
   videoUrl: string;
   title: string;
 }
 
 const FormSchema: Yup.SchemaOf<Form> = Yup.object().shape({
-  videoType: Yup.string().required(),
   videoUrl: Yup.string().required(),
   title: Yup.string().required(),
 });
@@ -51,12 +45,21 @@ export default function VideoSectionForm({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const getVideoType = (url: string): VideoEmbedType => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      return 'youtube';
+    } else if (url.includes('vimeo.com')) {
+      return 'vimeo';
+    }
+    return 'custom';
+  };
+
   const handleSubmit = (values: Form, helpers: FormikHelpers<Form>) => {
     if (onSave) {
       onSave({
         videoUrl: values.videoUrl,
         type: 'video',
-        embedType: values.videoType as VideoEmbedType,
+        embedType: getVideoType(values.videoUrl),
         title: values.title,
       });
     }
@@ -65,11 +68,10 @@ export default function VideoSectionForm({
   const formik = useFormik({
     initialValues: section
       ? {
-        videoType: section.embedType,
         videoUrl: section.videoUrl,
         title: section.title,
       }
-      : { videoType: 'youtube', videoUrl: '', title: '' },
+      : { videoUrl: '', title: '' },
     onSubmit: handleSubmit,
     validationSchema: FormSchema,
   });
@@ -80,81 +82,52 @@ export default function VideoSectionForm({
     onChange({
       videoUrl: formik.values.videoUrl,
       type: 'video',
-      embedType: formik.values.videoType as VideoEmbedType,
+      embedType: getVideoType(formik.values.videoUrl),
       title: formik.values.title,
     });
   }, [formik.values]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
-        <Grid item xs={12}>
-          <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
-            <InputLabel>
-              <FormattedMessage id="video.type" defaultMessage="Video Type" />
-            </InputLabel>
-            <Select
-              required
-              label={
-                <FormattedMessage id="video.type" defaultMessage="Video Type" />
-              }
-              fullWidth
-              name="videoType"
-              value={formik.values.videoType}
-              onChange={formik.handleChange}
-            >
-              <MenuItem value="youtube">
-                <FormattedMessage id="youtube" defaultMessage="Youtube" />
-              </MenuItem>
-              <MenuItem value="vimeo" disabled>
-                <FormattedMessage id="youtube" defaultMessage="Vimeo" />
-              </MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            size={isMobile ? "small" : "medium"}
-            label={<FormattedMessage id="title" defaultMessage="Title" />}
-            fullWidth
-            name="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            error={Boolean(formik.errors.title)}
-            required
-            helperText={
-              Boolean(formik.errors.title) ? formik.errors.title : undefined
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            size={isMobile ? "small" : "medium"}
-            label={
-              <FormattedMessage id="video.url" defaultMessage="Video URL" />
-            }
-            required
-            fullWidth
-            type="url"
-            name="videoUrl"
-            value={formik.values.videoUrl}
-            onChange={formik.handleChange}
-            error={Boolean(formik.errors.videoUrl)}
-            helperText={
-              Boolean(formik.errors.videoUrl)
-                ? formik.errors.videoUrl
-                : undefined
-            }
-          />
-        </Grid>
+      <Box sx={{ px: isMobile ? 2 : 0 }}>
+        <Stack spacing={isMobile ? 1.5 : 2}>
+        <TextField
+          size={isMobile ? "small" : "medium"}
+          label={<FormattedMessage id="title" defaultMessage="Title" />}
+          fullWidth
+          name="title"
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.title)}
+          required
+          helperText={
+            Boolean(formik.errors.title) ? formik.errors.title : undefined
+          }
+        />
+        
+        <TextField
+          size={isMobile ? "small" : "medium"}
+          label={
+            <FormattedMessage id="video.url" defaultMessage="Video URL" />
+          }
+          required
+          fullWidth
+          type="url"
+          name="videoUrl"
+          value={formik.values.videoUrl}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.videoUrl)}
+          helperText={
+            Boolean(formik.errors.videoUrl)
+              ? formik.errors.videoUrl
+              : undefined
+          }
+        />
 
-        <Grid
-          item
-          xs={12}
+        <Box
           sx={{
             display:
-              formik.values.videoType === 'youtube' &&
-                videoUrl &&
+              videoUrl &&
                 formik.isValid
                 ? 'block'
                 : 'none',
@@ -165,25 +138,36 @@ export default function VideoSectionForm({
             }
           }}
         >
-          <LazyYoutubeFrame url={videoUrl} />
-        </Grid>
+          {getVideoType(videoUrl) === 'youtube' ? (
+            <LazyYoutubeFrame url={videoUrl} />
+          ) : (
+            <iframe
+              src={videoUrl}
+              title={formik.values.title}
+              width="100%"
+              height={isMobile ? '180px' : '200px'}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
+        </Box>
 
-        <Grid item xs={12}>
-          <Stack spacing={2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 0 }}>
-            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
-              <FormattedMessage id="cancel" defaultMessage="Cancel" />
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size={isMobile ? "small" : "medium"}
-            >
-              <FormattedMessage id="save" defaultMessage="Save" />
-            </Button>
-          </Stack>
-        </Grid>
-      </Grid>
+        <Stack spacing={2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 0 }}>
+          <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
+            <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size={isMobile ? "small" : "medium"}
+          >
+            <FormattedMessage id="save" defaultMessage="Save" />
+          </Button>
+        </Stack>
+      </Stack>
+      </Box>
     </form>
   );
 }

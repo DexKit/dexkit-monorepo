@@ -137,7 +137,7 @@ export default function ThemeSection({
     <>
       <Grid container spacing={2}>
         {isMobile && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"
@@ -156,7 +156,7 @@ export default function ThemeSection({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedId && getInitialValues && (
             <EditThemeForm
               customThemeDark={customThemeDark}

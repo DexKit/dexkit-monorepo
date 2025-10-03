@@ -1,7 +1,7 @@
 import {
+  Box,
   Button,
   Divider,
-  Grid,
   Stack,
   Tab,
   TablePagination,
@@ -107,9 +107,9 @@ function Notifications() {
           />
         </Typography>
       </AppConfirmDialog>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h6">
+      <Stack spacing={3}>
+        <Box>
+          <Typography variant="h6" sx={{ mb: 1 }}>
             <FormattedMessage
               id="notifications"
               defaultMessage="Notifications"
@@ -121,18 +121,23 @@ function Notifications() {
               defaultMessage="View all notifications of actions happening in your store."
             />
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-          <Stack alignItems="center" direction="row">
+        </Box>
+
+        <Box>
+          <Divider sx={{ mb: 2 }} />
+          <Stack 
+            direction="row" 
+            alignItems="center" 
+            justifyContent="space-between"
+            sx={{ mb: 2 }}
+          >
             <Tabs
               onChange={async (e, value) => {
                 setFilter((filter) => ({ ...filter, page: 0, status: value }));
-
                 await refetch();
               }}
               value={filter.status}
-              sx={{ mr: 2 }}
+              sx={{ flex: 1 }}
             >
               <Tab
                 value=""
@@ -169,7 +174,7 @@ function Notifications() {
                 label={<FormattedMessage id="read" defaultMessage="Read" />}
               />
             </Tabs>
-            <Button onClick={handleMarkAllAsRead} size="small">
+            <Button onClick={handleMarkAllAsRead} size="small" variant="outlined">
               <FormattedMessage
                 id="mark.all.as.read"
                 defaultMessage="Mark all as read"
@@ -177,12 +182,16 @@ function Notifications() {
             </Button>
           </Stack>
           <Divider />
+        </Box>
+
+        <Box>
           <NotificationsList
             onRefetch={handleRefetch}
             notifications={notifications?.items ?? []}
           />
-        </Grid>
-        <Grid item xs={12}>
+        </Box>
+
+        <Box>
           <TablePagination
             component="div"
             count={notifications?.totalItems ?? 0}
@@ -193,9 +202,15 @@ function Notifications() {
             }}
             rowsPerPage={filter.pageSize}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              '& .MuiTablePagination-toolbar': {
+                paddingLeft: 0,
+                paddingRight: 0,
+              }
+            }}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Stack>
     </>
   );
 }

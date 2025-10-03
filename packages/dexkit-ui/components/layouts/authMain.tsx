@@ -14,12 +14,12 @@ interface Props {
  * Use Auth Main Layout when you need authentication feature
  * @returns
  */
-const AuthMainLayout: React.FC<Props> = ({
+const AuthMainLayout = ({
   children,
   noSsr,
   disablePadding,
   disableAutoLogin,
-}) => {
+}: Props): React.ReactElement => {
   return (
     <ConfigWizardProvider>
       <AuthProvider disableAutoLogin={disableAutoLogin}>

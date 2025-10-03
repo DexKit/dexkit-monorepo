@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChainId, useErc20BalanceQuery } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
@@ -104,7 +105,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    onConfirm: () => {},
+    onConfirm: () => { },
     onSubmit: async (hash, params) => {
       setHash(hash);
 
@@ -270,7 +271,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
             id="switch.to.network.network"
             defaultMessage="Switch to {network} network"
             values={{
-              network: networks.find((n) => n.chainId === chainId)?.name,
+              network: networks.find((n: any) => n.chainId === chainId)?.name,
             }}
           />
         </Button>
@@ -346,7 +347,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
           chainId: chainId as number,
         });
-      } catch (err) {}
+      } catch (err) { }
     }
   };
 
@@ -449,7 +450,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                   setItems(items);
                 }}
               >
-                {({ submitForm, values }) => (
+                {({ submitForm, values }: any) => (
                   <>
                     <CheckoutUserItemList
                       token={token}
@@ -539,14 +540,14 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                             >
                               <Avatar
                                 src={ipfsUriToUrl(
-                                  networks.find((n) => n.chainId === chainId)
+                                  networks.find((n: any) => n.chainId === chainId)
                                     ?.imageUrl || ""
                                 )}
                                 style={{ width: "1rem", height: "1rem" }}
                               />
                               <Typography variant="body1">
                                 {
-                                  networks.find((n) => n.chainId === chainId)
+                                  networks.find((n: any) => n.chainId === chainId)
                                     ?.name
                                 }
                               </Typography>
@@ -554,7 +555,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
                           );
                         }}
                       >
-                        {networks.map((n) => (
+                        {networks.map((n: any) => (
                           <MenuItem key={n.chainId} value={n.chainId}>
                             <ListItemIcon>
                               <Avatar

@@ -127,7 +127,7 @@ export default function PreviewGatedConditionsDialog({
                   <MenuItem
                     key={option}
                     selected={index === selectedIndex}
-                    onClick={(event) => handleMenuItemClick(event, index)}
+                    onClick={(event: any) => handleMenuItemClick(event, index)}
                   >
                     {option}
                   </MenuItem>

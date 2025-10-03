@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 
-import { DARKBLOCK_SUPPORTED_CHAIN_IDS } from '@/modules/wizard/constants';
 import { getIntegrationData } from '@/modules/wizard/services/integrations';
 import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core';
 import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
@@ -18,7 +17,6 @@ import {
 
 import { Collection, TraderOrderFilter } from '@dexkit/ui/modules/nft/types';
 import { hexToString } from '@dexkit/ui/utils';
-import { getIsLockAsync } from '@dexkit/unlock-widget';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Search from '@mui/icons-material/Search';
 import {
@@ -71,15 +69,12 @@ import { getRariCollectionStats } from '@dexkit/ui/modules/nft/services/rarible'
 import { getProviderBySlug } from '@dexkit/ui/services/providers';
 
 const CollectionPage: NextPage<{
-  enableDarkblock: boolean;
   isLock: boolean;
   disableSecondarySells: boolean;
 }> = ({
-  enableDarkblock,
   disableSecondarySells,
   isLock,
 }: {
-  enableDarkblock: boolean;
   disableSecondarySells: boolean;
   isLock: boolean;
 }) => {
@@ -196,7 +191,6 @@ const CollectionPage: NextPage<{
             hideHeader: false,
             showPageHeader: true,
             isLock,
-            enableDarkblock,
             disableSecondarySells,
             showCollectionStats: true,
             showSidebarOnDesktop: true,
@@ -212,7 +206,7 @@ const CollectionPage: NextPage<{
       </MainLayout>
     );
   } else {
-    return <MainLayout disablePadding>{collectionPage}</MainLayout>;
+    return <MainLayout disablePadding isPreview={false}>{collectionPage}</MainLayout>;
   }
 };
 
@@ -377,31 +371,6 @@ export const getStaticProps: GetStaticProps = async ({
     );
   } catch {}
 
-  let enableDarkblock = false;
-
-  try {
-    if (
-      DARKBLOCK_SUPPORTED_CHAIN_IDS.includes(
-        NETWORK_FROM_SLUG(network)?.chainId as ChainId,
-      )
-    ) {
-      const siteId =
-        configResponse.siteId === null ? undefined : configResponse.siteId;
-      const darkBlock = await getIntegrationData({
-        siteId,
-        type: 'darkblock',
-        instance: axios.create({
-          baseURL: MY_APPS_ENDPOINT,
-          headers: {
-            'DexKit-Api-Key': process.env.MARKETPLACE_API_KEY as string,
-          },
-        }),
-      });
-      if (darkBlock?.settings?.enableDarkblockCollection) {
-        enableDarkblock = true;
-      }
-    }
-  } catch {}
 
   const appCollection = configResponse.appConfig.collections?.find(
     (c) =>
@@ -409,13 +378,12 @@ export const getStaticProps: GetStaticProps = async ({
       isAddressEqual(c.contractAddress, collection?.address),
   );
 
-  const isLock = await getIsLockAsync({ chainId: chainId, provider, address });
+  const isLock = false; // unlock-widget deprecated
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
       ...configResponse,
-      enableDarkblock,
       disableSecondarySells: appCollection?.disableSecondarySells === true,
       isLock,
     },

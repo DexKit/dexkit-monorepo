@@ -13,7 +13,6 @@ import {
   Tab,
   Tabs,
   Typography,
-  alpha,
   useTheme,
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -52,7 +51,7 @@ function BottomNavAction({
         width: '100%',
         height: '100%',
         backgroundColor: (theme) =>
-          active ? alpha(theme.palette.primary.main, 0.05) : undefined,
+          active ? theme.alpha(theme.palette.primary.main, 0.05) : undefined,
       }}
     >
       <Stack alignItems="center" spacing={1}>
@@ -91,35 +90,9 @@ export function SectionsRenderer({ sections, layout }: Props) {
     }
 
     return (
-      <ErrorBoundary
-        key={key}
-        fallbackRender={({ error, resetErrorBoundary }) => (
-          <Stack justifyContent="center" alignItems="center">
-            <Typography variant="h6">
-              <FormattedMessage
-                id="something.went.wrong.with.section.type.contact.support"
-                defaultMessage="Oops, something went wrong with section type {sectionType}. Contact support"
-                description="Something went wrong error message"
-                values={{
-                  sectionType: section?.type || ' ',
-                }}
-              />
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {String(error)}
-            </Typography>
-            <Button color="primary" onClick={resetErrorBoundary}>
-              <FormattedMessage
-                id="try.again"
-                defaultMessage="Try again"
-                description="Try again"
-              />
-            </Button>
-          </Stack>
-        )}
-      >
+      <div key={key}>
         <SectionRender section={section} useLazy={key > 2} />
-      </ErrorBoundary>
+      </div>
     );
   });
 
@@ -282,11 +255,6 @@ export function SectionsRenderer({ sections, layout }: Props) {
         <Box>
           <Grid container spacing={2}>
             <Grid
-              item
-              xs={12}
-              sm={
-                !isMobile && layout.layout?.desktop?.position === 'side' ? 3 : 12
-              }
               sx={
                 !isMobile && layout.layout?.desktop?.position === 'side'
                   ? {
@@ -297,7 +265,10 @@ export function SectionsRenderer({ sections, layout }: Props) {
                   }
                   : undefined
               }
-            >
+              size={{
+                xs: 12,
+                sm: !isMobile && layout.layout?.desktop?.position === 'side' ? 3 : 12
+              }}>
               <Tabs
                 centered
                 variant={isMobile ? 'scrollable' : undefined}
@@ -353,12 +324,10 @@ export function SectionsRenderer({ sections, layout }: Props) {
               </Tabs>
             </Grid>
             <Grid
-              item
-              xs={12}
-              sm={
-                !isMobile && layout.layout?.desktop?.position === 'side' ? 9 : 12
-              }
-            >
+              size={{
+                xs: 12,
+                sm: !isMobile && layout.layout?.desktop?.position === 'side' ? 9 : 12
+              }}>
               {renderPanels()}
             </Grid>
           </Grid>

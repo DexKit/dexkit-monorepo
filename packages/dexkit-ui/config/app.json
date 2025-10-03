@@ -545,10 +545,16 @@
         {
           "type": "showcase",
           "settings": {
+            "layout": "carousel",
             "alignItems": "center",
             "itemsSpacing": 2,
             "paddingTop": 0,
             "paddingBottom": 0,
+            "columns": {
+              "desktop": 2,
+              "tablet": 2,
+              "mobile": 2
+            },
             "items": [
               {
                 "type": "image",

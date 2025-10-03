@@ -35,7 +35,7 @@ import {
   GetStaticPropsContext,
   NextPage,
 } from 'next';
-import { ChangeEvent, ReactNode, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import AuthMainLayout from 'src/components/layouts/authMain';
@@ -72,11 +72,11 @@ export const AdminIndexPage: NextPage = () => {
     setIsOpen(false);
   };
 
-  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, []);
 
-  const handleHrefDiscord = (chunks: any): ReactNode => (
+  const handleHrefDiscord = (chunks: any): React.ReactNode => (
     <a
       className="external_link"
       target="_blank"
@@ -87,7 +87,7 @@ export const AdminIndexPage: NextPage = () => {
     </a>
   );
 
-  const handleHrefDocs = (chunks: any): ReactNode => (
+  const handleHrefDocs = (chunks: any): React.ReactNode => (
     <a
       className="external_link"
       target="_blank"
@@ -132,10 +132,12 @@ export const AdminIndexPage: NextPage = () => {
     if (configs && configs.length > 0) {
       return (
         <TableContainer sx={{
-          overflowX: 'auto',
+          overflowX: 'hidden',
+          width: '100%',
           ...(isMobile && {
-            mx: -0.5,
-            width: 'calc(100% + 8px)'
+            mx: 0,
+            width: '100%',
+            maxWidth: '100%',
           })
         }}>
           <MarketplacesTableV2
@@ -236,9 +238,9 @@ export const AdminIndexPage: NextPage = () => {
         }}
         config={selectedConfig}
       />
-      <Container maxWidth={'xl'} sx={{ px: isMobile ? 0.5 : 3 }}>
-        <Grid container spacing={isMobile ? 1 : 2}>
-          <Grid item xs={12}>
+      <Container maxWidth={'xl'} sx={{ px: isMobile ? 1 : 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 1 : 2 }}>
+          <Box>
             <PageHeader
               breadcrumbs={[
                 {
@@ -259,19 +261,19 @@ export const AdminIndexPage: NextPage = () => {
                 },
               ]}
             />
-          </Grid>
-          {/* <Grid item xs={12} sm={12}>
-            <WelcomeMessage />
-          </Grid> */}
-          <Grid item xs={12}>
+          </Box>
+          
+          <Box>
             <MismatchAccount />
-          </Grid>
-          <Grid item xs={12}>
+          </Box>
+          
+          <Box>
             <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontSize: isMobile ? '1.1rem' : undefined, px: isMobile ? 1 : 0 }}>
               <FormattedMessage id="my.apps.upper" defaultMessage="My Apps" />
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
+          </Box>
+          
+          <Box>
             <Stack
               direction={isMobile ? "column" : "row"}
               alignItems={isMobile ? "stretch" : "center"}
@@ -291,7 +293,14 @@ export const AdminIndexPage: NextPage = () => {
                   mb: isMobile ? 1 : 0,
                   py: isMobile ? 1 : undefined,
                   fontSize: isMobile ? '0.875rem' : undefined,
-                  maxHeight: isMobile ? '40px' : undefined
+                  maxHeight: isMobile ? '40px' : undefined,
+                  color: 'white !important',
+                  '&:hover': {
+                    color: 'white !important'
+                  },
+                  '& .MuiButton-startIcon': {
+                    color: 'white !important'
+                  }
                 }}
               >
                 <FormattedMessage id="new.app" defaultMessage="New App" />
@@ -323,48 +332,46 @@ export const AdminIndexPage: NextPage = () => {
                 }}
               />}
             </Stack>
-          </Grid>
+          </Box>
 
-          <Grid item xs={12}>
+          <Box>
             <Divider sx={{ py: isMobile ? 0.5 : 1 }} />
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={isMobile ? 0 : 3} justifyContent="center">
-              <Grid item xs={12} sm={10} md={9} lg={8} sx={{
-                px: isMobile ? 0.5 : undefined,
-                mx: isMobile ? 'auto' : undefined,
-                maxWidth: isMobile ? 'calc(100% - 4px)' : undefined
-              }}>
-                <Box>
-                  <Stack spacing={isMobile ? 0.5 : 3}>
-                    {!isMobile && <Box px={3}>
-                      <Stack justifyContent="flex-end" direction="row">
-                        <TextField
-                          value={search}
-                          placeholder={formatMessage({
-                            id: 'search.dots',
-                            defaultMessage: 'Search...',
-                          })}
-                          onChange={handleSearchChange}
-                          size="small"
-                          variant="standard"
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Search />
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Stack>
-                    </Box>}
-                    {renderTable()}
+          </Box>
+          
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{
+              width: '100%',
+              maxWidth: { xs: '100%', sm: '90%', md: '80%', lg: '70%' },
+              px: isMobile ? 0.5 : 3,
+              mx: isMobile ? 'auto' : undefined
+            }}>
+              <Stack spacing={isMobile ? 0.5 : 3}>
+                {!isMobile && <Box px={3}>
+                  <Stack justifyContent="flex-end" direction="row">
+                    <TextField
+                      value={search}
+                      placeholder={formatMessage({
+                        id: 'search.dots',
+                        defaultMessage: 'Search...',
+                      })}
+                      onChange={handleSearchChange}
+                      size="small"
+                      variant="standard"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </Stack>
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+                </Box>}
+                {renderTable()}
+              </Stack>
+            </Box>
+          </Box>
+        </Box>
       </Container>
     </>
   );

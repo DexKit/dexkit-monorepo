@@ -5,6 +5,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useColorScheme,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React, { useCallback, useState } from "react";
@@ -12,23 +13,26 @@ import React, { useCallback, useState } from "react";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
+const StyledListItemButton = styled(ListItemButton, {
+  shouldForwardProp: (prop) => prop !== 'isDarkMode',
+})<{ isDarkMode?: boolean }>(({ theme, isDarkMode }) => ({
+  backgroundColor: isDarkMode ? '#212529' : 'transparent',
+  color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
   "&.Mui-selected": {
-    backgroundColor:
-      theme.palette.mode === "dark"
-        ? theme.palette.action.selected
-        : theme.palette.grey[100],
+    backgroundColor: isDarkMode ? '#404040' : theme.palette.grey[100],
     "&:hover": {
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? theme.palette.action.hover
-          : theme.palette.grey[200],
+      backgroundColor: isDarkMode ? '#404040' : theme.palette.grey[200],
     },
+  },
+  "&:hover": {
+    backgroundColor: isDarkMode ? '#404040' : theme.palette.action.hover,
   },
 }));
 
-const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  color: theme.palette.mode === "dark" ? theme.palette.text.primary : "inherit",
+const StyledListItemIcon = styled(ListItemIcon, {
+  shouldForwardProp: (prop) => prop !== 'isDarkMode',
+})<{ isDarkMode?: boolean }>(({ theme, isDarkMode }) => ({
+  color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
 }));
 
 export interface AdminSidebarMenuProps {
@@ -66,6 +70,8 @@ export default function AdminSidebarMenu({
 }: AdminSidebarMenuProps) {
   const [openMenus, setOpenMenu] = useState<{ [key: string]: boolean }>({});
   const isMobile = useIsMobile();
+  const { mode } = useColorScheme();
+  const isDarkMode = mode === 'dark';
 
   const handleToggleMenu = useCallback((menu: string) => {
     return () => {
@@ -91,8 +97,8 @@ export default function AdminSidebarMenu({
       if (opt.options) {
         return (
           <List key={opt.id} disablePadding>
-            <StyledListItemButton onClick={handleToggleMenu(opt.id)}>
-              <StyledListItemIcon>{opt.icon}</StyledListItemIcon>
+            <StyledListItemButton isDarkMode={isDarkMode} onClick={handleToggleMenu(opt.id)}>
+              <StyledListItemIcon isDarkMode={isDarkMode}>{opt.icon}</StyledListItemIcon>
               <ListItemText primary={opt.title} />
               {isMenuToggled(opt.id) ? <ExpandLess /> : <ExpandMore />}
             </StyledListItemButton>
@@ -101,18 +107,17 @@ export default function AdminSidebarMenu({
                 {opt.options.map((o) => (
                   <StyledListItemButton
                     key={o.id}
+                    isDarkMode={isDarkMode}
                     selected={activeMenuId === o.id}
                     onClick={() => {
                       onSelectMenuId(o.id);
-                      // En móviles, cerrar el menú después de seleccionar una opción
                       if (isMobile) {
                         onToggle();
-                        // También cerramos los submenús
                         setOpenMenu({});
                       }
                     }}
                   >
-                    <StyledListItemIcon />
+                    <StyledListItemIcon isDarkMode={isDarkMode} />
 
                     <ListItemText sx={{ ml: 4 }} primary={o.title} />
                   </StyledListItemButton>
@@ -126,20 +131,19 @@ export default function AdminSidebarMenu({
       return (
         <StyledListItemButton
           key={opt.id}
+          isDarkMode={isDarkMode}
           selected={activeMenuId === opt.id}
           onClick={() => {
             onSelectMenuId(opt.id);
-            // En móviles, cerrar el menú después de seleccionar una opción
             if (isMobile) {
               onToggle();
-              // También cerramos los submenús
               setOpenMenu({});
             }
           }}
         >
-          <StyledListItemIcon />
+          <StyledListItemIcon isDarkMode={isDarkMode} />
           <ListItemText primary={opt.title} />
-          {opt.icon && <StyledListItemIcon>{opt.icon}</StyledListItemIcon>}
+          {opt.icon && <StyledListItemIcon isDarkMode={isDarkMode}>{opt.icon}</StyledListItemIcon>}
         </StyledListItemButton>
       );
     });
@@ -147,18 +151,15 @@ export default function AdminSidebarMenu({
 
   return (
     <List disablePadding>
-      <StyledListItemButton dense={Boolean(subtitle)} onClick={onToggle}>
-        <StyledListItemIcon>{icon}</StyledListItemIcon>
+      <StyledListItemButton isDarkMode={isDarkMode} dense={Boolean(subtitle)} onClick={onToggle}>
+        <StyledListItemIcon isDarkMode={isDarkMode}>{icon}</StyledListItemIcon>
         <ListItemText
           primary={title}
           secondary={subtitle}
           secondaryTypographyProps={{
             variant: "caption",
             sx: {
-              color: (theme) =>
-                theme.palette.mode === "dark"
-                  ? theme.palette.text.secondary
-                  : "inherit",
+              color: isDarkMode ? '#737372' : 'inherit',
             },
           }}
         />

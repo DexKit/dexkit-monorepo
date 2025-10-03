@@ -57,7 +57,7 @@ export default function SelectIconDialog({
   };
 
   const handleChangeTheme = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilters((filters) => ({ ...filters, theme: e.target.value }));
+    setFilters((filters: any) => ({ ...filters, theme: e.target.value }));
   };
 
   const { formatMessage } = useIntl();
@@ -80,7 +80,7 @@ export default function SelectIconDialog({
         <Box sx={{ p: 2 }}>
           <LazyTextField
             onChange={(value) =>
-              setFilters((filters) => ({ ...filters, query: value }))
+              setFilters((filters: any) => ({ ...filters, query: value }))
             }
             value={filters.query}
             TextFieldProps={{

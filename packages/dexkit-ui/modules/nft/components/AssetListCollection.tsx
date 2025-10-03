@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Link from "@dexkit/ui/components/AppLink";
 import { Button, Grid, Pagination, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";

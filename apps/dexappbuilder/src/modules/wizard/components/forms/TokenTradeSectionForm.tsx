@@ -32,36 +32,36 @@ export function TokenTradeSectionForm({
 
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <TokenTradeConfigForm
-          data={data}
-          onChange={(d) => setData(d)}
-          featuredTokens={
-            wizardConfig?.tokens ? wizardConfig?.tokens[0].tokens : undefined
-          }
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Stack spacing={2} direction="row" justifyContent="flex-end">
-          <Button onClick={onCancel}>
-            <FormattedMessage id="cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button
-            onClick={() =>
-              onSave({
-                type: 'token-trade',
-                config: data || {},
-              })
+      <Grid container spacing={2}>
+        <Grid size={12}>
+          <TokenTradeConfigForm
+            data={data}
+            onChange={(d) => setData(d)}
+            featuredTokens={
+              wizardConfig?.tokens ? wizardConfig?.tokens[0].tokens : undefined
             }
-            variant="contained"
-            color="primary"
-          >
-            <FormattedMessage id="save" defaultMessage="Save" />
-          </Button>
-        </Stack>
+          />
+        </Grid>
+        <Grid size={12}>
+          <Stack spacing={2} direction="row" justifyContent="flex-end">
+            <Button onClick={onCancel}>
+              <FormattedMessage id="cancel" defaultMessage="Cancel" />
+            </Button>
+            <Button
+              onClick={() =>
+                onSave({
+                  type: 'token-trade',
+                  config: data || {},
+                })
+              }
+              variant="contained"
+              color="primary"
+            >
+              <FormattedMessage id="save" defaultMessage="Save" />
+            </Button>
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
     </Container>
   );
 }

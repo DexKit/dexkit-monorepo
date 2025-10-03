@@ -1,13 +1,13 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useSiteOwner } from '@dexkit/ui/modules/commerce/hooks/useSiteOwner';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 import { useSiteId } from 'src/hooks/app';
 
 const GET_CHECKOUT_NETWORKS = 'GET_CHECKOUT_NETWORKS';
 
 export default function useCheckoutNetworks() {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   const id = useSiteId();
 
@@ -21,7 +21,7 @@ export default function useCheckoutNetworks() {
       }
 
       return (
-        await instance.get/*<{ chainId: number }[]>*/('/checkouts-networks', {
+        await (instance as any).get/*<{ chainId: number }[]>*/('/checkouts-networks', {
           params: { owner: data?.owner },
         })
       ).data;

@@ -199,7 +199,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -212,7 +212,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -356,7 +356,7 @@ function BackgroundImageSelector({
       {value && (
         <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <div >
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -395,9 +395,9 @@ function BackgroundImageSelector({
                   </MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
+            </div>
 
-            <Grid item xs={12} sm={6}>
+            <div >
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -466,9 +466,9 @@ function BackgroundImageSelector({
                   </MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
+            </div>
 
-            <Grid item xs={12} sm={6}>
+            <div >
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -507,9 +507,9 @@ function BackgroundImageSelector({
                   </MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
+            </div>
 
-            <Grid item xs={12} sm={6}>
+            <div >
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -536,7 +536,7 @@ function BackgroundImageSelector({
                   </MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
+            </div>
           </Grid>
         </Box>
       )}
@@ -735,10 +735,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   };
 
   return (
-    <Container
-      maxWidth="md"
+    <Box
       sx={{
-        px: { xs: 1, sm: 2, md: 3 }
+        width: '100%',
+        maxWidth: { xs: '100%', sm: '600px', md: '700px' },
+        mx: 'auto'
       }}
     >
       <Typography variant="h6" gutterBottom>
@@ -767,7 +768,8 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
         <Paper elevation={1} sx={{
           mt: 2,
           p: 2,
-          mr: { xs: 1, sm: 1.5, md: 2 }
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <Typography variant="h6" gutterBottom>
             Custom Variant Settings
@@ -818,7 +820,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 control={
                   <Switch
                     checked={values.customVariantSettings?.showPairInfo !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showPairInfo", e.target.checked)}
+                    onChange={(e: any) => setFieldValue("customVariantSettings.showPairInfo", e.target.checked)}
                   />
                 }
                 label="Show Pair Information"
@@ -828,7 +830,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 control={
                   <Switch
                     checked={values.customVariantSettings?.showTradingGraph !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showTradingGraph", e.target.checked)}
+                    onChange={(e: any) => setFieldValue("customVariantSettings.showTradingGraph", e.target.checked)}
                   />
                 }
                 label="Show Trading Graph"
@@ -839,7 +841,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 control={
                   <Switch
                     checked={values.customVariantSettings?.showTradeWidget !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showTradeWidget", e.target.checked)}
+                    onChange={(e: any) => setFieldValue("customVariantSettings.showTradeWidget", e.target.checked)}
                   />
                 }
                 label="Show Trade Widget"
@@ -995,7 +997,12 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
       )}
 
       {values.variant === "glass" && (
-        <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
+        <Paper elevation={1} sx={{ 
+          mt: 2, 
+          p: 2,
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
           <Typography variant="h6" gutterBottom>
             <FormattedMessage
               id="glass.variant"
@@ -1215,7 +1222,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 control={
                   <Switch
                     checked={values.glassSettings?.disableBackground || false}
-                    onChange={(e) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
+                    onChange={(e: any) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
                   />
                 }
                 label={
@@ -1252,38 +1259,38 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 />
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <div >
                   <ColorPickerField
                     label="Buy Tab Color"
                     value={values.glassSettings?.buyTabColor || theme.palette.success.main}
                     onChange={(value) => setFieldValue("glassSettings.buyTabColor", value)}
                     defaultValue={theme.palette.success.main}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Sell Tab Color"
                     value={values.glassSettings?.sellTabColor || theme.palette.error.main}
                     onChange={(value) => setFieldValue("glassSettings.sellTabColor", value)}
                     defaultValue={theme.palette.error.main}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Buy Tab Text Color"
                     value={values.glassSettings?.buyTabTextColor || theme.palette.success.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.buyTabTextColor", value)}
                     defaultValue={theme.palette.success.contrastText}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Sell Tab Text Color"
                     value={values.glassSettings?.sellTabTextColor || theme.palette.error.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.sellTabTextColor", value)}
                     defaultValue={theme.palette.error.contrastText}
                   />
-                </Grid>
+                </div>
               </Grid>
 
               <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }}>
@@ -1293,7 +1300,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 />
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <div >
                   <TextField
                     fullWidth
                     label={
@@ -1303,12 +1310,12 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     }
                     value={values.glassSettings?.buyText || ""}
-                    onChange={(e) => setFieldValue("glassSettings.buyText", e.target.value)}
+                    onChange={(e: any) => setFieldValue("glassSettings.buyText", e.target.value)}
                     placeholder="BUY"
                     size="small"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <TextField
                     fullWidth
                     label={
@@ -1318,11 +1325,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     }
                     value={values.glassSettings?.sellText || ""}
-                    onChange={(e) => setFieldValue("glassSettings.sellText", e.target.value)}
+                    onChange={(e: any) => setFieldValue("glassSettings.sellText", e.target.value)}
                     placeholder="SELL"
                     size="small"
                   />
-                </Grid>
+                </div>
               </Grid>
             </Box>
 
@@ -1341,22 +1348,22 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 />
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <div >
                   <ColorPickerField
                     label="Background Color"
                     value={values.glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonBackgroundColor", value)}
                     defaultValue={theme.palette.primary.main}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Text Color"
                     value={values.glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonTextColor", value)}
                     defaultValue={theme.palette.primary.contrastText}
                   />
-                </Grid>
+                </div>
               </Grid>
 
               <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }}>
@@ -1366,73 +1373,71 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 />
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <div >
                   <ColorPickerField
                     label="Hover Background"
                     value={values.glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
                     defaultValue={theme.palette.primary.dark}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Hover Text"
                     value={values.glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonHoverTextColor", value)}
                     defaultValue={theme.palette.primary.contrastText}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Disabled Background"
                     value={values.glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
                     defaultValue={theme.palette.action.disabled}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                </div>
+                <div >
                   <ColorPickerField
                     label="Disabled Text"
                     value={values.glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground}
                     onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
                     defaultValue={theme.palette.action.disabledBackground}
                   />
-                </Grid>
+                </div>
               </Grid>
 
-
-            </Box>
-
-            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="outlined"
-                startIcon={<RefreshIcon />}
-                onClick={() => {
-                  const newSettings = getCurrentThemeGlassSettings();
-                  setFieldValue("glassSettings", newSettings);
-                }}
-                sx={{
-                  borderColor: '#ff6b35',
-                  color: '#ff6b35',
-                  backgroundColor: 'transparent',
-                  borderRadius: '8px',
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  px: 3,
-                  py: 1,
-                  '&:hover': {
+              <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<RefreshIcon />}
+                  onClick={() => {
+                    const newSettings = getCurrentThemeGlassSettings();
+                    setFieldValue("glassSettings", newSettings);
+                  }}
+                  sx={{
                     borderColor: '#ff6b35',
-                    backgroundColor: 'rgba(255, 107, 53, 0.04)',
-                  },
-                }}
-              >
-                RESET STYLES
-              </Button>
+                    color: '#ff6b35',
+                    backgroundColor: 'transparent',
+                    borderRadius: '8px',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    px: 3,
+                    py: 1,
+                    '&:hover': {
+                      borderColor: '#ff6b35',
+                      backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                    },
+                  }}
+                >
+                  RESET STYLES
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Paper>
       )}
-    </Container>
+    </Box>
   );
 }
 
@@ -1523,9 +1528,9 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
               <ListItem
                 key={componentType}
                 draggable
-                onDragStart={(e) => handleDragStart(e, index)}
+                onDragStart={(e: any) => handleDragStart(e, index)}
                 onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, index)}
+                onDrop={(e: any) => handleDrop(e, index)}
                 onDragEnd={handleDragEnd}
                 sx={{
                   border: `${theme.spacing(0.125)} solid`,
@@ -1828,11 +1833,11 @@ export default function ExchangeSettingsForm({
   }, []);
 
   const defaultNetwork = useMemo(() => {
-    if (settings?.defaultNetwork && networks.some(n => n.chainId === settings.defaultNetwork)) {
+    if (settings?.defaultNetwork && networks.some((n: any) => n.chainId === settings.defaultNetwork)) {
       return settings.defaultNetwork;
     }
 
-    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.some((n: any) => n.chainId === ChainId.Ethereum)) {
       return ChainId.Ethereum;
     }
 
@@ -1840,15 +1845,15 @@ export default function ExchangeSettingsForm({
   }, [networks, settings?.defaultNetwork]);
 
   const [chainId, setChainId] = useState<ChainId>(() => {
-    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.some((n: any) => n.chainId === ChainId.Ethereum)) {
       return ChainId.Ethereum;
     }
     return networks.length > 0 ? networks[0].chainId : ChainId.Ethereum;
   });
 
   useEffect(() => {
-    if (networks.length > 0 && !networks.some(n => n.chainId === chainId)) {
-      if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.length > 0 && !networks.some((n: any) => n.chainId === chainId)) {
+      if (networks.some((n: any) => n.chainId === ChainId.Ethereum)) {
         setChainId(ChainId.Ethereum);
       } else {
         setChainId(networks[0].chainId);
@@ -1857,13 +1862,13 @@ export default function ExchangeSettingsForm({
   }, [networks, chainId]);
 
   const availableNetworksForForm = useMemo(() => {
-    return networks.filter((n) => {
+    return networks.filter((n: any) => {
       return true;
     });
   }, [networks]);
 
   useEffect(() => {
-    const availableChainIds = availableNetworksForForm.map(n => n.chainId);
+    const availableChainIds = availableNetworksForForm.map((n: any) => n.chainId);
     if (availableChainIds.length > 0 && !availableChainIds.includes(chainId)) {
       if (availableChainIds.includes(ChainId.Ethereum)) {
         setChainId(ChainId.Ethereum);
@@ -1931,7 +1936,7 @@ export default function ExchangeSettingsForm({
                   defaultSlippage: {},
                   zrxApiKey: "",
                   buyTokenPercentageFee: 0.0,
-                  availNetworks: networks.map((n) => n.chainId),
+                  availNetworks: networks.map((n: any) => n.chainId),
                   variant: "default" as ExchangeVariant,
                   glassSettings: getDefaultGlassSettings(theme),
                   customVariantSettings: {
@@ -1957,12 +1962,12 @@ export default function ExchangeSettingsForm({
                   },
                 }
             }
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit as any}
             validationSchema={ExchangeSettingsSchema}
             validateOnChange
-            validate={handleValidate}
+            validate={handleValidate as any}
           >
-            {({ submitForm, values, errors, setFieldValue }) => (
+            {({ submitForm, values, errors, setFieldValue }: any) => (
               <>
                 <SelectNetworksDialog
                   DialogProps={{
@@ -1977,7 +1982,7 @@ export default function ExchangeSettingsForm({
                   <SaveOnChangeListener onSave={onChange} onValidate={onValidate} />
                 )}
                 <Grid container spacing={isMobile ? 1.5 : 2}>
-                  {/* <Grid item xs={12}>
+                  {/* <div >
                 <Field
                   component={TextField}
                   label={
@@ -1989,9 +1994,9 @@ export default function ExchangeSettingsForm({
                   name="zrxApiKey"
                   fullWidth
                 />
-              </Grid> */}
+              </div> */}
 
-                  <Grid item xs={12}>
+                  <div >
                     <Paper sx={{
                       p: isMobile ? 1.5 : 2,
                       mr: { xs: 1, sm: 1.5, md: 2 }
@@ -2027,7 +2032,7 @@ export default function ExchangeSettingsForm({
                             );
                           }}
                         >
-                          {networks.map((n) => (
+                          {networks.map((n: any) => (
                             <MenuItem key={n.chainId} value={n.chainId}>
                               <ListItemIcon>
                                 <Avatar
@@ -2080,11 +2085,11 @@ export default function ExchangeSettingsForm({
                           <Grid container spacing={isMobile ? 1 : 2}>
                             {values.availNetworks.length > 0 ? (
                               networks
-                                .filter((network) =>
+                                .filter((network: any) =>
                                   values.availNetworks.includes(network.chainId)
                                 )
-                                .map((n) => (
-                                  <Grid item key={n.chainId}>
+                                .map((n: any) => (
+                                  <div key={n.chainId}>
                                     <Chip
                                       size="small"
                                       avatar={
@@ -2096,10 +2101,10 @@ export default function ExchangeSettingsForm({
                                       }
                                       label={n.name}
                                     />
-                                  </Grid>
+                                  </div>
                                 ))
                             ) : (
-                              <Grid item xs={12}>
+                              <div >
                                 <Box>
                                   <Stack spacing={isMobile ? 1 : 2} alignItems="center">
                                     <Typography
@@ -2123,20 +2128,20 @@ export default function ExchangeSettingsForm({
                                     </Button>
                                   </Stack>
                                 </Box>
-                              </Grid>
+                              </div>
                             )}
                           </Grid>
                         </Box>
                       </Stack>
                     </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
+                  </div>
+                  <div >
                     <Paper sx={{
                       p: isMobile ? 1.5 : 2,
                       mr: { xs: 1, sm: 1.5, md: 2 }
                     }}>
                       <Grid container spacing={isMobile ? 1.5 : 2}>
-                        <Grid item xs={12}>
+                        <div >
                           <FormControl fullWidth size={isMobile ? "small" : "medium"}>
                             <InputLabel>
                               <FormattedMessage
@@ -2153,15 +2158,15 @@ export default function ExchangeSettingsForm({
                                 />
                               }
                               fullWidth
-                              value={networks.some(n => n.chainId === chainId) ? chainId : (networks.length > 0 ? networks[0].chainId : "")}
+                              value={networks.some((n: any) => n.chainId === chainId) ? chainId : (networks.length > 0 ? networks[0].chainId : "")}
                               onChange={(e) => {
                                 const newChainId = e.target.value as ChainId;
-                                if (networks.some(n => n.chainId === newChainId)) {
+                                if (networks.some((n: any) => n.chainId === newChainId)) {
                                   setChainId(newChainId);
                                 }
                               }}
                               renderValue={(value) => {
-                                if (!value || !networks.some(n => n.chainId === value)) {
+                                if (!value || !networks.some((n: any) => n.chainId === value)) {
                                   return <span>-</span>;
                                 }
                                 return (
@@ -2185,10 +2190,10 @@ export default function ExchangeSettingsForm({
                               }}
                             >
                               {networks
-                                .filter((n) =>
+                                .filter((n: any) =>
                                   values.availNetworks.includes(n.chainId)
                                 )
-                                .map((n) => (
+                                .map((n: any) => (
                                   <MenuItem key={n.chainId} value={n.chainId}>
                                     <ListItemIcon>
                                       <Avatar
@@ -2216,8 +2221,8 @@ export default function ExchangeSettingsForm({
                               </Typography>
                             </FormHelperText>
                           </FormControl>
-                        </Grid>
-                        <Grid item xs={12}>
+                        </div>
+                        <div >
                           <ExchangeQuoteTokensInput
                             tokens={tokens}
                             chainId={chainId}
@@ -2228,8 +2233,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </Grid>
-                        <Grid item xs={12}>
+                        </div>
+                        <div >
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].baseToken`}
                             tokens={
@@ -2243,8 +2248,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </Grid>
-                        <Grid item xs={12}>
+                        </div>
+                        <div >
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].quoteToken`}
                             tokens={
@@ -2258,8 +2263,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </Grid>
-                        <Grid item xs={12}>
+                        </div>
+                        <div >
                           <TextFieldMui
                             inputProps={{
                               type: "number",
@@ -2294,13 +2299,13 @@ export default function ExchangeSettingsForm({
                             fullWidth
                             size={isMobile ? "small" : "medium"}
                           />
-                        </Grid>
+                        </div>
 
                       </Grid>
                     </Paper>
-                  </Grid>
+                  </div>
 
-                  <Grid item xs={12}>
+                  <div >
                     <Paper sx={{
                       p: { xs: 1.5, sm: 2, md: 3 },
                       mr: { xs: 1, sm: 1.5, md: 2 }
@@ -2318,7 +2323,7 @@ export default function ExchangeSettingsForm({
                         />
                       </Typography>
                       <Grid container spacing={{ xs: 1.5, sm: 2 }}>
-                        <Grid item xs={12}>
+                        <div >
                           <Field
                             component={TextField}
                             label={
@@ -2333,9 +2338,9 @@ export default function ExchangeSettingsForm({
                             placeholder="0xyouraddress...."
                             InputLabelProps={{ shrink: true }}
                           />
-                        </Grid>
+                        </div>
 
-                        <Grid item xs={12}>
+                        <div >
                           <FormikDecimalInput
                             name="buyTokenPercentageFee"
                             decimals={2}
@@ -2356,14 +2361,14 @@ export default function ExchangeSettingsForm({
                               size: isMobile ? "small" : "medium",
                             }}
                           />
-                        </Grid>
+                        </div>
                       </Grid>
                     </Paper>
-                  </Grid>
+                  </div>
 
-                  <Grid item xs={12}>
+                  <div >
                     <VariantConfigurationTab customTheme={customTheme} />
-                  </Grid>
+                  </div>
 
 
                   {showSaveButton && (

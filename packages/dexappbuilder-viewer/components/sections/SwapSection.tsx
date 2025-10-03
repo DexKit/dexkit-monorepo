@@ -102,7 +102,7 @@ export function SwapSection({ section }: Props) {
 
     if (chainId && buyTokenAddress) {
       buyToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -110,7 +110,7 @@ export function SwapSection({ section }: Props) {
 
     if (chainId && sellTokenAddress) {
       sellToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -138,7 +138,7 @@ export function SwapSection({ section }: Props) {
         const configuredBuyToken = section.config?.configByChain?.[targetChainId].buyToken;
 
         if (configuredBuyToken && !configuredBuyToken.logoURI) {
-          const tokenWithLogo = allTokens.find(t =>
+          const tokenWithLogo = allTokens.find((t: any) =>
             isAddressEqual(t.address, configuredBuyToken.address) &&
             t.chainId === configuredBuyToken.chainId
           );
@@ -161,7 +161,7 @@ export function SwapSection({ section }: Props) {
         const configuredSellToken = section.config?.configByChain?.[targetChainId].sellToken;
 
         if (configuredSellToken && !configuredSellToken.logoURI) {
-          const tokenWithLogo = allTokens.find(t =>
+          const tokenWithLogo = allTokens.find((t: any) =>
             isAddressEqual(t.address, configuredSellToken.address) &&
             t.chainId === configuredSellToken.chainId
           );
@@ -196,8 +196,8 @@ export function SwapSection({ section }: Props) {
 
   const featuredTokens = useMemo(() => {
     return allTokens
-      .filter((t) => !t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => !t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,
@@ -209,8 +209,8 @@ export function SwapSection({ section }: Props) {
 
   const nonFeaturedTokens = useMemo(() => {
     return allTokens
-      .filter((t) => t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,

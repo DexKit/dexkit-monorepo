@@ -1,7 +1,6 @@
 import {
   Box,
   Container,
-  Grid,
   Stack,
   Typography,
   useMediaQuery,
@@ -60,7 +59,7 @@ export default function FormsContractsPage() {
 
   const handlePrevPage = () => {
     if (page - 1 >= 1) {
-      setPage((p) => p - 1);
+      setPage((p: number) => p - 1);
     }
   };
 
@@ -69,104 +68,116 @@ export default function FormsContractsPage() {
       listDeployedContractQuery.fetchNextPage();
     }
 
-    setPage((p) => p + 1);
+    setPage((p: number) => p + 1);
   };
 
   return (
     <>
-      <Container>
-        <Stack spacing={2}>
-          <PageHeader
-            breadcrumbs={[
-              {
-                caption: <FormattedMessage id="home" defaultMessage="Home" />,
-                uri: '/',
-              },
-              {
-                caption: (
-                  <FormattedMessage
-                    id="dexgenerator"
-                    defaultMessage="DexGenerator"
-                  />
-                ),
-                uri: '/forms',
-              },
-              {
-                caption: (
-                  <FormattedMessage
-                    id="manage.contracts"
-                    defaultMessage="Manage Contracts"
-                  />
-                ),
-                uri: `/forms/contracts/list`,
-              },
-              {
-                caption: (
-                  <FormattedMessage
-                    id="deploy.contract"
-                    defaultMessage="Deploy Contract"
-                  />
-                ),
-                uri: `/forms/contracts/create`,
-                active: true,
-              },
-            ]}
-          />
+      <Container maxWidth="lg">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Header Section */}
           <Box>
-            <Grid container spacing={isMobile ? 1.5 : 3}>
-              <Grid item xs={12}>
-                <Stack
-                  spacing={isMobile ? 0.5 : 1}
-                  sx={{ mb: isMobile ? 1.5 : 2 }}
-                >
-                  <Typography
-                    variant={isMobile ? 'h6' : 'h5'}
-                    sx={{
-                      fontSize: isMobile ? '1.15rem' : '1.5rem',
-                      fontWeight: 600,
-                      mb: 0.5,
-                    }}
-                  >
+            <PageHeader
+              breadcrumbs={[
+                {
+                  caption: <FormattedMessage id="home" defaultMessage="Home" />,
+                  uri: '/',
+                },
+                {
+                  caption: (
                     <FormattedMessage
-                      id="deploy.your.contract"
-                      defaultMessage="Deploy your contract"
+                      id="dexgenerator"
+                      defaultMessage="DexGenerator"
                     />
-                  </Typography>
-                  <Typography
-                    variant={isMobile ? 'body2' : 'body1'}
-                    color="text.secondary"
-                    sx={{
-                      fontSize: isMobile ? '0.85rem' : 'inherit',
-                    }}
-                  >
+                  ),
+                  uri: '/forms',
+                },
+                {
+                  caption: (
                     <FormattedMessage
-                      id="deploy.contract.description"
-                      defaultMessage="You can deploy contracts from our available templates"
+                      id="manage.contracts"
+                      defaultMessage="Manage Contracts"
                     />
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  {deployableContractsQuery.data?.map((contract, key) => (
-                    <Grid item xs={12} sm={4} key={key}>
-                      <ContractButton
-                        title={contract.name}
-                        description={contract.description}
-                        creator={{
-                          imageUrl: contract?.publisherIcon,
-                          name: contract?.publisherName,
-                        }}
-                        href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
-                        targetBlank={true}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
+                  ),
+                  uri: `/forms/contracts/list`,
+                },
+                {
+                  caption: (
+                    <FormattedMessage
+                      id="deploy.contract"
+                      defaultMessage="Deploy Contract"
+                    />
+                  ),
+                  uri: `/forms/contracts/create`,
+                  active: true,
+                },
+              ]}
+            />
           </Box>
-        </Stack>
+
+          {/* Title and Description Section */}
+          <Box>
+            <Stack
+              spacing={isMobile ? 0.5 : 1}
+              sx={{ mb: isMobile ? 1.5 : 2 }}
+            >
+              <Typography
+                variant={isMobile ? 'h6' : 'h5'}
+                sx={{
+                  fontSize: isMobile ? '1.15rem' : '1.5rem',
+                  fontWeight: 600,
+                  mb: 0.5,
+                }}
+              >
+                <FormattedMessage
+                  id="deploy.your.contract"
+                  defaultMessage="Deploy your contract"
+                />
+              </Typography>
+              <Typography
+                variant={isMobile ? 'body2' : 'body1'}
+                color="text.secondary"
+                sx={{
+                  fontSize: isMobile ? '0.85rem' : 'inherit',
+                }}
+              >
+                <FormattedMessage
+                  id="deploy.contract.description"
+                  defaultMessage="You can deploy contracts from our available templates"
+                />
+              </Typography>
+            </Stack>
+          </Box>
+
+          {/* Contract Cards Grid */}
+          <Box>
+            <Box sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+              },
+              gap: 2,
+              width: '100%'
+            }}>
+              {deployableContractsQuery.data?.map((contract, key) => (
+                <Box key={key} sx={{ width: '100%' }}>
+                  <ContractButton
+                    title={contract.name}
+                    description={contract.description}
+                    creator={{
+                      imageUrl: contract?.publisherIcon,
+                      name: contract?.publisherName,
+                    }}
+                    href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
+                    targetBlank={true}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
       </Container>
     </>
   );

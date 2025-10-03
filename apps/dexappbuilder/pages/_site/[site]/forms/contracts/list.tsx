@@ -103,6 +103,15 @@ export default function FormsListContractsPage() {
           startIcon={<AddIcon />}
           variant="contained"
           color="primary"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"
@@ -170,6 +179,15 @@ export default function FormsListContractsPage() {
           variant="contained"
           color="primary"
           size="medium"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"
@@ -223,8 +241,7 @@ export default function FormsListContractsPage() {
         maxWidth="xl"
         disableGutters={isMobile}
         sx={{
-          px: isMobile ? 1 : 2,
-          overflowX: 'hidden'
+          px: isMobile ? 1 : 2
         }}
       >
         <Stack spacing={isMobile ? 1 : 2}>
@@ -278,14 +295,13 @@ export default function FormsListContractsPage() {
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12} sx={{ overflowX: 'hidden', width: '100%' }}>
+              <Grid item xs={12} sx={{ width: '100%' }}>
                 {isActive ? (
                   isLoggedIn ? (
                     <Box
                       sx={{
                         width: '100%',
-                        overflowX: 'hidden',
-                        maxWidth: '100vw'
+                        maxWidth: '100%'
                       }}
                     >
                       <ContractListDataGrid

@@ -7,6 +7,7 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
+  useColorScheme,
 } from "@mui/material";
 
 import { TOKEN_ICON_URL, useIsMobile } from "@dexkit/core";
@@ -28,11 +29,13 @@ export default function SelectPairList({
   onSelect,
 }: SelectPairListProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || theme.palette.text.primary;
+  const isDarkMode = mode === 'dark';
+  const textColor = isDarkMode ? '#ffffff' : theme.palette.text.primary;
 
   return (
     <List disablePadding>
@@ -56,6 +59,11 @@ export default function SelectPairList({
               backgroundColor: theme.palette.action.selected,
               '&:hover': {
                 backgroundColor: theme.palette.action.selected,
+              },
+            },
+            '& .MuiListItemText-root': {
+              '& .MuiTypography-root': {
+                color: `${textColor} !important`,
               },
             },
           }}
@@ -89,7 +97,7 @@ export default function SelectPairList({
                 sm: theme.typography.body1.fontSize
               },
               fontWeight: theme.typography.fontWeightMedium,
-              color: isGlassVariant ? textColor : theme.palette.text.primary,
+              color: `${textColor} !important`,
             }}
           />
         </ListItemButton>

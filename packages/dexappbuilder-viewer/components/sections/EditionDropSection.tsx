@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EditionDropPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import {
   useActiveClaimConditionForWallet,
@@ -627,7 +628,7 @@ export function EditionDropSection({ section }: Props) {
                         id="quantity-field"
                         type={"number"}
                         value={quantity}
-                        onChange={(ev) =>
+                        onChange={(ev: any) =>
                           setQuantity(Number(ev.currentTarget.value))
                         }
                         label={

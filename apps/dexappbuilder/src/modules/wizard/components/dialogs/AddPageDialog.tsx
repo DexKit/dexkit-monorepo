@@ -95,12 +95,12 @@ export default function AddPageDialog({
         }}
         validationSchema={PageOptionsSchema}
       >
-        {({ submitForm, isSubmitting, isValid }) => (
+        {({ submitForm, isSubmitting, isValid }: any) => (
           <Form>
             <DialogContent dividers>
               <Grid container spacing={2}>
                 {clonedPage && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography>
                       <FormattedMessage
                         id={'you.are.cloning.page.message'}
@@ -112,7 +112,7 @@ export default function AddPageDialog({
                     </Typography>
                   </Grid>
                 )}
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box py={2}>
                     <Field
                       component={TextField}

@@ -22,13 +22,13 @@ import {
   Button,
   CircularProgress,
   Divider,
-  Grid,
   Menu,
   MenuItem,
   Skeleton,
   Stack,
   Typography,
   useTheme,
+  useColorScheme,
 } from "@mui/material";
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
@@ -76,14 +76,16 @@ export default function MarketForm({
   isActive,
 }: MarketBuyFormProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
+  const isDarkMode = mode === 'dark';
   const textColor = isGlassVariant
     ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
-    : (glassSettings?.textColor || theme.palette.text.primary);
+    : (isDarkMode ? '#ffffff' : theme.palette.text.primary);
   const secondaryTextColor = isGlassVariant
     ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
-    : theme.palette.text.secondary;
+    : (isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
   const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.10})` : theme.palette.primary.main);
   const fillButtonTextColor = glassSettings?.fillButtonTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
   const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.10) + 0.1, 0.2)})` : theme.palette.primary.dark);
@@ -501,140 +503,132 @@ export default function MarketForm({
         onConfirm={handleConfirm}
         canGasless={canGasless}
       />
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ visibility: provider ? "visible" : "hidden" }}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box>
+          <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
+        </Box>
+        
+        <Box sx={{ visibility: provider ? "visible" : "hidden" }}>
+          {side === "buy" ? (
+            <Typography variant="body2" color={textColor}>
+              <FormattedMessage id="available" defaultMessage="Available" />:{" "}
+              {quoteTokenBalanceQuery.isLoading ? (
+                <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+              ) : (
+                <>
+                  {quoteTokenBalanceFormatted}{" "}
+                  {quoteToken.symbol.toUpperCase()}
+                </>
+              )}
+            </Typography>
+          ) : (
+            <Typography
+              variant="body2"
+              color={textColor}
+              sx={{ visibility: account ? "visible" : "hidden" }}
+            >
+              <FormattedMessage id="available" defaultMessage="Available" />:{" "}
+              {baseTokenBalanceQuery.isLoading ? (
+                <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+              ) : (
+                <>
+                  {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
+                </>
+              )}
+            </Typography>
+          )}
+        </Box>
+        
+        <Divider />
+        
+        <Box>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            spacing={2}
+            alignItems="center"
           >
-            {side === "buy" ? (
-              <Typography variant="body2" color={textColor}>
-                <FormattedMessage id="available" defaultMessage="Available" />:{" "}
-                {quoteTokenBalanceQuery.isLoading ? (
-                  <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                ) : (
-                  <>
-                    {quoteTokenBalanceFormatted}{" "}
-                    {quoteToken.symbol.toUpperCase()}
-                  </>
-                )}
-              </Typography>
-            ) : (
-              <Typography
-                variant="body2"
-                color={textColor}
-                sx={{ visibility: account ? "visible" : "hidden" }}
+            <Typography color={textColor}>
+              {side === "buy" ? (
+                <FormattedMessage id="cost" defaultMessage="Cost" />
+              ) : (
+                <FormattedMessage
+                  id="You will.receive"
+                  defaultMessage="You will receive"
+                />
+              )}
+            </Typography>
+            {filteredQuoteTokens && filteredQuoteTokens.length > 0 ? (
+              <Box
+                display={"flex"}
+                alignContent={"center"}
+                alignItems={"center"}
               >
-                <FormattedMessage id="available" defaultMessage="Available" />:{" "}
-                {baseTokenBalanceQuery.isLoading ? (
+                <Typography color={textColor}>
+                  {priceQuery.isFetching ? (
+                    <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+                  ) : (
+                    <>{formattedCost}</>
+                  )}
+                </Typography>
+
+                <Button
+                  sx={{
+                    color: secondaryTextColor,
+                  }}
+                  size={"large"}
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  {open ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  )}
+                  {quoteToken.symbol.toUpperCase()}
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {filteredQuoteTokens.map((tk: any, key: any) => (
+                    <MenuItem
+                      onClick={() => {
+                        setSelectedQuoteToken(tk);
+                        handleClose();
+                      }}
+                      key={key}
+                    >
+                      {tk?.symbol.toUpperCase()}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Typography color={textColor}>
+                {quoteQuery.isFetching ? (
                   <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                 ) : (
                   <>
-                    {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
+                    {formattedCost} {quoteToken.symbol.toUpperCase()}
                   </>
                 )}
               </Typography>
             )}
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <Stack>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={2}
-                  alignItems="center"
-                >
-                  <Typography color={textColor}>
-                    {side === "buy" ? (
-                      <FormattedMessage id="cost" defaultMessage="Cost" />
-                    ) : (
-                      <FormattedMessage
-                        id="You will.receive"
-                        defaultMessage="You will receive"
-                      />
-                    )}
-                  </Typography>
-                  {filteredQuoteTokens && filteredQuoteTokens.length > 0 ? (
-                    <Box
-                      display={"flex"}
-                      alignContent={"center"}
-                      alignItems={"center"}
-                    >
-                      <Typography color={textColor}>
-                        {priceQuery.isFetching ? (
-                          <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                        ) : (
-                          <>{formattedCost}</>
-                        )}
-                      </Typography>
-
-                      <Button
-                        sx={{
-                          color: secondaryTextColor,
-                        }}
-                        size={"large"}
-                        id="basic-button"
-                        aria-controls={open ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
-                      >
-                        {open ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                        {quoteToken.symbol.toUpperCase()}
-                      </Button>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        {filteredQuoteTokens.map((tk, key) => (
-                          <MenuItem
-                            onClick={() => {
-                              setSelectedQuoteToken(tk);
-                              handleClose();
-                            }}
-                            key={key}
-                          >
-                            {tk?.symbol.toUpperCase()}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
-                  ) : (
-                    <Typography color={textColor}>
-                      {quoteQuery.isFetching ? (
-                        <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                      ) : (
-                        <>
-                          {formattedCost} {quoteToken.symbol.toUpperCase()}
-                        </>
-                      )}
-                    </Typography>
-                  )}
-                </Stack>
-              </Stack>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            {renderActionButton()}
-          </Grid>
-        </Grid>
+          </Stack>
+        </Box>
+        
+        <Box>
+          {renderActionButton()}
+        </Box>
       </Box>
     </>
   );

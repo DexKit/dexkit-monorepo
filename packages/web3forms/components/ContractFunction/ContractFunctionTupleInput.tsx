@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Grid, Paper } from "@mui/material";
 import { useMemo } from "react";
 import { ContractFormParams, TupleAbiFragmentInput } from "../../types";

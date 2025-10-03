@@ -25,8 +25,8 @@ function HtmlSpacer(props: CellPluginComponentProps<SpacerState>) {
 }
 
 const SpacerResizable = lazyLoad(() => import('./SpacerResizable'));
-const SpacerHtmlRenderer: React.FC<CellPluginComponentProps<SpacerState>> = (
-  props
+const SpacerHtmlRenderer = (
+  props: CellPluginComponentProps<SpacerState>
 ) => {
   return (
     <div className={'react-page-plugins-content-spacer'}>

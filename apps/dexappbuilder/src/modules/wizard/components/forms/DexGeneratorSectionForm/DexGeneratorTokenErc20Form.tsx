@@ -54,16 +54,16 @@ function DexGeneratorTokenErc20Form({
       onSubmit={handleSubmit}
       validate={handleValidate}
     >
-      {({ setFieldValue, values }) => (
+      {({ setFieldValue, values }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values?.disableBurn}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('disableBurn', e.target.checked)
                       }
                     />
@@ -76,12 +76,12 @@ function DexGeneratorTokenErc20Form({
                   }
                 />
               </Grid>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.disableInfo}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('disableInfo', e.target.checked)
                       }
                     />
@@ -94,12 +94,12 @@ function DexGeneratorTokenErc20Form({
                   }
                 />
               </Grid>
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.disableTransfer}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setFieldValue('disableTransfer', e.target.checked)
                       }
                     />

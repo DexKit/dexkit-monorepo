@@ -12,35 +12,81 @@ export function VideoSection({ embedType, title, videoUrl }: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const getVideoType = (url: string): VideoEmbedType => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      return 'youtube';
+    } else if (url.includes('vimeo.com')) {
+      return 'vimeo';
+    }
+    return 'custom';
+  };
+
   const renderVideo = () => {
-    if (embedType === "youtube") {
+    if (!videoUrl) return null;
+    
+    const videoType = getVideoType(videoUrl);
+    
+    if (videoType === "youtube") {
       return <LazyYoutubeFrame url={videoUrl} title={title} />;
+    } else {
+      return (
+        <iframe
+          src={videoUrl}
+          title={title}
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      );
     }
   };
 
   return (
-    <Box sx={{ py: isMobile ? 2 : 4, px: 0, width: '100%' }}>
-      <Container maxWidth="xl" disableGutters sx={{ px: 0, width: '100%' }}>
-        <Grid
-          container
-          spacing={isMobile ? 1 : 2}
-          alignContent="flex-start"
-          alignItems="flex-start"
-          justifyContent="flex-start"
-          direction={isMobile ? "column" : "row"}
-        >
-          {isMobile && (
-            <Grid item xs={12} sx={{ mb: 1, pl: 1 }}>
-              <Typography variant="h6" align="left" sx={{ fontWeight: "medium" }}>
-                {title}
-              </Typography>
-            </Grid>
-          )}
+    <Box py={isMobile ? 2 : 8}>
+      <Container
+        maxWidth={isMobile ? "xs" : "lg"}
+        sx={{
+          px: { xs: 0.75, sm: 2, md: 3 },
+        }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 1 : 4 }}>
+          <Box sx={{ mb: isMobile ? 0.75 : 0 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: isMobile ? 0.5 : 0
+              }}
+            >
+              <Box sx={{ 
+                mb: isMobile ? 0.25 : 0, 
+                textAlign: isMobile ? "center" : "left",
+                width: isMobile ? '100%' : 'auto'
+              }}>
+                <Typography
+                  variant={isMobile ? "h6" : "h5"}
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.5rem' },
+                    lineHeight: 1.2
+                  }}
+                >
+                  {title}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
 
-          <Grid item xs={12} sm={8} md={6}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <Box sx={{
               position: "relative",
-              paddingTop: embedType === "youtube" ? "56.25%" : "auto", // 16:9 aspect ratio
+              width: '100%',
+              maxWidth: isMobile ? '100%' : '800px',
+              paddingTop: "56.25%",
               height: 0,
               overflow: "hidden",
               "& iframe": {
@@ -54,16 +100,8 @@ export function VideoSection({ embedType, title, videoUrl }: Props) {
             }}>
             {renderVideo()}
             </Box>
-          </Grid>
-
-          {!isMobile && (
-            <Grid item xs={12} sx={{ mt: 2 }}>
-            <Typography variant="h5" align="center">
-              {title}
-            </Typography>
-          </Grid>
-          )}
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

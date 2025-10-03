@@ -87,7 +87,7 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
     if (parsedConfigs && parsedConfigs.length > 0) {
       if (lazySearch) {
         return parsedConfigs.filter(
-          (c) => c.name.toLowerCase().search(lazySearch.toLowerCase()) > -1,
+          (c: any) => c.name.toLowerCase().search(lazySearch.toLowerCase()) > -1,
         );
       }
 
@@ -249,11 +249,10 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
         }}
         onCancel={() => setIsOpenCreateWidget(false)}
       />
-
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           {!isOnAdminDashboard && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <PageHeader
                 breadcrumbs={[
                   {
@@ -282,10 +281,10 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
               />
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <MismatchAccount />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h5">
               <FormattedMessage
                 id="my.widgets.upper"
@@ -293,7 +292,7 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
               />
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -314,13 +313,17 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider sx={{ py: 1 }} />
           </Grid>
           {selectedWidgetId === undefined && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={3} justifyContent="center">
-                <Grid item xs={12} sm={8}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 8
+                  }}>
                   <Box>
                     <Stack spacing={3}>
                       <Box px={3}>
@@ -352,7 +355,7 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
             </Grid>
           )}
           {selectedWidgetId !== undefined && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AdminWidgetContainer
                 id={selectedWidgetId}
                 onGoBack={() => setSelectedWidgetId(undefined)}

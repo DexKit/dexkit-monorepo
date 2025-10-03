@@ -39,7 +39,7 @@ import {
   GetStaticPropsContext,
   NextPage,
 } from 'next';
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import AuthMainLayout from 'src/components/layouts/authMain';
@@ -76,7 +76,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
 
   const lazySearch = useDebounce<string>(search, 500);
 
-  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, []);
 
@@ -96,7 +96,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
     if (parsedConfigs && parsedConfigs.length > 0) {
       if (lazySearch) {
         return parsedConfigs.filter(
-          (c) => c.name.toLowerCase().search(lazySearch.toLowerCase()) > -1,
+          (c: any) => c.name.toLowerCase().search(lazySearch.toLowerCase()) > -1,
         );
       }
 
@@ -255,8 +255,9 @@ export const AdminWidgetsIndexPage: NextPage = () => {
       />
 
       <Container maxWidth={'xl'}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Header Section */}
+          <Box>
             <PageHeader
               breadcrumbs={[
                 {
@@ -277,22 +278,32 @@ export const AdminWidgetsIndexPage: NextPage = () => {
                 },
               ]}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Box>
+
+          {/* Mismatch Account */}
+          <Box>
             <MismatchAccount />
-          </Grid>
-          <Grid item xs={12}>
+          </Box>
+
+          {/* Title Section */}
+          <Box>
             <Typography variant="h5">
               <FormattedMessage
                 id="my.widgets.upper"
                 defaultMessage="My Widgets"
               />
             </Typography>
-          </Grid>
+          </Box>
 
           {/* Learn more about Web3 Widgets section */}
-          <Grid item xs={12}>
-            <Paper sx={{ p: { xs: 2, sm: 3 }, backgroundColor: 'background.default' }}>
+          <Box>
+            <Paper sx={{ 
+              p: { xs: 2, sm: 3 }, 
+              backgroundColor: 'background.default',
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'divider'
+            }}>
               <Typography variant="h6" gutterBottom>
                 <FormattedMessage
                   id="learn.more.about.web3.widgets"
@@ -350,9 +361,10 @@ export const AdminWidgetsIndexPage: NextPage = () => {
                 </Button>
               </Stack>
             </Paper>
-          </Grid>
+          </Box>
 
-          <Grid item xs={12}>
+          {/* Action Section - Button and Search */}
+          <Box>
             <Stack
               direction="row"
               alignItems="center"
@@ -364,51 +376,66 @@ export const AdminWidgetsIndexPage: NextPage = () => {
                 startIcon={<AddIcon />}
                 variant="contained"
                 color="primary"
+                size="large"
+                sx={{ 
+                  minWidth: 160,
+                  color: 'white !important',
+                  '&:hover': {
+                    color: 'white !important'
+                  },
+                  '& .MuiButton-startIcon': {
+                    color: 'white !important'
+                  }
+                }}
               >
                 <FormattedMessage
                   id="new.widget.upper"
-                  defaultMessage="New Widget"
+                  defaultMessage="NEW WIDGET"
                 />
               </Button>
+              
+              <TextField
+                value={search}
+                placeholder={formatMessage({
+                  id: 'search.dots',
+                  defaultMessage: 'Search...',
+                })}
+                onChange={handleSearchChange}
+                size="small"
+                variant="outlined"
+                sx={{ minWidth: 200 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </Stack>
-          </Grid>
+          </Box>
 
-          <Grid item xs={12}>
+          {/* Divider */}
+          <Box>
             <Divider sx={{ py: 1 }} />
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={3} justifyContent="center">
-              <Grid item xs={12} sm={8}>
-                <Box>
-                  <Stack spacing={3}>
-                    <Box px={3}>
-                      <Stack justifyContent="flex-end" direction="row">
-                        <TextField
-                          value={search}
-                          placeholder={formatMessage({
-                            id: 'search.dots',
-                            defaultMessage: 'Search...',
-                          })}
-                          onChange={handleSearchChange}
-                          size="small"
-                          variant="standard"
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Search />
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Stack>
-                    </Box>
-                    {renderTable()}
-                  </Stack>
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+          </Box>
+
+          {/* Table Section */}
+          <Box>
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'center',
+              width: '100%'
+            }}>
+              <Box sx={{
+                width: '100%',
+                maxWidth: { xs: '100%', sm: '90%', md: '80%' }
+              }}>
+                {renderTable()}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       </Container>
     </>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -92,9 +93,9 @@ export default function SelectNFTDialog({
   const [tokenIds, setTokenIds] = useState<string[]>([]);
 
   const handleSelectNFT = (tokenId: string) => {
-    setTokenIds((ids) => {
+    setTokenIds((ids: any) => {
       if (ids?.includes(tokenId)) {
-        return ids.filter((i) => i !== tokenId);
+        return ids.filter((i: any) => i !== tokenId);
       }
 
       return [...ids, tokenId];

@@ -2,6 +2,7 @@ import { Box, Grid, Icon, IconButton, useTheme } from "@mui/material";
 
 import { chunk } from "@dexkit/core/utils";
 import { useCallback, useMemo } from "react";
+import * as React from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
 export interface SelectIconGridProps {
@@ -81,16 +82,15 @@ export default function SelectIconGrid({
         bgcolor: "background.paper",
       }}
     >
-      <FixedSizeList
-        height={400}
-        width="100%"
-        itemSize={72}
-        itemCount={200}
-        overscanCount={5}
-        itemData={chunk(icons, 4)}
-      >
-        {renderRow}
-      </FixedSizeList>
+      {(React as any).createElement(FixedSizeList, {
+        height: 400,
+        width: "100%",
+        itemSize: 72,
+        itemCount: 200,
+        overscanCount: 5,
+        itemData: chunk(icons, 4),
+        children: renderRow
+      })}
     </Box>
   );
 }

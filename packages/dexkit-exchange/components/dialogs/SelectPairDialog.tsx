@@ -14,6 +14,7 @@ import {
   Stack,
   useMediaQuery,
   useTheme,
+  useColorScheme,
 } from "@mui/material";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -66,11 +67,13 @@ export default function SelectPairDialog({
   const { onClose } = DialogProps;
   const { formatMessage } = useIntl();
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || theme.palette.text.primary;
+  const isDarkMode = mode === 'dark';
+  const textColor = glassSettings?.textColor || (isDarkMode ? '#ffffff' : theme.palette.text.primary);
 
   const [baseToken, setBaseToken] = useState<Token | undefined>();
   const [quoteToken, setQuoteToken] = useState<Token | undefined>();
@@ -163,7 +166,7 @@ export default function SelectPairDialog({
   const [showMoreNetworks, setShowMoreNetworks] = useState(false);
 
   const toggleNetworks = () => {
-    setShowMoreNetworks((value) => !value);
+    setShowMoreNetworks((value: any) => !value);
   };
 
   return (
@@ -175,7 +178,7 @@ export default function SelectPairDialog({
           ...(isMobile && {
             height: { xs: '95vh', sm: '90vh' },
             margin: theme.spacing(1),
-            borderRadius: theme.shape.borderRadius * 2,
+            borderRadius: Number(theme.shape.borderRadius) * 2,
           }),
           ...(!isMobile && {
             maxHeight: { md: '80vh', lg: '75vh' },
@@ -209,7 +212,9 @@ export default function SelectPairDialog({
             position: 'sticky',
             top: 0,
             zIndex: theme.zIndex.modal + 1,
-            backgroundColor: isGlassVariant ? 'rgba(255, 255, 255, 0.1)' : theme.palette.background.paper,
+            backgroundColor: isGlassVariant 
+              ? 'rgba(255, 255, 255, 0.1)' 
+              : (isDarkMode ? theme.palette.grey[900] : theme.palette.background.paper),
             ...(isGlassVariant && {
               backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
               WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
@@ -221,10 +226,10 @@ export default function SelectPairDialog({
       >
         <Stack spacing={{ xs: theme.spacing(1.5), sm: theme.spacing(2) }}>
           <Box>
-            <Grid container spacing={{ xs: 0.5, sm: 1 }} alignItems="center">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
               {networks
-                .filter((n) => n.testnet !== true)
-                .filter((n) => {
+                .filter((n: any) => n.testnet !== true)
+                .filter((n: any) => {
                   if (isMobile && !showMoreNetworks) {
                     return (
                       DEFAULT_ZRX_NETWORKS.includes(n.chainId) ||
@@ -233,8 +238,8 @@ export default function SelectPairDialog({
                   }
                   return true;
                 })
-                .map((n) => (
-                  <Grid item key={n.chainId}>
+                .map((n: any) => (
+                  <div key={n.chainId} style={{ display: 'flex', alignItems: 'center' }}>
                     <Chip
                       color={chainId === n.chainId ? "primary" : undefined}
                       clickable
@@ -274,10 +279,10 @@ export default function SelectPairDialog({
                         }),
                       }}
                     />
-                  </Grid>
+                  </div>
                 ))}
               {isMobile && (
-                <Grid item>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Button
                     startIcon={!showMoreNetworks ? <AddIcon /> : <RemoveIcon />}
                     onClick={toggleNetworks}
@@ -298,9 +303,9 @@ export default function SelectPairDialog({
                       <FormattedMessage id="more" defaultMessage="More" />
                     )}
                   </Button>
-                </Grid>
+                </div>
               )}
-            </Grid>
+            </div>
           </Box>
 
           <LazyTextField
@@ -432,7 +437,7 @@ export default function SelectPairDialog({
           px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
           py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
           gap: { xs: theme.spacing(1), sm: theme.spacing(0.5) },
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: isDarkMode ? theme.palette.grey[900] : theme.palette.background.paper,
           borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
           ...(isGlassVariant && {
             backgroundColor: 'rgba(255, 255, 255, 0.1)',

@@ -101,72 +101,52 @@ export default function PreviewPagePlatform({
       <Box
         sx={{
           flex: 1,
-          overflow: 'visible',
+          overflow: 'auto',
           display: 'flex',
-          flexDirection: 'column'
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          p: 2
         }}
       >
-        {previewPlatform === 'desktop' ? (
-          <Box
-            sx={{
-              flex: 1,
-              overflow: enableOverflow ? 'auto' : 'hidden',
-            }}
-          >
-            {pagePreview}
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              overflow: 'visible',
-              minHeight: 0,
-              ...(isMobile && {
-                minHeight: '85vh',
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: previewPlatform === 'mobile' ? '375px' : '100%',
+            height: 'auto',
+            minHeight: previewPlatform === 'mobile' ? '600px' : '500px',
+            overflow: 'visible',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          {page && site ? (
+            <PreviewPortal
+              page={page}
+              site={site}
+              index={index}
+              previewPlatform={previewPlatform}
+            />
+          ) : (
+            <Paper
+              elevation={2}
+              sx={{
+                width: '100%',
                 height: '100%',
-              }),
-              ...(!isMobile && {
-                minHeight: previewPlatform === 'mobile' ? '85vh' : '80vh',
-                height: '100%',
-              }),
-            }}
-          >
-            {page && site ? (
-              <PreviewPortal
-                page={page}
-                site={site}
-                index={index}
-                previewPlatform={previewPlatform}
-              />
-            ) : (
-              <Paper
-                elevation={2}
-                sx={{
-                  width: '100%',
-                  maxWidth: isMobile ? '100%' : (enableOverflow ? theme.spacing(85) : theme.spacing(65)),
-                  height: 'auto',
-                  minHeight: 'fit-content',
-                  borderRadius: theme.spacing(3),
-                  overflow: 'visible',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  backgroundColor: 'background.paper',
-                  p: theme.spacing(0.125),
-                  ...(isMobile && {
-                    minHeight: '85vh',
-                    height: '100%',
-                    borderRadius: theme.spacing(1),
-                  }),
-                }}
-              >
-                {pagePreview}
-              </Paper>
-            )}
-          </Box>
-        )}
+                borderRadius: previewPlatform === 'mobile' ? theme.spacing(2) : theme.spacing(1),
+                overflow: 'visible',
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: 'background.paper',
+                ...(previewPlatform === 'mobile' && {
+                  border: `1px solid ${theme.palette.divider}`,
+                  minHeight: '600px'
+                }),
+              }}
+            >
+              {pagePreview}
+            </Paper>
+          )}
+        </Box>
       </Box>
     </Box>
   );

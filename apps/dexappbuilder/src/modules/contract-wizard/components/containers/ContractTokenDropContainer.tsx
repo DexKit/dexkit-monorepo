@@ -124,14 +124,14 @@ export default function ContractTokenDropContainer({
         }}
       />
       <Grid container spacing={isMobile ? 1 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TokenDropSummary contract={contract} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs
             value={currTab}
             onChange={handleChange}
@@ -176,14 +176,14 @@ export default function ContractTokenDropContainer({
           </Tabs>
         </Grid>
         {currTab === 'claim-conditions' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ClaimConditionsContainer address={address} network={network} />
           </Grid>
         )}
         {currTab === 'token' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={isMobile ? 1 : 2}>
-              <Grid item xs={isMobile ? 6 : 'auto'}>
+              <Grid size={isMobile ? 6 : 'auto'}>
                 <Button
                   onClick={handleBurn}
                   variant="contained"
@@ -198,7 +198,7 @@ export default function ContractTokenDropContainer({
                   <FormattedMessage id="burn" defaultMessage="Burn" />
                 </Button>
               </Grid>
-              <Grid item xs={isMobile ? 6 : 'auto'}>
+              <Grid size={isMobile ? 6 : 'auto'}>
                 <Button
                   onClick={handleShowTransfer}
                   variant="contained"
@@ -217,12 +217,12 @@ export default function ContractTokenDropContainer({
           </Grid>
         )}
         {currTab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {currTab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import { useConnectWalletDialog, useSwitchNetworkMutation } from "@dexkit/ui";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";

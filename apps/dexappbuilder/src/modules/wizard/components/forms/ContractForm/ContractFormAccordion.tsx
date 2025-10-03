@@ -61,7 +61,7 @@ function ContractFormAccordion({ func }: Props) {
 
           <Typography sx={{ fontWeight: 600 }}>{func.name}</Typography>
         </Stack>
-        <IconButton onClick={() => setExpanded((value) => !value)}>
+        <IconButton onClick={() => setExpanded((value: any) => !value)}>
           <ExpandMoreIcon />
         </IconButton>
       </Stack>
@@ -69,7 +69,7 @@ function ContractFormAccordion({ func }: Props) {
       {expanded && (
         <AccordionDetails>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FastField
                 component={TextField}
                 name={`fields.${func.name}.name`}
@@ -84,13 +84,13 @@ function ContractFormAccordion({ func }: Props) {
               />
             </Grid>
             {func.stateMutability === 'payable' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <ContractFormPayableValueInput
                   name={`fields.${func.name}.payableAmount`}
                 />
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <MarkdownDescriptionField
                 name={`fields.${func.name}.description`}
                 label={
@@ -109,10 +109,10 @@ function ContractFormAccordion({ func }: Props) {
             </Grid>
 
             <FormikConsumer>
-              {({ values }) =>
+              {({ values }: any) =>
                 !(values as ContractFormParams).fields[func.name]
                   .callOnMount ? (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FastField
                       component={TextField}
                       name={`fields.${func.name}.callToAction`}
@@ -131,7 +131,7 @@ function ContractFormAccordion({ func }: Props) {
             </FormikConsumer>
 
             {func.inputs.length > 0 && (
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <FastField
@@ -150,10 +150,10 @@ function ContractFormAccordion({ func }: Props) {
               </Grid>
             )}
             <FormikConsumer>
-              {({ values }) =>
+              {({ values }: any) =>
                 !(values as ContractFormParams).fields[func.name].hideInputs
                   ? func.inputs.length > 0 && (
-                    <Grid item>
+                    <Grid>
                       <FormControlLabel
                         control={
                           <FastField
@@ -175,7 +175,7 @@ function ContractFormAccordion({ func }: Props) {
               }
             </FormikConsumer>
             {func.stateMutability === 'view' && (
-              <Grid item>
+              <Grid>
                 <FormControlLabel
                   control={
                     <FastField
@@ -195,10 +195,10 @@ function ContractFormAccordion({ func }: Props) {
             )}
 
             <FormikConsumer>
-              {({ values }) =>
+              {({ values }: any) =>
                 !(values as ContractFormParams).fields[func.name].callOnMount &&
                   !(values as ContractFormParams).fields[func.name].hideInputs ? (
-                  <Grid item>
+                  <Grid>
                     <FormControlLabel
                       control={
                         <FastField
@@ -219,7 +219,7 @@ function ContractFormAccordion({ func }: Props) {
               }
             </FormikConsumer>
 
-            <Grid item>
+            <Grid>
               <FormControlLabel
                 control={
                   <FastField
@@ -238,18 +238,18 @@ function ContractFormAccordion({ func }: Props) {
             </Grid>
 
             {func.inputs.length > 0 && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
                       <FormattedMessage id="inputs" defaultMessage="Inputs" />
                     </Typography>
                   </Grid>
                   {func.inputs.map((input, index) => (
-                    <Grid item xs={12} key={index}>
+                    <Grid key={index} size={12}>
                       <Card sx={{ p: 2 }}>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Typography
                               variant="body1"
                               sx={{ fontWeight: 600 }}
@@ -257,9 +257,9 @@ function ContractFormAccordion({ func }: Props) {
                               {input.name}
                             </Typography>
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikConsumer>
-                              {({ values }) => (
+                              {({ values }: any) => (
                                 <ContractFormInputType
                                   func={func}
                                   values={values}
@@ -268,9 +268,13 @@ function ContractFormAccordion({ func }: Props) {
                               )}
                             </FormikConsumer>
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Grid container spacing={2}>
-                              <Grid item xs={12} sm={4}>
+                              <Grid
+                                size={{
+                                  xs: 12,
+                                  sm: 4
+                                }}>
                                 <FastField
                                   component={TextField}
                                   name={`fields.${func.name}.input.${input.name}.label`}
@@ -284,9 +288,13 @@ function ContractFormAccordion({ func }: Props) {
                                   size="small"
                                 />
                               </Grid>
-                              <Grid item xs={12} sm={8}>
+                              <Grid
+                                size={{
+                                  xs: 12,
+                                  sm: 8
+                                }}>
                                 <FormikConsumer>
-                                  {({ values }) => (
+                                  {({ values }: any) => (
                                     <ContractFormDefaultValue
                                       func={func}
                                       values={values}
@@ -295,9 +303,9 @@ function ContractFormAccordion({ func }: Props) {
                                   )}
                                 </FormikConsumer>
                               </Grid>
-                              <Grid item xs={12}>
+                              <Grid size={12}>
                                 <FormikConsumer>
-                                  {({ values }) => (
+                                  {({ values }: any) => (
                                     <ContractFormInputParams
                                       funcName={func.name}
                                       inputName={input.name}
@@ -318,7 +326,7 @@ function ContractFormAccordion({ func }: Props) {
                   ))}
                   {func.stateMutability === 'view' && (
                     <>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Typography variant="body1" sx={{ fontWeight: 600 }}>
                           <FormattedMessage
                             id="output"
@@ -326,7 +334,7 @@ function ContractFormAccordion({ func }: Props) {
                           />
                         </Typography>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <FastField
                           component={Select}
                           name={`fields.${func.name}.output.type`}
@@ -361,12 +369,12 @@ function ContractFormAccordion({ func }: Props) {
                         </FastField>
                       </Grid>
                       <FormikConsumer>
-                        {({ values }) =>
+                        {({ values }: any) =>
                           (values as ContractFormParams).fields[func.name]
                             .output &&
                           (values as ContractFormParams).fields[func.name]
                             .output?.type === 'decimal' && (
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <FastField
                                 component={TextField}
                                 type="number"

@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Divider,
-  Grid,
   IconButton,
   InputAdornment,
   NoSsr,
@@ -24,6 +23,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 
@@ -890,10 +890,10 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
 
   const filteredAssetList = useMemo(() => {
     return assets
-      .filter((asset) => {
+      .filter((asset: any) => {
         return props.hiddenOnly ? isHidden(asset) : !isHidden(asset);
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -903,7 +903,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
             -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (props.filters?.myNfts) {
           return asset.owner === props.filters?.account;
         }
@@ -988,7 +988,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return filteredAssetList.map((asset: any, index: any) => (
       <Grid item xs={6} sm={3} key={index}>
         <CustomAssetCard
           asset={asset}
@@ -1312,7 +1312,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
   };
 
   const handleToggleTable = () => {
-    setIsTableVisible((value) => !value);
+    setIsTableVisible((value: any) => !value);
   };
 
   const handleChangeAssetTab = (
@@ -1347,7 +1347,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
     setIsImportDialogOpen(true);
   };
 
-  const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
+  const handleToggleImportAsset = () => setShowImportAsset((value: any) => !value);
 
   const handleClickTradeCoin = (tokenBalance: any) => {
     setSelectedCoinForTrade(tokenBalance);
@@ -1403,7 +1403,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
   }, [walletChainId]);
 
   useEffect(() => {
-    setFilters(prev => ({ ...prev, chainId: chainId }));
+    setFilters((prev: any) => ({ ...prev, chainId: chainId }));
   }, [chainId]);
 
   useEffect(() => {
@@ -1766,7 +1766,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                           size="small"
                           type="search"
                           placeholder="Search tokens..."
-                          onChange={(ev) => setSearch(ev.currentTarget.value)}
+                          onChange={(ev: any) => setSearch(ev.currentTarget.value)}
                           fullWidth
                           sx={{
                             backgroundColor: customSettings?.tokenSearchConfig?.backgroundColor || theme.palette.background.default,
@@ -1966,36 +1966,8 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                   <Grid item xs={12}>
                     {selectedNFTTab === NFTTabs.Collected && (
                       <QueryErrorResetBoundary>
-                        {({ reset }) => (
-                          <ErrorBoundary
-                            onReset={reset}
-                            fallbackRender={({ resetErrorBoundary, error }) => (
-                              <Paper sx={{ p: 1 }}>
-                                <Stack justifyContent="center" alignItems="center">
-                                  <Typography variant="h1">
-                                    <FormattedMessage
-                                      id="something.went.wrong"
-                                      defaultMessage="Oops, something went wrong"
-                                      description="Something went wrong error message"
-                                    />
-                                  </Typography>
-                                  <Typography variant="body1" color="textSecondary">
-                                    {String(error)}
-                                  </Typography>
-                                  <Button
-                                    color="primary"
-                                    onClick={resetErrorBoundary}
-                                  >
-                                    <FormattedMessage
-                                      id="try.again"
-                                      defaultMessage="Try again"
-                                      description="Try again"
-                                    />
-                                  </Button>
-                                </Stack>
-                              </Paper>
-                            )}
-                          >
+                        {({ reset }: any) => (
+                          <div>
                             <Suspense fallback={<TableSkeleton rows={4} />}>
                               <CustomWalletAssetsSection
                                 customSettings={customSettings}
@@ -2005,7 +1977,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                                 setFilters={setFilters}
                               />
                             </Suspense>
-                          </ErrorBoundary>
+                          </div>
                         )}
                       </QueryErrorResetBoundary>
                     )}
@@ -2020,36 +1992,8 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
 
                     {selectedNFTTab === NFTTabs.Hidden && (
                       <QueryErrorResetBoundary>
-                        {({ reset }) => (
-                          <ErrorBoundary
-                            onReset={reset}
-                            fallbackRender={({ resetErrorBoundary, error }) => (
-                              <Paper sx={{ p: 1 }}>
-                                <Stack justifyContent="center" alignItems="center">
-                                  <Typography variant="h1">
-                                    <FormattedMessage
-                                      id="something.went.wrong"
-                                      defaultMessage="Oops, something went wrong"
-                                      description="Something went wrong error message"
-                                    />
-                                  </Typography>
-                                  <Typography variant="body1" color="textSecondary">
-                                    {String(error)}
-                                  </Typography>
-                                  <Button
-                                    color="primary"
-                                    onClick={resetErrorBoundary}
-                                  >
-                                    <FormattedMessage
-                                      id="try.again"
-                                      defaultMessage="Try again"
-                                      description="Try again"
-                                    />
-                                  </Button>
-                                </Stack>
-                              </Paper>
-                            )}
-                          >
+                        {({ reset }: any) => (
+                          <div>
                             <Suspense fallback={<TableSkeleton rows={4} />}>
                               <CustomWalletAssetsSection
                                 customSettings={customSettings}
@@ -2058,7 +2002,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                                 hiddenOnly={true}
                               />
                             </Suspense>
-                          </ErrorBoundary>
+                          </div>
                         )}
                       </QueryErrorResetBoundary>
                     )}

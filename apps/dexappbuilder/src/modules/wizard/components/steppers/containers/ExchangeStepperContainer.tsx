@@ -122,7 +122,7 @@ export default function ExchangeStepperContainer({ site }: Props) {
         isEdit={true}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             alignItems="center"
@@ -163,7 +163,11 @@ export default function ExchangeStepperContainer({ site }: Props) {
         {/* <Grid item xs={12} sm={12}>
           <WelcomeMessage />
         </Grid> */}
-        <Grid item xs={12} sm={12}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 12
+          }}>
           <Stack direction="row" justifyContent="space-between">
             {!isMobile && (
               <Typography variant="h5">
@@ -179,7 +183,11 @@ export default function ExchangeStepperContainer({ site }: Props) {
           </Stack>
         </Grid>
 
-        <Grid item xs={12} sm={12}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 12
+          }}>
           <ExchangeStepper
             onSave={handleSave}
             onChange={handleChange}

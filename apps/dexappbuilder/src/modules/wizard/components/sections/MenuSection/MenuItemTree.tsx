@@ -224,7 +224,7 @@ export default function MenuItemTree({
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
                   // eslint-disable-next-line jsx-a11y/alt-text
-                  <Image fontSize={isMobile ? "small" : "medium"} />
+                  (<Image fontSize={isMobile ? "small" : "medium"} />)
                 )}
               </IconButton>
             </ListItemIcon>
@@ -267,7 +267,7 @@ export default function MenuItemTree({
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
                   // eslint-disable-next-line jsx-a11y/alt-text
-                  <Image fontSize={isMobile ? "small" : "medium"} />
+                  (<Image fontSize={isMobile ? "small" : "medium"} />)
                 )}
               </IconButton>
             </ListItemIcon>
@@ -326,7 +326,7 @@ export default function MenuItemTree({
                   <Icon fontSize={isMobile ? "small" : "medium"}>{item.data?.iconName}</Icon>
                 ) : (
                   // eslint-disable-next-line jsx-a11y/alt-text
-                  <Image fontSize={isMobile ? "small" : "medium"} />
+                  (<Image fontSize={isMobile ? "small" : "medium"} />)
                 )}
               </IconButton>
             </ListItemIcon>
@@ -359,7 +359,7 @@ export default function MenuItemTree({
             <IconButton onClick={() => setOpenAdd(true)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
               <Add fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton onClick={() => setExpanded((value) => !value)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
+            <IconButton onClick={() => setExpanded((value: any) => !value)} size={isMobile ? "small" : "medium"} sx={isMobile ? { p: 0.5 } : {}}>
               {expanded ? (
                 <ExpandLess fontSize={isMobile ? "small" : "medium"} />
               ) : (

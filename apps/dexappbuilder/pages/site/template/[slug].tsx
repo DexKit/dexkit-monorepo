@@ -19,7 +19,11 @@ export const SiteTemplatePage: NextPage<{
   slug: string;
   metadata: SiteMetadata;
   previewUrl: string;
-}> = ({ slug, metadata, previewUrl }) => {
+}> = ({ slug, metadata, previewUrl }: {
+  slug: string;
+  metadata: SiteMetadata;
+  previewUrl: string;
+}) => {
   const { formatMessage } = useIntl();
 
   return (

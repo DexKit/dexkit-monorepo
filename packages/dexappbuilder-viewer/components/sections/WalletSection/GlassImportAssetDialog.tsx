@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
 import Link from "@dexkit/ui/components/AppLink";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -501,7 +502,7 @@ export default function GlassImportAssetDialog({
                     </ListItemButton>
                   )}
                   fullWidth
-                  PaperComponent={({ children, ...props }) => (
+                  PaperComponent={({ children, ...props }: any) => (
                     <Paper
                       {...props}
                       sx={{

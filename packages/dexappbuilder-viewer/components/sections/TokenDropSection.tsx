@@ -829,7 +829,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               ...generateCustomStyles(section.settings.customStyles, theme),
               borderRadius: section.settings.customStyles?.borderRadius !== undefined
                 ? `${section.settings.customStyles.borderRadius}px`
-                : theme.shape.borderRadius * 2,
+                : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
               p: {
                 xs: theme.spacing(1.5),
                 sm: theme.spacing(2),
@@ -1186,7 +1186,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               ...generateCustomStyles(section.settings.customStyles, theme),
               borderRadius: section.settings.customStyles?.borderRadius !== undefined
                 ? `${section.settings.customStyles.borderRadius}px`
-                : theme.shape.borderRadius * 2,
+                : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
               p: {
                 xs: theme.spacing(1.5),
                 sm: theme.spacing(2),
@@ -1398,7 +1398,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                             "& code": {
                               backgroundColor: "rgba(0, 0, 0, 0.04)",
                               padding: theme.spacing(0.125, 0.25),
-                              borderRadius: theme.shape.borderRadius * 0.25,
+                              borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 0.25 : theme.shape.borderRadius,
                               fontSize: "0.9em",
                             },
                           }}
@@ -1649,7 +1649,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 ...generateCustomStyles(section.settings.customStyles, theme),
                 borderRadius: section.settings.customStyles?.borderRadius !== undefined
                   ? `${section.settings.customStyles.borderRadius}px`
-                  : theme.shape.borderRadius * 2,
+                  : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                 p: { xs: theme.spacing(2), sm: theme.spacing(3) },
                 border: `1px solid ${theme.palette.divider}`,
                 mb: { xs: theme.spacing(2), sm: theme.spacing(3) },
@@ -1692,7 +1692,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                         borderRadius: section.settings.customStyles?.borderRadius !== undefined
                           ? `${section.settings.customStyles.borderRadius}px`
-                          : theme.shape.borderRadius * 2,
+                          : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                         backgroundColor: section.settings.customStyles?.phaseColors?.currentPhaseBackground || "background.paper",
                         borderColor: section.settings.customStyles?.phaseColors?.currentPhaseBorder || "divider",
                         "&.MuiPaper-outlined": {
@@ -1736,7 +1736,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                         borderRadius: section.settings.customStyles?.borderRadius !== undefined
                           ? `${section.settings.customStyles.borderRadius}px`
-                          : theme.shape.borderRadius * 2,
+                          : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                         backgroundColor: section.settings.customStyles?.phaseColors?.phaseEndsBackground || "warning.light",
                         borderColor: section.settings.customStyles?.phaseColors?.phaseEndsBorder || "warning.main",
                         "&.MuiPaper-outlined": {
@@ -1780,7 +1780,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                       borderRadius: section.settings.customStyles?.borderRadius !== undefined
                         ? `${section.settings.customStyles.borderRadius}px`
-                        : theme.shape.borderRadius * 2,
+                        : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                       backgroundColor: section.settings.customStyles?.phaseColors?.nextPhaseBackground || "info.light",
                       borderColor: section.settings.customStyles?.phaseColors?.nextPhaseBorder || "info.main",
                       "&.MuiPaper-outlined": {
@@ -1876,7 +1876,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               ...generateCustomStyles(section.settings.customStyles, theme),
               borderRadius: section.settings.customStyles?.borderRadius !== undefined
                 ? `${section.settings.customStyles.borderRadius}px`
-                : theme.shape.borderRadius * 2,
+                : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
               p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
@@ -1924,7 +1924,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       "& .MuiOutlinedInput-root": {
                         borderRadius: section.settings.customStyles?.borderRadius !== undefined
                           ? `${section.settings.customStyles.borderRadius}px`
-                          : theme.shape.borderRadius * 2,
+                          : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                         fontSize: theme.typography.h6.fontSize,
                         fontWeight: 500,
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
@@ -2047,7 +2047,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     backgroundColor: (section.settings.customStyles as any)?.totalCostColors?.backgroundColor || "primary.light",
                     borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     "&.MuiPaper-outlined": {
@@ -2094,7 +2094,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                 <Alert
                   severity="warning"
                   sx={{
-                    borderRadius: theme.shape.borderRadius * 2,
+                    borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     '& .MuiAlert-message': {
                       fontSize: theme.typography.body2.fontSize,
                     }
@@ -2128,7 +2128,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     fontSize: {
                       xs: theme.typography.body1.fontSize,
                       sm: theme.typography.h6.fontSize,
@@ -2178,7 +2178,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
               ...generateCustomStyles(section.settings.customStyles, theme),
               borderRadius: section.settings.customStyles?.borderRadius !== undefined
                 ? `${section.settings.customStyles.borderRadius}px`
-                : theme.shape.borderRadius * 2,
+                : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
               p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
@@ -2226,7 +2226,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                       "& .MuiOutlinedInput-root": {
                         borderRadius: section.settings.customStyles?.borderRadius !== undefined
                           ? `${section.settings.customStyles.borderRadius}px`
-                          : theme.shape.borderRadius * 2,
+                          : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                         fontSize: theme.typography.h6.fontSize,
                         fontWeight: theme.typography.fontWeightMedium,
                         fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
@@ -2360,7 +2360,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     backgroundColor: (section.settings.customStyles as any)?.totalCostColors?.backgroundColor || "primary.light",
                     borderColor: (section.settings.customStyles as any)?.totalCostColors?.borderColor || "primary.main",
                     "&.MuiPaper-outlined": {
@@ -2409,7 +2409,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                   sx={{
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     '& .MuiAlert-message': {
                       fontSize: theme.typography.body2.fontSize,
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
@@ -2444,7 +2444,7 @@ export default function TokenDropSection({ section }: TokenDropSectionProps) {
                     py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     fontSize: {
                       xs: theme.typography.body1.fontSize,
                       sm: theme.typography.h6.fontSize,

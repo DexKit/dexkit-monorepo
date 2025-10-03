@@ -48,11 +48,11 @@ function CheckoutGeneralSettingsFormBase({
       }}
       validationSchema={toFormikValidationSchema(CheckoutSettingsSchema)}
     >
-      {({ submitForm, isValid, isSubmitting }) => (
+      {({ submitForm, isValid, isSubmitting }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   component={TextField}
                   name="receiverAccount"
@@ -65,7 +65,7 @@ function CheckoutGeneralSettingsFormBase({
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   component={TextField}
                   name="receiverEmail"
@@ -80,10 +80,10 @@ function CheckoutGeneralSettingsFormBase({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div>
               <Stack spacing={2} justifyContent="flex-end" direction="row">
                 <Button disabled={isSubmitting}>

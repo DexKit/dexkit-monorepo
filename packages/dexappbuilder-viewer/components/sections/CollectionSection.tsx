@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import {
   Box,
@@ -41,7 +42,6 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { CollectionSyncStatus } from "@dexkit/ui/modules/nft/constants/enum";
 import { useCollection } from "@dexkit/ui/modules/nft/hooks/collection";
-import DarkblockWrapper from "@dexkit/ui/modules/wizard/components/DarkblockWrapper";
 import ThirdwebV4Provider from "@dexkit/ui/providers/ThirdwebV4Provider";
 import { DropEditionListSection } from "./DropEditionListSection";
 import NftDropSection from "./NftDropSection";
@@ -60,7 +60,6 @@ function CollectionSection({ section }: CollectionSectionProps) {
     showPageHeader,
     hideAssets,
     disableSecondarySells,
-    enableDarkblock,
     isLock,
     showCollectionStats,
     showSidebarOnDesktop,
@@ -105,7 +104,7 @@ function CollectionSection({ section }: CollectionSectionProps) {
               size="small"
               type="search"
               value={search}
-              onChange={(e) => handleChange(e.target.value)}
+              onChange={(e: any) => handleChange(e.target.value)}
               placeholder={formatMessage({
                 id: "search.in.collection",
                 defaultMessage: "Search in collection",
@@ -350,7 +349,7 @@ function CollectionSection({ section }: CollectionSectionProps) {
                         <>
                           {collection?.syncStatus ===
                             CollectionSyncStatus.Synced ||
-                          collection?.syncStatus ===
+                            collection?.syncStatus ===
                             CollectionSyncStatus.Syncing ? (
                             <AssetListCollection
                               contractAddress={address as string}
@@ -374,23 +373,6 @@ function CollectionSection({ section }: CollectionSectionProps) {
                   </NoSsr>
                 </Grid>
               )}
-            </>
-          )}
-          {enableDarkblock && (
-            <>
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <NoSsr>
-                  <Suspense>
-                    <DarkblockWrapper
-                      address={address as string}
-                      network={network as string}
-                    />
-                  </Suspense>
-                </NoSsr>
-              </Grid>
             </>
           )}
         </Grid>

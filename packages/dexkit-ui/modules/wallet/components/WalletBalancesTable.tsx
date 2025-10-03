@@ -73,18 +73,23 @@ function WalletBalancesTable({ isBalancesVisible, chainId, filter, isTableVisibl
   return (
     <>
       {isTableVisible && (
-        <TableContainer>
-          <Table>
+        <TableContainer sx={{ 
+          border: 1, 
+          borderColor: 'divider', 
+          borderRadius: 1,
+          backgroundColor: 'background.paper'
+        }}>
+          <Table sx={{ minWidth: 650 }}>
             {!isMobile && (
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  <TableCell sx={{ width: '45%', minWidth: '200px', fontWeight: 600 }}>
                     <FormattedMessage id="token" defaultMessage="Token" />
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ width: '25%', textAlign: 'right', minWidth: '100px', fontWeight: 600 }}>
                     <FormattedMessage id="total" defaultMessage="Total" />
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ width: '25%', textAlign: 'right', minWidth: '100px', fontWeight: 600 }}>
                     <FormattedMessage id="balance" defaultMessage="Balance" />
                   </TableCell>
                 </TableRow>
@@ -119,10 +124,40 @@ function WalletBalancesTable({ isBalancesVisible, chainId, filter, isTableVisibl
           </Table>
         </TableContainer>
       )}
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={handleToggleTable}>
-        {isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: theme.palette.primary.main }} />}
-        <Typography variant="body2" sx={{ fontWeight: 'bold', letterSpacing: 1, color: theme.palette.primary.main }}>
-          {isTableVisible ? 'CLOSE' : 'OPEN'}
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          py: 2, 
+          cursor: 'pointer', 
+          width: '100%',
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 1,
+          backgroundColor: 'background.paper',
+          '&:hover': {
+            backgroundColor: 'action.hover'
+          },
+          transition: 'background-color 0.2s ease'
+        }} 
+        onClick={handleToggleTable}
+      >
+        {isTableVisible ? 
+          <KeyboardArrowUpIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> : 
+          <KeyboardArrowDownIcon sx={{ mr: 1, color: theme.palette.primary.main }} />
+        }
+        <Typography variant="body2" sx={{ 
+          fontWeight: 600, 
+          letterSpacing: 0.5, 
+          color: theme.palette.primary.main,
+          textTransform: 'uppercase'
+        }}>
+          {isTableVisible ? (
+            <FormattedMessage id="close" defaultMessage="Close" />
+          ) : (
+            <FormattedMessage id="open" defaultMessage="Open" />
+          )}
         </Typography>
       </Box>
     </>

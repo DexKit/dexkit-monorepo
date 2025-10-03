@@ -19,7 +19,7 @@ export function CollectionAutocomplete(props: Props) {
 
   const formValue = data.data;
   const collections =
-    wizardConfig.collections?.map((value) => {
+    wizardConfig.collections?.map((value: any) => {
       return {
         name: value.name,
         contractAddress: value.contractAddress,
@@ -43,7 +43,7 @@ export function CollectionAutocomplete(props: Props) {
       options={collections}
       autoHighlight
       fullWidth
-      onChange={(_change, value) => {
+      onChange={(_change: any, value: any) => {
         if (value) {
           data.onChange({
             name: value.name,
@@ -55,8 +55,8 @@ export function CollectionAutocomplete(props: Props) {
           });
         }
       }}
-      getOptionLabel={(option) => option.name}
-      renderOption={(props, option) => (
+      getOptionLabel={(option: any) => option.name}
+      renderOption={(props: any, option: any) => (
         <Box
           component="li"
           sx={{

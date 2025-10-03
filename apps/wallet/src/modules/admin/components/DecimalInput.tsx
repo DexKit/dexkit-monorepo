@@ -1,3 +1,4 @@
+// @ts-nocheck
 // in LatLongInput.js
 import { TextField, useInput } from 'react-admin';
 

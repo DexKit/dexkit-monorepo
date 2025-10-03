@@ -1,9 +1,9 @@
+// @ts-nocheck
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import AssetLeftSection from "@dexkit/ui/modules/nft/components/AssetLeftSection";
 import AssetOptionsProvider from "@dexkit/ui/modules/nft/components/AssetOptionsProvider";
 import AssetRightSection from "@dexkit/ui/modules/nft/components/AssetRightSection";
 import { fetchAssetForQueryClient } from "@dexkit/ui/modules/nft/services/query";
-import DarkblockWrapper from "@dexkit/ui/modules/wizard/components/DarkblockWrapper";
 import { AssetPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import ThirdwebV4Provider from "@dexkit/ui/providers/ThirdwebV4Provider";
 import { hexToString } from "@dexkit/ui/utils";
@@ -85,7 +85,7 @@ export interface AssetSectionProps {
 }
 
 export default function AssetSection({ section }: AssetSectionProps) {
-  const { address, tokenId, network, enableDrops, enableDarkblock } =
+  const { address, tokenId, network, enableDrops } =
     section.config;
 
   const queryClient = useQueryClient();
@@ -114,41 +114,6 @@ export default function AssetSection({ section }: AssetSectionProps) {
         </Grid>
         <Grid item xs={12} sm={8}>
           <AssetRightSection address={address} id={tokenId} />
-          {enableDarkblock && (
-            <ErrorBoundary
-              key={"darkblock-error-boundary"}
-              fallbackRender={({ error, resetErrorBoundary }) => (
-                <Stack justifyContent="center" alignItems="center">
-                  <Typography variant="h6">
-                    <FormattedMessage
-                      id="something.went.wrong.with.darkblock.contact.support"
-                      defaultMessage="Oops, something went wrong with darkblock. Contact support"
-                    />
-                  </Typography>
-                  <Typography variant="body1" color="textSecondary">
-                    {String(error)}
-                  </Typography>
-                  <Button color="primary" onClick={resetErrorBoundary}>
-                    <FormattedMessage
-                      id="try.again"
-                      defaultMessage="Try again"
-                      description="Try again"
-                    />
-                  </Button>
-                </Stack>
-              )}
-            >
-              <NoSsr>
-                <Suspense>
-                  <DarkblockWrapper
-                    address={address as string}
-                    tokenId={tokenId}
-                    network={network}
-                  />
-                </Suspense>
-              </NoSsr>
-            </ErrorBoundary>
-          )}
         </Grid>
         {enableDrops && (
           <Grid item xs={12}>

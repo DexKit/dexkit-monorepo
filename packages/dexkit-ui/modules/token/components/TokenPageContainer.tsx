@@ -8,9 +8,7 @@ import { hexToString } from "@dexkit/ui/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { isAddress } from "@ethersproject/address";
 import BrowserNotSupportedIcon from "@mui/icons-material/BrowserNotSupported";
-import { Typography } from "@mui/material";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import {
   ThirdwebSDKProvider,
   useContract,
@@ -34,8 +32,10 @@ interface Props {
 
 function TokenPageContainer({ address, network, orderMarketType }: Props) {
   const { formatMessage } = useIntl();
-  const { data: contract } = useContract(address as string);
-  const { data } = useContractType(address as string);
+  
+  const isValidAddress = address && isAddress(address);
+  const { data: contract } = useContract(isValidAddress ? address as string : undefined);
+  const { data } = useContractType(isValidAddress ? address as string : undefined);
   const contractRead = useContractRead(contract, "contractType");
   const chainId = NETWORK_FROM_SLUG(network as string)?.chainId as number;
   const tokens = useTokenList({ chainId, includeNative: true });
@@ -110,60 +110,98 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
       }
 
       return (
-        <Stack spacing={2} justifyContent={"center"} alignItems={"center"}>
-          <TokenInfo
-            address={token?.address as string}
-            chainId={token?.chainId as number}
-          />
-          <MarketTradeSection
-            section={{
-              type: "market-trade",
-              config: {
-                show: orderMarketType,
-                useGasless: true,
-                baseTokenConfig: {
-                  address: token?.address as string,
-                  chainId: token?.chainId as number,
+        <Stack spacing={4} justifyContent={"center"} alignItems={"center"}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <TokenInfo
+              address={token?.address as string}
+              chainId={token?.chainId as number}
+            />
+          </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <MarketTradeSection
+              section={{
+                type: "market-trade",
+                config: {
+                  show: orderMarketType,
+                  useGasless: true,
+                  baseTokenConfig: {
+                    address: token?.address as string,
+                    chainId: token?.chainId as number,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </Box>
         </Stack>
       );
     }
 
     if (contractType === "TokenERC20") {
       return (
-        <Stack spacing={2}>
-          <ContractMetadataHeader
-            address={address as string}
-            network={network as string}
-            contractType={data}
-            contractTypeV2={contractType}
-            hidePublicPageUrl={true}
-          />
-          <MarketTradeSection
-            section={{
-              type: "market-trade",
-              config: {
-                show: orderMarketType,
-                useGasless: true,
-                baseTokenConfig: {
-                  address: address as string,
-                  chainId: chainId,
+        <Stack spacing={4} justifyContent={"center"} alignItems={"center"}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <ContractMetadataHeader
+              address={address as string}
+              network={network as string}
+              contractType={data}
+              contractTypeV2={contractType}
+              hidePublicPageUrl={true}
+            />
+          </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <MarketTradeSection
+              section={{
+                type: "market-trade",
+                config: {
+                  show: orderMarketType,
+                  useGasless: true,
+                  baseTokenConfig: {
+                    address: address as string,
+                    chainId: chainId,
+                  },
                 },
-              },
-            }}
-          />
-          <TokenErc20Section
-            section={{
-              type: "token",
-              settings: {
-                address: address as string,
-                network: network as string,
-              },
-            }}
-          />
+              }}
+            />
+          </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <TokenErc20Section
+              section={{
+                type: "token",
+                settings: {
+                  address: address as string,
+                  network: network as string,
+                },
+              }}
+            />
+          </Box>
         </Stack>
       );
     }
@@ -198,7 +236,7 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
           }
         )}
       />
-      <Container maxWidth={"md"}>
+      <Container maxWidth={"lg"}>
         <PageHeader
           breadcrumbs={[
             {
@@ -226,7 +264,26 @@ function TokenPageContainer({ address, network, orderMarketType }: Props) {
           ]}
         />
 
-        {renderContent()}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'flex-start',
+          minHeight: '80vh',
+          padding: '60px 0',
+          width: '100%'
+        }}>
+          <div style={{ 
+            width: '100%', 
+            maxWidth: '600px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '32px'
+          }}>
+            {renderContent()}
+          </div>
+        </div>
       </Container>
     </>
   );

@@ -203,7 +203,7 @@ function Navbar({ appConfig, isPreview }: Props) {
     const { backgroundType, backgroundColor, backgroundImage, gradientStartColor, gradientEndColor, gradientDirection } = glassSettings;
 
     if (backgroundType === 'image' && backgroundImage) {
-      return backgroundImage;
+      return `url(${backgroundImage})`;
     } else if (backgroundType === 'gradient' && gradientStartColor && gradientEndColor) {
       return `linear-gradient(${gradientDirection || 'to bottom'}, ${gradientStartColor}, ${gradientEndColor})`;
     } else if (backgroundColor) {
@@ -246,9 +246,9 @@ function Navbar({ appConfig, isPreview }: Props) {
     if (!glassVariant) {
       // Default logo size for navbar
       const defaultSize = isMobile ? 32 : 48;
-      return {
-        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)),
-        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize))
+      return { 
+        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)), 
+        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize)) 
       };
     }
 
@@ -264,11 +264,11 @@ function Navbar({ appConfig, isPreview }: Props) {
         width = height = isMobile ? 32 : 64;
         break;
       case 'custom':
-        width = isMobile ?
-          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) :
+        width = isMobile ? 
+          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) : 
           Math.max(1, Number(customLogoWidth || 32));
-        height = isMobile ?
-          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) :
+        height = isMobile ? 
+          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) : 
           Math.max(1, Number(customLogoHeight || 32));
         break;
       default:
@@ -623,24 +623,40 @@ function Navbar({ appConfig, isPreview }: Props) {
         sx={{
           zIndex: 10,
           ...(glassVariant && {
-            ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage ? {
-              backgroundImage: `url(${getGlassBackground()})`,
+            background: getGlassBackground(),
+            ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
+              backgroundImage: getGlassBackground(),
               backgroundSize: glassSettings.backgroundSize || 'cover',
               backgroundPosition: glassSettings.backgroundPosition || 'center',
               backgroundRepeat: 'no-repeat',
-            } : {
-              background: getGlassBackground(),
             }),
-            backdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
-            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 40}px)`,
-            boxShadow: '0 4px 32px 0 rgba(31, 38, 135, 0.15)',
-            border: '1px solid rgba(255,255,255,0.18)',
-            transition: 'background 0.3s, backdrop-filter 0.3s',
+            backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+            WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.37)`,
+            border: `1px solid rgba(255, 255, 255, 0.18)`,
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             ...(glassSettings.borderRadius !== undefined && {
               borderRadius: `${glassSettings.borderRadius}px`,
               overflow: 'hidden',
             }),
             ...getGlassOverlay(),
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: `linear-gradient(135deg, rgba(255, 255, 255, ${glassSettings.glassOpacity ?? 0.1}) 0%, rgba(255, 255, 255, ${(glassSettings.glassOpacity ?? 0.1) * 0.5}) 100%)`,
+              backdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+              WebkitBackdropFilter: `blur(${glassSettings.blurIntensity ?? 20}px)`,
+              pointerEvents: 'none',
+              zIndex: 1,
+            },
+            '& > *': {
+              position: 'relative',
+              zIndex: 2,
+            }
           }),
         }}
       >
@@ -649,14 +665,20 @@ function Navbar({ appConfig, isPreview }: Props) {
           sx={{
             py: isMobile ? 0.5 : 1,
             height: isMobile ? 56 : 64,
-            color: glassSettings.textColor,
+            color: glassVariant && glassSettings.textColor ? glassSettings.textColor : 'inherit',
             position: 'relative',
             zIndex: 2,
             display: 'flex',
             alignItems: 'center',
+            minHeight: isMobile ? 56 : 64,
             ...(glassSettings.borderRadius !== undefined && glassSettings.borderRadius > 0 && {
               borderRadius: `${glassSettings.borderRadius}px`,
               overflow: 'hidden',
+            }),
+            ...(glassVariant && {
+              background: 'transparent',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
             }),
           }}
         >
@@ -841,23 +863,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logoDark?.url || ""}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      height={isMobile ?
-                        (appConfig?.logoDark?.heightMobile ?
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
+                      height={isMobile ? 
+                        (appConfig?.logoDark?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48) / 2)
-                        ) :
-                        (appConfig?.logoDark?.heightMobile ?
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
+                        ) : 
+                        (appConfig?.logoDark?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48))
                         )
                       }
-                      width={isMobile ?
-                        (appConfig?.logoDark?.widthMobile ?
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
+                      width={isMobile ? 
+                        (appConfig?.logoDark?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48) / 2)
-                        ) :
-                        (appConfig?.logoDark?.widthMobile ?
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
+                        ) : 
+                        (appConfig?.logoDark?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48))
                         )
                       }
@@ -869,23 +891,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logo.url}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      width={isMobile ?
-                        (appConfig?.logo?.widthMobile ?
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
+                      width={isMobile ? 
+                        (appConfig?.logo?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logo?.width || 48) / 2)
-                        ) :
-                        (appConfig?.logo?.widthMobile ?
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
+                        ) : 
+                        (appConfig?.logo?.widthMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logo?.width || 48))
                         )
                       }
-                      height={isMobile ?
-                        (appConfig?.logo?.heightMobile ?
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
+                      height={isMobile ? 
+                        (appConfig?.logo?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logo?.height || 48) / 2)
-                        ) :
-                        (appConfig?.logo?.heightMobile ?
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
+                        ) : 
+                        (appConfig?.logo?.heightMobile ? 
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
                           Math.max(1, Number(appConfig?.logo?.height || 48))
                         )
                       }
@@ -937,83 +959,76 @@ function Navbar({ appConfig, isPreview }: Props) {
                   />
                 </Stack>
               )}
+              
+              {/* Mobile Icons Section - Notifications and Settings */}
               {isMobile && (
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={1}
+                <Box
                   sx={{
-                    marginLeft: 'auto',
-                    justifyContent: 'flex-end',
-                    flexGrow: 0,
-                    minWidth: 'fit-content'
+                    display: { xs: "flex", md: "none" },
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    flex: 1,
+                    minWidth: 0,
                   }}
                 >
-                  {isActive && (
-                    <ButtonBase
-                      onClick={handleShowProfileMenu}
-                      sx={{
-                        borderRadius: "50%",
-                        minWidth: '44px',
-                        minHeight: '44px',
-                      }}
-                    >
-                      <Avatar
-                        sx={{
-                          height: "1.25rem",
-                          width: "1.25rem"
-                        }}
-                        src={user?.profileImageURL}
-                      />
-                    </ButtonBase>
-                  )}
-                  {appConfig.commerce?.enabled && (
-                    <NoSsr>
-                      <CommerceCartIconButton />
-                    </NoSsr>
-                  )}
-                  <NoSsr>
-                    <IconButton
-                      onClick={handleOpenTransactions}
-                      aria-label="notifications"
-                      sx={{
-                        minWidth: '44px',
-                        minHeight: '44px',
-                      }}
-                    >
-                      <Badge
-                        variant={
-                          hasPendingTransactions &&
-                            filteredUncheckedTransactions.length === 0
-                            ? "dot"
-                            : "standard"
-                        }
-                        color="primary"
-                        badgeContent={
-                          filteredUncheckedTransactions.length > 0
-                            ? filteredUncheckedTransactions.length
-                            : undefined
-                        }
-                        invisible={
-                          !hasPendingTransactions &&
-                          filteredUncheckedTransactions.length === 0
-                        }
-                      >
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
-                  </NoSsr>
-                  <IconButton
-                    onClick={handleSettingsMenuClick}
-                    aria-label="settings"
-                    sx={{
-                      minWidth: '44px',
-                      minHeight: '44px',
-                    }}
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.5}
                   >
-                    <SettingsIcon />
-                  </IconButton>
-                </Stack>
+                    {isActive && (
+                      <>
+                        <NoSsr>
+                          <IconButton
+                            onClick={handleOpenTransactions}
+                            aria-label="notifications"
+                            sx={{
+                              minWidth: '44px',
+                              minHeight: '44px',
+                              ...(glassVariant && glassSettings.iconColor && {
+                                color: glassSettings.iconColor,
+                              }),
+                            }}
+                          >
+                            <Badge
+                              variant={
+                                hasPendingTransactions &&
+                                  filteredUncheckedTransactions.length === 0
+                                  ? "dot"
+                                  : "standard"
+                              }
+                              color="primary"
+                              badgeContent={
+                                filteredUncheckedTransactions.length > 0
+                                  ? filteredUncheckedTransactions.length
+                                  : undefined
+                              }
+                              invisible={
+                                !hasPendingTransactions &&
+                                filteredUncheckedTransactions.length === 0
+                              }
+                            >
+                              <NotificationsIcon />
+                            </Badge>
+                          </IconButton>
+                        </NoSsr>
+                        <IconButton
+                          onClick={handleSettingsMenuClick}
+                          aria-label="settings"
+                          sx={{
+                            minWidth: '44px',
+                            minHeight: '44px',
+                            ...(glassVariant && glassSettings.iconColor && {
+                              color: glassSettings.iconColor,
+                            }),
+                          }}
+                        >
+                          <SettingsIcon />
+                        </IconButton>
+                      </>
+                    )}
+                  </Stack>
+                </Box>
               )}
               <Stack
                 direction="row"

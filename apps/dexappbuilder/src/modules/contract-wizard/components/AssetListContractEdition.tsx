@@ -55,7 +55,7 @@ export function AssetListContractEdition({
   const [asset, setAsset] = useState<Asset | undefined>();
   const [tabValue, setTabValue] = useState('1');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: any, newValue: string) => {
     setTabValue(newValue);
   };
 
@@ -122,7 +122,7 @@ export function AssetListContractEdition({
   const filteredAssets = useMemo(() => {
     if (assets && search) {
       return assets.filter(
-        (a) =>
+        (a: any) =>
           a.collectionName.indexOf(search) !== -1 ||
           a.metadata?.name?.indexOf(search) !== -1,
       );
@@ -180,10 +180,9 @@ export function AssetListContractEdition({
           }}
         />
       )}
-
       {asset !== undefined && (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               startIcon={<ArrowBackIcon />}
               onClick={() => setAsset(undefined)}
@@ -194,14 +193,14 @@ export function AssetListContractEdition({
               />{' '}
             </Button>
           </Grid>
-          <Grid item xs={2}>
+          <Grid size={2}>
             <Typography variant="h6">{asset.metadata?.name || ''}</Typography>
             <Box sx={{ maxWidth: '150px' }}>
               <AssetMedia asset={asset} />
             </Box>
             <Typography>{asset.metadata?.description || ''}</Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <Stack spacing={2}>
               <Typography>
                 <FormattedMessage id={'you.own'} defaultMessage={'You own'} />:{' '}
@@ -329,7 +328,11 @@ export function AssetListContractEdition({
       )}
       {asset === undefined && (
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Alert severity={'info'}>
               <FormattedMessage
                 id="click.on.nft.to.manage.and.set.claim.conditions."
@@ -340,7 +343,11 @@ export function AssetListContractEdition({
             </Alert>
           </Grid>
           {!data?.assets?.length && thirdwebAssets && thirdwebAssets.length > 0 && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Alert severity={'success'}>
                 <FormattedMessage
                   id="nfts.loaded.from.blockchain"
@@ -351,7 +358,11 @@ export function AssetListContractEdition({
           )}
 
           {!data?.assets?.length && isLoadingThirdweb && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Alert severity={'info'}>
                 <FormattedMessage
                   id="nfts.loading.from.blockchain"
@@ -360,17 +371,26 @@ export function AssetListContractEdition({
               </Alert>
             </Grid>
           )}
-          {filteredAssets?.map((asset, index) => (
-            <Grid item xs={6} sm={2} key={index}>
+          {filteredAssets?.map((asset: any, index: any) => (
+            <Grid
+              key={index}
+              size={{
+                xs: 6,
+                sm: 2
+              }}>
               <BaseAssetCard
                 asset={asset}
-                onClickCardAction={(a) => setAsset(a)}
+                onClickCardAction={(a: any) => setAsset(a)}
                 showControls={false}
               />
             </Grid>
           ))}
           {filteredAssets?.length === 0 && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Stack justifyContent="center" alignItems="center">
                 <Typography variant="h6">
                   <FormattedMessage
@@ -387,10 +407,16 @@ export function AssetListContractEdition({
               </Stack>
             </Grid>
           )}
-          <Grid item xs={12} sm={12} container justifyContent={'flex-end'}>
+          <Grid
+            container
+            justifyContent={'flex-end'}
+            size={{
+              xs: 12,
+              sm: 12
+            }}>
             <Pagination
               page={page + 1}
-              onChange={(_ev, _page) => setPage(_page - 1)}
+              onChange={(_ev: any, _page: any) => setPage(_page - 1)}
               count={Math.floor((data?.total || 0) / perPage) + 1}
             />
           </Grid>

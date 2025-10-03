@@ -1,17 +1,29 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules
-.pnp
-.pnp.js
+/node_modules
+**/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # testing
-coverage
+/coverage
 
 # next.js
-.next/
-out/
-build
+/.next/
+**/.next/
+/out/
+**/out/
+
+# production
+/build
+**/build
+**/dist
 
 # misc
 .DS_Store
@@ -23,20 +35,21 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # turbo
 .turbo
 
-dist/
+# package-lock files (since we're using Yarn)
+**/package-lock.json
 
-sitemap-0.xml
-
-# cursor params
-.cursorrules
-.cursorignore
-/.cursorrules.backup
+# Storybook build outputs
+**/storybook-static

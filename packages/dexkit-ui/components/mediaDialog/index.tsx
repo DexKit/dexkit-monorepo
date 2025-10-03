@@ -12,7 +12,6 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  Grid,
   InputAdornment,
   Skeleton,
   Stack,
@@ -21,6 +20,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -308,7 +308,7 @@ export default function MediaDialog({
         />
         <DialogContent dividers>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box sx={{ pr: 2 }} justifyContent={"flex-end"} display={"flex"}>
                 <input
                   onChange={handleChange}
@@ -341,11 +341,12 @@ export default function MediaDialog({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
             {file && (
-              <Grid item xs={12} container justifyContent={"center"}>
+              <Grid size={12}>
+                <Box display="flex" justifyContent="center">
                 <Stack
                   spacing={2}
                   justifyContent={"center"}
@@ -361,7 +362,7 @@ export default function MediaDialog({
                         theme.palette.mode === "light"
                           ? theme.palette.grey[300]
                           : alpha(theme.palette.common.white, 0.2),
-                      borderRadius: (theme) => theme.shape.borderRadius / 2,
+                      borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                     }}
                   >
                     <Box
@@ -373,7 +374,7 @@ export default function MediaDialog({
                         backgroundSize: "contain",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
-                        borderRadius: (theme) => theme.shape.borderRadius / 2,
+                        borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       }}
                     />
                     <Box
@@ -384,7 +385,7 @@ export default function MediaDialog({
                         left: 0,
                         bottom: 0,
                         right: 0,
-                        borderRadius: (theme) => theme.shape.borderRadius / 2,
+                        borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       }}
                     />
                   </Box>
@@ -473,9 +474,10 @@ export default function MediaDialog({
                     </Box>
                   )}
                 </Stack>
+                </Box>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 display={"flex"}
                 justifyContent={"space-between"}
@@ -519,7 +521,7 @@ export default function MediaDialog({
                   label={
                     <FormattedMessage id="search" defaultMessage="Search" />
                   }
-                  onChange={(ev) => setSearch(ev.currentTarget.value)}
+                  onChange={(ev: any) => setSearch(ev.currentTarget.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -532,7 +534,8 @@ export default function MediaDialog({
               </Box>
             </Grid>
             {!file && (
-              <Grid item xs={12} container justifyContent={"center"}>
+              <Grid size={12}>
+                <Box display="flex" justifyContent="center">
                 {filesQuery.isSuccess && filesQuery.data?.total === 0 && (
                   <Stack
                     spacing={2}
@@ -571,10 +574,12 @@ export default function MediaDialog({
                     )}
                   </Stack>
                 )}
+                </Box>
               </Grid>
             )}
             {!isActive && (
-              <Grid item xs={12} container justifyContent={"center"}>
+              <Grid size={12}>
+                <Box display="flex" justifyContent="center">
                 <Stack
                   spacing={2}
                   justifyContent={"center"}
@@ -594,40 +599,41 @@ export default function MediaDialog({
                     />
                   </Typography>
                 </Stack>
+                </Box>
               </Grid>
             )}
 
             {filesQuery.isLoading && (
-              <Grid item xs={12} container>
-                <>
-                  <Grid item xs={3}>
+              <Grid size={12}>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                     <Skeleton>
                       <CustomImage alt={""} src={""} />
                     </Skeleton>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                     <Skeleton>
                       <CustomImage alt={""} src={""} />
                     </Skeleton>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                     <Skeleton>
                       <CustomImage alt={""} src={""} />
                     </Skeleton>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                     <Skeleton>
                       <CustomImage alt={""} src={""} />
                     </Skeleton>
                   </Grid>
-                </>
+                </Grid>
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
                 {filesQuery.data?.files?.map((f, key) => (
-                  <Grid item xs={6} sm={2} key={key}>
+                  <Grid size={{ xs: 6, sm: 3, md: 2 }} key={key}>
                     <Stack
                       spacing={2}
                       justifyContent="center"
@@ -635,7 +641,7 @@ export default function MediaDialog({
                     >
                       <ButtonBase
                         sx={{
-                          borderRadius: (theme) => theme.shape.borderRadius / 2,
+                          borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                           backgroundColor: (theme) =>
                             theme.palette.mode === "light"
                               ? theme.palette.grey[300]
@@ -664,12 +670,12 @@ export default function MediaDialog({
                               selectedFile?.id === f.id
                                 ? `2px solid ${theme.palette.primary.main}`
                                 : undefined,
-                            borderRadius: theme.shape.borderRadius / 2,
+                            borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                           })}
                         >
                           <Box
                             sx={(theme) => ({
-                              borderRadius: theme.shape.borderRadius / 2,
+                              borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                               backgroundImage: `url("${f.url}")`,
                               backgroundSize: "contain",
                               backgroundRepeat: "no-repeat",
@@ -716,7 +722,7 @@ export default function MediaDialog({
                             <>
                               <TextField
                                 defaultValue={f?.name}
-                                onChange={(event) =>
+                                onChange={(event: any) =>
                                   setNewFileName(event.currentTarget.value)
                                 }
                               />
@@ -803,7 +809,8 @@ export default function MediaDialog({
               </Grid>
             </Grid>
 
-            <Grid item xs={12} container justifyContent={"flex-end"}>
+            <Grid size={12}>
+              <Box display="flex" justifyContent="flex-end">
               {filesQuery.isSuccess &&
                 filesQuery?.data &&
                 filesQuery?.data?.total > 0 && (
@@ -817,6 +824,7 @@ export default function MediaDialog({
                     }
                   />
                 )}
+              </Box>
             </Grid>
           </Grid>
           {/*selectedFile && (
@@ -863,6 +871,9 @@ export default function MediaDialog({
               maxWidth: "xl",
               fullWidth: true,
               onClose: handleCloseImageGeneratorDialog,
+              sx: {
+                zIndex: 10001, // Mayor que la galería (10000)
+              },
             }}
             image={aiImage}
             tab={tab}

@@ -46,9 +46,13 @@ export default function ZrxForm({ siteId, dialog }: ZrxFormProps) {
       initialValues={{ apiKey: apiKeyQuery.data?.value || '' }}
       onSubmit={handleSubmit}
     >
-      {({ submitForm, isSubmitting, isValid }) => (
+      {({ submitForm, isSubmitting, isValid }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={dialog ? 12 : 4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: dialog ? 12 : 4
+            }}>
             <Field
               component={TextField}
               name="apiKey"
@@ -57,7 +61,7 @@ export default function ZrxForm({ siteId, dialog }: ZrxFormProps) {
               label={<FormattedMessage id="api.key" defaultMessage="API Key" />}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               variant="contained"
               disabled={isSubmitting || !isValid}

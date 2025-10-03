@@ -1,13 +1,4 @@
-import {
-  Box,
-  InputBaseProps,
-  lighten,
-  Link,
-  Skeleton,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, InputBaseProps, Link, Skeleton, Stack, Typography, useTheme } from "@mui/material";
 import { BigNumber } from "ethers";
 import { FormattedMessage } from "react-intl";
 
@@ -95,12 +86,12 @@ export default function SwapTokenFieldUniswap({
         px: 2,
         py: 1,
         backgroundColor: (theme) => theme.palette.background.paper,
-        borderRadius: theme.shape.borderRadius / 2,
+        borderRadius: (theme.shape.borderRadius as any) / 2,
         borderWidth: 1,
         borderStyle: "solid",
         borderColor:
           theme.palette.mode === "dark"
-            ? lighten(theme.palette.divider, 0.2)
+            ? theme.lighten(theme.palette.divider, 0.2)
             : theme.palette.divider,
         "&:focus-within": {
           borderColor: theme.palette.primary.main,

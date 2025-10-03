@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Grid,
   Paper,
@@ -79,7 +80,7 @@ export default function FeaturedSectionForm({
 
   const handleSubmitItem = (item: SectionItem) => {
     if (selectedItemIndex > -1) {
-      setItems((value) => {
+      setItems((value: any) => {
         const newItems = [...value];
 
         newItems[selectedItemIndex] = item;
@@ -87,7 +88,7 @@ export default function FeaturedSectionForm({
         return newItems;
       });
     } else {
-      setItems((value) => [...value, item]);
+      setItems((value: any) => [...value, item]);
     }
 
     setSelectedItemIndex(-1);
@@ -140,8 +141,9 @@ export default function FeaturedSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={isMobile ? 1.5 : 2}>
-        <Grid item xs={12}>
+      <Box sx={{ px: isMobile ? 2 : 0 }}>
+        <Grid container spacing={isMobile ? 1.5 : 2}>
+        <Grid size={12}>
           <CompletationProvider
             onCompletation={(output: string) => {
               formik.setFieldValue('title', output);
@@ -167,8 +169,8 @@ export default function FeaturedSectionForm({
           </CompletationProvider>
         </Grid>
         {!showAddItem &&
-          items.map((item, index) => (
-            <Grid item xs={12} key={index} sx={{ mb: isMobile ? 0.5 : 1 }}>
+          items.map((item: any, index: any) => (
+            <Grid key={index} sx={{ mb: isMobile ? 0.5 : 1 }} size={12}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -180,7 +182,7 @@ export default function FeaturedSectionForm({
             </Grid>
           ))}
         {showAddItem ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper sx={{ p: isMobile ? 1 : 2 }}>
               <AddItemForm
                 key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
@@ -195,7 +197,7 @@ export default function FeaturedSectionForm({
             </Paper>
           </Grid>
         ) : (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               onClick={handleAddItem}
               startIcon={<AddIcon />}
@@ -216,7 +218,7 @@ export default function FeaturedSectionForm({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
             <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
               <FormattedMessage id="cancel" defaultMessage="Cancel" />
@@ -233,6 +235,7 @@ export default function FeaturedSectionForm({
           </Stack>
         </Grid>
       </Grid>
+      </Box>
     </form>
   );
 }

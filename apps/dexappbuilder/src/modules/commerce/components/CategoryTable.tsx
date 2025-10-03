@@ -137,7 +137,7 @@ export default function CategoryTable({ query, onShare }: CategoryTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.items.length}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}

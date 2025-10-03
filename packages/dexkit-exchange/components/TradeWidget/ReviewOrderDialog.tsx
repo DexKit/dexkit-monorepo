@@ -18,7 +18,6 @@ import {
   Paper,
   Stack,
   Typography,
-  lighten,
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import moment from "moment";
@@ -144,7 +143,7 @@ export default function ReviewOrderDialog({
 
   const [swapPrices, setSwapPrices] = useState(true);
 
-  const handleSwapPrices = () => setSwapPrices((val) => !val);
+  const handleSwapPrices = () => setSwapPrices((val: any) => !val);
 
   return (
     <Dialog {...DialogProps}>
@@ -198,7 +197,7 @@ export default function ReviewOrderDialog({
               sx={{
                 p: 2,
                 backgroundColor: (theme) =>
-                  lighten(theme.palette.background.default, 0.2),
+                  theme.lighten(theme.palette.background.default, 0.2),
               }}
             >
               <Stack spacing={1}>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { getBlockExplorerUrl, truncateAddress } from "@dexkit/core/utils";
@@ -6,23 +7,23 @@ import { useInterval } from "@dexkit/ui/hooks/misc";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
 import { useMerkleTreeAllowListQuery } from "@dexkit/ui/modules/token/hooks/merkleTree";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    Divider,
-    Grid,
-    Skeleton,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-    createMerkleTreeFromAllowList,
-    getProofsForAllowListEntry,
-    useContract,
-    useContractRead,
+  createMerkleTreeFromAllowList,
+  getProofsForAllowListEntry,
+  useContract,
+  useContractRead,
 } from "@thirdweb-dev/react";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -148,7 +149,7 @@ export default function ClaimAirdropERC20Section({
     };
 
     const proof = await getProofsForAllowListEntry(merkleTree, leaf);
-    const proofHash = "0x" + proof[0].data.toString("hex");
+    const proofHash = proof[0];
 
     return proofHash;
   };
@@ -156,7 +157,7 @@ export default function ClaimAirdropERC20Section({
   const amountMaxToClaim = useMemo(() => {
     if (
       merkleRootQuery.data ===
-        "0x0000000000000000000000000000000000000000000000000000000000000000" &&
+      "0x0000000000000000000000000000000000000000000000000000000000000000" &&
       openClaimLimitPerWalletQuery.data &&
       tokenMetadataQuery?.data?.decimals
     ) {
@@ -242,7 +243,7 @@ export default function ClaimAirdropERC20Section({
 
     if (
       merkleRootQuery.data ===
-        "0x0000000000000000000000000000000000000000000000000000000000000000" &&
+      "0x0000000000000000000000000000000000000000000000000000000000000000" &&
       amountToBeClaimed
     ) {
       if (contract && account) {

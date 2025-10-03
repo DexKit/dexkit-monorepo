@@ -42,7 +42,6 @@ export default function PageTemplateForm({ initialValues }: Props) {
         error={upsertPageTemplateMutation.error}
         isEdit={!!initialValues}
       />
-
       <Stack>
         <Formik
           validationSchema={FormSchema}
@@ -62,10 +61,10 @@ export default function PageTemplateForm({ initialValues }: Props) {
             } as PageTemplateFormData)
           }
         >
-          {({ isValid, setFieldValue, values }) => (
+          {({ isValid, setFieldValue, values }: any) => (
             <Form>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -75,7 +74,7 @@ export default function PageTemplateForm({ initialValues }: Props) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -88,7 +87,7 @@ export default function PageTemplateForm({ initialValues }: Props) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -101,7 +100,7 @@ export default function PageTemplateForm({ initialValues }: Props) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1}>
                     <Typography>
                       <FormattedMessage
@@ -117,7 +116,7 @@ export default function PageTemplateForm({ initialValues }: Props) {
                   </Stack>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
                       disabled={!isValid}

@@ -130,7 +130,7 @@ export default function SwapTokenFieldMatcha({
       sx={(theme) => ({
         px: 2,
         py: 1,
-        borderRadius: theme.shape.borderRadius / 2,
+        borderRadius: (theme.shape.borderRadius as any) / 2,
         "&:focus-within": {
           borderColor: theme.palette.primary.main,
           borderWidth: 2,

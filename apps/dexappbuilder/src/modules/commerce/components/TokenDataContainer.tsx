@@ -9,7 +9,7 @@ export interface TokenDataContainerProps {
     decimals?: number;
     name?: string;
     symbol?: string;
-  }) => React.ReactNode;
+  }) => any;
 }
 export default function TokenDataContainer({
   contractAddress,

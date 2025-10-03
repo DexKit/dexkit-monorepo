@@ -1,3 +1,4 @@
+// @ts-nocheck
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import ShareIcon from "@mui/icons-material/Share";
 

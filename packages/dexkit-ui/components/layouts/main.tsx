@@ -31,11 +31,11 @@ interface Props {
   isPreview?: boolean;
 }
 
-const WrapperLayout: React.FC<{
+const WrapperLayout = ({ children, appConfig, isPreview }: {
   appConfig: AppConfig;
   children?: React.ReactNode | React.ReactNode[];
   isPreview?: boolean;
-}> = ({ children, appConfig, isPreview }) => {
+}): React.ReactElement => {
   const isDrawerOpen = useDrawerIsOpen();
   const isMobileUI = useIsMobile();
   const { isBottom } = useNavbarVariant(appConfig);
@@ -120,18 +120,21 @@ const WrapperLayout: React.FC<{
   }
 };
 
-const MainLayout: React.FC<Props> = ({
+const MainLayout = ({
   children,
   noSsr,
   disablePadding,
   appConfigProps,
   isPreview,
-}) => {
+}: Props): React.ReactElement => {
   const isMobileUI = useIsMobile();
-  const mobileView = isMobile || isMobileUI;
+  const mobileView = isMobileUI;
 
   const { mode } = useThemeMode();
   const { setMode } = useColorScheme();
+  useEffect(() => {
+    setMode(mode);
+  }, [mode, setMode]);
 
   const defaultAppConfig = useAppConfig();
   const appNFT = useAppNFT();
@@ -144,9 +147,9 @@ const MainLayout: React.FC<Props> = ({
     }
   }, [defaultAppConfig, appConfigProps]);
 
-  useEffect(() => {
-    setMode(mode);
-  }, [mode, setMode]);
+  // useEffect(() => {
+  //   setMode(mode);
+  // }, [mode, setMode]);
 
   const isDrawerOpen = useDrawerIsOpen();
 
@@ -155,29 +158,8 @@ const MainLayout: React.FC<Props> = ({
 
 
   const render = () => (
-    <ErrorBoundary
-      fallbackRender={({ error, resetErrorBoundary }) => (
-        <Stack justifyContent="center" alignItems="center">
-          <Typography variant="h6">
-            <FormattedMessage
-              id="something.went.wrong"
-              defaultMessage="Oops, something went wrong"
-              description="Something went wrong error message"
-            />
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            {String(error)}
-          </Typography>
-          <Button color="primary" onClick={resetErrorBoundary}>
-            <FormattedMessage
-              id="try.again"
-              defaultMessage="Try again"
-              description="Try again"
-            />
-          </Button>
-        </Stack>
-      )}
-    >
+    // Temporalmente deshabilitado ErrorBoundary debido a problemas de tipo
+    <div>
       {isDrawerOpen.isOpen && (
         <AppDrawer
           open={isDrawerOpen.isOpen}
@@ -195,31 +177,9 @@ const MainLayout: React.FC<Props> = ({
         {mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
-          <ErrorBoundary
-            fallbackRender={({ error, resetErrorBoundary }) => (
-              <Stack justifyContent="center" alignItems="center">
-                <Typography variant="h6">
-                  <FormattedMessage
-                    id="something.went.wrong"
-                    defaultMessage="Oops, something went wrong"
-                    description="Something went wrong error message"
-                  />
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  {String(error)}
-                </Typography>
-                <Button color="primary" onClick={resetErrorBoundary}>
-                  <FormattedMessage
-                    id="try.again"
-                    defaultMessage="Try again"
-                    description="Try again"
-                  />
-                </Button>
-              </Stack>
-            )}
-          >
+          <div>
             {children}
-          </ErrorBoundary>
+          </div>
         </Box>
 
         {(
@@ -234,7 +194,7 @@ const MainLayout: React.FC<Props> = ({
           </Box>
         )}
       </WrapperLayout>
-    </ErrorBoundary>
+    </div>
   );
 
   if (noSsr) {

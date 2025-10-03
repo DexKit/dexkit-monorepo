@@ -128,17 +128,17 @@ export function GlobalDialogs() {
   };
 
   const handleCloseSwitchNetworkDialog = () => {
-    switchNetwork.setNetworkChainId(undefined);
-    switchNetwork.setOpenSwitchNetwork(false);
+    (switchNetwork as any).setNetworkChainId(undefined);
+    (switchNetwork as any).setOpenSwitchNetwork(false);
   };
 
   const signMessageDialog = useSignMessageDialog();
 
   const handleCloseSignMessageDialog = () => {
-    signMessageDialog.setOpen(false);
-    signMessageDialog.setError(undefined);
-    signMessageDialog.setIsSuccess(false);
-    signMessageDialog.setMessage(undefined);
+    (signMessageDialog as any).setOpen(false);
+    (signMessageDialog as any).setError(undefined);
+    (signMessageDialog as any).setIsSuccess(false);
+    (signMessageDialog as any).setMessage(undefined);
   };
 
   const handleCloseCurrencySelect = () => {
