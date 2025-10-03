@@ -161,20 +161,22 @@ export default function FormsContractsPage() {
               gap: 2,
               width: '100%'
             }}>
-              {deployableContractsQuery.data?.map((contract, key) => (
-                <Box key={key} sx={{ width: '100%' }}>
-                  <ContractButton
-                    title={contract.name}
-                    description={contract.description}
-                    creator={{
-                      imageUrl: contract?.publisherIcon,
-                      name: contract?.publisherName,
-                    }}
-                    href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
-                    targetBlank={true}
-                  />
-                </Box>
-              ))}
+              {deployableContractsQuery.data
+                ?.sort((a, b) => a.name.localeCompare(b.name))
+                ?.map((contract, key) => (
+                  <Box key={key} sx={{ width: '100%' }}>
+                    <ContractButton
+                      title={contract.name}
+                      description={contract.description}
+                      creator={{
+                        imageUrl: contract?.publisherIcon,
+                        name: contract?.publisherName,
+                      }}
+                      href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
+                      targetBlank={true}
+                    />
+                  </Box>
+                ))}
             </Box>
           </Box>
         </Box>
@@ -214,7 +216,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

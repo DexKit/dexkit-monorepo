@@ -115,6 +115,7 @@ export type DeployedContract = {
   type?: string;
   chainId?: number;
   createdAt?: string;
+  hide?: boolean;
 };
 
 export enum SwapVariant {

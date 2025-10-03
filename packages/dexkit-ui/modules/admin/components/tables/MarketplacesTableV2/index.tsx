@@ -31,19 +31,30 @@ import { useSendConfigMutation } from "@dexkit/ui/modules/whitelabel/hooks/useSe
 
 interface Props {
   configs: ConfigResponse[];
+  total?: number;
+  paginationModel?: { page: number; pageSize: number };
+  onPaginationModelChange?: (model: { page: number; pageSize: number }) => void;
   onConfigureDomain: (config: ConfigResponse) => void;
 }
 
-export default function MarketplacesTableV2({ configs }: Props) {
+export default function MarketplacesTableV2({
+  configs,
+  total = configs.length,
+  paginationModel: externalPaginationModel,
+  onPaginationModelChange
+}: Props) {
   const router = useRouter();
   const { formatMessage } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
   const isMobile = useIsMobile();
   const theme = useTheme();
-  const [paginationModel, setPaginationModel] = useState({
+  const [internalPaginationModel, setInternalPaginationModel] = useState({
     page: 0,
     pageSize: isMobile ? 5 : 10,
   });
+
+  const paginationModel = externalPaginationModel || internalPaginationModel;
+  const setPaginationModel = onPaginationModelChange || setInternalPaginationModel;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [rowId, setRowId] = useState<GridRowId | null>(null);
   const [showImportDialog, setShowImportDialog] = useState(false);
@@ -336,9 +347,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
       minWidth: isMobile ? 120 : 200,
       renderCell: (params) => {
         return (
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
             height: '100%',
             width: '100%'
           }}>
@@ -386,9 +397,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
         if (row.previewUrl) {
           return (
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
               height: '100%',
               width: '100%'
             }}>
@@ -416,9 +427,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
 
         if (appConfig.domain && appConfig.domain !== "") {
           return (
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
               height: '100%',
               width: '100%'
             }}>
@@ -473,9 +484,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
       renderCell: ({ row, id }) => {
         if (isMobile) {
           return (
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
               justifyContent: 'center',
               height: '100%',
               width: '100%'
@@ -498,9 +509,9 @@ export default function MarketplacesTableV2({ configs }: Props) {
         }
 
         return (
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
             justifyContent: 'center',
             height: '100%',
             width: '100%'
@@ -584,7 +595,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
         autoHeight
         rows={configs || []}
         columns={columns}
-        rowCount={configs.length}
+        rowCount={total}
         paginationModel={paginationModel}
         paginationMode="server"
         disableColumnFilter

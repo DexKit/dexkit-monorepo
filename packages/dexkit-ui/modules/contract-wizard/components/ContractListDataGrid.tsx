@@ -165,8 +165,8 @@ export default function ContractListDataGrid({
       headerName: "Created At",
       minWidth: 200,
       flex: 1,
-      valueGetter: (params: any) => {
-        return params.row?.createdAt ? new Date(params.row.createdAt).toLocaleString() : 'N/A';
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
       },
     },
     {
@@ -178,8 +178,8 @@ export default function ContractListDataGrid({
       field: "chainId",
       headerName: "Network",
       width: 110,
-      valueGetter: (params: any) => {
-        return params.row?.chainId ? NETWORK_NAME(params.row.chainId) : 'N/A';
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
     },
     {
@@ -189,9 +189,8 @@ export default function ContractListDataGrid({
       renderCell: (params: any) => (
         <Link
           target="_blank"
-          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${
-            params.row?.contractAddress
-          }`}
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress
+            }`}
         >
           {truncateAddress(params.row?.contractAddress)}
         </Link>
@@ -228,9 +227,8 @@ export default function ContractListDataGrid({
             ) : (
               <IconButton
                 LinkComponent={Link}
-                href={`/contract/${NETWORK_SLUG(row?.chainId)}/${
-                  row?.contractAddress
-                }`}
+                href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress
+                  }`}
                 size="small"
               >
                 <Tooltip

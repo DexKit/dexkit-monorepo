@@ -62,9 +62,9 @@ export function useListDeployedContracts({
 
   const safeFilter = filter
     ? {
-        ...filter,
-        owner: filter.owner || safeOwner,
-      }
+      ...filter,
+      owner: filter.owner || safeOwner,
+    }
     : { owner: safeOwner };
 
   return useQuery<{
@@ -89,19 +89,31 @@ export function useListDeployedContracts({
       }
 
       if (instance) {
-        return (
-          await instance.get("/forms/deploy/contract/list", {
-            params: {
-              owner: safeOwner,
-              name,
-              chainId,
-              skip: page * pageSize,
-              take: pageSize,
-              sort,
-              filter: safeFilter ? JSON.stringify(safeFilter) : undefined,
-            },
-          })
-        ).data;
+        const response = await instance.get("/forms/deploy/list", {
+          params: {
+            owner: safeOwner,
+            name,
+            chainId,
+            cursor: page * pageSize,
+            limit: pageSize,
+          },
+        });
+
+        const data = response.data;
+
+        const items = data.items || [];
+        const mappedItems = items.map((contract: any) => ({
+          ...contract,
+          createdAt: contract.createdAt || contract.created_at || new Date().toISOString(),
+          chainId: contract.chainId || contract.chain_id || contract.chainId,
+        }));
+
+        return {
+          data: mappedItems,
+          total: mappedItems.length,
+          skip: page * pageSize,
+          take: pageSize,
+        };
       }
 
       return { data: [] };

@@ -90,6 +90,15 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
           startIcon={<AddIcon />}
           variant="contained"
           color="primary"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"
@@ -151,6 +160,15 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
           startIcon={<AddIcon />}
           variant="contained"
           color="primary"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"

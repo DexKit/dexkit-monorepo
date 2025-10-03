@@ -19,13 +19,12 @@ import {
   Button,
   Container,
   Divider,
-  Grid,
   InputAdornment,
   Stack,
   TableContainer,
   TextField,
   Typography,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
@@ -41,17 +40,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { DEXKIT_DISCORD_SUPPORT_CHANNEL, WIZARD_DOCS_URL } from 'src/constants';
 
+import { useWhitelabelConfigsByOwnerPaginatedQuery } from '@dexkit/ui/modules/whitelabel/hooks/useWhitelabelConfigsByOwnerPaginatedQuery';
 import { useConnectWalletDialog } from 'src/hooks/app';
-import { useWhitelabelConfigsByOwnerQuery } from 'src/hooks/whitelabel';
 import { getAppConfig } from 'src/services/app';
 
 export const AdminIndexPage: NextPage = () => {
   const { isActive } = useWeb3React();
   const { isLoggedIn, user } = useAuth();
   const connectWalletDialog = useConnectWalletDialog();
-  const configsQuery = useWhitelabelConfigsByOwnerQuery({
-    owner: user?.address,
-  });
   const isMobile = useIsMobile();
   const theme = useTheme();
 
@@ -60,6 +56,17 @@ export const AdminIndexPage: NextPage = () => {
   const [search, setSearch] = useState('');
 
   const [selectedConfig, setSelectedConfig] = useState<ConfigResponse>();
+
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: isMobile ? 5 : 10,
+  });
+
+  const configsQuery = useWhitelabelConfigsByOwnerPaginatedQuery({
+    owner: user?.address,
+    page: paginationModel.page,
+    pageSize: paginationModel.pageSize,
+  });
 
   const lazySearch = useDebounce<string>(search, 500);
 
@@ -99,16 +106,16 @@ export const AdminIndexPage: NextPage = () => {
   );
 
   const configs = useMemo(() => {
-    if (configsQuery.data && configsQuery.data.length > 0) {
+    if (configsQuery.data && configsQuery.data.data && configsQuery.data.data.length > 0) {
       if (lazySearch) {
-        return configsQuery.data.filter(
+        return configsQuery.data.data.filter(
           (c) =>
             c.appConfig.name.toLowerCase().search(lazySearch.toLowerCase()) >
             -1,
         );
       }
 
-      return configsQuery.data;
+      return configsQuery.data.data;
     }
 
     return [];
@@ -142,6 +149,9 @@ export const AdminIndexPage: NextPage = () => {
         }}>
           <MarketplacesTableV2
             configs={configs}
+            total={configsQuery.data?.total || 0}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
             onConfigureDomain={handleShowConfigureDomain}
           />
         </TableContainer>
@@ -262,17 +272,17 @@ export const AdminIndexPage: NextPage = () => {
               ]}
             />
           </Box>
-          
+
           <Box>
             <MismatchAccount />
           </Box>
-          
+
           <Box>
             <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontSize: isMobile ? '1.1rem' : undefined, px: isMobile ? 1 : 0 }}>
               <FormattedMessage id="my.apps.upper" defaultMessage="My Apps" />
             </Typography>
           </Box>
-          
+
           <Box>
             <Stack
               direction={isMobile ? "column" : "row"}
@@ -337,7 +347,7 @@ export const AdminIndexPage: NextPage = () => {
           <Box>
             <Divider sx={{ py: isMobile ? 0.5 : 1 }} />
           </Box>
-          
+
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{
               width: '100%',
