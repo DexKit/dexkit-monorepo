@@ -1,5 +1,5 @@
 {
-  "buildCommand": "yarn build:packages && cd apps/dexappbuilder && NODE_OPTIONS=\"--max-old-space-size=4096\" yarn build",
+  "buildCommand": "yarn build:vercel",
   "outputDirectory": "apps/dexappbuilder/.next",
   "framework": "nextjs",
   "installCommand": "yarn install --frozen-lockfile",

@@ -29,6 +29,7 @@
     "build:packages": "turbo run build --filter=@dexkit/dexappbuilder-render",
     "build:parallel": "turbo run build --parallel",
     "build:whitelabel": "turbo run build --filter=@dexkit/dexappbuilder-render --filter=dexappbuilder ",
+    "build:vercel": "turbo run build --filter=@dexkit/dexappbuilder-render --filter=dexappbuilder",
     "build:dexappadmin": "turbo run build --filter=@dexkit/dexappbuilder-render  --filter=dexappadmin",
     "build:whitelabel:analyze": "ANALYZE=true turbo run build --parallel --filter=dexappbuilder",
     "build:coinleague": "turbo run build --parallel --filter=coinleague",
