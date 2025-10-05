@@ -19,13 +19,34 @@ import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
 import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
 import {
-  ThemeProvider,
+  CssVarsProvider,
+  useColorScheme
 } from "@mui/material/styles";
 import React from "react";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
 import GaslessTradesUpdater from "../components/GaslessTradesUpdater";
 import TransactionUpdater from "../components/TransactionUpdater";
+import { useForceThemeMode, useThemeMode } from "../hooks";
 import type { AppNotification, AppNotificationType } from "../types";
+
+function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
+  const { mode: normalMode } = useThemeMode();
+  const { mode: forcedMode, isForced } = useForceThemeMode();
+  const { setMode } = useColorScheme();
+
+  const effectiveMode = forcedMode || normalMode;
+
+  React.useEffect(() => {
+    setMode(effectiveMode);
+  }, [effectiveMode, setMode, isForced]);
+
+  return (
+    <CssVarsProvider theme={theme}>
+      {children}
+    </CssVarsProvider>
+  );
+}
+
 export interface DexkitProviderProps {
   provider?: any;
   apiKey?: string;
@@ -38,8 +59,8 @@ export interface DexkitProviderProps {
   onChangeLocale: (locale: string) => void;
   notificationTypes: { [key: string]: AppNotificationType };
   localeMessages?:
-    | Record<string, string>
-    | Record<string, MessageFormatElement[]>;
+  | Record<string, string>
+  | Record<string, MessageFormatElement[]>;
   children: React.ReactNode | React.ReactNode[];
   options?: {
     magicRedirectUrl: string;
@@ -140,7 +161,7 @@ export function DexkitProvider({
               </Stack>
             )}
           >
-            <ThemeProvider theme={theme}>
+            <ThemeWrapper theme={theme}>
               {(React as any).createElement(SnackbarProvider, {
                 maxSnack: 3,
                 anchorOrigin: { horizontal: "right", vertical: "bottom" },
@@ -153,7 +174,7 @@ export function DexkitProvider({
                   </>
                 )
               })}
-            </ThemeProvider>
+            </ThemeWrapper>
           </AppErrorBoundary>
         )
       })}

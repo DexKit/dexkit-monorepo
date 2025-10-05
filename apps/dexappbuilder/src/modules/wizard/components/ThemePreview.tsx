@@ -35,11 +35,13 @@ function ColorSchemePicker({
   selectedThemeMode?: ThemeMode;
 }) {
   const { mode, setMode } = useColorScheme();
+
   useEffect(() => {
     if (selectedThemeMode) {
       setMode(selectedThemeMode);
     }
-  }, [selectedThemeMode]);
+  }, [selectedThemeMode, setMode]);
+
   return <></>;
 }
 
@@ -53,6 +55,7 @@ export default function ThemePreview({
 }: Props) {
   const { formatMessage } = useIntl();
   const [node, setNode] = React.useState<null | HTMLElement>(null);
+
   useEnhancedEffect(() => {
     setNode(
       document.getElementById('theme-preview-container') as null | HTMLElement,

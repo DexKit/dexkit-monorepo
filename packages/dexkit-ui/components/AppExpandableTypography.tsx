@@ -18,7 +18,7 @@ export function AppExpandableTypography({
   }
 
   return (
-    <div>
+    <span>
       <Typography {...TypographyProps}>
         {expanded
           ? value
@@ -40,6 +40,6 @@ export function AppExpandableTypography({
           )}
         </Link>
       )}
-    </div>
+    </span>
   );
 }

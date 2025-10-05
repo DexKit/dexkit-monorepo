@@ -317,22 +317,22 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
       return true;
     } catch (error: any) {
       console.error("Error during claim rewards:", error);
-      
+
       if (error.code === -32002) {
         watchTransactionDialog.setError(new Error("There is already a pending request in the wallet. Please resolve that request first."));
       } else if (error.code === 4001) {
         watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
       } else if (
         error.message && (
-          error.message.includes("429") || 
-          error.message.includes("rate limit") || 
+          error.message.includes("429") ||
+          error.message.includes("rate limit") ||
           error.message.includes("too many requests")
         )
       ) {
         watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
       } else if (
         error.message && (
-          error.message.includes("timeout") || 
+          error.message.includes("timeout") ||
           error.message.includes("timed out") ||
           error.message.includes("exceeded") ||
           error.message.includes("server error")
@@ -458,7 +458,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
               >
                 {({ submitForm, isValid, isSubmitting, setFieldValue }: any) => (
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Box>
                         <Stack>
                           <Stack direction="row" justifyContent="space-between">
@@ -530,7 +530,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         </Stack>
                       </Box>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormikDecimalInput
                         name="amount"
                         decimals={stakingTokenBalance?.decimals}
@@ -566,7 +566,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormattedMessage
                         id="available.balance.amount"
                         defaultMessage="Available amount: {amount}"
@@ -579,7 +579,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         onClick={submitForm}
                         disabled={
@@ -610,7 +610,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                     {rewardTokenBalance &&
                       stakeInfo?.length > 1 &&
                       stakeInfo[1].gt(0) && (
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Button
                             onClick={handleClaim}
                             disabled={
@@ -647,7 +647,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
               >
                 {({ submitForm, isValid, isSubmitting, setFieldValue }: any) => (
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Box>
                         <Stack>
                           <Stack direction="row" justifyContent="space-between">
@@ -664,7 +664,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         </Stack>
                       </Box>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormikDecimalInput
                         name="amount"
                         decimals={stakingTokenBalance?.decimals}
@@ -700,7 +700,7 @@ export default function StakeErc20Section({ section }: StakeErc20SectionProps) {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         onClick={submitForm}
                         disabled={isSubmitting || !isValid}

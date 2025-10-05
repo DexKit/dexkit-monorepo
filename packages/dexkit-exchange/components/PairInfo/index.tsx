@@ -1,6 +1,6 @@
 import { useIsMobile } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
-import { useCurrency } from "@dexkit/ui/hooks";
+import { useCurrency, useForceThemeMode } from "@dexkit/ui/hooks";
 import {
   Box,
   Chip,
@@ -9,9 +9,9 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useColorScheme,
   useMediaQuery,
-  useTheme,
-  useColorScheme
+  useTheme
 } from "@mui/material";
 import React, { useMemo } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
@@ -53,14 +53,17 @@ export default function PairInfo({
 
   const theme = useTheme();
   const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobileDevice = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   const previewContext = usePreviewPlatform();
   const isMobile = previewContext ? previewContext.isMobile : (isMobileDevice || isSmallScreen);
-  const isDarkMode = mode === 'dark';
-  const primaryTextColor = customVariantSettings?.pairInfoTextColor || (isDarkMode ? '#ffffff' : theme.palette.text.primary);
-  const secondaryTextColor = customVariantSettings?.pairInfoSecondaryTextColor || (isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const primaryTextColor = customVariantSettings?.pairInfoTextColor || (isDark ? '#ffffff' : theme.palette.text.primary);
+  const secondaryTextColor = customVariantSettings?.pairInfoSecondaryTextColor || (isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
+
 
   const [priceChange, priceChangeColor] = useMemo(() => {
     if (priceChangeH24) {
@@ -171,7 +174,7 @@ export default function PairInfo({
           <Typography
             variant="body1"
             sx={{
-              color: color === 'text.primary' ? primaryTextColor : color,
+              color: color === 'text.primary' ? primaryTextColor : (color === 'success.main' ? theme.palette.success.main : color === 'error.main' ? theme.palette.error.main : primaryTextColor),
               fontWeight: theme.typography.fontWeightMedium,
               fontSize: theme.typography.body1.fontSize,
               lineHeight: 1,
@@ -255,7 +258,7 @@ export default function PairInfo({
           <Typography
             variant="body1"
             sx={{
-              color: color === 'text.primary' ? primaryTextColor : color,
+              color: color === 'text.primary' ? primaryTextColor : (color === 'success.main' ? theme.palette.success.main : color === 'error.main' ? theme.palette.error.main : primaryTextColor),
               fontWeight: theme.typography.fontWeightMedium,
               fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.body1.fontSize },
               lineHeight: 1.2,

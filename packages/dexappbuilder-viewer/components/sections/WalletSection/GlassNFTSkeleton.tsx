@@ -8,11 +8,11 @@ interface GlassNFTSkeletonProps {
   textColor?: string;
 }
 
-export function GlassNFTSkeleton({ 
-  count = 6, 
-  blurIntensity = 40, 
-  glassOpacity = 0.10, 
-  textColor = '#ffffff' 
+export function GlassNFTSkeleton({
+  count = 6,
+  blurIntensity = 40,
+  glassOpacity = 0.10,
+  textColor = '#ffffff'
 }: GlassNFTSkeletonProps) {
   return (
     <>
@@ -39,7 +39,7 @@ export function GlassNFTSkeleton({
               sx={{
                 position: "relative",
                 overflow: "hidden",
-                paddingTop: "80%",
+                paddingTop: { xs: "60%", sm: "100%" }, // Aspect ratio más pequeño en móviles
               }}
             >
               <Skeleton
@@ -51,27 +51,33 @@ export function GlassNFTSkeleton({
                   width: "100%",
                   height: "100%",
                   backgroundColor: `${textColor}22`,
+                  borderRadius: "inherit"
                 }}
               />
             </Box>
-            
-            <CardContent sx={{ pb: "16px !important" }}>
+
+            <CardContent sx={{
+              pb: "16px !important",
+              p: { xs: 1, sm: 2 }
+            }}>
               <Skeleton
                 variant="text"
                 width="70%"
                 height={20}
-                sx={{ 
+                sx={{
                   backgroundColor: `${textColor}33`,
-                  mb: 0.5
+                  mb: 0.5,
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' }
                 }}
               />
-              
+
               <Skeleton
                 variant="text"
                 width="90%"
                 height={24}
-                sx={{ 
+                sx={{
                   backgroundColor: `${textColor}33`,
+                  fontSize: { xs: '0.875rem', sm: '1rem' }
                 }}
               />
             </CardContent>

@@ -7,16 +7,10 @@ import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import { Field, Formik, FormikHelpers } from 'formik';
 import { TextField } from 'formik-mui';
 import { useState } from 'react';
-import ChangeListener from '../ChangeListener';
+import ChangeListener from '../../../../apps/dexappbuilder/src/modules/wizard/components/ChangeListener';
 
 import CompletationProvider from '@dexkit/ui/components/CompletationProvider';
 import ImageIcon from '@mui/icons-material/Image';
-
-const CustomImage = styled('img')(({ theme }) => ({
-  width: '100%',
-  height: 'auto',
-  display: 'block',
-}));
 
 export interface PageGatedLayoutTabProps {
   layout?: GatedPageLayout;
@@ -78,13 +72,13 @@ export default function PageGatedLayoutTab({
         layout
           ? { layout }
           : {
-              layout: {
-                accessRequirementsMessage: '',
-                frontImage: '',
-                frontImageHeight: 150,
-                frontImageWidth: 150,
-              },
-            }
+            layout: {
+              accessRequirementsMessage: '',
+              frontImage: '',
+              frontImageHeight: 150,
+              frontImageWidth: 150,
+            },
+          }
       }
       onSubmit={handleSubmit}
     >
@@ -122,7 +116,7 @@ export default function PageGatedLayoutTab({
 
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="body1" fontWeight="bold">
                   <FormattedMessage
                     id="cover.image"
@@ -130,9 +124,9 @@ export default function PageGatedLayoutTab({
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <Box>
                       <Stack spacing={2}>
                         <Typography variant="body1">
@@ -189,7 +183,7 @@ export default function PageGatedLayoutTab({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <Box>
                       <Stack spacing={2}>
                         <Typography variant="body1">
@@ -240,9 +234,9 @@ export default function PageGatedLayoutTab({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography variant="body1">
                       <FormattedMessage
                         id="cover.image.size"
@@ -265,7 +259,7 @@ export default function PageGatedLayoutTab({
                       name="layout.frontImageWidth"
                     />
                   </Grid> */}
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Field
                       component={TextField}
                       type="number"
@@ -283,7 +277,7 @@ export default function PageGatedLayoutTab({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <CompletationProvider
                   onCompletation={(output: string) => {
                     setFieldValue('layout.accessRequirementsMessage', output);

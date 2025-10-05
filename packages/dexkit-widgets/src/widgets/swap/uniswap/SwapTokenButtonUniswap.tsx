@@ -43,8 +43,10 @@ function SwapTokenButtonUniswap({
         }
       />
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         {token?.symbol.toUpperCase()}
@@ -55,8 +57,10 @@ function SwapTokenButtonUniswap({
   ) : (
     <Stack direction="row" alignItems="center" spacing={0.5}>
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#cccccc' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         <FormattedMessage id="select.token" defaultMessage="Select token" />

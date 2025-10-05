@@ -31,7 +31,7 @@ const Collections: NextPage<Props> = ({ appConfig }: Props) => {
       <MainLayout>
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <PageHeader
                 breadcrumbs={[
                   {
@@ -53,25 +53,29 @@ const Collections: NextPage<Props> = ({ appConfig }: Props) => {
                 ]}
               />
             </Grid>
-            {appConfig.collections?.map((collection, index) => (
-              <Grid item xs={6} sm={3} key={index}>
-                <CollectionFromConfigCard
-                  totalSupply={0}
-                  collection={
-                    {
-                      ...collection,
-                      name: collection.name,
-                      address: collection.contractAddress,
-                      symbol: collection.name,
-                      chainId: collection.chainId,
-                    } as Collection
-                  }
-                  backgroundImageUrl={collection.backgroundImage}
-                  variant="simple"
-                  title={collection.name}
-                />
+            <Grid size={12} sx={{ mt: 3 }}>
+              <Grid container spacing={2} sx={{ alignItems: 'stretch' }}>
+                {appConfig.collections?.map((collection, index) => (
+                  <Grid size={{ xs: 6, sm: 3 }} key={index}>
+                    <CollectionFromConfigCard
+                      totalSupply={0}
+                      collection={
+                        {
+                          ...collection,
+                          name: collection.name,
+                          address: collection.contractAddress,
+                          symbol: collection.name,
+                          chainId: collection.chainId,
+                        } as Collection
+                      }
+                      backgroundImageUrl={collection.backgroundImage}
+                      variant="simple"
+                      title={collection.name}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            </Grid>
           </Grid>
         </Container>
       </MainLayout>

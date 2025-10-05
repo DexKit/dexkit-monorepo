@@ -27,12 +27,12 @@ export function AssetList({ contractAddress, search, chainId }: Props) {
   return (
     <Grid container spacing={2}>
       {filteredAssets?.map((asset, index) => (
-        <Grid item xs={6} sm={2} key={index}>
+        <Grid size={{ xs: 6, sm: 2 }} key={index}>
           <AssetCard asset={asset} lazyLoadMetadata />
         </Grid>
       ))}
       {filteredAssets?.length === 0 && (
-        <Grid item xs={12} sm={12}>
+        <Grid size={12}>
           <Stack justifyContent="center" alignItems="center">
             <Typography variant="h6">
               <FormattedMessage

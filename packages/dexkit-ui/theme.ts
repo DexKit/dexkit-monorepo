@@ -1,4 +1,4 @@
-import { createTheme, alpha, lighten, darken } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 export default createTheme({
   cssVariables: {
@@ -69,12 +69,13 @@ export default createTheme({
       palette: {
         background: {
           default: '#000',
+          paper: '#1a1a1a',
         },
         mode: 'dark',
-        divider: '#DCDCDC',
+        divider: '#333333',
         text: {
           primary: '#fff',
-          secondary: '#737372',
+          secondary: '#cccccc',
           disabled: '#9B9B9B',
         },
         primary: {
@@ -94,8 +95,4 @@ export default createTheme({
       },
     },
   },
-  // Add color manipulation functions for MUI v7
-  alpha,
-  lighten,
-  darken,
 })

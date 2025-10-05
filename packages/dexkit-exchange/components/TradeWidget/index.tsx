@@ -5,9 +5,9 @@ import {
   Stack,
   Tabs,
   Typography,
+  useColorScheme,
   useMediaQuery,
-  useTheme,
-  useColorScheme
+  useTheme
 } from "@mui/material";
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
 
@@ -16,6 +16,7 @@ import TradeWidgetTabAlt from "./TradeWidgetTabAlt";
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useErc20BalanceQuery } from "@dexkit/core/hooks";
+import { useForceThemeMode } from "@dexkit/ui/hooks";
 import SwapSettingsDialog from "@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -43,11 +44,18 @@ export interface TradeWidgetProps {
 export default function TradeWidget({ isActive, customVariantSettings }: TradeWidgetProps) {
   const theme = useTheme();
   const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const previewContext = usePreviewPlatform();
   const isMobile = previewContext ? previewContext.isMobile : isMobileDevice;
-  const isDarkMode = mode === 'dark';
+  const [isHydrated, setIsHydrated] = useState(false);
+  const isDark = isHydrated ? (themeMode === 'dark' || theme.palette.mode === 'dark') : false;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const {
     quoteToken,
@@ -78,16 +86,30 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
   );
 
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || (isDarkMode ? '#ffffff' : theme.palette.text.primary);
+  const textColor = glassSettings?.textColor || (isDark ? '#ffffff' : theme.palette.text.primary);
   const buyTabColor = glassSettings?.buyTabColor || '#10B981';
   const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
-  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (isDarkMode ? '#FFFFFF' : '#000000');
-  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (isDarkMode ? '#FFFFFF' : '#000000');
+  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (isDark ? '#FFFFFF' : '#000000');
+  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (isDark ? '#FFFFFF' : '#000000');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 
   const glassStyles = useMemo(() => {
     if (!isGlassVariant) return {};
+
+    if (!isDark) {
+      return {
+        '& .MuiTypography-root:not([data-pair-button])': {
+          color: `${theme.palette.text.primary} !important`,
+        },
+        '& .MuiIconButton-root:not([data-pair-button])': {
+          color: `${theme.palette.text.primary} !important`,
+          '&:hover': {
+            backgroundColor: `${theme.palette.action.hover} !important`,
+          },
+        },
+      };
+    }
 
     return {
       backgroundColor: 'transparent !important',
@@ -133,7 +155,7 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
         color: `${textColor} !important`,
       },
     };
-  }, [isGlassVariant, textColor, theme]);
+  }, [isGlassVariant, textColor, theme, isDark]);
 
   const tabsStyles = useMemo(() => ({
     "& .MuiTabs-indicator": {

@@ -10,15 +10,12 @@ import { fetchAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query'
 
 import AssetHead from '@dexkit/ui/modules/nft/components/AssetHead';
 
-import { getIntegrationData } from '@/modules/wizard/services/integrations';
-import { ChainId, MY_APPS_ENDPOINT } from '@dexkit/core/constants';
-import { NETWORK_FROM_SLUG } from '@dexkit/core/constants/networks';
+import { ChainId } from '@dexkit/core/constants';
 import { ipfsUriToUrl, truncateAddress } from '@dexkit/core/utils';
 import {
   getChainIdFromSlug,
   getNetworkSlugFromChainId,
 } from '@dexkit/core/utils/blockchain';
-import axios from 'axios';
 import { NextSeo } from 'next-seo';
 import { FormattedMessage } from 'react-intl';
 import { REVALIDATE_PAGE_TIME } from 'src/constants';
@@ -70,9 +67,9 @@ const AssetDetailPage: NextPage<any> = () => {
       />
 
       <AssetHead address={address as string} id={id as string} />
-      <Container>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {

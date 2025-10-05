@@ -21,6 +21,7 @@ import { AdminContext } from "../context/AdminContext";
 
 import { defineChain } from "thirdweb/chains";
 import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { useForceThemeMode } from './theme/useForceThemeMode';
 import { useThemeMode } from './theme/useThemeMode';
 import { useAppConfig } from './useAppConfig';
 import { useDexKitContext } from './useDexKitContext';
@@ -37,7 +38,7 @@ export * from "./useNavbarVariant";
 export * from "./useSidebarVariant";
 export * from "./useWatchTransactionsDialog";
 
-export { useAppConfig, useDexKitContext, useLocale, useThemeMode };
+export { useAppConfig, useDexKitContext, useForceThemeMode, useLocale, useThemeMode };
 
 export function useAppNFT() {
   return useContext(AppConfigContext).appNFT;

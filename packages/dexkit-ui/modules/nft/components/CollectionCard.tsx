@@ -1,4 +1,4 @@
-import { NETWORK_SLUG, NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
+import { NETWORK_FROM_SLUG, NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import {
   Avatar,
   Box,
@@ -34,11 +34,24 @@ export function CollectionCard({
 }: Props) {
   const renderCardContent = () => {
     return (
-      <CardContent sx={{ height: "100%", p: 1.5 }}>
+      <CardContent sx={{
+        height: "100%",
+        p: 1.5,
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        position: "relative",
+        zIndex: 2
+      }}>
         <Stack
           alignItems="flex-start"
           justifyContent="flex-end"
-          sx={{ height: "100%", minHeight: '180px' }}
+          sx={{
+            height: "100%",
+            minHeight: '180px',
+            position: "relative",
+            zIndex: 2
+          }}
           spacing={1}
         >
           <Box sx={{ flex: 1 }} />
@@ -54,7 +67,8 @@ export function CollectionCard({
                   fontSize: variant ? "1.5rem" : "1.75rem",
                   fontWeight: "bold",
                   lineHeight: 1.2,
-                  pl: 2
+                  pl: 2,
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.8)"
                 }}
               >
                 {title ? title : collection?.name}
@@ -73,7 +87,7 @@ export function CollectionCard({
                 variant="contained"
                 color="primary"
                 size="medium"
-                sx={{ 
+                sx={{
                   fontSize: '0.9rem',
                   px: 3,
                   py: 1,
@@ -124,11 +138,15 @@ export function CollectionCard({
         border: 0,
         background: `linear-gradient(45.66deg, rgba(14, 17, 22, 0.72) 0%, rgba(155, 155, 155, 0) 92.88%), url(${backgroundImageUrl}) no-repeat center center`,
         backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         height: "100%",
+        width: "100%",
         position: "relative",
-        minHeight: "200px",
-        maxHeight: "250px",
-        overflow: "hidden"
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
       }}
     >
       {network && (

@@ -129,17 +129,19 @@ export function AssetPageActions({ address, id }: Props) {
                   <FormattedMessage id="favorite" defaultMessage="Favorite" />
                 }
               >
-                <IconButton onClick={handleToggleFavorite} disabled={!account}>
-                  <Heart
-                    sx={
-                      favorites.isFavorite(asset)
-                        ? (theme) => ({
-                          "& path": { fill: theme.palette.error.light },
-                        })
-                        : undefined
-                    }
-                  />
-                </IconButton>
+                <span>
+                  <IconButton onClick={handleToggleFavorite} disabled={!account}>
+                    <Heart
+                      sx={
+                        favorites.isFavorite(asset)
+                          ? (theme) => ({
+                            "& path": { fill: theme.palette.error.light },
+                          })
+                          : undefined
+                      }
+                    />
+                  </IconButton>
+                </span>
               </Tooltip>
               <Tooltip title="Share">
                 <IconButton onClick={handleOpenShareDialog}>

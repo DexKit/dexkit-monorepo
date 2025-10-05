@@ -37,8 +37,10 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
         }
       />
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         {token?.symbol.toUpperCase()}
@@ -46,7 +48,11 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
       {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
     </Stack>
   ) : (
-    <Typography>
+    <Typography
+      sx={{
+        color: (theme) => theme.palette.mode === 'dark' ? '#cccccc' : theme.palette.text.primary
+      }}
+    >
       <FormattedMessage id="select.token" defaultMessage="Select token" />
     </Typography>
   );

@@ -47,12 +47,12 @@ export function AssetListCollection({
   return (
     <Grid container spacing={2}>
       {filteredAssets?.map((asset, index) => (
-        <Grid item xs={6} sm={2} key={index}>
+        <Grid size={{ xs: 6, sm: 2 }} key={index}>
           <BaseAssetCard asset={asset} />
         </Grid>
       ))}
       {filteredAssets?.length === 0 && (
-        <Grid item xs={12} sm={12}>
+        <Grid size={12}>
           <Stack justifyContent="center" alignItems="center">
             <Typography variant="h6">
               <FormattedMessage
@@ -81,7 +81,7 @@ export function AssetListCollection({
           </Stack>
         </Grid>
       )}
-      <Grid item xs={12} sm={12} container justifyContent={"flex-end"}>
+      <Grid size={12} container justifyContent={"flex-end"}>
         <Pagination
           page={page + 1}
           onChange={(_ev, _page) => setPage(_page - 1)}

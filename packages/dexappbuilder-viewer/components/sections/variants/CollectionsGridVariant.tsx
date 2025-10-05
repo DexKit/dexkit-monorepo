@@ -1,6 +1,6 @@
 import { CollectionFromApiCard } from "@dexkit/ui/modules/nft/components";
 import { CollectionAppPageSection } from "@dexkit/ui/modules/wizard/types/section";
-import { Box, Card, CardContent, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { usePreviewPlatform } from "../../SectionsRenderer";
 
@@ -46,17 +46,26 @@ export function CollectionsGridVariant({ section, disabled }: Props) {
         <Card
           elevation={isFeatured ? 3 : 2}
           sx={{
-            height: '100%',
-            minHeight: { xs: isExtraSmall ? 140 : 160, sm: 200, md: 220 },
+            height: { xs: isExtraSmall ? 200 : 220, sm: 240, md: 260 },
             transition: 'all 0.2s ease-in-out',
             position: 'relative',
-            overflow: isMobile ? 'visible' : 'hidden',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
             '&:hover': {
               boxShadow: isFeatured ? 6 : 4,
+              transform: 'translateY(-2px)',
             }
           }}
         >
-          <CardContent sx={{ p: isMobile ? 0 : { xs: isExtraSmall ? 1 : 1.25, sm: 1.5, md: 2 }, height: '100%', overflow: 'hidden' }}>
+          <CardContent sx={{
+            p: isMobile ? 0 : { xs: isExtraSmall ? 1 : 1.25, sm: 1.5, md: 2 },
+            height: '100%',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1
+          }}>
             <CollectionFromApiCard
               totalSupply={0}
               variant="simple"
@@ -114,13 +123,21 @@ export function CollectionsGridVariant({ section, disabled }: Props) {
         gridTemplateColumns: {
           xs: '1fr',
           sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)'
+          md: 'repeat(3, 1fr)',
+          lg: 'repeat(4, 1fr)'
         },
-        gap: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 }
+        gap: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 },
+        alignItems: 'stretch'
       }}
     >
       {allItems.map((item, index) => (
-        <Box key={index}>
+        <Box
+          key={index}
+          sx={{
+            display: 'flex',
+            minHeight: { xs: isExtraSmall ? 200 : 220, sm: 240, md: 260 }
+          }}
+        >
           {renderCollectionCard(item, item.type === "collection" && item.featured)}
         </Box>
       ))}

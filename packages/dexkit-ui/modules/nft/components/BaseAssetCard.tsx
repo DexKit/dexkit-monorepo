@@ -95,28 +95,52 @@ export function BaseAssetCard({
         <Box
           sx={{
             position: "relative",
-            overflow: " hidden",
-            paddingTop: "80%",
+            overflow: "hidden",
+            paddingTop: { xs: "60%", sm: "100%" }, // Aspect ratio más pequeño en móviles
           }}
         >
           <Skeleton
             variant="rectangular"
             sx={{
               position: "absolute",
+              top: 0,
+              left: 0,
               display: "block",
               width: "100%",
               height: "100%",
+              borderRadius: "inherit"
             }}
           />
         </Box>
       )}
-      <CardContent>
-        <Typography variant="caption">
-          {asset === undefined ? <Skeleton /> : asset?.collectionName}
+      <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
+        <Typography
+          variant="caption"
+          sx={{
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            lineHeight: 1.2,
+            display: 'block',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            mb: 0.5
+          }}
+        >
+          {asset === undefined ? <Skeleton width="80%" /> : asset?.collectionName}
         </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 600,
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            lineHeight: 1.3,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
           {asset === undefined ? (
-            <Skeleton />
+            <Skeleton width="90%" />
           ) : assetName ? (
             assetName
           ) : (

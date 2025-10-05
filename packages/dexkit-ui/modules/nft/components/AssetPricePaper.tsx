@@ -365,7 +365,7 @@ export function AssetPricePaper({ address, id }: Props) {
           asset={asset}
         />
       )}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Paper variant="outlined" sx={{ p: 2 }}>
           <Stack spacing={2} direction="row" alignItems="center">
             {/* <Box>
@@ -380,38 +380,38 @@ export function AssetPricePaper({ address, id }: Props) {
             </Box> */}
             {(isAddressEqual(account, asset?.owner) ||
               isERC1155Owner(assetBalance)) && (
-              <>
-                <Button
-                  size="large"
-                  onClick={handleOpenMakeListingDialog}
-                  startIcon={<DollarSquare color="primary" />}
-                  variant="outlined"
-                >
-                  <FormattedMessage
-                    defaultMessage="Sell"
-                    description="Sell button"
-                    id="sell"
-                  />
-                </Button>
-                <TransferAssetButton asset={asset} />
-              </>
-            )}
+                <>
+                  <Button
+                    size="large"
+                    onClick={handleOpenMakeListingDialog}
+                    startIcon={<DollarSquare color="primary" />}
+                    variant="outlined"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Sell"
+                      description="Sell button"
+                      id="sell"
+                    />
+                  </Button>
+                  <TransferAssetButton asset={asset} />
+                </>
+              )}
 
             {(assetType === "ERC1155" ||
               !isAddressEqual(account, asset?.owner)) && (
-              <Button
-                size="large"
-                onClick={handleOpenMakeOfferDialog}
-                startIcon={<Icon icon="tag" size="medium" color="primary" />}
-                variant="outlined"
-              >
-                <FormattedMessage
-                  defaultMessage="Make Offer"
-                  description="Make offer button"
-                  id="make.offer"
-                />
-              </Button>
-            )}
+                <Button
+                  size="large"
+                  onClick={handleOpenMakeOfferDialog}
+                  startIcon={<Icon icon="tag" size="medium" color="primary" />}
+                  variant="outlined"
+                >
+                  <FormattedMessage
+                    defaultMessage="Make Offer"
+                    description="Make offer button"
+                    id="make.offer"
+                  />
+                </Button>
+              )}
           </Stack>
         </Paper>
       </Grid>

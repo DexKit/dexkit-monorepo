@@ -9,11 +9,11 @@ import {
   SelectChangeEvent,
   Skeleton,
   Stack,
+  useColorScheme,
   useMediaQuery,
-  useTheme,
-  useColorScheme
+  useTheme
 } from "@mui/material";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { DexkitExchangeContext } from "../../contexts";
 import { ExchangeCustomVariantSettings } from "../../types";
@@ -59,7 +59,12 @@ export default function TradingGraph({
   const exchangeContext = useContext(DexkitExchangeContext);
   const variant = exchangeContext?.variant;
   const glassSettings = exchangeContext?.glassSettings;
-  const isDarkMode = mode === 'dark';
+  const [isHydrated, setIsHydrated] = useState(false);
+  const isDark = isHydrated ? (mode === 'dark' || theme.palette.mode === 'dark') : false;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleChange = async (
     event: SelectChangeEvent<string>,
@@ -86,7 +91,7 @@ export default function TradingGraph({
   };
 
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || (isDarkMode ? 'rgba(255, 255, 255, 0.95)' : theme.palette.text.primary);
+  const textColor = glassSettings?.textColor || (isDark ? 'rgba(255, 255, 255, 0.95)' : theme.palette.text.primary);
   const controlTextColor = customVariantSettings?.tradingGraphControlTextColor || textColor;
   const customBackgroundColor = customVariantSettings?.tradingGraphBackgroundColor;
   const blurIntensity = glassSettings?.blurIntensity || 20;
@@ -148,8 +153,8 @@ export default function TradingGraph({
         minWidth: { xs: theme.spacing(15), sm: theme.spacing(20) },
         '& .MuiOutlinedInput-root': {
           backgroundColor: `rgba(255, 255, 255, ${glassOpacity}) !important`,
-          backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,     
-          WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,                                                                                                                                 
+          backdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
+          WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
           borderRadius: `${Number(theme.shape.borderRadius) * 2}px !important`,
           border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.4)}) !important`,
           overflow: 'hidden',
@@ -192,8 +197,8 @@ export default function TradingGraph({
         sx: {
           backgroundColor: `rgba(255, 255, 255, ${glassOpacity}) !important`,
           backdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.1) !important`,
-          WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.1) !important`,                                                                                                                                 
-          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,    
+          WebkitBackdropFilter: `blur(${blurIntensity + 10}px) saturate(180%) brightness(1.1) !important`,
+          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
           borderRadius: `${Number(theme.shape.borderRadius) * 2}px !important`,
           boxShadow: `0 ${theme.spacing(1)} ${theme.spacing(4)} rgba(0, 0, 0, 0.1), 0 2px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.25)}) inset !important`,
           '& .MuiMenuItem-root': {

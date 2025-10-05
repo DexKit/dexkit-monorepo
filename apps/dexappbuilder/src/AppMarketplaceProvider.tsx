@@ -8,7 +8,9 @@ import {
   COMMON_NOTIFICATION_TYPES,
   WHITELABEL_NOTIFICATION_TYPES,
 } from "@dexkit/ui/constants/messages/common";
+import { useAppConfig } from "@dexkit/ui/hooks";
 import { useLocale } from "@dexkit/ui/hooks/useLocale";
+import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
 import { DexkitProvider } from "@dexkit/ui/providers/DexkitProvider";
 import { setupSEO, setupTheme } from "@dexkit/ui/services/app";
 import { useAtom } from "jotai";
@@ -25,12 +27,10 @@ import {
   tokensAtom,
   transactionsAtomV2,
 } from "@dexkit/dexappbuilder-viewer/state/atoms";
-import { getTheme } from "./getTheme";
 import { useRouter } from "next/router";
+import { getTheme } from "./getTheme";
 
 import { loadLocaleMessages } from "@dexkit/dexappbuilder-viewer/utils/intl";
-import { useAppConfig } from "@dexkit/ui/hooks/useAppConfig";
-import { useSiteId } from "@dexkit/ui/hooks/useSiteId";
 import React from "react";
 
 export interface AppMarketplaceContextProps {

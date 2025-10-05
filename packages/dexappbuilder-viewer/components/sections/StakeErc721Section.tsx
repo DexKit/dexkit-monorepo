@@ -356,7 +356,7 @@ export default function StakeErc721Section({
             {tab === "stake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -396,7 +396,7 @@ export default function StakeErc721Section({
                     </Paper>
                   </Grid>
                   {selectedTokenIds.length > 0 && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography color="text.secondary" variant="body1">
                         {selectedTokenIds.length > 1 ? (
                           <FormattedMessage
@@ -417,7 +417,7 @@ export default function StakeErc721Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         <Stack direction="row" justifyContent="space-between">
@@ -489,7 +489,7 @@ export default function StakeErc721Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={
                         stakeNftMutation.isLoading ||
@@ -510,7 +510,7 @@ export default function StakeErc721Section({
                     </Button>
                   </Grid>
                   {rewards && rewards.gt(0) && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         onClick={handleClaim}
                         startIcon={
@@ -540,7 +540,7 @@ export default function StakeErc721Section({
             {tab === "unstake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -580,7 +580,7 @@ export default function StakeErc721Section({
                     </Paper>
                   </Grid>
                   {selectedTokenIds.length > 0 && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography color="text.secondary" variant="body1">
                         {selectedTokenIds.length > 1 ? (
                           <FormattedMessage
@@ -601,7 +601,7 @@ export default function StakeErc721Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         <Stack direction="row" justifyContent="space-between">
@@ -672,7 +672,7 @@ export default function StakeErc721Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={
                         unstakeRewardsMutation.isLoading ||

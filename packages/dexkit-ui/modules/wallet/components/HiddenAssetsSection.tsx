@@ -8,13 +8,14 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Pagination,
   Stack,
   TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import CloseCircle from "../../../components/icons/CloseCircle";
 
@@ -40,6 +41,8 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
   const [openFilter, setOpenFilter] = useState(false);
   const { account } = useWeb3React();
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   const { accountAssets } = useAccountAssetsBalance(account ? [account] : []);
 
   const { formatMessage } = useIntl();
@@ -84,10 +87,26 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
       });
   }, [assetList, filters, search, hiddenAssets]);
 
+  // Lógica de paginación
+  const totalPages = Math.ceil(filteredAssetList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedAssets = filteredAssetList.slice(startIndex, endIndex);
+
+  // Resetear página cuando cambien los filtros
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Resetear a página 1 cuando cambien los filtros
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredAssetList.length]);
+
   const renderAssets = () => {
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -114,7 +133,7 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return paginatedAssets.map((asset, index) => (
       <AssetCard
         asset={asset}
         key={index}
@@ -130,7 +149,7 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isDesktop ? (
             <Stack
               direction="row"
@@ -223,7 +242,7 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
           )}
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <WalletAssetsFilter
               setFilters={setFilters}
               filters={filters}
@@ -240,6 +259,36 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
         }}>
           {renderAssets()}
         </Grid>
+
+        {/* Controles de paginación */}
+        {filteredAssetList.length > itemsPerPage && (
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+              <Stack spacing={2} alignItems="center">
+                <Typography variant="body2" color="textSecondary">
+                  <FormattedMessage
+                    id="showing.nfts"
+                    defaultMessage="Showing {start}-{end} of {total} NFTs"
+                    values={{
+                      start: startIndex + 1,
+                      end: Math.min(endIndex, filteredAssetList.length),
+                      total: filteredAssetList.length
+                    }}
+                  />
+                </Typography>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  color="primary"
+                  size="large"
+                  showFirstButton
+                  showLastButton
+                />
+              </Stack>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -244,11 +244,10 @@ function Navbar({ appConfig, isPreview }: Props) {
 
   const getLogoSize = () => {
     if (!glassVariant) {
-      // Default logo size for navbar
       const defaultSize = isMobile ? 32 : 48;
-      return { 
-        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)), 
-        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize)) 
+      return {
+        width: Math.max(1, Number(appConfig?.logo?.width || defaultSize)),
+        height: Math.max(1, Number(appConfig?.logo?.height || defaultSize))
       };
     }
 
@@ -264,11 +263,11 @@ function Navbar({ appConfig, isPreview }: Props) {
         width = height = isMobile ? 32 : 64;
         break;
       case 'custom':
-        width = isMobile ? 
-          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) : 
+        width = isMobile ?
+          Math.max(1, Number(customLogoWidth ? customLogoWidth / 2 : 16)) :
           Math.max(1, Number(customLogoWidth || 32));
-        height = isMobile ? 
-          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) : 
+        height = isMobile ?
+          Math.max(1, Number(customLogoHeight ? customLogoHeight / 2 : 16)) :
           Math.max(1, Number(customLogoHeight || 32));
         break;
       default:
@@ -470,15 +469,39 @@ function Navbar({ appConfig, isPreview }: Props) {
   const renderElementsInPosition = (position: string, elements: any[]) => {
     if (elements.length === 0) return null;
 
+    const getJustifyContent = (pos: string) => {
+      switch (pos) {
+        case 'left':
+        case 'center-left':
+          return 'flex-start';
+        case 'center':
+          return 'center';
+        case 'right':
+        case 'center-right':
+          return 'flex-end';
+        default:
+          return 'flex-start';
+      }
+    };
+
+    const isCenterPosition = position === 'center';
+    const flexGrow = isCenterPosition ? 2 : 1;
+
     return (
       <Stack
         direction="row"
         alignItems="center"
         spacing={2}
         sx={{
-          flexGrow: 1,
-          justifyContent: position === 'center' ? 'center' : undefined,
+          flexGrow,
+          justifyContent: getJustifyContent(position),
           px: position === 'center-left' || position === 'center-right' ? 2 : 0,
+          ...(isCenterPosition && {
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1,
+          }),
         }}
       >
         {elements.map((element, index) => (
@@ -763,7 +786,16 @@ function Navbar({ appConfig, isPreview }: Props) {
                   </Link>
                 )}
               </Box>
-              <Stack direction="row" alignItems="center" spacing={isMobile ? 0.5 : 1}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={isMobile ? 0.5 : 1}
+                sx={{
+                  justifyContent: 'flex-end',
+                  flexGrow: 1,
+                  ml: 2
+                }}
+              >
                 {isActive && (
                   <ButtonBase
                     onClick={handleShowProfileMenu}
@@ -863,23 +895,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logoDark?.url || ""}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      height={isMobile ? 
-                        (appConfig?.logoDark?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                      height={isMobile ?
+                        (appConfig?.logoDark?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48) / 2)
-                        ) : 
-                        (appConfig?.logoDark?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) : 
+                        ) :
+                        (appConfig?.logoDark?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.height || appConfig?.logo?.height || 48))
                         )
                       }
-                      width={isMobile ? 
-                        (appConfig?.logoDark?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                      width={isMobile ?
+                        (appConfig?.logoDark?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48) / 2)
-                        ) : 
-                        (appConfig?.logoDark?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) : 
+                        ) :
+                        (appConfig?.logoDark?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logoDark?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logoDark?.width || appConfig?.logo?.width || 48))
                         )
                       }
@@ -891,23 +923,23 @@ function Navbar({ appConfig, isPreview }: Props) {
                       src={appConfig?.logo.url}
                       alt={appConfig.name}
                       title={appConfig.name}
-                      width={isMobile ? 
-                        (appConfig?.logo?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                      width={isMobile ?
+                        (appConfig?.logo?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.width || 48) / 2)
-                        ) : 
-                        (appConfig?.logo?.widthMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) : 
+                        ) :
+                        (appConfig?.logo?.widthMobile ?
+                          Math.max(1, Number(appConfig?.logo?.widthMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.width || 48))
                         )
                       }
-                      height={isMobile ? 
-                        (appConfig?.logo?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                      height={isMobile ?
+                        (appConfig?.logo?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.height || 48) / 2)
-                        ) : 
-                        (appConfig?.logo?.heightMobile ? 
-                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) : 
+                        ) :
+                        (appConfig?.logo?.heightMobile ?
+                          Math.max(1, Number(appConfig?.logo?.heightMobile) || 48) :
                           Math.max(1, Number(appConfig?.logo?.height || 48))
                         )
                       }
@@ -960,7 +992,6 @@ function Navbar({ appConfig, isPreview }: Props) {
                 </Stack>
               )}
               
-              {/* Mobile Icons Section - Notifications and Settings */}
               {isMobile && (
                 <Box
                   sx={{

@@ -1,4 +1,4 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps, useColorScheme, useTheme } from "@mui/material";
 import { ChangeEvent } from "react";
 
 export interface DecimalInputProps {
@@ -16,6 +16,10 @@ export default function DecimalInput({
   TextFieldProps,
   decimals,
 }: DecimalInputProps) {
+  const theme = useTheme();
+  const { mode } = useColorScheme();
+  const isDarkMode = mode === 'dark';
+
   const pattern = new RegExp(
     `^\\d+(\\.\\d{0,${decimals !== undefined ? decimals : 18}})?$`
   );
@@ -35,6 +39,24 @@ export default function DecimalInput({
       value={value}
       fullWidth
       onChange={handleChange}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+          '& fieldset': {
+            borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : theme.palette.divider,
+          },
+          '&:hover fieldset': {
+            borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.5)' : theme.palette.primary.main,
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.primary.main,
+          },
+        },
+        '& .MuiInputAdornment-root': {
+          color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+        },
+        ...TextFieldProps?.sx,
+      }}
     />
   );
 }

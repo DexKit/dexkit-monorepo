@@ -169,7 +169,11 @@ export default function Swap({
   const isMobile = useIsMobile();
 
   return (
-    <Card>
+    <Card sx={{
+      backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1a1a1a' : theme.palette.background.paper,
+      color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.primary,
+      border: (theme) => theme.palette.mode === 'dark' ? '1px solid #333333' : 'none',
+    }}>
       <Box sx={{ p: 2 }}>
         {chainId && !SUPPORTED_SWAP_CHAIN_IDS.includes(chainId) && (
           <Alert severity="warning">
@@ -203,32 +207,32 @@ export default function Swap({
                   disableFocusListener={!(disableNetworkChange || disableNetworkSelector)}
                 >
                   <span>
-                <Button
-                  sx={{
-                    color: (theme) => theme.palette.text.primary,
-                    borderColor: (theme) => theme.palette.divider,
+                    <Button
+                      sx={{
+                        color: (theme) => theme.palette.text.primary,
+                        borderColor: (theme) => theme.palette.divider,
                         opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
                         pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
                         cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
                         background: disableNetworkChange || disableNetworkSelector ? (theme) => theme.palette.action.disabledBackground : undefined,
-                  }}
+                      }}
                       onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
                       disabled={disableNetworkChange || disableNetworkSelector}
-                  startIcon={
-                    NETWORKS[chainId] ? (
-                      <Avatar
-                        sx={{ width: "1rem", height: "1rem" }}
-                        src={NETWORKS[chainId].imageUrl}
-                      />
-                    ) : undefined
-                  }
-                  variant="outlined"
+                      startIcon={
+                        NETWORKS[chainId] ? (
+                          <Avatar
+                            sx={{ width: "1rem", height: "1rem" }}
+                            src={NETWORKS[chainId].imageUrl}
+                          />
+                        ) : undefined
+                      }
+                      variant="outlined"
                       tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
                       aria-disabled={disableNetworkChange || disableNetworkSelector}
-                >
-                  {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
+                    >
+                      {NETWORKS[chainId] ? NETWORKS[chainId].name : ""}
                       {(disableNetworkChange || disableNetworkSelector) && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
-                </Button>
+                    </Button>
                   </span>
                 </Tooltip>
               ) : (

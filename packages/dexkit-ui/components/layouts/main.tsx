@@ -1,4 +1,4 @@
-import { Box, Button, NoSsr, Paper, Stack, Typography } from "@mui/material";
+import { Box, NoSsr, Paper } from "@mui/material";
 import { useColorScheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo } from "react";
@@ -8,8 +8,6 @@ const AppDrawer = dynamic(() => import("../AppDrawer"));
 import { useIsMobile } from "@dexkit/core";
 import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import { isMobile } from "@dexkit/wallet-connectors/utils/userAgent";
-import { ErrorBoundary } from "react-error-boundary";
-import { FormattedMessage } from "react-intl";
 import {
   useAppConfig,
   useAppNFT,
@@ -132,6 +130,7 @@ const MainLayout = ({
 
   const { mode } = useThemeMode();
   const { setMode } = useColorScheme();
+
   useEffect(() => {
     setMode(mode);
   }, [mode, setMode]);

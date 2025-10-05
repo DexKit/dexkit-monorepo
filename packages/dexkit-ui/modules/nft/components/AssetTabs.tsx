@@ -1,18 +1,13 @@
 // @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-  Button,
   Grid,
   NoSsr,
-  Paper,
-  Stack,
   Tab,
-  Tabs,
-  Typography,
+  Tabs
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { Suspense, useCallback, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { FormattedMessage } from "react-intl";
 
 import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
@@ -617,7 +612,7 @@ export function AssetTabs({ address, id }: Props) {
         url={shareUrl}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={selectedTab} onChange={handleChangeTab}>
             <Tab
               value={AssetTabsOptions.Listings}
@@ -631,7 +626,7 @@ export function AssetTabs({ address, id }: Props) {
             />
           </Tabs>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedTab === AssetTabsOptions.Listings ? (
             <QueryErrorResetBoundary>
               {({ reset }) => (

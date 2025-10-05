@@ -36,7 +36,7 @@ export default function PageGatedConditionsList({
   return (
     <Grid container spacing={2}>
       {conditions.map((cond, index) => (
-        <Grid item xs={12} key={index}>
+        <Grid size={12} key={index}>
           <PageGatedConditionsListItem
             condition={cond}
             index={index}

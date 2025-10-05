@@ -1,4 +1,4 @@
-import { createTheme, alpha, lighten, darken } from '@mui/material/styles';
+import { alpha, createTheme, darken, lighten } from '@mui/material/styles';
 
 export default createTheme({
   cssVariables: {

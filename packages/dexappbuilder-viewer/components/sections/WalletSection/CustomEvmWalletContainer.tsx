@@ -7,7 +7,6 @@ import {
   IconButton,
   InputAdornment,
   NoSsr,
-  Paper,
   Skeleton,
   Stack,
   Tab,
@@ -23,7 +22,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 
@@ -101,7 +100,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
 
 const EvmReceiveDialog = dynamic(
   () => import("@dexkit/ui/components/dialogs/EvmReceiveDialog")
@@ -569,19 +567,42 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
   const assetDetails = (
     <>
       {asset ? (
-        <AssetMedia asset={asset} />
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            paddingTop: "100%",
+            overflow: "hidden",
+            borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <AssetMedia asset={asset} />
+          </Box>
+        </Box>
       ) : (
         <Box
           sx={{
             position: "relative",
             overflow: "hidden",
-            paddingTop: "80%",
+            paddingTop: { xs: "60%", sm: "100%" },
+            borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
           }}
         >
           <Skeleton
             variant="rectangular"
             sx={{
               position: "absolute",
+              top: 0,
+              left: 0,
               display: "block",
               width: "100%",
               height: "100%",
@@ -589,27 +610,39 @@ const CustomAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, cu
           />
         </Box>
       )}
-      <CardContent>
+      <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
         <Typography
-          variant="body1"
+          variant="caption"
           style={{
             color: collectionTextColor
           }}
           sx={{
-            color: `${collectionTextColor} !important`
+            color: `${collectionTextColor} !important`,
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            lineHeight: 1.2,
+            display: 'block',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
           }}
         >
           {asset === undefined ? <Skeleton /> : asset?.collectionName}
         </Typography>
         <Typography
-          variant="body1"
+          variant="body2"
           style={{
             fontWeight: 600,
             color: titleTextColor
           }}
           sx={{
             fontWeight: 600,
-            color: `${titleTextColor} !important`
+            color: `${titleTextColor} !important`,
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            lineHeight: 1.3,
+            mt: 0.5,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
           }}
         >
           {asset === undefined ? (
@@ -961,7 +994,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
   const renderAssets = () => {
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -989,7 +1022,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
     }
 
     return filteredAssetList.map((asset: any, index: any) => (
-      <Grid item xs={6} sm={3} key={index}>
+      <Grid size={{ xs: 6, sm: 4, md: 3 }} key={index}>
         <CustomAssetCard
           asset={asset}
           key={index}
@@ -1006,7 +1039,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
   return (
     <Box sx={containerStyles}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             justifyContent="start"
@@ -1049,7 +1082,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
           </Stack>
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <CustomWalletAssetsFilter
               customSettings={customSettings}
               setFilters={props.setFilters}
@@ -1060,7 +1093,7 @@ const CustomWalletAssetsSection = ({ customSettings, filters, setFilters, ...pro
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12}>
+        <Grid container size={openFilter ? 9 : 12}>
           {accountAssetsQuery.isLoading && <TableSkeleton rows={4} />}
           {!accountAssetsQuery.isLoading && renderAssets()}
         </Grid>
@@ -1659,9 +1692,9 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
               pr: customSettings?.customPadding?.right ?? 0,
             } : {}}>
               <Grid container spacing={getLayoutSpacing()}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={1} sx={{ mb: 2 }} alignItems="center">
-                    <Grid item xs="auto">
+                    <Grid size="auto">
                       <Typography
                         variant="h5"
                         sx={{
@@ -1675,7 +1708,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                         />
                       </Typography>
                     </Grid>
-                    <Grid item xs sx={{ ml: "auto" }}>
+                    <Grid size="auto" sx={{ ml: "auto" }}>
                       {!shouldHideElement('networkSelector') && (
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                           <CustomNetworkSelectButton
@@ -1690,7 +1723,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 </Grid>
 
                 {!shouldHideElement('balance') && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <CustomWalletTotalBalance
                       customSettings={customSettings}
                       chainId={chainId}
@@ -1700,7 +1733,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                   </Grid>
                 )}
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid
                     container
                     spacing={getLayoutSpacing()}
@@ -1709,7 +1742,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                     alignItems={customSettings?.layout?.actionButtonsLayout === 'vertical' ? (customSettings?.layout?.actionButtonsAlignment === 'center' ? 'center' : customSettings?.layout?.actionButtonsAlignment === 'right' ? 'flex-end' : 'flex-start') : 'center'}
                   >
                     {!shouldHideElement('receiveButton') && (
-                      <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
+                      <Grid size={{ xs: customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined, sm: customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined }}>
                         <Button
                           onClick={handleOpenReceive}
                           variant="outlined"
@@ -1726,7 +1759,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                       </Grid>
                     )}
                     {!shouldHideElement('sendButton') && (
-                      <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
+                      <Grid size={{ xs: customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined, sm: customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined }}>
                         <CustomTransferCoinButton
                           customSettings={customSettings}
                           buttonConfig={customSettings?.sendButtonConfig}
@@ -1735,7 +1768,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                       </Grid>
                     )}
                     {!shouldHideElement('scanButton') && (
-                      <Grid item xs={customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined} sm={customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined}>
+                      <Grid size={{ xs: customSettings?.layout?.actionButtonsLayout === 'grid' ? 12 : undefined, sm: customSettings?.layout?.actionButtonsLayout === 'grid' ? 4 : undefined }}>
                         <Button
                           onClick={handleOpenQrCode}
                           startIcon={<QrCodeScanner />}
@@ -1750,17 +1783,15 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
 
                 {!shouldHideElement('search') && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={getLayoutSpacing()} alignItems="center">
                       <Grid
-                        item
-                        xs={isDesktop ? undefined : 12}
-                        sm={isDesktop ? true : undefined}
+                        size={{ xs: isDesktop ? undefined : 12, sm: isDesktop ? undefined : undefined }}
                       >
                         <TextField
                           size="small"
@@ -1810,9 +1841,9 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {!shouldHideElement('importToken') && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={getLayoutSpacing()} justifyContent="flex-end">
-                      <Grid item xs={isDesktop ? "auto" : 12}>
+                      <Grid size={isDesktop ? "auto" : 12}>
                         <Button
                           onClick={selectedAssetTab === AssetTabs.Tokens ? handleOpenImportTokenDialog : handleToggleImportAsset}
                           variant="outlined"
@@ -1832,7 +1863,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Tabs
                       value={selectedAssetTab}
                       onChange={handleChangeAssetTab}
@@ -1883,7 +1914,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && selectedAssetTab === AssetTabs.Tokens && (
-                  <Grid item xs={12} sx={{ mb: isTableVisible ? 2 : -1 }}>
+                  <Grid size={12} sx={{ mb: isTableVisible ? 2 : -1 }}>
                     <CustomWalletBalances
                       customSettings={customSettings}
                       filter={search}
@@ -1897,7 +1928,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && selectedAssetTab === AssetTabs.NFTs && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Tabs
                       value={selectedNFTTab}
                       onChange={handleChangeNFTTab}
@@ -1963,7 +1994,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && selectedAssetTab === AssetTabs.NFTs && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     {selectedNFTTab === NFTTabs.Collected && (
                       <QueryErrorResetBoundary>
                         {({ reset }: any) => (
@@ -2010,7 +2041,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography
                       variant={isMobile ? "h6" : "h5"}
                       sx={{
@@ -2031,7 +2062,7 @@ const CustomEvmWalletContainer = ({ customSettings, removePadding }: Props) => {
                 )}
 
                 {isActive && selectedAssetTab === AssetTabs.Tokens && !shouldHideElement('activity') && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <NoSsr>
                       <CustomUserActivityTable customSettings={customSettings} />
                     </NoSsr>

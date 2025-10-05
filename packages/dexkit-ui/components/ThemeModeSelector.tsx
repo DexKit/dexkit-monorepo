@@ -10,7 +10,7 @@ import { useThemeMode } from "../hooks";
 export function ThemeModeSelector() {
   const { mode, setThemeMode } = useThemeMode();
   const { setMode } = useColorScheme();
-  
+
   useEffect(() => {
     setMode(mode);
   }, [mode, setMode]);

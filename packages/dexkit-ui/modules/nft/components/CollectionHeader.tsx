@@ -104,7 +104,7 @@ export function CollectionHeader(props: Props) {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} sm>
+          <Grid size={{ xs: 12, sm: true }}>
             <Typography
               sx={{
                 display: "block",

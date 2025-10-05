@@ -169,7 +169,9 @@ interface Props {
   isPreview?: boolean;
 }
 
-const GlassmorphicContainer = styled(Box)<{
+const GlassmorphicContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'borderRadius'].includes(prop as string),
+})<{
   blurIntensity: number;
   glassOpacity: number;
   backgroundColor?: string;
@@ -180,7 +182,6 @@ const GlassmorphicContainer = styled(Box)<{
   backgroundAttachment?: string;
   borderRadius?: number;
 }>(({ theme, blurIntensity, glassOpacity, backgroundColor, backgroundImage, backgroundSize, backgroundPosition, backgroundRepeat, backgroundAttachment, borderRadius }) => {
-  console.log('GlassmorphicContainer styled with blurIntensity:', blurIntensity, 'glassOpacity:', glassOpacity, 'borderRadius:', borderRadius);
 
   const appliedBorderRadius = borderRadius || 0;
 
@@ -294,7 +295,9 @@ const GlassmorphicIconButton = styled(IconButton, {
   },
 }));
 
-const GlassmorphicLink = styled(Link)<{
+const GlassmorphicLink = styled(Link, {
+  shouldForwardProp: (prop) => !['textColor', 'glassOpacity'].includes(prop as string),
+})<{
   textColor: string;
   glassOpacity: number;
 }>(({ theme, textColor, glassOpacity }) => ({
@@ -323,7 +326,9 @@ const GlassmorphicLink = styled(Link)<{
   },
 }));
 
-const MinimalContainer = styled(Box)<{
+const MinimalContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['backgroundColor', 'spacing'].includes(prop as string),
+})<{
   backgroundColor?: string;
   spacing?: number;
 }>(({ theme, backgroundColor, spacing }) => ({
@@ -335,7 +340,9 @@ const MinimalContainer = styled(Box)<{
   transition: 'all 0.2s ease-in-out',
 }));
 
-const MinimalLink = styled(Link)<{
+const MinimalLink = styled(Link, {
+  shouldForwardProp: (prop) => !['textColor', 'fontSize'].includes(prop as string),
+})<{
   textColor?: string;
   fontSize?: number;
 }>(({ theme, textColor, fontSize }) => ({
@@ -352,7 +359,9 @@ const MinimalLink = styled(Link)<{
   },
 }));
 
-const MinimalIconButton = styled(IconButton)<{
+const MinimalIconButton = styled(IconButton, {
+  shouldForwardProp: (prop) => !['textColor'].includes(prop as string),
+})<{
   textColor?: string;
 }>(({ theme, textColor }) => ({
   color: textColor || theme.palette.text.secondary,
@@ -365,7 +374,9 @@ const MinimalIconButton = styled(IconButton)<{
   },
 }));
 
-const MinimalDivider = styled(Box)<{
+const MinimalDivider = styled(Box, {
+  shouldForwardProp: (prop) => !['dividerColor'].includes(prop as string),
+})<{
   dividerColor?: string;
 }>(({ theme, dividerColor }) => ({
   width: '1px',
@@ -374,7 +385,9 @@ const MinimalDivider = styled(Box)<{
   margin: theme.spacing(0, 1),
 }));
 
-const InvisibleContainer = styled(Box)<{
+const InvisibleContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['spacing'].includes(prop as string),
+})<{
   spacing?: number;
 }>(({ theme, spacing }) => ({
   position: 'relative',
@@ -385,7 +398,9 @@ const InvisibleContainer = styled(Box)<{
   transition: 'all 0.2s ease-in-out',
 }));
 
-const InvisibleText = styled(Typography)<{
+const InvisibleText = styled(Typography, {
+  shouldForwardProp: (prop) => !['textColor', 'fontSize'].includes(prop as string),
+})<{
   textColor?: string;
   fontSize?: number;
 }>(({ theme, textColor, fontSize }) => ({
@@ -401,7 +416,9 @@ const InvisibleText = styled(Typography)<{
   },
 }));
 
-const InvisibleLink = styled(Link)<{
+const InvisibleLink = styled(Link, {
+  shouldForwardProp: (prop) => !['textColor', 'fontSize'].includes(prop as string),
+})<{
   textColor?: string;
   fontSize?: number;
 }>(({ theme, textColor, fontSize }) => ({
@@ -419,7 +436,9 @@ const InvisibleLink = styled(Link)<{
   },
 }));
 
-const CustomContainer = styled(Box)<{
+const CustomContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['backgroundColor', 'backgroundType', 'gradientDirection', 'gradientColors', 'backgroundImage', 'backgroundSize', 'backgroundPosition', 'backgroundRepeat', 'backgroundAttachment', 'backgroundBlur', 'padding', 'borderRadius'].includes(prop as string),
+})<{
   backgroundColor?: string;
   backgroundType?: 'solid' | 'gradient' | 'image';
   gradientDirection?: string;
@@ -483,7 +502,9 @@ const CustomContainer = styled(Box)<{
   };
 });
 
-const CustomColumn = styled(Box)<{
+const CustomColumn = styled(Box, {
+  shouldForwardProp: (prop) => !['x', 'y', 'width', 'padding'].includes(prop as string),
+})<{
   x: number;
   y: number;
   width?: number;
@@ -505,7 +526,9 @@ const CustomColumn = styled(Box)<{
   };
 });
 
-const CustomColumnTitle = styled(Typography)<{
+const CustomColumnTitle = styled(Typography, {
+  shouldForwardProp: (prop) => !['fontSize', 'fontWeight', 'fontStyle', 'textDecoration', 'color'].includes(prop as string),
+})<{
   fontSize?: number;
   fontWeight?: 'normal' | 'bold';
   fontStyle?: 'normal' | 'italic';
@@ -521,7 +544,9 @@ const CustomColumnTitle = styled(Typography)<{
   lineHeight: 1.3,
 }));
 
-const CustomLink = styled(Link)<{
+const CustomLink = styled(Link, {
+  shouldForwardProp: (prop) => !['fontSize', 'color', 'hoverColor', 'fontWeight', 'fontStyle'].includes(prop as string),
+})<{
   fontSize?: number;
   color?: string;
   hoverColor?: string;
@@ -544,7 +569,9 @@ const CustomLink = styled(Link)<{
   },
 }));
 
-const CustomLogo = styled('img')<{
+const CustomLogo = styled('img', {
+  shouldForwardProp: (prop) => !['width', 'height', 'x', 'y', 'padding'].includes(prop as string),
+})<{
   width?: number;
   height?: number;
   x?: number;
@@ -572,7 +599,9 @@ const CustomLogo = styled('img')<{
   };
 });
 
-const CustomSocialContainer = styled(Box)<{
+const CustomSocialContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['x', 'y', 'padding'].includes(prop as string),
+})<{
   x: number;
   y: number;
   padding?: number;
@@ -592,7 +621,9 @@ const CustomSocialContainer = styled(Box)<{
   };
 });
 
-const CustomSocialIcon = styled(IconButton)<{
+const CustomSocialIcon = styled(IconButton, {
+  shouldForwardProp: (prop) => !['iconSize', 'iconColor', 'iconHoverColor'].includes(prop as string),
+})<{
   iconSize?: number;
   iconColor?: string;
   iconHoverColor?: string;
@@ -612,7 +643,9 @@ const CustomSocialIcon = styled(IconButton)<{
   },
 }));
 
-const CustomSignature = styled(Box)<{
+const CustomSignature = styled(Box, {
+  shouldForwardProp: (prop) => !['x', 'y', 'fontSize', 'color', 'fontWeight', 'fontStyle', 'padding'].includes(prop as string),
+})<{
   x: number;
   y: number;
   fontSize?: number;
@@ -639,7 +672,9 @@ const CustomSignature = styled(Box)<{
   };
 });
 
-const CustomMenuContainer = styled(Box)<{
+const CustomMenuContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['x', 'y', 'direction', 'spacing', 'padding'].includes(prop as string),
+})<{
   x: number;
   y: number;
   direction?: 'horizontal' | 'vertical';
@@ -664,7 +699,9 @@ const CustomMenuContainer = styled(Box)<{
   };
 });
 
-const CustomMenuLink = styled(Link)<{
+const CustomMenuLink = styled(Link, {
+  shouldForwardProp: (prop) => !['fontSize', 'color', 'hoverColor', 'fontWeight', 'fontStyle'].includes(prop as string),
+})<{
   fontSize?: number;
   color?: string;
   hoverColor?: string;
@@ -1366,7 +1403,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               minHeight: { xs: 'auto', sm: '50px' }
             }}
           >
-            <Grid item xs={12} sm={4} sx={{
+            <Grid size={{ xs: 12, sm: 4 }} sx={{
               display: 'flex',
               justifyContent: { xs: 'center', sm: 'flex-start' },
               order: { xs: 2, sm: 1 }
@@ -1376,7 +1413,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               </Stack>
             </Grid>
 
-            <Grid item xs={12} sm={4} sx={{
+            <Grid size={{ xs: 12, sm: 4 }} sx={{
               display: 'flex',
               justifyContent: 'center',
               order: { xs: 1, sm: 2 }
@@ -1386,7 +1423,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               </Stack>
             </Grid>
 
-            <Grid item xs={12} sm={4} sx={{
+            <Grid size={{ xs: 12, sm: 4 }} sx={{
               display: 'flex',
               justifyContent: { xs: 'flex-end', sm: 'flex-end' },
               order: { xs: 3, sm: 3 }
@@ -1762,19 +1799,19 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             justifyContent: 'space-between'
           }}
         >
-          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
             <Stack spacing={1} alignItems={{ xs: 'center', sm: 'flex-start' }}>
               {renderDefaultSection('left')}
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={1} alignItems="center">
               {renderDefaultSection('center')}
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
             <Stack spacing={1} alignItems={{ xs: 'center', sm: 'flex-end' }}>
               {renderDefaultSection('right')}
             </Stack>

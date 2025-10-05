@@ -61,8 +61,8 @@ function useContractMetadata(contract: any) {
         console.warn("Error loading metadata:", err.message);
         if (isMounted) {
           setError(err);
-          setMetadata({ 
-            name: "Staking Contract", 
+          setMetadata({
+            name: "Staking Contract",
             description: "Metadata not available"
           });
         }
@@ -76,9 +76,9 @@ function useContractMetadata(contract: any) {
     const timeoutId = setTimeout(() => {
       if (isMounted && loading) {
         setError(new Error("The IPFS connection has expired. Using basic contract information."));
-        setMetadata({ 
-          name: "Staking Contract", 
-          description: "Metadata not available due to IPFS timeout" 
+        setMetadata({
+          name: "Staking Contract",
+          description: "Metadata not available due to IPFS timeout"
         });
         setLoading(false);
       }
@@ -224,11 +224,11 @@ export default function StakeErc1155Section({
         return await tx?.wait();
       } catch (error: any) {
         console.error("Error during staking:", error);
-        
+
         let errorMessage = error.message || 'Unknown error during staking';
-        
-        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
-           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') ||
+          errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
           errorMessage = 'Transaction cancelled.';
         } else if (errorMessage.includes('MetaMask Tx Signature')) {
           errorMessage = 'Transaction cancelled.';
@@ -240,7 +240,7 @@ export default function StakeErc1155Section({
             errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
           }
         }
-        
+
         watchTransactionDialog.setError(new Error(errorMessage));
         throw error;
       }
@@ -288,11 +288,11 @@ export default function StakeErc1155Section({
         return await tx?.wait();
       } catch (error: any) {
         console.error("Error during unstaking:", error);
-        
+
         let errorMessage = error.message || 'Unknown error during unstaking';
-        
-        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') || 
-           errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
+
+        if (errorMessage.includes('user denied') || errorMessage.includes('User denied') ||
+          errorMessage.includes('rejected transaction') || errorMessage.includes('user rejected')) {
           errorMessage = 'Transaction cancelled.';
         } else if (errorMessage.includes('MetaMask Tx Signature')) {
           errorMessage = 'Transaction cancelled.';
@@ -304,7 +304,7 @@ export default function StakeErc1155Section({
             errorMessage = reasonMatch ? reasonMatch[1].trim() : 'The transaction failed. Please try again.';
           }
         }
-        
+
         watchTransactionDialog.setError(new Error(errorMessage));
         throw error;
       }
@@ -358,22 +358,26 @@ export default function StakeErc1155Section({
         return res;
       } catch (error: any) {
         console.error("Error during claim rewards:", error);
-        
+
+        let errorMessage = error.message || 'Unknown error during claim rewards';
+
+        const formattedError = formatTransactionError(errorMessage);
+
         if (error.code === -32002) {
           watchTransactionDialog.setError(new Error("There is already a pending request in the wallet. Please resolve that request first."));
         } else if (error.code === 4001) {
-          watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
+          watchTransactionDialog.setError(new Error("Transaction was cancelled by user."));
         } else if (
           error.message && (
-            error.message.includes("429") || 
-            error.message.includes("rate limit") || 
+            error.message.includes("429") ||
+            error.message.includes("rate limit") ||
             error.message.includes("too many requests")
           )
         ) {
           watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
         } else if (
           error.message && (
-            error.message.includes("timeout") || 
+            error.message.includes("timeout") ||
             error.message.includes("timed out") ||
             error.message.includes("exceeded") ||
             error.message.includes("server error")
@@ -381,7 +385,7 @@ export default function StakeErc1155Section({
         ) {
           watchTransactionDialog.setError(new Error("Timeout exceeded. The transaction could not be completed, but you can try again. Your rewards are safe."));
         } else {
-          watchTransactionDialog.setError(error);
+          watchTransactionDialog.setError(new Error(formattedError));
         }
         throw error;
       }
@@ -507,7 +511,7 @@ export default function StakeErc1155Section({
             {tab === "stake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -547,7 +551,7 @@ export default function StakeErc1155Section({
                     </Paper>
                   </Grid>
                   {selectedTokenId && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography color="primary" variant="body1">
                         <FormattedMessage
                           id="nft.amount.of.tokenId.is.selected.to.stake"
@@ -558,7 +562,7 @@ export default function StakeErc1155Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         {/* <Stack direction="row" justifyContent="space-between">
@@ -627,7 +631,7 @@ export default function StakeErc1155Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={stakeNftMutation.isLoading || !selectedTokenId}
                       variant="contained"
@@ -645,7 +649,7 @@ export default function StakeErc1155Section({
                     </Button>
                   </Grid>
                   {rewards && rewards.gt(0) && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         onClick={handleOpenClaim}
                         variant="outlined"
@@ -666,7 +670,7 @@ export default function StakeErc1155Section({
             {tab === "unstake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -706,7 +710,7 @@ export default function StakeErc1155Section({
                     </Paper>
                   </Grid>
                   {selectedTokenId && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography color="primary" variant="body1">
                         <FormattedMessage
                           id="amount.of.tokenId.is.selected.to.unstake"
@@ -717,7 +721,7 @@ export default function StakeErc1155Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         {/*  <Stack direction="row" justifyContent="space-between">
@@ -788,7 +792,7 @@ export default function StakeErc1155Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={
                         unstakeRewardsMutation.isLoading || !selectedTokenId

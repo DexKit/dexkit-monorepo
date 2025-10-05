@@ -68,9 +68,9 @@ const AssetDetailPage: NextPage = () => {
       />
 
       <AssetHead address={address as string} id={id as string} />
-      <Container>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {
@@ -106,10 +106,10 @@ const AssetDetailPage: NextPage = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <AssetLeftSection address={address as string} id={id as string} />
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid size={{ xs: 12, sm: 8 }}>
             <ThirdwebV4Provider network={network as string}>
               <Box py={2}>
                 <EditionDropSection
@@ -125,7 +125,7 @@ const AssetDetailPage: NextPage = () => {
               </Box>
             </ThirdwebV4Provider>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <Typography variant="h5">
               <FormattedMessage
                 id="drops.of.same.collection"
@@ -179,8 +179,7 @@ export const getStaticProps: GetStaticProps = async ({
         IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
       ) {
         const { data } = await getRariAsset(
-          `${
-            MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+          `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
           }:${address}:${id}`,
         );
         await queryClient.prefetchQuery(

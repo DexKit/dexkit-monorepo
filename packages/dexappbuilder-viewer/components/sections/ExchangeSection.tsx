@@ -1,7 +1,8 @@
 import TradingGraph from "@dexkit/exchange/components/TradingGraph";
 import { GET_GECKOTERMINAL_NETWORK } from "@dexkit/exchange/constants";
+import { useForceThemeMode } from "@dexkit/ui/hooks";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Avatar, Box, ButtonBase, Container, Grid, Typography, useMediaQuery, useTheme, useColorScheme } from "@mui/material";
+import { Avatar, Box, ButtonBase, Container, Grid, Typography, useColorScheme, useMediaQuery, useTheme } from "@mui/material";
 import { usePreviewPlatform } from "../SectionsRenderer";
 
 import {
@@ -23,13 +24,20 @@ import { ExchangePageSection } from "@dexkit/ui/modules/wizard/types/section";
 function ExchangeSection() {
   const theme = useTheme();
   const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const exchangeState = useExchangeContext();
   const previewContext = usePreviewPlatform();
   const { chainId, account, signer } = exchangeState;
   const { isActive } = useWeb3React();
   const [open, setOpen] = useState(false);
-  const isDarkMode = mode === 'dark';
+  const [isHydrated, setIsHydrated] = useState(false);
+  const isDark = isHydrated ? (themeMode === 'dark' || theme.palette.mode === 'dark') : false;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const getContrastColor = (backgroundColor: string): string => {
     if (!backgroundColor) return '#000000';
@@ -143,6 +151,10 @@ function ExchangeSection() {
                     selectedPool?.attributes.price_change_percentage.h24
                   }
                   lastPrice={selectedPool?.attributes.base_token_price_usd}
+                  customVariantSettings={{
+                    pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
+                    pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
+                  }}
                 />
               </Grid>
             )}
@@ -192,6 +204,10 @@ function ExchangeSection() {
                 selectedPool?.attributes.price_change_percentage.h24
               }
               lastPrice={selectedPool?.attributes.base_token_price_usd}
+              customVariantSettings={{
+                pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
+                pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
+              }}
             />
           </Grid>
         )}
@@ -885,7 +901,7 @@ function ExchangeSection() {
         boxShadow: 'none !important',
       },
       '& .MuiTypography-root': {
-        color: `${textColor} !important`,
+        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
         fontWeight: '500',
         fontSize: { xs: '13px', sm: '14px', md: '15px' },
         lineHeight: { xs: 1.4, sm: 1.5, md: 1.6 },
@@ -899,7 +915,7 @@ function ExchangeSection() {
         WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
         borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
         border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-        color: `${textColor} !important`,
+        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
         fontSize: { xs: '13px', sm: '14px', md: '15px' },
         minHeight: { xs: '40px', sm: '44px', md: '48px' },
         boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
@@ -938,7 +954,7 @@ function ExchangeSection() {
         zIndex: 2,
         minHeight: { xs: '40px', sm: '44px', md: '48px' },
         '& .MuiTab-root': {
-          color: `${textColor.replace('0.95', '0.7')} !important`,
+          color: `${isDark ? textColor.replace('0.95', '0.7') : theme.palette.text.secondary} !important`,
           fontWeight: '600',
           fontSize: { xs: '13px', sm: '14px', md: '15px' },
           minHeight: { xs: '40px', sm: '44px', md: '48px' },
@@ -946,7 +962,7 @@ function ExchangeSection() {
           position: 'relative',
           zIndex: 2,
           '&.Mui-selected': {
-            color: `${textColor} !important`,
+            color: `${isDark ? textColor : theme.palette.text.primary} !important`,
           },
         },
         '& .MuiTabs-indicator': {
@@ -964,7 +980,7 @@ function ExchangeSection() {
           WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
           borderRadius: { xs: '12px !important', sm: '14px !important', md: '16px !important' },
           border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-          color: `${textColor} !important`,
+          color: `${isDark ? textColor : theme.palette.text.primary} !important`,
           fontSize: { xs: '14px', sm: '15px', md: '16px' },
           boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
           transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -987,7 +1003,7 @@ function ExchangeSection() {
           },
         },
         '& .MuiInputLabel-root': {
-          color: `${textColor.replace('0.95', '0.8')} !important`,
+          color: `${isDark ? textColor.replace('0.95', '0.8') : theme.palette.text.secondary} !important`,
           textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
           position: 'relative',
           zIndex: 2,
@@ -1060,7 +1076,7 @@ function ExchangeSection() {
         position: 'relative',
         zIndex: 2,
         '& .MuiTypography-root': {
-          color: `${textColor.replace('0.95', '0.9')} !important`,
+          color: `${isDark ? textColor.replace('0.95', '0.9') : theme.palette.text.secondary} !important`,
           fontWeight: '500',
           textShadow: textColor.includes('255, 255, 255') ? '0 1px 2px rgba(0, 0, 0, 0.3)' : '0 1px 2px rgba(255, 255, 255, 0.3)',
           position: 'relative',
@@ -1083,7 +1099,7 @@ function ExchangeSection() {
         WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(150%) brightness(1.02) !important`,
         borderRadius: '16px !important',
         border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) !important`,
-        color: `${textColor} !important`,
+        color: `${isDark ? textColor : theme.palette.text.primary} !important`,
         boxShadow: `0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, ${Math.min(glassOpacity * 2, 0.3)}) inset`,
         transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
         position: 'relative',
@@ -1169,6 +1185,10 @@ function ExchangeSection() {
                       selectedPool?.attributes.price_change_percentage?.h24
                     }
                     lastPrice={selectedPool?.attributes.base_token_price_usd}
+                    customVariantSettings={{
+                      pairInfoTextColor: isDark ? '#ffffff' : theme.palette.text.primary,
+                      pairInfoSecondaryTextColor: isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary,
+                    }}
                   />
                 </Box>
               </Grid>
