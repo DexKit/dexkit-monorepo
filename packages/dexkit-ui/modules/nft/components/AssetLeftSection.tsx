@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Grid, Skeleton } from "@mui/material";
+import { Box, Grid, Skeleton } from "@mui/material";
 import { useAsset } from "../hooks";
 import { AssetDetails } from "./AssetDetails";
 import { AssetMedia } from "./AssetMedia";
@@ -23,7 +22,7 @@ export function AssetLeftSection({
             sx={{
               position: "relative",
               overflow: "hidden",
-              paddingTop: { xs: "60%", sm: "100%" }, // Aspect ratio más pequeño en móviles
+              paddingTop: { xs: "60%", sm: "100%" },
             }}
           >
             <Skeleton
