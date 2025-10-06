@@ -1,120 +1,123 @@
 {
+  "description.markdown.helper": {
+    "defaultMessage": "Sie können Markdown-Formatierung für Rich-Text-Beschreibungen verwenden"
+  },
   "Created": {
-    "defaultMessage": "Created"
+    "defaultMessage": "Erstellt"
   },
   "action.type": {
-    "defaultMessage": "Action type"
+    "defaultMessage": "Aktionstyp"
   },
   "add.items": {
-    "defaultMessage": "Add items"
+    "defaultMessage": "Gegenstände hinzufügen"
   },
   "add.payment.method": {
-    "defaultMessage": "Add Payment Method"
+    "defaultMessage": "Zahlungsmethode hinzufügen"
   },
   "ai.assistant": {
-    "defaultMessage": "AI Assistant"
+    "defaultMessage": "KI-Assistent"
   },
   "align.items": {
-    "defaultMessage": "Align Items"
+    "defaultMessage": "Elemente ausrichten"
   },
   "artificial.inteligence": {
-    "defaultMessage": "Artificial Inteligence"
+    "defaultMessage": "Künstliche Intelligenz"
   },
   "billing": {
-    "defaultMessage": "Billing"
+    "defaultMessage": "Abrechnung"
   },
   "button.cation": {
-    "defaultMessage": "Button caption"
+    "defaultMessage": "Schaltflächenbeschriftung"
   },
   "buy.and.sell": {
-    "defaultMessage": "Buy and sell"
+    "defaultMessage": "Kaufen und verkaufen"
   },
   "buy.token.page": {
-    "defaultMessage": "Buy token page"
+    "defaultMessage": "Seite zum Kaufen von Token"
   },
   "carousel": {
-    "defaultMessage": "Carousel"
+    "defaultMessage": "Karussell"
   },
   "carousel.image.aspectRatio": {
-    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+    "defaultMessage": "Das Bild muss ein Seitenverhältnis von 16:9 haben, um im Karussell korrekt angezeigt zu werden."
   },
   "center": {
-    "defaultMessage": "Center"
+    "defaultMessage": "Zentrieren"
   },
   "checkout": {
-    "defaultMessage": "Checkout"
+    "defaultMessage": "Kasse"
   },
   "coming.soon": {
-    "defaultMessage": "Coming soon"
+    "defaultMessage": "Demnächst verfügbar"
   },
   "create.metadata": {
-    "defaultMessage": "Create metadata"
+    "defaultMessage": "Metadaten erstellen"
   },
   "creating.site.metadata": {
-    "defaultMessage": "Creating site metadata"
+    "defaultMessage": "Website-Metadaten erstellen"
   },
   "credit.history": {
-    "defaultMessage": "Credit History"
+    "defaultMessage": "Kreditverlauf"
   },
   "credited": {
-    "defaultMessage": "Credited"
+    "defaultMessage": "Gutgeschrieben"
   },
   "credits": {
-    "defaultMessage": "Credits"
+    "defaultMessage": "Guthaben"
   },
   "credits.below0.50": {
-    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+    "defaultMessage": "Ihr Guthaben liegt nun unter 0,50 $. Bitte fügen Sie mehr Guthaben hinzu, um unsere Dienste weiter nutzen zu können."
   },
   "credits.expire.oneYear": {
-    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+    "defaultMessage": "Die von Ihnen hinzugefügten Gutschriften verfallen ein Jahr nach dem Hinzufügedatum. Bitte nutzen Sie sie vor dem Verfallsdatum."
   },
   "current.phase": {
-    "defaultMessage": "Current phase"
+    "defaultMessage": "Aktuelle Phase"
   },
   "current.phase.ends.in": {
-    "defaultMessage": "Current phase ends in"
+    "defaultMessage": "Die aktuelle Phase endet in"
   },
   "dexappbuilder.ann.app.bar2": {
-    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+    "defaultMessage": "Unterstützen Sie uns auf {Giveth} und ermöglichen Sie uns, unser Service kostenlos für alle anzubieten. Jede Spende wird von den ENS-Entwicklern verdoppelt."
   },
   "disable.secondary.sells": {
-    "defaultMessage": "Disable secondary sells"
+    "defaultMessage": "Sekundärverkäufe deaktivieren"
   },
   "editing.site.metadata": {
-    "defaultMessage": "Editing site metadata"
+    "defaultMessage": "Metadaten der Website bearbeiten"
   },
   "end": {
-    "defaultMessage": "End"
+    "defaultMessage": "Ende"
   },
   "error.while.tranfer": {
-    "defaultMessage": "Error while transfer"
+    "defaultMessage": "Fehler beim Transfer"
   },
   "feature": {
     "defaultMessage": "Feature"
   },
   "height.for.desktop": {
-    "defaultMessage": "Height for desktop"
+    "defaultMessage": "Höhe für Desktop"
   },
   "height.for.mobile": {
-    "defaultMessage": "Height for mobile"
+    "defaultMessage": "Höhe für Mobilgeräte"
   },
   "in.milliseconds": {
-    "defaultMessage": "In milliseconds"
+    "defaultMessage": "In Millisekunden"
   },
   "insufficient.balance": {
-    "defaultMessage": "Insufficient balance"
+    "defaultMessage": "Unzureichendes Guthaben"
   },
   "interval": {
-    "defaultMessage": "Interval"
+    "defaultMessage": "Intervall"
   },
   "items.spacing": {
-    "defaultMessage": "Items spacing"
+    "defaultMessage": "Abstand zwischen Elementen"
   },
   "left": {
-    "defaultMessage": "Left"
+    "defaultMessage": "Links"
   },
   "new.ai.features": {
-    "defaultMessage": "New AI Features"
+    "defaultMessage": "Neue KI-Funktionen"
   },
   "no.description": {
     "defaultMessage": "no description"
@@ -166,6 +169,9 @@
   },
   "search.default.base.token": {
     "defaultMessage": "Search default base token"
+  },
+  "search.sites": {
+    "defaultMessage": "Webseiten suchen..."
   },
   "section.addItemsPrompt": {
     "defaultMessage": "Please add items to the section below."
@@ -288,103 +294,103 @@
     "defaultMessage": "Your transaction requires 10 confirmations for full validation"
   },
   "AI": {
-    "defaultMessage": "AI"
+    "defaultMessage": "KI"
   },
   "activate": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "KI aktivieren"
   },
   "activate.ai": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "KI aktivieren"
   },
   "add.credit": {
-    "defaultMessage": "Add Credit"
+    "defaultMessage": "Kredit hinzufügen"
   },
   "add.credits": {
-    "defaultMessage": "Add credits"
+    "defaultMessage": "Guthaben hinzufügen"
   },
   "ai.activated": {
-    "defaultMessage": "AI Activated"
+    "defaultMessage": "KI aktiviert"
   },
   "ai.completation": {
-    "defaultMessage": "AI Completation"
+    "defaultMessage": "KI-Vervollständigung"
   },
   "ai.edit": {
-    "defaultMessage": "AI Edit"
+    "defaultMessage": "KI bearbeiten"
   },
   "ai.generator": {
-    "defaultMessage": "AI Generator"
+    "defaultMessage": "KI-Generator"
   },
   "ai.image.generator": {
-    "defaultMessage": "AI Image Generator"
+    "defaultMessage": "KI-Bildgenerator"
   },
   "answer": {
-    "defaultMessage": "Answer:"
+    "defaultMessage": "Antwort:"
   },
   "billing.and.usage": {
-    "defaultMessage": "Billing & Usage"
+    "defaultMessage": "Abrechnung & Nutzung"
   },
   "change.cat.head": {
-    "defaultMessage": "ex. Change cat head"
+    "defaultMessage": "z. B. Katzenkopf ändern"
   },
   "close.anyway": {
-    "defaultMessage": "Close anyway"
+    "defaultMessage": "So oder so schließen"
   },
   "credit.card.soming.soon": {
-    "defaultMessage": "Credit Card (Coming Soon)"
+    "defaultMessage": "Kreditkarte (Demnächst verfügbar)"
   },
   "cryptocurrency": {
-    "defaultMessage": "Cryptocurrency"
+    "defaultMessage": "Kryptowährung"
   },
   "deselect.all": {
-    "defaultMessage": "Deselect All"
+    "defaultMessage": "Alles abwählen"
   },
   "error.while.generating.images": {
-    "defaultMessage": "Error while generating images"
+    "defaultMessage": "Fehler beim Generieren von Bildern"
   },
   "ex.an.image.of.a.cat": {
-    "defaultMessage": "ex. An image of a cat"
+    "defaultMessage": "z.B. Ein Bild einer Katze"
   },
   "fix.spelling.and.grammar": {
-    "defaultMessage": "Fix spelling and grammar"
+    "defaultMessage": "Rechtschreibung und Grammatik korrigieren"
   },
   "generate": {
-    "defaultMessage": "Generate"
+    "defaultMessage": "Generieren"
   },
   "generate.image": {
-    "defaultMessage": "Generate image"
+    "defaultMessage": "Bild generieren"
   },
   "generate.new.text": {
-    "defaultMessage": "Generate new text"
+    "defaultMessage": "Neuen Text generieren"
   },
   "generate.variant": {
-    "defaultMessage": "Generate variant"
+    "defaultMessage": "Variante generieren"
   },
   "generate.variants": {
-    "defaultMessage": "Generate Variants"
+    "defaultMessage": "Varianten generieren"
   },
   "generating": {
-    "defaultMessage": "Generating"
+    "defaultMessage": "Generieren"
   },
   "generating.variants": {
-    "defaultMessage": "Generating Variants"
+    "defaultMessage": "Varianten generieren"
   },
   "images.generated": {
-    "defaultMessage": "Images generated"
+    "defaultMessage": "Bilder generiert"
   },
   "images.notGenerated": {
-    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+    "defaultMessage": "Sie haben noch keine Bilder generiert. Beginnen Sie jetzt damit, Bilder zu generieren, um das Beste aus unserem Service herauszuholen."
   },
   "improve.writing": {
-    "defaultMessage": "Improve writing"
+    "defaultMessage": "Schreiben verbessern"
   },
   "make.longer": {
-    "defaultMessage": "Make longer"
+    "defaultMessage": "Länger machen"
   },
   "make.shorter": {
-    "defaultMessage": "Make shorter"
+    "defaultMessage": "Kürzer machen"
   },
   "no.credits": {
-    "defaultMessage": "No Credits"
+    "defaultMessage": "Keine Credits"
   },
   "no.images": {
     "defaultMessage": "No Images"
@@ -2092,6 +2098,24 @@
   "sort.by": {
     "defaultMessage": "Sortieren nach"
   },
+  "sort.newest": {
+    "defaultMessage": "Neueste"
+  },
+  "sort.oldest": {
+    "defaultMessage": "Älteste"
+  },
+  "sort.most.modified": {
+    "defaultMessage": "Meist geändert"
+  },
+  "sort.least.modified": {
+    "defaultMessage": "Wenig geändert"
+  },
+  "sort.name.asc": {
+    "defaultMessage": "Name A-Z"
+  },
+  "sort.name.desc": {
+    "defaultMessage": "Name Z-A"
+  },
   "stake": {
     "defaultMessage": "Einsatz"
   },
@@ -2616,6 +2640,21 @@
   },
   "filters": {
     "defaultMessage": "Filter"
+  },
+  "filter.by": {
+    "defaultMessage": "Filtern nach"
+  },
+  "filter.all": {
+    "defaultMessage": "Alle"
+  },
+  "filter.recent": {
+    "defaultMessage": "Kürzlich (30 Tage)"
+  },
+  "filter.active": {
+    "defaultMessage": "Aktiv (7 Tage)"
+  },
+  "filter.popular": {
+    "defaultMessage": "Beliebt"
   },
   "finish": {
     "defaultMessage": "Beenden"
@@ -3230,6 +3269,12 @@
   },
   "clear.filters": {
     "defaultMessage": "Filter löschen, um NFTs zu sehen"
+  },
+  "clear.filters.button": {
+    "defaultMessage": "Filter löschen"
+  },
+  "results.count": {
+    "defaultMessage": "{count} Websites gefunden"
   },
   "clone.page": {
     "defaultMessage": "Seite klonen"
@@ -4523,7 +4568,7 @@
     "defaultMessage": "Geben Sie einen benutzerdefinierten Titel für Ihre Token-Anspruchsseite ein. Lassen Sie es leer, um den Standardtitel zu verwenden."
   },
   "custom.title.placeholder": {
-    "defaultMessage": "z.B., Holen Sie sich Ihre Belohnungen"
+    "defaultMessage": "z.B., Holen Sie sich Ihre {Belohnungen}"
   },
   "custom.subtitle": {
     "defaultMessage": "Benutzerdefinierter Untertitel"
@@ -4544,7 +4589,7 @@
     "defaultMessage": "Chips-Bereich Titel"
   },
   "chips.section.title.placeholder": {
-    "defaultMessage": "z.B., Sicherheitsfeatures"
+    "defaultMessage": "z.B., Sicherheitsfunktionen"
   },
   "chips.section.title.helper": {
     "defaultMessage": "Geben Sie einen benutzerdefinierten Titel für den Chips-Bereich ein. Leer lassen, um 'Sicherheitsfeatures' zu verwenden."

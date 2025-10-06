@@ -15,7 +15,8 @@
     "compile": "formatjs compile",
     "process-all-translations": "./scripts/bash/process-all-translations.sh",
     "translate-ai": "node --env-file=.env scripts/translate.js",
-    "sync-language-files": "node scripts/sync-compiled-with-lang.js",
+    "translate-super-fast": "node --env-file=.env scripts/translate-super-fast.cjs",
+    "sync-language-files": "node scripts/sync-compiled-with-lang.cjs",
     "lang-diff": "node scripts/local-diff.js",
     "generate-lang-files": "yarn extract '(src||pages)/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/main.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },

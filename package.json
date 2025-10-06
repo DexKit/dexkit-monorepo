@@ -76,6 +76,7 @@
     "moment": "^2.29.4",
     "next": "15.5.4",
     "notistack": "^2.0.8",
+    "openai": "^6.1.0",
     "optics-ts": "^2.4.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",

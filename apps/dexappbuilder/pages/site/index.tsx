@@ -80,6 +80,17 @@ export const SiteIndexPage: NextPage = () => {
     });
   };
 
+  const truncateDescription = (text: string, isMobile: boolean) => {
+    if (!text) return '';
+    if (!isMobile) return text;
+
+    const words = text.split(' ');
+    if (words.length <= 8) return text;
+
+    const truncatedWords = words.slice(0, 7);
+    return truncatedWords.join(' ') + '...';
+  };
+
   const filteredAndSortedSites = useMemo(() => {
     if (!sitesQuery?.data) return [];
 
@@ -169,41 +180,40 @@ export const SiteIndexPage: NextPage = () => {
         <Container
           maxWidth="lg"
           sx={{
-            px: isMobile ? 2 : 3,
-            py: isMobile ? 2 : 3
+            px: { xs: 1, sm: 2, md: 3 },
+            py: { xs: 1, sm: 2, md: 3 }
           }}
         >
-          <Box sx={{ mb: 3 }}>
-            <PageHeader
-              breadcrumbs={[
-                {
-                  caption: (
-                    <FormattedMessage id="home" defaultMessage="Home" />
-                  ),
-                  uri: '/',
-                },
-                {
-                  caption: (
-                    <FormattedMessage
-                      id="site.list"
-                      defaultMessage="Site list"
-                    />
-                  ),
-                  uri: '/site',
-                  active: true,
-                },
-              ]}
-              showTitleOnDesktop={true}
-            />
+          <Box sx={{ mb: { xs: 2, sm: 3 } }}>
+              <PageHeader
+                breadcrumbs={[
+                  {
+                    caption: (
+                      <FormattedMessage id="home" defaultMessage="Home" />
+                    ),
+                    uri: '/',
+                  },
+                  {
+                    caption: (
+                      <FormattedMessage
+                        id="site.list"
+                        defaultMessage="Site list"
+                      />
+                    ),
+                    uri: '/site',
+                    active: true,
+                  },
+                ]}
+                showTitleOnDesktop={true}
+              />
           </Box>
 
           <Paper
             elevation={1}
             sx={{
-              p: 2,
-              mb: 3,
-              borderRadius: 2,
-              backgroundColor: theme.palette.background.paper
+              p: { xs: 1.5, sm: 2 },
+              mb: { xs: 2, sm: 3 },
+              borderRadius: 2
             }}
           >
             <Stack spacing={2}>
@@ -232,15 +242,25 @@ export const SiteIndexPage: NextPage = () => {
                     </InputAdornment>
                   )
                 }}
-                sx={{ maxWidth: 400 }}
+                sx={{
+                  maxWidth: { xs: '100%', sm: 400 },
+                  '& .MuiInputBase-root': {
+                    fontSize: { xs: '0.9rem', sm: '1rem' }
+                  }
+                }}
               />
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
                 <Button
                   variant="outlined"
                   startIcon={<FilterListIcon />}
                   onClick={() => updateFilter('showFilters', !filters.showFilters)}
                   size="small"
+                  sx={{
+                    fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                    px: { xs: 1, sm: 2 },
+                    py: { xs: 0.5, sm: 1 }
+                  }}
                 >
                   <FormattedMessage
                     id="filters"
@@ -251,13 +271,17 @@ export const SiteIndexPage: NextPage = () => {
                 {(filters.search || filters.filterBy !== 'all' || filters.sortBy !== 'newest') && (
                   <Chip
                     label={formatMessage({
-                      id: 'clear.filters',
-                      defaultMessage: 'Clear'
+                      id: 'clear.filters.button',
+                      defaultMessage: 'Clear filters'
                     })}
                     onDelete={clearFilters}
                     color="primary"
                     variant="outlined"
                     size="small"
+                    sx={{
+                      fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                      height: { xs: '24px', sm: '32px' }
+                    }}
                   />
                 )}
               </Box>
@@ -265,10 +289,16 @@ export const SiteIndexPage: NextPage = () => {
               <Collapse in={filters.showFilters}>
                 <Stack
                   direction={{ xs: 'column', sm: 'row' }}
-                  spacing={2}
-                  sx={{ pt: 1 }}
+                  spacing={{ xs: 1.5, sm: 2 }}
+                  sx={{ pt: { xs: 1, sm: 1 } }}
                 >
-                  <FormControl size="small" sx={{ minWidth: 150 }}>
+                  <FormControl
+                    size="small"
+                    sx={{
+                      minWidth: { xs: '100%', sm: 150 },
+                      width: { xs: '100%', sm: 'auto' }
+                    }}
+                  >
                     <InputLabel>
                       <FormattedMessage
                         id="filter.by"
@@ -282,6 +312,9 @@ export const SiteIndexPage: NextPage = () => {
                         defaultMessage: 'Filter by'
                       })}
                       onChange={(e) => updateFilter('filterBy', e.target.value)}
+                      sx={{
+                        fontSize: { xs: '0.8rem', sm: '0.875rem' }
+                      }}
                     >
                       <MenuItem value="all">
                         <FormattedMessage
@@ -310,7 +343,13 @@ export const SiteIndexPage: NextPage = () => {
                     </Select>
                   </FormControl>
 
-                  <FormControl size="small" sx={{ minWidth: 200 }}>
+                  <FormControl
+                    size="small"
+                    sx={{
+                      minWidth: { xs: '100%', sm: 200 },
+                      width: { xs: '100%', sm: 'auto' }
+                    }}
+                  >
                     <InputLabel>
                       <FormattedMessage
                         id="sort.by"
@@ -324,6 +363,9 @@ export const SiteIndexPage: NextPage = () => {
                         defaultMessage: 'Sort by'
                       })}
                       onChange={(e) => updateFilter('sortBy', e.target.value)}
+                      sx={{
+                        fontSize: { xs: '0.8rem', sm: '0.875rem' }
+                      }}
                     >
                       <MenuItem value="newest">
                         <FormattedMessage
@@ -366,7 +408,14 @@ export const SiteIndexPage: NextPage = () => {
                 </Stack>
               </Collapse>
 
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                  textAlign: { xs: 'center', sm: 'left' }
+                }}
+              >
                 <FormattedMessage
                   id="results.count"
                   defaultMessage="{count} sites found"
@@ -385,7 +434,7 @@ export const SiteIndexPage: NextPage = () => {
                 md: 'repeat(3, 1fr)',
                 lg: 'repeat(4, 1fr)'
               },
-              gap: { xs: 1.5, sm: 2.5, md: 3, lg: 3 },
+              gap: { xs: 1, sm: 2, md: 2.5, lg: 3 },
               alignItems: 'stretch',
               justifyItems: 'stretch'
             }}
@@ -412,7 +461,7 @@ export const SiteIndexPage: NextPage = () => {
                     transition: 'all 0.2s ease-in-out',
                     borderRadius: 2,
                     boxShadow: theme.shadows[2],
-                    minHeight: { xs: '280px', sm: '320px', md: '360px' },
+                    minHeight: { xs: '240px', sm: '290px', md: '330px' },
                     '&:hover': {
                       transform: 'translateY(-4px)',
                       boxShadow: theme.shadows[8]
@@ -429,24 +478,24 @@ export const SiteIndexPage: NextPage = () => {
                     alt=""
                     sx={{
                       objectFit: 'cover',
-                      height: { xs: '120px', sm: '130px', md: '140px' },
-                      minHeight: { xs: '120px', sm: '130px', md: '140px' }
+                      height: { xs: '100px', sm: '120px', md: '140px' },
+                      minHeight: { xs: '100px', sm: '120px', md: '140px' }
                     }}
                   />
                   <CardContent
                     sx={{
                       flexGrow: 1,
-                      p: { xs: 1.5, sm: 2.5, md: 3 },
-                      '&:last-child': { pb: { xs: 1.5, sm: 2.5, md: 3 } }
+                      p: { xs: 1, sm: 2, md: 2.5 },
+                      '&:last-child': { pb: { xs: 1, sm: 2, md: 2.5 } }
                     }}
                   >
-                    <Stack spacing={isMobile ? 1.5 : 2}>
+                    <Stack spacing={{ xs: 1, sm: 1.5, md: 2 }}>
                       <Typography
                         gutterBottom
-                        variant={isMobile ? "subtitle1" : "h5"}
+                        variant="subtitle1"
                         component="div"
                         sx={{
-                          fontSize: { xs: '0.95rem', sm: '1.1rem', md: undefined },
+                          fontSize: { xs: '0.85rem', sm: '0.95rem', md: '1.1rem' },
                           lineHeight: 1.2,
                           fontWeight: 600
                         }}
@@ -459,35 +508,39 @@ export const SiteIndexPage: NextPage = () => {
                         color="text.secondary"
                         sx={{
                           overflow: 'hidden',
-                          height: { xs: '48px', sm: '60px', md: '72px' },
+                          height: { xs: '40px', sm: '44px', md: '48px' },
                           textOverflow: 'ellipsis',
                           display: '-webkit-box',
-                          WebkitLineClamp: { xs: 2, sm: 3, md: 3 },
+                          WebkitLineClamp: { xs: 2, sm: 2, md: 2 },
                           WebkitBoxOrient: 'vertical',
-                          lineHeight: 1.4,
-                          fontSize: { xs: '0.8rem', sm: '0.875rem' }
+                          lineHeight: 1.2,
+                          fontSize: { xs: '0.75rem', sm: '0.8rem', md: '0.875rem' },
+                          wordBreak: 'break-word',
+                          hyphens: 'auto'
                         }}
                       >
-                        {site.appConfig?.seo &&
-                          site.appConfig?.seo['home']?.description}
+                        {truncateDescription(
+                          site.appConfig?.seo?.home?.description || '',
+                          isMobile
+                        )}
                       </Typography>
                     </Stack>
                   </CardContent>
                   <CardActions
                     sx={{
-                      p: { xs: 1, sm: 2, md: 2.5 },
+                      p: { xs: 0.75, sm: 1.5, md: 2 },
                       pt: 0,
                       justifyContent: 'space-between',
                       flexWrap: 'wrap',
-                      gap: { xs: 0.5, sm: 1.5 }
+                      gap: { xs: 0.25, sm: 1 }
                     }}
                   >
                     <Stack
-                      spacing={isMobile ? 1 : 2}
-                      direction={isMobile ? 'column' : 'row'}
+                      spacing={{ xs: 0.5, sm: 1, md: 1.5 }}
+                      direction={{ xs: 'column', sm: 'row' }}
                       sx={{
                         width: '100%',
-                        alignItems: isMobile ? 'stretch' : 'center'
+                        alignItems: { xs: 'stretch', sm: 'center' }
                       }}
                     >
                       {site.nft && (
@@ -497,11 +550,11 @@ export const SiteIndexPage: NextPage = () => {
                             }/${Number(site.nft.tokenId)}`}
                           size="small"
                           sx={{
-                            minHeight: { xs: '32px', sm: '36px' },
-                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                            minHeight: { xs: '28px', sm: '32px', md: '36px' },
+                            fontSize: { xs: '0.7rem', sm: '0.75rem', md: '0.875rem' },
                             textTransform: 'none',
                             fontWeight: 600,
-                            px: { xs: 1, sm: 2 }
+                            px: { xs: 0.75, sm: 1.5, md: 2 }
                           }}
                         >
                           <FormattedMessage
@@ -519,15 +572,16 @@ export const SiteIndexPage: NextPage = () => {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            minHeight: { xs: '32px', sm: '36px' },
-                            px: { xs: 1, sm: 1.5 },
-                            py: { xs: 0.5, sm: 0.5 },
+                            minHeight: { xs: '28px', sm: '32px', md: '36px' },
+                            px: { xs: 0.75, sm: 1.25, md: 1.5 },
+                            py: { xs: 0.25, sm: 0.5 },
                             borderRadius: 1,
                             border: `1px solid ${theme.palette.divider}`,
+                            backgroundColor: theme.palette.background.paper,
                             color: theme.palette.text.primary,
                             textDecoration: 'none',
                             transition: 'all 0.2s ease-in-out',
-                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                            fontSize: { xs: '0.7rem', sm: '0.75rem', md: '0.875rem' },
                             '&:hover': {
                               backgroundColor: theme.palette.action.hover,
                               borderColor: theme.palette.primary.main
@@ -713,11 +767,11 @@ export const getStaticProps: GetStaticProps = async ({
   const queryClient = new QueryClient();
 
   try {
-    const sitesResponse = await getSites({
+    const sitesResponse = await getSites({ 
       take: 50,
-      skip: 0
+      skip: 0 
     });
-
+    
     const data = sitesResponse.data.map((resp) => {
       try {
         const config = JSON.parse(resp.config) as Partial<AppConfig>;
@@ -770,7 +824,7 @@ export const getStaticProps: GetStaticProps = async ({
     };
   } catch (error) {
     console.error('Error fetching sites:', error);
-
+    
     await queryClient.prefetchQuery(
       [QUERY_WHITELABEL_SITES_QUERY],
       async () => [],

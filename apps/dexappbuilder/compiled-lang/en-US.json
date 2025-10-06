@@ -263,6 +263,7 @@
   "clear": "Clear",
   "clear.all": "Clear all",
   "clear.filters": "Clear filters to see NFTs",
+  "clear.filters.button": "Clear filters",
   "clear.filters.to.see.nft.drops": "Clear filters to see NFT drops",
   "clear.transactions": "Clear Transactions",
   "click.on.nft.to.manage.and.set.claim.conditions.": "Click on NFTs to start manage and set claim conditons.",

@@ -20,7 +20,9 @@ for (let index = 0; index < languages.length; index++) {
 
   for (let index = 0; index < allKeys.length; index++) {
     const key = allKeys[index];
-    toFile[key].defaultMessage = fromFile[key];
+    if (toFile[key]) {
+      toFile[key].defaultMessage = fromFile[key];
+    }
   }
 
   fs.writeFileSync(`lang/${to}.json`, JSON.stringify(toFile, null, 2), 'utf-8');
