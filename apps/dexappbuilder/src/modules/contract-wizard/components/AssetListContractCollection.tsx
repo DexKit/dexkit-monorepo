@@ -74,13 +74,13 @@ export function AssetListContractCollection({
             <Typography variant="h6">
               <FormattedMessage
                 id="nfts.not.found"
-                defaultMessage="NFT's not found"
+                defaultMessage="NFTs not found"
               />
             </Typography>
             <Typography variant="body1" color="textSecondary">
               <FormattedMessage
                 id="clear.filters"
-                defaultMessage="Clear filters to see nft's"
+                defaultMessage="Clear filters to see NFTs"
               />
             </Typography>
             {showButtonEmpty && (
