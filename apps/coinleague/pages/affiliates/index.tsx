@@ -40,7 +40,7 @@ const AffiliatesPage: NextPage = () => {
 
   const affiliateUrl = useMemo(() => {
     if (account) {
-      return `${getWindowUrl()}/?affiliate=${account}`;
+      return `${getWindowUrl()}?affiliate=${account}`;
     }
   }, [account]);
 

@@ -53,7 +53,7 @@ export default function GameCard({
     if (game && coinToPlay) {
       return ethers.utils.formatUnits(
         BigNumber.from(game?.entry).mul(BigNumber.from(game.numPlayers)),
-        coinToPlay.decimals
+        coinToPlay.decimals,
       );
     }
 
@@ -81,7 +81,7 @@ export default function GameCard({
 
     const entry = ethers.utils.formatUnits(
       BigNumber.from(game?.entry),
-      coinToPlay?.decimals
+      coinToPlay?.decimals,
     );
 
     return [
@@ -300,7 +300,7 @@ export default function GameCard({
           </Box>
           <Button
             LinkComponent={Link}
-            href={`/coinleague/${getNetworkSlugFromChainId(chainId)}/${
+            href={`/game/${getNetworkSlugFromChainId(chainId)}/${
               game.id
             }${affiliate ? '?affiliate=' + affiliate : ''}`}
             color="primary"

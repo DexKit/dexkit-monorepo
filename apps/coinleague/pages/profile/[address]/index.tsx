@@ -144,7 +144,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   const handleShare = useCallback(
     (game: GameGraph) => {
       setShareUrl(
-        `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
+        `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
           selectedChainId,
         )}/${game.id}`,
       );
@@ -234,7 +234,7 @@ const CoinLeagueProfilePage: NextPage = () => {
               {canEdit && (
                 <Button
                   LinkComponent={Link}
-                  href={`/coinleague/profile/${address as string}/edit`}
+                  href={`/profile/${address as string}/edit`}
                   startIcon={<Edit />}
                   variant="contained"
                   color="primary"
