@@ -14,7 +14,7 @@ import { getGraphEndpoint } from '../services/graphql';
 import { PlayerGraph } from '../types';
 
 export enum RankingType {
-  MostWinner = 'Most Winner',
+  MostWinner = 'Most Won',
   MostJoined = 'Most Joined',
   MostEarned = 'Most Earned',
   MostProfit = 'Most Profit',

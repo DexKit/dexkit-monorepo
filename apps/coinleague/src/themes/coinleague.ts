@@ -37,7 +37,7 @@ export default extendTheme({
     dark: {
       palette: {
         mode: 'dark',
-        divider: '#DCDCDC',
+        divider: '#0D1017',
         background: {
           default: '#0D1017',
           paper: '#151B22',

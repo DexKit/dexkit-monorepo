@@ -10,12 +10,12 @@ const theme = createTheme({
       defaultProps: {
         underline: 'hover',
       },
-    },
+    }
   },
   palette: {
     mode: 'dark',
     background: {
-      default: '#0D1017',
+      default: '#030405ff',
       paper: '#151B22',
     },
     primary: {

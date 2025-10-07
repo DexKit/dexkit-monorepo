@@ -120,14 +120,14 @@ export function GameOverviewCard({
               alignItems="center"
               alignContent="center"
             >
-              <Grid item>
+              {/* <Grid item>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="id" defaultMessage="ID" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : game?.id}
                 </Typography>
-              </Grid>
+              </Grid>*/}
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage
@@ -209,7 +209,7 @@ export function GameOverviewCard({
 
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  <FormattedMessage id="prize" defaultMessage="Prize" />
+                  <FormattedMessage id="max.prize" defaultMessage="Max prize" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
