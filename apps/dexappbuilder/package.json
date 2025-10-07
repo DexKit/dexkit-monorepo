@@ -73,8 +73,6 @@
     "@react-page/plugins-spacer": "5.4.5",
     "@react-page/plugins-video": "5.4.5",
     "@reactour/tour": "^3.3.0",
-    "@stripe/react-stripe-js": "^4.0.2",
-    "@stripe/stripe-js": "^7.9.0",
     "@thirdweb-dev/react": "^4.4.8",
     "@thirdweb-dev/sdk": "^4.0.35",
     "@traderxyz/nft-swap-sdk": "0.33.0",

@@ -2,10 +2,10 @@ import { EmotionCache } from '@emotion/react';
 import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import '../src/polyfills/react-polyfills';
 import '../src/polyfills/react-draggable-polyfill';
+import '../src/polyfills/react-polyfills';
 
 import type { } from '@mui/material/themeCssVarsAugmentation';
 

@@ -55,30 +55,30 @@ const CustomPage: NextPage<{
   balances: { [key: number]: string };
   slug?: string;
 }) => {
-  if (isProtected) {
-    return (
-      <SessionProvider>
-        <AuthMainLayout>
-          <ProtectedContent
-            site={site}
-            page={page}
-            isProtected={isProtected}
-            conditions={conditions}
-            layout={gatedLayout}
-            slug={slug}
-            pageLayout={layout}
-          />
-        </AuthMainLayout>
-      </SessionProvider>
-    );
-  }
+    if (isProtected) {
+      return (
+        <SessionProvider>
+          <AuthMainLayout>
+            <ProtectedContent
+              site={site}
+              page={page}
+              isProtected={isProtected}
+              conditions={conditions}
+              layout={gatedLayout}
+              slug={slug}
+              pageLayout={layout}
+            />
+          </AuthMainLayout>
+        </SessionProvider>
+      );
+    }
 
-  return (
-    <MainLayout disablePadding>
-      <SectionsRenderer sections={sections} layout={layout} />
-    </MainLayout>
-  );
-};
+    return (
+      <MainLayout disablePadding>
+        <SectionsRenderer sections={sections} layout={layout} />
+      </MainLayout>
+    );
+  };
 
 type Params = {
   site?: string;
