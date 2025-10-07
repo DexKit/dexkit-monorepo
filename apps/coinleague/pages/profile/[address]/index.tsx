@@ -158,7 +158,7 @@ const CoinLeagueProfilePage: NextPage = () => {
       <AppShareDialog
         url={
           isAddress(address as string)
-            ? `${getWindowUrl()}/coinleague/profile/${address}`
+            ? `${getWindowUrl()}/profile/${address}`
             : undefined
         }
         dialogProps={{

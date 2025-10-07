@@ -7,7 +7,6 @@ import Coins from '@/modules/common/components/icons/Coins';
 import CrownIcon from '@/modules/common/components/icons/Crown';
 import Graph from '@/modules/common/components/icons/Graph';
 import Persons from '@/modules/common/components/icons/Persons';
-import Link from '@/modules/common/components/Link';
 import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { strPad } from '@/modules/common/utils/strings';
@@ -299,7 +298,6 @@ export default function GameCard({
             </Typography>
           </Box>
           <Button
-            LinkComponent={Link}
             href={`/game/${getNetworkSlugFromChainId(chainId)}/${
               game.id
             }${affiliate ? '?affiliate=' + affiliate : ''}`}
@@ -311,11 +309,13 @@ export default function GameCard({
               justifyContent: 'space-between',
             }}
           >
-            {game?.startedAt ? (
-              <FormattedMessage id="view.game" defaultMessage="View Game" />
-            ) : (
-              <FormattedMessage id="join.game" defaultMessage="Join Game" />
-            )}
+            <Typography variant="inherit">
+              {game?.startedAt ? (
+                <FormattedMessage id="view.game" defaultMessage="View Game" />
+              ) : (
+                <FormattedMessage id="join.game" defaultMessage="Join Game" />
+              )}
+            </Typography>
             <Typography variant="inherit">
               {entry} {coinToPlay?.symbol}
             </Typography>
