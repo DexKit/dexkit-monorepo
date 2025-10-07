@@ -1,4 +1,4 @@
-import { Link, Typography, TypographyProps } from '@mui/material';
+import { Link, Typography, TypographyProps, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -11,6 +11,7 @@ export function AppExpandableTypography({
   value,
   TypographyProps,
 }: AppExpandableTypographyProps) {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
 
   if (!value) {
@@ -30,7 +31,10 @@ export function AppExpandableTypography({
           type="button"
           component="button"
           variant={TypographyProps.variant}
-          sx={{ fontSize: 'inherit' }}
+          sx={{
+            fontSize: 'inherit',
+            color: theme.palette.mode === 'dark' ? theme.palette.primary.main : 'inherit'
+          }}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? (

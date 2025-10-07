@@ -2,10 +2,8 @@ import type { AppPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { TabContext, TabPanel } from "@mui/lab";
 import {
   Box,
-  Button,
   ButtonBase,
   Divider,
-  Grid,
   Paper,
   Portal,
   Stack,
@@ -13,15 +11,13 @@ import {
   Tab,
   Tabs,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { PageSectionsLayout } from "@dexkit/ui/modules/wizard/types/config";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import React, { createContext, useCallback, useContext, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { FormattedMessage } from "react-intl";
 import { SECTIONS_TYPE_DATA_ICONS } from "../constants/section";
 import { SectionRender } from "./SectionRender";
 

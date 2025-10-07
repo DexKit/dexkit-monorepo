@@ -617,6 +617,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.9rem',
                         lineHeight: 1.2,
@@ -639,6 +640,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                         textAlign: item.textAlign || 'inherit',
+                        color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                         '@media (max-width: 600px)': {
                           fontSize: '0.8rem',
                           lineHeight: 1.2,
@@ -718,6 +720,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                   textOverflow: "ellipsis",
                   overflow: "hidden",
                   textAlign: item.textAlign || 'inherit',
+                  color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                   '@media (max-width: 600px)': {
                     fontSize: '0.9rem',
                     lineHeight: 1.2,
@@ -745,6 +748,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                     textAlign: item.textAlign || 'inherit',
+                    color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                     '@media (max-width: 600px)': {
                       fontSize: '0.8rem',
                       lineHeight: 1.2,
@@ -765,6 +769,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.8rem',
                         lineHeight: 1.2,
@@ -839,6 +844,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 textAlign: item.textAlign || 'inherit',
+                color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.9rem',
                   lineHeight: 1.2,
@@ -866,6 +872,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 textAlign: item.textAlign || 'inherit',
+                color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.8rem',
                   lineHeight: 1.2,
@@ -892,6 +899,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.8rem',
                         lineHeight: 1.2,

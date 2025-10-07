@@ -2,7 +2,6 @@ import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import { TabContext, TabPanel } from '@mui/lab';
 import {
   Box,
-  Button,
   ButtonBase,
   Divider,
   Grid,
@@ -13,15 +12,13 @@ import {
   Tab,
   Tabs,
   Typography,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import React, { useCallback, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { FormattedMessage } from 'react-intl';
 import { SectionRender } from '../section-config/SectionRender';
 import { SECTIONS_TYPE_DATA_ICONS } from '../section-config/Sections';
 
@@ -73,9 +70,11 @@ function BottomNavAction({
 interface Props {
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
-export function SectionsRenderer({ sections, layout }: Props) {
+export function SectionsRenderer({ sections, layout, editable, onLayoutChange }: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [tab, setTab] = useState('tab-0');

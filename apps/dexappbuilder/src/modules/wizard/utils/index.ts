@@ -69,14 +69,12 @@ export function generateTheme({
             fontFamily,
           },
           ...paletteTheme,
-          // Add color manipulation functions for MUI v7
           alpha,
           lighten,
           darken,
         } as any)
       :         createTheme({
           ...paletteTheme,
-          // Add color manipulation functions for MUI v7
           alpha,
           lighten,
           darken,
@@ -93,7 +91,6 @@ export function generateTheme({
           fontFamily,
         },
         ...paletteTheme,
-        // Add color manipulation functions for MUI v7
         alpha,
         lighten,
         darken,
@@ -103,7 +100,6 @@ export function generateTheme({
           fontFamily,
         },
         ...paletteTheme,
-        // Add color manipulation functions for MUI v7
         alpha,
         lighten,
         darken,
@@ -135,14 +131,12 @@ export function generateCSSVarsTheme({
           typography: {
             fontFamily,
           },
-          // Add color manipulation functions for MUI v7
           alpha,
           lighten,
           darken,
         } as any)
       : createTheme({ 
           ...customTheme,
-          // Add color manipulation functions for MUI v7
           alpha,
           lighten,
           darken,
@@ -151,7 +145,6 @@ export function generateCSSVarsTheme({
 
   const theme = getTheme({ name: selectedThemeId }).theme;
 
-  // For MUI v7, extract palette from colorSchemes if available
   let paletteProps = {};
   if (theme.colorSchemes?.light?.palette) {
     paletteProps = { palette: theme.colorSchemes.light.palette };
@@ -166,7 +159,6 @@ export function generateCSSVarsTheme({
         fontFamily,
       }
     }),
-    // Add color manipulation functions for MUI v7
     alpha,
     lighten,
     darken,

@@ -7,6 +7,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -38,6 +39,7 @@ interface Props {
 }
 
 export function AssetPageActions({ address, id }: Props) {
+  const theme = useTheme();
   const { data: asset } = useAsset(address, id);
   const { data: metadata } = useAssetMetadata(asset);
 
@@ -75,7 +77,11 @@ export function AssetPageActions({ address, id }: Props) {
         <Grid item xs>
           {asset?.protocol === "ERC721" ? (
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
-              <Typography variant="caption" color="textSecondary">
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+              >
                 <FormattedMessage id="owned.by" defaultMessage="Owned by" />
               </Typography>
               <Link
@@ -91,6 +97,7 @@ export function AssetPageActions({ address, id }: Props) {
                   alignItems="center"
                   alignContent="center"
                   spacing={0.5}
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
                 >
                   <div>
                     {isAddressEqual(account, asset?.owner) ? (
@@ -124,30 +131,41 @@ export function AssetPageActions({ address, id }: Props) {
               alignItems="center"
               spacing={2}
             >
-              <Tooltip
-                title={
-                  <FormattedMessage id="favorite" defaultMessage="Favorite" />
-                }
-              >
-                <span>
-                  <IconButton onClick={handleToggleFavorite} disabled={!account}>
-                    <Heart
-                      sx={
-                        favorites.isFavorite(asset)
-                          ? (theme) => ({
-                            "& path": { fill: theme.palette.error.light },
-                          })
-                          : undefined
-                      }
-                    />
-                  </IconButton>
-                </span>
-              </Tooltip>
-              <Tooltip title="Share">
-                <IconButton onClick={handleOpenShareDialog}>
-                  <Share />
-                </IconButton>
-              </Tooltip>
+               <Tooltip
+                 title={
+                   <FormattedMessage id="favorite" defaultMessage="Favorite" />
+                 }
+               >
+                 <span>
+                   <IconButton 
+                     onClick={handleToggleFavorite} 
+                     disabled={!account}
+                     sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                   >
+                     <Heart
+                       sx={
+                         favorites.isFavorite(asset)
+                           ? (theme) => ({
+                             "& path": { fill: theme.palette.error.light },
+                           })
+                           : {
+                             "& path": {
+                               fill: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit'
+                             }
+                           }
+                       }
+                     />
+                   </IconButton>
+                 </span>
+               </Tooltip>
+               <Tooltip title="Share">
+                 <IconButton 
+                   onClick={handleOpenShareDialog}
+                   sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                 >
+                   <Share sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }} />
+                 </IconButton>
+               </Tooltip>
             </Stack>
           </Paper>
         </Grid>

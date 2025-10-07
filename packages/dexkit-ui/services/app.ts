@@ -6,11 +6,9 @@ import { createTheme } from "@mui/material/styles";
 import { alpha, lighten, darken } from "@mui/material/styles";
 import { ThemeMode } from "../constants/enum";
 
-// Helper function to safely extract palette from dynamic theme structure
 function extractThemePalette(themeData: any): any {
   if (!themeData) return {};
   
-  // Try new MUI v7 structure first
   if (themeData.colorSchemes) {
     if (themeData.colorSchemes.light?.palette) {
       return { palette: themeData.colorSchemes.light.palette };
@@ -20,7 +18,6 @@ function extractThemePalette(themeData: any): any {
     }
   }
   
-  // Try legacy structure
   if (themeData.light?.palette) {
     return { palette: themeData.light.palette };
   }
@@ -89,7 +86,6 @@ export function setupTheme({
               fontFamily,
             }
           }),
-          // Add color manipulation functions for MUI v7
           alpha,
           lighten,
           darken,
@@ -113,7 +109,6 @@ export function setupTheme({
       }
     }
 
-    // Extract palette from temp theme using helper function
     const paletteProps = extractThemePalette(temp);
     
     const finalThemeConfig = {
@@ -127,7 +122,6 @@ export function setupTheme({
           fontFamily,
         }
       }),
-      // Add color manipulation functions for MUI v7
       alpha,
       lighten,
       darken,
