@@ -109,7 +109,7 @@ const CoinLeagueIndex: NextPage = () => {
   const handleShare = useCallback(
     (game: GameGraph) => {
       setShareUrl(
-        `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
+        `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
           gameChainId,
         )}/${game.id}`,
       );

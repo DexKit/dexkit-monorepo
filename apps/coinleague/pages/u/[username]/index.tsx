@@ -96,8 +96,6 @@ const CoinLeagueProfilePage: NextPage = () => {
 
   const profileQuery = useProfileGame(address as string);
 
-  console.log(profileQuery.data);
-
   const [showShare, setShowShare] = useState(false);
 
   const filters = useGamesFilters({ myGames: true });
@@ -154,7 +152,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   const handleShare = useCallback(
     (game: GameGraph) => {
       setShareUrl(
-        `${getWindowUrl()}/${getNetworkSlugFromChainId(
+        `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
           selectedChainId,
         )}/${game.id}`,
       );
