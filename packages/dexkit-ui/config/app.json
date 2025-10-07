@@ -513,6 +513,14 @@
           "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/usdc.jpg",
           "name": "USD Coin",
           "symbol": "USDC"
+        },
+        {
+          "address": "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23",
+          "chainId": 25,
+          "decimals": 18,
+          "logoURI": "https://raw.githubusercontent.com/dexkit/icons/master/token/weth.jpg",
+          "name": "Wrapped Cronos",
+          "symbol": "WCronos"
         }
       ]
     }
