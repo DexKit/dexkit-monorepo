@@ -1,5 +1,6 @@
 import { strPad } from '@/modules/common/utils/strings';
 import { PlayArrow } from '@mui/icons-material';
+import Share from '@mui/icons-material/Share';
 import {
   Box,
   Button,
@@ -31,6 +32,7 @@ interface Props {
   onJoin: () => void;
   onStart: () => void;
   onEnd: () => void;
+  onShare: () => void;
   onRefetch: () => void;
   isStarting?: boolean;
   isEnding?: boolean;
@@ -49,6 +51,7 @@ export function GameOverviewCard({
   onJoin,
   onStart,
   onRefetch,
+  onShare,
   isStarting,
   isInGame,
   canJoinGame,
@@ -251,6 +254,17 @@ export function GameOverviewCard({
                     </Typography>
                   </Grid>
                 )}
+              <Grid item>
+                <Button
+                  sx={{ ml: 4 }}
+                  variant="contained"
+                  onClick={onShare}
+                  startIcon={<Share />}
+                  size="small"
+                >
+                  <FormattedMessage id="share" defaultMessage="Share" />
+                </Button>
+              </Grid>
             </Grid>
           </Box>
           {canJoinGame && (

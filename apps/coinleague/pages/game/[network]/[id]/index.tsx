@@ -26,6 +26,7 @@ import { Coin } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import {
   getChainIdFromName,
+  getNetworkSlugFromChainId,
   getProviderByChainId,
   isAddressEqual,
 } from '@/modules/common/utils';
@@ -71,7 +72,10 @@ import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
+import { getWindowUrl } from '@/modules/common/utils/browser';
+import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import dynamic from 'next/dynamic';
+import { generateShareLink, ShareTypes } from 'src/utils/share';
 import { parseEther } from 'viem';
 
 const TickerTapeTV = dynamic(
@@ -520,8 +524,43 @@ const CoinLeagueGame: NextPage = () => {
     await claimMutation.mutateAsync();
   };
 
+  const [showShareDialog, setShowShareDialog] = useState(false);
+
+  const handleCloseShareDialog = () => {
+    setShowShareDialog(false);
+  };
+  const shareUrl = `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
+    chainId,
+  )}/${id}${account ? `?affiliate=${account}` : ''}`;
+
+  const handleShare = () => {
+    setShowShareDialog(true);
+  };
+
+  const handleShareContent = (value: string) => {
+    const msg = `Play with me at Coinleague: ${shareUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && shareUrl) {
+      link = generateShareLink(msg, shareUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
   return (
     <>
+      <ShareDialogV2
+        DialogProps={{
+          open: showShareDialog,
+          onClose: handleCloseShareDialog,
+          fullWidth: true,
+          maxWidth: 'sm',
+        }}
+        onClick={handleShareContent}
+        url={shareUrl}
+      />
       {showSelectCoin && (
         <SelectCoinDialog
           dialogProps={{
@@ -644,6 +683,7 @@ const CoinLeagueGame: NextPage = () => {
             }
             isStarting={startGameMutation.isLoading}
             onEnd={handleEndGame}
+            onShare={handleShare}
             canEnd={canEnd}
             isEnding={endGameMutation.isLoading}
             onRefetch={handleRefetchGame}
