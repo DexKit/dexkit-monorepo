@@ -22,7 +22,6 @@ import {
 import { GameGraph, GamesFilter } from '@/modules/coinleague/types';
 import { reduceAddress } from '@/modules/coinleague/utils/game';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
-import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
 import Crown from '@/modules/common/components/icons/Crown';
 import Cup from '@/modules/common/components/icons/Cup';
 import GameController from '@/modules/common/components/icons/GameController';
@@ -38,6 +37,7 @@ import {
 import { copyToClipboard, getWindowUrl } from '@/modules/common/utils/browser';
 import { strPad } from '@/modules/common/utils/strings';
 import { useUserQuery } from '@/modules/user/hooks';
+import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Edit } from '@mui/icons-material';
 import FileCopy from '@mui/icons-material/FileCopy';
@@ -64,6 +64,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { generateShareLink, ShareTypes } from 'src/utils/share';
 
 const INITIAL_FILTERS: GamesFilter = {
   numberOfPlayers: NumberOfPLayers.ALL,
@@ -160,26 +161,52 @@ const CoinLeagueProfilePage: NextPage = () => {
     },
     [selectedChainId],
   );
+  const userUrl = `${getWindowUrl()}/u/${username}`;
+  const handleShareContentUser = (value: string) => {
+    const msg = `Check my statistics at Coinleague: ${userUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && userUrl) {
+      link = generateShareLink(msg, userUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
+  const handleShareContentGame = (value: string) => {
+    const msg = `Join with me at Coinleague Game: ${shareUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && shareUrl) {
+      link = generateShareLink(msg, shareUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
 
   return (
     <>
-      <AppShareDialog
-        url={`${getWindowUrl()}/u/${username}`}
-        dialogProps={{
+      <ShareDialogV2
+        url={userUrl}
+        DialogProps={{
           open: showShare,
           maxWidth: 'sm',
           fullWidth: true,
           onClose: handleToggleShare,
         }}
+        onClick={handleShareContentUser}
       />
-      <AppShareDialog
-        dialogProps={{
+      <ShareDialogV2
+        DialogProps={{
           open: showShareDialog,
           onClose: handleCloseShareDialog,
           fullWidth: true,
           maxWidth: 'sm',
         }}
         url={shareUrl}
+        onClick={handleShareContentGame}
       />
       <MainLayout>
         <Stack spacing={2}>

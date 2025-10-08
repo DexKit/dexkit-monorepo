@@ -1,7 +1,6 @@
 import AppConnectWalletEmtpy from '@/modules/common/components/AppConnectWalletEmpty';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
-import Link from '@/modules/common/components/Link';
 import { copyToClipboard, getWindowUrl } from '@/modules/common/utils/browser';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
@@ -18,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import AffiliateHistoryTable from '@/modules/coinleague/components/AffiliateHistoryTable';
@@ -27,17 +26,19 @@ import { useCoinToPlayStable } from '@/modules/coinleague/hooks/coinleague';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
 import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
 import { truncateAddress } from '@/modules/common/utils';
+import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import { Money } from '@mui/icons-material';
 import FileCopy from '@mui/icons-material/FileCopy';
-import LinkIcon from '@mui/icons-material/Link';
+import ShareIcon from '@mui/icons-material/Share';
 import Wallet from '@mui/icons-material/Wallet';
 import { ethers } from 'ethers';
+import { generateShareLink, ShareTypes } from 'src/utils/share';
 
 const AffiliatesPage: NextPage = () => {
   const { account, isActive, chainId } = useWeb3React();
 
   const { formatMessage } = useIntl();
-
+  const [showShareDialog, setShowShareDialog] = useState(false);
   const affiliateUrl = useMemo(() => {
     if (account) {
       return `${getWindowUrl()}?affiliate=${account}`;
@@ -50,12 +51,38 @@ const AffiliatesPage: NextPage = () => {
     }
   };
 
+  const handleShareContentGame = (value: string) => {
+    const msg = `Join with me at Coinleague. Best prediction game out there at: ${affiliateUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && affiliateUrl) {
+      link = generateShareLink(msg, affiliateUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
   const queryPlayer = useAffiliatePlayer(account, false);
 
   const coinToPlay = useCoinToPlayStable(chainId);
 
+  const handleCloseShareDialog = () => {
+    setShowShareDialog(false);
+  };
+
   return (
     <MainLayout>
+      <ShareDialogV2
+        DialogProps={{
+          open: showShareDialog,
+          onClose: handleCloseShareDialog,
+          fullWidth: true,
+          maxWidth: 'sm',
+        }}
+        url={affiliateUrl}
+        onClick={handleShareContentGame}
+      />
       <Stack spacing={2}>
         <AppPageHeader
           breadcrumbs={[
@@ -192,14 +219,14 @@ const AffiliatesPage: NextPage = () => {
                         />
                       </Box>
                       <Button
-                        startIcon={<LinkIcon />}
+                        startIcon={<ShareIcon />}
                         variant="contained"
                         color="primary"
-                        href={affiliateUrl}
-                        LinkComponent={Link}
-                        target="_blank"
+                        onClick={() => {
+                          setShowShareDialog(true);
+                        }}
                       >
-                        <FormattedMessage id="open" defaultMessage="Open" />
+                        <FormattedMessage id="share" defaultMessage="Share" />
                       </Button>
                     </Stack>
                   </Card>
