@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NETWORK_SLUG } from "@dexkit/core/constants/networks";
 import { useConnectWalletDialog, useSwitchNetworkMutation } from "@dexkit/ui";
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
@@ -72,23 +71,22 @@ export default function BuyLock({
   return (
     <Card>
       <CardContent>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           {false && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1">{lockName || " "}</Typography>
             </Grid>
           )}
           {tokenId !== 0 && chainId && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
-                  spacing={1}
-                  flexDirection={"column"}
-                  alignContent={"center"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
+                  spacing={2}
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
                 >
-                  <Typography variant="body1">
+                  <Typography variant="body1" color="text.primary">
                     <FormattedMessage
                       id={"you.already.own.key"}
                       defaultMessage={"You already own a key"}
@@ -99,7 +97,7 @@ export default function BuyLock({
                       chainId
                     )}/${lockAddress}/${tokenId}`}
                     startIcon={<KeyIcon />}
-                    variant={"contained"}
+                    variant="contained"
                   >
                     <FormattedMessage
                       id={"see.key"}
@@ -109,27 +107,26 @@ export default function BuyLock({
                 </Stack>
               </Grid>
               {!unlimitedDuration && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box
-                    pt={1}
-                    display={"flex"}
-                    alignContent={"center"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
+                    pt={2}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
                   >
-                    <Typography variant="body1">
+                    <Typography variant="body1" color="text.primary">
                       <FormattedMessage
                         id={"expire.at"}
                         defaultMessage={"Expire at"}
                       />
                       :
                     </Typography>
-                    <Typography variant="body2" pl={1}>
+                    <Typography variant="body2" pl={1} color="text.primary">
                       {expireAtCounter || " "}
                     </Typography>
                   </Box>
                   {account && lockChainId === chainId && (
-                    <Box display={"flex"} justifyContent={"center"} pt={1}>
+                    <Box display="flex" justifyContent="center" pt={2}>
                       <Button
                         onClick={() =>
                           renewLockMutation.mutate({
@@ -148,7 +145,7 @@ export default function BuyLock({
                             <CircularProgress color="inherit" size="1rem" />
                           )
                         }
-                        variant={"contained"}
+                        variant="contained"
                       >
                         {expireAtCounter === "Expired" ? (
                           <FormattedMessage
@@ -171,57 +168,57 @@ export default function BuyLock({
 
           {tokenId === 0 && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box
-                  display={"flex"}
-                  alignContent={"center"}
-                  alignItems={"center"}
-                  justifyContent={"space-evenly"}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-evenly"
+                  flexWrap="wrap"
+                  gap={2}
                 >
                   <Box
-                    display={"flex"}
-                    flexDirection={"row"}
-                    alignContent={"center"}
-                    alignItems={"center"}
-                    justifyContent={"space-around"}
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
                   >
                     <Avatar
                       src={token?.imageUrl || " "}
                       alt={token?.name || " "}
-                    ></Avatar>
-                    <Typography variant="body2" sx={{ pl: 1 }}>
+                    />
+                    <Typography variant="body2" color="text.primary" fontWeight="medium">
                       {price || "0"}
                     </Typography>
-                    <Typography sx={{ pl: 1 }} variant="body2">
+                    <Typography variant="body2" color="text.primary" fontWeight="medium">
                       {token?.symbol}
                     </Typography>
                   </Box>
                   {remainingTickets !== -1 && (
                     <Box
-                      flexDirection={"row"}
-                      display={"flex"}
-                      alignContent={"center"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="center"
+                      gap={1}
                     >
                       <ConfirmationNumberIcon />
-
-                      <Typography sx={{ pl: 1 }}>
-                        <b>{remainingTickets || "0"}</b>
+                      <Typography color="text.primary" fontWeight="bold">
+                        {remainingTickets || "0"}
                       </Typography>
-                      <Typography sx={{ pl: 1 }}>
+                      <Typography color="text.primary">
                         <FormattedMessage
                           id={"left"}
                           defaultMessage={"Left"}
-                        ></FormattedMessage>
+                        />
                       </Typography>
                     </Box>
                   )}
                 </Box>
               </Grid>
 
-              <Grid item xs={12}>
-                <Box display={"flex"} justifyContent={"center"}>
+              <Grid size={12}>
+                <Box display="flex" justifyContent="center" pt={1}>
                   {!account && <ConnectButton variant="contained" />}
 
                   {account && lockChainId !== chainId && (
@@ -263,7 +260,7 @@ export default function BuyLock({
                           <KeyIcon />
                         )
                       }
-                      variant={"contained"}
+                      variant="contained"
                     >
                       <FormattedMessage
                         id={"buy.key"}

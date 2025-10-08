@@ -645,6 +645,7 @@ function Navbar({ appConfig, isPreview }: Props) {
         position="sticky"
         sx={{
           zIndex: 10,
+          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#222222' : theme.palette.background.paper,
           ...(glassVariant && {
             background: getGlassBackground(),
             ...(glassSettings.backgroundType === 'image' && glassSettings.backgroundImage && {
@@ -721,6 +722,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                   mr: isMobile ? 1.5 : 2,
                   minWidth: '44px',
                   minHeight: '44px',
+                  color: 'text.primary',
                   ...(glassVariant && glassSettings.iconColor && {
                     color: glassSettings.iconColor,
                   }),
@@ -991,7 +993,7 @@ function Navbar({ appConfig, isPreview }: Props) {
                   />
                 </Stack>
               )}
-              
+
               {isMobile && (
                 <Box
                   sx={{

@@ -93,16 +93,18 @@ export default function SwapSelectCoinDialog({
       fullScreen={isMobile}
       maxWidth={isMobile ? false : "sm"}
       fullWidth={!isMobile}
-      PaperProps={{
-        sx: {
-          ...(isMobile && {
-            height: "85vh",
-            margin: theme.spacing(2),
-            borderRadius: theme.spacing(2),
-          }),
-          ...(!isMobile && {
-            maxHeight: "80vh",
-          }),
+      slotProps={{
+        paper: {
+          sx: {
+            ...(isMobile && {
+              height: "85vh",
+              margin: theme.spacing(2),
+              borderRadius: theme.spacing(2),
+            }),
+            ...(!isMobile && {
+              maxHeight: "80vh",
+            }),
+          },
         },
       }}
     >
@@ -124,7 +126,6 @@ export default function SwapSelectCoinDialog({
         }}
       >
         <Stack spacing={2} sx={{ p: 2 }}>
-          {/* Search Bar */}
           <SearchTextField
             onChange={handleChangeQuery}
             TextFieldProps={{
@@ -183,7 +184,7 @@ export default function SwapSelectCoinDialog({
                       direction="row"
                     >
                       <ListSubheader
-                        sx={{ p: 0, m: 0 }}
+                        sx={{ p: 0, m: 0, color: 'text.primary' }}
                         component="div"
                         disableSticky
                       >
@@ -220,8 +221,8 @@ export default function SwapSelectCoinDialog({
             isLoading={
               account
                 ? tokenBalances.isLoading ||
-                  fetchTokenData.isLoading ||
-                  isLoadingSearch
+                fetchTokenData.isLoading ||
+                isLoadingSearch
                 : fetchTokenData.isLoading || isLoadingSearch
             }
           />

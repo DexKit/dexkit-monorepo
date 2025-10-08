@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getNetworkSlugFromChainId } from "@dexkit/core/utils/blockchain";
 import {
   GatedCondition,
@@ -221,7 +220,7 @@ export function GatedConditionView({
     if (condition.type === "collection") {
       return (
         <Stack spacing={1}>
-          <Typography color="text.secondary" fontWeight="bold" variant="body2">
+          <Typography color="text.primary" fontWeight="bold" variant="body2">
             <FormattedMessage
               id="collection.collection"
               defaultMessage="Collection: {collection}"
@@ -245,7 +244,7 @@ export function GatedConditionView({
             />
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography color="text.secondary" variant="body2">
+            <Typography color="text.primary" variant="body2">
               <b>
                 <FormattedMessage
                   id="must.have.amount"
@@ -267,7 +266,7 @@ export function GatedConditionView({
             <Divider orientation="vertical" sx={{ height: "1rem" }} />
             {balances && balances[index] && (
               <Typography
-                color="text.secondary"
+                color="text.primary"
                 fontWeight="bold"
                 variant="body2"
               >
@@ -395,13 +394,13 @@ export function GatedConditionView({
     >
       <Stack spacing={2} alignItems="center">
         <CircularProgress size={60} />
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="text.primary">
           <FormattedMessage
             id="verifying.assets"
             defaultMessage="Verifying your assets..."
           />
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.primary">
           <FormattedMessage
             id="please.wait"
             defaultMessage="Please wait while we verify your assets on the blockchain."
@@ -512,7 +511,7 @@ export function GatedConditionView({
                 <Box display="flex" justifyContent="center" mb={3}>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <CircularProgress size={24} />
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.primary">
                       <FormattedMessage
                         id="verifying.assets"
                         defaultMessage="Verifying your assets..."

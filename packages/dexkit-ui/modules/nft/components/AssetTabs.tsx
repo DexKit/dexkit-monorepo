@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
   Grid,
@@ -613,7 +612,18 @@ export function AssetTabs({ address, id }: Props) {
       />
       <Grid container spacing={2}>
         <Grid size={12}>
-          <Tabs value={selectedTab} onChange={handleChangeTab}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChangeTab}
+            sx={{
+              '& .MuiTab-root': {
+                color: 'text.primary',
+                '&.Mui-selected': {
+                  color: 'primary.main',
+                },
+              },
+            }}
+          >
             <Tab
               value={AssetTabsOptions.Listings}
               label={

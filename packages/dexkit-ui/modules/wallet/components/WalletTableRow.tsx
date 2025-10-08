@@ -334,7 +334,7 @@ function WalletTableRow({
                     <Typography variant="body1" sx={{ fontWeight: 600 }} noWrap>
                       {isBalancesVisible ? token.name : "**********"}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" noWrap>
+                    <Typography variant="body2" color="text.primary" noWrap>
                       {isBalancesVisible ? token.symbol : "*****"}
                     </Typography>
                   </Box>
@@ -351,7 +351,7 @@ function WalletTableRow({
 
               <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Box>
-                  <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
+                  <Typography variant="caption" color="text.primary" sx={{ display: 'block' }}>
                     <FormattedMessage id="balance" defaultMessage="Balance" />
                   </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -366,7 +366,7 @@ function WalletTableRow({
                 </Box>
 
                 <Box sx={{ textAlign: 'right' }}>
-                  <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
+                  <Typography variant="caption" color="text.primary" sx={{ display: 'block' }}>
                     <FormattedMessage id="total" defaultMessage="Total" />
                   </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -415,7 +415,7 @@ function WalletTableRow({
             <Typography variant="body1" sx={{ fontWeight: 500 }} noWrap>
               {isBalancesVisible ? token.name : "**********"}
             </Typography>
-            <Typography variant="body2" color="textSecondary" noWrap>
+            <Typography variant="body2" color="text.primary" noWrap>
               {isBalancesVisible ? token.symbol : "*****"}
             </Typography>
           </Box>

@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
   IconButton,
   InputAdornment,
   NoSsr,
@@ -210,14 +209,14 @@ const EvmWalletContainer = () => {
       <Box sx={{ maxWidth: 1200, mx: 'auto', px: 2 }}>
         <Grid container spacing={3}>
           {/* Header Section */}
-          <Grid item xs={12}>
-            <Card sx={{ p: 3, mb: 2 }}>
-              {isActive && (
+          {isActive && (
+            <Grid item xs={12}>
+              <Card sx={{ p: 3, mb: 2 }}>
                 <Stack spacing={3}>
                   <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                     <Box>
                       <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-                        <Typography color="textSecondary" variant="caption">
+                        <Typography color="text.primary" variant="caption">
                           {isBalancesVisible
                             ? ENSName
                               ? ENSName
@@ -240,7 +239,7 @@ const EvmWalletContainer = () => {
                             description: "Copied text",
                           })}
                         >
-                          <FileCopy fontSize="small" color="action" />
+                          <FileCopy fontSize="small" sx={{ color: 'text.primary' }} />
                         </CopyIconButton>
                       </Stack>
 
@@ -295,45 +294,47 @@ const EvmWalletContainer = () => {
                     </Button>
                   </Stack>
                 </Stack>
-              )}
-            </Card>
-          </Grid>
+              </Card>
+            </Grid>
+          )}
 
-          <Grid item xs={12}>
-            <Card sx={{ p: 2, mb: 2 }}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <TextField
-                  size="small"
-                  type="search"
-                  placeholder={formatMessage({
-                    id: "search.tokens",
-                    defaultMessage: "Search tokens"
-                  })}
-                  onChange={(ev) => setSearch(ev.currentTarget.value)}
-                  sx={{ flex: 1 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Search color="primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button
-                  onClick={handleOpenImportTokenDialog}
-                  variant="outlined"
-                  disabled={!isActive}
-                  startIcon={<ImportExportIcon />}
-                  sx={{ minWidth: 140, height: 40 }}
-                >
-                  <FormattedMessage
-                    id="import.token"
-                    defaultMessage="Import token"
+          {isActive && (
+            <Grid item xs={12}>
+              <Card sx={{ p: 2, mb: 2 }}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <TextField
+                    size="small"
+                    type="search"
+                    placeholder={formatMessage({
+                      id: "search.tokens",
+                      defaultMessage: "Search tokens"
+                    })}
+                    onChange={(ev) => setSearch(ev.currentTarget.value)}
+                    sx={{ flex: 1 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Search color="primary" />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                </Button>
-              </Stack>
-            </Card>
-          </Grid>
+                  <Button
+                    onClick={handleOpenImportTokenDialog}
+                    variant="outlined"
+                    disabled={!isActive}
+                    startIcon={<ImportExportIcon />}
+                    sx={{ minWidth: 140, height: 40 }}
+                  >
+                    <FormattedMessage
+                      id="import.token"
+                      defaultMessage="Import token"
+                    />
+                  </Button>
+                </Stack>
+              </Card>
+            </Grid>
+          )}
 
           {!isActive && (
             <Grid item xs={12}>
@@ -347,14 +348,14 @@ const EvmWalletContainer = () => {
                         defaultMessage="Wallet is not connected"
                       />
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography variant="body2" color="text.primary">
                       <FormattedMessage
                         id="please.connect.your.wallet.to.see.balance"
                         defaultMessage="Please, connect your wallet to see your balance"
                       />
                     </Typography>
                   </Box>
-                  <ConnectButton variant="contained" size="large" />
+                  <ConnectButton variant="contained" color="primary" size="large" />
                 </Stack>
               </Card>
             </Grid>
@@ -370,140 +371,144 @@ const EvmWalletContainer = () => {
             </Grid>
           )}
 
-          <Grid item xs={12}>
-            <Card sx={{ p: 2, mb: 2 }}>
-              <WalletActionButton
-                disabled={!isActive}
-                LinkComponent={Link}
-                href="/wallet/nfts"
-                sx={{ width: '100%', p: 3 }}
-              >
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  width="100%"
+          {isActive && (
+            <Grid item xs={12}>
+              <Card sx={{ p: 2, mb: 2 }}>
+                <WalletActionButton
+                  disabled={!isActive}
+                  LinkComponent={Link}
+                  href="/wallet/nfts"
+                  sx={{ width: '100%', p: 3 }}
                 >
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      <FormattedMessage id="nfts" defaultMessage="NFTs" />
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography
-                      sx={{
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                      }}
-                      color="primary"
-                      variant="body1"
-                    >
-                      <FormattedMessage id="open" defaultMessage="Open" />
-                    </Typography>
-                    <NavigateNext color="primary" />
-                  </Stack>
-                </Stack>
-              </WalletActionButton>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Card sx={{ overflow: 'hidden' }}>
-              <Tabs 
-                value={selectedTab} 
-                onChange={handleChangeTab}
-                variant="fullWidth"
-                sx={{
-                  borderBottom: 1,
-                  borderColor: 'divider',
-                  '& .MuiTab-root': {
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    minHeight: 48,
-                    fontSize: '0.95rem',
-                  }
-                }}
-              >
-                <Tab
-                  value={WalletTabs.Activity}
-                  label={
-                    <FormattedMessage
-                      id="activity"
-                      defaultMessage="Activity"
-                    />
-                  }
-                />
-                <Tab
-                  value={WalletTabs.Transactions}
-                  label={
-                    <FormattedMessage
-                      id="transactions"
-                      defaultMessage="Transactions"
-                    />
-                  }
-                />
-                <Tab
-                  value={WalletTabs.Trades}
-                  label={
-                    <FormattedMessage id="trades" defaultMessage="Trades" />
-                  }
-                />
-              </Tabs>
-              
-              <Box sx={{ p: 2 }}>
-                <NoSsr>
-                  {selectedTab === WalletTabs.Activity ? (
-                    <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-                      <AppErrorBoundary
-                        fallbackRender={({ error }) => (
-                          <Card>
-                            <CardContent>
-                              <Stack
-                                alignItems="center"
-                                direction="row"
-                                justifyContent="center"
-                              >
-                                <Stack spacing={1} alignItems="center">
-                                  <Typography align="center">
-                                    <FormattedMessage
-                                      id="error.while.loading.activity"
-                                      defaultMessage="Error while Loading activity"
-                                    />
-                                  </Typography>
-                                  <Button variant="outlined">
-                                    <FormattedMessage
-                                      id="try.again"
-                                      defaultMessage="try again"
-                                    />
-                                  </Button>
-                                </Stack>
-                              </Stack>
-                            </CardContent>
-                          </Card>
-                        )}
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    width="100%"
+                  >
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        <FormattedMessage id="nfts" defaultMessage="NFTs" />
+                      </Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Typography
+                        sx={{
+                          fontWeight: 600,
+                          textTransform: "uppercase",
+                        }}
+                        color="primary"
+                        variant="body1"
                       >
-                        {isLoggedIn ? (
-                          <UserActivityTable />
-                        ) : (
-                          <Stack justifyContent="center" alignItems="center" sx={{ py: 4 }}>
-                            <LoginAppButton />
-                          </Stack>
-                        )}
-                      </AppErrorBoundary>
-                    </DexkitApiProvider.Provider>
-                  ) : (
-                    <TransactionsTable
-                      filter={
-                        selectedTab === WalletTabs.Transactions
-                          ? TransactionsTableFilter.Transactions
-                          : TransactionsTableFilter.Trades
-                      }
-                    />
-                  )}
-                </NoSsr>
-              </Box>
-            </Card>
-          </Grid>
+                        <FormattedMessage id="open" defaultMessage="Open" />
+                      </Typography>
+                      <NavigateNext color="primary" />
+                    </Stack>
+                  </Stack>
+                </WalletActionButton>
+              </Card>
+            </Grid>
+          )}
+
+          {isActive && (
+            <Grid item xs={12}>
+              <Card sx={{ overflow: 'hidden' }}>
+                <Tabs
+                  value={selectedTab}
+                  onChange={handleChangeTab}
+                  variant="fullWidth"
+                  sx={{
+                    borderBottom: 1,
+                    borderColor: 'divider',
+                    '& .MuiTab-root': {
+                      textTransform: 'none',
+                      fontWeight: 500,
+                      minHeight: 48,
+                      fontSize: '0.95rem',
+                    }
+                  }}
+                >
+                  <Tab
+                    value={WalletTabs.Activity}
+                    label={
+                      <FormattedMessage
+                        id="activity"
+                        defaultMessage="Activity"
+                      />
+                    }
+                  />
+                  <Tab
+                    value={WalletTabs.Transactions}
+                    label={
+                      <FormattedMessage
+                        id="transactions"
+                        defaultMessage="Transactions"
+                      />
+                    }
+                  />
+                  <Tab
+                    value={WalletTabs.Trades}
+                    label={
+                      <FormattedMessage id="trades" defaultMessage="Trades" />
+                    }
+                  />
+                </Tabs>
+
+                <Box sx={{ p: 2 }}>
+                  <NoSsr>
+                    {selectedTab === WalletTabs.Activity ? (
+                      <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
+                        <AppErrorBoundary
+                          fallbackRender={({ error }) => (
+                            <Card>
+                              <CardContent>
+                                <Stack
+                                  alignItems="center"
+                                  direction="row"
+                                  justifyContent="center"
+                                >
+                                  <Stack spacing={1} alignItems="center">
+                                    <Typography align="center">
+                                      <FormattedMessage
+                                        id="error.while.loading.activity"
+                                        defaultMessage="Error while Loading activity"
+                                      />
+                                    </Typography>
+                                    <Button variant="outlined">
+                                      <FormattedMessage
+                                        id="try.again"
+                                        defaultMessage="try again"
+                                      />
+                                    </Button>
+                                  </Stack>
+                                </Stack>
+                              </CardContent>
+                            </Card>
+                          )}
+                        >
+                          {isLoggedIn ? (
+                            <UserActivityTable />
+                          ) : (
+                            <Stack justifyContent="center" alignItems="center" sx={{ py: 4 }}>
+                              <LoginAppButton />
+                            </Stack>
+                          )}
+                        </AppErrorBoundary>
+                      </DexkitApiProvider.Provider>
+                    ) : (
+                      <TransactionsTable
+                        filter={
+                          selectedTab === WalletTabs.Transactions
+                            ? TransactionsTableFilter.Transactions
+                            : TransactionsTableFilter.Trades
+                        }
+                      />
+                    )}
+                  </NoSsr>
+                </Box>
+              </Card>
+            </Grid>
+          )}
         </Grid>
       </Box>
     </>

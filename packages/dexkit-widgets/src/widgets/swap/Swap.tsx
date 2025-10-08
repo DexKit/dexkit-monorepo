@@ -210,11 +210,14 @@ export default function Swap({
                     <Button
                       sx={{
                         color: (theme) => theme.palette.text.primary,
-                        borderColor: (theme) => theme.palette.divider,
+                        borderColor: (theme) => theme.palette.mode === 'dark' ? '#666666' : theme.palette.divider,
                         opacity: disableNetworkChange || disableNetworkSelector ? 0.5 : 1,
                         pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
                         cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
                         background: disableNetworkChange || disableNetworkSelector ? (theme) => theme.palette.action.disabledBackground : undefined,
+                        '&:hover': {
+                          borderColor: (theme) => theme.palette.mode === 'dark' ? '#888888' : theme.palette.divider,
+                        },
                       }}
                       onClick={disableNetworkChange || disableNetworkSelector ? undefined : onToggleChangeNetwork}
                       disabled={disableNetworkChange || disableNetworkSelector}
@@ -270,7 +273,7 @@ export default function Swap({
               </IconButton>
             )}
             <IconButton size="small" onClick={onShowSettings}>
-              <SettingsIcon />
+              <SettingsIcon sx={{ color: 'text.primary' }} />
             </IconButton>
           </Stack>
         </Stack>

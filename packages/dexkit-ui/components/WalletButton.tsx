@@ -95,7 +95,7 @@ export function WalletButton({ align }: WalletButtonProps) {
             />
           )}
           <Box>
-            <Typography variant="caption" align="left" component="div">
+            <Typography variant="caption" align="left" component="div" color="text.primary">
               {isBalancesVisible
                 ? ENSName
                   ? ENSName
@@ -108,7 +108,7 @@ export function WalletButton({ align }: WalletButtonProps) {
               )}
             </div>
           </Box>
-          {showContent ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {showContent ? <ExpandLessIcon sx={{ color: 'text.primary' }} /> : <ExpandMoreIcon sx={{ color: 'text.primary' }} />}
         </Stack>
       </ButtonBase>
       {showContent && (

@@ -234,7 +234,7 @@ export function Footer({ appConfig, isPreview, appNFT }: Props) {
                 sx={{
                   fontSize: isMobile ? '0.9rem' : '0.875rem',
                   lineHeight: isMobile ? 1.6 : 1.4,
-                  color: theme.palette.text.secondary,
+                  color: 'text.primary',
                   px: isMobile ? 2 : 0
                 }}
               >

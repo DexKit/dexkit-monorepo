@@ -194,11 +194,13 @@ export default function CollectionsSectionForm({
                     <ListItemText
                       primary={(NETWORKS[key] as Network).name}
                       secondary={(NETWORKS[key] as Network).symbol}
-                      primaryTypographyProps={{
-                        fontSize: isMobile ? "0.875rem" : undefined
-                      }}
-                      secondaryTypographyProps={{
-                        fontSize: isMobile ? "0.75rem" : undefined
+                      slotProps={{
+                        primary: {
+                          fontSize: isMobile ? "0.875rem" : undefined
+                        },
+                        secondary: {
+                          fontSize: isMobile ? "0.75rem" : undefined
+                        }
                       }}
                     />
                   </MenuItem>

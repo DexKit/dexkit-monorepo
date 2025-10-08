@@ -54,7 +54,7 @@ export function AppDialogTitle({
         </Stack>
         {onClose && !hideCloseButton && (
           <IconButton size="small" disabled={disableClose} onClick={onClose}>
-            <CloseIcon />
+            <CloseIcon sx={{ color: 'text.primary' }} />
           </IconButton>
         )}
       </Stack>

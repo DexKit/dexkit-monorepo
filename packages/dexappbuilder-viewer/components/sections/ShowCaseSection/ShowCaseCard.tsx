@@ -634,27 +634,33 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                   </Typography>
                 )}
                 {item.subtitle && (
-                  <AppExpandableTypography
-                    TypographyProps={{
-                      sx: {
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        textAlign: item.textAlign || 'inherit',
-                        color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
-                        '@media (max-width: 600px)': {
-                          fontSize: '0.8rem',
-                          lineHeight: 1.2,
-                        },
-                        '@media (max-width: 480px)': {
-                          fontSize: '0.7rem',
-                          lineHeight: 1.1,
-                        },
+                  <Typography
+                    sx={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
+                      '@media (max-width: 600px)': {
+                        fontSize: '0.8rem',
+                        lineHeight: 1.2,
                       },
-                      variant: "body2",
-                      color: "text.secondary",
+                      '@media (max-width: 480px)': {
+                        fontSize: '0.7rem',
+                        lineHeight: 1.1,
+                      },
                     }}
-                    value={item.subtitle || ""}
-                  />
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    <AppExpandableTypography
+                      TypographyProps={{
+                        variant: "body2",
+                        color: "text.secondary",
+                      }}
+                      value={item.subtitle || ""}
+                      asInlineElement={true}
+                    />
+                  </Typography>
                 )}
               </Box>
             </Stack>
@@ -742,9 +748,9 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 )}
               </Typography>
 
-              {item.subtitle ? <AppExpandableTypography
-                TypographyProps={{
-                  sx: {
+              {item.subtitle ? (
+                <Typography
+                  sx={{
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                     textAlign: item.textAlign || 'inherit',
@@ -757,33 +763,47 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       fontSize: '0.7rem',
                       lineHeight: 1.1,
                     },
-                  },
-                  variant: "body2",
-                  color: "text.secondary",
-                }}
-                value={contractMetadata.data?.name || ""}
-              /> : (
-                <AppExpandableTypography
-                  TypographyProps={{
-                    sx: {
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      textAlign: item.textAlign || 'inherit',
-                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
-                      '@media (max-width: 600px)': {
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                      },
-                      '@media (max-width: 480px)': {
-                        fontSize: '0.7rem',
-                        lineHeight: 1.1,
-                      },
-                    },
-                    variant: "body2",
-                    color: "text.secondary",
                   }}
-                  value={contractMetadata.data?.description || ""}
-                />
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  <AppExpandableTypography
+                    TypographyProps={{
+                      variant: "body2",
+                      color: "text.secondary",
+                    }}
+                    value={contractMetadata.data?.name || ""}
+                    asInlineElement={true}
+                  />
+                </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    textAlign: item.textAlign || 'inherit',
+                    color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
+                    '@media (max-width: 600px)': {
+                      fontSize: '0.8rem',
+                      lineHeight: 1.2,
+                    },
+                    '@media (max-width: 480px)': {
+                      fontSize: '0.7rem',
+                      lineHeight: 1.1,
+                    },
+                  }}
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  <AppExpandableTypography
+                    TypographyProps={{
+                      variant: "body2",
+                      color: "text.secondary",
+                    }}
+                    value={contractMetadata.data?.description || ""}
+                    asInlineElement={true}
+                  />
+                </Typography>
               )}
             </Box>
           </Stack>
@@ -895,23 +915,10 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       : `${nftQuery.data?.collectionName} #${nftQuery.data?.id}`
                   }
                   TypographyProps={{
-                    sx: {
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      textAlign: item.textAlign || 'inherit',
-                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
-                      '@media (max-width: 600px)': {
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                      },
-                      '@media (max-width: 480px)': {
-                        fontSize: '0.7rem',
-                        lineHeight: 1.1,
-                      },
-                    },
                     variant: "body2",
                     color: "text.secondary",
                   }}
+                  asInlineElement={true}
                 />
               )}
             </Typography>

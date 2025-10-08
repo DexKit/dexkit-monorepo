@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { formatBigNumber } from "@dexkit/core/utils";
 import { useDexKitContext } from "@dexkit/ui";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
-import { useApproveForAll } from "@dexkit/ui/modules/contract-wizard/hooks/thirdweb";
+import { formatTransactionError, useApproveForAll } from "@dexkit/ui/modules/contract-wizard/hooks/thirdweb";
 import { StakeErc155PageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import Token from "@mui/icons-material/Token";
@@ -496,7 +495,19 @@ export default function StakeErc1155Section({
       <Card>
         <CardContent>
           <Stack spacing={2}>
-            <Tabs onChange={handleChangeTab} variant="fullWidth" value={tab}>
+            <Tabs
+              onChange={handleChangeTab}
+              variant="fullWidth"
+              value={tab}
+              sx={{
+                '& .MuiTab-root': {
+                  color: 'text.primary',
+                  '&.Mui-selected': {
+                    color: 'primary.main',
+                  },
+                },
+              }}
+            >
               <Tab
                 value="stake"
                 label={<FormattedMessage id="stake" defaultMessage="Stake" />}
@@ -524,7 +535,7 @@ export default function StakeErc1155Section({
                           <Typography
                             align="center"
                             variant="body1"
-                            color="text.secondary"
+                            color="text.primary"
                           >
                             <FormattedMessage
                               id="nfts.staked"
@@ -539,7 +550,7 @@ export default function StakeErc1155Section({
                         >
                           <Stack spacing={1} alignItems="center">
                             <Token />
-                            <Typography color="text.secondary">
+                            <Typography color="text.primary">
                               <FormattedMessage
                                 id="select.an.nft"
                                 defaultMessage="Select an NFT"
@@ -572,7 +583,7 @@ export default function StakeErc1155Section({
                               defaultMessage="Total Rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
@@ -584,13 +595,13 @@ export default function StakeErc1155Section({
                           </Typography>
                           </Stack>*/}
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="rewards.rate"
                               defaultMessage="Rewards rate"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardRatio && rewardTimeUnit ? (
                               <>
                                 {formatBigNumber(
@@ -611,13 +622,13 @@ export default function StakeErc1155Section({
                           </Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="claimable.rewards"
                               defaultMessage="Claimable rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
@@ -683,7 +694,7 @@ export default function StakeErc1155Section({
                           <Typography
                             align="center"
                             variant="body1"
-                            color="text.secondary"
+                            color="text.primary"
                           >
                             <FormattedMessage
                               id="nfts.staked"
@@ -698,7 +709,7 @@ export default function StakeErc1155Section({
                         >
                           <Stack spacing={1} alignItems="center">
                             <Token />
-                            <Typography color="text.secondary">
+                            <Typography color="text.primary">
                               <FormattedMessage
                                 id="select.nfts"
                                 defaultMessage="Select NFTs"
@@ -731,7 +742,7 @@ export default function StakeErc1155Section({
                               defaultMessage="Total Rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
@@ -744,13 +755,13 @@ export default function StakeErc1155Section({
                           </Stack>*/}
 
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="rewards.second"
                               defaultMessage="Rewards/second"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardRatio && rewardTimeUnit ? (
                               <>
                                 {formatBigNumber(
@@ -772,13 +783,13 @@ export default function StakeErc1155Section({
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="claimable.rewards"
                               defaultMessage="Claimable rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,

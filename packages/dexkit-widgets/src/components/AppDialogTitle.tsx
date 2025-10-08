@@ -32,7 +32,7 @@ export function AppDialogTitle({ title, icon, onClose, disableClose }: Props) {
       </Stack>
       {onClose && (
         <IconButton disabled={disableClose} onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon sx={{ color: 'text.primary' }} />
         </IconButton>
       )}
     </DialogTitle>

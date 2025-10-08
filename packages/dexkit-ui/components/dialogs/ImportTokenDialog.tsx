@@ -1,20 +1,20 @@
 import {
-    Alert,
-    Avatar,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    TextField,
-    Typography,
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import { useCallback, useEffect } from "react";
@@ -282,6 +282,29 @@ function ImportTokenDialog({ dialogProps }: Props) {
                 ? formik.errors.contractAddress
                 : undefined
             }
+            sx={{
+              '& .MuiInputLabel-root': {
+                color: 'primary.main',
+              },
+              '& .MuiInputBase-input': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: 'text.primary',
+                opacity: 0.5,
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'divider',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -293,6 +316,29 @@ function ImportTokenDialog({ dialogProps }: Props) {
               id: "name",
               defaultMessage: "Name",
             })}
+            sx={{
+              '& .MuiInputLabel-root': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: 'text.primary',
+                opacity: 0.5,
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'divider',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -304,6 +350,29 @@ function ImportTokenDialog({ dialogProps }: Props) {
               id: "symbol",
               defaultMessage: "Symbol",
             })}
+            sx={{
+              '& .MuiInputLabel-root': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: 'text.primary',
+                opacity: 0.5,
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'divider',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
           <TextField
             disabled={true}
@@ -316,6 +385,29 @@ function ImportTokenDialog({ dialogProps }: Props) {
               id: "decimals",
               defaultMessage: "Decimals",
             })}
+            sx={{
+              '& .MuiInputLabel-root': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: 'text.primary',
+                opacity: 0.5,
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'divider',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
         </Stack>
       </DialogContent>
@@ -325,6 +417,12 @@ function ImportTokenDialog({ dialogProps }: Props) {
           onClick={handleSubmitForm}
           variant="contained"
           color="primary"
+          sx={{
+            '&.Mui-disabled': {
+              color: 'text.primary',
+              backgroundColor: 'action.disabled',
+            },
+          }}
         >
           <FormattedMessage
             id="import"
@@ -332,7 +430,7 @@ function ImportTokenDialog({ dialogProps }: Props) {
             description="Import"
           />
         </Button>
-        <Button onClick={handleClose}>
+        <Button onClick={handleClose} sx={{ color: 'text.primary' }}>
           <FormattedMessage
             id="cancel"
             defaultMessage="Cancel"

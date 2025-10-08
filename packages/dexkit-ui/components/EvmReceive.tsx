@@ -249,7 +249,7 @@ export default function EvmReceive({
         </Box>
         <Typography
           variant="caption"
-          color="text.secondary"
+          color="text.primary"
           textAlign="center"
           sx={{
             px: isMobile ? 1 : 0,
@@ -273,7 +273,7 @@ export default function EvmReceive({
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
           <Typography
             variant={isMobile ? "body2" : "body1"}
-            color="text.secondary"
+            color="text.primary"
             sx={{
               fontWeight: theme.typography.fontWeightMedium,
               flexShrink: 0,
@@ -284,6 +284,7 @@ export default function EvmReceive({
           <Stack direction="row" alignItems="center" spacing={1} sx={{ minWidth: 0 }}>
             <Typography
               variant={isMobile ? "body2" : "body1"}
+              color="text.primary"
               sx={{
                 fontFamily: theme.typography.fontFamily,
                 fontFeatureSettings: '"tnum"',
@@ -391,7 +392,7 @@ export default function EvmReceive({
                 secondary={
                   <Typography
                     variant={isMobile ? "caption" : "body2"}
-                    color="text.secondary"
+                    color="text.primary"
                   >
                     <FormattedMessage
                       id="coin.on.network"
@@ -413,6 +414,12 @@ export default function EvmReceive({
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: isMobile ? 1.5 : 2,
+              },
+              '& .MuiInputLabel-root': {
+                color: 'text.primary',
+              },
+              '& .MuiInputBase-input': {
+                color: 'text.primary',
               },
             }}
           />
@@ -436,6 +443,16 @@ export default function EvmReceive({
         sx={{
           '& .MuiOutlinedInput-root': {
             borderRadius: isMobile ? 1.5 : 2,
+          },
+          '& .MuiInputLabel-root': {
+            color: 'text.primary',
+          },
+          '& .MuiInputBase-input': {
+            color: 'text.primary',
+          },
+          '& .MuiInputBase-input::placeholder': {
+            color: 'text.primary',
+            opacity: 0.5,
           },
         }}
       />

@@ -146,6 +146,8 @@ const MainLayout = ({
     }
   }, [defaultAppConfig, appConfigProps]);
 
+  const { isBottom } = useNavbarVariant(appConfig);
+
   // useEffect(() => {
   //   setMode(mode);
   // }, [mode, setMode]);
@@ -181,7 +183,7 @@ const MainLayout = ({
           </div>
         </Box>
 
-        {(
+        {!isBottom && (
           <Box
             className="preview-footer"
             sx={{

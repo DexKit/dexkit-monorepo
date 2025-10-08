@@ -1,5 +1,6 @@
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
+  alpha,
   Badge,
   Box,
   Button,
@@ -8,7 +9,6 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  alpha,
   Stack,
   Tab,
   Tabs,
@@ -79,6 +79,12 @@ export default function NotificationsDialog({
           sx={{
             "& .MuiTabs-indicator": { display: "none", height: 30 },
             minHeight: "auto",
+            '& .MuiTab-root': {
+              color: 'text.primary',
+              '&.Mui-selected': {
+                color: 'primary.main',
+              },
+            },
           }}
           onChange={(e, value) => setTab(value)}
         >
@@ -86,14 +92,14 @@ export default function NotificationsDialog({
             label={<FormattedMessage id="app" defaultMessage="App" />}
             icon={
               hasPendingTransactions &&
-              filteredUncheckedTransactions.length === 0 ? (
+                filteredUncheckedTransactions.length === 0 ? (
                 <Box sx={{ p: 1 }}>
                   <Badge
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                     color="primary"
                     variant={
                       hasPendingTransactions &&
-                      filteredUncheckedTransactions.length === 0
+                        filteredUncheckedTransactions.length === 0
                         ? "dot"
                         : "standard"
                     }

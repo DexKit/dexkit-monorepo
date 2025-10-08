@@ -359,7 +359,7 @@ export function EvmSendForm({
                   secondary={
                     <Typography
                       variant={isMobile ? "caption" : "body2"}
-                      color="text.secondary"
+                      color="text.primary"
                     >
                       <FormattedMessage
                         id="coin.on.network"
@@ -395,6 +395,12 @@ export function EvmSendForm({
                         pointerEvents: isLocked ? 'none' : undefined,
                         cursor: isLocked ? 'not-allowed' : 'pointer',
                         background: isLocked ? theme.palette.action.disabledBackground : undefined,
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: 'text.primary',
+                      },
+                      '& .MuiInputBase-input': {
+                        color: 'text.primary',
                       },
                     }}
                     InputProps={{
@@ -463,7 +469,7 @@ export function EvmSendForm({
                       onClick={handleOpenQrCodeScanner}
                       size={isMobile ? "small" : "medium"}
                       sx={{
-                        color: theme.palette.text.secondary,
+                        color: 'text.primary',
                       }}
                     >
                       <QrCodeScanner />
@@ -489,6 +495,12 @@ export function EvmSendForm({
                 '& .MuiOutlinedInput-root': {
                   borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
                 },
+                '& .MuiInputLabel-root': {
+                  color: 'text.primary',
+                },
+                '& .MuiInputBase-input': {
+                  color: 'text.primary',
+                },
               }}
             />
           )}
@@ -507,6 +519,16 @@ export function EvmSendForm({
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+            },
+            '& .MuiInputLabel-root': {
+              color: 'text.primary',
+            },
+            '& .MuiInputBase-input': {
+              color: 'text.primary',
+            },
+            '& .MuiInputBase-input::placeholder': {
+              color: 'text.primary',
+              opacity: 0.5,
             },
           }}
         />

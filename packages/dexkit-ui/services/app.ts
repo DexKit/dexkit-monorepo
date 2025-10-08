@@ -2,13 +2,12 @@ import { useMemo } from "react";
 import defaultAppConfig from "../config/app.minimal.json";
 import { AppConfig } from "../modules/wizard/types/config";
 
-import { createTheme } from "@mui/material/styles";
-import { alpha, lighten, darken } from "@mui/material/styles";
+import { alpha, createTheme, darken, lighten } from "@mui/material/styles";
 import { ThemeMode } from "../constants/enum";
 
 function extractThemePalette(themeData: any): any {
   if (!themeData) return {};
-  
+
   if (themeData.colorSchemes) {
     if (themeData.colorSchemes.light?.palette) {
       return { palette: themeData.colorSchemes.light.palette };
@@ -17,14 +16,14 @@ function extractThemePalette(themeData: any): any {
       return { palette: themeData.colorSchemes.dark.palette };
     }
   }
-  
+
   if (themeData.light?.palette) {
     return { palette: themeData.light.palette };
   }
   if (themeData.dark?.palette) {
     return { palette: themeData.dark.palette };
   }
-  
+
   return {};
 }
 
@@ -90,7 +89,7 @@ export function setupTheme({
           lighten,
           darken,
         };
-        
+
         return createTheme(themeConfig);
       }
     }
@@ -110,7 +109,7 @@ export function setupTheme({
     }
 
     const paletteProps = extractThemePalette(temp);
-    
+
     const finalThemeConfig = {
       cssVariables: {
         colorSchemeSelector: 'class',
@@ -126,7 +125,7 @@ export function setupTheme({
       lighten,
       darken,
     };
-    
+
     return createTheme(finalThemeConfig);
   }, [appConfig, getTheme]);
 }
