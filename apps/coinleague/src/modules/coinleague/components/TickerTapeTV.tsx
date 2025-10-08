@@ -20,7 +20,7 @@ function TickerTapeTV() {
       colorTheme="dark"
       symbols={symbols}
       isTransparent={true}
-      displayMode="compact"
+      displayMode="adaptive"
     />
   );
 }
