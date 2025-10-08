@@ -7,7 +7,6 @@ import {
   Switch,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { GET_GAME_ORDER_OPTIONS } from '../constants';
 import {
   GameDuration,
   GameLevel,
@@ -197,7 +196,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           </MenuItem>
         </Select>
       </FormControl>
-      <FormControl>
+      {/*  <FormControl>
         <InputLabel>
           <FormattedMessage id="order.by" defaultMessage="Order by" />
         </InputLabel>
@@ -217,7 +216,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl>*/}
       <Stack
         justifyContent="space-between"
         direction="row"
@@ -234,7 +233,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
         />
       </Stack>
 
-      <Stack
+      {/* <Stack
         justifyContent="space-between"
         direction="row"
         alignItems="center"
@@ -248,7 +247,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           checked={gameFilters.isJackpot}
           value={gameFilters.isJackpot}
         />
-      </Stack>
+      </Stack>*/}
     </Stack>
   );
 }
