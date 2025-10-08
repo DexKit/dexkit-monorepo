@@ -226,15 +226,17 @@ export default function WalletContent({
               {wallets && wallets.length ? (
                 <WalletProvider id={wallets[0].id}>
                   <WalletIcon
-                    width={16}
-                    height={16}
+                    style={{
+                      width: theme.spacing(2),
+                      height: theme.spacing(2),
+                    }}
                   />
                 </WalletProvider>
               ) : (
                 <Avatar
                   sx={(theme) => ({
-                    width: 16,
-                    height: 16,
+                    width: theme.spacing(2),
+                    height: theme.spacing(2),
                     background: theme.palette.action.hover,
                   })}
                   variant="rounded"
