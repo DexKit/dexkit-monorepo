@@ -45,7 +45,7 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
 };
 
 export const SWAP_UNI_V2_URL = () => {
-  return `${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/swap/univ2`;
+  return `${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/swap/univ2withfee`;
 };
 
 export const ZERO_EX_V2_WIDGET_URL = () => {
