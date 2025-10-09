@@ -185,27 +185,27 @@ export const SiteIndexPage: NextPage = () => {
           }}
         >
           <Box sx={{ mb: { xs: 2, sm: 3 } }}>
-              <PageHeader
-                breadcrumbs={[
-                  {
-                    caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
-                    ),
-                    uri: '/',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage
-                        id="site.list"
-                        defaultMessage="Site list"
-                      />
-                    ),
-                    uri: '/site',
-                    active: true,
-                  },
-                ]}
-                showTitleOnDesktop={true}
-              />
+            <PageHeader
+              breadcrumbs={[
+                {
+                  caption: (
+                    <FormattedMessage id="home" defaultMessage="Home" />
+                  ),
+                  uri: '/',
+                },
+                {
+                  caption: (
+                    <FormattedMessage
+                      id="site.list"
+                      defaultMessage="Site list"
+                    />
+                  ),
+                  uri: '/site',
+                  active: true,
+                },
+              ]}
+              showTitleOnDesktop={true}
+            />
           </Box>
 
           <Paper
@@ -767,11 +767,11 @@ export const getStaticProps: GetStaticProps = async ({
   const queryClient = new QueryClient();
 
   try {
-    const sitesResponse = await getSites({ 
+    const sitesResponse = await getSites({
       take: 50,
-      skip: 0 
+      skip: 0
     });
-    
+
     const data = sitesResponse.data.map((resp) => {
       try {
         const config = JSON.parse(resp.config) as Partial<AppConfig>;
@@ -780,7 +780,7 @@ export const getStaticProps: GetStaticProps = async ({
           appConfig: {
             name: config.name || 'Unknown Site',
             description: (config as any).description || null,
-            logo: config.logo || undefined,
+            logo: config.logo || null,
             theme: config.theme || 'default',
             domain: config.domain || '',
             email: config.email || '',
@@ -800,7 +800,7 @@ export const getStaticProps: GetStaticProps = async ({
           appConfig: {
             name: 'Unknown Site',
             description: null,
-            logo: undefined,
+            logo: null,
             theme: 'default',
             domain: '',
             email: '',
@@ -824,7 +824,7 @@ export const getStaticProps: GetStaticProps = async ({
     };
   } catch (error) {
     console.error('Error fetching sites:', error);
-    
+
     await queryClient.prefetchQuery(
       [QUERY_WHITELABEL_SITES_QUERY],
       async () => [],

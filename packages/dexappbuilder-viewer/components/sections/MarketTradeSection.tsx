@@ -7,7 +7,6 @@ import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/exchange/constants/zrx";
 import { useAppConfig, useTokenList } from "@dexkit/ui";
 import { MarketTradePageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Box, Container, Grid, Stack } from "@mui/material";
 import { useMemo } from "react";
 
 export interface MarketTradeSectionProps {
@@ -50,49 +49,29 @@ export default function MarketTradeSection({
   }, [tokens, baseTokenConfig]);
 
   return (
-    <>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        width: '100%',
-        py: 3
-      }}>
-        <Box sx={{ 
-          width: '100%', 
-          maxWidth: '480px',
-          display: 'flex',
-          justifyContent: 'center',
-          '& > *': {
-            width: '100%'
-          }
-        }}>
-          <TradeWidgetSimpleVariant
-            isActive={true}
-            defaultSlippage={slippage}
-            feeRecipient={
-              appConfig.swapFees?.recipient || ZEROEX_AFFILIATE_ADDRESS
-            }
-            affiliateAddress={ZEROEX_AFFILIATE_ADDRESS}
-            buyTokenPercentageFee={
-              appConfig.swapFees?.amount_percentage
-                ? appConfig.swapFees?.amount_percentage / 100
-                : undefined
-            }
-            baseToken={baseToken}
-            quoteToken={quoteToken}
-            quoteTokens={tokens}
-            defaultOrderSide={
-              show === OrderMarketType.sell ? "sell" : "buy"
-            }
-            account={account}
-            provider={provider}
-            chainId={appChaind}
-            show={show}
-            useGasless={useGasless}
-          />
-        </Box>
-      </Box>
-    </>
+    <TradeWidgetSimpleVariant
+      isActive={true}
+      defaultSlippage={slippage}
+      feeRecipient={
+        appConfig.swapFees?.recipient || ZEROEX_AFFILIATE_ADDRESS
+      }
+      affiliateAddress={ZEROEX_AFFILIATE_ADDRESS}
+      buyTokenPercentageFee={
+        appConfig.swapFees?.amount_percentage
+          ? appConfig.swapFees?.amount_percentage / 100
+          : undefined
+      }
+      baseToken={baseToken}
+      quoteToken={quoteToken}
+      quoteTokens={tokens}
+      defaultOrderSide={
+        show === OrderMarketType.sell ? "sell" : "buy"
+      }
+      account={account}
+      provider={provider}
+      chainId={appChaind}
+      show={show}
+      useGasless={useGasless}
+    />
   );
 }

@@ -56,7 +56,7 @@ export function TokenTradeConfigForm({
     if (onChange && formData) {
       onChange(formData);
     }
-  }, [formData, onChange]);
+  }, [formData]);
 
   return (
     <Container sx={{ pt: isMobile ? 1 : 2, px: isMobile ? 1 : 2, pb: 2 }}>
