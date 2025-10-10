@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 
@@ -173,7 +172,7 @@ export default function CallConfirmDialog({
           {payable && (
             <Box>
               <Grid container spacing={2}>
-                <Grid item xs>
+                <Grid xs>
                   <TextField
                     label={
                       <FormattedMessage id="amount" defaultMessage="Amount" />
@@ -192,7 +191,7 @@ export default function CallConfirmDialog({
                     }
                   />
                 </Grid>
-                <Grid item>
+                <Grid>
                   <Select value={unit} onChange={handleChangeUnit}>
                     {PARSE_UNITS.map((unit, key) => (
                       <MenuItem value={unit} key={key}>

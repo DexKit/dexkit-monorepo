@@ -1,4 +1,3 @@
-// @ts-nocheck
 const ImportAssetDialog = dynamic(
   () => import("../../../orders/components/dialogs/ImportAssetDialog")
 );
@@ -427,7 +426,7 @@ export const CreateAssetOrderContainer = () => {
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Autocomplete
                 disablePortal
                 options={assets}
@@ -458,7 +457,7 @@ export const CreateAssetOrderContainer = () => {
               />
             </Grid>
             {hasChainDiff && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="warning">
                   <FormattedMessage
                     id="switch.network.content.text"
@@ -472,10 +471,10 @@ export const CreateAssetOrderContainer = () => {
               </Grid>
             )}
             {asset !== null ? (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Paper sx={{ p: 1 }}>
                   <Grid container spacing={1}>
-                    <Grid item>
+                    <Grid>
                       {asset?.metadata?.image === undefined ? (
                         <Skeleton
                           variant="rectangular"
@@ -498,7 +497,7 @@ export const CreateAssetOrderContainer = () => {
                         </Box>
                       )}
                     </Grid>
-                    <Grid item xs>
+                    <Grid xs>
                       <Typography variant="body2" color="textSecondary">
                         {asset?.collectionName === undefined ? (
                           <Skeleton />
@@ -548,7 +547,7 @@ export const CreateAssetOrderContainer = () => {
                 </Paper>
               </Grid>
             ) : (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="select.or.import.nft"
@@ -558,7 +557,7 @@ export const CreateAssetOrderContainer = () => {
               </Grid>
             )}
             {asset !== null && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {isAddressEqual(asset.owner, account) ? (
                   <MakeListingForm
                     disabled={hasChainDiff}

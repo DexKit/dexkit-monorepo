@@ -125,7 +125,7 @@ export default function EditTemplatePage() {
                     {({ submitForm, isValid, errors, isSubmitting }: any) => (
                       <Form>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Field
                               component={TextField}
                               name="name"
@@ -138,7 +138,7 @@ export default function EditTemplatePage() {
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <MarkdownDescriptionField
                               name="description"
                               label={
@@ -155,10 +155,10 @@ export default function EditTemplatePage() {
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <AbiInput />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Field
                               component={TextField}
                               name="bytecode"
@@ -173,7 +173,7 @@ export default function EditTemplatePage() {
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Button
                               variant="contained"
                               onClick={submitForm}

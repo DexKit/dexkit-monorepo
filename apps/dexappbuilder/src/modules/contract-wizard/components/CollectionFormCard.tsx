@@ -63,9 +63,9 @@ export default function CollectionFormCard() {
                       sx={
                         errors?.file
                           ? {
-                              border: (theme) =>
-                                `1px solid ${theme.palette.error.main}`,
-                            }
+                            border: (theme) =>
+                              `1px solid ${theme.palette.error.main}`,
+                          }
                           : undefined
                       }
                     >
@@ -97,7 +97,7 @@ export default function CollectionFormCard() {
                 />
               </Grid>
 
-              {/* <Grid item xs={12}>
+              {/* <Grid size={12}>
                 <Field
                   name="url"
                   component={TextField}

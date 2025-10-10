@@ -1,4 +1,3 @@
-// @ts-nocheck
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import {
   Box,
@@ -73,7 +72,7 @@ export default function VariantsTab({
       {({ submitForm, setFieldValue, values, errors, isValid }: any) => (
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Box>
                 <Stack spacing={2}>
                   <Stack spacing={0.5} direction="row" alignItems="center">
@@ -92,7 +91,7 @@ export default function VariantsTab({
                   </Typography>
                   <Box>
                     <Grid container spacing={2}>
-                      <Grid item xs={12} sm={4}>
+                      <Grid size={{ xs: 12, sm: 4 }}>
                         <Paper>
                           <img
                             src={imageUrl}
@@ -152,7 +151,7 @@ export default function VariantsTab({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               {variants.length > 0 && (
                 <>
                   <Typography variant="subtitle1" fontWeight="bold">

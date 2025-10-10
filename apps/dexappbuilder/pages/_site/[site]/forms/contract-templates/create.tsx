@@ -20,8 +20,8 @@ import { CreateTemplateSchemaType } from '@/modules/forms/types';
 import { MarkdownDescriptionField } from '@dexkit/ui/components';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import dynamic from 'next/dynamic';
-const FormikTextField = dynamic(() => import('formik-mui').then(mod => ({ default: mod.TextField })), { ssr: false });
 import { useSnackbar } from 'notistack';
+const FormikTextField = dynamic(() => import('formik-mui').then(mod => ({ default: mod.TextField })), { ssr: false });
 
 export default function CreateTemplatePage() {
   const router = useRouter();
@@ -111,7 +111,7 @@ export default function CreateTemplatePage() {
                   {({ submitForm, isValid, errors, isSubmitting }: any) => (
                     <Form>
                       <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             component={FormikTextField}
                             name="name"
@@ -124,7 +124,7 @@ export default function CreateTemplatePage() {
                             }
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <MarkdownDescriptionField
                             name="description"
                             label={
@@ -141,10 +141,10 @@ export default function CreateTemplatePage() {
                             }
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <AbiInput />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             component={FormikTextField}
                             name="bytecode"
@@ -159,7 +159,7 @@ export default function CreateTemplatePage() {
                             }
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Button
                             variant="contained"
                             onClick={submitForm}

@@ -199,7 +199,7 @@ export default function MinimalFocusSettings({
             />
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <ColorPickerField
                 label="Primary Color"
                 value={settings.primaryColor}
@@ -207,7 +207,7 @@ export default function MinimalFocusSettings({
                 defaultValue="#007AFF"
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <ColorPickerField
                 label="Accent Color"
                 value={settings.accentColor}
@@ -215,7 +215,7 @@ export default function MinimalFocusSettings({
                 defaultValue="#34C759"
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <ColorPickerField
                 label="Text Color"
                 value={settings.textColor}
@@ -291,7 +291,7 @@ export default function MinimalFocusSettings({
 
           {settings.backgroundType === "solid" && (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <ColorPickerField
                   label="Background Color"
                   value={settings.backgroundColor}
@@ -304,7 +304,7 @@ export default function MinimalFocusSettings({
 
           {(!settings.backgroundType || settings.backgroundType === "gradient") && (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <ColorPickerField
                   label="From"
                   value={settings.backgroundGradient?.from}
@@ -312,7 +312,7 @@ export default function MinimalFocusSettings({
                   defaultValue="#1a1a1a"
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <ColorPickerField
                   label="To"
                   value={settings.backgroundGradient?.to}
@@ -320,7 +320,7 @@ export default function MinimalFocusSettings({
                   defaultValue="#2d2d2d"
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <FormControl fullWidth>
                   <FormLabel>Direction</FormLabel>
                   <Select
@@ -515,7 +515,7 @@ export default function MinimalFocusSettings({
             />
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Typography gutterBottom>Component Spacing</Typography>
               <Slider
                 value={settings.spacing?.component || 3}
@@ -527,7 +527,7 @@ export default function MinimalFocusSettings({
                 valueLabelDisplay="auto"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Typography gutterBottom>Internal Spacing</Typography>
               <Slider
                 value={settings.spacing?.internal || 2}

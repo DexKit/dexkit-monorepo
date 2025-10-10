@@ -118,7 +118,7 @@ export default function ProductImagesDialog({
       <DialogContent dividers>
         <Grid container spacing={2}>
           {selection.length > 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 size="small"
                 startIcon={
@@ -136,7 +136,7 @@ export default function ProductImagesDialog({
             </Grid>
           )}
           {images.length === 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack spacing={1} alignItems="center">
                   <BrokenImageIcon fontSize="large" />
@@ -163,7 +163,7 @@ export default function ProductImagesDialog({
             </Grid>
           )}
           {images.map((image, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
               <ButtonBase
                 sx={{
                   position: "relative",

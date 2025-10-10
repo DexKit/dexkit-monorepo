@@ -429,7 +429,7 @@ export default function SocialWizardContainer({
               )}
             />
 
-            {/*   <Grid item xs={12}>
+            {/*   <Grid size={12}>
               <Field
                 component={TextField}
                 name="pinterest"

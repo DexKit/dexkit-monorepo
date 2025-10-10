@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Button,
   CircularProgress,
@@ -65,7 +64,7 @@ export default function ConfirmCloseDialog({
       <DialogContent dividers>
         <Grid container spacing={2}>
           {unsavedImages.map((img: string) => (
-            <Grid item xs={3}>
+            <Grid size={3}>
               <Img
                 src={img}
                 sx={{

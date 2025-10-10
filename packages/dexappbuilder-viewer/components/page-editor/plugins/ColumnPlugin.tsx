@@ -8,7 +8,7 @@ type Data = {
 // you can pass the shape of the data as the generic type argument
 const ColumnPlugin: CellPlugin<Data> = {
   Renderer: ({ data, children }) => (
-    <Grid item xs={data.width}>
+    <Grid size={data.width}>
       {children}
     </Grid>
   ),

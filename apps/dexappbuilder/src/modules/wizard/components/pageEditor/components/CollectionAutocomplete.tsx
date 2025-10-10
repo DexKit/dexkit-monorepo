@@ -62,7 +62,7 @@ export function CollectionAutocomplete(props: Props) {
           sx={{
             '& > img': { mr: theme.spacing(2), flexShrink: 0 },
             fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-            py: isMobile ? theme.spacing(1) : undefined
+            py: isMobile ? theme.spacing(1) : 'inherit'
           }}
           {...props}
         >

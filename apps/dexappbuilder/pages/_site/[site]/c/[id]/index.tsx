@@ -123,7 +123,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     isLoading: isTransferLoading,
     mutateAsync: transfer,
   } = useEvmTransferMutation({
-    onConfirm: () => {},
+    onConfirm: () => { },
     onSubmit: async (hash, params) => {
       setHash(hash);
 
@@ -356,7 +356,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
           coin: convertTokenToEvmCoin(token as TokenWhitelabelApp),
           chainId: chainId as number,
         });
-      } catch (err) {}
+      } catch (err) { }
     }
   };
 
@@ -403,7 +403,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
       />
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {
@@ -426,7 +426,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
             />
           </Grid>
 
-          <Grid item xs={12} sm={8}>
+          <Grid size={{ xs: 12, sm: 8 }}>
             <Formik
               key={JSON.stringify(initialValues)}
               initialValues={{
@@ -476,7 +476,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
               )}
             </Formik>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Card>
               <CardContent>
                 <Stack
@@ -762,7 +762,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

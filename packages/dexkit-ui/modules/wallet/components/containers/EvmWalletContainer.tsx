@@ -15,7 +15,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 
 import React, { useEffect, useState } from "react";
 
@@ -210,7 +210,7 @@ const EvmWalletContainer = () => {
         <Grid container spacing={3}>
           {/* Header Section */}
           {isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 3, mb: 2 }}>
                 <Stack spacing={3}>
                   <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
@@ -299,7 +299,7 @@ const EvmWalletContainer = () => {
           )}
 
           {isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 2, mb: 2 }}>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <TextField
@@ -337,7 +337,7 @@ const EvmWalletContainer = () => {
           )}
 
           {!isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 4, textAlign: 'center' }}>
                 <Stack spacing={3} alignItems="center">
                   <CloseCircle color="error" sx={{ fontSize: 48 }} />
@@ -362,7 +362,7 @@ const EvmWalletContainer = () => {
           )}
 
           {isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 2, mb: 2 }}>
                 <NoSsr>
                   <WalletBalances chainId={chainId} filter={search} />
@@ -372,7 +372,7 @@ const EvmWalletContainer = () => {
           )}
 
           {isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 2, mb: 2 }}>
                 <WalletActionButton
                   disabled={!isActive}
@@ -411,7 +411,7 @@ const EvmWalletContainer = () => {
           )}
 
           {isActive && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ overflow: 'hidden' }}>
                 <Tabs
                   value={selectedTab}

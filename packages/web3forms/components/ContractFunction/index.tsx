@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
@@ -328,7 +327,7 @@ export default function ContractFunction({
           )}
           <AccordionDetails sx={{ p: 2 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {description}
               </Grid>
               <ContractFunctionInputs
@@ -337,7 +336,7 @@ export default function ContractFunction({
                 params={params}
               />
               {hideInputs && Object.keys(errors).length > 0 && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert severity="warning">
                     <FormattedMessage
                       id="this.function.will.not.work.correctly.please.contact.the.creator"
@@ -347,7 +346,7 @@ export default function ContractFunction({
                 </Grid>
               )}
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack spacing={1} direction="row">
                     {!callOnMount && (

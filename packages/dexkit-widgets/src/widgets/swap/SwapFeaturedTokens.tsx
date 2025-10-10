@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants/enums";
 import { Avatar, Box, Chip, Grid, useTheme } from "@mui/material";
 import { memo } from "react";
@@ -31,7 +30,7 @@ function SwapFeaturedTokens({
           const isKitToken = isDexKitToken(token);
 
           return (
-            <Grid item key={index} wrap="wrap">
+            <Grid key={index} size="auto">
               <Chip
                 icon={
                   <Avatar

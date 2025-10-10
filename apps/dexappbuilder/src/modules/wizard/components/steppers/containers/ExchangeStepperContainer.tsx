@@ -160,7 +160,7 @@ export default function ExchangeStepperContainer({ site }: Props) {
             />
           </Stack>
         </Grid>
-        {/* <Grid item xs={12} sm={12}>
+        {/* <Grid size={{ xs: 12, sm: 12 }}>
           <WelcomeMessage />
         </Grid> */}
         <Grid

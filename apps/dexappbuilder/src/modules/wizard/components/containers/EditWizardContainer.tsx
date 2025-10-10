@@ -46,7 +46,6 @@ import { TourProvider, useTour } from '@reactour/tour';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { ErrorBoundary } from 'react-error-boundary';
 import { BuilderKit } from '../../constants';
 import { OnboardBuilderSteps } from '../../constants/onboard/steps';
 import SiteWizardProvider from '../../providers/SiteWizardProvider';
@@ -161,11 +160,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 function TourButton() {
@@ -559,7 +558,7 @@ export function EditWizardContainer({ site }: Props) {
               </Stack>
             )}
           </Grid>
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
@@ -641,7 +640,7 @@ export function EditWizardContainer({ site }: Props) {
               </Stack>
             </Stack>
           </Grid>
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack spacing={theme.spacing(2)} direction={'row'} alignItems={'center'}>
               <Typography variant="body2" sx={{ maxWidth: theme.spacing(37.5) }}>
                 <FormattedMessage
@@ -698,7 +697,7 @@ export function EditWizardContainer({ site }: Props) {
                     {activeMenu === ActiveMenu.AppVersion &&
                       config &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <AppVersionWizardContainer site={site} />
                       )}
 
@@ -722,7 +721,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Team &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <TeamWizardContainer site={site} />
                       )}
 
@@ -807,7 +806,7 @@ export function EditWizardContainer({ site }: Props) {
 
                     {activeMenu === ActiveMenu.Rankings &&
                       site?.owner?.toLowerCase() ===
-                        user?.address?.toLowerCase() && (
+                      user?.address?.toLowerCase() && (
                         <RankingWizardContainer siteId={site?.id} />
                       )}
 
@@ -900,7 +899,7 @@ export function EditWizardContainer({ site }: Props) {
               </div>
             </Box>
             {/*false && theme && (
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ThemeProvider theme={selectedTheme ? selectedTheme : theme}>
                 <Container>
                   <PagePreviewPaper

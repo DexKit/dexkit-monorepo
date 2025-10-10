@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getWindowUrl } from "@dexkit/core/utils/browser";
 import AppConfirmDialog from "@dexkit/ui/components/AppConfirmDialog";
 import ShareDialog from "@dexkit/ui/components/dialogs/ShareDialog";
@@ -110,7 +109,7 @@ export default function UserContractSection({ section }: Props) {
       <Container sx={{ py: 2 }}>
         <Grid container spacing={2}>
           {!section?.hideFormInfo && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormInfoCard
                 onClone={handleCloneForm}
                 onEdit={handleEdit}
@@ -126,7 +125,7 @@ export default function UserContractSection({ section }: Props) {
               />
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             {formQuery.data?.params ? (
               <ContractFormView params={formQuery.data?.params} />
             ) : null}

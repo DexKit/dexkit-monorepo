@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
 import { getBlockExplorerUrl, truncateAddress } from "@dexkit/core/utils";
@@ -332,7 +331,7 @@ export default function ClaimAirdropERC20Section({
         </Typography>
         <Divider />
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -352,7 +351,7 @@ export default function ClaimAirdropERC20Section({
               </Link>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>
                 <FormattedMessage
@@ -372,7 +371,7 @@ export default function ClaimAirdropERC20Section({
               )}
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>
                 <FormattedMessage id="expire.at" defaultMessage="Expire at" />
@@ -380,7 +379,7 @@ export default function ClaimAirdropERC20Section({
               <Typography color="text.secondary">{countDown}</Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>
                 <FormattedMessage
@@ -400,7 +399,7 @@ export default function ClaimAirdropERC20Section({
               )}
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={"flex"} justifyContent={"center"}>
               <Button
                 onClick={() =>

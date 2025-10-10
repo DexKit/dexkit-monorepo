@@ -54,7 +54,7 @@ const OrderDetail: NextPage = () => {
   return (
     <Container>
       <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             breadcrumbs={[
               {

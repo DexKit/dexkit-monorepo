@@ -101,7 +101,7 @@ export default function SelectIconDialog({
         </Box>
         <Divider />
         <Grid container>
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 3 }}>
             <Box p={2}>
               <FormControl>
                 <FormLabel id="theme">
@@ -136,7 +136,7 @@ export default function SelectIconDialog({
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs>
+          <Grid xs>
             <SelectIconGrid
               onSelect={handleSelect}
               value={selectedIcon}

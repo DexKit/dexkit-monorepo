@@ -1,4 +1,3 @@
-// @ts-nocheck
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button, Grid, Paper } from "@mui/material";
@@ -16,9 +15,9 @@ export default function SelectTab({
 }: SelectTabProps) {
   return (
     <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={8}>
+          <Grid size={{ xs: 12, sm: 8 }}>
             <Paper>
               <img
                 src={imageUrl}
@@ -26,7 +25,7 @@ export default function SelectTab({
               />
             </Paper>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Button
               onClick={onGenVariants}
               startIcon={<ContentCopyIcon />}
@@ -36,7 +35,7 @@ export default function SelectTab({
               <FormattedMessage id="variants" defaultMessage="Variants" />
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Button
               onClick={onEdit}
               startIcon={<EditIcon />}

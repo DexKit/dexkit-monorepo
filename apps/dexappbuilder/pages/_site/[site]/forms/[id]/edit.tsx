@@ -174,7 +174,7 @@ export default function FormsEditPage() {
           </NoSsr>
 
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={3}>
                 <Box>
                   <Button
@@ -214,7 +214,7 @@ export default function FormsEditPage() {
 
                     <Box>
                       <Grid container spacing={2} alignItems="flex-start">
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                           <FormControl fullWidth>
                             <FormLabel component="legend" sx={{ mb: 1, fontWeight: 'bold' }}>
                               <FormattedMessage
@@ -251,8 +251,8 @@ export default function FormsEditPage() {
                             </FormHelperText>
                           </FormControl>
                         </Grid>
-                        
-                        <Grid item xs={12} md={6}>
+
+                        <Grid size={{ xs: 12, md: 6 }}>
                           <Stack spacing={2}>
                             <Stack
                               direction="row"
@@ -277,10 +277,10 @@ export default function FormsEditPage() {
                                 />
                               </Button>
                             </Stack>
-                            
-                            <Paper 
-                              sx={{ 
-                                p: 4, 
+
+                            <Paper
+                              sx={{
+                                p: 4,
                                 minHeight: 300,
                                 border: (theme) => `1px solid ${theme.palette.divider}`,
                                 borderRadius: 2

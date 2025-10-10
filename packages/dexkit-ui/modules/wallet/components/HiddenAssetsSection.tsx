@@ -251,7 +251,7 @@ function HiddenAssetsSection({ onOpenFilters, filters, setFilters }: Props) {
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12} sx={{
+        <Grid container size={openFilter ? 9 : 12} sx={{
           display: 'grid !important',
           gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
           gridAutoRows: 'minmax(300px, auto)',

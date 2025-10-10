@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Box,
   Button,
@@ -258,13 +257,13 @@ export default function SwapTokenFieldGlass({
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs="auto">
+            <Grid size="auto">
               {renderTokenButton()}
             </Grid>
 
-            <Grid item xs>
+            <Grid xs>
               <Box sx={{ textAlign: 'right' }}>
                 <CurrencyField
                   value={value}
@@ -313,9 +312,9 @@ export default function SwapTokenFieldGlass({
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container justifyContent="space-between" alignItems="center" spacing={1}>
-            <Grid item xs="auto">
+            <Grid size="auto">
               {showBalance && balance && token && (
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography
@@ -368,7 +367,7 @@ export default function SwapTokenFieldGlass({
               )}
             </Grid>
 
-            <Grid item xs="auto">
+            <Grid size="auto">
               {price && (
                 <Typography
                   variant={isSmallScreen ? "caption" : "body2"}

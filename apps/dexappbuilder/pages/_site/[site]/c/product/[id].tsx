@@ -39,11 +39,11 @@ export default function CommerceProduct({ siteId }: CommerceProductProps) {
       uri: string;
       active?: boolean;
     }[] = [
-      {
-        caption: <FormattedMessage id="home" defaultMessage="Home" />,
-        uri: `/`,
-      },
-    ];
+        {
+          caption: <FormattedMessage id="home" defaultMessage="Home" />,
+          uri: `/`,
+        },
+      ];
 
     if (product) {
       if (product.category) {
@@ -67,11 +67,11 @@ export default function CommerceProduct({ siteId }: CommerceProductProps) {
     <>
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader breadcrumbs={breadcrumbs} />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ProductContent productId={(id as string) ?? ''} disableHeader />
           </Grid>
         </Grid>
@@ -115,7 +115,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

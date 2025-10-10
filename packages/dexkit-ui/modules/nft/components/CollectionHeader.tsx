@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -58,11 +57,10 @@ export function CollectionHeader(props: Props) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid container spacing={2}>
           <Grid
-            item
-            xs={12}
+            size={12}
             sx={{
               backgroundImage: collectionBackgroundImage
                 ? `url(${collectionBackgroundImage})`
@@ -104,7 +102,7 @@ export function CollectionHeader(props: Props) {
               )}
             </Box>
           </Grid>
-          <Grid size={{ xs: 12, sm: true }}>
+          <Grid size={{ xs: 12, sm: "auto" }}>
             <Typography
               sx={{
                 display: "block",
@@ -121,7 +119,7 @@ export function CollectionHeader(props: Props) {
           {/* unlock-widget deprecated */}
 
           {collection?.description && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography
                 sx={{
                   display: "block",

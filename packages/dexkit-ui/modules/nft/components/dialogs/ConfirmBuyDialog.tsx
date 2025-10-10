@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Alert,
   Button,
@@ -140,9 +139,9 @@ export default function ConfirmBuyDialog({
 
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 {metadata?.image === undefined ? (
                   <Skeleton
                     variant="rectangular"
@@ -159,7 +158,7 @@ export default function ConfirmBuyDialog({
                   />
                 )}
               </Grid>
-              <Grid item xs>
+              <Grid xs>
                 <Stack spacing={1}>
                   <Box>
                     <Typography variant="caption" color="textSecondary">
@@ -299,7 +298,7 @@ export default function ConfirmBuyDialog({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               spacing={1}
               direction="row"
@@ -342,7 +341,7 @@ export default function ConfirmBuyDialog({
             </Stack>
           </Grid>
           {!hasSufficientFunds && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">
                 <FormattedMessage
                   defaultMessage="Insufficient Funds"

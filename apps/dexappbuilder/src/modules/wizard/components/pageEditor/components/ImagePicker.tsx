@@ -7,8 +7,11 @@ import ImageIcon from '@mui/icons-material/Image';
 import { connectField, useForm } from 'uniforms';
 
 const CustomImage = styled('img')(({ theme }) => ({
-  height: 'auto',
+  height: '100%',
   width: '100%',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 const CustomImageIcon = styled(ImageIcon)(({ theme }) => ({
@@ -28,7 +31,7 @@ export const ImagePicker = connectField<{
   const { formRef, onChange } = useForm();
 
   return (
-    <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : undefined }}>
+    <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : 'inherit' }}>
       <MediaDialog
         dialogProps={{
           open: openMediaDialog,

@@ -107,7 +107,7 @@ export function SearchMultiTokenAutocomplete(props: Props) {
             size={isMobile ? "small" : "medium"}
             sx={{
               fontSize: isMobile ? theme.typography.caption.fontSize : undefined,
-              height: isMobile ? theme.spacing(3) : undefined
+              height: isMobile ? theme.spacing(3) : 'auto'
             }}
           />
         ));
@@ -151,8 +151,8 @@ export function SearchMultiTokenAutocomplete(props: Props) {
           fontSize: isMobile ? theme.typography.body2.fontSize : undefined
         },
         '& .MuiAutocomplete-option': {
-          minHeight: isMobile ? theme.spacing(4.5) : undefined,
-          padding: isMobile ? `${theme.spacing(0.5)} ${theme.spacing(1)}` : undefined
+          minHeight: isMobile ? theme.spacing(4.5) : 'auto',
+          padding: isMobile ? `${theme.spacing(0.5)} ${theme.spacing(1)}` : 'inherit'
         }
       }}
     />

@@ -142,7 +142,7 @@ export const PageTemplateIndexPage: NextPage = () => {
     <>
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {
@@ -164,7 +164,7 @@ export const PageTemplateIndexPage: NextPage = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Alert severity="info">
               <FormattedMessage
                 id="wizard.welcome.index.message"
@@ -181,7 +181,7 @@ export const PageTemplateIndexPage: NextPage = () => {
               />
             </Alert>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -209,10 +209,10 @@ export const PageTemplateIndexPage: NextPage = () => {
               />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {renderTable()}
           </Grid>
         </Grid>

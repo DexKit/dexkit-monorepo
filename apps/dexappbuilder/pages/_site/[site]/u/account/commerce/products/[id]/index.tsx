@@ -38,7 +38,7 @@ function UpdateProductComponent({ product }: UpdateProductComponentProps) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader
           breadcrumbs={[
             {
@@ -61,7 +61,7 @@ function UpdateProductComponent({ product }: UpdateProductComponentProps) {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={toFormikValidationSchema(ProductSchema)}

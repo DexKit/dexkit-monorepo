@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { copyToClipboard } from "@dexkit/core/utils";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import ShareIcon from "@mui/icons-material/Share";
@@ -53,7 +52,7 @@ function ShareDialog({ dialogProps, url }: Props) {
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               value={url}

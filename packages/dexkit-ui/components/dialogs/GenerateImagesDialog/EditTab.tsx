@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Box,
   Button,
@@ -116,7 +115,7 @@ export default function EditTab({
       }: any) => (
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Stack spacing={2}>
                 <Stack justifyContent="center" alignItems="center">
                   <Box>
@@ -181,7 +180,7 @@ export default function EditTab({
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               {renderResults(values)}
             </Grid>
           </Grid>

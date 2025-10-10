@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { DexkitApiProvider } from "@dexkit/core/providers";
 import { useDexKitContext, useEditSiteId } from "@dexkit/ui/hooks";
 import { useUserEventsList } from "@dexkit/ui/hooks/userEvents";
@@ -406,11 +405,11 @@ export default function ReferralSection({
                     account
                       ? ""
                       : ((
-                          <FormattedMessage
-                            id="connect.wallet.first"
-                            defaultMessage="Connect wallet to get your referral link"
-                          />
-                        ) as any)
+                        <FormattedMessage
+                          id="connect.wallet.first"
+                          defaultMessage="Connect wallet to get your referral link"
+                        />
+                      ) as any)
                   }
                   InputProps={{
                     readOnly: true,
@@ -442,7 +441,7 @@ export default function ReferralSection({
                       </Typography>
 
                       <Grid container spacing={3} sx={{ mt: 1 }}>
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -472,7 +471,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -502,7 +501,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -532,7 +531,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -728,7 +727,7 @@ export default function ReferralSection({
                       </Typography>
 
                       <Grid container spacing={3} sx={{ mt: 1 }}>
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -760,7 +759,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -794,7 +793,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -826,7 +825,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{

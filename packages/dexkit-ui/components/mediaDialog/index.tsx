@@ -20,8 +20,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -347,133 +347,133 @@ export default function MediaDialog({
             {file && (
               <Grid size={12}>
                 <Box display="flex" justifyContent="center">
-                <Stack
-                  spacing={2}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <Box
-                    sx={{
-                      position: "relative",
-                      width: "100%",
-                      flex: 1,
-                      p: 2,
-                      backgroundColor: (theme) =>
-                        theme.palette.mode === "light"
-                          ? theme.palette.grey[300]
-                          : alpha(theme.palette.common.white, 0.2),
-                      borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
-                    }}
+                  <Stack
+                    spacing={2}
+                    justifyContent={"center"}
+                    alignItems={"center"}
                   >
                     <Box
                       sx={{
-                        backgroundImage: `url("${URL.createObjectURL(file)}")`,
-
-                        height: (theme) => theme.spacing(22),
+                        position: "relative",
                         width: "100%",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
+                        flex: 1,
+                        p: 2,
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === "light"
+                            ? theme.palette.grey[300]
+                            : alpha(theme.palette.common.white, 0.2),
                         borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       }}
-                    />
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        backgroundColor: "rgba(0, 0, 0, 0.1)",
-                        top: 0,
-                        left: 0,
-                        bottom: 0,
-                        right: 0,
-                        borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
-                      }}
-                    />
-                  </Box>
-                  <Stack spacing={2} direction={"row"}>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      disabled={
-                        fileUploadMutation.isLoading ||
-                        fileUploadMutation.isSuccess ||
-                        file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
-                      }
-                      onClick={onUploadFile}
-                      startIcon={
-                        fileUploadMutation.isLoading && (
-                          <CircularProgress color="inherit" size="1rem" />
-                        )
-                      }
                     >
-                      {fileUploadMutation.isLoading && (
-                        <>
-                          <FormattedMessage
-                            id="uploading"
-                            defaultMessage="Uploading"
-                          />{" "}
-                          {fileUploadProgress} %
-                        </>
-                      )}
+                      <Box
+                        sx={{
+                          backgroundImage: `url("${URL.createObjectURL(file)}")`,
 
-                      {fileUploadMutation.isSuccess && (
-                        <>
-                          <FormattedMessage
-                            id="uploaded"
-                            defaultMessage="Uploaded"
-                          />{" "}
-                          {fileUploadProgress} %
-                        </>
-                      )}
-
-                      {fileUploadMutation.isError && (
-                        <>
-                          <FormattedMessage
-                            id="error.try.again"
-                            defaultMessage="Error. Try again?"
-                          />
-                        </>
-                      )}
-
-                      {fileUploadMutation.isIdle && (
-                        <FormattedMessage id="upload" defaultMessage="Upload" />
-                      )}
-                    </Button>
-
-                    <Button
-                      color="warning"
-                      variant="contained"
-                      onClick={() => {
-                        setFile(undefined);
-                        fileUploadMutation.reset();
-                      }}
-                    >
-                      <FormattedMessage id="cancel" defaultMessage="Cancel" />
-                    </Button>
-                  </Stack>
-                  <Box>
-                    <Typography
-                      variant={"body1"}
-                      sx={{
-                        color:
-                          file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
-                            ? "error.main"
-                            : undefined,
-                      }}
-                    >
-                      <FormattedMessage
-                        id="max.image.size"
-                        defaultMessage="Max image size: 2 Mb"
+                          height: (theme) => theme.spacing(22),
+                          width: "100%",
+                          backgroundSize: "contain",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                        }}
                       />
-                    </Typography>
-                  </Box>
-                  {fileUploadMutation.isError && (
-                    <Box sx={{ p: 2 }}>
-                      <FormattedMessage id="reason" defaultMessage="Reason" />:{" "}
-                      {`${(fileUploadMutation.error as any)?.response?.data
-                        ?.message}`}
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          backgroundColor: "rgba(0, 0, 0, 0.1)",
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+                        }}
+                      />
                     </Box>
-                  )}
-                </Stack>
+                    <Stack spacing={2} direction={"row"}>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        disabled={
+                          fileUploadMutation.isLoading ||
+                          fileUploadMutation.isSuccess ||
+                          file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
+                        }
+                        onClick={onUploadFile}
+                        startIcon={
+                          fileUploadMutation.isLoading && (
+                            <CircularProgress color="inherit" size="1rem" />
+                          )
+                        }
+                      >
+                        {fileUploadMutation.isLoading && (
+                          <>
+                            <FormattedMessage
+                              id="uploading"
+                              defaultMessage="Uploading"
+                            />{" "}
+                            {fileUploadProgress} %
+                          </>
+                        )}
+
+                        {fileUploadMutation.isSuccess && (
+                          <>
+                            <FormattedMessage
+                              id="uploaded"
+                              defaultMessage="Uploaded"
+                            />{" "}
+                            {fileUploadProgress} %
+                          </>
+                        )}
+
+                        {fileUploadMutation.isError && (
+                          <>
+                            <FormattedMessage
+                              id="error.try.again"
+                              defaultMessage="Error. Try again?"
+                            />
+                          </>
+                        )}
+
+                        {fileUploadMutation.isIdle && (
+                          <FormattedMessage id="upload" defaultMessage="Upload" />
+                        )}
+                      </Button>
+
+                      <Button
+                        color="warning"
+                        variant="contained"
+                        onClick={() => {
+                          setFile(undefined);
+                          fileUploadMutation.reset();
+                        }}
+                      >
+                        <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                      </Button>
+                    </Stack>
+                    <Box>
+                      <Typography
+                        variant={"body1"}
+                        sx={{
+                          color:
+                            file?.size > MAX_ACCOUNT_FILE_UPLOAD_SIZE
+                              ? "error.main"
+                              : undefined,
+                        }}
+                      >
+                        <FormattedMessage
+                          id="max.image.size"
+                          defaultMessage="Max image size: 2 Mb"
+                        />
+                      </Typography>
+                    </Box>
+                    {fileUploadMutation.isError && (
+                      <Box sx={{ p: 2 }}>
+                        <FormattedMessage id="reason" defaultMessage="Reason" />:{" "}
+                        {`${(fileUploadMutation.error as any)?.response?.data
+                          ?.message}`}
+                      </Box>
+                    )}
+                  </Stack>
                 </Box>
               </Grid>
             )}
@@ -536,69 +536,69 @@ export default function MediaDialog({
             {!file && (
               <Grid size={12}>
                 <Box display="flex" justifyContent="center">
-                {filesQuery.isSuccess && filesQuery.data?.total === 0 && (
-                  <Stack
-                    spacing={2}
-                    justifyContent={"center"}
-                    alignContent={"center"}
-                    alignItems={"center"}
-                  >
-                    <CustomButton onClick={handleClick}>
-                      <FormattedMessage
-                        id="add.image"
-                        defaultMessage="Add image"
-                      />
-                    </CustomButton>
-                    {!search ? (
-                      <>
+                  {filesQuery.isSuccess && filesQuery.data?.total === 0 && (
+                    <Stack
+                      spacing={2}
+                      justifyContent={"center"}
+                      alignContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <CustomButton onClick={handleClick}>
+                        <FormattedMessage
+                          id="add.image"
+                          defaultMessage="Add image"
+                        />
+                      </CustomButton>
+                      {!search ? (
+                        <>
+                          <Typography>
+                            <FormattedMessage
+                              id="empty.gallery.start.adding.images"
+                              defaultMessage="Empty gallery. Start adding images."
+                            />
+                          </Typography>
+                          <Typography variant={"body1"}>
+                            <FormattedMessage
+                              id="max.image.size"
+                              defaultMessage="Max image size: 1 Mb"
+                            />
+                          </Typography>
+                        </>
+                      ) : (
                         <Typography>
                           <FormattedMessage
-                            id="empty.gallery.start.adding.images"
-                            defaultMessage="Empty gallery. Start adding images."
+                            id="no.images.found.with.that.name"
+                            defaultMessage="No images found with that name."
                           />
                         </Typography>
-                        <Typography variant={"body1"}>
-                          <FormattedMessage
-                            id="max.image.size"
-                            defaultMessage="Max image size: 1 Mb"
-                          />
-                        </Typography>
-                      </>
-                    ) : (
-                      <Typography>
-                        <FormattedMessage
-                          id="no.images.found.with.that.name"
-                          defaultMessage="No images found with that name."
-                        />
-                      </Typography>
-                    )}
-                  </Stack>
-                )}
+                      )}
+                    </Stack>
+                  )}
                 </Box>
               </Grid>
             )}
             {!isActive && (
               <Grid size={12}>
                 <Box display="flex" justifyContent="center">
-                <Stack
-                  spacing={2}
-                  justifyContent={"center"}
-                  alignContent={"center"}
-                  alignItems={"center"}
-                >
-                  <CustomButton onClick={connectWallet}>
-                    <FormattedMessage
-                      id="connect.wallet"
-                      defaultMessage="Connect wallet"
-                    />
-                  </CustomButton>
-                  <Typography>
-                    <FormattedMessage
-                      id="connect.wallet.to.see.or.upload.images"
-                      defaultMessage="Connect wallet to see or upload images."
-                    />
-                  </Typography>
-                </Stack>
+                  <Stack
+                    spacing={2}
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <CustomButton onClick={connectWallet}>
+                      <FormattedMessage
+                        id="connect.wallet"
+                        defaultMessage="Connect wallet"
+                      />
+                    </CustomButton>
+                    <Typography>
+                      <FormattedMessage
+                        id="connect.wallet.to.see.or.upload.images"
+                        defaultMessage="Connect wallet to see or upload images."
+                      />
+                    </Typography>
+                  </Stack>
                 </Box>
               </Grid>
             )}
@@ -811,24 +811,24 @@ export default function MediaDialog({
 
             <Grid size={12}>
               <Box display="flex" justifyContent="flex-end">
-              {filesQuery.isSuccess &&
-                filesQuery?.data &&
-                filesQuery?.data?.total > 0 && (
-                  <Pagination
-                    page={page + 1}
-                    onChange={(_ev, _page) => setPage(_page - 1)}
-                    count={
-                      Math.floor(
-                        filesQuery?.data?.total / filesQuery?.data?.take
-                      ) + 1
-                    }
-                  />
-                )}
+                {filesQuery.isSuccess &&
+                  filesQuery?.data &&
+                  filesQuery?.data?.total > 0 && (
+                    <Pagination
+                      page={page + 1}
+                      onChange={(_ev, _page) => setPage(_page - 1)}
+                      count={
+                        Math.floor(
+                          filesQuery?.data?.total / filesQuery?.data?.take
+                        ) + 1
+                      }
+                    />
+                  )}
               </Box>
             </Grid>
           </Grid>
           {/*selectedFile && (
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <Typography>
                   <FormattedMessage id="name" defaultMessage="Name" />
                 </Typography>

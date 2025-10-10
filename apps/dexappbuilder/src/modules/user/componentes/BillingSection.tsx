@@ -1,4 +1,5 @@
 import AddCreditsButton from '@dexkit/ui/components/AddCreditsButton';
+import { useIsMobile } from '@dexkit/ui/hooks/misc';
 import {
   usePlanCheckoutMutation,
   usePlanPrices,
@@ -15,7 +16,6 @@ import {
 import Decimal from 'decimal.js';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import { useIsMobile } from '@dexkit/ui/hooks/misc';
 
 import { useBillingHistoryQuery, useSubscription } from '../hooks/payments';
 import CreditSection from './CreditSection';
@@ -106,7 +106,7 @@ export default function BillingSection() {
             {/* {subscriptionQuery.isSuccess && !subscriptionQuery.data && (
               <Grid container spacing={2}>
                 {planPricesQuery.data?.map((pp, key) => (
-                  <Grid item xs={12} sm={4} key={key}>
+                  <Grid size={{ xs: 12, sm: 4 }} key={key}>
                     <PlanCard
                       disabled={isLoading}
                       name={pp.name}
@@ -119,9 +119,9 @@ export default function BillingSection() {
                 ))}
               </Grid>
             )} */}
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
               alignItems: isMobile ? 'flex-start' : 'center',
               width: '100%',
               flexDirection: isMobile ? 'column' : 'row',
@@ -131,9 +131,9 @@ export default function BillingSection() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="credits" defaultMessage="Credits" />
                 </Typography>
-                <Typography variant="body1" sx={{ 
-                  fontSize: isMobile ? '1rem' : '1.1rem', 
-                  fontWeight: 500 
+                <Typography variant="body1" sx={{
+                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontWeight: 500
                 }}>
                   {subscriptionQuery.data ? (
                     <FormattedNumber
@@ -148,7 +148,7 @@ export default function BillingSection() {
                   )}
                 </Typography>
               </Box>
-              <Box sx={{ 
+              <Box sx={{
                 width: isMobile ? '100%' : 'auto',
                 '& button': {
                   width: isMobile ? '100%' : 'auto'
@@ -159,7 +159,7 @@ export default function BillingSection() {
             </Box>
           </CardContent>
         </Card>
-        <Typography variant="h6" sx={{ 
+        <Typography variant="h6" sx={{
           mb: 2,
           fontSize: isMobile ? '1.1rem' : '1.25rem'
         }}>

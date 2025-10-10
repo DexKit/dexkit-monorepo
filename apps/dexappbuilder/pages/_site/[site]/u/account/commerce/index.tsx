@@ -12,12 +12,12 @@ function CommerceHomePageComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6">
           <FormattedMessage id="home" defaultMessage="Home" />
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid size={{ xs: 12, sm: 3 }}>
         <Card>
           <CardContent>
             <Typography color="text.secondary" variant="caption">
@@ -32,7 +32,7 @@ function CommerceHomePageComponent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid size={{ xs: 12, sm: 3 }}>
         <Card>
           <CardContent>
             <Typography color="text.secondary" variant="caption">

@@ -60,10 +60,10 @@ export default function CheckoutAddProductDialog({
       />
       <DialogContent sx={{ py: 2, px: 4 }} dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ProductsAutocomplete product={product} onChange={handleChange} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Counter
               onDecrement={handleDecrement}
               onIncrement={handleIncrement}

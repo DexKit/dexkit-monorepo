@@ -487,7 +487,7 @@ export default function ContractDeployContainer({
             {formConfigParamsQuery.data && (
               <Box>
                 <Grid spacing={2} container>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper sx={{ p: { xs: 1.5, sm: 2 } }}>
                       <Stack>
                         <Stack
@@ -581,7 +581,7 @@ export default function ContractDeployContainer({
                       </Stack>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Select
                       renderValue={(value) => {
                         return (
@@ -629,7 +629,7 @@ export default function ContractDeployContainer({
                         ))}
                     </Select>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <GenericForm
                       output={{
                         objects: formConfigParamsQuery.data.output,
@@ -656,7 +656,7 @@ export default function ContractDeployContainer({
                   </Grid>
 
                   {contractTutorial && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Paper elevation={0} sx={{ p: { xs: 1.5, sm: 2 }, mt: { xs: 1, sm: 2 }, bgcolor: 'background.paper' }}>
                         <Typography variant="h6" gutterBottom sx={{ mb: { xs: 1, sm: 2 }, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                           <FormattedMessage
@@ -668,7 +668,7 @@ export default function ContractDeployContainer({
 
                         <Grid container spacing={3}>
                           {contractTutorial.videos.length > 0 && contractTutorial.videos.map((video, index) => (
-                            <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 6} key={video.id}>
+                            <Grid size={{ xs: 12, md: contractTutorial.videos.length >= 2 ? 4 : 6 }} key={video.id}>
                               <Card>
                                 <CardMedia
                                   component="iframe"
@@ -696,7 +696,7 @@ export default function ContractDeployContainer({
                             </Grid>
                           ))}
 
-                          <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 12}>
+                          <Grid size={{ xs: 12, md: contractTutorial.videos.length >= 2 ? 4 : 12 }}>
                             <Card sx={{ height: '100%' }}>
                               <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography

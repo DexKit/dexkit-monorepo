@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { formatBigNumber } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
@@ -29,7 +28,7 @@ export default function TokenSummary({ address }: TokenSummaryProps) {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid>
           <Typography variant="caption" color="text.secondary">
             <FormattedMessage id="your.balance" defaultMessage="Your balance" />
           </Typography>
@@ -38,7 +37,7 @@ export default function TokenSummary({ address }: TokenSummaryProps) {
             {balance?.symbol}
           </Typography>
         </Grid>
-        <Grid item>
+        <Grid>
           <Typography variant="caption" color="text.secondary">
             <FormattedMessage id="total.supply" defaultMessage="Total Supply" />
           </Typography>

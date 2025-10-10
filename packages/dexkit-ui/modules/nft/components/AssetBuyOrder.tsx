@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Button, Grid, NoSsr, Stack } from "@mui/material";
 import { Suspense, useCallback, useState } from "react";
@@ -478,7 +477,7 @@ export function AssetBuyOrder({ asset, orderBookItem }: Props) {
         url={shareUrl}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <QueryErrorResetBoundary>
             {({ reset }) => (
               <div>

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Divider,
   Grid,
@@ -74,7 +73,7 @@ export function AssetPageActions({ address, id }: Props) {
         )}/${address}/${id}`}
       />
       <Grid container spacing={2} alignItems="stretch" alignContent="center">
-        <Grid item xs>
+        <Grid xs>
           {asset?.protocol === "ERC721" ? (
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
               <Typography
@@ -122,7 +121,7 @@ export function AssetPageActions({ address, id }: Props) {
             )
           )}
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
             <Stack
               direction="row"

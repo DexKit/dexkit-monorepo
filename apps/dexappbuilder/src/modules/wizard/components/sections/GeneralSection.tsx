@@ -67,8 +67,11 @@ interface Props {
 
 const CustomImage = styled('img')(({ theme }) => ({
   width: '100%',
-  height: 'auto',
+  height: '100%',
   display: 'block',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 const NoImage = styled(ImageIcon)(({ theme }) => ({

@@ -448,7 +448,7 @@ export default function TokenWizardContainer({
                             size={isMobile ? "small" : "medium"}
                             sx={{
                               fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-                              py: isMobile ? theme.spacing(0.75) : undefined,
+                              py: isMobile ? theme.spacing(0.75) : 'inherit',
                             }}
                           >
                             <FormattedMessage

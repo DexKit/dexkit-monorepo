@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useIsMobile } from "@dexkit/core";
 import { NETWORK_FROM_SLUG } from "@dexkit/core/constants/networks";
 import { UserEvents } from "@dexkit/core/constants/userEvents";
@@ -607,12 +606,12 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   const renderContent = () => {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h5">
             <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {nfts.data && (
             <NFTGrid nfts={nfts.data} network={network} address={address} />
           )}
@@ -866,7 +865,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
           spacing={2}
           sx={{ justifyContent: { sm: "flex-start", xs: "center" } }}
         >
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               justifyContent={{ xs: "center", sm: "flex-start" }}
               alignItems="center"
@@ -888,7 +887,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </Stack>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Typography
                 sx={{ textAlign: { sm: "left", xs: "center" } }}
@@ -913,16 +912,16 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </Box>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
           {section.settings.variant === "detailed" && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <NFTDropSummary contract={contract} />
               </Grid>
               {activeClaimCondition.data?.metadata?.name && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -944,7 +943,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 </Grid>
               )}
               {nextPhase && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -964,7 +963,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 </Grid>
               )}
               {nextPhase && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -989,7 +988,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </>
           )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {isSoldOut ? (
               <Typography variant={"h2"}>
                 <FormattedMessage id={"sold.out"} defaultMessage={"Sold out"} />
@@ -1869,11 +1868,11 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {renderClaim()}
         </Grid>
         {section.settings.variant === "detailed" ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>{renderContent()}</Box>
           </Grid>
         ) : null}

@@ -48,7 +48,7 @@ function NotificationsPageComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader
           breadcrumbs={[
             {
@@ -70,12 +70,12 @@ function NotificationsPageComponent() {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6">
           <FormattedMessage id="notifications" defaultMessage="Notifications" />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Paper>
           <Tabs
             onChange={async (e, value) => {
@@ -127,7 +127,7 @@ function NotificationsPageComponent() {
           />
         </Paper>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TablePagination
           component="div"
           count={notifications?.totalItems ?? 0}

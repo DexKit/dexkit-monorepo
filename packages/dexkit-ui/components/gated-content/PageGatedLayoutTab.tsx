@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Grid, Stack, Typography, styled } from '@mui/material';
+import { Box, ButtonBase, Grid, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
@@ -245,7 +245,7 @@ export default function PageGatedLayoutTab({
                     </Typography>
                   </Grid>
                   {/*
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Field
                       component={TextField}
                       type="text"

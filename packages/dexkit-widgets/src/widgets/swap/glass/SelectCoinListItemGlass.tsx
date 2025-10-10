@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import type { TokenBalances } from "@indexed-finance/multicall";
 import {
@@ -208,7 +207,7 @@ function SelectCoinListItemGlass({
       }}
     >
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs="auto">
+        <Grid size="auto">
           <ListItemAvatar
             sx={{
               minWidth: {
@@ -223,7 +222,7 @@ function SelectCoinListItemGlass({
           </ListItemAvatar>
         </Grid>
 
-        <Grid item xs>
+        <Grid xs>
           <ListItemText
             primary={
               <Typography
@@ -266,7 +265,7 @@ function SelectCoinListItemGlass({
           />
         </Grid>
 
-        <Grid item xs="auto">
+        <Grid size="auto">
           <Box
             sx={{
               minWidth: {

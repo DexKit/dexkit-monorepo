@@ -1,11 +1,9 @@
-// @ts-nocheck
 import { ButtonBase, Grid, IconButton, Stack, styled } from "@mui/material";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-// Import Swiper styles
 import { useRef } from "react";
 import "swiper/css";
 
@@ -71,7 +69,7 @@ export default function ProductImagesSlide({
             <SwiperSlide key={i}>
               <Grid container spacing={2}>
                 {r?.map((image, j) => (
-                  <Grid item xs={3} key={`${i}-${j}`}>
+                  <Grid size={3} key={`${i}-${j}`}>
                     <ImageThumbButton
                       onClick={() => onSelectImage(image.imageUrl)}
                     >

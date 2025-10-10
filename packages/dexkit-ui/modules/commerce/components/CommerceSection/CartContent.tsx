@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Box,
   Card,
@@ -71,14 +70,14 @@ export default function CartContent({ disableHeader }: CartContentProps) {
     <Box>
       <Grid container spacing={2}>
         {!disableHeader && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContentHeader
               title={<FormattedMessage id="cart" defaultMessage="Cart" />}
               onBack={closeCart}
             />
           </Grid>
         )}
-        <Grid item xs={12} sm={8}>
+        <Grid size={{ xs: 12, sm: 8 }}>
           {cartItems.length === 0 ? (
             <Card sx={{ py: 4 }}>
               <Stack alignItems="center" spacing={2}>
@@ -138,7 +137,7 @@ export default function CartContent({ disableHeader }: CartContentProps) {
             </Table>
           )}
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <PaymentCard />
         </Grid>
       </Grid>

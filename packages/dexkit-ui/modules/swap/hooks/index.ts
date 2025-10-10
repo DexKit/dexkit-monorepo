@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ChainId } from "@dexkit/core/constants/enums";
 import {
   NETWORK_FROM_SLUG,

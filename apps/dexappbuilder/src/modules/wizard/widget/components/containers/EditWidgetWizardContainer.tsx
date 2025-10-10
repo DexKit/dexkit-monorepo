@@ -109,11 +109,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 export function EditWidgetWizardContainer({
@@ -443,7 +443,7 @@ export function EditWidgetWizardContainer({
               )}
             </Stack>
           </Grid>
-          {/*       <Grid item xs={12} sm={12}>
+          {/*       <Grid size={{ xs: 12, sm: 12 }}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
@@ -484,7 +484,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Grid>
           )}
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack
               direction={'row'}
               spacing={1}
@@ -495,7 +495,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Stack>
           </Grid>*/}
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack spacing={2} direction={'row'} alignItems={'center'}>
               <Typography variant="body2" sx={{ maxWidth: '300px' }}>
                 <FormattedMessage
@@ -661,7 +661,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Box>
             {/*false && theme && (
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ThemeProvider theme={selectedTheme ? selectedTheme : theme}>
                 <Container>
                   <PagePreviewPaper

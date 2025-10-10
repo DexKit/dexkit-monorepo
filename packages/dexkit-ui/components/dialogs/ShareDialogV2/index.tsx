@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { copyToClipboard } from "@dexkit/core/utils";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import ShareIcon from "@mui/icons-material/Share";
@@ -33,37 +32,37 @@ const OPTIONS: {
   title: React.ReactNode;
   icon: React.ReactNode;
 }[] = [
-  {
-    value: "telegram",
-    title: <FormattedMessage id="telegram" defaultMessage="Telegram" />,
-    icon: <TelegramIcon />,
-  },
-  {
-    value: "email",
-    title: <FormattedMessage id="email" defaultMessage="Email" />,
-    icon: <EmailIcon />,
-  },
-  {
-    value: "facebook",
-    title: <FormattedMessage id="facebook" defaultMessage="Facebook" />,
-    icon: <FacebookIcon />,
-  },
-  {
-    value: "pinterest",
-    title: <FormattedMessage id="pinterest" defaultMessage="Pinterest" />,
-    icon: <PinterestIcon />,
-  },
-  {
-    value: "whatsapp",
-    title: <FormattedMessage id="whatsapp" defaultMessage="WhatsApp" />,
-    icon: <WhatsAppIcon />,
-  },
-  {
-    value: "x",
-    title: <FormattedMessage id="x" defaultMessage="X" />,
-    icon: <XIcon />, // Assuming you have an icon for X
-  },
-];
+    {
+      value: "telegram",
+      title: <FormattedMessage id="telegram" defaultMessage="Telegram" />,
+      icon: <TelegramIcon />,
+    },
+    {
+      value: "email",
+      title: <FormattedMessage id="email" defaultMessage="Email" />,
+      icon: <EmailIcon />,
+    },
+    {
+      value: "facebook",
+      title: <FormattedMessage id="facebook" defaultMessage="Facebook" />,
+      icon: <FacebookIcon />,
+    },
+    {
+      value: "pinterest",
+      title: <FormattedMessage id="pinterest" defaultMessage="Pinterest" />,
+      icon: <PinterestIcon />,
+    },
+    {
+      value: "whatsapp",
+      title: <FormattedMessage id="whatsapp" defaultMessage="WhatsApp" />,
+      icon: <WhatsAppIcon />,
+    },
+    {
+      value: "x",
+      title: <FormattedMessage id="x" defaultMessage="X" />,
+      icon: <XIcon />, // Assuming you have an icon for X
+    },
+  ];
 
 export interface ShareDialogV2Props {
   DialogProps: DialogProps;
@@ -115,7 +114,7 @@ export default function ShareDialogV2({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack spacing={2} direction="row" justifyContent="space-between">
                 {OPTIONS.map((opt) => (
@@ -129,7 +128,7 @@ export default function ShareDialogV2({
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               value={url}

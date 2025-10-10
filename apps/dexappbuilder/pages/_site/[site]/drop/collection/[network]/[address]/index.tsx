@@ -12,7 +12,6 @@ import { CollectionHeader } from '@dexkit/ui/modules/nft/components/CollectionHe
 import CollectionPageHeader from '@dexkit/ui/modules/nft/components/CollectionPageHeader';
 import { CollectionStats } from '@dexkit/ui/modules/nft/components/CollectionStats';
 import { CollectionTraits } from '@dexkit/ui/modules/nft/components/CollectionTraits';
-import TableSkeleton from '@dexkit/ui/modules/nft/components/tables/TableSkeleton';
 import {
   getApiCollectionData,
   getCollectionAssetsDexKitApi,
@@ -37,7 +36,7 @@ import {
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import MainLayout from 'src/components/layouts/main';
@@ -138,37 +137,37 @@ const CollectionPage: NextPage = () => {
       <MainLayout disablePadding isPreview={false}>
         <Grid container>
           {isDesktop && (
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 2 }}>
               {renderSidebar()}
             </Grid>
           )}
-          <Grid item xs={12} sm={10}>
+          <Grid size={{ xs: 12, sm: 10 }}>
             <Box p={2}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <CollectionPageHeader
                     chainId={chainId}
                     address={address as string}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <CollectionHeader
                         address={address as string}
                         chainId={chainId}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <CollectionStats
                         address={address as string}
                         network={network as string}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Stack
                         justifyContent="space-between"
                         direction="row"
@@ -196,7 +195,7 @@ const CollectionPage: NextPage = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <NoSsr>
                         <AppErrorBoundary
                           fallbackRender={({ resetErrorBoundary, error }) => (
@@ -226,7 +225,7 @@ const CollectionPage: NextPage = () => {
                         >
                           {collection?.syncStatus ===
                             CollectionSyncStatus.Synced ||
-                          collection?.syncStatus ===
+                            collection?.syncStatus ===
                             CollectionSyncStatus.Syncing ? (
                             <AssetListCollection
                               contractAddress={address as string}
@@ -316,7 +315,7 @@ export const getStaticProps: GetStaticProps = async ({
         return collectionAssets;
       },
     );
-  } catch {}
+  } catch { }
 
   try {
     if (
@@ -324,8 +323,7 @@ export const getStaticProps: GetStaticProps = async ({
       IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
     ) {
       const { data } = await getRariCollectionStats(
-        `${
-          MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+        `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
         }:${address}`,
         MAP_COIN_TO_RARIBLE[network],
       );
@@ -345,7 +343,7 @@ export const getStaticProps: GetStaticProps = async ({
   if (!collection) {
     try {
       collection = await getCollectionData(provider, address as string);
-    } catch {}
+    } catch { }
   }
 
   await queryClient.prefetchQuery(
@@ -367,7 +365,7 @@ export const getStaticProps: GetStaticProps = async ({
       [COLLECTION_ASSETS_FROM_ORDERBOOK, filters],
       async () => assets,
     );
-  } catch {}
+  } catch { }
 
   return {
     props: { dehydratedState: dehydrate(queryClient), ...configResponse },

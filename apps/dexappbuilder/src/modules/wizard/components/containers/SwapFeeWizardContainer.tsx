@@ -118,8 +118,8 @@ export default function SwapFeeWizardContainer({
             size={isMobile ? "small" : "medium"}
             sx={{
               fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-              py: isMobile ? theme.spacing(0.75) : undefined,
-              px: isMobile ? theme.spacing(2) : undefined,
+              py: isMobile ? theme.spacing(0.75) : 'inherit',
+              px: isMobile ? theme.spacing(2) : 'inherit',
             }}
           >
             <FormattedMessage id="save" defaultMessage="Save" />

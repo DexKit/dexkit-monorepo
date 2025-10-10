@@ -1,25 +1,24 @@
-// @ts-nocheck
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    FormControl,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Select,
-    Skeleton,
-    Stack,
-    TextField,
-    Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  FormControl,
+  Grid,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import { isAddress } from "@dexkit/core/utils/ethers/isAddress";
@@ -193,9 +192,9 @@ export default function MakeListingDialog({
       <form onSubmit={form.handleSubmit}>
         <DialogContent dividers>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={1}>
-                <Grid item>
+                <Grid>
                   {metadata?.image === undefined ? (
                     <Skeleton
                       variant="rectangular"
@@ -218,7 +217,7 @@ export default function MakeListingDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs>
+                <Grid xs>
                   <Typography variant="body2" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />
@@ -236,9 +235,9 @@ export default function MakeListingDialog({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <FormControl fullWidth variant="outlined">
                     <Select
                       fullWidth
@@ -286,7 +285,7 @@ export default function MakeListingDialog({
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     disabled={tokenSelected === undefined}
                     value={form.values.price}
@@ -319,7 +318,7 @@ export default function MakeListingDialog({
             {asset?.protocol === "ERC1155" &&
               assetBalance &&
               assetBalance.balance?.gt(0) && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1}>
                     <Typography gutterBottom>
                       {" "}
@@ -360,7 +359,7 @@ export default function MakeListingDialog({
                 </Grid>
               )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction={"row"} spacing={1}>
                 <Typography>
                   <FormattedMessage
@@ -374,13 +373,13 @@ export default function MakeListingDialog({
                 <Typography>{tokenSelected?.symbol}</Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <DurationSelect
                 label={<FormattedMessage id="expiry" defaultMessage="Expiry" />}
                 onChange={handleChangeExpiryDuration}
               />
             </Grid>
-            {/* <Grid item xs={12}>
+            {/* <Grid size={12}>
               <DateTimePicker
                 ampm={false}
                 label="Listing expires"
@@ -404,7 +403,7 @@ export default function MakeListingDialog({
                 }}
               />
             </Grid> */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Accordion>
                 <AccordionSummary expandIcon={<ExpandMore />}>
                   <Typography variant="inherit" sx={{ fontWeight: 600 }}>
@@ -447,7 +446,7 @@ export default function MakeListingDialog({
               </Accordion>
             </Grid>
             {tokenSelected && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="the.buyer.will.pay.percentage.in.fees"

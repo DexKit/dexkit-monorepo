@@ -23,7 +23,7 @@ export default function CommerceIntegrationCard({
     <Card>
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -45,7 +45,7 @@ export default function CommerceIntegrationCard({
               />
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CommerceIntegrationForm onSave={onSave} commerce={commerce} />
           </Grid>
         </Grid>

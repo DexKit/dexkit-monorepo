@@ -784,7 +784,7 @@ function ExchangeSection() {
         <Box sx={{
           ...containerStyle,
         }}>
-          <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }} direction="column">
+          <Grid container spacing={{ xs: Math.max(spacing * 0.5, 1), sm: Math.max(spacing * 0.75, 1.5), md: Math.max(spacing * 0.85, 2), lg: spacing }} sx={{ flexDirection: "column" }}>
             {componentOrder.map((componentType: string) => renderComponentByType(componentType))}
           </Grid>
         </Box>

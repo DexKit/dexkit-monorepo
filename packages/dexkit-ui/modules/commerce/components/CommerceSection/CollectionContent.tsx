@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Box,
   Container,
@@ -58,7 +57,7 @@ export default function CollectionContent({ id }: CollectionContentProps) {
     <Container>
       <Box sx={{ position: "relative" }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack direction="row" justifyContent="flex-end">
                 <LazyTextField
@@ -85,11 +84,11 @@ export default function CollectionContent({ id }: CollectionContentProps) {
             </Box>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
               {products && products?.totalItems > 0 ? (
                 products?.items?.map((product: any, key: any) => (
-                  <Grid key={key} item xs={12} sm={3}>
+                  <Grid key={key} size={{ xs: 12, sm: 3 }}>
                     <ProductCard
                       isOnWinshlist={isOnWishlist(product.id)}
                       product={product}
@@ -98,12 +97,12 @@ export default function CollectionContent({ id }: CollectionContentProps) {
                           ? handleRemoveFromWishlist(product.id)
                           : handleAddToWishlist(product.id)
                       }
-                      onShare={() => {}}
+                      onShare={() => { }}
                     />
                   </Grid>
                 ))
               ) : (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack sx={{ py: 2 }}>
                       <Typography textAlign="center" variant="h5">
@@ -128,7 +127,7 @@ export default function CollectionContent({ id }: CollectionContentProps) {
               )}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TablePagination
               component="div"
               count={products?.totalItems ?? 0}

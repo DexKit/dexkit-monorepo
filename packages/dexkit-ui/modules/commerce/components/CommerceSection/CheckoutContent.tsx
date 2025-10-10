@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ChainId, useErc20BalanceQuery } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Token, TokenWhitelabelApp } from "@dexkit/core/types";
@@ -394,7 +393,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
       />
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Card>
               <CardContent>
                 <Stack
@@ -506,7 +505,7 @@ export default function CheckoutContent({ id }: CheckoutContentProps) {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Card>
               <CardContent>
                 <Stack spacing={2}>

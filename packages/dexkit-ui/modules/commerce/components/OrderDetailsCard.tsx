@@ -63,7 +63,7 @@ export default function OrderDetailsCard({ order }: OrderDetailsCardProps) {
           <Divider />
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <Box>
                   <Stack spacing={1} sx={{ px: 2 }}>
                     <Stack

@@ -20,43 +20,43 @@ const SwapPage: NextPage<{
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
 }) => {
-  const { formatMessage } = useIntl();
+    const { formatMessage } = useIntl();
 
 
-  return (
-    <>
-      <NextSeo title={formatMessage({ id: 'swap', defaultMessage: 'Swap' })} />
-      <MainLayout>
-        <Container>
-          <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
-              <PageHeader
-                breadcrumbs={[
-                  {
-                    caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
-                    ),
-                    uri: '/',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage id="swap" defaultMessage="Swap" />
-                    ),
-                    uri: '/swap',
-                    active: true,
-                  },
-                ]}
-              />
+    return (
+      <>
+        <NextSeo title={formatMessage({ id: 'swap', defaultMessage: 'Swap' })} />
+        <MainLayout>
+          <Container>
+            <Grid container justifyContent="center" spacing={2}>
+              <Grid size={12}>
+                <PageHeader
+                  breadcrumbs={[
+                    {
+                      caption: (
+                        <FormattedMessage id="home" defaultMessage="Home" />
+                      ),
+                      uri: '/',
+                    },
+                    {
+                      caption: (
+                        <FormattedMessage id="swap" defaultMessage="Swap" />
+                      ),
+                      uri: '/swap',
+                      active: true,
+                    },
+                  ]}
+                />
+              </Grid>
+              <Grid size={12}>
+                <SectionsRenderer sections={sections} layout={layout} />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <SectionsRenderer sections={sections} layout={layout} />
-            </Grid>
-          </Grid>
-        </Container>
-      </MainLayout>
-    </>
-  );
-};
+          </Container>
+        </MainLayout>
+      </>
+    );
+  };
 
 type Params = {
   site?: string;

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Alert,
   Avatar,
@@ -245,9 +244,9 @@ export default function MakeOfferDialog({
       <form onSubmit={form.handleSubmit}>
         <DialogContent dividers>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item>
+                <Grid>
                   {metadata?.image === undefined ? (
                     <Skeleton
                       variant="rectangular"
@@ -270,7 +269,7 @@ export default function MakeOfferDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs>
+                <Grid xs>
                   <Typography variant="caption" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />
@@ -288,9 +287,9 @@ export default function MakeOfferDialog({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <FormControl fullWidth variant="outlined">
                     <Select
                       fullWidth
@@ -335,7 +334,7 @@ export default function MakeOfferDialog({
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     disabled={
                       form.values.tokenAddress === undefined ||
@@ -359,7 +358,7 @@ export default function MakeOfferDialog({
                   />
                 </Grid>
                 {isErc1155 && (
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       disabled={
                         form.values.tokenAddress === undefined ||
@@ -388,7 +387,7 @@ export default function MakeOfferDialog({
               </Grid>
             </Grid>
             {tokenSelected && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -431,13 +430,13 @@ export default function MakeOfferDialog({
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <DurationSelect
                 label={<FormattedMessage id="expiry" defaultMessage="Expiry" />}
                 onChange={handleChangeExpiryDuration}
               />
             </Grid>
-            {/* <Grid item xs={12}>
+            {/* <Grid size={12}>
               <DateTimePicker
                 ampm={false}
                 label={<FormattedMessage id="expiry" defaultMessage="Expiry" />}
@@ -463,7 +462,7 @@ export default function MakeOfferDialog({
             </Grid> */}
 
             {tokenSelected && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="you.are.paying.percentage.in.fees"
@@ -481,7 +480,7 @@ export default function MakeOfferDialog({
                 </Alert>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack>
                 <Typography variant="body1"></Typography>
                 <Typography variant="body1"></Typography>

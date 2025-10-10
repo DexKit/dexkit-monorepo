@@ -14,8 +14,11 @@ import ImageIcon from '@mui/icons-material/Image';
 
 const CustomImage = styled('img')(({ theme }) => ({
   width: '100%',
-  height: 'auto',
+  height: '100%',
   display: 'block',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 export interface PageGatedLayoutTabProps {
@@ -78,13 +81,13 @@ export default function PageGatedLayoutTab({
         layout
           ? { layout }
           : {
-              layout: {
-                accessRequirementsMessage: '',
-                frontImage: '',
-                frontImageHeight: 150,
-                frontImageWidth: 150,
-              },
-            }
+            layout: {
+              accessRequirementsMessage: '',
+              frontImage: '',
+              frontImageHeight: 150,
+              frontImageWidth: 150,
+            },
+          }
       }
       onSubmit={handleSubmit}
     >
@@ -259,7 +262,7 @@ export default function PageGatedLayoutTab({
                     </Typography>
                   </Grid>
                   {/*
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Field
                       component={TextField}
                       type="text"

@@ -274,7 +274,7 @@ export default function FormsListContractsPage() {
           />
           <Box sx={{ width: '100%' }}>
             <Grid container spacing={isMobile ? 1 : 2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography
                   variant="h5"
                   sx={{
@@ -289,13 +289,13 @@ export default function FormsListContractsPage() {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {isMobile ? <MobileView /> : <DesktopView />}
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider />
               </Grid>
-              <Grid item xs={12} sx={{ width: '100%' }}>
+              <Grid size={12} sx={{ width: '100%' }}>
                 {isActive ? (
                   isLoggedIn ? (
                     <Box

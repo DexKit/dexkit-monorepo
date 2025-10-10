@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Accordion,
   AccordionDetails,
@@ -90,7 +89,7 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
                     (attr, index: number) =>
                       attr.trait_type &&
                       attr.value !== undefined && (
-                        <Grid item xs={4} key={index}>
+                        <Grid size={4} key={index}>
                           <AssetAttributePaper
                             traitType={attr.trait_type}
                             value={attr.value}

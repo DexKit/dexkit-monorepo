@@ -190,7 +190,7 @@ export default function MarketSellForm({
 
   const handleApprove = async () => {
     await approveMutation.mutateAsync({
-      onSubmited: (hash: string) => {},
+      onSubmited: (hash: string) => { },
       amount: BigNumber.from(quote?.sellAmount),
       signer,
       spender: quote?.issues.allowance.spender,
@@ -290,19 +290,19 @@ export default function MarketSellForm({
       />
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="body2">
               <FormattedMessage id="available" defaultMessage="Available" />:{" "}
               {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack>
                 <Stack
@@ -331,7 +331,7 @@ export default function MarketSellForm({
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {renderActionButton()}
           </Grid>
         </Grid>

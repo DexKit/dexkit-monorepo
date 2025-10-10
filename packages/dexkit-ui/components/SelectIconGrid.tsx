@@ -1,8 +1,8 @@
 import { Box, Grid, Icon, IconButton, useTheme } from "@mui/material";
 
 import { chunk } from "@dexkit/core/utils";
-import { useCallback, useMemo } from "react";
 import * as React from "react";
+import { useCallback, useMemo } from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
 export interface SelectIconGridProps {
@@ -41,7 +41,7 @@ export default function SelectIconGrid({
         <div style={style} key={index}>
           <Grid container spacing={2}>
             {icons?.map((iconName: string, iconIndex) => (
-              <Grid item xs={6} sm={3} key={`${index}-${iconIndex}`}>
+              <Grid size={{ xs: 6, sm: 3 }} key={`${index}-${iconIndex}`}>
                 <Box
                   sx={{
                     alignItems: "center",
@@ -54,10 +54,10 @@ export default function SelectIconGrid({
                     sx={
                       value === iconName
                         ? {
-                            borderWidth: 1,
-                            borderStyle: "solid",
-                            borderColor: (theme) => theme.palette.primary.main,
-                          }
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          borderColor: (theme) => theme.palette.primary.main,
+                        }
                         : undefined
                     }
                     onClick={() => onSelect(iconName)}

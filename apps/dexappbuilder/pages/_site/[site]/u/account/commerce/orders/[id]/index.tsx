@@ -139,13 +139,13 @@ function OrderComponent({ order }: OrderComponentProps) {
       <Card>
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="id" defaultMessage="ID" />
               </Typography>
               <Typography variant="body2">{order.id.substring(10)}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="creator" defaultMessage="Creator" />
               </Typography>
@@ -160,7 +160,7 @@ function OrderComponent({ order }: OrderComponentProps) {
                 </Link>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="token" defaultMessage="Token" />
               </Typography>
@@ -175,7 +175,7 @@ function OrderComponent({ order }: OrderComponentProps) {
                 </Link>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="status" defaultMessage="Status" />
               </Typography>
@@ -183,7 +183,7 @@ function OrderComponent({ order }: OrderComponentProps) {
                 {renderStatusText(order.status)}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="total" defaultMessage="Total" />
               </Typography>

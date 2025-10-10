@@ -72,9 +72,9 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
           render={(arrOne) => (
             <Grid container spacing={2}>
               {rows.map((_, index) => (
-                <Grid item xs={12} key={index}>
+                <Grid size={12} key={index}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={9}>
+                    <Grid size={{ xs: 12, sm: 9 }}>
                       <Field
                         fullWidth
                         component={TextField}
@@ -85,7 +85,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={2}>
+                    <Grid size={{ xs: 12, sm: 2 }}>
                       <DecimalInput
                         name={`${reference[1]}[${index}]`}
                         decimals={2}
@@ -97,7 +97,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                         maxDigits={3}
                       />
                     </Grid>
-                    <Grid item xs>
+                    <Grid xs>
                       <Paper
                         sx={{ borderRadius: "50%" }}
                         component={IconButton}
@@ -114,7 +114,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                 </Grid>
               ))}
               {isOverOneHundred && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert severity="warning">
                     <FormattedMessage
                       id="total.shares.cannot.go.over.one.hundred"
@@ -124,7 +124,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                 </Grid>
               )}
               {isBelowOneHundred && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert severity="warning">
                     <FormattedMessage
                       id="total.shares.need.to.add.up.to.one.hundred"
@@ -138,7 +138,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                   </Alert>
                 </Grid>
               )}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   startIcon={<AddIcon />}
                   onClick={() => {

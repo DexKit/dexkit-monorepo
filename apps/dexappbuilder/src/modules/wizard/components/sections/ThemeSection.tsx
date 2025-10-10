@@ -168,13 +168,13 @@ export default function ThemeSection({
                 themeId: selectedId,
                 ...getInitialValues,
               }}
-              onSubmit={async () => {}}
+              onSubmit={async () => { }}
             />
           )}
         </Grid>
 
         {/* {renderThemes()}
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedId === 'custom' && (
             <WizardThemeCustom mode={mode} legacyTheme={legacyTheme} />
           )}

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { GatedConditionView } from "@dexkit/ui/components/gated-content/GatedConditionView";
 import { useAuth } from "@dexkit/ui/hooks/auth";
 import { useCheckGatedConditions } from "@dexkit/ui/hooks/gatedConditions";

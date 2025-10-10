@@ -38,7 +38,7 @@ function CreateProductCollectionComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader
           breadcrumbs={[
             {
@@ -64,12 +64,12 @@ function CreateProductCollectionComponent() {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h5">
           <FormattedMessage id="create" defaultMessage="Create" />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={toFormikValidationSchema(ProductCollectionSchema)}
@@ -78,7 +78,7 @@ function CreateProductCollectionComponent() {
             items: [],
           }}
         >
-          {({}) => (
+          {({ }) => (
             <>
               <ProductCollectionForm />
             </>
