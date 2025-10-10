@@ -53,7 +53,7 @@ function DeleteImageDialog({
   };
 
   return (
-    <Dialog {...dialogProps} onClose={handleClose}>
+    <Dialog {...dialogProps} onClose={handleClose} sx={{ zIndex: 100000 }}>
       <AppDialogTitle
         title={
           <FormattedMessage

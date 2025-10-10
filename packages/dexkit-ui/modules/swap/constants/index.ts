@@ -2,6 +2,8 @@ import { ChainId } from "@dexkit/core/constants/enums";
 
 export const SUPPORTED_GASLESS_CHAIN = [1, 137, 42161, 8453, 10];
 
+export const SUPPORTED_UNISWAP_V2 = [25];
+
 export const ZEROEX_NATIVE_TOKEN_ADDRESS =
   "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
@@ -42,14 +44,20 @@ export const ZEROEX_CHAIN_PREFIX = (chainId?: number) => {
   }
 };
 
+export const SWAP_UNI_V2_URL = () => {
+  return `${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/swap/univ2withfee`;
+};
+
 export const ZERO_EX_V2_WIDGET_URL = () => {
   return `${process.env.NEXT_PUBLIC_DEXKIT_DASH_ENDPOINT}/swap/api`;
 
-  /*if (siteId !== undefined) {
-    return `/api/zrx/${siteId}/${NETWORK_SLUG(chainId)}`;
-  }
 
-  return `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;*/
+
+  /*if (siteId !== undefined) {
+      return `/api/zrx/${siteId}/${NETWORK_SLUG(chainId)}`;
+  }
+  
+    return `https://${ZEROEX_CHAIN_PREFIX(chainId)}api.0x.org`;*/
 };
 
 export const ZERO_EX_V2_URL = (chainId?: number, siteId?: number) => {

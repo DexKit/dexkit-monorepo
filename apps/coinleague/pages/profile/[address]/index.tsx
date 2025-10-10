@@ -22,7 +22,6 @@ import {
 import { GameGraph, GamesFilter } from '@/modules/coinleague/types';
 import { reduceAddress } from '@/modules/coinleague/utils/game';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
-import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
 import Crown from '@/modules/common/components/icons/Crown';
 import Cup from '@/modules/common/components/icons/Cup';
 import GameController from '@/modules/common/components/icons/GameController';
@@ -37,6 +36,7 @@ import {
 } from '@/modules/common/utils';
 import { copyToClipboard, getWindowUrl } from '@/modules/common/utils/browser';
 import { strPad } from '@/modules/common/utils/strings';
+import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Edit } from '@mui/icons-material';
 import FileCopy from '@mui/icons-material/FileCopy';
@@ -63,6 +63,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { generateShareLink, ShareTypes } from 'src/utils/share';
 
 const INITIAL_FILTERS: GamesFilter = {
   numberOfPlayers: NumberOfPLayers.ALL,
@@ -144,38 +145,61 @@ const CoinLeagueProfilePage: NextPage = () => {
   const handleShare = useCallback(
     (game: GameGraph) => {
       setShareUrl(
-        `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
+        `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
           selectedChainId,
-        )}/${game.id}`,
+        )}/${game.id}${account ? `?affiliate=${account}` : ''}`,
       );
       setShowShareDialog(true);
     },
     [selectedChainId],
   );
 
+  const userUrl = `${getWindowUrl()}/profile/${address}${account ? `?affiliate=${account}` : ''}`;
+  const handleShareContentUser = (value: string) => {
+    const msg = `Check my statistics at Coinleague: ${userUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && userUrl) {
+      link = generateShareLink(msg, userUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
+  const handleShareContentGame = (value: string) => {
+    const msg = `Join with me at Coinleague Game: ${shareUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && shareUrl) {
+      link = generateShareLink(msg, shareUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
   return (
     <>
-      <AppShareDialog
-        url={
-          isAddress(address as string)
-            ? `${getWindowUrl()}/coinleague/profile/${address}`
-            : undefined
-        }
-        dialogProps={{
+      <ShareDialogV2
+        url={userUrl}
+        DialogProps={{
           open: showShare,
           maxWidth: 'sm',
           fullWidth: true,
           onClose: handleToggleShare,
         }}
+        onClick={handleShareContentUser}
       />
-      <AppShareDialog
-        dialogProps={{
+      <ShareDialogV2
+        DialogProps={{
           open: showShareDialog,
           onClose: handleCloseShareDialog,
           fullWidth: true,
           maxWidth: 'sm',
         }}
         url={shareUrl}
+        onClick={handleShareContentGame}
       />
       <MainLayout>
         <Stack spacing={2}>
@@ -234,7 +258,7 @@ const CoinLeagueProfilePage: NextPage = () => {
               {canEdit && (
                 <Button
                   LinkComponent={Link}
-                  href={`/coinleague/profile/${address as string}/edit`}
+                  href={`/profile/${address as string}/edit`}
                   startIcon={<Edit />}
                   variant="contained"
                   color="primary"

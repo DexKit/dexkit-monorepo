@@ -1,5 +1,6 @@
 import { strPad } from '@/modules/common/utils/strings';
 import { PlayArrow } from '@mui/icons-material';
+import Share from '@mui/icons-material/Share';
 import {
   Box,
   Button,
@@ -31,6 +32,7 @@ interface Props {
   onJoin: () => void;
   onStart: () => void;
   onEnd: () => void;
+  onShare: () => void;
   onRefetch: () => void;
   isStarting?: boolean;
   isEnding?: boolean;
@@ -49,6 +51,7 @@ export function GameOverviewCard({
   onJoin,
   onStart,
   onRefetch,
+  onShare,
   isStarting,
   isInGame,
   canJoinGame,
@@ -120,14 +123,14 @@ export function GameOverviewCard({
               alignItems="center"
               alignContent="center"
             >
-              <Grid item>
+              {/* <Grid item>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="id" defaultMessage="ID" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? <Skeleton /> : game?.id}
                 </Typography>
-              </Grid>
+              </Grid>*/}
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage
@@ -209,7 +212,7 @@ export function GameOverviewCard({
 
               <Grid item>
                 <Typography variant="caption" color="textSecondary">
-                  <FormattedMessage id="prize" defaultMessage="Prize" />
+                  <FormattedMessage id="max.prize" defaultMessage="Max prize" />
                 </Typography>
                 <Typography variant="body2">
                   {isLoading ? (
@@ -251,6 +254,17 @@ export function GameOverviewCard({
                     </Typography>
                   </Grid>
                 )}
+              <Grid item>
+                <Button
+                  sx={{ ml: 4 }}
+                  variant="contained"
+                  onClick={onShare}
+                  startIcon={<Share />}
+                  size="small"
+                >
+                  <FormattedMessage id="share" defaultMessage="Share" />
+                </Button>
+              </Grid>
             </Grid>
           </Box>
           {canJoinGame && (

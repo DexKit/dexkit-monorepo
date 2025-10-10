@@ -144,10 +144,7 @@ function PlayersListItem({
         )}
         <ListItemText
           primary={
-            <Link
-              color="inherit"
-              href={`/coinleague/profile/${player.player_address}`}
-            >
+            <Link color="inherit" href={`/profile/${player.player_address}`}>
               {isAddressEqual(account, player.player_address) ? (
                 <FormattedMessage id="you" defaultMessage="You" />
               ) : profile && profile?.user && profile?.user?.username ? (

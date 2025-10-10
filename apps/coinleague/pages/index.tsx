@@ -15,14 +15,15 @@ import {
 import { GameGraph, GamesFilter } from '@/modules/coinleague/types';
 import AppFilterDrawer from '@/modules/common/components/AppFilterDrawer';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
-import AppShareDialog from '@/modules/common/components/dialogs/AppShareDialog';
 import MainLayout from '@/modules/common/components/layouts/MainLayout';
 import TableSkeleton from '@/modules/common/components/skeletons/TableSkeleton';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import { getWindowUrl } from '@/modules/common/utils/browser';
+import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { Filter, FilterAlt } from '@mui/icons-material';
 import GridViewIcon from '@mui/icons-material/GridView';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import {
   Box,
@@ -45,7 +46,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { SyntheticEvent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import { generateShareLink, ShareTypes } from 'src/utils/share';
 const CreateGameDialog = dynamic(
   () => import('@/modules/coinleague/components/dialogs/CreateGameDialog'),
 );
@@ -107,15 +108,28 @@ const CoinLeagueIndex: NextPage = () => {
   };
 
   const handleShare = useCallback(
-    (game: GameGraph) => {
-      setShareUrl(
-        `${getWindowUrl()}/coinleague/${getNetworkSlugFromChainId(
-          gameChainId,
-        )}/${game.id}`,
-      );
+    async (game: GameGraph) => {
+      const url = `${getWindowUrl()}/game/${getNetworkSlugFromChainId(
+        gameChainId,
+      )}/${game.id}${account ? `?affiliate=${account}` : ''}`;
+
+      setShareUrl(url);
+      /*if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Play at Coinleague',
+            text: 'Look what I found, play with me at Coinleague',
+            url: url,
+          });
+        } catch (error) {
+          console.log('Error sharing', error);
+        }
+      } else {
+        alert('Sharing not supported on this browser');
+      }*/
       setShowShareDialog(true);
     },
-    [gameChainId],
+    [gameChainId, account],
   );
 
   const handleShowMetadata = useCallback((game: GameGraph) => {
@@ -163,15 +177,28 @@ const CoinLeagueIndex: NextPage = () => {
     setShowTable((value) => !value);
   };
 
+  const handleShareContent = (value: string) => {
+    const msg = `Play with me at Coinleague: ${shareUrl}`;
+
+    let link = '';
+
+    if (ShareTypes.includes(value) && shareUrl) {
+      link = generateShareLink(msg, shareUrl, value);
+
+      window.open(link, '_blank');
+    }
+  };
+
   return (
     <>
-      <AppShareDialog
-        dialogProps={{
+      <ShareDialogV2
+        DialogProps={{
           open: showShareDialog,
           onClose: handleCloseShareDialog,
           fullWidth: true,
           maxWidth: 'sm',
         }}
+        onClick={handleShareContent}
         url={shareUrl}
       />
       {showMetadata && (
@@ -441,9 +468,18 @@ const CoinLeagueIndex: NextPage = () => {
                     />
                   )
                 ) : (
-                  <Box sx={{ py: 4 }}>
-                    <Stack>
-                      <Box>
+                  !gamesQuery.isLoading && (
+                    <Box sx={{ py: 4 }}>
+                      <Stack
+                        direction={'column'}
+                        spacing={2}
+                        sx={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <SmartToyIcon sx={{ fontSize: 80 }} />
+
                         <Typography align="center" variant="h5">
                           <FormattedMessage
                             id="no.games"
@@ -460,9 +496,9 @@ const CoinLeagueIndex: NextPage = () => {
                             defaultMessage="No games available"
                           />
                         </Typography>
-                      </Box>
-                    </Stack>
-                  </Box>
+                      </Stack>
+                    </Box>
+                  )
                 )}
               </Grid>
             </Grid>

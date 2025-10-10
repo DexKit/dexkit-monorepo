@@ -22,13 +22,13 @@ import {
   useWaitTransactionConfirmation,
 } from "@dexkit/ui/hooks";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
+import { SUPPORTED_UNISWAP_V2 } from "@dexkit/ui/modules/swap/constants";
 import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { AppNotificationType } from "@dexkit/ui/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useMutation } from "@tanstack/react-query";
 import { EXCHANGE_NOTIFICATION_TYPES } from "../../constants/messages";
 import { useZrxQuoteMutation } from "../../hooks/zrx";
-import { getZrxExchangeAddress } from "../../utils";
 import LazyDecimalInput from "./LazyDecimalInput";
 import ReviewMarketOrderDialog from "./ReviewMarketOrderDialog";
 export interface MarketSellFormProps {
@@ -44,7 +44,14 @@ export interface MarketSellFormProps {
   chainId?: ChainId;
   isActive?: boolean;
 }
-
+/**
+ *
+ * TODO: REMOVE THIS COMPONENT
+ *
+ *
+ *
+ * @returns
+ */
 export default function MarketSellForm({
   chainId,
   quoteToken,
@@ -97,7 +104,9 @@ export default function MarketSellForm({
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
     signer,
-    spender: getZrxExchangeAddress(chainId),
+    spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+      ? quote?.to
+      : quote?.issues.allowance.spender,
     tokenAddress: quote?.sellToken,
   });
 
@@ -193,7 +202,9 @@ export default function MarketSellForm({
       onSubmited: (hash: string) => { },
       amount: BigNumber.from(quote?.sellAmount),
       signer,
-      spender: quote?.issues.allowance.spender,
+      spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+        ? quote?.to
+        : quote?.issues.allowance.spender,
       tokenContract: quote?.sellToken,
     });
   };
