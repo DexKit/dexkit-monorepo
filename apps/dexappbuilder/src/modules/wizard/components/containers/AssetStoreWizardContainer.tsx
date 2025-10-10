@@ -8,9 +8,9 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
+  ThemeProvider,
   useTheme,
 } from '@mui/material/styles';
 import { useState } from 'react';
@@ -129,9 +129,9 @@ export default function AssetStoreWizardContainer({
         </Stack>
       </Grid>
       <Grid size={6}>
-        <CssVarsProvider theme={configTheme}>
+        <ThemeProvider theme={configTheme}>
           <AssetStoreContainer {...formData} />
-        </CssVarsProvider>
+        </ThemeProvider>
       </Grid>
       <Grid size={12}>
         <Divider />

@@ -62,23 +62,24 @@ export default function ImageButton({
   };
 
   return (
-    <Paper
-      sx={{
-        borderWidth: selected && selectable ? (theme) => 1 : undefined,
-        borderColor:
-          selected && selectable
-            ? (theme) => theme.palette.primary.main
-            : undefined,
-        position: "relative",
-      }}
-    >
-      {selectable ? (
-        <CardActionArea disabled={disabled} onClick={() => onSelect(src)}>
-          {renderContent()}{" "}
-        </CardActionArea>
-      ) : (
-        renderContent()
-      )}
-    </Paper>
+    <Box sx={{ position: "relative" }}>
+      <Paper
+        sx={{
+          borderWidth: selected && selectable ? (theme) => 1 : undefined,
+          borderColor:
+            selected && selectable
+              ? (theme) => theme.palette.primary.main
+              : undefined,
+        }}
+      >
+        {selectable ? (
+          <CardActionArea disabled={disabled} onClick={() => onSelect(src)}>
+            {renderContent()}{" "}
+          </CardActionArea>
+        ) : (
+          renderContent()
+        )}
+      </Paper>
+    </Box>
   );
 }

@@ -85,7 +85,12 @@ export function useListDeployedContracts({
     ],
     async () => {
       if (!safeOwner) {
-        return { data: [] };
+        return {
+          data: [],
+          total: 0,
+          skip: 0,
+          take: pageSize,
+        };
       }
 
       if (instance) {
@@ -101,7 +106,18 @@ export function useListDeployedContracts({
 
         const data = response.data;
 
+        if (!data || typeof data !== 'object') {
+          return {
+            data: [],
+            total: 0,
+            skip: page * pageSize,
+            take: pageSize,
+          };
+        }
+
         const items = data.items || [];
+        const total = data.total || data.count || items.length;
+
         const mappedItems = items.map((contract: any) => ({
           ...contract,
           createdAt: contract.createdAt || contract.created_at || new Date().toISOString(),
@@ -110,13 +126,18 @@ export function useListDeployedContracts({
 
         return {
           data: mappedItems,
-          total: mappedItems.length,
+          total: total,
           skip: page * pageSize,
           take: pageSize,
         };
       }
 
-      return { data: [] };
+      return {
+        data: [],
+        total: 0,
+        skip: 0,
+        take: pageSize,
+      };
     },
     {
       enabled: !!safeOwner,

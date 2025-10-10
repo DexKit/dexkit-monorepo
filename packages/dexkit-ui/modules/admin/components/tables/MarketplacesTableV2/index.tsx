@@ -27,6 +27,7 @@ import { ADMIN_TABLE_LIST } from "../../../constants";
 import ImportAppConfigDialog from "../../dialogs/ImportAppConfigDialog";
 import Menu from "./Menu";
 
+import MobilePagination from "@dexkit/ui/components/MobilePagination";
 import { useSendConfigMutation } from "@dexkit/ui/modules/whitelabel/hooks/useSendConfigMutation";
 
 interface Props {
@@ -557,6 +558,14 @@ export default function MarketplacesTableV2({
     setSortModel(sortModel);
   }, []);
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   return (
     <>
       <AppConfirmDialog
@@ -590,123 +599,137 @@ export default function MarketplacesTableV2({
         onClose={handleCloseMenu}
         open={Boolean(anchorEl)}
       />
-      <DataGrid
-        getRowId={(row: any) => row.id}
-        autoHeight
-        rows={configs || []}
-        columns={columns}
-        rowCount={total}
-        paginationModel={paginationModel}
-        paginationMode="server"
-        disableColumnFilter
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-          },
-          pagination: { style: { margin: isMobile ? 0 : theme.spacing(0.75) } }
-        }}
-        sortModel={sortModel}
-        onPaginationModelChange={setPaginationModel}
-        filterMode="server"
-        onFilterModelChange={onFilterChange}
-        onSortModelChange={handleSortModelChange}
-        pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
-        disableRowSelectionOnClick
-        loading={false}
-        sx={{
-          '& .MuiDataGrid-main': {
-            width: '100%',
-            overflowX: 'hidden',
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            width: '100%',
-            minWidth: '100%'
-          },
-          '& .MuiDataGrid-root': {
-            width: '100%',
-            border: 'none !important',
+      <Box>
+        <DataGrid
+          getRowId={(row: any) => row.id}
+          autoHeight
+          rows={configs || []}
+          columns={columns}
+          rowCount={total}
+          paginationModel={paginationModel}
+          paginationMode="server"
+          disableColumnFilter
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+            pagination: { style: { margin: isMobile ? 0 : theme.spacing(0.75) } }
+          }}
+          sortModel={sortModel}
+          onPaginationModelChange={setPaginationModel}
+          filterMode="server"
+          onFilterModelChange={onFilterChange}
+          onSortModelChange={handleSortModelChange}
+          pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
+          disableRowSelectionOnClick
+          loading={false}
+          hideFooterPagination={isMobile}
+          sx={{
             '& .MuiDataGrid-main': {
-              border: 'none !important',
+              width: '100%',
+              overflowX: 'hidden',
             },
             '& .MuiDataGrid-virtualScroller': {
-              border: 'none !important',
+              width: '100%',
+              minWidth: '100%'
             },
-            '& .MuiDataGrid-virtualScrollerContent': {
+            '& .MuiDataGrid-root': {
+              width: '100%',
               border: 'none !important',
+              '& .MuiDataGrid-main': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-virtualScroller': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-virtualScrollerContent': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-row': {
+                '&:last-child .MuiDataGrid-cell': {
+                  borderBottom: 'none'
+                }
+              }
+            },
+            '& .MuiDataGrid-cell:last-of-type': {
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+            },
+            '& .MuiDataGrid-columnHeader:last-of-type': {
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+            },
+            '& .MuiDataGrid-cell': {
+              padding: isMobile ? theme.spacing(0.75, 0.5) : theme.spacing(1.5),
+              whiteSpace: isMobile ? 'normal' : 'nowrap',
+              wordBreak: 'break-word',
+              fontSize: isMobile ? '0.75rem' : 'inherit',
+              overflowX: 'hidden',
+              textOverflow: 'ellipsis',
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              '&:last-of-type': {
+                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+              },
+              '&[data-field="domain"]': {
+                whiteSpace: 'normal',
+                overflow: 'visible',
+                textOverflow: 'unset',
+                verticalAlign: 'top',
+              }
             },
             '& .MuiDataGrid-row': {
-              '&:last-child .MuiDataGrid-cell': {
-                borderBottom: 'none'
+              maxHeight: 'none !important',
+              minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(6.5)} !important`,
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover
+              }
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7),
+              backgroundColor: theme.palette.grey[50],
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+            },
+            '& .MuiDataGrid-columnHeader': {
+              padding: isMobile ? theme.spacing(0.75) : theme.spacing(1.5),
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              '&:last-of-type': {
+                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+              }
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              padding: theme.spacing(1, 2),
+              '& .MuiTablePagination-root': {
+                overflow: 'visible'
+              },
+              '& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
+                fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize
               }
             }
-          },
-          '& .MuiDataGrid-cell:last-of-type': {
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-          },
-          '& .MuiDataGrid-columnHeader:last-of-type': {
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-          },
-          '& .MuiDataGrid-cell': {
-            padding: isMobile ? theme.spacing(0.75, 0.5) : theme.spacing(1.5),
-            whiteSpace: isMobile ? 'normal' : 'nowrap',
-            wordBreak: 'break-word',
-            fontSize: isMobile ? '0.75rem' : 'inherit',
-            overflowX: 'hidden',
-            textOverflow: 'ellipsis',
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            '&:last-of-type': {
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-            },
-            '&[data-field="domain"]': {
-              whiteSpace: 'normal',
-              overflow: 'visible',
-              textOverflow: 'unset',
-              verticalAlign: 'top',
-            }
-          },
-          '& .MuiDataGrid-row': {
-            maxHeight: 'none !important',
-            minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(6.5)} !important`,
-            '&:hover': {
-              backgroundColor: theme.palette.action.hover
-            }
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7),
-            backgroundColor: theme.palette.grey[50],
-            borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-          },
-          '& .MuiDataGrid-columnHeader': {
-            padding: isMobile ? theme.spacing(0.75) : theme.spacing(1.5),
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            '&:last-of-type': {
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-            }
-          },
-          '& .MuiDataGrid-footerContainer': {
-            borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            padding: theme.spacing(1, 2),
-            '& .MuiTablePagination-root': {
-              overflow: 'visible'
-            },
-            '& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
-              fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize
-            }
-          }
-        }}
-      />
+          }}
+        />
+
+        {isMobile && (
+          <MobilePagination
+            page={paginationModel.page}
+            pageSize={paginationModel.pageSize}
+            totalRows={total}
+            onPageChange={handleMobilePageChange}
+            onPageSizeChange={handleMobilePageSizeChange}
+            pageSizeOptions={[5, 10, 25]}
+          />
+        )}
+      </Box>
     </>
   );
 }

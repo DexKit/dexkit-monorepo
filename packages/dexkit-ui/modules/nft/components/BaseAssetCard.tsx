@@ -152,38 +152,40 @@ export function BaseAssetCard({
   );
 
   return (
-    <Card sx={{ position: "relative", heigh: "100%", borderRadius: "12px" }}>
-      {onClickCardAction ? (
-        <CardActionArea onClick={() => onClickCardAction(asset)}>
-          {assetDetails}
-        </CardActionArea>
-      ) : showAssetDetailsInDialog ? (
-        <>
-          {openDetailsDialog && (
-            <AssetDetailsDialog
-              dialogProps={{
-                open: openDetailsDialog,
-                onClose: () => setOpenDetailsDialog(false),
-                fullWidth: true,
-              }}
-              asset={asset}
-            />
-          )}
-          <CardActionArea onClick={() => setOpenDetailsDialog(true)}>
+    <Box sx={{ position: "relative" }}>
+      <Card sx={{ heigh: "100%", borderRadius: "12px" }}>
+        {onClickCardAction ? (
+          <CardActionArea onClick={() => onClickCardAction(asset)}>
             {assetDetails}
           </CardActionArea>
-        </>
-      ) : (
-        <CardActionArea
-          LinkComponent={Link}
-          disabled={disabled}
-          href={`/asset/${getNetworkSlugFromChainId(
-            asset?.chainId
-          )}/${asset?.contractAddress}/${asset?.id}`}
-        >
-          {assetDetails}
-        </CardActionArea>
-      )}
+        ) : showAssetDetailsInDialog ? (
+          <>
+            {openDetailsDialog && (
+              <AssetDetailsDialog
+                dialogProps={{
+                  open: openDetailsDialog,
+                  onClose: () => setOpenDetailsDialog(false),
+                  fullWidth: true,
+                }}
+                asset={asset}
+              />
+            )}
+            <CardActionArea onClick={() => setOpenDetailsDialog(true)}>
+              {assetDetails}
+            </CardActionArea>
+          </>
+        ) : (
+          <CardActionArea
+            LinkComponent={Link}
+            disabled={disabled}
+            href={`/asset/${getNetworkSlugFromChainId(
+              asset?.chainId
+            )}/${asset?.contractAddress}/${asset?.id}`}
+          >
+            {assetDetails}
+          </CardActionArea>
+        )}
+      </Card>
       {showControls && (
         <IconButton
           aria-controls={open ? "asset-menu-action" : undefined}
@@ -301,7 +303,7 @@ export function BaseAssetCard({
             }
           />
         </IconButton>
-          )*/}
-    </Card>
+      )*/}
+    </Box>
   );
 }

@@ -12,9 +12,9 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
+  ThemeProvider,
   useTheme,
 } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
@@ -178,7 +178,7 @@ export default function SwapWizardContainer({
         />
       </Grid>
       <Grid size={6}>
-        <CssVarsProvider theme={swapTheme}>
+        <ThemeProvider theme={swapTheme}>
           <SwapWidget
             {...swapState}
             activeChainIds={activeChainIds}
@@ -198,7 +198,7 @@ export default function SwapWizardContainer({
             }}
             swapFees={swapState.swapFees}
           />
-        </CssVarsProvider>
+        </ThemeProvider>
       </Grid>
       <Grid size={12}>
         <Divider />

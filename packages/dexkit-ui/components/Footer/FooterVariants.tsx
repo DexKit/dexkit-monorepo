@@ -1025,12 +1025,12 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
         return (
           <>
             {customSignature.showAppName && (
-              <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
+              <MinimalLink key="app-name" href="/" textColor={textColor} fontSize={fontSize}>
                 {appConfig.name}
               </MinimalLink>
             )}
             {customSignature.showLoveBy && (
-              <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: customSignature.showAppName ? 0.5 : 0 }}>
+              <Typography key="love-by" variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: customSignature.showAppName ? 0.5 : 0 }}>
                 <FormattedMessage
                   id="made.with.love.by"
                   defaultMessage="made with ❤️ by"
@@ -1039,6 +1039,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
               </Typography>
             )}
             <MinimalLink
+              key="dexkit-link"
               href={isPreview ? "#" : (customSignature.link || "https://www.dexkit.com")}
               target="_blank"
               textColor={textColor}
@@ -1053,10 +1054,10 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
 
       return (
         <>
-          <MinimalLink href="/" textColor={textColor} fontSize={fontSize}>
+          <MinimalLink key="app-name-default" href="/" textColor={textColor} fontSize={fontSize}>
             {appConfig.name}
           </MinimalLink>
-          <Typography variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: 0.5 }}>
+          <Typography key="love-by-default" variant="body2" sx={{ color: textColor, fontSize: `${fontSize}px`, ml: 0.5 }}>
             <FormattedMessage
               id="made.with.love.by"
               defaultMessage="made with ❤️ by"
@@ -1064,6 +1065,7 @@ export function FooterVariants({ appConfig, isPreview, appNFT }: Props) {
             />
           </Typography>
           <MinimalLink
+            key="dexkit-link-default"
             href={isPreview ? "#" : "https://www.dexkit.com"}
             target="_blank"
             textColor={textColor}

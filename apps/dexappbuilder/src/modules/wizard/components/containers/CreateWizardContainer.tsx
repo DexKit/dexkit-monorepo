@@ -4,15 +4,14 @@ import {
   Container,
   Divider,
   Drawer,
-  Grid,
   IconButton,
   InputAdornment,
   Stack,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from '@mui/material';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
@@ -22,7 +21,7 @@ import Close from '@mui/icons-material/Close';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { NextSeo } from 'next-seo';
-import { useMemo, useState, ReactNode } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import theDefaultConfig from '../../../../../config/wizard.default.app.json';
@@ -288,7 +287,6 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
             </Stack>
           </Box>
 
-          {/* Title Section */}
           <Box>
             <Typography variant="h5">
               <FormattedMessage
@@ -298,15 +296,13 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
             </Typography>
           </Box>
 
-          {/* Main Content - Two Column Layout */}
-          <Box sx={{ 
-            display: 'flex', 
+          <Box sx={{
+            display: 'flex',
             flexDirection: { xs: 'column', md: 'row' },
             gap: 3,
             alignItems: 'flex-start'
           }}>
-            {/* Left Column - Form */}
-            <Box sx={{ 
+            <Box sx={{
               flex: { xs: '1', md: '0 0 400px' },
               width: { xs: '100%', md: '400px' }
             }}>
@@ -369,7 +365,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                             ),
                           }}
                         />
-                        
+
                         <Field
                           component={TextField}
                           fullWidth
@@ -382,8 +378,8 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                           }
                         />
 
-                        <Box sx={{ 
-                          display: 'flex', 
+                        <Box sx={{
+                          display: 'flex',
                           justifyContent: 'flex-end',
                           pt: 1
                         }}>
@@ -417,13 +413,12 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
               </Stack>
             </Box>
 
-            {/* Right Column - Preview */}
             {!isMobile && (
-              <Box sx={{ 
+              <Box sx={{
                 flex: 1,
                 minWidth: 0
               }}>
-                <CssVarsProvider theme={selectedTheme}>
+                <ThemeProvider theme={selectedTheme}>
                   <Box>
                     <Stack spacing={2}>
                       {clonedConfigQuery?.data?.nft && (
@@ -470,7 +465,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                       />
                     </Stack>
                   </Box>
-                </CssVarsProvider>
+                </ThemeProvider>
               </Box>
             )}
           </Box>

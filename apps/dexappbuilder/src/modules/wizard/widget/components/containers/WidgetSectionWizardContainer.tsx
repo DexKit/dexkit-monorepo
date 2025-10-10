@@ -11,7 +11,7 @@ import {
   createTheme,
   responsiveFontSizes,
 } from '@mui/material';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useContext, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -284,7 +284,7 @@ export default function WidgetSectionWizardContainer({
   const renderPreviewDialog = () => {
     if (showPreview && selectedKey) {
       return (
-        <CssVarsProvider theme={selectedTheme}>
+        <ThemeProvider theme={selectedTheme}>
           <PreviewPageDialog
             dialogProps={{
               open: showPreview,
@@ -299,7 +299,7 @@ export default function WidgetSectionWizardContainer({
             site={''}
             layout={page?.layout}
           />
-        </CssVarsProvider>
+        </ThemeProvider>
       );
     }
   };
@@ -405,18 +405,18 @@ export default function WidgetSectionWizardContainer({
             onEmbed={onEmbed}
             onAddSection={onAddSection}
             onAddCustomSection={onAddCustomSection}
-            onEditTitle={() => {}}
+            onEditTitle={() => { }}
             pageKey={selectedKey}
             page={page}
             onSwap={onSwapSection}
             onAction={onAction}
-            onClose={() => {}}
-            onAdd={() => {}}
+            onClose={() => { }}
+            onAdd={() => { }}
             hideEmbedMenu={true}
             onPreview={handleShowPreview}
             activeSection={activeSection}
-            onClone={() => {}}
-            onChangeName={() => {}}
+            onClone={() => { }}
+            onChangeName={() => { }}
             onEditLayout={handleEditLayout}
           />
         </Grid>

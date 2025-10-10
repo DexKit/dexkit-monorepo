@@ -5,6 +5,7 @@ import {
 } from '@dexkit/core/constants/networks';
 import { truncateAddress } from '@dexkit/core/utils';
 import Link from '@dexkit/ui/components/AppLink';
+import MobilePagination from '@dexkit/ui/components/MobilePagination';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import Settings from '@mui/icons-material/SettingsOutlined';
@@ -346,6 +347,14 @@ export default function ContractListDataGrid({
     setRowSelectionModel(rowSelectionModel);
   };
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   const mobileStyles = {
     '.MuiDataGrid-root': {
       border: 'none',
@@ -371,9 +380,6 @@ export default function ContractListDataGrid({
       fontSize: theme.typography.caption.fontSize,
       padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
       lineHeight: 1.2,
-    },
-    '.MuiDataGrid-virtualScroller': {
-      overflow: 'visible',
     },
     '.MuiDataGrid-toolbarContainer': {
       padding: theme.spacing(0.5),
@@ -402,7 +408,7 @@ export default function ContractListDataGrid({
   return (
     <Box sx={{
       width: '100%',
-      height: { xs: theme.spacing(60), sm: theme.spacing(75) },
+      height: isMobile ? 'auto' : theme.spacing(75),
       '& .MuiDataGrid-cell': {
         fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
@@ -430,6 +436,7 @@ export default function ContractListDataGrid({
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
+        hideFooterPagination={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -450,13 +457,19 @@ export default function ContractListDataGrid({
           width: '100%',
           maxWidth: '100%',
           border: 'none',
-          ...(isMobile && {
-            '& .MuiDataGrid-virtualScroller': {
-              overflow: 'visible',
-            },
-          }),
         }}
       />
+
+      {isMobile && (
+        <MobilePagination
+          page={paginationModel.page}
+          pageSize={paginationModel.pageSize}
+          totalRows={rowCountState}
+          onPageChange={handleMobilePageChange}
+          onPageSizeChange={handleMobilePageSizeChange}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      )}
     </Box>
   );
 }

@@ -5,14 +5,20 @@ import {
 } from "@dexkit/core/constants/networks";
 import { truncateAddress } from "@dexkit/core/utils";
 import Link from "@dexkit/ui/components/AppLink";
+import MobilePagination from "@dexkit/ui/components/MobilePagination";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 import Settings from "@mui/icons-material/SettingsOutlined";
 import VisibilityOff from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
-import { IconButton, Tooltip } from "@mui/material";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Tooltip,
+  useMediaQuery,
+  useTheme
+} from "@mui/material";
 import {
   DataGrid,
   GridCallbackDetails,
@@ -49,6 +55,8 @@ export default function ContractListDataGrid({
   onClickContract,
 }: ContractListDataGridProps) {
   const { account } = useWeb3React();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [queryOptions, setQueryOptions] = useState<any>({
     filter: { owner: account?.toLowerCase() },
@@ -56,8 +64,15 @@ export default function ContractListDataGrid({
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 10,
+    pageSize: isMobile ? 5 : 10,
   });
+
+  useEffect(() => {
+    setPaginationModel({
+      page: 0,
+      pageSize: isMobile ? 5 : 10,
+    });
+  }, [isMobile]);
 
   const queryClient = useQueryClient();
 
@@ -301,14 +316,22 @@ export default function ContractListDataGrid({
     setRowSelectionModel(rowSelectionModel);
   };
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   return (
-    <Box sx={{ width: "100%", height: 450 }}>
+    <Box sx={{ width: "100%", height: isMobile ? 'auto' : 450 }}>
       <DataGrid
         rows={data?.data || []}
         rowCount={rowCountState}
         loading={isLoading}
         columns={columns}
-        pageSizeOptions={[5, 10, 25, 50, 100]}
+        pageSizeOptions={isMobile ? [5] : [5, 10, 25, 50, 100]}
         paginationModel={paginationModel}
         paginationMode="server"
         sortingMode="server"
@@ -317,6 +340,8 @@ export default function ContractListDataGrid({
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
+        hideFooterPagination={isMobile}
+        autoHeight={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -331,6 +356,17 @@ export default function ContractListDataGrid({
         }}
         onRowSelectionModelChange={handleChangeRowSelectionModel}
       />
+
+      {isMobile && (
+        <MobilePagination
+          page={paginationModel.page}
+          pageSize={paginationModel.pageSize}
+          totalRows={rowCountState}
+          onPageChange={handleMobilePageChange}
+          onPageSizeChange={handleMobilePageSizeChange}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      )}
     </Box>
   );
 }

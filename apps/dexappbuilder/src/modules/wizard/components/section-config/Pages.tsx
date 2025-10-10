@@ -17,8 +17,8 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
   SupportedColorScheme,
+  ThemeProvider,
 } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -250,7 +250,7 @@ export default function Pages({
   const renderPreviewDialog = () => {
     if (showPreview && selectedKey) {
       return (
-        <CssVarsProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <PreviewPageDialog
             dialogProps={{
               open: showPreview,
@@ -265,7 +265,7 @@ export default function Pages({
             site={site}
             layout={pages[selectedKey].layout}
           />
-        </CssVarsProvider>
+        </ThemeProvider>
       );
     }
   };
