@@ -1,4 +1,9 @@
-import { ChainId, useErc20BalanceQuery } from "@dexkit/core";
+import {
+  ChainId,
+  useApproveToken,
+  useErc20BalanceQuery,
+  useTokenAllowanceQuery,
+} from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import {
   formatBigNumber,
@@ -32,7 +37,10 @@ import {
 } from "@mui/material";
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
-import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
+import {
+  SUPPORTED_UNISWAP_V2,
+  ZEROEX_AFFILIATE_ADDRESS,
+} from "@dexkit/ui/modules/swap/constants";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import type { providers } from "ethers";
@@ -79,17 +87,41 @@ export default function MarketForm({
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
   const textColor = isGlassVariant
-    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
-    : (glassSettings?.textColor || theme.palette.text.primary);
+    ? glassSettings?.textColor || "rgba(255, 255, 255, 0.95)"
+    : glassSettings?.textColor || theme.palette.text.primary;
   const secondaryTextColor = isGlassVariant
-    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
+    ? glassSettings?.textColor || "rgba(255, 255, 255, 0.7)"
     : theme.palette.text.secondary;
-  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.10})` : theme.palette.primary.main);
-  const fillButtonTextColor = glassSettings?.fillButtonTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
-  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.10) + 0.1, 0.2)})` : theme.palette.primary.dark);
-  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
-  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.10) * 0.5})` : theme.palette.action.disabled);
-  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || (isGlassVariant ? `${glassSettings?.textColor || '#ffffff'}80` : theme.palette.action.disabledBackground);
+  const fillButtonBackgroundColor =
+    glassSettings?.fillButtonBackgroundColor ||
+    (isGlassVariant
+      ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.1})`
+      : theme.palette.primary.main);
+  const fillButtonTextColor =
+    glassSettings?.fillButtonTextColor ||
+    (isGlassVariant
+      ? glassSettings?.textColor || "#ffffff"
+      : theme.palette.primary.contrastText);
+  const fillButtonHoverBackgroundColor =
+    glassSettings?.fillButtonHoverBackgroundColor ||
+    (isGlassVariant
+      ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.1) + 0.1, 0.2)})`
+      : theme.palette.primary.dark);
+  const fillButtonHoverTextColor =
+    glassSettings?.fillButtonHoverTextColor ||
+    (isGlassVariant
+      ? glassSettings?.textColor || "#ffffff"
+      : theme.palette.primary.contrastText);
+  const fillButtonDisabledBackgroundColor =
+    glassSettings?.fillButtonDisabledBackgroundColor ||
+    (isGlassVariant
+      ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.1) * 0.5})`
+      : theme.palette.action.disabled);
+  const fillButtonDisabledTextColor =
+    glassSettings?.fillButtonDisabledTextColor ||
+    (isGlassVariant
+      ? `${glassSettings?.textColor || "#ffffff"}80`
+      : theme.palette.action.disabledBackground);
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -156,7 +188,7 @@ export default function MarketForm({
     }
 
     return "0.0";
-  }, [quoteTokenBalance, baseToken]);
+  }, [baseTokenBalance, baseToken]);
 
   const kitAmount =
     amount && Number(amount) > 0
@@ -289,8 +321,31 @@ export default function MarketForm({
     setShowReview(true);
   };
 
-  const { chainId: providerChainId } = useWeb3React();
+  const { chainId: providerChainId, signer } = useWeb3React();
   const switchNetworkMutation = useSwitchNetworkMutation();
+
+  const approveMutation = useApproveToken();
+
+  const handleApprove = async () => {
+    await approveMutation.mutateAsync({
+      onSubmited: (hash: string) => {},
+      amount: BigNumber.from(quote?.sellAmount),
+      signer,
+      spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+        ? quote?.to
+        : quote?.issues?.allowance?.spender,
+      tokenContract: quote?.sellToken,
+    });
+  };
+
+  const tokenAllowanceQuery = useTokenAllowanceQuery({
+    account,
+    signer,
+    spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+      ? quote?.to
+      : quote?.issues.allowance.spender,
+    tokenAddress: quote?.sellToken,
+  });
 
   const renderActionButton = useCallback(() => {
     if (!providerChainId) {
@@ -323,6 +378,36 @@ export default function MarketForm({
         </Button>
       );
     }
+
+    if (
+      tokenAllowanceQuery.data?.lt(BigNumber.from(quote?.sellAmount || "0"))
+    ) {
+      return (
+        <Button
+          disabled={approveMutation.isLoading}
+          size="large"
+          fullWidth
+          variant="contained"
+          startIcon={approveMutation.isLoading && <CircularProgress />}
+          onClick={async () => {
+            handleApprove();
+          }}
+        >
+          {approveMutation.isLoading ? (
+            <FormattedMessage id="approving..." defaultMessage="Approving..." />
+          ) : (
+            <FormattedMessage
+              id="approve.token.to.trade"
+              defaultMessage="Approve {token} to trade"
+              values={{
+                token: side === "buy" ? quoteToken.symbol : baseToken.symbol,
+              }}
+            />
+          )}
+        </Button>
+      );
+    }
+
     let errorMsg = null;
 
     if (priceQuery?.isError) {
@@ -357,13 +442,13 @@ export default function MarketForm({
         variant="contained"
         onClick={handleExecute}
         sx={{
-          '&.MuiButton-root': {
+          "&.MuiButton-root": {
             backgroundColor: `${fillButtonBackgroundColor} !important`,
             color: `${fillButtonTextColor} !important`,
             fontWeight: theme.typography.fontWeightMedium,
-            textTransform: 'none',
+            textTransform: "none",
             borderRadius: isGlassVariant ? theme.spacing(2) : theme.spacing(1),
-            transition: theme.transitions.create(['all'], {
+            transition: theme.transitions.create(["all"], {
               duration: theme.transitions.duration.short,
               easing: theme.transitions.easing.easeInOut,
             }),
@@ -379,7 +464,7 @@ export default function MarketForm({
               `,
             }),
           },
-          '&.MuiButton-root:hover:not(:disabled)': {
+          "&.MuiButton-root:hover:not(:disabled)": {
             backgroundColor: `${fillButtonHoverBackgroundColor} !important`,
             color: `${fillButtonHoverTextColor} !important`,
             transform: isGlassVariant
@@ -397,15 +482,15 @@ export default function MarketForm({
               `,
             }),
           },
-          '&.MuiButton-root:active:not(:disabled)': {
+          "&.MuiButton-root:active:not(:disabled)": {
             transform: isGlassVariant
               ? `translateY(-${theme.spacing(0.125)}) scale(0.98)`
-              : 'translateY(0)',
+              : "translateY(0)",
           },
-          '&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled': {
+          "&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled": {
             backgroundColor: `${fillButtonDisabledBackgroundColor} !important`,
             color: `${fillButtonDisabledTextColor} !important`,
-            opacity: '1 !important',
+            opacity: "1 !important",
             ...(isGlassVariant && {
               backdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
               WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,

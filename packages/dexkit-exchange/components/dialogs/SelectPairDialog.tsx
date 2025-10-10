@@ -37,7 +37,7 @@ import LazyTextField from "@dexkit/ui/components/LazyTextField";
 import { usePlatformCoinSearch } from "@dexkit/ui/hooks/coin";
 import { apiCoinToTokens } from "@dexkit/ui/utils/coin";
 import TokenIcon from "@mui/icons-material/Token";
-import { DEFAULT_ZRX_NETWORKS } from "../../constants";
+import { EXCHANGE_SUPPORTED_NETWORKS } from "../../constants";
 import { useExchangeContext } from "../../hooks";
 
 export interface SelectPairDialogProps {
@@ -67,7 +67,7 @@ export default function SelectPairDialog({
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
   const textColor = glassSettings?.textColor || theme.palette.text.primary;
@@ -173,12 +173,12 @@ export default function SelectPairDialog({
       PaperProps={{
         sx: {
           ...(isMobile && {
-            height: { xs: '95vh', sm: '90vh' },
+            height: { xs: "95vh", sm: "90vh" },
             margin: theme.spacing(1),
             borderRadius: theme.shape.borderRadius * 2,
           }),
           ...(!isMobile && {
-            maxHeight: { md: '80vh', lg: '75vh' },
+            maxHeight: { md: "80vh", lg: "75vh" },
             minWidth: { sm: theme.spacing(60), md: theme.spacing(70) },
           }),
         },
@@ -190,11 +190,15 @@ export default function SelectPairDialog({
         }
         onClose={handleClose}
         sx={{
-          px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          px: {
+            xs: theme.spacing(1.5),
+            sm: theme.spacing(2),
+            md: theme.spacing(3),
+          },
           py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
           ...(isGlassVariant && {
             color: textColor,
-            '& .MuiTypography-root': {
+            "& .MuiTypography-root": {
               color: textColor,
             },
           }),
@@ -204,15 +208,22 @@ export default function SelectPairDialog({
 
       <Box
         sx={{
-          p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          p: {
+            xs: theme.spacing(1.5),
+            sm: theme.spacing(2),
+            md: theme.spacing(3),
+          },
           ...(isMobile && {
-            position: 'sticky',
+            position: "sticky",
             top: 0,
             zIndex: theme.zIndex.modal + 1,
-            backgroundColor: isGlassVariant ? 'rgba(255, 255, 255, 0.1)' : theme.palette.background.paper,
+            backgroundColor: isGlassVariant
+              ? "rgba(255, 255, 255, 0.1)"
+              : theme.palette.background.paper,
             ...(isGlassVariant && {
-              backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
-              WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+              backdropFilter: "blur(25px) saturate(200%) brightness(1.08)",
+              WebkitBackdropFilter:
+                "blur(25px) saturate(200%) brightness(1.08)",
             }),
             borderBottom: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
             boxShadow: theme.shadows[1],
@@ -227,7 +238,7 @@ export default function SelectPairDialog({
                 .filter((n) => {
                   if (isMobile && !showMoreNetworks) {
                     return (
-                      DEFAULT_ZRX_NETWORKS.includes(n.chainId) ||
+                      EXCHANGE_SUPPORTED_NETWORKS.includes(n.chainId) ||
                       chainId === n.chainId
                     );
                   }
@@ -242,8 +253,14 @@ export default function SelectPairDialog({
                       icon={
                         <Avatar
                           sx={{
-                            height: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
-                            width: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
+                            height: {
+                              xs: theme.spacing(1.5),
+                              sm: theme.spacing(2),
+                            },
+                            width: {
+                              xs: theme.spacing(1.5),
+                              sm: theme.spacing(2),
+                            },
                           }}
                           src={n.imageUrl}
                         />
@@ -254,21 +271,21 @@ export default function SelectPairDialog({
                         ...(isSmallScreen && {
                           fontSize: theme.typography.caption.fontSize,
                           height: theme.spacing(3.5),
-                          '& .MuiChip-label': {
+                          "& .MuiChip-label": {
                             px: theme.spacing(0.75),
                           },
                         }),
                         ...(isGlassVariant && {
                           color: textColor,
-                          '& .MuiChip-label': {
+                          "& .MuiChip-label": {
                             color: textColor,
                             ...(isSmallScreen && {
                               px: theme.spacing(0.75),
                             }),
                           },
-                          '&.MuiChip-colorPrimary': {
-                            '& .MuiChip-label': {
-                              color: 'white',
+                          "&.MuiChip-colorPrimary": {
+                            "& .MuiChip-label": {
+                              color: "white",
                             },
                           },
                         }),
@@ -284,7 +301,7 @@ export default function SelectPairDialog({
                     size="small"
                     sx={{
                       fontSize: theme.typography.caption.fontSize,
-                      minWidth: 'auto',
+                      minWidth: "auto",
                       px: theme.spacing(1),
                       color: theme.palette.text.secondary,
                       ...(isGlassVariant && {
@@ -325,18 +342,18 @@ export default function SelectPairDialog({
                 ),
               },
               sx: {
-                '& .MuiInputBase-root': {
+                "& .MuiInputBase-root": {
                   fontSize: {
                     xs: theme.typography.body2.fontSize,
-                    sm: theme.typography.body1.fontSize
+                    sm: theme.typography.body1.fontSize,
                   },
                   ...(isGlassVariant && {
                     color: textColor,
-                    '& input::placeholder': {
+                    "& input::placeholder": {
                       color: `${textColor}B3`,
                       opacity: 1,
                     },
-                    '& .MuiInputBase-input': {
+                    "& .MuiInputBase-input": {
                       color: textColor,
                     },
                   }),
@@ -350,7 +367,7 @@ export default function SelectPairDialog({
             alignItems="center"
             spacing={{ xs: 0.5, sm: 1 }}
             sx={{
-              flexWrap: 'wrap',
+              flexWrap: "wrap",
               gap: { xs: theme.spacing(0.5), sm: theme.spacing(1) },
             }}
           >
@@ -385,21 +402,21 @@ export default function SelectPairDialog({
                   ...(isSmallScreen && {
                     fontSize: theme.typography.caption.fontSize,
                     height: theme.spacing(3.5),
-                    '& .MuiChip-label': {
+                    "& .MuiChip-label": {
                       px: theme.spacing(0.75),
                     },
                   }),
                   ...(isGlassVariant && {
                     color: textColor,
-                    '& .MuiChip-label': {
+                    "& .MuiChip-label": {
                       color: textColor,
                       ...(isSmallScreen && {
                         px: theme.spacing(0.75),
                       }),
                     },
-                    '&.MuiChip-colorPrimary': {
-                      '& .MuiChip-label': {
-                        color: 'white',
+                    "&.MuiChip-colorPrimary": {
+                      "& .MuiChip-label": {
+                        color: "white",
                       },
                     },
                   }),
@@ -413,7 +430,7 @@ export default function SelectPairDialog({
       <DialogContent
         sx={{
           p: 0,
-          '&.MuiDialogContent-root': {
+          "&.MuiDialogContent-root": {
             paddingTop: 0,
           },
         }}
@@ -429,15 +446,19 @@ export default function SelectPairDialog({
 
       <DialogActions
         sx={{
-          px: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
+          px: {
+            xs: theme.spacing(1.5),
+            sm: theme.spacing(2),
+            md: theme.spacing(3),
+          },
           py: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
           gap: { xs: theme.spacing(1), sm: theme.spacing(0.5) },
           backgroundColor: theme.palette.background.paper,
           borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
           ...(isGlassVariant && {
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
-            WebkitBackdropFilter: 'blur(25px) saturate(200%) brightness(1.08)',
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(25px) saturate(200%) brightness(1.08)",
+            WebkitBackdropFilter: "blur(25px) saturate(200%) brightness(1.08)",
             borderTop: `1px solid rgba(255, 255, 255, 0.25)`,
           }),
         }}
@@ -449,7 +470,7 @@ export default function SelectPairDialog({
           sx={{
             fontSize: {
               xs: theme.typography.body2.fontSize,
-              sm: theme.typography.body1.fontSize
+              sm: theme.typography.body1.fontSize,
             },
             px: { xs: theme.spacing(2), sm: theme.spacing(3) },
             minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },
@@ -463,7 +484,7 @@ export default function SelectPairDialog({
           sx={{
             fontSize: {
               xs: theme.typography.body2.fontSize,
-              sm: theme.typography.body1.fontSize
+              sm: theme.typography.body1.fontSize,
             },
             px: { xs: theme.spacing(2), sm: theme.spacing(3) },
             minWidth: { xs: theme.spacing(10), sm: theme.spacing(12) },

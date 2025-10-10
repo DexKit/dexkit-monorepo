@@ -786,6 +786,26 @@ export const WBTC_TOKEN_LINEA: Token = {
   logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
 };
 
+export const WRAPPED_CRONOS: Token = {
+  chainId: ChainId.Cronos,
+  address: "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23",
+  name: "Wrapped Cronos",
+  symbol: "WCRO",
+  decimals: 18,
+  coingeckoId: "crypto-com-chain",
+  logoURI: 'https://static.crypto.com/token/icons/wrapped-cro/color_icon.png',
+};
+
+export const USDT_TOKEN_CRONOS: Token = {
+  address: "0x66e428c3f67a68878562e79A0234c1F83c208770",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Cronos,
+  logoURI: USDT_LOGO_URL,
+};
+
 export const BASE_TOKENS_SUGGESTION = [
   WRAPPED_ETH_ARB,
   WRAPPED_ETH_AVAX,
@@ -821,6 +841,7 @@ export const BASE_TOKENS_SUGGESTION = [
   EZETH_TOKEN_MODE,
   JUICE_TOKEN_BLAST,
   YES_TOKEN_BLAST,
+  WRAPPED_CRONOS,
 ];
 
 export const EXTENDED_QUOTE_TOKENS_SUGGESTION = [
@@ -838,6 +859,7 @@ export const EXTENDED_QUOTE_TOKENS_SUGGESTION = [
   USDT_TOKEN_MANTLE,
   USDT_TOKEN_MODE,
   USDT_TOKEN_BLAST,
+  USDT_TOKEN_CRONOS,
 ];
 
 export const DEFAULT_TOKENS: {
@@ -902,5 +924,9 @@ export const DEFAULT_TOKENS: {
   [ChainId.Mode]: {
     baseToken: WRAPPED_ETH_MODE,
     quoteToken: USDC_TOKEN_MODE,
+  },
+  [ChainId.Cronos]: {
+    baseToken: WRAPPED_CRONOS,
+    quoteToken: USDT_TOKEN_CRONOS,
   },
 };
