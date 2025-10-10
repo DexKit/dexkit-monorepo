@@ -207,7 +207,7 @@ function SelectCoinListItemGlass({
       }}
     >
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs="auto">
+        <Grid size="auto">
           <ListItemAvatar
             sx={{
               minWidth: {
@@ -222,7 +222,7 @@ function SelectCoinListItemGlass({
           </ListItemAvatar>
         </Grid>
 
-        <Grid item xs>
+        <Grid xs>
           <ListItemText
             primary={
               <Typography
@@ -265,7 +265,7 @@ function SelectCoinListItemGlass({
           />
         </Grid>
 
-        <Grid item xs="auto">
+        <Grid size="auto">
           <Box
             sx={{
               minWidth: {

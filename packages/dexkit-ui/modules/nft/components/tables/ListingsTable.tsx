@@ -1,21 +1,21 @@
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import {
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import { constants } from "ethers";
 
@@ -27,8 +27,8 @@ import ListingsTableRow from "./ListingsTableRow";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {
-    default as Share,
-    default as Visibility,
+  default as Share,
+  default as Visibility,
 } from "@mui/icons-material/Visibility";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -130,9 +130,9 @@ export function ListingsTable({
     if (tempOrders?.length === 0 && !raribleAsset?.bestSellOrder) {
       return (
         <TableRow>
-          <TableCell colSpan={4}>
+          <TableCell {...({ colSpan: 4 } as any)}>
             <Stack justifyContent="center" alignItems="center">
-              <Typography variant="body1" color="textSecondary">
+              <Typography variant="body1" color="text.primary">
                 <FormattedMessage
                   id="no.listings.yet"
                   defaultMessage="No listings yet"
@@ -228,7 +228,7 @@ export function ListingsTable({
                     defaultMessage="Expiration"
                   />
                 </TableCell>
-                <TableCell component="th" colSpan={3}>
+                <TableCell component="th" {...({ colSpan: 3 } as any)}>
                   <FormattedMessage id="from" defaultMessage="From" />
                 </TableCell>
               </TableRow>

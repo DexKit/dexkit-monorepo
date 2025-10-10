@@ -172,7 +172,7 @@ const BottomToolbarStyled = styled(BottomToolbar)({
   },
 });
 
-const CustomToolbar = memo<BottomToolbarProps>((props) => {
+const CustomToolbar = memo<BottomToolbarProps>((props: any) => {
   return <BottomToolbarStyled {...props} />;
 });
 

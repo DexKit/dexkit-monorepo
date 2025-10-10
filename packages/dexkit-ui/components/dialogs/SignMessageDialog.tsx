@@ -42,7 +42,7 @@ export function SignMessageDialog({
             <Typography align="center" variant="h5">
               <FormattedMessage id="error" defaultMessage="Error" />
             </Typography>
-            <Typography align="center" variant="body1" color="textSecondary">
+            <Typography align="center" variant="body1" color="text.primary">
               {error?.message}
             </Typography>
           </Box>
@@ -64,7 +64,7 @@ export function SignMessageDialog({
                 description="Sign message "
               />
             </Typography>
-            <Typography align="center" variant="body1" color="textSecondary">
+            <Typography align="center" variant="body1" color="text.primary">
               <FormattedMessage
                 id="confirm.sign.message"
                 defaultMessage="Please, sign the message on your wallet"
@@ -107,7 +107,7 @@ export function SignMessageDialog({
         </Stack>
         {onClose && (
           <IconButton onClick={handleClose}>
-            <CloseIcon />
+            <CloseIcon sx={{ color: 'text.primary' }} />
           </IconButton>
         )}
       </DialogTitle>

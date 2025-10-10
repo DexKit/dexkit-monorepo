@@ -213,7 +213,7 @@ export default function ContractAirdropErc721Container({
         chainId={chainId}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={currTab} onChange={handleChange}>
             <Tab
               value="airdrop"
@@ -233,10 +233,14 @@ export default function ContractAirdropErc721Container({
         </Grid>
         {currTab === 'airdrop' && (
           <>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Box sx={{ mb: !contractAddress ? 0.5 : 0 }}>
@@ -287,7 +291,11 @@ export default function ContractAirdropErc721Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Stack
@@ -328,7 +336,7 @@ export default function ContractAirdropErc721Container({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={2}>
                 <Divider />
                 <Stack direction="row">
@@ -354,12 +362,12 @@ export default function ContractAirdropErc721Container({
           </>
         )}
         {currTab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {currTab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

@@ -35,7 +35,7 @@ import {
   useTheme
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { IconPickerField } from '../../../../components/IconPickerField';
 import { MultiStepperConfigSchema } from '../schemas/stepper';
@@ -122,7 +122,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -135,7 +135,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -189,11 +189,14 @@ function validate(values: MultiStepperConfig) {
   }
 }
 
-export const StepperForm: React.FC<StepperFormProps> = ({
+export const StepperForm = ({
   initialValues,
   onSubmit,
   onChange,
-}) => {
+}: StepperFormProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [activeTab, setActiveTab] = useState(0);
   const [expandedStep, setExpandedStep] = useState<string | false>(false);
 
@@ -307,7 +310,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         <Accordion
           key={step.id}
           expanded={expandedStep === step.id}
-          onChange={(_, isExpanded) => setExpandedStep(isExpanded ? step.id : false)}
+          onChange={(_, isExpanded: any) => setExpandedStep(isExpanded ? step.id : false)}
           sx={{ mb: 1 }}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -319,7 +322,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <IconButton
                   size="small"
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     duplicateStep(step.id);
                   }}
@@ -329,7 +332,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                 <IconButton
                   size="small"
                   color="error"
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     removeStep(step.id);
                   }}
@@ -342,27 +345,39 @@ export const StepperForm: React.FC<StepperFormProps> = ({
 
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <TextField
                   fullWidth
                   label={<FormattedMessage id="stepper.step.label" defaultMessage="Step Label" />}
                   value={step.label}
-                  onChange={(e) => updateStep(step.id, 'label', e.target.value)}
+                  onChange={(e: any) => updateStep(step.id, 'label', e.target.value)}
                   error={Boolean(getFieldError(`steps.${index}.label`))}
                   helperText={getFieldError(`steps.${index}.label`)}
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <TextField
                   fullWidth
                   label={<FormattedMessage id="stepper.step.description" defaultMessage="Description (Optional)" />}
                   value={step.description || ''}
-                  onChange={(e) => updateStep(step.id, 'description', e.target.value)}
+                  onChange={(e: any) => updateStep(step.id, 'description', e.target.value)}
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <IconPickerField
                   label={<FormattedMessage id="stepper.step.icon" defaultMessage="Custom Icon (Optional)" />}
                   value={step.icon || ''}
@@ -371,7 +386,11 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <ColorPickerField
                   label="Icon Color"
                   value={step.iconColor || ''}
@@ -380,7 +399,11 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <DKMDEditorInput
                   label={<FormattedMessage id="stepper.step.content" defaultMessage="Step Content" />}
                   value={step.content || ''}
@@ -392,14 +415,18 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <FormControl fullWidth>
                   <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <FormControlLabel
                       control={
                         <Switch
                           checked={step.optional || false}
-                          onChange={(e) => updateStep(step.id, 'optional', e.target.checked)}
+                          onChange={(e: any) => updateStep(step.id, 'optional', e.target.checked)}
                         />
                       }
                       label={<FormattedMessage id="stepper.step.optional" defaultMessage="Optional" />}
@@ -408,7 +435,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                       control={
                         <Switch
                           checked={step.disabled || false}
-                          onChange={(e) => updateStep(step.id, 'disabled', e.target.checked)}
+                          onChange={(e: any) => updateStep(step.id, 'disabled', e.target.checked)}
                         />
                       }
                       label={<FormattedMessage id="stepper.step.disabled" defaultMessage="Disabled" />}
@@ -417,7 +444,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
                       control={
                         <Switch
                           checked={step.error || false}
-                          onChange={(e) => updateStep(step.id, 'error', e.target.checked)}
+                          onChange={(e: any) => updateStep(step.id, 'error', e.target.checked)}
                         />
                       }
                       label={<FormattedMessage id="stepper.step.error" defaultMessage="Error State" />}
@@ -434,20 +461,24 @@ export const StepperForm: React.FC<StepperFormProps> = ({
 
   const renderSettings = () => (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="stepper.settings.basic" defaultMessage="Basic Settings" />
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControl fullWidth>
           <InputLabel>
             <FormattedMessage id="stepper.settings.orientation" defaultMessage="Orientation" />
           </InputLabel>
           <Select
             value={formik.values.settings.orientation || 'horizontal'}
-            onChange={(e) => formik.setFieldValue('settings.orientation', e.target.value)}
+            onChange={(e: any) => formik.setFieldValue('settings.orientation', e.target.value)}
             label="Orientation"
           >
             <MenuItem value="horizontal">
@@ -460,14 +491,18 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         </FormControl>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControl fullWidth>
           <InputLabel>
             <FormattedMessage id="stepper.settings.variant" defaultMessage="Variant" />
           </InputLabel>
           <Select
             value={formik.values.settings.variant || 'elevation'}
-            onChange={(e) => formik.setFieldValue('settings.variant', e.target.value)}
+            onChange={(e: any) => formik.setFieldValue('settings.variant', e.target.value)}
             label="Variant"
           >
             <MenuItem value="elevation">
@@ -480,44 +515,56 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         </FormControl>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.linear !== false}
-              onChange={(e) => formik.setFieldValue('settings.linear', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.linear', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.linear" defaultMessage="Linear Mode" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.alternativeLabel || false}
-              onChange={(e) => formik.setFieldValue('settings.alternativeLabel', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.alternativeLabel', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.alternativeLabel" defaultMessage="Alternative Label" />}
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="stepper.settings.visual" defaultMessage="Visual Settings" />
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <Typography gutterBottom>
           <FormattedMessage id="stepper.settings.elevation" defaultMessage="Elevation" />
         </Typography>
         <Slider
           value={formik.values.settings.elevation || 1}
-          onChange={(_, value) => formik.setFieldValue('settings.elevation', value)}
+          onChange={(_, value: any) => formik.setFieldValue('settings.elevation', value)}
           min={0}
           max={24}
           step={1}
@@ -526,35 +573,47 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <TextField
           fullWidth
           type="number"
           label={<FormattedMessage id="stepper.settings.borderRadius" defaultMessage="Border Radius (px)" />}
           value={formik.values.settings.borderRadius || 4}
-          onChange={(e) => formik.setFieldValue('settings.borderRadius', parseInt(e.target.value) || 0)}
+          onChange={(e: any) => formik.setFieldValue('settings.borderRadius', parseInt(e.target.value) || 0)}
           inputProps={{ min: 0 }}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <TextField
           fullWidth
           type="number"
           label={<FormattedMessage id="stepper.settings.padding" defaultMessage="Padding (px)" />}
           value={formik.values.settings.padding || 24}
-          onChange={(e) => formik.setFieldValue('settings.padding', parseInt(e.target.value) || 0)}
+          onChange={(e: any) => formik.setFieldValue('settings.padding', parseInt(e.target.value) || 0)}
           inputProps={{ min: 0 }}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <Typography gutterBottom>
           <FormattedMessage id="stepper.settings.spacing" defaultMessage="Spacing" />
         </Typography>
         <Slider
           value={formik.values.settings.spacing || 2}
-          onChange={(_, value) => formik.setFieldValue('settings.spacing', value)}
+          onChange={(_, value: any) => formik.setFieldValue('settings.spacing', value)}
           min={0}
           max={10}
           step={1}
@@ -563,19 +622,23 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="stepper.settings.mobile" defaultMessage="Mobile Stepper" />
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.mobileStepper || false}
-              onChange={(e) => formik.setFieldValue('settings.mobileStepper', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.mobileStepper', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.mobileStepper" defaultMessage="Enable Mobile Stepper" />}
@@ -584,14 +647,18 @@ export const StepperForm: React.FC<StepperFormProps> = ({
 
       {formik.values.settings.mobileStepper && (
         <>
-          <Grid item xs={12} md={6}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 6
+            }}>
             <FormControl fullWidth>
               <InputLabel>
                 <FormattedMessage id="stepper.settings.mobileVariant" defaultMessage="Mobile Variant" />
               </InputLabel>
               <Select
                 value={formik.values.settings.mobileStepperVariant || 'dots'}
-                onChange={(e) => formik.setFieldValue('settings.mobileStepperVariant', e.target.value)}
+                onChange={(e: any) => formik.setFieldValue('settings.mobileStepperVariant', e.target.value)}
                 label="Mobile Variant"
               >
                 <MenuItem value="text">Text</MenuItem>
@@ -601,14 +668,18 @@ export const StepperForm: React.FC<StepperFormProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 6
+            }}>
             <FormControl fullWidth>
               <InputLabel>
                 <FormattedMessage id="stepper.settings.mobilePosition" defaultMessage="Mobile Position" />
               </InputLabel>
               <Select
                 value={formik.values.settings.mobileStepperPosition || 'bottom'}
-                onChange={(e) => formik.setFieldValue('settings.mobileStepperPosition', e.target.value)}
+                onChange={(e: any) => formik.setFieldValue('settings.mobileStepperPosition', e.target.value)}
                 label="Mobile Position"
               >
                 <MenuItem value="bottom">Bottom</MenuItem>
@@ -620,120 +691,160 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         </>
       )}
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="stepper.settings.navigation" defaultMessage="Navigation Settings" />
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.showBackButton !== false}
-              onChange={(e) => formik.setFieldValue('settings.showBackButton', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.showBackButton', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.showBackButton" defaultMessage="Show Back Button" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.showNextButton !== false}
-              onChange={(e) => formik.setFieldValue('settings.showNextButton', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.showNextButton', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.showNextButton" defaultMessage="Show Next Button" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <TextField
           fullWidth
           label={<FormattedMessage id="stepper.settings.backButtonText" defaultMessage="Back Button Text" />}
           value={formik.values.settings.backButtonText || 'Back'}
-          onChange={(e) => formik.setFieldValue('settings.backButtonText', e.target.value)}
+          onChange={(e: any) => formik.setFieldValue('settings.backButtonText', e.target.value)}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <TextField
           fullWidth
           label={<FormattedMessage id="stepper.settings.nextButtonText" defaultMessage="Next Button Text" />}
           value={formik.values.settings.nextButtonText || 'Next'}
-          onChange={(e) => formik.setFieldValue('settings.nextButtonText', e.target.value)}
+          onChange={(e: any) => formik.setFieldValue('settings.nextButtonText', e.target.value)}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <TextField
           fullWidth
           label={<FormattedMessage id="stepper.settings.finishButtonText" defaultMessage="Finish Button Text" />}
           value={formik.values.settings.finishButtonText || 'Finish'}
-          onChange={(e) => formik.setFieldValue('settings.finishButtonText', e.target.value)}
+          onChange={(e: any) => formik.setFieldValue('settings.finishButtonText', e.target.value)}
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="stepper.settings.advanced" defaultMessage="Advanced Settings" />
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.nonLinear || false}
-              onChange={(e) => formik.setFieldValue('settings.nonLinear', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.nonLinear', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.nonLinear" defaultMessage="Non-Linear Navigation" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.allowStepSkipping || false}
-              onChange={(e) => formik.setFieldValue('settings.allowStepSkipping', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.allowStepSkipping', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.allowStepSkipping" defaultMessage="Allow Step Skipping" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.hideStepIcons || false}
-              onChange={(e) => formik.setFieldValue('settings.hideStepIcons', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.hideStepIcons', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.hideStepIcons" defaultMessage="Hide Step Icons" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={formik.values.settings.unmountOnExit || false}
-              onChange={(e) => formik.setFieldValue('settings.unmountOnExit', e.target.checked)}
+              onChange={(e: any) => formik.setFieldValue('settings.unmountOnExit', e.target.checked)}
             />
           }
           label={<FormattedMessage id="stepper.settings.unmountOnExit" defaultMessage="Unmount on Exit" />}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <IconPickerField
           label={<FormattedMessage id="stepper.settings.completedStepIcon" defaultMessage="Completed Step Icon" />}
           value={formik.values.settings.completedStepIcon || 'Check'}
@@ -742,7 +853,11 @@ export const StepperForm: React.FC<StepperFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}>
         <IconPickerField
           label={<FormattedMessage id="stepper.settings.errorStepIcon" defaultMessage="Error Step Icon" />}
           value={formik.values.settings.errorStepIcon || 'Warning'}
@@ -754,9 +869,9 @@ export const StepperForm: React.FC<StepperFormProps> = ({
   );
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3, px: isMobile ? 2 : 0 }}>
       <Paper elevation={2} sx={{ p: 2 }}>
-        <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} sx={{ mb: 2 }}>
+        <Tabs value={activeTab} onChange={(_, newValue: any) => setActiveTab(newValue)} sx={{ mb: 2 }}>
           <Tab icon={<ViewModuleIcon />} label={<FormattedMessage id="stepper.tab.steps" defaultMessage="Steps" />} />
           <Tab icon={<SettingsIcon />} label={<FormattedMessage id="stepper.tab.settings" defaultMessage="Settings" />} />
         </Tabs>
@@ -768,7 +883,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
       <Button
         type="submit"
         variant="contained"
-        size="large"
+        size="medium"
         color="primary"
         fullWidth
         sx={{ mt: 2 }}

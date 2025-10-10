@@ -16,7 +16,7 @@ export default function ImagesContextProvider({
     useSaveImages();
 
   const addSavedImages = useCallback((urls: string[]) => {
-    setSavedImages((images) => {
+    setSavedImages((images: string[]) => {
       const set = new Set(images);
       for (let url of urls) {
         set.add(url);
@@ -27,7 +27,7 @@ export default function ImagesContextProvider({
   }, []);
 
   const addGeneratedImages = useCallback((urls: string[]) => {
-    setGeneratedImages((images) => {
+    setGeneratedImages((images: string[]) => {
       const set = new Set(images);
       for (let url of urls) {
         set.add(url);
@@ -38,7 +38,7 @@ export default function ImagesContextProvider({
   }, []);
 
   const unsavedImages = useMemo(() => {
-    return generatedImages.filter((x) => !savedImages.includes(x));
+    return generatedImages.filter((x: string) => !savedImages.includes(x));
   }, [generatedImages, savedImages]);
 
   const hasUnsavedImages = useMemo(() => {

@@ -208,7 +208,7 @@ export default function AddShowCaseSectionForm({
             isSubmitting,
             setFieldValue,
             errors,
-          }) => (
+          }: any) => (
             <>
               <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
                 <MediaDialog
@@ -218,14 +218,14 @@ export default function AddShowCaseSectionForm({
                     fullWidth: true,
                     onClose: handleClose,
                   }}
-                  onConfirmSelectFile={(file) =>
+                  onConfirmSelectFile={(file: any) =>
                     setFieldValue(`items[${index}].imageUrl`, file.url)
                   }
                 />
               </DexkitApiProvider.Provider>
               <Box sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion defaultExpanded sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -241,7 +241,11 @@ export default function AddShowCaseSectionForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Select}
@@ -278,7 +282,11 @@ export default function AddShowCaseSectionForm({
                               </Field>
                             </FormControl>
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -301,7 +309,11 @@ export default function AddShowCaseSectionForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -324,7 +336,11 @@ export default function AddShowCaseSectionForm({
                               }}
                             />
                           </Grid>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -352,7 +368,7 @@ export default function AddShowCaseSectionForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -368,7 +384,11 @@ export default function AddShowCaseSectionForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Select}
@@ -406,7 +426,11 @@ export default function AddShowCaseSectionForm({
                             </FormControl>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -431,7 +455,11 @@ export default function AddShowCaseSectionForm({
                             />
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -456,7 +484,11 @@ export default function AddShowCaseSectionForm({
                             />
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Field
                               component={TextField}
                               fullWidth
@@ -485,7 +517,7 @@ export default function AddShowCaseSectionForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -501,7 +533,11 @@ export default function AddShowCaseSectionForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Switch}
@@ -531,7 +567,11 @@ export default function AddShowCaseSectionForm({
                             </FormControl>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Switch}
@@ -561,7 +601,11 @@ export default function AddShowCaseSectionForm({
                             </FormControl>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Select}
@@ -614,7 +658,11 @@ export default function AddShowCaseSectionForm({
                             </FormControl>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <FormControl fullWidth>
                               <Field
                                 component={Select}
@@ -652,7 +700,11 @@ export default function AddShowCaseSectionForm({
                             </FormControl>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -677,7 +729,11 @@ export default function AddShowCaseSectionForm({
                             </Box>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -702,7 +758,11 @@ export default function AddShowCaseSectionForm({
                             </Box>
                           </Grid>
 
-                          <Grid item xs={12} md={6}>
+                          <Grid
+                            size={{
+                              xs: 12,
+                              md: 6
+                            }}>
                             <Box sx={{ px: 2 }}>
                               <Typography variant="body2" sx={{ mb: 1 }}>
                                 <FormattedMessage
@@ -745,7 +805,7 @@ export default function AddShowCaseSectionForm({
                     </Accordion>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion sx={{
                       '& .MuiAccordionSummary-root': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -761,7 +821,7 @@ export default function AddShowCaseSectionForm({
                       </AccordionSummary>
                       <AccordionDetails>
                         {values.items.length === 0 && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Paper
                               sx={{
                                 p: isMobile ? theme.spacing(0.5) : theme.spacing(2),
@@ -811,7 +871,7 @@ export default function AddShowCaseSectionForm({
                                 </Box>
                                 <FieldArray
                                   name="items"
-                                  render={(arrayHelpers) => (
+                                  render={(arrayHelpers: any) => (
                                     <Button
                                       onClick={arrayHelpers.handlePush({
                                         type: 'image',
@@ -837,18 +897,18 @@ export default function AddShowCaseSectionForm({
                           </Grid>
                         )}
 
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <FieldArray
                             name="items"
-                            render={(arrayHelpers) => (
+                            render={(arrayHelpers: any) => (
                               <Grid
                                 container
                                 spacing={
                                   isMobile ? theme.spacing(0.5) : theme.spacing(2)
                                 }
                               >
-                                {values.items.map((_, index, arr) => (
-                                  <Grid item xs={12} key={index}>
+                                {values.items.map((_: any, index: any, arr: any) => (
+                                  <Grid key={index} size={12}>
                                     <ShowCaseFormItem
                                       index={index}
                                       onUp={arrayHelpers.handleSwap(index, index - 1)}
@@ -865,7 +925,7 @@ export default function AddShowCaseSectionForm({
                                   </Grid>
                                 ))}
                                 {values.items.length > 0 && (
-                                  <Grid item xs={12}>
+                                  <Grid size={12}>
                                     <Button
                                       onClick={arrayHelpers.handlePush({
                                         type: 'image',
@@ -902,7 +962,7 @@ export default function AddShowCaseSectionForm({
                   </Grid>
 
                   {!disableButtons && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Stack
                         direction="row"
                         spacing={theme.spacing(1)}

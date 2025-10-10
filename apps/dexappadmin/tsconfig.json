@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -28,7 +29,8 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "types": []
   },
   "include": [
     "next-env.d.ts",

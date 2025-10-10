@@ -308,7 +308,7 @@ export default function StepperSection({ section }: Props) {
             color: step.iconColor || 'inherit',
             fontSize: 'inherit'
           }
-        });
+        } as any);
       }
       return <span>{props.icon}</span>;
     }
@@ -321,7 +321,7 @@ export default function StepperSection({ section }: Props) {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
           }
-        });
+        } as any);
       }
       return <span>{props.icon}</span>;
     }
@@ -334,7 +334,7 @@ export default function StepperSection({ section }: Props) {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
           }
-        });
+        } as any);
       }
       return <span>{props.icon}</span>;
     }
@@ -347,7 +347,7 @@ export default function StepperSection({ section }: Props) {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
           }
-        });
+        } as any);
       }
       return <span>{props.icon}</span>;
     }
@@ -360,7 +360,7 @@ export default function StepperSection({ section }: Props) {
             color: step?.iconColor || 'inherit',
             fontSize: 'inherit'
           }
-        });
+        } as any);
       }
       return <span>{props.icon}</span>;
     }

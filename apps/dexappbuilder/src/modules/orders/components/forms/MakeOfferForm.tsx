@@ -75,7 +75,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   const { formatMessage } = useIntl();
 
   const handleConfirm = (values: Form, formikHelpers: FormikHelpers<Form>) => {
-    const decimals = tokenList.find((t) => t.address === values.tokenAddress)
+    const decimals = tokenList.find((t: any) => t.address === values.tokenAddress)
       ?.decimals;
 
     if (!isValidDecimal(values.price, decimals || 1)) {
@@ -104,7 +104,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
       tokenAddress: tokenList.length > 0 ? tokenList[0].address : '',
     },
     validate: async (values) => {
-      const decimals = tokenList.find((t) => t.address === values.tokenAddress)
+      const decimals = tokenList.find((t: any) => t.address === values.tokenAddress)
         ?.decimals;
 
       if (values.price !== '' && isValidDecimal(values.price, decimals || 1)) {
@@ -138,7 +138,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   };
 
   const tokenSelected = useMemo(() => {
-    const tokenIndex = tokenList.findIndex((t) =>
+    const tokenIndex = tokenList.findIndex((t: any) =>
       isAddressEqual(t.address, form.values.tokenAddress),
     );
 
@@ -195,9 +195,13 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
   return (
     <form onSubmit={form.handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth variant="outlined">
                 <Select
                   fullWidth
@@ -242,7 +246,11 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <TextField
                 disabled={
                   form.values.tokenAddress === undefined ||
@@ -268,7 +276,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
           </Grid>
         </Grid>
         {tokenSelected && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -311,14 +319,14 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <DurationSelect
             label={<FormattedMessage id="expiry" defaultMessage="Expiry" />}
             onChange={handleChangeExpiryDuration}
           />
         </Grid>
         {tokenSelected && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert severity="info">
               <FormattedMessage
                 id="you.are.paying.percentage.in.fees"
@@ -336,7 +344,7 @@ export default function MakeOfferForm({ onConfirm, asset, disabled }: Props) {
             </Alert>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Button
             onClick={handleFormSubmit}
             disabled={!form.isValid || disabled}

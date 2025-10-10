@@ -1,5 +1,5 @@
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { Card, Grid, List, ListItemButton, ListItemText } from '@mui/material';
+import { Card, Box, List, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -94,69 +94,90 @@ export default function SettingsLayout({
   }, [title, activeOption, uri]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* Header Section */}
+      <Box>
         <PageHeader breadcrumbs={breadcrumbs} />
-      </Grid>
-      <Grid item xs={12} sm={3}>
-        <Card>
-          <List disablePadding>
-            {/* <ListItemButton
-              selected={tab === 'ai'}
-              divider
-              onClick={handleClick('ai')}
-            >
-              <ListItemText
-                primary={
-                  <FormattedMessage
-                    defaultMessage="AI Assistant"
-                    id="ai.assistant"
-                  />
-                }
-              />
-            </ListItemButton> */}
-            <ListItemButton
-              selected={tab === 'billing'}
-              divider
-              onClick={handleClick('billing')}
-            >
-              <ListItemText
-                primary={
-                  <FormattedMessage defaultMessage="Billing" id="billing" />
-                }
-              />
-            </ListItemButton>
-            <ListItemButton
-              selected={tab === 'api-key'}
-              divider
-              onClick={handleClick('api-key')}
-            >
-              <ListItemText
-                primary={
-                  <FormattedMessage defaultMessage="ApiKey" id="apiKey" />
-                }
-              />
-            </ListItemButton>
-            {/* <ListItemButton
-              selected={tab === 'payments'}
-              divider
-              onClick={handleClick('payments')}
-            >
-              <ListItemText
-                primary={
-                  <FormattedMessage
-                    defaultMessage="Payment Methods"
-                    id="payment.methods"
-                  />
-                }
-              />
-            </ListItemButton> */}
-          </List>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={9}>
-        {children(tab)}
-      </Grid>
-    </Grid>
+      </Box>
+      
+      {/* Main Content - Sidebar + Content */}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' },
+        gap: 2,
+        alignItems: 'flex-start'
+      }}>
+        {/* Left Sidebar */}
+        <Box sx={{ 
+          width: { xs: '100%', md: '250px' },
+          flexShrink: 0
+        }}>
+          <Card>
+            <List disablePadding>
+              {/* <ListItemButton
+                selected={tab === 'ai'}
+                divider
+                onClick={handleClick('ai')}
+              >
+                <ListItemText
+                  primary={
+                    <FormattedMessage
+                      defaultMessage="AI Assistant"
+                      id="ai.assistant"
+                    />
+                  }
+                />
+              </ListItemButton> */}
+              <ListItemButton
+                selected={tab === 'billing'}
+                divider
+                onClick={handleClick('billing')}
+              >
+                <ListItemText
+                  primary={
+                    <FormattedMessage defaultMessage="Billing" id="billing" />
+                  }
+                />
+              </ListItemButton>
+              <ListItemButton
+                selected={tab === 'api-key'}
+                divider
+                onClick={handleClick('api-key')}
+              >
+                <ListItemText
+                  primary={
+                    <FormattedMessage defaultMessage="ApiKey" id="apiKey" />
+                  }
+                />
+              </ListItemButton>
+              {/* <ListItemButton
+                selected={tab === 'payments'}
+                divider
+                onClick={handleClick('payments')}
+              >
+                <ListItemText
+                  primary={
+                    <FormattedMessage
+                      defaultMessage="Payment Methods"
+                      id="payment.methods"
+                    />
+                  }
+                />
+              </ListItemButton> */}
+            </List>
+          </Card>
+        </Box>
+        
+        {/* Right Content */}
+        <Box sx={{ 
+          flex: 1,
+          minWidth: 0,
+          maxWidth: { xs: '100%', md: '600px' },
+          width: '100%'
+        }}>
+          {children(tab)}
+        </Box>
+      </Box>
+    </Box>
   );
 }

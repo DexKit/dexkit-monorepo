@@ -11,7 +11,7 @@ export default function BuyLockSkeleton() {
     <Card>
       <CardContent>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display={"flex"}
               alignContent={"center"}
@@ -52,7 +52,7 @@ export default function BuyLockSkeleton() {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={"flex"} justifyContent={"center"}>
               <Skeleton>
                 <Button variant={"contained"} startIcon={<KeyIcon />}>

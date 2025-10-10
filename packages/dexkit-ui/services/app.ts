@@ -2,8 +2,30 @@ import { useMemo } from "react";
 import defaultAppConfig from "../config/app.minimal.json";
 import { AppConfig } from "../modules/wizard/types/config";
 
-import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
+import { alpha, createTheme, darken, lighten } from "@mui/material/styles";
 import { ThemeMode } from "../constants/enum";
+
+function extractThemePalette(themeData: any): any {
+  if (!themeData) return {};
+
+  if (themeData.colorSchemes) {
+    if (themeData.colorSchemes.light?.palette) {
+      return { palette: themeData.colorSchemes.light.palette };
+    }
+    if (themeData.colorSchemes.dark?.palette) {
+      return { palette: themeData.colorSchemes.dark.palette };
+    }
+  }
+
+  if (themeData.light?.palette) {
+    return { palette: themeData.light.palette };
+  }
+  if (themeData.dark?.palette) {
+    return { palette: themeData.dark.palette };
+  }
+
+  return {};
+}
 
 export function setupTheme({
   appConfig,
@@ -20,8 +42,8 @@ export function setupTheme({
     })?.theme;
 
     let fontFamily;
-    if (safeAppConfig?.font) {
-      fontFamily = `'${safeAppConfig.font.family}', ${safeAppConfig.font.category}`;
+    if ((safeAppConfig as any)?.font) {
+      fontFamily = `'${(safeAppConfig as any).font.family}', ${(safeAppConfig as any).font.category}`;
     }
 
     tempTheme = getTheme({
@@ -29,20 +51,20 @@ export function setupTheme({
     })?.theme;
 
     if (safeAppConfig && safeAppConfig.theme === "custom") {
-      let customTheme = {
+      let customTheme: any = {
         dark: {},
         light: {},
       };
 
-      if (safeAppConfig?.customThemeLight) {
-        customTheme.light = JSON.parse(safeAppConfig.customThemeLight);
+      if ((safeAppConfig as any)?.customThemeLight) {
+        customTheme.light = JSON.parse((safeAppConfig as any).customThemeLight);
       }
-      if (safeAppConfig?.customThemeDark) {
-        customTheme.dark = JSON.parse(safeAppConfig.customThemeDark);
+      if ((safeAppConfig as any)?.customThemeDark) {
+        customTheme.dark = JSON.parse((safeAppConfig as any).customThemeDark);
       }
       //@deprecated remove customTheme later
-      if (safeAppConfig?.customTheme) {
-        const parsedCustomTheme = JSON.parse(safeAppConfig.customTheme);
+      if ((safeAppConfig as any)?.customTheme) {
+        const parsedCustomTheme = JSON.parse((safeAppConfig as any).customTheme);
         if (parsedCustomTheme?.palette?.mode === ThemeMode.light) {
           customTheme.light = parsedCustomTheme;
         } else {
@@ -51,20 +73,24 @@ export function setupTheme({
       }
 
       if (customTheme) {
-        return fontFamily
-          ? extendTheme({
+        const paletteProps = extractThemePalette(customTheme);
+        const themeConfig = {
+          cssVariables: {
+            colorSchemeSelector: 'class',
+          },
+          ...customTheme,
+          ...paletteProps,
+          ...(fontFamily && {
             typography: {
               fontFamily,
-            },
-            colorSchemes: {
-              ...customTheme,
-            },
-          })
-          : extendTheme({
-            colorSchemes: {
-              ...customTheme,
-            },
-          });
+            }
+          }),
+          alpha,
+          lighten,
+          darken,
+        };
+
+        return createTheme(themeConfig);
       }
     }
 
@@ -82,14 +108,25 @@ export function setupTheme({
       }
     }
 
-    return fontFamily
-      ? extendTheme({
-        ...temp,
+    const paletteProps = extractThemePalette(temp);
+
+    const finalThemeConfig = {
+      cssVariables: {
+        colorSchemeSelector: 'class',
+      },
+      ...temp,
+      ...paletteProps,
+      ...(fontFamily && {
         typography: {
           fontFamily,
-        },
-      })
-      : extendTheme({ ...temp });
+        }
+      }),
+      alpha,
+      lighten,
+      darken,
+    };
+
+    return createTheme(finalThemeConfig);
   }, [appConfig, getTheme]);
 }
 

@@ -1,12 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  Grid,
-  Stack,
-  Typography,
-  alpha,
-  styled,
-} from '@mui/material';
+import { Box, ButtonBase, Grid, Stack, Typography, styled } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 import MediaDialog from '@dexkit/ui/components/mediaDialog';
@@ -22,8 +14,11 @@ import ImageIcon from '@mui/icons-material/Image';
 
 const CustomImage = styled('img')(({ theme }) => ({
   width: '100%',
-  height: 'auto',
+  height: '100%',
   display: 'block',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 export interface PageGatedLayoutTabProps {
@@ -86,13 +81,13 @@ export default function PageGatedLayoutTab({
         layout
           ? { layout }
           : {
-              layout: {
-                accessRequirementsMessage: '',
-                frontImage: '',
-                frontImageHeight: 150,
-                frontImageWidth: 150,
-              },
-            }
+            layout: {
+              accessRequirementsMessage: '',
+              frontImage: '',
+              frontImageHeight: 150,
+              frontImageWidth: 150,
+            },
+          }
       }
       onSubmit={handleSubmit}
     >
@@ -103,7 +98,7 @@ export default function PageGatedLayoutTab({
         isValid,
         touched,
         setFieldTouched,
-      }) => (
+      }: any) => (
         <>
           {touched.layout && (
             <ChangeListener
@@ -130,7 +125,7 @@ export default function PageGatedLayoutTab({
 
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="body1" fontWeight="bold">
                   <FormattedMessage
                     id="cover.image"
@@ -138,9 +133,13 @@ export default function PageGatedLayoutTab({
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <Box>
                       <Stack spacing={2}>
                         <Typography variant="body1">
@@ -153,7 +152,7 @@ export default function PageGatedLayoutTab({
                           sx={{
                             position: 'relative',
                             p: 2,
-                            borderRadius: (theme) =>
+                            borderRadius: (theme: any) =>
                               theme.shape.borderRadius / 2,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -161,7 +160,7 @@ export default function PageGatedLayoutTab({
                             backgroundColor: (theme) =>
                               theme.palette.mode === 'light'
                                 ? 'rgba(0,0,0, 0.2)'
-                                : alpha(theme.palette.common.white, 0.1),
+                                : theme.alpha(theme.palette.common.white, 0.1),
 
                             backgroundImage: `url('${values.layout.frontImage}')`,
                             backgroundRepeat: 'no-repeat',
@@ -182,7 +181,7 @@ export default function PageGatedLayoutTab({
                                 theme.palette.getContrastText(
                                   theme.palette.mode === 'light'
                                     ? 'rgba(0,0,0, 0.2)'
-                                    : alpha(theme.palette.common.white, 0.1),
+                                    : theme.alpha(theme.palette.common.white, 0.1),
                                 ),
                             }}
                           >
@@ -197,7 +196,11 @@ export default function PageGatedLayoutTab({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <Box>
                       <Stack spacing={2}>
                         <Typography variant="body1">
@@ -210,7 +213,7 @@ export default function PageGatedLayoutTab({
                           sx={{
                             backgroundColor: 'black',
                             width: '100%',
-                            borderRadius: (theme) =>
+                            borderRadius: (theme: any) =>
                               theme.shape.borderRadius / 2,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -248,9 +251,9 @@ export default function PageGatedLayoutTab({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography variant="body1">
                       <FormattedMessage
                         id="cover.image.size"
@@ -259,7 +262,7 @@ export default function PageGatedLayoutTab({
                     </Typography>
                   </Grid>
                   {/*
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Field
                       component={TextField}
                       type="text"
@@ -273,7 +276,11 @@ export default function PageGatedLayoutTab({
                       name="layout.frontImageWidth"
                     />
                   </Grid> */}
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <Field
                       component={TextField}
                       type="number"
@@ -291,7 +298,7 @@ export default function PageGatedLayoutTab({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <CompletationProvider
                   onCompletation={(output: string) => {
                     setFieldValue('layout.accessRequirementsMessage', output);

@@ -120,7 +120,7 @@ function CodeSectionForm({
             theme={theme.palette.mode}
             height="500px"
             value={value}
-            onChange={(val) => debouncedSetFieldValue(name, val, setFieldValue)}
+            onChange={(val: any) => debouncedSetFieldValue(name, val, setFieldValue)}
             basicSetup={{
               lineNumbers: true,
               highlightActiveLine: true,
@@ -186,7 +186,7 @@ function CodeSectionForm({
       return (
         <Grid container spacing={2}>
           {nodes.map((node, key) => (
-            <Grid item xs={12} key={key}>
+            <Grid key={key} size={12}>
               <Card>
                 <Box px={2} py={1}>
                   <Stack
@@ -229,7 +229,7 @@ function CodeSectionForm({
 
       return (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs value={currTab} onChange={handleChangeTab}>
               {nodes.map((node, key) => (
                 <Tab label={node.name} value={node.name} key={key} />
@@ -237,7 +237,7 @@ function CodeSectionForm({
             </Tabs>
           </Grid>
           {activeNode && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card>
                 <Box px={2} py={1}>
                   <Stack
@@ -264,7 +264,7 @@ function CodeSectionForm({
   const [showList, setShowList] = useState(false);
 
   const handleToggle = () => {
-    setShowList((value) => !value);
+    setShowList((value: any) => !value);
   };
 
   const inputs = useMemo(() => (values: { html: string; js: string; css: string }) => {
@@ -317,7 +317,7 @@ function CodeSectionForm({
       onSubmit={handleSubmit}
       validate={handleValidate}
     >
-      {({ setFieldValue, values, isValid, submitForm }) => (
+      {({ setFieldValue, values, isValid, submitForm }: any) => (
         <>
           <ChangeListener
             isValid={isValid}
@@ -328,7 +328,7 @@ function CodeSectionForm({
           />
           {renderDialog(inputs(values), setFieldValue, showAsFullScreen)}
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 alignItems="center"
                 justifyContent="space-between"
@@ -365,12 +365,12 @@ function CodeSectionForm({
                 </CompletationProvider>
               </Stack>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {showList
                 ? renderList(inputs(values), setFieldValue)
                 : renderTabs(inputs(values), setFieldValue)}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack justifyContent="flex-end" direction="row" spacing={1}>
                   <Button onClick={onCancel}>
@@ -391,30 +391,8 @@ function CodeSectionForm({
 
 export default function WrappedCodeSectionForm(props: CodeSectionFormProps) {
   return (
-    <ErrorBoundary
-      fallbackRender={({ error, resetErrorBoundary }) => (
-        <Stack justifyContent="center" alignItems="center">
-          <Typography variant="h6">
-            <FormattedMessage
-              id="something.went.wrong"
-              defaultMessage="Oops, something went wrong"
-              description="Something went wrong error message"
-            />
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            {String(error)}
-          </Typography>
-          <Button color="primary" onClick={resetErrorBoundary}>
-            <FormattedMessage
-              id="try.again"
-              defaultMessage="Try again"
-              description="Try again"
-            />
-          </Button>
-        </Stack>
-      )}
-    >
+    <div>
       <CodeSectionForm {...props} />
-    </ErrorBoundary>
+    </div>
   );
 }

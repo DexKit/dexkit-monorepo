@@ -5,6 +5,7 @@ import {
 } from '@dexkit/core/constants/networks';
 import { truncateAddress } from '@dexkit/core/utils';
 import Link from '@dexkit/ui/components/AppLink';
+import MobilePagination from '@dexkit/ui/components/MobilePagination';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import Settings from '@mui/icons-material/SettingsOutlined';
@@ -82,6 +83,7 @@ export default function ContractListDataGrid({
     ...queryOptions,
     ...paginationModel,
   });
+
 
   useEffect(() => {
     setQueryOptions({
@@ -183,7 +185,7 @@ export default function ContractListDataGrid({
         variant="caption"
         sx={{ fontSize: theme.typography.caption.fontSize, display: 'block', color: 'text.secondary' }}
       >
-        {new Date(params.row.createdAt).toLocaleDateString()}
+        {params.row?.createdAt ? new Date(params.row.createdAt).toLocaleDateString() : 'N/A'}
       </Typography>
     </Box>
   );
@@ -242,8 +244,8 @@ export default function ContractListDataGrid({
       headerName: 'Created At',
       minWidth: 180,
       flex: 1,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
       },
     },
     {
@@ -255,8 +257,8 @@ export default function ContractListDataGrid({
       field: 'chainId',
       headerName: 'Network',
       width: 110,
-      valueGetter: ({ row }) => {
-        return NETWORK_NAME(row.chainId);
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
     },
     {
@@ -266,9 +268,9 @@ export default function ContractListDataGrid({
       renderCell: (params: any) => (
         <Link
           target="_blank"
-          href={`${NETWORK_EXPLORER(params.row.chainId)}/address/${params.row.contractAddress}`}
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress}`}
         >
-          {truncateAddress(params.row.contractAddress)}
+          {truncateAddress(params.row?.contractAddress)}
         </Link>
       ),
     },
@@ -279,7 +281,7 @@ export default function ContractListDataGrid({
       renderCell: ({ row }) => {
         return (
           <Stack direction={'row'} spacing={1}>
-            <Link href={`/contract/${NETWORK_SLUG(row.chainId)}/${row.contractAddress}`}>
+            <Link href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress}`}>
               <IconButton size="small">
                 <Tooltip
                   title={
@@ -293,7 +295,7 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             </Link>
-            <Link href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`} target="_blank">
+            <Link href={`/forms/create?contractAddress=${row?.contractAddress}&chainId=${row?.chainId}`} target="_blank">
               <IconButton size="small">
                 <Tooltip
                   title={
@@ -307,8 +309,8 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             </Link>
-            <IconButton onClick={handleHideContract(row.id)}>
-              {row.hide ? (
+            <IconButton onClick={handleHideContract(row?.id)}>
+              {row?.hide ? (
                 <Tooltip
                   title={
                     <FormattedMessage
@@ -345,6 +347,14 @@ export default function ContractListDataGrid({
     setRowSelectionModel(rowSelectionModel);
   };
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   const mobileStyles = {
     '.MuiDataGrid-root': {
       border: 'none',
@@ -370,9 +380,6 @@ export default function ContractListDataGrid({
       fontSize: theme.typography.caption.fontSize,
       padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
       lineHeight: 1.2,
-    },
-    '.MuiDataGrid-virtualScroller': {
-      overflow: 'visible',
     },
     '.MuiDataGrid-toolbarContainer': {
       padding: theme.spacing(0.5),
@@ -401,7 +408,7 @@ export default function ContractListDataGrid({
   return (
     <Box sx={{
       width: '100%',
-      height: { xs: theme.spacing(45), sm: theme.spacing(56.25) },
+      height: isMobile ? 'auto' : theme.spacing(75),
       '& .MuiDataGrid-cell': {
         fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
@@ -429,6 +436,7 @@ export default function ContractListDataGrid({
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
+        hideFooterPagination={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -448,14 +456,20 @@ export default function ContractListDataGrid({
         sx={{
           width: '100%',
           maxWidth: '100%',
-          overflow: 'auto',
-          ...(isMobile && {
-            '& .MuiDataGrid-virtualScroller': {
-              overflow: 'visible',
-            },
-          }),
+          border: 'none',
         }}
       />
+
+      {isMobile && (
+        <MobilePagination
+          page={paginationModel.page}
+          pageSize={paginationModel.pageSize}
+          totalRows={rowCountState}
+          onPageChange={handleMobilePageChange}
+          onPageSizeChange={handleMobilePageSizeChange}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      )}
     </Box>
   );
 }

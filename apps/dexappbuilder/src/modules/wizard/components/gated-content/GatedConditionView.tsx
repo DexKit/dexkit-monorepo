@@ -22,7 +22,6 @@ import {
   Paper,
   Stack,
   Typography,
-  alpha,
   useTheme,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
@@ -428,14 +427,14 @@ export function GatedConditionView({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
                 ? 'rgba(0,0,0, 0.2)'
-                : alpha(theme.palette.common.white, 0.1),
-            borderRadius: (theme) => theme.shape.borderRadius / 4,
+                : theme.alpha(theme.palette.common.white, 0.1),
+            borderRadius: (theme: any) => theme.shape.borderRadius / 4,
             backgroundImage: (theme) =>
               layout?.frontImageDark || layout?.frontImage
                 ? `url('${
@@ -469,7 +468,7 @@ export function GatedConditionView({
                     theme.palette.getContrastText(
                       theme.palette.mode === 'light'
                         ? 'rgba(0,0,0, 0.2)'
-                        : alpha(theme.palette.common.white, 0.1),
+                        : theme.alpha(theme.palette.common.white, 0.1),
                     ),
                 }}
               />
@@ -477,7 +476,7 @@ export function GatedConditionView({
           </Stack>
         </Box>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Alert severity="warning">
           <AlertTitle>
             <FormattedMessage
@@ -495,7 +494,7 @@ export function GatedConditionView({
           )}
         </Alert>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {account && isLoggedIn ? (
           isLoading && (!conditions || conditions.length === 0) ? (
             renderLoading()
@@ -516,7 +515,7 @@ export function GatedConditionView({
               )}
               <Grid container spacing={2}>
                 {(conditions || []).map((condition, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid key={index} size={12}>
                     <Box>
                       <Stack spacing={2}>
                         {index !== 0 && (
@@ -525,8 +524,8 @@ export function GatedConditionView({
                               py: 0.5,
                               backgroundColor: (theme) =>
                                 condition.condition === 'or'
-                                  ? alpha(theme.palette.warning.light, 0.2)
-                                  : alpha(theme.palette.info.light, 0.2),
+                                  ? theme.alpha(theme.palette.warning.light, 0.2)
+                                  : theme.alpha(theme.palette.info.light, 0.2),
                               border: (theme) =>
                                 `1px solid ${
                                   condition.condition === 'or'
@@ -540,11 +539,12 @@ export function GatedConditionView({
                               textAlign="center"
                               textTransform="uppercase"
                               fontWeight="bold"
-                              color={(theme) =>
-                                condition.condition === 'or'
-                                  ? theme.palette.warning.dark
-                                  : theme.palette.info.dark
-                              }
+                              sx={{
+                                color: (theme: any) =>
+                                  condition.condition === 'or'
+                                    ? theme.palette.warning.dark
+                                    : theme.palette.info.dark
+                              }}
                             >
                               {isEdit ? (
                                 <FormattedMessage
@@ -589,10 +589,7 @@ export function GatedConditionView({
                                 : undefined,
                             boxShadow: (theme) =>
                               partialResults && partialResults[index]
-                                ? `0 0 8px ${alpha(
-                                    theme.palette.success.main,
-                                    0.4,
-                                  )}`
+                                ? `0 0 8px ${theme.alpha(theme.palette.success.main, 0.4)}`
                                 : undefined,
                           }}
                         >

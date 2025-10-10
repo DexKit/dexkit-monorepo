@@ -8,6 +8,7 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Pagination,
   Stack,
   TextField,
   Typography,
@@ -15,7 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import CloseCircle from "../../../components/icons/CloseCircle";
 
@@ -61,12 +62,13 @@ function WalletAssetsSection({
   const { account, chainId, signer } = useWeb3React();
   const [openFilter, setOpenFilter] = useState(false);
   const [assetTransfer, setAssetTransfer] = useState<Asset | undefined>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   const { accountAssets, accountAssetsQuery } = useAccountAssetsBalance(
     filters?.account ? [filters?.account] : [],
     false
   );
-  // We are calling this hook, because from api is missing the owner and this is in realtime
   const assetToTransfer = useAsset(
     assetTransfer?.contractAddress,
     assetTransfer?.id,
@@ -95,11 +97,11 @@ function WalletAssetsSection({
       .filter((asset) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
-            -1 ||
+          -1 ||
           (asset.metadata !== undefined &&
             asset.metadata?.name !== undefined &&
             asset.metadata?.name.toLowerCase().search(search.toLowerCase()) >
-              -1)
+            -1)
         );
       })
       .filter((asset) => {
@@ -119,6 +121,19 @@ function WalletAssetsSection({
       });
   }, [assets, filters, search, hiddenAssets]);
 
+  const totalPages = Math.ceil(filteredAssetList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedAssets = filteredAssetList.slice(startIndex, endIndex);
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredAssetList.length]);
+
   const { formatMessage } = useIntl();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +146,7 @@ function WalletAssetsSection({
   const renderAssets = () => {
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -158,8 +173,8 @@ function WalletAssetsSection({
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
-      <Grid item xs={6} sm={3} key={index}>
+    return paginatedAssets.map((asset, index) => (
+      <Grid size={{ xs: 6, sm: 3 }} key={index}>
         <AssetCard
           asset={asset}
           key={index}
@@ -199,7 +214,7 @@ function WalletAssetsSection({
         />
       )}
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isDesktop ? (
             <Stack
               direction="row"
@@ -292,7 +307,7 @@ function WalletAssetsSection({
           )}
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <WalletAssetsFilter
               setFilters={setFilters}
               filters={filters}
@@ -302,10 +317,39 @@ function WalletAssetsSection({
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12}>
+        <Grid container size={openFilter ? 9 : 12}>
           {accountAssetsQuery.isLoading && <TableSkeleton rows={4} />}
           {!accountAssetsQuery.isLoading && renderAssets()}
         </Grid>
+
+        {!accountAssetsQuery.isLoading && filteredAssetList.length > itemsPerPage && (
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+              <Stack spacing={2} alignItems="center">
+                <Typography variant="body2" color="textSecondary">
+                  <FormattedMessage
+                    id="showing.nfts"
+                    defaultMessage="Showing {start}-{end} of {total} NFTs"
+                    values={{
+                      start: startIndex + 1,
+                      end: Math.min(endIndex, filteredAssetList.length),
+                      total: filteredAssetList.length
+                    }}
+                  />
+                </Typography>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  color="primary"
+                  size="large"
+                  showFirstButton
+                  showLastButton
+                />
+              </Stack>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -48,8 +48,8 @@ export default function CollectionItem({ item }: CollectionItemProps) {
             contractMetadata.data?.image
               ? contractMetadata.data?.image
               : nftQuery.data?.metadata?.image
-              ? ipfsUriToUrl(nftQuery.data?.metadata?.image)
-              : undefined
+                ? ipfsUriToUrl(nftQuery.data?.metadata?.image)
+                : undefined
           }
         />
       )}
@@ -87,22 +87,22 @@ export default function CollectionItem({ item }: CollectionItemProps) {
             ) : contractMetadata.data?.description ? (
               <AppExpandableTypography
                 TypographyProps={{
-                  sx: { textOverflow: 'ellipsis', overflow: 'hidden' },
                   variant: 'body2',
                   color: 'text.secondary',
                 }}
                 value={contractMetadata.data?.description}
+                asInlineElement={true}
               />
             ) : (
               <>
                 {nftQuery.data?.metadata?.description ? (
                   <AppExpandableTypography
                     TypographyProps={{
-                      sx: { textOverflow: 'ellipsis', overflow: 'hidden' },
                       variant: 'body2',
                       color: 'text.secondary',
                     }}
                     value={nftQuery.data?.metadata?.description}
+                    asInlineElement={true}
                   />
                 ) : (
                   <FormattedMessage

@@ -19,169 +19,173 @@ export const SiteTemplatePage: NextPage<{
   slug: string;
   metadata: SiteMetadata;
   previewUrl: string;
-}> = ({ slug, metadata, previewUrl }) => {
-  const { formatMessage } = useIntl();
+}> = ({ slug, metadata, previewUrl }: {
+  slug: string;
+  metadata: SiteMetadata;
+  previewUrl: string;
+}) => {
+    const { formatMessage } = useIntl();
 
-  return (
-    <>
-      <NextSeo
-        title={metadata?.title}
-        description={metadata?.subtitle}
-        openGraph={{
-          title: metadata?.title,
-          description: metadata?.subtitle,
-          images: [
-            {
-              url: `${metadata?.imageURL}`,
-              width: 800,
-              height: 600,
-              alt: 'DexKit images list',
-              type: 'image/jpeg',
-            },
-          ],
-        }}
-      />
-      <MainLayout>
-        <Container>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <PageHeader
-                breadcrumbs={[
-                  {
-                    caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
-                    ),
-                    uri: '/',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage
-                        id="templates"
-                        defaultMessage="Templates"
-                      />
-                    ),
-                    uri: '/site/templates',
-                  },
-                  {
-                    caption: metadata?.title,
-
-                    uri: `/site/template/${slug}`,
-                    active: true,
-                  },
-                ]}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6} lg={6}>
-              <Stack spacing={2}>
-                <Typography variant="h2">{metadata?.title}</Typography>
-                <Typography variant="h6">{metadata?.subtitle}</Typography>
-                <Stack spacing={2} direction={'row'}>
-                  <Button
-                    variant="contained"
-                    href={`/admin/create?clone=${slug}`}
-                    target="_blank"
-                  >
-                    {' '}
-                    <FormattedMessage id="clone" defaultMessage="Clone" />
-                  </Button>
-                  <Button
-                    variant="contained"
-                    href={previewUrl || ''}
-                    target="_blank"
-                  >
-                    {' '}
-                    <FormattedMessage id="view" defaultMessage="View" />
-                  </Button>
-                </Stack>
-
-                <Stack
-                  spacing={2}
-                  direction={'row'}
-                  alignItems={'center'}
-                  alignContent={'center'}
-                >
-                  <Typography variant="body1">
-                    <FormattedMessage id="networks" defaultMessage="Networks" />
-                  </Typography>
-
-                  <Grid container spacing={1}>
-                    {metadata?.chainIds?.map((cid, key) => (
-                      <Grid item key={`net-${key}`}>
-                        <Chip
-                          avatar={
-                            <Avatar
-                              alt={NETWORK_NAME(cid)}
-                              src={NETWORK_IMAGE(cid)}
-                            />
-                          }
-                          label={NETWORK_NAME(cid)}
+    return (
+      <>
+        <NextSeo
+          title={metadata?.title}
+          description={metadata?.subtitle}
+          openGraph={{
+            title: metadata?.title,
+            description: metadata?.subtitle,
+            images: [
+              {
+                url: `${metadata?.imageURL}`,
+                width: 800,
+                height: 600,
+                alt: 'DexKit images list',
+                type: 'image/jpeg',
+              },
+            ],
+          }}
+        />
+        <MainLayout>
+          <Container>
+            <Grid container spacing={2}>
+              <Grid size={12}>
+                <PageHeader
+                  breadcrumbs={[
+                    {
+                      caption: (
+                        <FormattedMessage id="home" defaultMessage="Home" />
+                      ),
+                      uri: '/',
+                    },
+                    {
+                      caption: (
+                        <FormattedMessage
+                          id="templates"
+                          defaultMessage="Templates"
                         />
-                      </Grid>
-                    ))}
-                  </Grid>
+                      ),
+                      uri: '/site/templates',
+                    },
+                    {
+                      caption: metadata?.title,
+
+                      uri: `/site/template/${slug}`,
+                      active: true,
+                    },
+                  ]}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6, lg: 6 }}>
+                <Stack spacing={2}>
+                  <Typography variant="h2">{metadata?.title}</Typography>
+                  <Typography variant="h6">{metadata?.subtitle}</Typography>
+                  <Stack spacing={2} direction={'row'}>
+                    <Button
+                      variant="contained"
+                      href={`/admin/create?clone=${slug}`}
+                      target="_blank"
+                    >
+                      {' '}
+                      <FormattedMessage id="clone" defaultMessage="Clone" />
+                    </Button>
+                    <Button
+                      variant="contained"
+                      href={previewUrl || ''}
+                      target="_blank"
+                    >
+                      {' '}
+                      <FormattedMessage id="view" defaultMessage="View" />
+                    </Button>
+                  </Stack>
+
+                  <Stack
+                    spacing={2}
+                    direction={'row'}
+                    alignItems={'center'}
+                    alignContent={'center'}
+                  >
+                    <Typography variant="body1">
+                      <FormattedMessage id="networks" defaultMessage="Networks" />
+                    </Typography>
+
+                    <Grid container spacing={1}>
+                      {metadata?.chainIds?.map((cid, key) => (
+                        <Grid key={`net-${key}`}>
+                          <Chip
+                            avatar={
+                              <Avatar
+                                alt={NETWORK_NAME(cid)}
+                                src={NETWORK_IMAGE(cid)}
+                              />
+                            }
+                            label={NETWORK_NAME(cid)}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Stack>
+                  <Stack
+                    spacing={2}
+                    direction={'row'}
+                    alignItems={'center'}
+                    alignContent={'center'}
+                  >
+                    <Typography variant="body1">
+                      <FormattedMessage
+                        id="usecases"
+                        defaultMessage="Use cases"
+                      />
+                    </Typography>
+
+                    <Grid container spacing={1}>
+                      {metadata?.usecases?.map((cid, key) => (
+                        <Grid key={`use-${key}`}>
+                          <Chip label={cid} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Stack>
                 </Stack>
-                <Stack
-                  spacing={2}
-                  direction={'row'}
-                  alignItems={'center'}
-                  alignContent={'center'}
-                >
-                  <Typography variant="body1">
-                    <FormattedMessage
-                      id="usecases"
-                      defaultMessage="Use cases"
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6, lg: 6 }}>
+                {metadata?.imageURL && (
+                  <Box
+                    sx={{
+                      maxHeight: '350px',
+                      position: 'relative',
+                      paddingTop: '350px',
+                    }}
+                  >
+                    <Image
+                      src={metadata?.imageURL}
+                      fill={true}
+                      alt={formatMessage({
+                        id: 'nft.image',
+                        defaultMessage: 'NFT Image',
+                      })}
                     />
-                  </Typography>
-
-                  <Grid container spacing={1}>
-                    {metadata?.usecases?.map((cid, key) => (
-                      <Grid item key={`use-${key}`}>
-                        <Chip label={cid} />
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Stack>
-              </Stack>
+                  </Box>
+                )}
+                {metadata?.description && (
+                  <Box
+                    sx={{
+                      textAlign: { xs: 'center' },
+                    }}
+                  >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {metadata?.description}
+                    </ReactMarkdown>
+                  </Box>
+                )}
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={6} lg={6}>
-              {metadata?.imageURL && (
-                <Box
-                  sx={{
-                    maxHeight: '350px',
-                    position: 'relative',
-                    paddingTop: '350px',
-                  }}
-                >
-                  <Image
-                    src={metadata?.imageURL}
-                    fill={true}
-                    alt={formatMessage({
-                      id: 'nft.image',
-                      defaultMessage: 'NFT Image',
-                    })}
-                  />
-                </Box>
-              )}
-              {metadata?.description && (
-                <Box
-                  sx={{
-                    textAlign: { xs: 'center' },
-                  }}
-                >
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {metadata?.description}
-                  </ReactMarkdown>
-                </Box>
-              )}
-            </Grid>
-          </Grid>
-        </Container>
-      </MainLayout>
-    </>
-  );
-};
+          </Container>
+        </MainLayout>
+      </>
+    );
+  };
 
 type Params = {
   slug?: string;

@@ -59,7 +59,7 @@ function DeployDomainDialog({
   };
 
   const handleToggleDetails = () => {
-    setShowDetails((value) => !value);
+    setShowDetails((value: any) => !value);
   };
 
   return (

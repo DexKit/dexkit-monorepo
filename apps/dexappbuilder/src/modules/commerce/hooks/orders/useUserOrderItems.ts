@@ -1,11 +1,11 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import React from 'react';
 
 export const GET_USER_ORDER_ITEMS_QUERY = 'GET_USER_ORDER_ITEMS_QUERY';
 
 export default function useUserOrderItems(params: { id?: string }) {
-  const { instance } = useContext(DexkitApiProvider);
+  const { instance } = { instance: null };
 
   return useQuery([GET_USER_ORDER_ITEMS_QUERY, params], async () => {
     if (!instance) {
@@ -17,7 +17,7 @@ export default function useUserOrderItems(params: { id?: string }) {
     }
 
     return (
-      await instance.get/*<OrderItem[]>*/(`/orders/user-orders/${params.id}/items`)
+      await (instance as any).get/*<OrderItem[]>*/(`/orders/user-orders/${params.id}/items`)
     ).data;
   });
 }

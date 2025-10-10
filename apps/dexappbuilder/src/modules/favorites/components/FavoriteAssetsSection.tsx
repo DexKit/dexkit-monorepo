@@ -73,7 +73,7 @@ function FavoriteAssetsSection({
 
   const renderAssets = () => {
     const filteredAssetList = assetList
-      .filter((asset) => {
+      .filter((asset: any) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -81,7 +81,7 @@ function FavoriteAssetsSection({
             asset.metadata.name.toLowerCase().search(search.toLowerCase()) > -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (filters?.myNfts) {
           return isAddressEqual(asset.owner, account);
         }
@@ -94,7 +94,7 @@ function FavoriteAssetsSection({
 
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -121,8 +121,13 @@ function FavoriteAssetsSection({
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
-      <Grid item xs={6} sm={3} key={index}>
+    return filteredAssetList.map((asset: any, index: number) => (
+      <Grid
+        key={index}
+        size={{
+          xs: 6,
+          sm: 3
+        }}>
         <AssetCard
           asset={asset}
           key={index}
@@ -167,7 +172,7 @@ function FavoriteAssetsSection({
         onConfirm={handleConfirm}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isDesktop ? (
             <Stack
               direction="row"
@@ -279,7 +284,7 @@ function FavoriteAssetsSection({
           )}
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <WalletAssetsFilter
               setFilters={setFilters}
               filters={filters}
@@ -288,7 +293,7 @@ function FavoriteAssetsSection({
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12}>
+        <Grid container size={openFilter ? 9 : 12}>
           {renderAssets()}
         </Grid>
       </Grid>

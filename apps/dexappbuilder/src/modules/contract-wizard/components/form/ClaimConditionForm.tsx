@@ -34,7 +34,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
 
     if (currencyAddress) {
       return tokens.find(
-        (t) => t.address.toLowerCase() === currencyAddress.toLowerCase(),
+        (t: any) => t.address.toLowerCase() === currencyAddress.toLowerCase(),
       );
     }
   }, [values.phases[itemIndex].currencyAddress, tokens]);
@@ -42,7 +42,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].name`}
@@ -50,7 +50,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].startTime`}
@@ -62,7 +66,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].waitInSeconds`}
@@ -77,7 +85,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].maxClaimableSupply`}
@@ -117,7 +129,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].maxClaimablePerWallet`}
@@ -157,7 +173,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <Field
             component={TextField}
             name={`phases[${itemIndex}].price`}
@@ -165,7 +185,11 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6
+          }}>
           <SearchTokenAutocomplete
             data={token}
             tokens={tokens}
@@ -175,7 +199,7 @@ export function ClaimConditionForm({ itemIndex, network }: Props) {
           />
         </Grid>
         {false && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <AllowListInput name={`phases[${itemIndex}].snapshot`} />
           </Grid>
         )}

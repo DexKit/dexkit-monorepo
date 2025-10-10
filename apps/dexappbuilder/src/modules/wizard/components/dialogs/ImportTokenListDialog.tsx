@@ -63,7 +63,7 @@ export default function ImportTokenListDialog({
   }>({});
 
   useEffect(() => {
-    setSelectedKeys((value) => {
+    setSelectedKeys((value: any) => {
       const newKeys: {
         [key: string]: boolean;
       } = {};
@@ -73,7 +73,7 @@ export default function ImportTokenListDialog({
   }, [String(tokenList), String(tokens)]);
 
   const handleSelectToken = useCallback((key: string) => {
-    setSelectedKeys((value) => {
+    setSelectedKeys((value: any) => {
       if (!Boolean(value[key])) {
         return { ...value, [key]: true };
       }

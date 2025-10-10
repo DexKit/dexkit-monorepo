@@ -95,7 +95,7 @@ export default function NFTGrid({
   return (
     <Grid container spacing={2}>
       {nfts.map((nft, key) => (
-        <Grid item xs={6} sm={3} key={key}>
+        <Grid size={{ xs: 6, sm: 3 }} key={key}>
           {renderCard(nft)}
         </Grid>
       ))}

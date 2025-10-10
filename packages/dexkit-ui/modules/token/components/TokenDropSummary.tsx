@@ -169,14 +169,14 @@ export default function TokenDropSummary({
 
 {
   /* <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item>
+                  <Grid>
                     <Button onClick={handleBurn} variant="contained">
                       <FormattedMessage id="burn" defaultMessage="Burn" />
                     </Button>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Button onClick={handleShowTransfer} variant="contained">
                       <FormattedMessage
                         id="transfer"
@@ -186,7 +186,7 @@ export default function TokenDropSummary({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid size={{ xs: 12, sm: 3 }}>
                 <Card>
                   <CardContent>
                     <Typography variant="caption" color="text.secondary">
@@ -202,7 +202,7 @@ export default function TokenDropSummary({
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid size={{ xs: 12, sm: 3 }}>
                 <Card>
                   <CardContent>
                     <Typography variant="caption" color="text.secondary">
@@ -218,7 +218,7 @@ export default function TokenDropSummary({
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid size={{ xs: 12, sm: 3 }}>
                 <Card>
                   <CardContent>
                     <Typography variant="caption" color="text.secondary">

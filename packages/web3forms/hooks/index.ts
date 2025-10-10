@@ -327,7 +327,7 @@ export function useIfpsUploadMutation() {
     }) => {
       const formData = new FormData();
 
-      formData.append("file", new Blob([content]));
+      formData.append("file", new Blob([new Uint8Array(content)]));
 
       if (isImage) {
       }

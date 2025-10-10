@@ -72,6 +72,7 @@ export default function FormsAccountPage() {
               alignItems="center"
               alignContent="center"
               justifyContent="space-between"
+              sx={{ mb: 2 }}
             >
               <Typography variant="h5">
                 <FormattedMessage
@@ -79,81 +80,76 @@ export default function FormsAccountPage() {
                   defaultMessage="My Contract Forms"
                 />
               </Typography>
+              <Button
+                LinkComponent={Link}
+                href="/forms/create"
+                size="medium"
+                variant="contained"
+                color="primary"
+                startIcon={<Add />}
+                sx={{
+                  color: 'white !important',
+                  '&:hover': {
+                    color: 'white !important'
+                  },
+                  '& .MuiButton-startIcon': {
+                    color: 'white !important'
+                  }
+                }}
+              >
+                <FormattedMessage
+                  id="create.contract.form"
+                  defaultMessage="NEW CONTRACT FORM"
+                />
+              </Button>
             </Stack>
           </Box>
           <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Stack
-                  justifyContent={'space-between'}
-                  alignItems={'center'}
-                  direction={'row'}
+            <Container maxWidth={false} disableGutters>
+              {!address ? (
+                <div>
+                  <ConnectWalletButton />
+                </div>
+              ) : (
+                <AppErrorBoundary
+                  fallbackRender={({ resetErrorBoundary, error }) => {
+                    return (
+                      <Stack justifyContent="center" alignItems="center">
+                        <Typography variant="h6">
+                          <FormattedMessage
+                            id="something.went.wrong"
+                            defaultMessage="Oops, something went wrong"
+                            description="Something went wrong error message"
+                          />
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                          {String(error)}
+                        </Typography>
+                        <Button
+                          color="primary"
+                          onClick={resetErrorBoundary}
+                        >
+                          <FormattedMessage
+                            id="try.again"
+                            defaultMessage="Try again"
+                            description="Try again"
+                          />
+                        </Button>
+                      </Stack>
+                    );
+                  }}
                 >
-                  <Button
-                    LinkComponent={Link}
-                    href="/forms/create"
-                    size="small"
-                    variant="contained"
-                    startIcon={<Add />}
-                  >
-                    <FormattedMessage
-                      id="create.contract.form"
-                      defaultMessage="New Contract Form"
-                    />
-                  </Button>
-                </Stack>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <Container>
-                  {!address ? (
-                    <div>
-                      <ConnectWalletButton />
-                    </div>
-                  ) : (
-                    <AppErrorBoundary
-                      fallbackRender={({ resetErrorBoundary, error }) => {
-                        return (
-                          <Stack justifyContent="center" alignItems="center">
-                            <Typography variant="h6">
-                              <FormattedMessage
-                                id="something.went.wrong"
-                                defaultMessage="Oops, something went wrong"
-                                description="Something went wrong error message"
-                              />
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary">
-                              {String(error)}
-                            </Typography>
-                            <Button
-                              color="primary"
-                              onClick={resetErrorBoundary}
-                            >
-                              <FormattedMessage
-                                id="try.again"
-                                defaultMessage="Try again"
-                                description="Try again"
-                              />
-                            </Button>
-                          </Stack>
-                        );
-                      }}
-                    >
-                      <AccountFormsTable
-                        forms={listFormsQuery.data ?? []}
-                        refetch={async () => {
-                          await listFormsQuery.refetch();
-                        }}
-                        count={listFormsQuery.data?.length ?? 0}
-                        onSearch={(value: string) => setSearchForm(value)}
-                      />
-                    </AppErrorBoundary>
-                  )}
-                </Container>
-              </Grid>
-            </Grid>
+                  <AccountFormsTable
+                    forms={listFormsQuery.data ?? []}
+                    refetch={async () => {
+                      await listFormsQuery.refetch();
+                    }}
+                    count={listFormsQuery.data?.length ?? 0}
+                    onSearch={(value: string) => setSearchForm(value)}
+                  />
+                </AppErrorBoundary>
+              )}
+            </Container>
           </Box>
         </Stack>
       </Container>

@@ -4,24 +4,24 @@ import Share from "@mui/icons-material/Share";
 import Visibility from "@mui/icons-material/Visibility";
 
 import {
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 
 import {
-    getNetworkSlugFromChainId,
-    isAddressEqual,
+  getNetworkSlugFromChainId,
+  isAddressEqual,
 } from "@dexkit/core/utils/blockchain";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import moment from "moment";
@@ -113,9 +113,9 @@ export function OffersTable({
     if (tempOrders?.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={4}>
+          <TableCell {...({ colSpan: 4 } as any)}>
             <Stack justifyContent="center" alignItems="center">
-              <Typography variant="body1" color="textSecondary">
+              <Typography variant="body1" color="text.primary">
                 <FormattedMessage
                   id="no.offers.yet"
                   defaultMessage="No offers yet"
@@ -207,7 +207,7 @@ export function OffersTable({
                     description="Expiration"
                   />
                 </TableCell>
-                <TableCell component="th" colSpan={3}>
+                <TableCell component="th" {...({ colSpan: 3 } as any)}>
                   <FormattedMessage
                     id="from"
                     defaultMessage="From"

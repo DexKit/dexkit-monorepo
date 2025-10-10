@@ -22,6 +22,7 @@ import {
   TextField,
   Typography,
   useTheme,
+  useColorScheme,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -41,6 +42,44 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
   const intl = useIntl();
+  const { mode } = useColorScheme();
+
+  const getBackgroundColor = (isDark: boolean) => {
+    if (isDark) {
+      return '#1a1a1a';
+    }
+    return theme.palette.background.paper || '#FAFAFA';
+  };
+
+  const getInputBackgroundColor = (isDark: boolean) => {
+    if (isDark) {
+      return '#2d2d30';
+    }
+    return theme.palette.background.paper || '#FFFFFF';
+  };
+
+  const getButtonBackgroundColor = (isDark: boolean) => {
+    if (isDark) {
+      return '#2d2d30';
+    }
+    return theme.palette.primary.main;
+  };
+
+  const getButtonTextColor = (isDark: boolean) => {
+    if (isDark) {
+      return '#ffffff';
+    }
+    return theme.palette.primary.contrastText || '#ffffff';
+  };
+
+  const getCancelButtonColor = (isDark: boolean) => {
+    if (isDark) {
+      return '#17CB95';
+    }
+    return theme.palette.primary.main;
+  };
+
+  const isDarkMode = mode === 'dark';
 
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
@@ -147,10 +186,13 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           position: 'sticky',
           top: 0,
           zIndex: 10002,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: getBackgroundColor(isDarkMode),
           borderBottom: `1px solid ${theme.palette.divider}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
+          ...(isDarkMode && {
+            backgroundColor: '#212529 !important',
+          }),
         }}
       >
         <TextField
@@ -161,13 +203,13 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             defaultMessage: "Search networks by name...",
           })}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e: any) => setSearchQuery(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon
                   sx={{
-                    color: theme.palette.text.secondary,
+                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
                     fontSize: isMobile ? theme.typography.h5.fontSize : theme.typography.body1.fontSize,
                   }}
                 />
@@ -179,7 +221,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                   size="small"
                   onClick={handleClearSearch}
                   sx={{
-                    color: theme.palette.text.secondary,
+                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
                     p: isMobile ? theme.spacing(1) : theme.spacing(0.5),
                   }}
                 >
@@ -191,6 +233,29 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+              backgroundColor: getInputBackgroundColor(isDarkMode),
+              '& fieldset': {
+                borderColor: isDarkMode ? '#404040' : theme.palette.divider,
+              },
+              '&:hover fieldset': {
+                borderColor: theme.palette.primary.main,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: theme.palette.primary.main,
+              },
+              ...(isDarkMode && {
+                backgroundColor: '#2d2d30 !important',
+                '& fieldset': {
+                  borderColor: '#404040 !important',
+                },
+              }),
+            },
+            '& .MuiInputBase-input': {
+              color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+              '&::placeholder': {
+                color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
+                opacity: 1,
+              },
             },
           }}
         />
@@ -202,6 +267,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             sx={{
               mt: 1,
               display: 'block',
+              color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
             }}
           >
             <FormattedMessage
@@ -269,7 +335,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                 },
               }}
             >
-              {filteredNetworks.map((network, index) => (
+              {filteredNetworks.map((network: any, index: number) => (
                 <ListItemButton
                   disabled={switchNetworkMutation.isLoading}
                   selected={network.chainId === chainId}
@@ -347,9 +413,12 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
           gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: getBackgroundColor(isDarkMode),
           borderTop: `1px solid ${theme.palette.divider}`,
           zIndex: 10002,
+          ...(isDarkMode && {
+            backgroundColor: '#212529 !important',
+          }),
         }}
       >
         <Button
@@ -367,6 +436,26 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            backgroundColor: getButtonBackgroundColor(isDarkMode),
+            color: getButtonTextColor(isDarkMode),
+            '&:hover': {
+              backgroundColor: isDarkMode ? '#404040' : theme.palette.primary.dark,
+            },
+            '&:disabled': {
+              backgroundColor: isDarkMode ? '#212529' : theme.palette.action.disabledBackground,
+              color: isDarkMode ? '#9B9B9B' : theme.palette.action.disabled,
+            },
+            ...(isDarkMode && {
+              backgroundColor: '#1976d2 !important',
+              color: '#ffffff !important',
+              '&:hover': {
+                backgroundColor: '#1565c0 !important',
+              },
+              '&:disabled': {
+                backgroundColor: '#212529 !important',
+                color: '#9B9B9B !important',
+              },
+            }),
           }}
         >
           <FormattedMessage
@@ -383,6 +472,30 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            backgroundColor: isDarkMode ? '#2d2d30' : 'transparent',
+            color: getCancelButtonColor(isDarkMode),
+            border: isDarkMode ? '1px solid #404040' : `1px solid ${theme.palette.primary.main}`,
+            '&:hover': {
+              backgroundColor: isDarkMode ? '#404040' : theme.palette.action.hover,
+            },
+            '&:disabled': {
+              backgroundColor: isDarkMode ? '#1a1a1a' : 'transparent',
+              color: isDarkMode ? '#9B9B9B' : theme.palette.action.disabled,
+              borderColor: isDarkMode ? '#1a1a1a' : theme.palette.action.disabled,
+            },
+            ...(isDarkMode && {
+              backgroundColor: 'transparent !important',
+              color: '#1976d2 !important',
+              border: 'none !important',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1) !important',
+              },
+              '&:disabled': {
+                backgroundColor: 'transparent !important',
+                color: '#9B9B9B !important',
+                borderColor: 'transparent !important',
+              },
+            }),
           }}
         >
           <FormattedMessage

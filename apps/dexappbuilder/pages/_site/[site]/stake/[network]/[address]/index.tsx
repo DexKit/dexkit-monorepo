@@ -75,7 +75,7 @@ export function StakePage() {
   return (
     <Container>
       <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={3} lg={4}>
+        <Grid size={{ xs: 12, sm: 3, lg: 4 }}>
           <Box mb={2}>
             <PageHeader
               breadcrumbs={[

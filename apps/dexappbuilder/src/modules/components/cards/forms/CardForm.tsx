@@ -22,11 +22,15 @@ function validate(values: CardProps) {
   }
 }
 
-export const CardForm: React.FC<{
+export const CardForm = ({
+  initialValues,
+  onSubmit,
+  onChange,
+}: {
   initialValues: CardProps;
   onSubmit: (values: CardProps) => void;
   onChange?: (values: CardProps) => void;
-}> = ({ initialValues, onSubmit, onChange }) => {
+}) => {
   const formik = useFormik<CardProps>({
     initialValues: {
       ...initialValues,

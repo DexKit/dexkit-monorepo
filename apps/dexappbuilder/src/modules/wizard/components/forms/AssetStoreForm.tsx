@@ -55,183 +55,183 @@ export default function AssetStoreForm({
 
   return (
     <Paper sx={{ p: isMobile ? theme.spacing(1.5) : theme.spacing(2) }}>
-    <Formik
-      initialValues={{ ...item }}
-      onSubmit={(values) => {
-        if (onSubmit) {
-          onSubmit(values as AssetStoreOptions);
-        }
-      }}
-      validationSchema={AssetStoreOptionsSchema}
-    >
-      {({
-        submitForm,
-        isSubmitting,
-        isValid,
-        values,
-        setFieldValue,
-        errors,
-      }) => (
-        <Form>
-          <ChangeListener
-            values={values}
-            isValid={isValid}
-            onChange={onChange}
-          />
-          <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                type="text"
-                fullWidth
-                label={
-                  <FormattedMessage
-                    id="store.account"
-                    defaultMessage="Store account"
-                  />
-                }
-                name="storeAccount"
-                size={isMobile ? "small" : "medium"}
-                  margin={isMobile ? "dense" : "normal"}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CompletationProvider
-                onCompletation={(output: string) => {
-                  setFieldValue('name', output);
-                }}
-                initialPrompt={values.name}
-              >
-                {({ inputAdornment, ref }) => (
-                  <Field
-                    component={TextField}
-                    type="text"
-                    fullWidth
-                    label={<FormattedMessage id="name" defaultMessage="Name" />}
-                    name="name"
-                    inputRef={ref}
-                    InputProps={{ endAdornment: inputAdornment('end') }}
-                    size={isMobile ? "small" : "medium"}
-                      margin={isMobile ? "dense" : "normal"}
-                  />
-                )}
-              </CompletationProvider>
-            </Grid>
-
-            <Grid item xs={12}>
-              <CompletationProvider
-                onCompletation={(output: string) => {
-                  setFieldValue('title', output);
-                }}
-                initialPrompt={values.title}
-              >
-                {({ inputAdornment, ref }) => (
-                  <Field
-                    component={TextField}
-                    name="title"
-                    type="text"
-                    fullWidth
-                    label={
-                      <FormattedMessage id="title" defaultMessage="Title" />
-                    }
-                    inputRef={ref}
-                    InputProps={{ endAdornment: inputAdornment('end') }}
-                    size={isMobile ? "small" : "medium"}
-                      margin={isMobile ? "dense" : "normal"}
-                  />
-                )}
-              </CompletationProvider>
-            </Grid>
-
-            <Grid item xs={12}>
-              <CompletationProvider
-                onCompletation={(output: string) => {
-                  setFieldValue('description', output);
-                }}
-                initialPrompt={values.description}
-              >
-                {({ inputAdornment, ref }) => (
-                  <Field
-                    component={TextField}
-                    type="text"
-                    fullWidth
-                    label={
-                      <FormattedMessage
-                        id="description"
-                        defaultMessage="Description"
-                      />
-                    }
-                    name="description"
-                    inputRef={ref}
-                    InputProps={{ endAdornment: inputAdornment('end') }}
-                    size={isMobile ? "small" : "medium"}
-                      margin={isMobile ? "dense" : "normal"}
-                  />
-                )}
-              </CompletationProvider>
-            </Grid>
-            <Grid item xs={12}>
-              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-                  <Typography variant={isMobile ? "caption" : "body2"}>
+      <Formik
+        initialValues={{ ...item }}
+        onSubmit={(values) => {
+          if (onSubmit) {
+            onSubmit(values as AssetStoreOptions);
+          }
+        }}
+        validationSchema={AssetStoreOptionsSchema}
+      >
+        {({
+          submitForm,
+          isSubmitting,
+          isValid,
+          values,
+          setFieldValue,
+          errors,
+        }: any) => (
+          <Form>
+            <ChangeListener
+              values={values}
+              isValid={isValid}
+              onChange={onChange}
+            />
+            <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
+              <Grid size={12}>
+                <Field
+                  component={TextField}
+                  type="text"
+                  fullWidth
+                  label={
                     <FormattedMessage
-                      id="profile.image"
-                      defaultMessage="Profile Image"
+                      id="store.account"
+                      defaultMessage="Store account"
                     />
-                  </Typography>
-                </Box>
-                <ImageFormUpload
-                  value={values?.profileImageURL || ''}
-                  onSelectFile={(file) =>
-                    setFieldValue(`profileImageURL`, file)
                   }
-                  error={Boolean(errors && (errors as any)?.profileImageURL)}
+                  name="storeAccount"
+                  size={isMobile ? "small" : "medium"}
+                    margin={isMobile ? "dense" : "normal"}
                 />
-              </Stack>
-            </Grid>
-            <Grid item xs={12}>
-              <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-                <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-                  <Typography variant={isMobile ? "caption" : "body2"}>
-                    <FormattedMessage
-                      id="background.image"
-                      defaultMessage="Background image"
+              </Grid>
+              <Grid size={12}>
+                <CompletationProvider
+                  onCompletation={(output: string) => {
+                    setFieldValue('name', output);
+                  }}
+                  initialPrompt={values.name}
+                >
+                  {({ inputAdornment, ref }) => (
+                    <Field
+                      component={TextField}
+                      type="text"
+                      fullWidth
+                      label={<FormattedMessage id="name" defaultMessage="Name" />}
+                      name="name"
+                      inputRef={ref}
+                      InputProps={{ endAdornment: inputAdornment('end') }}
+                      size={isMobile ? "small" : "medium"}
+                        margin={isMobile ? "dense" : "normal"}
                     />
-                  </Typography>
-                </Box>
-                <ImageFormUpload
-                  value={values?.backgroundImageURL || ''}
-                  onSelectFile={(file) =>
-                    setFieldValue(`backgroundImageURL`, file)
-                  }
-                  error={Boolean(errors && (errors as any)?.backgroundImageURL)}
-                />
-              </Stack>
-            </Grid>
-            {isSubmitting && <LinearProgress />}
-            {onSubmit && (
-              <Grid item xs={12}>
-                  <Stack direction="row" spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} justifyContent="flex-end" sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
-                  {onCancel && (
-                    <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
-                      <FormattedMessage id="cancel" defaultMessage="Cancel" />
-                    </Button>
                   )}
-                  <Button
-                    disabled={!isValid}
-                    variant="contained"
-                    onClick={submitForm}
-                    size={isMobile ? "small" : "medium"}
-                  >
-                    <FormattedMessage id="save" defaultMessage="Save" />
-                  </Button>
+                </CompletationProvider>
+              </Grid>
+
+              <Grid size={12}>
+                <CompletationProvider
+                  onCompletation={(output: string) => {
+                    setFieldValue('title', output);
+                  }}
+                  initialPrompt={values.title}
+                >
+                  {({ inputAdornment, ref }) => (
+                    <Field
+                      component={TextField}
+                      name="title"
+                      type="text"
+                      fullWidth
+                      label={
+                        <FormattedMessage id="title" defaultMessage="Title" />
+                      }
+                      inputRef={ref}
+                      InputProps={{ endAdornment: inputAdornment('end') }}
+                      size={isMobile ? "small" : "medium"}
+                        margin={isMobile ? "dense" : "normal"}
+                    />
+                  )}
+                </CompletationProvider>
+              </Grid>
+
+              <Grid size={12}>
+                <CompletationProvider
+                  onCompletation={(output: string) => {
+                    setFieldValue('description', output);
+                  }}
+                  initialPrompt={values.description}
+                >
+                  {({ inputAdornment, ref }) => (
+                    <Field
+                      component={TextField}
+                      type="text"
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="description"
+                          defaultMessage="Description"
+                        />
+                      }
+                      name="description"
+                      inputRef={ref}
+                      InputProps={{ endAdornment: inputAdornment('end') }}
+                      size={isMobile ? "small" : "medium"}
+                        margin={isMobile ? "dense" : "normal"}
+                    />
+                  )}
+                </CompletationProvider>
+              </Grid>
+              <Grid size={12}>
+                <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                  <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                    <Typography variant={isMobile ? "caption" : "body2"}>
+                      <FormattedMessage
+                        id="profile.image"
+                        defaultMessage="Profile Image"
+                      />
+                    </Typography>
+                  </Box>
+                  <ImageFormUpload
+                    value={values?.profileImageURL || ''}
+                    onSelectFile={(file) =>
+                      setFieldValue(`profileImageURL`, file)
+                    }
+                    error={Boolean(errors && (errors as any)?.profileImageURL)}
+                  />
                 </Stack>
               </Grid>
-            )}
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+              <Grid size={12}>
+                <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                  <Box pl={isMobile ? theme.spacing(1) : theme.spacing(2)}>
+                    <Typography variant={isMobile ? "caption" : "body2"}>
+                      <FormattedMessage
+                        id="background.image"
+                        defaultMessage="Background image"
+                      />
+                    </Typography>
+                  </Box>
+                  <ImageFormUpload
+                    value={values?.backgroundImageURL || ''}
+                    onSelectFile={(file) =>
+                      setFieldValue(`backgroundImageURL`, file)
+                    }
+                    error={Boolean(errors && (errors as any)?.backgroundImageURL)}
+                  />
+                </Stack>
+              </Grid>
+              {isSubmitting && <LinearProgress />}
+              {onSubmit && (
+                <Grid size={12}>
+                    <Stack direction="row" spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} justifyContent="flex-end" sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
+                    {onCancel && (
+                      <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
+                        <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                      </Button>
+                    )}
+                    <Button
+                      disabled={!isValid}
+                      variant="contained"
+                      onClick={submitForm}
+                      size={isMobile ? "small" : "medium"}
+                    >
+                      <FormattedMessage id="save" defaultMessage="Save" />
+                    </Button>
+                  </Stack>
+                </Grid>
+              )}
+            </Grid>
+          </Form>
+        )}
+      </Formik>
     </Paper>
   );
 }

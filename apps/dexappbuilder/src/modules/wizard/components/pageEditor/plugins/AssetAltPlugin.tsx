@@ -5,7 +5,7 @@ import AssetAltPluginViewer from '@dexkit/dexappbuilder-viewer/components/page-e
 import AssetSectionForm from '../../forms/AssetSectionForm';
 
 // you can pass the shape of the data as the generic type argument
-const AssetAltPlugin: CellPlugin<AssetFormType> = {
+const AssetAltPlugin: CellPlugin<any> = {
   ...AssetAltPluginViewer,
   controls: {
     type: 'custom',

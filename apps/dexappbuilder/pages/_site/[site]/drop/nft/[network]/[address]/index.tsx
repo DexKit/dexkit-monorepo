@@ -22,7 +22,7 @@ function TokenDrop() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Container>
           <PageHeader
             breadcrumbs={[
@@ -45,7 +45,7 @@ function TokenDrop() {
           />
         </Container>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <NftDropSection
           section={{
             type: 'nft-drop',

@@ -119,7 +119,7 @@ export default function ContractNftItemContainer({
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -138,7 +138,11 @@ export default function ContractNftItemContainer({
             ]}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <Card>
             {nftQuery.isLoading && (
               <Skeleton
@@ -164,7 +168,11 @@ export default function ContractNftItemContainer({
             )}
           </Card>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <Box>
             <Stack spacing={3}>
               <Box>
@@ -219,7 +227,7 @@ export default function ContractNftItemContainer({
                     />
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Stack spacing={2}>
                         <Stack
                           direction="row"

@@ -6,24 +6,24 @@ import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Grid,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import type {
-    GetStaticPaths,
-    GetStaticPathsContext,
-    GetStaticProps,
-    GetStaticPropsContext,
-    NextPage,
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  NextPage,
 } from 'next';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -186,7 +186,7 @@ const WizardCreateTokenPage: NextPage = () => {
 
             <Box>
               <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={12} sm={8}>
+                <Grid size={{ xs: 12, sm: 8 }}>
                   <Box>
                     <Card>
                       <CardContent>
@@ -195,10 +195,10 @@ const WizardCreateTokenPage: NextPage = () => {
                           initialValues={INITIAL_VALUES}
                           validationSchema={TokenFormSchema}
                         >
-                          {({ submitForm }) => (
+                          {({ submitForm }: any) => (
                             <Form>
                               <Grid container spacing={2}>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Field
                                     component={TextField}
                                     name="name"
@@ -211,7 +211,7 @@ const WizardCreateTokenPage: NextPage = () => {
                                     }
                                   />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Field
                                     component={TextField}
                                     name="symbol"
@@ -224,7 +224,7 @@ const WizardCreateTokenPage: NextPage = () => {
                                     fullWidth
                                   />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Field
                                     component={TextField}
                                     name="maxSupply"
@@ -238,7 +238,7 @@ const WizardCreateTokenPage: NextPage = () => {
                                     fullWidth
                                   />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                   <Button
                                     onClick={() => submitForm()}
                                     variant="contained"
@@ -288,7 +288,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

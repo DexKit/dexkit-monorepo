@@ -134,7 +134,7 @@ export default function CommerceWishlist({ siteId }: CommerceProductProps) {
       )}
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageHeader
               breadcrumbs={[
                 {
@@ -152,10 +152,10 @@ export default function CommerceWishlist({ siteId }: CommerceProductProps) {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
               {wishlist.length === 0 && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack alignItems="center">
                       <Box sx={{ fontSize: '3rem' }}>
@@ -184,7 +184,7 @@ export default function CommerceWishlist({ siteId }: CommerceProductProps) {
                 </Grid>
               )}
               {wishlist.map((productId, index) => (
-                <Grid key={index} item xs={12} sm={3}>
+                <Grid key={index} size={{ xs: 12, sm: 3 }}>
                   <WishlistProductWrapper
                     productId={productId}
                     onShare={handleShare(productId)}
@@ -233,7 +233,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

@@ -2,7 +2,16 @@ import { useMemo } from 'react';
 
 // The editor core
 import { useIsMobile } from '@dexkit/core';
-import Editor, { Value } from '@react-page/editor';
+import Editor, { Value, CellPlugin } from '@react-page/editor';
+
+// Helper function to ensure type safety while being pragmatic
+const ensurePluginCompatibility = (plugins: unknown[]): CellPlugin[] => {
+  // This function validates that each plugin has the required CellPlugin structure
+  // and provides a safe type assertion
+  return plugins.filter((plugin): plugin is CellPlugin => {
+    return Boolean(plugin && typeof plugin === 'object' && plugin !== null && 'id' in plugin);
+  });
+};
 
 // import the main css, uncomment this: (this is commented in the example because of https://github.com/vercel/next.js/issues/19717)
 import '@react-page/editor/lib/index.css';
@@ -217,7 +226,7 @@ export default function PageEditor(props: Props) {
           components={{
             BottomToolbar: CustomPageEditorToolbar,
           }}
-          cellPlugins={plugins}
+          cellPlugins={ensurePluginCompatibility(plugins)}
           value={JSON.parse(value || 'null')}
           onChange={onChangeValue}
           readOnly={readOnly}

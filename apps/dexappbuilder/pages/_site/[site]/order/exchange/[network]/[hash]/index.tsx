@@ -90,7 +90,7 @@ export default function ExchangeOrderPage() {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -109,9 +109,9 @@ export default function ExchangeOrderPage() {
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} sm={5}>
+            <Grid size={{ xs: 12, sm: 5 }}>
               {orderQuery.data ? (
                 <OrderWidget
                   onCancel={handleCancelOrder}

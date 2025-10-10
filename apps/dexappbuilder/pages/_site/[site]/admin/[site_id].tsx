@@ -46,7 +46,7 @@ export const WizardPage: NextPage = () => {
         <CircularProgress color="inherit" size={80} />
       </Backdrop>
       {isConfigError && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="error">{String(configError)}</Alert>
         </Grid>
       )}
@@ -78,7 +78,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

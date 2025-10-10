@@ -153,8 +153,8 @@ export function useSwapState() {
       theme:
         mode === ThemeMode.light
           ? lightTheme({
-              colors,
-            })
+            colors,
+          })
           : darkTheme({ colors }),
     });
   }

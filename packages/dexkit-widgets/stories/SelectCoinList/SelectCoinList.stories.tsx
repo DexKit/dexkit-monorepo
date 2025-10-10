@@ -18,12 +18,12 @@ export default {
 const Template: ComponentStory<typeof SelectCoinsList> = (
   args: SelectCoinListProps
 ) => {
-  const handleSelect = useCallback((token: Token) => {}, []);
+  const handleSelect = useCallback((token: Token) => { }, []);
 
   return (
     <WidgetContext>
       <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <Card>
             <SelectCoinsList {...args} onSelect={handleSelect} />
           </Card>

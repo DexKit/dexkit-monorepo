@@ -54,18 +54,22 @@ export default function MintNFTDialog({
         }}
         onSubmit={handleSubmit}
       >
-        {({ submitForm, isSubmitting, isValid }) => (
+        {({ submitForm, isSubmitting, isValid }: any) => (
           <>
             <DialogContent dividers>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={2} justifyContent="center">
-                    <Grid item xs={12} sm={3}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 3
+                      }}>
                       <MediaInputButton label="Image" name="image" />
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     label={<FormattedMessage id="name" defaultMessage="Name" />}
                     required
@@ -74,7 +78,7 @@ export default function MintNFTDialog({
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     label={
                       <FormattedMessage
@@ -89,7 +93,7 @@ export default function MintNFTDialog({
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Accordion>
                     <AccordionSummary expandIcon={<ExpandMore />}>
                       <FormattedMessage
@@ -99,7 +103,7 @@ export default function MintNFTDialog({
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             fullWidth
                             label={
@@ -112,7 +116,7 @@ export default function MintNFTDialog({
                             name="background_color"
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             fullWidth
                             label={
@@ -125,7 +129,7 @@ export default function MintNFTDialog({
                             name="external_url"
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             fullWidth
                             label={
@@ -138,7 +142,7 @@ export default function MintNFTDialog({
                             name="image"
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Field
                             fullWidth
                             label={

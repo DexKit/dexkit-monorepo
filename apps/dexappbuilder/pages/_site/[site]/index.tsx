@@ -21,12 +21,15 @@ const Home: NextPage<{
   sections: AppPageSection[];
   layout: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout, appConfig }) => {
+}> = ({ sections, layout, appConfig }: {
+  sections: AppPageSection[];
+  layout: PageSectionsLayout;
+  appConfig: AppConfig;
+}) => {
 
   return (
-    <MainLayout disablePadding>
+    <MainLayout disablePadding isPreview={false}>
       <SectionsRenderer sections={sections} layout={layout} />
-      {/*<ActionButtonsSection />*/}
     </MainLayout>
   );
 };

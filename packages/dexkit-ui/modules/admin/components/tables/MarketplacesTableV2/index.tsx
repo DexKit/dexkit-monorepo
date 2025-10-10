@@ -13,7 +13,7 @@ import {
   AppPageSection,
 } from "@dexkit/ui/modules/wizard/types/section";
 import MoreVert from "@mui/icons-material/MoreVert";
-import { IconButton, Stack, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -27,23 +27,35 @@ import { ADMIN_TABLE_LIST } from "../../../constants";
 import ImportAppConfigDialog from "../../dialogs/ImportAppConfigDialog";
 import Menu from "./Menu";
 
+import MobilePagination from "@dexkit/ui/components/MobilePagination";
 import { useSendConfigMutation } from "@dexkit/ui/modules/whitelabel/hooks/useSendConfigMutation";
 
 interface Props {
   configs: ConfigResponse[];
+  total?: number;
+  paginationModel?: { page: number; pageSize: number };
+  onPaginationModelChange?: (model: { page: number; pageSize: number }) => void;
   onConfigureDomain: (config: ConfigResponse) => void;
 }
 
-export default function MarketplacesTableV2({ configs }: Props) {
+export default function MarketplacesTableV2({
+  configs,
+  total = configs.length,
+  paginationModel: externalPaginationModel,
+  onPaginationModelChange
+}: Props) {
   const router = useRouter();
   const { formatMessage } = useIntl();
   const { enqueueSnackbar } = useSnackbar();
   const isMobile = useIsMobile();
   const theme = useTheme();
-  const [paginationModel, setPaginationModel] = useState({
+  const [internalPaginationModel, setInternalPaginationModel] = useState({
     page: 0,
     pageSize: isMobile ? 5 : 10,
   });
+
+  const paginationModel = externalPaginationModel || internalPaginationModel;
+  const setPaginationModel = onPaginationModelChange || setInternalPaginationModel;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [rowId, setRowId] = useState<GridRowId | null>(null);
   const [showImportDialog, setShowImportDialog] = useState(false);
@@ -318,7 +330,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
       renderHeader: (params) => {
         return (
           <Typography
-            sx={(theme) => ({
+            sx={(theme: any) => ({
               fontSize: isMobile
                 ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
@@ -331,23 +343,32 @@ export default function MarketplacesTableV2({ configs }: Props) {
       },
       field: "name",
       headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
+      flex: isMobile ? 0 : 1,
+      width: isMobile ? 120 : undefined,
       minWidth: isMobile ? 120 : 200,
       renderCell: (params) => {
         return (
-          <Typography
-            sx={(theme) => ({
-              fontSize: isMobile
-                ? theme.typography.fontSize * 1.1
-                : theme.typography.fontSize,
-            })}
-            fontWeight="400"
-          >
-            {params.value}
-          </Typography>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%'
+          }}>
+            <Typography
+              sx={(theme: any) => ({
+                fontSize: isMobile
+                  ? theme.typography.fontSize * 1.1
+                  : theme.typography.fontSize,
+              })}
+              fontWeight="400"
+            >
+              {params.value}
+            </Typography>
+          </Box>
         );
       },
-      valueGetter: ({ row }) => {
-        return row.slug;
+      valueGetter: (value: any, row: any) => {
+        return (row as ConfigResponse).slug;
       },
     },
     {
@@ -357,7 +378,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
       renderHeader: (params) => {
         return (
           <Typography
-            sx={(theme) => ({
+            sx={(theme: any) => ({
               fontSize: isMobile
                 ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
@@ -369,40 +390,70 @@ export default function MarketplacesTableV2({ configs }: Props) {
         );
       },
       field: "domain",
-      flex: 1,
+      flex: isMobile ? 1 : 2,
       headerName: formatMessage({ id: "domain", defaultMessage: "Domain" }),
-      minWidth: isMobile ? 120 : 200,
+      minWidth: isMobile ? 70 : 200,
       renderCell: ({ row }) => {
         const appConfig: AppConfig = JSON.parse(row.config);
 
         if (row.previewUrl) {
           return (
-            <AppLink
-              sx={(theme) => ({
-                fontSize: isMobile
-                  ? theme.typography.fontSize * 1.1
-                  : theme.typography.fontSize,
-              })}
-              href={row.previewUrl}
-            >
-              {row.previewUrl}
-            </AppLink>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '100%',
+              width: '100%'
+            }}>
+              <AppLink
+                sx={(theme: any) => ({
+                  fontSize: isMobile
+                    ? '0.75rem'
+                    : theme.typography.fontSize,
+                  wordBreak: 'break-all',
+                  overflow: 'visible',
+                  textOverflow: 'unset',
+                  display: 'block',
+                  maxWidth: '100%',
+                  whiteSpace: 'normal',
+                  lineHeight: 1.2,
+                })}
+                href={row.previewUrl}
+                title={row.previewUrl}
+              >
+                {isMobile ? row.previewUrl.replace('https://', '') : row.previewUrl}
+              </AppLink>
+            </Box>
           );
         }
 
         if (appConfig.domain && appConfig.domain !== "") {
           return (
-            <AppLink
-              sx={(theme) => ({
-                fontSize: isMobile
-                  ? theme.typography.fontSize * 1.1
-                  : theme.typography.fontSize,
-              })}
-              href={appConfig.domain}
-              target={"_blank"}
-            >
-              {appConfig.domain}
-            </AppLink>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '100%',
+              width: '100%'
+            }}>
+              <AppLink
+                sx={(theme: any) => ({
+                  fontSize: isMobile
+                    ? '0.75rem'
+                    : theme.typography.fontSize,
+                  wordBreak: 'break-all',
+                  overflow: 'visible',
+                  textOverflow: 'unset',
+                  display: 'block',
+                  maxWidth: '100%',
+                  whiteSpace: 'normal',
+                  lineHeight: 1.2,
+                })}
+                href={appConfig.domain}
+                target={"_blank"}
+                title={appConfig.domain}
+              >
+                {isMobile ? appConfig.domain.replace('https://', '') : appConfig.domain}
+              </AppLink>
+            </Box>
           );
         }
       },
@@ -415,7 +466,7 @@ export default function MarketplacesTableV2({ configs }: Props) {
       renderHeader: (params) => {
         return (
           <Typography
-            sx={(theme) => ({
+            sx={(theme: any) => ({
               fontSize: isMobile
                 ? theme.typography.fontSize * 1.1
                 : theme.typography.fontSize,
@@ -426,54 +477,69 @@ export default function MarketplacesTableV2({ configs }: Props) {
           </Typography>
         );
       },
-      flex: 1,
-      minWidth: isMobile ? 80 : undefined,
-      maxWidth: isMobile ? 60 : undefined,
-      width: isMobile ? 60 : undefined,
+      width: isMobile ? 80 : 200,
+      minWidth: isMobile ? 80 : 150,
+      maxWidth: isMobile ? 80 : 200,
       headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
       headerAlign: "center",
       renderCell: ({ row, id }) => {
         if (isMobile) {
           return (
-            <IconButton
-              onClick={(e) => {
-                setAnchorEl(e.currentTarget);
-                setRowId(id);
-              }}
-              size={isMobile ? "medium" : "large"}
-              sx={{
-                mx: 'auto',
-                p: isMobile ? 0.5 : 1
-              }}
-            >
-              <MoreVert fontSize={isMobile ? "small" : "medium"} />
-            </IconButton>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              width: '100%'
+            }}>
+              <IconButton
+                onClick={(e: any) => {
+                  setAnchorEl(e.currentTarget);
+                  setRowId(id);
+                }}
+                size={isMobile ? "small" : "large"}
+                sx={{
+                  p: isMobile ? 0.25 : 1,
+                  minWidth: isMobile ? 32 : 'auto'
+                }}
+              >
+                <MoreVert fontSize={isMobile ? "small" : "medium"} />
+              </IconButton>
+            </Box>
           );
         }
 
         return (
-          <Stack
-            sx={{ width: "100%" }}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {ADMIN_TABLE_LIST.map((item, index) => (
-              <Tooltip
-                key={index}
-                title={
-                  <FormattedMessage
-                    id={item.text.id}
-                    defaultMessage={item.text.defaultMessage}
-                  />
-                }
-              >
-                <IconButton onClick={() => handleAction(item.value, id)}>
-                  {item.icon}
-                </IconButton>
-              </Tooltip>
-            ))}
-          </Stack>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%'
+          }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={0.5}
+            >
+              {ADMIN_TABLE_LIST.map((item, index) => (
+                <Tooltip
+                  key={index}
+                  title={
+                    <FormattedMessage
+                      id={item.text.id}
+                      defaultMessage={item.text.defaultMessage}
+                    />
+                  }
+                >
+                  <IconButton onClick={() => handleAction(item.value, id)}>
+                    {item.icon}
+                  </IconButton>
+                </Tooltip>
+              ))}
+            </Stack>
+          </Box>
         );
       },
     },
@@ -491,6 +557,14 @@ export default function MarketplacesTableV2({ configs }: Props) {
   const handleSortModelChange = useCallback((sortModel: GridSortModel) => {
     setSortModel(sortModel);
   }, []);
+
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
 
   return (
     <>
@@ -525,67 +599,137 @@ export default function MarketplacesTableV2({ configs }: Props) {
         onClose={handleCloseMenu}
         open={Boolean(anchorEl)}
       />
-      <DataGrid
-        getRowId={(row) => row.id}
-        autoHeight
-        rows={configs || []}
-        columns={columns}
-        rowCount={configs.length}
-        paginationModel={paginationModel}
-        paginationMode="server"
-        disableColumnFilter
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-          },
-          pagination: { sx: { mx: isMobile ? 0 : theme.spacing(0.75) } },
-          cell: {
-            sx: {
-              alignItems: 'center',
-              justifyContent: isMobile ? 'center' : undefined,
-              fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit'
+      <Box>
+        <DataGrid
+          getRowId={(row: any) => row.id}
+          autoHeight
+          rows={configs || []}
+          columns={columns}
+          rowCount={total}
+          paginationModel={paginationModel}
+          paginationMode="server"
+          disableColumnFilter
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+            pagination: { style: { margin: isMobile ? 0 : theme.spacing(0.75) } }
+          }}
+          sortModel={sortModel}
+          onPaginationModelChange={setPaginationModel}
+          filterMode="server"
+          onFilterModelChange={onFilterChange}
+          onSortModelChange={handleSortModelChange}
+          pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
+          disableRowSelectionOnClick
+          loading={false}
+          hideFooterPagination={isMobile}
+          sx={{
+            '& .MuiDataGrid-main': {
+              width: '100%',
+              overflowX: 'hidden',
+            },
+            '& .MuiDataGrid-virtualScroller': {
+              width: '100%',
+              minWidth: '100%'
+            },
+            '& .MuiDataGrid-root': {
+              width: '100%',
+              border: 'none !important',
+              '& .MuiDataGrid-main': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-virtualScroller': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-virtualScrollerContent': {
+                border: 'none !important',
+              },
+              '& .MuiDataGrid-row': {
+                '&:last-child .MuiDataGrid-cell': {
+                  borderBottom: 'none'
+                }
+              }
+            },
+            '& .MuiDataGrid-cell:last-of-type': {
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+            },
+            '& .MuiDataGrid-columnHeader:last-of-type': {
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+            },
+            '& .MuiDataGrid-cell': {
+              padding: isMobile ? theme.spacing(0.75, 0.5) : theme.spacing(1.5),
+              whiteSpace: isMobile ? 'normal' : 'nowrap',
+              wordBreak: 'break-word',
+              fontSize: isMobile ? '0.75rem' : 'inherit',
+              overflowX: 'hidden',
+              textOverflow: 'ellipsis',
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              '&:last-of-type': {
+                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+              },
+              '&[data-field="domain"]': {
+                whiteSpace: 'normal',
+                overflow: 'visible',
+                textOverflow: 'unset',
+                verticalAlign: 'top',
+              }
+            },
+            '& .MuiDataGrid-row': {
+              maxHeight: 'none !important',
+              minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(6.5)} !important`,
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover
+              }
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7),
+              backgroundColor: theme.palette.grey[50],
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+            },
+            '& .MuiDataGrid-columnHeader': {
+              padding: isMobile ? theme.spacing(0.75) : theme.spacing(1.5),
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              '&:last-of-type': {
+                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+              }
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              padding: theme.spacing(1, 2),
+              '& .MuiTablePagination-root': {
+                overflow: 'visible'
+              },
+              '& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
+                fontSize: isMobile ? theme.typography.caption.fontSize : theme.typography.body2.fontSize
+              }
             }
-          }
-        }}
-        sortModel={sortModel}
-        onPaginationModelChange={setPaginationModel}
-        filterMode="server"
-        onFilterModelChange={onFilterChange}
-        onSortModelChange={handleSortModelChange}
-        pageSizeOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
-        disableRowSelectionOnClick
-        loading={false}
-        sx={{
-          '& .MuiDataGrid-main': {
-            width: isMobile ? `calc(100vw - ${theme.spacing(2.5)})` : '100%',
-            overflowX: isMobile ? 'auto' : 'hidden',
-            ml: isMobile ? theme.spacing(-0.5) : 0,
-            mr: isMobile ? theme.spacing(-1.5) : 0,
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            width: isMobile ? 'max-content' : '100%',
-            minWidth: isMobile ? '100%' : 'auto'
-          },
-          '& .MuiDataGrid-cell': {
-            padding: isMobile ? theme.spacing(1, 0.75) : theme.spacing(2),
-            whiteSpace: 'normal',
-            wordBreak: 'break-word',
-            fontSize: isMobile ? theme.typography.caption.fontSize : 'inherit',
-            overflowX: 'hidden',
-            textOverflow: 'ellipsis'
-          },
-          '& .MuiDataGrid-row': {
-            maxHeight: 'none !important',
-            minHeight: isMobile ? `${theme.spacing(6.25)} !important` : `${theme.spacing(6.5)} !important`
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7)
-          },
-          '& .MuiDataGrid-columnHeader': {
-            padding: isMobile ? theme.spacing(0.75) : theme.spacing(2)
-          }
-        }}
-      />
+          }}
+        />
+
+        {isMobile && (
+          <MobilePagination
+            page={paginationModel.page}
+            pageSize={paginationModel.pageSize}
+            totalRows={total}
+            onPageChange={handleMobilePageChange}
+            onPageSizeChange={handleMobilePageSizeChange}
+            pageSizeOptions={[5, 10, 25]}
+          />
+        )}
+      </Box>
     </>
   );
 }

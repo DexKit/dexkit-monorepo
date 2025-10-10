@@ -16,7 +16,7 @@ export default function PageTemplateContainer({ pageTemplate }: Props) {
   return (
     <Container maxWidth={'xl'}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             alignItems="center"
@@ -62,7 +62,7 @@ export default function PageTemplateContainer({ pageTemplate }: Props) {
           </Stack>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageTemplateForm initialValues={pageTemplate} />
         </Grid>
       </Grid>

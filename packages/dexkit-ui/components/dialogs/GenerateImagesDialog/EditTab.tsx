@@ -112,10 +112,10 @@ export default function EditTab({
         isSubmitting,
         errors,
         submitForm,
-      }) => (
+      }: any) => (
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Stack spacing={2}>
                 <Stack justifyContent="center" alignItems="center">
                   <Box>
@@ -139,7 +139,7 @@ export default function EditTab({
                   rows={3}
                   multiline
                   value={values.prompt}
-                  onChange={(e) => setFieldValue("prompt", e.target.value)}
+                  onChange={(e: any) => setFieldValue("prompt", e.target.value)}
                   error={Boolean(errors.prompt)}
                   helperText={
                     Boolean(errors.prompt) ? errors.prompt : undefined
@@ -155,7 +155,7 @@ export default function EditTab({
                     />
                   }
                   value={values.numImages === 0 ? "" : values.numImages}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     let value = parseInt(e.target.value);
 
                     setFieldValue("numImages", value);
@@ -180,7 +180,7 @@ export default function EditTab({
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               {renderResults(values)}
             </Grid>
           </Grid>

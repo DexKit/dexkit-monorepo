@@ -80,9 +80,9 @@ const WizardIndexPage: NextPage = () => {
         </Stack>
         <Box>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} sm={8}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12}>
+                <Grid size={{ xs: 12, sm: 12 }}>
                   <Card>
                     <Stack
                       sx={{ p: 2 }}
@@ -119,7 +119,7 @@ const WizardIndexPage: NextPage = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                {/*    <Grid item xs={12} sm={6}>
+                {/*    <Grid size={{ xs: 12, sm: 6 }}>
                   <Card>
                     <Stack
                       sx={{ p: 2 }}
@@ -184,7 +184,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

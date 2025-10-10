@@ -194,7 +194,6 @@ export default function MaskEditor({
           }}
         />
       </Box>
-
       <Paper>
         <div
           style={{
@@ -208,7 +207,7 @@ export default function MaskEditor({
             width={canvasSize.width}
             height={canvasSize.height}
             style={{ position: "absolute" }}
-            ref={(ref) => (canvas.current = ref)}
+            ref={canvas}
           />
 
           <canvas
@@ -219,7 +218,7 @@ export default function MaskEditor({
               opacity: 0.4,
               imageRendering: "crisp-edges",
             }}
-            ref={(ref) => (maskCanvas.current = ref)}
+            ref={maskCanvas}
           />
           <canvas
             width={canvasSize.width}
@@ -228,7 +227,7 @@ export default function MaskEditor({
               position: "absolute",
               display: isEditing ? "block" : "none",
             }}
-            ref={(ref) => (circleCanvas.current = ref)}
+            ref={circleCanvas}
             onMouseMove={handleDrawCircle}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}

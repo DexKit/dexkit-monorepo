@@ -34,4 +34,5 @@ export type DeployedContract = {
   type?: string;
   chainId?: number;
   hide?: boolean;
+  createdAt?: string;
 };

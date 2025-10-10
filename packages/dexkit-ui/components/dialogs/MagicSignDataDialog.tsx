@@ -108,7 +108,7 @@ export const MagicSignDataDialog: React.FC<Props> = ({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom align="center" variant="h5">
               <FormattedMessage
                 id="sign.message"
@@ -119,9 +119,9 @@ export const MagicSignDataDialog: React.FC<Props> = ({
               {account && truncateAddress(account)}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography align="center" gutterBottom variant="body1">
                   <FormattedMessage
                     id="message.you.are.signing"
@@ -129,7 +129,7 @@ export const MagicSignDataDialog: React.FC<Props> = ({
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography
                   sx={{
                     textOverflow: "ellipsis",

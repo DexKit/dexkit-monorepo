@@ -43,7 +43,7 @@ export default function OwnershipWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Tooltip
             placement="top-start"
@@ -82,11 +82,10 @@ export default function OwnershipWizardContainer({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TabContext value={value}>
           <Box sx={{
             borderBottom: 1,
@@ -96,7 +95,7 @@ export default function OwnershipWizardContainer({
             },
             '.MuiTab-root': {
               fontSize: isMobile ? '0.85rem' : 'inherit',
-              padding: isMobile ? theme.spacing(1, 1.5) : undefined,
+              padding: isMobile ? theme.spacing(1, 1.5) : 'inherit',
               minWidth: isMobile ? 'auto' : undefined,
               flex: isMobile ? '1 1 auto' : undefined,
             },
@@ -122,15 +121,15 @@ export default function OwnershipWizardContainer({
               />
             </TabList>
           </Box>
-          <TabPanel value="1" sx={{ padding: isMobile ? theme.spacing(1, 0) : undefined }}>
-            <Grid item xs={12}>
+          <TabPanel value="1" sx={{ padding: isMobile ? theme.spacing(1, 0) : 'inherit' }}>
+            <Grid size={12}>
               {data === false && (
                 <Alert
                   severity="warning"
                   sx={{
                     fontSize: isMobile ? '0.85rem' : 'inherit',
                     '& .MuiAlert-message': {
-                      padding: isMobile ? theme.spacing(0.5) : undefined
+                      padding: isMobile ? theme.spacing(0.5) : 'inherit'
                     }
                   }}
                 >
@@ -144,12 +143,12 @@ export default function OwnershipWizardContainer({
               )}
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               {site?.id !== undefined && (
                 <OwnershipSection id={site.id} nft={site.nft} isMobile={isMobile} />
               )}
             </Grid>
-            {/* <Grid item xs={12}>
+            {/* <Grid size={12}>
               {site?.id !== undefined && (
                 <HidePoweredContainer
                   config={config}
@@ -160,7 +159,7 @@ export default function OwnershipWizardContainer({
               )}
             </Grid>*/}
           </TabPanel>
-          <TabPanel value="2" sx={{ padding: isMobile ? theme.spacing(1, 0) : undefined }}>
+          <TabPanel value="2" sx={{ padding: isMobile ? theme.spacing(1, 0) : 'inherit' }}>
             <SiteMetadataSection
               id={site?.id}
               slug={site?.slug}

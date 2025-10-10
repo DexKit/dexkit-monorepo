@@ -44,7 +44,7 @@ export default function NetworksWizardContainer({
   useEffect(() => {
     if (
       activeChainIds.length === currentActive.length &&
-      activeChainIds.filter((c) => currentActive.includes(c)).length ===
+      activeChainIds.filter((c: any) => currentActive.includes(c)).length ===
       activeChainIds.length
     ) {
       if (onHasChanges) {
@@ -79,7 +79,7 @@ export default function NetworksWizardContainer({
           ...config,
           activeChainIds: activeChainIds.filter((ac) => !exclude.includes(ac)),
         });*/
-        setCurrentActive(currentActive.filter((c) => !exclude.includes(c)));
+        setCurrentActive(currentActive.filter((c: any) => !exclude.includes(c)));
         setExclude([]);
         setIsEditing(false);
       }
@@ -157,7 +157,6 @@ export default function NetworksWizardContainer({
           onSelect={handleSelect}
         />
       )}
-
       {networkInfo && (
         <ViewNetworkInfoDialog
           DialogProps={{
@@ -171,7 +170,7 @@ export default function NetworksWizardContainer({
       )}
       <Box>
         <Grid container spacing={isMobile ? 1.5 : 3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
               <Typography
                 variant={isMobile ? 'h6' : 'h5'}
@@ -197,17 +196,17 @@ export default function NetworksWizardContainer({
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid
               container
               spacing={isMobile ? 1 : 2}
               alignItems="center"
               justifyContent="space-between"
             >
-              <Grid item>
+              <Grid>
                 <Button
                   onClick={handleAddNetwork}
                   variant="contained"
@@ -225,7 +224,7 @@ export default function NetworksWizardContainer({
                   />
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid>
                 {isEditing ? (
                   <Box>
                     <Stack spacing={1} direction="row">
@@ -275,7 +274,7 @@ export default function NetworksWizardContainer({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {currentActive.length === 0 && (
               <Stack
                 sx={{ p: isMobile ? 1 : 2 }}
@@ -320,7 +319,7 @@ export default function NetworksWizardContainer({
                     <ListItemText primary={<Skeleton />} />
                   </ListItem>
                 ))*/}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
             <NetworksContainerList
               networks={EVM_CHAINS}
@@ -332,7 +331,7 @@ export default function NetworksWizardContainer({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={1} direction="row" justifyContent="flex-end">
               <Button
                 variant="contained"

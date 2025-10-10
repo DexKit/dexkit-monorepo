@@ -103,11 +103,3 @@ export const DEX_GENERATOR_CONTRACT_TYPES_AVAIL = [
   'AirdropERC20Claimable',
 ];
 
-export const DARKBLOCK_SUPPORTED_CHAIN_IDS = [
-  ChainId.Ethereum,
-  ChainId.Polygon,
-  ChainId.Avax,
-  ChainId.Base,
-  ChainId.Goerli,
-  ChainId.Mumbai
-]

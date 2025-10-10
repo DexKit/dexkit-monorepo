@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  ButtonBase,
-  ButtonBaseProps,
-  lighten,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, ButtonBase, ButtonBaseProps, Stack, Typography, useTheme } from "@mui/material";
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -51,8 +43,10 @@ function SwapTokenButtonUniswap({
         }
       />
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         {token?.symbol.toUpperCase()}
@@ -63,8 +57,10 @@ function SwapTokenButtonUniswap({
   ) : (
     <Stack direction="row" alignItems="center" spacing={0.5}>
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#cccccc' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         <FormattedMessage id="select.token" defaultMessage="Select token" />
@@ -79,10 +75,10 @@ function SwapTokenButtonUniswap({
         <ButtonBase
           {...ButtonBaseProps}
           sx={{
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: (theme.shape.borderRadius as any) / 2,
             p: 1,
             border: `1px solid ${theme.palette.mode === "dark"
-              ? lighten(theme.palette.divider, 0.2)
+              ? theme.lighten(theme.palette.divider, 0.2)
               : theme.palette.divider
               }`,
             opacity: locked ? 0.5 : 1,

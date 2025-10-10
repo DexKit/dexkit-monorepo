@@ -18,7 +18,7 @@ export function MediaInputButton({ name, label }: MediaInputButtonProps) {
   const [showDialog, setShowDialog] = useState(false);
 
   const handleToggle = () => {
-    setShowDialog((value) => !value);
+    setShowDialog((value: any) => !value);
     setFieldValue(name, undefined);
   };
 

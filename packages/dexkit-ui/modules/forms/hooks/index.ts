@@ -83,7 +83,7 @@ export function useListFormsQuery({
 export const DEPLOYABLE_CONTRACTS_QUERY = "DEPLOYABLE_CONTRACTS_QUERY";
 
 export function useDeployableContractsQuery() {
-  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({}) => {
+  return useQuery([DEPLOYABLE_CONTRACTS_QUERY], async ({ }) => {
     return (await axios.get<DeployableContract[]>(DEPLOYABLE_CONTRACTS_URL))
       .data;
   });

@@ -33,7 +33,7 @@ function ExchangeWidget(props: Props) {
 
     if (chainId && baseTokenAddress) {
       baseToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, baseTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -41,7 +41,7 @@ function ExchangeWidget(props: Props) {
 
     if (chainId && quoteTokenAddress) {
       quoteToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, quoteTokenAddress ?? "") &&
           t.chainId === chainId
       );

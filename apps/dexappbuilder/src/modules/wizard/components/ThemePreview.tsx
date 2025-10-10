@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
+  CssVarsProvider,
   CssVarsTheme,
   Theme,
   useColorScheme,
@@ -35,11 +35,13 @@ function ColorSchemePicker({
   selectedThemeMode?: ThemeMode;
 }) {
   const { mode, setMode } = useColorScheme();
+
   useEffect(() => {
     if (selectedThemeMode) {
       setMode(selectedThemeMode);
     }
-  }, [selectedThemeMode]);
+  }, [selectedThemeMode, setMode]);
+
   return <></>;
 }
 
@@ -53,6 +55,7 @@ export default function ThemePreview({
 }: Props) {
   const { formatMessage } = useIntl();
   const [node, setNode] = React.useState<null | HTMLElement>(null);
+
   useEnhancedEffect(() => {
     setNode(
       document.getElementById('theme-preview-container') as null | HTMLElement,
@@ -80,7 +83,7 @@ export default function ThemePreview({
               <SwapWidget />
             ) : (
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <AssetFromApi
                     chainId={ChainId.Polygon}
                     contractAddress={KITTYGOTCHI_CONTRACT}
@@ -88,7 +91,7 @@ export default function ThemePreview({
                     disabled={true}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <AssetFromApi
                     chainId={ChainId.Polygon}
                     contractAddress={KITTYGOTCHI_CONTRACT}

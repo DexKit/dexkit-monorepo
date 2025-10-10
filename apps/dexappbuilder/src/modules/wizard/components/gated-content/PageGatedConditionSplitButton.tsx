@@ -29,7 +29,7 @@ export default function PageGatedConditionSplitButton({
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen((prevOpen: any) => !prevOpen);
   };
 
   const handleMenuItemClick = (value: string) => {
@@ -78,7 +78,7 @@ export default function PageGatedConditionSplitButton({
         transition
         disablePortal
       >
-        {({ TransitionProps, placement }) => (
+        {({ TransitionProps, placement }: any) => (
           <Grow
             {...TransitionProps}
             style={{
@@ -93,7 +93,7 @@ export default function PageGatedConditionSplitButton({
                     <MenuItem
                       key={index}
                       selected={condition.condition === option.value}
-                      onClick={(event) => handleMenuItemClick(option.value)}
+                      onClick={(event: any) => handleMenuItemClick(option.value)}
                     >
                       {option.label}
                     </MenuItem>

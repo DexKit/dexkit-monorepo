@@ -266,7 +266,7 @@ export default function DomainWizardContainer({
         spacing={isMobile ? 1.5 : 3}
         sx={{ px: isMobile ? 1 : 0, pt: isMobile ? 1 : 0 }}
       >
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -295,10 +295,10 @@ export default function DomainWizardContainer({
         {config.domain && (
           <>
             {' '}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 direction={'row'}
                 spacing={1}
@@ -332,10 +332,10 @@ export default function DomainWizardContainer({
 
         {site?.cname && (
           <>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 spacing={1}
                 direction={'row'}
@@ -357,7 +357,7 @@ export default function DomainWizardContainer({
                 </IconButton>
               </Stack>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
                   <FormattedMessage id="cname" defaultMessage="CNAME" />
@@ -383,7 +383,7 @@ export default function DomainWizardContainer({
               </Stack>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction={'column'} spacing={1}>
                 <Typography>
                   <FormattedMessage id="a.record" defaultMessage="A Record" />
@@ -411,7 +411,7 @@ export default function DomainWizardContainer({
             {verifyDomainData &&
               verifyDomainData?.verified === false &&
               verifyDomainData?.verification && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   {verifyDomainData?.verification.map(
                     (ver: any, key: number) => (
                       <Stack
@@ -467,18 +467,18 @@ export default function DomainWizardContainer({
               )}
           </>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PremiumAppBuilder />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <DomainSection
             onHasChanges={onHasChanges}
             initialValues={domainData}

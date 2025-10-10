@@ -1,4 +1,4 @@
-import { Box, Button, FormControlLabel, Grid } from "@mui/material";
+import { Box, Button, FormControlLabel, Stack } from "@mui/material";
 import { BigNumber } from "ethers";
 import { Field, Formik, FormikErrors, getIn } from "formik";
 import { Autocomplete, Checkbox, TextField } from "formik-mui";
@@ -200,12 +200,12 @@ export default function GenericForm({
         if (params) {
           const { values, setFieldValue } = params;
 
-          const isDescriptionField = (el.ref as string)?.toLowerCase().includes('description') ||
-            el.label?.toLowerCase().includes('description') ||
-            (el.ref as string)?.toLowerCase().includes('desc') ||
-            el.label?.toLowerCase().includes('desc') ||
-            (el.ref as string) === 'description' ||
-            (el.ref as string) === 'desc';
+          const isDescriptionField = (typeof el.ref === 'string' && el.ref.toLowerCase().includes('description')) ||
+            (el.label && el.label.toLowerCase().includes('description')) ||
+            (typeof el.ref === 'string' && el.ref.toLowerCase().includes('desc')) ||
+            (el.label && el.label.toLowerCase().includes('desc')) ||
+            el.ref === 'description' ||
+            el.ref === 'desc';
 
           if (isDescriptionField) {
             return (
@@ -257,8 +257,8 @@ export default function GenericForm({
     );
     const hasDescriptionField = elements.some(el =>
       el.type === "input" &&
-      ((el.ref as string)?.toLowerCase().includes('description') ||
-        el.label?.toLowerCase().includes('description'))
+      ((typeof el.ref === 'string' && el.ref.toLowerCase().includes('description')) ||
+        (el.label && el.label.toLowerCase().includes('description')))
     );
 
     if (hasImageField && hasDescriptionField && !group) {
@@ -268,8 +268,8 @@ export default function GenericForm({
       );
       const descriptionElement = elements.find(el =>
         el.type === "input" &&
-        ((el.ref as string)?.toLowerCase().includes('description') ||
-          el.label?.toLowerCase().includes('description'))
+        ((typeof el.ref === 'string' && el.ref.toLowerCase().includes('description')) ||
+          (el.label && el.label.toLowerCase().includes('description')))
       );
       const otherElements = elements.filter(el =>
         el !== imageElement && el !== descriptionElement
@@ -277,54 +277,64 @@ export default function GenericForm({
 
       return [
         imageElement && descriptionElement && (
-          <Grid key="image-description-layout" item xs={12}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm="auto">
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: { xs: 'center', sm: 'flex-start' },
-                  alignItems: 'center',
-                  minHeight: { xs: 'auto', sm: '200px' },
-                  py: { xs: 2, sm: 0 }
-                }}>
-                  {renderInput(imageElement, params)}
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm>
+          <Box key="image-description-layout" sx={{ width: '100%', mb: 2 }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
+              alignItems: { xs: 'center', sm: 'flex-start' }
+            }}>
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: { xs: 'auto', sm: '200px' },
+                flexShrink: 0
+              }}>
+                {renderInput(imageElement, params)}
+              </Box>
+              <Box sx={{ flex: 1, minWidth: 0 }}>
                 {renderInput(descriptionElement, params)}
-              </Grid>
-            </Grid>
-          </Grid>
+              </Box>
+            </Box>
+          </Box>
         ),
         ...otherElements.map((el, key) => {
           if (el.type === "input" && el.component?.type !== "hidden") {
             return (
-              <Grid
+              <Box
                 key={group ? `${group}-${key}-${el.type}` : `${key}-${el.type}`}
-                item
-                xs={el.col?.xs ? el.col.xs : 12}
-                sm={el.col?.sm}
+                sx={{
+                  width: '100%',
+                  mb: 2,
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
               >
                 {renderInput(el, params)}
-              </Grid>
+              </Box>
             );
           } else if (el.type === "input-group") {
             return (
-              <Grid
+              <Box
                 key={`group-${key}`}
-                item
-                xs={el.col?.xs ? el.col.xs : 12}
-                sm={el.col?.sm}
+                sx={{
+                  width: '100%',
+                  mb: 2,
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
               >
-                <Grid
-                  container
-                  spacing={2}
-                  alignItems="center"
-                  alignContent="center"
-                >
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: 2,
+                  alignItems: 'center',
+                  flexWrap: 'wrap'
+                }}>
                   {renderElements(el.inputs, `group-${key}`, params)}
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             );
           }
         }).filter((i) => i !== undefined)
@@ -335,32 +345,39 @@ export default function GenericForm({
       .map((el, key) => {
         if (el.type === "input" && el.component?.type !== "hidden") {
           return (
-            <Grid
+            <Box
               key={group ? `${group}-${key}-${el.type}` : `${key}-${el.type}`}
-              item
-              xs={el.col?.xs ? el.col.xs : 12}
-              sm={el.col?.sm}
+              sx={{
+                width: '100%',
+                mb: 2,
+                display: 'flex',
+                flexDirection: 'column'
+              }}
             >
               {renderInput(el, params)}
-            </Grid>
+            </Box>
           );
         } else if (el.type === "input-group") {
           return (
-            <Grid
+            <Box
               key={`group-${key}`}
-              item
-              xs={el.col?.xs ? el.col.xs : 12}
-              sm={el.col?.sm}
+              sx={{
+                width: '100%',
+                mb: 2,
+                display: 'flex',
+                flexDirection: 'column'
+              }}
             >
-              <Grid
-                container
-                spacing={2}
-                alignItems="center"
-                alignContent="center"
-              >
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 2,
+                alignItems: 'center',
+                flexWrap: 'wrap'
+              }}>
                 {renderElements(el.inputs, `group-${key}`, params)}
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           );
         }
       })
@@ -670,7 +687,7 @@ export default function GenericForm({
         values,
         setFieldValue,
       }) => (
-        <Grid container spacing={2}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <SyncContextAndHiddenFields
             context={context}
             setFieldValue={setFieldValue}
@@ -678,17 +695,19 @@ export default function GenericForm({
             account={account}
           />
           {renderElements(form.elements, undefined, { setFieldValue, values })}
-          <Grid item xs={12}>
+          <Box sx={{ width: '100%', mt: 2 }}>
             <Button
               disabled={isSubmitting || !isValid}
               onClick={submitForm}
               variant="contained"
               color="primary"
+              size="large"
+              sx={{ minWidth: 200 }}
             >
               {actionLabel}
             </Button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       )}
     </Formik>
   );

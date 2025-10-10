@@ -23,7 +23,9 @@ interface Props {
   locked?: boolean;
 }
 
-const GlassButton = styled(Button)<{
+const GlassButton = styled(Button, {
+  shouldForwardProp: (prop) => !['blurIntensity', 'glassOpacity', 'textColor', 'locked'].includes(prop as string),
+})<{
   blurIntensity: number;
   glassOpacity: number;
   textColor: string;
@@ -118,7 +120,9 @@ const GlassButton = styled(Button)<{
   },
 }));
 
-const GlassAvatar = styled(Avatar)<{ textColor: string }>(({ theme, textColor }) => ({
+const GlassAvatar = styled(Avatar, {
+  shouldForwardProp: (prop) => prop !== 'textColor',
+})<{ textColor: string }>(({ theme, textColor }) => ({
   width: '20px !important',
   height: '20px !important',
   border: `1px solid ${textColor}30`,
@@ -170,7 +174,7 @@ export function GlassNetworkSelectButton(props: Props) {
 
   const handleOpenSelectNetworkDialog = () => {
     if (!locked) {
-    setShowSelectSwapNetwork(true);
+      setShowSelectSwapNetwork(true);
     }
   };
 
@@ -205,25 +209,25 @@ export function GlassNetworkSelectButton(props: Props) {
         disableFocusListener={!locked}
       >
         <span>
-      <GlassButton
-        onClick={handleOpenSelectNetworkDialog}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={textColor}
-            locked={locked}
-        startIcon={
-          <GlassAvatar
-            src={NETWORK_IMAGE(chainId)}
+          <GlassButton
+            onClick={handleOpenSelectNetworkDialog}
+            blurIntensity={blurIntensity}
+            glassOpacity={glassOpacity}
             textColor={textColor}
-            alt={NETWORK_NAME(chainId) || ""}
-          />
-        }
+            locked={locked}
+            startIcon={
+              <GlassAvatar
+                src={NETWORK_IMAGE(chainId)}
+                textColor={textColor}
+                alt={NETWORK_NAME(chainId) || ""}
+              />
+            }
             tabIndex={locked ? -1 : undefined}
             aria-disabled={locked}
-      >
-        {NETWORK_SYMBOL(chainId) || ""}
+          >
+            {NETWORK_SYMBOL(chainId) || ""}
             {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
-      </GlassButton>
+          </GlassButton>
         </span>
       </Tooltip>
     </>

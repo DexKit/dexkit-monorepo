@@ -97,7 +97,7 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
     return (
       <Box sx={{ py: isMobile ? 2 : 4 }}>
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item>
+          <Grid>
             <CircularProgress color="primary" size="2rem" />
           </Grid>
         </Grid>
@@ -118,13 +118,13 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
       }
       validationSchema={ContractAdminSchema}
     >
-      {({ values, submitForm, isSubmitting, isValid }) => (
+      {({ values, submitForm, isSubmitting, isValid }: any) => (
         <Grid container spacing={isMobile ? 1 : 2}>
           {Object.keys(rolesValues).map((role, index) => (
-            <Grid item xs={12} key={index}>
+            <Grid key={index} size={12}>
               <FieldArray
                 name={role}
-                render={({ name, handlePush, handleRemove }) => (
+                render={({ name, handlePush, handleRemove }: any) => (
                   <Card
                     sx={{
                       '& .MuiCardContent-root': {
@@ -137,7 +137,7 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
                   >
                     <CardContent>
                       <Grid container spacing={isMobile ? 1 : 2}>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Typography
                             variant={isMobile ? "subtitle1" : "body1"}
                             sx={{
@@ -184,10 +184,10 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
                             )}
                           </Typography>
                         </Grid>
-                        {values[role].map((_, index) => (
-                          <Grid item xs={12} key={index}>
+                        {values[role].map((_: any, index: number) => (
+                          <Grid key={index} size={12}>
                             <Grid alignItems="center" container spacing={isMobile ? 1 : 2}>
-                              <Grid item xs>
+                              <Grid size="grow">
                                 <Field
                                   fullWidth
                                   component={TextField}
@@ -201,7 +201,7 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
                                   }}
                                 />
                               </Grid>
-                              <Grid item>
+                              <Grid>
                                 <IconButton
                                   onClick={handleRemove(index)}
                                   size={isMobile ? "small" : "medium"}
@@ -215,9 +215,9 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
                             </Grid>
                           </Grid>
                         ))}
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Grid alignItems="center" container spacing={isMobile ? 1 : 2}>
-                            <Grid item>
+                            <Grid>
                               <Button
                                 disabled={isSubmitting}
                                 onClick={handlePush('')}
@@ -244,7 +244,7 @@ export default function ContractAdminTab({ address }: ContractAdminTabProps) {
               />
             </Grid>
           ))}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               disabled={isSubmitting || !isValid}
               startIcon={

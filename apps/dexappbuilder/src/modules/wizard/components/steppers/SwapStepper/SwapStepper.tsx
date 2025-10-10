@@ -93,11 +93,11 @@ export default function SwapStepper({ config, onSave, onChange }: Props) {
   }, [config?.theme, config?.font, customThemeDark, customThemeLight]);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep: any) => prevActiveStep - 1);
   };
 
   const handleReset = () => {

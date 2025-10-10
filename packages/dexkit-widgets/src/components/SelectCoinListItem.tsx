@@ -101,8 +101,8 @@ function SelectCoinListItem({
             sx={{
               ...(isKitToken &&
                 theme.palette.mode === "dark" && {
-                  filter: "invert(1)",
-                }),
+                filter: "invert(1)",
+              }),
             }}
           />
         </Badge>
@@ -120,8 +120,8 @@ function SelectCoinListItem({
         sx={{
           ...(isKitToken &&
             theme.palette.mode === "dark" && {
-              filter: "invert(1)",
-            }),
+            filter: "invert(1)",
+          }),
         }}
       />
     );
@@ -133,6 +133,9 @@ function SelectCoinListItem({
       <ListItemText
         primary={token.symbol.toUpperCase()}
         secondary={token.name}
+        slotProps={{
+          secondary: { color: 'text.primary' }
+        }}
       />
 
       <Box sx={{ mr: 2 }}>

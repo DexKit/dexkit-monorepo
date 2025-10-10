@@ -140,7 +140,7 @@ function EditToolbar(props: EditToolbarProps) {
       <input
         style={{ display: "none" }}
         type="file"
-        ref={(ref) => (inputRef.current = ref)}
+        ref={inputRef}
         onChange={handleChangeFile}
         accept=".csv"
       />
@@ -183,7 +183,7 @@ export default function AppDataTable<
 
   useEffect(() => {
     onChange(
-      rows.map((row) => {
+      rows.map((row: any) => {
         let newRow = { ...row };
 
         delete newRow.id;
@@ -209,7 +209,7 @@ export default function AppDataTable<
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    setRows(rows.filter((row: any) => row.id !== id));
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -231,17 +231,17 @@ export default function AppDataTable<
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
 
-    const editedRow = rows.find((row) => row.id === id);
+    const editedRow = rows.find((row: any) => row.id === id);
 
     if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
+      setRows(rows.filter((row: any) => row.id !== id));
     }
   };
 
   const processRowUpdate = (newRow: GridRowModel<Z>) => {
     const updatedRow: Z = { ...newRow, isNew: false };
 
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    setRows(rows.map((row: Z) => (row.id === newRow.id ? updatedRow : row)));
 
     return updatedRow;
   };
@@ -271,7 +271,7 @@ export default function AppDataTable<
         headerName: "Actions",
         width: 100,
         cellClassName: "actions",
-        getActions: ({ id }) => {
+        getActions: ({ id }: { id: GridRowId }) => {
           const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
           if (isInEditMode) {
@@ -366,7 +366,7 @@ export default function AppDataTable<
             setRows,
             setRowModesModel,
             columns: dataColumns,
-            data: rows.map((row) => {
+            data: rows.map((row: Z) => {
               let newRow = { ...row };
 
               delete newRow.id;

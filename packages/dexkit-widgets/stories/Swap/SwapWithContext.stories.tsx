@@ -24,7 +24,7 @@ function Component(props: SwapWidgetProps) {
   });
   const [showConnectWallet, setShowConnectWallet] = useState(false);
 
-  const handleClose = () => {};
+  const handleClose = () => { };
 
   return (
     <>
@@ -79,15 +79,15 @@ const Template: ComponentStory<typeof SwapWidget> = (args: SwapWidgetProps) => {
         onChangeLocale={(loc) => setLocale(loc)}
       >
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Component
               {...args}
-              onNotification={() => {}}
-              onShowTransactions={() => {}}
+              onNotification={() => { }}
+              onShowTransactions={() => { }}
               isAutoSlippage={true}
               maxSlippage={0}
-              onChangeSlippage={() => {}}
-              onAutoSlippage={() => {}}
+              onChangeSlippage={() => { }}
+              onAutoSlippage={() => { }}
             />
           </Grid>
         </Grid>

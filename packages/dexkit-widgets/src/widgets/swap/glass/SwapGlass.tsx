@@ -361,7 +361,7 @@ export default function SwapGlass({
           }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SwapTokenFieldGlass
                 token={sellToken}
                 value={sellAmount}
@@ -392,7 +392,7 @@ export default function SwapGlass({
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 display="flex"
                 justifyContent="center"
@@ -433,7 +433,7 @@ export default function SwapGlass({
               </Box>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SwapTokenFieldGlass
                 token={buyToken}
                 value={buyAmount}
@@ -466,7 +466,7 @@ export default function SwapGlass({
             </Grid>
 
             {quote && sellToken && buyToken && !sellAmount.isZero() && !buyAmount.isZero() && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Paper
                   elevation={0}
                   sx={{
@@ -520,7 +520,7 @@ export default function SwapGlass({
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box sx={{
                 px: theme.spacing(1),
                 pb: theme.spacing(1)

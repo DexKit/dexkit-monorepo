@@ -29,10 +29,12 @@ import {
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { IconPickerField } from 'src/components/IconPickerField';
 import { MultiAccordionConfigSchema } from '../schemas/accordion';
@@ -60,11 +62,14 @@ const validate = (values: MultiAccordionConfig) => {
   }
 };
 
-export const AccordionForm: React.FC<AccordionFormProps> = ({
+export const AccordionForm = ({
   initialValues,
   onSubmit,
   onChange,
-}) => {
+}: AccordionFormProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [activeTab, setActiveTab] = useState(0);
   const [expandedAccordion, setExpandedAccordion] = useState<string | false>(false);
 
@@ -188,7 +193,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <IconButton
                   size="small"
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     duplicateAccordion(accordion.id);
                   }}
@@ -198,7 +203,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                 <IconButton
                   size="small"
                   color="error"
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     removeAccordion(accordion.id);
                   }}
@@ -210,27 +215,35 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <TextField
                   fullWidth
                   label={<FormattedMessage id="accordion.title" defaultMessage="Title" />}
                   value={accordion.title}
-                  onChange={(e) => updateAccordion(accordion.id, 'title', e.target.value)}
+                  onChange={(e: any) => updateAccordion(accordion.id, 'title', e.target.value)}
                   variant="outlined"
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <TextField
                   fullWidth
                   label={<FormattedMessage id="accordion.summary" defaultMessage="Summary" />}
                   value={accordion.summary || ''}
-                  onChange={(e) => updateAccordion(accordion.id, 'summary', e.target.value)}
+                  onChange={(e: any) => updateAccordion(accordion.id, 'summary', e.target.value)}
                   variant="outlined"
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <DKMDEditorInput
                   label={<FormattedMessage id="accordion.content" defaultMessage="Content" />}
                   value={accordion.content || ''}
@@ -239,14 +252,18 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                   height={200}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage id="accordion.title.variant" defaultMessage="Title Variant" />
                   </InputLabel>
                   <Select
                     value={accordion.titleVariant || 'h6'}
-                    onChange={(e) => updateAccordion(accordion.id, 'titleVariant', e.target.value)}
+                    onChange={(e: any) => updateAccordion(accordion.id, 'titleVariant', e.target.value)}
                     label="Title Variant"
                   >
                     {['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2'].map((variant) => (
@@ -255,14 +272,18 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6
+                }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>
                     <FormattedMessage id="accordion.content.variant" defaultMessage="Content Variant" />
                   </InputLabel>
                   <Select
                     value={accordion.contentVariant || 'body1'}
-                    onChange={(e) => updateAccordion(accordion.id, 'contentVariant', e.target.value)}
+                    onChange={(e: any) => updateAccordion(accordion.id, 'contentVariant', e.target.value)}
                     label="Content Variant"
                   >
                     {['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2'].map((variant) => (
@@ -271,12 +292,12 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={accordion.disabled || false}
-                      onChange={(e) => updateAccordion(accordion.id, 'disabled', e.target.checked)}
+                      onChange={(e: any) => updateAccordion(accordion.id, 'disabled', e.target.checked)}
                     />
                   }
                   label={<FormattedMessage id="accordion.disabled" defaultMessage="Disabled" />}
@@ -284,7 +305,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
               </Grid>
 
               {/* Actions Section */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Divider sx={{ my: 2 }} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                   <Typography variant="subtitle2">
@@ -301,32 +322,44 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                 {accordion.actions?.map((action, actionIndex) => (
                   <Box key={actionIndex} sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 2, mb: 1 }}>
                     <Grid container spacing={2} alignItems="center">
-                      <Grid item xs={12} md={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          md: 4
+                        }}>
                         <TextField
                           fullWidth
                           size="small"
                           label={<FormattedMessage id="accordion.action.label" defaultMessage="Label" />}
                           value={action.label}
-                          onChange={(e) => handleAccordionActionChange(accordion.id, actionIndex, 'label', e.target.value)}
+                          onChange={(e: any) => handleAccordionActionChange(accordion.id, actionIndex, 'label', e.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} md={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          md: 4
+                        }}>
                         <TextField
                           fullWidth
                           size="small"
                           label={<FormattedMessage id="accordion.action.href" defaultMessage="URL" />}
                           value={action.href || ''}
-                          onChange={(e) => handleAccordionActionChange(accordion.id, actionIndex, 'href', e.target.value)}
+                          onChange={(e: any) => handleAccordionActionChange(accordion.id, actionIndex, 'href', e.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} md={3}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          md: 3
+                        }}>
                         <FormControl fullWidth size="small">
                           <InputLabel>
                             <FormattedMessage id="accordion.action.variant" defaultMessage="Variant" />
                           </InputLabel>
                           <Select
                             value={action.variant || 'text'}
-                            onChange={(e) => handleAccordionActionChange(accordion.id, actionIndex, 'variant', e.target.value)}
+                            onChange={(e: any) => handleAccordionActionChange(accordion.id, actionIndex, 'variant', e.target.value)}
                             label="Variant"
                           >
                             <MenuItem value="text">Text</MenuItem>
@@ -335,7 +368,11 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
                           </Select>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12} md={1}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          md: 1
+                        }}>
                         <IconButton
                           color="error"
                           size="small"
@@ -363,20 +400,24 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
 
       <Grid container spacing={3}>
         {/* Basic Settings */}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle1" sx={{ mb: 2 }}>
             <FormattedMessage id="accordion.settings.basic" defaultMessage="Basic Settings" />
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <FormControl fullWidth>
             <InputLabel>
               <FormattedMessage id="accordion.settings.variant" defaultMessage="Variant" />
             </InputLabel>
             <Select
               value={formik.values.settings.variant || 'elevation'}
-              onChange={(e) => formik.setFieldValue('settings.variant', e.target.value)}
+              onChange={(e: any) => formik.setFieldValue('settings.variant', e.target.value)}
               label="Variant"
             >
               <MenuItem value="elevation">Elevation</MenuItem>
@@ -385,14 +426,18 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <FormControl fullWidth>
             <InputLabel>
               <FormattedMessage id="accordion.settings.heading" defaultMessage="Heading Component" />
             </InputLabel>
             <Select
               value={formik.values.settings.headingComponent || 'h3'}
-              onChange={(e) => formik.setFieldValue('settings.headingComponent', e.target.value)}
+              onChange={(e: any) => formik.setFieldValue('settings.headingComponent', e.target.value)}
               label="Heading Component"
             >
               {['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div'].map((heading) => (
@@ -402,13 +447,13 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="row" spacing={2} flexWrap="wrap">
             <FormControlLabel
               control={
                 <Switch
                   checked={formik.values.settings.allowMultiple || false}
-                  onChange={(e) => formik.setFieldValue('settings.allowMultiple', e.target.checked)}
+                  onChange={(e: any) => formik.setFieldValue('settings.allowMultiple', e.target.checked)}
                 />
               }
               label={<FormattedMessage id="accordion.settings.allow.multiple" defaultMessage="Allow Multiple Expanded" />}
@@ -417,7 +462,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
               control={
                 <Switch
                   checked={formik.values.settings.square || false}
-                  onChange={(e) => formik.setFieldValue('settings.square', e.target.checked)}
+                  onChange={(e: any) => formik.setFieldValue('settings.square', e.target.checked)}
                 />
               }
               label={<FormattedMessage id="accordion.settings.square" defaultMessage="Square Corners" />}
@@ -426,7 +471,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
               control={
                 <Switch
                   checked={formik.values.settings.disableGutters || false}
-                  onChange={(e) => formik.setFieldValue('settings.disableGutters', e.target.checked)}
+                  onChange={(e: any) => formik.setFieldValue('settings.disableGutters', e.target.checked)}
                 />
               }
               label={<FormattedMessage id="accordion.settings.disable.gutters" defaultMessage="Disable Gutters" />}
@@ -435,7 +480,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
               control={
                 <Switch
                   checked={formik.values.settings.unmountOnExit || false}
-                  onChange={(e) => formik.setFieldValue('settings.unmountOnExit', e.target.checked)}
+                  onChange={(e: any) => formik.setFieldValue('settings.unmountOnExit', e.target.checked)}
                 />
               }
               label={<FormattedMessage id="accordion.settings.unmount.on.exit" defaultMessage="Unmount on Exit" />}
@@ -443,14 +488,18 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </Stack>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider sx={{ my: 2 }} />
           <Typography variant="subtitle1" sx={{ mb: 2 }}>
             <FormattedMessage id="accordion.settings.appearance" defaultMessage="Appearance" />
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4
+          }}>
           <Typography gutterBottom>
             <FormattedMessage id="accordion.settings.spacing" defaultMessage="Spacing" />
           </Typography>
@@ -465,7 +514,11 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4
+          }}>
           <Typography gutterBottom>
             <FormattedMessage id="accordion.settings.elevation" defaultMessage="Elevation" />
           </Typography>
@@ -479,32 +532,40 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4
+          }}>
           <TextField
             fullWidth
             type="number"
             label={<FormattedMessage id="accordion.settings.border.radius" defaultMessage="Border Radius (px)" />}
             value={formik.values.settings.borderRadius || 4}
-            onChange={(e) => formik.setFieldValue('settings.borderRadius', parseInt(e.target.value) || 0)}
+            onChange={(e: any) => formik.setFieldValue('settings.borderRadius', parseInt(e.target.value) || 0)}
             inputProps={{ min: 0 }}
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider sx={{ my: 2 }} />
           <Typography variant="subtitle1" sx={{ mb: 2 }}>
             <FormattedMessage id="accordion.settings.icons" defaultMessage="Icon Settings" />
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <FormControl fullWidth>
             <InputLabel>
               <FormattedMessage id="accordion.settings.icon.position" defaultMessage="Icon Position" />
             </InputLabel>
             <Select
               value={formik.values.settings.iconPosition || 'end'}
-              onChange={(e) => formik.setFieldValue('settings.iconPosition', e.target.value)}
+              onChange={(e: any) => formik.setFieldValue('settings.iconPosition', e.target.value)}
               label="Icon Position"
             >
               <MenuItem value="start">Start</MenuItem>
@@ -513,7 +574,11 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <IconPickerField
             label={<FormattedMessage id="accordion.settings.expand.icon" defaultMessage="Expand Icon" />}
             value={formik.values.settings.defaultExpandIcon || 'ExpandMore'}
@@ -523,33 +588,37 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             control={
               <Switch
                 checked={formik.values.settings.hideExpandIcon || false}
-                onChange={(e) => formik.setFieldValue('settings.hideExpandIcon', e.target.checked)}
+                onChange={(e: any) => formik.setFieldValue('settings.hideExpandIcon', e.target.checked)}
               />
             }
             label={<FormattedMessage id="accordion.settings.hide.expand.icon" defaultMessage="Hide Expand Icon" />}
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider sx={{ my: 2 }} />
           <Typography variant="subtitle1" sx={{ mb: 2 }}>
             <FormattedMessage id="accordion.settings.actions" defaultMessage="Actions Settings" />
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <FormControl fullWidth>
             <InputLabel>
               <FormattedMessage id="accordion.settings.actions.placement" defaultMessage="Actions Placement" />
             </InputLabel>
             <Select
               value={formik.values.settings.actionsPlacement || 'details'}
-              onChange={(e) => formik.setFieldValue('settings.actionsPlacement', e.target.value)}
+              onChange={(e: any) => formik.setFieldValue('settings.actionsPlacement', e.target.value)}
               label="Actions Placement"
             >
               <MenuItem value="summary">Summary</MenuItem>
@@ -559,14 +628,18 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6
+          }}>
           <FormControl fullWidth>
             <InputLabel>
               <FormattedMessage id="accordion.settings.actions.alignment" defaultMessage="Actions Alignment" />
             </InputLabel>
             <Select
               value={formik.values.settings.actionsAlignment || 'left'}
-              onChange={(e) => formik.setFieldValue('settings.actionsAlignment', e.target.value)}
+              onChange={(e: any) => formik.setFieldValue('settings.actionsAlignment', e.target.value)}
               label="Actions Alignment"
             >
               <MenuItem value="left">Left</MenuItem>
@@ -580,7 +653,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
   );
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3, px: isMobile ? 2 : 0 }}>
       <Paper elevation={2} sx={{ p: 2 }}>
         <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} sx={{ mb: 2 }}>
           <Tab icon={<ViewModuleIcon />} label={<FormattedMessage id="accordion.tab.accordions" defaultMessage="Accordions" />} />
@@ -594,7 +667,7 @@ export const AccordionForm: React.FC<AccordionFormProps> = ({
       <Button
         type="submit"
         variant="contained"
-        size="large"
+        size="medium"
         color="primary"
         fullWidth
         sx={{ mt: 2 }}

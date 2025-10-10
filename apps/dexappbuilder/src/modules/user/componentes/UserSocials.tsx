@@ -62,7 +62,7 @@ export function UserSocials({ credentials }: Props) {
         <FormattedMessage id={'socials'} defaultMessage={'Socials'} />
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {twitterUsername && (
             <Typography>
               {' '}
@@ -75,7 +75,7 @@ export function UserSocials({ credentials }: Props) {
           )}
         </Grid>
         {discordUsername && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography>
               {' '}
               <FormattedMessage
@@ -87,13 +87,13 @@ export function UserSocials({ credentials }: Props) {
           </Grid>
         )}
         {(twitterUsername || discordUsername) && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
         )}
 
         {!twitterUsername && (
-          <Grid item>
+          <Grid>
             <Button
               variant={'contained'}
               onClick={async () => {
@@ -108,7 +108,7 @@ export function UserSocials({ credentials }: Props) {
           </Grid>
         )}
         {!discordUsername && (
-          <Grid item>
+          <Grid>
             <Button
               variant={'contained'}
               onClick={async () => {

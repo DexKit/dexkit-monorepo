@@ -2,7 +2,7 @@ import { SwapConfig } from '@/modules/swap/types';
 import { ChainId, useIsMobile } from '@dexkit/core';
 import { useActiveChainIds } from '@dexkit/ui';
 import { SwapWidget as Swap } from '@dexkit/widgets/src/widgets/swap';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useCurrency } from 'src/hooks/currency';
 import { useSwapState } from '../../../../../hooks/swap';
@@ -18,6 +18,7 @@ function SwapWidget(props: Props) {
   const defaultChainId = formData?.defaultChainId;
   const configByChain = formData?.configByChain;
   const isMobile = useIsMobile();
+  const theme = useTheme();
 
   const [chainId, setChainId] = useState<number>();
 

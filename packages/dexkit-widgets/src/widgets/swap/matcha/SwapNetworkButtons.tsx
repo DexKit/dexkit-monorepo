@@ -14,7 +14,6 @@ import {
   Popover,
   Stack,
   Tooltip,
-  alpha,
   styled,
 } from "@mui/material";
 import { useState } from "react";
@@ -71,7 +70,7 @@ export default function SwapNetworkButtons({
                   border: (theme) =>
                     `1px solid ${theme.palette.primary.main}`,
                   backgroundColor: (theme) =>
-                    alpha(theme.palette.primary.main, 0.1),
+                    theme.alpha(theme.palette.primary.main, 0.1),
                 }
                 : undefined
             }
@@ -120,7 +119,7 @@ export default function SwapNetworkButtons({
                         width: "100%",
                         backgroundColor: (theme) =>
                           chainId === parseChainId(key)
-                            ? alpha(theme.palette.primary.main, 0.1)
+                            ? theme.alpha(theme.palette.primary.main, 0.1)
                             : undefined,
                       }}
                     >

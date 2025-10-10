@@ -137,7 +137,7 @@ export default function ThemeSection({
     <>
       <Grid container spacing={2}>
         {isMobile && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"
@@ -156,7 +156,7 @@ export default function ThemeSection({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedId && getInitialValues && (
             <EditThemeForm
               customThemeDark={customThemeDark}
@@ -168,13 +168,13 @@ export default function ThemeSection({
                 themeId: selectedId,
                 ...getInitialValues,
               }}
-              onSubmit={async () => {}}
+              onSubmit={async () => { }}
             />
           )}
         </Grid>
 
         {/* {renderThemes()}
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedId === 'custom' && (
             <WizardThemeCustom mode={mode} legacyTheme={legacyTheme} />
           )}

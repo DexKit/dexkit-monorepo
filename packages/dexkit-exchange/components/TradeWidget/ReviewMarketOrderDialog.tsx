@@ -17,7 +17,6 @@ import {
   Skeleton,
   Stack,
   Typography,
-  lighten,
 } from "@mui/material";
 import { BigNumber } from "ethers";
 import { useMemo, useState } from "react";
@@ -152,7 +151,7 @@ export default function ReviewMarketOrderDialog({
     );
   };
 
-  const handleSwapPrices = () => setSwapPrices((val) => !val);
+  const handleSwapPrices = () => setSwapPrices((val: any) => !val);
 
   const dialogTitle = () => {
     if (gaslessPending) {
@@ -290,7 +289,7 @@ export default function ReviewMarketOrderDialog({
               sx={{
                 p: 2,
                 backgroundColor: (theme) =>
-                  lighten(theme.palette.background.default, 0.2),
+                  theme.lighten(theme.palette.background.default, 0.2),
               }}
             >
               <Stack spacing={1}>

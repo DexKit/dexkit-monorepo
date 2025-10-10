@@ -1,5 +1,4 @@
 import {
-  alpha,
   Box,
   Button,
   ButtonBase,
@@ -15,7 +14,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
@@ -68,8 +67,11 @@ interface Props {
 
 const CustomImage = styled('img')(({ theme }) => ({
   width: '100%',
-  height: 'auto',
+  height: '100%',
   display: 'block',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 const NoImage = styled(ImageIcon)(({ theme }) => ({
@@ -185,7 +187,6 @@ export default function GeneralSection({
           setOpenMediaDialog(false);
         }}
       />
-
       <Stack sx={{ width: '100%', px: isMobile ? 1 : 0 }}>
         <form onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
           <OnChangeListener
@@ -196,7 +197,7 @@ export default function GeneralSection({
             onHasChanges={onHasChanges}
           />
           <Grid container spacing={isMobile ? 2 : 3} sx={{ width: '100%' }}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 name="name"
                 sx={{
@@ -224,7 +225,7 @@ export default function GeneralSection({
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 type="email"
                 name="email"
@@ -256,15 +257,23 @@ export default function GeneralSection({
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={12}></Grid>
-            <Grid item xs={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}></Grid>
+            <Grid size={12}>
               <Typography variant={isMobile ? "body1" : undefined}>
                 <b>
                   <FormattedMessage id="logo" defaultMessage="Logo" />
                 </b>
               </Typography>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Stack spacing={isMobile ? 1 : 2}>
                 <Typography variant="body2">
                   <FormattedMessage
@@ -276,13 +285,13 @@ export default function GeneralSection({
                   sx={{
                     position: 'relative',
                     p: isMobile ? 1 : 2,
-                    borderRadius: (theme) => theme.shape.borderRadius / 2,
+                    borderRadius: (theme: any) => Number(theme.shape.borderRadius) / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'light'
                         ? 'rgba(0,0,0, 0.2)'
-                        : alpha(theme.palette.common.white, 0.1),
+                        : theme.alpha(theme.palette.common.white, 0.1),
                   }}
                   onClick={() => {
                     setOpenMediaDialog(true);
@@ -297,13 +306,21 @@ export default function GeneralSection({
                       justifyContent: 'center',
                     }}
                   >
-                    <CustomImage src={formik.values.logoUrl} />
+                    {formik.values.logoUrl ? (
+                      <CustomImage src={formik.values.logoUrl} />
+                    ) : (
+                      <NoImage />
+                    )}
                   </Stack>
                 </ButtonBase>
               </Stack>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Stack spacing={isMobile ? 1 : 2}>
                 <Typography variant="body2">
                   <FormattedMessage
@@ -315,7 +332,7 @@ export default function GeneralSection({
                   sx={{
                     backgroundColor: 'black',
                     p: isMobile ? 1 : 2,
-                    borderRadius: (theme) => theme.shape.borderRadius / 2,
+                    borderRadius: (theme: any) => Number(theme.shape.borderRadius) / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
                     position: 'relative',
@@ -343,7 +360,7 @@ export default function GeneralSection({
               </Stack>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Typography variant="body1" sx={{ mb: isMobile ? 1 : 2 }}>
                   <FormattedMessage
@@ -353,7 +370,7 @@ export default function GeneralSection({
                 </Typography>
 
                 <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={5}>
+                  <Grid size={5}>
                     <TextField
                       type="number"
                       name="logoWidth"
@@ -385,10 +402,10 @@ export default function GeneralSection({
                       }
                     />
                   </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  <Grid sx={{ textAlign: 'center' }} size={2}>
                     <Typography color="primary">x</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid size={5}>
                     <TextField
                       type="number"
                       name="logoHeight"
@@ -426,7 +443,7 @@ export default function GeneralSection({
               </Box>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box sx={{ mt: isMobile ? 1 : 2 }}>
                 <Typography variant="body1" sx={{ mb: isMobile ? 1 : 2 }}>
                   <FormattedMessage
@@ -436,7 +453,7 @@ export default function GeneralSection({
                 </Typography>
 
                 <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={5}>
+                  <Grid size={5}>
                     <TextField
                       type="number"
                       name="logoWidthMobile"
@@ -470,10 +487,10 @@ export default function GeneralSection({
                       }
                     />
                   </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  <Grid sx={{ textAlign: 'center' }} size={2}>
                     <Typography color="primary">x</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid size={5}>
                     <TextField
                       type="number"
                       name="logoHeightMobile"
@@ -511,7 +528,7 @@ export default function GeneralSection({
               </Box>
             </Grid>
 
-            <Grid item xs={12} sx={{ mt: isMobile ? 1 : 2 }}>
+            <Grid sx={{ mt: isMobile ? 1 : 2 }} size={12}>
               <Box>
                 <Typography variant="body1" sx={{ mb: 1 }}>
                   <Tooltip
@@ -538,11 +555,15 @@ export default function GeneralSection({
                 size={isMobile ? "small" : "medium"}
                 sx={{ mt: 1 }}
               >
-                <FaviconImage src={formik.values.faviconUrl} />
+                {formik.values.faviconUrl ? (
+                  <FaviconImage src={formik.values.faviconUrl} />
+                ) : (
+                  <NoImage />
+                )}
               </Button>
             </Grid>
 
-            <Grid item xs={12} sx={{ mt: 2 }}>
+            <Grid sx={{ mt: 2 }} size={12}>
               <FormControl fullWidth size="small">
                 <InputLabel sx={{ fontSize: isMobile ? '0.9rem' : undefined }}>
                   <FormattedMessage id="language" defaultMessage="Language" />
@@ -578,7 +599,7 @@ export default function GeneralSection({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sx={{ mt: 1 }}>
+            <Grid sx={{ mt: 1 }} size={12}>
               <FormControl fullWidth size="small">
                 <InputLabel sx={{ fontSize: isMobile ? '0.9rem' : undefined }}>
                   <FormattedMessage
@@ -622,11 +643,11 @@ export default function GeneralSection({
 
 
 
-            <Grid item xs={12} sx={{ mt: 2 }}>
+            <Grid sx={{ mt: 2 }} size={12}>
               <Divider />
             </Grid>
 
-            <Grid item xs={12} sx={{ mt: 2 }}>
+            <Grid sx={{ mt: 2 }} size={12}>
               {isOnStepper ? (
                 <StepperButtons
                   {...stepperButtonProps}

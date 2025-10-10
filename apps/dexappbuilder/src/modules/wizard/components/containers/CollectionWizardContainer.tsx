@@ -73,7 +73,7 @@ export default function CollectionWizardContainer({
 
   const handleSubmitCollection = (form: Form) => {
     setHashChanged(true);
-    setCollections((value) => [
+    setCollections((value: any) => [
       ...value,
       {
         chainId: form.chainId,
@@ -88,7 +88,7 @@ export default function CollectionWizardContainer({
   };
 
   const handleRemoveCollection = useCallback((collection: AppCollection) => {
-    setCollections((value) => {
+    setCollections((value: any) => {
       const newCollections = [...value];
 
       const index = newCollections.findIndex(
@@ -120,7 +120,7 @@ export default function CollectionWizardContainer({
 
   const handleEditCollection = useCallback(
     (form: Form) => {
-      setCollections((value) => {
+      setCollections((value: any) => {
         const newCollections = [...value];
 
         if (!selectedEditCollection) {
@@ -182,7 +182,7 @@ export default function CollectionWizardContainer({
   );
 
   const handleCloseCollectionPreview = () => {
-    setPreviewCollection(undefined);
+    (setPreviewCollection as any)(undefined);
   };
 
   const handleCollectionSelectEdit = useCallback((form: Form) => {
@@ -196,7 +196,7 @@ export default function CollectionWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -222,10 +222,10 @@ export default function CollectionWizardContainer({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Alert severity="info" sx={{ fontSize: isMobile ? "0.75rem" : 'inherit' }}>
           <FormattedMessage
             id="wizard.collections.section.info"
@@ -233,7 +233,11 @@ export default function CollectionWizardContainer({
           />
         </Alert>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         <CollectionsSection
           appUrl={appUrl}
           onSubmit={handleSubmitCollection}
@@ -244,7 +248,11 @@ export default function CollectionWizardContainer({
           isMobile={isMobile}
         />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         {previewCollection && (
           <CollectionPreviewPaper
             previewCollection={previewCollection}
@@ -252,10 +260,10 @@ export default function CollectionWizardContainer({
           />
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"

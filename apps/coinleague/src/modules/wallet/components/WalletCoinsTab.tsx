@@ -64,7 +64,7 @@ export default function WalletCoinsTab({}: Props) {
   const currency = useAtomValue(currencyAtom);
   const balancesVisibility = useBalancesVisibility();
   const { chainId, account, provider } = useWeb3React();
-  const transakRef = useRef<any>();
+  const transakRef = useRef<any>(null);
 
   useEffect(() => {     
           transakRef.current = InitTransak({currency: currency})

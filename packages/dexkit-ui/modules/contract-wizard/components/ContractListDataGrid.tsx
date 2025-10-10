@@ -5,14 +5,20 @@ import {
 } from "@dexkit/core/constants/networks";
 import { truncateAddress } from "@dexkit/core/utils";
 import Link from "@dexkit/ui/components/AppLink";
+import MobilePagination from "@dexkit/ui/components/MobilePagination";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 import Settings from "@mui/icons-material/SettingsOutlined";
 import VisibilityOff from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
-import { IconButton, Tooltip } from "@mui/material";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Tooltip,
+  useMediaQuery,
+  useTheme
+} from "@mui/material";
 import {
   DataGrid,
   GridCallbackDetails,
@@ -49,6 +55,8 @@ export default function ContractListDataGrid({
   onClickContract,
 }: ContractListDataGridProps) {
   const { account } = useWeb3React();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [queryOptions, setQueryOptions] = useState<any>({
     filter: { owner: account?.toLowerCase() },
@@ -56,8 +64,15 @@ export default function ContractListDataGrid({
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 10,
+    pageSize: isMobile ? 5 : 10,
   });
+
+  useEffect(() => {
+    setPaginationModel({
+      page: 0,
+      pageSize: isMobile ? 5 : 10,
+    });
+  }, [isMobile]);
 
   const queryClient = useQueryClient();
 
@@ -165,8 +180,8 @@ export default function ContractListDataGrid({
       headerName: "Created At",
       minWidth: 200,
       flex: 1,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
       },
     },
     {
@@ -178,8 +193,8 @@ export default function ContractListDataGrid({
       field: "chainId",
       headerName: "Network",
       width: 110,
-      valueGetter: ({ row }) => {
-        return NETWORK_NAME(row.chainId);
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
     },
     {
@@ -189,11 +204,10 @@ export default function ContractListDataGrid({
       renderCell: (params: any) => (
         <Link
           target="_blank"
-          href={`${NETWORK_EXPLORER(params.row.chainId)}/address/${
-            params.row.contractAddress
-          }`}
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress
+            }`}
         >
-          {truncateAddress(params.row.contractAddress)}
+          {truncateAddress(params.row?.contractAddress)}
         </Link>
       ),
     },
@@ -208,8 +222,8 @@ export default function ContractListDataGrid({
               <IconButton
                 onClick={() =>
                   onClickContract({
-                    address: row.contractAddress,
-                    network: NETWORK_SLUG(row.chainId) as string,
+                    address: row?.contractAddress,
+                    network: NETWORK_SLUG(row?.chainId) as string,
                   })
                 }
                 size="small"
@@ -228,9 +242,8 @@ export default function ContractListDataGrid({
             ) : (
               <IconButton
                 LinkComponent={Link}
-                href={`/contract/${NETWORK_SLUG(row.chainId)}/${
-                  row.contractAddress
-                }`}
+                href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress
+                  }`}
                 size="small"
               >
                 <Tooltip
@@ -251,7 +264,7 @@ export default function ContractListDataGrid({
             ) : (
               <IconButton
                 LinkComponent={Link}
-                href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`}
+                href={`/forms/create?contractAddress=${row?.contractAddress}&chainId=${row?.chainId}`}
                 target="_blank"
                 size="small"
               >
@@ -267,8 +280,8 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             )}
-            <IconButton onClick={handleHideContract(row.id)}>
-              {row.hide ? (
+            <IconButton onClick={handleHideContract(row?.id)}>
+              {row?.hide ? (
                 <Tooltip
                   title={
                     <FormattedMessage
@@ -303,14 +316,22 @@ export default function ContractListDataGrid({
     setRowSelectionModel(rowSelectionModel);
   };
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   return (
-    <Box sx={{ width: "100%", height: 450 }}>
+    <Box sx={{ width: "100%", height: isMobile ? 'auto' : 450 }}>
       <DataGrid
         rows={data?.data || []}
         rowCount={rowCountState}
         loading={isLoading}
         columns={columns}
-        pageSizeOptions={[5, 10, 25, 50, 100]}
+        pageSizeOptions={isMobile ? [5] : [5, 10, 25, 50, 100]}
         paginationModel={paginationModel}
         paginationMode="server"
         sortingMode="server"
@@ -319,6 +340,8 @@ export default function ContractListDataGrid({
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
+        hideFooterPagination={isMobile}
+        autoHeight={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -333,6 +356,17 @@ export default function ContractListDataGrid({
         }}
         onRowSelectionModelChange={handleChangeRowSelectionModel}
       />
+
+      {isMobile && (
+        <MobilePagination
+          page={paginationModel.page}
+          pageSize={paginationModel.pageSize}
+          totalRows={rowCountState}
+          onPageChange={handleMobilePageChange}
+          onPageSizeChange={handleMobilePageSizeChange}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      )}
     </Box>
   );
 }

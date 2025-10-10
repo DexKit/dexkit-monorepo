@@ -13,7 +13,7 @@ interface TabsGroupProps {
   editable?: boolean;
 }
 
-const TabsGroup: React.FC<TabsGroupProps> = ({ config, editable = false }) => {
+const TabsGroup = ({ config, editable = false }: TabsGroupProps) => {
   const {
     tabs,
     orientation = 'horizontal',
@@ -37,7 +37,7 @@ const TabsGroup: React.FC<TabsGroupProps> = ({ config, editable = false }) => {
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = useCallback((event: any, newValue: number) => {
     setActiveTab(newValue);
   }, []);
 
@@ -85,7 +85,7 @@ const TabsGroup: React.FC<TabsGroupProps> = ({ config, editable = false }) => {
         sx={tabsSx}
         {...tabsProps}
       >
-        {tabs.map((tab, index) => (
+        {tabs.map((tab: any, index: any) => (
           <Tab
             key={tab.id}
             config={tab}
@@ -103,7 +103,7 @@ const TabsGroup: React.FC<TabsGroupProps> = ({ config, editable = false }) => {
           }),
         }}
       >
-        {tabs.map((tab, index) => (
+        {tabs.map((tab: any, index: any) => (
           <TabPanel
             key={tab.id}
             value={activeTab}

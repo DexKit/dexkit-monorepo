@@ -8,10 +8,10 @@ interface AccordionGroupProps {
   onChange?: (config: MultiAccordionConfig) => void;
 }
 
-export const AccordionGroup: React.FC<AccordionGroupProps> = ({
+export const AccordionGroup = ({
   config,
   onChange,
-}) => {
+}: AccordionGroupProps) => {
   const { accordions, settings } = config;
   const {
     defaultExpanded = [],
@@ -56,7 +56,7 @@ export const AccordionGroup: React.FC<AccordionGroupProps> = ({
           ...config,
           settings: {
             ...settings,
-            expandedIds: Array.from(newExpandedIds),
+            expandedIds: Array.from(newExpandedIds) as string[],
           },
         };
         onChange(updatedConfig);

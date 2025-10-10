@@ -265,7 +265,7 @@ export default function EvmTransferCoin({
         <Stack justifyContent="center" alignItems="center" spacing={isMobile ? 1 : 1.5}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography
-              color="textSecondary"
+              color="text.primary"
               variant={isMobile ? "caption" : "body2"}
               sx={{
                 fontFamily: theme.typography.fontFamily,

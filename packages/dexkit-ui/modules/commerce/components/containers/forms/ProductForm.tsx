@@ -254,7 +254,6 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
           />
         </AppConfirmDialog>
       )}
-
       <MediaDialog
         onConfirmSelectFile={handleSelectFile}
         dialogProps={{
@@ -263,148 +262,150 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
           maxWidth: "lg",
         }}
       />
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <ButtonBase
-                onClick={handleSelectOpen}
-                sx={{
-                  position: "relative",
-                  p: 2,
-                  borderRadius: (theme) => theme.shape.borderRadius / 2,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  backgroundColor: (theme) =>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, width: '100%' }}>
+        <Box sx={{ 
+          width: { xs: '100%', md: '300px' }, 
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2
+        }}>
+          <ButtonBase
+            onClick={handleSelectOpen}
+            sx={{
+              position: "relative",
+              p: 2,
+              borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              backgroundColor: (theme) =>
+                theme.palette.mode === "light"
+                  ? "rgba(0,0,0, 0.2)"
+                  : alpha(theme.palette.common.white, 0.1),
+              backgroundImage: values.imageUrl
+                ? `url("${values.imageUrl}")`
+                : undefined,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "contain",
+            }}
+          >
+            <Stack
+              sx={{
+                maxHeight: 300,
+                minHeight: 150,
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                color: (theme) =>
+                  theme.palette.getContrastText(
                     theme.palette.mode === "light"
                       ? "rgba(0,0,0, 0.2)"
-                      : alpha(theme.palette.common.white, 0.1),
+                      : alpha(theme.palette.common.white, 0.1)
+                  ),
+              }}
+            >
+              {!values.imageUrl && <Image fontSize="large" />}
+            </Stack>
+          </ButtonBase>
 
-                  backgroundImage: values.imageUrl
-                    ? `url("${values.imageUrl}")`
-                    : undefined,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  backgroundSize: "contain",
-                }}
-              >
-                <Stack
-                  sx={{
-                    maxHeight: 300,
-                    minHeight: 150,
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: (theme) =>
-                      theme.palette.getContrastText(
-                        theme.palette.mode === "light"
-                          ? "rgba(0,0,0, 0.2)"
-                          : alpha(theme.palette.common.white, 0.1)
-                      ),
-                  }}
-                >
-                  {!values.imageUrl && <Image fontSize="large" />}
-                </Stack>
-              </ButtonBase>
-            </Grid>
-            <Grid item xs={12}>
-              <ProductImageList
-                images={
-                  images?.map((image) => image.imageUrl).slice(0, 3) ?? []
-                }
-                onClick={handleOpenImages}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                onClick={handleAddMoresImages}
-                startIcon={<Add />}
-                variant="outlined"
-              >
-                <FormattedMessage
-                  id="add.more.images"
-                  defaultMessage="Add more images"
-                />
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <Typography
-                  component="div"
-                  variant="caption"
-                  color="text.secondary"
-                >
-                  <Stack spacing={0.5} direction="row" alignItems="center">
-                    <Info color="inherit" fontSize="inherit" />{" "}
-                    <span>
-                      <FormattedMessage
-                        id="you.can.add.up.to.8.product.images"
-                        defaultMessage="You can add up to 8 product images."
-                      />
-                    </span>
-                  </Stack>
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} sm={5}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Button onClick={handleShowPreview} startIcon={<Visibility />}>
-                <FormattedMessage
-                  id="preview.in.store"
-                  defaultMessage="Preview in store"
-                />
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                name="name"
-                fullWidth
-                label={
-                  <FormattedMessage id="product" defaultMessage="Product" />
-                }
-              />
-            </Grid>
+          <ProductImageList
+            images={
+              images?.map((image) => image.imageUrl).slice(0, 3) ?? []
+            }
+            onClick={handleOpenImages}
+          />
 
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                name="description"
-                fullWidth
-                label={
+          <Button
+            onClick={handleAddMoresImages}
+            startIcon={<Add />}
+            variant="outlined"
+            fullWidth
+          >
+            <FormattedMessage
+              id="add.more.images"
+              defaultMessage="Add more images"
+            />
+          </Button>
+
+          <Box>
+            <Typography
+              component="div"
+              variant="caption"
+              color="text.secondary"
+            >
+              <Stack spacing={0.5} direction="row" alignItems="center">
+                <Info color="inherit" fontSize="inherit" />{" "}
+                <span>
                   <FormattedMessage
-                    id="description"
-                    defaultMessage="Description"
+                    id="you.can.add.up.to.8.product.images"
+                    defaultMessage="You can add up to 8 product images."
                   />
-                }
-                multiline
-                rows={3}
-                inputProps={{ style: { resize: "both" } }}
+                </span>
+              </Stack>
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box sx={{ 
+          flex: 1, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 3,
+          minWidth: 0
+        }}>
+          <Box>
+            <Button onClick={handleShowPreview} startIcon={<Visibility />}>
+              <FormattedMessage
+                id="preview.in.store"
+                defaultMessage="Preview in store"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <ProductCollectionsAutocomplete
-                value={values.collections ? values.collections : []}
-                onChange={(value: ProductCollectionType[]) => {
-                  setFieldValue("collections", value);
-                }}
-                collections={collections?.items ?? []}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ProductCategoryAutocomplete
-                value={values.category ?? null}
-                onChange={(value: ProductCategoryType | null) => {
-                  setFieldValue("category", value);
-                }}
-                categories={categories?.items ?? []}
-              />
-            </Grid>
-            <Grid item>
+            </Button>
+          </Box>
+
+          <Stack spacing={3}>
+            <Field
+              component={TextField}
+              name="name"
+              fullWidth
+              label={
+                <FormattedMessage id="product" defaultMessage="Product" />
+              }
+            />
+
+            <Field
+              component={TextField}
+              name="description"
+              fullWidth
+              label={
+                <FormattedMessage
+                  id="description"
+                  defaultMessage="Description"
+                />
+              }
+              multiline
+              rows={3}
+              inputProps={{ style: { resize: "both" } }}
+            />
+
+            <ProductCollectionsAutocomplete
+              value={values.collections ? values.collections : []}
+              onChange={(value: ProductCollectionType[]) => {
+                setFieldValue("collections", value);
+              }}
+              collections={collections?.items ?? []}
+            />
+
+            <ProductCategoryAutocomplete
+              value={values.category ?? null}
+              onChange={(value: ProductCategoryType | null) => {
+                setFieldValue("category", value);
+              }}
+              categories={categories?.items ?? []}
+            />
+
+            <Box sx={{ maxWidth: '200px' }}>
               <FormikDecimalInput
                 name="price"
                 TextFieldProps={{
@@ -417,39 +418,39 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                 }}
                 decimals={6}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl>
-                <FormControlLabel
-                  label={
-                    <FormattedMessage
-                      id="visibility.in.the.store"
-                      defaultMessage="Visibility in the store"
-                    />
-                  }
-                  control={
-                    <Switch
-                      checked={showPublishedAt}
-                      onChange={(e) => {
-                        if (!e.target.checked) {
-                          setFieldValue("publishedAt", null);
-                        } else {
-                          setFieldValue("publishedAt", new Date());
-                        }
-                        setShowPublishedAt(e.target.checked);
-                      }}
-                    />
-                  }
-                />
-                <FormHelperText sx={{ m: 0 }}>
+            </Box>
+
+            <FormControl>
+              <FormControlLabel
+                label={
                   <FormattedMessage
-                    id="turn.on.to.set.the.item.msg"
-                    defaultMessage='Turn on to set the product as "Active" and display it in the store.'
+                    id="visibility.in.the.store"
+                    defaultMessage="Visibility in the store"
                   />
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
+                }
+                control={
+                  <Switch
+                    checked={showPublishedAt}
+                    onChange={(e) => {
+                      if (!e.target.checked) {
+                        setFieldValue("publishedAt", null);
+                      } else {
+                        setFieldValue("publishedAt", new Date());
+                      }
+                      setShowPublishedAt(e.target.checked);
+                    }}
+                  />
+                }
+              />
+              <FormHelperText sx={{ m: 0 }}>
+                <FormattedMessage
+                  id="turn.on.to.set.the.item.msg"
+                  defaultMessage='Turn on to set the product as "Active" and display it in the store.'
+                />
+              </FormHelperText>
+            </FormControl>
+
+            <Box>
               <FormControlLabel
                 label={
                   <FormattedMessage
@@ -472,9 +473,10 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                   defaultMessage="Turn on to open an editor for adding protected information that only the buyer can view."
                 />
               </FormHelperText>
-            </Grid>
+            </Box>
+
             {values.digital && (
-              <Grid item xs={12}>
+              <Box>
                 <MDEditor
                   value={values.content ?? ""}
                   onChange={(value) => setFieldValue("content", value)}
@@ -486,7 +488,6 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                         id: "artificial.inteligence",
                         defaultMessage: "Artificial Inteligence",
                       }),
-
                       render: (command, disabled, executeCommand) => {
                         return (
                           <button
@@ -508,11 +509,11 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                     },
                   ]}
                 />
-              </Grid>
+              </Box>
             )}
 
             {values.id && (
-              <Grid item xs={12}>
+              <Box>
                 <Button
                   onClick={handleDelete}
                   variant="contained"
@@ -523,36 +524,33 @@ export default function ProductForm({ onSubmit, isValid }: ProductFormProps) {
                     defaultMessage="Delete Product"
                   />
                 </Button>
-              </Grid>
+              </Box>
             )}
 
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="flex-start"
-                  spacing={2}
+            <Divider />
+
+            <Box>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="flex-start"
+                spacing={2}
+              >
+                <Button LinkComponent={Link} onClick={goBack}>
+                  <FormattedMessage id="cancel" defaultMessage="cancel" />
+                </Button>
+                <Button
+                  onClick={onSubmit}
+                  disabled={!isValid}
+                  variant="contained"
                 >
-                  <Button LinkComponent={Link} onClick={goBack}>
-                    <FormattedMessage id="cancel" defaultMessage="cancel" />
-                  </Button>
-                  <Button
-                    onClick={onSubmit}
-                    disabled={!isValid}
-                    variant="contained"
-                  >
-                    <FormattedMessage id="save" defaultMessage="Save" />
-                  </Button>
-                </Stack>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+                  <FormattedMessage id="save" defaultMessage="Save" />
+                </Button>
+              </Stack>
+            </Box>
+          </Stack>
+        </Box>
+      </Box>
     </>
   );
 }

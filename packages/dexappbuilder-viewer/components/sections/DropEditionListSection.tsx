@@ -57,7 +57,7 @@ export function DropEditionListSection({ section }: Props) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <TextField
             fullWidth
             size="small"
@@ -77,7 +77,7 @@ export function DropEditionListSection({ section }: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <NoSsr>
             <AppErrorBoundary
               fallbackRender={({ resetErrorBoundary, error }) => (
@@ -103,8 +103,8 @@ export function DropEditionListSection({ section }: Props) {
               )}
             >
               <Grid container spacing={2}>
-                {filteredAssets?.map((asset, index) => (
-                  <Grid item xs={6} sm={2} key={index}>
+                {filteredAssets?.map((asset: any, index: any) => (
+                  <Grid size={{ xs: 6, sm: 2 }} key={index}>
                     <BaseAssetCard
                       asset={asset}
                       onClickCardAction={(a) =>
@@ -116,7 +116,7 @@ export function DropEditionListSection({ section }: Props) {
                   </Grid>
                 ))}
                 {filteredAssets?.length === 0 && (
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <Stack justifyContent="center" alignItems="center">
                       <Typography variant="h6">
                         <FormattedMessage

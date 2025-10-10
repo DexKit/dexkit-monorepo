@@ -23,10 +23,12 @@ import {
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { z } from 'zod';
 import { ImageGalleryPicker } from '../components/ImageGalleryPicker';
@@ -56,11 +58,14 @@ interface MultiCardFormProps {
   onChange?: (values: MultiCardConfig) => void;
 }
 
-export const MultiCardForm: React.FC<MultiCardFormProps> = ({
+export const MultiCardForm = ({
   initialValues,
   onSubmit,
   onChange,
-}) => {
+}: MultiCardFormProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [activeTab, setActiveTab] = useState(0);
   const [expandedCard, setExpandedCard] = useState<string | false>(false);
 
@@ -164,9 +169,9 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
   }, [formik.values]);
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box component="form" onSubmit={formik.handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3, px: isMobile ? 2 : 0 }}>
       <Paper elevation={2} sx={{ p: 2 }}>
-        <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} sx={{ mb: 2 }}>
+        <Tabs value={activeTab} onChange={(_, newValue: any) => setActiveTab(newValue)} sx={{ mb: 2 }}>
           <Tab icon={<GridViewIcon />} label={<FormattedMessage id="cards.tab.cards" defaultMessage="Cards" />} />
           <Tab icon={<SettingsIcon />} label={<FormattedMessage id="cards.tab.layout" defaultMessage="Layout Settings" />} />
         </Tabs>
@@ -191,7 +196,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
               <Accordion
                 key={card.id}
                 expanded={expandedCard === card.id}
-                onChange={(_, isExpanded) => setExpandedCard(isExpanded ? card.id : false)}
+                onChange={(_, isExpanded: any) => setExpandedCard(isExpanded ? card.id : false)}
                 sx={{ mb: 1 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -201,7 +206,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                     </Typography>
                     <IconButton
                       size="small"
-                      onClick={(e) => {
+                      onClick={(e: any) => {
                         e.stopPropagation();
                         removeCard(card.id);
                       }}
@@ -216,7 +221,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                     <TextField
                       label={<FormattedMessage id="card.title" defaultMessage="Title" />}
                       value={card.title}
-                      onChange={(e) => updateCard(card.id, { title: e.target.value })}
+                      onChange={(e: any) => updateCard(card.id, { title: e.target.value })}
                       required
                       fullWidth
                     />
@@ -246,13 +251,13 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                     <TextField
                       label={<FormattedMessage id="card.action.label" defaultMessage="Button Label" />}
                       value={card.actions?.[0]?.label || ''}
-                      onChange={(e) => handleActionLabelChange(card.id, e.target.value)}
+                      onChange={(e: any) => handleActionLabelChange(card.id, e.target.value)}
                       fullWidth
                     />
                     <TextField
                       label={<FormattedMessage id="card.action.href" defaultMessage="Button Link (href)" />}
                       value={card.actions?.[0]?.href || ''}
-                      onChange={(e) => handleActionHrefChange(card.id, e.target.value)}
+                      onChange={(e: any) => handleActionHrefChange(card.id, e.target.value)}
                       fullWidth
                     />
                   </Box>
@@ -273,14 +278,14 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                 label={<FormattedMessage id="cards.layout.columns" defaultMessage="Columns" />}
                 type="number"
                 value={formik.values.gridSettings.cols}
-                onChange={(e) => formik.setFieldValue('gridSettings.cols', parseInt(e.target.value))}
+                onChange={(e: any) => formik.setFieldValue('gridSettings.cols', parseInt(e.target.value))}
                 inputProps={{ min: 1, max: 24 }}
               />
               <TextField
                 label={<FormattedMessage id="cards.layout.rowHeight" defaultMessage="Row Height (px)" />}
                 type="number"
                 value={formik.values.gridSettings.rowHeight}
-                onChange={(e) => formik.setFieldValue('gridSettings.rowHeight', parseInt(e.target.value))}
+                onChange={(e: any) => formik.setFieldValue('gridSettings.rowHeight', parseInt(e.target.value))}
                 inputProps={{ min: 50 }}
               />
             </Box>
@@ -294,7 +299,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                   label="X"
                   type="number"
                   value={formik.values.gridSettings.margin[0]}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const newMargin: [number, number] = [parseInt(e.target.value), formik.values.gridSettings.margin[1]];
                     formik.setFieldValue('gridSettings.margin', newMargin);
                   }}
@@ -304,7 +309,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                   label="Y"
                   type="number"
                   value={formik.values.gridSettings.margin[1]}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const newMargin: [number, number] = [formik.values.gridSettings.margin[0], parseInt(e.target.value)];
                     formik.setFieldValue('gridSettings.margin', newMargin);
                   }}
@@ -319,7 +324,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
               </InputLabel>
               <Select
                 value={formik.values.gridSettings.compactType === null ? 'null' : formik.values.gridSettings.compactType || 'vertical'}
-                onChange={(e) => formik.setFieldValue('gridSettings.compactType', e.target.value === 'null' ? null : e.target.value)}
+                onChange={(e: any) => formik.setFieldValue('gridSettings.compactType', e.target.value === 'null' ? null : e.target.value)}
               >
                 <MenuItem value="vertical">
                   <FormattedMessage id="cards.layout.compact.vertical" defaultMessage="Vertical" />
@@ -338,7 +343,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                 control={
                   <Switch
                     checked={formik.values.gridSettings.isDraggable}
-                    onChange={(e) => formik.setFieldValue('gridSettings.isDraggable', e.target.checked)}
+                    onChange={(e: any) => formik.setFieldValue('gridSettings.isDraggable', e.target.checked)}
                   />
                 }
                 label={<FormattedMessage id="cards.layout.draggable" defaultMessage="Allow Dragging" />}
@@ -347,7 +352,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                 control={
                   <Switch
                     checked={formik.values.gridSettings.isResizable}
-                    onChange={(e) => formik.setFieldValue('gridSettings.isResizable', e.target.checked)}
+                    onChange={(e: any) => formik.setFieldValue('gridSettings.isResizable', e.target.checked)}
                   />
                 }
                 label={<FormattedMessage id="cards.layout.resizable" defaultMessage="Allow Resizing" />}
@@ -356,7 +361,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
                 control={
                   <Switch
                     checked={formik.values.gridSettings.allowOverlap || false}
-                    onChange={(e) => formik.setFieldValue('gridSettings.allowOverlap', e.target.checked)}
+                    onChange={(e: any) => formik.setFieldValue('gridSettings.allowOverlap', e.target.checked)}
                   />
                 }
                 label={<FormattedMessage id="cards.layout.allowOverlap" defaultMessage="Allow Overlap" />}
@@ -369,7 +374,7 @@ export const MultiCardForm: React.FC<MultiCardFormProps> = ({
       <Button
         type="submit"
         variant="contained"
-        size="large"
+        size="medium"
         color="primary"
         fullWidth
         sx={{ mt: 2 }}

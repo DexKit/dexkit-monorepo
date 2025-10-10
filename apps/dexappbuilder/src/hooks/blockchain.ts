@@ -51,7 +51,7 @@ export function useBlockNumber() {
 
 export function useSwitchNetwork() {
   const setSwitchOpen = useUpdateAtom(switchNetworkOpenAtom);
-  const setSwitchChainId = useUpdateAtom(switchNetworkChainIdAtom);
+  const setSwitchChainId = useUpdateAtom(switchNetworkChainIdAtom as any);
 
   const openDialog = useCallback((chainId: number) => {
     setSwitchOpen(true);

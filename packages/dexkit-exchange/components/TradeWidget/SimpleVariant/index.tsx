@@ -153,8 +153,8 @@ export default function TradeWidgetSimpleVariant({
           />
         }
         useGasless={useGasless}
-        onAutoSlippage={(auto) => setAutoSlippage(auto)}
-        onChangeSlippage={(sl) => setSlippage(sl)}
+        onAutoSlippage={(auto: any) => setAutoSlippage(auto)}
+        onChangeSlippage={(sl: any) => setSlippage(sl)}
         maxSlippage={slippage as number}
         isAutoSlippage={isAutoSlippage}
       />

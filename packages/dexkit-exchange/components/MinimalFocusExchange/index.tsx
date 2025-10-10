@@ -1,7 +1,6 @@
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
-  alpha,
   Box,
   Card,
   CardContent,
@@ -125,13 +124,7 @@ export default function MinimalFocusExchange({
           left: 0,
           right: 0,
           bottom: 0,
-          background: `radial-gradient(circle at 30% 20%, ${alpha(
-            mergedSettings.primaryColor || "#007AFF",
-            0.1
-          )} 0%, transparent 50%), radial-gradient(circle at 70% 80%, ${alpha(
-            mergedSettings.accentColor || "#34C759",
-            0.1
-          )} 0%, transparent 50%)`,
+          background: `radial-gradient(circle at 30% 20%, ${theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.1)} 0%, transparent 50%), radial-gradient(circle at 70% 80%, ${theme.alpha(mergedSettings.accentColor || "#34C759", 0.1)} 0%, transparent 50%)`,
           pointerEvents: "none",
         }
         : {},
@@ -146,17 +139,17 @@ export default function MinimalFocusExchange({
 
     return {
       backgroundColor: glassmorphism?.enabled
-        ? alpha("#FFFFFF", glassOpacity)
+        ? theme.alpha("#FFFFFF", glassOpacity)
         : theme.palette.background.paper,
       backdropFilter: glassmorphism?.enabled
         ? `blur(${blurIntensity}px) saturate(180%)`
         : "none",
       border: glassmorphism?.enabled
-        ? `1px solid ${alpha("#FFFFFF", 0.3)}`
+        ? `1px solid ${theme.alpha("#FFFFFF", 0.3)}`
         : `1px solid ${theme.palette.divider}`,
       borderRadius: theme.spacing(3),
       boxShadow: glassmorphism?.enabled
-        ? `0 8px 32px ${alpha("#000000", 0.1)}`
+        ? `0 8px 32px ${theme.alpha("#000000", 0.1)}`
         : theme.shadows[4],
       transition: animations?.enabled
         ? `all ${animations.duration || 300}ms ${animations.easing || "ease-in-out"
@@ -164,7 +157,7 @@ export default function MinimalFocusExchange({
         : "none",
       "&:hover": {
         boxShadow: glassmorphism?.enabled
-          ? `0 12px 40px ${alpha("#000000", 0.15)}`
+          ? `0 12px 40px ${theme.alpha("#000000", 0.15)}`
           : theme.shadows[8],
       },
     };
@@ -193,10 +186,7 @@ export default function MinimalFocusExchange({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: `0 4px 12px ${alpha(
-                      mergedSettings.primaryColor || "#007AFF",
-                      0.3
-                    )}`,
+                    boxShadow: `0 4px 12px ${theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.3)}`,
                   }}
                 >
                   <SwapHorizIcon sx={{ color: "#FFFFFF", fontSize: 20 }} />
@@ -223,10 +213,7 @@ export default function MinimalFocusExchange({
                       <Typography
                         variant="body2"
                         sx={{
-                          color: alpha(
-                            mergedSettings.textColor || "#1D1D1F",
-                            0.6
-                          ),
+                          color: theme.alpha(mergedSettings.textColor || "#1D1D1F", 0.6),
                           fontSize: "0.85rem",
                         }}
                       >
@@ -248,16 +235,10 @@ export default function MinimalFocusExchange({
             <Grow in={mounted} timeout={animationTimeout + 150}>
               <IconButton
                 sx={{
-                  backgroundColor: alpha(
-                    mergedSettings.primaryColor || "#007AFF",
-                    0.1
-                  ),
+                  backgroundColor: theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.1),
                   color: mergedSettings.primaryColor,
                   "&:hover": {
-                    backgroundColor: alpha(
-                      mergedSettings.primaryColor || "#007AFF",
-                      0.2
-                    ),
+                    backgroundColor: theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.2),
                   },
                 }}
               >
@@ -324,15 +305,15 @@ export default function MinimalFocusExchange({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: `linear-gradient(135deg, ${alpha(mergedSettings.primaryColor || "#007AFF", 0.05)}, ${alpha(mergedSettings.accentColor || "#34C759", 0.05)})`,
+                background: `linear-gradient(135deg, ${theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.05)}, ${theme.alpha(mergedSettings.accentColor || "#34C759", 0.05)})`,
                 borderRadius: theme.spacing(2),
-                border: `1px solid ${alpha(mergedSettings.primaryColor || "#007AFF", 0.1)}`,
+                border: `1px solid ${theme.alpha(mergedSettings.primaryColor || "#007AFF", 0.1)}`,
               }}
             >
               <Typography
                 variant="body1"
                 sx={{
-                  color: alpha(mergedSettings.textColor || "#1D1D1F", 0.6),
+                  color: theme.alpha(mergedSettings.textColor || "#1D1D1F", 0.6),
                   fontStyle: 'italic'
                 }}
               >

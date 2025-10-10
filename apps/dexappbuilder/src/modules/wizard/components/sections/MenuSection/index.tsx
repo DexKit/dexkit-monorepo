@@ -1,5 +1,5 @@
 import { AppPage, MenuTree } from '@dexkit/ui/modules/wizard/types/config';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -14,7 +14,7 @@ import EditMenuPageDialog from '../../dialogs/EditMenuPageDialog';
 interface Props {
   menu: MenuTree[];
   pages: { [key: string]: AppPage };
-  onSetMenu: Dispatch<SetStateAction<MenuTree[]>>;
+  onSetMenu: (menu: MenuTree[]) => void;
 }
 
 export default function MenuSection(props: Props) {

@@ -146,14 +146,14 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
           defaultMessage="Do you really want to disable this feature?"
         />
       </AppConfirmDialog>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid
           container
           spacing={2}
           alignItems="center"
           justifyContent="space-between"
         >
-          <Grid item>
+          <Grid>
             <Typography variant="caption" color="text.secondary">
               <FormattedMessage id="credits" defaultMessage="Credits" />
             </Typography>
@@ -171,13 +171,13 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
               )}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <AddCreditsButton />
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} container spacing={2}>
-        <Grid item>
+      <Grid container spacing={2} size={12}>
+        <Grid>
           {credits < CUSTOM_DOMAINS_PRICE && (
             <AddCreditsButton
               buttonText={
@@ -191,7 +191,7 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
           )}
         </Grid>
         {!isPaid && (
-          <Grid item>
+          <Grid>
             <Button
               variant={'contained'}
               startIcon={
@@ -220,7 +220,7 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
           </Grid>
         )}
         {!isPaid && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert severity="warning">
               <FormattedMessage
                 id={`premium.feature.warning.message${isWidget && 'widget'}`}
@@ -234,10 +234,9 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
           </Grid>
         )}
       </Grid>
-
       {isPaid && (
-        <Grid item xs={12}>
-          <Grid item>
+        <Grid size={12}>
+          <Grid>
             <Typography variant="subtitle1">
               <FormattedMessage
                 id="premium.feature.is.paid.message"
@@ -247,7 +246,7 @@ export function PremiumAppBuilder({ isHidePowered, isWidget }: Props) {
               />
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               variant={'contained'}
               color="error"

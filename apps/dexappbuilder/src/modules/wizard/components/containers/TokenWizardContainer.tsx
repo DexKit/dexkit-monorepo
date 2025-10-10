@@ -110,7 +110,7 @@ export default function TokenWizardContainer({
   }, []);
 
   const handleDisableFeatured = (key: string) => {
-    setTokens((tokens) => {
+    setTokens((tokens: any) => {
       const newTokens = [...tokens];
       const index = newTokens.findIndex((t) => TOKEN_KEY(t) === key);
 
@@ -137,10 +137,10 @@ export default function TokenWizardContainer({
   };
 
   const handleSaveTokens = useCallback((tokens: Token[]) => {
-    setTokens((value) => {
+    setTokens((value: any) => {
       let filteredTokens = tokens.filter((newToken) => {
         const token = value.find(
-          (t) =>
+          (t: any) =>
             isAddressEqual(t.address, newToken.address) &&
             Number(t.chainId) === Number(newToken.chainId),
         );
@@ -153,7 +153,7 @@ export default function TokenWizardContainer({
   }, []);
 
   const handleSelectToken = useCallback((key: string) => {
-    setSelectedKeys((value) => {
+    setSelectedKeys((value: any) => {
       if (!Boolean(value[key])) {
         return { ...value, [key]: true };
       }
@@ -207,12 +207,12 @@ export default function TokenWizardContainer({
   const handleSaveToken = (tokens: Token[]) => {
     setShowAddToken(false);
 
-    setTokens((value) => {
+    setTokens((value: any) => {
       setHasChanged(true);
 
       const newArr = tokens.filter((t) => {
         const found = value.find(
-          (o) =>
+          (o: any) =>
             o.chainId === t.chainId && isAddressEqual(o.address, t.address),
         );
 
@@ -237,8 +237,8 @@ export default function TokenWizardContainer({
   const handleConfirmRemove = () => {
     setHasChanged(true);
 
-    setTokens((value) => {
-      let newTokens = value.filter((token) => {
+    setTokens((value: any) => {
+      let newTokens = value.filter((token: any) => {
         if (selection.includes(TOKEN_KEY(token))) {
           return false;
         }
@@ -329,7 +329,6 @@ export default function TokenWizardContainer({
           }}
         />
       )}
-
       <AppConfirmDialog
         DialogProps={{
           maxWidth: 'xs',
@@ -352,7 +351,7 @@ export default function TokenWizardContainer({
         />
       </AppConfirmDialog>
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -378,10 +377,10 @@ export default function TokenWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: isMobile ? 1 : 2 }}>
             <Button
               onClick={handleShowAddToken}
@@ -401,12 +400,16 @@ export default function TokenWizardContainer({
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid justifyContent="center" container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-            <Grid item xs={12} sm={9}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 9
+              }}>
               <Box pt={isMobile ? theme.spacing(1) : theme.spacing(2)}>
                 <Grid
                   container
@@ -414,14 +417,22 @@ export default function TokenWizardContainer({
                   spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}
                   justifyContent="space-between"
                 >
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <TokensTableNetworkAutocomplete
                       selectedNetwoks={selectedNetwoks}
                       onChange={handleChangeSelectedNetworks}
                       isMobile={isMobile}
                     />
                   </Grid>
-                  <Grid item xs={12} sm="auto">
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: "auto"
+                    }}>
                     <Box>
                       <Stack
                         direction={isMobile ? "column" : "row"}
@@ -437,7 +448,7 @@ export default function TokenWizardContainer({
                             size={isMobile ? "small" : "medium"}
                             sx={{
                               fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-                              py: isMobile ? theme.spacing(0.75) : undefined,
+                              py: isMobile ? theme.spacing(0.75) : 'inherit',
                             }}
                           >
                             <FormattedMessage
@@ -485,9 +496,13 @@ export default function TokenWizardContainer({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid justifyContent="center" container spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
-                <Grid item xs={12} sm={9}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 9
+                  }}>
                   <TokensTable
                     tokens={tokens}
                     search={search}
@@ -504,10 +519,10 @@ export default function TokenWizardContainer({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isOnStepper ? (
             <StepperButtons
               {...stepperButtonProps}

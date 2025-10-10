@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Checkbox,
   FormControl,
@@ -150,7 +151,7 @@ export default function CallToActionSectionForm({
 
   const handleSubmitItem = (item: SectionItem) => {
     if (selectedItemIndex > -1) {
-      setItems((value) => {
+      setItems((value: any) => {
         const newItems = [...value];
 
         newItems[selectedItemIndex] = item;
@@ -158,7 +159,7 @@ export default function CallToActionSectionForm({
         return newItems;
       });
     } else {
-      setItems((value) => [...value, item]);
+      setItems((value: any) => [...value, item]);
     }
 
     setSelectedItemIndex(-1);
@@ -183,8 +184,9 @@ export default function CallToActionSectionForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
-        <Grid item xs={12}>
+      <Box sx={{ px: isMobile ? 2 : 0 }}>
+        <Grid container spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}>
+        <Grid size={12}>
           <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
             <InputLabel>
               <FormattedMessage id="variant" defaultMessage="Variant" />
@@ -206,7 +208,7 @@ export default function CallToActionSectionForm({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <CompletationProvider
             onCompletation={(output: string) => {
               formik.setFieldValue('title', output);
@@ -231,7 +233,7 @@ export default function CallToActionSectionForm({
             )}
           </CompletationProvider>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <CompletationProvider
             onCompletation={(output: string) => {
               formik.setFieldValue('subtitle', output);
@@ -260,7 +262,7 @@ export default function CallToActionSectionForm({
             )}
           </CompletationProvider>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <CompletationProvider
             onCompletation={(output: string) => {
               formik.setFieldValue('button.title', output);
@@ -292,7 +294,7 @@ export default function CallToActionSectionForm({
             )}
           </CompletationProvider>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             name="button.url"
             size={isMobile ? "small" : "medium"}
@@ -310,7 +312,7 @@ export default function CallToActionSectionForm({
             }
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             control={
               <Checkbox
@@ -332,8 +334,11 @@ export default function CallToActionSectionForm({
           />
         </Grid>
         {!showAddItem &&
-          items.map((item, index) => (
-            <Grid item xs={12} key={index} sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}>
+          items.map((item: any, index: any) => (
+            <Grid
+              key={index}
+              sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1) }}
+              size={12}>
               <PageSectionItem
                 item={item}
                 length={items.length}
@@ -345,7 +350,7 @@ export default function CallToActionSectionForm({
             </Grid>
           ))}
         {showAddItem ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper sx={{ p: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
               <AddItemForm
                 key={selectedItemIndex > -1 ? `edit-${selectedItemIndex}` : 'add-new'}
@@ -360,7 +365,7 @@ export default function CallToActionSectionForm({
             </Paper>
           </Grid>
         ) : (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               onClick={handleAddItem}
               startIcon={<AddIcon />}
@@ -381,7 +386,7 @@ export default function CallToActionSectionForm({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)} direction="row" justifyContent="flex-end">
             <Button
               onClick={onCancel}
@@ -401,6 +406,7 @@ export default function CallToActionSectionForm({
           </Stack>
         </Grid>
       </Grid>
+      </Box>
     </form>
   );
 }

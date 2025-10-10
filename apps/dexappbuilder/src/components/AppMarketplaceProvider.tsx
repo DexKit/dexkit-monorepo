@@ -64,7 +64,7 @@ export function AppMarketplaceProvider({
 
   useEffect(() => {
     if (router.query.ref) {
-      setRef(router.query.ref as string);
+      (setRef as any)(router.query.ref as string);
     }
   }, [router.query.ref]);
 

@@ -47,7 +47,7 @@ export function WalletButton({
         alignItems="center"
         justifyContent="center"
       >
-        <Grid item>
+        <Grid>
           {loading ? (
             <CircularProgress size={theme.spacing(10)} />
           ) : (
@@ -60,7 +60,7 @@ export function WalletButton({
             />
           )}
         </Grid>
-        <Grid item>
+        <Grid>
           <Typography
             variant="body1"
             sx={{ textOverflow: "ellipsis", overflow: "hidden" }}

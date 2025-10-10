@@ -298,7 +298,7 @@ function AddTokenDialog({ dialogProps, tokens, onSave }: Props) {
       />
       <DialogContent dividers sx={{ py: 2, px: 4 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box mb={2}>
               <Alert severity="info">
                 <FormattedMessage
@@ -315,7 +315,11 @@ function AddTokenDialog({ dialogProps, tokens, onSave }: Props) {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 9
+            }}>
             <Box>
               <Stack spacing={2}>
                 <FormControl>

@@ -1,5 +1,6 @@
 import { buildEtherReceiveAddress } from "@dexkit/core/utils";
 import { useMemo } from "react";
+import * as React from "react";
 import QRCode from "react-qr-code";
 
 interface Props {
@@ -23,5 +24,5 @@ export default function EvmReceiveQRCode({
       amount,
     });
   }, [contractAddress, receiver, chainId, amount]);
-  return <QRCode value={url} />;
+  return (React as any).createElement(QRCode, { value: url });
 }

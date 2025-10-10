@@ -71,7 +71,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
       />
       <Box>
         <Grid container spacing={2} alignItems="stretch" alignContent="center">
-          <Grid item xs>
+          <Grid size="grow">
             <Paper variant="outlined" sx={{ p: 1, height: '100%' }}>
               <Typography variant="caption" color="textSecondary">
                 <FormattedMessage id="owned.by" defaultMessage="Owned by" />
@@ -102,7 +102,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
               </Link>
             </Paper>
           </Grid>
-          <Grid item>
+          <Grid>
             <Paper variant="outlined" sx={{ p: 1, height: '100%' }}>
               <Stack
                 direction="row"

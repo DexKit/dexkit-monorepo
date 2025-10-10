@@ -53,11 +53,11 @@ export default function ContractFunctionInput({
   const inputParams = useMemo(() => {
     const inputParams =
       name &&
-      input.name &&
-      params.fields[name] &&
-      params.fields[name].input &&
-      params.fields[name].input[input.name] &&
-      params.fields[name].input[input.name]
+        input.name &&
+        params.fields[name] &&
+        params.fields[name].input &&
+        params.fields[name].input[input.name] &&
+        params.fields[name].input[input.name]
         ? params.fields[name].input[input.name]
         : undefined;
 
@@ -88,7 +88,7 @@ export default function ContractFunctionInput({
         : undefined;
 
     return (
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Field
           component={TextField}
           size="small"
@@ -124,8 +124,8 @@ export default function ContractFunctionInput({
                       inputParams?.inputType === "address"
                         ? inputParams.addresses
                         : inputTupleParams
-                        ? inputTupleParams.addresses
-                        : []
+                          ? inputTupleParams.addresses
+                          : []
                     )
                   }
                   size="small"
@@ -143,7 +143,7 @@ export default function ContractFunctionInput({
     (tupleParams && tupleParams[input.name]?.inputType === "switch")
   ) {
     return (
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControlLabel
           label={inputParams?.label ? inputParams.label : input.name}
           control={
@@ -199,7 +199,7 @@ export default function ContractFunctionInput({
   }, [inputParams]);
 
   return (
-    <Grid item xs={12}>
+    <Grid size={12}>
       <Field
         component={TextField}
         size="small"

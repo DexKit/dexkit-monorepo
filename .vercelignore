@@ -1,0 +1,12 @@
+packages/dexkit-unlock
+packages/dexkit-exchange
+packages/dexkit-widgets
+packages/dexkit-ui
+packages/dexappbuilder-render
+packages/dexappbuilder-viewer
+apps/dexappbuilder/.next
+apps/dexappbuilder/node_modules
+apps/dexappbuilder/.turbo
+node_modules
+.turbo
+*.log

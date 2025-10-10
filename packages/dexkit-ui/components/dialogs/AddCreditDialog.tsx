@@ -26,6 +26,7 @@ import { Select } from "formik-mui";
 import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { FormattedMessage, FormattedNumber, useIntl } from "react-intl";
+import { useSnackbar } from "notistack";
 import { useIsBalanceVisible } from "../../modules/wallet/hooks";
 import { isBalancesVisibleAtom } from "../../modules/wallet/state";
 
@@ -39,6 +40,7 @@ export default function AddCreditDialog({
   initialAmount,
 }: AddCreditDialogProps) {
   const { onClose } = DialogProps;
+  const { enqueueSnackbar } = useSnackbar();
 
   const buyCreditsCheckout = useBuyCreditsCheckout();
 
@@ -66,22 +68,66 @@ export default function AddCreditDialog({
       paymentMethod: string;
     }>
   ) => {
-    if (paymentMethod === "crypto") {
-      const result = await cryptoCheckout.mutateAsync({
-        amount,
-        intent: "credit-grant",
+    try {
+      if (paymentMethod === "crypto") {
+        const result = await cryptoCheckout.mutateAsync({
+          amount,
+          intent: "credit-grant",
+        });
+
+        if (result?.id) {
+          window.open(`/checkout/${result.id}`);
+          helpers.resetForm();
+        } else {
+          enqueueSnackbar(
+            formatMessage({
+              id: "error.creating.checkout",
+              defaultMessage: "Error creating checkout session. Please try again.",
+            }),
+            { variant: "error" }
+          );
+        }
+      } else {
+        const result = await buyCreditsCheckout.mutateAsync({
+          amount: parseFloat(amount),
+        });
+
+        if (result?.url) {
+          window.open(result.url, "_blank");
+          helpers.resetForm();
+        } else {
+          enqueueSnackbar(
+            formatMessage({
+              id: "error.creating.payment",
+              defaultMessage: "Error creating payment session. Please try again.",
+            }),
+            { variant: "error" }
+          );
+        }
+      }
+    } catch (error: any) {
+      console.error("Payment error:", error);
+      
+      let errorMessage = formatMessage({
+        id: "payment.error.generic",
+        defaultMessage: "An error occurred while processing your payment. Please try again.",
       });
 
-      window.open(`/checkout/${result?.id}`);
-      helpers.resetForm();
-    } else {
-      const result = await buyCreditsCheckout.mutateAsync({
-        amount: parseFloat(amount),
-      });
+      if (error?.response?.status === 500) {
+        errorMessage = formatMessage({
+          id: "payment.error.server",
+          defaultMessage: "Server error. Please try again later or contact support if the problem persists.",
+        });
+      } else if (error?.response?.status === 400) {
+        errorMessage = formatMessage({
+          id: "payment.error.invalid",
+          defaultMessage: "Invalid payment request. Please check your amount and try again.",
+        });
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
 
-      window.open(result?.url, "_blank");
-
-      helpers.resetForm();
+      enqueueSnackbar(errorMessage, { variant: "error" });
     }
   };
 
@@ -226,7 +272,7 @@ export default function AddCreditDialog({
         onSubmit={handleSubmit}
         validate={handleValitate}
       >
-        {({ submitForm, isValid, isSubmitting }) => (
+        {({ submitForm, isValid, isSubmitting }: any) => (
           <>
             <AppDialogTitle
               onClose={handleClose}

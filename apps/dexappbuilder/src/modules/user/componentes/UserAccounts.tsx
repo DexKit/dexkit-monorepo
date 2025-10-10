@@ -79,12 +79,11 @@ export function UserAccounts(props: Props) {
           </Typography>
         </AppConfirmDialog>
       )}
-
       <Typography variant="h5">
         <FormattedMessage id={'accounts'} defaultMessage={'Accounts'} />
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle1">
             <FormattedMessage
               id={'user.accounts'}
@@ -92,7 +91,7 @@ export function UserAccounts(props: Props) {
             />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <List>
             {accounts.map((v, index) => (
               <ListItem
@@ -147,10 +146,10 @@ export function UserAccounts(props: Props) {
             ))}
           </List>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2}>
             <Typography variant="body2">
               <FormattedMessage

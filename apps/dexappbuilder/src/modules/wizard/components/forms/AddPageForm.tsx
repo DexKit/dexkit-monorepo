@@ -44,11 +44,11 @@ export default function AddPageForm({ item, onCancel, onSubmit }: Props) {
       }}
       validationSchema={PageOptionsSchema}
     >
-      {({ submitForm, isSubmitting, isValid }) => (
+      {({ submitForm, isSubmitting, isValid }: any) => (
         <Form>
           <TitleListener />
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 name="title"
@@ -58,7 +58,7 @@ export default function AddPageForm({ item, onCancel, onSubmit }: Props) {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={TextField}
                 type="text"
@@ -67,7 +67,7 @@ export default function AddPageForm({ item, onCancel, onSubmit }: Props) {
               />
             </Grid>
             {isSubmitting && <LinearProgress />}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction="row" spacing={1} justifyContent="flex-end">
                 <Button
                   disabled={isValid}

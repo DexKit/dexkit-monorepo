@@ -7,19 +7,17 @@ export function usePositionPaginator(pageSize = 5) {
   const [position, setPosition] = useState({ offset: 0, limit: pageSize });
 
   const handleNext = useCallback(() => {
-    setPosition((value) => ({ ...value, offset: value.offset + pageSize }));
+    setPosition((value: any) => ({ ...value, offset: value.offset + pageSize }));
   }, [pageSize]);
 
   const handlePrevious = useCallback(() => {
     if (position.offset - pageSize >= 0) {
-      setPosition((value) => ({ ...value, offset: value.offset - pageSize }));
+      setPosition((value: any) => ({ ...value, offset: value.offset - pageSize }));
     }
   }, [position, pageSize]);
 
   return { position, handleNext, handlePrevious, pageSize };
 }
-
-
 
 export function useIsMobile() {
   const theme = useTheme();

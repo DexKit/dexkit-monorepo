@@ -16,7 +16,7 @@ import {
   GridSortModel,
 } from '@mui/x-data-grid';
 import Decimal from 'decimal.js';
-import { MouseEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import useProductList from '../hooks/useProductList';
 import { ProductFormType } from '../types';
@@ -103,7 +103,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
   };
 
   const handleShowPreview = useCallback((id: string) => {
-    return (e: MouseEvent) => {
+    return (e: React.MouseEvent) => {
       e.stopPropagation();
       setSelectedId(id);
       setShowPreview(true);
@@ -111,7 +111,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
   }, []);
 
   const handleDuplicate = useCallback((id: string) => {
-    return (e: MouseEvent) => {
+    return (e: React.MouseEvent) => {
       e.stopPropagation();
       setSelectedId(id);
       setShowConfirmDuplicate(true);
@@ -119,7 +119,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
   }, []);
 
   const handleDelete = useCallback((id: string, name: string) => {
-    return (e: MouseEvent) => {
+    return (e: React.MouseEvent) => {
       e.stopPropagation();
       setSelectedId(id);
       setShowConfirm(true);
@@ -434,7 +434,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
                 id: 'search.products',
                 defaultMessage: 'Search products',
               }),
-              footerTotalVisibleRows: (visibleCount, totalCount) => (
+              footerTotalVisibleRows: (visibleCount: any, totalCount: any) => (
                 <FormattedMessage
                   id="visiblecount.of.total.count.products"
                   defaultMessage="{visibleCount} of {totalCount} products"
@@ -453,7 +453,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
             rowSelectionModel={selectionModel}
             onPaginationModelChange={setPaginationModel}
             disableRowSelectionOnClick
-            onRowClick={({ row }, e) => {
+            onRowClick={({ row }: any, e: any) => {
               e.stopPropagation();
 
               router.push(`/u/account/commerce/products/${row.id}`);
@@ -475,7 +475,7 @@ export default function ProductsTable({ }: ProducstTableProps) {
                 showQuickFilter: true,
                 quickFilterProps: {
                   value: query,
-                  onChange: (e) => {
+                  onChange: (e: any) => {
                     setQuery(e.target.value);
                   },
                 },

@@ -1,8 +1,10 @@
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   Icon,
   Paper,
+  Typography,
   useTheme
 } from "@mui/material";
 import { useRouter } from "next/router";
@@ -60,6 +62,8 @@ export default function BottomBar({ appConfig, isPreview }: Props) {
   if (!menuTree.length) {
     return null;
   }
+
+  const showAppSignature = !appConfig?.hide_powered_by;
 
   return (
     <Paper
@@ -137,6 +141,42 @@ export default function BottomBar({ appConfig, isPreview }: Props) {
           />
         ))}
       </BottomNavigation>
+
+      {showAppSignature && (
+        <Box
+          sx={{
+            position: "absolute",
+            right: 16,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 1001,
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              fontSize: "10px",
+              color: textColor,
+              opacity: 0.7,
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Link
+              href={isPreview ? "#" : "https://www.dexkit.com"}
+              target="_blank"
+              color="inherit"
+              sx={{
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Powered by DexKit
+            </Link>
+          </Typography>
+        </Box>
+      )}
     </Paper>
   );
 } 

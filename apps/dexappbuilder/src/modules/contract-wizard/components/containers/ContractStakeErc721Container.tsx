@@ -219,7 +219,7 @@ export default function ContractStakeErc721Container({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Stack>
             <Typography variant="caption" color="text.secondary">
@@ -287,7 +287,7 @@ export default function ContractStakeErc721Container({
           </Stack>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Tabs value={tab} onChange={handleChangeTab}>
           <Tab
             label={<FormattedMessage id="deposit" defaultMessage="Deposit" />}
@@ -307,16 +307,15 @@ export default function ContractStakeErc721Container({
           />
         </Tabs>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         {tab === 'deposit' && (
           <Formik
             initialValues={{ amount: '', withdraw: false }}
             onSubmit={handleSubmitRewards}
           >
-            {({ submitForm, isSubmitting, isValid, values, setFieldValue }) => (
+            {({ submitForm, isSubmitting, isValid, values, setFieldValue }: any) => (
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControlLabel
                     control={<Field component={Switch} name="withdraw" />}
                     label={
@@ -327,7 +326,7 @@ export default function ContractStakeErc721Container({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormikDecimalInput
                     name="amount"
                     decimals={rewardTokenBalance?.decimals}
@@ -367,7 +366,7 @@ export default function ContractStakeErc721Container({
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack direction="row" spacing={2}>
                       <Button
@@ -402,7 +401,7 @@ export default function ContractStakeErc721Container({
         )}
         {tab === 'settings' && (
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card>
                 <CardContent>
                   <Stack spacing={2}>
@@ -422,9 +421,9 @@ export default function ContractStakeErc721Container({
                         validationSchema={RewardsPerUnitTimeSchema}
                         onSubmit={handleSubmitRewardRatio}
                       >
-                        {({ submitForm, isSubmitting, isValid }) => (
+                        {({ submitForm, isSubmitting, isValid }: any) => (
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Field
                                 fullWidth
                                 component={TextField}
@@ -437,7 +436,7 @@ export default function ContractStakeErc721Container({
                                 }
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Button
                                 disabled={isSubmitting || !isValid}
                                 startIcon={
@@ -466,7 +465,7 @@ export default function ContractStakeErc721Container({
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card>
                 <CardContent>
                   <Stack spacing={2}>
@@ -485,9 +484,9 @@ export default function ContractStakeErc721Container({
                         }}
                         onSubmit={handleSubmitTimeUnit}
                       >
-                        {({ submitForm, isSubmitting, isValid }) => (
+                        {({ submitForm, isSubmitting, isValid }: any) => (
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <FormControl fullWidth>
                                 <Field
                                   fullWidth
@@ -504,7 +503,7 @@ export default function ContractStakeErc721Container({
                                 />
                               </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <Button
                                 disabled={isSubmitting || !isValid}
                                 startIcon={

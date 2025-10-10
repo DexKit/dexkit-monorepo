@@ -1,11 +1,11 @@
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import MainLayout from 'src/components/layouts/main';
 
-import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 import {
   AppConfig,
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
+import { SectionsRenderer } from './sections/SectionsRenderer';
 interface Props {
   sections?: AppPageSection[];
   disabled?: boolean;
@@ -28,13 +28,17 @@ export default function PreviewPage({
   onLayoutChange,
 }: Props) {
   const renderSections = () => {
-    return <SectionsRenderer
-      layout={layout}
-      sections={sections ?? []}
-      previewPlatform={previewPlatform}
-      editable={editable}
-      onLayoutChange={onLayoutChange}
-    />;
+    // return (sections || []).map((section, key) => {
+    //   if (previewPlatform === 'mobile' && section?.hideMobile) {
+    //     return null;
+    //   }
+    //   if (previewPlatform === 'desktop' && section?.hideDesktop) {
+    //     return null;
+    //   }
+
+    //   return <SectionRender section={section} key={key} />;
+    // });
+    return <SectionsRenderer layout={layout} sections={sections ?? []} editable={editable} onLayoutChange={onLayoutChange} />;
   };
   if (withLayout) {
     return (

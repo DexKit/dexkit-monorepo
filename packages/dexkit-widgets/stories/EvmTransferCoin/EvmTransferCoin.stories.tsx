@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof EvmTransferCoin> = (
     <WidgetContext>
       <Box pt={5}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 3 }}>
             <Card>
               <EvmTransferCoin {...args} />
             </Card>

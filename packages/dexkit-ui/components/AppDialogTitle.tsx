@@ -50,11 +50,11 @@ export function AppDialogTitle({
           alignContent="center"
         >
           {icon}
-          <Typography variant="inherit">{title}</Typography>
+          <Typography component="span" variant="inherit">{title}</Typography>
         </Stack>
         {onClose && !hideCloseButton && (
           <IconButton size="small" disabled={disableClose} onClick={onClose}>
-            <CloseIcon />
+            <CloseIcon sx={{ color: 'text.primary' }} />
           </IconButton>
         )}
       </Stack>

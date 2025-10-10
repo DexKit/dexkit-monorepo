@@ -135,7 +135,7 @@ export default function SwapSelectCoinUniswapDialog({
                 <ButtonBase
                   sx={{
                     color: (theme) => theme.palette.text.primary,
-                    borderRadius: (theme) => theme.shape.borderRadius / 2,
+                    borderRadius: (theme) => (theme.shape.borderRadius as any) / 2,
                     borderColor: (theme) => theme.palette.divider,
                     borderWidth: 1,
                     borderStyle: "solid",
@@ -190,7 +190,7 @@ export default function SwapSelectCoinUniswapDialog({
                     direction="row"
                   >
                     <ListSubheader
-                      sx={{ p: 0, m: 0 }}
+                      sx={{ p: 0, m: 0, color: 'text.primary' }}
                       component="div"
                       disableSticky
                     >

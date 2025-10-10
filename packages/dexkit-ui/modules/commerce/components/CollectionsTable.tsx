@@ -22,7 +22,6 @@ import { useSnackbar } from "notistack";
 import useDeleteManyCollections from "@dexkit/ui/modules/commerce/hooks/useDeleteManyCollections";
 
 import LabelIcon from "@mui/icons-material/Label";
-import CustomToolbar from "./CustomToolbar";
 import useParams from "./containers/hooks/useParams";
 
 const AppConfirmDialog = dynamic(
@@ -106,18 +105,24 @@ export default function CollectionsTable({}: CollectionsTableProps) {
         flex: 1,
         field: "name",
         headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
-        renderCell: ({ row }) => row.name,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.name}</Typography>
+          </Box>
+        ),
       },
       {
         field: "actions",
         flex: 1,
         headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
         renderCell: ({ row }) => (
-          <Stack direction="row">
-            <IconButton onClick={handleDelete(row.id ?? "", row.name)}>
-              <Delete color="error" />
-            </IconButton>
-          </Stack>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Stack direction="row">
+              <IconButton onClick={handleDelete(row.id ?? "", row.name)}>
+                <Delete color="error" />
+              </IconButton>
+            </Stack>
+          </Box>
         ),
       },
     ] as GridColDef<CategoryType>[];
@@ -221,39 +226,17 @@ export default function CollectionsTable({}: CollectionsTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
           checkboxSelection
           disableRowSelectionOnClick
-          onRowClick={({ row }) => {
+          onRowClick={({ row }: any) => {
             setContainer("commerce.products.collection.edit", { id: row.id });
-          }}
-          slotProps={{
-            toolbar: {
-              placeholder: formatMessage({
-                id: "search.products",
-                defaultMessage: "Search products",
-              }),
-              onDelete: () => {
-                setShowDeleteMany(true);
-              },
-              showDelete: selectionModel.length > 0,
-              printOptions: { disableToolbarButton: true },
-              csvOptions: { disableToolbarButton: true },
-              showQuickFilter: true,
-              quickFilterProps: {
-                value: query,
-                onChange: (e) => {
-                  setQuery(e.target.value);
-                },
-              },
-            },
           }}
           onRowSelectionModelChange={setSelectionModel}
           slots={{
-            toolbar: CustomToolbar,
             noRowsOverlay: noRowsOverlay(
               <FormattedMessage
                 id="no.collections"

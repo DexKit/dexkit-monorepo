@@ -115,7 +115,15 @@ export default function NotificationsTab() {
               await refetch();
             }}
             value={filter.status}
-            sx={{ mr: 2 }}
+            sx={{
+              mr: 2,
+              '& .MuiTab-root': {
+                color: 'text.primary',
+                '&.Mui-selected': {
+                  color: 'primary.main',
+                },
+              },
+            }}
           >
             <Tab
               value=""
@@ -174,6 +182,25 @@ export default function NotificationsTab() {
           }}
           rowsPerPage={filter.pageSize}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            '& .MuiTablePagination-actions': {
+              '& .MuiIconButton-root': {
+                color: 'text.primary',
+              },
+            },
+            '& .MuiTablePagination-selectLabel': {
+              color: 'text.primary',
+            },
+            '& .MuiTablePagination-displayedRows': {
+              color: 'text.primary',
+            },
+            '& .MuiTablePagination-select': {
+              color: 'text.primary',
+              '& .MuiSelect-icon': {
+                color: 'text.primary',
+              },
+            },
+          }}
         />
       </Box>
     </>

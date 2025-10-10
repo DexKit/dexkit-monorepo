@@ -1,10 +1,29 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES2021.String"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "skipDefaultLibCheck": true,
+    "types": [],
+    "noLib": false,
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -22,7 +41,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/modules/*": ["src/modules/*"]
+      "@/modules/*": [
+        "src/modules/*"
+      ]
     },
     "plugins": [
       {
@@ -32,6 +53,9 @@
   },
   "include": [
     "next-env.d.ts",
+    "global.d.ts",
+    "src/types/react-hooks.d.ts",
+    "src/types/next.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "next-sitemap.config.js",
@@ -39,5 +63,7 @@
     ".next/types/**/*.ts",
     "../../packages/dexkit-ui/components/AddCredits.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

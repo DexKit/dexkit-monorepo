@@ -2,7 +2,7 @@ import { EmotionCache } from "@emotion/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import type {} from "@mui/material/themeCssVarsAugmentation";
+import type { } from "@mui/material/themeCssVarsAugmentation";
 
 import {
   AppMarketplaceProvider,
@@ -98,7 +98,7 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta
           name="theme-color"
-          content={theme?.colorSchemes?.light?.palette?.primary?.main}
+          content={theme?.palette?.primary?.main}
         />
       </Head>
       <CacheProvider value={emotionCache}>
@@ -119,7 +119,7 @@ export default function MyApp(props: MyAppProps) {
                           open={loading}
                           sx={{
                             color:
-                              theme?.colorSchemes?.light?.palette?.primary
+                              theme?.palette?.primary
                                 ?.main,
                             zIndex: theme.zIndex.drawer + 1,
                           }}

@@ -15,6 +15,7 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import { useTheme } from "@mui/material/styles";
 import useParams from "./containers/hooks/useParams";
 import OrderStatusBadge from "./OrderStatusBadge";
+import { getBlockExplorerUrl } from "@dexkit/core/utils";
 
 export interface OrdersTableProps {
   query: string;
@@ -41,29 +42,38 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
   const columns = useMemo(() => {
     return [
       {
-        flex: 1,
+        flex: 1.2,
+        minWidth: 150,
         field: "order",
         headerName: formatMessage({
           id: "order.id",
           defaultMessage: "Order ID",
         }),
         renderCell: ({ row }) => (
-          <Typography>{row.id.substring(10)}</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.id.substring(10)}</Typography>
+          </Box>
         ),
       },
       {
-        flex: 1,
+        flex: 1.5,
+        minWidth: 200,
         field: "createdAt",
         headerName: formatMessage({
           id: "created.On",
           defaultMessage: "Created On",
         }),
         renderCell: ({ row }) => {
-          return moment(row.createdAt).format("L LTS");
+          return (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+              <Typography>{moment(row.createdAt).format("L LTS")}</Typography>
+            </Box>
+          );
         },
       },
       {
-        flex: 1,
+        flex: 0.8,
+        minWidth: 120,
         field: "status",
         headerName: formatMessage({
           id: "status",
@@ -71,32 +81,49 @@ export default function OrdersTable({ query, status }: OrdersTableProps) {
         }),
         renderCell: ({ row }) => {
           return (
-            <OrderStatusBadge status={row.status} palette={theme.palette} />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+              <OrderStatusBadge status={row.status} palette={theme.palette} />
+            </Box>
           );
         },
       },
       {
-        flex: 1,
+        flex: 0.5,
+        minWidth: 80,
         field: "actions",
         headerName: formatMessage({
           id: "actions",
           defaultMessage: "Actions",
         }),
         renderCell: ({ row }) => {
+          const handleViewTransaction = (e: React.MouseEvent) => {
+            e.stopPropagation();
+            if (row.hash) {
+              const explorerUrl = `${getBlockExplorerUrl(row.chainId)}/tx/${row.hash}`;
+              window.open(explorerUrl, '_blank');
+            }
+          };
+
           return (
-            <Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <IconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
+                  onClick={handleViewTransaction}
+                  disabled={!row.hash}
                 >
                   <Tooltip
                     title={
-                      <FormattedMessage
-                        id="view.transaction.on.blockchain"
-                        defaultMessage="View transaction on blockchain"
-                      />
+                      row.hash ? (
+                        <FormattedMessage
+                          id="view.transaction.on.blockchain"
+                          defaultMessage="View transaction on blockchain"
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id="no.transaction.hash"
+                          defaultMessage="No transaction hash available"
+                        />
+                      )
                     }
                   >
                     <OpenInNew />
