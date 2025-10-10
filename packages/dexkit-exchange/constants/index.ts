@@ -1,4 +1,5 @@
 import { ChainId } from "@dexkit/core";
+import { SUPPORTED_UNISWAP_V2 } from "@dexkit/ui/modules/swap/constants";
 
 export enum OrderMarketType {
   'buy' = 'buy',
@@ -35,6 +36,7 @@ export const GECKOTERMINAL_NETWORK: { [key: number]: string } = {
   [ChainId.Scroll]: "scroll",
   [ChainId.Mantle]: "mantle",
   [ChainId.Mode]: "mode",
+  [ChainId.Cronos]: "cro",
 };
 
 export const GET_GECKOTERMINAL_NETWORK = (chainId?: ChainId) => {
@@ -61,3 +63,5 @@ export const ZEROX_SUPPORTED_NETWORKS = [
 ];
 
 export const DEFAULT_ZRX_NETWORKS = ZEROX_SUPPORTED_NETWORKS;
+
+export const EXCHANGE_SUPPORTED_NETWORKS = [...ZEROX_SUPPORTED_NETWORKS, ...SUPPORTED_UNISWAP_V2]

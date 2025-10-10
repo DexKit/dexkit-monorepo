@@ -32,7 +32,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { Field, Formik, getIn } from "formik";
 
@@ -51,7 +51,11 @@ import {
 import { Select as FormikSelect } from "formik-mui";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { DexkitExchangeSettings, ExchangeSettingsSchema, ExchangeVariant } from "../../types";
+import {
+  DexkitExchangeSettings,
+  ExchangeSettingsSchema,
+  ExchangeVariant,
+} from "../../types";
 import FormActions from "./ExchangeSettingsFormActions";
 
 import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
@@ -67,7 +71,7 @@ import {
 import Edit from "@mui/icons-material/Edit";
 import { useFormikContext } from "formik";
 import setWith from "lodash/setWith";
-import { ZEROX_SUPPORTED_NETWORKS } from "../../constants";
+import { EXCHANGE_SUPPORTED_NETWORKS } from "../../constants";
 import {
   BASE_TOKENS_SUGGESTION,
   DEFAULT_TOKENS,
@@ -84,7 +88,8 @@ function SaveOnChangeListener({
   onSave: (settings: DexkitExchangeSettings) => void;
   onValidate?: (isValid: boolean) => void;
 }) {
-  const { values, isValid, errors } = useFormikContext<DexkitExchangeSettings>();
+  const { values, isValid, errors } =
+    useFormikContext<DexkitExchangeSettings>();
 
   useEffect(() => {
     onSave(values);
@@ -94,7 +99,6 @@ function SaveOnChangeListener({
     if (onValidate) {
       onValidate(isValid);
     }
-
   }, [isValid, onValidate, errors, values]);
 
   return null;
@@ -119,12 +123,12 @@ function convertToHex(color: string): string {
   }
 
   if (/^#[0-9A-F]{3}$/i.test(color)) {
-    return color.replace(/^#([0-9A-F])([0-9A-F])([0-9A-F])$/i, '#$1$1$2$2$3$3');
+    return color.replace(/^#([0-9A-F])([0-9A-F])([0-9A-F])$/i, "#$1$1$2$2$3$3");
   }
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '#000000';
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return "#000000";
 
   ctx.fillStyle = color;
   const computedColor = ctx.fillStyle;
@@ -133,14 +137,14 @@ function convertToHex(color: string): string {
     return computedColor;
   }
 
-  return '#000000';
+  return "#000000";
 }
 
 function ColorPickerField({
   label,
   value,
   onChange,
-  defaultValue = "#ffffff"
+  defaultValue = "#ffffff",
 }: {
   label: string;
   value: string;
@@ -161,7 +165,7 @@ function ColorPickerField({
         sx={{
           fontWeight: theme.typography.fontWeightMedium,
           color: theme.palette.text.primary,
-          mb: theme.spacing(1)
+          mb: theme.spacing(1),
         }}
       >
         {label}
@@ -171,8 +175,8 @@ function ColorPickerField({
         spacing={theme.spacing(1.5)}
         alignItems="center"
         sx={{
-          flexWrap: 'nowrap',
-          width: '100%'
+          flexWrap: "nowrap",
+          width: "100%",
         }}
       >
         <Paper
@@ -184,13 +188,16 @@ function ColorPickerField({
             width: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
             height: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
             minWidth: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
             flexShrink: 0,
-            transition: theme.transitions.create(['box-shadow', 'border-color']),
-            '&:hover': {
+            transition: theme.transitions.create([
+              "box-shadow",
+              "border-color",
+            ]),
+            "&:hover": {
               boxShadow: theme.shadows[2],
               borderColor: theme.palette.primary.main,
             },
@@ -201,12 +208,12 @@ function ColorPickerField({
             value={hexValue}
             onChange={(e) => onChange(e.target.value)}
             style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
+              width: "100%",
+              height: "100%",
+              border: "none",
               borderRadius: theme.shape.borderRadius,
-              cursor: 'pointer',
-              backgroundColor: 'transparent',
+              cursor: "pointer",
+              backgroundColor: "transparent",
             }}
           />
         </Paper>
@@ -217,13 +224,13 @@ function ColorPickerField({
           size="small"
           sx={{
             flex: 1,
-            maxWidth: { xs: '200px', sm: '240px' },
-            '& .MuiInputBase-root': {
+            maxWidth: { xs: "200px", sm: "240px" },
+            "& .MuiInputBase-root": {
               fontSize: {
                 xs: theme.typography.body2.fontSize,
-                sm: theme.typography.body2.fontSize
+                sm: theme.typography.body2.fontSize,
               },
-              height: { xs: theme.spacing(4), sm: theme.spacing(4.5) }
+              height: { xs: theme.spacing(4), sm: theme.spacing(4.5) },
             },
           }}
           InputProps={{
@@ -233,7 +240,7 @@ function ColorPickerField({
                   variant="body2"
                   sx={{
                     color: theme.palette.text.secondary,
-                    fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
                   }}
                 >
                   #
@@ -285,14 +292,20 @@ function BackgroundImageSelector({
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Typography variant="body2" gutterBottom sx={{ fontWeight: theme.typography.fontWeightMedium }}>
+      <Typography
+        variant="body2"
+        gutterBottom
+        sx={{ fontWeight: theme.typography.fontWeightMedium }}
+      >
         <FormattedMessage
           id="glass.background.image"
           defaultMessage="Background Image"
         />
       </Typography>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}
+      >
         <ButtonBase
           onClick={() => setShowMediaDialog(true)}
           sx={{
@@ -300,13 +313,16 @@ function BackgroundImageSelector({
             height: { xs: theme.spacing(10), sm: theme.spacing(12) },
             border: `2px dashed ${theme.palette.divider}`,
             borderRadius: theme.shape.borderRadius,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             gap: 1,
-            transition: theme.transitions.create(['border-color', 'background-color']),
-            '&:hover': {
+            transition: theme.transitions.create([
+              "border-color",
+              "background-color",
+            ]),
+            "&:hover": {
               borderColor: theme.palette.primary.main,
               backgroundColor: theme.palette.action.hover,
             },
@@ -317,16 +333,25 @@ function BackgroundImageSelector({
               src={value}
               alt="Background"
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
                 borderRadius: theme.shape.borderRadius,
               }}
             />
           ) : (
             <>
-              <ImageIcon sx={{ fontSize: theme.spacing(4), color: theme.palette.text.secondary }} />
-              <Typography variant="caption" color="text.secondary" textAlign="center">
+              <ImageIcon
+                sx={{
+                  fontSize: theme.spacing(4),
+                  color: theme.palette.text.secondary,
+                }}
+              />
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                textAlign="center"
+              >
                 <FormattedMessage
                   id="glass.select.background.image"
                   defaultMessage="Select Background Image"
@@ -343,7 +368,7 @@ function BackgroundImageSelector({
             size="small"
             startIcon={<DeleteIcon />}
             onClick={handleRemoveImage}
-            sx={{ minWidth: 'auto' }}
+            sx={{ minWidth: "auto" }}
           >
             <FormattedMessage
               id="glass.remove.background.image"
@@ -354,7 +379,7 @@ function BackgroundImageSelector({
       </Box>
 
       {value && (
-        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small">
@@ -544,7 +569,7 @@ function BackgroundImageSelector({
       <MediaDialog
         dialogProps={{
           open: showMediaDialog,
-          maxWidth: 'lg',
+          maxWidth: "lg",
           fullWidth: true,
           onClose: () => setShowMediaDialog(false),
         }}
@@ -562,7 +587,7 @@ const getDefaultGlassSettings = (theme: any) => ({
   gradientDirection: "to bottom" as const,
   textColor: theme.palette.text.primary,
   blurIntensity: 40,
-  glassOpacity: 0.10,
+  glassOpacity: 0.1,
   disableBackground: false,
   buyTabColor: theme.palette.success.main,
   sellTabColor: theme.palette.error.main,
@@ -583,13 +608,11 @@ const getDefaultGlassSettings = (theme: any) => ({
 });
 
 const getCustomGlassSettings = (customTheme?: any) => {
-
   let palette = null;
 
   if (customTheme?.palette) {
     palette = customTheme.palette;
-  }
-  else if (customTheme?.colorSchemes) {
+  } else if (customTheme?.colorSchemes) {
     const lightPalette = customTheme.colorSchemes.light?.palette;
     const darkPalette = customTheme.colorSchemes.dark?.palette;
     palette = lightPalette || darkPalette;
@@ -604,7 +627,7 @@ const getCustomGlassSettings = (customTheme?: any) => {
       gradientDirection: "to bottom" as const,
       textColor: palette.text?.primary || "#0E1116",
       blurIntensity: 40,
-      glassOpacity: 0.10,
+      glassOpacity: 0.1,
       disableBackground: false,
       buyTabColor: palette.success?.main || palette.primary?.main || "#36AB47",
       sellTabColor: palette.error?.main || palette.secondary?.main || "#FF1053",
@@ -633,7 +656,7 @@ const getCustomGlassSettings = (customTheme?: any) => {
     gradientDirection: "to bottom" as const,
     textColor: "#0E1116",
     blurIntensity: 40,
-    glassOpacity: 0.10,
+    glassOpacity: 0.1,
     disableBackground: false,
     buyTabColor: "#36AB47",
     sellTabColor: "#FF1053",
@@ -664,9 +687,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   };
 
   const getCurrentThemeGlassSettings = () => {
-
     if (customTheme && customTheme.colorSchemes) {
-      const colorScheme = customTheme.colorSchemes.light || customTheme.colorSchemes.dark;
+      const colorScheme =
+        customTheme.colorSchemes.light || customTheme.colorSchemes.dark;
 
       if (colorScheme && colorScheme.palette) {
         const palette = colorScheme.palette;
@@ -679,7 +702,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
           gradientDirection: "to bottom" as const,
           textColor: palette.text?.primary || "#0E1116",
           blurIntensity: 40,
-          glassOpacity: 0.10,
+          glassOpacity: 0.1,
           disableBackground: false,
           buyTabColor: palette.success?.main || "#36AB47",
           sellTabColor: palette.error?.main || "#FF1053",
@@ -711,7 +734,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
       gradientDirection: "to bottom" as const,
       textColor: theme.palette.text.primary,
       blurIntensity: 40,
-      glassOpacity: 0.10,
+      glassOpacity: 0.1,
       disableBackground: false,
       buyTabColor: theme.palette.success.main,
       sellTabColor: theme.palette.error.main,
@@ -738,7 +761,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
     <Container
       maxWidth="md"
       sx={{
-        px: { xs: 1, sm: 2, md: 3 }
+        px: { xs: 1, sm: 2, md: 3 },
       }}
     >
       <Typography variant="h6" gutterBottom>
@@ -755,20 +778,20 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
           <MenuItem value="default">Default</MenuItem>
           <MenuItem value="custom">Custom</MenuItem>
           <MenuItem value="glass">
-            <FormattedMessage
-              id="glass.variant"
-              defaultMessage="Glass"
-            />
+            <FormattedMessage id="glass.variant" defaultMessage="Glass" />
           </MenuItem>
         </Select>
       </FormControl>
 
       {values.variant === "custom" && (
-        <Paper elevation={1} sx={{
-          mt: 2,
-          p: 2,
-          mr: { xs: 1, sm: 1.5, md: 2 }
-        }}>
+        <Paper
+          elevation={1}
+          sx={{
+            mt: 2,
+            p: 2,
+            mr: { xs: 1, sm: 1.5, md: 2 },
+          }}
+        >
           <Typography variant="h6" gutterBottom>
             Custom Variant Settings
           </Typography>
@@ -788,7 +811,12 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <InputLabel>Layout Type</InputLabel>
                 <Select
                   value={values.customVariantSettings?.layout || "grid"}
-                  onChange={(e) => setFieldValue("customVariantSettings.layout", e.target.value)}
+                  onChange={(e) =>
+                    setFieldValue(
+                      "customVariantSettings.layout",
+                      e.target.value
+                    )
+                  }
                   label="Layout Type"
                 >
                   <MenuItem value="grid">Grid</MenuItem>
@@ -802,7 +830,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.customVariantSettings?.spacing || 2}
-                onChange={(e, value) => setFieldValue("customVariantSettings.spacing", value)}
+                onChange={(e, value) =>
+                  setFieldValue("customVariantSettings.spacing", value)
+                }
                 min={0}
                 max={8}
                 step={1}
@@ -817,8 +847,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={values.customVariantSettings?.showPairInfo !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showPairInfo", e.target.checked)}
+                    checked={
+                      values.customVariantSettings?.showPairInfo !== false
+                    }
+                    onChange={(e) =>
+                      setFieldValue(
+                        "customVariantSettings.showPairInfo",
+                        e.target.checked
+                      )
+                    }
                   />
                 }
                 label="Show Pair Information"
@@ -827,8 +864,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={values.customVariantSettings?.showTradingGraph !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showTradingGraph", e.target.checked)}
+                    checked={
+                      values.customVariantSettings?.showTradingGraph !== false
+                    }
+                    onChange={(e) =>
+                      setFieldValue(
+                        "customVariantSettings.showTradingGraph",
+                        e.target.checked
+                      )
+                    }
                   />
                 }
                 label="Show Trading Graph"
@@ -838,8 +882,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={values.customVariantSettings?.showTradeWidget !== false}
-                    onChange={(e) => setFieldValue("customVariantSettings.showTradeWidget", e.target.checked)}
+                    checked={
+                      values.customVariantSettings?.showTradeWidget !== false
+                    }
+                    onChange={(e) =>
+                      setFieldValue(
+                        "customVariantSettings.showTradeWidget",
+                        e.target.checked
+                      )
+                    }
                   />
                 }
                 label="Show Trade Widget"
@@ -848,8 +899,19 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
 
               <Box sx={{ mt: 3 }}>
                 <DragDropComponentOrder
-                  value={values.customVariantSettings?.componentOrder || ['pairInfo', 'tradeWidget', 'tradingGraph']}
-                  onChange={(newOrder) => setFieldValue("customVariantSettings.componentOrder", newOrder)}
+                  value={
+                    values.customVariantSettings?.componentOrder || [
+                      "pairInfo",
+                      "tradeWidget",
+                      "tradingGraph",
+                    ]
+                  }
+                  onChange={(newOrder) =>
+                    setFieldValue(
+                      "customVariantSettings.componentOrder",
+                      newOrder
+                    )
+                  }
                 />
               </Box>
             </Box>
@@ -860,29 +922,55 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Background Color"
                 value={values.customVariantSettings?.backgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.backgroundColor", value)}
+                onChange={(value) =>
+                  setFieldValue("customVariantSettings.backgroundColor", value)
+                }
                 defaultValue={theme.palette.background.default}
               />
 
               <BackgroundImageSelector
                 value={values.customVariantSettings?.backgroundImage}
-                onChange={(url) => setFieldValue("customVariantSettings.backgroundImage", url)}
+                onChange={(url) =>
+                  setFieldValue("customVariantSettings.backgroundImage", url)
+                }
                 sizeValue={values.customVariantSettings?.backgroundSize}
-                onSizeChange={(size) => setFieldValue("customVariantSettings.backgroundSize", size)}
+                onSizeChange={(size) =>
+                  setFieldValue("customVariantSettings.backgroundSize", size)
+                }
                 positionValue={values.customVariantSettings?.backgroundPosition}
-                onPositionChange={(position) => setFieldValue("customVariantSettings.backgroundPosition", position)}
+                onPositionChange={(position) =>
+                  setFieldValue(
+                    "customVariantSettings.backgroundPosition",
+                    position
+                  )
+                }
                 repeatValue={values.customVariantSettings?.backgroundRepeat}
-                onRepeatChange={(repeat) => setFieldValue("customVariantSettings.backgroundRepeat", repeat)}
-                attachmentValue={values.customVariantSettings?.backgroundAttachment}
-                onAttachmentChange={(attachment) => setFieldValue("customVariantSettings.backgroundAttachment", attachment)}
+                onRepeatChange={(repeat) =>
+                  setFieldValue(
+                    "customVariantSettings.backgroundRepeat",
+                    repeat
+                  )
+                }
+                attachmentValue={
+                  values.customVariantSettings?.backgroundAttachment
+                }
+                onAttachmentChange={(attachment) =>
+                  setFieldValue(
+                    "customVariantSettings.backgroundAttachment",
+                    attachment
+                  )
+                }
               />
 
               <Typography gutterBottom sx={{ mt: 2 }}>
-                Border Radius: {values.customVariantSettings?.borderRadius || 0}px
+                Border Radius: {values.customVariantSettings?.borderRadius || 0}
+                px
               </Typography>
               <Slider
                 value={values.customVariantSettings?.borderRadius || 0}
-                onChange={(e, value) => setFieldValue("customVariantSettings.borderRadius", value)}
+                onChange={(e, value) =>
+                  setFieldValue("customVariantSettings.borderRadius", value)
+                }
                 min={0}
                 max={50}
                 step={1}
@@ -894,7 +982,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.customVariantSettings?.padding || 2}
-                onChange={(e, value) => setFieldValue("customVariantSettings.padding", value)}
+                onChange={(e, value) =>
+                  setFieldValue("customVariantSettings.padding", value)
+                }
                 min={0}
                 max={8}
                 step={1}
@@ -906,26 +996,45 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
 
           {tabValue === 3 && (
             <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Pair Info Colors</Typography>
+              <Typography variant="h6" gutterBottom>
+                Pair Info Colors
+              </Typography>
 
               <ColorPickerField
                 label="Background Color"
-                value={values.customVariantSettings?.pairInfoBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoBackgroundColor", value)}
+                value={
+                  values.customVariantSettings?.pairInfoBackgroundColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.pairInfoBackgroundColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.pairInfoTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoTextColor", value)}
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.pairInfoTextColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.pairInfoBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoBorderColor", value)}
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.pairInfoBorderColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.divider}
               />
             </Box>
@@ -933,40 +1042,75 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
 
           {tabValue === 4 && (
             <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Trade Widget Colors</Typography>
+              <Typography variant="h6" gutterBottom>
+                Trade Widget Colors
+              </Typography>
 
               <ColorPickerField
                 label="Background Color"
-                value={values.customVariantSettings?.tradeWidgetBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBackgroundColor", value)}
+                value={
+                  values.customVariantSettings?.tradeWidgetBackgroundColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradeWidgetBackgroundColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.tradeWidgetTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetTextColor", value)}
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradeWidgetTextColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
-                value={values.customVariantSettings?.tradeWidgetBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBorderColor", value)}
+                value={
+                  values.customVariantSettings?.tradeWidgetBorderColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradeWidgetBorderColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.divider}
               />
 
               <ColorPickerField
                 label="Button Color"
-                value={values.customVariantSettings?.tradeWidgetButtonColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonColor", value)}
+                value={
+                  values.customVariantSettings?.tradeWidgetButtonColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradeWidgetButtonColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.primary.main}
               />
 
               <ColorPickerField
                 label="Button Text Color"
-                value={values.customVariantSettings?.tradeWidgetButtonTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonTextColor", value)}
+                value={
+                  values.customVariantSettings?.tradeWidgetButtonTextColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradeWidgetButtonTextColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.primary.contrastText}
               />
             </Box>
@@ -974,19 +1118,36 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
 
           {tabValue === 5 && (
             <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Trading Graph Colors</Typography>
+              <Typography variant="h6" gutterBottom>
+                Trading Graph Colors
+              </Typography>
 
               <ColorPickerField
                 label="Background Color"
-                value={values.customVariantSettings?.tradingGraphBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBackgroundColor", value)}
+                value={
+                  values.customVariantSettings?.tradingGraphBackgroundColor ||
+                  ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradingGraphBackgroundColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Border Color"
-                value={values.customVariantSettings?.tradingGraphBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBorderColor", value)}
+                value={
+                  values.customVariantSettings?.tradingGraphBorderColor || ""
+                }
+                onChange={(value) =>
+                  setFieldValue(
+                    "customVariantSettings.tradingGraphBorderColor",
+                    value
+                  )
+                }
                 defaultValue={theme.palette.divider}
               />
             </Box>
@@ -997,10 +1158,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
       {values.variant === "glass" && (
         <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
           <Typography variant="h6" gutterBottom>
-            <FormattedMessage
-              id="glass.variant"
-              defaultMessage="Glass"
-            />
+            <FormattedMessage id="glass.variant" defaultMessage="Glass" />
           </Typography>
           <Typography variant="body2" color="text.secondary" gutterBottom>
             <FormattedMessage
@@ -1010,7 +1168,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
           </Typography>
 
           <Box sx={{ mt: 3 }}>
-            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'medium' }}>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{ fontWeight: "medium" }}
+            >
               <FormattedMessage
                 id="glass.background.type"
                 defaultMessage="Background Type"
@@ -1019,20 +1181,38 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             <RadioGroup
               value={values.glassSettings?.backgroundType || "solid"}
               onChange={(e) => {
-                const newType = e.target.value as 'solid' | 'gradient' | 'image';
+                const newType = e.target.value as
+                  | "solid"
+                  | "gradient"
+                  | "image";
                 setFieldValue("glassSettings.backgroundType", newType);
 
-                if (newType === 'solid' && !values.glassSettings?.backgroundColor) {
-                  setFieldValue("glassSettings.backgroundColor", theme.palette.background.default);
-                } else if (newType === 'gradient') {
+                if (
+                  newType === "solid" &&
+                  !values.glassSettings?.backgroundColor
+                ) {
+                  setFieldValue(
+                    "glassSettings.backgroundColor",
+                    theme.palette.background.default
+                  );
+                } else if (newType === "gradient") {
                   if (!values.glassSettings?.gradientStartColor) {
-                    setFieldValue("glassSettings.gradientStartColor", theme.palette.background.default);
+                    setFieldValue(
+                      "glassSettings.gradientStartColor",
+                      theme.palette.background.default
+                    );
                   }
                   if (!values.glassSettings?.gradientEndColor) {
-                    setFieldValue("glassSettings.gradientEndColor", theme.palette.background.paper);
+                    setFieldValue(
+                      "glassSettings.gradientEndColor",
+                      theme.palette.background.paper
+                    );
                   }
                   if (!values.glassSettings?.gradientDirection) {
-                    setFieldValue("glassSettings.gradientDirection", "to bottom");
+                    setFieldValue(
+                      "glassSettings.gradientDirection",
+                      "to bottom"
+                    );
                   }
                 }
               }}
@@ -1074,25 +1254,42 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <Box sx={{ mt: 2 }}>
                 <ColorPickerField
                   label="Background Color"
-                  value={values.glassSettings?.backgroundColor || theme.palette.background.default}
-                  onChange={(value) => setFieldValue("glassSettings.backgroundColor", value)}
+                  value={
+                    values.glassSettings?.backgroundColor ||
+                    theme.palette.background.default
+                  }
+                  onChange={(value) =>
+                    setFieldValue("glassSettings.backgroundColor", value)
+                  }
                   defaultValue={theme.palette.background.default}
                 />
               </Box>
             )}
 
             {values.glassSettings?.backgroundType === "gradient" && (
-              <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Box
+                sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}
+              >
                 <ColorPickerField
                   label="Gradient Start Color"
-                  value={values.glassSettings?.gradientStartColor || theme.palette.background.default}
-                  onChange={(value) => setFieldValue("glassSettings.gradientStartColor", value)}
+                  value={
+                    values.glassSettings?.gradientStartColor ||
+                    theme.palette.background.default
+                  }
+                  onChange={(value) =>
+                    setFieldValue("glassSettings.gradientStartColor", value)
+                  }
                   defaultValue={theme.palette.background.default}
                 />
                 <ColorPickerField
                   label="Gradient End Color"
-                  value={values.glassSettings?.gradientEndColor || theme.palette.background.paper}
-                  onChange={(value) => setFieldValue("glassSettings.gradientEndColor", value)}
+                  value={
+                    values.glassSettings?.gradientEndColor ||
+                    theme.palette.background.paper
+                  }
+                  onChange={(value) =>
+                    setFieldValue("glassSettings.gradientEndColor", value)
+                  }
                   defaultValue={theme.palette.background.paper}
                 />
                 <FormControl fullWidth>
@@ -1103,8 +1300,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     />
                   </InputLabel>
                   <Select
-                    value={values.glassSettings?.gradientDirection || "to bottom"}
-                    onChange={(e) => setFieldValue("glassSettings.gradientDirection", e.target.value)}
+                    value={
+                      values.glassSettings?.gradientDirection || "to bottom"
+                    }
+                    onChange={(e) =>
+                      setFieldValue(
+                        "glassSettings.gradientDirection",
+                        e.target.value
+                      )
+                    }
                     label="Gradient Direction"
                   >
                     <MenuItem value="to bottom">
@@ -1151,23 +1355,40 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             {values.glassSettings?.backgroundType === "image" && (
               <BackgroundImageSelector
                 value={values.glassSettings?.backgroundImage}
-                onChange={(url) => setFieldValue("glassSettings.backgroundImage", url)}
+                onChange={(url) =>
+                  setFieldValue("glassSettings.backgroundImage", url)
+                }
                 sizeValue={values.glassSettings?.backgroundSize}
-                onSizeChange={(size) => setFieldValue("glassSettings.backgroundSize", size)}
+                onSizeChange={(size) =>
+                  setFieldValue("glassSettings.backgroundSize", size)
+                }
                 positionValue={values.glassSettings?.backgroundPosition}
-                onPositionChange={(position) => setFieldValue("glassSettings.backgroundPosition", position)}
+                onPositionChange={(position) =>
+                  setFieldValue("glassSettings.backgroundPosition", position)
+                }
                 repeatValue={values.glassSettings?.backgroundRepeat}
-                onRepeatChange={(repeat) => setFieldValue("glassSettings.backgroundRepeat", repeat)}
+                onRepeatChange={(repeat) =>
+                  setFieldValue("glassSettings.backgroundRepeat", repeat)
+                }
                 attachmentValue={values.glassSettings?.backgroundAttachment}
-                onAttachmentChange={(attachment) => setFieldValue("glassSettings.backgroundAttachment", attachment)}
+                onAttachmentChange={(attachment) =>
+                  setFieldValue(
+                    "glassSettings.backgroundAttachment",
+                    attachment
+                  )
+                }
               />
             )}
 
             <Box sx={{ mt: 3 }}>
               <ColorPickerField
                 label="Text Color"
-                value={values.glassSettings?.textColor || theme.palette.text.primary}
-                onChange={(value) => setFieldValue("glassSettings.textColor", value)}
+                value={
+                  values.glassSettings?.textColor || theme.palette.text.primary
+                }
+                onChange={(value) =>
+                  setFieldValue("glassSettings.textColor", value)
+                }
                 defaultValue={theme.palette.text.primary}
               />
             </Box>
@@ -1182,7 +1403,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.glassSettings?.blurIntensity || 80}
-                onChange={(e, value) => setFieldValue("glassSettings.blurIntensity", value)}
+                onChange={(e, value) =>
+                  setFieldValue("glassSettings.blurIntensity", value)
+                }
                 min={20}
                 max={120}
                 step={10}
@@ -1197,13 +1420,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   id="glass.opacity"
                   defaultMessage="Glass Opacity"
                 />
-                : {((values.glassSettings?.glassOpacity || 0.10) * 100).toFixed(0)}%
+                :{" "}
+                {((values.glassSettings?.glassOpacity || 0.1) * 100).toFixed(0)}
+                %
               </Typography>
               <Slider
-                value={values.glassSettings?.glassOpacity || 0.10}
-                onChange={(e, value) => setFieldValue("glassSettings.glassOpacity", value)}
+                value={values.glassSettings?.glassOpacity || 0.1}
+                onChange={(e, value) =>
+                  setFieldValue("glassSettings.glassOpacity", value)
+                }
                 min={0.02}
-                max={0.30}
+                max={0.3}
                 step={0.02}
                 valueLabelDisplay="auto"
                 valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
@@ -1215,7 +1442,12 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 control={
                   <Switch
                     checked={values.glassSettings?.disableBackground || false}
-                    onChange={(e) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
+                    onChange={(e) =>
+                      setFieldValue(
+                        "glassSettings.disableBackground",
+                        e.target.checked
+                      )
+                    }
                   />
                 }
                 label={
@@ -1255,32 +1487,52 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Buy Tab Color"
-                    value={values.glassSettings?.buyTabColor || theme.palette.success.main}
-                    onChange={(value) => setFieldValue("glassSettings.buyTabColor", value)}
+                    value={
+                      values.glassSettings?.buyTabColor ||
+                      theme.palette.success.main
+                    }
+                    onChange={(value) =>
+                      setFieldValue("glassSettings.buyTabColor", value)
+                    }
                     defaultValue={theme.palette.success.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Sell Tab Color"
-                    value={values.glassSettings?.sellTabColor || theme.palette.error.main}
-                    onChange={(value) => setFieldValue("glassSettings.sellTabColor", value)}
+                    value={
+                      values.glassSettings?.sellTabColor ||
+                      theme.palette.error.main
+                    }
+                    onChange={(value) =>
+                      setFieldValue("glassSettings.sellTabColor", value)
+                    }
                     defaultValue={theme.palette.error.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Buy Tab Text Color"
-                    value={values.glassSettings?.buyTabTextColor || theme.palette.success.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.buyTabTextColor", value)}
+                    value={
+                      values.glassSettings?.buyTabTextColor ||
+                      theme.palette.success.contrastText
+                    }
+                    onChange={(value) =>
+                      setFieldValue("glassSettings.buyTabTextColor", value)
+                    }
                     defaultValue={theme.palette.success.contrastText}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Sell Tab Text Color"
-                    value={values.glassSettings?.sellTabTextColor || theme.palette.error.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.sellTabTextColor", value)}
+                    value={
+                      values.glassSettings?.sellTabTextColor ||
+                      theme.palette.error.contrastText
+                    }
+                    onChange={(value) =>
+                      setFieldValue("glassSettings.sellTabTextColor", value)
+                    }
                     defaultValue={theme.palette.error.contrastText}
                   />
                 </Grid>
@@ -1303,7 +1555,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     }
                     value={values.glassSettings?.buyText || ""}
-                    onChange={(e) => setFieldValue("glassSettings.buyText", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("glassSettings.buyText", e.target.value)
+                    }
                     placeholder="BUY"
                     size="small"
                   />
@@ -1318,7 +1572,9 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     }
                     value={values.glassSettings?.sellText || ""}
-                    onChange={(e) => setFieldValue("glassSettings.sellText", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("glassSettings.sellText", e.target.value)
+                    }
                     placeholder="SELL"
                     size="small"
                   />
@@ -1344,16 +1600,29 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Background Color"
-                    value={values.glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonBackgroundColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonBackgroundColor ||
+                      theme.palette.primary.main
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "glassSettings.fillButtonBackgroundColor",
+                        value
+                      )
+                    }
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Text Color"
-                    value={values.glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonTextColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonTextColor ||
+                      theme.palette.primary.contrastText
+                    }
+                    onChange={(value) =>
+                      setFieldValue("glassSettings.fillButtonTextColor", value)
+                    }
                     defaultValue={theme.palette.primary.contrastText}
                   />
                 </Grid>
@@ -1369,41 +1638,71 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Hover Background"
-                    value={values.glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonHoverBackgroundColor ||
+                      theme.palette.primary.dark
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "glassSettings.fillButtonHoverBackgroundColor",
+                        value
+                      )
+                    }
                     defaultValue={theme.palette.primary.dark}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Hover Text"
-                    value={values.glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverTextColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonHoverTextColor ||
+                      theme.palette.primary.contrastText
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "glassSettings.fillButtonHoverTextColor",
+                        value
+                      )
+                    }
                     defaultValue={theme.palette.primary.contrastText}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Disabled Background"
-                    value={values.glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonDisabledBackgroundColor ||
+                      theme.palette.action.disabled
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "glassSettings.fillButtonDisabledBackgroundColor",
+                        value
+                      )
+                    }
                     defaultValue={theme.palette.action.disabled}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <ColorPickerField
                     label="Disabled Text"
-                    value={values.glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
+                    value={
+                      values.glassSettings?.fillButtonDisabledTextColor ||
+                      theme.palette.action.disabledBackground
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "glassSettings.fillButtonDisabledTextColor",
+                        value
+                      )
+                    }
                     defaultValue={theme.palette.action.disabledBackground}
                   />
                 </Grid>
               </Grid>
-
-
             </Box>
 
-            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
               <Button
                 variant="outlined"
                 startIcon={<RefreshIcon />}
@@ -1412,17 +1711,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   setFieldValue("glassSettings", newSettings);
                 }}
                 sx={{
-                  borderColor: '#ff6b35',
-                  color: '#ff6b35',
-                  backgroundColor: 'transparent',
-                  borderRadius: '8px',
-                  textTransform: 'none',
+                  borderColor: "#ff6b35",
+                  color: "#ff6b35",
+                  backgroundColor: "transparent",
+                  borderRadius: "8px",
+                  textTransform: "none",
                   fontWeight: 500,
                   px: 3,
                   py: 1,
-                  '&:hover': {
-                    borderColor: '#ff6b35',
-                    backgroundColor: 'rgba(255, 107, 53, 0.04)',
+                  "&:hover": {
+                    borderColor: "#ff6b35",
+                    backgroundColor: "rgba(255, 107, 53, 0.04)",
                   },
                 }}
               >
@@ -1453,10 +1752,13 @@ interface DragDropComponentOrderProps {
   onChange: (newOrder: string[]) => void;
 }
 
-function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps) {
+function DragDropComponentOrder({
+  value,
+  onChange,
+}: DragDropComponentOrderProps) {
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
   const handleDragStart = (e: React.DragEvent, index: number) => {
@@ -1499,7 +1801,7 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
         gutterBottom
         sx={{
           fontWeight: theme.typography.fontWeightMedium,
-          color: theme.palette.text.primary
+          color: theme.palette.text.primary,
         }}
       >
         Component Order (Drag to reorder)
@@ -1509,15 +1811,18 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
         color="text.secondary"
         sx={{ mb: theme.spacing(2) }}
       >
-        Drag and drop to change the order. Pair Info appears as horizontal strip, widgets as boxes.
+        Drag and drop to change the order. Pair Info appears as horizontal
+        strip, widgets as boxes.
       </Typography>
 
       <Paper elevation={1} sx={{ borderRadius: theme.shape.borderRadius }}>
         <List sx={{ p: 0 }}>
           {value.map((componentType, index) => {
-            const IconComponent = COMPONENT_ICONS[componentType as keyof typeof COMPONENT_ICONS];
-            const label = COMPONENT_LABELS[componentType as keyof typeof COMPONENT_LABELS];
-            const isPairInfo = componentType === 'pairInfo';
+            const IconComponent =
+              COMPONENT_ICONS[componentType as keyof typeof COMPONENT_ICONS];
+            const label =
+              COMPONENT_LABELS[componentType as keyof typeof COMPONENT_LABELS];
+            const isPairInfo = componentType === "pairInfo";
 
             return (
               <ListItem
@@ -1529,29 +1834,33 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                 onDragEnd={handleDragEnd}
                 sx={{
                   border: `${theme.spacing(0.125)} solid`,
-                  borderColor: draggedIndex === index ? 'primary.main' : 'divider',
+                  borderColor:
+                    draggedIndex === index ? "primary.main" : "divider",
                   borderRadius: theme.shape.borderRadius,
                   mb: theme.spacing(1),
-                  bgcolor: draggedIndex === index ? 'action.selected' : 'background.paper',
-                  cursor: 'grab',
-                  '&:active': {
-                    cursor: 'grabbing',
+                  bgcolor:
+                    draggedIndex === index
+                      ? "action.selected"
+                      : "background.paper",
+                  cursor: "grab",
+                  "&:active": {
+                    cursor: "grabbing",
                   },
-                  '&:hover': {
-                    bgcolor: 'action.hover',
-                    borderColor: 'primary.light',
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                    borderColor: "primary.light",
                   },
-                  transition: theme.transitions.create(['all'], {
+                  transition: theme.transitions.create(["all"], {
                     duration: theme.transitions.duration.short,
                   }),
                   height: {
                     xs: isPairInfo ? theme.spacing(7) : theme.spacing(9),
-                    sm: isPairInfo ? theme.spacing(8) : theme.spacing(10)
+                    sm: isPairInfo ? theme.spacing(8) : theme.spacing(10),
                   },
-                  display: 'flex',
-                  alignItems: 'center',
-                  position: 'relative',
-                  overflow: 'hidden',
+                  display: "flex",
+                  alignItems: "center",
+                  position: "relative",
+                  overflow: "hidden",
                   px: { xs: theme.spacing(1), sm: theme.spacing(2) },
                 }}
               >
@@ -1562,26 +1871,34 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                   />
                 </ListItemIcon>
 
-                <Box sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: { xs: theme.spacing(1), sm: theme.spacing(2) },
-                  flex: 1
-                }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: { xs: theme.spacing(1), sm: theme.spacing(2) },
+                    flex: 1,
+                  }}
+                >
                   <Paper
                     elevation={2}
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       width: { xs: theme.spacing(4), sm: theme.spacing(5) },
                       height: { xs: theme.spacing(4), sm: theme.spacing(5) },
-                      borderRadius: isPairInfo ? theme.shape.borderRadius : theme.spacing(1),
-                      bgcolor: 'primary.light',
-                      color: 'primary.contrastText'
+                      borderRadius: isPairInfo
+                        ? theme.shape.borderRadius
+                        : theme.spacing(1),
+                      bgcolor: "primary.light",
+                      color: "primary.contrastText",
                     }}
                   >
-                    {IconComponent && <IconComponent fontSize={isSmallScreen ? "small" : "medium"} />}
+                    {IconComponent && (
+                      <IconComponent
+                        fontSize={isSmallScreen ? "small" : "medium"}
+                      />
+                    )}
                   </Paper>
 
                   <Box sx={{ flex: 1 }}>
@@ -1589,7 +1906,7 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                       variant={isSmallScreen ? "body2" : "subtitle2"}
                       sx={{
                         fontWeight: theme.typography.fontWeightMedium,
-                        color: theme.palette.text.primary
+                        color: theme.palette.text.primary,
                       }}
                     >
                       {label}
@@ -1597,9 +1914,15 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                     <Typography
                       variant="caption"
                       color="text.secondary"
-                      sx={{ fontSize: { xs: theme.typography.overline.fontSize, sm: theme.typography.caption.fontSize } }}
+                      sx={{
+                        fontSize: {
+                          xs: theme.typography.overline.fontSize,
+                          sm: theme.typography.caption.fontSize,
+                        },
+                      }}
                     >
-                      Position {index + 1} • {isPairInfo ? 'Horizontal Strip' : 'Box Component'}
+                      Position {index + 1} •{" "}
+                      {isPairInfo ? "Horizontal Strip" : "Box Component"}
                     </Typography>
                   </Box>
 
@@ -1610,29 +1933,48 @@ function DragDropComponentOrder({ value, onChange }: DragDropComponentOrderProps
                       height: { xs: theme.spacing(4), sm: theme.spacing(5) },
                       borderRadius: theme.shape.borderRadius,
                       bgcolor: theme.palette.grey[50],
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      position: 'relative'
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
                     }}
                   >
                     {isPairInfo ? (
-                      <Box sx={{
-                        width: '90%',
-                        height: { xs: theme.spacing(1), sm: theme.spacing(1.5) },
-                        bgcolor: 'primary.main',
-                        borderRadius: theme.spacing(0.25)
-                      }} />
+                      <Box
+                        sx={{
+                          width: "90%",
+                          height: {
+                            xs: theme.spacing(1),
+                            sm: theme.spacing(1.5),
+                          },
+                          bgcolor: "primary.main",
+                          borderRadius: theme.spacing(0.25),
+                        }}
+                      />
                     ) : (
-                      <Box sx={{
-                        width: {
-                          xs: componentType === 'tradeWidget' ? theme.spacing(3.5) : theme.spacing(4.5),
-                          sm: componentType === 'tradeWidget' ? theme.spacing(4.5) : theme.spacing(5.5)
-                        },
-                        height: { xs: theme.spacing(2.5), sm: theme.spacing(3) },
-                        bgcolor: componentType === 'tradeWidget' ? 'secondary.main' : 'info.main',
-                        borderRadius: theme.spacing(0.5)
-                      }} />
+                      <Box
+                        sx={{
+                          width: {
+                            xs:
+                              componentType === "tradeWidget"
+                                ? theme.spacing(3.5)
+                                : theme.spacing(4.5),
+                            sm:
+                              componentType === "tradeWidget"
+                                ? theme.spacing(4.5)
+                                : theme.spacing(5.5),
+                          },
+                          height: {
+                            xs: theme.spacing(2.5),
+                            sm: theme.spacing(3),
+                          },
+                          bgcolor:
+                            componentType === "tradeWidget"
+                              ? "secondary.main"
+                              : "info.main",
+                          borderRadius: theme.spacing(0.5),
+                        }}
+                      />
                     )}
                   </Paper>
                 </Box>
@@ -1663,7 +2005,7 @@ export default function ExchangeSettingsForm({
 
   const isMobile = useIsMobile();
   const theme = useTheme();
-  const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallDevice = useMediaQuery(theme.breakpoints.down("sm"));
   const { formatMessage } = useIntl();
 
   const handleValidate = async (values: DexkitExchangeSettings) => {
@@ -1745,11 +2087,14 @@ export default function ExchangeSettingsForm({
       ...BASE_TOKENS_SUGGESTION,
     ];
 
-    const uniqueTokens = allAvailableTokens.filter((token, index, self) =>
-      index === self.findIndex(t =>
-        t.chainId === token.chainId &&
-        isAddressEqual(t.address, token.address)
-      )
+    const uniqueTokens = allAvailableTokens.filter(
+      (token, index, self) =>
+        index ===
+        self.findIndex(
+          (t) =>
+            t.chainId === token.chainId &&
+            isAddressEqual(t.address, token.address)
+        )
     );
 
     const resQuote = EXTENDED_QUOTE_TOKENS_SUGGESTION.map((t) => {
@@ -1780,7 +2125,7 @@ export default function ExchangeSettingsForm({
     for (let chain of Object.keys(NETWORKS)) {
       let chainId = parseChainId(chain);
 
-      if (!ZEROX_SUPPORTED_NETWORKS.includes(chainId)) {
+      if (!EXCHANGE_SUPPORTED_NETWORKS.includes(chainId)) {
         continue;
       }
 
@@ -1801,14 +2146,16 @@ export default function ExchangeSettingsForm({
       } else {
         resQuote[chainId] = { baseTokens: [], quoteTokens: [] };
         let chainTokens = uniqueTokens.filter((t) => t.chainId === chainId);
-        resQuote[chainId].baseTokens = chainTokens.filter(t =>
-          BASE_TOKENS_SUGGESTION.some(bt =>
-            bt.chainId === t.chainId && isAddressEqual(bt.address, t.address)
+        resQuote[chainId].baseTokens = chainTokens.filter((t) =>
+          BASE_TOKENS_SUGGESTION.some(
+            (bt) =>
+              bt.chainId === t.chainId && isAddressEqual(bt.address, t.address)
           )
         );
-        resQuote[chainId].quoteTokens = chainTokens.filter(t =>
-          EXTENDED_QUOTE_TOKENS_SUGGESTION.some(qt =>
-            qt.chainId === t.chainId && isAddressEqual(qt.address, t.address)
+        resQuote[chainId].quoteTokens = chainTokens.filter((t) =>
+          EXTENDED_QUOTE_TOKENS_SUGGESTION.some(
+            (qt) =>
+              qt.chainId === t.chainId && isAddressEqual(qt.address, t.address)
           )
         );
       }
@@ -1819,7 +2166,7 @@ export default function ExchangeSettingsForm({
 
   const networks = useMemo(() => {
     return Object.keys(NETWORKS)
-      .filter((k) => ZEROX_SUPPORTED_NETWORKS.includes(Number(k)))
+      .filter((k) => EXCHANGE_SUPPORTED_NETWORKS.includes(Number(k)))
       .filter((key) => {
         let chain = parseChainId(key);
         return NETWORKS[chain].testnet !== true;
@@ -1828,11 +2175,14 @@ export default function ExchangeSettingsForm({
   }, []);
 
   const defaultNetwork = useMemo(() => {
-    if (settings?.defaultNetwork && networks.some(n => n.chainId === settings.defaultNetwork)) {
+    if (
+      settings?.defaultNetwork &&
+      networks.some((n) => n.chainId === settings.defaultNetwork)
+    ) {
       return settings.defaultNetwork;
     }
 
-    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.some((n) => n.chainId === ChainId.Ethereum)) {
       return ChainId.Ethereum;
     }
 
@@ -1840,15 +2190,15 @@ export default function ExchangeSettingsForm({
   }, [networks, settings?.defaultNetwork]);
 
   const [chainId, setChainId] = useState<ChainId>(() => {
-    if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.some((n) => n.chainId === ChainId.Ethereum)) {
       return ChainId.Ethereum;
     }
     return networks.length > 0 ? networks[0].chainId : ChainId.Ethereum;
   });
 
   useEffect(() => {
-    if (networks.length > 0 && !networks.some(n => n.chainId === chainId)) {
-      if (networks.some(n => n.chainId === ChainId.Ethereum)) {
+    if (networks.length > 0 && !networks.some((n) => n.chainId === chainId)) {
+      if (networks.some((n) => n.chainId === ChainId.Ethereum)) {
         setChainId(ChainId.Ethereum);
       } else {
         setChainId(networks[0].chainId);
@@ -1863,7 +2213,7 @@ export default function ExchangeSettingsForm({
   }, [networks]);
 
   useEffect(() => {
-    const availableChainIds = availableNetworksForForm.map(n => n.chainId);
+    const availableChainIds = availableNetworksForForm.map((n) => n.chainId);
     if (availableChainIds.length > 0 && !availableChainIds.includes(chainId)) {
       if (availableChainIds.includes(ChainId.Ethereum)) {
         setChainId(ChainId.Ethereum);
@@ -1888,15 +2238,17 @@ export default function ExchangeSettingsForm({
       maxWidth="lg"
       sx={{
         py: 2,
-        px: { xs: 2, sm: 3, md: 4 }
+        px: { xs: 2, sm: 3, md: 4 },
       }}
     >
-      <Box sx={{
-        overflowY: 'auto',
-        maxHeight: `calc(100vh - ${theme.spacing(25)})`
-      }}>
+      <Box
+        sx={{
+          overflowY: "auto",
+          maxHeight: `calc(100vh - ${theme.spacing(25)})`,
+        }}
+      >
         {networks.length === 0 ? (
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
+          <Paper sx={{ p: 3, textAlign: "center" }}>
             <Typography variant="h6" gutterBottom>
               <FormattedMessage
                 id="no.compatible.networks.available"
@@ -1915,47 +2267,52 @@ export default function ExchangeSettingsForm({
             initialValues={
               settings
                 ? {
-                  ...settings,
-                  defaultNetwork: defaultNetwork,
-                  availNetworks: settings.availNetworks.filter(network =>
-                    ZEROX_SUPPORTED_NETWORKS.includes(network)
-                  ),
-                  glassSettings: settings.glassSettings || getDefaultGlassSettings(theme),
-                }
+                    ...settings,
+                    defaultNetwork: defaultNetwork,
+                    availNetworks: settings.availNetworks.filter((network) =>
+                      EXCHANGE_SUPPORTED_NETWORKS.includes(network)
+                    ),
+                    glassSettings:
+                      settings.glassSettings || getDefaultGlassSettings(theme),
+                  }
                 : {
-                  defaultNetwork: defaultNetwork,
-                  defaultPairs: DEFAULT_TOKENS,
-                  quoteTokens: [],
-                  defaultTokens: getInitialTokens(),
-                  affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
-                  defaultSlippage: {},
-                  zrxApiKey: "",
-                  buyTokenPercentageFee: 0.0,
-                  availNetworks: networks.map((n) => n.chainId),
-                  variant: "default" as ExchangeVariant,
-                  glassSettings: getDefaultGlassSettings(theme),
-                  customVariantSettings: {
-                    showPairInfo: true,
-                    showTradingGraph: true,
-                    showTradeWidget: true,
-                    layout: "grid",
-                    spacing: 2,
-                    backgroundColor: "",
-                    borderRadius: 0,
-                    padding: 2,
-                    componentOrder: ['pairInfo', 'tradeWidget', 'tradingGraph'],
-                    pairInfoBackgroundColor: "",
-                    pairInfoTextColor: "",
-                    pairInfoBorderColor: "",
-                    tradeWidgetBackgroundColor: "",
-                    tradeWidgetTextColor: "",
-                    tradeWidgetBorderColor: "",
-                    tradeWidgetButtonColor: "",
-                    tradeWidgetButtonTextColor: "",
-                    tradingGraphBackgroundColor: "",
-                    tradingGraphBorderColor: "",
-                  },
-                }
+                    defaultNetwork: defaultNetwork,
+                    defaultPairs: DEFAULT_TOKENS,
+                    quoteTokens: [],
+                    defaultTokens: getInitialTokens(),
+                    affiliateAddress: ZEROEX_AFFILIATE_ADDRESS,
+                    defaultSlippage: {},
+                    zrxApiKey: "",
+                    buyTokenPercentageFee: 0.0,
+                    availNetworks: networks.map((n) => n.chainId),
+                    variant: "default" as ExchangeVariant,
+                    glassSettings: getDefaultGlassSettings(theme),
+                    customVariantSettings: {
+                      showPairInfo: true,
+                      showTradingGraph: true,
+                      showTradeWidget: true,
+                      layout: "grid",
+                      spacing: 2,
+                      backgroundColor: "",
+                      borderRadius: 0,
+                      padding: 2,
+                      componentOrder: [
+                        "pairInfo",
+                        "tradeWidget",
+                        "tradingGraph",
+                      ],
+                      pairInfoBackgroundColor: "",
+                      pairInfoTextColor: "",
+                      pairInfoBorderColor: "",
+                      tradeWidgetBackgroundColor: "",
+                      tradeWidgetTextColor: "",
+                      tradeWidgetBorderColor: "",
+                      tradeWidgetButtonColor: "",
+                      tradeWidgetButtonTextColor: "",
+                      tradingGraphBackgroundColor: "",
+                      tradingGraphBorderColor: "",
+                    },
+                  }
             }
             onSubmit={handleSubmit}
             validationSchema={ExchangeSettingsSchema}
@@ -1974,7 +2331,10 @@ export default function ExchangeSettingsForm({
                   activeChainIds={activeChainIds}
                 />
                 {saveOnChange && onChange && (
-                  <SaveOnChangeListener onSave={onChange} onValidate={onValidate} />
+                  <SaveOnChangeListener
+                    onSave={onChange}
+                    onValidate={onValidate}
+                  />
                 )}
                 <Grid container spacing={isMobile ? 1.5 : 2}>
                   {/* <Grid item xs={12}>
@@ -1992,10 +2352,12 @@ export default function ExchangeSettingsForm({
               </Grid> */}
 
                   <Grid item xs={12}>
-                    <Paper sx={{
-                      p: isMobile ? 1.5 : 2,
-                      mr: { xs: 1, sm: 1.5, md: 2 }
-                    }}>
+                    <Paper
+                      sx={{
+                        p: isMobile ? 1.5 : 2,
+                        mr: { xs: 1, sm: 1.5, md: 2 },
+                      }}
+                    >
                       <Stack spacing={isMobile ? 1.5 : 2}>
                         <Field
                           component={FormikSelect}
@@ -2017,10 +2379,17 @@ export default function ExchangeSettingsForm({
                                 spacing={1}
                               >
                                 <Avatar
-                                  src={ipfsUriToUrl(NETWORKS[value].imageUrl || "")}
-                                  style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
+                                  src={ipfsUriToUrl(
+                                    NETWORKS[value].imageUrl || ""
+                                  )}
+                                  style={{
+                                    width: "auto",
+                                    height: isMobile ? "0.85rem" : "1rem",
+                                  }}
                                 />
-                                <Typography variant={isMobile ? "body2" : "body1"}>
+                                <Typography
+                                  variant={isMobile ? "body2" : "body1"}
+                                >
                                   {NETWORKS[value].name}
                                 </Typography>
                               </Stack>
@@ -2034,13 +2403,16 @@ export default function ExchangeSettingsForm({
                                   src={ipfsUriToUrl(
                                     NETWORKS[n.chainId].imageUrl || ""
                                   )}
-                                  style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
+                                  style={{
+                                    width: isMobile ? "0.85rem" : "1rem",
+                                    height: isMobile ? "0.85rem" : "1rem",
+                                  }}
                                 />
                               </ListItemIcon>
                               <ListItemText
                                 primary={n.name}
                                 primaryTypographyProps={{
-                                  variant: isMobile ? "body2" : "body1"
+                                  variant: isMobile ? "body2" : "body1",
                                 }}
                               />
                             </MenuItem>
@@ -2051,7 +2423,9 @@ export default function ExchangeSettingsForm({
                           alignItems="center"
                           direction="row"
                         >
-                          <Typography variant={isMobile ? "caption" : "subtitle2"}>
+                          <Typography
+                            variant={isMobile ? "caption" : "subtitle2"}
+                          >
                             <FormattedMessage
                               id="choose.the.networks.that.your.exchange.will.be.enabled"
                               defaultMessage="Choose the networks that your exchange will be enabled"
@@ -2070,7 +2444,9 @@ export default function ExchangeSettingsForm({
                                 onClick={handleShowSelectNetworks}
                                 size="small"
                               >
-                                <Edit fontSize={isMobile ? "small" : "medium"} />
+                                <Edit
+                                  fontSize={isMobile ? "small" : "medium"}
+                                />
                               </IconButton>
                             </Tooltip>
                           )}
@@ -2101,7 +2477,10 @@ export default function ExchangeSettingsForm({
                             ) : (
                               <Grid item xs={12}>
                                 <Box>
-                                  <Stack spacing={isMobile ? 1 : 2} alignItems="center">
+                                  <Stack
+                                    spacing={isMobile ? 1 : 2}
+                                    alignItems="center"
+                                  >
                                     <Typography
                                       variant={isMobile ? "caption" : "body2"}
                                       color="text.secondary"
@@ -2131,13 +2510,18 @@ export default function ExchangeSettingsForm({
                     </Paper>
                   </Grid>
                   <Grid item xs={12}>
-                    <Paper sx={{
-                      p: isMobile ? 1.5 : 2,
-                      mr: { xs: 1, sm: 1.5, md: 2 }
-                    }}>
+                    <Paper
+                      sx={{
+                        p: isMobile ? 1.5 : 2,
+                        mr: { xs: 1, sm: 1.5, md: 2 },
+                      }}
+                    >
                       <Grid container spacing={isMobile ? 1.5 : 2}>
                         <Grid item xs={12}>
-                          <FormControl fullWidth size={isMobile ? "small" : "medium"}>
+                          <FormControl
+                            fullWidth
+                            size={isMobile ? "small" : "medium"}
+                          >
                             <InputLabel>
                               <FormattedMessage
                                 id="network"
@@ -2145,7 +2529,10 @@ export default function ExchangeSettingsForm({
                               />
                             </InputLabel>
                             <Select
-                              disabled={values.availNetworks.length === 0 || networks.length === 0}
+                              disabled={
+                                values.availNetworks.length === 0 ||
+                                networks.length === 0
+                              }
                               label={
                                 <FormattedMessage
                                   id="network"
@@ -2153,15 +2540,26 @@ export default function ExchangeSettingsForm({
                                 />
                               }
                               fullWidth
-                              value={networks.some(n => n.chainId === chainId) ? chainId : (networks.length > 0 ? networks[0].chainId : "")}
+                              value={
+                                networks.some((n) => n.chainId === chainId)
+                                  ? chainId
+                                  : networks.length > 0
+                                    ? networks[0].chainId
+                                    : ""
+                              }
                               onChange={(e) => {
                                 const newChainId = e.target.value as ChainId;
-                                if (networks.some(n => n.chainId === newChainId)) {
+                                if (
+                                  networks.some((n) => n.chainId === newChainId)
+                                ) {
                                   setChainId(newChainId);
                                 }
                               }}
                               renderValue={(value) => {
-                                if (!value || !networks.some(n => n.chainId === value)) {
+                                if (
+                                  !value ||
+                                  !networks.some((n) => n.chainId === value)
+                                ) {
                                   return <span>-</span>;
                                 }
                                 return (
@@ -2173,11 +2571,17 @@ export default function ExchangeSettingsForm({
                                   >
                                     <Avatar
                                       src={ipfsUriToUrl(
-                                        NETWORKS[value as ChainId].imageUrl || ""
+                                        NETWORKS[value as ChainId].imageUrl ||
+                                          ""
                                       )}
-                                      style={{ width: "auto", height: isMobile ? "0.85rem" : "1rem" }}
+                                      style={{
+                                        width: "auto",
+                                        height: isMobile ? "0.85rem" : "1rem",
+                                      }}
                                     />
-                                    <Typography variant={isMobile ? "body2" : "body1"}>
+                                    <Typography
+                                      variant={isMobile ? "body2" : "body1"}
+                                    >
                                       {NETWORKS[value as ChainId].name}
                                     </Typography>
                                   </Stack>
@@ -2195,20 +2599,25 @@ export default function ExchangeSettingsForm({
                                         src={ipfsUriToUrl(
                                           NETWORKS[n.chainId].imageUrl || ""
                                         )}
-                                        style={{ width: isMobile ? "0.85rem" : "1rem", height: isMobile ? "0.85rem" : "1rem" }}
+                                        style={{
+                                          width: isMobile ? "0.85rem" : "1rem",
+                                          height: isMobile ? "0.85rem" : "1rem",
+                                        }}
                                       />
                                     </ListItemIcon>
                                     <ListItemText
                                       primary={n.name}
                                       primaryTypographyProps={{
-                                        variant: isMobile ? "body2" : "body1"
+                                        variant: isMobile ? "body2" : "body1",
                                       }}
                                     />
                                   </MenuItem>
                                 ))}
                             </Select>
                             <FormHelperText>
-                              <Typography variant={isMobile ? "caption" : "body2"}>
+                              <Typography
+                                variant={isMobile ? "caption" : "body2"}
+                              >
                                 <FormattedMessage
                                   id="define.the.tokens.and.the.default.pair.for.this.network"
                                   defaultMessage="Define the tokens and the default pair for this network"
@@ -2233,8 +2642,10 @@ export default function ExchangeSettingsForm({
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].baseToken`}
                             tokens={
-                              getIn(values, `defaultTokens.${chainId}.baseTokens`) ||
-                              []
+                              getIn(
+                                values,
+                                `defaultTokens.${chainId}.baseTokens`
+                              ) || []
                             }
                             label={
                               <FormattedMessage
@@ -2248,8 +2659,10 @@ export default function ExchangeSettingsForm({
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].quoteToken`}
                             tokens={
-                              getIn(values, `defaultTokens.${chainId}.quoteTokens`) ||
-                              []
+                              getIn(
+                                values,
+                                `defaultTokens.${chainId}.quoteTokens`
+                              ) || []
                             }
                             label={
                               <FormattedMessage
@@ -2275,8 +2688,10 @@ export default function ExchangeSettingsForm({
                               />
                             }
                             value={
-                              getIn(values, `defaultSlippage.${chainId}.slippage`) ||
-                              1
+                              getIn(
+                                values,
+                                `defaultSlippage.${chainId}.slippage`
+                              ) || 1
                             }
                             onChange={(event: any) => {
                               let value = event.target.value;
@@ -2295,21 +2710,22 @@ export default function ExchangeSettingsForm({
                             size={isMobile ? "small" : "medium"}
                           />
                         </Grid>
-
                       </Grid>
                     </Paper>
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Paper sx={{
-                      p: { xs: 1.5, sm: 2, md: 3 },
-                      mr: { xs: 1, sm: 1.5, md: 2 }
-                    }}>
+                    <Paper
+                      sx={{
+                        p: { xs: 1.5, sm: 2, md: 3 },
+                        mr: { xs: 1, sm: 1.5, md: 2 },
+                      }}
+                    >
                       <Typography
                         variant="h6"
                         sx={{
                           mb: { xs: 1.5, sm: 2 },
-                          fontSize: { xs: '1rem', sm: '1.25rem' }
+                          fontSize: { xs: "1rem", sm: "1.25rem" },
                         }}
                       >
                         <FormattedMessage
@@ -2350,7 +2766,9 @@ export default function ExchangeSettingsForm({
                               ),
                               InputProps: {
                                 endAdornment: (
-                                  <InputAdornment position="end">%</InputAdornment>
+                                  <InputAdornment position="end">
+                                    %
+                                  </InputAdornment>
                                 ),
                               },
                               size: isMobile ? "small" : "medium",
@@ -2364,7 +2782,6 @@ export default function ExchangeSettingsForm({
                   <Grid item xs={12}>
                     <VariantConfigurationTab customTheme={customTheme} />
                   </Grid>
-
 
                   {showSaveButton && (
                     <FormActions
