@@ -1,5 +1,29 @@
 # dexappbuilder
 
+## 0.4.0
+
+### Minor Changes
+
+- 846b6b2: New layout variants for Navbar were added (glass, minimal, custom) for total customization.
+- 1de7f58: Fix all errors related to Coinleague
+- 1ced984: Add new MUI components to use on DexAppBuilder (card, cards list, accordion, tree view, stepper, image list)
+
+### Patch Changes
+
+- Updated dependencies [208288b]
+- Updated dependencies [846b6b2]
+- Updated dependencies [1de7f58]
+- Updated dependencies [eefb4b8]
+- Updated dependencies [ced668c]
+- Updated dependencies [1ced984]
+  - @dexkit/widgets@0.15.0
+  - @dexkit/core@0.20.0
+  - @dexkit/ui@0.25.0
+  - @dexkit/wallet-connectors@0.8.0
+  - @dexkit/dexappbuilder-viewer@0.11.0
+  - @dexkit/unlock-widget@0.6.0
+  - @dexkit/web3forms@0.15.0
+
 ## 0.3.0
 
 ### Minor Changes
