@@ -329,7 +329,7 @@ export default function MarketForm({
   const handleApprove = async () => {
     await approveMutation.mutateAsync({
       onSubmited: (hash: string) => {},
-      amount: BigNumber.from(quote?.sellAmount),
+      amount: BigNumber.from(quote?.sellAmount).mul(2),
       signer,
       spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
         ? quote?.to
@@ -380,6 +380,7 @@ export default function MarketForm({
     }
 
     if (
+      hasSufficientBalance &&
       tokenAllowanceQuery.data?.lt(BigNumber.from(quote?.sellAmount || "0"))
     ) {
       return (
