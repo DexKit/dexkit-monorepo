@@ -2,6 +2,8 @@ import { ChainId } from "@dexkit/core/constants/enums";
 import axios, { AxiosInstance } from "axios";
 
 import {
+  SUPPORTED_UNISWAP_V2,
+  SWAP_UNI_V2_URL,
   ZEROEX_GASLESS_PRICE_ENDPOINT,
   ZEROEX_GASLESS_QUOTE_ENDPOINT,
   ZEROEX_GASLESS_STATUS_ENDPOINT,
@@ -29,7 +31,9 @@ import {
 export function getZeroExApiClient(chainId: ChainId) {
   return new ZeroExApiClient(chainId);
 }
-
+/**
+ * Rename this to Swap Client as we are now using as well uni v2
+ */
 export class ZeroExApiClient {
   private axiosInstance: AxiosInstance;
 
@@ -46,10 +50,13 @@ export class ZeroExApiClient {
     quote: ZeroExQuote,
     { }: {}
   ): Promise<ZeroExQuoteResponse> {
+    const baseUrl = SUPPORTED_UNISWAP_V2.includes(this.chainId) ? SWAP_UNI_V2_URL() : this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId);
+
+    const url = baseUrl + `${SUPPORTED_UNISWAP_V2.includes(this.chainId) ? '/quote' : ZEROEX_QUOTE_ENDPOINT}`;
 
 
     const resp = await this.axiosInstance.get(
-      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_QUOTE_ENDPOINT,
+      url,
       {
         params: quote,
         headers: {
@@ -73,8 +80,12 @@ export class ZeroExApiClient {
     price: ZeroExQuote,
     { signal }: { signal?: AbortSignal }
   ): Promise<ZeroExQuoteResponse> {
+
+    const baseUrl = SUPPORTED_UNISWAP_V2.includes(this.chainId) ? SWAP_UNI_V2_URL() : this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId);
+    const url = baseUrl + `${SUPPORTED_UNISWAP_V2.includes(this.chainId) ? '/price' : ZEROEX_PRICE_ENDPOINT}`;
+
     const resp = await this.axiosInstance.get(
-      (this.widgetId ? ZERO_EX_V2_WIDGET_URL() : ZERO_EX_V2_URL(this.chainId, this.siteId)) + ZEROEX_PRICE_ENDPOINT,
+      url,
       {
         params: price,
         headers: {
