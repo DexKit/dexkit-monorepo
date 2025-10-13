@@ -20,6 +20,7 @@ const nextConfig = {
     '@mui/icons-material',
     '@mui/lab',
     '@mui/system',
+    '@mui/styled-engine',
   ],
   webpack(config) {
     config.resolve.alias = {

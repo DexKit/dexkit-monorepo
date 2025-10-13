@@ -84,7 +84,8 @@
     "uint8arrays": "3.1.1"
   },
   "resolutions": {
-    "ethereumjs-abi": "0.6.8"
+    "ethereumjs-abi": "0.6.8",
+    "@mui/styled-engine": "7.3.3"
   },
   "packageManager": "yarn@1.22.18",
   "main": "index.js",
