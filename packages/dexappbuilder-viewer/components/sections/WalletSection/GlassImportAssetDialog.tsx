@@ -407,7 +407,7 @@ export default function GlassImportAssetDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid xs>
+                <Grid size="grow">
                   <Typography variant="body2" sx={{ color: `${textColor} !important` }}>
                     {asset?.collectionName === undefined ? (
                       <Skeleton />

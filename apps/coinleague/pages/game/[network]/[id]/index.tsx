@@ -7,8 +7,9 @@ import type {
 } from 'next';
 
 import CloseIcon from '@mui/icons-material/Close';
-import WalletIcon from '@mui/icons-material/Wallet';
 
+import { useSwitchNetwork, useSwitchNetworkMutation } from '@/hooks/blockchain';
+import { useCoinLeagueValidation } from '@/hooks/useCoinLeagueValidation';
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
 import {
@@ -24,6 +25,7 @@ import {
 import { useFactoryAddress } from '@/modules/coinleague/hooks/coinleagueFactory';
 import { Coin } from '@/modules/coinleague/types';
 import AppPageHeader from '@/modules/common/components/AppPageHeader';
+import { ChainId } from '@/modules/common/constants/enums';
 import {
   getChainIdFromName,
   getNetworkSlugFromChainId,
@@ -67,7 +69,7 @@ import {
   useTokenAllowanceQuery,
 } from '@dexkit/core/hooks/coin';
 import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
-import { Check, Edit } from '@mui/icons-material';
+import { Check, Edit, SwapHoriz as SwitchIcon, AccountBalanceWallet as WalletIcon } from '@mui/icons-material';
 import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
@@ -93,6 +95,9 @@ const CoinLeagueGame: NextPage = () => {
   const { addNotification } = useNotifications();
 
   const { account, isActive, signer, chainId: accountChainID } = useWeb3React();
+  const validation = useCoinLeagueValidation();
+  const { openDialog: openSwitchNetwork } = useSwitchNetwork();
+  const switchNetworkMutation = useSwitchNetworkMutation();
 
   const { network, id, affiliate } = router.query;
 
@@ -512,6 +517,14 @@ const CoinLeagueGame: NextPage = () => {
     connectWallet();
   };
 
+  const handleSwitchToPolygon = async () => {
+    try {
+      await switchNetworkMutation.mutateAsync({ chainId: ChainId.Polygon });
+    } catch (error) {
+      console.error('Error switching to Polygon:', error);
+    }
+  };
+
   const handleStartGame = async () => {
     await startGameMutation.mutateAsync();
   };
@@ -626,7 +639,67 @@ const CoinLeagueGame: NextPage = () => {
           ]}
         />
         <ErrorBoundaryUI>
-          {!hasSufficientAllowance && isActive && !isInGame && isWaiting && (
+          {/* Validación de red - debe estar en Polygon */}
+          {validation.needsNetworkSwitch && (
+            <Alert
+              severity="error"
+              action={
+                <Button
+                  startIcon={<SwitchIcon />}
+                  size="small"
+                  onClick={handleSwitchToPolygon}
+                  disabled={switchNetworkMutation.isLoading}
+                  variant="outlined"
+                >
+                  <FormattedMessage
+                    id="coinleague.switch.to.polygon"
+                    defaultMessage="Switch to Polygon"
+                  />
+                </Button>
+              }
+            >
+              <FormattedMessage
+                id="coinleague.wrong.network.title"
+                defaultMessage="Wrong Network"
+              />
+              <br />
+              <FormattedMessage
+                id="coinleague.wrong.network.description"
+                defaultMessage="Coin League games are only available on Polygon network. Please switch your wallet to Polygon to continue."
+              />
+            </Alert>
+          )}
+          {/* Validación de billetera - debe estar conectada */}
+          {validation.needsWallet && (
+            <Alert
+              severity="error"
+              action={
+                <Button
+                  startIcon={<WalletIcon />}
+                  size="small"
+                  onClick={() => connectWallet()}
+                  variant="outlined"
+                >
+                  <FormattedMessage
+                    id="coinleague.connect.wallet"
+                    defaultMessage="Connect Wallet"
+                  />
+                </Button>
+              }
+            >
+              <FormattedMessage
+                id="coinleague.wallet.required.title"
+                defaultMessage="Wallet Required"
+              />
+              <br />
+              <FormattedMessage
+                id="coinleague.wallet.required.description"
+                defaultMessage="You need to connect your wallet to participate in Coin League games."
+              />
+            </Alert>
+          )}
+          {/* Validación de aprobación de tokens - solo si está en la red correcta */}
+          {!hasSufficientAllowance && isActive && !isInGame && isWaiting && validation.canPlay && (
             <Alert
               severity="warning"
               action={
@@ -653,7 +726,7 @@ const CoinLeagueGame: NextPage = () => {
               />
             </Alert>
           )}
-          {!hasSufficientFunds && !isInGame && isActive && isWaiting && (
+          {!hasSufficientFunds && !isInGame && isActive && isWaiting && validation.canPlay && (
             <Alert severity="warning">
               <FormattedMessage
                 id="insufficient.funds"
@@ -731,6 +804,7 @@ const CoinLeagueGame: NextPage = () => {
                             variant="outlined"
                             onClick={handleSelectCaptain}
                             size="small"
+                            disabled={validation.needsNetworkSwitch || validation.needsWallet}
                           >
                             <FormattedMessage
                               id="select"
@@ -818,6 +892,7 @@ const CoinLeagueGame: NextPage = () => {
                           onClick={handleSelectCoins}
                           startIcon={<Edit />}
                           size="small"
+                          disabled={validation.needsNetworkSwitch || validation.needsWallet}
                         >
                           {coinList.length > 0 ? (
                             <FormattedMessage id="edit" defaultMessage="Edit" />

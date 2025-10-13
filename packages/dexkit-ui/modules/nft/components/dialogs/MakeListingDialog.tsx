@@ -217,7 +217,7 @@ export default function MakeListingDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid xs>
+                <Grid size="grow">
                   <Typography variant="body2" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />

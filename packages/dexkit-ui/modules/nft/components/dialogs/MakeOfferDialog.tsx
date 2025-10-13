@@ -269,7 +269,7 @@ export default function MakeOfferDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid xs>
+                <Grid size="grow">
                   <Typography variant="caption" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />

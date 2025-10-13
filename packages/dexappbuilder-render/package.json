@@ -43,7 +43,7 @@
     "react-markdown": "^8.0.3",
     "remark-gfm": "^3.0.1",
     "ethers": "^5.7.2",
-    "next": "15.5.4",
+    "next": "15.5.5",
     "next-auth": "^4.20.1",
     "thirdweb": "^5.93.15",
     "react-intl": "^5.24.8",

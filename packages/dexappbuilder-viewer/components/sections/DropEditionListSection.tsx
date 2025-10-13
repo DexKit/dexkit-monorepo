@@ -3,6 +3,7 @@ import { BaseAssetCard } from "@dexkit/ui/modules/nft/components/BaseAssetCard";
 import { useAssetListFromCollection } from "@dexkit/ui/modules/nft/hooks/collection";
 import { EditionDropListPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import Search from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -133,18 +134,14 @@ export function DropEditionListSection({ section }: Props) {
                     </Stack>
                   </Grid>
                 )}
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  container
-                  justifyContent={"flex-end"}
-                >
-                  <Pagination
-                    page={page + 1}
-                    onChange={(_ev, _page) => setPage(_page - 1)}
-                    count={Math.floor((data?.total || 0) / perPage) + 1}
-                  />
+                <Grid size={12}>
+                  <Box display="flex" justifyContent="flex-end">
+                    <Pagination
+                      page={page + 1}
+                      onChange={(_ev, _page) => setPage(_page - 1)}
+                      count={Math.floor((data?.total || 0) / perPage) + 1}
+                    />
+                  </Box>
                 </Grid>
               </Grid>
             </AppErrorBoundary>

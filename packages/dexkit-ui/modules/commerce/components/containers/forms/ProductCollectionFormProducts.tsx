@@ -97,7 +97,7 @@ export default function ProductCollectionFormProducts({ }: ProductCollectionForm
                   <FormattedMessage id="add" defaultMessage="Add" />
                 </Button>
               </Grid>
-              <Grid xs>
+              <Grid size="grow">
                 <Button
                   disabled={!hasSelection}
                   onClick={handleRemove}

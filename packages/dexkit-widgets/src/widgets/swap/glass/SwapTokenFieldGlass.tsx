@@ -263,7 +263,7 @@ export default function SwapTokenFieldGlass({
               {renderTokenButton()}
             </Grid>
 
-            <Grid xs>
+            <Grid size="grow">
               <Box sx={{ textAlign: 'right' }}>
                 <CurrencyField
                   value={value}

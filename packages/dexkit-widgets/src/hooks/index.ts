@@ -26,6 +26,7 @@ import {
   transactionValuesAtom,
   transactionsAtom
 } from '../state/atoms';
+import { Transaction } from "../types";
 import { isAddressEqual, tokenKey } from "../utils";
 import { NotificationCallbackParams } from "../widgets/swap/types";
 import { convertOldTokenToNew } from "../widgets/swap/utils";
@@ -366,7 +367,7 @@ export function useTransactionDialog() {
       if (chainId !== undefined) {
         (setHash as any)(hash);
 
-        updateTransactions((txs) => ({
+        updateTransactions((txs: { [key: string]: Transaction } | undefined) => ({
           ...txs,
           [hash]: {
             chainId,

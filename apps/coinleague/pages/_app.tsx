@@ -81,7 +81,7 @@ export default function MyApp(props: MyAppProps) {
     let tempTheme = getTheme({
       name: defaultAppConfig.theme,
     })?.theme;
-    let fontFamily;
+    let fontFamily = "'Sora', sans-serif"; // Default to Sora
     if (appConfig?.font) {
       fontFamily = `'${appConfig.font.family}', ${appConfig.font.category}`;
     }

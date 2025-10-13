@@ -222,7 +222,7 @@ function SelectCoinListItemGlass({
           </ListItemAvatar>
         </Grid>
 
-        <Grid xs>
+        <Grid size="grow">
           <ListItemText
             primary={
               <Typography

@@ -63,7 +63,7 @@ export function AppMarketplaceProvider({
     let tempTheme = getTheme({
       name: defaultAppConfig.theme,
     })?.theme;
-    let fontFamily;
+    let fontFamily = "'Sora', sans-serif"; // Default to Sora
     if (appConfig?.font) {
       fontFamily = `'${appConfig.font.family}', ${appConfig.font.category}`;
     }

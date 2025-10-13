@@ -280,7 +280,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                     </Box>
                   )}
                 </Grid>
-                <Grid xs>
+                <Grid size="grow">
                   <Typography variant="body2" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />

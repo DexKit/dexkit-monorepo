@@ -97,7 +97,7 @@ export default function SharesArrayInput({ reference }: SharesArrayInputProps) {
                         maxDigits={3}
                       />
                     </Grid>
-                    <Grid xs>
+                    <Grid size="grow">
                       <Paper
                         sx={{ borderRadius: "50%" }}
                         component={IconButton}

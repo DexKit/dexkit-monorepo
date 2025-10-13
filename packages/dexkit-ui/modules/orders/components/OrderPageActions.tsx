@@ -67,7 +67,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
       />
       <Box>
         <Grid container spacing={2} alignItems="stretch" alignContent="center">
-          <Grid xs>
+          <Grid size="grow">
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
               <Typography
                 variant="caption"

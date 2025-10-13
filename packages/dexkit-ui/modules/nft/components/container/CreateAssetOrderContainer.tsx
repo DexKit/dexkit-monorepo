@@ -497,7 +497,7 @@ export const CreateAssetOrderContainer = () => {
                         </Box>
                       )}
                     </Grid>
-                    <Grid xs>
+                    <Grid size="grow">
                       <Typography variant="body2" color="textSecondary">
                         {asset?.collectionName === undefined ? (
                           <Skeleton />

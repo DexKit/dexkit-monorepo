@@ -73,7 +73,7 @@ export function AssetPageActions({ address, id }: Props) {
         )}/${address}/${id}`}
       />
       <Grid container spacing={2} alignItems="stretch" alignContent="center">
-        <Grid xs>
+        <Grid size="grow">
           {asset?.protocol === "ERC721" ? (
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
               <Typography

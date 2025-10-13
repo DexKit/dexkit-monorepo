@@ -136,7 +136,7 @@ export default function SelectIconDialog({
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid xs>
+          <Grid size="grow">
             <SelectIconGrid
               onSelect={handleSelect}
               value={selectedIcon}

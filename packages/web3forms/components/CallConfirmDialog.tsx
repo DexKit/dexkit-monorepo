@@ -172,7 +172,7 @@ export default function CallConfirmDialog({
           {payable && (
             <Box>
               <Grid container spacing={2}>
-                <Grid xs>
+                <Grid size="grow">
                   <TextField
                     label={
                       <FormattedMessage id="amount" defaultMessage="Amount" />
