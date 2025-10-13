@@ -88,7 +88,10 @@
     "@mui/styled-engine": "7.3.3",
     "@mui/material": "7.3.2",
     "@mui/system": "7.3.2",
-    "@mui/icons-material": "7.3.2"
+    "@mui/icons-material": "7.3.2",
+    "viem": "2.38.0",
+    "@noble/hashes": "1.8.0",
+    "@noble/curves": "1.8.1"
   },
   "packageManager": "yarn@1.22.18",
   "main": "index.js",
