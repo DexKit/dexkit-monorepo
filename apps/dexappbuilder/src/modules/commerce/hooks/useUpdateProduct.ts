@@ -1,10 +1,10 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useMutation } from '@tanstack/react-query';
-import React from 'react';
+import { useContext } from 'react';
 import { ProductFormType } from '../types';
 
 export default function useUpdateProduct() {
-  const { instance } = { instance: null };
+  const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(async (data: ProductFormType) => {
     if (!instance) {

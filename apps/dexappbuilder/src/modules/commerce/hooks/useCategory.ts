@@ -1,11 +1,11 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import { useContext } from 'react';
 
 export const GET_CATEGORY_QUERY = 'GET_CATEGORY_QUERY';
 
 export default function useCategory(params: { id?: string }) {
-  const { instance } = { instance: null };
+  const { instance } = useContext(DexkitApiProvider);
 
   return useQuery(
     [GET_CATEGORY_QUERY, params],
