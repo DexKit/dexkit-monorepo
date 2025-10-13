@@ -64,6 +64,7 @@ import useCheckoutPay from '@/modules/commerce/hooks/checkout/useCheckoutPay';
 import useCheckoutNetworks from '@/modules/commerce/hooks/settings/useCheckoutNetworks';
 import { UserCheckoutItemsFormSchema } from '@/modules/commerce/schemas';
 import { CheckoutItem } from '@/modules/commerce/types';
+import { NETWORK_PROVIDER } from '@dexkit/core/constants/networkProvider';
 import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import CheckoutTokenAutocomplete from '@dexkit/ui/modules/commerce/components/CheckoutTokenAutocomplete';
 import { useSiteReceiver } from '@dexkit/ui/modules/commerce/hooks/useSiteReceiver';
@@ -110,7 +111,12 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     }
   };
 
-  const { chainId: providerChainId, account, isActive } = useWeb3React();
+  const {
+    chainId: providerChainId,
+    account,
+    isActive,
+    provider,
+  } = useWeb3React();
 
   const [hash, setHash] = useState<string>();
 
@@ -213,6 +219,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     contractAddress: token?.address,
     account,
     chainId,
+    provider: NETWORK_PROVIDER(chainId),
   });
 
   const decimalBalance = useMemo(() => {
@@ -246,7 +253,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
         return Boolean(token);
       });
-  }, [JSON.stringify(chainIds), chainId]);
+  }, [JSON.stringify(chainIds), chainId, NETWORKS, CHECKOUT_TOKENS]);
 
   const handlePay = () => {
     setOpen(true);
