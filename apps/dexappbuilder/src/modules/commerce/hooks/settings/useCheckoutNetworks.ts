@@ -1,13 +1,13 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useSiteOwner } from '@dexkit/ui/modules/commerce/hooks/useSiteOwner';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import { useContext } from 'react';
 import { useSiteId } from 'src/hooks/app';
 
 const GET_CHECKOUT_NETWORKS = 'GET_CHECKOUT_NETWORKS';
 
 export default function useCheckoutNetworks() {
-  const { instance } = { instance: null };
+  const { instance } = useContext(DexkitApiProvider);
 
   const id = useSiteId();
 

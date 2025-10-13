@@ -1,6 +1,6 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import { useContext } from 'react';
 
 export const GET_ORDER_LIST_QUERY = 'GET_ORDER_LIST_QUERY';
 
@@ -10,7 +10,7 @@ export default function useOrderList(params: {
   status: string;
   q?: string;
 }) {
-  const { instance } = { instance: null };
+  const { instance } = useContext(DexkitApiProvider);
 
   return useQuery(
     [GET_ORDER_LIST_QUERY, params],

@@ -1,9 +1,9 @@
 import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useMutation } from '@tanstack/react-query';
-import React from 'react';
+import { useContext } from 'react';
 
 export default function useDuplicateProduct() {
-  const { instance } = { instance: null };
+  const { instance } = useContext(DexkitApiProvider);
 
   return useMutation(async (data: { id: string }) => {
     if (!instance) {
