@@ -9,7 +9,6 @@ import {
   Container,
   Divider,
   Drawer,
-  Grid,
   IconButton,
   List,
   ListItem,
@@ -23,6 +22,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -205,7 +205,7 @@ export function UserEditContainer({
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           {hideHeader !== true && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 direction="row"
                 alignItems="center"
@@ -251,7 +251,7 @@ export function UserEditContainer({
           )}
 
           {hideTitle !== true && (
-            <Grid item xs={12} sm={12}>
+            <Grid size={12}>
               <Stack direction={'row'} justifyContent={'space-between'}>
                 <Box display={'flex'} alignItems={'center'}>
                   <Typography variant="h5">
@@ -292,11 +292,11 @@ export function UserEditContainer({
             </Grid>
           )}
           {hideSideBar !== true && (
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 2 }}>
               {!isMobile && renderMenu()}
             </Grid>
           )}
-          <Grid item xs={12} sm={10}>
+          <Grid size={{ xs: 12, sm: 10 }}>
             <Stack spacing={2}>
               {activeMenu === ActiveMenu.General && user && (
                 <>
@@ -328,3 +328,4 @@ export function UserEditContainer({
     </>
   );
 }
+

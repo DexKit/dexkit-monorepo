@@ -10,10 +10,10 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  Grid,
   Stack,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { BigNumber, ethers } from 'ethers';
 import { useAtomValue } from 'jotai';
 import { memo } from 'react';
@@ -62,14 +62,14 @@ function ConfirmSwapDialog({
       <DialogContent>
         <Grid container spacing={2}>
           {errorMessage && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">{String(errorMessage)}</Alert>
             </Grid>
           )}
 
           {quote && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -88,7 +88,7 @@ function ConfirmSwapDialog({
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -110,7 +110,7 @@ function ConfirmSwapDialog({
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -151,7 +151,7 @@ function ConfirmSwapDialog({
                 </Stack>
               </Grid>
               {/* {appConfig.swapFees?.amount_percentage !== undefined && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     alignItems="center"
@@ -198,3 +198,4 @@ function ConfirmSwapDialog({
 }
 
 export default memo(ConfirmSwapDialog);
+

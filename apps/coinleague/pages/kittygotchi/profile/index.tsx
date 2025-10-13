@@ -80,12 +80,12 @@ const ProfilePage: NextPage = () => {
           </Box>
           <Box>
             <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <NoSsr>
                   <KittygotchiProfileCard chainId={chainId} />
                 </NoSsr>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <KittygotchiRankingCard
                   onClick={handleClickRanking}
                   chainId={chainId}
@@ -100,3 +100,4 @@ const ProfilePage: NextPage = () => {
 };
 
 export default ProfilePage;
+

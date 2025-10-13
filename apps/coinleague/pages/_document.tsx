@@ -3,7 +3,7 @@ import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
-import { getInitColorSchemeScript } from '@mui/material/styles';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Script from 'next/script';
 import createEmotionCache from '../src/createEmotionCache';
 
@@ -20,33 +20,32 @@ export default class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=optional"
             rel="stylesheet"
           />
           {appConfig?.font && (
             <link
-              href={`https://fonts.googleapis.com/css2?family=${appConfig.font.family}&display=swap`}
+              href={`https://fonts.googleapis.com/css2?family=${appConfig.font.family}&display=optional`}
               rel="stylesheet"
             />
           )}
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons"
+            href="https://fonts.googleapis.com/css?family=Material+Icons&display=optional"
           />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone"
+            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone&display=optional"
           />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp"
+            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp&display=optional"
           />
           {(this.props as any).emotionStyleTags}
           <Script
             id="google-analytics-script"
-            src={`https://www.googletagmanager.com/gtag/js?id=${
-              appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
-            }`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
+              }`}
             strategy="afterInteractive"
           />
           <Script id="google-analytics" strategy="afterInteractive">
@@ -58,9 +57,10 @@ export default class MyDocument extends Document {
           
         `}
           </Script>
+
         </Head>
         <body>
-          {getInitColorSchemeScript()}
+          <InitColorSchemeScript attribute="class" />
           <Main />
           <NextScript />
         </body>

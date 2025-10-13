@@ -29,7 +29,7 @@ import TransactionUpdater from "../components/TransactionUpdater";
 import { useForceThemeMode, useThemeMode } from "../hooks";
 import type { AppNotification, AppNotificationType } from "../types";
 
-function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
+function ThemeSyncComponent() {
   const { mode: normalMode } = useThemeMode();
   const { mode: forcedMode, isForced } = useForceThemeMode();
   const { setMode } = useColorScheme();
@@ -37,11 +37,18 @@ function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: a
   const effectiveMode = forcedMode || normalMode;
 
   React.useEffect(() => {
-    setMode(effectiveMode);
+    if (setMode) {
+      setMode(effectiveMode);
+    }
   }, [effectiveMode, setMode, isForced]);
 
+  return null;
+}
+
+function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
   return (
-    <CssVarsProvider theme={theme}>
+    <CssVarsProvider theme={theme} defaultMode="dark">
+      <ThemeSyncComponent />
       {children}
     </CssVarsProvider>
   );

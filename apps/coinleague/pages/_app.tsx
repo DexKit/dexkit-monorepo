@@ -22,8 +22,8 @@ import { useRouter } from 'next/router';
 import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import { extendTheme } from '@mui/material/styles';
+import type { } from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
 import defaultAppConfig from '../config/app.json';
@@ -117,18 +117,18 @@ export default function MyApp(props: MyAppProps) {
       if (customTheme) {
         return fontFamily
           ? extendTheme({
-              typography: {
-                fontFamily,
-              },
-              colorSchemes: {
-                ...customTheme,
-              },
-            })
+            typography: {
+              fontFamily,
+            },
+            colorSchemes: {
+              ...customTheme,
+            },
+          })
           : extendTheme({
-              colorSchemes: {
-                ...customTheme,
-              },
-            });
+            colorSchemes: {
+              ...customTheme,
+            },
+          });
       }
     }
 
@@ -138,11 +138,11 @@ export default function MyApp(props: MyAppProps) {
 
     return fontFamily
       ? extendTheme({
-          ...temp,
-          typography: {
-            fontFamily,
-          },
-        })
+        ...temp,
+        typography: {
+          fontFamily,
+        },
+      })
       : extendTheme({ ...temp });
   }, [appConfig]);
 

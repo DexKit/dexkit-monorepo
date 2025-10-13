@@ -8,7 +8,7 @@ import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { COMMON_NOTIFICATION_TYPES } from '@dexkit/ui/constants/messages/common';
 import { useLocale } from '@dexkit/ui/hooks/useLocale';
 import { DexkitProvider } from '@dexkit/ui/providers/DexkitProvider';
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { extendTheme } from '@mui/material/styles';
 import { useAtom } from 'jotai';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -98,18 +98,18 @@ export function AppMarketplaceProvider({
       if (customTheme) {
         return fontFamily
           ? extendTheme({
-              typography: {
-                fontFamily,
-              },
-              colorSchemes: {
-                ...customTheme,
-              },
-            })
+            typography: {
+              fontFamily,
+            },
+            colorSchemes: {
+              ...customTheme,
+            },
+          })
           : extendTheme({
-              colorSchemes: {
-                ...customTheme,
-              },
-            });
+            colorSchemes: {
+              ...customTheme,
+            },
+          });
       }
     }
 
@@ -119,11 +119,11 @@ export function AppMarketplaceProvider({
 
     return fontFamily
       ? extendTheme({
-          ...temp,
-          typography: {
-            fontFamily,
-          },
-        })
+        ...temp,
+        typography: {
+          fontFamily,
+        },
+      })
       : extendTheme({ ...temp });
   }, [appConfig]);
 

@@ -1,7 +1,8 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { extendTheme } from '@mui/material/styles';
 
 
 export default extendTheme({
+  colorSchemeSelector: 'class',
   typography: {
     fontFamily: "'Sora', sans-serif",
   },

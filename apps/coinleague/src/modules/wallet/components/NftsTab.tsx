@@ -13,7 +13,6 @@ import {
   Divider,
   Drawer,
   FormControlLabel,
-  Grid,
   IconButton,
   InputAdornment,
   NoSsr,
@@ -23,6 +22,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useAtom } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import { Suspense, useCallback, useMemo, useState } from 'react';
@@ -45,9 +45,7 @@ export default function NftsTab() {
         {new Array(12).fill(null).map((n, index) => (
           <Grid
             key={index}
-            item
-            xs={6}
-            sm={2}
+            size={{ xs: 6, sm: 2 }}
             sx={{ width: '100%', height: '100%' }}
           >
             <Card sx={{ width: '100%', height: 'auto' }}>
@@ -272,7 +270,7 @@ export default function NftsTab() {
       </Drawer>
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack direction="row" spacing={2} alignItems="center">
                 <SearchTextField
@@ -303,14 +301,12 @@ export default function NftsTab() {
             </Box>
           </Grid>
           <Grid
-            item
-            xs={12}
-            sm={2}
+            size={{ xs: 12, sm: 2 }}
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             <Card>{renderFilters()}</Card>
           </Grid>
-          <Grid item xs={12} sm={10}>
+          <Grid size={{ xs: 12, sm: 10 }}>
             <NoSsr>
               <AppErrorBoundary
                 fallbackRender={() => (
@@ -370,3 +366,4 @@ export default function NftsTab() {
     </>
   );
 }
+

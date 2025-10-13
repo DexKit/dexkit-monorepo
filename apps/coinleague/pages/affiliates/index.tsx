@@ -52,7 +52,7 @@ const AffiliatesPage: NextPage = () => {
   };
 
   const handleShareContentGame = (value: string) => {
-    const msg = `Join with me at Coinleague. Best prediction game out there at: ${affiliateUrl}`;
+    const msg = `Join with me at Coin League. Best prediction game out there at: ${affiliateUrl}`;
 
     let link = '';
 
@@ -114,7 +114,7 @@ const AffiliatesPage: NextPage = () => {
         ) : (
           <Box>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <Card>
                   <Stack
                     direction="row"
@@ -140,7 +140,7 @@ const AffiliatesPage: NextPage = () => {
                   </Stack>
                 </Card>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Card>
                   <Stack
                     direction="row"
@@ -178,7 +178,7 @@ const AffiliatesPage: NextPage = () => {
                 </Card>
               </Grid>
               {affiliateUrl && (
-                <Grid item xs>
+                <Grid size="grow">
                   <Card>
                     <Stack
                       direction="row"
@@ -232,7 +232,7 @@ const AffiliatesPage: NextPage = () => {
                   </Card>
                 </Grid>
               )}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <NoSsr>
                   <Suspense fallback={<TableSkeleton cols={4} rows={5} />}>
                     <AffiliateHistoryTable
@@ -251,3 +251,4 @@ const AffiliatesPage: NextPage = () => {
 };
 
 export default AffiliatesPage;
+

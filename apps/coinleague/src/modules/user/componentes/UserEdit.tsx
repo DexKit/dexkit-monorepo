@@ -7,7 +7,6 @@ import {
   Container,
   Divider,
   Drawer,
-  Grid,
   IconButton,
   List,
   ListItem,
@@ -20,6 +19,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import UserGeneralForm from './forms/UserGeneralForm';
@@ -129,7 +129,7 @@ export function UserEdit(props: Props) {
       </Drawer>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -167,7 +167,7 @@ export function UserEdit(props: Props) {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               {!isMobile && (
                 <Typography variant="h5">
@@ -186,10 +186,10 @@ export function UserEdit(props: Props) {
               )}
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={2}>
+          <Grid size={{ xs: 12, sm: 2 }}>
             {!isMobile && renderMenu()}
           </Grid>
-          <Grid item xs={12} sm={10}>
+          <Grid size={{ xs: 12, sm: 10 }}>
             <Stack spacing={2}>
               {activeMenu === ActiveMenu.General && <UserGeneralForm />}
             </Stack>
@@ -199,3 +199,4 @@ export function UserEdit(props: Props) {
     </>
   );
 }
+

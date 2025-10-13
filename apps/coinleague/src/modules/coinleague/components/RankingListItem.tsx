@@ -16,6 +16,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { FormattedMessage } from 'react-intl';
 import { GameProfile } from '../types';
 
@@ -95,13 +96,13 @@ export default function RankingListItem({
         <Divider />
         <Box p={2} display="flex">
           <Grid container spacing={4}>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage id="wins" defaultMessage="Wins" />
               </Typography>
               <Typography variant="subtitle1">{winsCount}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.firstPlace"
@@ -110,7 +111,7 @@ export default function RankingListItem({
               </Typography>
               <Typography variant="subtitle1">{firstCount}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.secondPlace"
@@ -119,7 +120,7 @@ export default function RankingListItem({
               </Typography>
               <Typography variant="subtitle1">{secondCount}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.thirdPlace"
@@ -128,7 +129,7 @@ export default function RankingListItem({
               </Typography>
               <Typography variant="subtitle1">{thirdCount}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.joins"
@@ -137,7 +138,7 @@ export default function RankingListItem({
               </Typography>
               <Typography variant="subtitle1">{joinsCount}</Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.winsAndJoins"
@@ -152,7 +153,7 @@ export default function RankingListItem({
                   : '0%'}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary" gutterBottom>
                 <FormattedMessage
                   id="coinLeague.totalEarned"
@@ -163,7 +164,7 @@ export default function RankingListItem({
                 {totalEarned} {coinSymbol}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Typography variant="caption" color="textSecondary">
                 <FormattedMessage
                   id="coinLeague.profit"
@@ -180,3 +181,5 @@ export default function RankingListItem({
     </>
   );
 }
+
+

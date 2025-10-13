@@ -4,7 +4,8 @@ import SwipeableViews from 'react-swipeable-views';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import { Box, Button, Grid, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Button, Theme, Typography, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { FormattedMessage } from 'react-intl';
 import { useMobile } from '../hooks/misc';
 import SliderPagination from './SliderPagination';
@@ -66,7 +67,7 @@ export const Slider = (props: SliderProps) => {
       >
         <Box p={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography
                 align={isMobile ? 'center' : undefined}
                 gutterBottom
@@ -84,14 +85,14 @@ export const Slider = (props: SliderProps) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SliderPagination
                 onSelectIndex={onSelectIndex}
                 dots={slideCount}
                 index={index}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 fullWidth={isMobile}
                 size={isMobile ? 'small' : 'medium'}
@@ -123,3 +124,5 @@ export const Slider = (props: SliderProps) => {
 };
 
 export default Slider;
+
+

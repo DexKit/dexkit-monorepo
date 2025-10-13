@@ -1,10 +1,18 @@
 import { ChainId } from '@/modules/common/constants/enums';
-import { memo } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { memo, useEffect, useState } from 'react';
 
 import { TickerTape } from 'react-ts-tradingview-widgets';
 import { PriceFeeds } from '../constants';
 
 function TickerTapeTV() {
+  const theme = useTheme();
+  const [isDark, setIsDark] = useState(theme.palette.mode === 'dark');
+
+  useEffect(() => {
+    setIsDark(theme.palette.mode === 'dark');
+  }, [theme.palette.mode]);
+
   const symbols = PriceFeeds[ChainId.Polygon]
     // .concat(PriceFeeds[ChainId.BSC])
     .filter((s) => s.tv)

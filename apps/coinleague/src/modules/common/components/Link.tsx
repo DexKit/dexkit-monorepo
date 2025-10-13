@@ -10,7 +10,7 @@ const Anchor = styled('a')({});
 
 interface NextLinkComposedProps
   extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
-    Omit<NextLinkProps, 'href' | 'as' | 'onClick' | 'onMouseEnter' | 'onTouchStart'> {
+  Omit<NextLinkProps, 'href' | 'as' | 'onClick' | 'onMouseEnter' | 'onTouchStart'> {
   to: NextLinkProps['href'];
   linkAs?: NextLinkProps['as'];
 }
@@ -27,11 +27,10 @@ export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComp
         replace={replace}
         scroll={scroll}
         shallow={shallow}
-        passHref
         locale={locale}
-      >
-        <Anchor ref={ref} {...other} />
-      </NextLink>
+        ref={ref}
+        {...other}
+      />
     );
   },
 );

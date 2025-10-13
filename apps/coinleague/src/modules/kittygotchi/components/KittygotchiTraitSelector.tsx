@@ -78,7 +78,7 @@ export const KittygotchiTraitSelector = (props: Props) => {
             wrap="nowrap"
           >
             {items.map((item: KittygotchiTraitItem, index: number) => (
-              <Grid item key={index}>
+              <Grid key={index}>
                 <TraitSelectorItem
                   item={item}
                   traitType={traitType}
@@ -97,3 +97,4 @@ export const KittygotchiTraitSelector = (props: Props) => {
 };
 
 export default KittygotchiTraitSelector;
+

@@ -178,7 +178,7 @@ const CoinLeagueIndex: NextPage = () => {
   };
 
   const handleShareContent = (value: string) => {
-    const msg = `Play with me at Coinleague: ${shareUrl}`;
+    const msg = `Play with me at Coin League: ${shareUrl}`;
 
     let link = '';
 
@@ -434,7 +434,7 @@ const CoinLeagueIndex: NextPage = () => {
           <Box>
             <Grid container spacing={2}>
               {!isMobile && (
-                <Grid item xs={12} sm={2} sx={{ width: '100%' }}>
+                <Grid size={{ xs: 12, sm: 2 }} sx={{ width: '100%' }}>
                   <Collapse in>
                     <Card>
                       <CardContent>{renderForm()}</CardContent>
@@ -442,7 +442,7 @@ const CoinLeagueIndex: NextPage = () => {
                   </Collapse>
                 </Grid>
               )}
-              <Grid item xs={12} sm={10}>
+              <Grid size={{ xs: 12, sm: 10 }}>
                 {gamesQuery.isLoading &&
                   (showTable ? (
                     <TableSkeleton cols={4} rows={4} />

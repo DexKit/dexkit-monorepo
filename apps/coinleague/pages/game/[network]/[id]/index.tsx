@@ -538,7 +538,7 @@ const CoinLeagueGame: NextPage = () => {
   };
 
   const handleShareContent = (value: string) => {
-    const msg = `Play with me at Coinleague: ${shareUrl}`;
+    const msg = `Play with me at Coin League: ${shareUrl}`;
 
     let link = '';
 
@@ -679,7 +679,7 @@ const CoinLeagueGame: NextPage = () => {
               (hasSufficientPlayers as boolean) &&
               !!gameOnChainQuery.data &&
               new Date().getTime() / 1000 >
-                Number(gameOnChainQuery.data.start_timestamp)
+              Number(gameOnChainQuery.data.start_timestamp)
             }
             isStarting={startGameMutation.isLoading}
             onEnd={handleEndGame}
@@ -711,7 +711,7 @@ const CoinLeagueGame: NextPage = () => {
           {isActive && isWaiting && (
             <Box>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box>
                     <Card>
                       <Box sx={{ p: 2 }}>
@@ -798,7 +798,7 @@ const CoinLeagueGame: NextPage = () => {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Card>
                     <Box sx={{ p: 2 }}>
                       <Stack
@@ -1013,7 +1013,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

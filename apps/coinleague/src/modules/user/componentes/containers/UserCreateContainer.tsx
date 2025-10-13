@@ -1,6 +1,7 @@
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
 import { UserOptions } from '@dexkit/ui/types/ai';
-import { Container, Grid, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -77,7 +78,7 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
           {hideHeader !== true && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack
                 direction="row"
                 alignItems="center"
@@ -108,7 +109,7 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
             </Grid>
           )}
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               <Typography variant="h5">
                 <FormattedMessage
@@ -119,7 +120,7 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <Stack spacing={2}>
               <UserGeneralForm
                 onSubmit={(val) => {
@@ -134,3 +135,5 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
     </>
   );
 }
+
+

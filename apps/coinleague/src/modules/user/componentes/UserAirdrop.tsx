@@ -123,9 +123,8 @@ export function UserAirdrop() {
               <Button
                 variant={'contained'}
                 color="primary"
-                href={`${getBlockExplorerUrl(ChainId.Polygon)}/tx/${
-                  postData.txHash
-                }`}
+                href={`${getBlockExplorerUrl(ChainId.Polygon)}/tx/${postData.txHash
+                  }`}
                 target="_blank"
               >
                 <FormattedMessage
@@ -189,7 +188,7 @@ export function UserAirdrop() {
         }
       />
       <Grid container spacing={2} justifyContent={'center'} alignItems="center">
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             spacing={2}
             justifyContent={'center'}
@@ -213,7 +212,7 @@ export function UserAirdrop() {
           </Stack>
         </Grid>
         {!claimData?.status && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={'flex'} justifyContent={'center'}>
               <List
                 sx={{
@@ -279,7 +278,7 @@ export function UserAirdrop() {
           </Grid>
         )}
         {needToCompleteProfile && user && !authUser && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={'flex'} justifyContent={'center'}>
               <Stack spacing={2}>
                 <Alert severity={'info'}>
@@ -308,7 +307,7 @@ export function UserAirdrop() {
           </Grid>
         )}
         {needToCompleteProfile && user && authUser && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={'flex'} justifyContent={'center'}>
               <Stack spacing={2}>
                 <Alert severity={'info'}>
@@ -336,14 +335,14 @@ export function UserAirdrop() {
             </Box>
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box display={'flex'} justifyContent={'center'}>
             {!user && <LoginAppButton />}
           </Box>
         </Grid>
 
         {!claimCampaignQuery.isLoading && !claimData && authUser && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box display={'flex'} justifyContent={'center'}>
               <Button
                 variant={'contained'}
@@ -362,7 +361,7 @@ export function UserAirdrop() {
         )}
 
         {claimData && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={2} justifyContent={'start'} alignItems={'center'}>
               <CelebrationIcon color={'success'} sx={{ fontSize: 80 }} />
               <Typography variant="h6">
@@ -379,9 +378,8 @@ export function UserAirdrop() {
               <Button
                 variant={'contained'}
                 color="primary"
-                href={`${getBlockExplorerUrl(ChainId.Polygon)}/tx/${
-                  claimData.txHash
-                }`}
+                href={`${getBlockExplorerUrl(ChainId.Polygon)}/tx/${claimData.txHash
+                  }`}
                 target="_blank"
               >
                 <FormattedMessage
@@ -397,3 +395,4 @@ export function UserAirdrop() {
     </>
   );
 }
+

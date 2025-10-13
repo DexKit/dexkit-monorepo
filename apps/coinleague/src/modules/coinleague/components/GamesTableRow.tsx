@@ -5,12 +5,12 @@ import { ChainId } from '@/modules/common/constants/enums';
 import { getNetworkSlugFromChainId } from '@/modules/common/utils';
 import {
   Button,
-  Grid,
   Stack,
   TableCell,
   TableRow,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { BigNumber, ethers } from 'ethers';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -93,9 +93,8 @@ export default function GamesTableRow({
 
         <TableCell>
           <Button
-            href={`/game/${getNetworkSlugFromChainId(chainId)}/${
-              game.id
-            }${affiliate ? '?affiliate=' + affiliate : ''}`}
+            href={`/game/${getNetworkSlugFromChainId(chainId)}/${game.id
+              }${affiliate ? '?affiliate=' + affiliate : ''}`}
             color="primary"
             variant="contained"
             sx={{
@@ -128,7 +127,7 @@ export default function GamesTableRow({
         <TableRow>
           <TableCell colSpan={4}>
             <Grid container spacing={2}>
-              <Grid item xs>
+              <Grid size="grow">
                 <Typography variant="caption"></Typography>
                 <Typography variant="body2"></Typography>
               </Grid>
@@ -139,3 +138,5 @@ export default function GamesTableRow({
     </>
   );
 }
+
+

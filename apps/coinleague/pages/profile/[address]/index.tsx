@@ -156,7 +156,7 @@ const CoinLeagueProfilePage: NextPage = () => {
 
   const userUrl = `${getWindowUrl()}/profile/${address}${account ? `?affiliate=${account}` : ''}`;
   const handleShareContentUser = (value: string) => {
-    const msg = `Check my statistics at Coinleague: ${userUrl}`;
+    const msg = `Check my statistics at Coin League: ${userUrl}`;
 
     let link = '';
 
@@ -168,7 +168,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   };
 
   const handleShareContentGame = (value: string) => {
-    const msg = `Join with me at Coinleague Game: ${shareUrl}`;
+    const msg = `Join with me at Coin League Game: ${shareUrl}`;
 
     let link = '';
 

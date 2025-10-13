@@ -31,7 +31,7 @@ const KittygotchiesPage: NextPage = () => {
 
   const [showMint, setShowMint] = useState(false);
 
-  const handleChange = (value: string) => {};
+  const handleChange = (value: string) => { };
 
   const handleShowDialog = () => {
     setShowMint(true);
@@ -84,7 +84,7 @@ const KittygotchiesPage: NextPage = () => {
           </Box>
           <Box>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs>
+              <Grid size="grow">
                 <SearchTextField
                   onChange={handleChange}
                   TextFieldProps={{
@@ -104,7 +104,7 @@ const KittygotchiesPage: NextPage = () => {
                   }}
                 />
               </Grid>
-              <Grid item>
+              <Grid>
                 <Button onClick={handleShowDialog} variant="contained">
                   <FormattedMessage id="create" defaultMessage="Create" />
                 </Button>
@@ -130,7 +130,7 @@ const KittygotchiesPage: NextPage = () => {
             >
               <Suspense
                 fallback={new Array(12).fill(null).map((_, index: number) => (
-                  <Grid item xs={6} sm={2} key={index}>
+                  <Grid size={{ xs: 6, sm: 2 }} key={index}>
                     <Card sx={{ height: '100%', width: '100%' }}>
                       <Skeleton
                         variant="rectangular"
@@ -159,3 +159,4 @@ const KittygotchiesPage: NextPage = () => {
 };
 
 export default KittygotchiesPage;
+

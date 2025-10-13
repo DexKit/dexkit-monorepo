@@ -98,8 +98,13 @@ export default function GameCard({
         sx={{
           px: 2,
           py: 1,
-          backgroundColor: (theme) =>
-            lighten(theme.palette.background.default, 0.05),
+          backgroundColor: (theme) => {
+            // Use theme.getColorSchemeSelector for proper dark/light mode detection
+            return {
+              [theme.getColorSchemeSelector('light')]: lighten(theme.palette.background.paper, 0.05),
+              [theme.getColorSchemeSelector('dark')]: '#1A1F28', // Darker shade for dark mode
+            };
+          },
         }}
       >
         <Stack
@@ -276,8 +281,13 @@ export default function GameCard({
               px: 2,
               py: 1,
               borderRadius: (theme) => `${theme.shape.borderRadius}px`,
-              backgroundColor: (theme) =>
-                lighten(theme.palette.background.default, 0.05),
+              backgroundColor: (theme) => {
+                // Use theme.getColorSchemeSelector for proper dark/light mode detection
+                return {
+                  [theme.getColorSchemeSelector('light')]: lighten(theme.palette.background.default, 0.05),
+                  [theme.getColorSchemeSelector('dark')]: '#1A1F28', // Dark background for dark mode
+                };
+              },
             }}
           >
             <Typography
@@ -298,9 +308,8 @@ export default function GameCard({
             </Typography>
           </Box>
           <Button
-            href={`/game/${getNetworkSlugFromChainId(chainId)}/${
-              game.id
-            }${affiliate ? '?affiliate=' + affiliate : ''}`}
+            href={`/game/${getNetworkSlugFromChainId(chainId)}/${game.id
+              }${affiliate ? '?affiliate=' + affiliate : ''}`}
             color="primary"
             variant="contained"
             sx={{

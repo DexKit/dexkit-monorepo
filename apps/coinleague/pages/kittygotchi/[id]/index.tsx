@@ -234,7 +234,7 @@ const KittygotchiDetailPage: NextPage = () => {
 
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={3}>
+              <Grid size={{ xs: 12, sm: 3 }}>
                 <Card>
                   <CardContent>
                     <Stack alignItems="center" spacing={2}>
@@ -318,15 +318,13 @@ const KittygotchiDetailPage: NextPage = () => {
                           <IconButton
                             disabled={kittygotchi.isLoading}
                             LinkComponent={Link}
-                            href={`https://opensea.io/assets/${
-                              chainId === ChainId.Polygon
+                            href={`https://opensea.io/assets/${chainId === ChainId.Polygon
                                 ? 'matic'
                                 : chainId === ChainId.PolygonMumbai
-                                ? 'mumbai'
-                                : 'ethereum'
-                            }/${GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}/${
-                              id as string
-                            }`}
+                                  ? 'mumbai'
+                                  : 'ethereum'
+                              }/${GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}/${id as string
+                              }`}
                             target="_blank"
                           >
                             <OpenSea />
@@ -337,7 +335,7 @@ const KittygotchiDetailPage: NextPage = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={9}>
+              <Grid size={{ xs: 12, sm: 9 }}>
                 <Card>
                   <CardContent>
                     <Stack spacing={2}>
@@ -411,8 +409,8 @@ const KittygotchiDetailPage: NextPage = () => {
                             ) : (
                               kittygotchi.data &&
                               kittygotchi.data?.run +
-                                kittygotchi.data?.attack +
-                                kittygotchi.data?.defense
+                              kittygotchi.data?.attack +
+                              kittygotchi.data?.defense
                             )}
                           </Typography>
                         </Stack>
