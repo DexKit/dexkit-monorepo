@@ -27,6 +27,7 @@ export function useErc20BalanceQuery({
   return useQuery(
     [ERC20_BALANCE, account, contractAddress, chainId],
     async () => {
+
       if (!contractAddress || !provider || !account) {
         return BigNumber.from(0);
       }
