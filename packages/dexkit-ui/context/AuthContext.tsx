@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 
 export interface AuthUser {
   address?: string;
@@ -11,7 +11,7 @@ interface IAuthContext {
   setUser?: any;
 }
 
-const AUTH_INITIAL_VALUES = {
+const AUTH_INITIAL_VALUES: IAuthContext = {
   isLoggedIn: false,
   setIsLoggedIn: undefined,
   user: undefined,

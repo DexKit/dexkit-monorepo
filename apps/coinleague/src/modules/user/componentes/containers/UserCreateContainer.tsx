@@ -82,7 +82,6 @@ export function UserCreateContainer({ hideHeader, onComplete }: Props) {
               <Stack
                 direction="row"
                 alignItems="center"
-                alignContent="center"
                 justifyContent="space-between"
               >
                 <PageHeader

@@ -228,7 +228,6 @@ export const TransactionConfirmDialog = (
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -243,7 +242,6 @@ export const TransactionConfirmDialog = (
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -261,7 +259,6 @@ export const TransactionConfirmDialog = (
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -277,7 +274,6 @@ export const TransactionConfirmDialog = (
               <Box
                 display="flex"
                 alignItems="center"
-                alignContent="center"
                 justifyContent="space-between"
               >
                 <Typography variant="body1">
@@ -302,7 +298,6 @@ export const TransactionConfirmDialog = (
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -332,7 +327,6 @@ export const TransactionConfirmDialog = (
                 <Box
                   display="flex"
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="space-between"
                 >
                   <Typography>

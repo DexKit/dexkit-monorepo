@@ -38,7 +38,6 @@ export function UserLoginContainer() {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader
@@ -67,7 +66,7 @@ export function UserLoginContainer() {
             <Stack direction={'row'} justifyContent={'space-between'}></Stack>
           </Grid>
           <Grid size={12}>
-            <Stack spacing={2} alignContent={'center'} alignItems={'center'}>
+            <Stack spacing={2} alignItems={'center'}>
               <Typography variant="h5">
                 <FormattedMessage id="login.app" defaultMessage="Login app" />
               </Typography>
@@ -79,7 +78,6 @@ export function UserLoginContainer() {
               </Typography>
               <Box
                 justifyContent={'center'}
-                alignContent={'center'}
                 alignItems={'center'}
               >
                 <Button

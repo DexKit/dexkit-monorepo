@@ -192,7 +192,6 @@ export function UserAirdrop() {
           <Stack
             spacing={2}
             justifyContent={'center'}
-            alignContent={'center'}
             alignItems={'center'}
           >
             <Typography variant="h3">

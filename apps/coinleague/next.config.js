@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 export default {
   productionBrowserSourceMaps: false,
+  /* typescript: {
+    ignoreBuildErrors: true,
+  }, */
   experimental: {
     optimizePackageImports: ['ethers'],
   },
@@ -32,6 +35,10 @@ export default {
       use: ['@svgr/webpack'],
     })*/
 
+    // Optimize webpack cache for better performance
+    config.cache = {
+      type: 'filesystem',
+    };
 
     config.resolve.alias = {
       ...config.resolve.alias,

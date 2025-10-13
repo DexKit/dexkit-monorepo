@@ -74,7 +74,6 @@ export const KittygotchiTraitSelector = (props: Props) => {
             container
             spacing={4}
             alignItems="center"
-            alignContent="center"
             wrap="nowrap"
           >
             {items.map((item: KittygotchiTraitItem, index: number) => (

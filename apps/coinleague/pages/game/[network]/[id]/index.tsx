@@ -895,7 +895,6 @@ const CoinLeagueGame: NextPage = () => {
           {/* <Box
             display={'flex'}
             justifyContent={'flex-end'}
-            alignContent={'flex-end'}
             alignItems={'flex-end'}
           >
             <GameActionsButton
@@ -912,7 +911,6 @@ const CoinLeagueGame: NextPage = () => {
                   spacing={2}
                   justifyContent="center"
                   alignItems="center"
-                  alignContent="center"
                 >
                   <Box>
                     <Typography variant="h5" align="center">

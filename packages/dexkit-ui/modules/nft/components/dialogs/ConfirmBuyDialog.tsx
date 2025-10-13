@@ -158,7 +158,7 @@ export default function ConfirmBuyDialog({
                   />
                 )}
               </Grid>
-              <Grid xs>
+              <Grid size={12}>
                 <Stack spacing={1}>
                   <Box>
                     <Typography variant="caption" color="textSecondary">

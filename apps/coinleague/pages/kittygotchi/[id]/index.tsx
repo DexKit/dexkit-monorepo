@@ -198,7 +198,6 @@ const KittygotchiDetailPage: NextPage = () => {
               spacing={2}
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <AppPageHeader
@@ -319,10 +318,10 @@ const KittygotchiDetailPage: NextPage = () => {
                             disabled={kittygotchi.isLoading}
                             LinkComponent={Link}
                             href={`https://opensea.io/assets/${chainId === ChainId.Polygon
-                                ? 'matic'
-                                : chainId === ChainId.PolygonMumbai
-                                  ? 'mumbai'
-                                  : 'ethereum'
+                              ? 'matic'
+                              : chainId === ChainId.PolygonMumbai
+                                ? 'mumbai'
+                                : 'ethereum'
                               }/${GET_KITTYGOTCHI_CONTRACT_ADDR(chainId)}/${id as string
                               }`}
                             target="_blank"

@@ -78,7 +78,6 @@ export function UserContainer({ username }: { username?: string }) {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader
@@ -138,7 +137,6 @@ export function UserContainer({ username }: { username?: string }) {
               justifyContent="space-between"
               direction="row"
               alignItems="center"
-              alignContent="center"
             ></Stack>
           </Grid>
           <Grid size={12}>

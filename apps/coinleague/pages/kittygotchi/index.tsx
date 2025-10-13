@@ -57,7 +57,6 @@ const KittygotchiesPage: NextPage = () => {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <AppPageHeader

@@ -105,7 +105,6 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
             container
             direction="column"
             alignItems="center"
-            alignContent="center"
             spacing={4}
           >
             <Grid size={12}></Grid>
@@ -127,7 +126,6 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
               <Box
                 display="flex"
                 justifyContent="center"
-                alignContent="center"
                 alignItems="center"
               >
                 <Button
@@ -181,7 +179,6 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
             container
             direction="column"
             alignItems="center"
-            alignContent="center"
             spacing={4}
           >
             <Grid size={12}></Grid>

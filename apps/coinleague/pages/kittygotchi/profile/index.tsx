@@ -57,7 +57,6 @@ const ProfilePage: NextPage = () => {
               justifyContent="space-between"
               spacing={2}
               alignItems="center"
-              alignContent="center"
             >
               <AppPageHeader
                 breadcrumbs={[

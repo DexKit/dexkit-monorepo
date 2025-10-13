@@ -23,9 +23,9 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=optional"
             rel="stylesheet"
           />
-          {appConfig?.font && (
+          {(appConfig as any)?.font && (
             <link
-              href={`https://fonts.googleapis.com/css2?family=${appConfig.font.family}&display=optional`}
+              href={`https://fonts.googleapis.com/css2?family=${(appConfig as any).font.family}&display=optional`}
               rel="stylesheet"
             />
           )}
@@ -44,7 +44,7 @@ export default class MyDocument extends Document {
           {(this.props as any).emotionStyleTags}
           <Script
             id="google-analytics-script"
-            src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
+            src={`https://www.googletagmanager.com/gtag/js?id=${(appConfig as any)?.analytics?.gtag || 'G-LYRHJH7JLJ'
               }`}
             strategy="afterInteractive"
           />
@@ -53,7 +53,7 @@ export default class MyDocument extends Document {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());    
-              gtag('config', '${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'}');
+              gtag('config', '${(appConfig as any)?.analytics?.gtag || 'G-LYRHJH7JLJ'}');
           
         `}
           </Script>

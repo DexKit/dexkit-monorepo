@@ -261,7 +261,7 @@ export const GET_GAME_ORDER_OPTIONS = [
   },
 ];
 
-export const BITBOY_TEAM = [
+export const BITBOY_TEAM: Array<{ address: string; label: string }> = [
   /*{
     address: '0x186035678f02f19d311ad24EA73a08EA4cD7f01e',
     label: 'Justin',

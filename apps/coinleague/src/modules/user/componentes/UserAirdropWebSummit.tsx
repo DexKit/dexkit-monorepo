@@ -167,7 +167,6 @@ export function UserAirdropWebsummit() {
           <Stack
             spacing={2}
             justifyContent={'center'}
-            alignContent={'center'}
             alignItems={'center'}
           >
             <Typography variant="h6">

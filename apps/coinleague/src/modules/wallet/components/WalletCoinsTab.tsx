@@ -483,7 +483,7 @@ export default function WalletCoinsTab({ }: Props) {
           </Card>
         ) : (
           <Box>
-            <Stack spacing={2} alignItems="center" alignContent="center">
+            <Stack spacing={2} alignItems="center">
               <TipsAndUpdates fontSize="large" />
               <Box>
                 <Typography align="center" variant="h5">

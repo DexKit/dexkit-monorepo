@@ -1,41 +1,20 @@
-import { Button, Card, CardContent, Divider } from '@mui/material';
-import { useState } from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import PaymentMethodList from './PaymentMethodsList';
-import AddPaymentMethodDialog from './dialogs/AddPaymentMethodDialog';
 
 export default function PaymentsSection() {
-  const [open, setOpen] = useState(false);
-
-  const handleCloseAddPaymentMethod = () => {
-    setOpen(false);
-  };
-
-  const handleAdd = () => {
-    setOpen(true);
-  };
-
   return (
-    <>
-      {open && (
-        <AddPaymentMethodDialog
-          DialogProps={{
-            open,
-            onClose: handleCloseAddPaymentMethod,
-            maxWidth: 'sm',
-            fullWidth: true,
-          }}
-        />
-      )}
-      <Card>
-        <CardContent>
-          <Button onClick={handleAdd} variant="contained">
-            <FormattedMessage id="add" defaultMessage="Add" />
-          </Button>
-        </CardContent>
-        <Divider />
-        <PaymentMethodList />
-      </Card>
-    </>
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          <FormattedMessage id="payments" defaultMessage="Payments" />
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <FormattedMessage
+            id="payments.disabled"
+            defaultMessage="Payment methods are currently disabled."
+          />
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }

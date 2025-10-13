@@ -229,7 +229,6 @@ const CoinLeagueIndex: NextPage = () => {
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
           >
             <AppPageHeader
@@ -269,14 +268,12 @@ const CoinLeagueIndex: NextPage = () => {
                 spacing={2}
                 justifyContent="space-between"
                 alignItems="center"
-                alignContent="center"
               >
                 <Stack
                   direction="row"
                   spacing={2}
                   justifyContent="space-between"
                   alignItems="center"
-                  alignContent="center"
                 >
                   <Avatar
                     sx={(theme) => ({
@@ -406,7 +403,6 @@ const CoinLeagueIndex: NextPage = () => {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               spacing={2}
             >
               <IconButton onClick={handleShowGrid}>

@@ -126,7 +126,6 @@ const KittygotchiEditPage: NextPage = () => {
             spacing={2}
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
           >
             <AppPageHeader

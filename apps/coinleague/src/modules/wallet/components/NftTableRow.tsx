@@ -22,6 +22,7 @@ export default function NftTableRow({ nft, onSelect }: Props) {
           {nft?.imageUrl ? (
             <img
               src={getNormalizedUrl(nft?.imageUrl)}
+              alt={nft?.name || 'NFT'}
               style={{ width: '100%', height: '100%' }}
             />
           ) : (

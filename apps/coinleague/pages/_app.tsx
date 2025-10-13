@@ -260,10 +260,10 @@ export default function MyApp(props: MyAppProps) {
       <AuthStateProvider>
         <SiteProvider siteId={siteId} slug={site}>
           <AppConfigContext.Provider
-            value={{ appConfig: config, appNFT, siteId }}
+            value={{ appConfig: config as AppConfig, appNFT, siteId }}
           >
             <AppUIConfigContext.Provider
-              value={{ appConfig: config, appNFT, siteId }}
+              value={{ appConfig: config as AppConfig, appNFT, siteId }}
             >
               <ThirdwebProvider>
                 <AutoConnectEthereumProvider />

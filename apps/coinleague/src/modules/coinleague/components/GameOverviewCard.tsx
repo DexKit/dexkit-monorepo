@@ -113,7 +113,6 @@ export function GameOverviewCard({
             justifyContent: 'space-between',
             flexDirection: { sm: 'row', xs: 'column' },
             alignItems: { sm: 'center' },
-            alignContent: 'center',
           }}
         >
           <Box>
@@ -121,7 +120,6 @@ export function GameOverviewCard({
               spacing={1}
               container
               alignItems="center"
-              alignContent="center"
             >
               {/* <Grid>
                 <Typography variant="caption" color="textSecondary">

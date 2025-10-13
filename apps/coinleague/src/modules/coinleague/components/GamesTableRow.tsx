@@ -53,7 +53,6 @@ export default function GamesTableRow({
             spacing={1}
             direction="row"
             alignItems="center"
-            alignContent="center"
           >
             {game.title && <Crown fontSize="small" />}
             <Typography>#{game.id}</Typography>
@@ -64,7 +63,6 @@ export default function GamesTableRow({
             spacing={1}
             direction="row"
             alignItems="center"
-            alignContent="center"
           >
             {game?.type === 'Bull' ? <ArrowUpSquare /> : <ArrowDownSquare />}
 

@@ -118,7 +118,6 @@ const AffiliatesPage: NextPage = () => {
                 <Card>
                   <Stack
                     direction="row"
-                    alignContent="center"
                     alignItems="center"
                     spacing={2}
                     sx={{ p: 2 }}
@@ -144,7 +143,6 @@ const AffiliatesPage: NextPage = () => {
                 <Card>
                   <Stack
                     direction="row"
-                    alignContent="center"
                     alignItems="center"
                     spacing={2}
                     sx={{ p: 2 }}
@@ -183,7 +181,6 @@ const AffiliatesPage: NextPage = () => {
                     <Stack
                       direction="row"
                       alignItems="center"
-                      alignContent="center"
                       spacing={2}
                       sx={{ p: 2 }}
                     >

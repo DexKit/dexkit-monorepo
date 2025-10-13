@@ -47,7 +47,7 @@ function ThemeSyncComponent() {
 
 function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
   return (
-    <CssVarsProvider theme={theme} defaultMode="dark">
+    <CssVarsProvider theme={theme} defaultMode="dark" modeStorageKey="mui-mode">
       <ThemeSyncComponent />
       {children}
     </CssVarsProvider>

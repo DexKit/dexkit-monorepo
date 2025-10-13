@@ -110,13 +110,11 @@ export default function GameCard({
         <Stack
           direction="row"
           alignItems="center"
-          alignContent="center"
           justifyContent="space-between"
         >
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
             spacing={1}
           >
@@ -159,7 +157,6 @@ export default function GameCard({
               <Stack
                 direction="row"
                 alignItems="center"
-                alignContent="center"
                 spacing={0.5}
               >
                 <Tooltip
@@ -226,7 +223,6 @@ export default function GameCard({
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               spacing={0.5}
             >
               <Tooltip

@@ -21,7 +21,6 @@ export function UserAirdropContainer() {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader

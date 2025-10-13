@@ -43,6 +43,7 @@ export default function KittygotchiCard({ id, chainId }: Props) {
               metadataQuery.data?.image &&
               getNormalizedUrl(metadataQuery.data?.image)
             }
+            alt={metadataQuery.data?.name || 'Kittygotchi NFT'}
             style={{
               height: '100%',
               width: '100%',

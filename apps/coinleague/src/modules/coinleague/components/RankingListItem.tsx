@@ -10,7 +10,6 @@ import {
   Box,
   Collapse,
   Divider,
-  Grid,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
@@ -86,7 +85,6 @@ export default function RankingListItem({
         <Box
           display="flex"
           alignItems="center"
-          alignContent="center"
           justifyContent="center"
         >
           {isOpen ? <ExpandLess /> : <ExpandMore />}
@@ -148,8 +146,8 @@ export default function RankingListItem({
               <Typography variant="subtitle1">
                 {joinsCount
                   ? `${Number(((winsCount || 0) / joinsCount) * 100).toFixed(
-                      2,
-                    )}%`
+                    2,
+                  )}%`
                   : '0%'}
               </Typography>
             </Grid>

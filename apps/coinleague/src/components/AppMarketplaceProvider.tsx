@@ -55,9 +55,9 @@ export function AppMarketplaceProvider({
 
   useEffect(() => {
     if (router.query.ref) {
-      setRef(router.query.ref as string);
+      (setRef as any)(router.query.ref as string);
     }
-  }, [router.query.ref]);
+  }, [router.query.ref, setRef]);
 
   const theme = useMemo(() => {
     let tempTheme = getTheme({
@@ -125,7 +125,7 @@ export function AppMarketplaceProvider({
         },
       })
       : extendTheme({ ...temp });
-  }, [appConfig]);
+  }, [appConfig, mode]);
 
   const SEO = useMemo(() => {
     const config = appConfig;

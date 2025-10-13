@@ -73,7 +73,6 @@ function ConfirmSwapDialog({
                 <Stack
                   direction="row"
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="space-between"
                 >
                   <Typography sx={{ fontWeight: 600 }}>
@@ -92,7 +91,6 @@ function ConfirmSwapDialog({
                 <Stack
                   direction="row"
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="space-between"
                 >
                   <Typography sx={{ fontWeight: 600 }}>
@@ -114,7 +112,6 @@ function ConfirmSwapDialog({
                 <Stack
                   direction="row"
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="space-between"
                 >
                   <Typography sx={{ fontWeight: 600 }}>
@@ -155,7 +152,6 @@ function ConfirmSwapDialog({
                   <Stack
                     direction="row"
                     alignItems="center"
-                    alignContent="center"
                     justifyContent="space-between"
                   >
                     <Typography sx={{ fontWeight: 600 }}>

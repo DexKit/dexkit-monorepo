@@ -151,7 +151,6 @@ export function UserEditContainer({
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography sx={{ fontWeight: 600 }} variant="subtitle1">
@@ -209,7 +208,6 @@ export function UserEditContainer({
               <Stack
                 direction="row"
                 alignItems="center"
-                alignContent="center"
                 justifyContent="space-between"
               >
                 {user && (
