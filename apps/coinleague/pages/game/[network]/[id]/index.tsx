@@ -8,7 +8,8 @@ import type {
 
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useSwitchNetwork, useSwitchNetworkMutation } from '@/hooks/blockchain';
+import { useSwitchNetworkMutation } from '@/hooks/blockchain';
+import { useCoinLeagueSwitchNetwork } from '@/hooks/useCoinLeagueSwitchNetwork';
 import { useCoinLeagueValidation } from '@/hooks/useCoinLeagueValidation';
 import SelectCoinDialog from '@/modules/coinleague/components/dialogs/SelectCoinDialog';
 import { GAME_ENDED, GAME_WAITING } from '@/modules/coinleague/constants';
@@ -74,6 +75,7 @@ import Token from '@mui/icons-material/Token';
 import { BigNumber, ethers, providers } from 'ethers';
 
 import { GameOverviewCard } from '@/modules/coinleague/components/GameOverviewCard';
+import CoinLeagueSelectNetworkDialog from '@/modules/common/components/CoinLeagueSelectNetworkDialog';
 import { getWindowUrl } from '@/modules/common/utils/browser';
 import ShareDialogV2 from '@dexkit/ui/components/dialogs/ShareDialogV2';
 import dynamic from 'next/dynamic';
@@ -96,7 +98,7 @@ const CoinLeagueGame: NextPage = () => {
 
   const { account, isActive, signer, chainId: accountChainID } = useWeb3React();
   const validation = useCoinLeagueValidation();
-  const { openDialog: openSwitchNetwork } = useSwitchNetwork();
+  const { openDialog: openSwitchNetwork, isOpen: isSwitchNetworkOpen, closeDialog: closeSwitchNetwork } = useCoinLeagueSwitchNetwork();
   const switchNetworkMutation = useSwitchNetworkMutation();
 
   const { network, id, affiliate } = router.query;
@@ -604,6 +606,16 @@ const CoinLeagueGame: NextPage = () => {
                 : {}
           }
           onSave={handleSave}
+        />
+      )}
+      {isSwitchNetworkOpen && (
+        <CoinLeagueSelectNetworkDialog
+          dialogProps={{
+            open: isSwitchNetworkOpen,
+            onClose: closeSwitchNetwork,
+            fullWidth: true,
+            maxWidth: 'xs',
+          }}
         />
       )}
       <Stack spacing={2}>

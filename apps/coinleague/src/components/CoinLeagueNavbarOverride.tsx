@@ -1,6 +1,6 @@
 import { AppConfig } from '@dexkit/ui/modules/wizard/types/config';
 import { useEffect } from 'react';
-import { useCoinLeagueUserAvatar } from '../hooks/useCoinLeagueUserAvatar';
+import { useCoinLeagueConnectWallet } from '../hooks/useCoinLeagueConnectWallet';
 
 interface CoinLeagueNavbarOverrideProps {
   appConfig: AppConfig;
@@ -8,39 +8,40 @@ interface CoinLeagueNavbarOverrideProps {
 }
 
 export function CoinLeagueNavbarOverride({ appConfig, isPreview }: CoinLeagueNavbarOverrideProps) {
-  const { handleUserAvatarClick } = useCoinLeagueUserAvatar();
+  const { handleUserAvatarClick } = useCoinLeagueConnectWallet();
 
   useEffect(() => {
-    // Override del comportamiento del ícono de usuario en el DOM
     const overrideUserAvatarBehavior = () => {
-      // Buscar botones que contienen avatares de usuario en el navbar
       const navbar = document.querySelector('[role="banner"]') || document.querySelector('.MuiAppBar-root');
       if (!navbar) return;
 
-      // Buscar botones que contienen avatares de usuario
-      const userAvatarButtons = navbar.querySelectorAll('button[class*="ButtonBase"], button[class*="IconButton"]');
+      const userAvatarButtons = navbar.querySelectorAll('button[class*="ButtonBase"], button[class*="IconButton"], button[class*="MuiButtonBase"]');
 
       userAvatarButtons.forEach((button) => {
-        // Verificar si el botón contiene un Avatar de usuario
-        const avatar = button.querySelector('.MuiAvatar-root[src]') || button.querySelector('div[role="img"]');
-        if (avatar && !button.hasAttribute('data-coinleague-override')) {
-          // Marcar como ya procesado
-          button.setAttribute('data-coinleague-override', 'true');
+        const avatar = button.querySelector('.MuiAvatar-root[src]') ||
+          button.querySelector('div[role="img"]') ||
+          button.querySelector('.MuiAvatar-root');
 
-          // Agregar nuestro event listener personalizado
+        const isAvatarButton = button.classList.contains('MuiButtonBase-root') &&
+          (button.querySelector('.MuiAvatar-root') ||
+            button.getAttribute('aria-label')?.includes('profile') ||
+            button.getAttribute('aria-label')?.includes('user'));
+
+        if ((avatar || isAvatarButton) && !button.hasAttribute('data-coinleague-override')) {
+          button.setAttribute('data-coinleague-override', 'true');
           button.addEventListener('click', (e) => {
+            console.log('Coin League: Avatar clicked, redirecting to profile');
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             handleUserAvatarClick();
-          });
+          }, { capture: true });
         }
       });
     };
 
-    // Ejecutar después de que el componente se monte
     const timeoutId = setTimeout(overrideUserAvatarBehavior, 100);
 
-    // También ejecutar cuando el DOM cambie
     const observer = new MutationObserver(overrideUserAvatarBehavior);
     observer.observe(document.body, { childList: true, subtree: true });
 
@@ -50,6 +51,5 @@ export function CoinLeagueNavbarOverride({ appConfig, isPreview }: CoinLeagueNav
     };
   }, [handleUserAvatarClick]);
 
-  // No renderizamos nada, solo modificamos el comportamiento existente
   return null;
 }

@@ -30,15 +30,16 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useIsMobile } from "@dexkit/core";
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { Network } from "@dexkit/core/types";
+import { AppDialogTitle } from "@dexkit/ui/components/AppDialogTitle";
+import { useActiveChainIds, useSwitchNetworkMutation } from "@dexkit/ui/hooks";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { useActiveChainIds, useSwitchNetworkMutation } from "../../hooks";
-import { AppDialogTitle } from "../AppDialogTitle";
 
 interface Props {
   dialogProps: DialogProps;
+  chainId?: number;
 }
 
-function SwitchNetworkDialog({ dialogProps }: Props) {
+function CoinLeagueSelectNetworkDialog({ dialogProps, chainId }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
   const intl = useIntl();
@@ -46,21 +47,21 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
 
   const getBackgroundColor = () => {
     if (isDarkMode) {
-      return '#212529';
+      return '#141a21';
     }
     return theme.palette.background.default;
   };
 
   const getPaperColor = () => {
     if (isDarkMode) {
-      return '#212529';
+      return '#141a21';
     }
     return theme.palette.background.paper;
   };
 
   const getInputBackgroundColor = () => {
     if (isDarkMode) {
-      return '#212529';
+      return '#141a21';
     }
     return theme.palette.background.paper;
   };
@@ -83,7 +84,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   const { activeChainIds } = useActiveChainIds();
   const { chainId: connectedChainId } = useWeb3React();
 
-  const [chainId, setChainId] = useState<number>();
+  const [selectedChainId, setSelectedChainId] = useState<number>();
   const [searchQuery, setSearchQuery] = useState("");
 
   const switchNetworkMutation = useSwitchNetworkMutation();
@@ -114,17 +115,17 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   };
 
   const handleSwitchNetwork = async () => {
-    if (chainId !== undefined) {
-      await switchNetworkMutation.mutateAsync({ chainId });
+    if (selectedChainId !== undefined) {
+      await switchNetworkMutation.mutateAsync({ chainId: selectedChainId });
       handleClose();
     }
   };
 
   const handleSelectNetwork = (id: number) => {
-    if (id === chainId) {
-      return setChainId(undefined);
+    if (id === selectedChainId) {
+      return setSelectedChainId(undefined);
     }
-    setChainId(id);
+    setSelectedChainId(id);
   };
 
   const handleReset = () => {
@@ -204,7 +205,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
               <InputAdornment position="start">
                 <SearchIcon
                   sx={{
-                    color: theme.palette.text.secondary,
+                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
                     fontSize: isMobile ? theme.typography.h5.fontSize : theme.typography.body1.fontSize,
                   }}
                 />
@@ -216,7 +217,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                   size="small"
                   onClick={handleClearSearch}
                   sx={{
-                    color: theme.palette.text.secondary,
+                    color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
                     p: isMobile ? theme.spacing(1) : theme.spacing(0.5),
                   }}
                 >
@@ -230,7 +231,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
               borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
               backgroundColor: getInputBackgroundColor(),
               '& fieldset': {
-                borderColor: theme.palette.divider,
+                borderColor: isDarkMode ? '#404040' : theme.palette.divider,
               },
               '&:hover fieldset': {
                 borderColor: theme.palette.primary.main,
@@ -238,11 +239,17 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
               '&.Mui-focused fieldset': {
                 borderColor: theme.palette.primary.main,
               },
+              ...(isDarkMode && {
+                backgroundColor: '#2d2d30 !important',
+                '& fieldset': {
+                  borderColor: '#404040 !important',
+                },
+              }),
             },
             '& .MuiInputBase-input': {
-              color: theme.palette.text.primary,
+              color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
               '&::placeholder': {
-                color: theme.palette.text.secondary,
+                color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
                 opacity: 1,
               },
             },
@@ -256,7 +263,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             sx={{
               mt: 1,
               display: 'block',
-              color: theme.palette.text.secondary,
+              color: isDarkMode ? '#ffffff' : theme.palette.text.secondary,
             }}
           >
             <FormattedMessage
@@ -327,7 +334,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
               {filteredNetworks.map((network: any, index: number) => (
                 <ListItemButton
                   disabled={switchNetworkMutation.isLoading}
-                  selected={network.chainId === chainId}
+                  selected={network.chainId === selectedChainId}
                   key={network.chainId}
                   onClick={() => handleSelectNetwork(network.chainId)}
                   divider={index < filteredNetworks.length - 1}
@@ -380,12 +387,12 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                   <ListItemSecondaryAction>
                     <Radio
                       name="chainId"
-                      checked={network.chainId === chainId}
+                      checked={network.chainId === selectedChainId}
                       size={isMobile ? "medium" : "small"}
                       sx={{
-                        color: theme.palette.primary.main,
+                        color: '#f0883e',
                         '&.Mui-checked': {
-                          color: theme.palette.primary.main,
+                          color: '#f0883e',
                         },
                       }}
                     />
@@ -410,7 +417,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
         <Button
           variant="contained"
           color="primary"
-          disabled={switchNetworkMutation.isLoading || chainId === undefined}
+          disabled={switchNetworkMutation.isLoading || selectedChainId === undefined}
           startIcon={
             switchNetworkMutation.isLoading ? (
               <CircularProgress color="inherit" size="1rem" />
@@ -425,12 +432,23 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             backgroundColor: getButtonBackgroundColor(),
             color: getButtonTextColor(),
             '&:hover': {
-              backgroundColor: theme.palette.primary.dark,
+              backgroundColor: isDarkMode ? '#404040' : theme.palette.primary.dark,
             },
             '&:disabled': {
-              backgroundColor: theme.palette.action.disabledBackground,
-              color: theme.palette.action.disabled,
+              backgroundColor: isDarkMode ? '#141a21' : theme.palette.action.disabledBackground,
+              color: isDarkMode ? '#9B9B9B' : theme.palette.action.disabled,
             },
+            ...(isDarkMode && {
+              backgroundColor: '#f0883e !important',
+              color: '#ffffff !important',
+              '&:hover': {
+                backgroundColor: '#d4732a !important',
+              },
+              '&:disabled': {
+                backgroundColor: '#141a21 !important',
+                color: '#9B9B9B !important',
+              },
+            }),
           }}
         >
           <FormattedMessage
@@ -458,6 +476,19 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
               color: theme.palette.action.disabled,
               borderColor: theme.palette.action.disabled,
             },
+            ...(isDarkMode && {
+              backgroundColor: 'transparent !important',
+              color: '#f0883e !important',
+              border: 'none !important',
+              '&:hover': {
+                backgroundColor: 'rgba(240, 136, 62, 0.1) !important',
+              },
+              '&:disabled': {
+                backgroundColor: 'transparent !important',
+                color: '#9B9B9B !important',
+                borderColor: 'transparent !important',
+              },
+            }),
           }}
         >
           <FormattedMessage
@@ -471,4 +502,4 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   );
 }
 
-export default SwitchNetworkDialog;
+export default CoinLeagueSelectNetworkDialog;
