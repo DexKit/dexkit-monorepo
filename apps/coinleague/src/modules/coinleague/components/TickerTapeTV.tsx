@@ -1,13 +1,25 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import { useColorScheme } from '@mui/material/styles';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import { TickerTape } from 'react-ts-tradingview-widgets';
 import { PriceFeeds } from '../constants';
 
 function TickerTapeTV() {
   const { mode } = useColorScheme();
-  const isDark = mode === 'dark';
+  const [isDark, setIsDark] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    setIsDark(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && mode) {
+      setIsDark(mode === 'dark');
+    }
+  }, [mode, isMounted]);
 
   const symbols = PriceFeeds[ChainId.Polygon]
     // .concat(PriceFeeds[ChainId.BSC])
@@ -19,11 +31,15 @@ function TickerTapeTV() {
       };
     });
 
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <TickerTape
-      colorTheme="dark"
+      colorTheme={isDark ? "dark" : "light"}
       symbols={symbols}
-      isTransparent={true}
+      isTransparent={false}
       displayMode="adaptive"
     />
   );
