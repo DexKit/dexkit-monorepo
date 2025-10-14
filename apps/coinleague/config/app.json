@@ -7,14 +7,14 @@
   "defaultThemeMode": "dark",
   "domain": "https://coinleague.xyz",
   "logo": {
-    "url": "/logo.png",
+    "url": "/Coin-League_Logo-FINAL.png",
     "height": 50,
     "width": 100,
     "widthMobile": 100,
     "heightMobile": 50
   },
   "logoDark": {
-    "url": "/logo.png",
+    "url": "/Coin-League_Logo-FINAL.png",
     "height": 50,
     "width": 100,
     "widthMobile": 100,

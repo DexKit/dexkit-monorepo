@@ -40,9 +40,38 @@ export function CoinLeagueNavbarOverride({ appConfig, isPreview }: CoinLeagueNav
       });
     };
 
-    const timeoutId = setTimeout(overrideUserAvatarBehavior, 100);
+    const overrideLogoPositioning = () => {
+      const navbar = document.querySelector('[role="banner"]') || document.querySelector('.MuiAppBar-root');
+      if (!navbar) return;
 
-    const observer = new MutationObserver(overrideUserAvatarBehavior);
+      const logoContainer = navbar.querySelector('a[href="/"]') || navbar.querySelector('a[href="#"]');
+      if (logoContainer) {
+        const logoImage = logoContainer.querySelector('img[src*="Coin-League_Logo-FINAL"]') as HTMLImageElement;
+        if (logoImage) {
+          logoImage.style.transform = 'translateY(2px)';
+          logoImage.style.objectPosition = 'center 45%';
+          logoImage.style.transition = 'transform 0.3s ease-in-out';
+
+          logoContainer.addEventListener('mouseenter', () => {
+            logoImage.style.transform = 'translateY(2px) scale(1.1)';
+          });
+
+          logoContainer.addEventListener('mouseleave', () => {
+            logoImage.style.transform = 'translateY(2px) scale(1)';
+          });
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      overrideUserAvatarBehavior();
+      overrideLogoPositioning();
+    }, 100);
+
+    const observer = new MutationObserver(() => {
+      overrideUserAvatarBehavior();
+      overrideLogoPositioning();
+    });
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
