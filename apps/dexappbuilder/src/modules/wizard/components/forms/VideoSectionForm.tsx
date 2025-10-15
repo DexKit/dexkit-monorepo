@@ -91,82 +91,82 @@ export default function VideoSectionForm({
     <form onSubmit={formik.handleSubmit}>
       <Box sx={{ px: isMobile ? 2 : 0 }}>
         <Stack spacing={isMobile ? 1.5 : 2}>
-        <TextField
-          size={isMobile ? "small" : "medium"}
-          label={<FormattedMessage id="title" defaultMessage="Title" />}
-          fullWidth
-          name="title"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          error={Boolean(formik.errors.title)}
-          required
-          helperText={
-            Boolean(formik.errors.title) ? formik.errors.title : undefined
-          }
-        />
-        
-        <TextField
-          size={isMobile ? "small" : "medium"}
-          label={
-            <FormattedMessage id="video.url" defaultMessage="Video URL" />
-          }
-          required
-          fullWidth
-          type="url"
-          name="videoUrl"
-          value={formik.values.videoUrl}
-          onChange={formik.handleChange}
-          error={Boolean(formik.errors.videoUrl)}
-          helperText={
-            Boolean(formik.errors.videoUrl)
-              ? formik.errors.videoUrl
-              : undefined
-          }
-        />
-
-        <Box
-          sx={{
-            display:
-              videoUrl &&
-                formik.isValid
-                ? 'block'
-                : 'none',
-            mt: isMobile ? 1 : 2,
-            '& iframe': {
-              maxWidth: '100%',
-              height: isMobile ? '180px' : 'auto'
-            }
-          }}
-        >
-          {getVideoType(videoUrl) === 'youtube' ? (
-            <LazyYoutubeFrame url={videoUrl} />
-          ) : (
-            <iframe
-              src={videoUrl}
-              title={formik.values.title}
-              width="100%"
-              height={isMobile ? '180px' : '200px'}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          )}
-        </Box>
-
-        <Stack spacing={2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 0 }}>
-          <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
-            <FormattedMessage id="cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
+          <TextField
             size={isMobile ? "small" : "medium"}
+            label={<FormattedMessage id="title" defaultMessage="Title" />}
+            fullWidth
+            name="title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            error={Boolean(formik.errors.title)}
+            required
+            helperText={
+              Boolean(formik.errors.title) ? formik.errors.title : undefined
+            }
+          />
+
+          <TextField
+            size={isMobile ? "small" : "medium"}
+            label={
+              <FormattedMessage id="video.url" defaultMessage="Video URL" />
+            }
+            required
+            fullWidth
+            type="url"
+            name="videoUrl"
+            value={formik.values.videoUrl}
+            onChange={formik.handleChange}
+            error={Boolean(formik.errors.videoUrl)}
+            helperText={
+              Boolean(formik.errors.videoUrl)
+                ? formik.errors.videoUrl
+                : undefined
+            }
+          />
+
+          <Box
+            sx={{
+              display:
+                videoUrl &&
+                  formik.isValid
+                  ? 'block'
+                  : 'none',
+              mt: isMobile ? 1 : 2,
+              '& iframe': {
+                maxWidth: '100%',
+                height: isMobile ? '180px' : 'auto'
+              }
+            }}
           >
-            <FormattedMessage id="save" defaultMessage="Save" />
-          </Button>
+            {getVideoType(videoUrl) === 'youtube' ? (
+              <LazyYoutubeFrame url={videoUrl} />
+            ) : (
+              <iframe
+                src={videoUrl}
+                title={formik.values.title}
+                width="100%"
+                height={isMobile ? '180px' : '200px'}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            )}
+          </Box>
+
+          <Stack spacing={2} direction="row" justifyContent="flex-end" sx={{ mt: isMobile ? 1 : 0 }}>
+            <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
+              <FormattedMessage id="cancel" defaultMessage="Cancel" />
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size={isMobile ? "small" : "medium"}
+            >
+              <FormattedMessage id="save" defaultMessage="Save" />
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
       </Box>
     </form>
   );

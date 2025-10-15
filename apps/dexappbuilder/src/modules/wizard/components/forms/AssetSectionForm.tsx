@@ -27,7 +27,6 @@ import {
 import { Select, Switch, TextField } from 'formik-mui';
 import { SyntheticEvent, useContext, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useIntegrationDataQuery } from '../../hooks/integrations';
 import { AssetFormType } from '../../types';
 import { CollectionItemAutocomplete } from './CollectionItemAutocomplete';
 export interface AssetSectionFormProps {
@@ -74,21 +73,17 @@ export default function AssetSectionForm({
       initialValues={
         section
           ? {
-              ...section.config,
-              enableDrops: section.config.enableDrops
-                ? section.config.enableDrops
-                : false,
-              enableFiat: section.config.enableFiat
-                ? section.config.enableFiat
-                : false,
-            }
+            ...section.config,
+            enableFiat: section.config.enableFiat
+              ? section.config.enableFiat
+              : false,
+          }
           : {
-              address: '',
-              network: '',
-              tokenId: '',
-              enableDrops: false,
-              enableFiat: false,
-            }
+            address: '',
+            network: '',
+            tokenId: '',
+            enableFiat: false,
+          }
       }
       onSubmit={handleSubmit}
       validate={handleValidate}
@@ -116,7 +111,7 @@ export default function AssetSectionForm({
                         <Avatar
                           src={ipfsUriToUrl(
                             networks.find((n: any) => n.slug === value)?.imageUrl ||
-                              '',
+                            '',
                           )}
                           style={{ width: 'auto', height: '1rem' }}
                         />
@@ -201,7 +196,7 @@ export default function AssetSectionForm({
                       <CollectionItemAutocomplete
                         value={{
                           chainId: NETWORK_FROM_SLUG(values.network)?.chainId,
-                          contractAddress: values.address.toLowerCase(),
+                          contractAddress: values.address?.toLowerCase() || '',
                         }}
                         onChange={({
                           contractAddress,
@@ -251,23 +246,6 @@ export default function AssetSectionForm({
                       <FormattedMessage
                         id="enable.fiat"
                         defaultMessage="Enable Fiat"
-                      />
-                    }
-                  />
-                </Grid>
-                <Grid>
-                  <FormControlLabel
-                    control={
-                      <Field
-                        component={Switch}
-                        name="enableDrops"
-                        type="checkbox"
-                      />
-                    }
-                    label={
-                      <FormattedMessage
-                        id="enable.drop"
-                        defaultMessage="Enable Drop"
                       />
                     }
                   />

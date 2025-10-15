@@ -251,6 +251,9 @@ export default function MediaDialog({
           maxWidth: "sm",
           onClose: handleShowConfirmRemoveClose,
           open: showConfirmRemove,
+          sx: {
+            zIndex: 10001,
+          },
         }}
         onConfirm={handleDeleteFile}
         title={
@@ -268,6 +271,9 @@ export default function MediaDialog({
           maxWidth: "sm",
           onClose: handleShowConfirmEditClose,
           open: showConfirmEdit,
+          sx: {
+            zIndex: 10001,
+          },
         }}
         onConfirm={handleEditFile}
         title={

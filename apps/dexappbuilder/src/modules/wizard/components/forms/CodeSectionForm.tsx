@@ -31,7 +31,6 @@ import { stringToJson } from '@dexkit/ui/utils';
 import Fullscreen from '@mui/icons-material/Fullscreen';
 import parse from 'html-react-parser';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { FormattedMessage } from 'react-intl';
 import ChangeListener from '../ChangeListener';
 

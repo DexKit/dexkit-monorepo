@@ -72,9 +72,7 @@ export default function PageEditorDialog({
     <Dialog
       {...dialogProps}
       sx={{ zIndex: 1199 }}
-      fullScreen={isMobile}
-      maxWidth={isMobile ? undefined : "xl"}
-      fullWidth={!isMobile}
+      fullScreen={true}
     >
       <Box sx={{ paddingLeft: isMobile ? theme.spacing(1) : theme.spacing(4) }}>
         <AppDialogPageEditorTitle
@@ -86,12 +84,16 @@ export default function PageEditorDialog({
           onChangeName={handleChangeName}
         />
       </Box>
-      <DialogContent>
+      <DialogContent sx={{
+        height: 'calc(100vh - 120px)',
+        overflow: 'hidden',
+        padding: 0
+      }}>
         <Box sx={{
           paddingLeft: isMobile ? 0 : theme.spacing(12.5),
           paddingRight: isMobile ? 0 : theme.spacing(12.5),
           paddingTop: isMobile ? theme.spacing(1) : theme.spacing(5),
-          height: isMobile ? `calc(100vh - ${theme.spacing(18.75)})` : 'auto',
+          height: '100%',
           overflow: 'auto'
         }}>
           <PageEditor
