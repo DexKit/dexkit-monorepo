@@ -61,13 +61,14 @@ import { getAppConfig } from 'src/services/app';
 import CheckoutConfirmDialog from '@/modules/commerce/components/dialogs/CheckoutConfirmDialog';
 import useCheckoutPay from '@/modules/commerce/hooks/checkout/useCheckoutPay';
 
+import useCheckoutCanPay from '@/modules/commerce/hooks/checkout/useCheckoutCanPay';
+import useCheckoutReceiver from '@/modules/commerce/hooks/checkout/useCheckoutReceiver';
 import useCheckoutNetworks from '@/modules/commerce/hooks/settings/useCheckoutNetworks';
 import { UserCheckoutItemsFormSchema } from '@/modules/commerce/schemas';
 import { CheckoutItem } from '@/modules/commerce/types';
 import { NETWORK_PROVIDER } from '@dexkit/core/constants/networkProvider';
 import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import CheckoutTokenAutocomplete from '@dexkit/ui/modules/commerce/components/CheckoutTokenAutocomplete';
-import { useSiteReceiver } from '@dexkit/ui/modules/commerce/hooks/useSiteReceiver';
 import { useEvmTransferMutation } from '@dexkit/ui/modules/evm-transfer-coin/hooks';
 import Edit from '@mui/icons-material/Edit';
 import { Formik } from 'formik';
@@ -86,9 +87,15 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
 
   const { id } = router.query;
 
-  const { data: receiverData } = useSiteReceiver({ siteId: siteId });
+  //const { data: receiverData } = useSiteReceiver({ siteId: siteId });
 
   const userCheckout = useUserCheckout({ id: id as string });
+  const { data: receiverData } = useCheckoutReceiver({
+    owner: userCheckout.data?.owner,
+  });
+  const { data: canPayData } = useCheckoutCanPay({
+    owner: userCheckout.data?.owner,
+  });
 
   // const { data: availNetworks } = useUserCheckoutNetworks({ id: id as string });
 
@@ -311,7 +318,8 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
             !token ||
             (userCheckout.data?.requireEmail && (!email || !isValidEmail)) ||
             !receiverData ||
-            !receiverData?.receiver
+            !receiverData?.receiver ||
+            !canPayData?.canPay
           }
           fullWidth
           onClick={handlePay}
@@ -714,15 +722,16 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                       </Stack>
                     </Stack>
                   )}
-                  {!receiverData ||
-                    (!receiverData.receiver && (
-                      <Alert severity="error">
-                        <FormattedMessage
-                          id="checkout.is.currently.unavailable"
-                          defaultMessage="Checkout is currently unavailable. Please try again later."
-                        />
-                      </Alert>
-                    ))}
+                  {(!receiverData ||
+                    !receiverData.receiver ||
+                    !canPayData?.canPay) && (
+                    <Alert severity="error">
+                      <FormattedMessage
+                        id="checkout.is.currently.unavailable"
+                        defaultMessage="Checkout is currently unavailable. Please try again later or contact support"
+                      />
+                    </Alert>
+                  )}
                   {renderPayButton()}
                 </Stack>
               </CardContent>
