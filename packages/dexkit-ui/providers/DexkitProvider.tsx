@@ -18,10 +18,7 @@ import { Button, CssBaseline, Stack, Typography } from "@mui/material";
 import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
 import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
-import {
-  CssVarsProvider,
-  useColorScheme
-} from "@mui/material/styles";
+import { ThemeProvider, useColorScheme } from "@mui/material/styles";
 import React from "react";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
 import GaslessTradesUpdater from "../components/GaslessTradesUpdater";
@@ -47,10 +44,10 @@ function ThemeSyncComponent() {
 
 function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
   return (
-    <CssVarsProvider theme={theme} defaultMode="dark" modeStorageKey="mui-mode">
+    <ThemeProvider theme={theme}>
       <ThemeSyncComponent />
       {children}
-    </CssVarsProvider>
+    </ThemeProvider>
   );
 }
 

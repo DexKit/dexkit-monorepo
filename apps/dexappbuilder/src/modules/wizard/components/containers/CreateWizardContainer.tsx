@@ -152,6 +152,8 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
 
       return getTheme({ name: selectedThemeId }).theme;
     }
+    // Return default theme if no theme is selected
+    return getTheme({ name: 'default-theme' }).theme;
   }, [selectedThemeId]);
 
   const renderThemePreview = () => {
