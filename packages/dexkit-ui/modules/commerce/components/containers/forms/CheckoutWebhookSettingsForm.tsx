@@ -47,8 +47,8 @@ function CheckoutWebhookSettingsFormBase({
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        webhookSecret: settings.webhookSecret,
-        webhookUrl: settings.webhookUrl,
+        webhookSecret: settings?.webhookSecret,
+        webhookUrl: settings?.webhookUrl,
       }}
       validationSchema={toFormikValidationSchema(CheckoutWebhookSettingsSchema)}
     >
@@ -113,7 +113,7 @@ function CheckoutWebhookSettingsFormBase({
 
 export default function CheckoutWebhookSettingsForm() {
   const { data: settings, isFetchedAfterMount } = useCheckoutWebhookSettings();
-
+  console.log(settings);
   return (
     settings &&
     isFetchedAfterMount && (

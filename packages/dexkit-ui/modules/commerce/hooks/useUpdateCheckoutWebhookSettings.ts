@@ -11,6 +11,6 @@ export default function useUpdateCheckoutWebhookSettings() {
       throw new Error("no instance");
     }
 
-    return (await instance.put("/checkouts/settings-webhook", data)).data;
+    return (await instance.put("/checkouts/webhook-settings", data)).data;
   });
 }

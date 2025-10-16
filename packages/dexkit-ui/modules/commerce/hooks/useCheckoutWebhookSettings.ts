@@ -15,7 +15,7 @@ export default function useCheckoutWebhookSettings() {
       }
 
       const result = (
-        await instance.get("/checkouts/settings-webhook")
+        await instance.get("/checkouts/webhook-settings")
       ).data;
 
       return result;

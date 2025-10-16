@@ -18,7 +18,7 @@ export default function useCheckoutReceiver(params: { owner?: string }) {
         return null;
       }
 
-      return (await instance.get(`/checkout/settings-by-owner/${params.owner}`))
+      return (await instance.get(`/checkouts/settings-by-owner/${params.owner}`))
         .data;
     },
     {

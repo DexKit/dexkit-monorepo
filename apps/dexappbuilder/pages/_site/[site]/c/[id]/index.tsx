@@ -283,6 +283,10 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
     setToken(newToken);
   };
 
+  const canPay =
+    !receiverData || !receiverData?.receiver || !canPayData?.canPay;
+  console.log(canPay);
+
   const renderPayButton = () => {
     if (chainId && providerChainId && chainId !== providerChainId) {
       return (
@@ -318,7 +322,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
             !token ||
             (userCheckout.data?.requireEmail && (!email || !isValidEmail)) ||
             !receiverData ||
-            !receiverData?.receiver ||
+            !receiverData?.receiverAddress ||
             !canPayData?.canPay
           }
           fullWidth
@@ -723,7 +727,7 @@ export default function UserCheckout({ siteId }: UserCheckoutProps) {
                     </Stack>
                   )}
                   {(!receiverData ||
-                    !receiverData.receiver ||
+                    !receiverData.receiverAddress ||
                     !canPayData?.canPay) && (
                     <Alert severity="error">
                       <FormattedMessage

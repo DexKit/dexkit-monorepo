@@ -2,13 +2,13 @@ import { DexkitApiProvider } from '@dexkit/core/providers';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 
-export const GET_CHECKOUT_RECEIVER_QUERY = 'GET_CHECKOUT_RECEIVER_QUERY';
+export const GET_CHECKOUT_CAN_PAY_QUERY = 'GET_CHECKOUT_CAN_PAY_QUERY';
 
-export default function useCheckoutReceiver(params: { owner?: string }) {
+export default function useCheckoutCanPay(params: { owner?: string }) {
   const { instance } = useContext(DexkitApiProvider);
 
   return useQuery(
-    [GET_CHECKOUT_RECEIVER_QUERY, params],
+    [GET_CHECKOUT_CAN_PAY_QUERY, params],
     async () => {
       if (!instance) {
         throw new Error('no instance');
@@ -18,7 +18,7 @@ export default function useCheckoutReceiver(params: { owner?: string }) {
         return null;
       }
 
-      return (await instance.get(`/checkout/settings-by-owner/${params.owner}`))
+      return (await instance.get(`/checkouts/can-pay-owner/${params.owner}`))
         .data;
     },
     {
