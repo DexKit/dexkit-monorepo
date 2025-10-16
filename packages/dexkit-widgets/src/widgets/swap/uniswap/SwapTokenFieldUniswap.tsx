@@ -95,11 +95,11 @@ export default function SwapTokenFieldUniswap({
           return {
             px: 2,
             py: 1,
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: 'background.paper',
             borderRadius: (theme.shape.borderRadius as any) / 2,
             borderWidth: 1,
             borderStyle: "solid",
-            borderColor: theme.palette.divider,
+            borderColor: 'divider',
             "&:focus-within": {
               borderColor: theme.palette.primary.main,
               borderWidth: 2,
@@ -108,8 +108,8 @@ export default function SwapTokenFieldUniswap({
         }
 
         const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
-        const backgroundColor = isDark ? '#1a1a1a' : theme.palette.background.paper;
-        const borderColor = isDark ? '#333333' : theme.palette.divider;
+        const backgroundColor = 'background.paper';
+        const borderColor = 'divider';
 
         return {
           px: 2,

@@ -170,9 +170,12 @@ export default function Swap({
 
   return (
     <Card sx={{
-      backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1a1a1a' : theme.palette.background.paper,
-      color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.primary,
-      border: (theme) => theme.palette.mode === 'dark' ? '1px solid #333333' : 'none',
+      backgroundColor: 'background.paper',
+      color: 'text.primary',
+      border: 1,
+      borderColor: 'divider',
+      borderRadius: (theme) => theme.shape.borderRadius,
+      boxShadow: (theme) => theme.shadows[2],
     }}>
       <Box sx={{ p: 2 }}>
         {chainId && !SUPPORTED_SWAP_CHAIN_IDS.includes(chainId) && (
@@ -307,10 +310,12 @@ export default function Swap({
             />
             <Stack alignItems="center">
               <Box
-                sx={() => ({
+                sx={{
                   marginTop: -2,
                   marginBottom: -2,
-                })}
+                  position: 'relative',
+                  zIndex: 2,
+                }}
               >
                 <SwapSwitchTokensButton
                   IconButtonProps={{ onClick: onSwapTokens }}

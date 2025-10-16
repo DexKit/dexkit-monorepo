@@ -153,7 +153,12 @@ export function BaseAssetCard({
 
   return (
     <Box sx={{ position: "relative" }}>
-      <Card sx={{ heigh: "100%", borderRadius: "12px" }}>
+      <Card sx={{
+        heigh: "100%",
+        borderRadius: "12px",
+        backgroundColor: 'background.paper',
+        color: 'text.primary'
+      }}>
         {onClickCardAction ? (
           <CardActionArea onClick={() => onClickCardAction(asset)}>
             {assetDetails}

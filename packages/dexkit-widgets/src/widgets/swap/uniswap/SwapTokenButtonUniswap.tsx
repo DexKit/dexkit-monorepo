@@ -59,7 +59,7 @@ function SwapTokenButtonUniswap({
       <Typography
         sx={{
           fontWeight: 600,
-          color: (theme) => theme.palette.mode === 'dark' ? '#cccccc' : theme.palette.text.secondary
+          color: 'text.primary'
         }}
         variant="body1"
       >
@@ -77,14 +77,15 @@ function SwapTokenButtonUniswap({
           sx={{
             borderRadius: (theme.shape.borderRadius as any) / 2,
             p: 1,
-            border: `1px solid ${theme.palette.mode === "dark"
-              ? theme.lighten(theme.palette.divider, 0.2)
-              : theme.palette.divider
-              }`,
+            backgroundColor: 'background.default',
+            border: 1,
+            borderColor: 'divider',
             opacity: locked ? 0.5 : 1,
             pointerEvents: locked ? 'none' : undefined,
             cursor: locked ? 'not-allowed' : 'pointer',
-            background: locked ? theme.palette.action.disabledBackground : undefined,
+            ...(locked && {
+              backgroundColor: 'action.disabledBackground',
+            }),
             ...(ButtonBaseProps?.sx || {}),
           }}
           tabIndex={locked ? -1 : ButtonBaseProps?.tabIndex}

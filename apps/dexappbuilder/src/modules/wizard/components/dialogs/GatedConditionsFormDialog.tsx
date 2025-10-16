@@ -26,9 +26,7 @@ import { Select, TextField } from 'formik-mui';
 
 import { ImageFormUpload } from '@/modules/contract-wizard/components/ImageFormUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Tab from '@mui/material/Tab';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';

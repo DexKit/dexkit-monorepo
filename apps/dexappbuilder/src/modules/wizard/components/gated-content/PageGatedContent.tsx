@@ -6,9 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Switch from '@mui/material/Switch';
 
-import TabContext from '@mui/lab/TabContext';
-
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabPanel } from '@mui/lab';
 
 import { GatedPageLayout } from '@dexkit/ui/modules/wizard/types';
 import {
@@ -67,9 +65,9 @@ export default function PageGatedContent({
         <Grid container spacing={2}>
           <Grid size={12}>
             <PageGatedConditionsHeader
-              onEditLayout={() => {}}
-              onClone={() => {}}
-              onEditTitle={() => {}}
+              onEditLayout={() => { }}
+              onClone={() => { }}
+              onEditTitle={() => { }}
               onPreview={handlePreview}
               page={page}
               onClose={onClose}

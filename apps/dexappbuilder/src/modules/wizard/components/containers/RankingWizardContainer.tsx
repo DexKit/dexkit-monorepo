@@ -1,7 +1,5 @@
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import {
   Alert,
   AlertTitle,
@@ -98,7 +96,7 @@ function ExpandableCell({ value }: GridRenderCellParams) {
         <Link
           type="button"
           component="button"
-          sx={{ 
+          sx={{
             fontSize: '0.75rem',
             textDecoration: 'underline',
             color: 'primary.main',
@@ -344,7 +342,7 @@ function AppRankingList({
   const columns = getColumns();
 
   const rows = (data?.data as any) || [];
-  
+
 
   const [rowSelection, setRowSelection] = useState<GridRowSelectionModel>([]);
 

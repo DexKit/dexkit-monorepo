@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import { memo } from 'react';
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
 
 function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
   const theme = useTheme();
+  const { mode: globalMode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleClick = () => {
@@ -43,10 +45,11 @@ function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
         alignItems: 'flex-start',
         borderColor: (theme) =>
           selected ? theme.palette.primary.main : theme.palette.divider,
-        backgroundColor: (theme) =>
-          selected
-            ? theme.palette.action.hover
-            : theme.palette.background.paper,
+        backgroundColor: (theme) => {
+          return globalMode === 'dark'
+            ? '#282d33'
+            : theme.palette.background.paper;
+        },
       }}
       onClick={handleClick}
     >
@@ -61,7 +64,12 @@ function WizardThemeButton({ selected, name, id, colors, onClick }: Props) {
           sx={{
             fontWeight: selected ? 'bold' : 'normal',
             width: '100%',
-            textAlign: 'left'
+            textAlign: 'left',
+            color: (theme) => {
+              return globalMode === 'dark'
+                ? theme.palette.common.white
+                : theme.palette.text.primary;
+            }
           }}
         >
           {name}

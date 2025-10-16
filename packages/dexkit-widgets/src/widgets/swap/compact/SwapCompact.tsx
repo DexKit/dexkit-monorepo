@@ -159,9 +159,12 @@ export default function SwapCompact({
         sx={{
           p: 2,
           textAlign: "center",
+          backgroundColor: 'background.paper',
           border: 1,
           borderColor: 'divider',
+          borderRadius: (theme) => theme.shape.borderRadius,
           minWidth: 280,
+          boxShadow: (theme) => theme.shadows[2],
         }}
       >
         <Typography variant="body2" gutterBottom color="text.secondary">
@@ -208,9 +211,12 @@ export default function SwapCompact({
       <Paper
         elevation={0}
         sx={{
+          backgroundColor: 'background.paper',
           border: 1,
           borderColor: 'divider',
+          borderRadius: (theme) => theme.shape.borderRadius,
           overflow: 'hidden',
+          boxShadow: (theme) => theme.shadows[2],
         }}
       >
         <Stack spacing={0}>
@@ -237,7 +243,7 @@ export default function SwapCompact({
             alignItems="center"
             sx={{
               position: 'relative',
-              zIndex: 1,
+              zIndex: 2,
               my: -0.5,
               height: 32,
             }}

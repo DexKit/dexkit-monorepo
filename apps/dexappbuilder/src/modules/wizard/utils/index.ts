@@ -5,10 +5,10 @@ import {
   ContractFormFieldInputWithTupleParams,
 } from '@dexkit/web3forms/types';
 import {
-  createTheme,
   alpha,
-  lighten,
+  createTheme,
   darken,
+  lighten,
 } from '@mui/material/styles';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -65,28 +65,6 @@ export function generateTheme({
         : customTheme?.colorSchemes?.light;
     return fontFamily
       ? createTheme({
-          typography: {
-            fontFamily,
-          },
-          ...paletteTheme,
-          alpha,
-          lighten,
-          darken,
-        } as any)
-      :         createTheme({
-          ...paletteTheme,
-          alpha,
-          lighten,
-          darken,
-        } as any);
-  }
-  const theme = getTheme({ name: selectedThemeId }).theme;
-  let paletteTheme =
-    mode === ThemeMode.dark
-      ? theme.colorSchemes.dark
-      : theme.colorSchemes.light;
-  return fontFamily
-    ? createTheme({
         typography: {
           fontFamily,
         },
@@ -95,15 +73,37 @@ export function generateTheme({
         lighten,
         darken,
       } as any)
-    : createTheme({
-        typography: {
-          fontFamily,
-        },
+      : createTheme({
         ...paletteTheme,
         alpha,
         lighten,
         darken,
       } as any);
+  }
+  const theme = getTheme({ name: selectedThemeId }).theme;
+  let paletteTheme =
+    mode === ThemeMode.dark
+      ? theme.colorSchemes.dark
+      : theme.colorSchemes.light;
+  return fontFamily
+    ? createTheme({
+      typography: {
+        fontFamily,
+      },
+      ...paletteTheme,
+      alpha,
+      lighten,
+      darken,
+    } as any)
+    : createTheme({
+      typography: {
+        fontFamily,
+      },
+      ...paletteTheme,
+      alpha,
+      lighten,
+      darken,
+    } as any);
 }
 
 export function generateCSSVarsTheme({
@@ -111,6 +111,7 @@ export function generateCSSVarsTheme({
   selectedThemeId,
   customTheme,
   cssVarPrefix,
+  mode,
 }: {
   selectedFont?: { family?: string; category?: string };
   selectedThemeId: string;
@@ -123,37 +124,35 @@ export function generateCSSVarsTheme({
     fontFamily = `'${selectedFont.family}', ${selectedFont.category}`;
   }
 
-
   if (selectedThemeId === 'custom') {
     return fontFamily
       ? createTheme({
-          ...customTheme,
-          typography: {
-            fontFamily,
-          },
-          alpha,
-          lighten,
-          darken,
-        } as any)
-      : createTheme({ 
-          ...customTheme,
-          alpha,
-          lighten,
-          darken,
-        } as any);
+        ...customTheme,
+        typography: {
+          fontFamily,
+        },
+        alpha,
+        lighten,
+        darken,
+      } as any)
+      : createTheme({
+        ...customTheme,
+        alpha,
+        lighten,
+        darken,
+      } as any);
   }
 
   const theme = getTheme({ name: selectedThemeId }).theme;
 
-  let paletteProps = {};
-  if (theme.colorSchemes?.light?.palette) {
-    paletteProps = { palette: theme.colorSchemes.light.palette };
-  } else if (theme.colorSchemes?.dark?.palette) {
-    paletteProps = { palette: theme.colorSchemes.dark.palette };
+  // Use the correct color scheme based on the mode
+  let colorScheme = theme.colorSchemes?.light;
+  if (mode === ThemeMode.dark && theme.colorSchemes?.dark) {
+    colorScheme = theme.colorSchemes.dark;
   }
-  
+
   const themeConfig = {
-    ...paletteProps,
+    ...colorScheme,
     ...(fontFamily && {
       typography: {
         fontFamily,
@@ -163,7 +162,7 @@ export function generateCSSVarsTheme({
     lighten,
     darken,
   };
-  
+
   return createTheme(themeConfig);
 }
 

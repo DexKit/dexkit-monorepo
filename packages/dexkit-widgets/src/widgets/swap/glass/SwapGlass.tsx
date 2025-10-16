@@ -399,7 +399,7 @@ export default function SwapGlass({
                 alignItems="center"
                 sx={{
                   position: 'relative',
-                  zIndex: 1,
+                  zIndex: 2,
                   my: theme.spacing(-1),
                   height: theme.spacing(6),
                 }}

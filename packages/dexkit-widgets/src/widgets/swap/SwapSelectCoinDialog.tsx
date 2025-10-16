@@ -121,8 +121,9 @@ export default function SwapSelectCoinDialog({
           position: "sticky",
           top: 0,
           zIndex: theme.zIndex.modal + 1,
-          backgroundColor: theme.palette.background.paper,
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          backgroundColor: 'background.paper',
+          borderBottom: 1,
+          borderColor: 'divider',
         }}
       >
         <Stack spacing={2} sx={{ p: 2 }}>
@@ -172,7 +173,7 @@ export default function SwapSelectCoinDialog({
                     sx={{
                       px: 2,
                       py: 1,
-                      backgroundColor: theme.palette.background.paper,
+                      backgroundColor: 'background.paper',
                       position: "sticky",
                       top: 0,
                       zIndex: 1,

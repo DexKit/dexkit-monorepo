@@ -361,6 +361,7 @@ export default function MarketplacesTableV2({
                   : theme.typography.fontSize,
               })}
               fontWeight="400"
+              color="text.primary"
             >
               {params.value}
             </Typography>
@@ -416,6 +417,12 @@ export default function MarketplacesTableV2({
                   maxWidth: '100%',
                   whiteSpace: 'normal',
                   lineHeight: 1.2,
+                  color: 'primary.main',
+                  textDecoration: 'underline',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                    color: 'primary.dark'
+                  }
                 })}
                 href={row.previewUrl}
                 title={row.previewUrl}
@@ -446,6 +453,12 @@ export default function MarketplacesTableV2({
                   maxWidth: '100%',
                   whiteSpace: 'normal',
                   lineHeight: 1.2,
+                  color: 'primary.main',
+                  textDecoration: 'underline',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                    color: 'primary.dark'
+                  }
                 })}
                 href={appConfig.domain}
                 target={"_blank"}
@@ -497,10 +510,13 @@ export default function MarketplacesTableV2({
                   setAnchorEl(e.currentTarget);
                   setRowId(id);
                 }}
-                size={isMobile ? "small" : "large"}
+                size={isMobile ? "small" : "medium"}
                 sx={{
-                  p: isMobile ? 0.25 : 1,
-                  minWidth: isMobile ? 32 : 'auto'
+                  p: isMobile ? 0.5 : 0.75,
+                  minWidth: isMobile ? 32 : 40,
+                  '&:hover': {
+                    backgroundColor: theme.palette.action.hover
+                  }
                 }}
               >
                 <MoreVert fontSize={isMobile ? "small" : "medium"} />
@@ -521,7 +537,7 @@ export default function MarketplacesTableV2({
               direction="row"
               alignItems="center"
               justifyContent="center"
-              spacing={0.5}
+              spacing={0.25}
             >
               {ADMIN_TABLE_LIST.map((item, index) => (
                 <Tooltip
@@ -533,7 +549,17 @@ export default function MarketplacesTableV2({
                     />
                   }
                 >
-                  <IconButton onClick={() => handleAction(item.value, id)}>
+                  <IconButton
+                    onClick={() => handleAction(item.value, id)}
+                    size="small"
+                    sx={{
+                      p: 0.5,
+                      minWidth: 32,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover
+                      }
+                    }}
+                  >
                     {item.icon}
                   </IconButton>
                 </Tooltip>
@@ -635,15 +661,15 @@ export default function MarketplacesTableV2({
             },
             '& .MuiDataGrid-root': {
               width: '100%',
-              border: 'none !important',
+              border: 'none',
               '& .MuiDataGrid-main': {
-                border: 'none !important',
+                border: 'none',
               },
               '& .MuiDataGrid-virtualScroller': {
-                border: 'none !important',
+                border: 'none',
               },
               '& .MuiDataGrid-virtualScrollerContent': {
-                border: 'none !important',
+                border: 'none',
               },
               '& .MuiDataGrid-row': {
                 '&:last-child .MuiDataGrid-cell': {
@@ -651,63 +677,53 @@ export default function MarketplacesTableV2({
                 }
               }
             },
-            '& .MuiDataGrid-cell:last-of-type': {
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-            },
-            '& .MuiDataGrid-columnHeader:last-of-type': {
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-            },
             '& .MuiDataGrid-cell': {
-              padding: isMobile ? theme.spacing(0.75, 0.5) : theme.spacing(1.5),
+              padding: isMobile ? theme.spacing(1, 1) : theme.spacing(1.5, 2),
               whiteSpace: isMobile ? 'normal' : 'nowrap',
               wordBreak: 'break-word',
               fontSize: isMobile ? '0.75rem' : 'inherit',
               overflowX: 'hidden',
               textOverflow: 'ellipsis',
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              '&:last-of-type': {
-                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
-              },
+              borderRight: 'none',
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08)`,
+              borderLeft: 'none',
+              borderTop: 'none',
+              display: 'flex',
+              alignItems: 'center',
               '&[data-field="domain"]': {
                 whiteSpace: 'normal',
                 overflow: 'visible',
                 textOverflow: 'unset',
                 verticalAlign: 'top',
+              },
+              '&[data-field="name"]': {
+                fontWeight: 500,
               }
             },
             '& .MuiDataGrid-row': {
               maxHeight: 'none !important',
-              minHeight: isMobile ? `${theme.spacing(5)} !important` : `${theme.spacing(6.5)} !important`,
+              minHeight: isMobile ? `${theme.spacing(5.5)} !important` : `${theme.spacing(6)} !important`,
               '&:hover': {
                 backgroundColor: theme.palette.action.hover
               }
             },
             '& .MuiDataGrid-columnHeaders': {
-              minHeight: isMobile ? `${theme.spacing(5.625)} !important` : theme.spacing(7),
-              backgroundColor: theme.palette.grey[50],
-              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-            },
-            '& .MuiDataGrid-columnHeader': {
-              padding: isMobile ? theme.spacing(0.75) : theme.spacing(1.5),
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              '&:last-of-type': {
-                borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`
+              minHeight: isMobile ? `${theme.spacing(5.5)} !important` : `${theme.spacing(6)} !important`,
+              backgroundColor: 'transparent',
+              borderBottom: `1px solid rgba(0, 0, 0, 0.08)`,
+              '& .MuiDataGrid-columnHeader': {
+                padding: isMobile ? theme.spacing(1, 1) : theme.spacing(1.5, 2),
+                borderRight: 'none',
+                borderBottom: 'none',
+                borderLeft: 'none',
+                borderTop: 'none',
+                fontWeight: 600,
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                color: 'text.primary'
               }
             },
             '& .MuiDataGrid-footerContainer': {
-              borderTop: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderLeft: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderRight: `1px solid rgba(0, 0, 0, 0.08) !important`,
-              borderBottom: `1px solid rgba(0, 0, 0, 0.08) !important`,
+              borderTop: `1px solid rgba(0, 0, 0, 0.08)`,
               padding: theme.spacing(1, 2),
               '& .MuiTablePagination-root': {
                 overflow: 'visible'

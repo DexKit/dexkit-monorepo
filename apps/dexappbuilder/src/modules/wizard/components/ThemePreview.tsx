@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  CssVarsProvider,
+  Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
   useColorScheme,
@@ -35,13 +35,11 @@ function ColorSchemePicker({
   selectedThemeMode?: ThemeMode;
 }) {
   const { mode, setMode } = useColorScheme();
-
   useEffect(() => {
-    if (selectedThemeMode) {
+    if (selectedThemeMode && setMode) {
       setMode(selectedThemeMode);
     }
   }, [selectedThemeMode, setMode]);
-
   return <></>;
 }
 
@@ -55,7 +53,6 @@ export default function ThemePreview({
 }: Props) {
   const { formatMessage } = useIntl();
   const [node, setNode] = React.useState<null | HTMLElement>(null);
-
   useEnhancedEffect(() => {
     setNode(
       document.getElementById('theme-preview-container') as null | HTMLElement,
@@ -63,12 +60,12 @@ export default function ThemePreview({
   }, []);
 
   return (
-    <div id="theme-preview-container">
+    <div id="theme-preview-container" data-theme-preview>
       <CssVarsProvider
         theme={selectedTheme}
         colorSchemeNode={node || null}
         disableNestedContext={true}
-        colorSchemeSelector="#theme-preview-container"
+        colorSchemeSelector="[data-theme-preview]"
         colorSchemeStorageKey="theme-preview-color-scheme"
         modeStorageKey="theme-preview-mode"
       >

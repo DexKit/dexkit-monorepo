@@ -84,11 +84,11 @@ function SwapTokenField({
           return {
             px: 2,
             py: 1,
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: 'background.paper',
             borderRadius: (theme.shape.borderRadius as any) / 2,
             borderWidth: 1,
             borderStyle: "solid",
-            borderColor: theme.palette.divider,
+            borderColor: 'divider',
             "&:focus-within": {
               borderColor: theme.palette.primary.main,
               borderWidth: 2,
@@ -100,11 +100,11 @@ function SwapTokenField({
         return {
           px: 2,
           py: 1,
-          backgroundColor: isDark ? '#1a1a1a' : theme.palette.background.paper,
+          backgroundColor: 'background.paper',
           borderRadius: (theme.shape.borderRadius as any) / 2,
           borderWidth: 1,
           borderStyle: "solid",
-          borderColor: isDark ? '#333333' : theme.palette.divider,
+          borderColor: 'divider',
           "&:focus-within": {
             borderColor: isDark ? '#00d4aa' : theme.palette.primary.main,
             borderWidth: 2,
