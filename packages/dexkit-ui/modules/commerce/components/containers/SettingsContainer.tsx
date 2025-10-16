@@ -12,6 +12,7 @@ import { EcommerceCredits } from "../EcommerceCredits";
 import DashboardLayout from "../layouts/DashboardLayout";
 import CheckoutGeneralSettingsForm from "./forms/CheckoutGeneralSettingsForm";
 import CheckoutNetworksUpdateForm from "./forms/CheckoutNetworksUpdateForm";
+import CheckoutWebhookSettingsForm from "./forms/CheckoutWebhookSettingsForm";
 
 export default function SettingsContainer() {
   return (
@@ -94,6 +95,30 @@ export default function SettingsContainer() {
             </Grid>
             <Grid item xs={12}>
               <CheckoutNetworksUpdateForm />
+            </Grid>
+            <Grid item xs={12}>
+              <Box>
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.secondary"
+                >
+                  <FormattedMessage
+                    id="webhook.settings"
+                    defaultMessage="Webhook settings"
+                  />
+                </Typography>
+
+                <Typography variant="body1" color="text.secondary">
+                  <FormattedMessage
+                    id="webhook.settings.subtext"
+                    defaultMessage="Configure your webhook settings for better integration."
+                  />
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <CheckoutWebhookSettingsForm />
             </Grid>
           </Grid>
         </Box>
