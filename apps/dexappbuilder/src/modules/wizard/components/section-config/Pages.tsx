@@ -250,7 +250,7 @@ export default function Pages({
   const renderPreviewDialog = () => {
     if (showPreview && selectedKey) {
       return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme || {}}>
           <PreviewPageDialog
             dialogProps={{
               open: showPreview,
