@@ -34,7 +34,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { DefaultSeo } from 'next-seo';
+// import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { ThirdwebProvider } from 'thirdweb/react';
 interface MyAppProps extends AppProps<PageProps> {
@@ -119,7 +119,7 @@ export default function MyApp(props: MyAppProps) {
               <ThirdwebProvider>
                 <QueryClientProvider client={queryClient}>
                   <Hydrate state={pageProps.dehydratedState}>
-                    <DefaultSeo {...SEO} />
+                    {/* <DefaultSeo {...SEO} /> */}
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                       <AppMarketplaceProvider
                         appLocaleMessages={appLocaleMessages}
