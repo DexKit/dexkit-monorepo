@@ -68,7 +68,7 @@ export default function AddPageDialog({
         onClose={handleClose}
       />
       <Formik
-        initialValues={{ ...item }}
+        initialValues={{ title: item?.title || '' }}
         onSubmit={(values, helpers) => {
           if (CORE_PAGES_KEYS.includes(values.title?.toLowerCase() || '')) {
             helpers.setFieldError(

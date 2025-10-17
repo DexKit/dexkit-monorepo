@@ -67,7 +67,6 @@ export default function AssetSectionForm({
 
   const { siteId } = useContext(SiteContext);
 
-
   return (
     <Formik
       initialValues={

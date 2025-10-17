@@ -19,8 +19,8 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {
-  ThemeProvider,
   createTheme,
+  ThemeProvider,
 } from '@mui/material/styles';
 import {
   DataGrid,

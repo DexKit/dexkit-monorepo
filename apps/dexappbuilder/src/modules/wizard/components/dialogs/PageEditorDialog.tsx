@@ -87,14 +87,18 @@ export default function PageEditorDialog({
       <DialogContent sx={{
         height: 'calc(100vh - 120px)',
         overflow: 'hidden',
-        padding: 0
+        padding: 0,
+        maxWidth: '100vw',
+        width: '100%'
       }}>
         <Box sx={{
-          paddingLeft: isMobile ? 0 : theme.spacing(12.5),
-          paddingRight: isMobile ? 0 : theme.spacing(12.5),
-          paddingTop: isMobile ? theme.spacing(1) : theme.spacing(5),
+          paddingLeft: isMobile ? 0 : theme.spacing(2),
+          paddingRight: isMobile ? 0 : theme.spacing(2),
+          paddingTop: isMobile ? theme.spacing(1) : theme.spacing(2),
           height: '100%',
-          overflow: 'auto'
+          overflow: 'auto',
+          maxWidth: '100%',
+          width: '100%'
         }}>
           <PageEditor
             value={data}

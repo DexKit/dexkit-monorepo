@@ -50,9 +50,9 @@ function getSectionType(
       title:
         !section.name && !section.title
           ? formatMessage({
-              id: 'unnamed.section',
-              defaultMessage: 'Unnamed Section',
-            })
+            id: 'unnamed.section',
+            defaultMessage: 'Unnamed Section',
+          })
           : section.name
             ? section.name
             : section.title || '',

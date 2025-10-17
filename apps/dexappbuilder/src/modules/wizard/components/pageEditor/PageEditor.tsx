@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 // The editor core
 import { useIsMobile } from '@dexkit/core';
-import Editor, { Value, CellPlugin } from '@react-page/editor';
+import Editor, { CellPlugin, Value } from '@react-page/editor';
 
 // Helper function to ensure type safety while being pragmatic
 const ensurePluginCompatibility = (plugins: unknown[]): CellPlugin[] => {
@@ -205,12 +205,14 @@ export default function PageEditor(props: Props) {
   }, [builderKit]);
 
   return (
-    <Stack sx={{ width: '100%', height: '100%' }}>
+    <Stack sx={{ width: '100%', height: '100%', maxWidth: '100%' }}>
       <Box
         sx={{
           overflow: 'auto',
           pb: isMobile ? muiTheme.spacing(12) : muiTheme.spacing(8),
           height: '100%',
+          maxWidth: '100%',
+          width: '100%',
           '& .react-page-cell-insert-new': {
             zIndex: '1100 !important'
           },
@@ -219,6 +221,10 @@ export default function PageEditor(props: Props) {
             height: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
             minWidth: isMobile ? `${muiTheme.spacing(4.5)} !important` : 'auto',
             padding: isMobile ? `${muiTheme.spacing(0.5)} !important` : 'auto',
+          },
+          '& .react-page-editor': {
+            maxWidth: '100%',
+            width: '100%'
           }
         }}
       >
