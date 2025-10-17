@@ -15,7 +15,10 @@ export default function MainLayout({ children }: Props) {
   return (
     <MainLayoutUI disablePadding={false}>
       <CoinLeagueNavbarOverride appConfig={appConfig} />
-      <Box pr={isMobile ? 2 : 8} pl={isMobile ? 2 : 8}>
+      <Box
+        pr={{ xs: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+        pl={{ xs: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+      >
         {children}
       </Box>
     </MainLayoutUI>

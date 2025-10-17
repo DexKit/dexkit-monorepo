@@ -8,6 +8,8 @@ import {
   CircularProgress,
   Skeleton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { BigNumber, ethers } from 'ethers';
@@ -61,6 +63,8 @@ export function GameOverviewCard({
   isEnding,
   onEnd,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { data: game, isLoading } = useCoinLeagueGameOnChainQuery({
     id,
     provider,
@@ -117,7 +121,7 @@ export function GameOverviewCard({
         >
           <Box>
             <Grid
-              spacing={1}
+              spacing={isMobile ? 2 : 1}
               container
               alignItems="center"
             >
@@ -129,7 +133,7 @@ export function GameOverviewCard({
                   {isLoading ? <Skeleton /> : game?.id}
                 </Typography>
               </Grid>*/}
-              <Grid>
+              <Grid size={{ xs: 6, sm: 2 }}>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage
                     id="game.level"
@@ -149,7 +153,7 @@ export function GameOverviewCard({
                   )}
                 </Typography>
               </Grid>
-              <Grid>
+              <Grid size={{ xs: 6, sm: 2 }}>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="duration" defaultMessage="Duration" />
                 </Typography>

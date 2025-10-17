@@ -5614,7 +5614,7 @@
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-7.3.4.tgz#8da7f546ed98102a33faa61a7b765f14c466103b"
   integrity sha512-BIktMapG3r4iXwIhYNpvk97ZfYWTreBBQTWjQKbNbzI64+ULHfYavQEX2w99aSWHS58DvXESWIgbD9adKcUOBw==
 
-"@mui/icons-material@7.3.2", "@mui/icons-material@^5.0.1", "@mui/icons-material@^5.8.0", "@mui/icons-material@^7.0.0":
+"@mui/icons-material@5.14.11", "@mui/icons-material@7.3.2", "@mui/icons-material@^5.0.1", "@mui/icons-material@^5.8.0", "@mui/icons-material@^7.0.0":
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-7.3.2.tgz#050049cd6195b815e85888aaebd436e8e95084b8"
   integrity sha512-TZWazBjWXBjR6iGcNkbKklnwodcwj0SrChCNHc9BhD9rBgET22J1eFhHsEmvSvru9+opDy3umqAimQjokhfJlQ==
@@ -5633,7 +5633,7 @@
     clsx "^2.1.1"
     prop-types "^15.8.1"
 
-"@mui/material@7.3.2", "@mui/material@^5.0.2", "@mui/material@^5.8.1", "@mui/material@^7.0.0":
+"@mui/material@5.14.11", "@mui/material@7.3.2", "@mui/material@^5.0.2", "@mui/material@^5.8.1", "@mui/material@^7.0.0":
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-7.3.2.tgz#21ad66bba695e2cd36e4a93e2e4ff5e04d8636a1"
   integrity sha512-qXvbnawQhqUVfH1LMgMaiytP+ZpGoYhnGl7yYq2x57GYzcFL/iPzSZ3L30tlbwEjSVKNYcbiKO8tANR1tadjUg==

@@ -227,9 +227,10 @@ const CoinLeagueIndex: NextPage = () => {
           <TickerTapeTV />
 
           <Stack
-            direction="row"
-            alignItems="center"
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "flex-start", sm: "center" }}
             justifyContent="space-between"
+            spacing={{ xs: 2, sm: 0 }}
           >
             <AppPageHeader
               breadcrumbs={[
@@ -430,7 +431,7 @@ const CoinLeagueIndex: NextPage = () => {
           <Box>
             <Grid container spacing={2}>
               {!isMobile && (
-                <Grid size={{ xs: 12, sm: 2 }} sx={{ width: '100%' }}>
+                <Grid size={{ xs: 12, sm: 3, md: 2 }} sx={{ width: '100%' }}>
                   <Collapse in>
                     <Card>
                       <CardContent>{renderForm()}</CardContent>
@@ -438,7 +439,7 @@ const CoinLeagueIndex: NextPage = () => {
                   </Collapse>
                 </Grid>
               )}
-              <Grid size={{ xs: 12, sm: 10 }}>
+              <Grid size={{ xs: 12, sm: 9, md: 10 }}>
                 {gamesQuery.isLoading &&
                   (showTable ? (
                     <TableSkeleton cols={4} rows={4} />

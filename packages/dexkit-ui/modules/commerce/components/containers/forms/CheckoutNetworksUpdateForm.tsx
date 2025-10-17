@@ -22,6 +22,7 @@ import { atomWithStorage } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { CHECKOUT_TOKENS } from "../../../constants";
 import useCheckoutNetworks from "../../../hooks/checkout/useCheckoutNetworks";
 import useUpdateCheckoutNetworks from "../../../hooks/useUpdateCheckoutNetworks";
 import useParams from "../hooks/useParams";
@@ -60,6 +61,11 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
         return true;
       })
       .filter((n) => activeChainIds.includes(n.chainId))
+      .filter((n) => {
+        let token = CHECKOUT_TOKENS.find((t) => t.chainId === n.chainId);
+
+        return Boolean(token);
+      })
       .filter((n) => n.name.toLowerCase().search(query.toLowerCase()) > -1)
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [activeChainIds, query, showTestnets]);
