@@ -94,7 +94,7 @@
     "next": "15.5.5",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
-    "next-seo": "^5.4.0",
+    "next-seo": "^6.8.0",
     "qrcode.react": "^3.0.2",
     "qs": "^6.11.0",
     "react-draggable": "4.5.0",

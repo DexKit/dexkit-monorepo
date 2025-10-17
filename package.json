@@ -94,7 +94,8 @@
     "@noble/curves": "1.8.1",
     "formik-mui/@mui/material": "7.3.2",
     "formik-mui/@mui/icons-material": "7.3.2",
-    "formik-mui/@mui/system": "7.3.2"
+    "formik-mui/@mui/system": "7.3.2",
+    "next-seo": "6.8.0"
   },
   "packageManager": "yarn@1.22.18",
   "main": "index.js",
