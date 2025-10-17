@@ -754,7 +754,13 @@ function Navbar({ appConfig, isPreview }: Props) {
                 '& img': {
                   maxWidth: '100%',
                   maxHeight: '100%',
-                  objectFit: 'contain'
+                  objectFit: 'contain',
+                  verticalAlign: 'middle'
+                },
+                '& a': {
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%'
                 }
               }}>
                 {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (
@@ -888,7 +894,13 @@ function Navbar({ appConfig, isPreview }: Props) {
                 '& img': {
                   maxWidth: '100%',
                   maxHeight: '100%',
-                  objectFit: 'contain'
+                  objectFit: 'contain',
+                  verticalAlign: 'middle'
+                },
+                '& a': {
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%'
                 }
               }}>
                 {appConfig.logoDark && appConfig.logoDark?.url && mode === ThemeMode.dark ? (

@@ -8,17 +8,17 @@
   "domain": "https://coinleague.xyz",
   "logo": {
     "url": "/Coin-League_Logo-FINAL.png",
-    "height": 50,
-    "width": 100,
+    "height": 40,
+    "width": 120,
     "widthMobile": 100,
-    "heightMobile": 50
+    "heightMobile": 35
   },
   "logoDark": {
     "url": "/Coin-League_Logo-FINAL.png",
-    "height": 50,
-    "width": 100,
+    "height": 40,
+    "width": 120,
     "widthMobile": 100,
-    "heightMobile": 50
+    "heightMobile": 35
   },
   "favicon_url": "/favicon.ico",
   "social": [
