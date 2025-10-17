@@ -1,6 +1,7 @@
 import {
   BooleanField,
   Datagrid,
+  DateField,
   List,
   SearchInput,
   TextField,
@@ -16,6 +17,7 @@ const FeatUsagesList = () => (
       <TextField source="slug" />
       <TextField source="site.slug" />
       <BooleanField source="active" />
+      <DateField source="lastChargeDate" />
     </Datagrid>
   </List>
 );
