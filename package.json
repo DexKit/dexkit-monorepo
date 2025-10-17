@@ -91,7 +91,10 @@
     "@mui/icons-material": "7.3.2",
     "viem": "2.38.0",
     "@noble/hashes": "1.8.0",
-    "@noble/curves": "1.8.1"
+    "@noble/curves": "1.8.1",
+    "formik-mui/@mui/material": "7.3.2",
+    "formik-mui/@mui/icons-material": "7.3.2",
+    "formik-mui/@mui/system": "7.3.2"
   },
   "packageManager": "yarn@1.22.18",
   "main": "index.js",
