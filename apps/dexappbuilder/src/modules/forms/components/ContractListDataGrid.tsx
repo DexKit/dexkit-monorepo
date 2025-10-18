@@ -86,27 +86,27 @@ export default function ContractListDataGrid({
 
 
   useEffect(() => {
-    setQueryOptions({
-      ...queryOptions,
+    setQueryOptions(prevOptions => ({
+      ...prevOptions,
       filter: {
-        ...queryOptions?.filter,
+        ...prevOptions?.filter,
         owner: account?.toLowerCase() || '',
         hide: showHidden ? undefined : false,
       },
-    });
+    }));
+    setPaginationModel(prev => ({ ...prev, page: 0 }));
   }, [account, showHidden]);
 
-  const [rowCountState, setRowCountState] = useState((data?.total as any) || 0);
+  const [rowCountState, setRowCountState] = useState(0);
 
   useEffect(() => {
-    setRowCountState((prevRowCountState: number) =>
-      data?.total !== undefined ? data?.total : prevRowCountState,
-    );
-  }, [data?.total, setRowCountState]);
+    if (data?.total !== undefined) {
+      setRowCountState(data.total);
+    }
+  }, [data?.total]);
 
   const handleSortModelChange = useCallback(
     (sortModel: GridSortModel) => {
-      // Here you save the data you need from the sort model
       setQueryOptions({
         ...queryOptions,
         sort:
@@ -408,7 +408,10 @@ export default function ContractListDataGrid({
   return (
     <Box sx={{
       width: '100%',
-      height: isMobile ? 'auto' : theme.spacing(75),
+      height: isMobile ? 'auto' : 'auto',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
       '& .MuiDataGrid-cell': {
         fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
@@ -452,11 +455,17 @@ export default function ContractListDataGrid({
         onRowSelectionModelChange={handleChangeRowSelectionModel}
         density="compact"
         rowHeight={isMobile ? 60 : 52}
-        autoHeight={isMobile}
         sx={{
           width: '100%',
           maxWidth: '100%',
           border: 'none',
+          height: isMobile ? 500 : 600,
+          '& .MuiDataGrid-main': {
+            overflow: 'auto',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            overflow: 'auto',
+          },
         }}
       />
 

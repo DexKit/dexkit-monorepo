@@ -82,27 +82,27 @@ export default function ContractListDataGrid({
   });
 
   useEffect(() => {
-    setQueryOptions({
-      ...queryOptions,
+    setQueryOptions(prevOptions => ({
+      ...prevOptions,
       filter: {
-        ...queryOptions?.filter,
+        ...prevOptions?.filter,
         owner: account?.toLowerCase() || "",
         hide: showHidden ? undefined : false,
       },
-    });
+    }));
+    setPaginationModel(prev => ({ ...prev, page: 0 }));
   }, [account, showHidden]);
 
-  const [rowCountState, setRowCountState] = useState((data?.total as any) || 0);
+  const [rowCountState, setRowCountState] = useState(0);
 
   useEffect(() => {
-    setRowCountState((prevRowCountState: number) =>
-      data?.total !== undefined ? data?.total : prevRowCountState
-    );
-  }, [data?.total, setRowCountState]);
+    if (data?.total !== undefined) {
+      setRowCountState(data.total);
+    }
+  }, [data?.total]);
 
   const handleSortModelChange = useCallback(
     (sortModel: GridSortModel) => {
-      // Here you save the data you need from the sort model
       setQueryOptions({
         ...queryOptions,
         sort:
@@ -325,7 +325,13 @@ export default function ContractListDataGrid({
   };
 
   return (
-    <Box sx={{ width: "100%", height: isMobile ? 'auto' : 450 }}>
+    <Box sx={{
+      width: "100%",
+      height: isMobile ? 'auto' : 450,
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
       <DataGrid
         rows={data?.data || []}
         rowCount={rowCountState}
@@ -341,7 +347,6 @@ export default function ContractListDataGrid({
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
         hideFooterPagination={isMobile}
-        autoHeight={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -355,6 +360,15 @@ export default function ContractListDataGrid({
           },
         }}
         onRowSelectionModelChange={handleChangeRowSelectionModel}
+        sx={{
+          height: isMobile ? 500 : 450,
+          '& .MuiDataGrid-main': {
+            overflow: 'auto',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            overflow: 'auto',
+          },
+        }}
       />
 
       {isMobile && (

@@ -159,18 +159,15 @@ function ColorPickerField({
   onChangeRef.current = onChange;
 
   const handleColorChange = useCallback((newValue: string) => {
-    // Clear any existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Debounce the onChange call to prevent infinite loops during dragging
     timeoutRef.current = setTimeout(() => {
       onChangeRef.current(newValue);
-    }, 50); // 50ms debounce
+    }, 50);
   }, []);
 
-  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
