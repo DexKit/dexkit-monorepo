@@ -20,7 +20,9 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -83,13 +85,21 @@ interface ContractTutorial {
 export default function DeployPage() {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
+  const { mode } = useColorScheme();
+
+  const getDexKitLogo = (isDark: boolean = false) => {
+    return isDark
+      ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+      : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+  };
 
   const { query } = useRouter();
 
   const { slug, creator } = query;
 
-  const contractTutorial: ContractTutorial | undefined = slug ? 
-    (contractTutorials as Record<string, ContractTutorial>)[slug as string] : 
+  const contractTutorial: ContractTutorial | undefined = slug ?
+    (contractTutorials as Record<string, ContractTutorial>)[slug as string] :
     undefined;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
@@ -123,6 +133,7 @@ export default function DeployPage() {
     contract: slug as string,
     creator: creator as string,
   });
+
 
   const saveContractDeployedMutation = useSaveContractDeployed();
 
@@ -392,9 +403,8 @@ export default function DeployPage() {
                   },
                   {
                     caption: thirdwebMetadataQuery.data?.displayName,
-                    uri: `/forms/deploy/${
-                      creator as string
-                    }/${thirdwebMetadataQuery.data?.name}`,
+                    uri: `/forms/deploy/${creator as string
+                      }/${thirdwebMetadataQuery.data?.name}`,
                     active: true,
                   },
                 ]}
@@ -407,35 +417,34 @@ export default function DeployPage() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   {/* Contract Header Card */}
                   <Box>
-                    <Paper sx={{ p: 3 }}>
-                      <Stack spacing={2}>
+                    <Paper sx={{ p: { xs: 1, sm: 1.5 } }}>
+                      <Stack spacing={1.5}>
                         <Stack
                           direction="row"
-                          spacing={2}
+                          spacing={{ xs: 0.75, sm: 1.5 }}
                           alignItems="center"
                           alignContent="center"
                         >
-                          {thirdwebMetadataQuery.data?.logo ? (
-                            <Avatar
-                              src={getNormalizedUrl(
-                                thirdwebMetadataQuery.data?.logo,
-                              )}
-                              sx={{
-                                width: { xs: '3rem', sm: '4rem' },
-                                height: { xs: '3rem', sm: '4rem' }
-                              }}
-                            />
-                          ) : (
-                            <Skeleton
-                              variant="circular"
-                              sx={(theme) => ({
-                                height: { xs: theme.spacing(3), sm: theme.spacing(4) },
-                                width: { xs: theme.spacing(3), sm: theme.spacing(4) },
-                              })}
-                            />
-                          )}
+                          <Avatar
+                            src={getNormalizedUrl(
+                              thirdwebMetadataQuery.data?.logo || getDexKitLogo(mode === 'dark')
+                            )}
+                            sx={{
+                              width: { xs: '1.5rem', sm: '2.5rem' },
+                              height: { xs: '1.5rem', sm: '2.5rem' },
+                              '& .MuiAvatar-img': {
+                                objectFit: 'contain',
+                                padding: '0.25rem'
+                              }
+                            }}
+                          />
                           <Box sx={{ flex: 1 }}>
-                            <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
+                            <Typography variant="h4" sx={{
+                              fontWeight: 600,
+                              mb: 0.5,
+                              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                              lineHeight: { xs: 1.3, sm: 1.4 }
+                            }}>
                               {thirdwebMetadataQuery.data?.displayName ? (
                                 thirdwebMetadataQuery.data?.displayName
                               ) : (
@@ -446,7 +455,11 @@ export default function DeployPage() {
                               gutterBottom
                               color="text.secondary"
                               variant="body1"
-                              sx={{ mb: 1 }}
+                              sx={{
+                                mb: 0.5,
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                                lineHeight: { xs: 1.3, sm: 1.4 }
+                              }}
                             >
                               {thirdwebMetadataQuery.data?.description ? (
                                 thirdwebMetadataQuery.data?.description
@@ -456,7 +469,7 @@ export default function DeployPage() {
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                               {thirdwebMetadataQuery.data?.publisher &&
-                              getBlockExplorerUrl(chainId) ? (
+                                getBlockExplorerUrl(chainId) ? (
                                 <FormattedMessage
                                   id="published.by.publisher"
                                   defaultMessage="Published by: {publisher}"
@@ -555,19 +568,19 @@ export default function DeployPage() {
                       }
                     />
                   </Box>
-                  
+
                   {/* Learn More Section */}
                   {contractTutorial && (
                     <Box>
                       <Paper elevation={0} sx={{ p: 3, mt: 2, bgcolor: 'background.paper' }}>
                         <Typography variant="h6" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-                          <FormattedMessage 
-                            id="learn.more.about.contract" 
-                            defaultMessage="Learn more about {contractName}" 
-                            values={{ contractName: contractTutorial.name }} 
+                          <FormattedMessage
+                            id="learn.more.about.contract"
+                            defaultMessage="Learn more about {contractName}"
+                            values={{ contractName: contractTutorial.name }}
                           />
                         </Typography>
-                        
+
                         <Box sx={{
                           display: 'grid',
                           gridTemplateColumns: {
@@ -598,7 +611,7 @@ export default function DeployPage() {
                               </Card>
                             </Box>
                           ))}
-                          
+
                           <Box>
                             <Card sx={{ height: '100%' }}>
                               <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -611,9 +624,9 @@ export default function DeployPage() {
                                     {contractTutorial.documentation.description}
                                   </Typography>
                                 </Box>
-                                <Button 
-                                  variant="outlined" 
-                                  component={Link} 
+                                <Button
+                                  variant="outlined"
+                                  component={Link}
                                   href={contractTutorial.documentation.url}
                                   target="_blank"
                                   sx={{ alignSelf: 'flex-start' }}
@@ -662,7 +675,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

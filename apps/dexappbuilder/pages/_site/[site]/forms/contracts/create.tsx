@@ -174,6 +174,7 @@ export default function FormsContractsPage() {
                       }}
                       href={`/forms/deploy/${IS_DEXKIT_CONTRACT.includes(contract.slug) ? 'dexkit' : 'thirdweb'}/${contract.slug}`}
                       targetBlank={true}
+                      isDexKitContract={IS_DEXKIT_CONTRACT.includes(contract.slug)}
                     />
                   </Box>
                 ))}

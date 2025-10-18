@@ -24,6 +24,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
+import { useColorScheme } from "@mui/material/styles";
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
@@ -101,7 +102,14 @@ export default function ContractDeployContainer({
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const getDexKitLogo = (isDark: boolean = false) => {
+    return isDark
+      ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+      : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+  };
 
   const contractTutorial: ContractTutorial | undefined = slug ?
     (contractTutorials as Record<string, ContractTutorial>)[slug as string] :
@@ -138,6 +146,7 @@ export default function ContractDeployContainer({
     contract: slug as string,
     creator: creator as string,
   });
+
 
   const saveContractDeployedMutation = useSaveContractDeployed();
 
@@ -488,39 +497,33 @@ export default function ContractDeployContainer({
               <Box>
                 <Grid spacing={2} container>
                   <Grid size={12}>
-                    <Paper sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    <Paper sx={{ p: { xs: 1, sm: 1.5 } }}>
                       <Stack>
                         <Stack
                           direction="row"
-                          spacing={{ xs: 1, sm: 2 }}
+                          spacing={{ xs: 0.75, sm: 1.5 }}
                           alignItems="center"
                           alignContent="center"
                         >
-                          {thirdwebMetadataQuery.data?.logo ? (
-                            <Avatar
-                              src={getNormalizedUrl(
-                                thirdwebMetadataQuery.data?.logo
-                              )}
-                              sx={{
-                                width: { xs: '2rem', sm: '3rem' },
-                                height: { xs: '2rem', sm: '3rem' }
-                              }}
-                            />
-                          ) : (
-                            <Skeleton
-                              variant="circular"
-                              sx={(theme) => ({
-                                height: { xs: theme.spacing(2), sm: theme.spacing(6) },
-                                width: { xs: theme.spacing(2), sm: theme.spacing(6) },
-                              })}
-                            />
-                          )}
+                          <Avatar
+                            src={getNormalizedUrl(
+                              thirdwebMetadataQuery.data?.logo || getDexKitLogo(mode === 'dark')
+                            )}
+                            sx={{
+                              width: { xs: '1.5rem', sm: '2.5rem' },
+                              height: { xs: '1.5rem', sm: '2.5rem' },
+                              '& .MuiAvatar-img': {
+                                objectFit: 'contain',
+                                padding: '0.25rem'
+                              }
+                            }}
+                          />
                           <Box sx={{ flex: 1 }}>
                             <Typography
                               variant="h5"
                               sx={{
-                                fontSize: { xs: '1.25rem', sm: '1.5rem' },
-                                lineHeight: { xs: 1.3, sm: 1.5 }
+                                fontSize: { xs: '1.125rem', sm: '1.375rem' },
+                                lineHeight: { xs: 1.3, sm: 1.4 }
                               }}
                             >
                               {thirdwebMetadataQuery.data?.displayName ? (

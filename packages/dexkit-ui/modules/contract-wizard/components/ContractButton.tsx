@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import React from 'react';
 
 export interface ContractButtonProps {
@@ -21,6 +22,7 @@ export interface ContractButtonProps {
   onClick?: () => void;
   href?: string;
   targetBlank?: boolean;
+  isDexKitContract?: boolean;
 }
 
 export default function ContractButton({
@@ -31,9 +33,17 @@ export default function ContractButton({
   disabled,
   href,
   targetBlank,
+  isDexKitContract = false,
 }: ContractButtonProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const getDexKitLogo = (isDark: boolean = false) => {
+    return isDark
+      ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+      : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+  };
 
   const CustomButton = React.useMemo(
     () =>
@@ -72,10 +82,10 @@ export default function ContractButton({
         alignItems: 'stretch', // Ensure full width usage
       }}
     >
-      <Box sx={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
+      <Box sx={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
         textAlign: 'left',
         width: '100%',
         alignItems: 'flex-start' // Force left alignment
@@ -115,35 +125,39 @@ export default function ContractButton({
         </Typography>
       </Box>
 
-      <Box sx={{ 
+      <Box sx={{
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        mt: theme.spacing(1), 
+        mt: theme.spacing(1),
         flexShrink: 0
       }}>
-        <Stack 
-          direction="row" 
-          alignItems="center" 
+        <Stack
+          direction="row"
+          alignItems="center"
           spacing={theme.spacing(0.5)}
-          sx={{ 
+          sx={{
             width: '100%',
             justifyContent: 'flex-start',
             textAlign: 'left'
           }}
         >
-          <Avatar 
-            src={creator.imageUrl} 
-            sx={{ 
+          <Avatar
+            src={isDexKitContract ? getDexKitLogo(mode === 'dark') : (creator.imageUrl || getDexKitLogo(mode === 'dark'))}
+            sx={{
               height: { xs: theme.spacing(1.5), sm: theme.spacing(1.75) },
               width: { xs: theme.spacing(1.5), sm: theme.spacing(1.75) },
-              flexShrink: 0
-            }} 
+              flexShrink: 0,
+              '& .MuiAvatar-img': {
+                objectFit: 'contain',
+                padding: '0.125rem'
+              }
+            }}
           />
-          <Typography 
-            variant="caption" 
-            sx={{ 
+          <Typography
+            variant="caption"
+            sx={{
               fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.caption.fontSize },
               textAlign: 'left',
               alignSelf: 'flex-start'
