@@ -130,9 +130,12 @@ export default function SwapMinimal({
       <Paper
         elevation={0}
         sx={{
+          backgroundColor: 'background.paper',
           border: 1,
           borderColor: 'divider',
+          borderRadius: (theme) => theme.shape.borderRadius,
           overflow: 'hidden',
+          boxShadow: (theme) => theme.shadows[2],
         }}
       >
         <Stack spacing={0}>
@@ -158,7 +161,7 @@ export default function SwapMinimal({
             justifyContent="center"
             sx={{
               position: 'relative',
-              zIndex: 1,
+              zIndex: 2,
               my: -1,
             }}
           >

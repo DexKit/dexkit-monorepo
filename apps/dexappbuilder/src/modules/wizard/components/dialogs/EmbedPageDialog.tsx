@@ -62,13 +62,13 @@ export default function EmebedPageDialog({
       />
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction={'row'} spacing={2}>
               <code>{iframeText}</code>
               <CopyText text={iframeText} />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControlLabel
               control={
                 <Switch

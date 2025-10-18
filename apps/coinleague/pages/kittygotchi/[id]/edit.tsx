@@ -126,7 +126,6 @@ const KittygotchiEditPage: NextPage = () => {
             spacing={2}
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
           >
             <AppPageHeader
@@ -160,11 +159,11 @@ const KittygotchiEditPage: NextPage = () => {
 
         <Box>
           <Grid container justifyContent="center">
-            <Grid item xs={12} sm={8}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   {kitAmount < KITTYGOTCHI_EDIT_MIN_AMOUNT &&
-                  isKittygotchiNetworkSupported(chainId) ? (
+                    isKittygotchiNetworkSupported(chainId) ? (
                     <Alert severity="info">
                       <FormattedMessage
                         id="you.need.at.least.amount.to.edit.your.kittygotchi"
@@ -178,7 +177,7 @@ const KittygotchiEditPage: NextPage = () => {
                     </Alert>
                   ) : null}
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box
                     sx={(theme) => ({
                       height: '100%',
@@ -251,9 +250,9 @@ const KittygotchiEditPage: NextPage = () => {
                     </Stack>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Card>
                         <CardContent>
                           <Typography variant="overline" color="text.secondary">
@@ -275,7 +274,7 @@ const KittygotchiEditPage: NextPage = () => {
                         </CardContent>
                       </Card>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Card>
                         <CardContent>
                           <Typography gutterBottom variant="h5">
@@ -286,10 +285,10 @@ const KittygotchiEditPage: NextPage = () => {
                       </Card>
                     </Grid>
                     {isEditing ? (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Fade in>
                           <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -303,7 +302,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 traitType={KittygotchiTraitType.ACCESSORIES}
                                 items={
                                   KittygotchiTraits[
-                                    KittygotchiTraitType.ACCESSORIES
+                                  KittygotchiTraitType.ACCESSORIES
                                   ]
                                 }
                                 onSelect={kittyStyles.handleSelectAccessory}
@@ -311,7 +310,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 disabled={!isEditing}
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -331,7 +330,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 disabled={!isEditing}
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -351,7 +350,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 disabled={!isEditing}
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -371,7 +370,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 disabled={!isEditing}
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -385,7 +384,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 })}
                                 items={
                                   KittygotchiTraits[
-                                    KittygotchiTraitType.CLOTHES
+                                  KittygotchiTraitType.CLOTHES
                                   ]
                                 }
                                 onSelect={kittyStyles.handleSelectCloth}
@@ -393,7 +392,7 @@ const KittygotchiEditPage: NextPage = () => {
                                 disabled={!isEditing}
                               />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                               <KittygotchiTraitSelector
                                 kitHolding={
                                   kitHolding.data && kitHolding.data?.length > 0
@@ -417,26 +416,26 @@ const KittygotchiEditPage: NextPage = () => {
                         </Fade>
                       </Grid>
                     ) : (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Grid container alignItems="stretch" spacing={2}>
                           {kittygotchi.isLoading
                             ? new Array(6)
-                                .fill(null)
-                                .map((i: any, index: number) => (
-                                  <Grid xs={4} key={index} item>
-                                    <KittygotchiTrait loading />
-                                  </Grid>
-                                ))
+                              .fill(null)
+                              .map((i: any, index: number) => (
+                                <Grid size={4} key={index}>
+                                  <KittygotchiTrait loading />
+                                </Grid>
+                              ))
                             : kittygotchi.data?.attributes.map(
-                                (attr: any, index: number) => (
-                                  <Grid key={index} item xs={4}>
-                                    <KittygotchiTrait
-                                      traitType={attr.trait_type}
-                                      value={attr.value}
-                                    />
-                                  </Grid>
-                                ),
-                              )}
+                              (attr: any, index: number) => (
+                                <Grid key={index} size={4}>
+                                  <KittygotchiTrait
+                                    traitType={attr.trait_type}
+                                    value={attr.value}
+                                  />
+                                </Grid>
+                              ),
+                            )}
                         </Grid>
                       </Grid>
                     )}

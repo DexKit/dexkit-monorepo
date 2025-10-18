@@ -31,7 +31,6 @@ export function NetworkSelectDropdown(props: Props) {
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             spacing={1}
           >
             <Avatar
@@ -54,7 +53,6 @@ export function NetworkSelectDropdown(props: Props) {
                   width: (theme) => theme.spacing(4),
                   display: 'flex',
                   alignItems: 'center',
-                  alignContent: 'center',
                   justifyContent: 'center',
                 }}
               >

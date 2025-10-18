@@ -11,6 +11,6 @@ export default function useCreateProduct() {
       throw new Error('no instance');
     }
 
-    return (await instance?.post('/products/', data)).data;
+    return (await (instance as any)?.post('/products/', data)).data;
   });
 }

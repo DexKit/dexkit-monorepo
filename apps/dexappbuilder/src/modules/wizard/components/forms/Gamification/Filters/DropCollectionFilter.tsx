@@ -119,7 +119,11 @@ export default function DropCollectionFilterForm({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <NetworkSelectDropdown
           label={<FormattedMessage id="network" defaultMessage="Network" />}
           chainId={index !== undefined ? filter?.chainId : undefined}
@@ -138,8 +142,7 @@ export default function DropCollectionFilterForm({
           enableTestnet={true}
         />
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography fontWeight="500" variant="body1">
           <FormattedMessage
             id="filter.by.collection"
@@ -147,9 +150,13 @@ export default function DropCollectionFilterForm({
           />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <FormControl fullWidth>
               {filter?.mode !== -1 && (
                 <InputLabel shrink>
@@ -204,10 +211,18 @@ export default function DropCollectionFilterForm({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 8
+            }}>
             <Grid container spacing={2}>
               <TabPanel value={filter.mode} index={1}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <CollectionItemAutocomplete
                     onChange={(coll) => {
                       setFieldValue(
@@ -229,7 +244,11 @@ export default function DropCollectionFilterForm({
                 </Grid>
               </TabPanel>
               <TabPanel value={filter.mode} index={0}>
-                <Grid item xs={12} sm={8}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 8
+                  }}>
                   <Field
                     component={TextField}
                     label={
@@ -248,12 +267,15 @@ export default function DropCollectionFilterForm({
           </Grid>
         </Grid>
       </Grid>
-
       {filter?.mode !== -1 && (
         <>
           {isERC1155 === true && (
             <>
-              <Grid item xs={12} sm={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 4
+                }}>
                 <Field
                   component={TextField}
                   type="text"
@@ -265,7 +287,11 @@ export default function DropCollectionFilterForm({
                   name="tokenId"
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 4
+                }}>
                 <FormControl fullWidth>
                   <InputLabel id="condition-amount-nft-select-label">
                     <FormattedMessage
@@ -303,7 +329,11 @@ export default function DropCollectionFilterForm({
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} sm={4}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 4
+                }}>
                 <Field
                   component={TextField}
                   type="number"

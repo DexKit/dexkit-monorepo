@@ -2,7 +2,10 @@ import { EmotionCache } from '@emotion/react';
 import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import React from 'react';
+import { useEffect, useState } from 'react';
+
+import '../src/polyfills/react-draggable-polyfill';
+import '../src/polyfills/react-polyfills';
 
 import type { } from '@mui/material/themeCssVarsAugmentation';
 
@@ -13,12 +16,10 @@ import './customCss.css';
 
 import { setupTheme } from '@dexkit/ui/services/app';
 
-import {
-  AppMarketplaceProvider,
-  PageProps,
-  createEmotionCache,
-  getTheme,
-} from '@dexkit/dexappbuilder-render';
+import { AppMarketplaceProvider } from '../src/AppMarketplaceProvider';
+import { PageProps } from '../src/PageProps';
+import createEmotionCache from '../src/createEmotionCache';
+import { getTheme } from '../src/getTheme';
 
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import SiteProvider from '@dexkit/ui/providers/SiteProvider';
@@ -45,11 +46,11 @@ export default function MyApp(props: MyAppProps) {
   const { pageProps, Component, emotionCache = clientSideEmotionCache } = props;
 
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const { appConfig, appNFT, siteId, site, appPage, appLocaleMessages } =
     pageProps;
 
-  const [queryClient] = React.useState(
+  const [queryClient] = useState(
     new QueryClient({
       defaultOptions: {
         queries: {
@@ -60,7 +61,7 @@ export default function MyApp(props: MyAppProps) {
     }),
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     router.events.on('routeChangeStart', () => {
       setLoading(true);
     });
@@ -106,7 +107,7 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta
           name="theme-color"
-          content={theme?.colorSchemes?.light?.palette?.primary?.main}
+          content={(theme as any)?.colorSchemes?.light?.palette?.primary?.main || '#1976d2'}
         />
       </Head>
       <CacheProvider value={emotionCache}>
@@ -127,8 +128,8 @@ export default function MyApp(props: MyAppProps) {
                           open={loading}
                           sx={{
                             color:
-                              theme?.colorSchemes?.light?.palette?.primary
-                                ?.main,
+                              (theme as any)?.colorSchemes?.light?.palette?.primary
+                                ?.main || theme.palette.primary.main,
                             zIndex: theme.zIndex.drawer + 1,
                           }}
                         >
@@ -144,7 +145,7 @@ export default function MyApp(props: MyAppProps) {
           </SiteProvider>
         </AuthStateProvider>
       </CacheProvider>
-      <Analytics />
+      {process.env.NODE_ENV === 'production' && <Analytics />}
     </>
   );
 }

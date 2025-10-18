@@ -52,7 +52,7 @@ export default function BillingDetail() {
             <Card>
               <CardContent>
                 <Grid container spacing={2}>
-                  <Grid item>
+                  <Grid>
                     <Typography variant="caption" color="text.secondary">
                       <FormattedMessage
                         id="ref.period"
@@ -73,7 +73,7 @@ export default function BillingDetail() {
                       )}
                     </Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Typography variant="caption" color="text.secondary">
                       <FormattedMessage id="credits" defaultMessage="Credits" />
                     </Typography>
@@ -93,7 +93,7 @@ export default function BillingDetail() {
                       )}
                     </Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Typography variant="caption" color="text.secondary">
                       <FormattedMessage id="start" defaultMessage="Start" />
                     </Typography>
@@ -103,7 +103,7 @@ export default function BillingDetail() {
                       )}{' '}
                     </Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Typography variant="caption" color="text.secondary">
                       <FormattedMessage id="end" defaultMessage="End" />
                     </Typography>

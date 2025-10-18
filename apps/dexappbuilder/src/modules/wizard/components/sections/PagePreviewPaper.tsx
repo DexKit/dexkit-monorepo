@@ -21,8 +21,8 @@ export function PagePreviewPaper({ sections, name, hideButtons }: Props) {
             <Typography variant="body1">
               <FormattedMessage
                 id="page.preview.title"
-                defaultMessage="{name} page preview"
-                values={{ name }}
+                defaultMessage="{title} page preview"
+                values={{ title: name }}
               />
             </Typography>
           }

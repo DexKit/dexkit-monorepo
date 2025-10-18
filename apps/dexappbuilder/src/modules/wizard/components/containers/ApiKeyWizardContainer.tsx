@@ -1,7 +1,7 @@
 import { SiteResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { Skeleton, useMediaQuery, useTheme } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
@@ -45,8 +45,9 @@ export default function ApiKeyWizardContainer({
     : undefined;
 
   return (
-    <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* Header Section */}
+      <Box>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -56,7 +57,7 @@ export default function ApiKeyWizardContainer({
               mb: 0.5,
             }}
           >
-            <FormattedMessage id="api.key" defaultMessage="Api Key" />
+            <FormattedMessage id="api.key" defaultMessage="API Key" />
           </Typography>
           <Typography
             variant={isMobile ? 'body2' : 'body1'}
@@ -71,11 +72,15 @@ export default function ApiKeyWizardContainer({
             />
           </Typography>
         </Stack>
-      </Grid>
-      <Grid item xs={12}>
+      </Box>
+
+      {/* Divider */}
+      <Box>
         <Divider />
-      </Grid>
-      <Grid item xs={12}>
+      </Box>
+
+      {/* Credits Section */}
+      <Box>
         <AddCredits
           isHidePowered={true}
           isWidget={isWidget}
@@ -92,33 +97,29 @@ export default function ApiKeyWizardContainer({
             />
           }
         />
-      </Grid>
+      </Box>
 
-      <Grid item xs={12}>
+      {/* Divider */}
+      <Box>
         <Divider />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant={'h6'}>
+      </Box>
+
+      {/* Monthly Free Requests Section */}
+      <Box>
+        <Typography variant={'h6'} sx={{ mb: 1 }}>
           <FormattedMessage
             id={'monthly.free.requests'}
             defaultMessage={'Monthly free requests'}
           />
         </Typography>
-        <Stack
-          direction={'row'}
-          spacing={1}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <Typography variant={'subtitle1'}>
-            {monthlyRequests ? monthlyRequests : isLoading ? '-' : '0'} /
-            {` ${API_KEY_FREE_MONTHLY_LIMIT}`}
-          </Typography>
-        </Stack>
-      </Grid>
+        <Typography variant={'subtitle1'}>
+          {monthlyRequests ? monthlyRequests : isLoading ? '-' : '0'} / {API_KEY_FREE_MONTHLY_LIMIT}
+        </Typography>
+      </Box>
 
-      <Grid item xs={12}>
-        <Typography variant={'h6'}>
+      {/* API Key Section */}
+      <Box>
+        <Typography variant={'h6'} sx={{ mb: 1 }}>
           <FormattedMessage id={'api.key'} defaultMessage={'API Key'} />
         </Typography>
         <Stack
@@ -127,7 +128,7 @@ export default function ApiKeyWizardContainer({
           sx={{
             mb: isMobile ? 1.5 : 2,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             width: '100%',
           }}
         >
@@ -141,7 +142,15 @@ export default function ApiKeyWizardContainer({
               </Typography>
             </Skeleton>
           ) : (
-            <Typography variant={isMobile ? 'h6' : 'h5'}>
+            <Typography 
+              variant={isMobile ? 'h6' : 'h5'}
+              sx={{ 
+                fontFamily: 'monospace',
+                fontSize: isMobile ? '0.9rem' : '1.1rem',
+                wordBreak: 'break-all',
+                mr: 1
+              }}
+            >
               {uuid || (
                 <FormattedMessage
                   id="api.key.not.found.please.create.one"
@@ -152,7 +161,7 @@ export default function ApiKeyWizardContainer({
           )}
           {uuid && <CopyText text={uuid} />}
         </Stack>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

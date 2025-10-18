@@ -270,7 +270,7 @@ export default function ReferralSection({
 
   const formatForAirdrop = () => {
     const csvContent = generatedRanking
-      .map((item) => `${item.account},${item.points},${item.totalEvents}`)
+      .map((item: any) => `${item.account},${item.points},${item.totalEvents}`)
       .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
@@ -405,11 +405,11 @@ export default function ReferralSection({
                     account
                       ? ""
                       : ((
-                          <FormattedMessage
-                            id="connect.wallet.first"
-                            defaultMessage="Connect wallet to get your referral link"
-                          />
-                        ) as any)
+                        <FormattedMessage
+                          id="connect.wallet.first"
+                          defaultMessage="Connect wallet to get your referral link"
+                        />
+                      ) as any)
                   }
                   InputProps={{
                     readOnly: true,
@@ -441,7 +441,7 @@ export default function ReferralSection({
                       </Typography>
 
                       <Grid container spacing={3} sx={{ mt: 1 }}>
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -471,7 +471,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -501,7 +501,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -531,7 +531,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -626,7 +626,7 @@ export default function ReferralSection({
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell colSpan={4} align="center">
+                        <div style={{ textAlign: 'center', padding: '16px' }}>
                           <Typography
                             variant="body2"
                             color="text.secondary"
@@ -637,7 +637,7 @@ export default function ReferralSection({
                               defaultMessage="No referrals recorded yet."
                             />
                           </Typography>
-                        </TableCell>
+                        </div>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -727,7 +727,7 @@ export default function ReferralSection({
                       </Typography>
 
                       <Grid container spacing={3} sx={{ mt: 1 }}>
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -759,7 +759,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -793,7 +793,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -825,7 +825,7 @@ export default function ReferralSection({
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                           <Paper
                             elevation={0}
                             sx={{
@@ -940,7 +940,7 @@ export default function ReferralSection({
                     <TableBody>
                       {generatedRanking.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={4} align="center">
+                          <div style={{ textAlign: 'center', padding: '16px' }}>
                             <Typography
                               variant="body2"
                               color="text.secondary"
@@ -958,7 +958,7 @@ export default function ReferralSection({
                                 />
                               )}
                             </Typography>
-                          </TableCell>
+                          </div>
                         </TableRow>
                       ) : (
                         generatedRanking
@@ -966,7 +966,7 @@ export default function ReferralSection({
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
-                          .map((item, index) => (
+                          .map((item: any, index: any) => (
                             <TableRow key={item.account}>
                               <TableCell>
                                 {page * rowsPerPage + index + 1}

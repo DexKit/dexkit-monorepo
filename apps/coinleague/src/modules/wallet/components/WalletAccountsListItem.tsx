@@ -32,7 +32,7 @@ function WalletAccountsListItem({ account, onMenu, isActive, divider }: Props) {
 
   return (
     <ListItem divider>
-      <Stack sx={{ alignItems: 'center', alignContent: 'center', mr: 2 }}>
+      <Stack sx={{ alignItems: 'center', mr: 2 }}>
         <Tooltip
           title={
             isActive ? (
@@ -45,11 +45,11 @@ function WalletAccountsListItem({ account, onMenu, isActive, divider }: Props) {
             sx={
               isActive
                 ? (theme) => ({
-                    color: theme.palette.success.main,
-                  })
+                  color: theme.palette.success.main,
+                })
                 : (theme) => ({
-                    color: theme.palette.action.hover,
-                  })
+                  color: theme.palette.action.hover,
+                })
             }
           />
         </Tooltip>
@@ -61,10 +61,9 @@ function WalletAccountsListItem({ account, onMenu, isActive, divider }: Props) {
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             spacing={1}
           >
-             {truncateAddress(account.address)}
+            {truncateAddress(account.address)}
           </Stack>
         }
       />

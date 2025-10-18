@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof EvmSendForm> = (
   return (
     <WidgetContext>
       <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <Card>
             <Box pt={2}>
               <EvmSendForm {...args} />
@@ -39,9 +39,9 @@ export const Default = Template.bind({});
 Default.args = {
   accounts: [Account],
   coins: [POLYGON_USDT_TOKEN],
-  onChange: ({ coin: POLYGON_USDT_TOKEN }) => {},
+  onChange: ({ coin: POLYGON_USDT_TOKEN }) => { },
   values: { address: Account.address, amount: 5, coin: POLYGON_USDT_TOKEN },
-  onSubmit: () => {},
+  onSubmit: () => { },
   balance: "6",
 } as EvmSendFormProps;
 
@@ -50,9 +50,9 @@ export const NotEnoughBalance = Template.bind({});
 NotEnoughBalance.args = {
   accounts: [Account],
   coins: [POLYGON_USDT_TOKEN],
-  onChange: ({ coin: POLYGON_USDT_TOKEN }) => {},
+  onChange: ({ coin: POLYGON_USDT_TOKEN }) => { },
   values: { address: Account.address, amount: 5, coin: POLYGON_USDT_TOKEN },
-  onSubmit: () => {},
+  onSubmit: () => { },
   balance: "4",
 } as EvmSendFormProps;
 
@@ -61,9 +61,9 @@ export const Empty = Template.bind({});
 Empty.args = {
   accounts: [],
   coins: [],
-  onChange: ({}) => {},
+  onChange: ({ }) => { },
   values: {},
-  onSubmit: () => {},
+  onSubmit: () => { },
   balance: "4",
 } as EvmSendFormProps;
 
@@ -72,8 +72,8 @@ export const DefaultWithENS = Template.bind({});
 DefaultWithENS.args = {
   accounts: [Account],
   coins: [POLYGON_USDT_TOKEN],
-  onChange: ({ coin: POLYGON_USDT_TOKEN }) => {},
+  onChange: ({ coin: POLYGON_USDT_TOKEN }) => { },
   values: { address: ENSAccount.address, amount: 5, coin: POLYGON_USDT_TOKEN },
-  onSubmit: () => {},
+  onSubmit: () => { },
   balance: "6",
 } as EvmSendFormProps;

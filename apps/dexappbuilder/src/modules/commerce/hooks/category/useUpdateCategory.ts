@@ -11,6 +11,6 @@ export default function useUpdateCategory() {
       throw new Error('no instance');
     }
 
-    return (await instance?.put(`/product-category/${data?.id}`, data)).data;
+    return (await (instance as any)?.put(`/product-category/${data?.id}`, data)).data;
   });
 }

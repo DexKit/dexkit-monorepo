@@ -29,7 +29,7 @@ export default function useProductList(params: {
       delete newParams['sortModel'];
 
       return (
-        await instance.get('/products', { params: newParams })
+        await (instance as any).get('/products', { params: newParams })
       ).data;
     },
     {

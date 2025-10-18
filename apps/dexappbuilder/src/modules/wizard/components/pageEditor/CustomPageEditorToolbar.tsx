@@ -9,7 +9,7 @@ const BottomToolbarStyled = styled(BottomToolbar)(({ theme }) => ({
   },
 }));
 
-const CustomPageEditorToolbar = memo<BottomToolbarProps>((props) => {
+const CustomPageEditorToolbar = memo<BottomToolbarProps>((props: any) => {
   const isMobile = useIsMobile();
   const theme = useTheme();
 
@@ -26,7 +26,7 @@ const CustomPageEditorToolbar = memo<BottomToolbarProps>((props) => {
         elevation={3}
         sx={{
           borderRadius: isMobile ? 0 : undefined,
-          p: isMobile ? theme.spacing(1) : undefined,
+          p: isMobile ? theme.spacing(1) : 'inherit',
           maxWidth: isMobile ? '100%' : `calc(100% - ${theme.spacing(5)})`,
           mx: 'auto'
         }}

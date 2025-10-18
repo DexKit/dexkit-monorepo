@@ -19,7 +19,6 @@ import { noRowsOverlay } from "./NoRowsOverlay";
 import { useDebounce } from "@dexkit/core";
 import EditCategoryFormDialog from "@dexkit/ui/modules/commerce/components/dialogs/EditCategoryFormDialog";
 import AppsIcon from "@mui/icons-material/Apps";
-import CustomToolbar from "./CustomToolbar";
 import { LoadingOverlay } from "./LoadingOverlay";
 const AppConfirmDialog = dynamic(
   () => import("@dexkit/ui/components/AppConfirmDialog")
@@ -119,7 +118,11 @@ export default function CategoriesTable({}: CategoriesTableProps) {
         flex: 1,
         field: "name",
         headerName: formatMessage({ id: "name", defaultMessage: "Name" }),
-        renderCell: ({ row }) => <Typography>{row.name}</Typography>,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.name}</Typography>
+          </Box>
+        ),
       },
 
       {
@@ -128,7 +131,11 @@ export default function CategoriesTable({}: CategoriesTableProps) {
         flex: 1,
         field: "itemCount",
         headerName: formatMessage({ id: "items", defaultMessage: "Items" }),
-        renderCell: ({ row }) => <Typography>{row.countItems}</Typography>,
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Typography>{row.countItems}</Typography>
+          </Box>
+        ),
       },
       {
         field: "actions",
@@ -137,11 +144,13 @@ export default function CategoriesTable({}: CategoriesTableProps) {
         flex: 1,
         headerName: formatMessage({ id: "actions", defaultMessage: "Actions" }),
         renderCell: ({ row }) => (
-          <Stack direction="row">
-            <IconButton onClick={handleDelete(row.id ?? "", row.name)}>
-              <Delete color="error" />
-            </IconButton>
-          </Stack>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+            <Stack direction="row">
+              <IconButton onClick={handleDelete(row.id ?? "", row.name)}>
+                <Delete color="error" />
+              </IconButton>
+            </Stack>
+          </Box>
         ),
       },
     ] as GridColDef<{ id: string; name: string; countItems: number }>[];
@@ -258,7 +267,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
@@ -290,7 +299,7 @@ export default function CategoriesTable({}: CategoriesTableProps) {
             },
           }}
           pageSizeOptions={[5, 10, 25]}
-          onRowClick={({ row }, e) => {
+          onRowClick={({ row }: any, e: any) => {
             e.stopPropagation();
             setSelectedCategory(row);
             setShowEdit(true);
@@ -305,27 +314,22 @@ export default function CategoriesTable({}: CategoriesTableProps) {
           sortingOrder={["asc", "desc"]}
           slotProps={{
             toolbar: {
-              onDelete: () => {
-                setShowDeleteMany(true);
-              },
-              placeholder: formatMessage({
-                id: "search.categories",
-                defaultMessage: "Search categories",
-              }),
-              showDelete: selectionModel.length > 0,
               printOptions: { disableToolbarButton: true },
               csvOptions: { disableToolbarButton: true },
               showQuickFilter: true,
               quickFilterProps: {
+                placeholder: formatMessage({
+                  id: "search.categories",
+                  defaultMessage: "Search categories",
+                }),
                 value: query,
-                onChange: (e) => {
+                onChange: (e: any) => {
                   setQuery(e.target.value);
                 },
               },
             },
           }}
           slots={{
-            toolbar: CustomToolbar,
             noRowsOverlay: noRowsOverlay(
               <FormattedMessage
                 id="no.categories"

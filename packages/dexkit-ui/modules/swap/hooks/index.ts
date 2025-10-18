@@ -85,8 +85,8 @@ export function useSwapState() {
       disableFooter: true,
       disableNotificationsButton: true,
       configsByChain: {},
-      featuredTokens,
-      nonFeaturedTokens,
+      featuredTokens: featuredTokens as any,
+      nonFeaturedTokens: nonFeaturedTokens as any,
       currency: "usd",
       defaultChainId: chainId || ChainId.Ethereum,
       zeroExApiKey: process.env.NEXT_PUBLIC_ZRX_API_KEY || "",
@@ -153,8 +153,8 @@ export function useSwapState() {
       theme:
         mode === ThemeMode.light
           ? lightTheme({
-              colors,
-            })
+            colors,
+          })
           : darkTheme({ colors }),
     });
   }

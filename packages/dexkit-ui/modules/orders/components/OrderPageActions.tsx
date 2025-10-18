@@ -1,12 +1,13 @@
 import {
-    Box,
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tooltip,
-    Typography,
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -19,8 +20,8 @@ import Heart from "../../../components/icons/Heart";
 import { useAsset, useAssetMetadata, useFavoriteAssets } from "../../nft/hooks";
 
 import {
-    NETWORK_EXPLORER,
-    NETWORK_SLUG,
+  NETWORK_EXPLORER,
+  NETWORK_SLUG,
 } from "@dexkit/core/constants/networks";
 import { isAddressEqual, truncateAddress } from "@dexkit/core/utils";
 import { getWindowUrl } from "@dexkit/core/utils/browser";
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export function OrderPageActions({ address, id, nonce }: Props) {
+  const theme = useTheme();
   const { data: asset } = useAsset(address, id);
   const { data: metadata } = useAssetMetadata(asset);
 
@@ -65,9 +67,13 @@ export function OrderPageActions({ address, id, nonce }: Props) {
       />
       <Box>
         <Grid container spacing={2} alignItems="stretch" alignContent="center">
-          <Grid item xs>
+          <Grid size="grow">
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
-              <Typography variant="caption" color="textSecondary">
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+              >
                 <FormattedMessage id="owned.by" defaultMessage="Owned by" />
               </Typography>
               <Link
@@ -83,6 +89,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
                   alignItems="center"
                   alignContent="center"
                   spacing={0.5}
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
                 >
                   <div>
                     {isAddressEqual(account, asset?.owner) ? (
@@ -96,7 +103,7 @@ export function OrderPageActions({ address, id, nonce }: Props) {
               </Link>
             </Paper>
           </Grid>
-          <Grid item>
+          <Grid>
             <Paper variant="outlined" sx={{ p: 1, height: "100%" }}>
               <Stack
                 direction="row"
@@ -110,23 +117,33 @@ export function OrderPageActions({ address, id, nonce }: Props) {
                     <FormattedMessage id="favorite" defaultMessage="Favorite" />
                   }
                 >
-                  <IconButton onClick={handleToggleFavorite}>
+                  <IconButton 
+                    onClick={handleToggleFavorite}
+                    sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                  >
                     <Heart
                       sx={
                         favorites.isFavorite(asset)
                           ? (theme) => ({
-                              "& path": {
-                                fill: theme.palette.error.light,
-                              },
-                            })
-                          : undefined
+                            "& path": {
+                              fill: theme.palette.error.light,
+                            },
+                          })
+                          : {
+                            "& path": {
+                              fill: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit'
+                            }
+                          }
                       }
                     />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Share">
-                  <IconButton onClick={handleOpenShareDialog}>
-                    <Share />
+                  <IconButton 
+                    onClick={handleOpenShareDialog}
+                    sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                  >
+                    <Share sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }} />
                   </IconButton>
                 </Tooltip>
               </Stack>

@@ -1,10 +1,9 @@
 import {
   Box,
   Container,
-  Grid,
   Stack,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -40,82 +39,81 @@ export default function CreateContractContainer({
       <Container>
         <Stack spacing={theme.spacing(2)}>
           <Box>
-            <Grid container spacing={theme.spacing(2)}>
-              <Grid item xs={12}>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontSize: {
-                      xs: theme.typography.h6.fontSize,
-                      sm: theme.typography.h5.fontSize,
-                    },
-                    fontWeight: theme.typography.fontWeightBold,
-                    mb: theme.spacing(0.5),
-                  }}
-                >
-                  <FormattedMessage
-                    id="deploy.your.contract"
-                    defaultMessage="Deploy your contract"
-                  />
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    fontSize: {
-                      xs: theme.typography.caption.fontSize,
-                      sm: theme.typography.body2.fontSize,
-                    },
-                  }}
-                >
-                  <FormattedMessage
-                    id="easily.integrate.contracts.on.your.app.using.dexcontract.component"
-                    defaultMessage="Easily integrate contracts on your app using dexcontract component"
-                  />
-                </Typography>
-              </Grid>
-              {/*    <Grid item xs={12}>
-                <Typography variant="h5">
-                  <FormattedMessage
-                    id="thirdweb.contracts"
-                    defaultMessage="ThirdWeb Contracts"
-                  />
-                </Typography>
-              </Grid>*/}
-              <Grid item xs={12}>
-                {!slug && (
-                  <Grid container spacing={theme.spacing(2)}>
-                    {deployableContractsQuery.data?.map((contract, key) => (
-                      <Grid item xs={6} sm={4} key={key}>
-                        <ContractButton
-                          title={contract.name}
-                          description={contract.description}
-                          creator={{
-                            imageUrl: contract.publisherIcon,
-                            name: contract.publisherName,
-                          }}
-                          onClick={() => {
-                            setSlug(contract.slug);
-                          }}
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
-                )}
-                {slug && (
-                  <Grid container spacing={theme.spacing(2)}>
-                    <ContractDeployContainer
-                      slug={slug}
-                      creator={creator}
-                      hideButtonForm={true}
-                      onGoBack={() => setSlug("")}
-                      onGoToContract={onGoToContract}
-                      onGoToListContracts={onGoToListContracts}
-                    />
-                  </Grid>
-                )}
-              </Grid>
-            </Grid>
+            <Box sx={{ mb: theme.spacing(2) }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontSize: {
+                    xs: theme.typography.h6.fontSize,
+                    sm: theme.typography.h5.fontSize,
+                  },
+                  fontWeight: theme.typography.fontWeightBold,
+                  mb: theme.spacing(0.5),
+                }}
+              >
+                <FormattedMessage
+                  id="deploy.your.contract"
+                  defaultMessage="Deploy your contract"
+                />
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: {
+                    xs: theme.typography.caption.fontSize,
+                    sm: theme.typography.body2.fontSize,
+                  },
+                }}
+              >
+                <FormattedMessage
+                  id="easily.integrate.contracts.on.your.app.using.dexcontract.component"
+                  defaultMessage="Easily integrate contracts on your app using dexcontract component"
+                />
+              </Typography>
+            </Box>
+            {!slug && (
+              <Box sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: '1fr',
+                  sm: 'repeat(2, 1fr)',
+                  md: 'repeat(3, 1fr)',
+                },
+                gap: 2,
+                width: '100%'
+              }}>
+                {deployableContractsQuery.data
+                  ?.sort((a, b) => a.name.localeCompare(b.name))
+                  ?.map((contract, key) => (
+                    <Box key={key} sx={{ width: '100%' }}>
+                      <ContractButton
+                        title={contract.name}
+                        description={contract.description}
+                        creator={{
+                          imageUrl: contract.publisherIcon,
+                          name: contract.publisherName,
+                        }}
+                        onClick={() => {
+                          setSlug(contract.slug);
+                        }}
+                      />
+                    </Box>
+                  ))}
+              </Box>
+            )}
+            {slug && (
+              <Box>
+                <ContractDeployContainer
+                  slug={slug}
+                  creator={creator}
+                  hideButtonForm={true}
+                  onGoBack={() => setSlug("")}
+                  onGoToContract={onGoToContract}
+                  onGoToListContracts={onGoToListContracts}
+                />
+              </Box>
+            )}
           </Box>
         </Stack>
       </Container>

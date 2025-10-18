@@ -66,7 +66,7 @@ export const AdminWidgetContainer = ({
       </Backdrop>
       {isConfigError &&
         ((configError as any)?.response?.status as number) !== 403 && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert severity="error">{String(configError)}</Alert>
           </Grid>
         )}

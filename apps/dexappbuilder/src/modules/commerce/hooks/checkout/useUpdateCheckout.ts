@@ -11,6 +11,6 @@ export default function useUpdateCheckout() {
       throw new Error('no instance');
     }
 
-    return (await instance?.put(`/checkouts/${data?.id}`, data)).data;
+    return (await (instance as any)?.put(`/checkouts/${data?.id}`, data)).data;
   });
 }

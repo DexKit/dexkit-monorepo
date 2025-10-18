@@ -277,9 +277,9 @@ export default function GenericForm({
 
       return [
         imageElement && descriptionElement && (
-          <Grid key="image-description-layout" item xs={12}>
+          <Grid key="image-description-layout" size={12}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm="auto">
+              <Grid size={{ xs: 12, sm: 'auto' }}>
                 <Box sx={{
                   display: 'flex',
                   justifyContent: { xs: 'center', sm: 'flex-start' },
@@ -290,7 +290,7 @@ export default function GenericForm({
                   {renderInput(imageElement, params)}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm>
+              <Grid size={{ xs: 12, sm: 'grow' }}>
                 {renderInput(descriptionElement, params)}
               </Grid>
             </Grid>
@@ -301,9 +301,10 @@ export default function GenericForm({
             return (
               <Grid
                 key={group ? `${group}-${key}-${el.type}` : `${key}-${el.type}`}
-                item
-                xs={el.col?.xs ? el.col.xs : 12}
-                sm={el.col?.sm}
+                size={{
+                  xs: el.col?.xs ? el.col.xs : 12,
+                  ...(el.col?.sm && { sm: el.col.sm })
+                }}
               >
                 {renderInput(el, params)}
               </Grid>
@@ -312,9 +313,10 @@ export default function GenericForm({
             return (
               <Grid
                 key={`group-${key}`}
-                item
-                xs={el.col?.xs ? el.col.xs : 12}
-                sm={el.col?.sm}
+                size={{
+                  xs: el.col?.xs ? el.col.xs : 12,
+                  ...(el.col?.sm && { sm: el.col.sm })
+                }}
               >
                 <Grid
                   container
@@ -337,9 +339,10 @@ export default function GenericForm({
           return (
             <Grid
               key={group ? `${group}-${key}-${el.type}` : `${key}-${el.type}`}
-              item
-              xs={el.col?.xs ? el.col.xs : 12}
-              sm={el.col?.sm}
+              size={{
+                xs: el.col?.xs ? el.col.xs : 12,
+                ...(el.col?.sm && { sm: el.col.sm })
+              }}
             >
               {renderInput(el, params)}
             </Grid>
@@ -348,9 +351,10 @@ export default function GenericForm({
           return (
             <Grid
               key={`group-${key}`}
-              item
-              xs={el.col?.xs ? el.col.xs : 12}
-              sm={el.col?.sm}
+              size={{
+                xs: el.col?.xs ? el.col.xs : 12,
+                ...(el.col?.sm && { sm: el.col.sm })
+              }}
             >
               <Grid
                 container
@@ -678,7 +682,7 @@ export default function GenericForm({
             account={account}
           />
           {renderElements(form.elements, undefined, { setFieldValue, values })}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               disabled={isSubmitting || !isValid}
               onClick={submitForm}

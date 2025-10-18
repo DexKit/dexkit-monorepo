@@ -49,7 +49,6 @@ export const PreviewPortal = ({ index, site, page }: PreviewPortalProps) => {
         <Backdrop sx={{ color: '#fff', position: 'absolute' }} open>
           <Stack
             alignItems="center"
-            alignContent="center"
             justifyContent="center"
             sx={{
               position: 'absolute',

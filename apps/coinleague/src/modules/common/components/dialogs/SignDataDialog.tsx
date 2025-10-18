@@ -100,7 +100,7 @@ export const SignDataDialog: React.FC<Props> = ({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom align="center" variant="h5">
               <FormattedMessage
                 id="sign.message"
@@ -111,9 +111,9 @@ export const SignDataDialog: React.FC<Props> = ({
               {account && truncateAddress(account)}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography align="center" gutterBottom variant="body1">
                   <FormattedMessage
                     id="message.you.are.signing"
@@ -121,7 +121,7 @@ export const SignDataDialog: React.FC<Props> = ({
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {signData && signData.params && signData.params.length > 0 && (
                   <Paper variant="outlined">
                     <ObjectToTree
@@ -148,3 +148,4 @@ export const SignDataDialog: React.FC<Props> = ({
 };
 
 export default SignDataDialog;
+

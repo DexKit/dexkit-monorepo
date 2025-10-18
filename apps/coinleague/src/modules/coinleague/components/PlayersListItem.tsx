@@ -108,7 +108,11 @@ function PlayersListItem({
   return (
     <>
       <ListItem
-        selected={isAddressEqual(player.player_address, account)}
+        sx={{
+          backgroundColor: isAddressEqual(player.player_address, account)
+            ? 'action.selected'
+            : 'transparent',
+        }}
         divider
       >
         {!hideCoins && (
@@ -116,7 +120,6 @@ function PlayersListItem({
             sx={{ pr: 2 }}
             justifyContent="center"
             alignItems="center"
-            alignContent="center"
           >
             {isLoadingScore ? (
               <Skeleton>
@@ -156,11 +159,10 @@ function PlayersListItem({
           }
           secondary={
             showWinners &&
-            ((multipleWinners && position <= 2) || position === 0) ? (
+              ((multipleWinners && position <= 2) || position === 0) ? (
               <Stack
                 direction="row"
                 alignItems="center"
-                alignContent="center"
                 spacing={0.5}
               >
                 <Cup color="primary" fontSize="inherit" />{' '}
@@ -254,9 +256,8 @@ function PlayersListItem({
                         : theme.palette.error.main,
                   })}
                 >
-                  {`${
-                    Number(coinFeeds[player.captain_coin].score) > 0 ? '+' : ''
-                  }${((captainCoinScore || 0) / 1000).toFixed(3)}%`}
+                  {`${Number(coinFeeds[player.captain_coin].score) > 0 ? '+' : ''
+                    }${((captainCoinScore || 0) / 1000).toFixed(3)}%`}
                 </Typography>
               )}
             </ListItem>

@@ -79,7 +79,7 @@ export default function NetworksContainerList({
 
   return (
     <Grid container spacing={isMobileView ? 1 : 2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <List disablePadding>
           {networks
             .filter((c) => activeChainIds.includes(c.chainId))

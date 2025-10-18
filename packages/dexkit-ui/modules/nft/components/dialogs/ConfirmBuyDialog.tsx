@@ -1,18 +1,18 @@
 import {
-    Alert,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Grid,
-    Paper,
-    Skeleton,
-    Stack,
-    TextField,
-    Tooltip,
-    Typography,
+  Alert,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Grid,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { AppDialogTitle } from "../../../../components/AppDialogTitle";
 
@@ -139,9 +139,9 @@ export default function ConfirmBuyDialog({
 
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 {metadata?.image === undefined ? (
                   <Skeleton
                     variant="rectangular"
@@ -158,7 +158,7 @@ export default function ConfirmBuyDialog({
                   />
                 )}
               </Grid>
-              <Grid item xs>
+              <Grid size={12}>
                 <Stack spacing={1}>
                   <Box>
                     <Typography variant="caption" color="textSecondary">
@@ -206,15 +206,15 @@ export default function ConfirmBuyDialog({
                       <Typography sx={{ fontWeight: 600 }} variant="body1">
                         {asset?.protocol === "ERC1155"
                           ? formatUnits(
-                              BigNumber.from(
-                                order?.erc20TokenAmount || "0"
-                              ).div(order?.erc1155TokenAmount || "1"),
-                              token?.decimals
-                            )
+                            BigNumber.from(
+                              order?.erc20TokenAmount || "0"
+                            ).div(order?.erc1155TokenAmount || "1"),
+                            token?.decimals
+                          )
                           : formatUnits(
-                              BigNumber.from(order?.erc20TokenAmount || "0"),
-                              token?.decimals
-                            )}{" "}
+                            BigNumber.from(order?.erc20TokenAmount || "0"),
+                            token?.decimals
+                          )}{" "}
                         {token?.symbol}
                       </Typography>
 
@@ -298,7 +298,7 @@ export default function ConfirmBuyDialog({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               spacing={1}
               direction="row"
@@ -341,7 +341,7 @@ export default function ConfirmBuyDialog({
             </Stack>
           </Grid>
           {!hasSufficientFunds && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">
                 <FormattedMessage
                   defaultMessage="Insufficient Funds"

@@ -18,23 +18,44 @@ import { Button, CssBaseline, Stack, Typography } from "@mui/material";
 import { PrimitiveAtom, SetStateAction, WritableAtom } from "jotai";
 
 import { DexKitContext } from "@dexkit/core/providers/DexKitContext";
-import {
-  Experimental_CssVarsProvider as CssVarsProvider,
-  SupportedColorScheme,
-} from "@mui/material/styles";
+import { ThemeProvider, useColorScheme } from "@mui/material/styles";
 import React from "react";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
 import GaslessTradesUpdater from "../components/GaslessTradesUpdater";
 import TransactionUpdater from "../components/TransactionUpdater";
+import { useForceThemeMode, useThemeMode } from "../hooks";
 import type { AppNotification, AppNotificationType } from "../types";
+
+function ThemeSyncComponent() {
+  const { mode: normalMode } = useThemeMode();
+  const { mode: forcedMode, isForced } = useForceThemeMode();
+  const { setMode } = useColorScheme();
+
+  const effectiveMode = forcedMode || normalMode;
+
+  React.useEffect(() => {
+    if (setMode) {
+      setMode(effectiveMode);
+    }
+  }, [effectiveMode, setMode, isForced]);
+
+  return null;
+}
+
+function ThemeWrapper({ children, theme }: { children: React.ReactNode; theme: any }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <ThemeSyncComponent />
+      {children}
+    </ThemeProvider>
+  );
+}
+
 export interface DexkitProviderProps {
   provider?: any;
   apiKey?: string;
   onConnectWallet?: () => void;
-  theme: {
-    cssVarPrefix?: string | undefined;
-    colorSchemes: Record<SupportedColorScheme, Record<string, any>>;
-  };
+  theme: any;
   affiliateReferral?: string;
   locale: string;
   activeChainIds?: number[];
@@ -42,8 +63,8 @@ export interface DexkitProviderProps {
   onChangeLocale: (locale: string) => void;
   notificationTypes: { [key: string]: AppNotificationType };
   localeMessages?:
-    | Record<string, string>
-    | Record<string, MessageFormatElement[]>;
+  | Record<string, string>
+  | Record<string, MessageFormatElement[]>;
   children: React.ReactNode | React.ReactNode[];
   options?: {
     magicRedirectUrl: string;
@@ -116,47 +137,51 @@ export function DexkitProvider({
         activeChainIds: activeChainIds ? activeChainIds : [1],
       }}
     >
-      <IntlProvider
-        locale={locale}
-        defaultLocale={locale}
-        messages={localeMessages}
-      >
-        <AppErrorBoundary
-          fallbackRender={({ resetErrorBoundary, error }) => (
-            <Stack justifyContent="center" alignItems="center">
-              <Typography variant="h6">
-                <FormattedMessage
-                  id="something.went.wrong"
-                  defaultMessage="Oops, something went wrong"
-                  description="Something went wrong error message"
-                />
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                {String(error)}
-              </Typography>
-              <Button color="primary" onClick={resetErrorBoundary}>
-                <FormattedMessage
-                  id="try.again"
-                  defaultMessage="Try again"
-                  description="Try again"
-                />
-              </Button>
-            </Stack>
-          )}
-        >
-          <CssVarsProvider theme={theme}>
-            <SnackbarProvider
-              maxSnack={3}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <CssBaseline />
-              {children}
-              <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
-              <GaslessTradesUpdater />
-            </SnackbarProvider>
-          </CssVarsProvider>
-        </AppErrorBoundary>
-      </IntlProvider>
+      {(React as any).createElement(IntlProvider, {
+        locale: locale,
+        defaultLocale: locale,
+        messages: localeMessages,
+        children: (
+          <AppErrorBoundary
+            fallbackRender={({ resetErrorBoundary, error }: any) => (
+              <Stack justifyContent="center" alignItems="center">
+                <Typography variant="h6">
+                  <FormattedMessage
+                    id="something.went.wrong"
+                    defaultMessage="Oops, something went wrong"
+                    description="Something went wrong error message"
+                  />
+                </Typography>
+                <Typography variant="body1" color="textSecondary">
+                  {String(error)}
+                </Typography>
+                <Button color="primary" onClick={resetErrorBoundary}>
+                  <FormattedMessage
+                    id="try.again"
+                    defaultMessage="Try again"
+                    description="Try again"
+                  />
+                </Button>
+              </Stack>
+            )}
+          >
+            <ThemeWrapper theme={theme}>
+              {(React as any).createElement(SnackbarProvider, {
+                maxSnack: 3,
+                anchorOrigin: { horizontal: "right", vertical: "bottom" },
+                children: (
+                  <>
+                    <CssBaseline />
+                    {children}
+                    <TransactionUpdater pendingTransactionsAtom={transactionsAtom} />
+                    <GaslessTradesUpdater />
+                  </>
+                )
+              })}
+            </ThemeWrapper>
+          </AppErrorBoundary>
+        )
+      })}
     </DexKitContext.Provider>
   );
 }

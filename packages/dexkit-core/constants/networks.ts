@@ -323,5 +323,5 @@ export const NETWORK_FROM_SLUG = (slug?: string) => {
   }
 };
 // We are using 0x API wrapped token feature
-export const WRAPPED_TOKEN_ADDRESS = (chainId?: ChainId) => undefined;
+export const WRAPPED_TOKEN_ADDRESS = (chainId?: ChainId): string | undefined => undefined;
 // chainId && NETWORKS[chainId] ? NETWORKS[chainId].wrappedAddress : undefined;

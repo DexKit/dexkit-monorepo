@@ -46,7 +46,7 @@ export default function ProductContentPage({
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -72,9 +72,9 @@ export default function ProductContentPage({
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2}>
-            <Grid item>
+            <Grid>
               <Alert severity="info" sx={{ width: 'auto' }}>
                 <FormattedMessage
                   id="protected.product.alert"
@@ -85,7 +85,7 @@ export default function ProductContentPage({
           </Grid>
         </Grid>
         {content?.content && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <MDEditor.Markdown
               source={content?.content ?? ''}
               style={{
@@ -98,7 +98,7 @@ export default function ProductContentPage({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography gutterBottom variant="h5">
             <FormattedMessage
               id="protected.product"
@@ -155,7 +155,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

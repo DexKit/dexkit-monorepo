@@ -19,7 +19,7 @@ export default function OwnershipNFTForm({ isDisabled }: Props) {
   return (
     <Form>
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid>
           <Stack spacing={2}>
             <Box>
               <Typography>
@@ -56,7 +56,7 @@ export default function OwnershipNFTForm({ isDisabled }: Props) {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2}>
             <Box>
               <Typography>
@@ -118,7 +118,7 @@ export default function OwnershipNFTForm({ isDisabled }: Props) {
             </CompletationProvider>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2}>
             <Box>
               <Typography>
@@ -148,7 +148,7 @@ export default function OwnershipNFTForm({ isDisabled }: Props) {
             <Box>
               <FieldArray
                 name={`attributes`}
-                render={(arrayHelper) => (
+                render={(arrayHelper: any) => (
                   <Button
                     startIcon={<AddIcon />}
                     variant="outlined"

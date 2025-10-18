@@ -126,37 +126,37 @@ const ContractWizardCollectionPage: NextPage = () => {
     <>
       <NextSeo title={collection?.name || ''} />
       {renderDrawer()}
-      <MainLayout disablePadding>
+      <MainLayout disablePadding isPreview={false}>
         <Grid container>
           {isDesktop && (
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 2 }}>
               {renderSidebar()}
             </Grid>
           )}
-          <Grid item xs={12} sm={10}>
+          <Grid size={{ xs: 12, sm: 10 }}>
             <Box p={2}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <ContractCollectionPageHeader
                     networkId={network as string}
                     address={address as string}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <ContractCollectionHeader
                         address={address as string}
                         networkId={network as string}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <CollectionStats
                         address={address as string}
                         network={network as string}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         variant="contained"
                         onClick={() =>
@@ -172,10 +172,10 @@ const ContractWizardCollectionPage: NextPage = () => {
                       </Button>
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Stack
                         justifyContent="space-between"
                         direction="row"
@@ -203,7 +203,7 @@ const ContractWizardCollectionPage: NextPage = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <NoSsr>
                         <AppErrorBoundary
                           fallbackRender={({ resetErrorBoundary, error }) => (
@@ -234,13 +234,13 @@ const ContractWizardCollectionPage: NextPage = () => {
                           {(collection?.syncStatus ===
                             CollectionSyncStatus.Synced ||
                             collection?.syncStatus ===
-                              CollectionSyncStatus.Syncing) && (
-                            <AssetListContractCollection
-                              contractAddress={address as string}
-                              network={network as string}
-                              search={search}
-                            />
-                          )}
+                            CollectionSyncStatus.Syncing) && (
+                              <AssetListContractCollection
+                                contractAddress={address as string}
+                                network={network as string}
+                                search={search}
+                              />
+                            )}
                         </AppErrorBoundary>
                       </NoSsr>
                     </Grid>
@@ -336,8 +336,7 @@ export const getStaticProps: GetStaticProps = async ({
       IS_SUPPORTED_BY_RARIBLE(network as SUPPORTED_RARIBLE_NETWORKS)
     ) {
       const { data } = await getRariCollectionStats(
-        `${
-          MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
+        `${MAP_NETWORK_TO_RARIBLE[network as SUPPORTED_RARIBLE_NETWORKS]
         }:${address}`,
         MAP_COIN_TO_RARIBLE[network],
       );

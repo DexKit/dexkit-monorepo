@@ -31,7 +31,7 @@ export default function ContractFunctionInputArray({
       render={(helpers) => (
         <Grid container spacing={2}>
           {(values[input.name] || []).map((_: any, index: number) => (
-            <Grid item xs={12} key={index}>
+            <Grid size={12} key={index}>
               {input.type.startsWith("tuple") ? (
                 <ContractFunctionTupleInput
                   input={input as TupleAbiFragmentInput}
@@ -50,7 +50,7 @@ export default function ContractFunctionInputArray({
               )}
             </Grid>
           ))}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               variant="outlined"
               size="small"

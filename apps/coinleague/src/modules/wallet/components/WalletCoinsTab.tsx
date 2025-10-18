@@ -9,11 +9,11 @@ import {
   Box,
   Button,
   Card,
-  Grid,
   IconButton,
   Stack,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
@@ -57,18 +57,18 @@ import dynamic from 'next/dynamic';
 import { coinsAtom } from '../atoms';
 import { CoinTypes } from '../constants/enums';
 
-interface Props {}
+interface Props { }
 
-export default function WalletCoinsTab({}: Props) {
+export default function WalletCoinsTab({ }: Props) {
   const { formatMessage } = useIntl();
   const currency = useAtomValue(currencyAtom);
   const balancesVisibility = useBalancesVisibility();
   const { chainId, account, provider } = useWeb3React();
-  const transakRef = useRef<any>();
+  const transakRef = useRef<any>(null);
 
-  useEffect(() => {     
-          transakRef.current = InitTransak({currency: currency})
-    }, [account, currency]);
+  useEffect(() => {
+    transakRef.current = InitTransak({ currency: currency })
+  }, [account, currency]);
 
 
 
@@ -177,7 +177,7 @@ export default function WalletCoinsTab({}: Props) {
               (b: any) =>
                 b.network.id === c.network.id &&
                 b.balances[
-                  isErc20Coin ? c.contractAddress : ethers.constants.AddressZero
+                isErc20Coin ? c.contractAddress : ethers.constants.AddressZero
                 ],
             ),
             prices,
@@ -369,8 +369,8 @@ export default function WalletCoinsTab({}: Props) {
                           usdTotalPercentage === 0
                             ? theme.palette.text.primary
                             : usdTotalPercentage > 0
-                            ? theme.palette.success.main
-                            : theme.palette.error.main,
+                              ? theme.palette.success.main
+                              : theme.palette.error.main,
                       })}
                       variant="caption"
                     >
@@ -430,7 +430,7 @@ export default function WalletCoinsTab({}: Props) {
         </Box>
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SearchTextField
                 onChange={handleSearchChange}
                 TextFieldProps={{
@@ -483,7 +483,7 @@ export default function WalletCoinsTab({}: Props) {
           </Card>
         ) : (
           <Box>
-            <Stack spacing={2} alignItems="center" alignContent="center">
+            <Stack spacing={2} alignItems="center">
               <TipsAndUpdates fontSize="large" />
               <Box>
                 <Typography align="center" variant="h5">
@@ -541,3 +541,4 @@ export default function WalletCoinsTab({}: Props) {
     </>
   );
 }
+

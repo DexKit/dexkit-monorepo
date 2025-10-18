@@ -6,10 +6,10 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  Grid,
   InputAdornment,
   TextField,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import { AppDialogTitle } from '@/modules/common/components/AppDialogTitle';
 import CopyIconButton from '@/modules/common/components/CopyIconButton';
@@ -53,7 +53,7 @@ function AppShareDialog({ dialogProps, url }: Props) {
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               value={url}
@@ -90,3 +90,4 @@ function AppShareDialog({ dialogProps, url }: Props) {
 }
 
 export default memo(AppShareDialog);
+

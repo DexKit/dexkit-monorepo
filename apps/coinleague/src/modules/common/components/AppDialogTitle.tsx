@@ -18,14 +18,12 @@ export function AppDialogTitle({ title, icon, onClose, disableClose }: Props) {
         justifyContent: 'space-between',
         p: 2,
         alignItems: 'center',
-        alignContent: 'center',
       }}
     >
       <Stack
         direction="row"
         spacing={1}
         alignItems="center"
-        alignContent="center"
       >
         {icon}
         <Typography variant="inherit">{title}</Typography>

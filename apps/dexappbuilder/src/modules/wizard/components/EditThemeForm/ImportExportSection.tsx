@@ -102,7 +102,7 @@ export default function ImportExportSection({
     <>
       <input
         type="file"
-        ref={(ref) => (fileInputRef.current = ref)}
+        ref={fileInputRef}
         style={{ display: 'none' }}
         onChange={handleChange}
       />

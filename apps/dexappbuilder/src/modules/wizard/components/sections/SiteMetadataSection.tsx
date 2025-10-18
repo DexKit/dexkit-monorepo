@@ -104,13 +104,13 @@ export default function SiteMetadataSection({ id, slug, siteMetadata }: Props) {
         onSubmit={handleSubmitCollectionItemsForm}
         validationSchema={SiteMedatadataSchema}
       >
-        {({ submitForm, isValid, dirty }) => (
+        {({ submitForm, isValid, dirty }: any) => (
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SiteMetadataForm />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={1} direction="row" justifyContent="flex-end">
                 {slug && (
                   <Button

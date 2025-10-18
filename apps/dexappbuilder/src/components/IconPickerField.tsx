@@ -43,7 +43,7 @@ export const IconPickerField: React.FC<IconPickerFieldProps> = ({
         fullWidth={fullWidth}
         label={label}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: any) => onChange(e.target.value)}
         placeholder={placeholder}
         error={error}
         helperText={helperText}

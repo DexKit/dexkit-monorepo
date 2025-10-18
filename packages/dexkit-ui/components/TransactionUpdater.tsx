@@ -14,7 +14,7 @@ interface Props {
   }>;
 }
 
-export default function TransactionUpdater({ pendingTransactionsAtom }: Props) {
+export default function TransactionUpdater({ pendingTransactionsAtom }: Props): JSX.Element | null {
   const { chainId, provider } = useWeb3React();
 
   const [transactions, setPendingTransactions] = useAtom(

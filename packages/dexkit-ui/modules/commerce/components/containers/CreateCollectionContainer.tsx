@@ -1,5 +1,5 @@
 import { ProductCollectionSchema } from "@dexkit/ui/modules/commerce/schemas";
-import { Grid, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { Formik } from "formik";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
@@ -39,8 +39,8 @@ function CreateProductCollectionComponent() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Stack spacing={3}>
+      <Box>
         <CommerceBreadcrumbs
           breadcrumbs={[
             {
@@ -65,13 +65,15 @@ function CreateProductCollectionComponent() {
             },
           ]}
         />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h5">
+      </Box>
+
+      <Box>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
           <FormattedMessage id="create" defaultMessage="Create" />
         </Typography>
-      </Grid>
-      <Grid item xs={12}>
+      </Box>
+
+      <Box>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={toFormikValidationSchema(ProductCollectionSchema)}
@@ -86,8 +88,8 @@ function CreateProductCollectionComponent() {
             </>
           )}
         </Formik>
-      </Grid>
-    </Grid>
+      </Box>
+    </Stack>
   );
 }
 

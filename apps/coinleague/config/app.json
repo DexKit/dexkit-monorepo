@@ -1,5 +1,5 @@
 {
-  "name": "Coinleague",
+  "name": "Coin League",
   "email": "info@dexkit.com",
   "locale": "en-US",
   "currency": "usd",
@@ -7,18 +7,18 @@
   "defaultThemeMode": "dark",
   "domain": "https://coinleague.xyz",
   "logo": {
-    "url": "/logo.png",
-    "height": 50,
-    "width": 100,
+    "url": "/Coin-League_Logo-FINAL.png",
+    "height": 40,
+    "width": 120,
     "widthMobile": 100,
-    "heightMobile": 50
+    "heightMobile": 35
   },
   "logoDark": {
-    "url": "/logo.png",
-    "height": 50,
-    "width": 100,
+    "url": "/Coin-League_Logo-FINAL.png",
+    "height": 40,
+    "width": 120,
     "widthMobile": 100,
-    "heightMobile": 50
+    "heightMobile": 35
   },
   "favicon_url": "/favicon.ico",
   "social": [
@@ -299,12 +299,12 @@
   "pages": {},
   "seo": {
     "home": {
-      "title": "Coinleague",
-      "description": "Coinleague: your fantasy game for crypto coins",
+      "title": "Coin League",
+      "description": "Coin League: your fantasy game for crypto coins",
       "images": [
         {
           "url": "https://coinleague.xyz/assets/cl-logos/CoinLeagueLogoBig.png",
-          "alt": "Coinleague: your fantasy game for crypto coins",
+          "alt": "Coin League: your fantasy game for crypto coins",
           "type": "image/png"
         }
       ]

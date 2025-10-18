@@ -102,7 +102,7 @@ export default function NotificationList({
             <Typography
               textAlign="center"
               variant="body1"
-              color="text.secondary"
+              color="text.primary"
             >
               <FormattedMessage
                 id="well.let.you.know.if.anything.comes.up."
@@ -144,22 +144,22 @@ export default function NotificationList({
                     values={
                       n.subtitle.values
                         ? Object.keys(n.subtitle.values).reduce(
-                            (acc: any, key) => {
-                              acc[key] = (
-                                <strong>
-                                  {n.subtitle.values?.[key] ?? ""}
-                                </strong>
-                              );
+                          (acc: any, key) => {
+                            acc[key] = (
+                              <strong>
+                                {n.subtitle.values?.[key] ?? ""}
+                              </strong>
+                            );
 
-                              return acc;
-                            },
-                            {}
-                          )
+                            return acc;
+                          },
+                          {}
+                        )
                         : undefined
                     }
                   />
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" color="text.primary">
                   {moment(n.createdAt).fromNow()}
                 </Typography>
               </>

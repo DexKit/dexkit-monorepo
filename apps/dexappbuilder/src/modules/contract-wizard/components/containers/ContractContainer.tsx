@@ -151,7 +151,7 @@ export function ContractContainer({
 
   return (
     <Grid container spacing={isMobile ? 1 : 2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <ContractMetadataHeader
           address={address}
           network={network}
@@ -162,7 +162,7 @@ export function ContractContainer({
         />
       </Grid>
       {chainId !== undefined && providerChainId !== chainId ? (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert
             severity="warning"
             action={
@@ -203,7 +203,7 @@ export function ContractContainer({
           </Alert>
         </Grid>
       ) : (
-        <Grid item xs={12}>
+        <Grid size={12}>
           {renderContract()}
         </Grid>
       )}

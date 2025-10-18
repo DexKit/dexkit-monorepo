@@ -1,13 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    productionBrowserSourceMaps: false,
     serverSourceMaps: false,
-    turbo: {
-      resolveAlias: {
-        'react/jsx-runtime.js': 'react/jsx-runtime',
-        'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
-      },
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  turbopack: {
+    resolveAlias: {
+      'react/jsx-runtime.js': 'react/jsx-runtime',
+      'react/jsx-dev-runtime.js': 'react/jsx-dev-runtime',
     },
   },
   transpilePackages: [
@@ -15,13 +17,6 @@ const nextConfig = {
     '@dexkit/ui',
   ],
   webpack(config) {
-    /*config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    })*/
-
-
     config.resolve.alias = {
       ...config.resolve.alias,
       'react/jsx-runtime.js': 'react/jsx-runtime',

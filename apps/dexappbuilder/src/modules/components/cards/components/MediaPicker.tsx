@@ -1,6 +1,6 @@
 import { CloudUpload, Delete, Image as ImageIcon } from '@mui/icons-material';
 import { Box, Button, Card, CardMedia, IconButton, Typography } from '@mui/material';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 interface MediaPickerProps {
@@ -12,17 +12,17 @@ interface MediaPickerProps {
   disabled?: boolean;
 }
 
-export const MediaPicker: React.FC<MediaPickerProps> = ({
+export const MediaPicker = ({
   value,
   onChange,
   error,
   accept = 'image/*',
   maxSize = 5 * 1024 * 1024,
   disabled = false,
-}) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+}: MediaPickerProps) => {
+  const [fileInputRef, setFileInputRef] = React.useState<HTMLInputElement | null>(null);
 
-  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = useCallback((event: any) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -47,7 +47,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
 
   const handleClick = useCallback(() => {
     if (!disabled) {
-      fileInputRef.current?.click();
+      fileInputRef?.click();
     }
   }, [disabled]);
 
@@ -61,7 +61,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
       <input
-        ref={fileInputRef}
+        ref={setFileInputRef}
         type="file"
         accept={accept}
         onChange={handleFileSelect}
@@ -127,7 +127,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
             variant="outlined"
             startIcon={<CloudUpload />}
             disabled={disabled}
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
               handleClick();
             }}

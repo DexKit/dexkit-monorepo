@@ -10,6 +10,6 @@ export default function useRefundOrder() {
       throw new Error('no instance');
     }
 
-    return (await instance.post(`/orders/${params.id}/refund`)).data;
+    return (await (instance as any).post(`/orders/${params.id}/refund`)).data;
   });
 }

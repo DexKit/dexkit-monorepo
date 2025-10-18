@@ -221,7 +221,6 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
         justifyContent="space-between"
         direction="row"
         alignItems="center"
-        alignContent="center"
       >
         <FormattedMessage id="my.games" defaultMessage="My Games" />
         <Switch
@@ -237,7 +236,6 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
         justifyContent="space-between"
         direction="row"
         alignItems="center"
-        alignContent="center"
       >
         <FormattedMessage id="jackpot" defaultMessage="Jackpot" />
         <Switch

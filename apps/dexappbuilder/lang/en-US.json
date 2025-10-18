@@ -1,4 +1,7 @@
 {
+  "description.markdown.helper": {
+    "defaultMessage": "You can use markdown formatting for rich text descriptions"
+  },
   "Created": {
     "defaultMessage": "Created"
   },
@@ -1248,9 +1251,6 @@
   "You.are.not.eligible.to.mint.at.this.time.": {
     "defaultMessage": "You are not eligible to mint at this time."
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Access darkblock to get more information"
-  },
   "access.requirements.message": {
     "defaultMessage": "Access requirements message"
   },
@@ -1495,7 +1495,7 @@
     "defaultMessage": "Claim ({priceToMint})"
   },
   "clear.filters.to.see.nft.drops": {
-    "defaultMessage": "Clear filters to see nft drop's"
+    "defaultMessage": "Clear filters to see NFT drops"
   },
   "click.on.nft.to.manage.and.set.claim.conditions.": {
     "defaultMessage": "Click on NFTs to start manage and set claim conditons."
@@ -1548,15 +1548,6 @@
   },
   "csv.file.to.import.on.aidrop.contract": {
     "defaultMessage": "CSV file to be imported on airdrop contracts"
-  },
-  "darkblock": {
-    "defaultMessage": "Darkblock"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock is a decentralized protocol that allows content creators to publish and distribute exclusive content to their fans without the need for centralized token-gating platforms. This integration is utilized on the Asset page for the networks supported by Darkblock."
   },
   "default.currency": {
     "defaultMessage": "Default currency"
@@ -1671,18 +1662,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Empty leaderboard"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Enable Darkblock Asset"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Enable Darkblock Collection"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Enable Darkblock on Asset page"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Enable Darkblock on Collection page"
   },
   "enable.drop": {
     "defaultMessage": "Enable Darkblock"
@@ -2175,6 +2154,24 @@
   },
   "sort.by": {
     "defaultMessage": "Sort by"
+  },
+  "sort.newest": {
+    "defaultMessage": "Newest"
+  },
+  "sort.oldest": {
+    "defaultMessage": "Oldest"
+  },
+  "sort.most.modified": {
+    "defaultMessage": "Most modified"
+  },
+  "sort.least.modified": {
+    "defaultMessage": "Least modified"
+  },
+  "sort.name.asc": {
+    "defaultMessage": "Name A-Z"
+  },
+  "sort.name.desc": {
+    "defaultMessage": "Name Z-A"
   },
   "stake": {
     "defaultMessage": "Stake"
@@ -2701,6 +2698,21 @@
   "filters": {
     "defaultMessage": "Filters"
   },
+  "filter.by": {
+    "defaultMessage": "Filter by"
+  },
+  "filter.all": {
+    "defaultMessage": "All"
+  },
+  "filter.recent": {
+    "defaultMessage": "Recent (30 days)"
+  },
+  "filter.active": {
+    "defaultMessage": "Active (7 days)"
+  },
+  "filter.popular": {
+    "defaultMessage": "Popular"
+  },
   "finish": {
     "defaultMessage": "Finish"
   },
@@ -3108,7 +3120,7 @@
     "defaultMessage": "User accounts:"
   },
   "user.contract.form": {
-    "defaultMessage": "User Contract Form"
+    "defaultMessage": "User contract form"
   },
   "user.edit": {
     "defaultMessage": "User Edit"
@@ -3313,7 +3325,13 @@
     "defaultMessage": "Clear all"
   },
   "clear.filters": {
-    "defaultMessage": "Clear filters to see nft's"
+    "defaultMessage": "Clear filters to see NFTs"
+  },
+  "clear.filters.button": {
+    "defaultMessage": "Clear filters"
+  },
+  "results.count": {
+    "defaultMessage": "{count} sites found"
   },
   "clone.page": {
     "defaultMessage": "Clone page"
@@ -3581,7 +3599,7 @@
     "defaultMessage": "Floor price"
   },
   "footer.menu": {
-    "defaultMessage": "Footer menu"
+    "defaultMessage": "Footer"
   },
   "gallery": {
     "defaultMessage": "Gallery"
@@ -3635,7 +3653,7 @@
     "defaultMessage": "Please don't close modal or reload app till finish data submission!"
   },
   "info.wizard.content.cname": {
-    "defaultMessage": "Deploy your domain, make sure first your domain is not used with other records. After domain successfully added to our system you will receive a CNAME and A record to be added to your DNS provider. After added the CNAME and A record, press button check deploy status, if status VERIFIED, wait for domain to propagate and you will have your marketplace set on your custom domain. Note, if you are on a subdomain, replace @ with subdomain value. Any issue contact our support channels."
+    "defaultMessage": "Deploy your domain. First, ensure that your domain is not used with other records. After the domain has been successfully added to our system, you will receive a CNAME and A record to be added to your DNS provider. Once you have added the CNAME and A record, click the \"Check Deploy Status\" button. If the status shows as \"VERIFIED\" wait for the domain to propagate, and your app will be set on your custom domain. If you are on a subdomain, replace \"@\" with the subdomain value. If you encounter any issues, please contact our support channels."
   },
   "info.wizard.title.domain.records.setup": {
     "defaultMessage": "Domain records setup info"
@@ -3852,6 +3870,9 @@
   },
   "search": {
     "defaultMessage": "Search"
+  },
+  "search.sites": {
+    "defaultMessage": "Search sites..."
   },
   "search.for.token": {
     "defaultMessage": "Search for tokens..."

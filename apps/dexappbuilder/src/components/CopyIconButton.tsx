@@ -1,5 +1,5 @@
 import { IconButton, IconButtonProps, Tooltip, useTheme } from '@mui/material';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   iconButtonProps: IconButtonProps;
@@ -17,7 +17,7 @@ export function CopyIconButton(props: Props) {
 
   const [currentTooltip, setCurrentTooltip] = useState<string>(tooltip || '');
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick!(e);
     setCurrentTooltip(activeTooltip || '');
     setTimeout(() => {

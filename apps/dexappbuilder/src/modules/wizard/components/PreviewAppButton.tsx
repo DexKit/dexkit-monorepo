@@ -1,6 +1,6 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Button from '@mui/material/Button';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -62,7 +62,7 @@ export function PreviewAppButton({ appConfig, site, siteId }: Props) {
 
   return (
     <>
-      <CssVarsProvider theme={selectedTheme}>
+      <ThemeProvider theme={selectedTheme}>
         {showPreview && (
           <SiteProvider siteId={siteId}>
             <PreviewPageDialog
@@ -82,7 +82,7 @@ export function PreviewAppButton({ appConfig, site, siteId }: Props) {
             />
           </SiteProvider>
         )}
-      </CssVarsProvider>
+      </ThemeProvider>
       <Button
         onClick={handleShowPreview}
         startIcon={<VisibilityIcon />}

@@ -336,9 +336,8 @@ export default function ThemeWizardContainer({
           />
         )}
       </Head>
-
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -364,12 +363,16 @@ export default function ThemeWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12} sx={{ height: '100%' }}>
+        <Grid sx={{ height: '100%' }} size={12}>
           <Grid container spacing={isMobile ? 1.5 : 3} alignItems="stretch">
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Box>
                 <Stack
                   spacing={isMobile ? theme.spacing(1.5) : theme.spacing(2)}
@@ -495,7 +498,12 @@ export default function ThemeWizardContainer({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ height: '100%' }}>
+            <Grid
+              sx={{ height: '100%' }}
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Box position="relative" sx={{ height: '100%' }}>
                 <Box mb={theme.spacing(2)}>
                   <Button
@@ -511,10 +519,10 @@ export default function ThemeWizardContainer({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isOnStepper ? (
             <StepperButtons
               {...stepperButtonProps}

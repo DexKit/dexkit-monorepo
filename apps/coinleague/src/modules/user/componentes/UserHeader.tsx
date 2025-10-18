@@ -39,8 +39,7 @@ export function UserHeader(props: Props) {
   return (
     <Grid container spacing={2}>
       <Grid
-        item
-        xs={12}
+        size={12}
         sx={(theme) => ({
           height: theme.spacing(20),
           position: 'relative',
@@ -71,7 +70,7 @@ export function UserHeader(props: Props) {
           />
         )}
       </Grid>
-      <Grid item xs>
+      <Grid size="grow">
         <Stack
           direction={'row'}
           alignItems={'center'}
@@ -114,7 +113,7 @@ export function UserHeader(props: Props) {
         </Stack>
       </Grid>
       {shortBio && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography
             sx={{
               display: 'block',
@@ -131,7 +130,7 @@ export function UserHeader(props: Props) {
       )}
 
       {bio && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack direction="row" justifyContent="space-between">
             <Typography
               sx={{
@@ -167,3 +166,4 @@ export function UserHeader(props: Props) {
     </Grid>
   );
 }
+

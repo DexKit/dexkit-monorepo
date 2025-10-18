@@ -69,7 +69,10 @@ export default function KittygotchiPreviewDialog({
             />
           ) : (
             nftMetadataQuery.data?.image && (
-              <img src={getNormalizedUrl(nftMetadataQuery.data?.image)} />
+              <img
+                src={getNormalizedUrl(nftMetadataQuery.data?.image)}
+                alt={nftMetadataQuery.data?.name || 'Kittygotchi NFT'}
+              />
             )
           )}
 
@@ -110,9 +113,8 @@ export default function KittygotchiPreviewDialog({
                 values={{
                   owner: (
                     <Link
-                      href={`${getBlockExplorerUrl(chainId)}/address/${
-                        nftQuery.data?.owner
-                      }`}
+                      href={`${getBlockExplorerUrl(chainId)}/address/${nftQuery.data?.owner
+                        }`}
                       target="_blank"
                     >
                       {truncateAddress(nftQuery.data?.owner)}

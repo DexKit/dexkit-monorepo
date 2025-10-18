@@ -384,7 +384,7 @@ export default function GlassImportAssetDialog({
               borderRadius: '8px',
             }}>
               <Grid container spacing={1}>
-                <Grid item>
+                <Grid>
                   {metadata?.image === undefined ? (
                     <Skeleton
                       variant="rectangular"
@@ -407,7 +407,7 @@ export default function GlassImportAssetDialog({
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs>
+                <Grid size="grow">
                   <Typography variant="body2" sx={{ color: `${textColor} !important` }}>
                     {asset?.collectionName === undefined ? (
                       <Skeleton />
@@ -456,7 +456,7 @@ export default function GlassImportAssetDialog({
           )}
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Autocomplete
                   disablePortal
                   options={options}
@@ -501,7 +501,7 @@ export default function GlassImportAssetDialog({
                     </ListItemButton>
                   )}
                   fullWidth
-                  PaperComponent={({ children, ...props }) => (
+                  PaperComponent={({ children, ...props }: any) => (
                     <Paper
                       {...props}
                       sx={{
@@ -519,7 +519,7 @@ export default function GlassImportAssetDialog({
                   )}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   required
                   fullWidth
@@ -543,7 +543,7 @@ export default function GlassImportAssetDialog({
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   required
                   fullWidth
@@ -562,7 +562,7 @@ export default function GlassImportAssetDialog({
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="asset.will.be.added.to.favorites"

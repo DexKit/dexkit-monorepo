@@ -28,7 +28,7 @@ export default function useCategoryList(params: {
 
       delete newParams['sortModel'];
 
-      return (await instance.get('/product-category', { params: newParams }))
+      return (await (instance as any).get('/product-category', { params: newParams }))
         .data;
     },
     {

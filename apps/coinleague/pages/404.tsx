@@ -1,5 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import type { NextPage } from 'next';
 import MainLayout from '../src/components/layouts/main';
 
@@ -16,9 +17,7 @@ const NotFound: NextPage = (props: any) => {
         <Container>
           <Grid container alignItems="center" spacing={4}>
             <Grid
-              item
-              xs={12}
-              sm={6}
+              size={{ xs: 12, sm: 6 }}
               sx={{
                 order: { xs: 2, sm: 1 },
               }}
@@ -62,9 +61,7 @@ const NotFound: NextPage = (props: any) => {
               </Box>
             </Grid>
             <Grid
-              item
-              xs={12}
-              sm={6}
+              size={{ xs: 12, sm: 6 }}
               sx={{
                 order: { xs: 1, sm: 2 },
               }}
@@ -85,3 +82,4 @@ const NotFound: NextPage = (props: any) => {
 };
 
 export default NotFound;
+

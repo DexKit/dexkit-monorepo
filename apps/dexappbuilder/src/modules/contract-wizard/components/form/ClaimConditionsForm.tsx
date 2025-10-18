@@ -70,7 +70,7 @@ export function ClaimConditionsForm({ network, isEdit }: Props) {
           <Form>
             <FieldArray
               name="phases"
-              render={(arrayHelper) => (
+              render={(arrayHelper: any) => (
                 <Stack spacing={theme.spacing(3)}>
                   {values.phases?.map((_, index: number, arr: any[]) => (
                     <React.Fragment key={index}>

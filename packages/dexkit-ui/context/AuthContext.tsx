@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 
 export interface AuthUser {
   address?: string;
@@ -7,11 +7,11 @@ export interface AuthUser {
 interface IAuthContext {
   isLoggedIn: boolean;
   user?: AuthUser;
-  setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
-  setUser?: Dispatch<SetStateAction<AuthUser | undefined>>;
+  setIsLoggedIn?: any;
+  setUser?: any;
 }
 
-const AUTH_INITIAL_VALUES = {
+const AUTH_INITIAL_VALUES: IAuthContext = {
   isLoggedIn: false,
   setIsLoggedIn: undefined,
   user: undefined,

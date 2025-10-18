@@ -19,7 +19,7 @@ const Template: ComponentStory<typeof EvmTransferCoinWidget> = (
     <WidgetContext>
       <Box pt={5}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 3 }}>
             <Card>
               <EvmTransferCoinWidget {...args} />
             </Card>
@@ -39,7 +39,7 @@ Default.args = {
   coins: [POLYGON_USDT_TOKEN],
   amount: 1,
   defaultCoin: POLYGON_USDT_TOKEN,
-  onSubmit: () => {},
+  onSubmit: () => { },
 } as EvmTransferCoinProps;
 
 export const Empty = Template.bind({});
@@ -47,5 +47,5 @@ export const Empty = Template.bind({});
 Empty.args = {
   evmAccounts: [],
   coins: [],
-  onSubmit: () => {},
+  onSubmit: () => { },
 } as EvmTransferCoinProps;

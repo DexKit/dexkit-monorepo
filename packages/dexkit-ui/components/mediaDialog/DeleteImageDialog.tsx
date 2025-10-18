@@ -49,7 +49,7 @@ function DeleteImageDialog({
   };
 
   const handleToggleDetails = () => {
-    setShowDetails((value) => !value);
+    setShowDetails((value: boolean) => !value);
   };
 
   return (

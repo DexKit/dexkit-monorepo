@@ -18,7 +18,7 @@ const CompletationPopover = dynamic(() => import("./CompletationPopover"), {
 
 export interface CompletationProviderProps {
   children: ({ }: {
-    ref: React.MutableRefObject<HTMLElement | null>;
+    ref: any;
     inputAdornment: (position: "start" | "end") => React.ReactNode;
     open: () => void;
   }) => React.ReactNode;

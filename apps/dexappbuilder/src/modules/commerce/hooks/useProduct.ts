@@ -18,7 +18,7 @@ export default function useProduct(params: { id?: string }) {
         return null;
       }
 
-      return (await instance.get(`/products/${params.id}`))
+      return (await (instance as any).get(`/products/${params.id}`))
         .data;
     },
     {

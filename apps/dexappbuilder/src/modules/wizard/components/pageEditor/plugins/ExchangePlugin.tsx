@@ -97,7 +97,7 @@ const ExchangePlugin: CellPlugin<DexkitExchangeSettings> = {
             onSave={(settings) => {
               onChange(settings);
             }}
-            tokens={tokens.map((t) => ({
+            tokens={tokens.map((t: any) => ({
               chainId: t.chainId,
               address: t.address,
               decimals: t.decimals,

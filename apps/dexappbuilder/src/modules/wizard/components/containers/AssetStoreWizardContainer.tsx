@@ -8,9 +8,9 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
   CssVarsTheme,
   Theme,
+  ThemeProvider,
   useTheme,
 } from '@mui/material/styles';
 import { useState } from 'react';
@@ -88,7 +88,7 @@ export default function AssetStoreWizardContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -114,10 +114,10 @@ export default function AssetStoreWizardContainer({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Stack spacing={2}>
           <Alert severity="info">
             <FormattedMessage
@@ -128,15 +128,15 @@ export default function AssetStoreWizardContainer({
           <AssetStoreForm onChange={handleOnChange} item={formData} />
         </Stack>
       </Grid>
-      <Grid item xs={6}>
-        <CssVarsProvider theme={configTheme}>
+      <Grid size={6}>
+        <ThemeProvider theme={configTheme}>
           <AssetStoreContainer {...formData} />
-        </CssVarsProvider>
+        </ThemeProvider>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {isOnStepper ? (
           <StepperButtons
             {...stepperButtonProps}

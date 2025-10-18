@@ -7,13 +7,12 @@ import {
   CardActionArea,
   CardContent,
   Divider,
-  Grid,
   IconButton,
   InputAdornment,
   Menu,
   MenuItem,
   NoSsr,
-  Paper,
+  Pagination,
   Skeleton,
   Stack,
   Tab,
@@ -30,6 +29,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -75,6 +75,7 @@ import { useAppConfig, useAuth, useEvmCoins } from "@dexkit/ui/hooks";
 import { useActiveChainIds } from "@dexkit/ui/hooks/blockchain";
 import { useCurrency } from "@dexkit/ui/hooks/currency";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
+import { useForceThemeMode } from "@dexkit/ui/hooks/theme/useForceThemeMode";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { AssetMedia } from "@dexkit/ui/modules/nft/components/AssetMedia";
 import { useAccountAssetsBalance, useHiddenAssets } from "@dexkit/ui/modules/nft/hooks";
@@ -110,7 +111,6 @@ import {
 } from "@mui/material";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { ErrorBoundary } from "react-error-boundary";
 import FavoriteAssetsSection from "../../../../../apps/dexappbuilder/src/modules/favorites/components/FavoriteAssetsSection";
 import GlassEvmReceiveDialog from "./GlassEvmReceiveDialog";
 import GlassEvmSendDialog from "./GlassEvmSendDialog";
@@ -192,35 +192,55 @@ const GlassAssetCard = ({ asset, showControls, onHide, isHidden, onTransfer, blu
           sx={{
             position: "relative",
             overflow: "hidden",
-            paddingTop: "80%",
+            paddingTop: { xs: "60%", sm: "100%" },
           }}
         >
           <Skeleton
             variant="rectangular"
             sx={{
               position: "absolute",
+              top: 0,
+              left: 0,
               display: "block",
               width: "100%",
               height: "100%",
+              borderRadius: "inherit"
             }}
           />
         </Box>
       )}
-      <CardContent>
+      <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
         <Typography
-          variant="body1"
+          variant="caption"
           style={{ color: customSettings?.nftColors?.collectionColor || textColor }}
-          sx={{ color: `${customSettings?.nftColors?.collectionColor || textColor} !important` }}
+          sx={{
+            color: `${customSettings?.nftColors?.collectionColor || textColor} !important`,
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            lineHeight: 1.2,
+            display: 'block',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            mb: 0.5
+          }}
         >
-          {asset === undefined ? <Skeleton /> : asset?.collectionName}
+          {asset === undefined ? <Skeleton width="80%" /> : asset?.collectionName}
         </Typography>
         <Typography
-          variant="body1"
+          variant="body2"
           style={{ fontWeight: 600, color: customSettings?.nftColors?.titleColor || textColor }}
-          sx={{ fontWeight: 600, color: `${customSettings?.nftColors?.titleColor || textColor} !important` }}
+          sx={{
+            fontWeight: 600,
+            color: `${customSettings?.nftColors?.titleColor || textColor} !important`,
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            lineHeight: 1.3,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
         >
           {asset === undefined ? (
-            <Skeleton />
+            <Skeleton width="90%" />
           ) : asset?.metadata?.name ? (
             asset?.metadata?.name
           ) : (
@@ -377,7 +397,20 @@ const GlassWalletBalances = ({
   ...props
 }: any) => {
   const theme = useTheme();
+  const [isHydrated, setIsHydrated] = useState(false);
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const effectiveTextColor = isDark ? textColor : theme.palette.text.primary;
+  const effectiveGlassOpacity = isDark ? glassOpacity : 0.05;
+  const effectiveBlurIntensity = isDark ? blurIntensity : 0;
+
   const tokenBalancesQuery = useERC20BalancesQuery(undefined, chainId, false);
   const coinPricesQuery = useSimpleCoinPricesQuery({
     includeNative: true,
@@ -427,23 +460,23 @@ const GlassWalletBalances = ({
   return (
     <Box
       sx={{
-        background: `rgba(255, 255, 255, ${glassOpacity})`,
-        backdropFilter: `blur(${blurIntensity}px)`,
-        WebkitBackdropFilter: `blur(${blurIntensity}px)`,
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+        background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper),
+        backdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        WebkitBackdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.3)})` : `1px solid ${theme.palette.divider}`),
         borderRadius: '16px',
         padding: 2,
         minHeight: props.isTableVisible ? '400px' : '64px',
         maxHeight: props.isTableVisible ? '600px' : '120px',
-        boxShadow: `
+        boxShadow: !isHydrated ? theme.shadows[1] : (isDark ? `
         0 8px 32px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
         inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-      `,
+      ` : theme.shadows[1]),
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        '&::before': {
+        '&::before': !isHydrated ? {} : (isDark ? {
           content: '""',
           position: 'absolute',
           top: 0,
@@ -454,26 +487,26 @@ const GlassWalletBalances = ({
           borderRadius: 'inherit',
           pointerEvents: 'none',
           zIndex: 1,
-        },
+        } : {}),
         '& > *': {
           position: 'relative',
           zIndex: 2,
         },
         '& .MuiTypography-root': {
-          color: textColor,
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor : theme.palette.text.primary),
         },
         '& .MuiTableCell-root': {
-          color: textColor + ' !important',
-          borderBottomColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
+          borderBottomColor: !isHydrated ? theme.palette.divider : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.2)})` : theme.palette.divider),
         },
         '& .MuiTableHead-root .MuiTableCell-root': {
-          color: textColor + 'CC !important',
+          color: !isHydrated ? theme.palette.text.secondary : (isDark ? effectiveTextColor + 'CC !important' : theme.palette.text.secondary + ' !important'),
           fontWeight: 600,
         },
         '& .MuiIconButton-root': {
-          color: textColor + ' !important',
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           '&:hover': {
-            backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+            backgroundColor: !isHydrated ? theme.palette.action.hover : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.action.hover),
           },
         },
       }}
@@ -494,10 +527,10 @@ const GlassWalletBalances = ({
                   onClickExchangeCoin={hideExchangeAction ? undefined : onClickExchangeCoin}
                   onClickSendCoin={hideSendAction ? undefined : handleClickSendCoin}
                   swapButtonConfig={{
-                    backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
-                    textColor: textColor,
-                    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-                    hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                    backgroundColor: isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper,
+                    textColor: effectiveTextColor,
+                    borderColor: isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.3)})` : theme.palette.divider,
+                    hoverBackgroundColor: isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.action.hover,
                   }}
                 />
               ))}
@@ -506,10 +539,10 @@ const GlassWalletBalances = ({
                   <Box key={index} sx={{ mb: 2 }}>
                     <Card
                       sx={{
-                        bgcolor: 'transparent',
-                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                        bgcolor: isDark ? 'transparent' : theme.palette.background.paper,
+                        border: isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.3)})` : `1px solid ${theme.palette.divider}`,
                         borderRadius: 2,
-                        boxShadow: 'none',
+                        boxShadow: isDark ? 'none' : theme.shadows[1],
                       }}
                     >
                       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
@@ -519,18 +552,18 @@ const GlassWalletBalances = ({
                               variant="circular"
                               width={40}
                               height={40}
-                              sx={{ backgroundColor: `${textColor}33` }}
+                              sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }}
                             />
                             <Box sx={{ flex: 1 }}>
                               <Skeleton
                                 variant="text"
                                 width="60%"
-                                sx={{ backgroundColor: `${textColor}33` }}
+                                sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }}
                               />
                               <Skeleton
                                 variant="text"
                                 width="40%"
-                                sx={{ backgroundColor: `${textColor}33` }}
+                                sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }}
                               />
                             </Box>
                           </Stack>
@@ -538,12 +571,12 @@ const GlassWalletBalances = ({
                             <Skeleton
                               variant="text"
                               width="30%"
-                              sx={{ backgroundColor: `${textColor}33` }}
+                              sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }}
                             />
                             <Skeleton
                               variant="text"
                               width="30%"
-                              sx={{ backgroundColor: `${textColor}33` }}
+                              sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }}
                             />
                           </Stack>
                         </Stack>
@@ -586,9 +619,9 @@ const GlassWalletBalances = ({
                       onClickExchangeCoin={hideExchangeAction ? undefined : onClickExchangeCoin}
                       onClickSendCoin={hideSendAction ? undefined : handleClickSendCoin}
                       swapButtonConfig={{
-                        backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
-                        textColor: textColor,
-                        hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                        backgroundColor: isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper,
+                        textColor: effectiveTextColor,
+                        hoverBackgroundColor: isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.action.hover,
                       }}
                       hideActionsColumn={hideSwapAction && hideExchangeAction && hideSendAction}
                     />
@@ -597,17 +630,17 @@ const GlassWalletBalances = ({
                     new Array(4).fill(null).map((_, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                          <Skeleton sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }} />
                         </TableCell>
                         <TableCell>
-                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                          <Skeleton sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }} />
                         </TableCell>
                         <TableCell>
-                          <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                          <Skeleton sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }} />
                         </TableCell>
                         {!(hideSwapAction && hideExchangeAction && hideSendAction) && (
                           <TableCell>
-                            <Skeleton sx={{ backgroundColor: `${textColor}33` }} />
+                            <Skeleton sx={{ backgroundColor: isDark ? `${effectiveTextColor}33` : theme.palette.action.hover }} />
                           </TableCell>
                         )}
                       </TableRow>
@@ -619,8 +652,8 @@ const GlassWalletBalances = ({
         </Box>
       )}
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, cursor: 'pointer', width: '100%' }} onClick={props.handleToggleTable}>
-        {props.isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }} />}
-        <Typography variant="body1" sx={{ fontWeight: 'bold', letterSpacing: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || textColor) }}>
+        {props.isTableVisible ? <KeyboardArrowUpIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || effectiveTextColor) }} /> : <KeyboardArrowDownIcon sx={{ mr: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || effectiveTextColor) }} />}
+        <Typography variant="body1" sx={{ fontWeight: 'bold', letterSpacing: 1, color: (props.customSettings?.sendButtonConfig?.backgroundColor || effectiveTextColor) }}>
           {props.isTableVisible ? 'CLOSE' : 'OPEN'}
         </Typography>
       </Box>
@@ -658,6 +691,19 @@ const GlassEvmWalletContainer = ({
 }: Props) => {
   const appConfig = useAppConfig();
   const theme = useTheme();
+  const [isHydrated, setIsHydrated] = useState(false);
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const effectiveTextColor = isDark ? textColor : theme.palette.text.primary;
+  const effectiveGlassOpacity = isDark ? glassOpacity : 0.05;
+  const effectiveBlurIntensity = isDark ? blurIntensity : 0;
+
   const [isBalancesVisible, setIsBalancesVisible] = useAtom(isBalancesVisibleAtom);
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [chainId, setChainId] = useState<number | undefined>();
@@ -670,6 +716,10 @@ const GlassEvmWalletContainer = ({
   const [selectedCoinForSend, setSelectedCoinForSend] = useState<TokenBalance | null>(null);
   const { account, isActive, chainId: walletChainId, ENSName } = useWeb3React();
   const intl = useIntl();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleTradeCoin = (tokenBalance: TokenBalance) => {
     setSelectedCoinForTrade(tokenBalance);
@@ -737,7 +787,7 @@ const GlassEvmWalletContainer = ({
   };
 
   const handleToggleTable = () => {
-    setIsTableVisible((value) => !value);
+    setIsTableVisible((value: any) => !value);
   };
 
   const handleOpenReceive = () => {
@@ -766,7 +816,7 @@ const GlassEvmWalletContainer = ({
     setIsImportDialogOpen(true);
   };
 
-  const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
+  const handleToggleImportAsset = () => setShowImportAsset((value: any) => !value);
 
   const handleCopy = () => {
     if (account) {
@@ -820,15 +870,19 @@ const GlassEvmWalletContainer = ({
   const isMobile = useIsMobile();
 
   const getContainerBackground = () => {
+    if (!isHydrated) {
+      return theme.palette.background.default;
+    }
+
     if (backgroundType === 'image' && backgroundImage) {
       return backgroundColor
         ? `${backgroundColor}, url(${backgroundImage})`
         : `url(${backgroundImage})`;
     } else if (backgroundType === 'solid') {
-      return backgroundColor || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      return backgroundColor || (isDark ? theme.palette.background.default : theme.palette.background.paper);
     } else if (backgroundType === 'gradient') {
-      const from = gradientStartColor || '#667eea';
-      const to = gradientEndColor || '#764ba2';
+      const from = gradientStartColor || (isDark ? theme.palette.background.default : theme.palette.background.paper);
+      const to = gradientEndColor || (isDark ? theme.palette.background.paper : theme.palette.background.default);
       const direction = gradientDirection || 'to bottom';
 
       const directionMap: Record<string, string> = {
@@ -842,7 +896,7 @@ const GlassEvmWalletContainer = ({
       const gradientDirectionValue = directionMap[direction] || '180deg';
       return `linear-gradient(${gradientDirectionValue}, ${from}, ${to})`;
     }
-    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    return isDark ? theme.palette.background.default : theme.palette.background.paper;
   };
 
   const handleSendCoin = (tokenBalance: TokenBalance) => {
@@ -875,9 +929,9 @@ const GlassEvmWalletContainer = ({
       <GlassExchangeContainer
         selectedCoin={selectedCoinForExchange}
         onBack={handleBackFromExchange}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={textColor}
+        blurIntensity={effectiveBlurIntensity}
+        glassOpacity={effectiveGlassOpacity}
+        textColor={effectiveTextColor}
         backgroundColor={getContainerBackground()}
         backgroundSize={backgroundSize}
         backgroundPosition={backgroundPosition}
@@ -898,9 +952,9 @@ const GlassEvmWalletContainer = ({
             onClose: handleOpenQrCodeScannerClose,
           }}
           onResult={handleAddressResult}
-          blurIntensity={blurIntensity}
-          glassOpacity={glassOpacity}
-          textColor={scanModalTextColor || textColor}
+          blurIntensity={effectiveBlurIntensity}
+          glassOpacity={effectiveGlassOpacity}
+          textColor={scanModalTextColor || effectiveTextColor}
         />
       )}
 
@@ -915,9 +969,9 @@ const GlassEvmWalletContainer = ({
         receiver={account}
         chainId={chainId}
         coins={evmCoins}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={receiveModalTextColor || textColor}
+        blurIntensity={effectiveBlurIntensity}
+        glassOpacity={effectiveGlassOpacity}
+        textColor={receiveModalTextColor || effectiveTextColor}
       />
 
       <GlassEvmSendDialog
@@ -935,9 +989,9 @@ const GlassEvmWalletContainer = ({
           coins: evmCoins,
           onConnectWallet: handleConnectWallet,
         }}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={sendModalTextColor || textColor}
+        blurIntensity={effectiveBlurIntensity}
+        glassOpacity={effectiveGlassOpacity}
+        textColor={sendModalTextColor || effectiveTextColor}
       />
 
       <GlassImportTokenDialog
@@ -948,9 +1002,9 @@ const GlassEvmWalletContainer = ({
           fullWidth: true,
           fullScreen: isMobile,
         }}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={importTokenModalTextColor || textColor}
+        blurIntensity={effectiveBlurIntensity}
+        glassOpacity={effectiveGlassOpacity}
+        textColor={importTokenModalTextColor || effectiveTextColor}
       />
 
       {showImportAsset && (
@@ -961,9 +1015,9 @@ const GlassEvmWalletContainer = ({
             maxWidth: 'xs',
             onClose: handleToggleImportAsset,
           }}
-          blurIntensity={blurIntensity}
-          glassOpacity={glassOpacity}
-          textColor={importTokenModalTextColor || textColor}
+          blurIntensity={effectiveBlurIntensity}
+          glassOpacity={effectiveGlassOpacity}
+          textColor={importTokenModalTextColor || effectiveTextColor}
         />
       )}
 
@@ -983,15 +1037,15 @@ const GlassEvmWalletContainer = ({
             defaultCoin: convertTokenToEvmCoin(selectedCoinForSend.token),
             onConnectWallet: handleConnectWallet,
           }}
-          blurIntensity={blurIntensity}
-          glassOpacity={glassOpacity}
-          textColor={sendModalTextColor || textColor}
+          blurIntensity={effectiveBlurIntensity}
+          glassOpacity={effectiveGlassOpacity}
+          textColor={sendModalTextColor || effectiveTextColor}
         />
       )}
 
       <Grid container spacing={2}>
         {isActive && account && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -1008,6 +1062,9 @@ const GlassEvmWalletContainer = ({
                   <Typography
                     variant="body1"
                     color="text.secondary"
+                    sx={{
+                      color: !isHydrated ? theme.palette.text.secondary : effectiveTextColor
+                    }}
                   >
                     {ENSName ? ENSName : truncateAddress(account)}
                   </Typography>
@@ -1016,21 +1073,21 @@ const GlassEvmWalletContainer = ({
                       onClick: handleCopy,
                       size: "small",
                       sx: {
-                        background: `rgba(255, 255, 255, ${glassOpacity})`,
-                        backdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(110%)`,
-                        WebkitBackdropFilter: `blur(${blurIntensity}px) saturate(180%) brightness(110%)`,
-                        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.8)})`,
+                        background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper),
+                        backdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px) saturate(180%) brightness(110%)` : 'none'),
+                        WebkitBackdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px) saturate(180%) brightness(110%)` : 'none'),
+                        border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.8)})` : `1px solid ${theme.palette.divider}`),
                         borderRadius: 2,
-                        color: textColor,
-                        boxShadow: `
+                        color: !isHydrated ? theme.palette.text.primary : effectiveTextColor,
+                        boxShadow: !isHydrated ? theme.shadows[1] : (isDark ? `
                           0 8px 32px rgba(0, 0, 0, 0.1),
                           inset 0 1px 0 rgba(255, 255, 255, 0.2),
                           inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-                        `,
+                        ` : theme.shadows[1]),
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         position: 'relative',
                         overflow: 'hidden',
-                        '&::before': {
+                        '&::before': !isHydrated ? {} : (isDark ? {
                           content: '""',
                           position: 'absolute',
                           top: 0,
@@ -1040,25 +1097,25 @@ const GlassEvmWalletContainer = ({
                           background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%)',
                           borderRadius: 'inherit',
                           pointerEvents: 'none',
-                        },
+                        } : {}),
                         '&:hover': {
-                          transform: 'translateY(-2px) scale(1.05)',
-                          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.9)})`,
-                          boxShadow: `
+                          transform: !isHydrated ? 'none' : (isDark ? 'translateY(-2px) scale(1.05)' : 'none'),
+                          background: !isHydrated ? theme.palette.action.hover : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.9)})` : theme.palette.action.hover),
+                          boxShadow: !isHydrated ? theme.shadows[2] : (isDark ? `
                             0 12px 40px rgba(0, 0, 0, 0.15),
                             inset 0 1px 0 rgba(255, 255, 255, 0.3),
                             inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-                          `,
-                          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 1)})`,
+                          ` : theme.shadows[2]),
+                          border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 1)})` : `1px solid ${theme.palette.divider}`),
                         },
                         '&:active': {
-                          transform: 'translateY(-1px) scale(1.02)',
+                          transform: !isHydrated ? 'none' : (isDark ? 'translateY(-1px) scale(1.02)' : 'none'),
                         }
                       }
                     }}
                     tooltip={ENSName ? ENSName : account}
                   >
-                    <FileCopy fontSize="small" sx={{ color: textColor }} />
+                    <FileCopy fontSize="small" sx={{ color: !isHydrated ? theme.palette.text.primary : effectiveTextColor }} />
                   </CopyIconButton>
                 </Stack>
 
@@ -1076,7 +1133,7 @@ const GlassEvmWalletContainer = ({
                   <IconButton
                     onClick={handleToggleVisibility}
                     sx={{
-                      color: textColor,
+                      color: !isHydrated ? theme.palette.text.primary : effectiveTextColor,
                     }}
                   >
                     {isBalancesVisible ? (
@@ -1098,17 +1155,17 @@ const GlassEvmWalletContainer = ({
             </Stack>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} alignItems="center">
             {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
             {/* {appConfig.transak?.enabled && ( */}
             {false && (
-              <Grid item>
+              <Grid>
                 <TransakWidget />
               </Grid>
             )}
 
-            <Grid item>
+            <Grid>
               <Button
                 onClick={handleOpenReceive}
                 variant="outlined"
@@ -1122,7 +1179,7 @@ const GlassEvmWalletContainer = ({
                 />
               </Button>
             </Grid>
-            <Grid item>
+            <Grid>
               <Button
                 onClick={handleOpenSend}
                 startIcon={<Send />}
@@ -1133,7 +1190,7 @@ const GlassEvmWalletContainer = ({
                 <FormattedMessage id="send" defaultMessage="Send" />
               </Button>
             </Grid>
-            <Grid item>
+            <Grid>
               <Button
                 onClick={handleOpenQrCode}
                 startIcon={<QrCodeScanner />}
@@ -1145,21 +1202,19 @@ const GlassEvmWalletContainer = ({
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} alignItems="center">
             <Grid
-              item
-              xs={isDesktop ? undefined : 12}
-              sm={isDesktop ? true : undefined}
+              size={isDesktop ? undefined : 12}
             >
               <TextField
                 size="small"
                 type="search"
-                onChange={(ev) => setSearch(ev.currentTarget.value)}
+                onChange={(ev: any) => setSearch(ev.currentTarget.value)}
                 fullWidth
                 InputProps={{
                   endAdornment: (
@@ -1170,7 +1225,7 @@ const GlassEvmWalletContainer = ({
                 }}
               />
             </Grid>
-            <Grid item xs={isDesktop ? undefined : 12}>
+            <Grid size={isDesktop ? undefined : 12}>
               <Button
                 onClick={selectedAssetTab === AssetTabs.Tokens || hideNFTs ? handleOpenImportTokenDialog : handleToggleImportAsset}
                 variant="outlined"
@@ -1188,7 +1243,7 @@ const GlassEvmWalletContainer = ({
         </Grid>
 
         {isActive && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs value={selectedAssetTab} onChange={handleChangeAssetTab}>
               <Tab
                 value={AssetTabs.Tokens}
@@ -1215,12 +1270,12 @@ const GlassEvmWalletContainer = ({
         )}
 
         {isActive && selectedAssetTab === AssetTabs.Tokens && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <NoSsr>
               <GlassWalletBalances
-                blurIntensity={blurIntensity}
-                glassOpacity={glassOpacity}
-                textColor={textColor}
+                blurIntensity={effectiveBlurIntensity}
+                glassOpacity={effectiveGlassOpacity}
+                textColor={effectiveTextColor}
                 isBalancesVisible={isBalancesVisible}
                 chainId={chainId}
                 filter={search}
@@ -1231,9 +1286,9 @@ const GlassEvmWalletContainer = ({
                 hideExchangeAction={hideExchangeAction}
                 hideSendAction={hideSendAction}
                 swapButtonConfig={{
-                  backgroundColor: `rgba(255, 255, 255, ${glassOpacity})`,
-                  textColor: textColor,
-                  hoverBackgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+                  backgroundColor: isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper,
+                  textColor: effectiveTextColor,
+                  hoverBackgroundColor: isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.action.hover,
                 }}
                 handleToggleTable={handleToggleTable}
                 isTableVisible={isTableVisible}
@@ -1244,7 +1299,7 @@ const GlassEvmWalletContainer = ({
         )}
 
         {isActive && selectedAssetTab === AssetTabs.NFTs && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs value={selectedNFTTab} onChange={handleChangeNFTTab}>
               <Tab
                 value={NFTTabs.Collected}
@@ -1278,44 +1333,16 @@ const GlassEvmWalletContainer = ({
         )}
 
         {isActive && selectedAssetTab === AssetTabs.NFTs && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             {selectedNFTTab === NFTTabs.Collected && (
               <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Paper sx={{ p: 1 }}>
-                        <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h1">
-                            <FormattedMessage
-                              id="something.went.wrong"
-                              defaultMessage="Oops, something went wrong"
-                              description="Something went wrong error message"
-                            />
-                          </Typography>
-                          <Typography variant="body1" color="textSecondary">
-                            {String(error)}
-                          </Typography>
-                          <Button
-                            color="primary"
-                            onClick={resetErrorBoundary}
-                          >
-                            <FormattedMessage
-                              id="try.again"
-                              defaultMessage="Try again"
-                              description="Try again"
-                            />
-                          </Button>
-                        </Stack>
-                      </Paper>
-                    )}
-                  >
-                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
+                {({ reset }: any) => (
+                  <div>
+                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={effectiveBlurIntensity} glassOpacity={effectiveGlassOpacity} textColor={effectiveTextColor} />}>
                       <GlassWalletAssetsSection
-                        blurIntensity={blurIntensity}
-                        glassOpacity={glassOpacity}
-                        textColor={textColor}
+                        blurIntensity={effectiveBlurIntensity}
+                        glassOpacity={effectiveGlassOpacity}
+                        textColor={effectiveTextColor}
                         customSettings={customSettings}
                         filters={{ ...filters, account: account }}
                         onOpenFilters={() => { }}
@@ -1323,7 +1350,7 @@ const GlassEvmWalletContainer = ({
                         setFilters={setFilters}
                       />
                     </Suspense>
-                  </ErrorBoundary>
+                  </div>
                 )}
               </QueryErrorResetBoundary>
             )}
@@ -1342,54 +1369,26 @@ const GlassEvmWalletContainer = ({
 
             {selectedNFTTab === NFTTabs.Hidden && (
               <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Paper sx={{ p: 1 }}>
-                        <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h1">
-                            <FormattedMessage
-                              id="something.went.wrong"
-                              defaultMessage="Oops, something went wrong"
-                              description="Something went wrong error message"
-                            />
-                          </Typography>
-                          <Typography variant="body1" color="textSecondary">
-                            {String(error)}
-                          </Typography>
-                          <Button
-                            color="primary"
-                            onClick={resetErrorBoundary}
-                          >
-                            <FormattedMessage
-                              id="try.again"
-                              defaultMessage="Try again"
-                              description="Try again"
-                            />
-                          </Button>
-                        </Stack>
-                      </Paper>
-                    )}
-                  >
-                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
+                {({ reset }: any) => (
+                  <div>
+                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={effectiveBlurIntensity} glassOpacity={effectiveGlassOpacity} textColor={effectiveTextColor} />}>
                       <GlassHiddenAssetsSection
-                        blurIntensity={blurIntensity}
-                        glassOpacity={glassOpacity}
-                        textColor={textColor}
+                        blurIntensity={effectiveBlurIntensity}
+                        glassOpacity={effectiveGlassOpacity}
+                        textColor={effectiveTextColor}
                         customSettings={customSettings}
                         filters={filters}
                         onOpenFilters={() => { }}
                       />
                     </Suspense>
-                  </ErrorBoundary>
+                  </div>
                 )}
               </QueryErrorResetBoundary>
             )}
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {!isActive && (
             <Stack
               justifyContent="center"
@@ -1429,7 +1428,7 @@ const GlassEvmWalletContainer = ({
 
 
         {isActive && selectedAssetTab === AssetTabs.Tokens && !hideActivity && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs value={selectedTab} onChange={handleChangeTab}>
               <Tab
                 value={WalletTabs.Activity}
@@ -1445,7 +1444,7 @@ const GlassEvmWalletContainer = ({
         )}
 
         {isActive && selectedAssetTab === AssetTabs.Tokens && !hideActivity && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <NoSsr>
               {selectedTab === WalletTabs.Activity ? (
                 <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
@@ -1502,7 +1501,7 @@ const GlassEvmWalletContainer = ({
         )}
 
         {!isLoggedIn && isActive && selectedTab !== WalletTabs.Activity && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <LoginAppButton />
           </Grid>
         )}
@@ -1515,6 +1514,21 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   const { account, chainId, signer } = useWeb3React();
   const [openFilter, setOpenFilter] = useState(false);
   const [assetTransfer, setAssetTransfer] = useState<any>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const theme = useTheme();
+  const [isHydrated, setIsHydrated] = useState(false);
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const effectiveTextColor = isDark ? textColor : theme.palette.text.primary;
+  const effectiveGlassOpacity = isDark ? glassOpacity : 0.05;
+  const effectiveBlurIntensity = isDark ? blurIntensity : 0;
 
   const { accountAssets, accountAssetsQuery } = useAccountAssetsBalance(
     props.filters?.account ? [props.filters?.account] : [],
@@ -1538,8 +1552,8 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
 
   const filteredAssetList = useMemo(() => {
     return assets
-      .filter((asset) => !isHidden(asset))
-      .filter((asset) => {
+      .filter((asset: any) => !isHidden(asset))
+      .filter((asset: any) => {
         return (
           asset.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -1549,7 +1563,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
             -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (props.filters?.myNfts) {
           return asset.owner === props.filters?.account;
         }
@@ -1562,8 +1576,20 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       });
   }, [assets, props.filters, search, hiddenAssets]);
 
+  const totalPages = Math.ceil(filteredAssetList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedAssets = filteredAssetList.slice(startIndex, endIndex);
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredAssetList.length]);
+
   const { formatMessage } = useIntl();
-  const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   const handleChange = (e: any) => {
@@ -1577,7 +1603,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   const renderAssets = () => {
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -1585,14 +1611,14 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
               alignContent="center"
               spacing={2}
             >
-              <CloseCircle sx={{ color: textColor }} />
-              <Typography variant="body1" sx={{ color: textColor }}>
+              <CloseCircle sx={{ color: effectiveTextColor }} />
+              <Typography variant="body1" sx={{ color: effectiveTextColor }}>
                 <FormattedMessage
                   id="no.nfts.found"
                   defaultMessage="No NFTs Found"
                 />
               </Typography>
-              <Typography align="center" variant="body1" sx={{ color: textColor + 'CC' }}>
+              <Typography align="center" variant="body1" sx={{ color: effectiveTextColor + 'CC' }}>
                 <FormattedMessage
                   id="import.or.favorite.nfts"
                   defaultMessage="Import or favorite NFTs"
@@ -1604,7 +1630,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return paginatedAssets.map((asset: any, index: any) => (
       <GlassAssetCard
         asset={asset}
         key={index}
@@ -1612,9 +1638,9 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
         onHide={toggleHidden}
         isHidden={isHidden(asset)}
         onTransfer={onTransfer}
-        blurIntensity={blurIntensity}
-        glassOpacity={glassOpacity}
-        textColor={textColor}
+        blurIntensity={effectiveBlurIntensity}
+        glassOpacity={effectiveGlassOpacity}
+        textColor={effectiveTextColor}
         customSettings={props.customSettings}
       />
     ));
@@ -1623,10 +1649,10 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   return (
     <Box
       sx={{
-        background: `rgba(255, 255, 255, ${glassOpacity})`,
-        backdropFilter: `blur(${blurIntensity}px)`,
-        WebkitBackdropFilter: `blur(${blurIntensity}px)`,
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+        background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper),
+        backdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        WebkitBackdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.3)})` : `1px solid ${theme.palette.divider}`),
         borderRadius: '16px',
         padding: 2,
         minHeight: '700px',
@@ -1710,7 +1736,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             justifyContent="start"
@@ -1758,7 +1784,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           </Stack>
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <GlassWalletAssetsFilter
               blurIntensity={blurIntensity}
               glassOpacity={glassOpacity}
@@ -1771,7 +1797,7 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12} sx={{
+        <Grid container size={openFilter ? 9 : 12} sx={{
           display: 'grid !important',
           gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
           gridAutoRows: 'minmax(300px, auto)',
@@ -1787,6 +1813,47 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           )}
           {!accountAssetsQuery.isLoading && renderAssets()}
         </Grid>
+
+        {!accountAssetsQuery.isLoading && filteredAssetList.length > itemsPerPage && (
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+              <Stack spacing={2} alignItems="center">
+                <Typography variant="body2" sx={{ color: textColor + 'CC' }}>
+                  <FormattedMessage
+                    id="showing.nfts"
+                    defaultMessage="Showing {start}-{end} of {total} NFTs"
+                    values={{
+                      start: startIndex + 1,
+                      end: Math.min(endIndex, filteredAssetList.length),
+                      total: filteredAssetList.length
+                    }}
+                  />
+                </Typography>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  color="primary"
+                  size="large"
+                  showFirstButton
+                  showLastButton
+                  sx={{
+                    '& .MuiPaginationItem-root': {
+                      color: textColor,
+                      '&.Mui-selected': {
+                        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.4)})`,
+                        color: textColor,
+                      },
+                      '&:hover': {
+                        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                      },
+                    },
+                  }}
+                />
+              </Stack>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
@@ -1890,6 +1957,8 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   const { account } = useWeb3React();
   const [search, setSearch] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   const { accountAssets } = useAccountAssetsBalance(account ? [account] : []);
   const { formatMessage } = useIntl();
   const { isHidden, toggleHidden, assets: hiddenAssets } = useHiddenAssets();
@@ -1916,7 +1985,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
   const filteredAssetList = useMemo(() => {
     return assetList
       .filter(isHidden)
-      .filter((asset) => {
+      .filter((asset: any) => {
         return (
           asset?.collectionName?.toLowerCase().search(search.toLowerCase()) >
           -1 ||
@@ -1925,7 +1994,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
             -1)
         );
       })
-      .filter((asset) => {
+      .filter((asset: any) => {
         if (props.filters?.networks && props.filters?.networks.length) {
           return props.filters.networks.includes(
             getNetworkSlugFromChainId(asset?.chainId) || ""
@@ -1935,10 +2004,23 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       });
   }, [assetList, props.filters, search, hiddenAssets]);
 
+  const totalPages = Math.ceil(filteredAssetList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedAssets = filteredAssetList.slice(startIndex, endIndex);
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredAssetList.length]);
+
   const renderAssets = () => {
     if (filteredAssetList.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ py: 4 }}>
             <Stack
               justifyContent="center"
@@ -1965,7 +2047,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       );
     }
 
-    return filteredAssetList.map((asset, index) => (
+    return paginatedAssets.map((asset: any, index: any) => (
       <GlassAssetCard
         asset={asset}
         key={index}
@@ -2072,7 +2154,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack
             direction="row"
             justifyContent="start"
@@ -2120,7 +2202,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           </Stack>
         </Grid>
         {openFilter && (
-          <Grid item xs={3}>
+          <Grid size={3}>
             <GlassWalletAssetsFilter
               blurIntensity={blurIntensity}
               glassOpacity={glassOpacity}
@@ -2133,7 +2215,7 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           </Grid>
         )}
 
-        <Grid container item xs={openFilter ? 9 : 12} sx={{
+        <Grid container size={openFilter ? 9 : 12} sx={{
           display: 'grid !important',
           gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
           gridAutoRows: 'minmax(300px, auto)',
@@ -2141,6 +2223,47 @@ const GlassHiddenAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
         }}>
           {renderAssets()}
         </Grid>
+
+        {filteredAssetList.length > itemsPerPage && (
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+              <Stack spacing={2} alignItems="center">
+                <Typography variant="body2" sx={{ color: textColor + 'CC' }}>
+                  <FormattedMessage
+                    id="showing.nfts"
+                    defaultMessage="Showing {start}-{end} of {total} NFTs"
+                    values={{
+                      start: startIndex + 1,
+                      end: Math.min(endIndex, filteredAssetList.length),
+                      total: filteredAssetList.length
+                    }}
+                  />
+                </Typography>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  color="primary"
+                  size="large"
+                  showFirstButton
+                  showLastButton
+                  sx={{
+                    '& .MuiPaginationItem-root': {
+                      color: textColor,
+                      '&.Mui-selected': {
+                        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.4)})`,
+                        color: textColor,
+                      },
+                      '&:hover': {
+                        backgroundColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+                      },
+                    },
+                  }}
+                />
+              </Stack>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
@@ -2158,6 +2281,19 @@ const GlassWalletAssetsFilter = ({
   accounts
 }: any) => {
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
+  const [isHydrated, setIsHydrated] = useState(false);
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const effectiveTextColor = isDark ? textColor : theme.palette.text.primary;
+  const effectiveGlassOpacity = isDark ? glassOpacity : 0.05;
+  const effectiveBlurIntensity = isDark ? blurIntensity : 0;
 
   const onFilterNetworkChanged = (net: string) => {
     setFilters((value: any) => {
@@ -2187,19 +2323,20 @@ const GlassWalletAssetsFilter = ({
   return (
     <Box
       sx={{
-        background: `rgba(255, 255, 255, ${glassOpacity})`,
-        backdropFilter: `blur(${blurIntensity}px)`,
-        border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+        background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${effectiveGlassOpacity})` : theme.palette.background.paper),
+        backdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        WebkitBackdropFilter: !isHydrated ? 'none' : (isDark ? `blur(${effectiveBlurIntensity}px)` : 'none'),
+        border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.3)})` : `1px solid ${theme.palette.divider}`),
         borderRadius: '16px',
         height: '100%',
-        boxShadow: `
+        boxShadow: !isHydrated ? theme.shadows[1] : (isDark ? `
           0 8px 32px rgba(0, 0, 0, 0.1),
           inset 0 1px 0 rgba(255, 255, 255, 0.2),
           inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-        `,
+        ` : theme.shadows[1]),
         position: 'relative',
         overflow: 'hidden',
-        '&::before': {
+        '&::before': !isHydrated ? {} : (isDark ? {
           content: '""',
           position: 'absolute',
           top: 0,
@@ -2210,23 +2347,23 @@ const GlassWalletAssetsFilter = ({
           borderRadius: 'inherit',
           pointerEvents: 'none',
           zIndex: 1,
-        },
+        } : {}),
         '& > *': {
           position: 'relative',
           zIndex: 2,
         },
         '& .MuiTypography-root': {
-          color: textColor + ' !important',
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
         },
         '& .MuiIconButton-root': {
-          color: textColor + ' !important',
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
         },
         '& .MuiDivider-root': {
-          borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+          borderColor: !isHydrated ? theme.palette.divider : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.divider),
         },
         '& .MuiAccordion-root': {
-          background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.15)})`,
-          border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.2)})`,
+          background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.05, 0.15)})` : theme.palette.background.paper),
+          border: !isHydrated ? `1px solid ${theme.palette.divider}` : (isDark ? `1px solid rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.1, 0.2)})` : `1px solid ${theme.palette.divider}`),
           borderRadius: '8px !important',
           '&:before': {
             display: 'none',
@@ -2234,48 +2371,48 @@ const GlassWalletAssetsFilter = ({
         },
         '& .MuiAccordionSummary-root': {
           '& .MuiTypography-root': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           },
           '& .MuiSvgIcon-root': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           },
         },
         '& .MuiFormControl-root': {
           '& .MuiInputLabel-root': {
-            color: textColor + 'CC !important',
+            color: !isHydrated ? theme.palette.text.secondary : (isDark ? effectiveTextColor + 'CC !important' : theme.palette.text.secondary + ' !important'),
           },
           '& .MuiOutlinedInput-root': {
-            background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.05, 0.15)})`,
+            background: !isHydrated ? theme.palette.background.paper : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.05, 0.15)})` : theme.palette.background.paper),
             '& fieldset': {
-              borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.3)})`,
+              borderColor: !isHydrated ? theme.palette.divider : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.2, 0.3)})` : theme.palette.divider),
             },
             '&:hover fieldset': {
-              borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.4)})`,
+              borderColor: !isHydrated ? theme.palette.action.hover : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.3, 0.4)})` : theme.palette.action.hover),
             },
             '&.Mui-focused fieldset': {
-              borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.4, 0.5)})`,
+              borderColor: !isHydrated ? theme.palette.primary.main : (isDark ? `rgba(255, 255, 255, ${Math.min(effectiveGlassOpacity + 0.4, 0.5)})` : theme.palette.primary.main),
             },
           },
           '& .MuiSelect-select': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           },
           '& .MuiSvgIcon-root': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           },
         },
         '& .MuiListItemText-root': {
           '& .MuiTypography-root': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           },
         },
         '& .MuiCheckbox-root': {
-          color: textColor + ' !important',
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
           '&.Mui-checked': {
-            color: textColor + ' !important',
+            color: !isHydrated ? theme.palette.primary.main : (isDark ? effectiveTextColor + ' !important' : theme.palette.primary.main + ' !important'),
           },
         },
         '& .MuiMenuItem-root': {
-          color: textColor + ' !important',
+          color: !isHydrated ? theme.palette.text.primary : (isDark ? effectiveTextColor + ' !important' : theme.palette.text.primary + ' !important'),
         },
       }}
     >

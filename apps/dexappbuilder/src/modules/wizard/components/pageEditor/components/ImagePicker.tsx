@@ -1,4 +1,4 @@
-import { ButtonBase, Container, Stack, alpha, styled, useTheme } from '@mui/material';
+import { ButtonBase, Container, Stack, styled, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import { useIsMobile } from '@dexkit/core';
@@ -7,8 +7,11 @@ import ImageIcon from '@mui/icons-material/Image';
 import { connectField, useForm } from 'uniforms';
 
 const CustomImage = styled('img')(({ theme }) => ({
-  height: 'auto',
+  height: '100%',
   width: '100%',
+  objectFit: 'contain',
+  maxWidth: '100%',
+  maxHeight: '100%',
 }));
 
 const CustomImageIcon = styled(ImageIcon)(({ theme }) => ({
@@ -21,14 +24,14 @@ export const ImagePicker = connectField<{
   value: string;
   label: string;
   onChange: (v: string | void) => void;
-}>((props) => {
+}>((props: any) => {
   const [openMediaDialog, setOpenMediaDialog] = useState(false);
   const isMobile = useIsMobile();
   const theme = useTheme();
   const { formRef, onChange } = useForm();
 
   return (
-    <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : undefined }}>
+    <Container sx={{ mb: isMobile ? theme.spacing(0.5) : theme.spacing(1), px: isMobile ? 0 : 'inherit' }}>
       <MediaDialog
         dialogProps={{
           open: openMediaDialog,
@@ -59,11 +62,11 @@ export const ImagePicker = connectField<{
           sx={{
             height: theme.spacing(isMobile ? 20 : 24),
             width: theme.spacing(isMobile ? 20 : 24),
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: (theme: any) => theme.shape.borderRadius / 2,
             backgroundColor:
               theme.palette.mode === 'light'
                 ? 'rgba(0,0,0, 0.2)'
-                : alpha(theme.palette.common.white, 0.1),
+                : theme.alpha(theme.palette.common.white, 0.1),
           }}
         >
           <Stack

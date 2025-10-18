@@ -1,4 +1,5 @@
 // We are using AI to translate compiled files we should sync the files
+const fs = require('fs');
 const commander = require('commander');
 
 const program = new commander.Command();
@@ -19,7 +20,9 @@ if (options.to) {
 
   for (let index = 0; index < allKeys.length; index++) {
     const key = allKeys[index];
-    toFile[key].defaultMessage = fromFile[key];
+    if (toFile[key]) {
+      toFile[key].defaultMessage = fromFile[key];
+    }
   }
 
   fs.writeFileSync(`lang/${to}.json`, JSON.stringify(toFile, null, 2), 'utf-8');

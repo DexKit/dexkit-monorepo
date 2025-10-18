@@ -15,7 +15,7 @@ export const PagesPicker = connectField<{
   value: string;
   label: string;
   onChange: (v: string | void) => void;
-}>((props) => {
+}>((props: any) => {
   const { wizardConfig } = useAppWizardConfig();
   const pages = wizardConfig.pages;
   const isMobile = useIsMobile();
@@ -46,7 +46,7 @@ export const PagesPicker = connectField<{
         sx={{
           '& .MuiSelect-select': {
             fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-            py: isMobile ? theme.spacing(1.5) : undefined
+            py: isMobile ? theme.spacing(1.5) : 'inherit'
           }
         }}
         label={<FormattedMessage id={'pages'} defaultMessage={'Pages'} />}
@@ -58,7 +58,7 @@ export const PagesPicker = connectField<{
             key={key}
             sx={{
               fontSize: isMobile ? theme.typography.body2.fontSize : undefined,
-              minHeight: isMobile ? theme.spacing(4) : undefined
+              minHeight: isMobile ? theme.spacing(4) : 'auto'
             }}
           >
             {allPages[pk].title}

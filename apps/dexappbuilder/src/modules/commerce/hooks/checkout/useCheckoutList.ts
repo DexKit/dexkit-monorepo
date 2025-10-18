@@ -29,7 +29,7 @@ export default function useCheckoutList(params: {
       delete newParams['sortModel'];
 
       return (
-        await instance.get/*<{
+        await (instance as any).get/*<{
           items: CheckoutFormType[];
           totalItems: number;
           totalPages: number;

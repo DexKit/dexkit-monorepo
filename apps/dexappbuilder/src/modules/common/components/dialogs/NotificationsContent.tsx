@@ -47,7 +47,7 @@ export function NotificationsContent() {
   
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {notifications.map((notification) => {
+      {notifications.map((notification: any) => {
         const isNftRelated = notification.metadata?.type === 'nft_profile_removed';
         const isUnread = !notification.readAt;
         

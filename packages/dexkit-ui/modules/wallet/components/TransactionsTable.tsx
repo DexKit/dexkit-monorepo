@@ -49,7 +49,7 @@ export function TransactionsTable({ filter }: TransactionsTableProps) {
     if (pageList.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={5}>
+          <TableCell {...({ colSpan: 5 } as any)}>
             <Stack sx={{ py: 2 }} alignItems="center" justifyContent="center">
               <Typography variant="body1" color="textSecondary">
                 <FormattedMessage
@@ -86,7 +86,7 @@ export function TransactionsTable({ filter }: TransactionsTableProps) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell colSpan={2}>
+            <TableCell {...({ colSpan: 2 } as any)}>
               <FormattedMessage id="transaction" defaultMessage="Transaction" />
             </TableCell>
             <TableCell>

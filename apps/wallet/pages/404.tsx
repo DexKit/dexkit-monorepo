@@ -1,7 +1,7 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
-import type { NextPage } from 'next';
 import MainLayout from '@dexkit/ui/components/layouts/main';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Button, Container, Typography } from '@mui/material';
+import type { NextPage } from 'next';
 
 import Image from 'next/image';
 
@@ -14,12 +14,17 @@ const NotFound: NextPage = (props: any) => {
     <MainLayout>
       <Box sx={{ py: 8 }}>
         <Container>
-          <Grid container alignItems="center" spacing={4}>
-            <Grid
-              item
-              xs={12}
-              sm={6}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              gap: 4,
+            }}
+          >
+            <Box
               sx={{
+                flex: 1,
                 order: { xs: 2, sm: 1 },
               }}
             >
@@ -60,12 +65,10 @@ const NotFound: NextPage = (props: any) => {
                   />
                 </Button>
               </Box>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={6}
+            </Box>
+            <Box
               sx={{
+                flex: 1,
                 order: { xs: 1, sm: 2 },
               }}
             >
@@ -76,8 +79,8 @@ const NotFound: NextPage = (props: any) => {
                   width: '100%',
                 }}
               />
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Container>
       </Box>
     </MainLayout>

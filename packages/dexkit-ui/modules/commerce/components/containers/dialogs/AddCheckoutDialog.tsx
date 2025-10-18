@@ -47,7 +47,7 @@ export default function AddCheckoutDialog({
       />
       <DialogContent dividers sx={{ px: 4, py: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CompletationProvider
               onCompletation={(output: string) => {
                 setFieldValue(`title`, output);
@@ -73,7 +73,7 @@ export default function AddCheckoutDialog({
               )}
             </CompletationProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CompletationProvider
               onCompletation={(output: string) => {
                 setFieldValue(`description`, output);

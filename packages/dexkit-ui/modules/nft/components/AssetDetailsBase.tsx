@@ -7,6 +7,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 
 import { FormattedMessage } from "react-intl";
@@ -31,6 +32,8 @@ interface Props {
 }
 
 export function AssetDetailsBase({ asset, metadata }: Props) {
+  const theme = useTheme();
+
   return (
     <Stack spacing={1}>
       <Box>
@@ -86,7 +89,7 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
                     (attr, index: number) =>
                       attr.trait_type &&
                       attr.value !== undefined && (
-                        <Grid item xs={4} key={index}>
+                        <Grid size={4} key={index}>
                           <AssetAttributePaper
                             traitType={attr.trait_type}
                             value={attr.value}
@@ -119,14 +122,20 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
           <AccordionDetails sx={{ p: (theme) => theme.spacing(2) }}>
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="space-between">
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   <FormattedMessage
                     id="contract.address"
                     defaultMessage="Contract Address"
                     description="Accordion contract address"
                   />
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   <Link
                     href={`${NETWORK_EXPLORER(asset?.chainId)}/address/${asset?.contractAddress
                       }`}
@@ -137,27 +146,39 @@ export function AssetDetailsBase({ asset, metadata }: Props) {
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   <FormattedMessage
                     id="token.id"
                     defaultMessage="Token ID"
                     description="Token id caption"
                   />
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   {truncateErc1155TokenId(asset?.id)}
                 </Typography>
               </Stack>
 
               <Stack direction="row" justifyContent="space-between">
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   <FormattedMessage
                     id="Network"
                     defaultMessage="Network"
                     description="Network caption"
                   />
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography
+                  color="textSecondary"
+                  sx={{ color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit' }}
+                >
                   {NETWORK_NAME(asset?.chainId)}
                 </Typography>
               </Stack>

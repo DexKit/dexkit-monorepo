@@ -4,9 +4,9 @@ import {
   DialogContent,
   DialogProps,
   Divider,
-  Grid,
   List,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -74,7 +74,7 @@ function SelectTokenBalanceDialog({
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SearchTextField
               TextFieldProps={{
                 fullWidth: true,
@@ -87,7 +87,7 @@ function SelectTokenBalanceDialog({
               onChange={handleChangeSearch}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {chainId !== undefined && (
               <List disablePadding>
                 {filteredTokenBalances?.map(
@@ -110,3 +110,4 @@ function SelectTokenBalanceDialog({
 }
 
 export default memo(SelectTokenBalanceDialog);
+

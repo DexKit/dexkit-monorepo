@@ -7,12 +7,12 @@ import {
   DialogProps,
   Divider,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   Select,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import ImageIcon from '@mui/icons-material/Image';
 import React, { useCallback, useState } from 'react';
@@ -94,22 +94,21 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
   const renderChampions = useCallback(() => {
     if (!myChampions.data) {
       return new Array(8).fill(null).map((_, index: number) => (
-        <Grid item xs={6} sm={3} key={index}>
+        <Grid size={{ xs: 6, sm: 3 }} key={index}>
           <ProfileImageCard />
         </Grid>
       ));
     } else if (myChampions.data?.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid
             container
             direction="column"
             alignItems="center"
-            alignContent="center"
             spacing={4}
           >
-            <Grid item xs={12}></Grid>
-            <Grid item>
+            <Grid size={12}></Grid>
+            <Grid>
               <Typography align="center" variant="h5">
                 <FormattedMessage
                   id="no.champions.yet"
@@ -123,11 +122,10 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
                 />
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid>
               <Box
                 display="flex"
                 justifyContent="center"
-                alignContent="center"
                 alignItems="center"
               >
                 <Button
@@ -150,7 +148,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
     } else {
       return myChampions.data?.map(
         (champion: CoinLeaguesChampion, index: number) => (
-          <Grid item xs={6} sm={3} key={index}>
+          <Grid size={{ xs: 6, sm: 3 }} key={index}>
             <ProfileImageCard
               selected={selectedAsset?.tokenId === champion.id}
               onClick={handleSelectAsset}
@@ -169,23 +167,22 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
   const renderKitties = useCallback(() => {
     if (!kittygotchiList.data) {
       return new Array(8).fill(null).map((_, index: number) => (
-        <Grid item xs={6} sm={3} key={index}>
+        <Grid size={{ xs: 6, sm: 3 }} key={index}>
           <ProfileImageCard />
         </Grid>
       ));
     }
     if (kittygotchiList.data.length === 0) {
       return (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid
             container
             direction="column"
             alignItems="center"
-            alignContent="center"
             spacing={4}
           >
-            <Grid item xs={12}></Grid>
-            <Grid item>
+            <Grid size={12}></Grid>
+            <Grid>
               <Typography align="center" variant="h5">
                 <FormattedMessage
                   id="noKittygotchiYet"
@@ -205,7 +202,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
     } else {
       return kittygotchiList.data?.map(
         (kittygotchi: Kittygotchi, index: number) => (
-          <Grid item xs={6} sm={3} key={index}>
+          <Grid size={{ xs: 6, sm: 3 }} key={index}>
             <ProfileImageCard
               selected={selectedAsset?.tokenId === kittygotchi.id}
               onClick={handleSelectAsset}
@@ -240,7 +237,7 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
       <DialogContent>
         <Box py={4}>
           <Grid container spacing={4}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>
                   <FormattedMessage
@@ -290,3 +287,5 @@ export const ProfileSelectImageDialog: React.FC<Props> = ({
 };
 
 export default React.memo(ProfileSelectImageDialog);
+
+

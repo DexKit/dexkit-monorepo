@@ -17,7 +17,7 @@ export const MaticPriceFeeds = [
     quote: 'USD',
     tv: 'COINBASE:ETHUSD',
   },
-  //check
+/*   //check
   {
     address: '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0',
     base: 'MATIC',
@@ -25,7 +25,7 @@ export const MaticPriceFeeds = [
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png',
     quote: 'USD',
     tv: 'COINBASE:MATICUSD',
-  },
+  }, */
   //check
   {
     address: '0x443C5116CdF663Eb387e72C688D276e702135C87',
@@ -189,14 +189,14 @@ export const MaticPriceFeeds = [
     quote: 'USD',
     tv: 'BITFINEX:DOTUSD',
   },
-  {
+  /* {
     address: '0x2e48b7924FBe04d575BA229A59b64547d9da16e9',
     base: 'DPI',
     baseName: 'DeFiPulse Index',
     logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1494CA1F11D487c2bBe4543E90080AeBa4BA3C2b/logo.png',
     quote: 'USD',
     tv: 'UNISWAP:ADPIWETH_4D5EF5',
-  },
+  }, */
   /* {
       address: '0xd6285F06203D938ab713Fa6A315e7d23247DDE95',
       base: 'EOS',

@@ -66,30 +66,34 @@ function PreviewPage() {
 
     if (baseTheme && baseTheme.theme) {
       const colorScheme = isDarkMode ? 'dark' : 'light';
-      const themeWithCorrectMode = {
-        ...baseTheme.theme,
-        colorSchemes: {
-          ...baseTheme.theme.colorSchemes,
-          [colorScheme]: {
-            ...baseTheme.theme.colorSchemes[colorScheme],
-            palette: {
-              ...baseTheme.theme.colorSchemes[colorScheme].palette,
-              mode: isDarkMode ? 'dark' : 'light',
-              text: {
-                ...baseTheme.theme.colorSchemes[colorScheme].palette.text,
-                primary: isDarkMode ? '#ffffff' : baseTheme.theme.colorSchemes[colorScheme].palette.text?.primary,
-                secondary: isDarkMode ? '#dddddd' : baseTheme.theme.colorSchemes[colorScheme].palette.text?.secondary,
-              },
-              background: {
-                ...baseTheme.theme.colorSchemes[colorScheme].palette.background,
-                default: isDarkMode ? '#121212' : baseTheme.theme.colorSchemes[colorScheme].palette.background?.default,
-                paper: isDarkMode ? '#1e1e1e' : baseTheme.theme.colorSchemes[colorScheme].palette.background?.paper,
+      const currentColorScheme = baseTheme.theme.colorSchemes?.[colorScheme];
+      
+      if (currentColorScheme) {
+        const themeWithCorrectMode = {
+          ...baseTheme.theme,
+          colorSchemes: {
+            ...baseTheme.theme.colorSchemes,
+            [colorScheme]: {
+              ...currentColorScheme,
+              palette: {
+                ...currentColorScheme.palette,
+                mode: isDarkMode ? 'dark' : 'light',
+                text: {
+                  ...currentColorScheme.palette.text,
+                  primary: isDarkMode ? '#ffffff' : currentColorScheme.palette.text?.primary,
+                  secondary: isDarkMode ? '#dddddd' : currentColorScheme.palette.text?.secondary,
+                },
+                background: {
+                  ...currentColorScheme.palette.background,
+                  default: isDarkMode ? '#121212' : currentColorScheme.palette.background?.default,
+                  paper: isDarkMode ? '#1e1e1e' : currentColorScheme.palette.background?.paper,
+                }
               }
             }
           }
-        }
-      };
-      return themeWithCorrectMode;
+        };
+        return themeWithCorrectMode;
+      }
     }
 
     return theme;

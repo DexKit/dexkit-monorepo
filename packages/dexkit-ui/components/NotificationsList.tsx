@@ -135,7 +135,12 @@ export default function NotificationsList({
                   values={notification.values}
                 />
               }
-              secondaryTypographyProps={{ component: "div" }}
+              slotProps={{
+                secondary: {
+                  component: "div",
+                  color: 'text.primary'
+                }
+              }}
               secondary={
                 <Stack spacing={0.5} direction="row" alignItems="center">
                   {!notification.checked && (

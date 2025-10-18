@@ -394,7 +394,7 @@ export function useFavoriteAssets() {
   const { assets, setAssets } = useDexKitContext();
 
   const add = (asset: Asset) => {
-    setAssets((value) => ({
+    setAssets((value: Record<string, Asset>) => ({
       ...value,
       [`${asset.chainId}-${asset.contractAddress?.toLowerCase()}-${asset.id}`]:
         asset,
@@ -402,7 +402,7 @@ export function useFavoriteAssets() {
   };
 
   const remove = (asset: Asset) => {
-    setAssets((value) => {
+    setAssets((value: Record<string, Asset>) => {
       let tempValue = { ...value };
 
       delete tempValue[
@@ -869,7 +869,7 @@ export function useHiddenAssets() {
     useDexKitContext();
 
   const add = (asset: HiddenAsset) => {
-    setAssets((value) => ({
+    setAssets((value: Record<string, boolean>) => ({
       ...value,
       [`${asset.chainId}-${asset.contractAddress?.toLowerCase()}-${asset.id}`]:
         true,
@@ -877,7 +877,7 @@ export function useHiddenAssets() {
   };
 
   const remove = (asset: HiddenAsset) => {
-    setAssets((value) => {
+    setAssets((value: Record<string, boolean>) => {
       let tempValue = { ...value };
 
       tempValue[

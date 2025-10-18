@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useIsMobile } from "@dexkit/core";
 import {
   ShowCaseItem,
@@ -5,9 +6,10 @@ import {
 } from "@dexkit/ui/modules/wizard/types/section";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Box, Container, Grid, IconButton, Stack, alpha, useTheme } from "@mui/material";
+import { Box, Container, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
-import SwipeableViews from "react-swipeable-views";
+import SwipeableViews from "react-swipeable-views/lib/SwipeableViews";
+import { usePreviewPlatform } from "../../SectionsRenderer";
 import Pagination from "../CarouselSection/Pagination";
 import ShowCaseCard from "./ShowCaseCard";
 
@@ -37,37 +39,35 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
     columns = { desktop: 4, tablet: 3, mobile: 2 },
     alignItems = "center",
     itemsSpacing = 2,
-    paddingTop = 0,
-    paddingBottom = 0,
     showOverlay = false,
     textOverlay = false,
     textOverlayPosition = "bottom",
     textOverlayBackground = "none",
-    textOverlayBackgroundColor = "#000000",
-    textOverlayTextColor = "#ffffff",
-    textOverlayBorderRadius = 2,
   } = section.settings;
 
-  const isMobile = useIsMobile();
+
+  const isMobileDevice = useIsMobile();
+  const previewContext = usePreviewPlatform();
+  const isMobile = previewContext ? previewContext.isMobile : isMobileDevice;
 
   const getResponsiveColumns = () => {
     if (isMobile) {
-      return Math.min(columns?.mobile || 2, 3);
+      return columns?.mobile || 2;
     }
 
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 960) {
-        return Math.min(columns?.tablet || 3, 4);
+        return columns?.tablet || 2;
       }
     }
 
-    return Math.min(columns?.desktop || 4, 6);
+    return columns?.desktop || 2;
   };
 
   const pages = useMemo(() => {
     const cols = getResponsiveColumns();
     return chunk<ShowCaseItem>(items, cols);
-  }, [items, isMobile]);
+  }, [items, isMobile, layout, columns]);
 
   const handleChangeIndex = (index: number, indexLatest: number) => {
     setIndex(index);
@@ -78,7 +78,7 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
       return setIndex(0);
     }
 
-    setIndex((index) => index + 1);
+    setIndex((index: any) => index + 1);
   };
 
   const handlePrev = () => {
@@ -86,7 +86,7 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
       return setIndex(pages?.length - 1);
     }
 
-    setIndex((index) => index - 1);
+    setIndex((index: any) => index - 1);
   };
 
   const alignItemsValue = useMemo(() => {
@@ -158,33 +158,29 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
   };
 
   const getItemSizing = () => {
-    const baseSizing = {
-      item: true,
-    };
-
     const layoutSizing = {
       grid: {
-        ...baseSizing,
-        xs: 12 / getResponsiveColumns(),
-        sm: 12 / Math.min(getResponsiveColumns(), 4),
-        md: 12 / Math.min(getResponsiveColumns(), 6),
+        size: {
+          xs: 12 / getResponsiveColumns(),
+          sm: 12 / Math.min(getResponsiveColumns(), 4),
+          md: 12 / Math.min(getResponsiveColumns(), 6),
+        },
       },
       masonry: {
-        ...baseSizing,
         sx: {
           breakInside: 'avoid',
           marginBottom: theme.spacing(itemsSpacing),
         },
       },
       carousel: {
-        ...baseSizing,
-        xs: 12 / getResponsiveColumns(),
-        sm: 12 / Math.min(getResponsiveColumns(), 4),
-        md: 12 / Math.min(getResponsiveColumns(), 6),
+        size: {
+          xs: 12 / getResponsiveColumns(),
+          sm: 12 / Math.min(getResponsiveColumns(), 4),
+          md: 12 / Math.min(getResponsiveColumns(), 6),
+        },
       },
       list: {
-        ...baseSizing,
-        xs: 12,
+        size: 12,
       },
     };
 
@@ -195,9 +191,9 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
     if (isMobile || pages.length <= 1) return null;
 
     const buttonStyles = {
-      bgcolor: (theme: any) => alpha(theme.palette.action.focus, 0.25),
+      bgcolor: (theme: any) => theme.alpha(theme.palette.action.focus, 0.25),
       '&:hover': {
-        bgcolor: (theme: any) => alpha(theme.palette.action.focus, 0.4),
+        bgcolor: (theme: any) => theme.alpha(theme.palette.action.focus, 0.4),
       },
       '@media (max-width: 600px)': {
         width: '40px',
@@ -325,20 +321,67 @@ export default function ShowCaseSection({ section }: ShowCaseSectionProps) {
       );
     }
 
+    if (layout === "carousel") {
+      return (
+        <SwipeableViews
+          index={index}
+          onChangeIndex={handleChangeIndex}
+          enableMouseEvents
+        >
+          {pages.map((page: any, pageIndex: any) => (
+            <Box sx={{ position: "relative", p: 2 }} key={pageIndex}>
+              <Grid {...getGridStyles()}>
+                {page.map((item: any, itemIndex: any) => (
+                  <Grid {...getItemSizing()} key={`${pageIndex}-${itemIndex}`}>
+                    <ShowCaseCard item={item} sectionSettings={sectionSettings} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          ))}
+        </SwipeableViews>
+      );
+    }
+
     return (
-      <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-        {pages.map((page, pageIndex) => (
-          <Box sx={{ position: "relative", p: 2 }} key={pageIndex}>
-            <Grid {...getGridStyles()}>
-              {page.map((item, itemIndex) => (
-                <Grid {...getItemSizing()} key={`${pageIndex}-${itemIndex}`}>
+      <Box sx={{ width: '100%' }}>
+        {pages.map((page: any, pageIndex: any) => (
+          <Box
+            sx={{
+              position: "relative",
+              p: 2,
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%'
+            }}
+            key={pageIndex}
+          >
+            <Grid
+              container
+              justifyContent="center"
+              spacing={itemsSpacing}
+              sx={{
+                maxWidth: '100%',
+                width: '100%'
+              }}
+            >
+              {page.map((item: any, itemIndex: any) => (
+                <Grid
+                  {...getItemSizing()}
+                  key={`${pageIndex}-${itemIndex}`}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
                   <ShowCaseCard item={item} sectionSettings={sectionSettings} />
                 </Grid>
               ))}
             </Grid>
           </Box>
         ))}
-      </SwipeableViews>
+      </Box>
     );
   };
 

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import type { NextPage } from 'next';
 
 import Image from 'next/image';
@@ -10,12 +10,17 @@ const Empty: NextPage = (props: any) => {
   return (
     <Box sx={{ py: 8 }}>
       <Container>
-        <Grid container alignItems="center" spacing={4}>
-          <Grid
-            item
-            xs={12}
-            sm={6}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            gap: 4,
+          }}
+        >
+          <Box
             sx={{
+              flex: 1,
               order: { xs: 2, sm: 1 },
             }}
           >
@@ -36,12 +41,10 @@ const Empty: NextPage = (props: any) => {
             >
               <FormattedMessage id="error.404" defaultMessage="Error 404" />
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
+          </Box>
+          <Box
             sx={{
+              flex: 1,
               order: { xs: 1, sm: 2 },
             }}
           >
@@ -52,8 +55,8 @@ const Empty: NextPage = (props: any) => {
                 width: '100%',
               }}
             />
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

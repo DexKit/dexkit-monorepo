@@ -2,11 +2,11 @@ import { ChainId } from '@/modules/common/constants/enums';
 import { TokenBalance } from '@/modules/common/types/transactions';
 import {
   Avatar,
-  ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemSecondaryAction,
   ListItemText,
-  Typography,
+  Typography
 } from '@mui/material';
 import { ethers } from 'ethers';
 import { TOKEN_ICON_URL } from '../../utils/token';
@@ -19,7 +19,7 @@ interface Props {
 
 function SelectTokenDialogListItem({ tokenBalance, onSelect, chainId }: Props) {
   return (
-    <ListItem button onClick={() => onSelect(tokenBalance)}>
+    <ListItemButton onClick={() => onSelect(tokenBalance)}>
       <ListItemAvatar>
         {tokenBalance.token.logoURI ? (
           <Avatar src={tokenBalance.token.logoURI} />
@@ -46,7 +46,7 @@ function SelectTokenDialogListItem({ tokenBalance, onSelect, chainId }: Props) {
           {tokenBalance.token.symbol.toUpperCase()}
         </Typography>
       </ListItemSecondaryAction>
-    </ListItem>
+    </ListItemButton>
   );
 }
 

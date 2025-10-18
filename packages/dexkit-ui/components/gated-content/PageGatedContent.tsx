@@ -65,16 +65,16 @@ export default function PageGatedContent({
       )}
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageGatedConditionsHeader
-              onClone={() => {}}
-              onEditTitle={() => {}}
+              onClone={() => { }}
+              onEditTitle={() => { }}
               onPreview={handlePreview}
               page={page}
               onClose={onClose}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" fontWeight="bold">
               <FormattedMessage
                 id="gated.conditions"
@@ -82,10 +82,10 @@ export default function PageGatedContent({
               />
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TabContext value={tab}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormGroup>
                     <FormControlLabel
                       control={
@@ -114,7 +114,7 @@ export default function PageGatedContent({
                   </FormGroup>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Tabs value={tab} onChange={(e, value) => setTab(value)}>
                     <Tab
                       value="conditions"
@@ -133,7 +133,7 @@ export default function PageGatedContent({
                     />
                   </Tabs>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TabPanel sx={{ p: 0, m: 0 }} value="conditions">
                     <PageGatedConditionsTab
                       onSaveGatedConditions={onSaveGatedConditions}

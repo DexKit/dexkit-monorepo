@@ -94,11 +94,11 @@ export default function ExchangeStepper({ config, onSave, onChange, onHasChanges
   }, [config?.theme, config?.font, customThemeDark, customThemeLight]);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep: any) => prevActiveStep - 1);
   };
 
   const handleReset = () => {

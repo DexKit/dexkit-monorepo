@@ -37,7 +37,7 @@ export function SearchTokenAutocomplete(props: Props) {
 
   const assets = useMemo(() => {
     return (
-      tokensQuery.tokens?.map((value) => {
+      tokensQuery.tokens?.map((value: any) => {
         return {
           name: (value.name as string) || '',
           address: value.address.toLowerCase(),
@@ -56,7 +56,7 @@ export function SearchTokenAutocomplete(props: Props) {
   const formValue = useMemo(() => {
     if (assets && data) {
       return assets.find(
-        (a) =>
+        (a: any) =>
           isAddressEqual(a.address, data?.address) &&
           data?.chainId === a.chainId,
       );
@@ -114,7 +114,7 @@ export function SearchTokenAutocomplete(props: Props) {
           <TextField
             {...params}
             label={label || 'Search Token'}
-            onChange={(ev) => setSearch(ev.currentTarget.value)}
+            onChange={(ev: any) => setSearch(ev.currentTarget.value)}
             size={size}
             inputProps={{
               ...params.inputProps,

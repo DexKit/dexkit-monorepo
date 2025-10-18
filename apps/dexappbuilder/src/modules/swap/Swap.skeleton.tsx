@@ -62,9 +62,9 @@ export function SwapSkeleton() {
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <Button
                     size="large"
                     variant="outlined"
@@ -76,23 +76,23 @@ export function SwapSkeleton() {
                     </Skeleton>
                   </Button>
                 </Grid>
-                <Grid item xs>
+                <Grid size="grow">
                   <Skeleton>
                     <TextField autoComplete="off" fullWidth size="small" />
                   </Skeleton>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box display="flex" justifyContent="center">
                 <IconButton size="small">
                   <ArrowDownwardRoundedIcon fontSize="small" />
                 </IconButton>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <Button
                     variant="outlined"
                     size="large"
@@ -104,7 +104,7 @@ export function SwapSkeleton() {
                     </Skeleton>
                   </Button>
                 </Grid>
-                <Grid item xs>
+                <Grid size="grow">
                   <Skeleton>
                     <TextField size="small" autoComplete="off" fullWidth />
                   </Skeleton>

@@ -66,7 +66,7 @@ export function SearchNFT(props: Props) {
           <TextField
             {...params}
             label={textSearch || "Search a NFT"}
-            onChange={(ev) => setSearch(ev.currentTarget.value)}
+            onChange={(ev: any) => setSearch(ev.currentTarget.value)}
             inputProps={{
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill

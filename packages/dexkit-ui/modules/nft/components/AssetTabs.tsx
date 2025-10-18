@@ -1,17 +1,12 @@
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import {
-  Button,
   Grid,
   NoSsr,
-  Paper,
-  Stack,
   Tab,
-  Tabs,
-  Typography,
+  Tabs
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { Suspense, useCallback, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { FormattedMessage } from "react-intl";
 
 import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
@@ -61,12 +56,10 @@ const ConfirmBuyDialog = dynamic(() => import("./dialogs/ConfirmBuyDialog"));
 
 const ListingsTable = dynamic(() => import("./tables/ListingsTable"), {
   ssr: false,
-  suspense: true,
 });
 
 const OffersTable = dynamic(() => import("./tables/OffersTable"), {
   ssr: false,
-  suspense: true,
 });
 
 enum AssetTabsOptions {
@@ -618,8 +611,19 @@ export function AssetTabs({ address, id }: Props) {
         url={shareUrl}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Tabs value={selectedTab} onChange={handleChangeTab}>
+        <Grid size={12}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChangeTab}
+            sx={{
+              '& .MuiTab-root': {
+                color: 'text.primary',
+                '&.Mui-selected': {
+                  color: 'primary.main',
+                },
+              },
+            }}
+          >
             <Tab
               value={AssetTabsOptions.Listings}
               label={
@@ -632,36 +636,11 @@ export function AssetTabs({ address, id }: Props) {
             />
           </Tabs>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {selectedTab === AssetTabsOptions.Listings ? (
             <QueryErrorResetBoundary>
               {({ reset }) => (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallbackRender={({ resetErrorBoundary, error }) => (
-                    <Paper sx={{ p: 1 }}>
-                      <Stack justifyContent="center" alignItems="center">
-                        <Typography variant="h6">
-                          <FormattedMessage
-                            id="something.went.wrong"
-                            defaultMessage="Oops, something went wrong"
-                            description="Something went wrong error message"
-                          />
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          {String(error)}
-                        </Typography>
-                        <Button color="primary" onClick={resetErrorBoundary}>
-                          <FormattedMessage
-                            id="try.again"
-                            defaultMessage="Try again"
-                            description="Try again"
-                          />
-                        </Button>
-                      </Stack>
-                    </Paper>
-                  )}
-                >
+                <div>
                   <Suspense fallback={<TableSkeleton rows={4} />}>
                     <ListingsTable
                       address={address}
@@ -671,38 +650,13 @@ export function AssetTabs({ address, id }: Props) {
                       onShare={handleShareOrder}
                     />
                   </Suspense>
-                </ErrorBoundary>
+                </div>
               )}
             </QueryErrorResetBoundary>
           ) : (
             <QueryErrorResetBoundary>
               {({ reset }) => (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallbackRender={({ resetErrorBoundary, error }) => (
-                    <Paper sx={{ p: 1 }}>
-                      <Stack justifyContent="center" alignItems="center">
-                        <Typography variant="h6">
-                          <FormattedMessage
-                            id="something.went.wrong"
-                            defaultMessage="Oops, something went wrong"
-                            description="Something went wrong error message"
-                          />
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          {String(error)}
-                        </Typography>
-                        <Button color="primary" onClick={resetErrorBoundary}>
-                          <FormattedMessage
-                            id="try.again"
-                            defaultMessage="Try again"
-                            description="Try again"
-                          />
-                        </Button>
-                      </Stack>
-                    </Paper>
-                  )}
-                >
+                <div>
                   <Suspense fallback={<TableSkeleton rows={4} />}>
                     <OffersTable
                       address={address}
@@ -712,7 +666,7 @@ export function AssetTabs({ address, id }: Props) {
                       onShare={handleShareOrder}
                     />
                   </Suspense>
-                </ErrorBoundary>
+                </div>
               )}
             </QueryErrorResetBoundary>
           )}

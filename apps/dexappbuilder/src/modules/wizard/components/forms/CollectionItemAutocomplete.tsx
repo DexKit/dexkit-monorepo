@@ -38,8 +38,8 @@ export function CollectionItemAutocomplete(props: Props) {
   const collections = useMemo(() => {
     return chainId
       ? wizardConfig.collections
-          ?.filter((c) => c.chainId === chainId)
-          .map((value) => {
+          ?.filter((c: any) => c.chainId === chainId)
+          .map((value: any) => {
             return {
               name: value.name,
               contractAddress: value.contractAddress,
@@ -49,7 +49,7 @@ export function CollectionItemAutocomplete(props: Props) {
               image: value.image,
             };
           }) || []
-      : wizardConfig.collections?.map((value) => {
+      : wizardConfig.collections?.map((value: any) => {
           return {
             name: value.name,
             contractAddress: value.contractAddress,
@@ -63,7 +63,7 @@ export function CollectionItemAutocomplete(props: Props) {
 
   const defaultValue = useMemo(() => {
     const collection = collections.find(
-      (c) =>
+      (c: any) =>
         c.chainId === value.chainId &&
         isAddressEqual(value.contractAddress, c.contractAddress),
     );

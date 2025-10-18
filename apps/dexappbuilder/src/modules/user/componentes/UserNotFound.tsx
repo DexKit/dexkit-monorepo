@@ -15,13 +15,13 @@ const UserNotFound: NextPage = (props: any) => {
       <Container>
         <Grid container alignItems="center" spacing={4}>
           <Grid
-            item
-            xs={12}
-            sm={6}
             sx={{
               order: { xs: 2, sm: 1 },
             }}
-          >
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Typography
               sx={{ textAlign: { sm: 'left', xs: 'center' } }}
               variant="body1"
@@ -64,13 +64,13 @@ const UserNotFound: NextPage = (props: any) => {
             </Box>
           </Grid>
           <Grid
-            item
-            xs={12}
-            sm={6}
             sx={{
               order: { xs: 1, sm: 2 },
             }}
-          >
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Image src={catHeroImg} alt="Cat Hero" />
           </Grid>
         </Grid>

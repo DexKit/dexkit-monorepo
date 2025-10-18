@@ -6,10 +6,12 @@ import {
   Button,
   Card,
   CircularProgress,
-  Grid,
   Skeleton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { BigNumber, ethers } from 'ethers';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -61,6 +63,8 @@ export function GameOverviewCard({
   isEnding,
   onEnd,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { data: game, isLoading } = useCoinLeagueGameOnChainQuery({
     id,
     provider,
@@ -113,17 +117,15 @@ export function GameOverviewCard({
             justifyContent: 'space-between',
             flexDirection: { sm: 'row', xs: 'column' },
             alignItems: { sm: 'center' },
-            alignContent: 'center',
           }}
         >
           <Box>
             <Grid
-              spacing={1}
+              spacing={isMobile ? 2 : 1}
               container
               alignItems="center"
-              alignContent="center"
             >
-              {/* <Grid item>
+              {/* <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="id" defaultMessage="ID" />
                 </Typography>
@@ -131,7 +133,7 @@ export function GameOverviewCard({
                   {isLoading ? <Skeleton /> : game?.id}
                 </Typography>
               </Grid>*/}
-              <Grid item>
+              <Grid size={{ xs: 6, sm: 2 }}>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage
                     id="game.level"
@@ -151,7 +153,7 @@ export function GameOverviewCard({
                   )}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid size={{ xs: 6, sm: 2 }}>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="duration" defaultMessage="Duration" />
                 </Typography>
@@ -159,7 +161,7 @@ export function GameOverviewCard({
                   {isLoading ? <Skeleton /> : GET_LABEL_FROM_DURATION(duration)}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="entry" defaultMessage="Entry" />
                 </Typography>
@@ -173,7 +175,7 @@ export function GameOverviewCard({
                   )}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="type" defaultMessage="Type" />
                 </Typography>
@@ -187,7 +189,7 @@ export function GameOverviewCard({
                   )}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="coins" defaultMessage="Coins" />
                 </Typography>
@@ -195,7 +197,7 @@ export function GameOverviewCard({
                   {isLoading ? <Skeleton /> : strPad(coins)}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="players" defaultMessage="Players" />
                 </Typography>
@@ -210,7 +212,7 @@ export function GameOverviewCard({
                 </Typography>
               </Grid>
 
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" color="textSecondary">
                   <FormattedMessage id="max.prize" defaultMessage="Max prize" />
                 </Typography>
@@ -225,7 +227,7 @@ export function GameOverviewCard({
                 </Typography>
               </Grid>
               {game && getGameStatus(game) === GAME_WAITING && (
-                <Grid item>
+                <Grid>
                   <Typography variant="caption" color="textSecondary">
                     <FormattedMessage
                       id="starts.at"
@@ -240,8 +242,8 @@ export function GameOverviewCard({
               {game &&
                 getGameStatus(game) === GAME_STARTED &&
                 new Date().getTime() / 1000 <
-                  game.start_timestamp + game.duration && (
-                  <Grid item>
+                game.start_timestamp + game.duration && (
+                  <Grid>
                     <Typography variant="caption" color="textSecondary">
                       <FormattedMessage id="Ends in" defaultMessage="Ends in" />
                     </Typography>
@@ -254,7 +256,7 @@ export function GameOverviewCard({
                     </Typography>
                   </Grid>
                 )}
-              <Grid item>
+              <Grid>
                 <Button
                   sx={{ ml: 4 }}
                   variant="contained"
@@ -333,3 +335,5 @@ export function GameOverviewCard({
     </Card>
   );
 }
+
+

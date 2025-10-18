@@ -1,12 +1,12 @@
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import {
   Container,
-  Grid,
   Stack,
   Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { FormattedMessage } from 'react-intl';
 import { UserAirdrop } from '../UserAirdrop';
 
@@ -17,11 +17,10 @@ export function UserAirdropContainer() {
     <>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader
@@ -48,7 +47,7 @@ export function UserAirdropContainer() {
           </Grid>
 
           {!isMobile && (
-            <Grid item xs={12} sm={12}>
+            <Grid size={12}>
               <Stack direction={'row'} justifyContent={'space-between'}>
                 <Typography variant="h5">
                   <FormattedMessage
@@ -60,7 +59,7 @@ export function UserAirdropContainer() {
             </Grid>
           )}
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <UserAirdrop />
           </Grid>
         </Grid>
@@ -68,3 +67,5 @@ export function UserAirdropContainer() {
     </>
   );
 }
+
+

@@ -16,7 +16,11 @@ export default function CollectionItemAttributeForm({
   return (
     <Box>
       <Grid container spacing={2} alignItems="center" alignContent="center">
-        <Grid item xs={12} sm={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 3
+          }}>
           <FormControl fullWidth>
             <Field
               component={Select}
@@ -46,7 +50,11 @@ export default function CollectionItemAttributeForm({
             </Field>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 3
+          }}>
           <Field
             component={TextField}
             name={`${itemSelector}attributes[${index}].trait_type`}
@@ -54,7 +62,7 @@ export default function CollectionItemAttributeForm({
             fullWidth
           />
         </Grid>
-        <Grid item xs>
+        <Grid size="grow">
           <Field
             component={TextField}
             name={`${itemSelector}attributes[${index}].value`}
@@ -62,10 +70,10 @@ export default function CollectionItemAttributeForm({
             fullWidth
           />
         </Grid>
-        <Grid item>
+        <Grid>
           <FieldArray
             name={`${itemSelector}attributes`}
-            render={(arrayHelper) => (
+            render={(arrayHelper: any) => (
               <Button size={'large'} onClick={() => arrayHelper.remove(index)}>
                 <Delete />
               </Button>

@@ -180,7 +180,7 @@ export default function PagesSection({
           onHideMobile={onHideMobile}
           onClone={onClone}
           onSwap={onSwap}
-          theme={theme}
+          theme={theme as any}
           site={site}
           previewUrl={previewUrl}
           activeSection={activeSection}

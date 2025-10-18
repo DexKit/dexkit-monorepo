@@ -39,7 +39,7 @@ export default function useCheckoutPay() {
         params.senderEmail = senderEmail;
       }
 
-      return (await instance.post(/*<Order>*/ `/checkouts/${id}/pay`, params))
+      return (await (instance as any).post(/*<Order>*/ `/checkouts/${id}/pay`, params))
         .data;
     },
   );

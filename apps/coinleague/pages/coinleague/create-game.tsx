@@ -92,7 +92,6 @@ const CreateGame: NextPage = () => {
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
           >
             <AppPageHeader
@@ -125,14 +124,12 @@ const CreateGame: NextPage = () => {
                 spacing={2}
                 justifyContent="space-between"
                 alignItems="center"
-                alignContent="center"
               >
                 <Stack
                   direction="row"
                   spacing={2}
                   justifyContent="space-between"
                   alignItems="center"
-                  alignContent="center"
                 >
                   <Avatar
                     sx={(theme) => ({

@@ -7,9 +7,9 @@ import { GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import MainLayout from 'src/components/layouts/main';
 import { getAppConfig } from 'src/services/app';
 
-const User: NextPage<{ username: string }> = ({ username }) => {
+const User: NextPage<{ username: string }> = ({ username }: { username: string }) => {
   return (
-    <MainLayout disablePadding>
+    <MainLayout disablePadding isPreview={false}>
       <Box py={4}>
         <UserContainer username={username} />
       </Box>

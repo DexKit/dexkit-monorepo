@@ -1,7 +1,5 @@
 import { AppConfig, MenuTree } from '@dexkit/ui/modules/wizard/types/config';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -86,13 +84,13 @@ function PagesMenuContainer({ config, onSave, onChange, onHasChanges }: Props) {
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <MenuSection menu={menu} onSetMenu={setMenu} pages={config.pages} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"
@@ -198,7 +196,7 @@ function NavbarSearchContainer({
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormGroup>
           <FormControlLabel
             control={
@@ -246,10 +244,10 @@ function NavbarSearchContainer({
           />
         </FormGroup>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={1} direction="row" justifyContent="flex-end">
           <Button
             variant="contained"
@@ -357,7 +355,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -370,7 +368,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -438,7 +436,6 @@ function BackgroundImageSelector({
           defaultMessage="Background Image"
         />
       </Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2), flexWrap: 'wrap' }}>
         <ButtonBase
           onClick={() => setShowMediaDialog(true)}
@@ -499,11 +496,14 @@ function BackgroundImageSelector({
           </Button>
         )}
       </Box>
-
       {value && (
         <Box sx={{ mt: theme.spacing(3), display: 'flex', flexDirection: 'column', gap: theme.spacing(2) }}>
           <Grid container spacing={theme.spacing(2)}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -544,7 +544,11 @@ function BackgroundImageSelector({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -605,7 +609,6 @@ function BackgroundImageSelector({
           </Grid>
         </Box>
       )}
-
       <MediaDialog
         dialogProps={{
           open: showMediaDialog,
@@ -661,7 +664,11 @@ function NavbarGlassSettingsPanel({
       {values.layout?.glassSettings?.backgroundType === 'gradient' && (
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <ColorPickerField
                 label="Gradient Start Color"
                 value={values.layout?.glassSettings?.gradientStartColor || '#ffffff'}
@@ -669,7 +676,11 @@ function NavbarGlassSettingsPanel({
                 defaultValue="#ffffff"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <ColorPickerField
                 label="Gradient End Color"
                 value={values.layout?.glassSettings?.gradientEndColor || '#000000'}
@@ -744,7 +755,11 @@ function NavbarGlassSettingsPanel({
       )}
       <Box sx={{ mt: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <ColorPickerField
               label="Text Color"
               value={values.layout?.glassSettings?.textColor || theme.palette.text.primary}
@@ -752,7 +767,11 @@ function NavbarGlassSettingsPanel({
               defaultValue={theme.palette.text.primary}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <ColorPickerField
               label="Icon Color"
               value={values.layout?.glassSettings?.iconColor || theme.palette.text.primary}
@@ -767,7 +786,11 @@ function NavbarGlassSettingsPanel({
         </Typography>
 
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <FormControl fullWidth size="small">
               <InputLabel>
                 <FormattedMessage id="glass.logo.position" defaultMessage="Logo Position" />
@@ -796,7 +819,11 @@ function NavbarGlassSettingsPanel({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <FormControl fullWidth size="small">
               <InputLabel>
                 <FormattedMessage id="glass.menu.position" defaultMessage="Menu Position" />
@@ -825,7 +852,11 @@ function NavbarGlassSettingsPanel({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <FormControl fullWidth size="small">
               <InputLabel>
                 <FormattedMessage id="glass.actions.position" defaultMessage="Actions Position" />
@@ -854,7 +885,11 @@ function NavbarGlassSettingsPanel({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <FormControl fullWidth size="small">
               <InputLabel>
                 <FormattedMessage id="glass.logo.size" defaultMessage="Logo Size" />
@@ -881,14 +916,18 @@ function NavbarGlassSettingsPanel({
           </Grid>
 
           {values.layout?.glassSettings?.logoSize === 'custom' && (
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <TextField
                   label="Width (px)"
                   type="number"
                   size="small"
                   value={values.layout?.glassSettings?.customLogoWidth || 32}
-                  onChange={(e) => setFieldValue('layout.glassSettings.customLogoWidth', parseInt(e.target.value) || 32)}
+                  onChange={(e: any) => setFieldValue('layout.glassSettings.customLogoWidth', parseInt(e.target.value) || 32)}
                   inputProps={{ min: 16, max: 200 }}
                 />
                 <TextField
@@ -896,7 +935,7 @@ function NavbarGlassSettingsPanel({
                   type="number"
                   size="small"
                   value={values.layout?.glassSettings?.customLogoHeight || 32}
-                  onChange={(e) => setFieldValue('layout.glassSettings.customLogoHeight', parseInt(e.target.value) || 32)}
+                  onChange={(e: any) => setFieldValue('layout.glassSettings.customLogoHeight', parseInt(e.target.value) || 32)}
                   inputProps={{ min: 16, max: 200 }}
                 />
               </Box>
@@ -909,7 +948,11 @@ function NavbarGlassSettingsPanel({
         </Typography>
 
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <Box sx={{ px: 1 }}>
               <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
                 <FormattedMessage
@@ -947,7 +990,11 @@ function NavbarGlassSettingsPanel({
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <Box sx={{ px: 1 }}>
               <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
                 <FormattedMessage
@@ -985,7 +1032,11 @@ function NavbarGlassSettingsPanel({
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <Box sx={{ px: 1 }}>
               <Typography variant="body2" gutterBottom sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
                 <FormattedMessage
@@ -1030,7 +1081,7 @@ function NavbarGlassSettingsPanel({
             control={
               <Switch
                 checked={values.layout?.glassSettings?.disableBackground || false}
-                onChange={(e) => setFieldValue('layout.glassSettings.disableBackground', e.target.checked)}
+                onChange={(e: any) => setFieldValue('layout.glassSettings.disableBackground', e.target.checked)}
               />
             }
             label={
@@ -1128,37 +1179,46 @@ function BottomBarSettingsPanel({
 
   return (
     <Grid container spacing={isMobile ? 2 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="bottom.bar.settings" defaultMessage="Bottom Bar Settings" />
         </Typography>
       </Grid>
-
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={values.layout?.bottomBarSettings?.showText ?? true}
-              onChange={(e) => setFieldValue('layout.bottomBarSettings.showText', e.target.checked)}
+              onChange={(e: any) => setFieldValue('layout.bottomBarSettings.showText', e.target.checked)}
             />
           }
           label={<FormattedMessage id="show.text.labels" defaultMessage="Show Text Labels" />}
         />
       </Grid>
-
-      <Grid item xs={12} sm={6}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6
+        }}>
         <FormControlLabel
           control={
             <Switch
               checked={values.layout?.bottomBarSettings?.showBorder ?? true}
-              onChange={(e) => setFieldValue('layout.bottomBarSettings.showBorder', e.target.checked)}
+              onChange={(e: any) => setFieldValue('layout.bottomBarSettings.showBorder', e.target.checked)}
             />
           }
           label={<FormattedMessage id="show.border" defaultMessage="Show Border" />}
         />
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <FormControl fullWidth>
           <Field
             fullWidth
@@ -1178,8 +1238,11 @@ function BottomBarSettingsPanel({
           </Field>
         </FormControl>
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <Field
           component={FormikTextField}
           name="layout.bottomBarSettings.fontSize"
@@ -1189,8 +1252,11 @@ function BottomBarSettingsPanel({
           fullWidth
         />
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <Field
           component={FormikTextField}
           name="layout.bottomBarSettings.elevation"
@@ -1200,8 +1266,11 @@ function BottomBarSettingsPanel({
           fullWidth
         />
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <ColorPickerField
           label="Background Color"
           value={values.layout?.bottomBarSettings?.backgroundColor || theme.palette.background.paper}
@@ -1209,8 +1278,11 @@ function BottomBarSettingsPanel({
           defaultValue={theme.palette.background.paper}
         />
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <ColorPickerField
           label="Text Color"
           value={values.layout?.bottomBarSettings?.textColor || theme.palette.text.primary}
@@ -1218,8 +1290,11 @@ function BottomBarSettingsPanel({
           defaultValue={theme.palette.text.primary}
         />
       </Grid>
-
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4
+        }}>
         <ColorPickerField
           label="Active Color"
           value={values.layout?.bottomBarSettings?.activeColor || theme.palette.primary.main}
@@ -1227,9 +1302,12 @@ function BottomBarSettingsPanel({
           defaultValue={theme.palette.primary.main}
         />
       </Grid>
-
       {values.layout?.bottomBarSettings?.showBorder && (
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4
+          }}>
           <ColorPickerField
             label="Border Color"
             value={values.layout?.bottomBarSettings?.borderColor || theme.palette.divider}
@@ -1255,18 +1333,17 @@ function MiniSidebarSettingsPanel({
 
   return (
     <Grid container spacing={isMobile ? 2 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="mini.sidebar.settings" defaultMessage="Mini Sidebar Settings" />
         </Typography>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControlLabel
           control={
             <Switch
               checked={values.layout?.miniSidebarSettings?.startExpanded ?? false}
-              onChange={(e) => setFieldValue('layout.miniSidebarSettings.startExpanded', e.target.checked)}
+              onChange={(e: any) => setFieldValue('layout.miniSidebarSettings.startExpanded', e.target.checked)}
             />
           }
           label={<FormattedMessage id="start.expanded" defaultMessage="Start Expanded" />}
@@ -1295,13 +1372,12 @@ function CustomNavbarSettingsPanel({
 
   return (
     <Grid container spacing={isMobile ? 2 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           <FormattedMessage id="custom.navbar.settings" defaultMessage="Custom Navbar Settings" />
         </Typography>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1310,7 +1386,7 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <RadioGroup
                   value={values.layout?.customSettings?.backgroundType || 'solid'}
                   onChange={(e) => {
@@ -1329,7 +1405,7 @@ function CustomNavbarSettingsPanel({
               </Grid>
 
               {values.layout?.customSettings?.backgroundType === 'solid' && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <ColorPickerField
                     label="Background Color"
                     value={values.layout?.customSettings?.backgroundColor || theme.palette.background.default}
@@ -1341,7 +1417,7 @@ function CustomNavbarSettingsPanel({
 
               {values.layout?.customSettings?.backgroundType === 'gradient' && (
                 <>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <ColorPickerField
                       label="Start Color"
                       value={values.layout?.customSettings?.gradientStartColor || '#ff0000'}
@@ -1349,7 +1425,7 @@ function CustomNavbarSettingsPanel({
                       defaultValue="#ff0000"
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <ColorPickerField
                       label="End Color"
                       value={values.layout?.customSettings?.gradientEndColor || '#0000ff'}
@@ -1357,7 +1433,7 @@ function CustomNavbarSettingsPanel({
                       defaultValue="#0000ff"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <InputLabel id="gradient-direction-label">Gradient Direction</InputLabel>
                       <Select
@@ -1382,7 +1458,7 @@ function CustomNavbarSettingsPanel({
               )}
 
               {values.layout?.customSettings?.backgroundType === 'image' && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <BackgroundImageSelector
                     value={values.layout?.customSettings?.backgroundImage}
                     onChange={(url) => setFieldValue('layout.customSettings.backgroundImage', url)}
@@ -1397,8 +1473,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1407,7 +1482,7 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <FormControl fullWidth>
                   <InputLabel id="logo-position-label">Logo Position</InputLabel>
                   <Select
@@ -1425,7 +1500,7 @@ function CustomNavbarSettingsPanel({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <FormControl fullWidth>
                   <InputLabel id="menu-position-label">Menu Position</InputLabel>
                   <Select
@@ -1443,7 +1518,7 @@ function CustomNavbarSettingsPanel({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <FormControl fullWidth>
                   <InputLabel id="actions-position-label">Actions Position</InputLabel>
                   <Select
@@ -1465,8 +1540,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1475,18 +1549,18 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.layout?.customSettings?.showLogo !== false}
-                      onChange={(e) => setFieldValue('layout.customSettings.showLogo', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.showLogo', e.target.checked)}
                     />
                   }
                   label="Show Logo"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <FormControl fullWidth>
                   <InputLabel>Logo Size</InputLabel>
                   <Select
@@ -1503,22 +1577,22 @@ function CustomNavbarSettingsPanel({
               </Grid>
               {values.layout?.customSettings?.logoSize === 'custom' && (
                 <>
-                  <Grid item xs={3}>
+                  <Grid size={3}>
                     <TextField
                       fullWidth
                       label="Width (px)"
                       type="number"
                       value={values.layout?.customSettings?.customLogoWidth || 48}
-                      onChange={(e) => setFieldValue('layout.customSettings.customLogoWidth', parseInt(e.target.value))}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.customLogoWidth', parseInt(e.target.value))}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid size={3}>
                     <TextField
                       fullWidth
                       label="Height (px)"
                       type="number"
                       value={values.layout?.customSettings?.customLogoHeight || 48}
-                      onChange={(e) => setFieldValue('layout.customSettings.customLogoHeight', parseInt(e.target.value))}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.customLogoHeight', parseInt(e.target.value))}
                     />
                   </Grid>
                 </>
@@ -1527,8 +1601,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1537,7 +1610,7 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <ColorPickerField
                   label="Text Color"
                   value={values.layout?.customSettings?.textColor || theme.palette.text.primary}
@@ -1545,7 +1618,7 @@ function CustomNavbarSettingsPanel({
                   defaultValue={theme.palette.text.primary}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <ColorPickerField
                   label="Menu Hover Color"
                   value={values.layout?.customSettings?.menuHoverColor || theme.palette.primary.main}
@@ -1553,7 +1626,7 @@ function CustomNavbarSettingsPanel({
                   defaultValue={theme.palette.primary.main}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <ColorPickerField
                   label="Icon Color"
                   value={values.layout?.customSettings?.iconColor || theme.palette.text.primary}
@@ -1561,7 +1634,7 @@ function CustomNavbarSettingsPanel({
                   defaultValue={theme.palette.text.primary}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <ColorPickerField
                   label="Icon Hover Color"
                   value={values.layout?.customSettings?.iconHoverColor || theme.palette.primary.main}
@@ -1573,8 +1646,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1583,39 +1655,38 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   label="Height (px)"
                   type="number"
                   value={values.layout?.customSettings?.height || 64}
-                  onChange={(e) => setFieldValue('layout.customSettings.height', parseInt(e.target.value))}
+                  onChange={(e: any) => setFieldValue('layout.customSettings.height', parseInt(e.target.value))}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   label="Padding"
                   type="number"
                   value={values.layout?.customSettings?.padding || 8}
-                  onChange={(e) => setFieldValue('layout.customSettings.padding', parseInt(e.target.value))}
+                  onChange={(e: any) => setFieldValue('layout.customSettings.padding', parseInt(e.target.value))}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   label="Menu Spacing"
                   type="number"
                   value={values.layout?.customSettings?.menuSpacing || 16}
-                  onChange={(e) => setFieldValue('layout.customSettings.menuSpacing', parseInt(e.target.value))}
+                  onChange={(e: any) => setFieldValue('layout.customSettings.menuSpacing', parseInt(e.target.value))}
                 />
               </Grid>
             </Grid>
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1624,7 +1695,7 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={3}>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <Typography gutterBottom sx={{ mb: 2 }}>Opacity</Typography>
                 <Slider
                   value={1 - (values.layout?.customSettings?.opacity || 0)}
@@ -1642,7 +1713,7 @@ function CustomNavbarSettingsPanel({
                   sx={{ mb: 2 }}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <Typography gutterBottom sx={{ mb: 2 }}>Border Radius</Typography>
                 <Slider
                   value={values.layout?.customSettings?.borderRadius || 0}
@@ -1661,7 +1732,7 @@ function CustomNavbarSettingsPanel({
                   sx={{ mb: 2 }}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <Typography gutterBottom sx={{ mb: 2 }}>Background Blur</Typography>
                 <Slider
                   value={values.layout?.customSettings?.blurIntensity || 0}
@@ -1684,8 +1755,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -1694,34 +1764,34 @@ function CustomNavbarSettingsPanel({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.layout?.customSettings?.showShadow || false}
-                      onChange={(e) => setFieldValue('layout.customSettings.showShadow', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.showShadow', e.target.checked)}
                     />
                   }
                   label="Show Shadow"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.layout?.customSettings?.showBorder || false}
-                      onChange={(e) => setFieldValue('layout.customSettings.showBorder', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.showBorder', e.target.checked)}
                     />
                   }
                   label="Show Border"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControlLabel
                   control={
                     <Switch
                       checked={values.layout?.customSettings?.showIcons !== false}
-                      onChange={(e) => setFieldValue('layout.customSettings.showIcons', e.target.checked)}
+                      onChange={(e: any) => setFieldValue('layout.customSettings.showIcons', e.target.checked)}
                     />
                   }
                   label="Show Icons"
@@ -1731,8 +1801,7 @@ function CustomNavbarSettingsPanel({
           </AccordionDetails>
         </Accordion>
       </Grid>
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
@@ -1938,7 +2007,7 @@ export function NavbarLayoutContainer({
       }}
       validationSchema={toFormikValidationSchema(formSchema)}
     >
-      {({ submitForm, values, isValid, isSubmitting, setFieldValue }) => {
+      {({ submitForm, values, isValid, isSubmitting, setFieldValue }: any) => {
         const positionConflicts = values.layout?.variant === 'glass'
           ? getPositionConflicts(values.layout?.glassSettings)
           : [];
@@ -1947,7 +2016,7 @@ export function NavbarLayoutContainer({
         return (
           <Grid container spacing={isMobile ? 1.5 : 3}>
             {values.layout?.variant === 'glass' && hasPositionConflicts && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="warning" sx={{ mb: 2 }}>
                   <Typography variant="body2" gutterBottom>
                     <FormattedMessage
@@ -1971,7 +2040,11 @@ export function NavbarLayoutContainer({
                 </Alert>
               </Grid>
             )}
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <Field
                   component={FormikSelect}
@@ -1990,7 +2063,11 @@ export function NavbarLayoutContainer({
                 </Field>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <Field
                   fullWidth
@@ -2041,35 +2118,32 @@ export function NavbarLayoutContainer({
                 </Field>
               </FormControl>
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
             {values.layout?.type === 'navbar' && values.layout?.variant === 'glass' && (
               <>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <NavbarGlassSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
                 </Grid>
               </>
             )}
             {values.layout?.type === 'navbar' && values.layout?.variant === 'bottom' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <BottomBarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
               </Grid>
             )}
             {values.layout?.type === 'sidebar' && values.layout?.variant === 'mini' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <MiniSidebarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
               </Grid>
             )}
             {values.layout?.type === 'navbar' && values.layout?.variant === 'custom' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <CustomNavbarSettingsPanel values={values} setFieldValue={setFieldValue} theme={theme} />
               </Grid>
             )}
-
-
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack direction="row" justifyContent="flex-end">
                   <Button
@@ -2106,7 +2180,7 @@ export default function NavbarWizardContainer(props: Props) {
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
           <Typography
             variant={isMobile ? 'h6' : 'h5'}
@@ -2132,10 +2206,10 @@ export default function NavbarWizardContainer(props: Props) {
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">

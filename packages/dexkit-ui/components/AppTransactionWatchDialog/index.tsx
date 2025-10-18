@@ -91,7 +91,7 @@ export default function AppTransactionWatchDialog({
       <DialogContent sx={{ p: 0 }}>
         {transactions.length > 1 ? (
           <List disablePadding>
-            {txList.map((tx, index) => (
+            {txList.map((tx: TxDialogTransaction, index: number) => (
               <TransactionWatchItem
                 transaction={tx}
                 key={index}

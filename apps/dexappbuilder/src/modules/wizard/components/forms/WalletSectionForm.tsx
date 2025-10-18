@@ -33,6 +33,7 @@ import {
   Switch,
   TextField,
   Typography,
+  useColorScheme,
   useTheme
 } from '@mui/material';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -136,7 +137,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: any) => onChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -149,7 +150,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e: any) => onChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -225,7 +226,6 @@ function BackgroundImageSelector({
           defaultMessage="Background Image"
         />
       </Typography>
-
       <Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2), flexWrap: 'wrap' }}>
         <ButtonBase
           onClick={() => setShowMediaDialog(true)}
@@ -286,11 +286,14 @@ function BackgroundImageSelector({
           </Button>
         )}
       </Box>
-
       {value && (
         <Box sx={{ mt: theme.spacing(3), display: 'flex', flexDirection: 'column', gap: theme.spacing(2) }}>
           <Grid container spacing={theme.spacing(2)}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -300,7 +303,7 @@ function BackgroundImageSelector({
                 </InputLabel>
                 <Select
                   value={sizeValue || "cover"}
-                  onChange={(e) => onSizeChange(e.target.value as string)}
+                  onChange={(e: any) => onSizeChange(e.target.value as string)}
                   label="Image Size"
                 >
                   <MenuItem value="cover">
@@ -331,7 +334,11 @@ function BackgroundImageSelector({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -341,7 +348,7 @@ function BackgroundImageSelector({
                 </InputLabel>
                 <Select
                   value={positionValue || "center"}
-                  onChange={(e) => onPositionChange(e.target.value as string)}
+                  onChange={(e: any) => onPositionChange(e.target.value as string)}
                   label="Image Position"
                 >
                   <MenuItem value="center">
@@ -402,7 +409,11 @@ function BackgroundImageSelector({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -412,7 +423,7 @@ function BackgroundImageSelector({
                 </InputLabel>
                 <Select
                   value={repeatValue || "no-repeat"}
-                  onChange={(e) => onRepeatChange(e.target.value as string)}
+                  onChange={(e: any) => onRepeatChange(e.target.value as string)}
                   label="Image Repeat"
                 >
                   <MenuItem value="no-repeat">
@@ -443,7 +454,11 @@ function BackgroundImageSelector({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <FormControl fullWidth size="small">
                 <InputLabel>
                   <FormattedMessage
@@ -453,7 +468,7 @@ function BackgroundImageSelector({
                 </InputLabel>
                 <Select
                   value={attachmentValue || "scroll"}
-                  onChange={(e) => onAttachmentChange(e.target.value as string)}
+                  onChange={(e: any) => onAttachmentChange(e.target.value as string)}
                   label="Image Attachment"
                 >
                   <MenuItem value="scroll">
@@ -474,7 +489,6 @@ function BackgroundImageSelector({
           </Grid>
         </Box>
       )}
-
       <MediaDialog
         dialogProps={{
           open: showMediaDialog,
@@ -688,20 +702,21 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
 function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   const { values, setFieldValue } = useFormikContext<WalletSettings>();
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { formatMessage } = useIntl();
 
   const [expandedAccordions, setExpandedAccordions] = useState<string[]>(['background']);
 
   const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpandedAccordions(prev =>
+    setExpandedAccordions((prev: any) =>
       isExpanded
         ? [...prev, panel]
-        : prev.filter(item => item !== panel)
+        : prev.filter((item: any) => item !== panel)
     );
   };
 
   const getTitleColor = () => {
-    return theme.palette.mode === 'dark' ? '#ffffff' : '#000000';
+    return mode === 'dark' ? '#ffffff' : '#000000';
   };
 
   const getFormSpacing = () => theme.spacing(2);
@@ -917,12 +932,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
       <Typography variant="h6" gutterBottom>
         Wallet Variant Configuration
       </Typography>
-
       <FormControl fullWidth margin="normal">
         <InputLabel>Variant</InputLabel>
         <Select
           value={values.variant || "default"}
-          onChange={(e) => setFieldValue("variant", e.target.value)}
+          onChange={(e: any) => setFieldValue("variant", e.target.value)}
           label="Variant"
         >
           <MenuItem value="default">Default</MenuItem>
@@ -940,7 +954,6 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
           </MenuItem>
         </Select>
       </FormControl>
-
       {values.variant === "glass" && (
         <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
           <Typography variant="h6" gutterBottom>
@@ -965,7 +978,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             </Typography>
             <RadioGroup
               value={values.glassSettings?.backgroundType || "solid"}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 const newType = e.target.value as 'solid' | 'gradient' | 'image';
                 setFieldValue("glassSettings.backgroundType", newType);
 
@@ -1051,7 +1064,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   </InputLabel>
                   <Select
                     value={values.glassSettings?.gradientDirection || "to bottom"}
-                    onChange={(e) => setFieldValue("glassSettings.gradientDirection", e.target.value)}
+                    onChange={(e: any) => setFieldValue("glassSettings.gradientDirection", e.target.value)}
                     label="Gradient Direction"
                   >
                     <MenuItem value="to bottom">
@@ -1206,7 +1219,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.disableBackground || false}
-                      onChange={(e) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.disableBackground", e.target.checked)}
                     />
                   }
                   label={
@@ -1229,7 +1242,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.hideNFTs || false}
-                      onChange={(e) => setFieldValue("glassSettings.hideNFTs", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.hideNFTs", e.target.checked)}
                     />
                   }
                   label={
@@ -1252,7 +1265,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.hideActivity || false}
-                      onChange={(e) => setFieldValue("glassSettings.hideActivity", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.hideActivity", e.target.checked)}
                     />
                   }
                   label={
@@ -1275,7 +1288,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.hideSwapAction || false}
-                      onChange={(e) => setFieldValue("glassSettings.hideSwapAction", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.hideSwapAction", e.target.checked)}
                     />
                   }
                   label={
@@ -1298,7 +1311,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.hideExchangeAction || false}
-                      onChange={(e) => setFieldValue("glassSettings.hideExchangeAction", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.hideExchangeAction", e.target.checked)}
                     />
                   }
                   label={
@@ -1321,7 +1334,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   control={
                     <Switch
                       checked={values.glassSettings?.hideSendAction || false}
-                      onChange={(e) => setFieldValue("glassSettings.hideSendAction", e.target.checked)}
+                      onChange={(e: any) => setFieldValue("glassSettings.hideSendAction", e.target.checked)}
                     />
                   }
                   label={
@@ -1352,7 +1365,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     control={
                       <Switch
                         checked={values.glassSettings?.removePadding || false}
-                        onChange={(e) => setFieldValue("glassSettings.removePadding", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("glassSettings.removePadding", e.target.checked)}
                       />
                     }
                     label={
@@ -1379,52 +1392,68 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     </Typography>
                     <Grid container spacing={2}>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Top"
                           type="number"
                           size="small"
                           value={values.glassSettings?.customPadding?.top ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("glassSettings.customPadding.top", value);
                           }}
                           placeholder="24"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Bottom"
                           type="number"
                           size="small"
                           value={values.glassSettings?.customPadding?.bottom ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("glassSettings.customPadding.bottom", value);
                           }}
                           placeholder="24"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Left"
                           type="number"
                           size="small"
                           value={values.glassSettings?.customPadding?.left ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("glassSettings.customPadding.left", value);
                           }}
                           placeholder="0"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Right"
                           type="number"
                           size="small"
                           value={values.glassSettings?.customPadding?.right ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("glassSettings.customPadding.right", value);
                           }}
@@ -1484,7 +1513,6 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
           </Box>
         </Paper>
       )}
-
       {values.variant === "custom" && (
         <Paper elevation={1} sx={{ mt: 2, p: 2 }}>
           <Typography variant="h6" gutterBottom>
@@ -1516,7 +1544,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <RadioGroup
                 value={values.customSettings?.backgroundType || "solid"}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   const newType = e.target.value as 'solid' | 'gradient' | 'image';
                   setFieldValue("customSettings.backgroundType", newType);
 
@@ -1613,7 +1641,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     </InputLabel>
                     <Select
                       value={values.customSettings?.gradientDirection || "to bottom"}
-                      onChange={(e) => setFieldValue("customSettings.gradientDirection", e.target.value)}
+                      onChange={(e: any) => setFieldValue("customSettings.gradientDirection", e.target.value)}
                       label={formatMessage({
                         id: "custom.gradient.direction",
                         defaultMessage: "Gradient Direction"
@@ -1710,7 +1738,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure wallet title and balance appearance
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.wallet.title.color",
@@ -1721,7 +1753,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.balance.text.color",
@@ -1732,7 +1768,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.tokens.title.color",
@@ -1743,7 +1783,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.nfts.title.color",
@@ -1754,7 +1798,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.tokens.indicator.color",
@@ -1765,7 +1813,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.nfts.indicator.color",
@@ -1776,7 +1828,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, fontWeight: 'bold' }}>
                     <FormattedMessage
                       id="custom.nft.subtabs.colors"
@@ -1784,7 +1836,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     />
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.collected.title.color",
@@ -1795,7 +1851,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.favorites.title.color",
@@ -1806,7 +1866,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.hidden.title.color",
@@ -1817,7 +1881,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.collected.indicator.color",
@@ -1828,7 +1896,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.favorites.indicator.color",
@@ -1839,7 +1911,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.hidden.indicator.color",
@@ -1869,7 +1945,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure filter interface appearance (icons, text, and arrows)
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.filter.elements.color",
@@ -1907,7 +1987,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -1918,7 +2002,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -1929,7 +2017,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -1940,7 +2032,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -1962,7 +2058,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -1973,7 +2073,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -1984,7 +2088,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -1995,7 +2103,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -2017,7 +2129,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -2028,7 +2144,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.secondary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -2039,7 +2159,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.secondary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -2050,7 +2174,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.secondary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -2072,7 +2200,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -2083,7 +2215,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.info.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -2094,7 +2230,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.info.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -2105,7 +2245,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.info.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -2127,7 +2271,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -2138,7 +2286,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -2149,7 +2301,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -2160,7 +2316,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -2182,7 +2342,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.background.color",
@@ -2193,7 +2357,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.text.color",
@@ -2204,7 +2372,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.border.color",
@@ -2215,7 +2387,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 3
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.button.hover.color",
@@ -2246,7 +2422,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Customize the network selector button appearance
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.network.background.color",
@@ -2257,7 +2437,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.paper}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.network.text.color",
@@ -2268,7 +2452,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.network.border.color",
@@ -2298,7 +2486,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure card backgrounds, borders, shadows and overall styling
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.header.background.color",
@@ -2309,7 +2501,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.paper}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.card.border.color",
@@ -2320,7 +2516,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.divider}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <TextField
                     fullWidth
                     type="number"
@@ -2329,11 +2529,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultMessage: "Border Radius (px)"
                     })}
                     value={values.customSettings?.cardConfig?.borderRadius || 8}
-                    onChange={(e) => setFieldValue("customSettings.cardConfig.borderRadius", parseInt(e.target.value) || 8)}
+                    onChange={(e: any) => setFieldValue("customSettings.cardConfig.borderRadius", parseInt(e.target.value) || 8)}
                     inputProps={{ min: 0, max: 50 }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.card.shadow.color",
@@ -2344,7 +2548,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.common.black}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <TextField
                     fullWidth
                     type="number"
@@ -2353,7 +2561,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultMessage: "Shadow Intensity"
                     })}
                     value={values.customSettings?.cardConfig?.shadowIntensity || 0.1}
-                    onChange={(e) => setFieldValue("customSettings.cardConfig.shadowIntensity", parseFloat(e.target.value) || 0.1)}
+                    onChange={(e: any) => setFieldValue("customSettings.cardConfig.shadowIntensity", parseFloat(e.target.value) || 0.1)}
                     inputProps={{ min: 0, max: 1, step: 0.1 }}
                     helperText={formatMessage({
                       id: "custom.card.shadow.intensity.help",
@@ -2362,7 +2570,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="body2" gutterBottom sx={{ fontWeight: 'medium', mt: 2 }}>
                     <FormattedMessage
                       id="custom.table.rows.title"
@@ -2370,7 +2578,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     />
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.row.background.color",
@@ -2381,7 +2593,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.default}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.row.hover.color",
@@ -2392,7 +2608,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.row.text.color",
@@ -2403,7 +2623,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.header.text.color",
@@ -2414,7 +2638,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.table.border.color",
@@ -2475,7 +2703,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.trade.widget.primary.text.color",
@@ -2486,7 +2718,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.trade.widget.button.text.color",
@@ -2497,7 +2733,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.trade.widget.input.text.color",
@@ -2508,7 +2748,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.trade.widget.tab.text.color",
@@ -2537,7 +2781,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.fill.amount.button.active.color",
@@ -2548,7 +2796,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.fill.amount.button.inactive.color",
@@ -2559,7 +2811,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.grey[300]}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.fill.amount.button.active.text.color",
@@ -2570,7 +2826,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.fill.amount.button.inactive.text.color",
@@ -2599,7 +2859,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.token.info.bar.background.color",
@@ -2610,7 +2874,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.background.paper}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.token.info.bar.primary.text.color",
@@ -2655,7 +2923,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   NFT Text Colors
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label="NFT Title Color"
                       value={values.customSettings?.nftColors?.titleColor || theme.palette.text.primary}
@@ -2663,7 +2935,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label="Collection Name Color"
                       value={values.customSettings?.nftColors?.collectionColor || theme.palette.text.secondary}
@@ -2679,7 +2955,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   NFT Card Colors
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label="Card Background Color"
                       value={values.customSettings?.nftColors?.cardBackgroundColor || theme.palette.background.paper}
@@ -2687,7 +2967,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.background.paper}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label="Card Border Color"
                       value={values.customSettings?.nftColors?.cardBorderColor || theme.palette.divider}
@@ -2719,12 +3003,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Control which elements are visible and configure layout options
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideNFTs || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideNFTs", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideNFTs", e.target.checked)}
                       />
                     }
                     label={
@@ -2735,12 +3024,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideActivity || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideActivity", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideActivity", e.target.checked)}
                       />
                     }
                     label={
@@ -2751,12 +3045,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideSearch || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideSearch", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideSearch", e.target.checked)}
                       />
                     }
                     label={
@@ -2767,12 +3066,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideSendButton || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideSendButton", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideSendButton", e.target.checked)}
                       />
                     }
                     label={
@@ -2783,12 +3087,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideReceiveButton || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideReceiveButton", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideReceiveButton", e.target.checked)}
                       />
                     }
                     label={
@@ -2799,12 +3108,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideScanButton || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideScanButton", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideScanButton", e.target.checked)}
                       />
                     }
                     label={
@@ -2815,12 +3129,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideImportToken || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideImportToken", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideImportToken", e.target.checked)}
                       />
                     }
                     label={
@@ -2831,12 +3150,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideNetworkSelector || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideNetworkSelector", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideNetworkSelector", e.target.checked)}
                       />
                     }
                     label={
@@ -2847,12 +3171,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideBalance || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideBalance", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideBalance", e.target.checked)}
                       />
                     }
                     label={
@@ -2863,12 +3192,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideSwapAction || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideSwapAction", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideSwapAction", e.target.checked)}
                       />
                     }
                     label={
@@ -2879,12 +3213,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideExchangeAction || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideExchangeAction", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideExchangeAction", e.target.checked)}
                       />
                     }
                     label={
@@ -2896,12 +3235,17 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4
+                  }}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSettings?.visibility?.hideSendAction || false}
-                        onChange={(e) => setFieldValue("customSettings.visibility.hideSendAction", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.visibility.hideSendAction", e.target.checked)}
                       />
                     }
                     label={
@@ -2927,7 +3271,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     control={
                       <Switch
                         checked={values.customSettings?.removePadding || false}
-                        onChange={(e) => setFieldValue("customSettings.removePadding", e.target.checked)}
+                        onChange={(e: any) => setFieldValue("customSettings.removePadding", e.target.checked)}
                       />
                     }
                     label={
@@ -2954,52 +3298,68 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       />
                     </Typography>
                     <Grid container spacing={2}>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Top"
                           type="number"
                           size="small"
                           value={values.customSettings?.customPadding?.top ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("customSettings.customPadding.top", value);
                           }}
                           placeholder="16"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Bottom"
                           type="number"
                           size="small"
                           value={values.customSettings?.customPadding?.bottom ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("customSettings.customPadding.bottom", value);
                           }}
                           placeholder="16"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Left"
                           type="number"
                           size="small"
                           value={values.customSettings?.customPadding?.left ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("customSettings.customPadding.left", value);
                           }}
                           placeholder="0"
                         />
                       </Grid>
-                      <Grid item xs={6} sm={3}>
+                      <Grid
+                        size={{
+                          xs: 6,
+                          sm: 3
+                        }}>
                         <TextField
                           label="Right"
                           type="number"
                           size="small"
                           value={values.customSettings?.customPadding?.right ?? ''}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value === '' ? undefined : Number(e.target.value);
                             setFieldValue("customSettings.customPadding.right", value);
                           }}
@@ -3025,7 +3385,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <InputLabel>
                         <FormattedMessage
@@ -3035,7 +3395,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       </InputLabel>
                       <Select
                         value={values.customSettings?.swapConfig?.variant || SwapVariant.Classic}
-                        onChange={(e) => setFieldValue("customSettings.swapConfig.variant", e.target.value as SwapVariant)}
+                        onChange={(e: any) => setFieldValue("customSettings.swapConfig.variant", e.target.value as SwapVariant)}
                         label={formatMessage({
                           id: "custom.swap.variant",
                           defaultMessage: "Swap Widget Variant"
@@ -3075,7 +3435,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <InputLabel>
                         <FormattedMessage
@@ -3085,7 +3445,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       </InputLabel>
                       <Select
                         value={values.customSettings?.exchangeConfig?.variant || "default"}
-                        onChange={(e) => setFieldValue("customSettings.exchangeConfig.variant", e.target.value as "default" | "custom")}
+                        onChange={(e: any) => setFieldValue("customSettings.exchangeConfig.variant", e.target.value as "default" | "custom")}
                         label={formatMessage({
                           id: "custom.exchange.variant",
                           defaultMessage: "Exchange Widget Variant"
@@ -3120,7 +3480,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure the token search bar appearance and behavior
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.background.color",
@@ -3131,7 +3495,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.default}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.text.color",
@@ -3142,7 +3510,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.border.color",
@@ -3153,7 +3525,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.divider}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.focus.border.color",
@@ -3164,7 +3540,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.primary.main}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.placeholder.color",
@@ -3175,7 +3555,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.secondary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.token.search.icon.color",
@@ -3205,7 +3589,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Customize pagination controls for tables and data lists
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.text.color",
@@ -3216,7 +3604,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.background.color",
@@ -3227,7 +3619,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.paper}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.button.color",
@@ -3238,7 +3634,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.button.hover.color",
@@ -3249,7 +3649,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.action.hover}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.select.background.color",
@@ -3260,7 +3664,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     defaultValue={theme.palette.background.paper}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <ColorPickerField
                     label={formatMessage({
                       id: "custom.pagination.select.text.color",
@@ -3295,7 +3703,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   Token Balance Table
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.table.header.text.color",
@@ -3306,7 +3718,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.table.row.text.color",
@@ -3317,7 +3733,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.table.row.background.color",
@@ -3328,7 +3748,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.background.default}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.table.row.hover.color",
@@ -3347,7 +3771,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   Activity Table
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.header.background.color",
@@ -3358,7 +3786,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.background.paper}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.header.text.color",
@@ -3369,7 +3801,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.row.background.color",
@@ -3380,7 +3816,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.background.default}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.row.text.color",
@@ -3391,7 +3831,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.hover.row.background.color",
@@ -3402,7 +3846,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                       defaultValue={theme.palette.primary.main}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.activity.border.color",
@@ -3433,7 +3881,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 Configure button layouts, alignment and spacing
               </Typography>
               <Grid container spacing={getFormSpacing()}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormControl fullWidth>
                     <InputLabel>
                       <FormattedMessage
@@ -3443,7 +3895,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     </InputLabel>
                     <Select
                       value={values.customSettings?.layout?.actionButtonsLayout || "horizontal"}
-                      onChange={(e) => setFieldValue("customSettings.layout.actionButtonsLayout", e.target.value)}
+                      onChange={(e: any) => setFieldValue("customSettings.layout.actionButtonsLayout", e.target.value)}
                       label={formatMessage({
                         id: "custom.action.buttons.layout",
                         defaultMessage: "Action Buttons Layout"
@@ -3470,7 +3922,11 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <FormControl fullWidth>
                     <InputLabel>
                       <FormattedMessage
@@ -3480,7 +3936,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     </InputLabel>
                     <Select
                       value={values.customSettings?.layout?.actionButtonsAlignment || "left"}
-                      onChange={(e) => setFieldValue("customSettings.layout.actionButtonsAlignment", e.target.value)}
+                      onChange={(e: any) => setFieldValue("customSettings.layout.actionButtonsAlignment", e.target.value)}
                       label={formatMessage({
                         id: "custom.buttons.alignment",
                         defaultMessage: "Buttons Alignment"
@@ -3507,7 +3963,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography gutterBottom>
                     <FormattedMessage
                       id="custom.element.spacing"
@@ -3716,12 +4172,12 @@ export default function WalletSectionForm({
         validate={handleValidate}
         enableReinitialize
       >
-        {({ submitForm, values, isValid }) => (
+        {({ submitForm, values, isValid }: any) => (
           <Grid container spacing={isMobile ? 1.5 : 2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <VariantConfigurationTab customTheme={finalCustomTheme} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={isMobile ? 1 : 2} direction="row" justifyContent="flex-end">
                 <Button onClick={onCancel} size={isMobile ? "small" : "medium"}>
                   <FormattedMessage id="cancel" defaultMessage="Cancel" />

@@ -25,7 +25,7 @@ export function SingleNFTAutocomplete(props: Props) {
             <FormattedMessage id={'token.id'} defaultMessage={'Token Id'} />
           }
           variant="outlined"
-          onChange={(ev) =>
+          onChange={(ev: any) =>
             data.onChange({ ...data.data, id: ev.currentTarget.value })
           }
           sx={{

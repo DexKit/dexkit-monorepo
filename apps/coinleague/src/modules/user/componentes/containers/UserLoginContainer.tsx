@@ -1,6 +1,7 @@
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -33,11 +34,10 @@ export function UserLoginContainer() {
     <>
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader
@@ -62,11 +62,11 @@ export function UserLoginContainer() {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             <Stack direction={'row'} justifyContent={'space-between'}></Stack>
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <Stack spacing={2} alignContent={'center'} alignItems={'center'}>
+          <Grid size={12}>
+            <Stack spacing={2} alignItems={'center'}>
               <Typography variant="h5">
                 <FormattedMessage id="login.app" defaultMessage="Login app" />
               </Typography>
@@ -78,7 +78,6 @@ export function UserLoginContainer() {
               </Typography>
               <Box
                 justifyContent={'center'}
-                alignContent={'center'}
                 alignItems={'center'}
               >
                 <Button
@@ -108,3 +107,4 @@ export function UserLoginContainer() {
     </>
   );
 }
+

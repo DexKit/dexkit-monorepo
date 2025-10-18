@@ -4,15 +4,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import Check from '@mui/icons-material/Check';
 import Close from '@mui/icons-material/Close';
 import Visibility from '@mui/icons-material/VisibilityOutlined';
-import {
-  Button,
-  ButtonBase,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-  alpha,
-} from '@mui/material';
+import { Button, ButtonBase, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -88,10 +80,10 @@ export default function PageGatedConditionsHeader({
               px: 1,
               py: 0.25,
 
-              borderRadius: (theme) => theme.shape.borderRadius / 2,
+              borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
               '&: hover': {
                 backgroundColor: (theme) =>
-                  alpha(theme.palette.primary.main, 0.1),
+                  theme.alpha(theme.palette.primary.main, 0.1),
               },
             }}
             onClick={handleEdit}
@@ -117,7 +109,6 @@ export default function PageGatedConditionsHeader({
           </IconButton>
         </Stack>
       )}
-
       <Button onClick={onPreview} startIcon={<Visibility />}>
         <FormattedMessage id="preview" defaultMessage="Preview" />
       </Button>

@@ -166,7 +166,7 @@ export default function SwapSelectCoinMatchaDialog({
                     direction="row"
                   >
                     <ListSubheader
-                      sx={{ p: 0, m: 0 }}
+                      sx={{ p: 0, m: 0, color: 'text.primary' }}
                       component="div"
                       disableSticky
                     >

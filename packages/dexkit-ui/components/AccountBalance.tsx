@@ -15,8 +15,8 @@ export interface AccountBalanceProps {
 export function AccountBalance({ isBalancesVisible }: AccountBalanceProps) {
   const { account, chainId } = useWeb3React();
 
-  const {data} = useWalletBalance({
-    chain:chainId ?  defineChain(chainId) : undefined,
+  const { data } = useWalletBalance({
+    chain: chainId ? defineChain(chainId) : undefined,
     address: account,
     client,
   });
@@ -31,7 +31,7 @@ export function AccountBalance({ isBalancesVisible }: AccountBalanceProps) {
   }, [data]);
   return (
     <Typography
-      color="text.secondary"
+      color="text.primary"
       variant="caption"
       align="left"
       component="div"

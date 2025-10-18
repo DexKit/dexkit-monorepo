@@ -1,5 +1,6 @@
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { Card, Grid, List, ListItemButton, ListItemText } from '@mui/material';
+import { Card, List, ListItemButton, ListItemText } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -85,10 +86,10 @@ export default function SettingsLayout({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader breadcrumbs={breadcrumbs} />
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid size={{ xs: 12, sm: 3 }}>
         <Card>
           <List disablePadding>
             {/* <ListItemButton
@@ -133,9 +134,10 @@ export default function SettingsLayout({
           </List>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={9}>
+      <Grid size={{ xs: 12, sm: 9 }}>
         {children(tab)}
       </Grid>
     </Grid>
   );
 }
+

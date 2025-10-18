@@ -10,6 +10,6 @@ export default function useDuplicateProduct() {
       throw new Error('no instance');
     }
 
-    return (await instance?.post(`/products/${data.id}/duplicate`)).data;
+    return (await (instance as any)?.post(`/products/${data.id}/duplicate`)).data;
   });
 }

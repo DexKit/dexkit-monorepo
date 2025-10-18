@@ -2,19 +2,19 @@ import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import Edit from '@mui/icons-material/Edit';
 import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    IconButton,
-    Paper,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
-    useMediaQuery,
-    useTheme,
+  Button,
+  Container,
+  Divider,
+  IconButton,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Suspense, useState } from 'react';
@@ -74,11 +74,10 @@ export function UserContainer({ username }: { username?: string }) {
     <>
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <PageHeader
@@ -107,41 +106,40 @@ export function UserContainer({ username }: { username?: string }) {
           {user?.accounts
             ?.map((a) => a.address.toLowerCase())
             .includes(account?.toLowerCase() || '') && (
-            <Grid item xs={12} sm={12}>
-              <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                {!isMobile && (
-                  <Typography variant="h5">
-                    <FormattedMessage
-                      id="user.profile.value"
-                      defaultMessage="User Profile: {username}"
-                      values={{
-                        username: user?.username,
-                      }}
-                    />
-                  </Typography>
-                )}
-                <IconButton onClick={() => router.push(`/u/edit`)}>
-                  <Edit />
-                </IconButton>
-              </Stack>
-            </Grid>
-          )}
+              <Grid size={12}>
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                  {!isMobile && (
+                    <Typography variant="h5">
+                      <FormattedMessage
+                        id="user.profile.value"
+                        defaultMessage="User Profile: {username}"
+                        values={{
+                          username: user?.username,
+                        }}
+                      />
+                    </Typography>
+                  )}
+                  <IconButton onClick={() => router.push(`/u/edit`)}>
+                    <Edit />
+                  </IconButton>
+                </Stack>
+              </Grid>
+            )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <UserHeader {...user} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               justifyContent="space-between"
               direction="row"
               alignItems="center"
-              alignContent="center"
             ></Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs
               value={activeMenu}
               onChange={(_, newValue) => changeActiveMenu(newValue)}
@@ -165,7 +163,7 @@ export function UserContainer({ username }: { username?: string }) {
             </Tabs>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {activeMenu === ActiveMenu.Offers && (
               <StoreOrderbook
                 search={search}
@@ -174,7 +172,7 @@ export function UserContainer({ username }: { username?: string }) {
               />
             )}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {activeMenu === ActiveMenu.Collected && (
               <QueryErrorResetBoundary>
                 {({ reset }) => (
@@ -214,8 +212,8 @@ export function UserContainer({ username }: { username?: string }) {
                           a.address.toLowerCase(),
                         )}
                         setFilters={setFilters}
-                        onOpenFilters={() => {}}
-                        onImport={() => {}}
+                        onOpenFilters={() => { }}
+                        onImport={() => { }}
                       />
                     </Suspense>
                   </ErrorBoundary>
@@ -228,3 +226,4 @@ export function UserContainer({ username }: { username?: string }) {
     </>
   );
 }
+

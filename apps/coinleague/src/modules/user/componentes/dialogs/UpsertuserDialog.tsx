@@ -74,7 +74,6 @@ function UpsertUserDialog({
           spacing={2}
           justifyContent="center"
           alignItems="center"
-          alignContent="center"
         >
           {!error && isLoading ? (
             <CircularProgress size="4rem" color="primary" />

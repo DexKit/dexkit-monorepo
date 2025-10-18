@@ -46,9 +46,9 @@ export function useSwapState() {
 
   const featuredTokens = useMemo(() => {
     return config.tokens
-      ?.map((t) => t.tokens)
+      ?.map((t: any) => t.tokens)
       .flat()
-      .map((t) => {
+      .map((t: any) => {
         return {
           chainId: t.chainId as number,
           address: t.address,

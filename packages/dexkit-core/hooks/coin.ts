@@ -184,7 +184,6 @@ export function useApproveToken() {
         signer,
       });
 
-
       onSubmited(tx.hash);
 
       return await tx.wait();

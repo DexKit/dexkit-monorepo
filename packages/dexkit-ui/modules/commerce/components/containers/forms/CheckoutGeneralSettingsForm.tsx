@@ -53,59 +53,49 @@ function CheckoutGeneralSettingsFormBase({
       validationSchema={toFormikValidationSchema(CheckoutSettingsSchema)}
     >
       {({ submitForm, isValid, isSubmitting }) => (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Field
-                  component={TextField}
-                  name="receiverAccount"
-                  fullWidth
-                  label={
-                    <FormattedMessage
-                      id="recipient.wallet.address"
-                      defaultMessage="Recipient wallet address"
-                    />
-                  }
+        <Stack spacing={2}>
+          <Stack spacing={2}>
+            <Field
+              component={TextField}
+              name="receiverAccount"
+              fullWidth
+              label={
+                <FormattedMessage
+                  id="recipient.wallet.address"
+                  defaultMessage="Recipient wallet address"
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  component={TextField}
-                  name="receiverEmail"
-                  fullWidth
-                  label={
-                    <FormattedMessage
-                      id="recipient.email"
-                      defaultMessage="Recipient e-mail"
-                    />
-                  }
+              }
+            />
+            <Field
+              component={TextField}
+              name="receiverEmail"
+              fullWidth
+              label={
+                <FormattedMessage
+                  id="recipient.email"
+                  defaultMessage="Recipient e-mail"
                 />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <div>
-              <Stack spacing={2} justifyContent="flex-end" direction="row">
-                <Button
-                  startIcon={
-                    isSubmitting ? (
-                      <CircularProgress color="inherit" size="1rem" />
-                    ) : undefined
-                  }
-                  disabled={!isValid || isSubmitting}
-                  variant="contained"
-                  onClick={submitForm}
-                >
-                  <FormattedMessage id="save" defaultMessage="Save" />
-                </Button>
-              </Stack>
-            </div>
-          </Grid>
-        </Grid>
+              }
+            />
+          </Stack>
+          
+          <Divider />
+          
+          <Stack spacing={2} justifyContent="flex-end" direction="row">
+            <Button
+              startIcon={
+                isSubmitting ? (
+                  <CircularProgress color="inherit" size="1rem" />
+                ) : undefined
+              }
+              disabled={!isValid || isSubmitting}
+              variant="contained"
+              onClick={submitForm}
+            >
+              <FormattedMessage id="save" defaultMessage="Save" />
+            </Button>
+          </Stack>
+        </Stack>
       )}
     </Formik>
   );

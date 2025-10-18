@@ -45,7 +45,7 @@ function CoinListItem({
       </ListItemAvatar>
       <ListItemText primary={coin.baseName} secondary={coin.base} />
       <ListItemSecondaryAction>
-        <Box alignItems="center" alignContent="center" display="flex">
+        <Box alignItems="center" display="flex">
           {selected && <CheckCircle color="primary" />}
         </Box>
       </ListItemSecondaryAction>

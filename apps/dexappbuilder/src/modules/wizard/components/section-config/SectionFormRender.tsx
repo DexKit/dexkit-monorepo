@@ -143,7 +143,7 @@ export function SectionFormRender({
         )}
         <Box>
           <Grid container spacing={2}>
-            {/*<Grid item xs={12}>
+            {/*<Grid size={12}>
               <Container>
                 <Alert
                   severity="info"
@@ -164,7 +164,7 @@ export function SectionFormRender({
                 </Alert>
               </Container>
             </Grid>*/}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <SwapConfigSectionForm
                 onCancel={onClose}
                 onSave={onSave}
@@ -249,7 +249,7 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'code-page-section') {
     return (
-      <Box p={2}>
+      <Box p={2} sx={{ backgroundColor: 'background.paper' }}>
         <CodeSectionForm
           onCancel={onClose}
           onSave={onSave}
@@ -260,7 +260,7 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'dex-generator-section') {
     return (
-      <Box p={2}>
+      <Box p={2} sx={{ backgroundColor: 'background.paper' }}>
         <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
           <DexGeneratorSectionForm
             onCancel={onClose}
@@ -276,7 +276,7 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'collection') {
     return (
-      <Box p={2}>
+      <Box p={2} sx={{ backgroundColor: 'background.paper' }}>
         <CollectionSectionFormAlt
           onCancel={onClose}
           onSave={onSave}
@@ -288,7 +288,7 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'asset-section') {
     return (
-      <Box p={2}>
+      <Box p={2} sx={{ backgroundColor: 'background.paper' }}>
         <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
           <AssetSectionForm
             onCancel={onClose}
@@ -357,7 +357,7 @@ export function SectionFormRender({
     );
   } else if (sectionType === 'referral') {
     return (
-      <Box p={2}>
+      <Box p={2} sx={{ backgroundColor: 'background.paper' }}>
         <DexGeneratorReferralForm
           onChange={(updatedSection) => {
             setReferralSection(updatedSection);
@@ -567,7 +567,6 @@ export function SectionFormRender({
       skippedSteps: [],
     };
 
-    // Convert StepperPageSection.settings to MultiStepperConfig format
     const getInitialValues = (): MultiStepperConfig => {
       if (section?.type === 'stepper') {
         const { steps, ...settingsWithoutSteps } = section.settings;

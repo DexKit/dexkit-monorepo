@@ -1,117 +1,120 @@
 {
+  "description.markdown.helper": {
+    "defaultMessage": "Puoi utilizzare la formattazione markdown per descrizioni di testo ricco"
+  },
   "Created": {
-    "defaultMessage": "Created"
+    "defaultMessage": "Creato"
   },
   "action.type": {
-    "defaultMessage": "Action type"
+    "defaultMessage": "Tipo di azione"
   },
   "add.items": {
-    "defaultMessage": "Add items"
+    "defaultMessage": "Aggiungi elementi"
   },
   "add.payment.method": {
-    "defaultMessage": "Add Payment Method"
+    "defaultMessage": "Aggiungi Metodo di Pagamento"
   },
   "ai.assistant": {
-    "defaultMessage": "AI Assistant"
+    "defaultMessage": "Assistente IA"
   },
   "align.items": {
-    "defaultMessage": "Align Items"
+    "defaultMessage": "Allinea Elementi"
   },
   "artificial.inteligence": {
-    "defaultMessage": "Artificial Inteligence"
+    "defaultMessage": "Intelligenza Artificiale"
   },
   "billing": {
-    "defaultMessage": "Billing"
+    "defaultMessage": "Fatturazione"
   },
   "button.cation": {
-    "defaultMessage": "Button caption"
+    "defaultMessage": "Didascalia del pulsante"
   },
   "buy.and.sell": {
-    "defaultMessage": "Buy and sell"
+    "defaultMessage": "Compra e vendi"
   },
   "buy.token.page": {
-    "defaultMessage": "Buy token page"
+    "defaultMessage": "Pagina Acquista Token"
   },
   "carousel": {
-    "defaultMessage": "Carousel"
+    "defaultMessage": "Carosello"
   },
   "carousel.image.aspectRatio": {
-    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+    "defaultMessage": "L'immagine deve avere un rapporto di aspetto 16/9 per essere visualizzata correttamente nel carosello."
   },
   "center": {
-    "defaultMessage": "Center"
+    "defaultMessage": "Centra"
   },
   "checkout": {
-    "defaultMessage": "Checkout"
+    "defaultMessage": "Pagamento"
   },
   "coming.soon": {
-    "defaultMessage": "Coming soon"
+    "defaultMessage": "Prossimamente"
   },
   "create.metadata": {
-    "defaultMessage": "Create metadata"
+    "defaultMessage": "Crea metadata"
   },
   "creating.site.metadata": {
-    "defaultMessage": "Creating site metadata"
+    "defaultMessage": "Creazione metadata del sito"
   },
   "credit.history": {
-    "defaultMessage": "Credit History"
+    "defaultMessage": "Cronologia Crediti"
   },
   "credited": {
-    "defaultMessage": "Credited"
+    "defaultMessage": "Accreditato"
   },
   "credits": {
-    "defaultMessage": "Credits"
+    "defaultMessage": "Crediti"
   },
   "credits.below0.50": {
-    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+    "defaultMessage": "I tuoi crediti sono ora inferiori a $0.50. Si prega di considerare l'aggiunta di più crediti per continuare a utilizzare i nostri servizi."
   },
   "credits.expire.oneYear": {
-    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+    "defaultMessage": "I crediti aggiunti scadranno un anno dalla data di aggiunta. Si prega di utilizzarli prima della scadenza."
   },
   "current.phase": {
-    "defaultMessage": "Current phase"
+    "defaultMessage": "Fase Attuale"
   },
   "current.phase.ends.in": {
-    "defaultMessage": "Current phase ends in"
+    "defaultMessage": "Fase Attuale termina tra"
   },
   "dexappbuilder.ann.app.bar2": {
-    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+    "defaultMessage": "Supportaci su {Giveth} e permetti al nostro servizio di essere gratuito per tutti. Ogni donazione è raddoppiata dai costruttori di ENS."
   },
   "disable.secondary.sells": {
-    "defaultMessage": "Disable secondary sells"
+    "defaultMessage": "Disabilita vendite secondarie"
   },
   "editing.site.metadata": {
-    "defaultMessage": "Editing site metadata"
+    "defaultMessage": "Modifica metadata del sito"
   },
   "end": {
-    "defaultMessage": "End"
+    "defaultMessage": "Fine"
   },
   "error.while.tranfer": {
-    "defaultMessage": "Error while transfer"
+    "defaultMessage": "Errore durante il trasferimento"
   },
   "feature": {
-    "defaultMessage": "Feature"
+    "defaultMessage": "Caratteristica"
   },
   "height.for.desktop": {
-    "defaultMessage": "Height for desktop"
+    "defaultMessage": "Altezza per desktop"
   },
   "height.for.mobile": {
-    "defaultMessage": "Height for mobile"
+    "defaultMessage": "Altezza per mobile"
   },
   "in.milliseconds": {
-    "defaultMessage": "In milliseconds"
+    "defaultMessage": "In millisecondi"
   },
   "insufficient.balance": {
-    "defaultMessage": "Insufficient balance"
+    "defaultMessage": "Saldo insufficiente"
   },
   "interval": {
-    "defaultMessage": "Interval"
+    "defaultMessage": "Intervallo"
   },
   "items.spacing": {
-    "defaultMessage": "Items spacing"
+    "defaultMessage": "Spaziatura degli elementi"
   },
   "left": {
-    "defaultMessage": "Left"
+    "defaultMessage": "Sinistra"
   },
   "new.ai.features": {
     "defaultMessage": "New AI Features"
@@ -120,10 +123,10 @@
     "defaultMessage": "no description"
   },
   "no.templates.found.for.this.usecase": {
-    "defaultMessage": "No templates found for this usecase"
+    "defaultMessage": "Nessun modello trovato per questo caso d'uso"
   },
   "no.usage": {
-    "defaultMessage": "No usage"
+    "defaultMessage": "Nessun utilizzo"
   },
   "not.available": {
     "defaultMessage": "Not available"
@@ -144,7 +147,7 @@
     "defaultMessage": "Payment expired"
   },
   "payment.pending": {
-    "defaultMessage": "Payment Pending"
+    "defaultMessage": "Pagamento in sospeso"
   },
   "payments": {
     "defaultMessage": "Payments"
@@ -167,8 +170,11 @@
   "search.default.base.token": {
     "defaultMessage": "Search default base token"
   },
+  "search.sites": {
+    "defaultMessage": "Cerca siti..."
+  },
   "section.addItemsPrompt": {
-    "defaultMessage": "Please add items to the section below."
+    "defaultMessage": "Aggiungere elementi alla sezione sottostante."
   },
   "select.a.token.to.pay": {
     "defaultMessage": "Select a token to pay"
@@ -213,7 +219,7 @@
     "defaultMessage": "Start"
   },
   "switch.to.network.network": {
-    "defaultMessage": "Switch to {network} network"
+    "defaultMessage": "Passa alla rete {network}"
   },
   "templates": {
     "defaultMessage": "Templates"
@@ -288,106 +294,106 @@
     "defaultMessage": "Your transaction requires 10 confirmations for full validation"
   },
   "AI": {
-    "defaultMessage": "AI"
+    "defaultMessage": "IA"
   },
   "activate": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Attiva IA"
   },
   "activate.ai": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Attiva IA"
   },
   "add.credit": {
-    "defaultMessage": "Add Credit"
+    "defaultMessage": "Aggiungi Credito"
   },
   "add.credits": {
-    "defaultMessage": "Add credits"
+    "defaultMessage": "Aggiungi crediti"
   },
   "ai.activated": {
-    "defaultMessage": "AI Activated"
+    "defaultMessage": "IA Attivata"
   },
   "ai.completation": {
-    "defaultMessage": "AI Completation"
+    "defaultMessage": "Completamento IA"
   },
   "ai.edit": {
-    "defaultMessage": "AI Edit"
+    "defaultMessage": "Modifica IA"
   },
   "ai.generator": {
-    "defaultMessage": "AI Generator"
+    "defaultMessage": "Generatore IA"
   },
   "ai.image.generator": {
-    "defaultMessage": "AI Image Generator"
+    "defaultMessage": "Generatore Immagini IA"
   },
   "answer": {
-    "defaultMessage": "Answer:"
+    "defaultMessage": "Risposta:"
   },
   "billing.and.usage": {
-    "defaultMessage": "Billing & Usage"
+    "defaultMessage": "Fatturazione e Utilizzo"
   },
   "change.cat.head": {
-    "defaultMessage": "ex. Change cat head"
+    "defaultMessage": "es. Cambia testa del gatto"
   },
   "close.anyway": {
-    "defaultMessage": "Close anyway"
+    "defaultMessage": "Chiudi comunque"
   },
   "credit.card.soming.soon": {
-    "defaultMessage": "Credit Card (Coming Soon)"
+    "defaultMessage": "Carta di Credito (Prossimamente)"
   },
   "cryptocurrency": {
-    "defaultMessage": "Cryptocurrency"
+    "defaultMessage": "Criptovaluta"
   },
   "deselect.all": {
-    "defaultMessage": "Deselect All"
+    "defaultMessage": "Deseleziona tutto"
   },
   "error.while.generating.images": {
-    "defaultMessage": "Error while generating images"
+    "defaultMessage": "Errore durante la generazione delle immagini"
   },
   "ex.an.image.of.a.cat": {
-    "defaultMessage": "ex. An image of a cat"
+    "defaultMessage": "es. Un'immagine di un gatto"
   },
   "fix.spelling.and.grammar": {
-    "defaultMessage": "Fix spelling and grammar"
+    "defaultMessage": "Correggi errori di ortografia e grammatica"
   },
   "generate": {
-    "defaultMessage": "Generate"
+    "defaultMessage": "Genera"
   },
   "generate.image": {
-    "defaultMessage": "Generate image"
+    "defaultMessage": "Genera immagine"
   },
   "generate.new.text": {
-    "defaultMessage": "Generate new text"
+    "defaultMessage": "Genera nuovo testo"
   },
   "generate.variant": {
-    "defaultMessage": "Generate variant"
+    "defaultMessage": "Genera variante"
   },
   "generate.variants": {
-    "defaultMessage": "Generate Variants"
+    "defaultMessage": "Genera Varianti"
   },
   "generating": {
-    "defaultMessage": "Generating"
+    "defaultMessage": "Generazione"
   },
   "generating.variants": {
-    "defaultMessage": "Generating Variants"
+    "defaultMessage": "Generazione Varianti"
   },
   "images.generated": {
-    "defaultMessage": "Images generated"
+    "defaultMessage": "Immagini generate"
   },
   "images.notGenerated": {
-    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+    "defaultMessage": "Non hai ancora generato immagini. Inizia a generare immagini ora per trarre il massimo vantaggio dal nostro servizio."
   },
   "improve.writing": {
-    "defaultMessage": "Improve writing"
+    "defaultMessage": "Migliora la scrittura"
   },
   "make.longer": {
-    "defaultMessage": "Make longer"
+    "defaultMessage": "Rendi più lungo"
   },
   "make.shorter": {
-    "defaultMessage": "Make shorter"
+    "defaultMessage": "Rendi più corto"
   },
   "no.credits": {
-    "defaultMessage": "No Credits"
+    "defaultMessage": "Nessun credito"
   },
   "no.images": {
-    "defaultMessage": "No Images"
+    "defaultMessage": "Nessuna immagine"
   },
   "num.of.images": {
     "defaultMessage": "Num. of Images"
@@ -402,7 +408,7 @@
     "defaultMessage": "Original image"
   },
   "payment.confirmation.message": {
-    "defaultMessage": "Please wait for 10 confirmations for payment recognition."
+    "defaultMessage": "Attendere 10 conferme per il riconoscimento del pagamento."
   },
   "payment.method": {
     "defaultMessage": "Payment method"
@@ -438,7 +444,7 @@
     "defaultMessage": "Waiting payment"
   },
   "you.need.to.add.credits.to.use.ai.features": {
-    "defaultMessage": "You need to add credits to use AI features"
+    "defaultMessage": "Devi aggiungere crediti per usare le funzionalità IA"
   },
   "add.record": {
     "defaultMessage": "Aggiungi record"
@@ -495,16 +501,16 @@
     "defaultMessage": "Prezzo del gas"
   },
   "invalid address": {
-    "defaultMessage": "Invalid address"
+    "defaultMessage": "Indirizzo non valido"
   },
   "invalid.file.column.column.is.missing": {
-    "defaultMessage": "Invalid file: column {column} is missing"
+    "defaultMessage": "File non valido: manca la colonna {column}"
   },
   "max.fee": {
-    "defaultMessage": "Max fee"
+    "defaultMessage": "Commissione massima"
   },
   "max.priority.fee": {
-    "defaultMessage": "Max priority fee"
+    "defaultMessage": "Commissione massima prioritaria"
   },
   "message.you.are.signing": {
     "defaultMessage": "Message you are signing"
@@ -559,7 +565,7 @@
     "defaultMessage": "Sign"
   },
   "switch.to.network.value": {
-    "defaultMessage": "Switch to {networkName} network"
+    "defaultMessage": "Passa alla rete {networkName}"
   },
   "transaction.failed.reason": {
     "defaultMessage": "Transaction failed"
@@ -577,16 +583,16 @@
     "defaultMessage": "Validating ENS name"
   },
   "you.are.not.the.owner.of.this.NFT": {
-    "defaultMessage": "You are not the owner of this NFT"
+    "defaultMessage": "Non sei il proprietario di questo NFT"
   },
   "you.cant.use.the.connected.account.to.burn": {
-    "defaultMessage": "You can't use the connected account to burn"
+    "defaultMessage": "Non puoi usare l'account connesso per bruciare"
   },
   "you.cant.use.the.connected.account.to.transfer": {
-    "defaultMessage": "You can't use the connected to transfer"
+    "defaultMessage": "Non puoi usare l'account connesso per trasferire"
   },
   "you.own.nfts": {
-    "defaultMessage": "You own {balance} NFTs"
+    "defaultMessage": "Possiedi {balance} NFTs"
   },
   "your.request.was.sent.successfully": {
     "defaultMessage": "Your request was sent successfully"
@@ -661,31 +667,31 @@
     "defaultMessage": "Importo compilabile"
   },
   "insufficient": {
-    "defaultMessage": "Insufficient {symbol}"
+    "defaultMessage": "Quantità insufficiente {symbol}"
   },
   "insufficient.symbol": {
-    "defaultMessage": "insufficient {symbol}"
+    "defaultMessage": "insufficiente {symbol}"
   },
   "last.price": {
-    "defaultMessage": "Last price"
+    "defaultMessage": "Ultimo prezzo"
   },
   "last.price.amount": {
-    "defaultMessage": "Last price: {amount}"
+    "defaultMessage": "Ultimo prezzo: {amount}"
   },
   "limit": {
-    "defaultMessage": "Limit"
+    "defaultMessage": "Limite"
   },
   "loading.quote": {
-    "defaultMessage": "Loading quote..."
+    "defaultMessage": "Caricamento quotazione..."
   },
   "market": {
-    "defaultMessage": "Market"
+    "defaultMessage": "Mercato"
   },
   "market.cap.amount": {
-    "defaultMessage": "Market Cap: {amount}"
+    "defaultMessage": "Capitalizzazione di mercato: {amount}"
   },
   "market.settings": {
-    "defaultMessage": "Market Settings"
+    "defaultMessage": "Impostazioni del mercato"
   },
   "max.slippage.is.value.percent": {
     "defaultMessage": "Max slippage is 50 percent"
@@ -694,7 +700,7 @@
     "defaultMessage": "More"
   },
   "my.orders": {
-    "defaultMessage": "My Orders"
+    "defaultMessage": "I miei ordini"
   },
   "native.coins.are.not.supported.on.limit.orders": {
     "defaultMessage": "Native coins are not supported on limited orders"
@@ -706,13 +712,13 @@
     "defaultMessage": "Order failed"
   },
   "place.order": {
-    "defaultMessage": "Place Order"
+    "defaultMessage": "Effettua ordine"
   },
   "please.switch.to.networks": {
     "defaultMessage": "Please, switch to {networks}"
   },
   "please.use.wrapped.version.of.native.token": {
-    "defaultMessage": "Please use wrapped version of native token"
+    "defaultMessage": "Utilizzare la versione wrapped del token nativo"
   },
   "price.change.24h": {
     "defaultMessage": "Price Change 24h"
@@ -727,7 +733,7 @@
     "defaultMessage": "Quote tokens"
   },
   "review.order": {
-    "defaultMessage": "Review Order"
+    "defaultMessage": "Rivedi ordine"
   },
   "search.for.a.token.by.name.symbol.and.address": {
     "defaultMessage": "Search for a token by name, symbol and address"
@@ -760,10 +766,10 @@
     "defaultMessage": "Size"
   },
   "the.base.token.is.required.on.chain": {
-    "defaultMessage": "The quote token is required on {chainName}"
+    "defaultMessage": "Il token di quotazione è richiesto su {chainName}"
   },
   "the.max.fee.is.ten.percent": {
-    "defaultMessage": "The max fee is 10%"
+    "defaultMessage": "La commissione massima è del 10%"
   },
   "there.are.no.orders.to.show": {
     "defaultMessage": "There are no orders to show"
@@ -775,10 +781,10 @@
     "defaultMessage": "Unsupported Network"
   },
   "you.are.buying": {
-    "defaultMessage": "You are buying"
+    "defaultMessage": "Stai acquistando"
   },
   "you.are.selling": {
-    "defaultMessage": "You are selling"
+    "defaultMessage": "Stai vendendo"
   },
   "your.wallet.is.not.connected": {
     "defaultMessage": "Your wallet is not connected"
@@ -796,7 +802,7 @@
     "defaultMessage": "Gas: {gas} Gwei"
   },
   "insufficient.symbol.balance": {
-    "defaultMessage": "Insufficient {symbol} balance"
+    "defaultMessage": "Saldo {symbol} insufficiente"
   },
   "network.not.supported.msg": {
     "defaultMessage": "Network not supported. Please change to a supported network: {networks}"
@@ -805,10 +811,10 @@
     "defaultMessage": "Network not supported"
   },
   "no.coins": {
-    "defaultMessage": "No coins"
+    "defaultMessage": "Nessuna moneta"
   },
   "no.coins.found": {
-    "defaultMessage": "No coins found"
+    "defaultMessage": "Nessuna moneta trovata"
   },
   "price.impact": {
     "defaultMessage": "Price impact"
@@ -829,7 +835,7 @@
     "defaultMessage": "Swap Tokens"
   },
   "switch.wallet.network": {
-    "defaultMessage": "Switch wallet to {networkName}"
+    "defaultMessage": "Passa il portafoglio a {networkName}"
   },
   "token.balance": {
     "defaultMessage": "balance: {balance}"
@@ -1200,9 +1206,6 @@
   "You.are.not.eligible.to.mint.at.this.time.": {
     "defaultMessage": "Non sei idoneo per effettuare il mint in questo momento."
   },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Accedi a darkblock per ottenere ulteriori informazioni"
-  },
   "access.requirements.message": {
     "defaultMessage": "Messaggio sui requisiti di accesso"
   },
@@ -1495,15 +1498,6 @@
   "csv.file.to.import.on.aidrop.contract": {
     "defaultMessage": "File CSV da importare nei contratti di condivisione di massa"
   },
-  "darkblock": {
-    "defaultMessage": "Blocco scuro"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock è un protocollo decentralizzato che permette ai creatori di contenuti di pubblicare e distribuire contenuti esclusivi ai loro fan senza il bisogno di piattaforme centralizzate di token-gating. Questa integrazione è utilizzata nella pagina degli asset per le reti supportate da Darkblock."
-  },
   "default.currency": {
     "defaultMessage": "Valuta di default"
   },
@@ -1611,18 +1605,6 @@
   },
   "empty.leaderboard": {
     "defaultMessage": "Classifica vuota"
-  },
-  "enable.darkblock": {
-    "defaultMessage": "Abilita Asset Darkblock"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Abilita Collezione Darkblock"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Abilita Darkblock sulla pagina dell'Asset"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Abilita Darkblock sulla pagina della Collezione"
   },
   "enable.drop": {
     "defaultMessage": "Abilita Darkblock"
@@ -2115,6 +2097,24 @@
   },
   "sort.by": {
     "defaultMessage": "Ordina per"
+  },
+  "sort.newest": {
+    "defaultMessage": "Più recenti"
+  },
+  "sort.oldest": {
+    "defaultMessage": "Più vecchi"
+  },
+  "sort.most.modified": {
+    "defaultMessage": "Più modificati"
+  },
+  "sort.least.modified": {
+    "defaultMessage": "Meno modificati"
+  },
+  "sort.name.asc": {
+    "defaultMessage": "Nome A-Z"
+  },
+  "sort.name.desc": {
+    "defaultMessage": "Nome Z-A"
   },
   "stake": {
     "defaultMessage": "Stake"
@@ -2640,6 +2640,21 @@
   },
   "filters": {
     "defaultMessage": "Filtri"
+  },
+  "filter.by": {
+    "defaultMessage": "Filtra per"
+  },
+  "filter.all": {
+    "defaultMessage": "Tutti"
+  },
+  "filter.recent": {
+    "defaultMessage": "Recenti (30 giorni)"
+  },
+  "filter.active": {
+    "defaultMessage": "Attivi (7 giorni)"
+  },
+  "filter.popular": {
+    "defaultMessage": "Popolari"
   },
   "finish": {
     "defaultMessage": "Fine"
@@ -3254,6 +3269,12 @@
   },
   "clear.filters": {
     "defaultMessage": "Cancella i filtri per visualizzare gli NFT"
+  },
+  "clear.filters.button": {
+    "defaultMessage": "Cancella filtri"
+  },
+  "results.count": {
+    "defaultMessage": "{count} siti trovati"
   },
   "clone.page": {
     "defaultMessage": "Clona pagina"

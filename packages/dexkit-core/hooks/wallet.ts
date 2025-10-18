@@ -19,10 +19,14 @@ export function useCoinPrices({
 }) {
   return useQuery([COIN_PRICES_QUERY, chainId, tokens, currency], async () => {
     if (!chainId || !tokens || !currency) {
-      return;
+      return {};
     }
 
     return await getPricesByChain(chainId, tokens, currency);
+  }, {
+    enabled: !!(chainId && tokens && currency),
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
   });
 }
 

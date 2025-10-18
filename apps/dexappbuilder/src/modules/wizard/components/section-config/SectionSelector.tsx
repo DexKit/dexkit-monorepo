@@ -1,6 +1,6 @@
 import { SectionType } from '@dexkit/ui/modules/wizard/types/section';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, ButtonBase, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, ButtonBase, Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
@@ -21,23 +21,25 @@ export function SectionSelector({ onClickSection }: Props) {
   const [value, setValue] = useState<string>('all');
   const [search, setSearch] = useState<string>();
   const { formatMessage } = useIntl();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ pl: 3, pr: 3 }}>
+    <Box sx={{ pl: isMobile ? 2 : 3, pr: isMobile ? 2 : 3 }}>
       <Grid container spacing={1}>
-        <Grid item xs={12} justifyContent={'center'}>
-          <Box sx={{ pl: 2, pr: 2 }}>
+        <Grid justifyContent={'center'} size={12}>
+          <Box sx={{ pl: isMobile ? 0 : 2, pr: isMobile ? 0 : 2, pt: isMobile ? 2 : 0 }}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel htmlFor="outlined-search">
                 <FormattedMessage id={'search'} defaultMessage={'Search'} />
               </InputLabel>
               <OutlinedInput
                 id="outlined-search"
-                onChange={(s) => setSearch(s.currentTarget.value)}
+                onChange={(s: any) => setSearch(s.currentTarget.value)}
                 label={
                   <FormattedMessage id={'search'} defaultMessage={'Search'} />
                 }
@@ -52,7 +54,7 @@ export function SectionSelector({ onClickSection }: Props) {
             </FormControl>
           </Box>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -119,7 +121,7 @@ export function SectionSelector({ onClickSection }: Props) {
                 </Typography>
               </Stack>
             </Button>*/}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={2} sx={{ overflow: 'auto' }}>
             {SectionCategory.filter((c) => {
               if (value !== 'all') {
@@ -128,12 +130,12 @@ export function SectionSelector({ onClickSection }: Props) {
               return true;
             }).map((cat, key) => (
               <React.Fragment key={key}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography fontWeight="bold" variant="subtitle1">
                     {cat.title}
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Grid container spacing={2} flexWrap="wrap">
                     {SECTION_TYPES_DATA.filter((s) => s.category === cat.value)
                       .filter((s) => {
@@ -151,17 +153,23 @@ export function SectionSelector({ onClickSection }: Props) {
                         }
                       })
                       .map((sec, k) => (
-                        <Grid item xs={6} lg={4} xl={3} key={k}>
+                        <Grid
+                          key={k}
+                          size={{
+                            xs: 6,
+                            lg: 4,
+                            xl: 3
+                          }}>
                           <Tooltip title={sec.description}>
                             <ButtonBase
                               sx={{
                                 display: 'block',
                                 width: '100%',
-                                px: { sm: 4, xs: 1 },
+                                px: isMobile ? 2 : { sm: 4, xs: 1 },
                                 height: (theme) => theme.spacing(16),
                                 border: '1px solid',
-                                borderRadius: (theme) =>
-                                  theme.shape.borderRadius / 2,
+                                borderRadius: (theme: any) =>
+                                  Number(theme.shape.borderRadius) / 2,
                                 borderColor: 'text.secondary',
                               }}
                               onClick={() => {

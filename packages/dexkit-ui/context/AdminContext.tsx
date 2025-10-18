@@ -7,7 +7,7 @@ interface IAdminContext {
   editAppConfig?: AppConfig;
 }
 
-const ADMIN_INITIAL_VALUES = {
+const ADMIN_INITIAL_VALUES: IAdminContext = {
   editSiteId: undefined,
   editWidgetId: undefined,
   editAppConfig: undefined,

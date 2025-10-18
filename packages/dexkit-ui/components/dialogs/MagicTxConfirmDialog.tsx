@@ -243,14 +243,14 @@ export default function MagicTxConfirmDialog(
         cost = parseFloat(
           formatEther(
             values.gasLimit?.mul(values.maxFeePerGas || BigNumber.from(0)) ||
-              BigNumber.from(0)
+            BigNumber.from(0)
           )
         );
       } else {
         cost = parseFloat(
           formatEther(
             values.gasLimit?.mul(values.gasPrice || BigNumber.from(0)) ||
-              BigNumber.from(0)
+            BigNumber.from(0)
           )
         );
       }
@@ -274,7 +274,7 @@ export default function MagicTxConfirmDialog(
       />
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
@@ -289,7 +289,7 @@ export default function MagicTxConfirmDialog(
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
@@ -305,7 +305,7 @@ export default function MagicTxConfirmDialog(
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
@@ -321,7 +321,7 @@ export default function MagicTxConfirmDialog(
             </Box>
           </Grid>
           {values.value ? (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -341,10 +341,10 @@ export default function MagicTxConfirmDialog(
               </Box>
             </Grid>
           ) : null}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
@@ -362,7 +362,7 @@ export default function MagicTxConfirmDialog(
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper variant="outlined">
               <Box p={2}>
                 <Box
@@ -381,7 +381,7 @@ export default function MagicTxConfirmDialog(
                 <Collapse in={showAdvanced}>
                   <Box mt={4}>
                     <Grid container spacing={4}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           size="small"
                           value={values.gasLimit?.toNumber() || 0}
@@ -394,7 +394,7 @@ export default function MagicTxConfirmDialog(
                       </Grid>
                       {isEIP1559() ? (
                         <>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={formatUnits(
@@ -413,7 +413,7 @@ export default function MagicTxConfirmDialog(
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={formatUnits(
@@ -435,7 +435,7 @@ export default function MagicTxConfirmDialog(
                         </>
                       ) : (
                         <>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={formatUnits(
@@ -458,7 +458,7 @@ export default function MagicTxConfirmDialog(
                       )}
                       <>
                         {values?.nonce !== undefined && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={values?.nonce}
@@ -483,7 +483,7 @@ export default function MagicTxConfirmDialog(
             </Paper>
           </Grid>
           {isInsufficientFunds && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">
                 {" "}
                 <FormattedMessage
@@ -500,8 +500,8 @@ export default function MagicTxConfirmDialog(
           startIcon={<Check />}
           disabled={
             Number(formatEther(etherBalance || "0")) <
-              gasCost(values) +
-                parseInt(values.value ? formatEther(values.value) : "0") ||
+            gasCost(values) +
+            parseInt(values.value ? formatEther(values.value) : "0") ||
             gasCost(values) === 0
           }
           onClick={handleConfirm}

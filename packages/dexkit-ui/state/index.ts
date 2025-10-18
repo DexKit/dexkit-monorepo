@@ -22,7 +22,34 @@ export const accountAssetsAtom = atomWithStorage<{
 
 export const isMiniSidebarAtom = atomWithStorage<boolean>(
   'dexkit-ui.isMiniSidebar',
-  false
+  false,
+  {
+    getItem: (key: string) => {
+      if (typeof window === 'undefined') return false;
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : false;
+      } catch {
+        return false;
+      }
+    },
+    setItem: (key: string, value: boolean) => {
+      if (typeof window === 'undefined') return;
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // Ignore errors
+      }
+    },
+    removeItem: (key: string) => {
+      if (typeof window === 'undefined') return;
+      try {
+        localStorage.removeItem(key);
+      } catch {
+        // Ignore errors
+      }
+    },
+  }
 );
 
 export const userThemeModeAtom = atomWithStorage<ThemeMode | undefined>('dexkit-ui.user-theme-mode', undefined);

@@ -101,7 +101,7 @@ export default function PagesWizardContainer({
 
   const handleSetPages = useCallback(
     (cb: (prev: { [key: string]: AppPage }) => { [key: string]: AppPage }) => {
-      setPages((value) => {
+      setPages((value: any) => {
         let res = cb(value);
 
         onChange({
@@ -138,7 +138,7 @@ export default function PagesWizardContainer({
         }}
         onConfirm={() => {
           if (selectedKey && oldPage) {
-            setPages((pages) => {
+            setPages((pages: any) => {
               const newPages = { ...pages };
 
               return {
@@ -183,7 +183,7 @@ export default function PagesWizardContainer({
         </Stack>
       </AppConfirmDialog>
       <Grid container spacing={isMobile ? 1.5 : 3} sx={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -209,10 +209,10 @@ export default function PagesWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PagesContainer
             builderKit={builderKit}
             pages={pages}
@@ -226,10 +226,10 @@ export default function PagesWizardContainer({
             site={siteSlug?.toString()}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={1} direction="row" justifyContent="flex-end" sx={{ pr: theme.spacing(2) }}>
             <Button
               onClick={handleCancel}

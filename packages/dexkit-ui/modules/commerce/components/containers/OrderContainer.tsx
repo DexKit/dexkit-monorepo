@@ -171,7 +171,7 @@ function OrderComponent({ order, onRefetch }: OrderComponentProps) {
       </Stack>
       <Box sx={{ width: "100%" }}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={8}>
+          <Grid size={{ xs: 12, sm: 8 }}>
             <Box>
               <Stack spacing={2}>
                 <OrderDetailsCard order={order} />

@@ -10,6 +10,6 @@ export default function useDeleteOrder() {
       throw new Error('no instance');
     }
 
-    return (await instance?.delete(`/orders/${data.id}`)).data;
+    return (await (instance as any)?.delete(`/orders/${data.id}`)).data;
   });
 }

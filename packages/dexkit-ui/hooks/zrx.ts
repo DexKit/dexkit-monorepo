@@ -9,9 +9,8 @@ import { Hex, concat, maxUint256, numberToHex, size } from "viem";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { client } from "@dexkit/wallet-connectors/thirdweb/client";
 import { defineChain, getContract, sendTransaction } from "thirdweb";
-import { allowance, approve } from "thirdweb/extensions/erc20";
+import { approve } from "thirdweb/extensions/erc20";
 import { ZRX_PRICE_QUERY, ZRX_QUOTE_QUERY } from "../constants/zrx";
-import { SUPPORTED_UNISWAP_V2 } from "../modules/swap/constants";
 import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 import { ZeroExApiClient } from "../modules/swap/services/zrxClient";
 import {
@@ -87,7 +86,6 @@ export function useZrxQuoteQuery({
 }) {
   const { siteId } = useContext(SiteContext);
   const { widgetId, apiKey } = useDexKitContext();
-
 
   return useQuery(
     [ZRX_QUOTE_QUERY, params, widgetId, siteId],
@@ -247,95 +245,6 @@ export const useSendTxMutation = (p: txMutationParams) => {
 
   return useMutation(async () => {
     if (sellAmount && buyAmount && chainId && quote) {
-
-      if (SUPPORTED_UNISWAP_V2.includes(chainId) && !(quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS)) {
-        try {
-          if (activeAccount) {
-            const contract = getContract({
-              client,
-              address: quote?.sellToken,
-              chain: defineChain(chainId),
-            });
-
-
-            const spender = quote.to;
-            const result = await allowance({ contract, owner: activeAccount.address, spender })
-            if (result < BigInt(quote.sellAmount)) {
-              //const simulateRequest = await simulateApproveRequest;
-              const transaction = await approve({
-                contract,
-                spender: spender,
-                amount: quote?.sellAmount
-                  ? BigInt(quote.sellAmount).toString()
-                  : maxUint256.toString(),
-              });
-
-              await sendTransaction({ transaction, account: activeAccount });
-            }
-          }
-        } catch (error) {
-          console.log("Error approving :", error);
-          throw new Error("Error approving ");
-        }
-        let hash;
-
-        if (quote?.sellToken === ZEROEX_NATIVE_TOKEN_ADDRESS) {
-          // Directly sign and send the native token transaction
-          hash = await activeAccount?.sendTransaction({
-            chainId: chainId,
-            to: quote.to,
-            data: quote.data as `0x${string}`,
-            value: BigInt(quote.value),
-
-          });
-        } else {
-          hash = await activeAccount?.sendTransaction({
-            chainId: chainId,
-            to: quote.to,
-            data: quote.data as `0x${string}`,
-          });
-        }
-
-        const subType = side == "buy" ? "marketBuy" : "marketSell";
-        const messageType = EXCHANGE_NOTIFICATION_TYPES[
-          subType
-        ] as AppNotificationType;
-
-        createNotification({
-          type: "transaction",
-          icon: messageType.icon,
-          subtype: subType,
-          metadata: {
-            hash: hash?.transactionHash,
-            chainId,
-          },
-          values: {
-            sellAmount,
-            sellTokenSymbol: sellToken.symbol.toUpperCase(),
-            buyAmount,
-            buyTokenSymbol: buyToken.symbol.toUpperCase(),
-          },
-        });
-
-        trackUserEvent.mutate({
-          // event: side == "buy" ? UserEvents.marketBuy : UserEvents.marketSell,
-          event: UserEvents.swap,
-          hash: hash?.transactionHash,
-          chainId,
-          metadata: JSON.stringify({
-            quote,
-          }),
-        });
-
-        await provider?.waitForTransaction(hash?.transactionHash as string);
-        return hash?.transactionHash;
-
-
-
-      }
-
-
-
       if (canGasless) {
         let data = quote as ZeroExGaslessQuoteResponse;
         const tokenApprovalRequired = data.issues.allowance != null;

@@ -1,12 +1,5 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Divider,
-  Icon,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  alpha,
-} from "@mui/material";
+import { alpha, Divider, Icon, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import * as React from "react";
@@ -181,7 +174,6 @@ export default function NavbarMenu(props: Props) {
           />
         </Button>
       )}
-
       <Menu
         id="navbar-menu"
         anchorEl={anchor ? anchor : anchorEl}

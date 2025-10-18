@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
-    "@mui/lab": "5.0.0-alpha.121",
+    "@mui/lab": "^7.0.0-alpha.170",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",
@@ -41,6 +41,15 @@
     "@0x/protocol-utils": "^11.22.4",
     "@dexkit/core": "*",
     "@dexkit/ui": "*",
+    "@emotion/cache": "^11.7.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "7.3.2",
+    "@mui/lab": "^7.0.0-alpha.170",
+    "@mui/material": "7.3.2",
+    "@mui/x-data-grid": "^7.27.0",
+    "@mui/x-date-pickers": "^7.27.0",
     "@noble/curves": "^1.8.1"
   },
   "publishConfig": {

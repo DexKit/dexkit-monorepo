@@ -18,10 +18,12 @@ import {
   CardContent,
   Chip,
   IconButton,
-  lighten,
   Stack,
   Tooltip,
   Typography,
+  useColorScheme,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { BigNumber, ethers } from 'ethers';
 import { useMemo } from 'react';
@@ -46,7 +48,15 @@ export default function GameCard({
   onShare,
   onShowMetadata,
 }: Props) {
+  const { mode } = useColorScheme();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const coinToPlay = useCoinToPlay(chainId, game?.coinToPlay);
+
+  const getBackgroundColor = () => {
+    return mode === 'dark' ? '#191b22' : '#f5f5f5';
+  };
 
   const prizeTotalValue = useMemo(() => {
     if (game && coinToPlay) {
@@ -96,22 +106,19 @@ export default function GameCard({
     <Card variant={game?.title ? 'outlined' : 'elevation'}>
       <Box
         sx={{
-          px: 2,
-          py: 1,
-          backgroundColor: (theme) =>
-            lighten(theme.palette.background.default, 0.05),
+          px: isMobile ? 1.5 : 2,
+          py: isMobile ? 0.75 : 1,
+          backgroundColor: getBackgroundColor(),
         }}
       >
         <Stack
           direction="row"
           alignItems="center"
-          alignContent="center"
           justifyContent="space-between"
         >
           <Stack
             direction="row"
             alignItems="center"
-            alignContent="center"
             justifyContent="space-between"
             spacing={1}
           >
@@ -134,14 +141,17 @@ export default function GameCard({
           </Button>
         </Stack>
       </Box>
-      <CardContent>
-        <Stack spacing={2}>
+      <CardContent sx={{ px: isMobile ? 1.5 : 2, py: isMobile ? 1.5 : 2 }}>
+        <Stack spacing={isMobile ? 1.5 : 2}>
           <Stack spacing={1}>
             <Box>
               <Typography variant="caption" color="textSecondary">
                 <FormattedMessage id="max.prize" defaultMessage="Max Prize" />
               </Typography>
-              <Typography sx={{ fontWeight: 600 }} variant="h5">
+              <Typography
+                sx={{ fontWeight: 600 }}
+                variant={isMobile ? "h6" : "h5"}
+              >
                 <>
                   {prizeTotalValue} {coinToPlay?.symbol}
                 </>
@@ -154,7 +164,6 @@ export default function GameCard({
               <Stack
                 direction="row"
                 alignItems="center"
-                alignContent="center"
                 spacing={0.5}
               >
                 <Tooltip
@@ -168,8 +177,9 @@ export default function GameCard({
                   <Chip
                     icon={<Graph />}
                     variant="outlined"
-                    size="small"
+                    size={isMobile ? "small" : "small"}
                     label={gameLevel}
+                    sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
                   />
                 </Tooltip>
                 <Tooltip
@@ -189,7 +199,8 @@ export default function GameCard({
                       )
                     }
                     variant="outlined"
-                    size="small"
+                    size={isMobile ? "small" : "small"}
+                    sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
                     label={
                       game?.type === 'Bull' ? (
                         <Typography
@@ -221,7 +232,6 @@ export default function GameCard({
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               spacing={0.5}
             >
               <Tooltip
@@ -235,8 +245,9 @@ export default function GameCard({
                 <Chip
                   icon={<Coins />}
                   variant="outlined"
-                  size="small"
+                  size={isMobile ? "small" : "small"}
                   label={strPad(coins)}
+                  sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
                 />
               </Tooltip>
               <Tooltip
@@ -247,8 +258,9 @@ export default function GameCard({
                 <Chip
                   icon={<Clock />}
                   variant="outlined"
-                  size="small"
+                  size={isMobile ? "small" : "small"}
                   label={GET_LABEL_FROM_DURATION(duration)}
+                  sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
                 />
               </Tooltip>
               <Tooltip
@@ -258,8 +270,9 @@ export default function GameCard({
               >
                 <Chip
                   variant="outlined"
-                  size="small"
+                  size={isMobile ? "small" : "small"}
                   icon={<Persons />}
+                  sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
                   label={
                     <>
                       {players}/{maxPlayers}{' '}
@@ -273,16 +286,19 @@ export default function GameCard({
 
           <Box
             sx={{
-              px: 2,
-              py: 1,
+              px: isMobile ? 1.5 : 2,
+              py: isMobile ? 0.75 : 1,
               borderRadius: (theme) => `${theme.shape.borderRadius}px`,
-              backgroundColor: (theme) =>
-                lighten(theme.palette.background.default, 0.05),
+              backgroundColor: getBackgroundColor(),
             }}
           >
             <Typography
-              sx={{ fontWeight: 600, textTransform: 'uppercase' }}
-              variant="body1"
+              sx={{
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                fontSize: isMobile ? '0.875rem' : '1rem'
+              }}
+              variant={isMobile ? "body2" : "body1"}
               align="center"
             >
               {!game?.startedAt ? (
@@ -298,15 +314,17 @@ export default function GameCard({
             </Typography>
           </Box>
           <Button
-            href={`/game/${getNetworkSlugFromChainId(chainId)}/${
-              game.id
-            }${affiliate ? '?affiliate=' + affiliate : ''}`}
+            href={`/game/${getNetworkSlugFromChainId(chainId)}/${game.id
+              }${affiliate ? '?affiliate=' + affiliate : ''}`}
             color="primary"
             variant="contained"
+            size={isMobile ? "medium" : "large"}
             sx={{
               fontWeight: 600,
               display: 'flex',
               justifyContent: 'space-between',
+              minHeight: isMobile ? 44 : 48,
+              fontSize: isMobile ? '0.875rem' : '1rem',
             }}
           >
             <Typography variant="inherit">

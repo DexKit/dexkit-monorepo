@@ -11,6 +11,6 @@ export default function useCreateCategory() {
       throw new Error('no instance');
     }
 
-    return (await instance?.post('/product-category/', data)).data;
+    return (await (instance as any)?.post('/product-category/', data)).data;
   });
 }

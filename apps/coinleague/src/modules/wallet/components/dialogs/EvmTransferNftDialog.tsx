@@ -165,6 +165,7 @@ export default function EvmTransferNftDialog({
                       nftMetadataQuery.data?.image && (
                         <img
                           src={getNormalizedUrl(nftMetadataQuery.data?.image)}
+                          alt={nftMetadataQuery.data?.name || 'NFT'}
                         />
                       )
                     )}

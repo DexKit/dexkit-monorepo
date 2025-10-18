@@ -4,12 +4,11 @@ import {
     Button,
     Container,
     Divider,
-    Grid,
     InputAdornment,
     Stack,
     TextField,
 } from "@mui/material";
-import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -55,7 +54,7 @@ export function AssetStoreContainer({
 
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <StoreHeader
               profileImageURL={profileImageURL}
               backgroundImageURL={backgroundImageURL}
@@ -64,27 +63,42 @@ export function AssetStoreContainer({
               title={title}
             />
           </Grid>
-          <Grid item xs={12}>
+          
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          
+          <Grid size={12}>
             <Stack
               justifyContent="space-between"
               direction="row"
               alignItems="center"
               alignContent="center"
             >
-              {/* <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                <FormattedMessage
-                  id="store"
-                  defaultMessage="Store"
-                  description="store"
+              <Grid size="auto">
+                <TextField
+                  fullWidth
+                  size="small"
+                  type="search"
+                  value={search}
+                  onChange={handleChangeSearch}
+                  placeholder={formatMessage({
+                    id: "search.in.store",
+                    defaultMessage: "Search in store",
+                  })}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Search color="primary" />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-      </Typography>*/}
+              </Grid>
 
               {account?.toLowerCase() === storeAccount?.toLowerCase() &&
                 account && (
-                  <Box>
+                  <Grid size="auto">
                     <Button
                       variant="contained"
                       onClick={() => setOpenAssetOrderDialog(true)}
@@ -94,32 +108,12 @@ export function AssetStoreContainer({
                         defaultMessage={"Create Order"}
                       />
                     </Button>
-                  </Box>
+                  </Grid>
                 )}
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={6} md={4} xl={3}>
-            <TextField
-              fullWidth
-              size="small"
-              type="search"
-              value={search}
-              onChange={handleChangeSearch}
-              placeholder={formatMessage({
-                id: "search.in.store",
-                defaultMessage: "Search in store",
-              })}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Search color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <StoreOrderbook
               search={search}
               orderbook={assetOrderbookQuery.data}

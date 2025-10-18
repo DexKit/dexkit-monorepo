@@ -313,7 +313,7 @@ export default function GlassShareDialog({
             </Typography>
             <Grid container spacing={1.5} justifyContent="center">
               {socialShareOptions.map((option) => (
-                <Grid item key={option.value}>
+                <Grid key={option.value}>
                   <Box sx={{ textAlign: 'center' }}>
                     <IconButton
                       onClick={() => handleShareOption(option.value)}

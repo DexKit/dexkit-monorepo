@@ -10,7 +10,7 @@ interface Props {
   label?: string;
 }
 
-export function InitTransak({currency, account}: {currency?: string, account?: string}){
+export function InitTransak({ currency, account }: { currency?: string, account?: string }) {
   let transak;
 
   import("@transak/transak-sdk").then((transakSDK) => {
@@ -28,7 +28,7 @@ export function InitTransak({currency, account}: {currency?: string, account?: s
       widgetWidth:
         window.innerWidth > 500 ? "500px" : `${window.innerWidth - 10}px`,
       walletAddress: account, // Your customer's wallet address
-      fiatCurrency: currency ? currency.toUpperCase(): undefined, // If you want to limit fiat selection eg 'USD'
+      fiatCurrency: currency ? currency.toUpperCase() : undefined, // If you want to limit fiat selection eg 'USD'
     });
   });
 
@@ -41,12 +41,12 @@ export function TransakButton({ label }: Props) {
   const { account, isActive } = useWeb3React();
   const appConfig = useAppConfig();
   const currency = useCurrency();
-  const transak = useRef<any>();
+  const transak = useRef<any>(null);
 
   useEffect(() => {
     if (appConfig.transak?.enabled) {
       if (account !== undefined) {
-        transak.current = InitTransak({currency: currency.currency, account})
+        transak.current = InitTransak({ currency: currency.currency, account })
       }
     }
   }, [account, currency]);

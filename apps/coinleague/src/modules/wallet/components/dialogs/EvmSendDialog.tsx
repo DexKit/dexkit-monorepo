@@ -220,7 +220,6 @@ export default function EvmSendDialog({
           <Stack
             justifyContent="center"
             alignItems="center"
-            alignContent="center"
           >
             <Typography color="textSecondary" variant="caption">
               {truncateAddress(account)}{' '}

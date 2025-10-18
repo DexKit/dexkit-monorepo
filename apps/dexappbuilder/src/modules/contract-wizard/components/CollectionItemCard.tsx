@@ -46,14 +46,14 @@ export default function CollectionItemCard({ tokenId }: Props) {
             </Stack>
             <Box>
               <Grid container spacing={2}>
-                <Grid item>
+                <Grid>
                   <ImageFormUpload
                     value={values.file || ''}
-                    onSelectFile={(file) => setFieldValue(`file`, file)}
+                    onSelectFile={(file: any) => setFieldValue(`file`, file)}
                     error={Boolean(errors?.file)}
                   />
                 </Grid>
-                <Grid item xs>
+                <Grid size="grow">
                   <Stack spacing={2}>
                     <Field
                       component={TextField}
@@ -81,7 +81,7 @@ export default function CollectionItemCard({ tokenId }: Props) {
                       values.attributes?.length > 0 && (
                         <Box>
                           <Stack spacing={2}>
-                            {values.attributes?.map((_, index: number) => (
+                            {values.attributes?.map((_: any, index: number) => (
                               <CollectionItemAttributeForm
                                 key={index}
                                 index={index}
@@ -95,7 +95,7 @@ export default function CollectionItemCard({ tokenId }: Props) {
                     <Box>
                       <FieldArray
                         name={`.attributes`}
-                        render={(arrayHelper) => (
+                        render={(arrayHelper: any) => (
                           <Button
                             variant="outlined"
                             onClick={() => arrayHelper.push({})}

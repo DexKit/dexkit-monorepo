@@ -18,7 +18,7 @@ import {
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { useSnackbar } from 'notistack';
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import useCheckoutNetworks from '../hooks/settings/useCheckoutNetworks';
 import useUpdateCheckoutNetworks from '../hooks/settings/useUpdateCheckoutNetworks';
@@ -37,7 +37,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
 
   const [query, setQuery] = useState<string>('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
@@ -72,7 +72,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
 
   const handleToggle = useCallback((chainId: ChainId) => {
     return () => {
-      setChecked((values) => ({
+      setChecked((values: any) => ({
         ...values,
         [chainId]: !Boolean(values[chainId]),
       }));
@@ -106,7 +106,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box>
           <Stack direction="row" alignItems="center" spacing={2}>
             <TextField
@@ -143,7 +143,7 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
           </Stack>
         </Box>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Box>
           <Grid
             container
@@ -154,8 +154,8 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
             wrap="wrap"
             sx={{ height: (theme) => theme.spacing(36) }}
           >
-            {availNetworks.map((network, key) => (
-              <Grid item key={key}>
+            {availNetworks.map((network: any, key: number) => (
+              <Grid key={key}>
                 <Box>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Switch
@@ -178,10 +178,10 @@ function CheckoutNetworksBase({ networks }: CheckoutNetworksBaseProps) {
           </Grid>
         </Box>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box>
           <Stack direction="row" justifyContent="flex-end" spacing={2}>
             <Button>

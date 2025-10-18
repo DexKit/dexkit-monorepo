@@ -56,7 +56,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
 
   const factoryAddress = useFactoryAddress();
 
-  const handleTxHash = (hash: string) => {};
+  const handleTxHash = (hash: string) => { };
 
   const createGameMutation = useCreateGameMutation({
     factoryAddress,
@@ -122,7 +122,7 @@ export default function CreateGameDialog({ dialogProps }: Props) {
 
   const handleChangeStartDate = (
     newValue: Moment | null,
-    keyboardInputValue?: string | undefined,
+    context: any,
   ) => {
     form.setFieldValue('startDate', newValue?.toDate().getTime());
   };
@@ -303,10 +303,16 @@ export default function CreateGameDialog({ dialogProps }: Props) {
               </Select>
             </FormControl>
             <DateTimePicker
-              renderInput={(params) => <TextField {...params} />}
-              label={
-                <FormattedMessage id="start.date" defaultMessage="Start date" />
-              }
+              slots={{
+                textField: TextField,
+              }}
+              slotProps={{
+                textField: {
+                  label: (
+                    <FormattedMessage id="start.date" defaultMessage="Start date" />
+                  ),
+                },
+              }}
               minDate={moment()}
               ampm={false}
               value={moment(new Date(form.values.startDate))}

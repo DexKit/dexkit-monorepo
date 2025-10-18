@@ -555,6 +555,7 @@ export function PagesContainer({
               values={{
                 page: (
                   <Typography
+                    key="page-title"
                     component="span"
                     variant="inherit"
                     fontWeight="400"

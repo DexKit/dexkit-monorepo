@@ -10,6 +10,6 @@ export default function useDeleteProduct() {
       throw new Error('no instance');
     }
 
-    return (await instance?.delete(`/products/${data.id}`)).data;
+    return (await (instance as any)?.delete(`/products/${data.id}`)).data;
   });
 }

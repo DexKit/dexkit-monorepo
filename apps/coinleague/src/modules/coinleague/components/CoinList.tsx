@@ -1,6 +1,7 @@
 import { Box, List, TextField, useTheme } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useThemeMode } from 'src/hooks/app';
 import { Coin } from '../types';
 import CoinListItem from './CoinListItem';
 
@@ -20,6 +21,7 @@ export function CoinList({
   onSelect,
 }: Props) {
   const theme = useTheme();
+  const { mode: themeMode } = useThemeMode();
   const [coinFilter, setCoinFilter] = useState<string>();
 
   const filteredCoins = useMemo(() => {
@@ -43,9 +45,6 @@ export function CoinList({
         position={'sticky'}
         top={0}
         zIndex={100000}
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-        }}
       >
         <TextField
           id="outlined-basic"
@@ -58,6 +57,32 @@ export function CoinList({
             ></FormattedMessage>
           }
           variant="outlined"
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: themeMode === 'dark' ? '#3c4148' : '#FAFAFA',
+              '& fieldset': {
+                borderColor: themeMode === 'dark' ? '#737372' : '#DCDCDC',
+                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+              },
+              '&:hover fieldset': {
+                borderColor: theme.palette.primary.main,
+                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: theme.palette.primary.main,
+                borderWidth: themeMode === 'dark' ? '1px' : '1px',
+              },
+            },
+            '& .MuiInputLabel-root': {
+              color: themeMode === 'dark' ? '#737372' : '#737372',
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: theme.palette.primary.main,
+            },
+            '& .MuiOutlinedInput-input': {
+              color: themeMode === 'dark' ? '#fff' : '#0E1116',
+            },
+          }}
         />
       </Box>
       <List disablePadding>

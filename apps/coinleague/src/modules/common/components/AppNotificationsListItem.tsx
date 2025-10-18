@@ -41,9 +41,8 @@ export default function AppNotificationsListItem({ notification }: Props) {
         divider
         component={Link}
         target="_blank"
-        href={`${getBlockExplorerUrl(transaction.chainId)}/tx/${
-          notification.hash
-        }`}
+        href={`${getBlockExplorerUrl(transaction.chainId)}/tx/${notification.hash
+          }`}
       >
         <ListItemAvatar>
           <Avatar>
@@ -72,7 +71,6 @@ export default function AppNotificationsListItem({ notification }: Props) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            alignContent: 'center',
           }}
         >
           {transaction.status === TransactionStatus.Pending ? (

@@ -370,7 +370,7 @@ export default function TokensTable({
         rowSelection
         rowCount={filteredTokens.length}
         checkboxSelection
-        getRowId={(row) => TOKEN_KEY(row.token as any)}
+        getRowId={(row: any) => TOKEN_KEY(row.token as any)}
         rowHeight={isMobile ? 75 : 70}
         onSortModelChange={setSortModel}
         sortModel={sortModel}
@@ -381,7 +381,7 @@ export default function TokensTable({
         rowSelectionModel={selection}
         disableRowSelectionOnClick
         disableColumnSelector
-        onRowSelectionModelChange={(rowSelection) =>
+        onRowSelectionModelChange={(rowSelection: any) =>
           onChangeSelection(rowSelection as string[])
         }
         density={isMobile ? "comfortable" : "standard"}

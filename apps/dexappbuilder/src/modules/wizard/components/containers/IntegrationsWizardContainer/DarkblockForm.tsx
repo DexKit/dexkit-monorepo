@@ -73,7 +73,7 @@ export default function DarkblockForm({ siteId }: DarkblockFormProps) {
         touched,
       }) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack alignItems="flex-start">
                 <FormControlLabel
@@ -140,7 +140,7 @@ export default function DarkblockForm({ siteId }: DarkblockFormProps) {
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               size="small"
               variant="contained"

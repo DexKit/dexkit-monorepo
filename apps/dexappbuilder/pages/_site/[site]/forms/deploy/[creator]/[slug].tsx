@@ -11,7 +11,6 @@ import {
   Dialog,
   DialogContent,
   Divider,
-  Grid,
   Link,
   ListItemText,
   MenuItem,
@@ -21,10 +20,12 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import AuthMainLayout from 'src/components/layouts/authMain';
 
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { DexkitApiProvider } from '@dexkit/core/providers';
 
@@ -84,13 +85,21 @@ interface ContractTutorial {
 export default function DeployPage() {
   const { chainId } = useWeb3React();
   const { activeChainIds } = useActiveChainIds();
+  const theme = useTheme();
+  const { mode } = useColorScheme();
+
+  const getDexKitLogo = (isDark: boolean = false) => {
+    return isDark
+      ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+      : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+  };
 
   const { query } = useRouter();
 
   const { slug, creator } = query;
 
-  const contractTutorial: ContractTutorial | undefined = slug ? 
-    (contractTutorials as Record<string, ContractTutorial>)[slug as string] : 
+  const contractTutorial: ContractTutorial | undefined = slug ?
+    (contractTutorials as Record<string, ContractTutorial>)[slug as string] :
     undefined;
 
   const switchNetworkMutation = useSwitchNetworkMutation();
@@ -124,6 +133,7 @@ export default function DeployPage() {
     contract: slug as string,
     creator: creator as string,
   });
+
 
   const saveContractDeployedMutation = useSaveContractDeployed();
 
@@ -243,7 +253,7 @@ export default function DeployPage() {
 
   const handleChangeChainId = (
     event: SelectChangeEvent<number>,
-    child: ReactNode,
+    child: React.ReactNode,
   ) => {
     setSelectedChainId(parseChainId(event.target.value));
   };
@@ -354,83 +364,87 @@ export default function DeployPage() {
         </DialogContent>
       </Dialog>
       <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-        <Container>
-          <Stack spacing={2}>
-            <PageHeader
-              breadcrumbs={[
-                {
-                  caption: <FormattedMessage id="home" defaultMessage="Home" />,
-                  uri: '/',
-                },
-                {
-                  caption: (
-                    <FormattedMessage
-                      id="dexcontract"
-                      defaultMessage="DexContract"
-                    />
-                  ),
-                  uri: '/forms',
-                },
-                {
-                  caption: (
-                    <FormattedMessage
-                      id="manage.contracts"
-                      defaultMessage="Manage Contracts"
-                    />
-                  ),
-                  uri: '/forms/contracts',
-                },
-                {
-                  caption: (
-                    <FormattedMessage
-                      id="deploy.contract"
-                      defaultMessage="Deploy Contract"
-                    />
-                  ),
-                  uri: `/forms/contracts/create`,
-                },
-                {
-                  caption: thirdwebMetadataQuery.data?.displayName,
-                  uri: `/forms/deploy/${
-                    creator as string
-                  }/${thirdwebMetadataQuery.data?.name}`,
-                  active: true,
-                },
-              ]}
-            />
+        <Container maxWidth="lg">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {/* Header Section */}
+            <Box>
+              <PageHeader
+                breadcrumbs={[
+                  {
+                    caption: <FormattedMessage id="home" defaultMessage="Home" />,
+                    uri: '/',
+                  },
+                  {
+                    caption: (
+                      <FormattedMessage
+                        id="dexcontract"
+                        defaultMessage="DexContract"
+                      />
+                    ),
+                    uri: '/forms',
+                  },
+                  {
+                    caption: (
+                      <FormattedMessage
+                        id="manage.contracts"
+                        defaultMessage="Manage Contracts"
+                      />
+                    ),
+                    uri: '/forms/contracts',
+                  },
+                  {
+                    caption: (
+                      <FormattedMessage
+                        id="deploy.contract"
+                        defaultMessage="Deploy Contract"
+                      />
+                    ),
+                    uri: `/forms/contracts/create`,
+                  },
+                  {
+                    caption: thirdwebMetadataQuery.data?.displayName,
+                    uri: `/forms/deploy/${creator as string
+                      }/${thirdwebMetadataQuery.data?.name}`,
+                    active: true,
+                  },
+                ]}
+              />
+            </Box>
+
+            {/* Main Content */}
             {formConfigParamsQuery.data && (
               <Box>
-                <Grid spacing={2} container>
-                  <Grid item xs={12}>
-                    <Paper sx={{ p: 2 }}>
-                      <Stack>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {/* Contract Header Card */}
+                  <Box>
+                    <Paper sx={{ p: { xs: 1, sm: 1.5 } }}>
+                      <Stack spacing={1.5}>
                         <Stack
                           direction="row"
-                          spacing={2}
+                          spacing={{ xs: 0.75, sm: 1.5 }}
                           alignItems="center"
                           alignContent="center"
                         >
-                          {thirdwebMetadataQuery.data?.logo ? (
-                            <Avatar
-                              src={getNormalizedUrl(
-                                thirdwebMetadataQuery.data?.logo,
-                              )}
-                              sx={{
-                                width: { xs: '2rem', sm: '3rem' },
-                                height: { xs: '2rem', sm: '3rem' }
-                              }}
-                            />
-                          ) : (
-                            <Skeleton
-                              variant="circular"
-                              sx={(theme) => ({
-                                height: { xs: theme.spacing(2), sm: theme.spacing(6) },
-                                width: { xs: theme.spacing(2), sm: theme.spacing(6) },
-                              })}
-                            />
-                          )}
+                          <Avatar
+                            src={getNormalizedUrl(
+                              thirdwebMetadataQuery.data?.logo || getDexKitLogo(mode === 'dark')
+                            )}
+                            sx={{
+                              width: { xs: '1.5rem', sm: '2.5rem' },
+                              height: { xs: '1.5rem', sm: '2.5rem' },
+                              '& .MuiAvatar-img': {
+                                objectFit: 'contain',
+                                padding: '0.25rem'
+                              }
+                            }}
+                          />
                           <Box sx={{ flex: 1 }}>
-                            <Typography variant="h5">
+                            <Typography variant="h4" sx={{
+                              fontWeight: 600,
+                              mb: 0.5,
+                              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                              lineHeight: { xs: 1.3, sm: 1.4 }
+                            }}>
                               {thirdwebMetadataQuery.data?.displayName ? (
                                 thirdwebMetadataQuery.data?.displayName
                               ) : (
@@ -441,6 +455,11 @@ export default function DeployPage() {
                               gutterBottom
                               color="text.secondary"
                               variant="body1"
+                              sx={{
+                                mb: 0.5,
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                                lineHeight: { xs: 1.3, sm: 1.4 }
+                              }}
                             >
                               {thirdwebMetadataQuery.data?.description ? (
                                 thirdwebMetadataQuery.data?.description
@@ -448,9 +467,9 @@ export default function DeployPage() {
                                 <Skeleton />
                               )}
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography variant="body2" color="text.secondary">
                               {thirdwebMetadataQuery.data?.publisher &&
-                              getBlockExplorerUrl(chainId) ? (
+                                getBlockExplorerUrl(chainId) ? (
                                 <FormattedMessage
                                   id="published.by.publisher"
                                   defaultMessage="Published by: {publisher}"
@@ -478,8 +497,9 @@ export default function DeployPage() {
                         </Stack>
                       </Stack>
                     </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
+                  </Box>
+                  {/* Network Selection */}
+                  <Box>
                     <Select
                       renderValue={(value) => {
                         return (
@@ -521,8 +541,9 @@ export default function DeployPage() {
                           </MenuItem>
                         ))}
                     </Select>
-                  </Grid>
-                  <Grid item xs={12}>
+                  </Box>
+                  {/* Form Section */}
+                  <Box>
                     <GenericForm
                       output={{
                         objects: formConfigParamsQuery.data.output,
@@ -546,23 +567,32 @@ export default function DeployPage() {
                         )
                       }
                     />
-                  </Grid>
-                  
+                  </Box>
+
+                  {/* Learn More Section */}
                   {contractTutorial && (
-                    <Grid item xs={12}>
-                      <Paper elevation={0} sx={{ p: 2, mt: 2, bgcolor: 'background.paper' }}>
-                        <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-                          <FormattedMessage 
-                            id="learn.more.about.contract" 
-                            defaultMessage="Learn more about {contractName}" 
-                            values={{ contractName: contractTutorial.name }} 
+                    <Box>
+                      <Paper elevation={0} sx={{ p: 3, mt: 2, bgcolor: 'background.paper' }}>
+                        <Typography variant="h6" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
+                          <FormattedMessage
+                            id="learn.more.about.contract"
+                            defaultMessage="Learn more about {contractName}"
+                            values={{ contractName: contractTutorial.name }}
                           />
                         </Typography>
-                        
-                        <Grid container spacing={3}>
+
+                        <Box sx={{
+                          display: 'grid',
+                          gridTemplateColumns: {
+                            xs: '1fr',
+                            sm: contractTutorial.videos.length >= 2 ? 'repeat(2, 1fr)' : '1fr',
+                            md: contractTutorial.videos.length >= 2 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'
+                          },
+                          gap: 3
+                        }}>
                           {contractTutorial.videos.length > 0 && contractTutorial.videos.map((video, index) => (
-                            <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 6} key={video.id}>
-                              <Card>
+                            <Box key={video.id}>
+                              <Card sx={{ height: '100%' }}>
                                 <CardMedia
                                   component="iframe"
                                   height="200"
@@ -579,10 +609,10 @@ export default function DeployPage() {
                                   </Typography>
                                 </CardContent>
                               </Card>
-                            </Grid>
+                            </Box>
                           ))}
-                          
-                          <Grid item xs={12} md={contractTutorial.videos.length >= 2 ? 4 : 12}>
+
+                          <Box>
                             <Card sx={{ height: '100%' }}>
                               <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography variant="subtitle1" gutterBottom>
@@ -594,28 +624,26 @@ export default function DeployPage() {
                                     {contractTutorial.documentation.description}
                                   </Typography>
                                 </Box>
-                                <Button 
-                                  variant="outlined" 
-                                  component={Link} 
+                                <Button
+                                  variant="outlined"
+                                  component={Link}
                                   href={contractTutorial.documentation.url}
                                   target="_blank"
-                                  rel="noopener noreferrer"
-                                  startIcon={<MenuBookIcon />}
-                                  fullWidth
+                                  sx={{ alignSelf: 'flex-start' }}
                                 >
-                                  <FormattedMessage id="view.documentation" defaultMessage="View documentation" />
+                                  <FormattedMessage id="read.documentation" defaultMessage="Read Documentation" />
                                 </Button>
                               </CardContent>
                             </Card>
-                          </Grid>
-                        </Grid>
+                          </Box>
+                        </Box>
                       </Paper>
-                    </Grid>
+                    </Box>
                   )}
-                </Grid>
+                </Box>
               </Box>
             )}
-          </Stack>
+          </Box>
         </Container>
       </DexkitApiProvider.Provider>
     </>
@@ -647,7 +675,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

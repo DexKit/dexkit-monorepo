@@ -1,3 +1,3 @@
-export default function GameRowSkeleton() {
+export default function GameRowSkeleton(): JSX.Element | null {
   return null;
 }

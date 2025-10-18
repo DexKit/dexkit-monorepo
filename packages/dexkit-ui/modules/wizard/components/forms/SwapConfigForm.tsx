@@ -59,7 +59,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
   return (
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
               id="default.network.info.swap.form"
@@ -67,7 +67,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <Typography variant="caption">
               <FormattedMessage
@@ -87,10 +87,10 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity="info">
             <FormattedMessage
               id="network.swap.options.info"
@@ -98,7 +98,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             />
           </Alert>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <Typography variant="caption">
               <FormattedMessage id="network" defaultMessage="Network" />
@@ -117,7 +117,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SearchTokenAutocomplete
             label={
               <FormattedMessage
@@ -150,13 +150,13 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                       ...oldFormData,
                       sellToken: tk
                         ? ({
-                            chainId: tk.chainId as number,
-                            contractAddress: tk.address,
-                            decimals: tk.decimals,
-                            name: tk.name,
-                            symbol: tk.symbol,
-                            logoURI: tk.logoURI,
-                          } as any)
+                          chainId: tk.chainId as number,
+                          contractAddress: tk.address,
+                          decimals: tk.decimals,
+                          name: tk.name,
+                          symbol: tk.symbol,
+                          logoURI: tk.logoURI,
+                        } as any)
                         : undefined,
                     },
                   },
@@ -166,7 +166,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SearchTokenAutocomplete
             chainId={selectedChainId}
             disabled={selectedChainId === undefined}
@@ -199,13 +199,13 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
                           ...oldFormData,
                           buyToken: tk
                             ? ({
-                                chainId: tk.chainId as number,
-                                contractAddress: tk.address,
-                                decimals: tk.decimals,
-                                name: tk.name,
-                                symbol: tk.symbol,
-                                logoURI: tk.logoURI,
-                              } as any)
+                              chainId: tk.chainId as number,
+                              contractAddress: tk.address,
+                              decimals: tk.decimals,
+                              name: tk.name,
+                              symbol: tk.symbol,
+                              logoURI: tk.logoURI,
+                            } as any)
                             : undefined,
                         },
                       },
@@ -218,7 +218,7 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TextField
             inputProps={{ type: "number", min: 0, max: 50, step: 0.01 }}
             InputLabelProps={{ shrink: true }}

@@ -200,7 +200,7 @@ export const TransactionConfirmDialog = (
         cost = parseFloat(
           ethers.utils.formatEther(
             values.gasLimit?.mul(values.gasPrice || ethers.BigNumber.from(0)) ||
-              BigNumber.from(0),
+            BigNumber.from(0),
           ),
         );
       }
@@ -224,11 +224,10 @@ export const TransactionConfirmDialog = (
       />
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -239,11 +238,10 @@ export const TransactionConfirmDialog = (
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -257,11 +255,10 @@ export const TransactionConfirmDialog = (
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -273,11 +270,10 @@ export const TransactionConfirmDialog = (
             </Box>
           </Grid>
           {values.value ? (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 display="flex"
                 alignItems="center"
-                alignContent="center"
                 justifyContent="space-between"
               >
                 <Typography variant="body1">
@@ -295,14 +291,13 @@ export const TransactionConfirmDialog = (
               </Box>
             </Grid>
           ) : null}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               display="flex"
               alignItems="center"
-              alignContent="center"
               justifyContent="space-between"
             >
               <Typography variant="body1">
@@ -326,13 +321,12 @@ export const TransactionConfirmDialog = (
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper variant="outlined">
               <Box p={2}>
                 <Box
                   display="flex"
                   alignItems="center"
-                  alignContent="center"
                   justifyContent="space-between"
                 >
                   <Typography>
@@ -350,7 +344,7 @@ export const TransactionConfirmDialog = (
                 <Collapse in={showAdvanced}>
                   <Box mt={4}>
                     <Grid container spacing={4}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           size="small"
                           value={values.gasLimit?.toNumber() || 0}
@@ -363,7 +357,7 @@ export const TransactionConfirmDialog = (
                       </Grid>
                       {isEIP1559() ? (
                         <>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={ethers.utils.formatUnits(
@@ -382,7 +376,7 @@ export const TransactionConfirmDialog = (
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={ethers.utils.formatUnits(
@@ -404,7 +398,7 @@ export const TransactionConfirmDialog = (
                         </>
                       ) : (
                         <>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               size="small"
                               value={ethers.utils.formatUnits(
@@ -432,7 +426,7 @@ export const TransactionConfirmDialog = (
             </Paper>
           </Grid>
           {isInsufficientFunds && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Alert severity="error">
                 {' '}
                 <FormattedMessage
@@ -449,10 +443,10 @@ export const TransactionConfirmDialog = (
           startIcon={<Check />}
           disabled={
             Number(ethers.utils.formatEther(etherBalance || '0')) <
-              gasCost(values) +
-                parseInt(
-                  values.value ? ethers.utils.formatEther(values.value) : '0',
-                ) || gasCost(values) === 0
+            gasCost(values) +
+            parseInt(
+              values.value ? ethers.utils.formatEther(values.value) : '0',
+            ) || gasCost(values) === 0
           }
           onClick={handleConfirm}
           color="primary"
@@ -467,3 +461,4 @@ export const TransactionConfirmDialog = (
     </Dialog>
   );
 };
+

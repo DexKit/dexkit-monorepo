@@ -77,7 +77,7 @@ export default function SiteMetadataForm() {
   return (
     <Form>
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid>
           <Stack spacing={2}>
             <Box>
               <Typography>
@@ -113,7 +113,7 @@ export default function SiteMetadataForm() {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={2}>
             <Box>
               <Typography>
@@ -183,7 +183,7 @@ export default function SiteMetadataForm() {
 
             <DKMDEditor
               value={values.description}
-              setValue={(val) => setFieldValue('description', val)}
+              setValue={(val: any) => setFieldValue('description', val)}
             ></DKMDEditor>
 
             <FormControl sx={{ m: 1 }}>

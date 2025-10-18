@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { AppMarketplaceProvider } from '../AppMarketplaceProvider';
 
 interface Props {
-  children?: React.ReactNode | React.ReactNode[];
+  children?: any;
   noSsr?: boolean;
   disablePadding?: boolean;
   disableAutoLogin?: boolean;
@@ -21,7 +21,7 @@ interface Props {
  * Use Auth Main Layout when you need authentication feature
  * @returns
  */
-const PreviewAuthLayout: React.FC<Props> = ({
+const PreviewAuthLayout: any = ({
   children,
   noSsr,
   disablePadding,
@@ -29,7 +29,7 @@ const PreviewAuthLayout: React.FC<Props> = ({
   disableLayout,
   appConfig,
   isPreview = true,
-}) => {
+}: Props) => {
   const theme = useTheme();
 
   if (!disableLayout) {

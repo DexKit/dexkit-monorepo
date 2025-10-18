@@ -88,7 +88,7 @@ export function SearchTokenAutocomplete(props: Props) {
       disabled={disabled}
       value={data}
       defaultValue={data}
-      options={assets.sort((a, b) => {
+      options={assets.sort((a: any, b: any) => {
         if (a.name && b.name) {
           return a.name.localeCompare(b.name);
         }
@@ -154,7 +154,7 @@ export function SearchTokenAutocomplete(props: Props) {
               )
             }
             fullWidth
-            onChange={(ev) => setSearch(ev.currentTarget.value)}
+            onChange={(ev: any) => setSearch(ev.currentTarget.value)}
             inputProps={{
               ...params.inputProps,
               autoComplete: 'off', // disable autocomplete and autofill
@@ -191,7 +191,7 @@ export function SearchTokenAutocompleteWithTokens(props: Props) {
 
   const formValue = useMemo(() => {
     const token = tokens.find(
-      (tk) =>
+      (tk: any) =>
         tk?.address?.toLowerCase() === data?.address?.toLowerCase() &&
         tk?.chainId === data?.chainId,
     );
@@ -212,7 +212,7 @@ export function SearchTokenAutocompleteWithTokens(props: Props) {
   }, [data, tokens]);
 
   const orderedTokens = useMemo(() => {
-    return tokens.sort((a, b) => {
+    return tokens.sort((a: any, b: any) => {
       return a.name.localeCompare(b.name);
     });
   }, [tokens]);

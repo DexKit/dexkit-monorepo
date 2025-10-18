@@ -18,7 +18,8 @@
     "incremental": true,
     "typeRoots": [
       "../../node_modules/@0x/typescript-typings/types",
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "./types"
     ],
     "baseUrl": ".",
     "paths": {
@@ -34,9 +35,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "types/**/*.d.ts",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/node_modules/json-stable-stringify", "**/node_modules/minimatch"]
 }

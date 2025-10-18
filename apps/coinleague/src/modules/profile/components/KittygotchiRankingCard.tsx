@@ -35,7 +35,7 @@ export default function KittygotchiRankingCard({ onClick, chainId }: Props) {
       <Divider />
       {ranking.isError ? (
         <CardContent>
-          <Stack alignItems="center" alignContent="center">
+          <Stack alignItems="center">
             <Error fontSize="large" />
             <Typography variant="h5">
               <FormattedMessage

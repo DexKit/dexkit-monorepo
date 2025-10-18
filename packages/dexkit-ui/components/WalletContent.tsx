@@ -226,8 +226,10 @@ export default function WalletContent({
               {wallets && wallets.length ? (
                 <WalletProvider id={wallets[0].id}>
                   <WalletIcon
-                    width={theme.spacing(2)}
-                    height={theme.spacing(2)}
+                    style={{
+                      width: theme.spacing(2),
+                      height: theme.spacing(2),
+                    }}
                   />
                 </WalletProvider>
               ) : (
@@ -242,7 +244,7 @@ export default function WalletContent({
               )}
 
               <Box>
-                <Typography variant="caption" align="left" component="div">
+                <Typography variant="caption" align="left" component="div" color="text.primary">
                   {isBalancesVisible
                     ? ENSName
                       ? ENSName
@@ -264,7 +266,7 @@ export default function WalletContent({
                       description: "Copied text",
                     })}
                   >
-                    <FileCopy fontSize="inherit" color="inherit" />
+                    <FileCopy fontSize="inherit" sx={{ color: 'text.primary' }} />
                   </CopyIconButton>
                   <Tooltip
                     title={
@@ -277,9 +279,9 @@ export default function WalletContent({
                   >
                     <IconButton onClick={handleToggleVisibility}>
                       {isBalancesVisible ? (
-                        <VisibilityIcon fontSize="small" />
+                        <VisibilityIcon fontSize="small" sx={{ color: 'text.primary' }} />
                       ) : (
-                        <VisibilityOffIcon fontSize="small" />
+                        <VisibilityOffIcon fontSize="small" sx={{ color: 'text.primary' }} />
                       )}
                     </IconButton>
                   </Tooltip>
@@ -298,7 +300,7 @@ export default function WalletContent({
               }
             >
               <IconButton onClick={handleLogoutWallet}>
-                <Logout fontSize="small" />
+                <Logout fontSize="small" sx={{ color: 'text.primary' }} />
               </IconButton>
             </Tooltip>
           </Stack>
@@ -346,6 +348,7 @@ export default function WalletContent({
               color="inherit"
               variant="outlined"
               onClick={handleOpenSend}
+              sx={{ color: 'text.primary' }}
             >
               <FormattedMessage id="send" defaultMessage="Send" />
             </Button>
@@ -355,6 +358,7 @@ export default function WalletContent({
               variant="outlined"
               fullWidth
               onClick={handleOpenReceive}
+              sx={{ color: 'text.primary' }}
             >
               <FormattedMessage id="receive" defaultMessage="Receive" />
             </Button>
@@ -378,6 +382,7 @@ export default function WalletContent({
               }
               variant="outlined"
               color="inherit"
+              sx={{ color: 'text.primary' }}
             >
               {isSwitchingWallet ? (
                 <FormattedMessage

@@ -7,7 +7,6 @@ import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/exchange/constants/zrx";
 import { useAppConfig, useTokenList } from "@dexkit/ui";
 import { MarketTradePageSection } from "@dexkit/ui/modules/wizard/types/section";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
-import { Box, Container, Grid, Stack } from "@mui/material";
 import { useMemo } from "react";
 
 export interface MarketTradeSectionProps {
@@ -29,7 +28,7 @@ export default function MarketTradeSection({
 
   const baseToken = useMemo(() => {
     if (tokens && baseTokenConfig && tokens.length) {
-      return tokens.find((tk) =>
+      return tokens.find((tk: any) =>
         isAddressEqual(baseTokenConfig.address, tk.address)
       );
     }
@@ -38,57 +37,41 @@ export default function MarketTradeSection({
   const quoteToken = useMemo(() => {
     if (tokens) {
       if (baseTokenConfig?.address !== ZEROEX_NATIVE_TOKEN_ADDRESS) {
-        return tokens.find((tk) =>
+        return tokens.find((tk: any) =>
           isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address)
         );
       } else {
         return tokens.find(
-          (tk) => !isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address)
+          (tk: any) => !isAddressEqual(ZEROEX_NATIVE_TOKEN_ADDRESS, tk.address)
         );
       }
     }
   }, [tokens, baseTokenConfig]);
 
   return (
-    <>
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box display={"flex"} justifyContent={"center"}>
-              <Stack
-                spacing={2}
-                direction={{ xs: "column", sm: "row" }}
-                maxWidth={"500px"}
-              >
-                <TradeWidgetSimpleVariant
-                  isActive={true}
-                  defaultSlippage={slippage}
-                  feeRecipient={
-                    appConfig.swapFees?.recipient || ZEROEX_AFFILIATE_ADDRESS
-                  }
-                  affiliateAddress={ZEROEX_AFFILIATE_ADDRESS}
-                  buyTokenPercentageFee={
-                    appConfig.swapFees?.amount_percentage
-                      ? appConfig.swapFees?.amount_percentage / 100
-                      : undefined
-                  }
-                  baseToken={baseToken}
-                  quoteToken={quoteToken}
-                  quoteTokens={tokens}
-                  defaultOrderSide={
-                    show === OrderMarketType.sell ? "sell" : "buy"
-                  }
-                  account={account}
-                  provider={provider}
-                  chainId={appChaind}
-                  show={show}
-                  useGasless={useGasless}
-                />
-              </Stack>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </>
+    <TradeWidgetSimpleVariant
+      isActive={true}
+      defaultSlippage={slippage}
+      feeRecipient={
+        appConfig.swapFees?.recipient || ZEROEX_AFFILIATE_ADDRESS
+      }
+      affiliateAddress={ZEROEX_AFFILIATE_ADDRESS}
+      buyTokenPercentageFee={
+        appConfig.swapFees?.amount_percentage
+          ? appConfig.swapFees?.amount_percentage / 100
+          : undefined
+      }
+      baseToken={baseToken}
+      quoteToken={quoteToken}
+      quoteTokens={tokens}
+      defaultOrderSide={
+        show === OrderMarketType.sell ? "sell" : "buy"
+      }
+      account={account}
+      provider={provider}
+      chainId={appChaind}
+      show={show}
+      useGasless={useGasless}
+    />
   );
 }

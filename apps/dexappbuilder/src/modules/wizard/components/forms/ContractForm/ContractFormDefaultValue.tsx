@@ -28,12 +28,12 @@ export default function ContractFormDefaultValue({
     return (
       <FieldArray
         name={`fields.${func.name}.input.${input.name}.defaultValue`}
-        render={(helpers) => (
+        render={(helpers: any) => (
           <Grid container spacing={2}>
             {(
               values.fields[func.name].input[input.name].defaultValue || []
             ).map((_: any, index: number) => (
-              <Grid item xs={12} key={index}>
+              <Grid key={index} size={12}>
                 {input.type.startsWith('tuple') ? (
                   <Paper sx={{ p: 2 }}>
                     <ContractFormDefaultValueInput
@@ -54,7 +54,7 @@ export default function ContractFormDefaultValue({
                 )}
               </Grid>
             ))}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 onClick={helpers.handlePush(
                   input.type.startsWith('tuple') ? {} : '',

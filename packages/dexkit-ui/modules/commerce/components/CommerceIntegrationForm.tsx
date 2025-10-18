@@ -29,9 +29,9 @@ export default function CommerceIntegrationForm({
         touched,
         setFieldTouched,
         submitForm,
-      }) => (
+      }: any) => (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControlLabel
               sx={{ p: 0, m: 0 }}
               label={
@@ -62,7 +62,7 @@ export default function CommerceIntegrationForm({
               }
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               disabled={
                 !isValid ||

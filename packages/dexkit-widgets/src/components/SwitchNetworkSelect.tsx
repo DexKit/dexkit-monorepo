@@ -60,7 +60,7 @@ function SwitchNetworkSelect({
         cursor: locked ? 'not-allowed' : undefined,
         ...SelectProps?.sx
       }}
-      IconComponent={ExpandMore}
+      IconComponent={(props) => <ExpandMore {...props} sx={{ color: 'text.primary' }} />}
       renderValue={
         chainId
           ? () => (

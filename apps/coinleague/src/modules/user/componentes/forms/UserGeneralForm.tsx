@@ -1,11 +1,11 @@
 import {
   Button,
   Divider,
-  Grid,
   Stack,
   styled,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { Field, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { useState } from 'react';
@@ -133,7 +133,7 @@ export default function UserGeneralForm({
               )}
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -147,7 +147,7 @@ export default function UserGeneralForm({
                     InputProps={{ disabled: initialValues ? true : false }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="profileImage"
@@ -167,7 +167,7 @@ export default function UserGeneralForm({
                     )}
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Typography variant="body2">
                     <FormattedMessage
                       id="backgroundImage"
@@ -187,7 +187,7 @@ export default function UserGeneralForm({
                     )}
                   </Button>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -200,7 +200,7 @@ export default function UserGeneralForm({
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Field
                     component={TextField}
                     fullWidth
@@ -209,10 +209,10 @@ export default function UserGeneralForm({
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={1} direction="row" justifyContent="flex-end">
                     <Button
                       disabled={!isValid}
@@ -232,3 +232,4 @@ export default function UserGeneralForm({
     </>
   );
 }
+

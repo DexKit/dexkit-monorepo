@@ -40,7 +40,7 @@ function NotificationsPageComponent() {
   const handleChangeRowsPerPage = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFilter((values) => ({
+    setFilter((values: any) => ({
       ...values,
       pageSize: parseInt(event.target.value, 10),
     }));
@@ -48,7 +48,7 @@ function NotificationsPageComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader
           breadcrumbs={[
             {
@@ -70,16 +70,16 @@ function NotificationsPageComponent() {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h6">
           <FormattedMessage id="notifications" defaultMessage="Notifications" />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Paper>
           <Tabs
             onChange={async (e, value) => {
-              setFilter((filter) => ({ ...filter, page: 0, status: value }));
+              setFilter((filter: any) => ({ ...filter, page: 0, status: value }));
 
               await refetch();
             }}
@@ -127,14 +127,14 @@ function NotificationsPageComponent() {
           />
         </Paper>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TablePagination
           component="div"
           count={notifications?.totalItems ?? 0}
           page={notifications?.currentPage ?? 0}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           onPageChange={(e, value) => {
-            setFilter((values) => ({ ...values, page: value }));
+            setFilter((values: any) => ({ ...values, page: value }));
           }}
           rowsPerPage={filter.pageSize}
           onRowsPerPageChange={handleChangeRowsPerPage}

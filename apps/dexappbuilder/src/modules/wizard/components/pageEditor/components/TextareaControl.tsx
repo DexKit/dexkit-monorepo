@@ -42,7 +42,7 @@ export function TextareaControl(props: Props) {
           fontSize: isMobile ? '0.9rem' : '1rem',
           fontFamily: 'inherit'
         }}
-        onChange={(ev) => {
+        onChange={(ev: any) => {
           data.onChange({ html: ev.currentTarget.value });
         }}
       />

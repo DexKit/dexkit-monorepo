@@ -138,7 +138,6 @@ export default function ContractTokenContainer({
           }}
         />
       )}
-
       <EvmTransferCoinDialog
         dialogProps={{
           open: showTransfer,
@@ -157,14 +156,14 @@ export default function ContractTokenContainer({
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TokenDropSummary contract={contract} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={currTab} onChange={handleChange}>
             <Tab
               value="token"
@@ -185,9 +184,9 @@ export default function ContractTokenContainer({
         </Grid>
 
         {currTab === 'token' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <Button
                   onClick={handleMint}
                   variant="contained"
@@ -196,7 +195,7 @@ export default function ContractTokenContainer({
                   <FormattedMessage id="mint" defaultMessage="Mint" />
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Button
                   onClick={handleBurn}
                   variant="contained"
@@ -205,7 +204,7 @@ export default function ContractTokenContainer({
                   <FormattedMessage id="burn" defaultMessage="Burn" />
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Button
                   onClick={handleShowTransfer}
                   variant="contained"
@@ -218,12 +217,12 @@ export default function ContractTokenContainer({
           </Grid>
         )}
         {currTab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {currTab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

@@ -14,9 +14,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { createPortal } from "react-dom";
 import Decimal from "decimal.js";
 import { useSnackbar } from "notistack";
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useGenVariants, useGenerateImageContext } from "../../../hooks/ai";
 import {
@@ -212,6 +213,7 @@ function GenerateImagesDialog({
     );
   };
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -219,6 +221,16 @@ function GenerateImagesDialog({
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleBillingClick = () => {
+    setAnchorEl(null);
+    if (onClose) {
+      onClose({}, "backdropClick");
+    }
+    setTimeout(() => {
+      window.location.href = "/u/settings?section=billing";
+    }, 200);
   };
 
 
@@ -270,6 +282,7 @@ function GenerateImagesDialog({
           open: Boolean(anchorEl),
           anchorEl,
           onClose: handleCloseMenu,
+          onBillingClick: handleBillingClick,
         }}
       />
 
@@ -300,6 +313,7 @@ function GenerateImagesDialog({
           {onClose && (
             <Stack spacing={1} direction="row" alignItems="center">
               <Button
+                ref={buttonRef}
                 startIcon={<ExpandMore fontSize="small" />}
                 onClick={handleClick}
                 size="small"

@@ -4,12 +4,14 @@ import {
   ButtonBase,
   Stack,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
 
 import { TOKEN_ICON_URL } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
+import { useForceThemeMode } from "@dexkit/ui/hooks";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export interface PairButtonProps {
@@ -24,6 +26,10 @@ export default function PairButton({
   onClick,
 }: PairButtonProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -31,9 +37,10 @@ export default function PairButton({
     <ButtonBase
       onClick={onClick}
       disabled={!onClick}
+      data-pair-button="true"
       sx={{
         p: { xs: theme.spacing(0.75), sm: theme.spacing(1), md: theme.spacing(1.5) },
-        borderRadius: { xs: theme.shape.borderRadius * 1.5, sm: theme.shape.borderRadius * 2 },
+        borderRadius: { xs: Number(theme.shape.borderRadius) * 1.5, sm: Number(theme.shape.borderRadius) * 2 },
         backgroundColor: theme.palette.action.hover,
         border: `1px solid ${theme.palette.divider}`,
         transition: theme.transitions.create([
@@ -96,9 +103,10 @@ export default function PairButton({
           >
             <Typography
               variant="body2"
+              data-pair-button="true"
               sx={{
                 fontWeight: theme.typography.fontWeightBold,
-                color: theme.palette.text.primary,
+                color: isDark ? theme.palette.text.primary : '#000000',
                 lineHeight: 1.1,
                 fontSize: theme.typography.caption.fontSize,
               }}
@@ -109,8 +117,9 @@ export default function PairButton({
 
             <Typography
               variant="caption"
+              data-pair-button="true"
               sx={{
-                color: theme.palette.text.secondary,
+                color: isDark ? theme.palette.text.secondary : '#666666',
                 fontSize: theme.typography.overline.fontSize,
                 lineHeight: 1,
               }}
@@ -123,7 +132,7 @@ export default function PairButton({
           {onClick && (
             <ExpandMoreIcon
               sx={{
-                color: theme.palette.text.secondary,
+                color: isDark ? theme.palette.text.secondary : '#666666',
                 fontSize: theme.spacing(2),
               }}
             />
@@ -180,9 +189,10 @@ export default function PairButton({
           >
             <Typography
               variant="body2"
+              data-pair-button="true"
               sx={{
                 fontWeight: theme.typography.fontWeightBold,
-                color: theme.palette.text.primary,
+                color: isDark ? theme.palette.text.primary : '#000000',
                 lineHeight: 1.2,
                 fontSize: { sm: theme.typography.body2.fontSize, md: theme.typography.body1.fontSize },
               }}
@@ -193,8 +203,9 @@ export default function PairButton({
 
             <Typography
               variant="caption"
+              data-pair-button="true"
               sx={{
-                color: theme.palette.text.secondary,
+                color: isDark ? theme.palette.text.secondary : '#666666',
                 fontSize: theme.typography.caption.fontSize,
                 lineHeight: 1,
               }}
@@ -207,7 +218,7 @@ export default function PairButton({
           {onClick && (
             <ExpandMoreIcon
               sx={{
-                color: theme.palette.primary.main,
+                color: isDark ? theme.palette.primary.main : '#000000',
                 fontSize: { sm: theme.spacing(2.5), md: theme.spacing(3) },
                 transition: theme.transitions.create('transform', {
                   duration: theme.transitions.duration.short,

@@ -1,6 +1,6 @@
 import { useDebounce } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, useColorScheme, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import DecimalInput from "./DecimalInput";
 
@@ -13,6 +13,10 @@ export default function LazyDecimalInput({
   token,
   onChange,
 }: LazyDecimalInputProps) {
+  const theme = useTheme();
+  const { mode } = useColorScheme();
+  const isDarkMode = mode === 'dark';
+
   const handleChangeAmount = (value?: string) => {
     setAmount({ value, triggerChange: true });
   };
@@ -40,6 +44,23 @@ export default function LazyDecimalInput({
               {token.symbol.toUpperCase()}
             </InputAdornment>
           ),
+        },
+        sx: {
+          '& .MuiOutlinedInput-root': {
+            color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+            '& fieldset': {
+              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : theme.palette.divider,
+            },
+            '&:hover fieldset': {
+              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.5)' : theme.palette.primary.main,
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.primary.main,
+            },
+          },
+          '& .MuiInputAdornment-root': {
+            color: isDarkMode ? '#ffffff' : theme.palette.text.primary,
+          },
         },
       }}
     />

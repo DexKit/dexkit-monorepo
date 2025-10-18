@@ -52,7 +52,7 @@ function ShareDialog({ dialogProps, url }: Props) {
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               value={url}

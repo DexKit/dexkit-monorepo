@@ -42,7 +42,6 @@ export const TraitSelectorItem = (props: TraitSelectorItemProps) => {
             backgroundColor: theme.palette.action.selected,
             display: 'flex',
             alignItems: 'center',
-            alignContent: 'center',
             justifyContent: 'center',
             borderRadius: '50%',
             width: theme.spacing(16),
@@ -81,7 +80,6 @@ export const TraitSelectorItem = (props: TraitSelectorItemProps) => {
               backgroundColor: theme.palette.background.default,
               display: 'flex',
               alignItems: 'center',
-              alignContent: 'center',
               justifyContent: 'center',
               borderRadius: '50%',
               width: theme.spacing(16),
@@ -107,7 +105,6 @@ export const TraitSelectorItem = (props: TraitSelectorItemProps) => {
               top: 0,
               display: 'flex',
               alignItems: 'center',
-              alignContent: 'center',
               justifyContent: 'center',
               width: theme.spacing(16),
               height: theme.spacing(16),
@@ -118,7 +115,6 @@ export const TraitSelectorItem = (props: TraitSelectorItemProps) => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  alignContent: 'center',
                   justifyContent: 'center',
                 }}
               >
@@ -139,7 +135,6 @@ export const TraitSelectorItem = (props: TraitSelectorItemProps) => {
               backgroundColor: theme.palette.background.default,
               display: 'flex',
               alignItems: 'center',
-              alignContent: 'center',
               justifyContent: 'center',
               borderRadius: '50%',
               width: theme.spacing(16),

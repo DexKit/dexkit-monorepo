@@ -77,7 +77,7 @@ export default function OrderStatusBadge({
       sx={{
         px: 1,
         py: 0.25,
-        borderRadius: (theme) => theme.shape.borderRadius / 2,
+        borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
         backgroundColor: getBgColor(statusText[status].color),
       }}
     >

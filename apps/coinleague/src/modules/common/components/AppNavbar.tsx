@@ -175,7 +175,6 @@ export default function AppNavbar({ open, onOpenDrawer }: Props) {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            alignContent: 'center',
             justifyContent: 'space-between',
           }}
         >
@@ -198,7 +197,6 @@ export default function AppNavbar({ open, onOpenDrawer }: Props) {
             spacing={1}
             direction="row"
             alignItems="center"
-            alignContent="center"
           >
             <IconButton onClick={handleOpenNotifications}>
               <NoSsr>

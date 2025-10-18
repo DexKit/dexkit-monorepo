@@ -3,7 +3,7 @@ import {
   ContractPageSection,
 } from '@dexkit/ui/modules/wizard/types/section';
 import { ContractFormParams } from '@dexkit/web3forms/types';
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import ContractForm from './ContractForm';
 
@@ -19,6 +19,9 @@ export function ContractSectionForm({
   onCancel,
   section,
 }: Props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleSaveData = (data: ContractFormParams | undefined) => {
     onSave({
       type: 'contract',
@@ -42,9 +45,9 @@ export function ContractSectionForm({
 
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
-      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+      <Box sx={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)', px: isMobile ? 2 : 0 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractForm
               params={section?.config}
               onCancel={onCancel}

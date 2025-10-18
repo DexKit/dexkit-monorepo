@@ -13,10 +13,10 @@ export function OrderLeftSection({
   const { data: asset } = useAsset(address, id);
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {asset ? <AssetMedia asset={asset} /> : <Skeleton />}
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <AssetDetails address={address} id={id} />
       </Grid>
     </Grid>

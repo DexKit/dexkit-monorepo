@@ -21,6 +21,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useColorScheme,
   useTheme,
 } from "@mui/material";
 import { useMemo, useState } from "react";
@@ -41,6 +42,42 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
   const isMobile = useIsMobile();
   const theme = useTheme();
   const intl = useIntl();
+  const { mode } = useColorScheme();
+
+  const getBackgroundColor = () => {
+    if (isDarkMode) {
+      return '#212529';
+    }
+    return theme.palette.background.default;
+  };
+
+  const getPaperColor = () => {
+    if (isDarkMode) {
+      return '#212529';
+    }
+    return theme.palette.background.paper;
+  };
+
+  const getInputBackgroundColor = () => {
+    if (isDarkMode) {
+      return '#212529';
+    }
+    return theme.palette.background.paper;
+  };
+
+  const getButtonBackgroundColor = () => {
+    return theme.palette.primary.main;
+  };
+
+  const getButtonTextColor = () => {
+    return theme.palette.primary.contrastText;
+  };
+
+  const getCancelButtonColor = () => {
+    return theme.palette.primary.main;
+  };
+
+  const isDarkMode = mode === 'dark';
 
   const { onClose } = dialogProps;
   const { activeChainIds } = useActiveChainIds();
@@ -147,7 +184,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           position: 'sticky',
           top: 0,
           zIndex: 10002,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: getPaperColor(),
           borderBottom: `1px solid ${theme.palette.divider}`,
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(1.5) : theme.spacing(2),
@@ -161,7 +198,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             defaultMessage: "Search networks by name...",
           })}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e: any) => setSearchQuery(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -191,6 +228,23 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+              backgroundColor: getInputBackgroundColor(),
+              '& fieldset': {
+                borderColor: theme.palette.divider,
+              },
+              '&:hover fieldset': {
+                borderColor: theme.palette.primary.main,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: theme.palette.primary.main,
+              },
+            },
+            '& .MuiInputBase-input': {
+              color: theme.palette.text.primary,
+              '&::placeholder': {
+                color: theme.palette.text.secondary,
+                opacity: 1,
+              },
             },
           }}
         />
@@ -202,6 +256,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             sx={{
               mt: 1,
               display: 'block',
+              color: theme.palette.text.secondary,
             }}
           >
             <FormattedMessage
@@ -269,7 +324,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
                 },
               }}
             >
-              {filteredNetworks.map((network, index) => (
+              {filteredNetworks.map((network: any, index: number) => (
                 <ListItemButton
                   disabled={switchNetworkMutation.isLoading}
                   selected={network.chainId === chainId}
@@ -347,7 +402,7 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
           px: isMobile ? theme.spacing(2) : theme.spacing(3),
           py: isMobile ? theme.spacing(2) : theme.spacing(1.5),
           gap: isMobile ? theme.spacing(1) : theme.spacing(0.5),
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: getPaperColor(),
           borderTop: `1px solid ${theme.palette.divider}`,
           zIndex: 10002,
         }}
@@ -367,6 +422,15 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            backgroundColor: getButtonBackgroundColor(),
+            color: getButtonTextColor(),
+            '&:hover': {
+              backgroundColor: theme.palette.primary.dark,
+            },
+            '&:disabled': {
+              backgroundColor: theme.palette.action.disabledBackground,
+              color: theme.palette.action.disabled,
+            },
           }}
         >
           <FormattedMessage
@@ -383,6 +447,17 @@ function SwitchNetworkDialog({ dialogProps }: Props) {
             flex: isMobile ? 1 : 'none',
             minHeight: isMobile ? theme.spacing(6) : theme.spacing(4.5),
             borderRadius: isMobile ? theme.spacing(1.5) : theme.spacing(1),
+            backgroundColor: 'transparent',
+            color: getCancelButtonColor(),
+            border: `1px solid ${theme.palette.primary.main}`,
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+            '&:disabled': {
+              backgroundColor: 'transparent',
+              color: theme.palette.action.disabled,
+              borderColor: theme.palette.action.disabled,
+            },
           }}
         >
           <FormattedMessage

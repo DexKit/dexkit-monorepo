@@ -78,7 +78,7 @@ export default function SeoWizardContainer({
   return (
     <Box sx={{ width: '100%', mx: isMobile ? theme.spacing(-0.5) : 0 }}>
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -104,10 +104,10 @@ export default function SeoWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SeoSection
             seoForm={seoForm}
             onSave={handleSaveSeoForm}

@@ -8,14 +8,14 @@ import { FormattedMessage, useIntl } from "react-intl";
 import AddProductsDialog from "../dialogs/AddProductsDialog";
 import ProductCollectionFormProductsItem from "./ProductCollectionFormProductsItem";
 
-export interface ProductCollectionFormProductsProps {}
+export interface ProductCollectionFormProductsProps { }
 
-export default function ProductCollectionFormProducts({}: ProductCollectionFormProductsProps) {
+export default function ProductCollectionFormProducts({ }: ProductCollectionFormProductsProps) {
   const { values, setFieldValue } = useFormikContext<ProductCollectionType>();
 
   const { formatMessage } = useIntl();
 
-  const handleChange = () => {};
+  const handleChange = () => { };
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -89,15 +89,15 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
       )}
 
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box>
             <Grid container spacing={2}>
-              <Grid item>
+              <Grid>
                 <Button onClick={handleShowAdd} variant="outlined" size="small">
                   <FormattedMessage id="add" defaultMessage="Add" />
                 </Button>
               </Grid>
-              <Grid item xs>
+              <Grid size="grow">
                 <Button
                   disabled={!hasSelection}
                   onClick={handleRemove}
@@ -112,7 +112,7 @@ export default function ProductCollectionFormProducts({}: ProductCollectionFormP
           </Box>
         </Grid>
         {values.items?.map((item, index) => (
-          <Grid item xs={12} sm={3} key={index}>
+          <Grid size={{ xs: 12, sm: 3 }} key={index}>
             <ProductCollectionFormProductsItem
               key={index}
               name={`items.${index}`}

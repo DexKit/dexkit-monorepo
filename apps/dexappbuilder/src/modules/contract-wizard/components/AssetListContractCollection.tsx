@@ -40,7 +40,7 @@ export function AssetListContractCollection({
   const filteredAssets = useMemo(() => {
     if (assets && search) {
       return assets.filter(
-        (a) =>
+        (a: any) =>
           a.collectionName.indexOf(search) !== -1 ||
           a.metadata?.name.indexOf(search) !== -1,
       );
@@ -51,8 +51,13 @@ export function AssetListContractCollection({
 
   return (
     <Grid container spacing={2}>
-      {filteredAssets?.map((asset, index) => (
-        <Grid item xs={6} sm={2} key={index}>
+      {filteredAssets?.map((asset: any, index: any) => (
+        <Grid
+          key={index}
+          size={{
+            xs: 6,
+            sm: 2
+          }}>
           <BaseAssetCard
             asset={asset}
             showAssetDetailsInDialog={showAssetDetailsInDialog}
@@ -60,18 +65,22 @@ export function AssetListContractCollection({
         </Grid>
       ))}
       {filteredAssets?.length === 0 && (
-        <Grid item xs={12} sm={12}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 12
+          }}>
           <Stack justifyContent="center" alignItems="center">
             <Typography variant="h6">
               <FormattedMessage
                 id="nfts.not.found"
-                defaultMessage="NFT's not found"
+                defaultMessage="NFTs not found"
               />
             </Typography>
             <Typography variant="body1" color="textSecondary">
               <FormattedMessage
                 id="clear.filters"
-                defaultMessage="Clear filters to see nft's"
+                defaultMessage="Clear filters to see NFTs"
               />
             </Typography>
             {showButtonEmpty && (
@@ -90,10 +99,16 @@ export function AssetListContractCollection({
           </Stack>
         </Grid>
       )}
-      <Grid item xs={12} sm={12} container justifyContent={'flex-end'}>
+      <Grid
+        container
+        justifyContent={'flex-end'}
+        size={{
+          xs: 12,
+          sm: 12
+        }}>
         <Pagination
           page={page + 1}
-          onChange={(_ev, _page) => setPage(_page - 1)}
+          onChange={(_ev: any, _page: any) => setPage(_page - 1)}
           count={Math.floor((data?.total || 0) / perPage) + 1}
         />
       </Grid>

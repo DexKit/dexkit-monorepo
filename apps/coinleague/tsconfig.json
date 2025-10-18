@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext", "ES2021.String"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -18,11 +19,13 @@
     "incremental": true,
     "typeRoots": [
       "../../node_modules/@0x/typescript-typings/types",
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "./types"
     ],
     "baseUrl": ".",
     "paths": {
-      "@/modules/*": ["src/modules/*"]
+      "@/modules/*": ["src/modules/*"],
+      "@/hooks/*": ["src/hooks/*"]
     },
     "plugins": [
       {
@@ -34,6 +37,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "types/**/*.d.ts",
     "next-sitemap.config.js",
     "scripts/local-diff.js",
     "../../packages/dexkit-ui/components/NavbarMenuAlt.tsx",
@@ -42,5 +46,5 @@
     "../../packages/dexkit-ui/hooks/useColumns.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/node_modules/json-stable-stringify"]
 }

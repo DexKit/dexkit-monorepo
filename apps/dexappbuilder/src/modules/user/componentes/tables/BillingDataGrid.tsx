@@ -6,6 +6,7 @@ import moment from 'moment';
 import { useState } from 'react';
 import { FormattedNumber, useIntl } from 'react-intl';
 import { useBillingHistoryQuery } from '../../hooks/payments';
+import { useIsMobile } from '@dexkit/ui/hooks/misc';
 
 interface Row {
   id: number;
@@ -21,6 +22,7 @@ export default function BillingDataGrid() {
   });
   const [filterModel, setFilterModel] = useState({ items: [] });
   const [sortModel, setSortModel] = useState<string[]>([]);
+  const isMobile = useIsMobile();
 
   const billingHistoryQuery = useBillingHistoryQuery({
     skip: paginationModel.page * paginationModel.pageSize,
@@ -34,59 +36,77 @@ export default function BillingDataGrid() {
   const { formatMessage } = useIntl();
 
   const columns: GridColDef<Row>[] = [
-    // { field: 'id', headerName: 'ID', width: 90, hideable: true },
     {
       field: 'periodStart',
       headerName: formatMessage({ id: 'start', defaultMessage: 'Start' }),
-      width: 150,
-      valueGetter: ({ row }) => {
-        return moment(row.periodStart).format('DD/MM/YYYY');
+      width: isMobile ? 100 : 150,
+      minWidth: 80,
+      flex: isMobile ? 1 : 0,
+      valueGetter: (value, row) => {
+        return row?.periodStart ? moment(row.periodStart).format(isMobile ? 'DD/MM/YY' : 'DD/MM/YYYY') : 'N/A';
       },
     },
     {
       field: 'periodEnd',
       headerName: formatMessage({ id: 'end', defaultMessage: 'End' }),
-      width: 150,
-      valueGetter: ({ row }) => {
-        return moment(row.periodEnd).format('DD/MM/YYYY');
+      width: isMobile ? 100 : 150,
+      minWidth: 80,
+      flex: isMobile ? 1 : 0,
+      valueGetter: (value, row) => {
+        return row?.periodEnd ? moment(row.periodEnd).format(isMobile ? 'DD/MM/YY' : 'DD/MM/YYYY') : 'N/A';
       },
     },
     {
       field: 'used',
       headerName: formatMessage({ id: 'used', defaultMessage: 'Used' }),
-      width: 150,
+      width: isMobile ? 120 : 150,
+      minWidth: 100,
+      flex: isMobile ? 1 : 0,
       sortable: false,
       renderCell: ({ row }) => {
         return (
-          <Typography>
-            <FormattedNumber
-              value={new Decimal(row?.used).toNumber()}
-              style="currency"
-              currencyDisplay="narrowSymbol"
-              currency="USD"
-              minimumFractionDigits={4}
-            />
-          </Typography>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            height: '100%',
+            width: '100%'
+          }}>
+            <Typography sx={{ 
+              textAlign: 'left', 
+              lineHeight: 1,
+              fontSize: isMobile ? '0.75rem' : '0.875rem'
+            }}>
+              <FormattedNumber
+                value={row?.used ? new Decimal(row.used).toNumber() : 0}
+                style="currency"
+                currencyDisplay="narrowSymbol"
+                currency="USD"
+                minimumFractionDigits={isMobile ? 2 : 4}
+              />
+            </Typography>
+          </Box>
         );
       },
     },
-    /*{
-      field: 'view',
-      headerName: formatMessage({ id: 'view', defaultMessage: 'View' }),
-      width: 150,
-      sortable: false,
-      renderCell: ({ row }) => {
-        return (
-          <Link variant="body1" href={`/u/settings/billing/${row.id}`}>
-            <FormattedMessage id="view" defaultMessage="View" />
-          </Link>
-        );
-      },
-    },*/
   ];
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ 
+      height: isMobile ? 300 : 400, 
+      width: '100%',
+      '& .MuiDataGrid-root': {
+        border: 'none',
+      },
+      '& .MuiDataGrid-cell': {
+        borderBottom: '1px solid rgba(224, 224, 224, 0.1)',
+      },
+      '& .MuiDataGrid-columnHeaders': {
+        borderBottom: '1px solid rgba(224, 224, 224, 0.1)',
+      },
+      '& .MuiDataGrid-footerContainer': {
+        borderTop: '1px solid rgba(224, 224, 224, 0.1)',
+      },
+    }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -95,20 +115,23 @@ export default function BillingDataGrid() {
         paginationMode="server"
         rowSelection={false}
         onPaginationModelChange={setPaginationModel}
-        onSortModelChange={(model) =>
+        onSortModelChange={(model: any) =>
           setSortModel([model[0]?.field, model[0]?.sort as string])
         }
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10,
+              pageSize: isMobile ? 5 : 10,
             },
           },
         }}
         rowCount={total}
-        pageSizeOptions={[10]}
-        checkboxSelection
+        pageSizeOptions={isMobile ? [5] : [5, 10]}
+        checkboxSelection={!isMobile}
         disableRowSelectionOnClick
+        autoHeight={isMobile}
+        hideFooter={isMobile && rows.length <= 5}
+        density={isMobile ? 'compact' : 'standard'}
       />
     </Box>
   );
