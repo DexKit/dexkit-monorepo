@@ -89,8 +89,8 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
   const textColor = glassSettings?.textColor || (isDark ? '#ffffff' : theme.palette.text.primary);
   const buyTabColor = glassSettings?.buyTabColor || '#10B981';
   const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
-  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (isDark ? '#FFFFFF' : '#000000');
-  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (isDark ? '#FFFFFF' : '#000000');
+  const buyTabTextColor = glassSettings?.buyTabTextColor || customVariantSettings?.tradeWidgetTabTextColor || (isDark ? '#FFFFFF' : '#000000');
+  const sellTabTextColor = glassSettings?.sellTabTextColor || customVariantSettings?.tradeWidgetTabTextColor || (isDark ? '#FFFFFF' : '#000000');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 

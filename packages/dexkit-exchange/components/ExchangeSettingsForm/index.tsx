@@ -49,7 +49,7 @@ import {
   parseChainId,
 } from "@dexkit/core/utils";
 import { Select as FormikSelect } from "formik-mui";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { DexkitExchangeSettings, ExchangeSettingsSchema, ExchangeVariant } from "../../types";
 import FormActions from "./ExchangeSettingsFormActions";
@@ -153,6 +153,32 @@ function ColorPickerField({
   const hexDefaultValue = convertToHex(defaultValue);
   const hexValue = value ? convertToHex(value) : hexDefaultValue;
 
+  const onChangeRef = useRef(onChange);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  onChangeRef.current = onChange;
+
+  const handleColorChange = useCallback((newValue: string) => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Debounce the onChange call to prevent infinite loops during dragging
+    timeoutRef.current = setTimeout(() => {
+      onChangeRef.current(newValue);
+    }, 50); // 50ms debounce
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Box sx={{ mb: theme.spacing(1.5) }}>
       <Typography
@@ -199,7 +225,7 @@ function ColorPickerField({
           <input
             type="color"
             value={hexValue}
-            onChange={(e: any) => onChange(e.target.value)}
+            onChange={(e: any) => handleColorChange(e.target.value)}
             style={{
               width: '100%',
               height: '100%',
@@ -212,7 +238,7 @@ function ColorPickerField({
         </Paper>
         <TextField
           value={value || ""}
-          onChange={(e: any) => onChange(e.target.value)}
+          onChange={(e: any) => handleColorChange(e.target.value)}
           placeholder={hexDefaultValue}
           size="small"
           sx={{
@@ -659,6 +685,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
 
+  const memoizedSetFieldValue = useCallback((field: string, value: any) => {
+    setFieldValue(field, value);
+  }, [setFieldValue]);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
@@ -804,7 +834,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.customVariantSettings?.spacing || 2}
-                onChange={(e, value) => setFieldValue("customVariantSettings.spacing", value)}
+                onChange={(e: Event, value: number | number[]) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setFieldValue("customVariantSettings.spacing", newValue);
+                }}
                 min={0}
                 max={8}
                 step={1}
@@ -862,7 +895,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Background Color"
                 value={values.customVariantSettings?.backgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.backgroundColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.backgroundColor", value)}
                 defaultValue={theme.palette.background.default}
               />
 
@@ -884,7 +917,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.customVariantSettings?.borderRadius || 0}
-                onChange={(e, value) => setFieldValue("customVariantSettings.borderRadius", value)}
+                onChange={(e: Event, value: number | number[]) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setFieldValue("customVariantSettings.borderRadius", newValue);
+                }}
                 min={0}
                 max={50}
                 step={1}
@@ -896,7 +932,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.customVariantSettings?.padding || 2}
-                onChange={(e, value) => setFieldValue("customVariantSettings.padding", value)}
+                onChange={(e: Event, value: number | number[]) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setFieldValue("customVariantSettings.padding", newValue);
+                }}
                 min={0}
                 max={8}
                 step={1}
@@ -913,21 +952,21 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Background Color"
                 value={values.customVariantSettings?.pairInfoBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoBackgroundColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.pairInfoBackgroundColor", value)}
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.pairInfoTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoTextColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.pairInfoTextColor", value)}
                 defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.pairInfoBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.pairInfoBorderColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.pairInfoBorderColor", value)}
                 defaultValue={theme.palette.divider}
               />
             </Box>
@@ -940,35 +979,35 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Background Color"
                 value={values.customVariantSettings?.tradeWidgetBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBackgroundColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradeWidgetBackgroundColor", value)}
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Text Color"
                 value={values.customVariantSettings?.tradeWidgetTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetTextColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradeWidgetTextColor", value)}
                 defaultValue={theme.palette.text.primary}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.tradeWidgetBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetBorderColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradeWidgetBorderColor", value)}
                 defaultValue={theme.palette.divider}
               />
 
               <ColorPickerField
                 label="Button Color"
                 value={values.customVariantSettings?.tradeWidgetButtonColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradeWidgetButtonColor", value)}
                 defaultValue={theme.palette.primary.main}
               />
 
               <ColorPickerField
                 label="Button Text Color"
                 value={values.customVariantSettings?.tradeWidgetButtonTextColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradeWidgetButtonTextColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradeWidgetButtonTextColor", value)}
                 defaultValue={theme.palette.primary.contrastText}
               />
             </Box>
@@ -981,14 +1020,14 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Background Color"
                 value={values.customVariantSettings?.tradingGraphBackgroundColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBackgroundColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradingGraphBackgroundColor", value)}
                 defaultValue={theme.palette.background.paper}
               />
 
               <ColorPickerField
                 label="Border Color"
                 value={values.customVariantSettings?.tradingGraphBorderColor || ""}
-                onChange={(value) => setFieldValue("customVariantSettings.tradingGraphBorderColor", value)}
+                onChange={(value) => memoizedSetFieldValue("customVariantSettings.tradingGraphBorderColor", value)}
                 defaultValue={theme.palette.divider}
               />
             </Box>
@@ -997,8 +1036,8 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
       )}
 
       {values.variant === "glass" && (
-        <Paper elevation={1} sx={{ 
-          mt: 2, 
+        <Paper elevation={1} sx={{
+          mt: 2,
           p: 2,
           width: '100%',
           boxSizing: 'border-box'
@@ -1027,21 +1066,24 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               value={values.glassSettings?.backgroundType || "solid"}
               onChange={(e) => {
                 const newType = e.target.value as 'solid' | 'gradient' | 'image';
+
                 setFieldValue("glassSettings.backgroundType", newType);
 
-                if (newType === 'solid' && !values.glassSettings?.backgroundColor) {
-                  setFieldValue("glassSettings.backgroundColor", theme.palette.background.default);
-                } else if (newType === 'gradient') {
-                  if (!values.glassSettings?.gradientStartColor) {
-                    setFieldValue("glassSettings.gradientStartColor", theme.palette.background.default);
+                setTimeout(() => {
+                  if (newType === 'solid' && !values.glassSettings?.backgroundColor) {
+                    setFieldValue("glassSettings.backgroundColor", theme.palette.background.default);
+                  } else if (newType === 'gradient') {
+                    if (!values.glassSettings?.gradientStartColor) {
+                      setFieldValue("glassSettings.gradientStartColor", theme.palette.background.default);
+                    }
+                    if (!values.glassSettings?.gradientEndColor) {
+                      setFieldValue("glassSettings.gradientEndColor", theme.palette.background.paper);
+                    }
+                    if (!values.glassSettings?.gradientDirection) {
+                      setFieldValue("glassSettings.gradientDirection", "to bottom");
+                    }
                   }
-                  if (!values.glassSettings?.gradientEndColor) {
-                    setFieldValue("glassSettings.gradientEndColor", theme.palette.background.paper);
-                  }
-                  if (!values.glassSettings?.gradientDirection) {
-                    setFieldValue("glassSettings.gradientDirection", "to bottom");
-                  }
-                }
+                }, 0);
               }}
               row
             >
@@ -1082,7 +1124,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <ColorPickerField
                   label="Background Color"
                   value={values.glassSettings?.backgroundColor || theme.palette.background.default}
-                  onChange={(value) => setFieldValue("glassSettings.backgroundColor", value)}
+                  onChange={(value) => memoizedSetFieldValue("glassSettings.backgroundColor", value)}
                   defaultValue={theme.palette.background.default}
                 />
               </Box>
@@ -1093,13 +1135,13 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                 <ColorPickerField
                   label="Gradient Start Color"
                   value={values.glassSettings?.gradientStartColor || theme.palette.background.default}
-                  onChange={(value) => setFieldValue("glassSettings.gradientStartColor", value)}
+                  onChange={(value) => memoizedSetFieldValue("glassSettings.gradientStartColor", value)}
                   defaultValue={theme.palette.background.default}
                 />
                 <ColorPickerField
                   label="Gradient End Color"
                   value={values.glassSettings?.gradientEndColor || theme.palette.background.paper}
-                  onChange={(value) => setFieldValue("glassSettings.gradientEndColor", value)}
+                  onChange={(value) => memoizedSetFieldValue("glassSettings.gradientEndColor", value)}
                   defaultValue={theme.palette.background.paper}
                 />
                 <FormControl fullWidth>
@@ -1111,7 +1153,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   </InputLabel>
                   <Select
                     value={values.glassSettings?.gradientDirection || "to bottom"}
-                    onChange={(e) => setFieldValue("glassSettings.gradientDirection", e.target.value)}
+                    onChange={(e) => memoizedSetFieldValue("glassSettings.gradientDirection", e.target.value)}
                     label="Gradient Direction"
                   >
                     <MenuItem value="to bottom">
@@ -1158,15 +1200,15 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             {values.glassSettings?.backgroundType === "image" && (
               <BackgroundImageSelector
                 value={values.glassSettings?.backgroundImage}
-                onChange={(url) => setFieldValue("glassSettings.backgroundImage", url)}
+                onChange={useCallback((url) => setFieldValue("glassSettings.backgroundImage", url), [setFieldValue])}
                 sizeValue={values.glassSettings?.backgroundSize}
-                onSizeChange={(size) => setFieldValue("glassSettings.backgroundSize", size)}
+                onSizeChange={useCallback((size) => setFieldValue("glassSettings.backgroundSize", size), [setFieldValue])}
                 positionValue={values.glassSettings?.backgroundPosition}
-                onPositionChange={(position) => setFieldValue("glassSettings.backgroundPosition", position)}
+                onPositionChange={useCallback((position) => setFieldValue("glassSettings.backgroundPosition", position), [setFieldValue])}
                 repeatValue={values.glassSettings?.backgroundRepeat}
-                onRepeatChange={(repeat) => setFieldValue("glassSettings.backgroundRepeat", repeat)}
+                onRepeatChange={useCallback((repeat) => setFieldValue("glassSettings.backgroundRepeat", repeat), [setFieldValue])}
                 attachmentValue={values.glassSettings?.backgroundAttachment}
-                onAttachmentChange={(attachment) => setFieldValue("glassSettings.backgroundAttachment", attachment)}
+                onAttachmentChange={useCallback((attachment) => setFieldValue("glassSettings.backgroundAttachment", attachment), [setFieldValue])}
               />
             )}
 
@@ -1174,7 +1216,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               <ColorPickerField
                 label="Text Color"
                 value={values.glassSettings?.textColor || theme.palette.text.primary}
-                onChange={(value) => setFieldValue("glassSettings.textColor", value)}
+                onChange={(value) => memoizedSetFieldValue("glassSettings.textColor", value)}
                 defaultValue={theme.palette.text.primary}
               />
             </Box>
@@ -1189,7 +1231,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.glassSettings?.blurIntensity || 80}
-                onChange={(e, value) => setFieldValue("glassSettings.blurIntensity", value)}
+                onChange={(e: Event, value: number | number[]) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setFieldValue("glassSettings.blurIntensity", newValue);
+                }}
                 min={20}
                 max={120}
                 step={10}
@@ -1208,7 +1253,10 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
               </Typography>
               <Slider
                 value={values.glassSettings?.glassOpacity || 0.10}
-                onChange={(e, value) => setFieldValue("glassSettings.glassOpacity", value)}
+                onChange={(e: Event, value: number | number[]) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setFieldValue("glassSettings.glassOpacity", newValue);
+                }}
                 min={0.02}
                 max={0.30}
                 step={0.02}
@@ -1263,7 +1311,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Buy Tab Color"
                     value={values.glassSettings?.buyTabColor || theme.palette.success.main}
-                    onChange={(value) => setFieldValue("glassSettings.buyTabColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.buyTabColor", value)}
                     defaultValue={theme.palette.success.main}
                   />
                 </div>
@@ -1271,7 +1319,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Sell Tab Color"
                     value={values.glassSettings?.sellTabColor || theme.palette.error.main}
-                    onChange={(value) => setFieldValue("glassSettings.sellTabColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.sellTabColor", value)}
                     defaultValue={theme.palette.error.main}
                   />
                 </div>
@@ -1279,7 +1327,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Buy Tab Text Color"
                     value={values.glassSettings?.buyTabTextColor || theme.palette.success.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.buyTabTextColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.buyTabTextColor", value)}
                     defaultValue={theme.palette.success.contrastText}
                   />
                 </div>
@@ -1287,7 +1335,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Sell Tab Text Color"
                     value={values.glassSettings?.sellTabTextColor || theme.palette.error.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.sellTabTextColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.sellTabTextColor", value)}
                     defaultValue={theme.palette.error.contrastText}
                   />
                 </div>
@@ -1352,7 +1400,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Background Color"
                     value={values.glassSettings?.fillButtonBackgroundColor || theme.palette.primary.main}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonBackgroundColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonBackgroundColor", value)}
                     defaultValue={theme.palette.primary.main}
                   />
                 </div>
@@ -1360,7 +1408,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Text Color"
                     value={values.glassSettings?.fillButtonTextColor || theme.palette.primary.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonTextColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonTextColor", value)}
                     defaultValue={theme.palette.primary.contrastText}
                   />
                 </div>
@@ -1377,7 +1425,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Hover Background"
                     value={values.glassSettings?.fillButtonHoverBackgroundColor || theme.palette.primary.dark}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonHoverBackgroundColor", value)}
                     defaultValue={theme.palette.primary.dark}
                   />
                 </div>
@@ -1385,7 +1433,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Hover Text"
                     value={values.glassSettings?.fillButtonHoverTextColor || theme.palette.primary.contrastText}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonHoverTextColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonHoverTextColor", value)}
                     defaultValue={theme.palette.primary.contrastText}
                   />
                 </div>
@@ -1393,7 +1441,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Disabled Background"
                     value={values.glassSettings?.fillButtonDisabledBackgroundColor || theme.palette.action.disabled}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonDisabledBackgroundColor", value)}
                     defaultValue={theme.palette.action.disabled}
                   />
                 </div>
@@ -1401,7 +1449,7 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   <ColorPickerField
                     label="Disabled Text"
                     value={values.glassSettings?.fillButtonDisabledTextColor || theme.palette.action.disabledBackground}
-                    onChange={(value) => setFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
+                    onChange={(value) => memoizedSetFieldValue("glassSettings.fillButtonDisabledTextColor", value)}
                     defaultValue={theme.palette.action.disabledBackground}
                   />
                 </div>
