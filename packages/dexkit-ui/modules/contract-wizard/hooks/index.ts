@@ -106,22 +106,18 @@ export function useListDeployedContracts({
           params.hide = safeFilter.hide;
         }
 
-        const [dataResponse, countResponse] = await Promise.all([
-          instance.get("/forms/deploy/list", { params }),
-          instance.get("/forms/deploy/list", {
-            params: {
-              ...params,
-              cursor: 0,
-              limit: 10000,
-              hide: safeFilter.hide
-            }
-          })
-        ]);
+        const allDataResponse = await instance.get("/forms/deploy/list", {
+          params: {
+            ...params,
+            cursor: 0,
+            limit: 10000,
+          }
+        });
 
-        const data = dataResponse.data;
-        const countData = countResponse.data;
+        const allData = allDataResponse.data;
 
-        if (!data || typeof data !== 'object') {
+
+        if (!allData || typeof allData !== 'object') {
           return {
             data: [],
             total: 0,
@@ -130,36 +126,28 @@ export function useListDeployedContracts({
           };
         }
 
-        const items = data.items || [];
-
-        let filteredItems = items;
-        let filteredCountItems = countData?.items || [];
+        let allItems = allData.items || [];
 
         if (safeFilter.hide !== undefined) {
-          filteredItems = items.filter((contract: any) => {
+          allItems = allItems.filter((contract: any) => {
             if (safeFilter.hide === false) {
-              return contract.hide !== true;
+              return contract.hide !== true; 
             } else if (safeFilter.hide === true) {
-              return contract.hide === true;
+              return contract.hide === true; 
             }
-            return true;
-          });
-
-          filteredCountItems = (countData?.items || []).filter((contract: any) => {
-            if (safeFilter.hide === false) {
-              return contract.hide !== true;
-            } else if (safeFilter.hide === true) {
-              return contract.hide === true;
-            }
-            return true;
+            return true; 
           });
         }
 
-        const total = safeFilter.hide !== undefined
-          ? filteredCountItems.length
-          : countData?.total || countData?.count || (countData?.items?.length || 0) || data.total || data.count || 0;
+        const total = allItems.length;
 
-        const mappedItems = filteredItems.map((contract: any) => ({
+
+        const startIndex = page * pageSize;
+        const endIndex = startIndex + pageSize;
+        const paginatedItems = allItems.slice(startIndex, endIndex);
+
+
+        const mappedItems = paginatedItems.map((contract: any) => ({
           ...contract,
           createdAt: contract.createdAt || contract.created_at || new Date().toISOString(),
           chainId: contract.chainId || contract.chain_id || contract.chainId,

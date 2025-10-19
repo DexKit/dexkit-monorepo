@@ -105,6 +105,13 @@ export default function ContractListDataGrid({
     }
   }, [data?.total]);
 
+  useEffect(() => {
+    if (data?.total !== undefined) {
+      setRowCountState(data.total);
+    }
+  }, [paginationModel.page, paginationModel.pageSize]);
+
+
   const handleSortModelChange = useCallback(
     (sortModel: GridSortModel) => {
       setQueryOptions({
@@ -427,7 +434,7 @@ export default function ContractListDataGrid({
     }}>
       <DataGrid
         rows={data?.data || []}
-        rowCount={rowCountState}
+        rowCount={rowCountState || -1}
         loading={isLoading}
         columns={columns}
         pageSizeOptions={isMobile ? [5] : [5, 10, 25, 50, 100]}
