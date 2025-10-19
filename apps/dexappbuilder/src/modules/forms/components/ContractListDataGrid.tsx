@@ -180,17 +180,35 @@ export default function ContractListDataGrid({
   };
 
   const renderMobileName = (params: any) => (
-    <Box>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      height: '100%',
+      minHeight: '100%',
+      padding: `${theme.spacing(0.5)} 0`
+    }}>
       <Typography
         variant="body2"
         fontWeight="medium"
-        sx={{ fontSize: theme.typography.caption.fontSize, lineHeight: 1.2, mb: 0.5 }}
+        sx={{
+          fontSize: theme.typography.caption.fontSize,
+          lineHeight: 1.2,
+          mb: 0.5,
+          margin: 0
+        }}
       >
         {params.row.name}
       </Typography>
       <Typography
         variant="caption"
-        sx={{ fontSize: theme.typography.caption.fontSize, display: 'block', color: 'text.secondary' }}
+        sx={{
+          fontSize: theme.typography.caption.fontSize,
+          display: 'block',
+          color: 'text.secondary',
+          margin: 0
+        }}
       >
         {params.row?.createdAt ? new Date(params.row.createdAt).toLocaleDateString() : 'N/A'}
       </Typography>
@@ -198,7 +216,17 @@ export default function ContractListDataGrid({
   );
 
   const renderMobileActions = (params: any) => (
-    <Stack direction="row" spacing={0.5} sx={{ justifyContent: 'flex-end' }}>
+    <Stack
+      direction="row"
+      spacing={0.5}
+      sx={{
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        height: '100%',
+        minHeight: '100%',
+        padding: `${theme.spacing(0.5)} 0`
+      }}
+    >
       <Link href={`/contract/${NETWORK_SLUG(params.row.chainId)}/${params.row.contractAddress}`}>
         <MobileIconButton size="small">
           <Settings fontSize="small" />
@@ -379,14 +407,14 @@ export default function ContractListDataGrid({
       fontWeight: 'bold',
       fontSize: theme.typography.caption.fontSize,
     },
-    '.MuiDataGrid-row': {
-      minHeight: `${theme.spacing(7.5)} !important`,
-      maxHeight: `${theme.spacing(11.25)} !important`,
-    },
     '.MuiDataGrid-cell': {
       fontSize: theme.typography.caption.fontSize,
-      padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
+      padding: `${theme.spacing(1)} ${theme.spacing(0.5)}`,
       lineHeight: 1.2,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      verticalAlign: 'middle',
     },
     '.MuiDataGrid-toolbarContainer': {
       padding: theme.spacing(0.5),
@@ -409,6 +437,12 @@ export default function ContractListDataGrid({
       height: `${theme.spacing(5)} !important`,
       minHeight: `${theme.spacing(5)} !important`,
       maxHeight: `${theme.spacing(5)} !important`,
+    },
+    '.MuiDataGrid-cell--withBorder': {
+      borderBottom: 'none !important',
+    },
+    '.MuiDataGrid-row': {
+      borderBottom: '1px solid rgba(224, 224, 224, 0.12) !important',
     }
   };
 
@@ -461,17 +495,30 @@ export default function ContractListDataGrid({
         }}
         onRowSelectionModelChange={handleChangeRowSelectionModel}
         density="compact"
-        rowHeight={isMobile ? 60 : 52}
+        rowHeight={isMobile ? 72 : 52}
         sx={{
           width: '100%',
           maxWidth: '100%',
           border: 'none',
-          height: isMobile ? 500 : 600,
+          height: isMobile ? 600 : 600,
           '& .MuiDataGrid-main': {
             overflow: 'auto',
           },
           '& .MuiDataGrid-virtualScroller': {
             overflow: 'auto',
+          },
+          '& .MuiDataGrid-cell': {
+            borderBottom: 'none !important',
+            borderRight: 'none !important',
+          },
+          '& .MuiDataGrid-row': {
+            borderBottom: '1px solid rgba(224, 224, 224, 0.12) !important',
+          },
+          '& .MuiDataGrid-cell--withBorder': {
+            borderBottom: 'none !important',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
           },
         }}
       />

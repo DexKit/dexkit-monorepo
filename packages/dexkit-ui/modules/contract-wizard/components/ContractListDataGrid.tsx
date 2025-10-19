@@ -148,6 +148,16 @@ export default function ContractListDataGrid({
           ...filter,
           q: firstFilter.value,
         };
+      } else if (firstFilter?.field === "type" && firstFilter?.value) {
+        filter = {
+          ...filter,
+          type: firstFilter.value,
+        };
+      } else if (firstFilter?.field === "chainId" && firstFilter?.value) {
+        filter = {
+          ...filter,
+          chainId: firstFilter.value,
+        };
       }
 
       setFilterModel(filterModel);
@@ -175,7 +185,7 @@ export default function ContractListDataGrid({
     };
   };
 
-  const columns: GridColDef[] = [
+  const desktopColumns: GridColDef[] = [
     {
       field: "name",
       headerName: "Name",
@@ -195,14 +205,47 @@ export default function ContractListDataGrid({
       field: "type",
       headerName: "Type",
       width: 150,
+      filterable: true,
+      type: 'singleSelect',
+      filterOperators: [
+        {
+          label: 'Contains',
+          value: 'contains',
+          getApplyFilterFn: (filterItem: any) => {
+            if (!filterItem.field || !filterItem.value) {
+              return null;
+            }
+            return (params: any) => {
+              return params.value?.toString().toLowerCase().includes(filterItem.value.toLowerCase());
+            };
+          },
+        },
+      ],
     },
     {
       field: "chainId",
       headerName: "Network",
       width: 110,
+      filterable: true,
+      type: 'singleSelect',
       valueGetter: (value, row) => {
         return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
+      filterOperators: [
+        {
+          label: 'Contains',
+          value: 'contains',
+          getApplyFilterFn: (filterItem: any) => {
+            if (!filterItem.field || !filterItem.value) {
+              return null;
+            }
+            return (params: any) => {
+              const networkName = params.row?.chainId ? NETWORK_NAME(params.row.chainId) : 'N/A';
+              return networkName.toLowerCase().includes(filterItem.value.toLowerCase());
+            };
+          },
+        },
+      ],
     },
     {
       field: "contractAddress",
@@ -313,14 +356,195 @@ export default function ContractListDataGrid({
     },
   ];
 
+  const mobileColumns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      minWidth: 120,
+      flex: 1,
+      cellClassName: 'mobile-name-cell',
+      filterable: true,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 100,
+      align: "right",
+      headerAlign: "right",
+      cellClassName: 'mobile-actions-cell',
+      renderCell: ({ row }) => {
+        return (
+          <Stack direction={"row"} spacing={0.5} sx={{ justifyContent: 'flex-end', width: '100%' }}>
+            {onClickContract ? (
+              <IconButton
+                onClick={() =>
+                  onClickContract({
+                    address: row?.contractAddress,
+                    network: NETWORK_SLUG(row?.chainId) as string,
+                  })
+                }
+                size="small"
+              >
+                <Settings fontSize="small" />
+              </IconButton>
+            ) : (
+              <IconButton
+                LinkComponent={Link}
+                href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress
+                  }`}
+                size="small"
+              >
+                <Settings fontSize="small" />
+              </IconButton>
+            )}
+
+            {hideFormButton ? (
+              <></>
+            ) : (
+              <IconButton
+                LinkComponent={Link}
+                href={`/forms/create?contractAddress=${row?.contractAddress}&chainId=${row?.chainId}`}
+                target="_blank"
+                size="small"
+              >
+                <PostAddOutlinedIcon fontSize="small" />
+              </IconButton>
+            )}
+            <IconButton onClick={handleHideContract(row?.id)} size="small">
+              {row?.hide ? (
+                <VisibilityOff fontSize="small" />
+              ) : (
+                <VisibilityOutlined fontSize="small" />
+              )}
+            </IconButton>
+          </Stack>
+        );
+      },
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 140,
+      filterable: true,
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
+      },
+      cellClassName: 'mobile-date-cell',
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 120,
+      filterable: true,
+      type: 'singleSelect',
+      cellClassName: 'mobile-type-cell',
+      filterOperators: [
+        {
+          label: 'Contains',
+          value: 'contains',
+          getApplyFilterFn: (filterItem: any) => {
+            if (!filterItem.field || !filterItem.value) {
+              return null;
+            }
+            return (params: any) => {
+              return params.value?.toString().toLowerCase().includes(filterItem.value.toLowerCase());
+            };
+          },
+        },
+      ],
+    },
+    {
+      field: "chainId",
+      headerName: "Network",
+      width: 100,
+      filterable: true,
+      type: 'singleSelect',
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
+      },
+      cellClassName: 'mobile-network-cell',
+      filterOperators: [
+        {
+          label: 'Contains',
+          value: 'contains',
+          getApplyFilterFn: (filterItem: any) => {
+            if (!filterItem.field || !filterItem.value) {
+              return null;
+            }
+            return (params: any) => {
+              const networkName = params.row?.chainId ? NETWORK_NAME(params.row.chainId) : 'N/A';
+              return networkName.toLowerCase().includes(filterItem.value.toLowerCase());
+            };
+          },
+        },
+      ],
+    },
+    {
+      field: "contractAddress",
+      headerName: "Address",
+      width: 120,
+      filterable: true,
+      cellClassName: 'mobile-address-cell',
+      renderCell: (params: any) => (
+        <Link
+          target="_blank"
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress
+            }`}
+          style={{ fontSize: '0.75rem' }}
+        >
+          {truncateAddress(params.row?.contractAddress)}
+        </Link>
+      ),
+    },
+  ];
+
+  const columns = isMobile ? mobileColumns : desktopColumns;
+
   const [rowSelectionModel, setRowSelectionModel] =
     useState<GridRowSelectionModel>();
+
+  const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
+  const [density, setDensity] = useState<'comfortable' | 'standard' | 'compact'>('standard');
 
   const handleChangeRowSelectionModel = (
     rowSelectionModel: GridRowSelectionModel,
     details: GridCallbackDetails<any>
   ) => {
     setRowSelectionModel(rowSelectionModel);
+  };
+
+  const handleColumnVisibilityModelChange = (newModel: any) => {
+    setColumnVisibilityModel(newModel);
+  };
+
+  const handleDensityChange = (newDensity: 'comfortable' | 'standard' | 'compact') => {
+    setDensity(newDensity);
+  };
+
+  const handleExport = () => {
+    const csvContent = [
+      ['Name', 'Created At', 'Type', 'Network', 'Address', 'Hidden'].join(','),
+      ...(data?.data || []).map((contract: any) => [
+        `"${contract.name || ''}"`,
+        `"${contract.createdAt ? new Date(contract.createdAt).toLocaleString() : 'N/A'}"`,
+        `"${contract.type || 'N/A'}"`,
+        `"${contract.chainId ? NETWORK_NAME(contract.chainId) : 'N/A'}"`,
+        `"${contract.contractAddress || ''}"`,
+        `"${contract.hide ? 'Yes' : 'No'}"`
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `contracts_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleMobilePageChange = (newPage: number) => {
@@ -361,6 +585,10 @@ export default function ContractListDataGrid({
             quickFilterProps: { debounceMs: 500 },
           },
         }}
+        columnVisibilityModel={columnVisibilityModel}
+        onColumnVisibilityModelChange={handleColumnVisibilityModelChange}
+        density={density}
+        onDensityChange={handleDensityChange}
         initialState={{
           columns: {
             columnVisibilityModel: {},
@@ -375,6 +603,50 @@ export default function ContractListDataGrid({
           '& .MuiDataGrid-virtualScroller': {
             overflow: 'auto',
           },
+          ...(isMobile && {
+            '& .mobile-name-cell': {
+              paddingLeft: theme.spacing(1),
+              paddingRight: theme.spacing(0.5),
+            },
+            '& .mobile-actions-cell': {
+              paddingLeft: theme.spacing(0.5),
+              paddingRight: theme.spacing(1),
+            },
+            '& .mobile-date-cell': {
+              paddingLeft: theme.spacing(0.5),
+              paddingRight: theme.spacing(0.5),
+              fontSize: '0.75rem',
+            },
+            '& .mobile-type-cell': {
+              paddingLeft: theme.spacing(0.5),
+              paddingRight: theme.spacing(0.5),
+              fontSize: '0.75rem',
+            },
+            '& .mobile-network-cell': {
+              paddingLeft: theme.spacing(0.5),
+              paddingRight: theme.spacing(0.5),
+              fontSize: '0.75rem',
+            },
+            '& .mobile-address-cell': {
+              paddingLeft: theme.spacing(0.5),
+              paddingRight: theme.spacing(0.5),
+              fontSize: '0.75rem',
+            },
+            '& .MuiDataGrid-cell': {
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '48px !important',
+              fontSize: '0.75rem',
+            },
+            '& .MuiDataGrid-row': {
+              minHeight: '48px !important',
+              maxHeight: '48px !important',
+            },
+            '& .MuiDataGrid-columnHeader': {
+              fontSize: '0.75rem',
+              padding: `${theme.spacing(0.5)} ${theme.spacing(0.5)}`,
+            },
+          }),
         }}
       />
 
