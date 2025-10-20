@@ -161,6 +161,25 @@ export const DAI_TOKEN_BASE: Token = {
   logoURI: DAI_LOGO_URL,
 };
 
+export const USDT_TOKEN_BASE: Token = {
+  address: "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+  decimals: 6,
+  name: "Tether USD",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Base,
+  logoURI: USDT_LOGO_URL,
+};
+
+export const COINBASE_WRAPPED_STAKED: Token = {
+  chainId: ChainId.Base,
+  address: "0x4200000000000000000000000000000000000006",
+  name: "Wrapped Ether",
+  symbol: "WETH",
+  decimals: 18,
+  logoURI: WRAPPED_ETH_LOGO_URL,
+};
+
 export const USDC_TOKEN_ETH: Token = {
   address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
   decimals: 6,
@@ -248,10 +267,12 @@ export const DUMMY_TOKEN: Token = {
 
 export const DEFAULT_BASE_TOKENS = {
   [ChainId.Polygon]: [DAI_TOKEN, USDT_TOKEN],
+  [ChainId.Base]: [COINBASE_WRAPPED_STAKED, DAI_TOKEN_BASE, USDT_TOKEN_BASE],
 };
 
 export const DEFAULT_QUOTE_TOKENS = {
   [ChainId.Polygon]: [KIT_TOKEN],
+  [ChainId.Base]: [USDC_TOKEN_BASE],
 };
 
 export const QUOTE_TOKENS_SUGGESTION = [
@@ -261,12 +282,14 @@ export const QUOTE_TOKENS_SUGGESTION = [
   USDT_TOKEN_OPT,
   USDT_TOKEN_BSC,
   USDT_TOKEN_POLYGON,
+  USDT_TOKEN_BASE,
 
   DAI_TOKEN_ETH,
   DAI_TOKEN_AVAX,
   DAI_TOKEN_OPT,
   DAI_TOKEN_POLYGON,
   DAI_TOKEN_BSC,
+  DAI_TOKEN_BASE,
 
   USDC_TOKEN_ETH,
   USDC_TOKEN_POLYGON,
@@ -401,15 +424,6 @@ export const WRAPPED_BNB: Token = {
   symbol: "WBNB",
   coingeckoId: "bnb",
   logoURI: WRAPPED_BNB_LOGO_URL,
-};
-
-export const COINBASE_WRAPPED_STAKED: Token = {
-  chainId: ChainId.Base,
-  address: "0x4200000000000000000000000000000000000006",
-  name: "Wrapped Ether",
-  symbol: "WETH",
-  decimals: 18,
-  logoURI: WRAPPED_ETH_LOGO_URL,
 };
 
 export const WRAPPED_ETH_MODE: Token = {
@@ -772,6 +786,26 @@ export const WBTC_TOKEN_LINEA: Token = {
   logoURI: "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
 };
 
+export const WRAPPED_CRONOS: Token = {
+  chainId: ChainId.Cronos,
+  address: "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23",
+  name: "Wrapped Cronos",
+  symbol: "WCRO",
+  decimals: 18,
+  coingeckoId: "crypto-com-chain",
+  logoURI: 'https://static.crypto.com/token/icons/wrapped-cro/color_icon.png',
+};
+
+export const USDT_TOKEN_CRONOS: Token = {
+  address: "0x66e428c3f67a68878562e79A0234c1F83c208770",
+  decimals: 6,
+  name: "Tether",
+  symbol: "USDT",
+  coingeckoId: "tether",
+  chainId: ChainId.Cronos,
+  logoURI: USDT_LOGO_URL,
+};
+
 export const BASE_TOKENS_SUGGESTION = [
   WRAPPED_ETH_ARB,
   WRAPPED_ETH_AVAX,
@@ -807,6 +841,7 @@ export const BASE_TOKENS_SUGGESTION = [
   EZETH_TOKEN_MODE,
   JUICE_TOKEN_BLAST,
   YES_TOKEN_BLAST,
+  WRAPPED_CRONOS,
 ];
 
 export const EXTENDED_QUOTE_TOKENS_SUGGESTION = [
@@ -824,6 +859,7 @@ export const EXTENDED_QUOTE_TOKENS_SUGGESTION = [
   USDT_TOKEN_MANTLE,
   USDT_TOKEN_MODE,
   USDT_TOKEN_BLAST,
+  USDT_TOKEN_CRONOS,
 ];
 
 export const DEFAULT_TOKENS: {
@@ -888,5 +924,9 @@ export const DEFAULT_TOKENS: {
   [ChainId.Mode]: {
     baseToken: WRAPPED_ETH_MODE,
     quoteToken: USDC_TOKEN_MODE,
+  },
+  [ChainId.Cronos]: {
+    baseToken: WRAPPED_CRONOS,
+    quoteToken: USDT_TOKEN_CRONOS,
   },
 };

@@ -13,6 +13,7 @@ import { Delete as DeleteIcon, Image as ImageIcon, Refresh as RefreshIcon } from
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion, AccordionDetails, AccordionSummary,
+  Alert,
   Box,
   Button,
   ButtonBase,
@@ -633,20 +634,20 @@ const getDefaultCustomSettings = (theme: any): WalletCustomSettings => ({
 
   exchangeConfig: {
     variant: "default" as const,
+    inheritWalletColors: true,
+    tradeWidgetPrimaryTextColor: theme.palette.text.primary,
+    tradeWidgetButtonTextColor: theme.palette.primary.contrastText,
+    tradeWidgetInputTextColor: theme.palette.text.primary,
+    tradeWidgetTabTextColor: theme.palette.text.primary,
+
+    fillAmountButtonActiveColor: theme.palette.primary.main,
+    fillAmountButtonInactiveColor: theme.palette.grey[300],
+    fillAmountButtonActiveTextColor: theme.palette.primary.contrastText,
+    fillAmountButtonInactiveTextColor: theme.palette.text.secondary,
+    tokenInfoBarBackgroundColor: theme.palette.background.paper,
+    tokenInfoBarPrimaryTextColor: theme.palette.text.primary,
   },
 
-  exchangeTextColors: {
-    pairInfoTextColor: theme.palette.text.primary,
-    pairInfoSecondaryTextColor: theme.palette.text.secondary,
-    pairInfoBackgroundColor: theme.palette.background.paper,
-    tradeWidgetTextColor: theme.palette.text.primary,
-    tradeWidgetButtonTextColor: theme.palette.primary.contrastText,
-    tradeWidgetTabTextColor: theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000',
-    tradeWidgetInputTextColor: theme.palette.text.primary,
-    tradeWidgetBackgroundColor: theme.palette.background.paper,
-    tradingGraphControlTextColor: theme.palette.text.primary,
-    tradingGraphBackgroundColor: theme.palette.background.paper,
-  },
   nftColors: {
     titleColor: theme.palette.text.primary,
     collectionColor: theme.palette.text.secondary,
@@ -703,7 +704,6 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
     return theme.palette.mode === 'dark' ? '#ffffff' : '#000000';
   };
 
-  // Helper function for consistent spacing
   const getFormSpacing = () => theme.spacing(2);
 
   const getCurrentThemeGlassSettings = () => {
@@ -1338,6 +1338,109 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Typography>
               </Box>
+
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  <FormattedMessage
+                    id="glass.layout.settings"
+                    defaultMessage="Layout Settings"
+                  />
+                </Typography>
+
+                <Box sx={{ mt: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.glassSettings?.removePadding || false}
+                        onChange={(e) => setFieldValue("glassSettings.removePadding", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="glass.remove.padding"
+                        defaultMessage="Remove All Padding"
+                      />
+                    }
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    <FormattedMessage
+                      id="glass.remove.padding.description"
+                      defaultMessage="Remove all padding to make the wallet take the full screen width and height"
+                    />
+                  </Typography>
+                </Box>
+
+                {!values.glassSettings?.removePadding && (
+                  <Box sx={{ mt: 2 }}>
+                    <Typography variant="body2" gutterBottom>
+                      <FormattedMessage
+                        id="glass.custom.padding"
+                        defaultMessage="Custom Padding (px)"
+                      />
+                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Top"
+                          type="number"
+                          size="small"
+                          value={values.glassSettings?.customPadding?.top ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("glassSettings.customPadding.top", value);
+                          }}
+                          placeholder="24"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Bottom"
+                          type="number"
+                          size="small"
+                          value={values.glassSettings?.customPadding?.bottom ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("glassSettings.customPadding.bottom", value);
+                          }}
+                          placeholder="24"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Left"
+                          type="number"
+                          size="small"
+                          value={values.glassSettings?.customPadding?.left ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("glassSettings.customPadding.left", value);
+                          }}
+                          placeholder="0"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Right"
+                          type="number"
+                          size="small"
+                          value={values.glassSettings?.customPadding?.right ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("glassSettings.customPadding.right", value);
+                          }}
+                          placeholder="0"
+                        />
+                      </Grid>
+                    </Grid>
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                      <FormattedMessage
+                        id="glass.custom.padding.note"
+                        defaultMessage="Leave empty to use default values. Top/Bottom default: 24px, Left/Right default: 0px"
+                      />
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
             </Box>
 
             <Box sx={{ mt: 3 }}>
@@ -1745,6 +1848,36 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     value={values.customSettings?.tabsConfig?.hiddenIndicatorColor || theme.palette.primary.main}
                     onChange={(value: string) => setFieldValue("customSettings.tabsConfig.hiddenIndicatorColor", value)}
                     defaultValue={theme.palette.primary.main}
+                  />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion
+            expanded={expandedAccordions.includes('filter')}
+            onChange={handleAccordionChange('filter')}
+            sx={{ mt: 2, boxShadow: 1 }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
+                Filter Settings
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                Configure filter interface appearance (icons, text, and arrows)
+              </Typography>
+              <Grid container spacing={getFormSpacing()}>
+                <Grid item xs={12} sm={6}>
+                  <ColorPickerField
+                    label={formatMessage({
+                      id: "custom.filter.elements.color",
+                      defaultMessage: "Filter & Arrow Elements Color"
+                    })}
+                    value={values.customSettings?.filterConfig?.closeArrowColor || theme.palette.text.primary}
+                    onChange={(value: string) => setFieldValue("customSettings.filterConfig.closeArrowColor", value)}
+                    defaultValue={theme.palette.text.primary}
                   />
                 </Grid>
               </Grid>
@@ -2296,70 +2429,60 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
             </AccordionDetails>
           </Accordion>
 
+
+
           <Accordion
-            expanded={expandedAccordions.includes('exchange-text')}
-            onChange={handleAccordionChange('exchange-text')}
+            expanded={expandedAccordions.includes('exchangeConfig')}
+            onChange={handleAccordionChange('exchangeConfig')}
             sx={{ mt: 2, boxShadow: 1 }}
           >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: getTitleColor() }}>
-                Exchange Text Colors
+                <FormattedMessage
+                  id="custom.exchange.configuration"
+                  defaultMessage="Exchange Configuration"
+                />
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
-                Configure text colors for exchange components to override default colors
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+                <FormattedMessage
+                  id="custom.exchange.configuration.description"
+                  defaultMessage="Configure the exchange interface colors and appearance"
+                />
               </Typography>
 
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+              <Alert severity="info" sx={{ mb: 3 }}>
+                <Typography variant="body2">
                   <FormattedMessage
-                    id="custom.exchange.pair.info"
-                    defaultMessage="Pair Information Section"
+                    id="custom.exchange.inheritance.note"
+                    defaultMessage="Background colors and title/back button automatically inherit from wallet settings"
                   />
                 </Typography>
-                <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
-                    <ColorPickerField
-                      label={formatMessage({
-                        id: "custom.exchange.pair.info.text.color",
-                        defaultMessage: "Text Color"
-                      })}
-                      value={values.customSettings?.exchangeTextColors?.pairInfoTextColor || theme.palette.text.primary}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.pairInfoTextColor", value)}
-                      defaultValue={theme.palette.text.primary}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <ColorPickerField
-                      label={formatMessage({
-                        id: "custom.exchange.pair.info.secondary.text.color",
-                        defaultMessage: "Secondary Text Color"
-                      })}
-                      value={values.customSettings?.exchangeTextColors?.pairInfoSecondaryTextColor || theme.palette.text.secondary}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.pairInfoSecondaryTextColor", value)}
-                      defaultValue={theme.palette.text.secondary}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
+              </Alert>
 
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
                   <FormattedMessage
-                    id="custom.exchange.trade.widget"
-                    defaultMessage="Trading Widget"
+                    id="custom.exchange.trade.widget.section"
+                    defaultMessage="Trade Widget"
+                  />
+                </Typography>
+                <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                  <FormattedMessage
+                    id="custom.exchange.trade.widget.description"
+                    defaultMessage="Background inherits from wallet, customize individual text elements"
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
                   <Grid item xs={12} sm={6}>
                     <ColorPickerField
                       label={formatMessage({
-                        id: "custom.exchange.trade.widget.text.color",
-                        defaultMessage: "Text Color"
+                        id: "custom.exchange.trade.widget.primary.text.color",
+                        defaultMessage: "Primary Text"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.tradeWidgetTextColor || theme.palette.text.primary}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradeWidgetTextColor", value)}
+                      value={values.customSettings?.exchangeConfig?.tradeWidgetPrimaryTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tradeWidgetPrimaryTextColor", value)}
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
@@ -2367,108 +2490,146 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                     <ColorPickerField
                       label={formatMessage({
                         id: "custom.exchange.trade.widget.button.text.color",
-                        defaultMessage: "Button Text Color"
+                        defaultMessage: "Button Text"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.tradeWidgetButtonTextColor || theme.palette.primary.contrastText}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradeWidgetButtonTextColor", value)}
+                      value={values.customSettings?.exchangeConfig?.tradeWidgetButtonTextColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tradeWidgetButtonTextColor", value)}
                       defaultValue={theme.palette.primary.contrastText}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <ColorPickerField
                       label={formatMessage({
-                        id: "custom.exchange.trade.widget.tab.text.color",
-                        defaultMessage: "Tab Text Color"
-                      })}
-                      value={values.customSettings?.exchangeTextColors?.tradeWidgetTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000')}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradeWidgetTabTextColor", value)}
-                      defaultValue={theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <ColorPickerField
-                      label={formatMessage({
                         id: "custom.exchange.trade.widget.input.text.color",
-                        defaultMessage: "Input Text Color"
+                        defaultMessage: "Input Text"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.tradeWidgetInputTextColor || theme.palette.text.primary}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradeWidgetInputTextColor", value)}
-                      defaultValue={theme.palette.text.primary}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
-                  <FormattedMessage
-                    id="custom.exchange.trading.graph"
-                    defaultMessage="Trading Chart"
-                  />
-                </Typography>
-                <Grid container spacing={getFormSpacing()}>
-                  <Grid item xs={12} sm={6}>
-                    <ColorPickerField
-                      label={formatMessage({
-                        id: "custom.exchange.trading.graph.control.text.color",
-                        defaultMessage: "Show Swaps Text Color"
-                      })}
-                      value={values.customSettings?.exchangeTextColors?.tradingGraphControlTextColor || theme.palette.text.primary}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradingGraphControlTextColor", value)}
+                      value={values.customSettings?.exchangeConfig?.tradeWidgetInputTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tradeWidgetInputTextColor", value)}
                       defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <ColorPickerField
                       label={formatMessage({
-                        id: "custom.exchange.trading.graph.background.color",
-                        defaultMessage: "Chart Background Color"
+                        id: "custom.exchange.trade.widget.tab.text.color",
+                        defaultMessage: "Tab Text"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.tradingGraphBackgroundColor || theme.palette.background.paper}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradingGraphBackgroundColor", value)}
-                      defaultValue={theme.palette.background.paper}
+                      value={values.customSettings?.exchangeConfig?.tradeWidgetTabTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tradeWidgetTabTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
+
                 </Grid>
               </Box>
 
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 'bold' }}>
                   <FormattedMessage
-                    id="custom.exchange.component.backgrounds"
-                    defaultMessage="Component Backgrounds"
+                    id="custom.exchange.fill.amount.buttons.title"
+                    defaultMessage="Fill Amount Buttons"
+                  />
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  <FormattedMessage
+                    id="custom.exchange.fill.amount.buttons.description"
+                    defaultMessage="Customize the percentage buttons (25%, 50%, 75%, 100%) for filling trade amounts"
                   />
                 </Typography>
                 <Grid container spacing={getFormSpacing()}>
                   <Grid item xs={12} sm={6}>
                     <ColorPickerField
                       label={formatMessage({
-                        id: "custom.exchange.pair.info.background.color",
-                        defaultMessage: "Pair Info Background"
+                        id: "custom.exchange.fill.amount.button.active.color",
+                        defaultMessage: "Active Button Color"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.pairInfoBackgroundColor || theme.palette.background.paper}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.pairInfoBackgroundColor", value)}
+                      value={values.customSettings?.exchangeConfig?.fillAmountButtonActiveColor || theme.palette.primary.main}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.fillAmountButtonActiveColor", value)}
+                      defaultValue={theme.palette.primary.main}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.exchange.fill.amount.button.inactive.color",
+                        defaultMessage: "Inactive Button Color"
+                      })}
+                      value={values.customSettings?.exchangeConfig?.fillAmountButtonInactiveColor || theme.palette.grey[300]}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.fillAmountButtonInactiveColor", value)}
+                      defaultValue={theme.palette.grey[300]}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.exchange.fill.amount.button.active.text.color",
+                        defaultMessage: "Active Text Color"
+                      })}
+                      value={values.customSettings?.exchangeConfig?.fillAmountButtonActiveTextColor || theme.palette.primary.contrastText}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.fillAmountButtonActiveTextColor", value)}
+                      defaultValue={theme.palette.primary.contrastText}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.exchange.fill.amount.button.inactive.text.color",
+                        defaultMessage: "Inactive Text Color"
+                      })}
+                      value={values.customSettings?.exchangeConfig?.fillAmountButtonInactiveTextColor || theme.palette.text.secondary}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.fillAmountButtonInactiveTextColor", value)}
+                      defaultValue={theme.palette.text.secondary}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              {/* Token Information Bar Section */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  <FormattedMessage
+                    id="custom.exchange.token.info.bar.section"
+                    defaultMessage="Token Information Bar"
+                  />
+                </Typography>
+                <Typography variant="body2" color="text.secondary" gutterBottom sx={{ mb: 2 }}>
+                  <FormattedMessage
+                    id="custom.exchange.token.info.bar.description"
+                    defaultMessage="Customize the top information bar showing token prices and statistics"
+                  />
+                </Typography>
+                <Grid container spacing={getFormSpacing()}>
+                  <Grid item xs={12} sm={6}>
+                    <ColorPickerField
+                      label={formatMessage({
+                        id: "custom.exchange.token.info.bar.background.color",
+                        defaultMessage: "Background Color"
+                      })}
+                      value={values.customSettings?.exchangeConfig?.tokenInfoBarBackgroundColor || theme.palette.background.paper}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tokenInfoBarBackgroundColor", value)}
                       defaultValue={theme.palette.background.paper}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <ColorPickerField
                       label={formatMessage({
-                        id: "custom.exchange.trade.widget.background.color",
-                        defaultMessage: "Trade Widget Background"
+                        id: "custom.exchange.token.info.bar.primary.text.color",
+                        defaultMessage: "Primary Text"
                       })}
-                      value={values.customSettings?.exchangeTextColors?.tradeWidgetBackgroundColor || theme.palette.background.paper}
-                      onChange={(value: string) => setFieldValue("customSettings.exchangeTextColors.tradeWidgetBackgroundColor", value)}
-                      defaultValue={theme.palette.background.paper}
+                      value={values.customSettings?.exchangeConfig?.tokenInfoBarPrimaryTextColor || theme.palette.text.primary}
+                      onChange={(value: string) => setFieldValue("customSettings.exchangeConfig.tokenInfoBarPrimaryTextColor", value)}
+                      defaultValue={theme.palette.text.primary}
                     />
                   </Grid>
+
+
                 </Grid>
               </Box>
 
               <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic', mt: 2 }}>
                 <FormattedMessage
-                  id="custom.exchange.text.colors.note"
-                  defaultMessage="These colors will override the default text colors in the exchange interface, providing fine-grained control over text appearance."
+                  id="custom.exchange.inheritance.footer"
+                  defaultMessage="Main container, title, and back button colors are automatically inherited from wallet settings"
                 />
               </Typography>
             </AccordionDetails>
@@ -2752,6 +2913,109 @@ function VariantConfigurationTab({ customTheme }: { customTheme?: any }) {
                   />
                 </Grid>
               </Grid>
+
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>
+                  <FormattedMessage
+                    id="custom.layout.settings"
+                    defaultMessage="Layout Settings"
+                  />
+                </Typography>
+
+                <Box sx={{ mt: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={values.customSettings?.removePadding || false}
+                        onChange={(e) => setFieldValue("customSettings.removePadding", e.target.checked)}
+                      />
+                    }
+                    label={
+                      <FormattedMessage
+                        id="custom.remove.padding"
+                        defaultMessage="Remove All Padding"
+                      />
+                    }
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    <FormattedMessage
+                      id="custom.remove.padding.description"
+                      defaultMessage="Remove all padding to make the wallet take the full screen width and height"
+                    />
+                  </Typography>
+                </Box>
+
+                {!values.customSettings?.removePadding && (
+                  <Box sx={{ mt: 2 }}>
+                    <Typography variant="body2" gutterBottom>
+                      <FormattedMessage
+                        id="custom.custom.padding"
+                        defaultMessage="Custom Padding (px)"
+                      />
+                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Top"
+                          type="number"
+                          size="small"
+                          value={values.customSettings?.customPadding?.top ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("customSettings.customPadding.top", value);
+                          }}
+                          placeholder="16"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Bottom"
+                          type="number"
+                          size="small"
+                          value={values.customSettings?.customPadding?.bottom ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("customSettings.customPadding.bottom", value);
+                          }}
+                          placeholder="16"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Left"
+                          type="number"
+                          size="small"
+                          value={values.customSettings?.customPadding?.left ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("customSettings.customPadding.left", value);
+                          }}
+                          placeholder="0"
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={3}>
+                        <TextField
+                          label="Right"
+                          type="number"
+                          size="small"
+                          value={values.customSettings?.customPadding?.right ?? ''}
+                          onChange={(e) => {
+                            const value = e.target.value === '' ? undefined : Number(e.target.value);
+                            setFieldValue("customSettings.customPadding.right", value);
+                          }}
+                          placeholder="0"
+                        />
+                      </Grid>
+                    </Grid>
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                      <FormattedMessage
+                        id="custom.custom.padding.note"
+                        defaultMessage="Leave empty to use default values. Top/Bottom default: 16px, Left/Right default: 0px"
+                      />
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
 
               <Box sx={{ mt: 3 }}>
                 <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'medium', color: theme.palette.text.primary }}>

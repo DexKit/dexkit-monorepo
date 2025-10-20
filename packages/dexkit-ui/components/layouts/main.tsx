@@ -16,6 +16,8 @@ import {
   useDrawerIsOpen,
   useThemeMode,
 } from "../../hooks";
+import { useNavbarVariant } from "../../hooks/useNavbarVariant";
+import BottomBar from "../BottomBar";
 import { Footer } from "../Footer";
 import Navbar from "../Navbar";
 import NavbarAlt from "../NavbarAlt";
@@ -36,9 +38,28 @@ const WrapperLayout: React.FC<{
 }> = ({ children, appConfig, isPreview }) => {
   const isDrawerOpen = useDrawerIsOpen();
   const isMobileUI = useIsMobile();
+  const { isBottom } = useNavbarVariant(appConfig);
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
   const mobileView = isMobile || isMobileUI;
+
+
+  if (isBottom && !mobileView) {
+    return (
+      <Box
+        style={{
+          minHeight: "100vh",
+          margin: 0,
+          display: "flex",
+          flexDirection: "column",
+          paddingBottom: "72px",
+        }}
+      >
+        {children}
+        <BottomBar appConfig={appConfig} isPreview={isPreview} />
+      </Box>
+    );
+  }
 
   if (appConfig.menuSettings?.layout?.type === "sidebar" && !mobileView) {
     return (
@@ -51,11 +72,19 @@ const WrapperLayout: React.FC<{
         }}
       >
         <Paper
-          sx={{ position: "relative", minHeight: "100vh" }}
+          sx={{
+            position: "relative",
+            minHeight: "100vh",
+            zIndex: 1
+          }}
           square
           variant="elevation"
         >
-          <Box sx={{ position: "sticky", top: 72 }}>
+          <Box sx={{
+            position: "sticky",
+            top: 72,
+            zIndex: 1
+          }}>
             <AppDrawer
               appConfig={appConfig}
               open={isDrawerOpen.isOpen}
@@ -123,6 +152,8 @@ const MainLayout: React.FC<Props> = ({
 
   const handleCloseDrawer = () => isDrawerOpen.setIsOpen(false);
 
+
+
   const render = () => (
     <ErrorBoundary
       fallbackRender={({ error, resetErrorBoundary }) => (
@@ -155,11 +186,13 @@ const MainLayout: React.FC<Props> = ({
         />
       )}
 
-      {!mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
-      {!mobileView && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant === "alt" && <NavbarAlt appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant !== "alt" && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+      {!mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
 
       <WrapperLayout appConfig={appConfig} isPreview={isPreview}>
-        {mobileView && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && appConfig.menuSettings?.layout?.type === "navbar" && appConfig.menuSettings?.layout?.variant !== "alt" && <Navbar appConfig={appConfig} isPreview={isPreview} />}
+        {mobileView && !appConfig.menuSettings?.layout?.type && <Navbar appConfig={appConfig} isPreview={isPreview} />}
         <Box sx={{ flex: 1 }} py={disablePadding ? 0 : 4}>
           <GlobalDialogs />
           <ErrorBoundary
@@ -189,9 +222,17 @@ const MainLayout: React.FC<Props> = ({
           </ErrorBoundary>
         </Box>
 
-        <Box className="preview-footer">
-          <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
-        </Box>
+        {(
+          <Box
+            className="preview-footer"
+            sx={{
+              position: "relative",
+              zIndex: 10
+            }}
+          >
+            <Footer appConfig={appConfig} isPreview={isPreview} appNFT={appNFT} />
+          </Box>
+        )}
       </WrapperLayout>
     </ErrorBoundary>
   );

@@ -6,6 +6,7 @@ import {
   CheckoutSchema,
   CheckoutSchemaItem,
   CheckoutSettingsSchema,
+  CheckoutWebhookSettingsSchema,
   CollectionItemSchema,
   ProductCategorySchema,
   ProductCollectionSchema,
@@ -81,6 +82,8 @@ export type CheckoutNetworksUpdateType = z.infer<
 >;
 
 export type CheckoutSettingsType = z.infer<typeof CheckoutSettingsSchema>;
+
+export type CheckoutWebhookSettingsType = z.infer<typeof CheckoutWebhookSettingsSchema>;
 
 export type CheckoutItem = {
   id: string;

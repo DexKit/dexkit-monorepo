@@ -1,5 +1,6 @@
 import type { ChainId } from "@dexkit/core";
 import { ERC20Abi } from "@dexkit/core/constants/abis";
+import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import { useNetworkProvider } from "@dexkit/core/hooks/blockchain";
 import type { Token } from "@dexkit/core/types";
 import type { CallInput } from "@indexed-finance/multicall";
@@ -16,6 +17,10 @@ export function useTokenData({ chainId, address }: { chainId?: ChainId, address?
     async () => {
       if (!address || !chainId) {
         return null
+      }
+
+      if (address.toLowerCase() === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+        return null;
       }
 
       if (!isAddress(address, { strict: false })) {

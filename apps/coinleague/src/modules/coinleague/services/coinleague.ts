@@ -1,6 +1,6 @@
 import { ChainId } from '@/modules/common/constants/enums';
 import axios from 'axios';
-import { providers } from 'ethers';
+import { BigNumber, providers } from 'ethers';
 import request from 'graphql-request';
 import { GET_GAME_QUERY } from '../constants/queries';
 import {
@@ -44,24 +44,30 @@ export async function getCoinLeagueGameOnChain(
     const feeds = await contract.playerCoinFeeds(index, id);
 
     for (let feed of feeds) {
-      const coin = await contract.coins(id, feed);
+      if (!coinFeeds[feed]) {
+        const coin = await contract.coins(id, feed);
 
-      coinFeeds[feed] = {
-        address: coin.coin_feed,
-        end_price: coin.end_price.toString(),
-        start_price: coin.start_price.toString(),
-        score: coin.score.toString(),
+        coinFeeds[feed] = {
+          address: coin.coin_feed,
+          end_price: coin.end_price.toString(),
+          start_price: coin.start_price.toString(),
+          score: coin.score.toString(),
+        };
+      }
+    }
+
+    if (!coinFeeds[p.captain_coin]) {
+      const captainCoin = await contract.coins(id, p.captain_coin);
+
+      coinFeeds[p.captain_coin] = {
+        address: captainCoin.coin_feed,
+        end_price: captainCoin.end_price.toString(),
+        start_price: captainCoin.start_price.toString(),
+        score: captainCoin.score.toString(),
       };
     }
 
-    const captainCoin = await contract.coins(id, p.captain_coin);
 
-    coinFeeds[p.captain_coin] = {
-      address: captainCoin.coin_feed,
-      end_price: captainCoin.end_price.toString(),
-      start_price: captainCoin.start_price.toString(),
-      score: captainCoin.score.toString(),
-    };
 
     gamePlayers.push({
       captain_coin: p.captain_coin,
@@ -107,6 +113,113 @@ export async function getCurrentCoinPrice(
 
   return await contract.getPriceFeed(tokenAddress);
 }
+
+export async function getPlayersScoreGame({ game, factoryAddress, provider }: { game: CoinLeagueGame, factoryAddress: string, provider: providers.BaseProvider }) {
+  const coinFeeds = game.coinFeeds;
+  const coinCurrentPrices: { coin: string, currentPrice: number }[] = [];
+
+  const playersScores: { score: number, address: string }[] = [];
+
+  for (let player of game.players) {
+    const playerCoinPriceFeeds: { captainCoin: { address: string, currentPrice: number }, coinFeeds: { address: string, currentPrice: number }[] } = { captainCoin: { address: '0x', currentPrice: 0 }, coinFeeds: [] };
+
+    const index = coinCurrentPrices.findIndex((val) => val.coin === player.captain_coin);
+
+
+    if (index !== -1) {
+      playerCoinPriceFeeds.captainCoin = { address: player.captain_coin, currentPrice: coinCurrentPrices[index].currentPrice };
+
+    } else {
+      const captainCoinPrice = await getCurrentCoinPrice(provider, factoryAddress, player.captain_coin) as BigNumber;
+      playerCoinPriceFeeds.captainCoin = { address: player.captain_coin, currentPrice: captainCoinPrice.toNumber() };
+      coinCurrentPrices.push({
+        currentPrice: captainCoinPrice.toNumber(),
+        coin: player.captain_coin
+      })
+    }
+
+
+    if (player?.coin_feeds) {
+      for (let playerCoin of player?.coin_feeds) {
+        const index = coinCurrentPrices.findIndex((val) => val.coin === playerCoin);
+        if (index !== -1) {
+
+          playerCoinPriceFeeds.coinFeeds.push({ address: playerCoin, currentPrice: coinCurrentPrices[index].currentPrice });
+        } else {
+          const coinPrice = await getCurrentCoinPrice(provider, factoryAddress, playerCoin) as BigNumber;
+          playerCoinPriceFeeds.coinFeeds.push({ address: playerCoin, currentPrice: coinPrice.toNumber() });
+          coinCurrentPrices.push({
+            currentPrice: coinPrice.toNumber(),
+            coin: playerCoin
+          })
+        }
+      }
+    }
+    // Calculate captain score
+    const captainCoin = playerCoinPriceFeeds.captainCoin;
+    const coinCaptainFeed = coinFeeds[playerCoinPriceFeeds.captainCoin.address];
+    let captainCoinScore = ((captainCoin.currentPrice - Number(coinCaptainFeed.start_price)) * 100000) / captainCoin.currentPrice;
+
+    if (game.game_type === 0) {
+      if (captainCoinScore >= 0) {
+        captainCoinScore = captainCoinScore * 1.2;
+      }
+
+    } else {
+      if (captainCoinScore <= 0) {
+        captainCoinScore = captainCoinScore * 1.2;
+      }
+    }
+
+
+    let coinsScore = 0;
+
+    for (const playerCoinFeed of playerCoinPriceFeeds.coinFeeds) {
+      const coinFeed = coinFeeds[playerCoinFeed.address];
+      const end_price = playerCoinFeed.currentPrice;
+      const score = ((end_price - Number(coinFeed.start_price)) * 100000) / end_price;
+      coinsScore = coinsScore + score;
+    }
+
+    const playerScore = coinsScore + captainCoinScore;
+
+
+    playersScores.push({ score: playerScore, address: player.player_address });
+  }
+
+
+  const gameType = game.game_type - 1;
+
+
+  const playerScoreSorted = playersScores.sort((a: { score: number }, b: { score: number }) => {
+    const x = gameType ? a.score : b.score;
+    const y = gameType ? b.score : a.score;
+
+    if (x > y) {
+      return -1;
+    }
+
+    if (x < y) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  for (const feed of coinCurrentPrices) {
+    coinFeeds[feed.coin].end_price = feed.currentPrice.toString();
+    const end_price = feed.currentPrice;
+    const start_price = Number(coinFeeds[feed.coin].start_price);
+
+    coinFeeds[feed.coin].score = String(((end_price - start_price) * 100000) / end_price);
+  }
+  console.log(coinFeeds);
+
+  return { playerScoreSorted, coinFeeds };
+
+}
+
+
 
 export async function claimGame({ signer, provider, factoryAddress, account, id }: {
   signer: providers.JsonRpcSigner,

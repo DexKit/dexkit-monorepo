@@ -13,7 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { ZEROX_SUPPORTED_NETWORKS } from "../constants";
+import { EXCHANGE_SUPPORTED_NETWORKS } from "../constants";
 import { ZEROEX_AFFILIATE_ADDRESS } from "../constants/zrx";
 import { DexkitExchangeContext } from "../contexts";
 import { getGeckoTerminalTopPools } from "../services";
@@ -134,7 +134,7 @@ export function useExchangeContextState(params: {
   }, []);
 
   const handleSwitchNetwork = async (chainId: ChainId) => {
-    if (ZEROX_SUPPORTED_NETWORKS.includes(chainId)) {
+    if (EXCHANGE_SUPPORTED_NETWORKS.includes(chainId)) {
       setDefaultChain(chainId);
     }
   };
@@ -142,17 +142,17 @@ export function useExchangeContextState(params: {
   const filteredAvailNetworks = useMemo(() => {
     if (!settings?.availNetworks) return [];
     return settings.availNetworks.filter(chainId =>
-      ZEROX_SUPPORTED_NETWORKS.includes(chainId)
+      EXCHANGE_SUPPORTED_NETWORKS.includes(chainId)
     );
   }, [settings?.availNetworks]);
 
   let currChainId = useMemo(() => {
     if (settings) {
-      if (defaultChain && ZEROX_SUPPORTED_NETWORKS.includes(defaultChain)) {
+      if (defaultChain && EXCHANGE_SUPPORTED_NETWORKS.includes(defaultChain)) {
         return defaultChain;
       }
 
-      if (settings.defaultNetwork && ZEROX_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
+      if (settings.defaultNetwork && EXCHANGE_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
         return settings.defaultNetwork;
       }
 
@@ -160,11 +160,11 @@ export function useExchangeContextState(params: {
         return filteredAvailNetworks[0];
       }
 
-      if (ZEROX_SUPPORTED_NETWORKS.includes(ChainId.Ethereum)) {
+      if (EXCHANGE_SUPPORTED_NETWORKS.includes(ChainId.Ethereum)) {
         return ChainId.Ethereum;
       }
 
-      return ZEROX_SUPPORTED_NETWORKS[0];
+      return EXCHANGE_SUPPORTED_NETWORKS[0];
     }
 
     return ChainId.Ethereum;
@@ -190,7 +190,7 @@ export function useExchangeContextState(params: {
   }, [currChainId, settings?.defaultTokens, settings?.defaultPairs]);
 
   useEffect(() => {
-    if (settings?.defaultNetwork && ZEROX_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
+    if (settings?.defaultNetwork && EXCHANGE_SUPPORTED_NETWORKS.includes(settings.defaultNetwork)) {
       setDefaultChain(settings.defaultNetwork);
     } else if (filteredAvailNetworks.length > 0) {
       setDefaultChain(filteredAvailNetworks[0]);

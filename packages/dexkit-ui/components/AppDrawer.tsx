@@ -16,6 +16,7 @@ import {
   Stack,
   styled,
   Typography,
+  useTheme,
 } from "@mui/material";
 
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -36,6 +37,7 @@ import {
   useShowSelectCurrency,
   useShowSelectLocale,
 } from "@dexkit/ui/hooks";
+import { useSidebarVariant } from "@dexkit/ui/hooks/useSidebarVariant";
 import QrCodeScanner from "@mui/icons-material/QrCodeScanner";
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
@@ -71,6 +73,7 @@ interface Props {
 function AppDrawer({ open, onClose, appConfig }: Props) {
   const { isActive } = useWeb3React();
   const { connectWallet } = useWalletConnect();
+  const theme = useTheme();
   const handleConnectWallet = () => {
     connectWallet();
     onClose();
@@ -95,20 +98,25 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
   const user = userQuery.data;
 
   const isMobile = useIsMobile();
+  const { isMini, isDense, isProminent, isSidebar, startExpanded } = useSidebarVariant(appConfig);
 
   const [isMiniSidebar, setIsMiniSidebar] = useAtom(isMiniSidebarAtom);
 
-  const isSidebar = appConfig?.menuSettings?.layout?.type === "sidebar";
-  const isMini =
-    isSidebar && appConfig?.menuSettings?.layout?.variant === "mini";
-
   const isMiniOpen = useMemo(() => {
     if (isMini) {
+      if (startExpanded !== undefined) {
+        return !startExpanded;
+      }
       return isMiniSidebar;
     }
-
     return false;
-  }, [isMiniSidebar, isMini, isSidebar]);
+  }, [isMiniSidebar, isMini, startExpanded]);
+
+  useMemo(() => {
+    if (isMini && startExpanded !== undefined && isMiniSidebar !== !startExpanded) {
+      setIsMiniSidebar(!startExpanded);
+    }
+  }, [isMini, startExpanded, isMiniSidebar, setIsMiniSidebar]);
 
   const handleToggleMini = () => {
     setIsMiniSidebar((value) => !value);
@@ -135,26 +143,96 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
 
   const handleOpenQrCode = () => setShowQrCode(true);
 
+  const getSidebarWidth = () => {
+    if (!isMobile && isSidebar && isMiniOpen) return "auto";
+    if (isDense) return "180px";
+    if (isProminent) return "320px";
+    return `${theme.breakpoints.values.sm / 2}px`;
+  };
+
   const renderContent = () => {
     return (
       <Box
         sx={(theme) => ({
           display: "block",
-          width:
-            !isMobile && isSidebar && isMiniOpen
-              ? "auto"
-              : `${theme.breakpoints.values.sm / 2}px`,
+          width: getSidebarWidth(),
+          height: isSidebar && !isMobile ? "100%" : "auto",
+          ...(isDense && {
+            "& .MuiListItemButton-root": {
+              minHeight: "32px",
+              py: 0.25,
+              px: 1,
+            },
+            "& .MuiListItemText-root": {
+              "& .MuiTypography-root": {
+                fontSize: "0.8rem",
+              },
+            },
+            "& .MuiListItemIcon-root": {
+              minWidth: "32px",
+            },
+            "& .MuiStack-root": {
+              "& .MuiIcon-root": {
+                fontSize: "1.1rem",
+              },
+              "& .MuiAvatar-root": {
+                width: "1.2rem",
+                height: "1.2rem",
+                fontSize: "0.7rem",
+              },
+            },
+            "& .MuiListSubheader-root": {
+              fontSize: "0.75rem",
+              py: 0.5,
+            },
+          }),
+          ...(isProminent && {
+            "& .MuiListItemButton-root": {
+              minHeight: "56px",
+              py: 1.5,
+              px: 2,
+            },
+            "& .MuiListItemText-root": {
+              "& .MuiTypography-root": {
+                fontSize: "1.1rem",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+              },
+            },
+            "& .MuiListItemIcon-root": {
+              minWidth: "48px",
+              "& .MuiSvgIcon-root": {
+                fontSize: "1.5rem",
+              },
+            },
+            "& .MuiStack-root": {
+              "& .MuiIcon-root": {
+                fontSize: "1.6rem",
+              },
+              "& .MuiAvatar-root": {
+                width: "2rem",
+                height: "2rem",
+                fontSize: "1rem",
+              },
+            },
+            "& .MuiListSubheader-root": {
+              fontSize: "1rem",
+              fontWeight: 600,
+              py: 1,
+            },
+          }),
+
         })}
       >
         {isMini && (
           <Stack
             direction="row"
-            justifyContent={isMiniSidebar ? "center" : "flex-end"}
+            justifyContent={isMiniOpen ? "center" : "flex-end"}
             px={1}
             py={1}
           >
             <IconButton onClick={handleToggleMini}>
-              {isMiniSidebar ? <MenuIcon /> : <MenuOpenIcon />}
+              {isMiniOpen ? <MenuIcon /> : <MenuOpenIcon />}
             </IconButton>
           </Stack>
         )}
@@ -287,7 +365,14 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
 
   if (!isMobile && appConfig?.menuSettings?.layout?.type === "sidebar") {
     return (
-      <Paper sx={{ display: "block" }} square variant="elevation">
+      <Paper
+        sx={{
+          display: "block",
+          height: "100%",
+        }}
+        square
+        variant="elevation"
+      >
         {renderContent()}
       </Paper>
     );

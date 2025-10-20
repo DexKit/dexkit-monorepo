@@ -326,6 +326,7 @@ interface Props {
   isWidget?: boolean;
   config: AppConfig & { footerConfig?: FooterConfig };
   onSave: (config: AppConfig & { footerConfig?: FooterConfig }) => void;
+  onChange: (config: AppConfig & { footerConfig?: FooterConfig }) => void;
   onHasChanges: (hasChanges: boolean) => void;
 }
 
@@ -750,6 +751,7 @@ function BackgroundImageSelector({
 export default function FooterVariantsWizardContainer({
   config,
   onSave,
+  onChange,
   isWidget,
   onHasChanges,
   site,
@@ -902,6 +904,24 @@ export default function FooterVariantsWizardContainer({
       onHasChanges(hasChanged);
     }
   }, [onHasChanges, hasChanged]);
+
+  useEffect(() => {
+    if (hasChanged) {
+      const newConfig = {
+        ...config,
+        footerConfig: {
+          variant: formValues.variant as 'default' | 'glassmorphic' | 'minimal' | 'invisible' | 'custom',
+          glassConfig: formValues.glassConfig,
+          minimalConfig: formValues.minimalConfig,
+          invisibleConfig: formValues.invisibleConfig,
+          customConfig: formValues.customConfig,
+          customSignature: formValues.customSignature,
+          layout: formValues.layout,
+        },
+      };
+      onChange(newConfig);
+    }
+  }, [formValues, hasChanged, config, onChange]);
 
   return (
     <Grid container spacing={isMobile ? 1.5 : 3}>

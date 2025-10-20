@@ -1,5 +1,5 @@
 import { getMulticall } from '@/modules/common/services/multicall';
-import { CallInput } from '@indexed-finance/multicall';
+import type { CallInput } from '@indexed-finance/multicall';
 import { BigNumber, Contract, ContractTransaction, providers } from 'ethers';
 import { Interface } from 'ethers/lib/utils';
 import { COINLEAGUE_DEFAULT_AFFILIATE } from '../constants';
@@ -7,13 +7,14 @@ import { COINLEAGUE_DEFAULT_AFFILIATE } from '../constants';
 import coinLeagueFactoryAbi from '../constants/ABI/CoinLeagueFactoryV3.json';
 import { Game, GameParamsV3 } from '../types';
 
+
 export const getCoinLeagueV3Contract = async ({ address, provider, signer, useSigner }: {
   address: string,
   provider: providers.BaseProvider | providers.Web3Provider,
   signer?: providers.JsonRpcSigner,
   useSigner?: boolean
 }) => {
-  if (useSigner && signer instanceof providers.JsonRpcSigner) {
+  if (useSigner && signer) {
     return new Contract(
       address,
       coinLeagueFactoryAbi,
@@ -67,7 +68,7 @@ export const endGame = async ({ factoryAddress, signer, id, provider }: {
   signer: providers.JsonRpcSigner,
   id: string
 }) => {
-  return (await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider })).endGame(
+  return (await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider, useSigner: true })).endGame(
     id
   ) as Promise<ContractTransaction>;
 };
@@ -79,7 +80,7 @@ export const startGame = async ({ signer, provider, id, factoryAddress }: {
   id: string
 }) => {
   return (
-    await getCoinLeagueV3Contract({ address: factoryAddress, provider, useSigner: true })
+    await getCoinLeagueV3Contract({ address: factoryAddress, signer, provider, useSigner: true })
   ).startGame(id) as Promise<ContractTransaction>;
 };
 
@@ -143,4 +144,13 @@ export const getWinner = async (
     id,
     account
   );
+};
+
+export const getTotalGames = async ({ factoryAddress, provider }: {
+  factoryAddress: string,
+  provider: providers.Web3Provider
+}) => {
+  return (await getCoinLeagueV3Contract({ address: factoryAddress, provider })).totalGames(
+
+  ) as Promise<BigNumber>;
 };

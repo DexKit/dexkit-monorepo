@@ -54,10 +54,11 @@ const steps = [
 interface Props {
   onSave: (config: Partial<AppConfig>) => void;
   onChange: (config: Partial<AppConfig>) => void;
+  onHasChanges?: (hasChanges: boolean) => void;
   config: AppConfig;
 }
 
-export default function ExchangeStepper({ config, onSave, onChange }: Props) {
+export default function ExchangeStepper({ config, onSave, onChange, onHasChanges }: Props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const customThemeDark = useMemo(() => {
@@ -117,6 +118,7 @@ export default function ExchangeStepper({ config, onSave, onChange }: Props) {
                     config={config}
                     onSave={onChange}
                     onChange={onChange}
+                    onHasChanges={onHasChanges || (() => { })}
                     isOnStepper={true}
                     stepperButtonProps={{
                       handleNext: handleNext,
@@ -131,6 +133,7 @@ export default function ExchangeStepper({ config, onSave, onChange }: Props) {
                     config={config}
                     onSave={onChange}
                     onChange={onChange}
+                    onHasChanges={onHasChanges || (() => { })}
                     isOnStepper={true}
                     stepperButtonProps={{
                       handleNext: handleNext,
@@ -144,6 +147,7 @@ export default function ExchangeStepper({ config, onSave, onChange }: Props) {
                   <TokenWizardContainer
                     config={config}
                     onSave={onChange}
+                    onHasChanges={onHasChanges || (() => { })}
                     isOnStepper={true}
                     isSwap={true}
                     stepperButtonProps={{
@@ -160,6 +164,7 @@ export default function ExchangeStepper({ config, onSave, onChange }: Props) {
                     theme={selectedTheme}
                     onSave={onChange}
                     onChange={onChange}
+                    onHasChanges={onHasChanges || (() => { })}
                     isOnStepper={true}
                     stepperButtonProps={{
                       handleNext: handleNext,

@@ -2,18 +2,21 @@ import CreateWidgetDialog from '@/modules/wizard/components/dialogs/CreateWidget
 import { MismatchAccount } from '@/modules/wizard/components/MismatchAccount';
 
 import { useDebounce } from '@dexkit/core/hooks';
-import Link from '@dexkit/ui/components/AppLink';
+import AppLink from '@dexkit/ui/components/AppLink';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
 import WidgetsTable from '@dexkit/ui/modules/admin/components/tables/Widgets';
 import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { default as Add, default as AddIcon } from '@mui/icons-material/Add';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Search from '@mui/icons-material/Search';
 import Wallet from '@mui/icons-material/Wallet';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import {
   Box,
   Button,
@@ -21,10 +24,12 @@ import {
   Divider,
   Grid,
   InputAdornment,
+  Link,
+  Paper,
   Stack,
   TableContainer,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
@@ -55,6 +60,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
   const { isLoggedIn, user } = useAuth();
   const snackbar = useSnackbar();
   const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
   const configsQuery = useWidgetsByOwnerQuery();
   const router = useRouter();
 
@@ -147,7 +153,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
             </Typography>
           </Stack>
           <Button
-            LinkComponent={Link}
+            LinkComponent={AppLink}
             onClick={() => setIsOpenCreateWidget(true)}
             startIcon={<Add />}
             variant="outlined"
@@ -185,7 +191,7 @@ export const AdminWidgetsIndexPage: NextPage = () => {
           <Button
             variant="outlined"
             color="inherit"
-            onClick={() => connectWalletDialog.setOpen(true)}
+            onClick={connectWallet}
             startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
           >
@@ -283,6 +289,69 @@ export const AdminWidgetsIndexPage: NextPage = () => {
               />
             </Typography>
           </Grid>
+
+          {/* Learn more about Web3 Widgets section */}
+          <Grid item xs={12}>
+            <Paper sx={{ p: { xs: 2, sm: 3 }, backgroundColor: 'background.default' }}>
+              <Typography variant="h6" gutterBottom>
+                <FormattedMessage
+                  id="learn.more.about.web3.widgets"
+                  defaultMessage="Learn more about Web3 Widgets"
+                />
+              </Typography>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="body2" color="textSecondary">
+                  <FormattedMessage
+                    id="web3.widgets.description"
+                    defaultMessage="Web3 Widgets allow you to add Web3 functionality—such as swaps, decentralized exchanges, token drops, NFT mints, and more—directly into any platform or website without complex integrations."
+                  />
+                </Typography>
+              </Box>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                sx={{ alignItems: { xs: 'stretch', sm: 'center' } }}
+              >
+                <Button
+                  component={Link}
+                  href="https://www.youtube.com/watch?v=9qA4sYPTS28"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<YouTubeIcon />}
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    textTransform: 'none',
+                    justifyContent: { xs: 'flex-start', sm: 'center' }
+                  }}
+                >
+                  <FormattedMessage
+                    id="watch.tutorial"
+                    defaultMessage="Watch Tutorial"
+                  />
+                </Button>
+                <Button
+                  component={Link}
+                  href="https://docs.dexkit.com/defi-products/dexappbuilder/web3-widgets"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<MenuBookIcon />}
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    textTransform: 'none',
+                    justifyContent: { xs: 'flex-start', sm: 'center' }
+                  }}
+                >
+                  <FormattedMessage
+                    id="view.documentation"
+                    defaultMessage="View Documentation"
+                  />
+                </Button>
+              </Stack>
+            </Paper>
+          </Grid>
+
           <Grid item xs={12}>
             <Stack
               direction="row"
@@ -370,7 +439,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

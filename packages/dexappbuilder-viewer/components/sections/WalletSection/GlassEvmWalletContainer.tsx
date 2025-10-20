@@ -77,7 +77,6 @@ import { useCurrency } from "@dexkit/ui/hooks/currency";
 import { useSimpleCoinPricesQuery } from "@dexkit/ui/hooks/currency/useSimpleCoinPricesCurrency";
 import { useWalletConnect } from "@dexkit/ui/hooks/wallet";
 import { AssetMedia } from "@dexkit/ui/modules/nft/components/AssetMedia";
-import TableSkeleton from "@dexkit/ui/modules/nft/components/tables/TableSkeleton";
 import { useAccountAssetsBalance, useHiddenAssets } from "@dexkit/ui/modules/nft/hooks";
 import { truncateErc1155TokenId } from "@dexkit/ui/modules/nft/utils";
 import {
@@ -118,6 +117,7 @@ import GlassEvmSendDialog from "./GlassEvmSendDialog";
 import GlassExchangeContainer from './GlassExchangeContainer';
 import GlassImportTokenDialog from "./GlassImportTokenDialog";
 import { GlassNetworkSelectButton } from "./GlassNetworkSelectButton";
+import GlassNFTSkeleton from "./GlassNFTSkeleton";
 import GlassScanWalletQrCodeDialog from "./GlassScanWalletQrCodeDialog";
 import GlassTradeContainer from './GlassTradeContainer';
 
@@ -1311,7 +1311,7 @@ const GlassEvmWalletContainer = ({
                       </Paper>
                     )}
                   >
-                    <Suspense fallback={<TableSkeleton rows={4} />}>
+                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
                       <GlassWalletAssetsSection
                         blurIntensity={blurIntensity}
                         glassOpacity={glassOpacity}
@@ -1372,7 +1372,7 @@ const GlassEvmWalletContainer = ({
                       </Paper>
                     )}
                   >
-                    <Suspense fallback={<TableSkeleton rows={4} />}>
+                    <Suspense fallback={<GlassNFTSkeleton count={6} blurIntensity={blurIntensity} glassOpacity={glassOpacity} textColor={textColor} />}>
                       <GlassHiddenAssetsSection
                         blurIntensity={blurIntensity}
                         glassOpacity={glassOpacity}
@@ -1501,7 +1501,7 @@ const GlassEvmWalletContainer = ({
           </Grid>
         )}
 
-        {!isLoggedIn && isActive && (
+        {!isLoggedIn && isActive && selectedTab !== WalletTabs.Activity && (
           <Grid item xs={12}>
             <LoginAppButton />
           </Grid>
@@ -1777,7 +1777,14 @@ const GlassWalletAssetsSection = ({ blurIntensity = 40, glassOpacity = 0.10, tex
           gridAutoRows: 'minmax(300px, auto)',
           gap: 2
         }}>
-          {accountAssetsQuery.isLoading && <TableSkeleton rows={4} />}
+          {accountAssetsQuery.isLoading && (
+            <GlassNFTSkeleton
+              count={6}
+              blurIntensity={blurIntensity}
+              glassOpacity={glassOpacity}
+              textColor={textColor}
+            />
+          )}
           {!accountAssetsQuery.isLoading && renderAssets()}
         </Grid>
       </Grid>

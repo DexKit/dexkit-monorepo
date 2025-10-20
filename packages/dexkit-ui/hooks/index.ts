@@ -33,6 +33,8 @@ export * from "./ui";
 
 export * from "./useDexkitContextState";
 
+export * from "./useNavbarVariant";
+export * from "./useSidebarVariant";
 export * from "./useWatchTransactionsDialog";
 
 export { useAppConfig, useDexKitContext, useLocale, useThemeMode };
@@ -41,7 +43,6 @@ export function useAppNFT() {
   return useContext(AppConfigContext).appNFT;
 }
 
-// Wizard App config context needs to be initialized on widgets that needs wizard to customize
 export function useAppWizardConfig() {
   const { wizardConfig, setWizardConfig } = useContext(AppWizardConfigContext);
   return { wizardConfig, setWizardConfig };

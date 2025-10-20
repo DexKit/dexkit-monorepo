@@ -1,4 +1,5 @@
-import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core";
+import { NETWORK_PROVIDER } from "@dexkit/core/constants/networkProvider";
+import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import { Token } from "@dexkit/core/types";
 import { formatBigNumber, isAddressEqual } from "@dexkit/core/utils";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -25,23 +26,30 @@ export default function CheckoutTokenAutocomplete(
 ) {
   const { data, label, onChange, chainId, disabled, tokens, token } = props;
 
-  const { account, provider, isActive } = useWeb3React();
+  const { account } = useWeb3React();
 
   const tokenBalances = useMultiTokenBalance({
     tokens: tokens,
     account,
-    provider,
+    provider: NETWORK_PROVIDER(chainId) as any,
+    chainId,
   });
 
   const getTokenBalance = (tokenAddress: string) => {
     if (tokenBalances?.data) {
-      const balance = tokenBalances
-        ? tokenBalances.data[
-            isAddressEqual(token?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
-              ? constants.AddressZero
-              : tokenAddress.toLocaleLowerCase()
-          ]
-        : BigNumber.from(0);
+      const addresses = Object.keys(tokenBalances.data);
+      let balance = BigNumber.from(0);
+      for (const address of addresses) {
+        if (isAddressEqual(address, tokenAddress)) {
+          balance =
+            tokenBalances.data[
+              isAddressEqual(token?.address, ZEROEX_NATIVE_TOKEN_ADDRESS)
+                ? constants.AddressZero
+                : address
+            ];
+          break;
+        }
+      }
 
       return balance;
     }

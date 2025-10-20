@@ -146,18 +146,13 @@ export default function TradeContainer({ selectedCoin, onBack, customSettings }:
               <IconButton
                 onClick={onBack}
                 sx={{
-                  bgcolor: customSettings?.backButtonConfig?.backgroundColor || customSettings?.cardConfig?.backgroundColor || theme.palette.background.paper,
-                  color: customSettings?.backButtonConfig?.textColor || customSettings?.primaryTextColor || theme.palette.text.primary,
+                  bgcolor: getContainerBackground(),
+                  color: customSettings?.primaryTextColor || theme.palette.text.primary,
                   '&:hover': {
-                    bgcolor: customSettings?.backButtonConfig?.hoverBackgroundColor || theme.palette.action.hover,
+                    bgcolor: theme.palette.action.hover,
                   },
-                  border: customSettings?.backButtonConfig?.borderColor
-                    ? `1px solid ${customSettings.backButtonConfig.borderColor}`
-                    : `1px solid ${customSettings?.cardConfig?.borderColor || theme.palette.divider}`,
-                  borderRadius: customSettings?.cardConfig?.borderRadius ? theme.spacing(customSettings.cardConfig.borderRadius / 8) : theme.shape.borderRadius,
-                  boxShadow: customSettings?.cardConfig?.shadowIntensity && customSettings.cardConfig.shadowIntensity > 0
-                    ? `0 2px 8px rgba(0, 0, 0, ${customSettings.cardConfig.shadowIntensity})`
-                    : 'none',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: theme.shape.borderRadius,
                 }}
               >
                 <ArrowBack />

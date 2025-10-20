@@ -62,6 +62,7 @@ export enum GameType {
 
 export enum GameLevel {
   All = 0,
+  Novice,
   Beginner,
   Intermediate,
   Advanced,
@@ -76,6 +77,7 @@ export enum NumberOfPLayers {
   THREE = 3,
   FIVE = 5,
   TEN = 10,
+  FIFTY = 50,
 }
 
 export enum GameStakeAmount {

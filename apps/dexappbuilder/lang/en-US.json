@@ -1374,6 +1374,12 @@
   "app.name": {
     "defaultMessage": "App name"
   },
+  "app.name.domain.hint": {
+    "defaultMessage": "This will be your domain: yourdappname.dexkit.app"
+  },
+  "app.name.domain.hint.updated": {
+    "defaultMessage": "Enter your app name (domain will be yourname.dexkit.app)"
+  },
   "app.ranking": {
     "defaultMessage": "App ranking"
   },
@@ -3540,6 +3546,9 @@
   },
   "email.to.receive.notifications": {
     "defaultMessage": "Email to receive notifications"
+  },
+  "email.optional.hint": {
+    "defaultMessage": "Optional - You can leave this field empty"
   },
   "empty.gallery.start.adding.images": {
     "defaultMessage": "Empty gallery. Start adding images."

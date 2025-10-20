@@ -149,6 +149,17 @@ export const MATIC_TOKEN: Token = {
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
 };
 
+export const CRONOS_TOKEN: Token = {
+  chainId: ChainId.Cronos,
+  address: ZEROEX_NATIVE_TOKEN_ADDRESS,
+  name: "Cronos",
+  symbol: "CRO",
+  coingeckoId: "cronos",
+  decimals: 18,
+  logoURI:
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cronos/info/logo.png",
+};
+
 export const OPTIMISM_TOKEN: Token = {
   chainId: ChainId.Optimism,
   address: ZEROEX_NATIVE_TOKEN_ADDRESS,
@@ -186,6 +197,7 @@ export const NATIVE_TOKENS: { [key: number]: Token } = {
   [ChainId.Mantle]: ETHEREUM_TOKEN,
   [ChainId.Blast]: ETHEREUM_TOKEN,
   [ChainId.Mode]: ETHEREUM_TOKEN,
+  [ChainId.Cronos]: CRONOS_TOKEN,
 };
 
 

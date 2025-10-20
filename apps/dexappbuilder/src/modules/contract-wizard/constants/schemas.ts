@@ -34,8 +34,28 @@ export const ClaimConditionsSchema = Yup.object().shape({
     Yup.object().shape({
       name: Yup.string().required(),
       startTime: Yup.date().optional(),
-      waitInSeconds: Yup.string().required(),
-      price: Yup.number().required(),
+      waitInSeconds: Yup.mixed()
+        .test(
+          'isValidWaitTime',
+          'Wait time must be a valid number',
+          (val) => {
+            if (val === undefined || val === null || val === '') return false;
+            const numVal = typeof val === 'string' ? parseInt(val) : val;
+            return !isNaN(numVal) && isFinite(numVal) && numVal >= 0;
+          }
+        )
+        .required(),
+      price: Yup.mixed()
+        .test(
+          'isValidPrice',
+          'Price must be a valid number',
+          (val) => {
+            if (val === undefined || val === null || val === '') return false;
+            const numVal = typeof val === 'string' ? parseFloat(val) : val;
+            return !isNaN(numVal) && isFinite(numVal) && numVal >= 0;
+          }
+        )
+        .required(),
       maxClaimableSupply: Yup.string()
         .test(
           'numberOrUnlimited',

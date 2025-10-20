@@ -8,6 +8,11 @@ export const getGraphEndpoint = (isNFTGame: boolean, chainId?: ChainId) => {
   if (chainId === ChainId.BSC) {
     return GET_GRAPHQL_CLIENT_URL_MAIN_ROOM[ChainId.BSC];
   }
+
+  if (chainId === ChainId.Base) {
+    return GET_GRAPHQL_CLIENT_URL_MAIN_ROOM[ChainId.Base];
+  }
+
   if (chainId === ChainId.Mumbai) {
     return GET_GRAPHQL_CLIENT_URL_MAIN_ROOM[ChainId.Mumbai];
   }
@@ -18,6 +23,8 @@ export const GET_GRAPHQL_CLIENT_URL_MAIN_ROOM = {
   [ChainId.Polygon]:
     //   'https://api.thegraph.com/subgraphs/name/joaocampos89/coinleaguev3',
     'https://api.studio.thegraph.com/query/1827/coinleague-polygon/version/latest',
+  [ChainId.Base]:
+    'https://api.studio.thegraph.com/query/1827/coinleague-base/version/latest',
   [ChainId.BSC]:
     'https://api.thegraph.com/subgraphs/name/joaocampos89/coinleaguebsc',
   [ChainId.Mumbai]:

@@ -14,13 +14,15 @@ import { SectionsRenderer } from '@/modules/wizard/components/sections/SectionsR
 import { GET_ASSETS_ORDERBOOK } from '@dexkit/ui/modules/nft/hooks';
 import { getDKAssetOrderbook } from '@dexkit/ui/modules/nft/services';
 import { fetchMultipleAssetForQueryClient } from '@dexkit/ui/modules/nft/services/query';
-import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import type { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 
 const Home: NextPage<{
   sections: AppPageSection[];
   layout: PageSectionsLayout;
-}> = ({ sections, layout }) => {
+  appConfig: AppConfig;
+}> = ({ sections, layout, appConfig }) => {
+
   return (
     <MainLayout disablePadding>
       <SectionsRenderer sections={sections} layout={layout} />
@@ -41,6 +43,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   const configResponse = await getAppConfig(params?.site, 'home');
   const { appConfig } = configResponse;
+
 
   const homePage = appConfig.pages.home;
 
@@ -74,7 +77,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

@@ -33,7 +33,7 @@ export default function GamesTable({
             <FormattedMessage id="id" defaultMessage="ID" />
           </TableCell>
           <TableCell>
-            <FormattedMessage id="game.level" defaultMessage="Game Type" />
+            <FormattedMessage id="game.type" defaultMessage="Game Type" />
           </TableCell>
           <TableCell>
             <FormattedMessage id="game.level" defaultMessage="Game Level" />

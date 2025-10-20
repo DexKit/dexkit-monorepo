@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
-import {
+import React, {
   ChangeEvent,
   FocusEvent,
   KeyboardEvent,
@@ -154,6 +154,44 @@ export default function EditSectionDialog({
     setChangedSection(section);
   };
 
+  const handleLayoutChange = (currentLayout: any[]) => {
+    console.log('EditSectionDialog handleLayoutChange called:', currentLayout);
+
+    if (changedSection?.type === 'card' && changedSection.settings) {
+      const layoutToUse = currentLayout;
+
+      console.log('Current changedSection cards:', changedSection.settings.cards);
+
+      const updatedSection = {
+        ...changedSection,
+        settings: {
+          ...changedSection.settings,
+          cards: changedSection.settings.cards.map((card: any) => {
+            const layoutItem = layoutToUse.find((l: any) => l.i === card.id);
+            if (layoutItem) {
+              const updatedCard = {
+                ...card,
+                layout: {
+                  ...card.layout,
+                  x: layoutItem.x,
+                  y: layoutItem.y,
+                  w: layoutItem.w,
+                  h: layoutItem.h,
+                },
+              };
+              console.log(`EditSectionDialog Card ${card.id} layout updated:`, card.layout, '->', updatedCard.layout);
+              return updatedCard;
+            }
+            return card;
+          }),
+        },
+      };
+
+      console.log('EditSectionDialog calling handleChange with:', updatedSection);
+      handleChange(updatedSection);
+    }
+  };
+
   const handleEdit = () => {
     setIsEditName(true);
     setTimeout(() => {
@@ -180,7 +218,7 @@ export default function EditSectionDialog({
   const renderSectionType = (sectionType?: SectionType) => {
     return (
       <SectionFormRender
-        section={section}
+        section={changedSection || section}
         sectionType={sectionType}
         onSave={handleSave}
         onClose={isEdit ? handleClose : () => setSectionType(undefined)}
@@ -207,6 +245,31 @@ export default function EditSectionDialog({
 
   const isMobile = useIsMobile();
   const theme = useTheme();
+
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .MuiPopover-root, .MuiMenu-root, .MuiPopper-root {
+        z-index: 9999 !important;
+      }
+      .MuiPopover-root .MuiPaper-root, .MuiMenu-root .MuiPaper-root {
+        z-index: 9999 !important;
+      }
+      /* MediaDialog (Gallery) must be above everything */
+      [role="dialog"]:has(.MuiDialogTitle-root:contains("Gallery")) {
+        z-index: 10000 !important;
+      }
+      /* Alternative targeting for MediaDialog */
+      .MuiDialog-root:has(.MuiDialogActions-root button:contains("Select Image")) {
+        z-index: 10000 !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     e.stopPropagation();
@@ -238,6 +301,8 @@ export default function EditSectionDialog({
       }
       disabled={true}
       enableOverflow={true}
+      editable={sectionType === 'card'}
+      onLayoutChange={sectionType === 'card' ? handleLayoutChange : undefined}
     />
   );
 
@@ -292,6 +357,15 @@ export default function EditSectionDialog({
       maxWidth="lg"
       fullWidth
       scroll="body"
+      className="edit-section-dialog"
+      sx={{
+        zIndex: 1200,
+      }}
+      slotProps={{
+        root: {
+          style: { zIndex: 1200 }
+        }
+      }}
     >
       <AppDialogTitle
         title={

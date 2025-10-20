@@ -13,6 +13,8 @@ interface Props {
   withLayout?: boolean;
   appConfig?: AppConfig;
   layout?: PageSectionsLayout;
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
 export default function PreviewPage({
@@ -22,19 +24,17 @@ export default function PreviewPage({
   withLayout,
   appConfig,
   layout,
+  editable,
+  onLayoutChange,
 }: Props) {
   const renderSections = () => {
-    // return (sections || []).map((section, key) => {
-    //   if (previewPlatform === 'mobile' && section?.hideMobile) {
-    //     return null;
-    //   }
-    //   if (previewPlatform === 'desktop' && section?.hideDesktop) {
-    //     return null;
-    //   }
-
-    //   return <SectionRender section={section} key={key} />;
-    // });
-    return <SectionsRenderer layout={layout} sections={sections ?? []} previewPlatform={previewPlatform} />;
+    return <SectionsRenderer
+      layout={layout}
+      sections={sections ?? []}
+      previewPlatform={previewPlatform}
+      editable={editable}
+      onLayoutChange={onLayoutChange}
+    />;
   };
   if (withLayout) {
     return (

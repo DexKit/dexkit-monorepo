@@ -31,7 +31,7 @@ export const ProductSchema = z.object({
         const value = new Decimal(args);
 
         return value.gt(0);
-      } catch (err) {}
+      } catch (err) { }
 
       return false;
     },
@@ -105,6 +105,12 @@ export const CheckoutNetworksUpdateSchema = z.object({
 export const CheckoutSettingsSchema = z.object({
   receiverAccount: z.string(),
   receiverEmail: z.string().email(),
+
+});
+
+export const CheckoutWebhookSettingsSchema = z.object({
+  webhookUrl: z.string().url().nullable().optional(),
+  webhookSecret: z.string().nullable().optional(),
 });
 
 export const UserCheckoutItemsFormSchema = z.object({

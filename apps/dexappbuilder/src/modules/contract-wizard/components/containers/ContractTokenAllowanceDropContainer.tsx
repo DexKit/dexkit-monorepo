@@ -118,9 +118,15 @@ export default function ContractTokenAllowanceDropContainer({
   );
 
   const { data: allowance } = useQuery(
-    ['GET_TOKEN_ALLOWANCE_ON_DROP', isLoadingToken, address, chainId],
+    [
+      'GET_TOKEN_ALLOWANCE_ON_DROP',
+      isLoadingToken,
+      address,
+      chainId,
+      tokenOwner,
+    ],
     async () => {
-      if (chainId && tokenContract) {
+      if (chainId && tokenContract && tokenOwner && address) {
         return await tokenContract?.allowanceOf(tokenOwner, address);
       }
       return null;
@@ -242,8 +248,8 @@ export default function ContractTokenAllowanceDropContainer({
                     <Typography>
                       {' '}
                       <FormattedMessage
-                        id="drop.allowance.value.symbol"
-                        defaultMessage="Drop allowance {value} {symbol}"
+                        id="drop.allowance.value.symbol.message"
+                        defaultMessage="Drop allowance {value} {symbol}. Set value to be the amount you want to sale."
                         values={{
                           value: allowance?.displayValue || ' ',
                           symbol: allowance?.symbol || ' ',

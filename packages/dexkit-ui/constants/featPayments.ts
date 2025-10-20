@@ -1,4 +1,4 @@
-export const CUSTOM_DOMAINS_PRICE = 50;
+export const CUSTOM_DOMAINS_PRICE = 100;
 
 export const ECOMMERCE_PRICE = 0.5;
 

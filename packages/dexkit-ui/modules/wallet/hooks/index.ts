@@ -1,4 +1,5 @@
 import { ChainId, CoinTypes } from "@dexkit/core/constants/enums";
+import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/core/constants/zrx";
 import { getProviderByChainId } from "@dexkit/core/utils/blockchain";
 import { formatEther } from "@dexkit/core/utils/ethers/formatEther";
 import { formatUnits } from "@dexkit/core/utils/ethers/formatUnits";
@@ -39,17 +40,43 @@ export const useERC20BalancesQuery = (
   const chainId = defaultChainId || walletChainId;
   const tokens = useTokenList({ chainId, includeNative: true });
 
+  const uniqueTokens = useMemo(() => {
+    if (!tokens || tokens.length === 0) return tokens;
+    
+    const seenAddresses = new Set<string>();
+    const filteredTokens = [];
+    
+    for (const token of tokens) {
+      const address = token.address?.toLowerCase();
+      if (!address) continue;
+      
+      if (ZEROEX_NATIVE_TOKEN_ADDRESS && address === ZEROEX_NATIVE_TOKEN_ADDRESS.toLowerCase()) {
+        if (!seenAddresses.has(address)) {
+          seenAddresses.add(address);
+          filteredTokens.push(token);
+        }
+      } else {
+        if (!seenAddresses.has(address)) {
+          seenAddresses.add(address);
+          filteredTokens.push(token);
+        }
+      }
+    }
+    
+    return filteredTokens;
+  }, [tokens]);
+
   return useQuery(
-    [GET_ERC20_BALANCES, account, chainId, tokens],
+    [GET_ERC20_BALANCES, account, chainId, uniqueTokens],
     () => {
       if (
         account === undefined ||
         chainId === undefined ||
-        tokens === undefined
+        uniqueTokens === undefined
       ) {
         return;
       }
-      if (tokens.length === 0) {
+      if (uniqueTokens.length === 0) {
         return [];
       }
 
@@ -61,7 +88,7 @@ export const useERC20BalancesQuery = (
         return;
       }
 
-      return getERC20Balances(account, tokens, chainId, provider);
+      return getERC20Balances(account, uniqueTokens, chainId, provider);
     },
     { enabled: chainId !== undefined, select, suspense: enableSuspense }
   );

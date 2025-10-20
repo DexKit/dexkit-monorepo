@@ -42,6 +42,10 @@ export type SectionType =
   | "commerce"
   | "referral"
   | "widget"
+  | "card"
+  | "accordion"
+  | "stepper"
+  | "tabs"
 
   ;
 
@@ -253,20 +257,21 @@ export interface WalletCustomSettings {
 
   exchangeConfig?: {
     variant?: "default" | "custom";
+    inheritWalletColors?: boolean;
+
+    tradeWidgetPrimaryTextColor?: string;
+    tradeWidgetButtonTextColor?: string;
+    tradeWidgetInputTextColor?: string;
+    tradeWidgetTabTextColor?: string;
+    fillAmountButtonActiveColor?: string;
+    fillAmountButtonInactiveColor?: string;
+    fillAmountButtonActiveTextColor?: string;
+    fillAmountButtonInactiveTextColor?: string;
+    tokenInfoBarBackgroundColor?: string;
+    tokenInfoBarPrimaryTextColor?: string;
   };
 
-  exchangeTextColors?: {
-    pairInfoTextColor?: string;
-    pairInfoSecondaryTextColor?: string;
-    pairInfoBackgroundColor?: string;
-    tradeWidgetTextColor?: string;
-    tradeWidgetButtonTextColor?: string;
-    tradeWidgetTabTextColor?: string;
-    tradeWidgetInputTextColor?: string;
-    tradeWidgetBackgroundColor?: string;
-    tradingGraphControlTextColor?: string;
-    tradingGraphBackgroundColor?: string;
-  };
+
   nftColors?: {
     titleColor?: string;
     collectionColor?: string;
@@ -302,6 +307,18 @@ export interface WalletCustomSettings {
     hoverRowBackgroundColor?: string;
     borderColor?: string;
   };
+
+  filterConfig?: {
+    closeArrowColor?: string;
+  };
+
+  removePadding?: boolean;
+  customPadding?: {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+  };
 }
 
 export interface WalletGlassSettings {
@@ -329,6 +346,13 @@ export interface WalletGlassSettings {
   sendModalTextColor?: string;
   scanModalTextColor?: string;
   importTokenModalTextColor?: string;
+  removePadding?: boolean;
+  customPadding?: {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+  };
 }
 
 export interface WalletSettings {
@@ -594,6 +618,229 @@ export interface WidgetPageSection extends PageSection {
   };
 }
 
+export interface CardPageSection extends PageSection {
+  type: "card";
+  settings: {
+    cards: Array<{
+      id: string;
+      title: string;
+      description?: string;
+      image?: string;
+      imageFile?: File;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+      }>;
+      layout: {
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+        minW?: number;
+        maxW?: number;
+        minH?: number;
+        maxH?: number;
+        static?: boolean;
+        isDraggable?: boolean;
+        isResizable?: boolean;
+      };
+    }>;
+    gridSettings: {
+      cols: number;
+      rowHeight: number;
+      margin: [number, number];
+      containerPadding: [number, number];
+      compactType: 'vertical' | 'horizontal' | null;
+      allowOverlap?: boolean;
+      preventCollision?: boolean;
+      isDraggable?: boolean;
+      isResizable?: boolean;
+    };
+    responsive?: {
+      breakpoints: Record<string, number>;
+      cols: Record<string, number>;
+    };
+  };
+}
+
+export interface AccordionPageSection extends PageSection {
+  type: "accordion";
+  settings: {
+    accordions: Array<{
+      id: string;
+      title: string;
+      content: string;
+      summary?: string;
+      expanded?: boolean;
+      disabled?: boolean;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+      }>;
+      titleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      contentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      ariaControls?: string;
+      ariaExpanded?: boolean;
+      sx?: any;
+      summaryProps?: any;
+      detailsProps?: any;
+      expandIcon?: string;
+      collapseIcon?: string;
+    }>;
+    settings: {
+      variant?: 'elevation' | 'outlined';
+      square?: boolean;
+      disableGutters?: boolean;
+      defaultExpanded?: string[];
+      expandedIds?: string[];
+      allowMultiple?: boolean;
+      unmountOnExit?: boolean;
+      headingComponent?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div';
+      transitionDuration?: number | 'auto';
+      transitionEasing?: string;
+      spacing?: number;
+      fullWidth?: boolean;
+      elevation?: number;
+      borderRadius?: number;
+      sx?: any;
+      actionsPlacement?: 'summary' | 'details' | 'both';
+      actionsAlignment?: 'left' | 'center' | 'right';
+      defaultExpandIcon?: string;
+      defaultCollapseIcon?: string;
+      iconPosition?: 'start' | 'end';
+      hideExpandIcon?: boolean;
+      defaultTitleVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      defaultContentVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'overline';
+      disableRipple?: boolean;
+      focusRipple?: boolean;
+      className?: string;
+      onChange?: (accordionId: string, expanded: boolean) => void;
+    };
+  };
+}
+
+export interface StepperPageSection extends PageSection {
+  type: "stepper";
+  settings: {
+    steps: Array<{
+      id: string;
+      label: string;
+      content: string;
+      description?: string;
+      completed?: boolean;
+      optional?: boolean;
+      error?: boolean;
+      disabled?: boolean;
+      icon?: string;
+      iconColor?: string;
+      actions?: Array<{
+        label: string;
+        href?: string;
+        onClick?: () => void;
+        variant?: 'text' | 'outlined' | 'contained';
+        color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+        size?: 'small' | 'medium' | 'large';
+        startIcon?: string;
+        endIcon?: string;
+        disabled?: boolean;
+        sx?: any;
+      }>;
+      sx?: any;
+      stepProps?: any;
+      stepLabelProps?: any;
+      stepContentProps?: any;
+      stepButtonProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'elevation' | 'outlined';
+    linear?: boolean;
+    alternativeLabel?: boolean;
+    connector?: string;
+    elevation?: number;
+    borderRadius?: number;
+    square?: boolean;
+    nonLinear?: boolean;
+    allowStepSkipping?: boolean;
+    allowStepReset?: boolean;
+    mobileStepper?: boolean;
+    mobileStepperVariant?: 'text' | 'dots' | 'progress';
+    mobileStepperPosition?: 'bottom' | 'top' | 'static';
+    mobileStepperLinearProgress?: boolean;
+    fullWidth?: boolean;
+    spacing?: number;
+    padding?: number;
+    showBackButton?: boolean;
+    showNextButton?: boolean;
+    showSkipButton?: boolean;
+    showResetButton?: boolean;
+    backButtonText?: string;
+    nextButtonText?: string;
+    skipButtonText?: string;
+    resetButtonText?: string;
+    finishButtonText?: string;
+    defaultStepIcon?: string;
+    completedStepIcon?: string;
+    errorStepIcon?: string;
+    hideStepIcons?: boolean;
+    customStepIcons?: Record<number, string>;
+    unmountOnExit?: boolean;
+    transitionDuration?: number | 'auto';
+    transitionEasing?: string;
+    validateOnNext?: boolean;
+    onStepChange?: (activeStep: number, previousStep: number) => void;
+    onStepClick?: (step: number) => void;
+    onComplete?: () => void;
+    onReset?: () => void;
+    sx?: any;
+    className?: string;
+    stepperProps?: any;
+    stepIconProps?: any;
+    stepConnectorProps?: any;
+  };
+}
+
+export interface TabsPageSection extends PageSection {
+  type: "tabs";
+  settings: {
+    tabs: Array<{
+      id: string;
+      label: string;
+      content: string;
+      icon?: string;
+      iconPosition?: 'start' | 'end' | 'top' | 'bottom';
+      disabled?: boolean;
+      wrapped?: boolean;
+      sx?: any;
+      tabProps?: any;
+    }>;
+    orientation?: 'horizontal' | 'vertical';
+    variant?: 'standard' | 'scrollable' | 'fullWidth';
+    indicatorColor?: 'primary' | 'secondary';
+    textColor?: 'primary' | 'secondary' | 'inherit';
+    centered?: boolean;
+    allowScrollButtonsMobile?: boolean;
+    scrollButtons?: boolean | 'auto';
+    selectionFollowsFocus?: boolean;
+    visibleScrollbar?: boolean;
+    fullWidth?: boolean;
+    borderRadius?: number;
+    elevation?: number;
+    padding?: number;
+    backgroundColor?: string;
+    className?: string;
+    sx?: any;
+    tabsProps?: any;
+  };
+}
+
 export type SlideActionLink = {
   type: "link";
   caption?: string;
@@ -616,6 +863,12 @@ export interface CarouselSlide {
   overlayColor?: string;
   overlayPercentage?: number;
   action?: SlideAction;
+  imageScaling?: 'cover' | 'contain' | 'fill' | 'center' | 'mosaic' | 'expanded';
+  imagePosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  visualEffect?: 'none' | 'pulse' | 'float' | 'zoom' | 'slide' | 'rotate' | 'shake' | 'glow';
+  effectIntensity?: 'low' | 'medium' | 'high';
+  effectSpeed?: 'slow' | 'normal' | 'fast';
+  effectDirection?: 'horizontal' | 'vertical' | 'diagonal' | 'radial';
 }
 
 export interface CarouselFormType {
@@ -623,6 +876,39 @@ export interface CarouselFormType {
   height?: {
     mobile?: number;
     desktop?: number;
+  };
+  paddingTop?: number;
+  paddingBottom?: number;
+  pagination?: {
+    show?: boolean;
+    position?: 'top' | 'bottom' | 'left' | 'right';
+    alignment?: 'start' | 'center' | 'end';
+    size?: 'small' | 'medium' | 'large';
+    spacing?: number;
+    activeColor?: string;
+    inactiveColor?: string;
+    activeSize?: number;
+    inactiveSize?: number;
+    activeOpacity?: number;
+    inactiveOpacity?: number;
+    showNumbers?: boolean;
+    showProgress?: boolean;
+    customStyle?: 'dots' | 'bars' | 'circles' | 'squares' | 'lines';
+    animation?: 'fade' | 'scale' | 'slide' | 'bounce' | 'none';
+  };
+  navigation?: {
+    show?: boolean;
+    position?: 'inside' | 'outside';
+    size?: 'small' | 'medium' | 'large';
+    color?: string;
+    backgroundColor?: string;
+    hoverColor?: string;
+    hoverBackgroundColor?: string;
+    borderRadius?: number;
+    opacity?: number;
+    hoverOpacity?: number;
+    showOnHover?: boolean;
+    arrowStyle?: 'chevron' | 'triangle' | 'circle' | 'square';
   };
   slides: CarouselSlide[];
 }
@@ -655,6 +941,7 @@ export type ShowCaseItemAsset = {
   contractAddress: string;
   tokenId: string;
   chainId: number;
+  textAlign?: "left" | "center" | "right";
 };
 
 export type ShowCaseItemCollection = {
@@ -665,6 +952,7 @@ export type ShowCaseItemCollection = {
   contractAddress: string;
   tokenId: string;
   chainId: number;
+  textAlign?: "left" | "center" | "right";
 };
 
 export type ShowCaseItemImage = {
@@ -676,6 +964,18 @@ export type ShowCaseItemImage = {
   url?: string;
   page?: string;
   actionType?: "link" | "page";
+  textAlign?: "left" | "center" | "right";
+  customImageScaling?: "cover" | "contain" | "fill" | "center" | "mosaic" | "expanded";
+  customImagePosition?: "center" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  customHoverEffect?: "none" | "zoom" | "lift" | "glow" | "fade" | "slide" | "rotate" | "scale";
+  customCardStyle?: "default" | "minimal" | "elevated" | "bordered" | "glassmorphism";
+  customBorderRadius?: number;
+  customShadowIntensity?: "none" | "low" | "medium" | "high";
+  customOverlayColor?: string;
+  customOverlayOpacity?: number;
+  customOverlayStyle?: "linear-top" | "linear-bottom" | "linear-left" | "linear-right" | "linear-top-left" | "linear-top-right" | "linear-bottom-left" | "linear-bottom-right" | "radial-center" | "radial-top" | "radial-bottom" | "radial-left" | "radial-right" | "radial-top-left" | "radial-top-right" | "radial-bottom-left" | "radial-bottom-right" | "uniform";
+  showTextBelow?: boolean;
+  priority?: "low" | "normal" | "high";
 };
 
 export type ShowCaseItem =
@@ -689,6 +989,15 @@ export type ShowCaseParams = {
   paddingTop: number;
   paddingBottom: number;
   items: ShowCaseItem[];
+  layout: "grid" | "masonry" | "carousel" | "list";
+  columns: { desktop: number; tablet: number; mobile: number };
+  showOverlay: boolean;
+  textOverlay: boolean;
+  textOverlayPosition: "top" | "center" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right";
+  textOverlayBackground: "none" | "solid" | "gradient" | "blur";
+  textOverlayBackgroundColor: string;
+  textOverlayTextColor: string;
+  textOverlayBorderRadius: number;
 };
 
 export interface ShowCasePageSection extends PageSection {
@@ -782,7 +1091,11 @@ export type AppPageSection =
   | PluginPageSection
   | CommercePageSection
   | ReferralPageSection
-  | WidgetPageSection;
+  | WidgetPageSection
+  | CardPageSection
+  | AccordionPageSection
+  | StepperPageSection
+  | TabsPageSection;
 
 export interface SectionMetadata {
   type: SectionType;

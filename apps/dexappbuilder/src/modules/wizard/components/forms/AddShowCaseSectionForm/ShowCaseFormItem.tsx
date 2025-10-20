@@ -27,7 +27,9 @@ import {
   Select as MuiSelect,
   Paper,
   SelectChangeEvent,
+  Slider,
   Stack,
+  Switch,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -187,6 +189,7 @@ export default function ShowCaseFormItem({
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton onClick={onSelectImage}>
+                            {/* eslint-disable-next-line jsx-a11y/alt-text */}
                             <Image />
                           </IconButton>
                         </InputAdornment>
@@ -275,6 +278,429 @@ export default function ShowCaseFormItem({
                     />
                   </Grid>
                 )}
+
+                <Grid item xs={12}>
+                  <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+                    <FormattedMessage id="custom.styling" defaultMessage="Custom Styling" />
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customImageScaling`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.image.scaling"
+                          defaultMessage="Custom Image Scaling"
+                        />
+                      }
+                    >
+                      <MenuItem value="cover">
+                        <FormattedMessage id="scaling.cover" defaultMessage="Cover" />
+                      </MenuItem>
+                      <MenuItem value="contain">
+                        <FormattedMessage id="scaling.contain" defaultMessage="Contain" />
+                      </MenuItem>
+                      <MenuItem value="fill">
+                        <FormattedMessage id="scaling.fill" defaultMessage="Fill" />
+                      </MenuItem>
+                      <MenuItem value="center">
+                        <FormattedMessage id="scaling.center" defaultMessage="Center" />
+                      </MenuItem>
+                      <MenuItem value="mosaic">
+                        <FormattedMessage id="scaling.mosaic" defaultMessage="Mosaic" />
+                      </MenuItem>
+                      <MenuItem value="expanded">
+                        <FormattedMessage id="scaling.expanded" defaultMessage="Expanded" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customImagePosition`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.image.position"
+                          defaultMessage="Custom Image Position"
+                        />
+                      }
+                    >
+                      <MenuItem value="center">
+                        <FormattedMessage id="position.center" defaultMessage="Center" />
+                      </MenuItem>
+                      <MenuItem value="top">
+                        <FormattedMessage id="position.top" defaultMessage="Top" />
+                      </MenuItem>
+                      <MenuItem value="bottom">
+                        <FormattedMessage id="position.bottom" defaultMessage="Bottom" />
+                      </MenuItem>
+                      <MenuItem value="left">
+                        <FormattedMessage id="position.left" defaultMessage="Left" />
+                      </MenuItem>
+                      <MenuItem value="right">
+                        <FormattedMessage id="position.right" defaultMessage="Right" />
+                      </MenuItem>
+                      <MenuItem value="top-left">
+                        <FormattedMessage id="position.top-left" defaultMessage="Top Left" />
+                      </MenuItem>
+                      <MenuItem value="top-right">
+                        <FormattedMessage id="position.top-right" defaultMessage="Top Right" />
+                      </MenuItem>
+                      <MenuItem value="bottom-left">
+                        <FormattedMessage id="position.bottom-left" defaultMessage="Bottom Left" />
+                      </MenuItem>
+                      <MenuItem value="bottom-right">
+                        <FormattedMessage id="position.bottom-right" defaultMessage="Bottom Right" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customHoverEffect`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.hover.effect"
+                          defaultMessage="Custom Hover Effect"
+                        />
+                      }
+                    >
+                      <MenuItem value="none">
+                        <FormattedMessage id="effect.none" defaultMessage="None" />
+                      </MenuItem>
+                      <MenuItem value="zoom">
+                        <FormattedMessage id="effect.zoom" defaultMessage="Zoom" />
+                      </MenuItem>
+                      <MenuItem value="lift">
+                        <FormattedMessage id="effect.lift" defaultMessage="Lift" />
+                      </MenuItem>
+                      <MenuItem value="glow">
+                        <FormattedMessage id="effect.glow" defaultMessage="Glow" />
+                      </MenuItem>
+                      <MenuItem value="fade">
+                        <FormattedMessage id="effect.fade" defaultMessage="Fade" />
+                      </MenuItem>
+                      <MenuItem value="slide">
+                        <FormattedMessage id="effect.slide" defaultMessage="Slide" />
+                      </MenuItem>
+                      <MenuItem value="rotate">
+                        <FormattedMessage id="effect.rotate" defaultMessage="Rotate" />
+                      </MenuItem>
+                      <MenuItem value="scale">
+                        <FormattedMessage id="effect.scale" defaultMessage="Scale" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customCardStyle`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.card.style"
+                          defaultMessage="Custom Card Style"
+                        />
+                      }
+                    >
+                      <MenuItem value="default">
+                        <FormattedMessage id="style.default" defaultMessage="Default" />
+                      </MenuItem>
+                      <MenuItem value="minimal">
+                        <FormattedMessage id="style.minimal" defaultMessage="Minimal" />
+                      </MenuItem>
+                      <MenuItem value="elevated">
+                        <FormattedMessage id="style.elevated" defaultMessage="Elevated" />
+                      </MenuItem>
+                      <MenuItem value="bordered">
+                        <FormattedMessage id="style.bordered" defaultMessage="Bordered" />
+                      </MenuItem>
+                      <MenuItem value="glassmorphism">
+                        <FormattedMessage id="style.glassmorphism" defaultMessage="Glassmorphism" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ px: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <FormattedMessage
+                        id="custom.border.radius"
+                        defaultMessage="Custom Border Radius"
+                      />
+                    </Typography>
+                    <Field
+                      component={Slider}
+                      name={`items[${index}].customBorderRadius`}
+                      value={itemProps.value.type === 'image' ? (itemProps.value.customBorderRadius || 0) : 0}
+                      onChange={(_: Event, newValue: number | number[]) => {
+                        if (itemProps.value.type === 'image') {
+                          itemHelpers.setValue({
+                            ...itemProps.value,
+                            customBorderRadius: newValue as number
+                          });
+                        }
+                      }}
+                      min={0}
+                      max={10}
+                      step={0.5}
+                      marks={[
+                        { value: 0, label: '0' },
+                        { value: 2, label: '2' },
+                        { value: 4, label: '4' },
+                        { value: 6, label: '6' },
+                        { value: 8, label: '8' },
+                        { value: 10, label: '10' }
+                      ]}
+                      valueLabelDisplay="auto"
+                      disabled={itemProps.value.type !== 'image'}
+                      sx={{
+                        '& .MuiSlider-track': {
+                          backgroundColor: theme.palette.primary.main,
+                        },
+                        '& .MuiSlider-thumb': {
+                          backgroundColor: theme.palette.primary.main,
+                        },
+                      }}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customShadowIntensity`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.shadow.intensity"
+                          defaultMessage="Custom Shadow Intensity"
+                        />
+                      }
+                    >
+                      <MenuItem value="none">
+                        <FormattedMessage id="intensity.none" defaultMessage="None" />
+                      </MenuItem>
+                      <MenuItem value="low">
+                        <FormattedMessage id="intensity.low" defaultMessage="Low" />
+                      </MenuItem>
+                      <MenuItem value="medium">
+                        <FormattedMessage id="intensity.medium" defaultMessage="Medium" />
+                      </MenuItem>
+                      <MenuItem value="high">
+                        <FormattedMessage id="intensity.high" defaultMessage="High" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ px: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <FormattedMessage
+                        id="custom.overlay.color"
+                        defaultMessage="Custom Overlay Color"
+                      />
+                    </Typography>
+                    <Field
+                      component="input"
+                      type="color"
+                      name={`items[${index}].customOverlayColor`}
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        border: '2px solid rgba(255, 255, 255, 0.23)',
+                        borderRadius: 1,
+                        cursor: 'pointer',
+                        '&::-webkit-color-swatch-wrapper': { padding: 0 },
+                        '&::-webkit-color-swatch': { border: 'none', borderRadius: 0.5 },
+                      }}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ px: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <FormattedMessage
+                        id="custom.overlay.opacity"
+                        defaultMessage="Custom Overlay Opacity"
+                      />
+                    </Typography>
+                    <Field
+                      component={Slider}
+                      name={`items[${index}].customOverlayOpacity`}
+                      value={itemProps.value.type === 'image' ? (itemProps.value.customOverlayOpacity || 0) : 0}
+                      onChange={(_: Event, newValue: number | number[]) => {
+                        if (itemProps.value.type === 'image') {
+                          itemHelpers.setValue({
+                            ...itemProps.value,
+                            customOverlayOpacity: newValue as number
+                          });
+                        }
+                      }}
+                      min={0}
+                      max={1}
+                      step={0.1}
+                      marks={[
+                        { value: 0, label: '0' },
+                        { value: 0.2, label: '0.2' },
+                        { value: 0.4, label: '0.4' },
+                        { value: 0.6, label: '0.6' },
+                        { value: 0.8, label: '0.8' },
+                        { value: 1, label: '1' }
+                      ]}
+                      valueLabelDisplay="auto"
+                      disabled={itemProps.value.type !== 'image'}
+                      sx={{
+                        '& .MuiSlider-track': {
+                          backgroundColor: theme.palette.primary.main,
+                        },
+                        '& .MuiSlider-thumb': {
+                          backgroundColor: theme.palette.primary.main,
+                        },
+                      }}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].customOverlayStyle`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="custom.overlay.style"
+                          defaultMessage="Custom Overlay Style"
+                        />
+                      }
+                      disabled={itemProps.value.type !== 'image'}
+                    >
+                      <MenuItem value="linear-top">
+                        <FormattedMessage id="overlay.linear.top" defaultMessage="Linear Top" />
+                      </MenuItem>
+                      <MenuItem value="linear-bottom">
+                        <FormattedMessage id="overlay.linear.bottom" defaultMessage="Linear Bottom" />
+                      </MenuItem>
+                      <MenuItem value="linear-left">
+                        <FormattedMessage id="overlay.linear.left" defaultMessage="Linear Left" />
+                      </MenuItem>
+                      <MenuItem value="linear-right">
+                        <FormattedMessage id="overlay.linear.right" defaultMessage="Linear Right" />
+                      </MenuItem>
+                      <MenuItem value="linear-top-left">
+                        <FormattedMessage id="overlay.linear.top.left" defaultMessage="Linear Top-Left" />
+                      </MenuItem>
+                      <MenuItem value="linear-top-right">
+                        <FormattedMessage id="overlay.linear.top.right" defaultMessage="Linear Top-Right" />
+                      </MenuItem>
+                      <MenuItem value="linear-bottom-left">
+                        <FormattedMessage id="overlay.linear.bottom.left" defaultMessage="Linear Bottom-Left" />
+                      </MenuItem>
+                      <MenuItem value="linear-bottom-right">
+                        <FormattedMessage id="overlay.linear.bottom.right" defaultMessage="Linear Bottom-Right" />
+                      </MenuItem>
+                      <MenuItem value="radial-center">
+                        <FormattedMessage id="overlay.radial.center" defaultMessage="Radial Center" />
+                      </MenuItem>
+                      <MenuItem value="radial-top">
+                        <FormattedMessage id="overlay.radial.top" defaultMessage="Radial Top" />
+                      </MenuItem>
+                      <MenuItem value="radial-bottom">
+                        <FormattedMessage id="overlay.radial.bottom" defaultMessage="Radial Bottom" />
+                      </MenuItem>
+                      <MenuItem value="radial-left">
+                        <FormattedMessage id="overlay.radial.left" defaultMessage="Radial Left" />
+                      </MenuItem>
+                      <MenuItem value="radial-right">
+                        <FormattedMessage id="overlay.radial.right" defaultMessage="Radial Right" />
+                      </MenuItem>
+                      <MenuItem value="radial-top-left">
+                        <FormattedMessage id="overlay.radial.top.left" defaultMessage="Radial Top-Left" />
+                      </MenuItem>
+                      <MenuItem value="radial-top-right">
+                        <FormattedMessage id="overlay.radial.top.right" defaultMessage="Radial Top-Right" />
+                      </MenuItem>
+                      <MenuItem value="radial-bottom-left">
+                        <FormattedMessage id="overlay.radial.bottom.left" defaultMessage="Radial Bottom-Left" />
+                      </MenuItem>
+                      <MenuItem value="radial-bottom-right">
+                        <FormattedMessage id="overlay.radial.bottom.right" defaultMessage="Radial Bottom-Right" />
+                      </MenuItem>
+                      <MenuItem value="uniform">
+                        <FormattedMessage id="overlay.uniform" defaultMessage="Uniform" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ px: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <FormattedMessage
+                        id="show.text.below"
+                        defaultMessage="Show Text Below Image"
+                      />
+                    </Typography>
+                    <Switch
+                      checked={itemProps.value.type === 'image' ? (itemProps.value.showTextBelow !== false) : false}
+                      onChange={(event) => {
+                        if (itemProps.value.type === 'image') {
+                          itemHelpers.setValue({
+                            ...itemProps.value,
+                            showTextBelow: event.target.checked
+                          });
+                        }
+                      }}
+                      disabled={itemProps.value.type !== 'image'}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth>
+                    <Field
+                      component={Select}
+                      name={`items[${index}].priority`}
+                      fullWidth
+                      label={
+                        <FormattedMessage
+                          id="priority"
+                          defaultMessage="Priority"
+                        />
+                      }
+                    >
+                      <MenuItem value="low">
+                        <FormattedMessage id="priority.low" defaultMessage="Low" />
+                      </MenuItem>
+                      <MenuItem value="normal">
+                        <FormattedMessage id="priority.normal" defaultMessage="Normal" />
+                      </MenuItem>
+                      <MenuItem value="high">
+                        <FormattedMessage id="priority.high" defaultMessage="High" />
+                      </MenuItem>
+                    </Field>
+                  </FormControl>
+                </Grid>
               </Grid>
             </Grid>
           )}
@@ -386,6 +812,7 @@ export default function ShowCaseFormItem({
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton onClick={onSelectImage}>
+                            {/* eslint-disable-next-line jsx-a11y/alt-text */}
                             <Image />
                           </IconButton>
                         </InputAdornment>

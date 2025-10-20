@@ -3,6 +3,10 @@ import type { AppConfig } from "@dexkit/ui/modules/wizard/types/config";
 import getLocaleMessages from "../i18n";
 import { getConfig, getSitemapConfig } from "../whitelabel";
 
+/**
+ * Configuration service for DexAppBuilder applications
+ */
+
 export async function getAppConfig(
   site?: string,
   appPage?: string
@@ -56,7 +60,8 @@ export async function getAppConfig(
     if (slug.length > 1) {
       const configResponse = (await getConfig({ slug: slug[1], appPage })).data;
       if (configResponse) {
-        const appConfig = JSON.parse(configResponse.config) as AppConfig;
+        const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
         );
@@ -72,7 +77,8 @@ export async function getAppConfig(
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    return Promise.resolve({ appConfig: appConfigJson as AppConfig });
+    const appConfig = appConfigJson as AppConfig;
+    return Promise.resolve({ appConfig });
   }
 
   if (site?.startsWith("dexkit.app")) {
@@ -83,7 +89,8 @@ export async function getAppConfig(
         await getConfig({ slug: slug[1], appPage })
       ).data;
       if (configResponse) {
-        const appConfig = JSON.parse(configResponse.config) as AppConfig;
+        const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
         );
@@ -114,7 +121,8 @@ export async function getAppConfig(
       const configResponse = (await getConfig({ slug, appPage })).data;
 
       if (configResponse) {
-        const appConfig = JSON.parse(configResponse.config) as AppConfig;
+        const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
+        const appConfig = rawAppConfig as AppConfig;
 
         const appLocaleMessages = JSON.stringify(
           await getLocaleMessages(appConfig.locale)
@@ -160,7 +168,8 @@ export async function getAppConfig(
 
   const configResponse = (await getConfig({ domain: site, appPage })).data;
   if (configResponse) {
-    const appConfig = JSON.parse(configResponse.config) as AppConfig;
+    const rawAppConfig = JSON.parse(configResponse.config) as AppConfig;
+    const appConfig = rawAppConfig as AppConfig;
     const appLocaleMessages = JSON.stringify(
       await getLocaleMessages(appConfig.locale)
     );
@@ -245,7 +254,8 @@ export async function getAppSitemapConfig(site?: string): Promise<{
       }
     }
     const appConfigJson = (await import("../../config/app.json")).default;
-    return Promise.resolve({ appConfig: appConfigJson as AppConfig });
+    const appConfig = appConfigJson as AppConfig;
+    return Promise.resolve({ appConfig });
   }
 
   if (site?.endsWith(".dexkit.app")) {

@@ -17,6 +17,9 @@ interface Props {
 
 const Collections: NextPage<Props> = ({ appConfig }) => {
   const { formatMessage } = useIntl();
+
+
+
   return (
     <>
       <NextSeo

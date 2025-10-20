@@ -9,6 +9,7 @@ import {
   useWaitTransactionConfirmation,
 } from "@dexkit/ui/hooks";
 import { useTrackUserEventsMutation } from "@dexkit/ui/hooks/userEvents";
+import { SUPPORTED_UNISWAP_V2 } from "@dexkit/ui/modules/swap/constants";
 import { ZeroExQuoteResponse } from "@dexkit/ui/modules/swap/types";
 import { AppNotificationType } from "@dexkit/ui/types";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
@@ -43,6 +44,15 @@ export interface MarketBuyFormProps {
   chainId?: ChainId;
   isActive?: boolean;
 }
+
+/**
+ *
+ * TODO: REMOVE THIS COMPONENT
+ *
+ *
+ *
+ * @returns
+ */
 
 export default function MarketBuyForm({
   chainId,
@@ -98,8 +108,10 @@ export default function MarketBuyForm({
   const tokenAllowanceQuery = useTokenAllowanceQuery({
     account,
     signer,
-    spender: getZrxExchangeAddress(chainId),
-    tokenAddress: quote?.sellTokenAddress,
+    spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+      ? quote?.to
+      : getZrxExchangeAddress(chainId),
+    tokenAddress: quote?.sellToken,
   });
 
   useEffect(() => {
@@ -178,8 +190,10 @@ export default function MarketBuyForm({
       onSubmited: (hash: string) => {},
       amount: BigNumber.from(quote?.sellAmount),
       signer,
-      spender: getZrxExchangeAddress(chainId),
-      tokenContract: quote?.sellTokenAddress,
+      spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
+        ? quote?.to
+        : getZrxExchangeAddress(chainId),
+      tokenContract: quote?.sellToken,
     });
   };
 

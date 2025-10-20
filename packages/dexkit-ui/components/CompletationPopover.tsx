@@ -62,8 +62,14 @@ export default function CompletationPopover({
       onClose={onClose}
       open={open}
       anchorEl={anchorEl}
-      anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      anchorPosition={{ top: 0, left: 0 }}
+      anchorOrigin={{ horizontal: "center", vertical: "center" }}
+      transformOrigin={{ horizontal: "center", vertical: "center" }}
+      sx={{
+        '& .MuiPopover-paper': {
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+        }
+      }}
     >
       <Box
         sx={(theme) => ({

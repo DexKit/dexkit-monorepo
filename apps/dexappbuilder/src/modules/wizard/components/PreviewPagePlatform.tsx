@@ -23,6 +23,8 @@ interface Props {
   site?: string;
   index?: number;
   layout?: PageSectionsLayout;
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
 export default function PreviewPagePlatform({
@@ -36,6 +38,8 @@ export default function PreviewPagePlatform({
   site,
   index,
   layout,
+  editable,
+  onLayoutChange,
 }: Props) {
   const [previewPlatform, setPreviewPlatform] = useState<'desktop' | 'mobile'>('desktop');
   const isMobile = useIsMobile();
@@ -55,6 +59,8 @@ export default function PreviewPagePlatform({
       withLayout={withLayout}
       appConfig={appConfig}
       layout={layout}
+      editable={editable}
+      onLayoutChange={onLayoutChange}
     />
   );
 
@@ -105,7 +111,6 @@ export default function PreviewPagePlatform({
             sx={{
               flex: 1,
               overflow: enableOverflow ? 'auto' : 'hidden',
-              p: theme.spacing(2)
             }}
           >
             {pagePreview}
@@ -117,9 +122,16 @@ export default function PreviewPagePlatform({
               display: 'flex',
               alignItems: 'flex-start',
               justifyContent: 'center',
-              p: isMobile ? 0 : theme.spacing(0.5),
               overflow: 'visible',
-              minHeight: 0
+              minHeight: 0,
+              ...(isMobile && {
+                minHeight: '85vh',
+                height: '100%',
+              }),
+              ...(!isMobile && {
+                minHeight: previewPlatform === 'mobile' ? '85vh' : '80vh',
+                height: '100%',
+              }),
             }}
           >
             {page && site ? (
@@ -142,7 +154,12 @@ export default function PreviewPagePlatform({
                   display: 'flex',
                   flexDirection: 'column',
                   backgroundColor: 'background.paper',
-                  p: theme.spacing(0.125)
+                  p: theme.spacing(0.125),
+                  ...(isMobile && {
+                    minHeight: '85vh',
+                    height: '100%',
+                    borderRadius: theme.spacing(1),
+                  }),
                 }}
               >
                 {pagePreview}

@@ -24,17 +24,20 @@ import { ContractReceipt, providers } from 'ethers';
 import { request } from 'graphql-request';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { CoinToPlay, StableCoinToPlay } from '../constants';
+import { CoinToPlay, GAME_METADATA_API, StableCoinToPlay } from '../constants';
 import {
   claimGame,
   getChampionMetadata,
   getCoinLeagueGame,
   getCoinLeagueGameOnChain,
   getCurrentCoinPrice,
+  getPlayersScoreGame,
 } from '../services/coinleague';
 import {
   createGame,
+  endGame,
   getGamesData,
+  getTotalGames,
   getWinner,
   joinGame,
   startGame,
@@ -44,6 +47,7 @@ import { getProfiles } from '../services/profileApi';
 import {
   ChampionMetadata,
   CoinLeagueGame,
+  CoinLeagueGameCoinFeed,
   CoinLeaguesChampion,
   GameFiltersState,
   GameGraph,
@@ -60,6 +64,8 @@ import { getNetworkProvider } from '../utils/network';
 import { useLeaguesChainInfo } from './chain';
 import { useFactoryAddress } from './coinleagueFactory';
 import { useIsNFTGame } from './nft';
+
+import axios from 'axios';
 
 interface GamesFilterParams {
   accounts?: string[];
@@ -118,6 +124,7 @@ export const useCoinLeagueGames = (
     ).toString();
 
     variables.entry = entryAmount;
+
   }
 
   if (filters?.numberOfPlayers !== NumberOfPLayers.ALL) {
@@ -247,7 +254,7 @@ export function useGamesFilters({
 }: {
   myGames: boolean;
 }): GameFiltersState {
-  const [orderByGame, setOrderByGame] = useState(GameOrderBy.HighLevel);
+  const [orderByGame, setOrderByGame] = useState(GameOrderBy.AboutStart);
   const [numberOfPlayers, setNumberOfPlayers] = useState<NumberOfPLayers>(
     NumberOfPLayers.ALL
   );
@@ -263,7 +270,7 @@ export function useGamesFilters({
   const [isMyGames, setIsMyGames] = useState(myGames);
 
   const reset = useCallback(() => {
-    setOrderByGame(GameOrderBy.HighLevel);
+    setOrderByGame(GameOrderBy.AboutStart);
     setNumberOfPlayers(NumberOfPLayers.ALL);
     setStakeAmount(GameStakeAmount.ALL);
     setGameLevel(GameLevel.All);
@@ -336,16 +343,53 @@ export function useCoinLeagueGameOnChainQuery({
   id?: string;
 }) {
   return useQuery<CoinLeagueGame | undefined>(
-    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id],
+    [COIN_LEAGUE_GAME_ONCHAIN_QUERY, factoryAddress, id, provider],
     async () => {
       if (!provider || !factoryAddress || !id) {
-        return;
+        return undefined;
       }
 
       return await getCoinLeagueGameOnChain(provider, factoryAddress, id);
+
     }
   );
 }
+export const PLAYERS_SCORES_QUERY = 'PLAYERS_SCORES_QUERY';
+
+
+
+
+
+
+
+
+export function usePlayersScoresQuery({
+  game,
+  factoryAddress,
+  provider,
+}: {
+  factoryAddress: string;
+  provider?: providers.Web3Provider;
+  game: CoinLeagueGame
+}) {
+  return useQuery<{ playerScoreSorted: { score: number, address: string }[], coinFeeds: { [key: string]: CoinLeagueGameCoinFeed } } | undefined>(
+    [PLAYERS_SCORES_QUERY, factoryAddress, game, provider],
+    async () => {
+      if (!provider || !factoryAddress || !game) {
+        return undefined;
+      }
+
+      if (game.started && !game.finished) {
+        return await getPlayersScoreGame({ provider, factoryAddress, game });
+      }
+    }
+  );
+}
+
+
+
+
+
 
 export function useJoinGameMutation({
   options,
@@ -389,6 +433,7 @@ export function useJoinGameMutation({
     ) {
       return;
     }
+
 
     const tx = await joinGame({
       factoryAddress,
@@ -448,6 +493,46 @@ export function useStartGameMutation({
   }, options);
 }
 
+export function useEndGameMutation({
+  options,
+  gameId,
+  factoryAddress,
+  provider,
+  onSubmit,
+  signer
+}: {
+  gameId?: string;
+  provider?: providers.Web3Provider;
+  signer?: providers.JsonRpcSigner;
+  onSubmit?: (hash: string) => void;
+  factoryAddress?: string;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
+}) {
+  return useMutation(async () => {
+    if (!provider || !gameId || !factoryAddress || !signer) {
+      return;
+    }
+
+    const tx = await endGame({ factoryAddress, provider, id: gameId, signer });
+
+    if (onSubmit) {
+      onSubmit(tx.hash);
+    }
+
+    return await tx.wait();
+  }, options);
+}
+
 const GAME_PROFILES_STATE = 'GAME_PROFILES_STATE';
 
 export function useGameProfilesState(
@@ -490,6 +575,39 @@ export function useCreateGameMutation({
     return await tx.wait();
   });
 }
+
+
+export function useCreateGameServerMutation() {
+  return useMutation(async (params?: { id: number, chainId: number, startGame: number, abortGame: number, duration: number, type: number, amountToPlay: string, coinToPlay: string }) => {
+    if (!params) {
+      return null;
+    }
+
+    return axios
+      .post(`${GAME_METADATA_API}/coinleague/create-game`, { ...params })
+
+  });
+}
+
+export function useTotalGamesMutation({
+  factoryAddress,
+  provider,
+
+}: {
+  provider?: providers.Web3Provider;
+
+  factoryAddress?: string;
+
+}) {
+  return useMutation(async () => {
+    if (!provider || !factoryAddress) {
+      return;
+    }
+    const total = await getTotalGames({ factoryAddress, provider });
+    return total;
+  });
+}
+
 
 export const COINLEAGUE_GAME_COIN = 'COINLEAGUE_GAME_COIN';
 
@@ -560,7 +678,8 @@ export function useCoinLeagueClaim({
   factoryAddress,
   provider,
   onSubmited,
-  signer
+  signer,
+  options,
 }: {
   account?: string;
   id: string;
@@ -568,6 +687,17 @@ export function useCoinLeagueClaim({
   provider?: providers.Web3Provider;
   signer?: providers.JsonRpcSigner;
   onSubmited?: (hash: string) => void;
+  options?:
+  | Omit<
+    UseMutationOptions<
+      ContractReceipt | undefined,
+      unknown,
+      void,
+      unknown
+    >,
+    'mutationFn'
+  >
+  | undefined;
 }) {
   return useMutation(async () => {
     if (!provider || !account || !id || !factoryAddress || !signer) {
@@ -581,7 +711,7 @@ export function useCoinLeagueClaim({
     }
 
     return await tx.wait();
-  });
+  }, options);
 }
 
 const COIN_LEAGUES_CHAMPION_URL_NUMBAI =

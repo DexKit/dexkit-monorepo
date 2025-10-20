@@ -29,24 +29,15 @@ export default class MyDocument extends Document {
               rel="stylesheet"
             />
           )}
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp"
-          />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" />
           {(this.props as any).emotionStyleTags}
           <Script
             id="google-analytics-script"
-            src={`https://www.googletagmanager.com/gtag/js?id=${
-              appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
-            }`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${appConfig?.analytics?.gtag || 'G-LYRHJH7JLJ'
+              }`}
             strategy="afterInteractive"
           />
           <Script id="google-analytics" strategy="afterInteractive">

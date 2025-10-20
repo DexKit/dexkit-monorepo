@@ -251,6 +251,9 @@ export default function MediaDialog({
           maxWidth: "sm",
           onClose: handleShowConfirmRemoveClose,
           open: showConfirmRemove,
+          sx: {
+            zIndex: 10001,
+          },
         }}
         onConfirm={handleDeleteFile}
         title={
@@ -268,6 +271,9 @@ export default function MediaDialog({
           maxWidth: "sm",
           onClose: handleShowConfirmEditClose,
           open: showConfirmEdit,
+          sx: {
+            zIndex: 10001,
+          },
         }}
         onConfirm={handleEditFile}
         title={
@@ -288,12 +294,22 @@ export default function MediaDialog({
           maxWidth: "xs",
           fullWidth: true,
           onClose: handleCloseDeleteFile,
+          sx: {
+            zIndex: 10001,
+          },
         }}
         isLoading={deleteFileMutation.isLoading}
         isSuccess={deleteFileMutation.isSuccess}
         error={deleteFileMutation.error}
       />
-      <Dialog {...dialogProps} onClose={handleClose}>
+      <Dialog
+        {...dialogProps}
+        onClose={handleClose}
+        sx={{
+          zIndex: 10000,
+          ...dialogProps.sx,
+        }}
+      >
         <AppDialogTitle
           icon={<BrowseGalleryIcon />}
           title={<FormattedMessage id="gallery" defaultMessage="Gallery 1" />}
@@ -461,8 +477,10 @@ export default function MediaDialog({
                   {fileUploadMutation.isError && (
                     <Box sx={{ p: 2 }}>
                       <FormattedMessage id="reason" defaultMessage="Reason" />:{" "}
-                      {`${(fileUploadMutation.error as any)?.response?.data
-                        ?.message}`}
+                      {`${
+                        (fileUploadMutation.error as any)?.response?.data
+                          ?.message
+                      }`}
                     </Box>
                   )}
                 </Stack>
@@ -856,6 +874,9 @@ export default function MediaDialog({
               maxWidth: "xl",
               fullWidth: true,
               onClose: handleCloseImageGeneratorDialog,
+              sx: {
+                zIndex: 100001,
+              },
             }}
             image={aiImage}
             tab={tab}

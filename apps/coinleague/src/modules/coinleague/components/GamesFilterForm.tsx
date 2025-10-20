@@ -7,7 +7,6 @@ import {
   Switch,
 } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { GET_GAME_ORDER_OPTIONS } from '../constants';
 import {
   GameDuration,
   GameLevel,
@@ -71,6 +70,9 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
         >
           <MenuItem value={GameLevel.All}>
             <FormattedMessage id="app.coinLeagues.all" defaultMessage="All" />
+          </MenuItem>
+          <MenuItem value={GameLevel.Novice}>
+            <FormattedMessage id="novice" defaultMessage="Novice" />
           </MenuItem>
           <MenuItem value={GameLevel.Beginner}>
             <FormattedMessage id="beginner" defaultMessage="Beginner" />
@@ -161,6 +163,9 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           <MenuItem value={NumberOfPLayers.TEN}>
             <FormattedMessage id="ten" defaultMessage="10" />
           </MenuItem>
+          <MenuItem value={NumberOfPLayers.FIFTY}>
+            <FormattedMessage id="fifty" defaultMessage="50" />
+          </MenuItem>
         </Select>
       </FormControl>
       <FormControl>
@@ -191,7 +196,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           </MenuItem>
         </Select>
       </FormControl>
-      <FormControl>
+      {/*  <FormControl>
         <InputLabel>
           <FormattedMessage id="order.by" defaultMessage="Order by" />
         </InputLabel>
@@ -211,7 +216,7 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl>*/}
       <Stack
         justifyContent="space-between"
         direction="row"
@@ -223,11 +228,12 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           type="checkbox"
           name="isMyGames"
           onChange={handleChange}
+          checked={gameFilters.isMyGames}
           value={gameFilters.isMyGames}
         />
       </Stack>
 
-      <Stack
+      {/* <Stack
         justifyContent="space-between"
         direction="row"
         alignItems="center"
@@ -238,9 +244,10 @@ export default function GamesFilterForm({ onChange, gameFilters }: Props) {
           type="checkbox"
           name="isJackpot"
           onChange={handleChange}
+          checked={gameFilters.isJackpot}
           value={gameFilters.isJackpot}
         />
-      </Stack>
+      </Stack>*/}
     </Stack>
   );
 }

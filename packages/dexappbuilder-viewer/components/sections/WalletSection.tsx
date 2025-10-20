@@ -29,6 +29,8 @@ export function WalletSection({ section }: Props) {
     const textColor = glassSettings?.textColor || theme.palette.text.primary;
     const hideNFTs = glassSettings?.hideNFTs || false;
     const hideActivity = glassSettings?.hideActivity || false;
+    const removePadding = glassSettings?.removePadding || false;
+    const customPadding = glassSettings?.customPadding;
 
     const getContainerBackground = () => {
       if (glassSettings?.disableBackground) {
@@ -87,8 +89,29 @@ export function WalletSection({ section }: Props) {
       zIndex: 1,
     };
 
+    const getPaddingStyles = () => {
+      if (removePadding) {
+        return {
+          p: 0,
+        };
+      }
+
+      if (customPadding) {
+        return {
+          pt: customPadding.top !== undefined ? customPadding.top : { xs: 3, sm: 4, md: 5 },
+          pb: customPadding.bottom !== undefined ? customPadding.bottom : { xs: 3, sm: 4, md: 5 },
+          pl: customPadding.left !== undefined ? customPadding.left : 0,
+          pr: customPadding.right !== undefined ? customPadding.right : 0,
+        };
+      }
+
+      return {
+        py: { xs: 3, sm: 4, md: 5 },
+      };
+    };
+
     const walletContainerStyles = {
-      py: { xs: 3, sm: 4, md: 5 },
+      ...getPaddingStyles(),
       position: 'relative' as const,
       zIndex: 2,
       '& .MuiContainer-root': {
@@ -473,9 +496,20 @@ export function WalletSection({ section }: Props) {
     };
 
     return (
-      <Box sx={containerStyle}>
-        <Box sx={walletContainerStyles}>
-          <Container>
+      <>
+        {removePadding ? (
+          <Box sx={{
+            width: '100%',
+            height: '100vh',
+            minHeight: '100vh',
+            background: getContainerBackground(),
+            backgroundSize: glassSettings?.backgroundSize || 'cover',
+            backgroundPosition: glassSettings?.backgroundPosition || 'center',
+            backgroundRepeat: glassSettings?.backgroundRepeat || 'no-repeat',
+            backgroundAttachment: glassSettings?.backgroundAttachment || 'scroll',
+            position: 'relative' as const,
+            overflow: 'hidden' as const,
+          }}>
             <GlassEvmWalletContainer
               blurIntensity={blurIntensity}
               glassOpacity={glassOpacity}
@@ -502,19 +536,88 @@ export function WalletSection({ section }: Props) {
               scanModalTextColor={glassSettings?.scanModalTextColor || '#fff'}
               importTokenModalTextColor={glassSettings?.importTokenModalTextColor || '#fff'}
             />
-          </Container>
-        </Box>
-      </Box>
+          </Box>
+        ) : (
+          <Box sx={containerStyle}>
+            <Box sx={walletContainerStyles}>
+              <Container>
+                <GlassEvmWalletContainer
+                  blurIntensity={blurIntensity}
+                  glassOpacity={glassOpacity}
+                  textColor={textColor}
+                  hideNFTs={hideNFTs}
+                  hideActivity={hideActivity}
+                  hideSwapAction={glassSettings?.hideSwapAction}
+                  hideExchangeAction={glassSettings?.hideExchangeAction}
+                  hideSendAction={glassSettings?.hideSendAction}
+                  customSettings={customSettings}
+                  backgroundColor={glassSettings?.backgroundColor}
+                  backgroundImage={glassSettings?.backgroundImage}
+                  backgroundSize={glassSettings?.backgroundSize}
+                  backgroundPosition={glassSettings?.backgroundPosition}
+                  backgroundRepeat={glassSettings?.backgroundRepeat}
+                  backgroundType={glassSettings?.backgroundType}
+                  gradientStartColor={glassSettings?.gradientStartColor}
+                  gradientEndColor={glassSettings?.gradientEndColor}
+                  gradientDirection={glassSettings?.gradientDirection}
+                  swapVariant={customSettings?.swapConfig?.variant}
+                  networkModalTextColor={glassSettings?.networkModalTextColor || '#fff'}
+                  receiveModalTextColor={glassSettings?.receiveModalTextColor || '#fff'}
+                  sendModalTextColor={glassSettings?.sendModalTextColor || '#fff'}
+                  scanModalTextColor={glassSettings?.scanModalTextColor || '#fff'}
+                  importTokenModalTextColor={glassSettings?.importTokenModalTextColor || '#fff'}
+                />
+              </Container>
+            </Box>
+          </Box>
+        )}
+      </>
     );
   };
 
   const renderCustomVariant = () => {
+    const removePadding = customSettings?.removePadding || false;
+    const customPadding = customSettings?.customPadding;
+
+    const getPaddingStyles = () => {
+      if (removePadding) {
+        return {
+          p: 0,
+        };
+      }
+
+      if (customPadding) {
+        return {
+          pt: customPadding.top !== undefined ? customPadding.top : 4,
+          pb: customPadding.bottom !== undefined ? customPadding.bottom : 4,
+          pl: customPadding.left !== undefined ? customPadding.left : 0,
+          pr: customPadding.right !== undefined ? customPadding.right : 0,
+        };
+      }
+
+      return {
+        py: 4,
+      };
+    };
+
     return (
-      <Box py={4}>
-        <Container>
-          <CustomEvmWalletContainer customSettings={customSettings} />
-        </Container>
-      </Box>
+      <>
+        {removePadding ? (
+          <Box sx={{
+            width: '100%',
+            margin: 0,
+            padding: 0
+          }}>
+            <CustomEvmWalletContainer customSettings={customSettings} removePadding={true} />
+          </Box>
+        ) : (
+          <Box sx={getPaddingStyles()}>
+            <Container>
+              <CustomEvmWalletContainer customSettings={customSettings} removePadding={false} />
+            </Container>
+          </Box>
+        )}
+      </>
     );
   };
 

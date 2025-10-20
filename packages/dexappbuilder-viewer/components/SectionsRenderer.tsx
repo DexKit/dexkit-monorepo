@@ -29,6 +29,8 @@ import { SectionRender } from "./SectionRender";
 interface PreviewPlatformContextType {
   previewPlatform?: 'mobile' | 'desktop';
   isMobile: boolean;
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
 const PreviewPlatformContext = createContext<PreviewPlatformContextType | null>(null);
@@ -87,9 +89,11 @@ interface Props {
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   previewPlatform?: 'mobile' | 'desktop';
+  editable?: boolean;
+  onLayoutChange?: (layouts: any) => void;
 }
 
-export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
+export function SectionsRenderer({ sections, layout, previewPlatform, editable, onLayoutChange }: Props) {
   const theme = useTheme();
   const isMobileDevice = useMediaQuery(theme.breakpoints.down("sm"));
   const isMobile = previewPlatform ? previewPlatform === 'mobile' : isMobileDevice;
@@ -166,8 +170,8 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
   const renderDesktopTabs = () => {
     if (layout?.type === "tabs") {
       if (
-        layout.layout?.desktop.position === "top" ||
-        layout.layout?.desktop.position === "side"
+        layout.layout?.desktop?.position === "top" ||
+        layout.layout?.desktop?.position === "side"
       ) {
         return sections.map((section, index) => {
           if (isMobile && section?.hideMobile) {
@@ -250,7 +254,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
   if (layout?.type === "tabs") {
     if (isMobile && layout.layout?.mobile.position === "bottom") {
       return (
-        <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+        <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile, editable, onLayoutChange }}>
           <TabContext value={tab}>
             {renderPanels()}
             <Portal container={document.body}>
@@ -294,7 +298,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
     }
 
     return (
-      <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+      <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile, editable, onLayoutChange }}>
         <TabContext value={tab}>
           <Box>
             <Grid container spacing={2}>
@@ -302,7 +306,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
                 item
                 xs={12}
                 sm={
-                  !isMobile && layout.layout?.desktop.position === "side" ? 3 : 12
+                  !isMobile && layout.layout?.desktop?.position === "side" ? 3 : 12
                 }
               >
                 <Tabs
@@ -312,7 +316,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
                   orientation={
                     isMobile
                       ? "horizontal"
-                      : layout.layout?.desktop.position === "side"
+                      : layout.layout?.desktop?.position === "side"
                         ? "vertical"
                         : "horizontal"
                   }
@@ -328,7 +332,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
                 item
                 xs={12}
                 sm={
-                  !isMobile && layout.layout?.desktop.position === "side" ? 9 : 12
+                  !isMobile && layout.layout?.desktop?.position === "side" ? 9 : 12
                 }
               >
                 {renderPanels()}
@@ -341,7 +345,7 @@ export function SectionsRenderer({ sections, layout, previewPlatform }: Props) {
   }
 
   return (
-    <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile }}>
+    <PreviewPlatformContext.Provider value={{ previewPlatform, isMobile, editable, onLayoutChange }}>
       {sectionsToRender}
     </PreviewPlatformContext.Provider>
   );

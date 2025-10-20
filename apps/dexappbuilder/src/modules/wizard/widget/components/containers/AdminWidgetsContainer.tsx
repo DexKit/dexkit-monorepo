@@ -5,6 +5,7 @@ import Link from '@dexkit/ui/components/AppLink';
 import LoginAppButton from '@dexkit/ui/components/LoginAppButton';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
 import { useAuth } from '@dexkit/ui/hooks/auth';
+import { useWalletConnect } from '@dexkit/ui/hooks/wallet';
 import MarketplacesTableSkeleton from '@dexkit/ui/modules/admin/components/tables/MaketplacesTableSkeleton';
 import WidgetsTable from '@dexkit/ui/modules/admin/components/tables/Widgets';
 import { ConfigResponse } from '@dexkit/ui/modules/wizard/types/config';
@@ -29,7 +30,6 @@ import {
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { useConnectWalletDialog } from 'src/hooks/app';
 
 import widgetConfig from '@dexkit/ui/config/widget.json';
 import { useSendWidgetConfigMutation } from '@dexkit/ui/modules/whitelabel/hooks/useSendWidgetConfigMutation';
@@ -47,7 +47,7 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
   const { isActive } = useWeb3React();
   const { isLoggedIn, user } = useAuth();
   const snackbar = useSnackbar();
-  const connectWalletDialog = useConnectWalletDialog();
+  const { connectWallet } = useWalletConnect();
   const configsQuery = useWidgetsByOwnerQuery();
   const router = useRouter();
 
@@ -187,7 +187,7 @@ export const AdminWidgetsContainer = ({ isOnAdminDashboard }: Props) => {
           <Button
             variant="outlined"
             color="inherit"
-            onClick={() => connectWalletDialog.setOpen(true)}
+            onClick={connectWallet}
             startIcon={<Wallet />}
             endIcon={<ChevronRightIcon />}
           >

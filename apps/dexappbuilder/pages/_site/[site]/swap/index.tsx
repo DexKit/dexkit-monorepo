@@ -1,6 +1,6 @@
 import { SectionsRenderer } from '@dexkit/dexappbuilder-viewer/components/SectionsRenderer';
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
-import { PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
+import { AppConfig, PageSectionsLayout } from '@dexkit/ui/modules/wizard/types/config';
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -14,8 +14,10 @@ import { getAppConfig } from 'src/services/app';
 const SwapPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
+  appConfig: AppConfig;
 }> = ({ sections, layout }) => {
   const { formatMessage } = useIntl();
+
 
   return (
     <>
