@@ -195,6 +195,7 @@ export default function SwapWizardContainer({
               transakApiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '',
               useGasless: swapFormData?.useGasless,
               myTokensOnlyOnSearch: swapFormData?.myTokensOnlyOnSearch,
+              variant: swapFormData?.variant,
             }}
             swapFees={swapState.swapFees}
           />

@@ -2186,7 +2186,7 @@ export default function ExchangeSettingsForm({
                       mr: { xs: 1, sm: 1.5, md: 2 }
                     }}>
                       <Grid container spacing={isMobile ? 1.5 : 2}>
-                        <div >
+                        <Grid size={12}>
                           <FormControl fullWidth size={isMobile ? "small" : "medium"}>
                             <InputLabel>
                               <FormattedMessage
@@ -2266,8 +2266,8 @@ export default function ExchangeSettingsForm({
                               </Typography>
                             </FormHelperText>
                           </FormControl>
-                        </div>
-                        <div >
+                        </Grid>
+                        <Grid size={12}>
                           <ExchangeQuoteTokensInput
                             tokens={tokens}
                             chainId={chainId}
@@ -2278,8 +2278,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </div>
-                        <div >
+                        </Grid>
+                        <Grid size={6}>
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].baseToken`}
                             tokens={
@@ -2293,8 +2293,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </div>
-                        <div >
+                        </Grid>
+                        <Grid size={6}>
                           <ExchangeTokenInput
                             name={`defaultPairs[${chainId}].quoteToken`}
                             tokens={
@@ -2308,8 +2308,8 @@ export default function ExchangeSettingsForm({
                               />
                             }
                           />
-                        </div>
-                        <div >
+                        </Grid>
+                        <Grid size={6}>
                           <TextFieldMui
                             inputProps={{
                               type: "number",
@@ -2344,7 +2344,7 @@ export default function ExchangeSettingsForm({
                             fullWidth
                             size={isMobile ? "small" : "medium"}
                           />
-                        </div>
+                        </Grid>
 
                       </Grid>
                     </Paper>
