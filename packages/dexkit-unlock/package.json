@@ -1,7 +1,7 @@
 {
   "name": "@dexkit/unlock-widget",
   "private": false,
-  "version": "0.5.0",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
