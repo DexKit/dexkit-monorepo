@@ -29,6 +29,7 @@ export interface SelectCoinListUniswapItemProps {
   tokenBalances?: TokenBalances | null;
   isLoading: boolean;
   isExtern?: boolean;
+  showDash: boolean;
 }
 
 function SelectCoinListUniswapItem({
@@ -37,6 +38,7 @@ function SelectCoinListUniswapItem({
   tokenBalances,
   isLoading,
   isExtern,
+  showDash,
 }: SelectCoinListUniswapItemProps) {
   const theme = useTheme();
 
@@ -128,6 +130,8 @@ function SelectCoinListUniswapItem({
             <Skeleton>--</Skeleton>
           ) : tokenBalances && token && balance ? (
             formatBigNumber(balance, token.decimals)
+          ) : showDash ? (
+            "-.-"
           ) : (
             "0.0"
           )}

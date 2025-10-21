@@ -205,7 +205,7 @@ export default function SwapSelectCoinDialog({
                 tokens={recentTokens}
                 tokenBalances={tokenBalances.data}
                 onSelect={handleSelect}
-                isLoading={tokenBalances.isLoading}
+                isLoading={account ? tokenBalances.isLoading : false}
                 showDash={!account}
               />
               <Divider />
@@ -224,7 +224,7 @@ export default function SwapSelectCoinDialog({
                 ? tokenBalances.isLoading ||
                 fetchTokenData.isLoading ||
                 isLoadingSearch
-                : fetchTokenData.isLoading || isLoadingSearch
+                : false
             }
           />
         </Stack>

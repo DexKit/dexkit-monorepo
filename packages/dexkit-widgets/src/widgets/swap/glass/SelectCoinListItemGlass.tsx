@@ -69,7 +69,7 @@ function SelectCoinListItemGlass({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const finalTextColor = textColor || (theme.palette.mode === 'dark' ? '#ffffff' : '#000000');
+  const finalTextColor = textColor || theme.palette.text.primary;
 
   const getTokenBalance = () => {
     if (!tokenBalances || !token) {

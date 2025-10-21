@@ -166,8 +166,27 @@ export default function SwapGlass({
   const isMobile = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const finalTextColor = textColor || (theme.palette.mode === 'dark' ? '#ffffff' : '#000000');
+  const finalTextColor = textColor || theme.palette.text.primary;
 
+  const getGlassColors = () => {
+    const isDark = theme.palette.mode === 'dark';
+    return {
+      background: isDark
+        ? `rgba(0, 0, 0, ${glassOpacity})`
+        : `rgba(255, 255, 255, ${glassOpacity})`,
+      backgroundHover: isDark
+        ? `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.3)})`
+        : `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+      border: isDark
+        ? `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`
+        : `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+      borderHover: isDark
+        ? `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`
+        : `rgba(0, 0, 0, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+    };
+  };
+
+  const glassColors = getGlassColors();
   const isNetworkSupported = chainId && SUPPORTED_SWAP_CHAIN_IDS.includes(chainId);
 
   const calculatePriceImpact = (quote: any, sellAmount: BigNumber, buyAmount: BigNumber) => {
@@ -194,16 +213,15 @@ export default function SwapGlass({
   const getBackgroundStyles = () => {
     if (disableBackground) return { background: 'transparent' };
 
-    const baseBackground = `rgba(255, 255, 255, ${glassOpacity})`;
-
     switch (backgroundType) {
       case 'solid':
         return {
-          background: backgroundColor || baseBackground,
+          background: backgroundColor || glassColors.background,
         };
       case 'gradient':
-        const startColor = gradientStartColor || '#ffffff';
-        const endColor = gradientEndColor || '#f0f0f0';
+        const isDark = theme.palette.mode === 'dark';
+        const startColor = gradientStartColor || (isDark ? '#000000' : '#ffffff');
+        const endColor = gradientEndColor || (isDark ? '#1a1a1a' : '#f0f0f0');
         const direction = gradientDirection || 'to bottom';
         return {
           background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,
@@ -212,14 +230,14 @@ export default function SwapGlass({
         return {
           background: backgroundImage
             ? `url(${backgroundImage})`
-            : baseBackground,
+            : glassColors.background,
           backgroundSize: backgroundSize || 'cover',
           backgroundPosition: backgroundPosition || 'center',
           backgroundRepeat: 'no-repeat',
         };
       default:
         return {
-          background: baseBackground,
+          background: glassColors.background,
         };
     }
   };
@@ -235,7 +253,7 @@ export default function SwapGlass({
             ...getBackgroundStyles(),
             backdropFilter: `blur(${blurIntensity}px)`,
             WebkitBackdropFilter: `blur(${blurIntensity}px)`,
-            border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
+            border: `1px solid ${glassColors.border}`,
             borderRadius: theme.shape.borderRadius,
             boxShadow: `0 ${theme.spacing(1)} ${theme.spacing(3)} rgba(0, 0, 0, 0.1)`,
           }}
@@ -269,10 +287,10 @@ export default function SwapGlass({
                 tabIndex={disableNetworkChange || disableNetworkSelector ? -1 : undefined}
                 aria-disabled={disableNetworkChange || disableNetworkSelector}
                 sx={{
-                  background: `rgba(255, 255, 255, ${glassOpacity * 0.8})`,
+                  background: glassColors.background,
                   backdropFilter: `blur(${blurIntensity * 0.5}px)`,
                   WebkitBackdropFilter: `blur(${blurIntensity * 0.5}px)`,
-                  border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.2, 0.5)})`,
+                  border: `1px solid ${glassColors.border}`,
                   borderRadius: theme.shape.borderRadius,
                   color: finalTextColor,
                   px: theme.spacing(3),
@@ -281,8 +299,8 @@ export default function SwapGlass({
                   pointerEvents: disableNetworkChange || disableNetworkSelector ? 'none' : undefined,
                   cursor: disableNetworkChange || disableNetworkSelector ? 'not-allowed' : 'pointer',
                   '&:hover': {
-                    background: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
-                    borderColor: `rgba(255, 255, 255, ${Math.min(glassOpacity + 0.3, 0.6)})`,
+                    background: glassColors.backgroundHover,
+                    borderColor: glassColors.borderHover,
                   },
                   transition: theme.transitions.create(['background-color', 'border-color'], {
                     duration: theme.transitions.duration.short,

@@ -442,6 +442,9 @@ export function SwapConfigForm({ onChange, data, featuredTokens }: Props) {
               <MenuItem value={SwapVariant.Mobile}>
                 <FormattedMessage id="mobile" defaultMessage="Mobile - Touch-optimized with gestures" />
               </MenuItem>
+              {/* <MenuItem value={SwapVariant.Glass}>
+                <FormattedMessage id="glass" defaultMessage="Glass - Modern glassmorphism design" />
+              </MenuItem> */}
             </Select>
           </FormControl>
         </Grid>

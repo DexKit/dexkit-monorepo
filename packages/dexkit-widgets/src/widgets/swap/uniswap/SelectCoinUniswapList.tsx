@@ -17,6 +17,7 @@ export interface SelectCoinUniswapListProps {
   externToken?: Token;
   subHeader?: React.ReactNode;
   isLoading: boolean;
+  showDash: boolean;
 }
 
 function SelectCoinUniswapList({
@@ -26,6 +27,7 @@ function SelectCoinUniswapList({
   isLoading,
   subHeader,
   externToken,
+  showDash,
 }: SelectCoinUniswapListProps) {
   if (isLoading) {
     return <SwapSelectCoinListSkeleton />;
@@ -60,6 +62,7 @@ function SelectCoinUniswapList({
         onSelect={onSelect}
         tokenBalances={tokenBalances}
         isExtern
+        showDash={showDash}
       />
     );
   }
@@ -73,6 +76,7 @@ function SelectCoinUniswapList({
           isLoading={isLoading}
           onSelect={onSelect}
           tokenBalances={tokenBalances}
+          showDash={showDash}
         />
       ))}
     </List>
