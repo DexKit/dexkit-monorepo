@@ -1,5 +1,24 @@
 # dexappadmin
 
+## 1.0.0
+
+### Major Changes
+
+- c3f2753: Major version updates: Next 15.5.5, MUI v7 and several other packages
+
+### Patch Changes
+
+- Updated dependencies [c877144]
+- Updated dependencies [c3f2753]
+- Updated dependencies [208288b]
+- Updated dependencies [846b6b2]
+- Updated dependencies [eefb4b8]
+- Updated dependencies [ced668c]
+- Updated dependencies [1ced984]
+  - @dexkit/ui@1.0.0
+  - @dexkit/unlock-widget@1.0.0
+  - @dexkit/wallet-connectors@0.8.0
+
 ## 0.2.0
 
 ### Minor Changes
