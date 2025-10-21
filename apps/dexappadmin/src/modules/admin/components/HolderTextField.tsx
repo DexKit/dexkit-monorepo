@@ -4,9 +4,11 @@ import { useRecordContext } from "react-admin";
 export const HolderTextField = ({
   source,
   label,
+  showLabel,
 }: {
   source: string;
   label?: string;
+  showLabel?: boolean;
 }) => {
   const record = useRecordContext();
   const holdDexKitQuery = useHoldDexkitQuery({
@@ -14,8 +16,11 @@ export const HolderTextField = ({
   });
 
   return (
-    <span style={{ color: holdDexKitQuery.data ? "green" : "red" }}>
-      {holdDexKitQuery.data ? "true" : "false"}
-    </span>
+    <>
+      {label && showLabel && <span> KIT holder </span>}
+      <span style={{ color: holdDexKitQuery.data ? "green" : "red" }}>
+        {holdDexKitQuery.data ? "true" : "false"}
+      </span>
+    </>
   );
 };

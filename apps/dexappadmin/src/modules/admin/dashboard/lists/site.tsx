@@ -15,8 +15,8 @@ export const SiteList = () => (
       <TextField source="domain" />
       <TextField source="domainStatus" />
       <TextField source="email" />
-      <HolderTextField source="owner" label="HoldKit" />
-      <HidePoweredByField source="config" label="HidePoweredBy" />
+      <HolderTextField source="owner" label={"HoldKit"} />
+      <HidePoweredByField source="config" label={"HidePoweredBy"} />
       {/* <TextField source="config" />*/}
       <TextField source="domainSetupResponse" />
       <TextField source="verifyDomainRawData" />
