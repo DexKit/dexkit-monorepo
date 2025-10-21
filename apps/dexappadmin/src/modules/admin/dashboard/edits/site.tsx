@@ -30,7 +30,6 @@ const SiteActions = () => {
       notify("Failed to remove domain", { type: "warning" });
     }
   }
-  console.log(record);
 
   function handleRemoveSignature() {
     try {
