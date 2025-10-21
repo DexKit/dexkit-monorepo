@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const config = {
   matcher: [
     '/',
-    '/([^/.]*)', // exclude `/public` files by matching all paths except for paths containing `.` (e.g. /logo.png)
+    '/((?!llms\\.txt|robots\\.txt|sitemap\\.xml|favicon\\.ico)[^/.]*)',
     '/asset/:path*',
     '/order/:path*',
     '/collection/:path*',

@@ -37,7 +37,7 @@ function CreateCategoryComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PageHeader
           breadcrumbs={[
             {
@@ -65,7 +65,7 @@ function CreateCategoryComponent() {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h5">
           <FormattedMessage
             id="create.category"
@@ -73,7 +73,7 @@ function CreateCategoryComponent() {
           />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={toFormikValidationSchema(CategoryFormSchema)}
@@ -81,7 +81,7 @@ function CreateCategoryComponent() {
             name: '',
           }}
         >
-          {({}) => (
+          {({ }) => (
             <>
               <CategoryForm />
             </>

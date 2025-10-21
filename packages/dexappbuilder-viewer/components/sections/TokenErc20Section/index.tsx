@@ -182,11 +182,11 @@ export default function TokenErc20Section({ section }: TokenErc20SectionProps) {
         <Paper sx={{ p: 2 }}>
           <Grid container spacing={2}>
             {!disableInfo && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TokenSummary address={address} />
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack spacing={2} direction={{ xs: "column", sm: "row" }}>
                   {false && (
@@ -210,7 +210,7 @@ export default function TokenErc20Section({ section }: TokenErc20SectionProps) {
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={12}></Grid>
+            <Grid size={12}></Grid>
           </Grid>
         </Paper>
       </Container>

@@ -39,7 +39,7 @@ export default function ConfirmRemoveSectionDialog({
             defaultMessage="Delete Section: {section}"
             values={{
               section: (
-                <Typography variant="inherit" component="span" fontWeight="400">
+                <Typography key="section-name" variant="inherit" component="span" fontWeight="400">
                   {section?.name || section?.title}
                 </Typography>
               ),

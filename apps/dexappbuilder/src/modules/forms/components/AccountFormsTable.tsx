@@ -239,10 +239,9 @@ export default function AccountFormsTable({
     {
       field: 'name',
       headerName: formatMessage({ id: 'name', defaultMessage: 'Name' }),
-
       flex: 1,
-      valueGetter: ({ row }) => {
-        return row.name;
+      valueGetter: (value, row) => {
+        return row?.name || 'N/A';
       },
     },
     {
@@ -254,7 +253,7 @@ export default function AccountFormsTable({
       }),
       minWidth: 200,
       renderCell: ({ row }) => {
-        return row.description;
+        return row?.description || 'N/A';
       },
     },
     {
@@ -266,7 +265,7 @@ export default function AccountFormsTable({
         if (isMobile) {
           return (
             <IconButton
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 setRowId(row.id);
                 setAnchorEl(e.currentTarget);
               }}
@@ -405,32 +404,44 @@ export default function AccountFormsTable({
         </AppConfirmDialog>
       )}
 
-      <DataGrid
-        getRowId={(row) => row.id}
-        autoHeight
-        rows={forms}
-        columns={columns}
-        rowCount={count}
-        paginationModel={paginationModel}
-        paginationMode="server"
-        disableColumnFilter
-        slots={{ toolbar: GridToolbar, noRowsOverlay: NoResultsStack }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        filterModel={filter}
-        sortModel={sortModel}
-        onPaginationModelChange={setPaginationModel}
-        filterMode="server"
-        onFilterModelChange={onFilterChange}
-        onSortModelChange={handleSortModelChange}
-        pageSizeOptions={[5, 10, 25, 50]}
-        disableRowSelectionOnClick
-        loading={false}
-      />
+      <Box sx={{
+        width: '100%',
+        height: 500,
+        '& .MuiDataGrid-root': {
+          border: 'none',
+        }
+      }}>
+        <DataGrid
+          getRowId={(row: any) => row.id}
+          rows={forms}
+          columns={columns}
+          rowCount={count}
+          paginationModel={paginationModel}
+          paginationMode="server"
+          disableColumnFilter
+          slots={{ toolbar: GridToolbar, noRowsOverlay: NoResultsStack }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          filterModel={filter}
+          sortModel={sortModel}
+          onPaginationModelChange={setPaginationModel}
+          filterMode="server"
+          onFilterModelChange={onFilterChange}
+          onSortModelChange={handleSortModelChange}
+          pageSizeOptions={[5, 10, 25, 50]}
+          disableRowSelectionOnClick
+          loading={false}
+          sx={{
+            width: '100%',
+            maxWidth: '100%',
+            border: 'none',
+          }}
+        />
+      </Box>
     </>
   );
 }

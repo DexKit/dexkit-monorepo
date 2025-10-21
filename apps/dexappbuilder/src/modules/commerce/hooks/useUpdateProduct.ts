@@ -11,6 +11,6 @@ export default function useUpdateProduct() {
       throw new Error('no instance');
     }
 
-    return (await instance?.put(`/products/${data?.id}`, data)).data;
+    return (await (instance as any)?.put(`/products/${data?.id}`, data)).data;
   });
 }

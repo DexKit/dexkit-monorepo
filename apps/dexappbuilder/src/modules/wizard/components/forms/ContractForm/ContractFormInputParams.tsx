@@ -24,7 +24,7 @@ function AddressInput({
 }) {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Field
           component={Autocomplete}
           freeSolo
@@ -74,7 +74,7 @@ function DecimalInput({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Field
           component={TextField}
           label={<FormattedMessage id="decimals" defaultMessage="Decimals" />}

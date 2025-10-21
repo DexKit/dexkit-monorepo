@@ -41,12 +41,12 @@ export default function PageSectionMenuStack({
       spacing={isMobile ? 0 : theme.spacing(0.5)}
       alignItems="center"
     >
-      {menuArr.map((item, index) =>
+      {menuArr.map((item: any, index: any) =>
         item.value === 'show.section' || item.value === 'hide.section' ? (
           <IconButton
             key={index}
             size={isMobile ? 'small' : 'medium'}
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
               onToggleVisibilty();
             }}
@@ -69,7 +69,7 @@ export default function PageSectionMenuStack({
           <IconButton
             key={index}
             size={isMobile ? 'small' : 'medium'}
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
               onAction(item.value);
             }}

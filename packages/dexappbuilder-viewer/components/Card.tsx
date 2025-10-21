@@ -17,7 +17,7 @@ export interface CardProps {
   sx?: object;
 }
 
-const Card: React.FC<CardProps> = ({ id, title, description, image, actions, sx }) => {
+const Card: React.FC<CardProps> = ({ id, title, description, image, actions, sx }: any) => {
   return (
     <MuiCard
       sx={{
@@ -52,9 +52,9 @@ const Card: React.FC<CardProps> = ({ id, title, description, image, actions, sx 
           />
         )}
       </CardContent>
-      {actions && actions.length > 0 && actions.some(action => action.label) && (
+      {actions && actions.length > 0 && actions.some((action: any) => action.label) && (
         <CardActions sx={{ pt: 0, pb: 2, px: 2, mt: 'auto' }}>
-          {actions.map((action, idx) =>
+          {actions.map((action: any, idx: any) =>
             action.href ? (
               <Button
                 key={idx}

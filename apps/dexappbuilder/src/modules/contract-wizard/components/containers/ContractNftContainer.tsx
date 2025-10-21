@@ -51,7 +51,7 @@ export default function ContractNftContainer({ address, network }: Props) {
         address={address}
       />
       <Grid container spacing={isMobile ? 1 : 2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs
             value={tab}
             onChange={handleChangeTab}
@@ -86,10 +86,10 @@ export default function ContractNftContainer({ address, network }: Props) {
             />
           </Tabs>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {tab === 'nft' && (
             <Grid container spacing={isMobile ? 1 : 2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   onClick={handleMint}
                   variant="contained"
@@ -103,7 +103,7 @@ export default function ContractNftContainer({ address, network }: Props) {
                   <FormattedMessage id="mint" defaultMessage="Mint" />
                 </Button>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <NFTGrid
                   network={network}
                   address={address}

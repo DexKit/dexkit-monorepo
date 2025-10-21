@@ -220,7 +220,7 @@ export function GatedConditionView({
     if (condition.type === "collection") {
       return (
         <Stack spacing={1}>
-          <Typography color="text.secondary" fontWeight="bold" variant="body2">
+          <Typography color="text.primary" fontWeight="bold" variant="body2">
             <FormattedMessage
               id="collection.collection"
               defaultMessage="Collection: {collection}"
@@ -244,7 +244,7 @@ export function GatedConditionView({
             />
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography color="text.secondary" variant="body2">
+            <Typography color="text.primary" variant="body2">
               <b>
                 <FormattedMessage
                   id="must.have.amount"
@@ -266,7 +266,7 @@ export function GatedConditionView({
             <Divider orientation="vertical" sx={{ height: "1rem" }} />
             {balances && balances[index] && (
               <Typography
-                color="text.secondary"
+                color="text.primary"
                 fontWeight="bold"
                 variant="body2"
               >
@@ -394,13 +394,13 @@ export function GatedConditionView({
     >
       <Stack spacing={2} alignItems="center">
         <CircularProgress size={60} />
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="text.primary">
           <FormattedMessage
             id="verifying.assets"
             defaultMessage="Verifying your assets..."
           />
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.primary">
           <FormattedMessage
             id="please.wait"
             defaultMessage="Please wait while we verify your assets on the blockchain."
@@ -435,21 +435,20 @@ export function GatedConditionView({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === "light"
                 ? "rgba(0,0,0, 0.2)"
                 : alpha(theme.palette.common.white, 0.1),
-            borderRadius: (theme) => theme.shape.borderRadius / 4,
+            borderRadius: (theme) => typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 4 : theme.shape.borderRadius,
             backgroundImage: (theme) =>
               layout?.frontImageDark || layout?.frontImage
-                ? `url('${
-                    theme.palette.mode === "light"
-                      ? layout?.frontImage
-                      : layout?.frontImageDark || layout?.frontImage
-                  }')`
+                ? `url('${theme.palette.mode === "light"
+                  ? layout?.frontImage
+                  : layout?.frontImageDark || layout?.frontImage
+                }')`
                 : undefined,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -469,22 +468,22 @@ export function GatedConditionView({
             {((theme.palette.mode === "light" && !layout?.frontImage) ||
               (theme.palette.mode === "dark" &&
                 !(layout?.frontImage || layout?.frontImageDark))) && (
-              <Security
-                sx={{
-                  fontSize: 80,
-                  color: (theme) =>
-                    theme.palette.getContrastText(
-                      theme.palette.mode === "light"
-                        ? "rgba(0,0,0, 0.2)"
-                        : alpha(theme.palette.common.white, 0.1)
-                    ),
-                }}
-              />
-            )}
+                <Security
+                  sx={{
+                    fontSize: 80,
+                    color: (theme) =>
+                      theme.palette.getContrastText(
+                        theme.palette.mode === "light"
+                          ? "rgba(0,0,0, 0.2)"
+                          : alpha(theme.palette.common.white, 0.1)
+                      ),
+                  }}
+                />
+              )}
           </Stack>
         </Box>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Alert severity="warning">
           <AlertTitle>
             <FormattedMessage
@@ -502,7 +501,7 @@ export function GatedConditionView({
           )}
         </Alert>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {account && isLoggedIn ? (
           isLoading && (!conditions || conditions.length === 0) ? (
             renderLoading()
@@ -512,7 +511,7 @@ export function GatedConditionView({
                 <Box display="flex" justifyContent="center" mb={3}>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <CircularProgress size={24} />
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.primary">
                       <FormattedMessage
                         id="verifying.assets"
                         defaultMessage="Verifying your assets..."
@@ -523,7 +522,7 @@ export function GatedConditionView({
               )}
               <Grid container spacing={2}>
                 {(conditions || []).map((condition, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid size={12} key={index}>
                     <Box>
                       <Stack spacing={2}>
                         {index !== 0 && (
@@ -535,10 +534,9 @@ export function GatedConditionView({
                                   ? alpha(theme.palette.warning.light, 0.2)
                                   : alpha(theme.palette.info.light, 0.2),
                               border: (theme) =>
-                                `1px solid ${
-                                  condition.condition === "or"
-                                    ? theme.palette.warning.main
-                                    : theme.palette.info.main
+                                `1px solid ${condition.condition === "or"
+                                  ? theme.palette.warning.main
+                                  : theme.palette.info.main
                                 }`,
                             }}
                           >
@@ -547,11 +545,11 @@ export function GatedConditionView({
                               textAlign="center"
                               textTransform="uppercase"
                               fontWeight="bold"
-                              color={(theme) =>
-                                condition.condition === "or"
+                              sx={(theme) => ({
+                                color: condition.condition === "or"
                                   ? theme.palette.warning.dark
                                   : theme.palette.info.dark
-                              }
+                              })}
                             >
                               {isEdit ? (
                                 <FormattedMessage
@@ -596,10 +594,7 @@ export function GatedConditionView({
                                 : undefined,
                             boxShadow: (theme) =>
                               partialResults && partialResults[index]
-                                ? `0 0 8px ${alpha(
-                                    theme.palette.success.main,
-                                    0.4
-                                  )}`
+                                ? `0 0 8px ${alpha(theme.palette.success.main, 0.4)}`
                                 : undefined,
                           }}
                         >

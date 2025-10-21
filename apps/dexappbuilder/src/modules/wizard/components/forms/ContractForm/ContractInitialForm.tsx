@@ -57,7 +57,7 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
   return (
     <Grid container spacing={isMobile ? 0.5 : 2}>
       {isProxyContract && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControlLabel
             label={
               <Typography variant={isMobile ? "caption" : "body2"}>
@@ -74,22 +74,25 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
           />
         </Grid>
       )}
-
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography
           variant={isMobile ? "caption" : "subtitle1"}
           fontWeight="500"
           sx={isMobile ? {
             margin: '0 0 2px 0',
             fontSize: '0.85rem',
-            marginLeft: '-4px'
+            paddingLeft: '16px'
           } : {}}
         >
           <FormattedMessage id="contract" defaultMessage="Contract" />
         </Typography>
       </Grid>
-
-      <Grid item xs={12} md={isMobile ? 12 : 3} sx={isMobile ? { pb: 0.5, pt: 0 } : {}}>
+      <Grid
+        sx={isMobile ? { py: 0.5 } : {}}
+        size={{
+          xs: 12,
+          md: isMobile ? 12 : 3
+        }}>
         <FormControl fullWidth size={isMobile ? "small" : "medium"} sx={isMobile ? {
           '& .MuiInputBase-root': {
             minHeight: '35px',
@@ -121,13 +124,18 @@ function ContractInitialForm({ abi, chainId, fetchOnMount }: Props) {
           </Field>
         </FormControl>
       </Grid>
-      <Grid item xs={12} md={isMobile ? 12 : 9} sx={isMobile ? { py: 0.5 } : {}}>
+      <Grid
+        sx={isMobile ? { py: 0.5 } : {}}
+        size={{
+          xs: 12,
+          md: isMobile ? 12 : 9
+        }}>
         <ContractFormAddressInput
           chainId={chainId}
           fetchOnMount={fetchOnMount}
         />
       </Grid>
-      <Grid item xs={12} sx={isMobile ? { pt: 0.5 } : {}}>
+      <Grid sx={isMobile ? { pt: 0.5 } : {}} size={12}>
         <ContractFormAbiInput abiStr={JSON.stringify(abi, null, 2) || ''} />
       </Grid>
     </Grid>

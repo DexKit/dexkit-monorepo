@@ -1,9 +1,4 @@
-import {
-  ChainId,
-  useApproveToken,
-  useErc20BalanceQuery,
-  useTokenAllowanceQuery,
-} from "@dexkit/core";
+import { ChainId, useErc20BalanceQuery } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
 import {
   formatBigNumber,
@@ -27,20 +22,17 @@ import {
   Button,
   CircularProgress,
   Divider,
-  Grid,
   Menu,
   MenuItem,
   Skeleton,
   Stack,
   Typography,
   useTheme,
+  useColorScheme,
 } from "@mui/material";
 
 import { ConnectButton } from "@dexkit/ui/components/ConnectButton";
-import {
-  SUPPORTED_UNISWAP_V2,
-  ZEROEX_AFFILIATE_ADDRESS,
-} from "@dexkit/ui/modules/swap/constants";
+import { ZEROEX_AFFILIATE_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import { useGaslessTrades } from "@dexkit/ui/modules/swap/hooks/useGaslessTrades";
 import { getSwapFeeTokenAddress } from "@dexkit/ui/modules/swap/utils";
 import type { providers } from "ethers";
@@ -84,44 +76,22 @@ export default function MarketForm({
   isActive,
 }: MarketBuyFormProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { variant, glassSettings } = useExchangeContext();
   const isGlassVariant = variant === "glass";
+  const isDarkMode = mode === 'dark';
   const textColor = isGlassVariant
-    ? glassSettings?.textColor || "rgba(255, 255, 255, 0.95)"
-    : glassSettings?.textColor || theme.palette.text.primary;
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.95)')
+    : (isDarkMode ? '#ffffff' : theme.palette.text.primary);
   const secondaryTextColor = isGlassVariant
-    ? glassSettings?.textColor || "rgba(255, 255, 255, 0.7)"
-    : theme.palette.text.secondary;
-  const fillButtonBackgroundColor =
-    glassSettings?.fillButtonBackgroundColor ||
-    (isGlassVariant
-      ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.1})`
-      : theme.palette.primary.main);
-  const fillButtonTextColor =
-    glassSettings?.fillButtonTextColor ||
-    (isGlassVariant
-      ? glassSettings?.textColor || "#ffffff"
-      : theme.palette.primary.contrastText);
-  const fillButtonHoverBackgroundColor =
-    glassSettings?.fillButtonHoverBackgroundColor ||
-    (isGlassVariant
-      ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.1) + 0.1, 0.2)})`
-      : theme.palette.primary.dark);
-  const fillButtonHoverTextColor =
-    glassSettings?.fillButtonHoverTextColor ||
-    (isGlassVariant
-      ? glassSettings?.textColor || "#ffffff"
-      : theme.palette.primary.contrastText);
-  const fillButtonDisabledBackgroundColor =
-    glassSettings?.fillButtonDisabledBackgroundColor ||
-    (isGlassVariant
-      ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.1) * 0.5})`
-      : theme.palette.action.disabled);
-  const fillButtonDisabledTextColor =
-    glassSettings?.fillButtonDisabledTextColor ||
-    (isGlassVariant
-      ? `${glassSettings?.textColor || "#ffffff"}80`
-      : theme.palette.action.disabledBackground);
+    ? (glassSettings?.textColor || 'rgba(255, 255, 255, 0.7)')
+    : (isDarkMode ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
+  const fillButtonBackgroundColor = glassSettings?.fillButtonBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${glassSettings?.glassOpacity || 0.10})` : theme.palette.primary.main);
+  const fillButtonTextColor = glassSettings?.fillButtonTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
+  const fillButtonHoverBackgroundColor = glassSettings?.fillButtonHoverBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${Math.min((glassSettings?.glassOpacity || 0.10) + 0.1, 0.2)})` : theme.palette.primary.dark);
+  const fillButtonHoverTextColor = glassSettings?.fillButtonHoverTextColor || (isGlassVariant ? (glassSettings?.textColor || '#ffffff') : theme.palette.primary.contrastText);
+  const fillButtonDisabledBackgroundColor = glassSettings?.fillButtonDisabledBackgroundColor || (isGlassVariant ? `rgba(255, 255, 255, ${(glassSettings?.glassOpacity || 0.10) * 0.5})` : theme.palette.action.disabled);
+  const fillButtonDisabledTextColor = glassSettings?.fillButtonDisabledTextColor || (isGlassVariant ? `${glassSettings?.textColor || '#ffffff'}80` : theme.palette.action.disabledBackground);
   const [showReview, setShowReview] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -188,7 +158,7 @@ export default function MarketForm({
     }
 
     return "0.0";
-  }, [baseTokenBalance, baseToken]);
+  }, [quoteTokenBalance, baseToken]);
 
   const kitAmount =
     amount && Number(amount) > 0
@@ -321,31 +291,8 @@ export default function MarketForm({
     setShowReview(true);
   };
 
-  const { chainId: providerChainId, signer } = useWeb3React();
+  const { chainId: providerChainId } = useWeb3React();
   const switchNetworkMutation = useSwitchNetworkMutation();
-
-  const approveMutation = useApproveToken();
-
-  const handleApprove = async () => {
-    await approveMutation.mutateAsync({
-      onSubmited: (hash: string) => {},
-      amount: BigNumber.from(quote?.sellAmount).mul(2),
-      signer,
-      spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
-        ? quote?.to
-        : quote?.issues?.allowance?.spender,
-      tokenContract: quote?.sellToken,
-    });
-  };
-
-  const tokenAllowanceQuery = useTokenAllowanceQuery({
-    account,
-    signer,
-    spender: SUPPORTED_UNISWAP_V2.includes(chainId as number)
-      ? quote?.to
-      : quote?.issues.allowance.spender,
-    tokenAddress: quote?.sellToken,
-  });
 
   const renderActionButton = useCallback(() => {
     if (!providerChainId) {
@@ -378,37 +325,6 @@ export default function MarketForm({
         </Button>
       );
     }
-
-    if (
-      hasSufficientBalance &&
-      tokenAllowanceQuery.data?.lt(BigNumber.from(quote?.sellAmount || "0"))
-    ) {
-      return (
-        <Button
-          disabled={approveMutation.isLoading}
-          size="large"
-          fullWidth
-          variant="contained"
-          startIcon={approveMutation.isLoading && <CircularProgress />}
-          onClick={async () => {
-            handleApprove();
-          }}
-        >
-          {approveMutation.isLoading ? (
-            <FormattedMessage id="approving..." defaultMessage="Approving..." />
-          ) : (
-            <FormattedMessage
-              id="approve.token.to.trade"
-              defaultMessage="Approve {token} to trade"
-              values={{
-                token: side === "buy" ? quoteToken.symbol : baseToken.symbol,
-              }}
-            />
-          )}
-        </Button>
-      );
-    }
-
     let errorMsg = null;
 
     if (priceQuery?.isError) {
@@ -443,13 +359,13 @@ export default function MarketForm({
         variant="contained"
         onClick={handleExecute}
         sx={{
-          "&.MuiButton-root": {
+          '&.MuiButton-root': {
             backgroundColor: `${fillButtonBackgroundColor} !important`,
             color: `${fillButtonTextColor} !important`,
             fontWeight: theme.typography.fontWeightMedium,
-            textTransform: "none",
+            textTransform: 'none',
             borderRadius: isGlassVariant ? theme.spacing(2) : theme.spacing(1),
-            transition: theme.transitions.create(["all"], {
+            transition: theme.transitions.create(['all'], {
               duration: theme.transitions.duration.short,
               easing: theme.transitions.easing.easeInOut,
             }),
@@ -465,7 +381,7 @@ export default function MarketForm({
               `,
             }),
           },
-          "&.MuiButton-root:hover:not(:disabled)": {
+          '&.MuiButton-root:hover:not(:disabled)': {
             backgroundColor: `${fillButtonHoverBackgroundColor} !important`,
             color: `${fillButtonHoverTextColor} !important`,
             transform: isGlassVariant
@@ -483,15 +399,15 @@ export default function MarketForm({
               `,
             }),
           },
-          "&.MuiButton-root:active:not(:disabled)": {
+          '&.MuiButton-root:active:not(:disabled)': {
             transform: isGlassVariant
               ? `translateY(-${theme.spacing(0.125)}) scale(0.98)`
-              : "translateY(0)",
+              : 'translateY(0)',
           },
-          "&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled": {
+          '&.MuiButton-root:disabled, &.MuiButton-root.Mui-disabled': {
             backgroundColor: `${fillButtonDisabledBackgroundColor} !important`,
             color: `${fillButtonDisabledTextColor} !important`,
-            opacity: "1 !important",
+            opacity: '1 !important',
             ...(isGlassVariant && {
               backdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
               WebkitBackdropFilter: `blur(${theme.spacing(1.25)}) saturate(100%) brightness(0.8)`,
@@ -587,140 +503,132 @@ export default function MarketForm({
         onConfirm={handleConfirm}
         canGasless={canGasless}
       />
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ visibility: provider ? "visible" : "hidden" }}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box>
+          <LazyDecimalInput onChange={handleChangeAmount} token={baseToken} />
+        </Box>
+        
+        <Box sx={{ visibility: provider ? "visible" : "hidden" }}>
+          {side === "buy" ? (
+            <Typography variant="body2" color={textColor}>
+              <FormattedMessage id="available" defaultMessage="Available" />:{" "}
+              {quoteTokenBalanceQuery.isLoading ? (
+                <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+              ) : (
+                <>
+                  {quoteTokenBalanceFormatted}{" "}
+                  {quoteToken.symbol.toUpperCase()}
+                </>
+              )}
+            </Typography>
+          ) : (
+            <Typography
+              variant="body2"
+              color={textColor}
+              sx={{ visibility: account ? "visible" : "hidden" }}
+            >
+              <FormattedMessage id="available" defaultMessage="Available" />:{" "}
+              {baseTokenBalanceQuery.isLoading ? (
+                <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+              ) : (
+                <>
+                  {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
+                </>
+              )}
+            </Typography>
+          )}
+        </Box>
+        
+        <Divider />
+        
+        <Box>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            spacing={2}
+            alignItems="center"
           >
-            {side === "buy" ? (
-              <Typography variant="body2" color={textColor}>
-                <FormattedMessage id="available" defaultMessage="Available" />:{" "}
-                {quoteTokenBalanceQuery.isLoading ? (
-                  <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                ) : (
-                  <>
-                    {quoteTokenBalanceFormatted}{" "}
-                    {quoteToken.symbol.toUpperCase()}
-                  </>
-                )}
-              </Typography>
-            ) : (
-              <Typography
-                variant="body2"
-                color={textColor}
-                sx={{ visibility: account ? "visible" : "hidden" }}
+            <Typography color={textColor}>
+              {side === "buy" ? (
+                <FormattedMessage id="cost" defaultMessage="Cost" />
+              ) : (
+                <FormattedMessage
+                  id="You will.receive"
+                  defaultMessage="You will receive"
+                />
+              )}
+            </Typography>
+            {filteredQuoteTokens && filteredQuoteTokens.length > 0 ? (
+              <Box
+                display={"flex"}
+                alignContent={"center"}
+                alignItems={"center"}
               >
-                <FormattedMessage id="available" defaultMessage="Available" />:{" "}
-                {baseTokenBalanceQuery.isLoading ? (
+                <Typography color={textColor}>
+                  {priceQuery.isFetching ? (
+                    <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
+                  ) : (
+                    <>{formattedCost}</>
+                  )}
+                </Typography>
+
+                <Button
+                  sx={{
+                    color: secondaryTextColor,
+                  }}
+                  size={"large"}
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  {open ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  )}
+                  {quoteToken.symbol.toUpperCase()}
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {filteredQuoteTokens.map((tk: any, key: any) => (
+                    <MenuItem
+                      onClick={() => {
+                        setSelectedQuoteToken(tk);
+                        handleClose();
+                      }}
+                      key={key}
+                    >
+                      {tk?.symbol.toUpperCase()}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Typography color={textColor}>
+                {quoteQuery.isFetching ? (
                   <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
                 ) : (
                   <>
-                    {baseTokenBalanceFormatted} {baseToken.symbol.toUpperCase()}
+                    {formattedCost} {quoteToken.symbol.toUpperCase()}
                   </>
                 )}
               </Typography>
             )}
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <Stack>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={2}
-                  alignItems="center"
-                >
-                  <Typography color={textColor}>
-                    {side === "buy" ? (
-                      <FormattedMessage id="cost" defaultMessage="Cost" />
-                    ) : (
-                      <FormattedMessage
-                        id="You will.receive"
-                        defaultMessage="You will receive"
-                      />
-                    )}
-                  </Typography>
-                  {filteredQuoteTokens && filteredQuoteTokens.length > 0 ? (
-                    <Box
-                      display={"flex"}
-                      alignContent={"center"}
-                      alignItems={"center"}
-                    >
-                      <Typography color={textColor}>
-                        {priceQuery.isFetching ? (
-                          <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                        ) : (
-                          <>{formattedCost}</>
-                        )}
-                      </Typography>
-
-                      <Button
-                        sx={{
-                          color: secondaryTextColor,
-                        }}
-                        size={"large"}
-                        id="basic-button"
-                        aria-controls={open ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
-                      >
-                        {open ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                        {quoteToken.symbol.toUpperCase()}
-                      </Button>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        {filteredQuoteTokens.map((tk, key) => (
-                          <MenuItem
-                            onClick={() => {
-                              setSelectedQuoteToken(tk);
-                              handleClose();
-                            }}
-                            key={key}
-                          >
-                            {tk?.symbol.toUpperCase()}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
-                  ) : (
-                    <Typography color={textColor}>
-                      {quoteQuery.isFetching ? (
-                        <Skeleton sx={{ minWidth: theme.spacing(6.25) }} />
-                      ) : (
-                        <>
-                          {formattedCost} {quoteToken.symbol.toUpperCase()}
-                        </>
-                      )}
-                    </Typography>
-                  )}
-                </Stack>
-              </Stack>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            {renderActionButton()}
-          </Grid>
-        </Grid>
+          </Stack>
+        </Box>
+        
+        <Box>
+          {renderActionButton()}
+        </Box>
       </Box>
     </>
   );

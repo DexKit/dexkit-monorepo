@@ -90,6 +90,15 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
           startIcon={<AddIcon />}
           variant="contained"
           color="primary"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"
@@ -151,6 +160,15 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
           startIcon={<AddIcon />}
           variant="contained"
           color="primary"
+          sx={{
+            color: 'white !important',
+            '&:hover': {
+              color: 'white !important'
+            },
+            '& .MuiButton-startIcon': {
+              color: 'white !important'
+            }
+          }}
         >
           <FormattedMessage
             id="new.contract"
@@ -198,13 +216,12 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
           }}
         />
       )}
-
       <Container maxWidth={'xl'} disableGutters={isMobile} sx={{ px: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
         <Stack spacing={isMobile ? theme.spacing(1) : theme.spacing(2)}>
           <Box>
             <Grid container spacing={isMobile ? 1.5 : 3}>
               {!isContract && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
                     <Typography
                       variant={isMobile ? 'h6' : 'h5'}
@@ -235,23 +252,23 @@ export default function ListContractContainer({ addr, net, onGoBack }: Props) {
                 </Grid>
               )}
               {!isContract && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
               )}
               {!isContract && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     {isMobile ? <MobileView /> : <DesktopView />}
                   </Box>
                 </Grid>
               )}
               {!isContract && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
               )}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {(!address || !network) && (
                   <Container disableGutters={isMobile}>
                     <Box sx={{ overflowX: 'hidden', width: '100%', maxWidth: '100vw' }}>

@@ -83,8 +83,8 @@ export default function ContractAirdropErc20Container({
       const metadata = await tokenContract?.erc20.get();
 
       const amount = recipients
-        .map((r) => parseUnits(r.quantity, metadata?.decimals))
-        .reduce((prev, curr) => {
+        .map((r: { address: string; quantity: string }) => parseUnits(r.quantity, metadata?.decimals))
+        .reduce((prev: any, curr: any) => {
           return prev.add(curr);
         }, BigNumber.from(0));
 
@@ -236,7 +236,7 @@ export default function ContractAirdropErc20Container({
         includeNative
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={currTab} onChange={handleChange}>
             <Tab
               value="airdrop"
@@ -256,10 +256,14 @@ export default function ContractAirdropErc20Container({
         </Grid>
         {currTab === 'airdrop' && (
           <>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         {tokenAddress ? (
@@ -329,7 +333,11 @@ export default function ContractAirdropErc20Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         {isLoadingToken && tokenAddress ? (
@@ -367,7 +375,11 @@ export default function ContractAirdropErc20Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Stack
@@ -408,7 +420,7 @@ export default function ContractAirdropErc20Container({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={2}>
                 <Divider />
                 {tokenBalance && totalAmount.gt(tokenBalance.value) && (
@@ -444,12 +456,12 @@ export default function ContractAirdropErc20Container({
           </>
         )}
         {currTab === 'metadata' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractMetadataTab address={address} />
           </Grid>
         )}
         {currTab === 'admin' && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ContractAdminTab address={address} />
           </Grid>
         )}

@@ -83,7 +83,7 @@ export default function GeneralWizardContainer({
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack>
             <Typography variant={'h6'}>
               <FormattedMessage id="general" defaultMessage="General" />
@@ -96,21 +96,21 @@ export default function GeneralWizardContainer({
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Formik
             initialValues={generalData}
             onSubmit={handleSubmitGeneral}
             validationSchema={GeneralSchema}
             enableReinitialize={true}
           >
-            {(props) => (
+            {(props: any) => (
               <>
                 {' '}
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={TextField}
                       sx={{ maxWidth: '500px' }}
@@ -121,7 +121,7 @@ export default function GeneralWizardContainer({
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={Select}
                       id="currency"
@@ -141,7 +141,7 @@ export default function GeneralWizardContainer({
                       ))}
                     </Field>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Field
                       component={Select}
                       id="locale"
@@ -162,10 +162,10 @@ export default function GeneralWizardContainer({
                       ))}
                     </Field>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Divider></Divider>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Stack
                       spacing={1}
                       direction="row"

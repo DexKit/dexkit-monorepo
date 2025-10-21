@@ -24,7 +24,7 @@ const Image = styled("img")(({ theme }) => ({
   width: "100%",
   aspectRatio: "1/1",
   objectFit: "cover",
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
   border: `1px solid ${theme.palette.grey[200]}`,
 
   backgroundColor: theme.palette.background.paper,
@@ -118,7 +118,7 @@ export default function ProductImagesDialog({
       <DialogContent dividers>
         <Grid container spacing={2}>
           {selection.length > 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 size="small"
                 startIcon={
@@ -136,7 +136,7 @@ export default function ProductImagesDialog({
             </Grid>
           )}
           {images.length === 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack spacing={1} alignItems="center">
                   <BrokenImageIcon fontSize="large" />
@@ -163,7 +163,7 @@ export default function ProductImagesDialog({
             </Grid>
           )}
           {images.map((image, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
               <ButtonBase
                 sx={{
                   position: "relative",
@@ -188,7 +188,7 @@ export default function ProductImagesDialog({
                       right: 0,
                       bottom: 0,
                       backgroundColor: "rgba(0,0,0, 0.5)",
-                      borderRadius: theme.shape.borderRadius / 2,
+                      borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius / 2 : theme.shape.borderRadius,
                       border: `1px solid ${theme.palette.grey[200]}`,
                     })}
                   />

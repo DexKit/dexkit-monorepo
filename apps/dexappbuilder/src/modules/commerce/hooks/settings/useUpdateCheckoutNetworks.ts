@@ -11,6 +11,6 @@ export default function useUpdateCheckoutNetworks() {
       throw new Error('no instance');
     }
 
-    return (await instance.put('/checkouts-networks', data)).data;
+    return (await (instance as any).put('/checkouts-networks', data)).data;
   });
 }

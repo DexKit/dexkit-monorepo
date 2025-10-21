@@ -19,7 +19,7 @@ export default function FormActions({
 
   return (
     <Grid container spacing={isMobile ? 1 : 2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box sx={{
           px: { xs: 1, sm: 2 },
           py: { xs: 1, sm: 1.5 }

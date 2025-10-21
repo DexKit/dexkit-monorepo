@@ -1,7 +1,7 @@
 {
   "name": "@dexkit/core",
   "private": false,
-  "version": "0.19.0",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": "22.x"
@@ -11,6 +11,7 @@
     "release": "changeset publish"
   },
   "devDependencies": {
+    "@types/react": "19.1.0",
     "@types/ua-parser-js": "^0.7.36",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
@@ -19,8 +20,10 @@
   },
   "dependencies": {
     "@dexkit/evm-chains": "1.15.2",
+    "@mui/material": "^7.0.0",
     "axios": "0.30.0",
     "eth-url-parser": "^1.0.4",
+    "react": "19.1.0",
     "ua-parser-js": "^1.0.35"
   },
   "publishConfig": {

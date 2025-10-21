@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
 import React from 'react';
 
 export interface ContractButtonProps {
@@ -21,6 +22,7 @@ export interface ContractButtonProps {
   onClick?: () => void;
   href?: string;
   targetBlank?: boolean;
+  isDexKitContract?: boolean;
 }
 
 export default function ContractButton({
@@ -31,14 +33,22 @@ export default function ContractButton({
   disabled,
   href,
   targetBlank,
+  isDexKitContract = false,
 }: ContractButtonProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const getDexKitLogo = (isDark: boolean = false) => {
+    return isDark
+      ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+      : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+  };
 
   const CustomButton = React.useMemo(
     () =>
       // TODO: add typing here: https://mui.com/material-ui/guides/composition/
-      React.forwardRef<any, any>(function ButtonB(ButtonBaseProps, ref) {
+      (React as any).forwardRef(function ButtonB(ButtonBaseProps: any, ref: any) {
         if (href) {
           return (
             <ButtonBase
@@ -64,11 +74,22 @@ export default function ContractButton({
       sx={{
         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
         width: '100%',
+        height: { xs: theme.spacing(14), sm: theme.spacing(16) }, // Increased height for better logo visibility
         textAlign: 'left',
-        display: 'block',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'stretch', // Ensure full width usage
       }}
     >
-      <Box sx={{ minHeight: { xs: theme.spacing(6.25), sm: theme.spacing(7.5) } }}>
+      <Box sx={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'left',
+        width: '100%',
+        alignItems: 'flex-start' // Force left alignment
+      }}>
         <Typography
           gutterBottom
           variant="body1"
@@ -76,7 +97,10 @@ export default function ContractButton({
             fontWeight: theme.typography.fontWeightBold,
             fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
             lineHeight: { xs: 1.2, sm: 1.5 },
-            mb: theme.spacing(1)
+            mb: theme.spacing(1),
+            textAlign: 'left',
+            width: '100%',
+            alignSelf: 'flex-start'
           }}
         >
           {title}
@@ -90,17 +114,59 @@ export default function ContractButton({
             display: '-webkit-box',
             overflow: 'hidden',
             WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 3
+            WebkitLineClamp: 3,
+            flex: 1,
+            textAlign: 'left',
+            width: '100%',
+            alignSelf: 'flex-start'
           }}
         >
           {description}
         </Typography>
       </Box>
 
-      <Stack direction="row" alignItems="center" spacing={theme.spacing(0.5)} sx={{ mt: theme.spacing(1) }}>
-        <Avatar src={creator.imageUrl} sx={{ height: { xs: theme.spacing(1.125), sm: theme.spacing(1.25) }, width: { xs: theme.spacing(1.125), sm: theme.spacing(1.25) } }} />
-        <Typography variant="caption" sx={{ fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.caption.fontSize } }}>{creator.name}</Typography>
-      </Stack>
+      <Box sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        mt: theme.spacing(1),
+        flexShrink: 0
+      }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={theme.spacing(0.5)}
+          sx={{
+            width: '100%',
+            justifyContent: 'flex-start',
+            textAlign: 'left'
+          }}
+        >
+          <Avatar
+            src={isDexKitContract ? getDexKitLogo(mode === 'dark') : (creator.imageUrl || getDexKitLogo(mode === 'dark'))}
+            sx={{
+              height: { xs: theme.spacing(1.5), sm: theme.spacing(1.75) },
+              width: { xs: theme.spacing(1.5), sm: theme.spacing(1.75) },
+              flexShrink: 0,
+              '& .MuiAvatar-img': {
+                objectFit: 'contain',
+                padding: '0.125rem'
+              }
+            }}
+          />
+          <Typography
+            variant="caption"
+            sx={{
+              fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.caption.fontSize },
+              textAlign: 'left',
+              alignSelf: 'flex-start'
+            }}
+          >
+            {creator.name}
+          </Typography>
+        </Stack>
+      </Box>
     </Paper>
   );
 }

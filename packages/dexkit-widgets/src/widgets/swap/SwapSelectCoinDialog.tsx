@@ -93,16 +93,18 @@ export default function SwapSelectCoinDialog({
       fullScreen={isMobile}
       maxWidth={isMobile ? false : "sm"}
       fullWidth={!isMobile}
-      PaperProps={{
-        sx: {
-          ...(isMobile && {
-            height: "85vh",
-            margin: theme.spacing(2),
-            borderRadius: theme.spacing(2),
-          }),
-          ...(!isMobile && {
-            maxHeight: "80vh",
-          }),
+      slotProps={{
+        paper: {
+          sx: {
+            ...(isMobile && {
+              height: "85vh",
+              margin: theme.spacing(2),
+              borderRadius: theme.spacing(2),
+            }),
+            ...(!isMobile && {
+              maxHeight: "80vh",
+            }),
+          },
         },
       }}
     >
@@ -119,12 +121,12 @@ export default function SwapSelectCoinDialog({
           position: "sticky",
           top: 0,
           zIndex: theme.zIndex.modal + 1,
-          backgroundColor: theme.palette.background.paper,
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          backgroundColor: 'background.paper',
+          borderBottom: 1,
+          borderColor: 'divider',
         }}
       >
         <Stack spacing={2} sx={{ p: 2 }}>
-          {/* Search Bar */}
           <SearchTextField
             onChange={handleChangeQuery}
             TextFieldProps={{
@@ -171,7 +173,7 @@ export default function SwapSelectCoinDialog({
                     sx={{
                       px: 2,
                       py: 1,
-                      backgroundColor: theme.palette.background.paper,
+                      backgroundColor: 'background.paper',
                       position: "sticky",
                       top: 0,
                       zIndex: 1,
@@ -183,7 +185,7 @@ export default function SwapSelectCoinDialog({
                       direction="row"
                     >
                       <ListSubheader
-                        sx={{ p: 0, m: 0 }}
+                        sx={{ p: 0, m: 0, color: 'text.primary' }}
                         component="div"
                         disableSticky
                       >
@@ -203,7 +205,7 @@ export default function SwapSelectCoinDialog({
                 tokens={recentTokens}
                 tokenBalances={tokenBalances.data}
                 onSelect={handleSelect}
-                isLoading={tokenBalances.isLoading}
+                isLoading={account ? tokenBalances.isLoading : false}
                 showDash={!account}
               />
               <Divider />
@@ -220,9 +222,9 @@ export default function SwapSelectCoinDialog({
             isLoading={
               account
                 ? tokenBalances.isLoading ||
-                  fetchTokenData.isLoading ||
-                  isLoadingSearch
-                : fetchTokenData.isLoading || isLoadingSearch
+                fetchTokenData.isLoading ||
+                isLoadingSearch
+                : false
             }
           />
         </Stack>

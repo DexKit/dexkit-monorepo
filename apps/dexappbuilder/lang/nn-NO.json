@@ -1,117 +1,120 @@
 {
+  "description.markdown.helper": {
+    "defaultMessage": "Du kan bruke markdown-formatering for rike tekstbeskrivelser"
+  },
   "Created": {
-    "defaultMessage": "Created"
+    "defaultMessage": "Oppretta"
   },
   "action.type": {
-    "defaultMessage": "Action type"
+    "defaultMessage": "Handlingskarakter"
   },
   "add.items": {
-    "defaultMessage": "Add items"
+    "defaultMessage": "Legg til elementer"
   },
   "add.payment.method": {
-    "defaultMessage": "Add Payment Method"
+    "defaultMessage": "Legg til betalingsmetode"
   },
   "ai.assistant": {
-    "defaultMessage": "AI Assistant"
+    "defaultMessage": "AI-assistent"
   },
   "align.items": {
-    "defaultMessage": "Align Items"
+    "defaultMessage": "Juster elementar"
   },
   "artificial.inteligence": {
-    "defaultMessage": "Artificial Inteligence"
+    "defaultMessage": "Kunstig intelligens"
   },
   "billing": {
-    "defaultMessage": "Billing"
+    "defaultMessage": "Fakturering"
   },
   "button.cation": {
-    "defaultMessage": "Button caption"
+    "defaultMessage": "Knappetekst"
   },
   "buy.and.sell": {
-    "defaultMessage": "Buy and sell"
+    "defaultMessage": "Kjøp og selg"
   },
   "buy.token.page": {
-    "defaultMessage": "Buy token page"
+    "defaultMessage": "Kjøp token side"
   },
   "carousel": {
-    "defaultMessage": "Carousel"
+    "defaultMessage": "Karusell"
   },
   "carousel.image.aspectRatio": {
-    "defaultMessage": "The image must have a 16/9 aspect ratio to be displayed correctly in the carousel."
+    "defaultMessage": "Bildet må ha et 16/9 sideforhold for å bli vist riktig i karusellen."
   },
   "center": {
-    "defaultMessage": "Center"
+    "defaultMessage": "Midtstilt"
   },
   "checkout": {
-    "defaultMessage": "Checkout"
+    "defaultMessage": "Sjekk ut"
   },
   "coming.soon": {
-    "defaultMessage": "Coming soon"
+    "defaultMessage": "Kommer snart"
   },
   "create.metadata": {
-    "defaultMessage": "Create metadata"
+    "defaultMessage": "Opprett metadata"
   },
   "creating.site.metadata": {
-    "defaultMessage": "Creating site metadata"
+    "defaultMessage": "Oppretter områdemetadata"
   },
   "credit.history": {
-    "defaultMessage": "Credit History"
+    "defaultMessage": "Kreditts historie"
   },
   "credited": {
-    "defaultMessage": "Credited"
+    "defaultMessage": "Kreditert"
   },
   "credits": {
-    "defaultMessage": "Credits"
+    "defaultMessage": "Kreditter"
   },
   "credits.below0.50": {
-    "defaultMessage": "Your credits are now below $0.50. Please consider adding more credits to continue using our services."
+    "defaultMessage": "Kredittene dine er nå under $0.50. Vennligst vurder å legge til flere kreditter for å fortsette å bruke tjenestene våre."
   },
   "credits.expire.oneYear": {
-    "defaultMessage": "Your added credits will expire one year from the date of addition. Please utilize them before expiry."
+    "defaultMessage": "De lagte kredittene dine vil utløpe ett år fra tilleggsdatoen. Vennligst bruk dem før utløpet."
   },
   "current.phase": {
-    "defaultMessage": "Current phase"
+    "defaultMessage": "Nåværende fase"
   },
   "current.phase.ends.in": {
-    "defaultMessage": "Current phase ends in"
+    "defaultMessage": "Nåværende fase slutter om"
   },
   "dexappbuilder.ann.app.bar2": {
-    "defaultMessage": "Support us on {Giveth} and allow our service to be free for all. Each donation is matched by ENS builders round."
+    "defaultMessage": "Støtt oss på {Giveth} og la tjenesten vår være gratis for alle. Hver donasjon matches av ENS-byggerne runde."
   },
   "disable.secondary.sells": {
-    "defaultMessage": "Disable secondary sells"
+    "defaultMessage": "Deaktiver sekundære salg"
   },
   "editing.site.metadata": {
-    "defaultMessage": "Editing site metadata"
+    "defaultMessage": "Redigerer nettstedsdata"
   },
   "end": {
-    "defaultMessage": "End"
+    "defaultMessage": "Slutt"
   },
   "error.while.tranfer": {
-    "defaultMessage": "Error while transfer"
+    "defaultMessage": "Feil under overføring"
   },
   "feature": {
-    "defaultMessage": "Feature"
+    "defaultMessage": "Funksjon"
   },
   "height.for.desktop": {
-    "defaultMessage": "Height for desktop"
+    "defaultMessage": "Høyde for skrivebord"
   },
   "height.for.mobile": {
-    "defaultMessage": "Height for mobile"
+    "defaultMessage": "Høyde for mobil"
   },
   "in.milliseconds": {
-    "defaultMessage": "In milliseconds"
+    "defaultMessage": "I millisekunder"
   },
   "insufficient.balance": {
-    "defaultMessage": "Insufficient balance"
+    "defaultMessage": "Utilstrekkelig konto saldo"
   },
   "interval": {
-    "defaultMessage": "Interval"
+    "defaultMessage": "Intervall"
   },
   "items.spacing": {
-    "defaultMessage": "Items spacing"
+    "defaultMessage": "Avstand mellom elementer"
   },
   "left": {
-    "defaultMessage": "Left"
+    "defaultMessage": "Venstre"
   },
   "new.ai.features": {
     "defaultMessage": "New AI Features"
@@ -169,6 +172,9 @@
   },
   "search.default.base.token": {
     "defaultMessage": "Search default base token"
+  },
+  "search.sites": {
+    "defaultMessage": "Søk nettsteder..."
   },
   "section.addItemsPrompt": {
     "defaultMessage": "Please add items to the section below."
@@ -294,94 +300,94 @@
     "defaultMessage": "AI"
   },
   "activate": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Aktiver AI"
   },
   "activate.ai": {
-    "defaultMessage": "Activate AI"
+    "defaultMessage": "Aktiver AI"
   },
   "add.credit": {
-    "defaultMessage": "Add Credit"
+    "defaultMessage": "Legg til Kreditt"
   },
   "add.credits": {
-    "defaultMessage": "Add credits"
+    "defaultMessage": "Legg til kreditter"
   },
   "ai.activated": {
-    "defaultMessage": "AI Activated"
+    "defaultMessage": "AI Aktivert"
   },
   "ai.completation": {
-    "defaultMessage": "AI Completation"
+    "defaultMessage": "AI fullføring"
   },
   "ai.edit": {
-    "defaultMessage": "AI Edit"
+    "defaultMessage": "AI Redigering"
   },
   "ai.generator": {
-    "defaultMessage": "AI Generator"
+    "defaultMessage": "AI-generator"
   },
   "ai.image.generator": {
-    "defaultMessage": "AI Image Generator"
+    "defaultMessage": "AI Bildegenerator"
   },
   "answer": {
-    "defaultMessage": "Answer:"
+    "defaultMessage": "Svar:"
   },
   "billing.and.usage": {
-    "defaultMessage": "Billing & Usage"
+    "defaultMessage": "Fakturering og Bruk"
   },
   "change.cat.head": {
-    "defaultMessage": "ex. Change cat head"
+    "defaultMessage": "f.eks. Endre kathode"
   },
   "close.anyway": {
-    "defaultMessage": "Close anyway"
+    "defaultMessage": "Lukk likevel"
   },
   "credit.card.soming.soon": {
-    "defaultMessage": "Credit Card (Coming Soon)"
+    "defaultMessage": "Kredittkort (Kommer snart)"
   },
   "cryptocurrency": {
-    "defaultMessage": "Cryptocurrency"
+    "defaultMessage": "Kryptovaluta"
   },
   "deselect.all": {
-    "defaultMessage": "Deselect All"
+    "defaultMessage": "Avvelg alle"
   },
   "error.while.generating.images": {
-    "defaultMessage": "Error while generating images"
+    "defaultMessage": "Feil under generering av bilder"
   },
   "ex.an.image.of.a.cat": {
-    "defaultMessage": "ex. An image of a cat"
+    "defaultMessage": "f.eks. Et bilde av en katt"
   },
   "fix.spelling.and.grammar": {
-    "defaultMessage": "Fix spelling and grammar"
+    "defaultMessage": "Fiks stavefeil og grammatikk"
   },
   "generate": {
-    "defaultMessage": "Generate"
+    "defaultMessage": "Generer"
   },
   "generate.image": {
-    "defaultMessage": "Generate image"
+    "defaultMessage": "Generer bilde"
   },
   "generate.new.text": {
-    "defaultMessage": "Generate new text"
+    "defaultMessage": "Generer ny tekst"
   },
   "generate.variant": {
-    "defaultMessage": "Generate variant"
+    "defaultMessage": "Generer variant"
   },
   "generate.variants": {
-    "defaultMessage": "Generate Variants"
+    "defaultMessage": "Generer varianter"
   },
   "generating": {
-    "defaultMessage": "Generating"
+    "defaultMessage": "Genererer"
   },
   "generating.variants": {
-    "defaultMessage": "Generating Variants"
+    "defaultMessage": "Genererer varianter"
   },
   "images.generated": {
-    "defaultMessage": "Images generated"
+    "defaultMessage": "Bilder generert"
   },
   "images.notGenerated": {
-    "defaultMessage": "You haven't generated any images yet. Start generating images now to make the most out of our service."
+    "defaultMessage": "Du har ikke generert noen bilder ennå. Begynn å generere bilder nå for å få mest mulig ut av vår tjeneste."
   },
   "improve.writing": {
-    "defaultMessage": "Improve writing"
+    "defaultMessage": "Forbedre skriving"
   },
   "make.longer": {
-    "defaultMessage": "Make longer"
+    "defaultMessage": "Gjør lengre"
   },
   "make.shorter": {
     "defaultMessage": "Make shorter"
@@ -499,19 +505,19 @@
     "defaultMessage": "Utføre transaksjon"
   },
   "gas.cost": {
-    "defaultMessage": "Gas cost"
+    "defaultMessage": "Gasskostnad"
   },
   "gas.price": {
-    "defaultMessage": "Gas price"
+    "defaultMessage": "Gasspris"
   },
   "hide.form.info": {
-    "defaultMessage": "Hide form info"
+    "defaultMessage": "Skjul skjemainformasjon"
   },
   "invalid address": {
-    "defaultMessage": "Invalid address"
+    "defaultMessage": "Ugyldig adresse"
   },
   "invalid.file.column.column.is.missing": {
-    "defaultMessage": "Invalid file: column {column} is missing"
+    "defaultMessage": "Ugyldig fil: kolonne {column} mangler"
   },
   "max.fee": {
     "defaultMessage": "Max fee"
@@ -653,7 +659,7 @@
     "defaultMessage": "Tilgjengelig saldo: {amount} {symbol}"
   },
   "base.token": {
-    "defaultMessage": "Base token"
+    "defaultMessage": "Basistoken"
   },
   "buy.symbol": {
     "defaultMessage": "Kjøp {symbol}"
@@ -695,22 +701,22 @@
     "defaultMessage": "Utfyllbart beløp"
   },
   "insufficient": {
-    "defaultMessage": "Insufficient {symbol}"
+    "defaultMessage": "Utilstrekkelig {symbol}"
   },
   "insufficient.symbol": {
-    "defaultMessage": "insufficient {symbol}"
+    "defaultMessage": "utilstrekkelig {symbol}"
   },
   "last.price": {
-    "defaultMessage": "Last price"
+    "defaultMessage": "Siste pris"
   },
   "last.price.amount": {
-    "defaultMessage": "Last price: {amount}"
+    "defaultMessage": "Siste pris: {amount}"
   },
   "limit": {
-    "defaultMessage": "Limit"
+    "defaultMessage": "Begrensning"
   },
   "loading.quote": {
-    "defaultMessage": "Loading quote..."
+    "defaultMessage": "Laster sitat..."
   },
   "market": {
     "defaultMessage": "Market"
@@ -830,10 +836,10 @@
     "defaultMessage": "Kjøp krypto med Transak"
   },
   "gas.gas": {
-    "defaultMessage": "Gas: {gas} Gwei"
+    "defaultMessage": "Gass: {gas} Gwei"
   },
   "insufficient.symbol.balance": {
-    "defaultMessage": "Insufficient {symbol} balance"
+    "defaultMessage": "Utilstrekkelig {symbol} saldo"
   },
   "network.not.supported.msg": {
     "defaultMessage": "Network not supported. Please change to a supported network: {networks}"
@@ -1280,9 +1286,6 @@
   "accept": {
     "defaultMessage": "Godta",
     "description": "Accept"
-  },
-  "access.darkblock.to.get.more.information": {
-    "defaultMessage": "Få tilgang til darkblock for å få mer informasjon"
   },
   "access.requirements": {
     "defaultMessage": "Tilgangskrav"
@@ -1764,6 +1767,12 @@
   "clear.filters": {
     "defaultMessage": "Fjern filtrene for å se nft'ene"
   },
+  "clear.filters.button": {
+    "defaultMessage": "Fjern filtre"
+  },
+  "results.count": {
+    "defaultMessage": "{count} nettsteder funnet"
+  },
   "clear.filters.to.see.nft.drops": {
     "defaultMessage": "Fjern filtrene for å se nft-dukkene"
   },
@@ -2076,15 +2085,6 @@
   "dark": {
     "defaultMessage": "Mørk"
   },
-  "darkblock": {
-    "defaultMessage": "Mørkeblokk"
-  },
-  "darkblock.io": {
-    "defaultMessage": "Darkblock.io"
-  },
-  "darkblock.one.line.description": {
-    "defaultMessage": "Darkblock er et desentralisert protokoll som lar innholdsskapere publisere og distribuere eksklusivt innhold til sine fans uten behov for sentraliserte token-portplattformer. Denne integrasjonen brukes på Asset-siden for nettverkene som støttes av Darkblock."
-  },
   "data": {
     "defaultMessage": "Data"
   },
@@ -2376,18 +2376,6 @@
   "empty.leaderboard": {
     "defaultMessage": "Tomt leaderboard"
   },
-  "enable.darkblock": {
-    "defaultMessage": "Aktiver Darkblock-ressurs"
-  },
-  "enable.darkblock.collection": {
-    "defaultMessage": "Aktiver Darkblock-samling"
-  },
-  "enable.darkblock.on.asset.page": {
-    "defaultMessage": "Aktiver Darkblock på ressurssiden"
-  },
-  "enable.darkblock.on.collection.page": {
-    "defaultMessage": "Aktiver Darkblock på samlingssiden"
-  },
   "enable.drop": {
     "defaultMessage": "Aktiver Darkblock"
   },
@@ -2535,6 +2523,21 @@
   "filters": {
     "defaultMessage": "Filtre"
   },
+  "filter.by": {
+    "defaultMessage": "Filtrer etter"
+  },
+  "filter.all": {
+    "defaultMessage": "Alle"
+  },
+  "filter.recent": {
+    "defaultMessage": "Nylige (30 dager)"
+  },
+  "filter.active": {
+    "defaultMessage": "Aktive (7 dager)"
+  },
+  "filter.popular": {
+    "defaultMessage": "Populære"
+  },
   "finish": {
     "defaultMessage": "Fullfør"
   },
@@ -2545,7 +2548,7 @@
     "defaultMessage": "Skrifttype"
   },
   "footer.menu": {
-    "defaultMessage": "Footer"
+    "defaultMessage": "Bunntekst"
   },
   "footer.wizard.description": {
     "defaultMessage": "Opprett og rediger appens bunntekstmeny"
@@ -3731,6 +3734,24 @@
   },
   "sort.by": {
     "defaultMessage": "Sorter etter"
+  },
+  "sort.newest": {
+    "defaultMessage": "Nyeste"
+  },
+  "sort.oldest": {
+    "defaultMessage": "Eldste"
+  },
+  "sort.most.modified": {
+    "defaultMessage": "Mest endret"
+  },
+  "sort.least.modified": {
+    "defaultMessage": "Minst endret"
+  },
+  "sort.name.asc": {
+    "defaultMessage": "Navn A-Å"
+  },
+  "sort.name.desc": {
+    "defaultMessage": "Navn Å-Z"
   },
   "stake": {
     "defaultMessage": "Innsats"

@@ -59,13 +59,13 @@ export default function EditThemeForm({
 }: EditThemeFormProps) {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ values, setValues, setFieldValue }) => (
+      {({ values, setValues, setFieldValue }: any) => (
         <>
           {saveOnChange && (
             <FormChangeListener values={values} onChange={onChange} />
           )}
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="body1">
                 <FormattedMessage id="themes" defaultMessage="Themes" />
               </Typography>
@@ -76,9 +76,9 @@ export default function EditThemeForm({
               />
             </Grid>
             {values.themeId === 'custom' && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <ImportExportSection
                       theme={values}
                       onImport={(theme: ThemeFormType) => {
@@ -86,7 +86,7 @@ export default function EditThemeForm({
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion>
                       <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography fontWeight="bold">
@@ -99,7 +99,7 @@ export default function EditThemeForm({
                       <Divider />
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -111,7 +111,7 @@ export default function EditThemeForm({
                               name="primary"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -123,7 +123,7 @@ export default function EditThemeForm({
                               name="secondary"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -135,7 +135,7 @@ export default function EditThemeForm({
                               name="background"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -147,7 +147,7 @@ export default function EditThemeForm({
                               name="paper"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -163,7 +163,7 @@ export default function EditThemeForm({
                       </AccordionDetails>
                     </Accordion>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Accordion>
                       <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography fontWeight="bold">
@@ -176,7 +176,7 @@ export default function EditThemeForm({
                       <Divider />
                       <AccordionDetails>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -188,7 +188,7 @@ export default function EditThemeForm({
                               name="success"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -200,7 +200,7 @@ export default function EditThemeForm({
                               name="error"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -212,7 +212,7 @@ export default function EditThemeForm({
                               name="info"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <FormikMuiColorInput
                               fullWidth
                               label={
@@ -224,7 +224,7 @@ export default function EditThemeForm({
                               name="warning"
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Box>
                               <DecimalInput
                                 value={values.borderRadius?.toString() || '0'}
@@ -247,7 +247,7 @@ export default function EditThemeForm({
                                     startAdornment: (
                                       <InputAdornment position="start">
                                         <IconButton
-                                          onClick={(e) => {
+                                          onClick={(e: any) => {
                                             if (values.borderRadius) {
                                               setFieldValue(
                                                 'borderRadius',
@@ -265,7 +265,7 @@ export default function EditThemeForm({
                                     endAdornment: (
                                       <InputAdornment position="end">
                                         <IconButton
-                                          onClick={(e) => {
+                                          onClick={(e: any) => {
                                             if (values.borderRadius) {
                                               setFieldValue(
                                                 'borderRadius',

@@ -54,7 +54,7 @@ export default function TokenDropFilterForm({
         setFieldValue,
         errors,
         resetForm,
-      }) => (
+      }: any) => (
         <Form>
           <ChangeListener
             values={values}
@@ -62,7 +62,11 @@ export default function TokenDropFilterForm({
             onChange={onChange}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <NetworkSelectDropdown
                   chainId={values.chainId}
@@ -79,14 +83,18 @@ export default function TokenDropFilterForm({
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500" variant="body1">
                 <FormattedMessage id="token" defaultMessage="Token" />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <SearchTokenAutocompleteWithTokens
                     label={
                       <FormattedMessage id="token" defaultMessage="Token" />
@@ -109,14 +117,18 @@ export default function TokenDropFilterForm({
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500" variant="body1">
                 <FormattedMessage id="drop.token" defaultMessage="Drop token" />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <SearchTokenAutocompleteWithTokens
                     label={
                       <FormattedMessage

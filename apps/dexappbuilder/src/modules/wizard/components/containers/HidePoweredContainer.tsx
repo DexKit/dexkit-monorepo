@@ -91,14 +91,14 @@ export default function HidePoweredContainer({
         onSave(newConfig);
       }}
     >
-      {({ values, setFieldValue, submitForm }) => (
+      {({ values, setFieldValue, submitForm }: any) => (
         <Form>
           <Grid container spacing={isMobile ? 1.5 : 3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Field
                 component={CheckboxWithLabel}
                 name="hide_powered_by"
@@ -115,7 +115,7 @@ export default function HidePoweredContainer({
 
             {!isDisabled && (
               <>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Alert severity="info">
                     <FormattedMessage
                       id="powered.by.custom.signature.info"
@@ -124,12 +124,12 @@ export default function HidePoweredContainer({
                   </Alert>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <FormControlLabel
                     control={
                       <Switch
                         checked={values.customSignature?.enabled || false}
-                        onChange={(e) => setFieldValue('customSignature.enabled', e.target.checked)}
+                        onChange={(e: any) => setFieldValue('customSignature.enabled', e.target.checked)}
                       />
                     }
                     label={
@@ -143,7 +143,11 @@ export default function HidePoweredContainer({
 
                 {values.customSignature?.enabled && (
                   <>
-                    <Grid item xs={12} sm={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 6
+                      }}>
                       <TextField
                         fullWidth
                         label={formatMessage({
@@ -151,13 +155,17 @@ export default function HidePoweredContainer({
                           defaultMessage: "Signature Text"
                         })}
                         value={values.customSignature.text || ''}
-                        onChange={(e) => setFieldValue('customSignature.text', e.target.value)}
+                        onChange={(e: any) => setFieldValue('customSignature.text', e.target.value)}
                         placeholder="Your Company Name"
                         size={isMobile ? 'small' : 'medium'}
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 6
+                      }}>
                       <TextField
                         fullWidth
                         label={formatMessage({
@@ -165,18 +173,22 @@ export default function HidePoweredContainer({
                           defaultMessage: "Signature Link"
                         })}
                         value={values.customSignature.link || ''}
-                        onChange={(e) => setFieldValue('customSignature.link', e.target.value)}
+                        onChange={(e: any) => setFieldValue('customSignature.link', e.target.value)}
                         placeholder="https://yourwebsite.com"
                         size={isMobile ? 'small' : 'medium'}
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 6
+                      }}>
                       <FormControlLabel
                         control={
                           <Switch
                             checked={values.customSignature.showAppName ?? true}
-                            onChange={(e) => setFieldValue('customSignature.showAppName', e.target.checked)}
+                            onChange={(e: any) => setFieldValue('customSignature.showAppName', e.target.checked)}
                           />
                         }
                         label={
@@ -188,12 +200,16 @@ export default function HidePoweredContainer({
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        sm: 6
+                      }}>
                       <FormControlLabel
                         control={
                           <Switch
                             checked={values.customSignature.showLoveBy ?? true}
-                            onChange={(e) => setFieldValue('customSignature.showLoveBy', e.target.checked)}
+                            onChange={(e: any) => setFieldValue('customSignature.showLoveBy', e.target.checked)}
                           />
                         }
                         label={
@@ -205,7 +221,7 @@ export default function HidePoweredContainer({
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography variant="caption" color="text.secondary">
                         <FormattedMessage
                           id="signature.preview"
@@ -222,10 +238,10 @@ export default function HidePoweredContainer({
               </>
             )}
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={1} direction="row" justifyContent="flex-end">
                 <Button
                   variant="contained"

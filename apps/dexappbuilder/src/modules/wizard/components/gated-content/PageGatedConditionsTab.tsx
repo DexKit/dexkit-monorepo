@@ -153,10 +153,9 @@ export default function PageGatedConditionsTab({
           </Typography>
         </AppConfirmDialog>
       )}
-
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               startIcon={<AddOutlined />}
               variant="outlined"
@@ -169,7 +168,7 @@ export default function PageGatedConditionsTab({
               />
             </Button>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="body1" fontWeight="bold">
               <FormattedMessage
                 id="condition.list"
@@ -177,7 +176,7 @@ export default function PageGatedConditionsTab({
               />
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PageGatedConditionsList
               conditions={conditions}
               onAction={handleAction}

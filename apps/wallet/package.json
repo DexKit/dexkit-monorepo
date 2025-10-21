@@ -1,6 +1,6 @@
 {
   "name": "wallet-example",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -32,8 +32,9 @@
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "5.14.11",
-    "@mui/material": "5.14.11",
+    "@mui/icons-material": "7.3.2",
+    "@mui/material": "7.3.2",
+    "@mui/system": "7.3.2",
     "thirdweb": "^5.93.15",
     "react-admin": "4.14.1"
   },

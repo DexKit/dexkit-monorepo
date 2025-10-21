@@ -28,7 +28,7 @@ export default function ImageGrid({
         <Box>
           <Grid spacing={2} container justifyContent="center">
             {images.map((img: string, index: number) => (
-              <Grid key={index} item xs={12} sm={gridSize}>
+              <Grid key={index} size={{ xs: 12, sm: gridSize }}>
                 <ImageButton
                   src={img}
                   onOpenMenu={onOpenMenu}
@@ -46,7 +46,7 @@ export default function ImageGrid({
         <Box>
           <Grid spacing={2} container justifyContent="center">
             {new Array(amount).fill(null).map((_, index: number) => (
-              <Grid key={index} item xs={12} sm={gridSize}>
+              <Grid key={index} size={{ xs: 12, sm: gridSize }}>
                 <Skeleton
                   variant="rectangular"
                   sx={{

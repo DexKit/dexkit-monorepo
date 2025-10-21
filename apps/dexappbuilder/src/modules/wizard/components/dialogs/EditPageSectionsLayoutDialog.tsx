@@ -46,12 +46,12 @@ export default function EditPageSectionsLayoutDialog({
   const renderTabsLayout = ({ isSubmitting }: { isSubmitting: boolean }) => {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="body1">
             <FormattedMessage id="desktop" defaultMessage="Desktop" />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field component={RadioGroup} row name="layout.desktop.position">
             <FormControlLabel
               value="top"
@@ -73,12 +73,12 @@ export default function EditPageSectionsLayoutDialog({
             />
           </Field>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="body1">
             <FormattedMessage id="Mobile" defaultMessage="Mobile" />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field component={RadioGroup} row name="layout.mobile.position">
             <FormControlLabel
               value="top"
@@ -109,7 +109,7 @@ export default function EditPageSectionsLayoutDialog({
       }
       onSubmit={handleSubmit}
     >
-      {({ submitForm, isValid, values, isSubmitting }) => (
+      {({ submitForm, isValid, values, isSubmitting }: any) => (
         <Dialog {...DialogProps}>
           <AppDialogTitle
             title={
@@ -123,7 +123,7 @@ export default function EditPageSectionsLayoutDialog({
           />
           <DialogContent dividers sx={{ p: theme.spacing(4) }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormControl fullWidth>
                   <Field
                     fullWidth
@@ -142,7 +142,7 @@ export default function EditPageSectionsLayoutDialog({
                 </FormControl>
               </Grid>
               {values.type === 'tabs' ? (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   {renderTabsLayout({ isSubmitting })}
                 </Grid>
               ) : undefined}

@@ -109,11 +109,11 @@ export type PagesContextType = {
 };
 
 export const PagesContext = React.createContext<PagesContextType>({
-  setSelectedKey: () => {},
-  setIsEditPage: () => {},
-  setOldPage: () => {},
+  setSelectedKey: () => { },
+  setIsEditPage: () => { },
+  setOldPage: () => { },
   isEditPage: false,
-  handleCancelEdit: (hasChanges?: boolean) => {},
+  handleCancelEdit: (hasChanges?: boolean) => { },
 });
 
 export function EditWidgetWizardContainer({
@@ -302,7 +302,6 @@ export function EditWidgetWizardContainer({
           <Box sx={{ p: 2 }}>{renderMenu()}</Box>
         </Box>
       </Drawer>
-
       <NextSeo
         title={formatMessage({
           id: 'widget.builder.setup',
@@ -346,7 +345,6 @@ export function EditWidgetWizardContainer({
           />
         </Typography>
       </AppConfirmDialog>
-
       <AppConfirmDialog
         DialogProps={{
           open: showConfirmSendConfig,
@@ -389,7 +387,7 @@ export function EditWidgetWizardContainer({
       />
       <Container maxWidth={'xl'}>
         <Grid container spacing={isMobile ? 0.5 : 2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -445,14 +443,18 @@ export function EditWidgetWizardContainer({
               )}
             </Stack>
           </Grid>
-          {/*       <Grid item xs={12} sm={12}>
+          {/*       <Grid size={{ xs: 12, sm: 12 }}>
             <div className={'welcome-dex-app-builder'}>
               <WelcomeMessage />
             </div>
           </Grid>*/}
 
           {!isOnAdminDashboard && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Stack
                 direction={'row'}
                 justifyContent={isMobile ? 'flex-end' : 'space-between'}
@@ -482,7 +484,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Grid>
           )}
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack
               direction={'row'}
               spacing={1}
@@ -493,7 +495,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Stack>
           </Grid>*/}
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={{ xs: 12, sm: 12 }}>
             <Stack spacing={2} direction={'row'} alignItems={'center'}>
               <Typography variant="body2" sx={{ maxWidth: '300px' }}>
                 <FormattedMessage
@@ -510,11 +512,23 @@ export function EditWidgetWizardContainer({
                 </Stack>
           </Grid>*/}
 
-          <Grid item xs={12} sm={isOnAdminDashboard ? 2.5 : 2}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: isOnAdminDashboard ? 2.5 : 2
+            }}>
             {!isMobile && renderMenu()}
           </Grid>
-          <Grid item xs={12} sm={0.1}></Grid>
-          <Grid item xs={12} sm={isOnAdminDashboard ? 9.3 : 9.8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 0.1
+            }}></Grid>
+          <Grid
+            size={{
+              xs: 12,
+              sm: isOnAdminDashboard ? 9.3 : 9.8
+            }}>
             <Box>
               <Stack spacing={2} className={'builder-forms'}>
                 {activeMenu === ActiveMenu.General && widgetWizard && (
@@ -617,7 +631,7 @@ export function EditWidgetWizardContainer({
                 {/*DexContract*/}
                 {activeMenu === ActiveMenu.CreateContract && (
                   <CreateContractContainer
-                    onGoToContract={({ address, network }) => {
+                    onGoToContract={({ address, network }: any) => {
                       setContractAddress(address);
                       setContractNetwork(network);
                       setActiveMenu(ActiveMenu.ManageContract);
@@ -647,7 +661,7 @@ export function EditWidgetWizardContainer({
               </Stack>
             </Box>
             {/*false && theme && (
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ThemeProvider theme={selectedTheme ? selectedTheme : theme}>
                 <Container>
                   <PagePreviewPaper

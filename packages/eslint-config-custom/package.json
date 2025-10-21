@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-custom",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -8,11 +8,10 @@
     "node": "22.x"
   },
   "dependencies": {
-    "eslint": "^7.23.0",
-    "eslint-config-next": "13.0.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-turbo": "latest",
-    "eslint-plugin-react": "7.31.8"
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.0"
   },
   "devDependencies": {
     "typescript": "5.8.3"

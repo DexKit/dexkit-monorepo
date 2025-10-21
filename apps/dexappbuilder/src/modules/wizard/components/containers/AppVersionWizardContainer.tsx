@@ -19,8 +19,8 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {
-  Experimental_CssVarsProvider as CssVarsProvider,
-  experimental_extendTheme as extendTheme,
+  createTheme,
+  ThemeProvider,
 } from '@mui/material/styles';
 import {
   DataGrid,
@@ -111,7 +111,7 @@ export function PreviewVersionDialog({
 
   const selectedTheme = useMemo(() => {
     if (!appConfig) {
-      return extendTheme({});
+      return createTheme({});
     }
 
     return generateCSSVarsTheme({
@@ -134,7 +134,7 @@ export function PreviewVersionDialog({
 
   return (
     <>
-      <CssVarsProvider theme={selectedTheme}>
+      <ThemeProvider theme={selectedTheme}>
         <PreviewPageDialog
           dialogProps={{
             open: showPreview,
@@ -148,7 +148,7 @@ export function PreviewVersionDialog({
           name="Home"
           withLayout={true}
         />
-      </CssVarsProvider>
+      </ThemeProvider>
     </>
   );
 }
@@ -161,17 +161,17 @@ function ExpandableCell({ value }: GridRenderCellParams) {
 
   return (
     <div>
-      {expanded ? value : value.slice(0, displayLimit)}&nbsp;
+      {expanded ? value : value.slice(0, displayLimit)}
       {value.length > displayLimit && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <Link
+        (<Link
           type="button"
           component="button"
           sx={{ fontSize: 'inherit' }}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? 'view less' : 'view more'}
-        </Link>
+        </Link>)
       )}
     </div>
   );
@@ -261,7 +261,7 @@ function AppVersions({
 
   useEffect(() => {
     if (isMobile) {
-      setPaginationModel((prev) => ({
+      setPaginationModel((prev: any) => ({
         ...prev,
         pageSize: 5,
       }));
@@ -383,8 +383,16 @@ function AppVersions({
       field: 'createdAt',
       headerName: 'Created At',
       width: 200,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value, row: any) => {
+        if (!row || !row.createdAt) {
+          return 'N/A';
+        }
+        try {
+          return new Date(row.createdAt).toLocaleString();
+        } catch (error) {
+          console.error('Error formatting date in AppVersionWizardContainer:', error, 'Row:', row);
+          return 'Invalid Date';
+        }
       },
     },
     {
@@ -718,7 +726,7 @@ export default function AppVersionWizardContainer({ site }: Props) {
       />
 
       <Grid container spacing={isMobile ? 1.5 : 3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={isMobile ? 0.5 : 1} sx={{ mb: isMobile ? 1.5 : 2 }}>
             <Typography
               variant={isMobile ? 'h6' : 'h5'}
@@ -745,12 +753,12 @@ export default function AppVersionWizardContainer({ site }: Props) {
           </Stack>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
 
         {site?.lastVersionSet && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack>
               <Typography
                 variant="body2"
@@ -768,7 +776,7 @@ export default function AppVersionWizardContainer({ site }: Props) {
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           {isMobile ? (
             <MobileButton
               variant="contained"
@@ -795,7 +803,7 @@ export default function AppVersionWizardContainer({ site }: Props) {
             </Button>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ overflowX: isMobile ? 'hidden' : 'visible', width: '100%' }}>
             <AppVersions
               site={site}

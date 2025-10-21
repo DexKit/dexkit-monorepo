@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-// Import Swiper styles
 import { useRef } from "react";
 import "swiper/css";
 
@@ -22,7 +21,7 @@ const ImageThumbButton = styled(ButtonBase)(({ theme }) => ({
   height: "auto",
   width: "100%",
   aspectRatio: "1/1",
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
   border: `1px solid ${theme.palette.grey[200]}`,
 
   backgroundColor: theme.palette.background.paper,
@@ -70,7 +69,7 @@ export default function ProductImagesSlide({
             <SwiperSlide key={i}>
               <Grid container spacing={2}>
                 {r?.map((image, j) => (
-                  <Grid item xs={3} key={`${i}-${j}`}>
+                  <Grid size={3} key={`${i}-${j}`}>
                     <ImageThumbButton
                       onClick={() => onSelectImage(image.imageUrl)}
                     >

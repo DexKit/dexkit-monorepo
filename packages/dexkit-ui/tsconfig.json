@@ -2,6 +2,7 @@
   "extends": "tsconfig/react-library.json",
   "include": [
     ".",
+    "global.d.ts",
     "modules/contract-wizard/components/ContractMetadataHeader.tsx",
     "hooks/useColumns.tsx",
     "../dexkit-core/providers/DexKitContext.tsx",

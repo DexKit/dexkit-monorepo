@@ -21,7 +21,6 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Grid,
   NoSsr,
   Paper,
   Stack,
@@ -29,7 +28,7 @@ import {
   Typography,
 } from '@mui/material';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { PageHeader } from '@dexkit/ui/components/PageHeader';
@@ -76,8 +75,8 @@ export default function FormsCreatePage({
     setParams(params);
   };
 
-  const handleChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
+  const handleChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((values: any) => ({ ...values, [e.target.name]: e.target.value }));
   };
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -214,143 +213,157 @@ export default function FormsCreatePage({
             />
           </NoSsr>
           <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h5">
+            <Stack spacing={3}>
+              <Box>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
                   <FormattedMessage
                     id="create.your.contract.form"
                     defaultMessage="Create your contract form"
                   />
                 </Typography>
-              </Grid>
-              <Grid item xs={12}>
                 <Button
                   disabled={createFormMutation.isLoading || isFormInvalid}
                   onClick={handleShowConfirm}
                   variant="contained"
+                  size="large"
+                  sx={{
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    px: 4,
+                    py: 1.5
+                  }}
                 >
                   <FormattedMessage
                     id="create.contract.form"
-                    defaultMessage="Create Contract Form"
+                    defaultMessage="CREATE CONTRACT FORM"
                   />
                 </Button>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      disabled={createFormMutation.isLoading}
-                      required
-                      name="name"
-                      value={values.name}
-                      onChange={handleChangeInputs}
-                      label={
-                        <FormattedMessage id="name" defaultMessage="Name" />
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControl fullWidth>
-                      <FormLabel component="legend" required sx={{ mb: 1 }}>
-                        <FormattedMessage
-                          id="description"
-                          defaultMessage="Description"
-                        />
-                      </FormLabel>
-                      <Box
-                        sx={{
-                          border: (theme) => `1px solid ${theme.palette.divider}`,
-                          borderRadius: 1,
-                          '& .w-md-editor': {
-                            backgroundColor: 'transparent',
-                          },
-                          '& .w-md-editor-text-pre, & .w-md-editor-text-input, & .w-md-editor-text': {
-                            fontSize: '14px !important',
-                            lineHeight: '1.4375em !important',
-                          },
-                        }}
-                      >
-                        <DKMDEditor
-                          value={values.description || ""}
-                          setValue={(val) => setValues((values) => ({
-                            ...values,
-                            description: val || ""
-                          }))}
-                        />
-                      </Box>
-                      <FormHelperText>
-                        <FormattedMessage
-                          id="description.markdown.helper"
-                          defaultMessage="You can use markdown formatting for rich text descriptions"
-                        />
-                      </FormHelperText>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    {isAddress(params?.contractAddress || '') ? (
-                      <ContractForm
-                        key={contractAddress as string}
-                        updateOnChange
-                        params={params}
-                        onChange={handleChange}
-                        onSave={handleChange}
-                        fetchOnMount
+              </Box>
+
+              <Box>
+                <Stack 
+                  direction={{ xs: 'column', md: 'row' }} 
+                  spacing={3}
+                  alignItems="flex-start"
+                >
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Stack spacing={3}>
+                      <TextField
+                        fullWidth
+                        disabled={createFormMutation.isLoading}
+                        required
+                        name="name"
+                        value={values.name}
+                        onChange={handleChangeInputs}
+                        label={
+                          <FormattedMessage id="name" defaultMessage="Name" />
+                        }
+                        sx={{ maxWidth: 400 }}
                       />
-                    ) : (
-                      <ContractForm
-                        key={'another'}
-                        updateOnChange
-                        params={params}
-                        onSave={handleChange}
-                        onChange={handleChange}
-                      />
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Stack spacing={2}>
-                  <Typography variant="h5">
-                    <FormattedMessage id="preview" defaultMessage="Preview" />
-                  </Typography>
-                  {hasVisibleFields && params ? (
-                    <ContractFormView
-                      params={params}
-                      key={String(params.abi)}
-                    />
-                  ) : (
-                    <Paper sx={{ p: 4 }}>
-                      <Stack
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={1}
-                      >
-                        <InfoIcon fontSize="large" />
-                        <Box>
-                          <Typography align="center" variant="h5">
-                            <FormattedMessage
-                              id="form.preview"
-                              defaultMessage="Form Preview"
-                            />
-                          </Typography>
-                          <Typography
-                            align="center"
-                            variant="body1"
-                            color="text.secondary"
-                          >
-                            <FormattedMessage
-                              id="make.at.least.one.form.field.visible.to.see.a.preview"
-                              defaultMessage="Make at least one form field visible to see a preview"
-                            />
-                          </Typography>
+
+                      <FormControl fullWidth>
+                        <FormLabel component="legend" required sx={{ mb: 1, fontWeight: 'bold' }}>
+                          <FormattedMessage
+                            id="description"
+                            defaultMessage="Description"
+                          />
+                        </FormLabel>
+                        <Box
+                          sx={{
+                            border: (theme) => `1px solid ${theme.palette.divider}`,
+                            borderRadius: 1,
+                            '& .w-md-editor': {
+                              backgroundColor: 'transparent',
+                            },
+                            '& .w-md-editor-text-pre, & .w-md-editor-text-input, & .w-md-editor-text': {
+                              fontSize: '14px !important',
+                              lineHeight: '1.4375em !important',
+                            },
+                          }}
+                        >
+                          <DKMDEditor
+                            value={values.description || ""}
+                            setValue={(val) => setValues((values: any) => ({
+                              ...values,
+                              description: val || ""
+                            }))}
+                          />
                         </Box>
-                      </Stack>
-                    </Paper>
-                  )}
+                        <FormHelperText>
+                          <FormattedMessage
+                            id="description.markdown.helper"
+                            defaultMessage="You can use markdown formatting for rich text descriptions"
+                          />
+                        </FormHelperText>
+                      </FormControl>
+
+                      <Box>
+                        {isAddress(params?.contractAddress || '') ? (
+                          <ContractForm
+                            key={contractAddress as string}
+                            updateOnChange
+                            params={params}
+                            onChange={handleChange}
+                            onSave={handleChange}
+                            fetchOnMount
+                          />
+                        ) : (
+                          <ContractForm
+                            key={'another'}
+                            updateOnChange
+                            params={params}
+                            onSave={handleChange}
+                            onChange={handleChange}
+                          />
+                        )}
+                      </Box>
+                    </Stack>
+                  </Box>
+
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Stack spacing={2}>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        <FormattedMessage id="preview" defaultMessage="Preview" />
+                      </Typography>
+                      {hasVisibleFields && params ? (
+                        <ContractFormView
+                          params={params}
+                          key={String(params.abi)}
+                        />
+                      ) : (
+                        <Paper sx={{ p: 4, minHeight: 300 }}>
+                          <Stack
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}
+                            sx={{ height: '100%', minHeight: 200 }}
+                          >
+                            <InfoIcon sx={{ fontSize: 48, color: 'text.secondary' }} />
+                            <Box textAlign="center">
+                              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                                <FormattedMessage
+                                  id="form.preview"
+                                  defaultMessage="Form Preview"
+                                />
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                <FormattedMessage
+                                  id="make.at.least.one.form.field.visible.to.see.a.preview"
+                                  defaultMessage="Make at least one form field visible to see a preview"
+                                />
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Paper>
+                      )}
+                    </Stack>
+                  </Box>
                 </Stack>
-              </Grid>
-            </Grid>
+              </Box>
+            </Stack>
           </Box>
         </Stack>
       </Container>

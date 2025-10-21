@@ -163,7 +163,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   );
   const userUrl = `${getWindowUrl()}/u/${username}`;
   const handleShareContentUser = (value: string) => {
-    const msg = `Check my statistics at Coinleague: ${userUrl}`;
+    const msg = `Check my statistics at Coin League: ${userUrl}`;
 
     let link = '';
 
@@ -175,7 +175,7 @@ const CoinLeagueProfilePage: NextPage = () => {
   };
 
   const handleShareContentGame = (value: string) => {
-    const msg = `Join with me at Coinleague Game: ${shareUrl}`;
+    const msg = `Join with me at Coin League Game: ${shareUrl}`;
 
     let link = '';
 
@@ -214,7 +214,6 @@ const CoinLeagueProfilePage: NextPage = () => {
             direction="row"
             spacing={2}
             alignItems="center"
-            alignContent="center"
           >
             {profileQuery.data && profileQuery.data.user.profileImageURL ? (
               <ProfileImage
@@ -259,7 +258,6 @@ const CoinLeagueProfilePage: NextPage = () => {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               spacing={2}
             >
               {canEdit && (
@@ -356,11 +354,18 @@ const CoinLeagueProfilePage: NextPage = () => {
             </Typography>
           </Box>
           {playerStats.data ? (
-            <Stack
-              spacing={2}
-              alignItems="center"
-              alignContent="center"
-              direction="row"
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: 'repeat(auto-fit, minmax(150px, 1fr))',
+                  sm: 'repeat(auto-fit, minmax(180px, 1fr))',
+                  md: 'repeat(6, 1fr)',
+                },
+                gap: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
               <ProfileStatsPill
                 icon={<Cup color="primary" />}
@@ -445,7 +450,7 @@ const CoinLeagueProfilePage: NextPage = () => {
                   </>
                 }
               />
-            </Stack>
+            </Box>
           ) : null}
 
           <Stack
@@ -494,7 +499,6 @@ const CoinLeagueProfilePage: NextPage = () => {
             <Stack
               direction="row"
               alignItems="center"
-              alignContent="center"
               spacing={2}
             >
               <IconButton onClick={handleShowGrid}>

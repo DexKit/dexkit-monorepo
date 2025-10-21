@@ -111,7 +111,7 @@ export const CreateAssetOrderContainer = () => {
     setAsset(value);
   };
 
-  const handleToggleImportAsset = () => setShowImportAsset((value) => !value);
+  const handleToggleImportAsset = () => setShowImportAsset((value: boolean) => !value);
 
   const handleApproveAssetSuccess = useCallback(
     async (hash: string, swapAsset: SwappableAssetV4) => {
@@ -229,8 +229,8 @@ export const CreateAssetOrderContainer = () => {
   );
 
   const handleOpenSignMessageListingDialog = useCallback(() => {
-    signMessageDialog.setOpen(true);
-    signMessageDialog.setMessage(
+    (signMessageDialog as any).setOpen(true);
+    (signMessageDialog as any).setMessage(
       formatMessage({
         id: 'creating.a.listing',
         defaultMessage: 'Creating a listing',
@@ -240,14 +240,14 @@ export const CreateAssetOrderContainer = () => {
 
   const handleSignMessageError = useCallback(
     (err: any) => {
-      signMessageDialog.setError(err);
+      (signMessageDialog as any).setError(err);
     },
     [signMessageDialog],
   );
 
   const handleOpenSignMessageOfferDialog = useCallback(() => {
-    signMessageDialog.setOpen(true);
-    signMessageDialog.setMessage(
+    (signMessageDialog as any).setOpen(true);
+    (signMessageDialog as any).setMessage(
       formatMessage({
         id: 'creating.an.offer',
         defaultMessage: 'Creating an offer',
@@ -427,7 +427,7 @@ export const CreateAssetOrderContainer = () => {
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Autocomplete
                 disablePortal
                 options={assets}
@@ -458,7 +458,7 @@ export const CreateAssetOrderContainer = () => {
               />
             </Grid>
             {hasChainDiff && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="warning">
                   <FormattedMessage
                     id="switch.network.content.text"
@@ -472,10 +472,10 @@ export const CreateAssetOrderContainer = () => {
               </Grid>
             )}
             {asset !== null ? (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Paper sx={{ p: 1 }}>
                   <Grid container spacing={1}>
-                    <Grid item>
+                    <Grid>
                       {asset?.metadata?.image === undefined ? (
                         <Skeleton
                           variant="rectangular"
@@ -501,7 +501,7 @@ export const CreateAssetOrderContainer = () => {
                         </Box>
                       )}
                     </Grid>
-                    <Grid item xs>
+                    <Grid size="grow">
                       <Typography variant="body2" color="textSecondary">
                         {asset?.collectionName === undefined ? (
                           <Skeleton />
@@ -551,7 +551,7 @@ export const CreateAssetOrderContainer = () => {
                 </Paper>
               </Grid>
             ) : (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="select.or.import.nft"
@@ -561,7 +561,7 @@ export const CreateAssetOrderContainer = () => {
               </Grid>
             )}
             {asset !== null && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {isAddressEqual(asset.owner, account) ? (
                   <MakeListingForm
                     disabled={hasChainDiff}

@@ -166,7 +166,7 @@ export default function SwapSelectCoinMatchaDialog({
                     direction="row"
                   >
                     <ListSubheader
-                      sx={{ p: 0, m: 0 }}
+                      sx={{ p: 0, m: 0, color: 'text.primary' }}
                       component="div"
                       disableSticky
                     >
@@ -186,7 +186,8 @@ export default function SwapSelectCoinMatchaDialog({
               tokens={recentTokens}
               tokenBalances={tokenBalances.data}
               onSelect={onSelect}
-              isLoading={tokenBalances.isLoading}
+              isLoading={account ? tokenBalances.isLoading : false}
+              showDash={!account}
             />
           </>
         )}
@@ -199,10 +200,13 @@ export default function SwapSelectCoinMatchaDialog({
             !isOnList && fetchTokenData.data ? fetchTokenData.data : undefined
           }
           tokenBalances={tokenBalances.data}
+          showDash={!account}
           isLoading={
-            tokenBalances.isLoading ||
-            fetchTokenData.isLoading ||
-            isLoadingSearch
+            account
+              ? tokenBalances.isLoading ||
+              fetchTokenData.isPending ||
+              isLoadingSearch
+              : false
           }
         />
       </DialogContent>

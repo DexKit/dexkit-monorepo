@@ -59,7 +59,7 @@ export function ChipFilterTraits({ address, chainId }: Props) {
 
   return (
     <Stack spacing={2} sx={{ pt: 2 }} direction={'row'}>
-      {filterTraits.map((p, i) => (
+      {filterTraits.map((p: any, i: number) => (
         <Chip
           key={i}
           label={`${p.property}: ${p.value}`}

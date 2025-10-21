@@ -36,7 +36,7 @@ function CreateProductComponent() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography variant="h5">
           <FormattedMessage id="items" defaultMessage="Items" />
         </Typography>
@@ -47,10 +47,10 @@ function CreateProductComponent() {
           />
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <CommerceBreadcrumbs
           breadcrumbs={[
             {
@@ -78,7 +78,7 @@ function CreateProductComponent() {
           ]}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Formik
           onSubmit={handleSubmit}
           validationSchema={toFormikValidationSchema(ProductSchema)}

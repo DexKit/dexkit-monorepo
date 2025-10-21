@@ -5,7 +5,7 @@ import {
 } from '@dexkit/core/utils/blockchain';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import { useMutation } from '@tanstack/react-query';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -51,12 +51,12 @@ export function useBlockNumber() {
 
 export function useSwitchNetwork() {
   const setSwitchOpen = useUpdateAtom(switchNetworkOpenAtom);
-  const setSwitchChainId = useUpdateAtom(switchNetworkChainIdAtom);
+  const [, setSwitchChainId] = useAtom(switchNetworkChainIdAtom);
 
   const openDialog = useCallback((chainId: number) => {
     setSwitchOpen(true);
-    setSwitchChainId(chainId);
-  }, []);
+    (setSwitchChainId as any)(chainId);
+  }, [setSwitchOpen, setSwitchChainId]);
 
   return {
     openDialog,

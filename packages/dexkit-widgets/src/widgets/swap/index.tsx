@@ -254,42 +254,41 @@ export function SwapWidget({
 
         return tokens;
       } else {
+        let tokens = [
+          GET_NATIVE_TOKEN(chainId),
+          ...featuredTokensByChain,
+          ...nonFeaturedTokensByChain,
+        ];
+
         if (searchQuery.data) {
-          let tokens = [
-            GET_NATIVE_TOKEN(chainId),
-            ...apiCoinToTokens(searchQuery.data),
-          ];
-
           tokens = [
-            GET_NATIVE_TOKEN(chainId),
-            ...featuredTokensByChain,
-            ...nonFeaturedTokensByChain,
+            ...tokens,
             ...apiCoinToTokens(searchQuery.data),
           ];
-
-          let tokensCopy = [
-            ...tokens
-              .filter((t) => t)
-              .filter((t) => {
-                return !DKAPI_INVALID_ADDRESSES.includes(t?.address);
-              }),
-          ];
-
-          tokensCopy = tokensCopy.filter((value, index, arr) => {
-            return (
-              arr
-                .map((a) => a.address.toLowerCase())
-                .indexOf(value.address.toLowerCase()) === index
-            );
-          });
-
-          return tokensCopy;
         }
+
+        let tokensCopy = [
+          ...tokens
+            .filter((t) => t)
+            .filter((t) => {
+              return !DKAPI_INVALID_ADDRESSES.includes(t?.address);
+            }),
+        ];
+
+        tokensCopy = tokensCopy.filter((value, index, arr) => {
+          return (
+            arr
+              .map((a) => a.address.toLowerCase())
+              .indexOf(value.address.toLowerCase()) === index
+          );
+        });
+
+        return tokensCopy;
       }
     }
 
     return [];
-  }, [searchQuery.data, chainId, query]);
+  }, [searchQuery.data, chainId, query, featuredTokensByChain, nonFeaturedTokensByChain, myTokensOnlyOnSearch]);
 
   const handleQueryChange = (value: string) => setQuery(value);
 

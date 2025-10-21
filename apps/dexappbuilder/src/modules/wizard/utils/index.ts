@@ -5,8 +5,10 @@ import {
   ContractFormFieldInputWithTupleParams,
 } from '@dexkit/web3forms/types';
 import {
+  alpha,
   createTheme,
-  experimental_extendTheme as extendTheme,
+  darken,
+  lighten,
 } from '@mui/material/styles';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -67,10 +69,16 @@ export function generateTheme({
           fontFamily,
         },
         ...paletteTheme,
-      })
+        alpha,
+        lighten,
+        darken,
+      } as any)
       : createTheme({
         ...paletteTheme,
-      });
+        alpha,
+        lighten,
+        darken,
+      } as any);
   }
   const theme = getTheme({ name: selectedThemeId }).theme;
   let paletteTheme =
@@ -83,13 +91,19 @@ export function generateTheme({
         fontFamily,
       },
       ...paletteTheme,
-    })
+      alpha,
+      lighten,
+      darken,
+    } as any)
     : createTheme({
       typography: {
         fontFamily,
       },
       ...paletteTheme,
-    });
+      alpha,
+      lighten,
+      darken,
+    } as any);
 }
 
 export function generateCSSVarsTheme({
@@ -97,6 +111,7 @@ export function generateCSSVarsTheme({
   selectedThemeId,
   customTheme,
   cssVarPrefix,
+  mode,
 }: {
   selectedFont?: { family?: string; category?: string };
   selectedThemeId: string;
@@ -109,33 +124,46 @@ export function generateCSSVarsTheme({
     fontFamily = `'${selectedFont.family}', ${selectedFont.category}`;
   }
 
-
   if (selectedThemeId === 'custom') {
     return fontFamily
-      ? extendTheme({
+      ? createTheme({
         ...customTheme,
-        cssVarPrefix: cssVarPrefix,
         typography: {
           fontFamily,
         },
-      })
-      : extendTheme({ ...customTheme, cssVarPrefix });
+        alpha,
+        lighten,
+        darken,
+      } as any)
+      : createTheme({
+        ...customTheme,
+        alpha,
+        lighten,
+        darken,
+      } as any);
   }
 
   const theme = getTheme({ name: selectedThemeId }).theme;
 
-  return fontFamily
-    ? extendTheme({
-      cssVarPrefix: cssVarPrefix,
+  // Use the correct color scheme based on the mode
+  let colorScheme = theme.colorSchemes?.light;
+  if (mode === ThemeMode.dark && theme.colorSchemes?.dark) {
+    colorScheme = theme.colorSchemes.dark;
+  }
+
+  const themeConfig = {
+    ...colorScheme,
+    ...(fontFamily && {
       typography: {
         fontFamily,
-      },
-      colorSchemes: theme.colorSchemes,
-    })
-    : extendTheme({
-      cssVarPrefix: cssVarPrefix,
-      colorSchemes: theme.colorSchemes,
-    });
+      }
+    }),
+    alpha,
+    lighten,
+    darken,
+  };
+
+  return createTheme(themeConfig);
 }
 
 export function inputMapping(abi: AbiFragment[]) {

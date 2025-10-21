@@ -7,7 +7,7 @@ import { useSwapState } from "../modules/swap/hooks";
 import { useGaslessTradeStatusMutation } from "../modules/swap/hooks/useGaslessTradeStatusMutation";
 import { useGaslessTrades } from "../modules/swap/hooks/useGaslessTrades";
 
-export default function GaslessTradesUpdater() {
+export default function GaslessTradesUpdater(): JSX.Element | null {
   const { chainId } = useWeb3React();
 
   const [gaslessTrades, setGaslessTrades] = useGaslessTrades();

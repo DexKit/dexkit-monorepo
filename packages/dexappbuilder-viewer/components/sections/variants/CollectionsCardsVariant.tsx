@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Grid,
   Stack,
   Typography,
   useMediaQuery,
@@ -46,19 +45,30 @@ export function CollectionsCardsVariant({ section, disabled }: Props) {
   const allItems = section.items.filter((item) => item.type === "collection");
 
   return (
-    <Grid container spacing={{ xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 }} sx={{ pt: 1 }}>
+    <Box sx={{ 
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: { xs: isExtraSmall ? 1 : 1.5, sm: 2, md: 3 },
+      pt: 1,
+      width: '100%'
+    }}>
       {allItems.map((item, index) => {
         if (item.type === "collection") {
           return (
-            <Grid key={index} item xs={12} sm={6} lg={4}>
+            <Box key={index} sx={{
+              width: { xs: '100%', sm: 'calc(50% - 8px)', lg: 'calc(33.333% - 16px)' },
+              flex: { xs: '0 0 100%', sm: '0 0 calc(50% - 8px)', lg: '0 0 calc(33.333% - 16px)' }
+            }}>
               <Card
                 elevation={3}
                 sx={{
                   height: '100%',
-                  minHeight: { xs: isExtraSmall ? 200 : 220, sm: 260, md: 300 },
+                  minHeight: { xs: isExtraSmall ? 200 : 220, sm: 240, md: 260 },
                   transition: 'all 0.3s ease-in-out',
                   position: 'relative',
                   overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
                   '&:hover': {
                     transform: 'translateY(-8px)',
                     boxShadow: 6,
@@ -67,31 +77,17 @@ export function CollectionsCardsVariant({ section, disabled }: Props) {
               >
                 <Box
                   sx={{
-                    height: isMobile ? '100%' : { sm: 150, md: 180 },
+                    height: '100%',
                     backgroundImage: `url(${item.backgroundImageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     position: 'relative',
                     borderRadius: isMobile ? '4px' : '4px 4px 0 0',
                     overflow: 'hidden',
+                    minHeight: isMobile ? '180px' : 'auto',
+                    flex: 1
                   }}
                 >
-                  {item.featured && (
-                    <Chip
-                      label="Featured"
-                      color="primary"
-                      size="small"
-                      sx={{
-                        position: 'absolute',
-                        top: { xs: 6, sm: 8, md: 10 },
-                        left: { xs: 6, sm: 8, md: 10 },
-                        fontWeight: 'bold',
-                        fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.8rem' },
-                        zIndex: 5
-                      }}
-                    />
-                  )}
-
                   {isMobile && (
                     <Chip
                       label={NETWORK_SLUG(item.chainId)?.toUpperCase()}
@@ -108,6 +104,22 @@ export function CollectionsCardsVariant({ section, disabled }: Props) {
                         borderColor: 'rgba(0,0,0,0.2)',
                         fontWeight: 'bold',
                         zIndex: 5
+                      }}
+                    />
+                  )}
+
+                  {item.featured && (
+                    <Chip
+                      label="Featured"
+                      color="primary"
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        top: { xs: 30, sm: 32, md: 34 },
+                        left: { xs: 6, sm: 8, md: 10 },
+                        fontWeight: 'bold',
+                        fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.8rem' },
+                        zIndex: 6
                       }}
                     />
                   )}
@@ -198,11 +210,11 @@ export function CollectionsCardsVariant({ section, disabled }: Props) {
                   </CardContent>
                 )}
               </Card>
-            </Grid>
+            </Box>
           );
         }
         return null;
       })}
-    </Grid>
+    </Box>
   );
 } 

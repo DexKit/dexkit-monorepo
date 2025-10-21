@@ -54,10 +54,9 @@ export function AssetStoreContainer({
           onClose: () => setOpenAssetOrderDialog(false),
         }}
       />
-
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <StoreHeader
               profileImageURL={profileImageURL}
               backgroundImageURL={backgroundImageURL}
@@ -66,10 +65,10 @@ export function AssetStoreContainer({
               title={title}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               justifyContent="space-between"
               direction="row"
@@ -100,7 +99,13 @@ export function AssetStoreContainer({
                 )}
             </Stack>
           </Grid>
-          <Grid item xs={12} sm={6} md={4} xl={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              xl: 3
+            }}>
             <TextField
               fullWidth
               size="small"
@@ -121,7 +126,7 @@ export function AssetStoreContainer({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <StoreOrderbook
               search={search}
               orderbook={assetOrderbookQuery.data}

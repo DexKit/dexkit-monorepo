@@ -114,7 +114,7 @@ export default function FormsAccountPage() {
           </Box>
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction={'row'}
                   justifyContent={'space-between'}
@@ -147,7 +147,7 @@ export default function FormsAccountPage() {
                   />
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -185,7 +185,7 @@ export default function FormsAccountPage() {
                     <TableBody>
                       {listFormsQuery.data?.length === 0 && (
                         <TableRow>
-                          <TableCell colSpan={3}>
+                          <TableCell sx={{ gridColumn: '1 / -1' }}>
                             <Box>
                               <Stack spacing={2} alignItems="center">
                                 <Info fontSize="large" />

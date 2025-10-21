@@ -47,7 +47,7 @@ export default function FormsContractsPage() {
 
   const handlePrevPage = () => {
     if (page - 1 >= 1) {
-      setPage((p) => p - 1);
+      setPage((p: number) => p - 1);
     }
   };
 
@@ -56,7 +56,7 @@ export default function FormsContractsPage() {
       listDeployedContractQuery.fetchNextPage();
     }
 
-    setPage((p) => p + 1);
+    setPage((p: number) => p + 1);
   };
 
   return (
@@ -85,7 +85,7 @@ export default function FormsContractsPage() {
 
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="h4">
                   <FormattedMessage
                     id="deploy.your.own.contract"
@@ -99,7 +99,7 @@ export default function FormsContractsPage() {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="h5">
                   <FormattedMessage
                     id="thirdweb.contracts"
@@ -107,10 +107,10 @@ export default function FormsContractsPage() {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Grid container spacing={2}>
                   {deployableContractsQuery.data?.map((contract, key) => (
-                    <Grid item xs={12} sm={4} key={key}>
+                    <Grid size={{ xs: 12, sm: 4 }} key={key}>
                       <ContractButton
                         title={contract.name}
                         description={contract.description}
@@ -167,7 +167,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

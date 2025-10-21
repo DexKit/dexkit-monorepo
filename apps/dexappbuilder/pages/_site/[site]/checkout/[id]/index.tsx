@@ -19,6 +19,7 @@ import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import {
   Alert,
   Avatar,
+  Box,
   Button,
   Card,
   CardContent,
@@ -26,7 +27,6 @@ import {
   Container,
   Divider,
   FormControl,
-  Grid,
   InputLabel,
   ListItemIcon,
   ListItemText,
@@ -46,7 +46,7 @@ import {
   GetStaticPropsContext,
 } from 'next';
 import { useSnackbar } from 'notistack';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import AuthMainLayout from 'src/components/layouts/authMain';
 import { getAppConfig } from 'src/services/app';
@@ -309,7 +309,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
 
   const handleChangeNetwork = (
     e: SelectChangeEvent<number>,
-    child: ReactNode
+    child: React.ReactNode
   ) => {
     const newChainId = e.target.value as number;
 
@@ -339,7 +339,7 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
             id="switch.to.network.network"
             defaultMessage="Switch to {network} network"
             values={{
-              network: networks.find((n) => n.chainId === chainId)?.name,
+              network: networks.find((n: any) => n.chainId === chainId)?.name,
             }}
           />
         </Button>
@@ -399,9 +399,10 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
         isLoading={transferMutation.isLoading}
         onConfirm={handleConfirm}
       />
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+      <Container maxWidth="lg">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Header Section */}
+          <Box>
             <PageHeader
               breadcrumbs={[
                 {
@@ -417,188 +418,225 @@ export default function CheckoutPage({ id }: CheckoutPageProps) {
                 },
               ]}
             />
-          </Grid>
+          </Box>
+
+          {/* Status Alerts */}
           {checkoutQuery.data?.status === 'confirmed' && (
-            <Grid item xs={12}>
+            <Box>
               <Alert severity="success">
                 <FormattedMessage
                   id="payment.confirmed"
                   defaultMessage="Payment Confirmed"
                 />
               </Alert>
-            </Grid>
+            </Box>
           )}
 
           {checkoutQuery.data?.status === 'expired' && (
-            <Grid item xs={12}>
+            <Box>
               <Alert severity="warning">
                 <FormattedMessage
                   id="payment.confirmed"
                   defaultMessage="Payment expired"
                 />
               </Alert>
-            </Grid>
+            </Box>
           )}
 
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage id="total" defaultMessage="total" />
-                </Typography>
-                <Typography variant="h5" fontWeight="bold">
-                  {total &&
-                    ethers.utils.formatUnits(total, token?.decimals || 6)}{' '}
-                  {token ? token?.symbol : 'USD'}
-                </Typography>
-              </CardContent>
-              <Divider />
-              <CheckoutItemList id={id} token={token} />
-              <CardContent>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={2}
-                >
-                  <Typography variant="body2">
-                    <FormattedMessage
-                      id="total.usd"
-                      defaultMessage="Total in USD"
-                    />
+          {/* Main Content - Two Column Layout */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 3,
+            alignItems: 'flex-start'
+          }}>
+            {/* Left Panel - Order Summary */}
+            <Box sx={{ 
+              flex: { xs: '1', md: '0 0 400px' },
+              width: { xs: '100%', md: '400px' }
+            }}>
+              <Card sx={{ height: 'fit-content' }}>
+                <CardContent sx={{ pb: 1 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase' }}>
+                    <FormattedMessage id="total" defaultMessage="Total" />
                   </Typography>
-
-                  <Typography color="text.secondary" variant="body2">
+                  <Typography variant="h4" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {total &&
-                      ethers.utils.formatUnits(
-                        total,
-                        token?.decimals || 6
-                      )}{' '}
-                    USD
+                      ethers.utils.formatUnits(total, token?.decimals || 6)}{' '}
+                    {token ? token?.symbol : 'USDC'}
                   </Typography>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <Stack spacing={2}>
-                  {chainId !== undefined && (
-                    <FormControl fullWidth>
-                      <InputLabel>
-                        <FormattedMessage
-                          id="network"
-                          defaultMessage="Network"
-                        />
-                      </InputLabel>
-                      <Select
-                        label={
+                </CardContent>
+                <Divider />
+                <CheckoutItemList id={id} token={token} />
+                <CardContent sx={{ pt: 1 }}>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ py: 1 }}
+                  >
+                    <Typography variant="body2" color="text.secondary">
+                      <FormattedMessage
+                        id="credit"
+                        defaultMessage="Credit"
+                      />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      x{total &&
+                        ethers.utils.formatUnits(total, token?.decimals || 6)} {token ? token?.symbol : 'USDC'}
+                    </Typography>
+                  </Stack>
+                  <Divider sx={{ my: 1 }} />
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ py: 1 }}
+                  >
+                    <Typography variant="body2" fontWeight="medium">
+                      <FormattedMessage
+                        id="total.usd"
+                        defaultMessage="Total in USD"
+                      />
+                    </Typography>
+                    <Typography variant="body2" fontWeight="medium">
+                      {total &&
+                        ethers.utils.formatUnits(
+                          total,
+                          token?.decimals || 6
+                        )}{' '}
+                      USD
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Box>
+
+            {/* Right Panel - Payment Details */}
+            <Box sx={{ 
+              flex: 1,
+              minWidth: 0
+            }}>
+              <Card sx={{ height: 'fit-content' }}>
+                <CardContent>
+                  <Stack spacing={3}>
+                    {chainId !== undefined && (
+                      <FormControl fullWidth>
+                        <InputLabel>
                           <FormattedMessage
                             id="network"
                             defaultMessage="Network"
                           />
-                        }
-                        disabled={
-                          checkoutQuery.data?.status === 'confirmed' ||
-                          checkoutQuery.data?.status === 'expired' ||
-                          !isActive
-                        }
-                        onChange={handleChangeNetwork}
-                        value={chainId}
-                        name="network"
-                        fullWidth
-                        renderValue={(value: number) => {
-                          return (
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              alignContent="center"
-                              spacing={1}
-                            >
-                              <Avatar
-                                src={ipfsUriToUrl(
-                                  networks.find((n) => n.chainId === chainId)
-                                    ?.imageUrl || ''
-                                )}
-                                style={{ width: '1rem', height: '1rem' }}
-                              />
-                              <Typography variant="body1">
-                                {
-                                  networks.find((n) => n.chainId === chainId)
-                                    ?.name
-                                }
-                              </Typography>
-                            </Stack>
-                          );
-                        }}
-                      >
-                        {networks
-                          .filter((n) => activeChainIds.includes(n.chainId))
-                          .map((n) => (
-                            <MenuItem key={n.chainId} value={n.chainId}>
-                              <ListItemIcon>
+                        </InputLabel>
+                        <Select
+                          label={
+                            <FormattedMessage
+                              id="network"
+                              defaultMessage="Network"
+                            />
+                          }
+                          disabled={
+                            checkoutQuery.data?.status === 'confirmed' ||
+                            checkoutQuery.data?.status === 'expired' ||
+                            !isActive
+                          }
+                          onChange={handleChangeNetwork}
+                          value={chainId}
+                          name="network"
+                          fullWidth
+                          renderValue={(value: number) => {
+                            return (
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                alignContent="center"
+                                spacing={1}
+                              >
                                 <Avatar
-                                  src={ipfsUriToUrl(n?.imageUrl || '')}
+                                  src={ipfsUriToUrl(
+                                    networks.find((n: any) => n.chainId === chainId)
+                                      ?.imageUrl || ''
+                                  )}
                                   style={{ width: '1rem', height: '1rem' }}
                                 />
-                              </ListItemIcon>
-                              <ListItemText primary={n.name} />
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
-                  )}
+                                <Typography variant="body1">
+                                  {
+                                    networks.find((n: any) => n.chainId === chainId)
+                                      ?.name
+                                  }
+                                </Typography>
+                              </Stack>
+                            );
+                          }}
+                        >
+                          {networks
+                            .filter((n: any) => activeChainIds.includes(n.chainId))
+                            .map((n: any) => (
+                              <MenuItem key={n.chainId} value={n.chainId}>
+                                <ListItemIcon>
+                                  <Avatar
+                                    src={ipfsUriToUrl(n?.imageUrl || '')}
+                                    style={{ width: '1rem', height: '1rem' }}
+                                  />
+                                </ListItemIcon>
+                                <ListItemText primary={n.name} />
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    )}
 
-                  <CheckoutTokenAutocomplete
-                    key={chainId}
-                    tokens={tokens}
-                    onChange={handleChangeToken}
-                    chainId={chainId}
-                    token={token}
-                    disabled={disabled}
-                  />
-                  {!token && (
-                    <Alert severity="error">
-                      <FormattedMessage
-                        id="select.a.token.to.pay"
-                        defaultMessage="Select a token to pay"
-                      />
-                    </Alert>
-                  )}
-
-                  {token && (
-                    <Stack
-                      direction="row"
-                      spacing={2}
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Typography variant="body1">
+                    <CheckoutTokenAutocomplete
+                      key={chainId}
+                      tokens={tokens}
+                      onChange={handleChangeToken}
+                      chainId={chainId}
+                      token={token}
+                      disabled={disabled}
+                    />
+                    {!token && (
+                      <Alert severity="error">
                         <FormattedMessage
-                          id="balance"
-                          defaultMessage="Balance"
+                          id="select.a.token.to.pay"
+                          defaultMessage="Select a token to pay"
                         />
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                        {balanceQuery.data ? (
-                          ethers.utils.formatUnits(
-                            balanceQuery.data,
-                            token?.decimals
-                          )
-                        ) : (
-                          <Skeleton />
-                        )}{' '}
-                        {token?.symbol}
-                      </Typography>
-                    </Stack>
-                  )}
+                      </Alert>
+                    )}
 
-                  {renderPayButton()}
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+                    {token && (
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Typography variant="body1">
+                          <FormattedMessage
+                            id="balance"
+                            defaultMessage="Balance"
+                          />
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          {balanceQuery.data ? (
+                            ethers.utils.formatUnits(
+                              balanceQuery.data,
+                              token?.decimals
+                            )
+                          ) : (
+                            <Skeleton />
+                          )}{' '}
+                          {token?.symbol}
+                        </Typography>
+                      </Stack>
+                    )}
+
+                    {renderPayButton()}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Box>
+          </Box>
+        </Box>
       </Container>
     </>
   );

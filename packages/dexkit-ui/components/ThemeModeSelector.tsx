@@ -10,17 +10,18 @@ import { useThemeMode } from "../hooks";
 export function ThemeModeSelector() {
   const { mode, setThemeMode } = useThemeMode();
   const { setMode } = useColorScheme();
+
   useEffect(() => {
     setMode(mode);
-  }, [mode]);
+  }, [mode, setMode]);
 
   return (
     <Stack direction={"row"} alignContent={"center"} alignItems={"center"}>
       <LightModeIcon />
       <Switch
-        defaultChecked={mode === ThemeMode.dark}
+        checked={mode === ThemeMode.dark}
         onChange={() => {
-          if (mode === "dark") {
+          if (mode === ThemeMode.dark) {
             setThemeMode(ThemeMode.light);
           } else {
             setThemeMode(ThemeMode.dark);

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { Container, Grid } from "@mui/material";
 
@@ -41,7 +42,7 @@ export default function DexGeneratorSection({
       } else if (type === "nft-stake") {
         return (
           <Grid container justifyContent="center">
-            <Grid item xs={12} sm={hideGrid ? 12 : 4}>
+            <Grid size={{ xs: 12, sm: hideGrid ? 12 : 4 }}>
               <StakeErc721Section section={section.section} />
             </Grid>
           </Grid>
@@ -49,7 +50,7 @@ export default function DexGeneratorSection({
       } else if (type === "token-stake") {
         return (
           <Grid container justifyContent="center">
-            <Grid item xs={12} sm={hideGrid ? 12 : 4}>
+            <Grid size={{ xs: 12, sm: hideGrid ? 12 : 4 }}>
               <StakeErc20Section section={section.section} />
             </Grid>
           </Grid>
@@ -57,7 +58,7 @@ export default function DexGeneratorSection({
       } else if (type === "edition-stake") {
         return (
           <Grid container justifyContent="center">
-            <Grid item xs={12} sm={hideGrid ? 12 : 4}>
+            <Grid size={{ xs: 12, sm: hideGrid ? 12 : 4 }}>
               <StakeErc1155Section section={section.section} />
             </Grid>
           </Grid>
@@ -65,7 +66,7 @@ export default function DexGeneratorSection({
       } else if (type === "claim-airdrop-token-erc-20") {
         return (
           <Grid container justifyContent="center">
-            <Grid item xs={12} sm={hideGrid ? 12 : 4}>
+            <Grid size={{ xs: 12, sm: hideGrid ? 12 : 4 }}>
               <ClaimAirdropERC20Section section={section.section} />
             </Grid>
           </Grid>

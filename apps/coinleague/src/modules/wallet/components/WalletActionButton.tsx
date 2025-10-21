@@ -9,7 +9,7 @@ interface Props {
 
 export default function WalletActionButton({ onClick, icon, title }: Props) {
   return (
-    <Stack alignItems="center" alignContent="center" justifyContent="center">
+    <Stack alignItems="center" justifyContent="center">
       <WalletRoundedButton onClick={onClick}>{icon}</WalletRoundedButton>
       <Typography variant="overline">{title}</Typography>
     </Stack>

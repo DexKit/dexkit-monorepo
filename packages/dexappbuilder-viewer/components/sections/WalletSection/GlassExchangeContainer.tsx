@@ -1,6 +1,7 @@
 import { ChainId } from '@dexkit/core';
 import { NETWORKS } from '@dexkit/core/constants/networks';
 import { Token } from '@dexkit/core/types';
+import { useForceThemeMode } from '@dexkit/ui/hooks';
 import { TokenBalance } from '@dexkit/ui/modules/wallet/types';
 import { ArrowBack } from '@mui/icons-material';
 import {
@@ -44,8 +45,12 @@ export default function GlassExchangeContainer({
 }: Props) {
   const containerId = React.useMemo(() => Math.random().toString(36).substr(2, 9), []);
   const theme = useTheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const effectiveTextColor = isDark ? textColor : theme.palette.text.primary;
 
   const quoteToken: Token = {
     address: '0x0000000000000000000000000000000000000000',
@@ -143,7 +148,7 @@ export default function GlassExchangeContainer({
       backdropFilter: `blur(${blurIntensity}px)`,
       border: `1px solid rgba(255, 255, 255, ${Math.min(glassOpacity + 0.1, 0.3)})`,
       borderRadius: isMobile ? '8px' : '12px',
-      color: textColor,
+      color: effectiveTextColor,
       padding: isMobile ? theme.spacing(0.75) : theme.spacing(1),
       minWidth: isMobile ? 40 : 48,
       width: isMobile ? 40 : 48,
@@ -221,7 +226,7 @@ export default function GlassExchangeContainer({
                 variant="body1"
                 component="h2"
                 sx={{
-                  color: `${textColor} !important`,
+                  color: `${effectiveTextColor} !important`,
                   fontWeight: '600 !important',
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
                   fontSize: isMobile ? '1.25rem !important' : '1.5rem !important',

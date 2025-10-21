@@ -586,7 +586,6 @@ export interface CollectionPageSection extends PageSection {
     hideHeader: boolean;
     hideDrops: boolean;
     hideAssets: boolean;
-    enableDarkblock?: boolean;
     disableSecondarySells?: boolean;
     showSidebarOnDesktop?: boolean;
     isLock?: boolean;

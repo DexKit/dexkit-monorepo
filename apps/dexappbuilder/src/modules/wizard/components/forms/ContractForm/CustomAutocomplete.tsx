@@ -1,6 +1,7 @@
 import Search from '@mui/icons-material/Search';
 import {
   Box,
+  ClickAwayListener,
   Divider,
   InputAdornment,
   List,
@@ -17,7 +18,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useIsMobile } from '@dexkit/core';
 import LazyTextField from '@dexkit/ui/components/LazyTextField';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 export interface Props {
   options: { label: string; value: string }[];

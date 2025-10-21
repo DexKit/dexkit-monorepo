@@ -5,6 +5,7 @@ import {
   Stack,
   Tabs,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -15,6 +16,7 @@ import TradeWidgetTabAlt from "./TradeWidgetTabAlt";
 
 import { NETWORKS } from "@dexkit/core/constants/networks";
 import { useErc20BalanceQuery } from "@dexkit/core/hooks";
+import { useForceThemeMode } from "@dexkit/ui/hooks";
 import SwapSettingsDialog from "@dexkit/ui/modules/swap/components/dialogs/SwapSettingsDialog";
 import { ZEROEX_NATIVE_TOKEN_ADDRESS } from "@dexkit/ui/modules/swap/constants";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -41,10 +43,19 @@ export interface TradeWidgetProps {
 
 export default function TradeWidget({ isActive, customVariantSettings }: TradeWidgetProps) {
   const theme = useTheme();
+  const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const previewContext = usePreviewPlatform();
   const isMobile = previewContext ? previewContext.isMobile : isMobileDevice;
+  const [isHydrated, setIsHydrated] = useState(false);
+  const isDark = isHydrated ? (themeMode === 'dark' || theme.palette.mode === 'dark') : false;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const {
     quoteToken,
@@ -75,16 +86,30 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
   );
 
   const isGlassVariant = variant === "glass";
-  const textColor = glassSettings?.textColor || theme.palette.text.primary;
-  const buyTabColor = glassSettings?.buyTabColor || '#10B981'; // Verde más vibrante
-  const sellTabColor = glassSettings?.sellTabColor || '#EF4444'; // Rojo más vibrante
-  const buyTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.buyTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
-  const sellTabTextColor = customVariantSettings?.tradeWidgetTabTextColor || glassSettings?.sellTabTextColor || (theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000');
+  const textColor = glassSettings?.textColor || (isDark ? '#ffffff' : theme.palette.text.primary);
+  const buyTabColor = glassSettings?.buyTabColor || '#10B981';
+  const sellTabColor = glassSettings?.sellTabColor || '#EF4444';
+  const buyTabTextColor = glassSettings?.buyTabTextColor || customVariantSettings?.tradeWidgetTabTextColor || (isDark ? '#FFFFFF' : '#000000');
+  const sellTabTextColor = glassSettings?.sellTabTextColor || customVariantSettings?.tradeWidgetTabTextColor || (isDark ? '#FFFFFF' : '#000000');
   const buyText = glassSettings?.buyText || 'BUY';
   const sellText = glassSettings?.sellText || 'SELL';
 
   const glassStyles = useMemo(() => {
     if (!isGlassVariant) return {};
+
+    if (!isDark) {
+      return {
+        '& .MuiTypography-root:not([data-pair-button])': {
+          color: `${theme.palette.text.primary} !important`,
+        },
+        '& .MuiIconButton-root:not([data-pair-button])': {
+          color: `${theme.palette.text.primary} !important`,
+          '&:hover': {
+            backgroundColor: `${theme.palette.action.hover} !important`,
+          },
+        },
+      };
+    }
 
     return {
       backgroundColor: 'transparent !important',
@@ -130,7 +155,7 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
         color: `${textColor} !important`,
       },
     };
-  }, [isGlassVariant, textColor, theme]);
+  }, [isGlassVariant, textColor, theme, isDark]);
 
   const tabsStyles = useMemo(() => ({
     "& .MuiTabs-indicator": {
@@ -385,8 +410,8 @@ export default function TradeWidget({ isActive, customVariantSettings }: TradeWi
             defaultMessage="Market Settings"
           />
         }
-        onAutoSlippage={(auto) => setAutoSlippage(auto)}
-        onChangeSlippage={(sl) => setSlippage(sl)}
+        onAutoSlippage={(auto: any) => setAutoSlippage(auto)}
+        onChangeSlippage={(sl: any) => setSlippage(sl)}
         maxSlippage={slippage as number}
         isAutoSlippage={isAutoSlippage}
       />

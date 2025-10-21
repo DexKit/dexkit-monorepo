@@ -134,15 +134,15 @@ export default function OwnershipSection({ id, nft, isMobile }: Props) {
         onSubmit={handleSubmitCollectionItemsForm}
         validationSchema={CollectionItemSchema}
       >
-        {({ submitForm, isValid, dirty }) => (
+        {({ submitForm, isValid, dirty }: any) => (
           <Grid container spacing={isMobile ? 1.5 : 2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <OwnershipNFTForm
                 isDisabled={isHoldingKitQuery.data === false}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               {isMobile ? (
                 <Stack spacing={1.5} direction="column" sx={{ width: '100%' }}>
                   {nft && (
@@ -222,7 +222,7 @@ export default function OwnershipSection({ id, nft, isMobile }: Props) {
               )}
             </Grid>
             {isHoldingKitQuery.data !== true && false && (
-              <Grid item xs={12} container justifyContent="flex-end">
+              <Grid container justifyContent="flex-end" size={12}>
                 <Alert severity="info" sx={{ fontSize: isMobile ? '0.85rem' : 'inherit' }}>
                   <FormattedMessage
                     id="holding.kit.info"

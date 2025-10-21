@@ -16,11 +16,10 @@ export default function useLightbox() {
   const renderLightbox = React.useCallback(
     (props?: Omit<LightboxExternalProps, "open" | "close">) =>
       interactive ? (
-        <Lightbox open= { open } close = {() => setOpen(false)
-} {...props } />
+        <Lightbox open={open} close={() => setOpen(false)} {...props} />
       ) : null,
-  [open, interactive]
+    [open, interactive]
   );
 
-return { openLightbox, renderLightbox };
+  return { openLightbox, renderLightbox };
 }

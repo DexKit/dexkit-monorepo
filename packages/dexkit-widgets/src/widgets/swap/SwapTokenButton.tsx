@@ -1,13 +1,5 @@
 import LockIcon from '@mui/icons-material/Lock';
-import {
-  Avatar,
-  ButtonBase,
-  ButtonBaseProps,
-  lighten,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, ButtonBase, ButtonBaseProps, Stack, Typography, useTheme } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -45,8 +37,10 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
         }
       />
       <Typography
-        sx={{ fontWeight: 600 }}
-        color="text.secondary"
+        sx={{
+          fontWeight: 600,
+          color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : theme.palette.text.secondary
+        }}
         variant="body1"
       >
         {token?.symbol.toUpperCase()}
@@ -54,7 +48,11 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
       {locked && <LockIcon fontSize="small" sx={{ ml: 0.5, color: 'text.disabled' }} />}
     </Stack>
   ) : (
-    <Typography>
+    <Typography
+      sx={{
+        color: 'text.primary'
+      }}
+    >
       <FormattedMessage id="select.token" defaultMessage="Select token" />
     </Typography>
   );
@@ -65,16 +63,17 @@ function SwapTokenButton({ token, ButtonBaseProps, locked }: SwapTokenButtonProp
         <ButtonBase
           {...ButtonBaseProps}
           sx={{
-            borderRadius: theme.shape.borderRadius / 2,
+            borderRadius: (theme.shape.borderRadius as any) / 2,
             p: 1,
-            border: `1px solid ${theme.palette.mode === "dark"
-              ? lighten(theme.palette.divider, 0.2)
-              : theme.palette.divider
-              }`,
+            backgroundColor: 'background.default',
+            border: 1,
+            borderColor: 'divider',
             opacity: locked ? 0.5 : 1,
             pointerEvents: locked ? 'none' : undefined,
             cursor: locked ? 'not-allowed' : 'pointer',
-            background: locked ? theme.palette.action.disabledBackground : undefined,
+            ...(locked && {
+              backgroundColor: 'action.disabledBackground',
+            }),
             ...(ButtonBaseProps?.sx || {}),
           }}
           tabIndex={locked ? -1 : ButtonBaseProps?.tabIndex}

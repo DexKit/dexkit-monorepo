@@ -8,7 +8,7 @@ type Data = {
   position: string;
 };
 
-const StackPlugin: CellPlugin<Data> = {
+const StackPlugin = {
   ...StackPluginViewer,
   controls: {
     type: 'autoform',

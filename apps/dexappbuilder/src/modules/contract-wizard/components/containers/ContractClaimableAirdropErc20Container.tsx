@@ -198,9 +198,8 @@ export default function ContractClaimableAirdropErc20Container({
         onConfirm={handleConfirm}
         value={recipients}
       />
-
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Tabs value={currTab} onChange={handleChange}>
             <Tab
               value="airdrop"
@@ -210,10 +209,14 @@ export default function ContractClaimableAirdropErc20Container({
         </Grid>
         {currTab === 'airdrop' && (
           <>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Stack
@@ -237,7 +240,11 @@ export default function ContractClaimableAirdropErc20Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Stack
@@ -273,7 +280,11 @@ export default function ContractClaimableAirdropErc20Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Typography variant="caption" color="text.secondary">
@@ -288,7 +299,11 @@ export default function ContractClaimableAirdropErc20Container({
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 4
+                    }}>
                     <Card>
                       <CardContent>
                         <Stack
@@ -334,7 +349,7 @@ export default function ContractClaimableAirdropErc20Container({
                 </Grid>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack spacing={2}>
                 <Divider />
                 {tokenBalance && totalAmount.gt(tokenBalance.value) && (

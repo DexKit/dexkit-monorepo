@@ -16,7 +16,38 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
   const { data: metadata, isLoading } = useAssetMetadata(asset);
 
   if (isLoading) {
-    return <Skeleton />;
+    return (
+      <Paper
+        sx={{
+          maxWidth: "100%",
+          height: "100%",
+          width: "100%",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        <Box
+          sx={{
+            position: "relative",
+            overflow: "hidden",
+            paddingTop: { xs: "60%", sm: "100%" }, // Aspect ratio más pequeño en móviles
+          }}
+        >
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              display: "block",
+              width: "100%",
+              height: "100%",
+              borderRadius: "inherit"
+            }}
+          />
+        </Box>
+      </Paper>
+    );
   }
 
   const nftSrcAndType = getNFTMediaSrcAndType(
@@ -27,15 +58,32 @@ export function AssetMedia({ asset, enableImageLightbox }: Props) {
   );
 
   return (
-    <Paper sx={{ maxWidth: "100%", height: "auto" }}>
+    <Paper
+      sx={{
+        maxWidth: "100%",
+        height: "100%",
+        width: "100%",
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
       <CardMedia
         component="div"
-        sx={{ display: "block", maxWidth: "100%", height: "auto" }}
+        sx={{
+          display: "block",
+          width: "100%",
+          height: "100%",
+          position: "relative"
+        }}
       >
         <Box
           sx={{
             position: "relative",
             width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           {nftSrcAndType.type === "image" && (

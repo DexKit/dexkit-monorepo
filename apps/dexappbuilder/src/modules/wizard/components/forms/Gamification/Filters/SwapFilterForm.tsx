@@ -67,7 +67,7 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
         setFieldValue,
         errors,
         resetForm,
-      }) => (
+      }: any) => (
         <Form>
           <ChangeListener
             values={values}
@@ -75,7 +75,11 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
             onChange={onChange}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <NetworkSelectDropdown
                   chainId={values.chainId}
@@ -92,7 +96,7 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500" variant="body1">
                 <FormattedMessage
                   id="input.token"
@@ -100,9 +104,13 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <SearchTokenAutocompleteWithTokens
                     label={
                       <FormattedMessage id="token" defaultMessage="Token" />
@@ -122,7 +130,11 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <FormControl fullWidth>
                     <InputLabel id="condition-amount-in-select-label">
                       <FormattedMessage
@@ -160,7 +172,11 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <Field
                     component={TextField}
                     type="number"
@@ -179,7 +195,7 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500" variant="body1">
                 <FormattedMessage
                   id="output.token"
@@ -187,9 +203,13 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <SearchTokenAutocompleteWithTokens
                     label={
                       <FormattedMessage id="token" defaultMessage="Token" />
@@ -210,7 +230,11 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <FormControl fullWidth>
                     <InputLabel id="condition-amount-out-select-label">
                       <FormattedMessage
@@ -241,7 +265,11 @@ export default function SwapFilterForm({ item, onSubmit, onChange }: Props) {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <Field
                     component={TextField}
                     type="number"

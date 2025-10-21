@@ -10,6 +10,6 @@ export default function useFinalizeOrder() {
       throw new Error('no instance');
     }
 
-    return (await instance.post(`/orders/${params.id}/finalize`)).data;
+    return (await (instance as any).post(`/orders/${params.id}/finalize`)).data;
   });
 }

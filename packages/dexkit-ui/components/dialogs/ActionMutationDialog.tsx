@@ -61,7 +61,7 @@ function ActionMutationDialog({
   };
 
   const handleToggleDetails = () => {
-    setShowDetails((value) => !value);
+    setShowDetails((value: boolean) => !value);
   };
 
   return (

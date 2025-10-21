@@ -43,7 +43,7 @@ export default function TokensSectionList({
 
   return (
     <List disablePadding>
-      {filteredTokens.map((token, index, arr) => (
+      {filteredTokens.map((token: any, index: any, arr: any) => (
         <TokensSectionListItem
           appUrl={appUrl}
           divider={index < arr.length - 1}

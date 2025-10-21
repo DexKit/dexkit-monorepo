@@ -1,5 +1,6 @@
 import { TransactionStatus } from "@dexkit/core/constants";
 import { getBlockExplorerUrl } from "@dexkit/core/utils";
+import { formatTransactionError } from "@dexkit/ui/modules/contract-wizard/hooks/thirdweb";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import Receipt from "@mui/icons-material/Receipt";
@@ -137,6 +138,8 @@ function WatchTransactionDialog({
 
   const renderContent = () => {
     if (error !== undefined) {
+      const formattedError = formatTransactionError(error.message || 'Unknown error');
+
       return (
         <Stack spacing={2} justifyContent="center" alignItems="center">
           <CloseIcon color="error" fontSize="large" />
@@ -144,8 +147,8 @@ function WatchTransactionDialog({
             <Typography align="center" variant="h5">
               <FormattedMessage id="error" defaultMessage="Error" />
             </Typography>
-            <Typography align="center" variant="body1" color="textSecondary">
-              {error?.message}
+            <Typography align="center" variant="body1" color="textSecondary" sx={{ maxWidth: 400, wordWrap: 'break-word' }}>
+              {formattedError}
             </Typography>
           </Box>
           {hash !== undefined && (

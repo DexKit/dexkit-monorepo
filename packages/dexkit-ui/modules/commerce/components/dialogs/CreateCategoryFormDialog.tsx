@@ -80,7 +80,7 @@ export default function CreateCategoryFormDialog({
           />
           <DialogContent dividers>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Field
                   label={<FormattedMessage id="name" defaultMessage="Name" />}
                   component={TextField}

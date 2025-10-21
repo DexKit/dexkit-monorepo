@@ -17,48 +17,52 @@ const WalletPage: NextPage<{
   sections: AppPageSection[];
   layout?: PageSectionsLayout;
   appConfig: AppConfig;
-}> = ({ sections, layout }) => {
-  const { formatMessage } = useIntl();
+}> = ({ sections, layout }: {
+  sections: AppPageSection[];
+  layout?: PageSectionsLayout;
+  appConfig: AppConfig;
+}) => {
+    const { formatMessage } = useIntl();
 
-  return (
-    <>
-      <NextSeo
-        title={formatMessage({
-          id: 'my.wallet',
-          defaultMessage: 'My Wallet',
-        })}
-      />
-      <Box>
-        <Container>
-          <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
-              <PageHeader
-                breadcrumbs={[
-                  {
-                    caption: (
-                      <FormattedMessage id="home" defaultMessage="Home" />
-                    ),
-                    uri: '/',
-                  },
-                  {
-                    caption: (
-                      <FormattedMessage id="wallet" defaultMessage="Wallet" />
-                    ),
-                    uri: '/wallet',
-                    active: true,
-                  },
-                ]}
-              />
+    return (
+      <>
+        <NextSeo
+          title={formatMessage({
+            id: 'my.wallet',
+            defaultMessage: 'My Wallet',
+          })}
+        />
+        <Box>
+          <Container>
+            <Grid container justifyContent="center" spacing={2}>
+              <Grid size={12}>
+                <PageHeader
+                  breadcrumbs={[
+                    {
+                      caption: (
+                        <FormattedMessage id="home" defaultMessage="Home" />
+                      ),
+                      uri: '/',
+                    },
+                    {
+                      caption: (
+                        <FormattedMessage id="wallet" defaultMessage="Wallet" />
+                      ),
+                      uri: '/wallet',
+                      active: true,
+                    },
+                  ]}
+                />
+              </Grid>
+              <Grid size={12}>
+                <SectionsRenderer sections={sections} layout={layout} />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <SectionsRenderer sections={sections} layout={layout} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-    </>
-  );
-};
+          </Container>
+        </Box>
+      </>
+    );
+  };
 
 type Params = {
   site?: string;
@@ -74,7 +78,7 @@ export const getStaticProps: GetStaticProps = async ({
     const { appConfig } = configResponse;
 
     const page = appConfig.pages['wallet'] || {};
-    const sections = page?.sections || [
+    const sections = (page as any)?.sections || [
       {
         type: 'wallet',
         title: 'Wallet',
@@ -84,7 +88,7 @@ export const getStaticProps: GetStaticProps = async ({
     return {
       props: {
         page: 'wallet',
-        layout: page?.layout || null,
+        layout: (page as any)?.layout || null,
         sections: sections,
         site: params?.site,
         ...configResponse,

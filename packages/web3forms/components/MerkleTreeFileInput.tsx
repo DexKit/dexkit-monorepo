@@ -44,7 +44,7 @@ export function MerkleTreeFileInput({ el }: ImageInputProps) {
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field
             component={TextField}
             name={el.ref as string}
@@ -59,7 +59,7 @@ export function MerkleTreeFileInput({ el }: ImageInputProps) {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Button
             startIcon={<AddIcon />}
             onClick={() => {

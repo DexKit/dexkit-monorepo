@@ -118,11 +118,11 @@ export default function DexGeneratorSectionForm({
   const [page, setPage] = useState(0);
 
   const handleNext = () => {
-    setPage((page) => page + 1);
+    setPage((page: any) => page + 1);
   };
 
   const handlePrev = () => {
-    setPage((page) => page - 1);
+    setPage((page: any) => page - 1);
   };
 
   const listContractsQuery = useListDeployedContracts({
@@ -397,7 +397,7 @@ export default function DexGeneratorSectionForm({
     <Box ref={containerRef}>
       <Grid container spacing={isMobile ? 1 : 2}>
         {!contract && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth size={isMobile ? 'small' : 'medium'}>
               <InputLabel>
                 <FormattedMessage id="network" defaultMessage="Network" />
@@ -426,7 +426,7 @@ export default function DexGeneratorSectionForm({
                       <Avatar
                         src={ipfsUriToUrl(
                           networks.find(
-                            (n) => n.chainId === parseChainId(value),
+                            (n: any) => n.chainId === parseChainId(value),
                           )?.imageUrl || '',
                         )}
                         style={{
@@ -437,7 +437,7 @@ export default function DexGeneratorSectionForm({
                       <Typography variant={isMobile ? 'caption' : 'body1'}>
                         {
                           networks.find(
-                            (n) => n.chainId === parseChainId(value),
+                            (n: any) => n.chainId === parseChainId(value),
                           )?.name
                         }
                       </Typography>
@@ -451,7 +451,7 @@ export default function DexGeneratorSectionForm({
                     primary={<FormattedMessage id="all" defaultMessage="All" />}
                   />
                 </MenuItem>
-                {networks.map((n) => (
+                {networks.map((n: any) => (
                   <MenuItem key={n.chainId} value={n.chainId}>
                     <ListItemIcon>
                       <Avatar
@@ -475,9 +475,9 @@ export default function DexGeneratorSectionForm({
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid container spacing={isMobile ? 1 : 2}>
-            <Grid item xs>
+            <Grid size="grow">
               <LazyTextField
                 TextFieldProps={{
                   size: 'small',
@@ -495,7 +495,11 @@ export default function DexGeneratorSectionForm({
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl size="small" fullWidth>
                 <InputLabel htmlFor="contractType" shrink>
                   <FormattedMessage
@@ -539,9 +543,9 @@ export default function DexGeneratorSectionForm({
         </Grid>
 
         {!contract && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={isMobile ? 0.5 : 2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box
                   sx={{
                     overflowY: 'scroll',
@@ -550,7 +554,7 @@ export default function DexGeneratorSectionForm({
                 >
                   <Grid container spacing={isMobile ? 0.5 : 2}>
                     {listContractsQuery.data?.data.length === 0 && (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Box sx={{ py: isMobile ? 1 : 2 }}>
                           <Stack alignItems="center">
                             <Error fontSize={isMobile ? 'small' : 'large'} />
@@ -568,7 +572,7 @@ export default function DexGeneratorSectionForm({
                       </Grid>
                     )}
                     {listContractsQuery.data?.data?.map((c) => (
-                      <Grid key={c.id} item xs={12}>
+                      <Grid key={c.id} size={12}>
                         <DexGeneratorSectionCard
                           id={c.id}
                           type={c.type}
@@ -582,7 +586,7 @@ export default function DexGeneratorSectionForm({
                   </Grid>
                 </Box>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack direction="row" spacing={1} justifyContent="flex-end">
                     <IconButton
@@ -611,7 +615,7 @@ export default function DexGeneratorSectionForm({
               </Grid>
               {listContractsQuery.isLoading &&
                 new Array(isMobile ? 3 : 5).fill(null).map((_, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid key={index} size={12}>
                     <Card>
                       <CardContent
                         sx={isMobile ? { p: { xs: 1, sm: 1.5 } } : {}}
@@ -630,7 +634,7 @@ export default function DexGeneratorSectionForm({
           </Grid>
         )}
         {contract && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <DexGeneratorContractForm
               onChange={handleChangeSection}
               onCancel={() => {
@@ -653,7 +657,7 @@ export default function DexGeneratorSectionForm({
           </Grid>
         )}
         {showSaveButton && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack
                 direction="row"

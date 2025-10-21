@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof EvmReceiveWidget> = (
     <WidgetContext>
       <Box pt={5}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 3 }}>
             <Card>
               <EvmReceiveWidget {...args} />
             </Card>
@@ -39,7 +39,7 @@ Default.args = {
   coins: [POLYGON_USDT_TOKEN, POLYGON_COIN],
   amount: 1,
   defaultCoin: POLYGON_USDT_TOKEN,
-  onSubmit: () => {},
+  onSubmit: () => { },
 } as EvmReceiveWidgetProps;
 
 export const Empty = Template.bind({});

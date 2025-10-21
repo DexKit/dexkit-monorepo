@@ -199,13 +199,13 @@ export default function CollectionsTable({ }: CollectionsTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
           checkboxSelection
           disableRowSelectionOnClick
-          onRowClick={({ row }) => {
+          onRowClick={({ row }: any) => {
             router.push(`/u/account/commerce/collections/${row.id}`);
           }}
           slotProps={{
@@ -223,7 +223,7 @@ export default function CollectionsTable({ }: CollectionsTableProps) {
               showQuickFilter: true,
               quickFilterProps: {
                 value: query,
-                onChange: (e) => {
+                onChange: (e: any) => {
                   setQuery(e.target.value);
                 },
               },

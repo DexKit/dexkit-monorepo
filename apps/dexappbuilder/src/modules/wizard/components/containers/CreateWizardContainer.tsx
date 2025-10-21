@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import dynamic from 'next/dynamic';
 
 import AppConfirmDialog from '@dexkit/ui/components/AppConfirmDialog';
@@ -234,7 +234,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
       />
       <Container maxWidth={'xl'}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -286,10 +286,10 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
               )}
             </Stack>
           </Grid>
-          {/* <Grid item xs={12} sm={12}>
+          {/* <Grid size={12}>
             <WelcomeMessage />
           </Grid> */}
-          <Grid item xs={12} sm={12}>
+          <Grid size={12}>
             {/* <Typography variant="body2">
               <FormattedMessage
                 id="start.for.free"
@@ -303,7 +303,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
               />
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Stack spacing={2}>
               <Formik
                 validationSchema={FormSchema}
@@ -339,7 +339,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                 {({ isValid }) => (
                   <Form>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Field
                           component={TextField}
                           fullWidth
@@ -365,7 +365,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Field
                           component={TextField}
                           fullWidth
@@ -379,7 +379,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                         />
                       </Grid>
 
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Stack
                           spacing={1}
                           direction="row"
@@ -413,8 +413,8 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
             </Stack>
           </Grid>
           {!isMobile && (
-            <Grid item xs={12} sm={8}>
-              <CssVarsProvider theme={selectedTheme}>
+            <Grid size={{ xs: 12, sm: 8 }}>
+              <ThemeProvider theme={selectedTheme || createTheme({ cssVariables: true })}>
                 <Container>
                   <Stack spacing={2}>
                     {clonedConfigQuery?.data?.nft && (
@@ -461,7 +461,7 @@ export function CreateWizardContainer({ slug, isSwapWizard }: Props) {
                     />
                   </Stack>
                 </Container>
-              </CssVarsProvider>
+              </ThemeProvider>
             </Grid>
           )}
         </Grid>

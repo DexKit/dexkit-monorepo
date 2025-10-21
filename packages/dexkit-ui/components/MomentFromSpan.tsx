@@ -20,7 +20,7 @@ function MomentFromSpan({ from }: MomentFromSpanProps) {
 
   datetime.locale(locale);
 
-  return <span>{datetime.fromNow()}</span>;
+  return <span style={{ color: 'inherit' }}>{datetime.fromNow()}</span>;
 }
 
 export default memo(MomentFromSpan);

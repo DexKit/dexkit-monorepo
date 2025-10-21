@@ -78,7 +78,7 @@ export function SearchNFTAutocomplete(props: Props) {
             {...params}
             label="Search a NFT"
             size={isMobile ? "small" : "medium"}
-            onChange={(ev) => setSearch(ev.currentTarget.value)}
+            onChange={(ev: any) => setSearch(ev.currentTarget.value)}
             inputProps={{
               ...params.inputProps,
               autoComplete: 'new-password', // disable autocomplete and autofill

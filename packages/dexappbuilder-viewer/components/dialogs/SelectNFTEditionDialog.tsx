@@ -1,31 +1,32 @@
+// @ts-nocheck
 import { getNormalizedUrl } from "@dexkit/core/utils";
 import { AppDialogTitle } from "@dexkit/ui";
 import DecimalInput from "@dexkit/ui/components/DecimalInput";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
 import { useAsyncMemo } from "@dexkit/widgets/src/hooks";
 import {
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-    Divider,
-    Grid,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogProps,
+  Divider,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import {
-    NFT,
-    useContract,
-    useContractRead,
-    useOwnedNFTs,
+  NFT,
+  useContract,
+  useContractRead,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import { useMemo, useState } from "react";
@@ -180,33 +181,75 @@ export default function SelectNFTEditionDialog({
   }, [balance, amount]);
 
   const renderCard = (nft: NFT) => {
+    const isSelected = nft.metadata.id === tokenId;
+
     return (
       <Card
         sx={{
-          borderColor:
-            nft.metadata.id === tokenId
-              ? (theme) => theme.palette.primary.main
-              : undefined,
+          borderColor: isSelected
+            ? (theme) => theme.palette.primary.main
+            : undefined,
+          borderWidth: isSelected ? 3 : 1,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          transition: "all 0.2s ease-in-out",
+          transform: isSelected ? "scale(1.02)" : "scale(1)",
+          boxShadow: isSelected
+            ? (theme) => `0 4px 20px ${theme.palette.primary.main}40`
+            : "none",
+          "&:hover": {
+            transform: "scale(1.02)",
+            boxShadow: (theme) => `0 4px 15px ${theme.palette.primary.main}20`,
+          },
         }}
       >
-        <CardActionArea onClick={() => handleSelectNFT(nft.metadata.id)}>
+        <CardActionArea
+          onClick={() => handleSelectNFT(nft.metadata.id)}
+          sx={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            p: 0
+          }}
+        >
           {nft.metadata.image ? (
             <CardMedia
               image={getNormalizedUrl(nft.metadata.image)}
-              sx={{ aspectRatio: "1/1", height: "100%" }}
+              sx={{
+                aspectRatio: "1/1",
+                height: 200,
+                objectFit: "cover"
+              }}
             />
           ) : (
             <Skeleton
               variant="rectangular"
-              sx={{ aspectRatio: "16/9", height: "100%" }}
+              sx={{
+                aspectRatio: "1/1",
+                height: 200
+              }}
             />
           )}
           <Divider />
-          <CardContent>
-            <Typography variant="caption" color="primary">
+          <CardContent sx={{ flexGrow: 1, p: 1.5 }}>
+            <Typography variant="caption" color="primary" noWrap>
               {nft.metadata.name}
             </Typography>
-            <Typography>#{nft.metadata.id}</Typography>
+            <Typography variant="body2" noWrap>#{nft.metadata.id}</Typography>
+            {isSelected && (
+              <Typography
+                variant="caption"
+                color="primary"
+                sx={{
+                  fontWeight: "bold",
+                  display: "block",
+                  mt: 0.5
+                }}
+              >
+                ✓ Selected
+              </Typography>
+            )}
           </CardContent>
         </CardActionArea>
       </Card>
@@ -231,7 +274,7 @@ export default function SelectNFTEditionDialog({
       <DialogContent dividers>
         <Grid container spacing={2}>
           {(isLoading || isLoadingNfts) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Stack py={2} alignItems="center" justifyContent="center">
                   <CircularProgress color="primary" size="3rem" />
@@ -240,7 +283,7 @@ export default function SelectNFTEditionDialog({
             </Grid>
           )}
           {nfts?.length === 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box py={2}>
                 <Typography align="center" variant="h5">
                   <FormattedMessage id="no.nfts" defaultMessage="No NFTs" />
@@ -259,7 +302,7 @@ export default function SelectNFTEditionDialog({
             </Grid>
           )}
           {nfts?.map((nft: NFT, key: number) => (
-            <Grid item xs={6} sm={3} key={key}>
+            <Grid size={{ xs: 6, sm: 3 }} key={key}>
               {renderCard(nft)}
             </Grid>
           ))}

@@ -3,6 +3,7 @@ import { BaseAssetCard } from "@dexkit/ui/modules/nft/components/BaseAssetCard";
 import { useAssetListFromCollection } from "@dexkit/ui/modules/nft/hooks/collection";
 import { EditionDropListPageSection } from "@dexkit/ui/modules/wizard/types/section";
 import Search from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -57,7 +58,7 @@ export function DropEditionListSection({ section }: Props) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <TextField
             fullWidth
             size="small"
@@ -77,7 +78,7 @@ export function DropEditionListSection({ section }: Props) {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <NoSsr>
             <AppErrorBoundary
               fallbackRender={({ resetErrorBoundary, error }) => (
@@ -103,8 +104,8 @@ export function DropEditionListSection({ section }: Props) {
               )}
             >
               <Grid container spacing={2}>
-                {filteredAssets?.map((asset, index) => (
-                  <Grid item xs={6} sm={2} key={index}>
+                {filteredAssets?.map((asset: any, index: any) => (
+                  <Grid size={{ xs: 6, sm: 2 }} key={index}>
                     <BaseAssetCard
                       asset={asset}
                       onClickCardAction={(a) =>
@@ -116,7 +117,7 @@ export function DropEditionListSection({ section }: Props) {
                   </Grid>
                 ))}
                 {filteredAssets?.length === 0 && (
-                  <Grid item xs={12} sm={12}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <Stack justifyContent="center" alignItems="center">
                       <Typography variant="h6">
                         <FormattedMessage
@@ -133,18 +134,14 @@ export function DropEditionListSection({ section }: Props) {
                     </Stack>
                   </Grid>
                 )}
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  container
-                  justifyContent={"flex-end"}
-                >
-                  <Pagination
-                    page={page + 1}
-                    onChange={(_ev, _page) => setPage(_page - 1)}
-                    count={Math.floor((data?.total || 0) / perPage) + 1}
-                  />
+                <Grid size={12}>
+                  <Box display="flex" justifyContent="flex-end">
+                    <Pagination
+                      page={page + 1}
+                      onChange={(_ev, _page) => setPage(_page - 1)}
+                      count={Math.floor((data?.total || 0) / perPage) + 1}
+                    />
+                  </Box>
                 </Grid>
               </Grid>
             </AppErrorBoundary>

@@ -4,8 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
-  Grid,
   IconButton,
   InputAdornment,
   NoSsr,
@@ -17,6 +15,7 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import React, { useEffect, useState } from "react";
 
@@ -207,147 +206,111 @@ const EvmWalletContainer = () => {
           fullWidth: true,
         }}
       />
-      <Grid container justifyContent="center" spacing={2}>
-        <Grid item xs={12} sm={8}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Grid
-                container
-                alignItems="center"
-                justifyContent="space-between"
-                alignContent="center"
-                spacing={2}
-              >
-                {isActive && (
-                  <Grid item xs={12}>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      alignContent="center"
-                    >
-                      <Box>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          alignContent="center"
-                          spacing={1}
-                        >
-                          <Typography color="textSecondary" variant="caption">
-                            {isBalancesVisible
+      <Box sx={{ maxWidth: 1200, mx: 'auto', px: 2 }}>
+        <Grid container spacing={3}>
+          {/* Header Section */}
+          {isActive && (
+            <Grid size={12}>
+              <Card sx={{ p: 3, mb: 2 }}>
+                <Stack spacing={3}>
+                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+                    <Box>
+                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+                        <Typography color="text.primary" variant="caption">
+                          {isBalancesVisible
+                            ? ENSName
                               ? ENSName
-                                ? ENSName
-                                : truncateAddress(account)
-                              : "*****"}
-                          </Typography>
-                          <CopyIconButton
-                            iconButtonProps={{
-                              onClick: handleCopy,
-                              size: "small",
-                            }}
-                            tooltip={formatMessage({
-                              id: "copy",
-                              defaultMessage: "Copy",
-                              description: "Copy text",
-                            })}
-                            activeTooltip={formatMessage({
-                              id: "copied",
-                              defaultMessage: "Copied!",
-                              description: "Copied text",
-                            })}
-                          >
-                            <FileCopy fontSize="small" color="action" />
-                          </CopyIconButton>
-                        </Stack>
-
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          alignContent="center"
-                          spacing={1}
+                              : truncateAddress(account)
+                            : "*****"}
+                        </Typography>
+                        <CopyIconButton
+                          iconButtonProps={{
+                            onClick: handleCopy,
+                            size: "small",
+                          }}
+                          tooltip={formatMessage({
+                            id: "copy",
+                            defaultMessage: "Copy",
+                            description: "Copy text",
+                          })}
+                          activeTooltip={formatMessage({
+                            id: "copied",
+                            defaultMessage: "Copied!",
+                            description: "Copied text",
+                          })}
                         >
-                          <Typography variant="h5">
-                            <NoSsr>
-                              <WalletTotalBalanceCointainer chainId={chainId} />
-                            </NoSsr>
-                          </Typography>
-                          <IconButton
-                            onClick={handleToggleVisibility}
-                            sx={{
-                              color: theme.palette.text.primary,
-                            }}
-                          >
-                            {isBalancesVisible ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </Stack>
-                      </Box>
-                      <NetworkSelectButton
-                        chainId={chainId}
-                        onChange={(newChainId) => setChainId(newChainId)}
+                          <FileCopy fontSize="small" sx={{ color: 'text.primary' }} />
+                        </CopyIconButton>
+                      </Stack>
+
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                          <NoSsr>
+                            <WalletTotalBalanceCointainer chainId={chainId} />
+                          </NoSsr>
+                        </Typography>
+                        <IconButton
+                          onClick={handleToggleVisibility}
+                          sx={{
+                            color: theme.palette.text.primary,
+                          }}
+                        >
+                          {isBalancesVisible ? (
+                            <VisibilityIcon />
+                          ) : (
+                            <VisibilityOffIcon />
+                          )}
+                        </IconButton>
+                      </Stack>
+                    </Box>
+                    <NetworkSelectButton
+                      chainId={chainId}
+                      onChange={(newChainId) => setChainId(newChainId)}
+                    />
+                  </Stack>
+
+                  <Stack direction="row" spacing={2} flexWrap="wrap">
+                    <Button
+                      onClick={handleOpenReceive}
+                      variant="outlined"
+                      startIcon={<VerticalAlignBottomIcon />}
+                      disabled={!isActive}
+                      color="primary"
+                      sx={{ minWidth: 120 }}
+                    >
+                      <FormattedMessage
+                        id="receive"
+                        defaultMessage="Receive"
                       />
-                    </Stack>
-                  </Grid>
-                )}
-                <Grid item xs={12}>
-                  <Grid container spacing={2} alignItems="center">
-                    {/* TODO: As a workaround for https://github.com/DexKit/dexkit-monorepo/issues/462#event-17351363710 buy button is hidden */}
-                    {/* {appConfig.transak?.enabled && ( */}
-                    {false && (
-                      <Grid item>
-                        <TransakWidget />
-                      </Grid>
-                    )}
-
-                    <Grid item>
-                      <Button
-                        onClick={handleOpenReceive}
-                        variant="outlined"
-                        startIcon={<VerticalAlignBottomIcon />}
-                        disabled={!isActive}
-                        color="primary"
-                      >
-                        <FormattedMessage
-                          id="receive"
-                          defaultMessage="Receive"
-                        />
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <TransferCoinButton />
-                    </Grid>
-                    <Grid item>
-                      <Button
-                        onClick={handleOpenQrCode}
-                        startIcon={<QrCodeScanner />}
-                        variant="outlined"
-                      >
-                        <FormattedMessage id="scan" defaultMessage="Scan" />
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+                    </Button>
+                    <TransferCoinButton />
+                    <Button
+                      onClick={handleOpenQrCode}
+                      startIcon={<QrCodeScanner />}
+                      variant="outlined"
+                      sx={{ minWidth: 120 }}
+                    >
+                      <FormattedMessage id="scan" defaultMessage="Scan" />
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Card>
             </Grid>
+          )}
 
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Grid container spacing={2} alignItems="center">
-                <Grid
-                  item
-                  xs={isDesktop ? undefined : 12}
-                  sm={isDesktop ? true : undefined}
-                >
+          {isActive && (
+            <Grid size={12}>
+              <Card sx={{ p: 2, mb: 2 }}>
+                <Stack direction="row" spacing={2} alignItems="center">
                   <TextField
                     size="small"
                     type="search"
+                    placeholder={formatMessage({
+                      id: "search.tokens",
+                      defaultMessage: "Search tokens"
+                    })}
                     onChange={(ev) => setSearch(ev.currentTarget.value)}
-                    fullWidth
+                    sx={{ flex: 1 }}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -356,118 +319,115 @@ const EvmWalletContainer = () => {
                       ),
                     }}
                   />
-                </Grid>
-                <Grid item xs={isDesktop ? undefined : 12}>
                   <Button
                     onClick={handleOpenImportTokenDialog}
                     variant="outlined"
                     disabled={!isActive}
                     startIcon={<ImportExportIcon />}
-                    fullWidth
+                    sx={{ minWidth: 140, height: 40 }}
                   >
                     <FormattedMessage
                       id="import.token"
                       defaultMessage="Import token"
                     />
                   </Button>
-                </Grid>
-              </Grid>
+                </Stack>
+              </Card>
             </Grid>
+          )}
 
-            <Grid item xs={12}>
-              {!isActive && (
-                <Stack
-                  justifyContent="center"
-                  alignItems="center"
-                  alignContent="center"
-                  spacing={2}
-                >
-                  <CloseCircle color="error" />
+          {!isActive && (
+            <Grid size={12}>
+              <Card sx={{ p: 4, textAlign: 'center' }}>
+                <Stack spacing={3} alignItems="center">
+                  <CloseCircle color="error" sx={{ fontSize: 48 }} />
                   <Box>
-                    <Typography
-                      align="center"
-                      variant="subtitle1"
-                      sx={{ fontWeight: 600 }}
-                    >
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                       <FormattedMessage
                         id="wallet.is.not.connected"
                         defaultMessage="Wallet is not connected"
                       />
                     </Typography>
-                    <Typography
-                      align="center"
-                      variant="body2"
-                      color="textSecondary"
-                    >
+                    <Typography variant="body2" color="text.primary">
                       <FormattedMessage
                         id="please.connect.your.wallet.to.see.balance"
                         defaultMessage="Please, connect your wallet to see your balance"
                       />
                     </Typography>
                   </Box>
-                  <ConnectButton variant="contained" />
+                  <ConnectButton variant="contained" color="primary" size="large" />
                 </Stack>
-              )}
+              </Card>
             </Grid>
+          )}
 
-            {isActive && (
-              <Grid item xs={12}>
+          {isActive && (
+            <Grid size={12}>
+              <Card sx={{ p: 2, mb: 2 }}>
                 <NoSsr>
                   <WalletBalances chainId={chainId} filter={search} />
                 </NoSsr>
-              </Grid>
-            )}
+              </Card>
+            </Grid>
+          )}
 
-            <>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <WalletActionButton
-                      disabled={!isActive}
-                      LinkComponent={Link}
-                      href="/wallet/nfts"
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        alignContent="center"
+          {isActive && (
+            <Grid size={12}>
+              <Card sx={{ p: 2, mb: 2 }}>
+                <WalletActionButton
+                  disabled={!isActive}
+                  LinkComponent={Link}
+                  href="/wallet/nfts"
+                  sx={{ width: '100%', p: 3 }}
+                >
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    width="100%"
+                  >
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        <FormattedMessage id="nfts" defaultMessage="NFTs" />
+                      </Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Typography
+                        sx={{
+                          fontWeight: 600,
+                          textTransform: "uppercase",
+                        }}
+                        color="primary"
+                        variant="body1"
                       >
-                        <Typography variant="h5">
-                          <FormattedMessage id="nfts" defaultMessage="NFTs" />
-                        </Typography>
-                        {/*Object.keys(favorites.assets).length > 0 && (
-                            <Chip
-                              label={Object.keys(favorites.assets).length}
-                              color="secondary"
-                            />
-                          )*/}
-                      </Stack>
+                        <FormattedMessage id="open" defaultMessage="Open" />
+                      </Typography>
+                      <NavigateNext color="primary" />
+                    </Stack>
+                  </Stack>
+                </WalletActionButton>
+              </Card>
+            </Grid>
+          )}
 
-                      <Stack
-                        direction="row"
-                        spacing={0.5}
-                        alignItems="center"
-                        alignContent="center"
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                          }}
-                          color="primary"
-                          variant="body1"
-                        >
-                          <FormattedMessage id="open" defaultMessage="Open" />
-                        </Typography>
-                        <NavigateNext color="primary" />
-                      </Stack>
-                    </WalletActionButton>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Tabs value={selectedTab} onChange={handleChangeTab}>
+          {isActive && (
+            <Grid size={12}>
+              <Card sx={{ overflow: 'hidden' }}>
+                <Tabs
+                  value={selectedTab}
+                  onChange={handleChangeTab}
+                  variant="fullWidth"
+                  sx={{
+                    borderBottom: 1,
+                    borderColor: 'divider',
+                    '& .MuiTab-root': {
+                      textTransform: 'none',
+                      fontWeight: 500,
+                      minHeight: 48,
+                      fontSize: '0.95rem',
+                    }
+                  }}
+                >
                   <Tab
                     value={WalletTabs.Activity}
                     label={
@@ -493,65 +453,64 @@ const EvmWalletContainer = () => {
                     }
                   />
                 </Tabs>
-              </Grid>
-              <Grid item xs={12}>
-                <NoSsr>
-                  {selectedTab === WalletTabs.Activity ? (
-                    <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
-                      <AppErrorBoundary
-                        fallbackRender={({ error }) => (
-                          <Card>
-                            <CardContent>
-                              <Stack
-                                alignItems="center"
-                                direction="row"
-                                justifyContent="center"
-                              >
-                                <Stack spacing={1} alignItems="center">
-                                  <Typography align="center">
-                                    <FormattedMessage
-                                      id="error.while.loading.activity"
-                                      defaultMessage="Error while Loading activity"
-                                    />
-                                  </Typography>
-                                  <Button variant="outlined">
-                                    <FormattedMessage
-                                      id="try.again"
-                                      defaultMessage="try again"
-                                    />
-                                  </Button>
+
+                <Box sx={{ p: 2 }}>
+                  <NoSsr>
+                    {selectedTab === WalletTabs.Activity ? (
+                      <DexkitApiProvider.Provider value={{ instance: myAppsApi }}>
+                        <AppErrorBoundary
+                          fallbackRender={({ error }) => (
+                            <Card>
+                              <CardContent>
+                                <Stack
+                                  alignItems="center"
+                                  direction="row"
+                                  justifyContent="center"
+                                >
+                                  <Stack spacing={1} alignItems="center">
+                                    <Typography align="center">
+                                      <FormattedMessage
+                                        id="error.while.loading.activity"
+                                        defaultMessage="Error while Loading activity"
+                                      />
+                                    </Typography>
+                                    <Button variant="outlined">
+                                      <FormattedMessage
+                                        id="try.again"
+                                        defaultMessage="try again"
+                                      />
+                                    </Button>
+                                  </Stack>
                                 </Stack>
-                              </Stack>
-                            </CardContent>
-                          </Card>
-                        )}
-                      >
-                        {isLoggedIn ? (
-                          <UserActivityTable />
-                        ) : (
-                          <Stack justifyContent="center">
-                            <Box>
+                              </CardContent>
+                            </Card>
+                          )}
+                        >
+                          {isLoggedIn ? (
+                            <UserActivityTable />
+                          ) : (
+                            <Stack justifyContent="center" alignItems="center" sx={{ py: 4 }}>
                               <LoginAppButton />
-                            </Box>
-                          </Stack>
-                        )}
-                      </AppErrorBoundary>
-                    </DexkitApiProvider.Provider>
-                  ) : (
-                    <TransactionsTable
-                      filter={
-                        selectedTab === WalletTabs.Transactions
-                          ? TransactionsTableFilter.Transactions
-                          : TransactionsTableFilter.Trades
-                      }
-                    />
-                  )}
-                </NoSsr>
-              </Grid>
-            </>
-          </Grid>
+                            </Stack>
+                          )}
+                        </AppErrorBoundary>
+                      </DexkitApiProvider.Provider>
+                    ) : (
+                      <TransactionsTable
+                        filter={
+                          selectedTab === WalletTabs.Transactions
+                            ? TransactionsTableFilter.Transactions
+                            : TransactionsTableFilter.Trades
+                        }
+                      />
+                    )}
+                  </NoSsr>
+                </Box>
+              </Card>
+            </Grid>
+          )}
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

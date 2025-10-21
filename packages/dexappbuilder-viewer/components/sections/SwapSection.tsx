@@ -1,7 +1,8 @@
 import { ChainId } from "@dexkit/core/constants";
 import { useWeb3React } from "@dexkit/wallet-connectors/hooks/useWeb3React";
+import { WidgetContext } from "@dexkit/widgets/src/components/WidgetContext";
 import { SwapWidget } from "@dexkit/widgets/src/widgets/swap";
-import { Container } from "@mui/material";
+import { Container, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 
 import { isAddressEqual, parseChainId } from "@dexkit/core/utils";
@@ -32,6 +33,8 @@ export function SwapSection({ section }: Props) {
   const params = useSearchParams();
   const { tokens: appTokens } = useAppConfig();
   const userTokens = useAtomValue(tokensAtom) || [];
+  const theme = useTheme();
+
 
   const allTokens = useMemo(() => {
     const appTokensList = appTokens?.length ? appTokens[0].tokens || [] : [];
@@ -102,7 +105,7 @@ export function SwapSection({ section }: Props) {
 
     if (chainId && buyTokenAddress) {
       buyToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, buyTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -110,7 +113,7 @@ export function SwapSection({ section }: Props) {
 
     if (chainId && sellTokenAddress) {
       sellToken = tokens.find(
-        (t) =>
+        (t: any) =>
           isAddressEqual(t.address, sellTokenAddress ?? "") &&
           t.chainId === chainId
       );
@@ -138,7 +141,7 @@ export function SwapSection({ section }: Props) {
         const configuredBuyToken = section.config?.configByChain?.[targetChainId].buyToken;
 
         if (configuredBuyToken && !configuredBuyToken.logoURI) {
-          const tokenWithLogo = allTokens.find(t =>
+          const tokenWithLogo = allTokens.find((t: any) =>
             isAddressEqual(t.address, configuredBuyToken.address) &&
             t.chainId === configuredBuyToken.chainId
           );
@@ -161,7 +164,7 @@ export function SwapSection({ section }: Props) {
         const configuredSellToken = section.config?.configByChain?.[targetChainId].sellToken;
 
         if (configuredSellToken && !configuredSellToken.logoURI) {
-          const tokenWithLogo = allTokens.find(t =>
+          const tokenWithLogo = allTokens.find((t: any) =>
             isAddressEqual(t.address, configuredSellToken.address) &&
             t.chainId === configuredSellToken.chainId
           );
@@ -196,8 +199,8 @@ export function SwapSection({ section }: Props) {
 
   const featuredTokens = useMemo(() => {
     return allTokens
-      .filter((t) => !t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => !t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,
@@ -209,8 +212,8 @@ export function SwapSection({ section }: Props) {
 
   const nonFeaturedTokens = useMemo(() => {
     return allTokens
-      .filter((t) => t?.disableFeatured)
-      .map((t) => ({
+      .filter((t: any) => t?.disableFeatured)
+      .map((t: any) => ({
         chainId: t.chainId as number,
         address: t.address,
         decimals: t.decimals,
@@ -234,39 +237,41 @@ export function SwapSection({ section }: Props) {
       }}
     >
       <Container maxWidth={isGlass ? 'sm' : 'xs'} disableGutters>
-        <SwapWidget
-          {...swapState}
-          activeChainIds={activeChainIds}
-          renderOptions={{
-            ...swapState.renderOptions,
-            useGasless: section.config?.useGasless,
-            myTokensOnlyOnSearch: section.config?.myTokensOnlyOnSearch,
-            configsByChain:
-              enableUrlParams && processedConfig?.configByChain
-                ? processedConfig.configByChain
-                : processedConfig?.configByChain
+        <WidgetContext theme={theme}>
+          <SwapWidget
+            {...swapState}
+            activeChainIds={activeChainIds}
+            renderOptions={{
+              ...swapState.renderOptions,
+              useGasless: section.config?.useGasless,
+              myTokensOnlyOnSearch: section.config?.myTokensOnlyOnSearch,
+              configsByChain:
+                enableUrlParams && processedConfig?.configByChain
                   ? processedConfig.configByChain
-                  : {},
-            currency: currency.currency,
-            variant: section.config?.variant,
-            glassSettings: {
-              ...section.config?.glassSettings,
-              disableBackground: true,
-            },
-            enableUrlParams: enableUrlParams,
-            enableImportExterTokens: section.config?.enableImportExternTokens,
-            defaultChainId:
-              selectedChainId ||
-              chainId ||
-              processedConfig?.defaultChainId ||
-              ChainId.Ethereum,
-            zeroExApiKey: process?.env.NEXT_PUBLIC_ZRX_API_KEY || "",
-            transakApiKey: process?.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
-            featuredTokens,
-            nonFeaturedTokens,
-          }}
-          swapFees={swapState.swapFees}
-        />
+                  : processedConfig?.configByChain
+                    ? processedConfig.configByChain
+                    : {},
+              currency: currency.currency,
+              variant: section.config?.variant,
+              glassSettings: {
+                ...section.config?.glassSettings,
+                disableBackground: true,
+              },
+              enableUrlParams: enableUrlParams,
+              enableImportExterTokens: section.config?.enableImportExternTokens,
+              defaultChainId:
+                selectedChainId ||
+                chainId ||
+                processedConfig?.defaultChainId ||
+                ChainId.Ethereum,
+              zeroExApiKey: process?.env.NEXT_PUBLIC_ZRX_API_KEY || "",
+              transakApiKey: process?.env.NEXT_PUBLIC_TRANSAK_API_KEY || "",
+              featuredTokens,
+              nonFeaturedTokens,
+            }}
+            swapFees={swapState.swapFees}
+          />
+        </WidgetContext>
       </Container>
     </Box>
   );

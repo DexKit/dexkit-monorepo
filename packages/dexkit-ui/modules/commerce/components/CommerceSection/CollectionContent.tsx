@@ -40,7 +40,7 @@ export default function CollectionContent({ id }: CollectionContentProps) {
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFilters((values) => ({
+    setFilters((values: any) => ({
       ...values,
       pageSize: parseInt(event.target.value, 10),
     }));
@@ -57,12 +57,12 @@ export default function CollectionContent({ id }: CollectionContentProps) {
     <Container>
       <Box sx={{ position: "relative" }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Stack direction="row" justifyContent="flex-end">
                 <LazyTextField
                   onChange={(value) =>
-                    setFilters((filters) => ({ ...filters, query: value }))
+                    setFilters((filters: any) => ({ ...filters, query: value }))
                   }
                   value={filters.query}
                   TextFieldProps={{
@@ -84,11 +84,11 @@ export default function CollectionContent({ id }: CollectionContentProps) {
             </Box>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Grid container spacing={2}>
               {products && products?.totalItems > 0 ? (
                 products?.items?.map((product: any, key: any) => (
-                  <Grid key={key} item xs={12} sm={3}>
+                  <Grid key={key} size={{ xs: 12, sm: 3 }}>
                     <ProductCard
                       isOnWinshlist={isOnWishlist(product.id)}
                       product={product}
@@ -97,12 +97,12 @@ export default function CollectionContent({ id }: CollectionContentProps) {
                           ? handleRemoveFromWishlist(product.id)
                           : handleAddToWishlist(product.id)
                       }
-                      onShare={() => {}}
+                      onShare={() => { }}
                     />
                   </Grid>
                 ))
               ) : (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box>
                     <Stack sx={{ py: 2 }}>
                       <Typography textAlign="center" variant="h5">
@@ -127,13 +127,13 @@ export default function CollectionContent({ id }: CollectionContentProps) {
               )}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TablePagination
               component="div"
               count={products?.totalItems ?? 0}
               page={products?.currentPage ?? 0}
               onPageChange={(e, value) => {
-                setFilters((values) => ({ ...values, page: value }));
+                setFilters((values: any) => ({ ...values, page: value }));
               }}
               rowsPerPage={filters.pageSize}
               onRowsPerPageChange={handleChangeRowsPerPage}

@@ -7,6 +7,8 @@
     "moduleResolution": "Bundler",
     "rootDir": ".",
     "resolveJsonModule": true,
-    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include", "ES2021.String"]
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include", "ES2021.String"],
+    "typeRoots": ["./node_modules/@types"],
+    "types": []
   }
 }

@@ -249,22 +249,22 @@ export default function StakeErc721Section({
       return true;
     } catch (error: any) {
       console.error("Error during claim rewards:", error);
-      
+
       if (error.code === -32002) {
         watchTransactionDialog.setError(new Error("There is already a pending transaction in your wallet. Please resolve that transaction first."));
       } else if (error.code === 4001) {
         watchTransactionDialog.setError(new Error("Transaction rejected by the user."));
       } else if (
         error.message && (
-          error.message.includes("429") || 
-          error.message.includes("rate limit") || 
+          error.message.includes("429") ||
+          error.message.includes("rate limit") ||
           error.message.includes("too many requests")
         )
       ) {
         watchTransactionDialog.setError(new Error("The network is congested. Please wait a few moments and try again. Your rewards are safe."));
       } else if (
         error.message && (
-          error.message.includes("timeout") || 
+          error.message.includes("timeout") ||
           error.message.includes("timed out") ||
           error.message.includes("exceeded") ||
           error.message.includes("server error")
@@ -340,7 +340,19 @@ export default function StakeErc721Section({
       <Card>
         <CardContent>
           <Stack spacing={2}>
-            <Tabs onChange={handleChangeTab} variant="fullWidth" value={tab}>
+            <Tabs
+              onChange={handleChangeTab}
+              variant="fullWidth"
+              value={tab}
+              sx={{
+                '& .MuiTab-root': {
+                  color: 'text.primary',
+                  '&.Mui-selected': {
+                    color: 'primary.main',
+                  },
+                },
+              }}
+            >
               <Tab
                 value="stake"
                 label={<FormattedMessage id="stake" defaultMessage="Stake" />}
@@ -355,7 +367,7 @@ export default function StakeErc721Section({
             {tab === "stake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -368,7 +380,7 @@ export default function StakeErc721Section({
                           <Typography
                             align="center"
                             variant="body1"
-                            color="text.secondary"
+                            color="text.primary"
                           >
                             <FormattedMessage
                               id="nfts.staked"
@@ -383,7 +395,7 @@ export default function StakeErc721Section({
                         >
                           <Stack spacing={1} alignItems="center">
                             <Token />
-                            <Typography color="text.secondary">
+                            <Typography color="text.primary">
                               <FormattedMessage
                                 id="select.an.nft"
                                 defaultMessage="Select an NFT"
@@ -395,8 +407,8 @@ export default function StakeErc721Section({
                     </Paper>
                   </Grid>
                   {selectedTokenIds.length > 0 && (
-                    <Grid item xs={12}>
-                      <Typography color="text.secondary" variant="body1">
+                    <Grid size={12}>
+                      <Typography color="text.primary" variant="body1">
                         {selectedTokenIds.length > 1 ? (
                           <FormattedMessage
                             id="amount.nfts.selected.to.stake"
@@ -416,17 +428,17 @@ export default function StakeErc721Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="total.rewards"
                               defaultMessage="Total Rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
@@ -438,17 +450,17 @@ export default function StakeErc721Section({
                           </Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="rewards.rate"
                               defaultMessage="Rewards rate"
                             />
                           </Typography>
 
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardRatio &&
-                            rewardTimeUnit &&
-                            rewardTokenBalance ? (
+                              rewardTimeUnit &&
+                              rewardTokenBalance ? (
                               <>
                                 {formatBigNumber(
                                   rewardRatio,
@@ -468,13 +480,13 @@ export default function StakeErc721Section({
                           </Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="claimable.rewards"
                               defaultMessage="Claimable rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
@@ -488,7 +500,7 @@ export default function StakeErc721Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={
                         stakeNftMutation.isLoading ||
@@ -509,7 +521,7 @@ export default function StakeErc721Section({
                     </Button>
                   </Grid>
                   {rewards && rewards.gt(0) && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Button
                         onClick={handleClaim}
                         startIcon={
@@ -539,7 +551,7 @@ export default function StakeErc721Section({
             {tab === "unstake" && (
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper variant="outlined">
                       {stakedTokenIds && stakedTokenIds?.length > 0 ? (
                         <CardActionArea
@@ -552,7 +564,7 @@ export default function StakeErc721Section({
                           <Typography
                             align="center"
                             variant="body1"
-                            color="text.secondary"
+                            color="text.primary"
                           >
                             <FormattedMessage
                               id="nfts.staked"
@@ -567,7 +579,7 @@ export default function StakeErc721Section({
                         >
                           <Stack spacing={1} alignItems="center">
                             <Token />
-                            <Typography color="text.secondary">
+                            <Typography color="text.primary">
                               <FormattedMessage
                                 id="select.nfts"
                                 defaultMessage="Select NFTs"
@@ -579,8 +591,8 @@ export default function StakeErc721Section({
                     </Paper>
                   </Grid>
                   {selectedTokenIds.length > 0 && (
-                    <Grid item xs={12}>
-                      <Typography color="text.secondary" variant="body1">
+                    <Grid size={12}>
+                      <Typography color="text.primary" variant="body1">
                         {selectedTokenIds.length > 1 ? (
                           <FormattedMessage
                             id="amount.tokens.selected.to.stake"
@@ -600,17 +612,17 @@ export default function StakeErc721Section({
                     </Grid>
                   )}
 
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Box>
                       <Stack>
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="total.rewards"
                               defaultMessage="Total Rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardsBalance && rewardTokenBalance ? (
                               `${formatBigNumber(
                                 rewardsBalance,
@@ -623,13 +635,13 @@ export default function StakeErc721Section({
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="rewards.rate"
                               defaultMessage="Rewards rate"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardRatio && rewardTimeUnit ? (
                               <>
                                 {formatBigNumber(
@@ -651,13 +663,13 @@ export default function StakeErc721Section({
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between">
-                          <Typography>
+                          <Typography color="text.primary">
                             <FormattedMessage
                               id="claimable.rewards"
                               defaultMessage="Claimable rewards"
                             />
                           </Typography>
-                          <Typography color="text.secondary">
+                          <Typography color="text.primary">
                             {rewardTokenBalance && rewards ? (
                               `${formatBigNumber(
                                 rewards,
@@ -671,7 +683,7 @@ export default function StakeErc721Section({
                       </Stack>
                     </Box>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Button
                       disabled={
                         unstakeRewardsMutation.isLoading ||

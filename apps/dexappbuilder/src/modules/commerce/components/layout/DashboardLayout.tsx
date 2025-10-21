@@ -46,7 +46,7 @@ import { ConnectButton } from '@dexkit/ui/components/ConnectButton';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 export interface DashboardLayoutProps {
-  children: React.ReactNode;
+  children: any;
   page?: string;
 }
 
@@ -55,7 +55,7 @@ function RequireLogin({
   children,
 }: {
   page: string;
-  children: React.ReactNode;
+  children: any;
 }) {
   const { isActive } = useWeb3React();
 
@@ -68,14 +68,18 @@ function RequireLogin({
   );
 
   const handleToggleMenu = () => {
-    setOpen((value) => !value);
+    setOpen((value: boolean) => !value);
   };
 
   if (isActive) {
     return (
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 3
+            }}>
             <Paper>
               <List disablePadding>
                 <ListItemButton
@@ -239,7 +243,11 @@ function RequireLogin({
               </List>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 9
+            }}>
             {children}
           </Grid>
         </Grid>
@@ -293,7 +301,7 @@ export default function DashboardLayout({
         <RequireLogin page={page ?? ''}>
           <Container>
             <Grid container justifyContent="center" spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 {children}
               </Grid>
             </Grid>

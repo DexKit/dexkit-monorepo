@@ -14,7 +14,7 @@ import {
   NumberOfPLayers,
 } from '../constants/enums';
 
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
+import { ApolloClient, gql, HttpLink, InMemoryCache } from '@apollo/client';
 
 import { ChainId } from '@/modules/common/constants/enums';
 import { isAddressEqual } from '@/modules/common/utils';
@@ -721,12 +721,16 @@ const COIN_LEAGUES_CHAMPION_URL_MATIC =
   'https://api.thegraph.com/subgraphs/name/joaocampos89/champions';
 
 const mumbaiClient = new ApolloClient({
-  uri: COIN_LEAGUES_CHAMPION_URL_NUMBAI,
+  link: new HttpLink({
+    uri: COIN_LEAGUES_CHAMPION_URL_NUMBAI,
+  }),
   cache: new InMemoryCache(),
 });
 
 const maticClient = new ApolloClient({
-  uri: COIN_LEAGUES_CHAMPION_URL_MATIC,
+  link: new HttpLink({
+    uri: COIN_LEAGUES_CHAMPION_URL_MATIC,
+  }),
   cache: new InMemoryCache(),
 });
 

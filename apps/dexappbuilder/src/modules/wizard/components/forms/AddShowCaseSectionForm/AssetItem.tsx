@@ -69,11 +69,11 @@ export default function AssetItem({ item }: AssetItemProps) {
                 {nftQuery.data?.metadata?.description ? (
                   <AppExpandableTypography
                     TypographyProps={{
-                      sx: { textOverflow: 'ellipsis', overflow: 'hidden' },
                       variant: 'body2',
                       color: 'text.secondary',
                     }}
                     value={nftQuery.data?.metadata?.description}
+                    asInlineElement={true}
                   />
                 ) : (
                   <FormattedMessage

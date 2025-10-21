@@ -17,7 +17,7 @@ export interface CardProps {
   sx?: object;
 }
 
-const Card: React.FC<CardProps> = ({ id, title, description, image, imageFile, actions, sx }) => {
+const Card = ({ id, title, description, image, imageFile, actions, sx }: CardProps) => {
   const imageSource = React.useMemo(() => {
     if (imageFile) {
       return URL.createObjectURL(imageFile);

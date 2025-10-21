@@ -264,7 +264,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
           {assetParams && (
             <Paper sx={{ p: 1 }}>
               <Grid container spacing={1}>
-                <Grid item>
+                <Grid>
                   {metadata?.image === undefined ? (
                     <Skeleton
                       variant="rectangular"
@@ -290,7 +290,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs>
+                <Grid size="grow">
                   <Typography variant="body2" color="textSecondary">
                     {asset?.collectionName === undefined ? (
                       <Skeleton />
@@ -338,7 +338,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
           )}
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Autocomplete
                   disablePortal
                   options={options}
@@ -369,7 +369,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   required
                   fullWidth
@@ -393,7 +393,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   required
                   fullWidth
@@ -412,7 +412,7 @@ export default function ImportAssetDialog({ dialogProps }: Props) {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Alert severity="info">
                   <FormattedMessage
                     id="asset.will.be.added.to.favorites"

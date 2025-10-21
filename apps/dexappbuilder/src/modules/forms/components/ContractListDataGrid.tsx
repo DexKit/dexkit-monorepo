@@ -5,6 +5,7 @@ import {
 } from '@dexkit/core/constants/networks';
 import { truncateAddress } from '@dexkit/core/utils';
 import Link from '@dexkit/ui/components/AppLink';
+import MobilePagination from '@dexkit/ui/components/MobilePagination';
 import { useWeb3React } from '@dexkit/wallet-connectors/hooks/useWeb3React';
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import Settings from '@mui/icons-material/SettingsOutlined';
@@ -83,28 +84,36 @@ export default function ContractListDataGrid({
     ...paginationModel,
   });
 
+
   useEffect(() => {
-    setQueryOptions({
-      ...queryOptions,
+    setQueryOptions(prevOptions => ({
+      ...prevOptions,
       filter: {
-        ...queryOptions?.filter,
+        ...prevOptions?.filter,
         owner: account?.toLowerCase() || '',
         hide: showHidden ? undefined : false,
       },
-    });
+    }));
+    setPaginationModel(prev => ({ ...prev, page: 0 }));
   }, [account, showHidden]);
 
-  const [rowCountState, setRowCountState] = useState((data?.total as any) || 0);
+  const [rowCountState, setRowCountState] = useState(0);
 
   useEffect(() => {
-    setRowCountState((prevRowCountState: number) =>
-      data?.total !== undefined ? data?.total : prevRowCountState,
-    );
-  }, [data?.total, setRowCountState]);
+    if (data?.total !== undefined) {
+      setRowCountState(data.total);
+    }
+  }, [data?.total]);
+
+  useEffect(() => {
+    if (data?.total !== undefined) {
+      setRowCountState(data.total);
+    }
+  }, [paginationModel.page, paginationModel.pageSize]);
+
 
   const handleSortModelChange = useCallback(
     (sortModel: GridSortModel) => {
-      // Here you save the data you need from the sort model
       setQueryOptions({
         ...queryOptions,
         sort:
@@ -171,25 +180,53 @@ export default function ContractListDataGrid({
   };
 
   const renderMobileName = (params: any) => (
-    <Box>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      height: '100%',
+      minHeight: '100%',
+      padding: `${theme.spacing(0.5)} 0`
+    }}>
       <Typography
         variant="body2"
         fontWeight="medium"
-        sx={{ fontSize: theme.typography.caption.fontSize, lineHeight: 1.2, mb: 0.5 }}
+        sx={{
+          fontSize: theme.typography.caption.fontSize,
+          lineHeight: 1.2,
+          mb: 0.5,
+          margin: 0
+        }}
       >
         {params.row.name}
       </Typography>
       <Typography
         variant="caption"
-        sx={{ fontSize: theme.typography.caption.fontSize, display: 'block', color: 'text.secondary' }}
+        sx={{
+          fontSize: theme.typography.caption.fontSize,
+          display: 'block',
+          color: 'text.secondary',
+          margin: 0
+        }}
       >
-        {new Date(params.row.createdAt).toLocaleDateString()}
+        {params.row?.createdAt ? new Date(params.row.createdAt).toLocaleDateString() : 'N/A'}
       </Typography>
     </Box>
   );
 
   const renderMobileActions = (params: any) => (
-    <Stack direction="row" spacing={0.5} sx={{ justifyContent: 'flex-end' }}>
+    <Stack
+      direction="row"
+      spacing={0.5}
+      sx={{
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        height: '100%',
+        minHeight: '100%',
+        padding: `${theme.spacing(0.5)} 0`
+      }}
+    >
       <Link href={`/contract/${NETWORK_SLUG(params.row.chainId)}/${params.row.contractAddress}`}>
         <MobileIconButton size="small">
           <Settings fontSize="small" />
@@ -242,8 +279,8 @@ export default function ContractListDataGrid({
       headerName: 'Created At',
       minWidth: 180,
       flex: 1,
-      valueGetter: ({ row }) => {
-        return new Date(row.createdAt).toLocaleString();
+      valueGetter: (value, row) => {
+        return row?.createdAt ? new Date(row.createdAt).toLocaleString() : 'N/A';
       },
     },
     {
@@ -255,8 +292,8 @@ export default function ContractListDataGrid({
       field: 'chainId',
       headerName: 'Network',
       width: 110,
-      valueGetter: ({ row }) => {
-        return NETWORK_NAME(row.chainId);
+      valueGetter: (value, row) => {
+        return row?.chainId ? NETWORK_NAME(row.chainId) : 'N/A';
       },
     },
     {
@@ -266,9 +303,9 @@ export default function ContractListDataGrid({
       renderCell: (params: any) => (
         <Link
           target="_blank"
-          href={`${NETWORK_EXPLORER(params.row.chainId)}/address/${params.row.contractAddress}`}
+          href={`${NETWORK_EXPLORER(params.row?.chainId)}/address/${params.row?.contractAddress}`}
         >
-          {truncateAddress(params.row.contractAddress)}
+          {truncateAddress(params.row?.contractAddress)}
         </Link>
       ),
     },
@@ -279,7 +316,7 @@ export default function ContractListDataGrid({
       renderCell: ({ row }) => {
         return (
           <Stack direction={'row'} spacing={1}>
-            <Link href={`/contract/${NETWORK_SLUG(row.chainId)}/${row.contractAddress}`}>
+            <Link href={`/contract/${NETWORK_SLUG(row?.chainId)}/${row?.contractAddress}`}>
               <IconButton size="small">
                 <Tooltip
                   title={
@@ -293,7 +330,7 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             </Link>
-            <Link href={`/forms/create?contractAddress=${row.contractAddress}&chainId=${row.chainId}`} target="_blank">
+            <Link href={`/forms/create?contractAddress=${row?.contractAddress}&chainId=${row?.chainId}`} target="_blank">
               <IconButton size="small">
                 <Tooltip
                   title={
@@ -307,8 +344,8 @@ export default function ContractListDataGrid({
                 </Tooltip>
               </IconButton>
             </Link>
-            <IconButton onClick={handleHideContract(row.id)}>
-              {row.hide ? (
+            <IconButton onClick={handleHideContract(row?.id)}>
+              {row?.hide ? (
                 <Tooltip
                   title={
                     <FormattedMessage
@@ -345,6 +382,14 @@ export default function ContractListDataGrid({
     setRowSelectionModel(rowSelectionModel);
   };
 
+  const handleMobilePageChange = (newPage: number) => {
+    setPaginationModel({ ...paginationModel, page: newPage });
+  };
+
+  const handleMobilePageSizeChange = (newPageSize: number) => {
+    setPaginationModel({ page: 0, pageSize: newPageSize });
+  };
+
   const mobileStyles = {
     '.MuiDataGrid-root': {
       border: 'none',
@@ -362,17 +407,14 @@ export default function ContractListDataGrid({
       fontWeight: 'bold',
       fontSize: theme.typography.caption.fontSize,
     },
-    '.MuiDataGrid-row': {
-      minHeight: `${theme.spacing(7.5)} !important`,
-      maxHeight: `${theme.spacing(11.25)} !important`,
-    },
     '.MuiDataGrid-cell': {
       fontSize: theme.typography.caption.fontSize,
-      padding: `${theme.spacing(0.75)} ${theme.spacing(0.5)}`,
+      padding: `${theme.spacing(1)} ${theme.spacing(0.5)}`,
       lineHeight: 1.2,
-    },
-    '.MuiDataGrid-virtualScroller': {
-      overflow: 'visible',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      verticalAlign: 'middle',
     },
     '.MuiDataGrid-toolbarContainer': {
       padding: theme.spacing(0.5),
@@ -395,13 +437,22 @@ export default function ContractListDataGrid({
       height: `${theme.spacing(5)} !important`,
       minHeight: `${theme.spacing(5)} !important`,
       maxHeight: `${theme.spacing(5)} !important`,
+    },
+    '.MuiDataGrid-cell--withBorder': {
+      borderBottom: 'none !important',
+    },
+    '.MuiDataGrid-row': {
+      borderBottom: '1px solid rgba(224, 224, 224, 0.12) !important',
     }
   };
 
   return (
     <Box sx={{
       width: '100%',
-      height: { xs: theme.spacing(45), sm: theme.spacing(56.25) },
+      height: isMobile ? 'auto' : 'auto',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
       '& .MuiDataGrid-cell': {
         fontSize: { xs: theme.typography.caption.fontSize, sm: theme.typography.body2.fontSize },
       },
@@ -417,7 +468,7 @@ export default function ContractListDataGrid({
     }}>
       <DataGrid
         rows={data?.data || []}
-        rowCount={rowCountState}
+        rowCount={rowCountState || -1}
         loading={isLoading}
         columns={columns}
         pageSizeOptions={isMobile ? [5] : [5, 10, 25, 50, 100]}
@@ -429,6 +480,7 @@ export default function ContractListDataGrid({
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={onFilterChange}
         disableRowSelectionOnClick
+        hideFooterPagination={isMobile}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -443,19 +495,44 @@ export default function ContractListDataGrid({
         }}
         onRowSelectionModelChange={handleChangeRowSelectionModel}
         density="compact"
-        rowHeight={isMobile ? 60 : 52}
-        autoHeight={isMobile}
+        rowHeight={isMobile ? 72 : 52}
         sx={{
           width: '100%',
           maxWidth: '100%',
-          overflow: 'auto',
-          ...(isMobile && {
-            '& .MuiDataGrid-virtualScroller': {
-              overflow: 'visible',
-            },
-          }),
+          border: 'none',
+          height: isMobile ? 600 : 600,
+          '& .MuiDataGrid-main': {
+            overflow: 'auto',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            overflow: 'auto',
+          },
+          '& .MuiDataGrid-cell': {
+            borderBottom: 'none !important',
+            borderRight: 'none !important',
+          },
+          '& .MuiDataGrid-row': {
+            borderBottom: '1px solid rgba(224, 224, 224, 0.12) !important',
+          },
+          '& .MuiDataGrid-cell--withBorder': {
+            borderBottom: 'none !important',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          },
         }}
       />
+
+      {isMobile && (
+        <MobilePagination
+          page={paginationModel.page}
+          pageSize={paginationModel.pageSize}
+          totalRows={rowCountState}
+          onPageChange={handleMobilePageChange}
+          onPageSizeChange={handleMobilePageSizeChange}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      )}
     </Box>
   );
 }

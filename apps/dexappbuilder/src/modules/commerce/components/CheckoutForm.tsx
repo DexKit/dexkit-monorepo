@@ -26,7 +26,7 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field
             label={<FormattedMessage id="title" defaultMessage="Title" />}
             component={TextField}
@@ -35,7 +35,7 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
             disabled={disabled}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Field
             label={
               <FormattedMessage id="description" defaultMessage="description" />
@@ -48,7 +48,7 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
             disabled={disabled}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl>
             <FormGroup sx={{ px: 2 }} row>
               <FormControlLabel
@@ -71,7 +71,7 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
             </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl>
             <FormGroup sx={{ px: 2 }} row>
               <FormControlLabel
@@ -95,13 +95,13 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
             </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <CheckoutItemsTable name="items" />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FieldArray
             name="items"
-            render={({ handlePush }) => (
+            render={({ handlePush }: any) => (
               <Button
                 disabled={disabled}
                 variant="outlined"
@@ -115,10 +115,10 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
             )}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box>
             <Stack justifyContent="flex-end" direction="row" spacing={2}>
               <Button LinkComponent={Link} href="/u/account/commerce/checkouts">

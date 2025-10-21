@@ -78,7 +78,7 @@ export default function BurnTokenDialog({
         onClose={handleClose}
       />
       <Formik initialValues={{ amount: '0.0' }} onSubmit={handleSubmit}>
-        {({ submitForm, isSubmitting }) => (
+        {({ submitForm, isSubmitting }: any) => (
           <>
             <DialogContent dividers>
               <Field

@@ -549,33 +549,49 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
   };
 
   if (item.type === "image") {
+    const hasValidLink = item.actionType && item?.actionType === "link" && item?.url;
+    const hasValidPage = item.actionType && item.actionType === "page" && item?.page;
+    const href = hasValidLink ? item.url : hasValidPage ? item?.page : null;
+
     return (
       <Card sx={getCardStyles()}>
-        <CardActionArea
-          LinkComponent={Link}
-          href={
-            item.actionType && item?.actionType === "link" && item?.url
-              ? item.url
-              : item.actionType && item.actionType === "page" && item?.page
-                ? item?.page
-                : ""
-          }
-          sx={getHoverStyles()}
-        >
-          {item.imageUrl ? (
-            renderEnhancedImage(item.imageUrl)
-          ) : (
-            <Skeleton
-              variant="rectangular"
-              sx={{
-                aspectRatio: "1/1",
-                display: "block",
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          )}
-        </CardActionArea>
+        {href ? (
+          <CardActionArea
+            LinkComponent={Link}
+            href={href}
+            sx={getHoverStyles()}
+          >
+            {item.imageUrl ? (
+              renderEnhancedImage(item.imageUrl)
+            ) : (
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  aspectRatio: "1/1",
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+          </CardActionArea>
+        ) : (
+          <Box sx={getHoverStyles()}>
+            {item.imageUrl ? (
+              renderEnhancedImage(item.imageUrl)
+            ) : (
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  aspectRatio: "1/1",
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+          </Box>
+        )}
         <Divider />
         {(item?.title || item?.subtitle) && (item.showTextBelow !== false) && (
           <CardContent sx={{
@@ -601,6 +617,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                       '@media (max-width: 600px)': {
                         fontSize: '0.9rem',
                         lineHeight: 1.2,
@@ -617,26 +634,33 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                   </Typography>
                 )}
                 {item.subtitle && (
-                  <AppExpandableTypography
-                    TypographyProps={{
-                      sx: {
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        textAlign: item.textAlign || 'inherit',
-                        '@media (max-width: 600px)': {
-                          fontSize: '0.8rem',
-                          lineHeight: 1.2,
-                        },
-                        '@media (max-width: 480px)': {
-                          fontSize: '0.7rem',
-                          lineHeight: 1.1,
-                        },
+                  <Typography
+                    sx={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      textAlign: item.textAlign || 'inherit',
+                      color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
+                      '@media (max-width: 600px)': {
+                        fontSize: '0.8rem',
+                        lineHeight: 1.2,
                       },
-                      variant: "body2",
-                      color: "text.secondary",
+                      '@media (max-width: 480px)': {
+                        fontSize: '0.7rem',
+                        lineHeight: 1.1,
+                      },
                     }}
-                    value={item.subtitle || ""}
-                  />
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    <AppExpandableTypography
+                      TypographyProps={{
+                        variant: "body2",
+                        color: "text.secondary",
+                      }}
+                      value={item.subtitle || ""}
+                      asInlineElement={true}
+                    />
+                  </Typography>
                 )}
               </Box>
             </Stack>
@@ -702,6 +726,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                   textOverflow: "ellipsis",
                   overflow: "hidden",
                   textAlign: item.textAlign || 'inherit',
+                  color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                   '@media (max-width: 600px)': {
                     fontSize: '0.9rem',
                     lineHeight: 1.2,
@@ -723,12 +748,13 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 )}
               </Typography>
 
-              {item.subtitle ? <AppExpandableTypography
-                TypographyProps={{
-                  sx: {
+              {item.subtitle ? (
+                <Typography
+                  sx={{
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                     textAlign: item.textAlign || 'inherit',
+                    color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                     '@media (max-width: 600px)': {
                       fontSize: '0.8rem',
                       lineHeight: 1.2,
@@ -737,32 +763,47 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       fontSize: '0.7rem',
                       lineHeight: 1.1,
                     },
-                  },
-                  variant: "body2",
-                  color: "text.secondary",
-                }}
-                value={contractMetadata.data?.name || ""}
-              /> : (
-                <AppExpandableTypography
-                  TypographyProps={{
-                    sx: {
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      textAlign: item.textAlign || 'inherit',
-                      '@media (max-width: 600px)': {
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                      },
-                      '@media (max-width: 480px)': {
-                        fontSize: '0.7rem',
-                        lineHeight: 1.1,
-                      },
-                    },
-                    variant: "body2",
-                    color: "text.secondary",
                   }}
-                  value={contractMetadata.data?.description || ""}
-                />
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  <AppExpandableTypography
+                    TypographyProps={{
+                      variant: "body2",
+                      color: "text.secondary",
+                    }}
+                    value={contractMetadata.data?.name || ""}
+                    asInlineElement={true}
+                  />
+                </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    textAlign: item.textAlign || 'inherit',
+                    color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
+                    '@media (max-width: 600px)': {
+                      fontSize: '0.8rem',
+                      lineHeight: 1.2,
+                    },
+                    '@media (max-width: 480px)': {
+                      fontSize: '0.7rem',
+                      lineHeight: 1.1,
+                    },
+                  }}
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  <AppExpandableTypography
+                    TypographyProps={{
+                      variant: "body2",
+                      color: "text.secondary",
+                    }}
+                    value={contractMetadata.data?.description || ""}
+                    asInlineElement={true}
+                  />
+                </Typography>
               )}
             </Box>
           </Stack>
@@ -823,6 +864,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 textAlign: item.textAlign || 'inherit',
+                color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.9rem',
                   lineHeight: 1.2,
@@ -850,6 +892,7 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 textAlign: item.textAlign || 'inherit',
+                color: theme.palette.mode === 'dark' ? '#cccccc' : 'inherit',
                 '@media (max-width: 600px)': {
                   fontSize: '0.8rem',
                   lineHeight: 1.2,
@@ -872,22 +915,10 @@ export default function ShowCaseCard({ item, sectionSettings }: ShowCaseCardProp
                       : `${nftQuery.data?.collectionName} #${nftQuery.data?.id}`
                   }
                   TypographyProps={{
-                    sx: {
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      textAlign: item.textAlign || 'inherit',
-                      '@media (max-width: 600px)': {
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                      },
-                      '@media (max-width: 480px)': {
-                        fontSize: '0.7rem',
-                        lineHeight: 1.1,
-                      },
-                    },
                     variant: "body2",
                     color: "text.secondary",
                   }}
+                  asInlineElement={true}
                 />
               )}
             </Typography>

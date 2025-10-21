@@ -30,7 +30,7 @@ function SwapFeaturedMatchaTokens({
           const isKitToken = isDexKitToken(token);
 
           return (
-            <Grid item key={index} wrap="wrap">
+            <Grid key={index} size="auto">
               <Chip
                 icon={
                   <Avatar

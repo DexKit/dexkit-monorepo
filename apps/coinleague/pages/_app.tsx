@@ -22,8 +22,8 @@ import { useRouter } from 'next/router';
 import { ThemeMode } from '@dexkit/ui/constants/enum';
 import { AppConfigContext as AppUIConfigContext } from '@dexkit/ui/context/AppConfigContext';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import { extendTheme } from '@mui/material/styles';
+import type { } from '@mui/material/themeCssVarsAugmentation';
 import { getTheme } from 'src/theme';
 
 import defaultAppConfig from '../config/app.json';
@@ -81,7 +81,7 @@ export default function MyApp(props: MyAppProps) {
     let tempTheme = getTheme({
       name: defaultAppConfig.theme,
     })?.theme;
-    let fontFamily;
+    let fontFamily = "'Sora', sans-serif"; // Default to Sora
     if (appConfig?.font) {
       fontFamily = `'${appConfig.font.family}', ${appConfig.font.category}`;
     }
@@ -117,18 +117,18 @@ export default function MyApp(props: MyAppProps) {
       if (customTheme) {
         return fontFamily
           ? extendTheme({
-              typography: {
-                fontFamily,
-              },
-              colorSchemes: {
-                ...customTheme,
-              },
-            })
+            typography: {
+              fontFamily,
+            },
+            colorSchemes: {
+              ...customTheme,
+            },
+          })
           : extendTheme({
-              colorSchemes: {
-                ...customTheme,
-              },
-            });
+            colorSchemes: {
+              ...customTheme,
+            },
+          });
       }
     }
 
@@ -138,11 +138,11 @@ export default function MyApp(props: MyAppProps) {
 
     return fontFamily
       ? extendTheme({
-          ...temp,
-          typography: {
-            fontFamily,
-          },
-        })
+        ...temp,
+        typography: {
+          fontFamily,
+        },
+      })
       : extendTheme({ ...temp });
   }, [appConfig]);
 
@@ -260,10 +260,10 @@ export default function MyApp(props: MyAppProps) {
       <AuthStateProvider>
         <SiteProvider siteId={siteId} slug={site}>
           <AppConfigContext.Provider
-            value={{ appConfig: config, appNFT, siteId }}
+            value={{ appConfig: config as AppConfig, appNFT, siteId }}
           >
             <AppUIConfigContext.Provider
-              value={{ appConfig: config, appNFT, siteId }}
+              value={{ appConfig: config as AppConfig, appNFT, siteId }}
             >
               <ThirdwebProvider>
                 <AutoConnectEthereumProvider />

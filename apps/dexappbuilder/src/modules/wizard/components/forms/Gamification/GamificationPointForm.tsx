@@ -217,11 +217,9 @@ export default function GamificationPointForm({
           values,
           setFieldValue,
           errors,
-          resetForm,
-          touched,
-        }) => (
+        }: any) => (
           <>
-            {Object.keys(touched).length > 0 && (
+            {Object.keys({}).length > 0 && (
               <ChangeListener
                 isValid={isValid}
                 onChange={onChange}
@@ -231,9 +229,9 @@ export default function GamificationPointForm({
             <Form>
               <FieldArray
                 name="settings"
-                render={({ handleInsert, handleRemove }) => (
+                render={({ handleInsert, handleRemove }: any) => (
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography variant="subtitle1">
                         <FormattedMessage
                           id="active.period"
@@ -241,9 +239,9 @@ export default function GamificationPointForm({
                         />
                       </Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Grid container spacing={2}>
-                        <Grid item>
+                        <Grid>
                           <DateTimePicker
                             ampm={false}
                             value={moment(values.from)}
@@ -253,11 +251,11 @@ export default function GamificationPointForm({
                                 defaultMessage="From"
                               />
                             }
-                            onChange={(value) => {
+                            onChange={(value: any) => {
                               setFieldValue('from', value?.format(), true);
                               setFieldTouched('from', true, true);
                             }}
-                            renderInput={(props) => (
+                            renderInput={(props: any) => (
                               <TextField
                                 {...props}
                                 error={Boolean(errors.from)}
@@ -272,7 +270,7 @@ export default function GamificationPointForm({
                             InputProps={{ fullWidth: true }}
                           />
                         </Grid>
-                        <Grid item>
+                        <Grid>
                           <DateTimePicker
                             ampm={false}
                             label={
@@ -286,11 +284,11 @@ export default function GamificationPointForm({
                                 actions: ['clear', 'today'],
                               },
                             }}
-                            onChange={(value) => {
+                            onChange={(value: any) => {
                               setFieldValue('to', value?.format(), true);
                               setFieldTouched('to', true, true);
                             }}
-                            renderInput={(props) => (
+                            renderInput={(props: any) => (
                               <TextField
                                 {...props}
                                 error={Boolean(errors.to)}
@@ -301,7 +299,7 @@ export default function GamificationPointForm({
                             InputProps={{ fullWidth: true }}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -324,8 +322,8 @@ export default function GamificationPointForm({
                         </Grid>
                       </Grid>
                     </Grid>
-                    {values.settings.map((rule, index) => (
-                      <Grid item xs={12} key={index}>
+                    {values.settings.map((rule: any, index: any) => (
+                      <Grid key={index} size={12}>
                         <div>
                           <Stack spacing={2}>
                             <LeaderboardRule
@@ -333,7 +331,7 @@ export default function GamificationPointForm({
                               key={index}
                               setFieldValue={setFieldValue}
                               values={values}
-                              touched={touched}
+                              touched={{}}
                               errors={errors}
                               ranking={ranking}
                               onRemove={handleRemoveItem(handleRemove(index))}
@@ -347,7 +345,7 @@ export default function GamificationPointForm({
                     ))}
                     {newIndex === -1 && (
                       <>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Button
                             onClick={handleAddNew(
                               values.settings.length,
@@ -364,13 +362,13 @@ export default function GamificationPointForm({
                             />
                           </Button>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Divider />
                         </Grid>
                       </>
                     )}
 
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <div>
                         <Stack
                           direction="row"
@@ -379,7 +377,7 @@ export default function GamificationPointForm({
                         >
                           <Button
                             disabled={isSubmitting}
-                            onClick={() => resetForm()}
+                            onClick={() => {}}
                           >
                             <FormattedMessage
                               id="cancel"

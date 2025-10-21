@@ -152,7 +152,6 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
           isEdit={true}
         />
       )}
-
       {memberPermissions?.map((member, key) => (
         <Accordion key={key}>
           <AccordionSummary
@@ -188,7 +187,7 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
                 helper.setSubmitting(false);
               }}
             >
-              {({ submitForm, resetForm, setValues }) => (
+              {({ submitForm, resetForm, setValues }: any) => (
                 <Form>
                   <Box
                     display={'flex'}
@@ -199,7 +198,7 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
                     <FormControlLabel
                       control={
                         <Switch
-                          onChange={(ev) => {
+                          onChange={(ev: any) => {
                             if (ev.target.checked) {
                               setValues(initPerms({ defaultValue: true }));
                             } else {
@@ -256,7 +255,12 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
 
                   <Grid container spacing={isMobile ? 1 : 2}>
                     {Object.values(SiteAction).map((action, key) => (
-                      <Grid item xs={12} sm={6} key={key}>
+                      <Grid
+                        key={key}
+                        size={{
+                          xs: 12,
+                          sm: 6
+                        }}>
                         <Field
                           component={CheckboxWithLabel}
                           type="checkbox"
@@ -273,7 +277,7 @@ export function PermissionsAccordionForm({ memberPermissions, siteId }: Props) {
                     ))}
                   </Grid>
 
-                  <Grid item xs={12} sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }}>
+                  <Grid sx={{ mt: isMobile ? theme.spacing(1) : theme.spacing(2) }} size={12}>
                     <Stack
                       spacing={1}
                       direction={isMobile ? "column" : "row"}

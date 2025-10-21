@@ -10,7 +10,9 @@
         "^build"
       ],
       "outputs": [
-        "dist/**"
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
       ]
     },
     "lint": {
@@ -28,5 +30,11 @@
     "dev": {
       "cache": false
     }
-  }
+  },
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+  "globalPassThroughEnv": [
+    "NODE_ENV"
+  ]
 }

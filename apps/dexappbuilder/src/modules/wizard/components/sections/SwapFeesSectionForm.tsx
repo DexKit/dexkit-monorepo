@@ -48,7 +48,7 @@ export default function SwapFeesSectionForm({
     <Paper sx={{ p: isMobile ? 1.5 : 2 }}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={isMobile ? 1.5 : 2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               label={
                 <FormattedMessage id="recipient" defaultMessage="Recipient" />
@@ -81,7 +81,7 @@ export default function SwapFeesSectionForm({
               size={isMobile ? "small" : "medium"}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               label={
@@ -118,7 +118,7 @@ export default function SwapFeesSectionForm({
               size={isMobile ? "small" : "medium"}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack spacing={1} direction="row" justifyContent="flex-end">
               <Button
                 disabled={!formik.isValid}

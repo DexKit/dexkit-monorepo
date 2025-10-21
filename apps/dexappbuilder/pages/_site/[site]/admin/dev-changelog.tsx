@@ -23,7 +23,7 @@ export function ChangelogDevPage({ changelog }: Props) {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <PageHeader
             breadcrumbs={[
               {
@@ -44,7 +44,7 @@ export function ChangelogDevPage({ changelog }: Props) {
             showTitleOnDesktop
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{changelog}</ReactMarkdown>
         </Grid>
       </Grid>
@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths<
   Params
-> = ({}: GetStaticPathsContext) => {
+> = ({ }: GetStaticPathsContext) => {
   return {
     paths: [],
     fallback: 'blocking',

@@ -61,7 +61,7 @@ export default function AppDataTableDialog({
   };
 
   const handleEditRow = (id: GridRowId, value: boolean) => {
-    setEditRow((values) => ({ ...values, [id]: value }));
+    setEditRow((values: any) => ({ ...values, [id]: value }));
   };
 
   const canSave = useMemo(() => {

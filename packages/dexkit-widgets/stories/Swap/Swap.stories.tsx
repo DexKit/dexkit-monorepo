@@ -19,16 +19,16 @@ const Template: ComponentStory<typeof SwapWidget> = (args: SwapWidgetProps) => {
   return (
     <WidgetContext>
       <Grid container justifyContent="center" spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <SwapWidget
             {...args}
-            /*  onNotification={handleNotification}
-              onConnectWallet={handleConnectWallet}
-              onShowTransactions={handleShowTransactions}
-              isAutoSlippage={isAutoSlippage}
-              maxSlippage={maxSlippage}
-              onChangeSlippage={handleChangeSlippage}
-              onAutoSlippage={handleAutoSlippage}*/
+          /*  onNotification={handleNotification}
+            onConnectWallet={handleConnectWallet}
+            onShowTransactions={handleShowTransactions}
+            isAutoSlippage={isAutoSlippage}
+            maxSlippage={maxSlippage}
+            onChangeSlippage={handleChangeSlippage}
+            onAutoSlippage={handleAutoSlippage}*/
           />
         </Grid>
       </Grid>

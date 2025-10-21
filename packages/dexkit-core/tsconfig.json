@@ -6,8 +6,7 @@
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
-    "moduleResolution": "Bundler",
-
+    "moduleResolution": "node",
     "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"]
   }
 }

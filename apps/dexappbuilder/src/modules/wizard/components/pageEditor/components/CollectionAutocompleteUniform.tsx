@@ -21,13 +21,13 @@ export const CollectionAutcompleteUniform = connectField<{
   value: CollectionUniformItem[];
   label: string;
   onChange: (v: CollectionUniformItem[] | void) => void;
-}>((props) => {
+}>((props: any) => {
   const { value, onChange } = props;
   const { wizardConfig } = useAppWizardConfig();
 
   const collections =
     wizardConfig.collections
-      ?.map((val) => {
+      ?.map((val: any) => {
         return {
           name: val.name,
           contractAddress: val.contractAddress,
@@ -38,11 +38,11 @@ export const CollectionAutcompleteUniform = connectField<{
         };
       })
       .filter(
-        (v) =>
+        (v: any) =>
           !value
-            .map((val) => val.contractAddress)
+            .map((val: any) => val.contractAddress)
             .includes(v.contractAddress) &&
-          !value.map((val) => val.chainId).includes(v.chainId),
+          !value.map((val: any) => val.chainId).includes(v.chainId),
       ) || [];
 
   return (

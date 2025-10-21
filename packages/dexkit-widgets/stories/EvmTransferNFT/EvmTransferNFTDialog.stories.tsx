@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof EvmTransferNftDialog> = (
     <WidgetContext>
       <Box p={5}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={3}>
+          <Grid size={{ xs: 12, sm: 3 }}>
             <Card>
               <EvmTransferNftDialog {...args} />
             </Card>

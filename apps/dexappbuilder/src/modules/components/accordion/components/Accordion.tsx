@@ -63,13 +63,13 @@ const getIconComponent = (iconName?: string) => {
   return IconComponent ? <IconComponent /> : null;
 };
 
-export const Accordion: React.FC<AccordionProps> = ({
+export const Accordion = ({
   accordion,
   settings,
   expanded = false,
   onChange,
   index = 0,
-}) => {
+}: AccordionProps) => {
   const {
     id,
     title,
@@ -107,7 +107,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     className,
   } = settings;
 
-  const handleChange = (_event: React.SyntheticEvent, isExpanded: boolean) => {
+  const handleChange = (_event: any, isExpanded: boolean) => {
     onChange?.(isExpanded);
   };
 
@@ -129,7 +129,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           const startIcon = getIconComponent(action.startIcon);
           const endIcon = getIconComponent(action.endIcon);
 
-          const handleActionClick = (event: React.MouseEvent) => {
+          const handleActionClick = (event: any) => {
             event.stopPropagation();
             if (action.onClick) {
               action.onClick();

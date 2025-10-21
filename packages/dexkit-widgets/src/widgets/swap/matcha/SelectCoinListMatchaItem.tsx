@@ -28,6 +28,7 @@ export interface SelectCoinListMatchaItemProps {
   tokenBalances?: TokenBalances | null;
   isLoading: boolean;
   isExtern?: boolean;
+  showDash: boolean;
 }
 
 function SelectCoinListMatchaItem({
@@ -36,6 +37,7 @@ function SelectCoinListMatchaItem({
   tokenBalances,
   isLoading,
   isExtern,
+  showDash,
 }: SelectCoinListMatchaItemProps) {
   const theme = useTheme();
 
@@ -140,6 +142,8 @@ function SelectCoinListMatchaItem({
             <Skeleton>--</Skeleton>
           ) : balance && !balance.isZero() ? (
             formatBigNumber(balance, token.decimals)
+          ) : showDash ? (
+            "-.-"
           ) : (
             "0.0"
           )}

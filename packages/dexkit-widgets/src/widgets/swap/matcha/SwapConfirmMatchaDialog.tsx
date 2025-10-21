@@ -195,7 +195,7 @@ export default function SwapConfirmMatchaDialog({
                     sx={(theme) => ({
                       p: 2,
                       flex: 1,
-                      borderRadius: theme.shape.borderRadius / 2,
+                      borderRadius: (theme.shape.borderRadius as any) / 2,
                       backgroundColor:
                         theme.palette.mode === "dark"
                           ? theme.palette.background.default
@@ -261,7 +261,7 @@ export default function SwapConfirmMatchaDialog({
                     sx={(theme) => ({
                       p: 2,
                       flex: 1,
-                      borderRadius: theme.shape.borderRadius / 2,
+                      borderRadius: (theme.shape.borderRadius as any) / 2,
                       backgroundColor:
                         theme.palette.mode === "dark"
                           ? theme.palette.background.default

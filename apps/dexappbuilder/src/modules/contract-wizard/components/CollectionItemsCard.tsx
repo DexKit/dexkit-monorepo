@@ -69,10 +69,10 @@ export default function CollectionItemsCard({
           <Form>
             <FieldArray
               name="items"
-              render={(arrayHelper) => (
+              render={(arrayHelper: any) => (
                 <Stack spacing={2}>
-                  {values.items?.map((_, index: number, arr: any[]) => (
-                    <React.Fragment key={index}>
+                  {values.items?.map((_: any, index: number, arr: any[]) => (
+                    <div key={index}>
                       {onlySingleMint === false && (
                         <Stack direction="row" justifyContent="space-between">
                           <Typography>NFT: {index + 1}</Typography>
@@ -100,7 +100,7 @@ export default function CollectionItemsCard({
                         allowMultipleQuantity={allowMultipleQuantity}
                       />
                       {index < arr.length - 1 && <Divider />}
-                    </React.Fragment>
+                    </div>
                   ))}
                   {onlySingleMint === false && (
                     <Button

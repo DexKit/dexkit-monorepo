@@ -606,12 +606,12 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   const renderContent = () => {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h5">
             <FormattedMessage id="my.nfts" defaultMessage="My NFTs" />
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {nfts.data && (
             <NFTGrid nfts={nfts.data} network={network} address={address} />
           )}
@@ -661,7 +661,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
               <Box
                 sx={{
                   background: `linear-gradient(135deg, ${theme.palette.primary.main}08, ${theme.palette.secondary.main}08)`,
-                  borderRadius: theme.shape.borderRadius * 2,
+                  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                   p: { xs: theme.spacing(1.5), sm: theme.spacing(2), md: theme.spacing(3) },
                   border: `1px solid ${theme.palette.primary.main}20`,
                   position: 'relative',
@@ -767,7 +767,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                             "& code": {
                               backgroundColor: "rgba(0, 0, 0, 0.04)",
                               padding: theme.spacing(0.125, 0.25),
-                              borderRadius: theme.shape.borderRadius * 0.25,
+                              borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 0.25 : theme.shape.borderRadius,
                               fontSize: "0.9em",
                             },
                           }}
@@ -865,7 +865,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
           spacing={2}
           sx={{ justifyContent: { sm: "flex-start", xs: "center" } }}
         >
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               justifyContent={{ xs: "center", sm: "flex-start" }}
               alignItems="center"
@@ -887,7 +887,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </Stack>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>
               <Typography
                 sx={{ textAlign: { sm: "left", xs: "center" } }}
@@ -912,16 +912,16 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </Box>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
           {section.settings.variant === "detailed" && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <NFTDropSummary contract={contract} />
               </Grid>
               {activeClaimCondition.data?.metadata?.name && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -943,7 +943,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 </Grid>
               )}
               {nextPhase && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -963,7 +963,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                 </Grid>
               )}
               {nextPhase && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -988,7 +988,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
             </>
           )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {isSoldOut ? (
               <Typography variant={"h2"}>
                 <FormattedMessage id={"sold.out"} defaultMessage={"Sold out"} />
@@ -1063,7 +1063,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                         p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                         borderRadius: section.settings.customStyles?.borderRadius !== undefined
                           ? `${section.settings.customStyles.borderRadius}px`
-                          : theme.shape.borderRadius * 2,
+                          : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                         backgroundColor: section.settings.customStyles?.phaseColors?.currentPhaseBackground || "background.paper",
                         borderColor: section.settings.customStyles?.phaseColors?.currentPhaseBorder || "divider",
                         "&.MuiPaper-outlined": {
@@ -1249,7 +1249,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
           <Paper
             elevation={2}
             sx={{
-              borderRadius: { xs: theme.shape.borderRadius * 2, sm: theme.shape.borderRadius * 3 },
+              borderRadius: { xs: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius, sm: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 3 : theme.shape.borderRadius },
               p: { xs: theme.spacing(2), sm: theme.spacing(3) },
             }}
           >
@@ -1284,7 +1284,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                   inputProps={{ min: 1, max: maxClaimable }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: theme.shape.borderRadius * 2,
+                      borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                       fontSize: theme.typography.h6.fontSize,
                       fontWeight: theme.typography.fontWeightMedium,
                       fontFamily: section.settings.customStyles?.fontFamily || 'inherit',
@@ -1312,7 +1312,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                     p: { xs: theme.spacing(1.5), sm: theme.spacing(2) },
                     borderRadius: section.settings.customStyles?.borderRadius !== undefined
                       ? `${section.settings.customStyles.borderRadius}px`
-                      : theme.shape.borderRadius * 2,
+                      : typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     backgroundColor: 'primary.light',
                     borderColor: 'primary.main',
                     '&.MuiPaper-outlined': {
@@ -1378,7 +1378,7 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
                   color="primary"
                   sx={{
                     py: { xs: theme.spacing(1.2), sm: theme.spacing(1.5) },
-                    borderRadius: theme.shape.borderRadius * 2,
+                    borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 2 : theme.shape.borderRadius,
                     fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.h6.fontSize },
                     fontWeight: 600,
                     textTransform: 'none',
@@ -1868,11 +1868,11 @@ export default function NftDropSection({ section }: NftDropSectionProps) {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {renderClaim()}
         </Grid>
         {section.settings.variant === "detailed" ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box>{renderContent()}</Box>
           </Grid>
         ) : null}

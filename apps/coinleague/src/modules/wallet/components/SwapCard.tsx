@@ -459,7 +459,7 @@ export function Swap(props: Props) {
   //       <CardContent>
   //         <Grid container spacing={2}>
   //           {sellToken && sellTokenBalance.data && (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Stack
   //                 direction="row"
   //                 justifyContent="flex-end"
@@ -476,9 +476,9 @@ export function Swap(props: Props) {
   //               </Stack>
   //             </Grid>
   //           )}
-  //           <Grid item xs={12}>
+  //           <Grid size={12}>
   //             <Grid container spacing={2}>
-  //               <Grid item xs={4}>
+  //               <Grid size={4}>
   //                 <Button
   //                   size="large"
   //                   variant="outlined"
@@ -501,7 +501,7 @@ export function Swap(props: Props) {
   //                   )}
   //                 </Button>
   //               </Grid>
-  //               <Grid item xs>
+  //               <Grid size="grow">
   //                 <TextField
   //                   autoComplete="off"
   //                   fullWidth
@@ -528,7 +528,7 @@ export function Swap(props: Props) {
   //               </Grid>
   //             </Grid>
   //           </Grid>
-  //           <Grid item xs={12}>
+  //           <Grid size={12}>
   //             <Box display="flex" justifyContent="center">
   //               <IconButton
   //                 disabled={!isActive}
@@ -539,9 +539,9 @@ export function Swap(props: Props) {
   //               </IconButton>
   //             </Box>
   //           </Grid>
-  //           <Grid item xs={12}>
+  //           <Grid size={12}>
   //             <Grid container spacing={2}>
-  //               <Grid item xs={4}>
+  //               <Grid size={4}>
   //                 <Button
   //                   variant="outlined"
   //                   size="large"
@@ -564,7 +564,7 @@ export function Swap(props: Props) {
   //                   )}
   //                 </Button>
   //               </Grid>
-  //               <Grid item xs>
+  //               <Grid size="grow">
   //                 <TextField
   //                   size="small"
   //                   autoComplete="off"
@@ -578,7 +578,7 @@ export function Swap(props: Props) {
   //             </Grid>
   //           </Grid>
   //           {quote && (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Stack>
   //                 <Stack
   //                   direction="row"
@@ -682,21 +682,21 @@ export function Swap(props: Props) {
   //             </Grid>
   //           )}
   //           {swapQuery.isLoading && (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Grid
   //                 container
   //                 spacing={1}
   //                 alignItems="center"
   //                 alignContent="center"
   //               >
-  //                 <Grid item>
+  //                 <Grid>
   //                   <CircularProgress
   //                     color="inherit"
   //                     size="1rem"
   //                     style={{ marginRight: 2 }}
   //                   />
   //                 </Grid>
-  //                 <Grid item>
+  //                 <Grid>
   //                   <Typography gutterBottom variant="body2">
   //                     <FormattedMessage
   //                       id="fetching.best.price"
@@ -708,21 +708,21 @@ export function Swap(props: Props) {
   //             </Grid>
   //           )}
   //           {swapQuery.error && (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Alert severity="error">
   //                 {String(swapQuery.error?.message)}
   //               </Alert>
   //             </Grid>
   //           )}
   //           {execSwap.isError && (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Alert severity="error">
   //                 {(execSwap as any).error.message}
   //               </Alert>
   //             </Grid>
   //           )}
   //           {!isActive ? (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Button
   //                 onClick={handleConnectWallet}
   //                 fullWidth
@@ -744,7 +744,7 @@ export function Swap(props: Props) {
   //               </Button>
   //             </Grid>
   //           ) : chainId !== walletChainId ? (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Button
   //                 onClick={() => openDialog(chainId as number)}
   //                 fullWidth
@@ -769,7 +769,7 @@ export function Swap(props: Props) {
   //               </Button>
   //             </Grid>
   //           ) : (
-  //             <Grid item xs={12}>
+  //             <Grid size={12}>
   //               <Button
   //                 size="large"
   //                 disabled={
@@ -804,3 +804,4 @@ export function Swap(props: Props) {
 }
 
 export default Swap;
+

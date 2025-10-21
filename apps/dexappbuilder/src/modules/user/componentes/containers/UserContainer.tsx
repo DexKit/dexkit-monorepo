@@ -18,7 +18,6 @@ import {
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Suspense, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { FormattedMessage } from 'react-intl';
 
 import { StoreOrderbook } from '@dexkit/ui/modules/nft/components/StoreOrderbook';
@@ -74,7 +73,7 @@ export function UserContainer({ username }: { username?: string }) {
     <>
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               direction="row"
               alignItems="center"
@@ -107,7 +106,11 @@ export function UserContainer({ username }: { username?: string }) {
           {user?.accounts
             ?.map((a) => a.address.toLowerCase())
             .includes(account?.toLowerCase() || '') && (
-            <Grid item xs={12} sm={12}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 12
+              }}>
               <Stack direction={'row'} spacing={2} alignItems={'center'}>
                 {!isMobile && (
                   <Typography variant="h5">
@@ -127,7 +130,7 @@ export function UserContainer({ username }: { username?: string }) {
             </Grid>
           )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <UserHeader
               {...user}
               profileNft={user?.nftProfile}
@@ -136,10 +139,10 @@ export function UserContainer({ username }: { username?: string }) {
               nftId={user?.nftProfile?.tokenId}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack
               justifyContent="space-between"
               direction="row"
@@ -147,7 +150,7 @@ export function UserContainer({ username }: { username?: string }) {
               alignContent="center"
             ></Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tabs
               value={activeMenu}
               onChange={(_, newValue) => changeActiveMenu(newValue)}
@@ -171,7 +174,7 @@ export function UserContainer({ username }: { username?: string }) {
             </Tabs>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             {activeMenu === ActiveMenu.Offers && (
               <StoreOrderbook
                 search={search}
@@ -180,36 +183,11 @@ export function UserContainer({ username }: { username?: string }) {
               />
             )}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {activeMenu === ActiveMenu.Collected && (
               <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary, error }) => (
-                      <Paper sx={{ p: 1 }}>
-                        <Stack justifyContent="center" alignItems="center">
-                          <Typography variant="h6">
-                            <FormattedMessage
-                              id="something.went.wrong"
-                              defaultMessage="Oops, something went wrong"
-                              description="Something went wrong error message"
-                            />
-                          </Typography>
-                          <Typography variant="body1" color="textSecondary">
-                            {String(error)}
-                          </Typography>
-                          <Button color="primary" onClick={resetErrorBoundary}>
-                            <FormattedMessage
-                              id="try.again"
-                              defaultMessage="Try again"
-                              description="Try again"
-                            />
-                          </Button>
-                        </Stack>
-                      </Paper>
-                    )}
-                  >
+                {({ reset }: any) => (
+                  <div>
                     <Suspense fallback={<TableSkeleton rows={4} />}>
                       <WalletAssetsSection
                         filters={{
@@ -224,7 +202,7 @@ export function UserContainer({ username }: { username?: string }) {
                         onImport={() => {}}
                       />
                     </Suspense>
-                  </ErrorBoundary>
+                  </div>
                 )}
               </QueryErrorResetBoundary>
             )}

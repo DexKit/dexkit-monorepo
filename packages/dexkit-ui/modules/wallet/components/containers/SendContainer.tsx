@@ -39,7 +39,7 @@ function SendContainer({ paymentURL }: Props) {
       <Box>
         <Container>
           <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <PageHeader
                 breadcrumbs={[
                   {
@@ -65,7 +65,7 @@ function SendContainer({ paymentURL }: Props) {
               />
             </Grid>
             {paymentURL && payment && !isMobile && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack justifyContent={"center"} alignItems={"center"}>
                   <QRCode value={payment} />
                   <Typography variant="caption">
@@ -77,7 +77,7 @@ function SendContainer({ paymentURL }: Props) {
                 </Stack>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <EvmTransferCoin
                 account={account}
                 defaultCoin={paymentUrlParsed?.defaultCoin}

@@ -42,7 +42,7 @@ export default function ContractFormFunctions({
         .map((item, key) => {
           if (item.type === "function") {
             return (
-              <Grid item xs={12} key={key}>
+              <Grid size={12} key={key}>
                 <ContractFunction
                   inputs={item.inputs}
                   output={params.fields[item.name]?.output}

@@ -1,36 +1,15 @@
 import { Asset } from "@dexkit/core/types/nft";
 import { ipfsUriToUrl } from "@dexkit/core/utils";
 import { Box, Card, CardContent, Chip, Typography } from "@mui/material";
-import { Component, ErrorInfo, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
-class AssetErrorBoundary extends Component<{
-  children: ReactNode;
-  fallback?: ReactNode;
-}> {
-  state = { hasError: false, error: null };
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Error rendering NFT card:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
-        <Box sx={{ p: 2, textAlign: 'center', bgcolor: 'background.paper', borderRadius: 1 }}>
-          <Typography variant="body2" color="error">
-            <FormattedMessage id="error.loading.nft" defaultMessage="Error loading NFT" />
-          </Typography>
-        </Box>
-      );
-    }
-
-    return this.props.children;
-  }
+function AssetErrorBoundary({ children, fallback }: { children: ReactNode; fallback?: ReactNode }) {
+  return (
+    <>
+      {children}
+    </>
+  );
 }
 
 function SimpleNftCard({ asset }: { asset: Asset }) {

@@ -54,7 +54,7 @@ export default function AirdropDialog({
   const [editRows, setEditRow] = useState<{ [key: GridRowId]: boolean }>({});
 
   const handleEditRow = (id: GridRowId, value: boolean) => {
-    setEditRow((values) => ({ ...values, [id]: value }));
+    setEditRow((values: any) => ({ ...values, [id]: value }));
   };
 
   const canSave = useMemo(() => {

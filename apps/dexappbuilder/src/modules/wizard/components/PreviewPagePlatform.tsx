@@ -1,17 +1,15 @@
 import { AppPageSection } from '@dexkit/ui/modules/wizard/types/section';
-import { Box, Paper, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { useState } from 'react';
 import { PreviewPortal } from 'src/components/PreviewPortal';
 
-import { useIsMobile } from '@dexkit/core';
 import {
   AppConfig,
   PageSectionsLayout,
 } from '@dexkit/ui/modules/wizard/types/config';
-import { useTheme } from '@mui/material/styles';
 import PreviewPage from './PreviewPage';
 import { PreviewPlatformType } from './PreviewPlatformType';
-
 interface Props {
   sections?: AppPageSection[];
   disabled?: boolean;
@@ -41,15 +39,7 @@ export default function PreviewPagePlatform({
   editable,
   onLayoutChange,
 }: Props) {
-  const [previewPlatform, setPreviewPlatform] = useState<'desktop' | 'mobile'>('desktop');
-  const isMobile = useIsMobile();
-  const theme = useTheme();
-
-  useEffect(() => {
-    if (isMobile) {
-      setPreviewPlatform('mobile');
-    }
-  }, [isMobile]);
+  const [previewPlatform, setPreviewPlatform] = useState<any>('desktop');
 
   const pagePreview = (
     <PreviewPage
@@ -65,107 +55,57 @@ export default function PreviewPagePlatform({
   );
 
   return (
-    <Box
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'visible',
-        minHeight: 0
-      }}
-    >
-      <Paper
-        elevation={0}
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Stack
+        alignItems={'center'}
+        direction={'row'}
+        justifyContent={'center'}
+        alignContent={'center'}
+        spacing={2}
         sx={{
-          py: theme.spacing(1),
-          px: theme.spacing(2),
+          pb: 2,
+          pt: 2,
           backgroundColor: 'background.default',
-          borderBottom: `1px solid ${theme.palette.divider}`,
-          flexShrink: 0
+          flexShrink: 0,
         }}
       >
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={theme.spacing(2)}
-        >
-          {title}
-          <PreviewPlatformType
-            type={previewPlatform}
-            setType={(newType) => setPreviewPlatform(newType)}
-          />
-        </Stack>
-      </Paper>
-
-      <Box
-        sx={{
-          flex: 1,
-          overflow: 'visible',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        {previewPlatform === 'desktop' ? (
-          <Box
-            sx={{
-              flex: 1,
-              overflow: enableOverflow ? 'auto' : 'hidden',
-            }}
+        {title ? title : null}
+        <PreviewPlatformType
+          type={previewPlatform}
+          setType={(newType) => setPreviewPlatform(newType)}
+        />
+      </Stack>
+      <Box sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        {previewPlatform === 'desktop' &&
+          (enableOverflow ? (
+            <Box
+              sx={{
+                maxHeight: 'calc(100vh - 200px)',
+                minHeight: '600px',
+                overflow: 'auto',
+                flex: 1,
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 1,
+                backgroundColor: 'background.paper',
+              }}
+            >
+              {pagePreview}
+            </Box>
+          ) : (
+            <Box sx={{ flex: 1 }}>
+              {pagePreview}
+            </Box>
+          ))}
+        {previewPlatform === 'mobile' && (
+          <Stack
+            justifyContent={'center'}
+            alignItems={'center'}
+            alignContent={'center'}
+            sx={{ flex: 1 }}
           >
-            {pagePreview}
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              overflow: 'visible',
-              minHeight: 0,
-              ...(isMobile && {
-                minHeight: '85vh',
-                height: '100%',
-              }),
-              ...(!isMobile && {
-                minHeight: previewPlatform === 'mobile' ? '85vh' : '80vh',
-                height: '100%',
-              }),
-            }}
-          >
-            {page && site ? (
-              <PreviewPortal
-                page={page}
-                site={site}
-                index={index}
-                previewPlatform={previewPlatform}
-              />
-            ) : (
-              <Paper
-                elevation={2}
-                sx={{
-                  width: '100%',
-                  maxWidth: isMobile ? '100%' : (enableOverflow ? theme.spacing(85) : theme.spacing(65)),
-                  height: 'auto',
-                  minHeight: 'fit-content',
-                  borderRadius: theme.spacing(3),
-                  overflow: 'visible',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  backgroundColor: 'background.paper',
-                  p: theme.spacing(0.125),
-                  ...(isMobile && {
-                    minHeight: '85vh',
-                    height: '100%',
-                    borderRadius: theme.spacing(1),
-                  }),
-                }}
-              >
-                {pagePreview}
-              </Paper>
-            )}
-          </Box>
+            <PreviewPortal page={page} site={site} index={index} />
+          </Stack>
         )}
       </Box>
     </Box>

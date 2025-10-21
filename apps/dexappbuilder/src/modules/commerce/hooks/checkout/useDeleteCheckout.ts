@@ -10,6 +10,6 @@ export default function useDeleteCheckout() {
       throw new Error('no instance');
     }
 
-    return (await instance?.delete(`/checkouts/${data.id}`)).data;
+    return (await (instance as any)?.delete(`/checkouts/${data.id}`)).data;
   });
 }

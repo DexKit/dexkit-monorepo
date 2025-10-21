@@ -65,7 +65,6 @@ export default function SidebarListItem({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            alignContent: 'center',
           }}
         >
           <ChevronRightIcon />

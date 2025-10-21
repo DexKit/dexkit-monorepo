@@ -1,6 +1,6 @@
 import { useIsMobile } from "@dexkit/core";
 import { Token } from "@dexkit/core/types";
-import { useCurrency } from "@dexkit/ui/hooks";
+import { useCurrency, useForceThemeMode } from "@dexkit/ui/hooks";
 import {
   Box,
   Chip,
@@ -9,6 +9,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useColorScheme,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -51,13 +52,18 @@ export default function PairInfo({
 }: PairInfoProps) {
 
   const theme = useTheme();
+  const { mode } = useColorScheme();
+  const themeModeObj = useForceThemeMode();
+  const themeMode = themeModeObj.mode;
   const isMobileDevice = useIsMobile();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   const previewContext = usePreviewPlatform();
   const isMobile = previewContext ? previewContext.isMobile : (isMobileDevice || isSmallScreen);
-  const primaryTextColor = customVariantSettings?.pairInfoTextColor || theme.palette.text.primary;
-  const secondaryTextColor = customVariantSettings?.pairInfoSecondaryTextColor || theme.palette.text.secondary;
+  const isDark = themeMode === 'dark' || theme.palette.mode === 'dark';
+  const primaryTextColor = customVariantSettings?.pairInfoTextColor || (isDark ? '#ffffff' : theme.palette.text.primary);
+  const secondaryTextColor = customVariantSettings?.pairInfoSecondaryTextColor || (isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.text.secondary);
+
 
   const [priceChange, priceChangeColor] = useMemo(() => {
     if (priceChangeH24) {
@@ -104,7 +110,7 @@ export default function PairInfo({
         variant="text"
         width={theme.spacing(3)}
         height={theme.spacing(1.25)}
-        sx={{ borderRadius: theme.shape.borderRadius * 0.5 }}
+        sx={{ borderRadius: Number(theme.shape.borderRadius) * 0.5 }}
       />
     ) : value !== null && value !== undefined ? (
       isPrice && typeof value === 'number' ? (
@@ -168,7 +174,7 @@ export default function PairInfo({
           <Typography
             variant="body1"
             sx={{
-              color: color === 'text.primary' ? primaryTextColor : color,
+              color: color === 'text.primary' ? primaryTextColor : (color === 'success.main' ? theme.palette.success.main : color === 'error.main' ? theme.palette.error.main : primaryTextColor),
               fontWeight: theme.typography.fontWeightMedium,
               fontSize: theme.typography.body1.fontSize,
               lineHeight: 1,
@@ -252,7 +258,7 @@ export default function PairInfo({
           <Typography
             variant="body1"
             sx={{
-              color: color === 'text.primary' ? primaryTextColor : color,
+              color: color === 'text.primary' ? primaryTextColor : (color === 'success.main' ? theme.palette.success.main : color === 'error.main' ? theme.palette.error.main : primaryTextColor),
               fontWeight: theme.typography.fontWeightMedium,
               fontSize: { xs: theme.typography.body1.fontSize, sm: theme.typography.body1.fontSize },
               lineHeight: 1.2,
@@ -276,14 +282,14 @@ export default function PairInfo({
       </Box>
 
       <Grid container spacing={theme.spacing(0.25)} sx={{ mt: 0 }}>
-        <Grid item xs={6} sx={{ pr: theme.spacing(0.25) }}>
+        <Grid size={6} sx={{ pr: theme.spacing(0.25) }}>
           {renderMobilMetric(
             <FormattedMessage id="last.price" defaultMessage="Price" />,
             formattedLastPrice,
             true
           )}
         </Grid>
-        <Grid item xs={6} sx={{ pl: theme.spacing(0.25) }}>
+        <Grid size={6} sx={{ pl: theme.spacing(0.25) }}>
           {renderMobilMetric(
             <FormattedMessage id="price.change.24h" defaultMessage="24h" />,
             priceChange,
@@ -292,14 +298,14 @@ export default function PairInfo({
             true
           )}
         </Grid>
-        <Grid item xs={6} sx={{ pr: theme.spacing(0.25) }}>
+        <Grid size={6} sx={{ pr: theme.spacing(0.25) }}>
           {renderMobilMetric(
             <FormattedMessage id="24h.volume" defaultMessage="Volume" />,
             formattedVolume,
             true
           )}
         </Grid>
-        <Grid item xs={6} sx={{ pl: theme.spacing(0.25) }}>
+        <Grid size={6} sx={{ pl: theme.spacing(0.25) }}>
           {renderMobilMetric(
             <FormattedMessage id="market.cap" defaultMessage="MCap" />,
             formattedMarketCap,

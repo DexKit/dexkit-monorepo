@@ -1,7 +1,8 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { extendTheme } from '@mui/material/styles';
 
 
 export default extendTheme({
+  colorSchemeSelector: 'class',
   typography: {
     fontFamily: "'Sora', sans-serif",
   },
@@ -39,6 +40,7 @@ export default extendTheme({
       palette: {
         background: {
           default: '#000',
+          paper: '#1a1a1a',
         },
         mode: 'dark',
         divider: '#DCDCDC',

@@ -11,7 +11,7 @@ function ContractFormFieldsRow({ abi }: Props) {
   return (
     <Grid container spacing={2}>
       {abi?.map((f, key) => (
-        <Grid item xs={12} key={key}>
+        <Grid key={key} size={12}>
           <ContractFormAccordion func={f} />
         </Grid>
       ))}

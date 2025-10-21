@@ -7,7 +7,7 @@ function AppFeePercentageSpan() {
 
   const feeTotal = useMemo(() => {
     if (fees) {
-      return fees?.map((f) => f.amount_percentage).reduce((p, c) => p + c, 0);
+      return fees?.map((f: { amount_percentage: number; recipient: string }) => f.amount_percentage).reduce((p: number, c: number) => p + c, 0);
     }
 
     return 0;

@@ -30,6 +30,12 @@ import {
   ThirdwebMetadata,
 } from "../types";
 
+const getDexKitLogo = (isDark: boolean = false) => {
+  return isDark
+    ? "https://dexkit.com/branding/Normal_logo/Normal_Isotype/white_Isotype_DexKit.png"
+    : "https://dexkit.com/branding/Normal_logo/Normal_Isotype/black_Isotype_DexKit.png";
+};
+
 export interface UseContractCallMutationOptions {
   contractAddress?: string;
   abi: ContractInterface;
@@ -327,7 +333,7 @@ export function useIfpsUploadMutation() {
     }) => {
       const formData = new FormData();
 
-      formData.append("file", new Blob([content]));
+      formData.append("file", new Blob([new Uint8Array(content)]));
 
       if (isImage) {
       }
@@ -516,9 +522,11 @@ export default function useThirdwebContractMetadataQuery({
 }) {
   return useQuery([THIRDWEB_CONTRACT_METADATA, id, creator], async () => {
     let publisher = "deployer.thirdweb.eth";
+    let isThirdwebContract = true;
 
     if (creator === "blast" || creator === "dexkit") {
       publisher = "0x5265Bde27F57E738bE6c1F6AB3544e82cdc92a8f";
+      isThirdwebContract = false;
     }
 
     const contract = await new ThirdwebSDK("polygon", { clientId })
@@ -533,6 +541,7 @@ export default function useThirdwebContractMetadataQuery({
           normalizedUrl.replace("gateway.pinata.cloud", "ipfs.io")
         )
       ).data;
+
 
       return result;
     }

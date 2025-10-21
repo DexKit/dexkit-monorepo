@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   FormGroup,
   FormHelperText,
-  Grid,
   Stack,
   Tab,
   Tabs,
@@ -69,8 +68,8 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
         />
       )}
       <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Stack spacing={3}>
+          <Box>
             <Tabs value={tab} onChange={(e, value) => setTab(value)}>
               <Tab
                 value="products"
@@ -85,11 +84,12 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
                 }
               />
             </Tabs>
-          </Grid>
+          </Box>
+
           {tab === "details" && (
-            <Grid item xs={12} sm={6}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
+            <Box sx={{ maxWidth: '600px' }}>
+              <Stack spacing={2}>
+                <Box>
                   <CompletationProvider
                     onCompletation={(output: string) => {
                       setFieldValue(`title`, output);
@@ -112,8 +112,8 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
                       />
                     )}
                   </CompletationProvider>
-                </Grid>
-                <Grid item xs={12}>
+                </Box>
+                <Box>
                   <CompletationProvider
                     onCompletation={(output: string) => {
                       setFieldValue(`title`, output);
@@ -141,120 +141,114 @@ export default function CheckoutForm({ disabled }: CheckoutFormProps) {
                       />
                     )}
                   </CompletationProvider>
-                </Grid>
-              </Grid>
-            </Grid>
+                </Box>
+              </Stack>
+            </Box>
           )}
 
           {tab === "products" && (
-            <Grid item xs={12}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Box px={2}>
-                    <Typography
-                      color="text.secondary"
-                      fontWeight="bold"
-                      variant="body2"
-                    >
-                      <FormattedMessage
-                        id="checkout.settings"
-                        defaultMessage="Checkout settings"
-                      />
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl>
-                    <FormGroup sx={{ px: 2 }} row>
-                      <FormControlLabel
-                        control={
-                          <Field
-                            component={Switch}
-                            type="checkbox"
-                            name="requireEmail"
-                          />
-                        }
-                        disabled={disabled}
-                        label="Require email"
-                      />
-                    </FormGroup>
-                    <FormHelperText>
-                      <FormattedMessage
-                        id="checkbox.required.email.message"
-                        defaultMessage="Turn on to require customers to provide an email address to create an order."
-                      />
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl>
-                    <FormGroup sx={{ px: 2 }} row>
-                      <FormControlLabel
-                        control={
-                          <Field
-                            component={Switch}
-                            type="checkbox"
-                            name="editable"
-                          />
-                        }
-                        disabled={disabled}
-                        label={
-                          <FormattedMessage
-                            id="editable.quantity"
-                            defaultMessage="Editable quantity"
-                          />
-                        }
-                      />
-                    </FormGroup>
-                    <FormHelperText>
-                      <FormattedMessage
-                        id="checkbox.editable"
-                        defaultMessage="Turn on to allow customers to edit the quantity field."
-                      />
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    disabled={disabled}
-                    variant="outlined"
-                    startIcon={<Add />}
-                    onClick={handleAddProduct}
-                  >
-                    <FormattedMessage
-                      id="add.product"
-                      defaultMessage="Add product"
-                    />
-                  </Button>
-                </Grid>
+            <Stack spacing={3}>
+              <Box>
+                <Typography
+                  color="text.secondary"
+                  fontWeight="bold"
+                  variant="body2"
+                >
+                  <FormattedMessage
+                    id="checkout.settings"
+                    defaultMessage="Checkout settings"
+                  />
+                </Typography>
+              </Box>
 
-                <Grid item xs={12}>
-                  <CheckoutItemsTable name="items" />
-                </Grid>
-              </Grid>
-            </Grid>
+              <Stack spacing={2}>
+                <FormControl>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Field
+                          component={Switch}
+                          type="checkbox"
+                          name="requireEmail"
+                        />
+                      }
+                      disabled={disabled}
+                      label="Require email"
+                    />
+                  </FormGroup>
+                  <FormHelperText>
+                    <FormattedMessage
+                      id="checkbox.required.email.message"
+                      defaultMessage="Turn on to require customers to provide an email address to create an order."
+                    />
+                  </FormHelperText>
+                </FormControl>
+
+                <FormControl>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Field
+                          component={Switch}
+                          type="checkbox"
+                          name="editable"
+                        />
+                      }
+                      disabled={disabled}
+                      label={
+                        <FormattedMessage
+                          id="editable.quantity"
+                          defaultMessage="Editable quantity"
+                        />
+                      }
+                    />
+                  </FormGroup>
+                  <FormHelperText>
+                    <FormattedMessage
+                      id="checkbox.editable"
+                      defaultMessage="Turn on to allow customers to edit the quantity field."
+                    />
+                  </FormHelperText>
+                </FormControl>
+              </Stack>
+
+              <Box>
+                <Button
+                  disabled={disabled}
+                  variant="outlined"
+                  startIcon={<Add />}
+                  onClick={handleAddProduct}
+                >
+                  <FormattedMessage
+                    id="add.product"
+                    defaultMessage="Add product"
+                  />
+                </Button>
+              </Box>
+
+              <Box>
+                <CheckoutItemsTable name="items" />
+              </Box>
+            </Stack>
           )}
 
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <Stack justifyContent="flex-end" direction="row" spacing={2}>
-                <Button onClick={goBack}>
-                  <FormattedMessage id="Cancel" defaultMessage="Cancel" />
-                </Button>
-                <Button
-                  onClick={submitForm}
-                  disabled={!isValid || isSubmitting || disabled}
-                  variant="contained"
-                >
-                  <FormattedMessage id="save" defaultMessage="Save" />
-                </Button>
-              </Stack>
-            </Box>
-          </Grid>
-        </Grid>
+          <Divider />
+
+          <Box>
+            <Stack justifyContent="flex-end" direction="row" spacing={2}>
+              <Button onClick={goBack}>
+                <FormattedMessage id="Cancel" defaultMessage="Cancel" />
+              </Button>
+              <Button
+                onClick={submitForm}
+                disabled={!isValid || isSubmitting || disabled}
+                variant="contained"
+              >
+                <FormattedMessage id="save" defaultMessage="Save" />
+              </Button>
+            </Stack>
+          </Box>
+        </Stack>
       </Box>
     </>
   );

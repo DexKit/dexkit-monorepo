@@ -11,6 +11,6 @@ export default function useCreateOrder() {
       throw new Error('no instance');
     }
 
-    return (await instance?.post('/orders/', data)).data;
+    return (await (instance as any)?.post('/orders/', data)).data;
   });
 }

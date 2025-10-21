@@ -117,7 +117,7 @@ export default function CollectionFilterForm({
         setFieldValue,
         errors,
         resetForm,
-      }) => (
+      }: any) => (
         <Form>
           <ChangeListener
             values={values}
@@ -125,7 +125,11 @@ export default function CollectionFilterForm({
             onChange={onChange}
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <NetworkSelectDropdown
                   chainId={values.chainId}
@@ -142,7 +146,7 @@ export default function CollectionFilterForm({
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500">
                 <FormattedMessage
                   id="filter.by.collection"
@@ -150,7 +154,11 @@ export default function CollectionFilterForm({
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 {values?.mode != -1 && (
                   <InputLabel shrink>
@@ -206,10 +214,18 @@ export default function CollectionFilterForm({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 8
+              }}>
               <Grid container spacing={2}>
                 <TabPanel value={values.mode ?? 0} index={1}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 6
+                    }}>
                     <CollectionItemAutocomplete
                       onChange={(coll) => {
                         setFieldValue(
@@ -228,7 +244,11 @@ export default function CollectionFilterForm({
                   </Grid>
                 </TabPanel>
                 <TabPanel value={values.mode ?? 0} index={0}>
-                  <Grid item xs={12} sm={8}>
+                  <Grid
+                    size={{
+                      xs: 12,
+                      sm: 8
+                    }}>
                     <Field
                       component={TextField}
                       label={
@@ -248,9 +268,13 @@ export default function CollectionFilterForm({
             {values.mode !== -1 && (
               <>
                 {Boolean(isERC1155) && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12} sm={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 4
+                        }}>
                         <Field
                           component={TextField}
                           type="text"
@@ -265,7 +289,11 @@ export default function CollectionFilterForm({
                           name="tokenId"
                         />
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 4
+                        }}>
                         <FormControl fullWidth>
                           <InputLabel id="condition-amount-nft-select-label">
                             <FormattedMessage
@@ -302,7 +330,11 @@ export default function CollectionFilterForm({
                           </Select>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid
+                        size={{
+                          xs: 12,
+                          sm: 4
+                        }}>
                         <Field
                           component={TextField}
                           type="number"
@@ -323,7 +355,7 @@ export default function CollectionFilterForm({
                 )}
               </>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography fontWeight="500" variant="body1">
                 <FormattedMessage
                   id="filter.by.token"
@@ -331,7 +363,11 @@ export default function CollectionFilterForm({
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <SearchTokenAutocompleteWithTokens
                 label={
                   <FormattedMessage
@@ -355,7 +391,11 @@ export default function CollectionFilterForm({
               />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <FormControl fullWidth>
                 <InputLabel id="condition-amount-select-label">
                   <FormattedMessage
@@ -391,7 +431,11 @@ export default function CollectionFilterForm({
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 4
+              }}>
               <Field
                 component={TextField}
                 type="number"

@@ -41,7 +41,7 @@ import { useSidebarVariant } from "@dexkit/ui/hooks/useSidebarVariant";
 import QrCodeScanner from "@mui/icons-material/QrCodeScanner";
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppConfig } from "../modules/wizard/types/config";
 import { isMiniSidebarAtom } from "../state";
 import AppDefaultMenuList from "./AppDefaultMenuList";
@@ -112,7 +112,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
     return false;
   }, [isMiniSidebar, isMini, startExpanded]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (isMini && startExpanded !== undefined && isMiniSidebar !== !startExpanded) {
       setIsMiniSidebar(!startExpanded);
     }
@@ -232,7 +232,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
             py={1}
           >
             <IconButton onClick={handleToggleMini}>
-              {isMiniOpen ? <MenuIcon /> : <MenuOpenIcon />}
+              {isMiniOpen ? <MenuIcon sx={{ color: 'text.primary' }} /> : <MenuOpenIcon sx={{ color: 'text.primary' }} />}
             </IconButton>
           </Stack>
         )}
@@ -275,7 +275,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                       )}
 
                       <IconButton onClick={handleOpenQrCode}>
-                        <QrCodeScanner />
+                        <QrCodeScanner sx={{ color: 'text.primary' }} />
                       </IconButton>
                     </Stack>
                   </Box>
@@ -302,7 +302,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
             disablePadding
             subheader={
               <>
-                <ListSubheader disableSticky component="div">
+                <ListSubheader disableSticky component="div" sx={{ color: 'text.primary' }}>
                   <FormattedMessage id="settings" defaultMessage="Settings" />
                 </ListSubheader>
                 <Divider />
@@ -311,7 +311,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
           >
             <ListItemButton divider onClick={handleShowSelectLocaleDialog}>
               <ListItemIcon>
-                <Language />
+                <Language sx={{ color: 'text.primary' }} />
               </ListItemIcon>
               <ListItemText
                 primary={
@@ -320,7 +320,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                 secondary={
                   <Typography
                     variant="body2"
-                    color="textSecondary"
+                    color="text.primary"
                     sx={{ fontWeight: 600 }}
                   >
                     {locale}
@@ -333,7 +333,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
             </ListItemButton>
             <ListItemButton divider onClick={handleShowSelectCurrencyDialog}>
               <ListItemIcon>
-                <AttachMoney />
+                <AttachMoney sx={{ color: 'text.primary' }} />
               </ListItemIcon>
               <ListItemText
                 primary={
@@ -342,7 +342,7 @@ function AppDrawer({ open, onClose, appConfig }: Props) {
                 secondary={
                   <Typography
                     variant="body2"
-                    color="textSecondary"
+                    color="text.primary"
                     sx={{ fontWeight: 600 }}
                   >
                     {currency.toUpperCase()}

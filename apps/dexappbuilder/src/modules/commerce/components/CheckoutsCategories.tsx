@@ -5,7 +5,7 @@ import {
   GridRowSelectionModel,
   GridSortModel,
 } from '@mui/x-data-grid';
-import { MouseEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CategoryType } from '../types';
 
@@ -69,7 +69,7 @@ export default function CategoriesTable({ }: CategoriesTableProps) {
   const [showDeleteMany, setShowDeleteMany] = useState(false);
 
   const handleDelete = useCallback((id: string) => {
-    return (e: MouseEvent) => {
+    return (e: any) => {
       e.stopPropagation();
       setSelectedId(id);
       setShowConfirm(true);
@@ -233,12 +233,12 @@ export default function CategoriesTable({ }: CategoriesTableProps) {
           rows={data?.items ?? []}
           rowCount={data?.totalItems}
           paginationMode="client"
-          getRowId={(row) => String(row.id)}
+          getRowId={(row: any) => String(row.id)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           loading={isLoading}
           sx={{
-            height: (theme) => theme.spacing(37.5), // 300px / 8 = 37.5
+            height: (theme: any) => theme.spacing(37.5), // 300px / 8 = 37.5
             '& .MuiDataGrid-cell:focus': {
               outline: 'none',
             },
@@ -265,7 +265,7 @@ export default function CategoriesTable({ }: CategoriesTableProps) {
             },
           }}
           pageSizeOptions={[5, 10, 25]}
-          onRowClick={({ row }, e) => {
+          onRowClick={({ row }: any, e: any) => {
             e.stopPropagation();
             setSelectedCategory(row);
             setShowEdit(true);
@@ -293,7 +293,7 @@ export default function CategoriesTable({ }: CategoriesTableProps) {
               showQuickFilter: true,
               quickFilterProps: {
                 value: query,
-                onChange: (e) => {
+                onChange: (e: any) => {
                   setQuery(e.target.value);
                 },
               },

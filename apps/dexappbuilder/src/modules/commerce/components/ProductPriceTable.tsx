@@ -17,7 +17,7 @@ export default function ProductPriceTable({}: ProductPriceTableProps) {
   return (
     <FieldArray
       name="prices"
-      render={({ handleRemove }) => (
+      render={({ handleRemove }: any) => (
         <Table>
           <TableHead>
             <TableRow>

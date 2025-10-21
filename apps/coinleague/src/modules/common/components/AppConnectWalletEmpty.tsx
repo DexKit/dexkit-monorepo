@@ -4,7 +4,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 
 export default function AppConnectWalletEmtpy() {
- const { connectWallet } = useWalletConnect();
+  const { connectWallet } = useWalletConnect();
 
   const handleConnectWallet = () => {
     connectWallet();
@@ -16,10 +16,9 @@ export default function AppConnectWalletEmtpy() {
         spacing={2}
         justifyContent="center"
         alignItems="center"
-        alignContent="center"
       >
         <Box>
-          <WalletIcon  sx={{ fontSize: 60 }}/>
+          <WalletIcon sx={{ fontSize: 60 }} />
         </Box>
 
 

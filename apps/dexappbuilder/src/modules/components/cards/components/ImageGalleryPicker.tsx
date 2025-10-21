@@ -11,12 +11,12 @@ interface ImageGalleryPickerProps {
   disabled?: boolean;
 }
 
-export const ImageGalleryPicker: React.FC<ImageGalleryPickerProps> = ({
+export const ImageGalleryPicker = ({
   value,
   onChange,
   error,
   disabled = false,
-}) => {
+}: ImageGalleryPickerProps) => {
   const [showMediaDialog, setShowMediaDialog] = useState(false);
 
   const handleSelectImage = (file: { url: string }) => {

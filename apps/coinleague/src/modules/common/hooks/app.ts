@@ -24,7 +24,7 @@ export function useNotifications() {
         }));
       }
 
-      updateNotifications((notifications) => [...notifications, notification]);
+      updateNotifications((notifications) => [...(notifications || []), notification]);
     },
     [updateNotifications, updateTransactions]
   );

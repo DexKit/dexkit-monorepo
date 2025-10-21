@@ -57,7 +57,7 @@ export default function ClonePageDialog({
       <DialogContent sx={{ p: 4 }} dividers>
         <TextField
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: any) => setName(e.target.value)}
           label={
             <FormattedMessage
               id="new.page.name"

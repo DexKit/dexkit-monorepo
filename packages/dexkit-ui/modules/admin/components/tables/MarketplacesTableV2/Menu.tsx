@@ -4,7 +4,6 @@ import {
   ListItemText,
   MenuItem,
   Menu as MuiMenu,
-  Typography,
   useTheme
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
@@ -55,21 +54,21 @@ export default function Menu({ anchorEl, open, onClose, onAction }: MenuProps) {
             }}
           >
             <ListItemIcon sx={{ minWidth: isMobile ? theme.spacing(4.5) : theme.spacing(5) }}>{item.icon}</ListItemIcon>
-            <Typography>
-              <ListItemText
-                primary={
-                  <FormattedMessage
-                    id={item.text.id}
-                    defaultMessage={item.text.defaultMessage}
-                  />
-                }
-                primaryTypographyProps={{
+            <ListItemText
+              primary={
+                <FormattedMessage
+                  id={item.text.id}
+                  defaultMessage={item.text.defaultMessage}
+                />
+              }
+              slotProps={{
+                primary: {
                   sx: {
                     fontSize: isMobile ? theme.typography.body2.fontSize : 'inherit'
                   }
-                }}
-              />
-            </Typography>
+                }
+              }}
+            />
           </MenuItem>
         );
       })}

@@ -1,7 +1,7 @@
 {
   "name": "@dexkit/ui",
   "private": false,
-  "version": "0.24.0",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": "22.x"
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
-    "@mui/lab": "5.0.0-alpha.121",
+    "@mui/lab": "^7.0.0-alpha.170",
     "@storybook/addon-actions": "^7.0.26",
     "@storybook/addon-essentials": "^7.0.26",
     "@storybook/addon-interactions": "^7.0.26",
@@ -45,10 +45,11 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@indexed-finance/multicall": "^2.0.0",
-    "@mui/icons-material": "5.14.11",
-    "@mui/material": "5.14.11",
-    "@mui/x-data-grid": "^6.16.2",
-    "@mui/x-date-pickers": "^5.0.0-alpha.2",
+    "@mui/icons-material": "7.3.2",
+    "@mui/lab": "^7.0.0-alpha.170",
+    "@mui/material": "7.3.2",
+    "@mui/x-data-grid": "^7.27.0",
+    "@mui/x-date-pickers": "^7.27.0",
     "@noble/curves": "^1.8.1",
     "@transak/transak-sdk": "^3.0.1",
     "decimal.js": "^10.4.3",

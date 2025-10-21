@@ -47,6 +47,20 @@ const WidgetIframePage: NextPage<{
   layout,
   slug,
   hide_powered_by,
+}: {
+  sections: AppPageSection[];
+  account?: string;
+  isProtected: boolean;
+  conditions?: GatedCondition[];
+  gatedLayout?: GatedPageLayout;
+  layout?: PageSectionsLayout;
+  result: boolean;
+  site: string;
+  page: string;
+  partialResults: { [key: number]: boolean };
+  balances: { [key: number]: string };
+  slug?: string;
+  hide_powered_by?: boolean;
 }) => {
   if (isProtected) {
     return (

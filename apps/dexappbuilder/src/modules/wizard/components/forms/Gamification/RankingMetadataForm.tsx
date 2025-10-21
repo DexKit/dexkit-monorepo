@@ -72,10 +72,10 @@ export default function RankingMetadataForm({
           onSave();
         }}
       >
-        {({ submitForm, resetForm, values, setFieldValue }) => (
+        {({ submitForm, resetForm, values, setFieldValue }: any) => (
           <Form>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack spacing={2}>
                     <CompletationProvider
@@ -104,7 +104,7 @@ export default function RankingMetadataForm({
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box>
                   <Stack spacing={2}>
                     <CompletationProvider
@@ -137,7 +137,7 @@ export default function RankingMetadataForm({
                 </Box>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack spacing={1} direction="row" justifyContent="flex-end">
                   <Button onClick={() => resetForm()}>
                     <FormattedMessage id="cancel" defaultMessage="cancel" />

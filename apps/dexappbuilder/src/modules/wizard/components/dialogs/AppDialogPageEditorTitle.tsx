@@ -85,11 +85,11 @@ export function AppDialogPageEditorTitle({
           >
             <TextField
               sx={{ flex: 1 }}
-              inputRef={(ref) => (inputRef.current = ref)}
+              inputRef={(ref: any) => (inputRef.current = ref)}
               value={name}
               variant="standard"
               size={isMobile ? "small" : "medium"}
-              onKeyDown={(e) => {
+              onKeyDown={(e: any) => {
                 if (e.key === 'Enter') {
                   setIsEditMode(false);
                 }
@@ -97,7 +97,7 @@ export function AppDialogPageEditorTitle({
                   setIsEditMode(false);
                 }
               }}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 onChangeName(e.target.value);
               }}
             />
